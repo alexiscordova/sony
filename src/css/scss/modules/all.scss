@@ -6,7 +6,97 @@
 // It is named all.scss so that it comes first in the source and is easier to override
 
 
+//  .d8888b.  888    d8b          888                     888b    888
+// d88P  Y88b 888    Y8P          888                     8888b   888
+// Y88b.      888                 888                     88888b  888
+//  "Y888b.   888888 888  .d8888b 888  888 888  888       888Y88b 888  8888b.  888  888
+//     "Y88b. 888    888 d88P"    888 .88P 888  888       888 Y88b888     "88b 888  888
+//       "888 888    888 888      888888K  888  888       888  Y88888 .d888888 Y88  88P
+// Y88b  d88P Y88b.  888 Y88b.    888 "88b Y88b 888       888   Y8888 888  888  Y8bd8P
+//  "Y8888P"   "Y888 888  "Y8888P 888  888  "Y88888       888    Y888 "Y888888   Y88P
+//                                              888
+//                                         Y8b d88P
+//                                          "Y88P"
 
+// Needs to be more specific
+ul.jump-links {
+  margin-left: -.375em;
+  margin-bottom: 0;
+
+  li {
+    margin: 0 0 0 px-em(23px);
+    padding: 0;
+
+    .lt-ie8 & {
+      float: left;
+    }
+  }
+
+  li:first-child {
+    margin-left: 0;
+  }
+
+  a {
+    display: block;
+    margin-bottom: 0;
+    padding-right: 6px;
+    padding-bottom: 10px;
+    padding-left: 6px;
+    color: $gray20;
+    @include box-shadow(inset 0 0 0 $btnBackground);
+    @include transition($transitionFast $easeNormal);
+  }
+
+  li:hover a {
+    color: $linkBlueActive;
+  }
+
+  .no-touch & li:hover a,
+  .active a {
+    @include box-shadow(inset 0 -4px 0 $btnBackground);
+  }
+
+  .no-boxshadow & a {
+    padding-bottom: 6px;
+    border-bottom: 4px solid transparent;
+  }
+
+  .no-boxshadow.no-touch & li:hover a,
+  .no-boxshadow & .active a {
+    border-bottom-color: $btnBackground;
+  }
+}
+
+// Sticky nav
+.sticky-nav {
+  position: fixed;
+  // z-index: 20; // above features
+  z-index: 200; // Safari, what are you doing???
+  top: 0;
+  left: -999em;
+  width: 100%;
+  background: $white;
+  @include box-shadow(0 .0625em .625em $stickyShadowColor);
+  @include translate(0, -2em);
+  -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
+          transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
+
+  &.open {
+    left: 0;
+    @include translate(0, 0);
+    @include transition-delay(0s);
+    @include transition-timing-function(ease-out);
+  }
+
+  // // Disable box shadow if the sticky headers are visible
+  // .sticky-header-open & {
+  //   @include box-shadow(none);
+  // }
+
+  .no-boxshadow & {
+    border-bottom: 1px solid $gray70;
+  }
+}
 
 
 

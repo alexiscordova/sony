@@ -50,75 +50,57 @@ $specBorderColor: $gray70;
   color: $linkBlue;
 }
 
-// Needs to be more specific
-ul.spec-views {
-  margin-left: -.375em;
-  margin-bottom: 0;
+// Moved to all.scss
+// ul.spec-views {
+//   margin-left: -.375em;
+//   margin-bottom: 0;
 
-  li {
-    margin: 0 0 0 px-em(23px);
-    padding: 0;
+//   li {
+//     margin: 0 0 0 px-em(23px);
+//     padding: 0;
 
-    .lt-ie8 & {
-      float: left;
-    }
-  }
+//     .lt-ie8 & {
+//       float: left;
+//     }
+//   }
 
-  li:first-child {
-    margin-left: 0;
-  }
+//   li:first-child {
+//     margin-left: 0;
+//   }
 
-  a {
-    display: block;
-    margin-bottom: 0;
-    padding-right: 6px;
-    padding-bottom: 10px;
-    padding-left: 6px;
-    color: $gray20;
-    @include box-shadow(inset 0 0 0 $btnBackground);
-    @include transition($transitionFast $easeNormal);
-  }
+//   a {
+//     display: block;
+//     margin-bottom: 0;
+//     padding-right: 6px;
+//     padding-bottom: 10px;
+//     padding-left: 6px;
+//     color: $gray20;
+//     @include box-shadow(inset 0 0 0 $btnBackground);
+//     @include transition($transitionFast $easeNormal);
+//   }
 
-  li:hover a {
-    color: $linkBlueActive;
-  }
+//   li:hover a {
+//     color: $linkBlueActive;
+//   }
 
-  .no-touch & li:hover a,
-  .active a {
-    @include box-shadow(inset 0 -4px 0 $btnBackground);
-  }
+//   .no-touch & li:hover a,
+//   .active a {
+//     @include box-shadow(inset 0 -4px 0 $btnBackground);
+//   }
 
-  .no-boxshadow & a {
-    padding-bottom: 6px;
-    border-bottom: 4px solid transparent;
-  }
+//   .no-boxshadow & a {
+//     padding-bottom: 6px;
+//     border-bottom: 4px solid transparent;
+//   }
 
-  .no-boxshadow.no-touch & li:hover a,
-  .no-boxshadow & .active a {
-    border-bottom-color: $btnBackground;
-  }
-}
+//   .no-boxshadow.no-touch & li:hover a,
+//   .no-boxshadow & .active a {
+//     border-bottom-color: $btnBackground;
+//   }
+// }
 
 // Sticky nav
 .spec-sticky-nav {
-  position: fixed;
-  // z-index: 20; // above features
-  z-index: 200; // Safari, what are you doing???
-  top: 0;
-  left: -999em;
-  width: 100%;
-  background: $white;
-  @include box-shadow(0 .0625em .625em $stickyShadowColor);
-  @include translate(0, -2em);
-  -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
-          transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
-
-  &.open {
-    left: 0;
-    @include translate(0, 0);
-    @include transition-delay(0s);
-    @include transition-timing-function(ease-out);
-  }
 
   // Disable box shadow if the sticky headers are visible
   .sticky-header-open & {
@@ -142,9 +124,6 @@ ul.spec-views {
     }
   }
 
-  .lt-ie9 & {
-    border-bottom: 1px solid $specBorderColor;
-  }
 }
 
 

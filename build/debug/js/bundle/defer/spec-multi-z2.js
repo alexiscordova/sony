@@ -44,7 +44,7 @@
       self.$navPrev = self.$navWrap.find('.spec-nav-prev');
       self.$stickyHeaders = self.$specProducts.find('.compare-sticky-header');
       self.$stickyNav = self.$container.find('.spec-sticky-nav');
-      self.$jumpLinks = self.$container.find('.spec-views a');
+      self.$jumpLinks = self.$container.find('.jump-links a');
       self.$stickyRightBar = self.$stickyHeaders.find('.right-bar');
 
       self.$enlargeTriggers = self.$specProducts.find('.js-enlarge');
@@ -55,7 +55,7 @@
       self.stickyNavHeight = self.$stickyNav.outerHeight();
 
       // Line up spec item cells
-      self._onResize();
+      self._onResize( true );
 
       // Init shuffle on the features section
       self._initFeatures();
@@ -269,53 +269,14 @@
     },
 
     _initStickyNav : function() {
-      var self = this,
-          $body = SONY.$body;
-          // $offsetTarget = self.$container.find('.spec-views:not(.nav)');
+      var self = this;
 
-      // jQuery offset().top is returning negative numbers...
-      // self.stickyTriggerOffset = $offsetTarget[0].offsetTop;
       self.stickyTriggerOffset = self.stickyOffset.top;
 
-
-      // REMOVE WHEN ITS NOT BROKEN
-      // if ( self.stickyTriggerOffset < 100 ) {
-      //   setTimeout(function() {
-      //     self.stickyTriggerOffset = $offsetTarget[0].offsetTop; //$offsetTarget.offset().top;
-      //   }, 50);
-      //   console.error('sticky trigger top is:', self.stickyTriggerOffset, $offsetTarget);
-      //   // throw new Error('sticky trigger top is: ' + self.stickyTriggerOffset);
-      // }
-
-      // Set up twitter bootstrap scroll spy
-      $body.scrollspy({
-        target: '.spec-sticky-nav'
-      });
-
-      self._initJumpLinks();
-
-
-      self.$stickyNav.on( SONY.Settings.END_EV, function(e) {
-        if ( e.target.tagName === 'A' ) {
-          return;
-        }
-        SONY.Utilities.scrollToTop();
-      });
-
-      setTimeout(function() {
-        $body.scrollspy('refresh');
-      }, 100);
-    },
-
-    _initJumpLinks : function() {
-      var self = this,
-          scrollspyOffset = 10,
-          navHeight = parseFloat( self.$stickyNav.css('height') ),
-          offset = scrollspyOffset + navHeight;
-
-      self.$jumpLinks.simplescroll({
-        showHash: true,
-        offset: offset
+      self.$stickyNav.stickyNav({
+        scrollToTopOnClick: true,
+        $jumpLinks: self.$jumpLinks,
+        offsetTarget: self.$container.find('.jump-links:not(.nav)')
       });
     },
 
@@ -350,6 +311,7 @@
       if ( !isFromResize ) {
         self.stickyNavHeight = self.$stickyNav.outerHeight();
         self.stickyOffset = self._getStickyHeaderOffset();
+        self.$stickyNav.stickyNav('updateTriggerOffset', self.stickyOffset.top);
       }
 
       // Refresh iScroll
@@ -413,8 +375,11 @@
       self.$specItemsWrap.find('.spec-items-container').css('height', '');
     },
 
-    _onResize : function() {
+    _onResize : function( isInit ) {
       var self = this;
+
+      // Make sure it's not an event object
+      isInit = isInit === true;
 
       if ( Modernizr.mq( self.mobileBreakpoint ) ) {
 
@@ -458,11 +423,6 @@
           ._setItemContainerHeight();
       }
 
-      // Update the positions for the scroll spy
-      SONY.$body
-        .scrollspy('refresh')
-        .scrollspy('process');
-
       // Without transforms, iScroll uses absolute positioning and the container
       // gets a width/height of 0 with overflow:hidden
       if ( !Modernizr.csstransforms ) {
@@ -474,6 +434,9 @@
       setTimeout(function() {
         self.stickyNavHeight = self.$stickyNav.outerHeight();
         self.stickyOffset = self._getStickyHeaderOffset();
+        if ( !isInit ) {
+          self.$stickyNav.stickyNav('updateTriggerOffset', self.stickyOffset.top);
+        }
       }, 100);
     },
 
@@ -522,20 +485,6 @@
           self.$stickyHeaders.removeClass('open');
           self.$navContainer.removeClass('container');
           self.$navWrap.css('top', 'auto');
-        }
-      }
-
-
-      // Open the stick nav if it's past the trigger
-      if ( scrollTop >= self.stickyTriggerOffset ) {
-        if ( !self.$stickyNav.hasClass('open') ) {
-          self.$stickyNav.addClass('open');
-        }
-
-      // Close the sticky nav if it's past the trigger
-      } else {
-        if ( self.$stickyNav.hasClass('open') ) {
-          self.$stickyNav.removeClass('open');
         }
       }
     },
