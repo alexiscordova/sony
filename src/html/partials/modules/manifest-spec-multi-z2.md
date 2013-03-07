@@ -71,6 +71,8 @@ Each module will include this document, which contains an ordered list of the fi
     *../../../js/bundle/secondary/sony-paddles.js
 * sony-scroller.js
     *../../../js/bundle/secondary/sony-scroller.js
+* sony-stickynav.js
+    *../../../js/bundle/secondary/sony-stickynav.js
 * spec-multi-z2.js
     *../../../js/bundle/defer/spec-multi-z2.js
 

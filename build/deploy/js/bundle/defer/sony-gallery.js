@@ -2705,9 +2705,9 @@ SONY.on('global:ready', function() {
     $('.gallery').each(function() {
       var $this = $(this);
 
-      // console.time('Initializing gallery %O', $this[0]);
+      // console.time('Initializing gallery ' + this.id + ' took:');
       $this.gallery( $this.data() );
-      // console.timeEnd('Initializing gallery');
+      // console.timeEnd('Initializing gallery ' + this.id + ' took:');
     });
 
     // Register for tab show(n) events here because not all tabs are galleries
