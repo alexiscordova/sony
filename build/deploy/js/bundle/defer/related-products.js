@@ -32,7 +32,7 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = true;
+      self.DEBUG                  = false;
 
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 568;
@@ -93,13 +93,13 @@
       self.inited                 = false;
       self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
       self.tileHeightSizeFix      = 0;
-      self.hasInitedMobile = false;
-
+      self.hasInitedMobile        = false;
+      
       //Modes
-      self.isMobileMode    = false;
-      self.isDesktopMode   = false;
-      self.isTabletMode    = false;
-      self.accelerationPos = 0;
+      self.isMobileMode           = false;
+      self.isDesktopMode          = false;
+      self.isTabletMode           = false;
+      self.accelerationPos        = 0;
 
 
 
@@ -831,7 +831,7 @@
 
       //Stops processing of jQuery.shuffle instances that are not currently active
       toggleShuffles: function(){
-        var self = this;
+/*        var self = this;
 
         self.$shuffleContainers.each(function(i){
           var $shfflContainer = $(this),
@@ -841,7 +841,7 @@
             }else{
               sfflInst.enable();
             }
-        });
+        });*/
       },
 
       setColumns : function( numColumns ) {
@@ -1433,7 +1433,7 @@
           }
           self.currAnimSpeed = getCorrectSpeed(self.currAnimSpeed);
 
-          self.moveTo();
+          self.moveTo(v0);
         }
 
         var snapDist = self.minSlideOffset,
@@ -1619,9 +1619,9 @@
 
         function getCorrectSpeed( newSpeed ) {
             if( newSpeed < 100 ) {
-                return 100;
+                return 80;
             } else if( newSpeed > 500 ) {
-                return 500;
+                return 400;
             }
             return newSpeed;
         }
@@ -1645,7 +1645,7 @@
         }
 
         //Shuffle optimization
-        self.toggleShuffles();
+        
 
         //jQuery animation fallback
         if( !self.useCSS3Transitions ) {
@@ -1661,17 +1661,17 @@
             animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.sonyScrollEase;
           }
 
-          self.$container.css( animObj );
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
           self.$container.css( animObj );
 
           //IQ Update
           self.$container.one(self.transitionEndName , function(){
+            self.toggleShuffles();
             window.iQ.update();
           });
         }
 
-        //update the overall position
+       //update the overall position
         self.sPosition = self.currRenderPosition = newPos;
 
         self.isTransitioning = true;
@@ -1811,12 +1811,19 @@
           $normalTile = $slide.find('.gallery-item.normal').first();
 
           var tileHeight = $slide.find('.gallery-item.plate').first().height() +  ( self.mq('(max-width: 769px)') ? 26 : 0 ),
-              testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true);
+              testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true),
+              maxHeight = tileHeight;
 
           if(slideVariation !== '3up'){
+
+
+            if(slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769){
+              maxHeight = 204;
+            }
+
             $slide.find( '.gallery-item.normal').css({
               'max-height' : tileHeight,
-              'height'     : tileHeight
+              'height'     : maxHeight
             });
 
           }

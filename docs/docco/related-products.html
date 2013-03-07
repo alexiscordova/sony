@@ -28,7 +28,7 @@
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Extend Related Products instance with defaults and options</p>             </td>             <td class="code">               <div class="highlight"><pre>      $.extend(self , $.fn.relatedProducts.defaults , options);
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Debug mode for logging</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.DEBUG                  = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Debug mode for logging</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.DEBUG                  = <span class="literal">false</span>;
 
       self.LANDSCAPE_BREAKPOINT   = <span class="number">980</span>;
       self.MOBILE_BREAKPOINT      = <span class="number">568</span>;
@@ -88,12 +88,12 @@
       self.inited                 = <span class="literal">false</span>;
       self.isResponsive           = !self.isIE7orIE8 &amp;&amp; !self.$html.hasClass(<span class="string">'lt-ie10'</span>) &amp;&amp; self.hasMediaQueries;
       self.tileHeightSizeFix      = <span class="number">0</span>;
-      self.hasInitedMobile = <span class="literal">false</span>;
-
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Modes</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.isMobileMode    = <span class="literal">false</span>;
-      self.isDesktopMode   = <span class="literal">false</span>;
-      self.isTabletMode    = <span class="literal">false</span>;
-      self.accelerationPos = <span class="number">0</span>;
+      self.hasInitedMobile        = <span class="literal">false</span>;
+      
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Modes</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.isMobileMode           = <span class="literal">false</span>;
+      self.isDesktopMode          = <span class="literal">false</span>;
+      self.isTabletMode           = <span class="literal">false</span>;
+      self.accelerationPos        = <span class="number">0</span>;
 
 
 
@@ -787,17 +787,17 @@ if their interaction time and movements are below certain thresholds.</p>       
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Stops processing of jQuery.shuffle instances that are not currently active</p>             </td>             <td class="code">               <div class="highlight"><pre>      toggleShuffles: <span class="keyword">function</span>(){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+<span class="comment">/*        var self = this;
 
-        self.$shuffleContainers.each(<span class="keyword">function</span>(i){
-          <span class="keyword">var</span> $shfflContainer = $(<span class="keyword">this</span>),
-            sfflInst = $shfflContainer.data(<span class="string">'shuffle'</span>);
-            <span class="keyword">if</span>(i === self.currentId ){
+        self.$shuffleContainers.each(function(i){
+          var $shfflContainer = $(this),
+            sfflInst = $shfflContainer.data('shuffle');
+            if(i === self.currentId ){
               sfflInst.enable();
-            }<span class="keyword">else</span>{
+            }else{
               sfflInst.enable();
             }
-        });
+        });*/</span>
       },
 
       setColumns : <span class="keyword">function</span>( numColumns ) {
@@ -1363,7 +1363,7 @@ return;</p>             </td>             <td class="code">               <div c
           }
           self.currAnimSpeed = getCorrectSpeed(self.currAnimSpeed);
 
-          self.moveTo();
+          self.moveTo(v0);
         }
 
         <span class="keyword">var</span> snapDist = self.minSlideOffset,
@@ -1542,9 +1542,9 @@ return;</p>             </td>             <td class="code">               <div c
 
         <span class="function"><span class="keyword">function</span> <span class="title">getCorrectSpeed</span><span class="params">( newSpeed )</span> {</span>
             <span class="keyword">if</span>( newSpeed &lt; <span class="number">100</span> ) {
-                <span class="keyword">return</span> <span class="number">100</span>;
+                <span class="keyword">return</span> <span class="number">80</span>;
             } <span class="keyword">else</span> <span class="keyword">if</span>( newSpeed &gt; <span class="number">500</span> ) {
-                <span class="keyword">return</span> <span class="number">500</span>;
+                <span class="keyword">return</span> <span class="number">400</span>;
             }
             <span class="keyword">return</span> newSpeed;
         }
@@ -1567,7 +1567,7 @@ return;</p>             </td>             <td class="code">               <div c
           newPos += Math.ceil( widthDifference );
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>Shuffle optimization</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.toggleShuffles();
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>Shuffle optimization</p>             </td>             <td class="code">               <div class="highlight"><pre>        
 
 </pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>jQuery animation fallback</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( !self.useCSS3Transitions ) {
           animObj[ self.xProp ] = newPos;
@@ -1581,11 +1581,11 @@ return;</p>             </td>             <td class="code">               <div c
             animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.sonyScrollEase;
           }
 
-          self.$container.css( animObj );
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + <span class="number">0</span>) + self.tPref3;
           self.$container.css( animObj );
 
 </pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>IQ Update</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$container.one(self.transitionEndName , <span class="keyword">function</span>(){
+            self.toggleShuffles();
             window.iQ.update();
           });
         }
@@ -1728,12 +1728,19 @@ return;</p>             </td>             <td class="code">               <div c
           $normalTile = $slide.find(<span class="string">'.gallery-item.normal'</span>).first();
 
           <span class="keyword">var</span> tileHeight = $slide.find(<span class="string">'.gallery-item.plate'</span>).first().height() +  ( self.mq(<span class="string">'(max-width: 769px)'</span>) ? <span class="number">26</span> : <span class="number">0</span> ),
-              testHeight = $(<span class="string">'.gallery-item.normal'</span>).first().find(<span class="string">'.product-content'</span>).outerWidth(<span class="literal">true</span>);
+              testHeight = $(<span class="string">'.gallery-item.normal'</span>).first().find(<span class="string">'.product-content'</span>).outerWidth(<span class="literal">true</span>),
+              maxHeight = tileHeight;
 
           <span class="keyword">if</span>(slideVariation !== <span class="string">'3up'</span>){
+
+
+            <span class="keyword">if</span>(slideVariation === <span class="string">'4up'</span> &amp;&amp; self.isTabletMode &amp;&amp; tileHeight &gt; <span class="number">204</span> &amp;&amp; self.$win.width() &lt; <span class="number">769</span>){
+              maxHeight = <span class="number">204</span>;
+            }
+
             $slide.find( <span class="string">'.gallery-item.normal'</span>).css({
               <span class="string">'max-height'</span> : tileHeight,
-              <span class="string">'height'</span>     : tileHeight
+              <span class="string">'height'</span>     : maxHeight
             });
 
           }
