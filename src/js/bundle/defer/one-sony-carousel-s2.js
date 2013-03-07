@@ -43,7 +43,7 @@
       self.createPaddles();
       self.setupLinkClicks();
 
-      self.$innerContainer.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.280, 0.660, 0.285, 0.975)');
+      self.$innerContainer.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.450, 0.735, 0.445, 0.895)');
 
       self.$innerContainer.sonyDraggable({
         'axis': 'x',
@@ -218,7 +218,7 @@
           newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;
         }
 
-        self.$innerContainer.css(Modernizr.prefixed('transitionDuration'), '550ms');
+        self.$innerContainer.css(Modernizr.prefixed('transitionDuration'), '450ms');
         self.$innerContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
 
       } else {
