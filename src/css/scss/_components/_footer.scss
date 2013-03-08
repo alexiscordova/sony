@@ -192,9 +192,9 @@ a.footer-social-youtube {
       display:inline-block;
       position:relative;
       top:-2px;
-      left:4px;
+      left:5px;
       @include transition(all $transitionFast linear);
-      @include transform-origin(47%, 53%, 0);
+      @include transform-origin(40%, 56%, 0);
       @include flickerfix;
       -webkit-font-smoothing:antialiased;
       color:$gray50;
@@ -215,6 +215,12 @@ a.footer-social-youtube {
     // .dropdown-hover-toggle{
     //   padding-left:16px;
     // }
+    &.open *{
+      background:green;
+    }
+    .active *{
+      background:red;
+    }
     .dropdown-hover-menu{
       @include el-hidden(right); // so it's right-justified.
     }
@@ -328,7 +334,9 @@ a.footer-social-youtube {
 
 .no-touch .btn-hover-group:hover,
 .no-touch .btn-hover-group.open:hover,
-.touch .btn-hover-group.open{ // overrides the .open settings for the non-touch .dropdown-toggle, but not on mobile (touch).
+.touch .btn-hover-group.open,
+.no-touch .btn-hover-group.active:hover,
+.touch .btn-hover-group.active{ // overrides the .open settings for the non-touch .dropdown-toggle, but not on mobile (touch).
 
   .btn.dropdown-hover-toggle{
     color:$white;
@@ -342,11 +350,11 @@ a.footer-social-youtube {
     .dropdown-hover-menu{
       @include el-shown(right);
     }
-    // &.language-selector{
-    //   .dropdown-hover-menu{
-    //     @include el-shown(right); // so it's right-justified.
-    //   }
-    // }
+    &.language-selector{
+      .dropdown-hover-menu{
+        @include el-shown(right); // so it's right-justified.
+      }
+    }
     // &.country-selector{
 
     // }

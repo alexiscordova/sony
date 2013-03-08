@@ -439,7 +439,7 @@
               'left' : '',
               'right' : ''
             }).find('.reveal-transition-container').css('height', '');
-            $('.nav-li-search a').removeClass('.active');
+            $('.nav-li-search a').removeClass('active');
             
           });
         }

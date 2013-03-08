@@ -124,8 +124,10 @@
 
     initTouchToggles: function( $touchToggles ) {
       $touchToggles.each(function(){
-        $(this).on('touchstart click',function(){
-          $(this).toggleClass('active');
+        $(this).on('click',function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          $(this).parent().toggleClass('active');
         });
       });
     }
@@ -211,7 +213,8 @@ $(function() {
    $formActions.initInput($('#store-locator-search-input'));
    $formActions.initInput($('#nav-search-input'));
 
-   $formActions.initTouchToggles($('.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'));
+   // $formActions.initTouchToggles($('.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'));
+   $formActions.initTouchToggles($('.dropdown-hover-toggle'));
 });
 
 
