@@ -286,6 +286,15 @@
         self.$dotnav.sonyNavDots('reset', {
           'activeButton': which
         });
+
+        if( $('html').hasClass('lt-ie9') ){
+          var height = 0;
+          self.$dotnav.css('display' , 'none');
+          height = self.$dotnav.get(0).offsetHeight;
+          self.$dotnav.css('display' , 'block');
+        }
+
+
       });
     },
 
