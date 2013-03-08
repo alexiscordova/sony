@@ -15,13 +15,18 @@
   var GlobalNav = function($container) {
 
     var self = this;
+    self.usernameSpace = 40;
+    self.minUsernameLength = 6;
     self.searchMenu = {};
     self.$html = SONY.$html;
     self.$window = SONY.$window;
     self.$container = $container;
     self.$activeNavBtns = self.$container.find('.nav-dropdown-toggle');
+    self.$navbar = $('#navbar');
     self.$currentOpenNavBtn = false;
     self.$pageWrapOuter = $('#page-wrap-outer');
+    self.$accountUsername = $('#nav-account-btn').find('.username');
+    self.fullAccountUsername = self.$accountUsername.text();
     self.mobileNavIScroll = false, self.mobileNavVisible = false;
     self.mobileNavThreshold = 767;
     self.mobileFooterThreshold = 567;
@@ -61,6 +66,8 @@
       var self = this;
 
       self.isInitialized = true;
+      self.isDesktopNav = false;
+      self.isMobileNav = false;
 
       // Setting up enquire listeners.
       // These fire the first time they're hit (page-load), and if the breakpoint becomes active during browser resize.
@@ -73,6 +80,8 @@
             self.initDesktopNav();
             self.resetMobileNav();
             self.$html.removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
+            self.isDesktopNav = true;
+            self.isMobileNav = false;
           }
 
         });
@@ -81,7 +90,6 @@
           match : function() {
             self.resetMobileFooter();
           }
-
         });
 
         // switch to mobile nav
@@ -90,6 +98,8 @@
             self.initMobileNav();
             self.resetDesktopNav();
             self.$html.removeClass('bp-nav-desktop').addClass('bp-nav-mobile');
+            self.isDesktopNav = false;
+            self.isMobileNav = true;
           }
 
         });
@@ -104,18 +114,19 @@
         self.initDesktopNav();
         self.resetMobileNav();
         self.$html.removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
+        self.isDesktopNav = true;
+        self.isMobileNav = false;
       }
 
       if (self.hasTouch) {
         // add a click event to close the menu
         self.$pageWrapOuter.on('click touchstart focus',function(e) {
           if ( !($(e.target).hasClass('navtray-w,navmenu-w,nav') || $(e.target).parents('.navtray-w,.navmenu-w,.nav').length > 0)) {
-                $('.nav .nav-li a.active').trigger('touchstart');
-                $('#nav-search-input').blur();
+            $('.nav .nav-li a.active').trigger('touchstart');
+            $('#nav-search-input').blur();
           }
         });
       }
-
     },
 
     initDesktopNav : function() {
@@ -296,9 +307,13 @@
             }, timeout);
           });
         }
-
+      });
+      self.resizeAccountBtn();
+      SONY.on('global:resizeDebounced-200ms', function(){
+        self.resizeAccountBtn();
       });
     }, // end initDesktopNav
+    
     resetDesktopNav : function() {
       var self = this;
 
@@ -330,8 +345,59 @@
         $thNavBtnTarget.off('touchstart mouseenter mouseleave click');
 
       });
-
     },
+
+    resizeAccountBtn : function() {
+      var self = this;
+      // reset it first so we measure off the full username.
+      self.$accountUsername.text(self.fullAccountUsername);
+      
+      var $nbi = self.$navbar.children('.grid');
+      
+      if (isTooLong()){
+        shortenUsername();
+      }
+
+      function isTooLong(){
+        var navbarWidth = $nbi.outerWidth();
+        var navbarContentsWidth = 0;
+        $nbi.children().each(function(){
+          navbarContentsWidth += parseInt($(this).outerWidth(true),10);
+        });
+        return navbarWidth - navbarContentsWidth < self.usernameSpace ? true : false;
+      }
+
+      function shortenUsername(){
+        var currentUsername = self.$accountUsername.text();
+        // take 1 letter off the end of the username
+        var shortUsername = currentUsername.substring(0,currentUsername.length-1);
+        self.$accountUsername.html(shortUsername);
+        // loop through, taking 1 letter off at a time, until it's either short enough, or down to just minUsernameLength letters.
+        if (shortUsername.length > self.minUsernameLength && isTooLong()){
+          shortenUsername();
+        } else {
+          // only shorten it if it's cut off more than 2 letters; otherwise the ellipses makes it so it's not any shorter anyway.
+          if ( shortUsername.length < (self.fullAccountUsername.length - 2) ){
+            self.$accountUsername.html(shortUsername + "&hellip;");
+          } else {
+            self.$accountUsername.html(self.fullAccountUsername);
+          }
+        }
+      }
+
+      // check to see if the Account Button still has enough room to display the entire username; and if not, cut it down.
+      
+      // get the width of the entire nav
+
+      // for each child of $navbarInner, add its width to the total
+      
+
+      // var logoWidth = $nbi.find('.brand').outerWidth();
+      // var primaryWidth = $nbi.find('.nav-primary').outerWidth();
+
+
+      // self.$accountBtn
+    }, 
 
     startMouseleaveTimer : function($thNavBtn) {
       var self = this;
@@ -474,16 +540,27 @@
             }, 1);
           }, 1);
 
-          // just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.
+          // the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.
           if ($thNavTarget.hasClass('navmenu-w-search')) {
             // Line it up with the right edge of the search button.
 
-            var btnRightEdge = $newNavBtn.parent().position().left + parseInt($newNavBtn.css('marginLeft'), 10) + $newNavBtn.innerWidth();
-            var leftPos = btnRightEdge - $thNavTarget.innerWidth();
+            var searchBtnRightEdge = $newNavBtn.parent().position().left + parseInt($newNavBtn.css('marginLeft'), 10) + $newNavBtn.innerWidth();
+            var searchLeftPos = searchBtnRightEdge - $thNavTarget.innerWidth();
             $thNavTarget.css({
               'right' : 'auto',
-              'left' : leftPos + 'px'
+              'left' : searchLeftPos + 'px'
             });
+          } else if ($thNavTarget.hasClass('navmenu-w-account')) {
+            var accountLeftPos = parseInt($newNavBtn.css('marginLeft'), 10);
+
+            // center the carrot under the button
+            var $carrot = $thNavTarget.find('.nav-indicator');
+            var carrotLeftPos = (parseInt($newNavBtn.outerWidth(),10) - parseInt($carrot.outerWidth(),10) ) / 2;
+            $thNavTarget.css({
+              'right' : 'auto',
+              'left' : accountLeftPos + 'px'
+            });
+            $carrot.css('left',carrotLeftPos+'px');
           }
         }
       }
@@ -772,7 +849,7 @@
 })(jQuery, Modernizr, window);
 
 SONY.on('global:ready', function(){
-   $('.nav-wrapper').globalNav();
+   $('#nav-wrapper').globalNav();
 });
 
 

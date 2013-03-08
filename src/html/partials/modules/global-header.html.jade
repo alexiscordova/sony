@@ -11,7 +11,7 @@ else
   - minimal_class = ""
 
 nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-767(role='navigation', class=minimal_class)
-  .container.navbar-mobile.visible-phone
+  div.container.navbar-mobile.visible-phone
     a#btn-mobile-nav.btn.btn-mobile-nav(href=data.logo.link)
         i.fonticon-15-mobile-menu
       a.brand.sprite-32a-sony-logo(href='#')
@@ -21,11 +21,11 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
           i.fonticon-10-cart
           | !{sample_session_data.cart_count}
   
-  #nav-outer-container.nav-outer-container 
+  div#nav-outer-container.nav-outer-container 
     //- this is just to contain all the mobile nav pieces in one container 
-    .nav-mobile-scroller
+    div.nav-mobile-scroller
       //- the search menu wrapper is first for mobile so it needs to be first in the page flow. It's positioned absolute for desktop.
-      .container.navmenu-w-search-container.full-bleed-at-767
+      div.container.navmenu-w-search-container.full-bleed-at-767
         div#navmenu-w-search.navmenu-w.navmenu-w-search.input-outer-wrapper
           i.fonticon-10-arrowhead-up.nav-indicator
           div.reveal-transition-container
@@ -149,7 +149,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                     |  !{data.entertainment.menu_featured.promo.link_text}
 
       div.navbar-outer
-        div.container.navbar.full-bleed-at-767
+        div#navbar.container.navbar.full-bleed-at-767
           div.grid.full-bleed-at-767
             a.brand.sprite-32a-sony-logo(href=data.logo.link, tabindex='10')
               span.hidden-text= data.logo.label
@@ -183,12 +183,12 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             ul.nav.nav-utility(role='navigation') 
               if !minimal
                 li.nav-li.nav-li-account
-                  a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#navmenu-w-account', tabindex='1100') 
+                  a#nav-account-btn.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#navmenu-w-account', tabindex='1100') 
                     if sample_session_data.logged_in === true
-                      - shortUsername = sample_session_data.username
-                      if shortUsername.length > 7
+                      //- - shortUsername = sample_session_data.username
+                      //- if shortUsername.length > 7
                         - shortUsername = sample_session_data.username.substr(0,7) + "&hellip;"
-                      span= shortUsername
+                      span.username= sample_session_data.username
                       i.fonticon-10-arrowhead-down
                     else 
                       | !{data.account.label}
