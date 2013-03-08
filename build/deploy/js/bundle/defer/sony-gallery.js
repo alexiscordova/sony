@@ -245,7 +245,8 @@
           filterType = '',
           filterName = '',
           filters = {},
-          frag = document.createDocumentFragment();
+          frag = document.createDocumentFragment(),
+          $clearAll;
 
       // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
       for ( filterType in self.filters ) {
@@ -301,10 +302,12 @@
           });
 
           frag.appendChild( $label[0] );
+
+          $label = null;
         });
 
         // Using em here so I can use :last-of-type to get the spans
-        var $clearAll = $('<em/>', {
+        $clearAll = $('<em/>', {
           'class' : 'clear-all-filters lt3 js-clear-filters',
           text: self.$activeFilters.data('clearLabel')
         });
@@ -327,6 +330,10 @@
           self.$activeFilters.removeClass('has-active-filters');
         }
       }
+
+      filters = null;
+      $clearAll = null;
+      frag = null;
     },
 
     // Removes a single filter from stored data. Does NOT change UI.
@@ -644,6 +651,8 @@
         var $trigger = $(this);
         $triggers.not( $trigger ).popover('hide');
       });
+
+      $triggers = null;
     },
 
     initSorting : function() {
@@ -757,7 +766,11 @@
               $productImg.removeClass( hidden );
             }
           });
+
+          $swatch = null;
       });
+
+      $collection = null;
 
       return self;
     },
@@ -817,6 +830,8 @@
           template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
         });
       }
+
+      $favorites = null;
 
       // Update our favorites
       self.$favorites = self.$grid.find('.js-favorite');
@@ -945,8 +960,11 @@
 
       self.$productCount.text( $visible.length );
 
+      $visible = null;
+
       return self;
     },
+
     valueInArray : function( value, arr ) {
       return $.inArray(value, arr) !== -1;
     },
@@ -1041,6 +1059,10 @@
 
       self.filterLabels[ filterName ] = labels;
       self.filterValues[ filterName ] = values;
+
+      $btns = null;
+      labels = null;
+      values = null;
     },
 
     checkbox : function( $filterGroup, filterName ) {
@@ -1090,6 +1112,10 @@
 
       self.filterLabels[ filterName ] = labels;
       self.filterValues[ filterName ] = values;
+
+      $inputs = null;
+      labels = null;
+      values = null;
     },
 
     range : function( $rangeControl, filterName, min, max ) {
@@ -1492,7 +1518,7 @@
       var self = this;
       self.$container.find('.gallery-loader').remove();
 
-
+      // Product names get zero height in IE8
       if ( SONY.Settings.isLTIE9 ) {
         setTimeout(function() {
           self.$gridProductNames.evenHeights();
@@ -1502,8 +1528,9 @@
       // Fade in the gallery if it isn't already
       if ( !self.$container.hasClass('in') ) {
         setTimeout(function() {
+          SONY.removeGalleryLoader();
           self.$container.addClass('in');
-        }, 250);
+        }, 0);
       }
     },
 
@@ -2306,7 +2333,9 @@
 
       if ( self.mode !== 'detailed' ) {
         // Make this a 5 column grid. Added to parent because grid must be a descendant of grid5
-        self.$grid.addClass('slimgrid5');
+        if ( !self.$grid.hasClass('slimgrid5') ) {
+          self.$grid.addClass('slimgrid5');
+        }
 
 
         self.shuffleColumns = function( containerWidth ) {
@@ -2426,7 +2455,6 @@
       // Landscape tablet + desktop ( 5 columns )
       } else if ( numColumns === 5 ) {
         if ( !self.$grid.hasClass(shuffleDash+5) ) {
-
           // add .slimgrid5
           self.$grid
             .removeClass(gridClasses)
@@ -2592,19 +2620,19 @@
 
   // Not overrideable
   $.fn.gallery.settings = {
-    enabled: true,
     MIN_PRICE: undefined,
     MAX_PRICE: undefined,
     price: {},
-    isInitialized: false,
+    enabled: true,
     hasEnabledCarousels: false,
     hasSorterMoved: false,
-    sorted: false,
+    isInitialized: false,
     isCompareToolOpen: false,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
-    isUsingOuterScroller: !( SONY.Settings.isLTIE9 || SONY.Settings.isPS3 ),
-    showCompareStickyHeaders: true,
+    sorted: false,
+    // isUsingOuterScroller: !( SONY.Settings.isLTIE9 || SONY.Settings.isPS3 ),
+    // showCompareStickyHeaders: true,
     currentFilterColor: null,
     lastFilterGroup: null,
     loadingGif: 'img/global/loader.gif',
@@ -2647,6 +2675,8 @@
 
       gallery.disable();
     });
+
+    $prevPane = null;
 
   };
 
@@ -2692,6 +2722,16 @@
         gallery.fixCarousels();
       }
     });
+
+    $galleries = null;
+    $pane = null;
+  };
+
+  SONY.removeGalleryLoader = function() {
+    if ( !SONY.galleryLoaderRemoved ) {
+      $('.gallery-loader').first().remove();
+    }
+    SONY.galleryLoaderRemoved = true;
   };
 
 })(jQuery, Modernizr, window);
@@ -2705,9 +2745,11 @@ SONY.on('global:ready', function() {
     $('.gallery').each(function() {
       var $this = $(this);
 
+      // console.profile('gallery ' + this.id);
       // console.time('Initializing gallery ' + this.id + ' took:');
       $this.gallery( $this.data() );
       // console.timeEnd('Initializing gallery ' + this.id + ' took:');
+      // console.profileEnd('gallery ' + this.id);
     });
 
     // Register for tab show(n) events here because not all tabs are galleries

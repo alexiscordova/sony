@@ -43,7 +43,9 @@
       self.createPaddles();
       self.setupLinkClicks();
 
-      self.$innerContainer.css(Modernizr.prefixed(<span class="string">'transitionTimingFunction'</span>), <span class="string">'cubic-bezier(0.450, 0.735, 0.445, 0.895)'</span>);
+      <span class="keyword">if</span> ( self.useCSS3 ) {
+        self.$innerContainer.css(Modernizr.prefixed(<span class="string">'transitionTimingFunction'</span>), <span class="string">'cubic-bezier(0.450, 0.735, 0.445, 0.895)'</span>);
+      }
 
       self.$innerContainer.sonyDraggable({
         <span class="string">'axis'</span>: <span class="string">'x'</span>,
