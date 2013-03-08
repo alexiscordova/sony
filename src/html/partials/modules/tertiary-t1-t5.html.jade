@@ -6,8 +6,7 @@ include ../includes/jade-helpers.jade
 
 mixin socialButton(link, label)
   .social-btn
-    a.btn.btn-small(href= link)
-      | #{label}
+    a.btn.btn-small(href= link)= label
 
 mixin flickrContent(meta, images, btnLink, btnLabel)
   if (contentMode == "default")
@@ -20,13 +19,13 @@ mixin flickrContent(meta, images, btnLink, btnLabel)
       .meta.p4
         for info in meta
           if (info.user)
-            span.user #{info.user} 
+            span.user= info.user
             
           if (info.title)
-            span #{info.title}
+            span= info.title
 
     .center
-      .image-container
+      .center-container
         .top-row
             - for (i = 0; i <= 2; i++) {
             if(images[i])
@@ -57,13 +56,25 @@ mixin articleNews(module)
         img(src= module.noScriptImg)
       p.news-date.l3-light= module.date
 
-
 mixin articleEvent(module)
   .img-container.iq-img(data-src= module.imgSrc)
     .attendance-count
       .details
         p.t3= module.attendanceCount
         p.l3-light attending
+
+mixin sonysVoiceTop(icon, meta)
+  .icon-container
+    .white-bg.fonticon-10-dot
+    div(class=icon)
+    
+  .meta            
+    p.p4    
+      if (meta.user)
+        span.user= meta.user
+
+      if (meta.timestamp)
+        span.timestamp= meta.timestamp
 
 
 //- START Tertiary Content Container
@@ -129,22 +140,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     p.lt3
                       a(href= module.articleLink) Read More
 
-              //- if (contentMode != "featured")
-              //-   .tcc-copy               
-              //-     if (module.title)
-              //-       p.p2
-              //-         strong 
-              //-           | #{module.title}
 
-              //-     //- body copy (optional)
-              //-     if (module.bodyCopy)
-              //-       p.p4 #{module.bodyCopy}               
-
-              //-     if (module.articleLink)
-              //-       p.lt3
-              //-         a(href= module.articleLink)
-              //-           | Read More
-             
             when "users-voice"
               if (contentMode == "expert-quote")
                 .title.l3= module.title
@@ -159,7 +155,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                         img(src= module.avatarNoScriptImg)
                 
                   p.author.p4
-                    a(href="#{module.authorLink}")= module.author
+                    a(href= module.authorLink)= module.author
 
               if (contentMode == "user-quote")
                 .title.l3= module.title
@@ -174,7 +170,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                         img(src= module.avatarNoScriptImg)
 
                   p.handle.p4
-                    a(href="#{module.authorLink}")= module.authorHandle
+                    a(href= module.authorLink)= module.authorHandle
 
                   p.author.p4= module.author
 
@@ -209,44 +205,25 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
               if (contentMode != "instagram")
                 .tcc-inner-container
                   .top
-                    .icon-container
-                      .white-bg.fonticon-10-dot
-                      div(class=iconName)
-                      
-                    .meta
-                      for meta in module.meta                   
-                        p.p4    
-                          if (meta.user)
-                            //- user (required)
-                            span.user #{meta.user} 
-
-                          if (meta.timestamp)
-                            //- timestamp (required)
-                            span.timestamp #{meta.timestamp}
-
+                    mixin sonysVoiceTop(iconName, module.meta)
                   .center
-                    if (contentMode == "twitter")
-                      - label = "Follow Us on Twitter"
+                    .center-container
+                      if (contentMode == "twitter")
+                        - label = "Follow Us on Twitter"
 
-                      //- quote
-                      blockquote.bq4
-                        p
-                          | #{module.quote}
+                        blockquote.bq4
+                          p= module.quote
 
-                    if (contentMode == "facebook")
-                      - label = "Like Us on Facebook"
-                      
-                      //- tile
-                      .post-tile
-                        img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
-                          noscript
-                            img(src= module.postImgNoScriptImg)
+                      if (contentMode == "facebook")
+                        - label = "Like Us on Facebook"
+                        .post-tile
+                          img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
+                            noscript
+                              img(src= module.postImgNoScriptImg)
 
-                      blockquote.post-copy.bq5
-                          p
-                            | #{module.postCopy}
-                            a
-                              | #{module.postLink}
+                        blockquote.post-copy.bq5
+                            p= module.postCopy
+                              a= module.postLink
 
                   .bottom
                     - link = module.socialBtnLink
@@ -256,22 +233,10 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
               if (contentMode == "instagram")
                 .tcc-inner-container
                   .top
-                    .icon-container
-                      .white-bg.fonticon-10-dot
-                      div(class=iconName)
-                      
-                    .meta
-                      for meta in module.meta                   
-                        p.p4    
-                          if (meta.user)
-                            //- user (required)
-                            span.user #{meta.user} 
+                    mixin sonysVoiceTop(iconName, module.meta)
 
-                          if (meta.timestamp)
-                            //- timestamp (required)
-                            span.timestamp #{meta.timestamp}
                   .center
-                    .image-container
+                    .center-container
                       div.left
                         div.iq-img(data-src= module.instagramTLImg)
                         div.last.iq-img(data-src= module.instagramBLImg)

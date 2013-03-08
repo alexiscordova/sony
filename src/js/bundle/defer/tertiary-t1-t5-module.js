@@ -84,16 +84,18 @@
       self.marginPercent                  = Number('.034'); // 22/650 (at 2-up)
       self.contentInnerMargin             = 22;
      
+      // don't listen for these events if >ie10
+      if(!SONY.Settings.isLTIE10){
 
-      // register listener for global debounce to call method **before** debounce begins
-      SONY.on(self.debounceBeforeEvent, self.beforeResizeFunc);
-      
-      // register listener for global debounce to call method **after** debounce begins
-      SONY.on(self.debounceEvent, self.afterResizeFunc);
-    
+        // register listener for global debounce to call method **before** debounce begins
+        SONY.on(self.debounceBeforeEvent, self.beforeResizeFunc);
+        
+        // register listener for global debounce to call method **after** debounce begins
+        SONY.on(self.debounceEvent, self.afterResizeFunc);    
+      }
+
       // register for when images are loaded to determine centering
       self.$el.find('.iq-img').on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
-
 
       self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
        $(this).parent().addClass('on');
@@ -110,11 +112,28 @@
 
         var self = this;
 
-        self.setMode();
-   
-        // if screen size is in mobile (tablet, phone) mode then create a scroller
-        if(self.mode !== 'desktop'){
-          self.setup();
+        // if(SONY.Settings.isLTIE10){
+        //   // no scroller for >IE10
+          
+        //   // still dymaically align height
+        //   self.setCenterContentHeight();
+
+        // }else{
+        //   self.setMode();
+       
+        //   // if screen size is in mobile (tablet, phone) mode then create a scroller
+        //   if(self.mode !== 'desktop'){
+        //     self.setup();
+        //   }
+        // }
+
+        if(!SONY.Settings.isLTIE10){
+          self.setMode();
+       
+          // if screen size is in mobile (tablet, phone) mode then create a scroller
+          if(self.mode !== 'desktop'){
+            self.setup();
+          }
         }
 
         log('SONY : TertiaryModule : Initialized');
@@ -308,7 +327,6 @@
 
         // remove all transform when we enter desktop
         self.$tccBody.css('-webkit-transform','');
-        
       },
 
       // set scroller options to be passed to sony-scroller
@@ -333,7 +351,6 @@
       },
 
       // on every (debounced) resize event determine size of each content module 
-      
       setContentModuleSizes : function(){     
         var self               = this,
         $elements              = self.$contentModules,
@@ -366,20 +383,19 @@
       setCenterContentHeight : function(){
         var self = this;
 
-        // prevents redundancy        
+        // prevent redundancy        
         if(!self.heightsAdjusted){
 
           // loop through the content modules
           self.$contentModules.each(function() {
             var $el = $(this),
-                modeType = $el.data("tcc-content-type") + ':' + $el.data("tcc-content-mode");
-                
+                modeType = $el.data("tcc-content-type") + ':' + $el.data("tcc-content-mode");               
 
             // if the modetype is in the array
             if(self.centerContentArr.indexOf(modeType) >= 0){
               var $sampleContent   = $el, 
               $centerContainer     = $sampleContent.find('.center'),
-              $imageContainer      = $centerContainer.find('.image-container'),
+              $imageContainer      = $centerContainer.find('.center-container'),
               containerHeight      = $sampleContent.innerHeight(), 
               topHeight            = $sampleContent.find('.top').outerHeight(),
               bottomHeight         = $sampleContent.find('.bottom').outerHeight(),
@@ -389,18 +405,25 @@
 
               // check boundaries 
               newCenterHeight = self.checkHeightBoundaries(newCenterHeight, modeType);
+              
+              // special case for >IE10 and particular content module
+              if((SONY.Settings.isLTIE10) && ($el.data("tcc-content-type") === "sonys-voice")){
+                newCenterHeight = newCenterHeight - imgContainerTop;
+                imgContainerTop = imgContainerTop/2;
+              }
 
               // calculate margin top for image container
-              imgContainerTop = Math.round(((newCenterHeight/2) - (imageContainerHeight/2)));
-
+              imgContainerTop = Math.round((newCenterHeight/2) - (imageContainerHeight/2));
+              
               // margin should never be negative
-              imgContainerTop = imgContainerTop < 0 ? 0 : imgContainerTop;
+              imgContainerTop = imgContainerTop < 0 ? 0 : imgContainerTop; 
 
               // set center div container height
-              $centerContainer.height(newCenterHeight); 
-
-              // set image container margin top to "center"
+              $centerContainer.height(newCenterHeight);
+              
+              // set margin top to accomodate inside center with 
               $imageContainer.css('margin-top', imgContainerTop + 'px'); 
+              
             }
 
           });
@@ -593,20 +616,9 @@
 
     // wait to init until all js has loaded.      
     SONY.on('global:ready', function(){
-      var isIE = $("html").hasClass("lt-ie10");
-
-      // do not enable scroller features if in IE     
-      if(!isIE){
-        $('.tcc-wrapper').each(function() {
-          $(this).tertiaryModule({}).data('tertiaryModule');
-        });
-      }
-
-      if(isIE){
-        // no iQ:imageLoaded event will be fired so add the "on" class to images (bypass fade in)
-        $('[data-tcc-content-type="article"][data-tcc-content-mode="featured"]').addClass('on');
-      }
-     
+      $('.tcc-wrapper').each(function() {
+        $(this).tertiaryModule({}).data('tertiaryModule');
+      });
     });
 
  })(jQuery, Modernizr, window, undefined);
