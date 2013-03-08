@@ -245,7 +245,8 @@
           filterType = '',
           filterName = '',
           filters = {},
-          frag = document.createDocumentFragment();
+          frag = document.createDocumentFragment(),
+          $clearAll;
 
       // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
       for ( filterType in self.filters ) {
@@ -301,10 +302,12 @@
           });
 
           frag.appendChild( $label[0] );
+
+          $label = null;
         });
 
         // Using em here so I can use :last-of-type to get the spans
-        var $clearAll = $('<em/>', {
+        $clearAll = $('<em/>', {
           'class' : 'clear-all-filters lt3 js-clear-filters',
           text: self.$activeFilters.data('clearLabel')
         });
@@ -327,6 +330,10 @@
           self.$activeFilters.removeClass('has-active-filters');
         }
       }
+
+      filters = null;
+      $clearAll = null;
+      frag = null;
     },
 
     // Removes a single filter from stored data. Does NOT change UI.
@@ -644,6 +651,8 @@
         var $trigger = $(this);
         $triggers.not( $trigger ).popover('hide');
       });
+
+      $triggers = null;
     },
 
     initSorting : function() {
@@ -757,7 +766,11 @@
               $productImg.removeClass( hidden );
             }
           });
+
+          $swatch = null;
       });
+
+      $collection = null;
 
       return self;
     },
@@ -817,6 +830,8 @@
           template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
         });
       }
+
+      $favorites = null;
 
       // Update our favorites
       self.$favorites = self.$grid.find('.js-favorite');
@@ -945,8 +960,11 @@
 
       self.$productCount.text( $visible.length );
 
+      $visible = null;
+
       return self;
     },
+
     valueInArray : function( value, arr ) {
       return $.inArray(value, arr) !== -1;
     },
@@ -1041,6 +1059,10 @@
 
       self.filterLabels[ filterName ] = labels;
       self.filterValues[ filterName ] = values;
+
+      $btns = null;
+      labels = null;
+      values = null;
     },
 
     checkbox : function( $filterGroup, filterName ) {
@@ -1090,6 +1112,10 @@
 
       self.filterLabels[ filterName ] = labels;
       self.filterValues[ filterName ] = values;
+
+      $inputs = null;
+      labels = null;
+      values = null;
     },
 
     range : function( $rangeControl, filterName, min, max ) {
@@ -2650,6 +2676,8 @@
       gallery.disable();
     });
 
+    $prevPane = null;
+
   };
 
   // Event triggered when tab pane is finished being shown
@@ -2694,6 +2722,9 @@
         gallery.fixCarousels();
       }
     });
+
+    $galleries = null;
+    $pane = null;
   };
 
   SONY.removeGalleryLoader = function() {
