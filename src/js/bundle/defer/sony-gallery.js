@@ -1492,7 +1492,7 @@
       var self = this;
       self.$container.find('.gallery-loader').remove();
 
-
+      // Product names get zero height in IE8
       if ( SONY.Settings.isLTIE9 ) {
         setTimeout(function() {
           self.$gridProductNames.evenHeights();
@@ -1502,8 +1502,9 @@
       // Fade in the gallery if it isn't already
       if ( !self.$container.hasClass('in') ) {
         setTimeout(function() {
+          SONY.removeGalleryLoader();
           self.$container.addClass('in');
-        }, 250);
+        }, 0);
       }
     },
 
@@ -2306,7 +2307,9 @@
 
       if ( self.mode !== 'detailed' ) {
         // Make this a 5 column grid. Added to parent because grid must be a descendant of grid5
-        self.$grid.addClass('slimgrid5');
+        if ( !self.$grid.hasClass('slimgrid5') ) {
+          self.$grid.addClass('slimgrid5');
+        }
 
 
         self.shuffleColumns = function( containerWidth ) {
@@ -2426,7 +2429,6 @@
       // Landscape tablet + desktop ( 5 columns )
       } else if ( numColumns === 5 ) {
         if ( !self.$grid.hasClass(shuffleDash+5) ) {
-
           // add .slimgrid5
           self.$grid
             .removeClass(gridClasses)
@@ -2592,19 +2594,19 @@
 
   // Not overrideable
   $.fn.gallery.settings = {
-    enabled: true,
     MIN_PRICE: undefined,
     MAX_PRICE: undefined,
     price: {},
-    isInitialized: false,
+    enabled: true,
     hasEnabledCarousels: false,
     hasSorterMoved: false,
-    sorted: false,
+    isInitialized: false,
     isCompareToolOpen: false,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
-    isUsingOuterScroller: !( SONY.Settings.isLTIE9 || SONY.Settings.isPS3 ),
-    showCompareStickyHeaders: true,
+    sorted: false,
+    // isUsingOuterScroller: !( SONY.Settings.isLTIE9 || SONY.Settings.isPS3 ),
+    // showCompareStickyHeaders: true,
     currentFilterColor: null,
     lastFilterGroup: null,
     loadingGif: 'img/global/loader.gif',
@@ -2694,6 +2696,13 @@
     });
   };
 
+  SONY.removeGalleryLoader = function() {
+    if ( !SONY.galleryLoaderRemoved ) {
+      $('.gallery-loader').first().remove();
+    }
+    SONY.galleryLoaderRemoved = true;
+  };
+
 })(jQuery, Modernizr, window);
 
 
@@ -2705,9 +2714,11 @@ SONY.on('global:ready', function() {
     $('.gallery').each(function() {
       var $this = $(this);
 
+      // console.profile('gallery ' + this.id);
       // console.time('Initializing gallery ' + this.id + ' took:');
       $this.gallery( $this.data() );
       // console.timeEnd('Initializing gallery ' + this.id + ' took:');
+      // console.profileEnd('gallery ' + this.id);
     });
 
     // Register for tab show(n) events here because not all tabs are galleries
