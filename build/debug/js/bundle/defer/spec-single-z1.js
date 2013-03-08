@@ -34,7 +34,7 @@
       self.$stickyNav = self.$container.find('.spec-sticky-nav');
       self.$carouselWrap = self.$container.find('.spec-carousel-wrap');
       self.$carousel = self.$carouselWrap.find('.spec-carousel');
-      self.$jumpLinks = self.$container.find('.spec-views a');
+      self.$jumpLinks = self.$container.find('.jump-links a');
 
       // Columns to be even heights
       self.$carouselCols = self.$carouselWrap.closest('.grid').children();
@@ -133,42 +133,13 @@
     },
 
     _initStickyNav : function() {
-      var self = this,
-          $body = SONY.$body,
-          $offsetTarget = self.$container.find('.spec-views:not(.nav)');
+      var self = this;
 
-      // jQuery offset().top is returning negative numbers...
-      self.stickyTriggerOffset = $offsetTarget[0].offsetTop;
-
-
-      // REMOVE WHEN ITS NOT BROKEN
-      if ( self.stickyTriggerOffset < 100 ) {
-        setTimeout(function() {
-          self.stickyTriggerOffset = $offsetTarget[0].offsetTop; //$offsetTarget.offset().top;
-        }, 50);
-        // console.error('sticky trigger top is:', self.stickyTriggerOffset, $offsetTarget);
-        // throw new Error('sticky trigger top is: ' + self.stickyTriggerOffset);
-      }
-
-      self.$window.on('scroll', $.proxy( self._onScroll, self ));
-
-      // Set up twitter bootstrap scroll spy
-      $body.scrollspy({
-        target: '.spec-sticky-nav'
+      self.$stickyNav.stickyNav({
+        scrollToTopOnClick: true,
+        $jumpLinks: self.$jumpLinks,
+        offsetTarget: self.$container.find('.jump-links:not(.nav)')
       });
-
-      self._initJumpLinks();
-
-      self.$stickyNav.on( SONY.Settings.END_EV, function(e) {
-        if ( e.target.tagName === 'A' ) {
-          return;
-        }
-        SONY.Utilities.scrollToTop();
-      });
-
-      setTimeout(function() {
-        $body.scrollspy('refresh');
-      }, 100);
     },
 
     _initCarousel : function() {
@@ -196,35 +167,8 @@
       $firstImage.on('imageLoaded', initScroller );
     },
 
-    _initJumpLinks : function() {
-      var self = this,
-          scrollspyOffset = 10,
-          navHeight = parseFloat( self.$stickyNav.css('height') ),
-          offset = scrollspyOffset + navHeight;
-
-      self.$jumpLinks.simplescroll({
-        showHash: true,
-        speed: 400,
-        offset: offset
-      });
-    },
-
     _onScroll : function() {
-      var self = this,
-          st = self.$window.scrollTop();
-
-      // Open the stick nav if it's past the trigger
-      if ( st > self.stickyTriggerOffset ) {
-        if ( !self.$stickyNav.hasClass('open') ) {
-          self.$stickyNav.addClass('open');
-        }
-
-      // Close the sticky nav if it's past the trigger
-      } else {
-        if ( self.$stickyNav.hasClass('open') ) {
-          self.$stickyNav.removeClass('open');
-        }
-      }
+      var self = this;
 
       // See if bottom-aligned-imgs have been loaded
       self.$alignedBottomImgs.each(function() {
@@ -251,14 +195,6 @@
       isFirst = evt === true;
 
       if ( !isFirst ) {
-
-        // Set max width equal to the container width
-        // Don't remember why I do this instead of max-width:100%
-        // console.log('setting max with on slide img of:', self.$carouselWrap.width());
-        // $imgs.css({
-        //   maxWidth: self.$carouselWrap.width()
-        // });
-
         // Set carousel height based on the new image height
         self.$carousel.height( $imgs.height() );
       }
@@ -278,11 +214,6 @@
           .add( self.$carouselCols )
           .css('height', '');
       }
-
-      // Update the positions for the scroll spy
-      SONY.$body
-        .scrollspy('refresh')
-        .scrollspy('process');
     }
 
 

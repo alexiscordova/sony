@@ -50,6 +50,11 @@ SONY.Environment = (function(window, document) {
         }
 
       });
+
+      // Overwrite the Modernizr.mq function for IE < 10
+      if ( SONY.Settings.isLTIE10 ) {
+        Modernizr.mq = function() { return false; };
+      }
     },
 
     // Normalizes the console.log method.

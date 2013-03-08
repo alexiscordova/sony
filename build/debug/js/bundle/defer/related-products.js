@@ -85,11 +85,14 @@
       self.lastTouch              = null;
       self.handleStartPosition    = null;
       self.dragThreshold          = 50;
+      
+      //
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
-      self.oldIE                  = self.$html.hasClass('lt-ie10');
-      self.isIE7orIE8             = self.$html.hasClass('lt-ie10');
+
+      self.oldIE                  = self.isIE7orIE8 = self.$html.hasClass('lt-ie10');
+
       self.inited                 = false;
       self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
       self.tileHeightSizeFix      = 0;
@@ -100,7 +103,6 @@
       self.isDesktopMode          = false;
       self.isTabletMode           = false;
       self.accelerationPos        = 0;
-
 
 
       //Startup
@@ -145,8 +147,9 @@
         self.setupLinkClicks();
 
         //Initialize tooltips
-        self.initTooltips();
-
+        if(!self.hasTouch){
+          self.initTooltips();
+        }
 
         var prodImg = self.$galleryItems.filter('.normal').find('.product-img');
 
@@ -237,20 +240,20 @@
         var self = this;
 
         if(Modernizr.touch) {
-            self.hasTouch         = true;
-            self.downEvent        = 'touchstart.rp';
-            self.moveEvent        = 'touchmove.rp';
-            self.upEvent          = 'touchend.rp';
-            self.cancelEvent      = 'touchcancel.rp';
+          self.hasTouch         = true;
+          self.downEvent        = 'touchstart.rp';
+          self.moveEvent        = 'touchmove.rp';
+          self.upEvent          = 'touchend.rp';
+          self.cancelEvent      = 'touchcancel.rp';
             self.lastItemFriction = 0.5;
         } else {
-            self.hasTouch = false;
-            self.lastItemFriction = 0.2;
-            self.downEvent   = 'mousedown.rp';
-            self.moveEvent   = 'mousemove.rp';
-            self.upEvent     = 'mouseup.rp';
-            self.cancelEvent = 'mouseup.rp';
-            self.clickEvent  = 'click.rp';
+          self.hasTouch = false;
+          self.lastItemFriction = 0.2;
+          self.downEvent   = 'mousedown.rp';
+          self.moveEvent   = 'mousemove.rp';
+          self.upEvent     = 'mouseup.rp';
+          self.cancelEvent = 'mouseup.rp';
+          self.clickEvent  = 'click.rp';
         }
       },
 
@@ -300,42 +303,58 @@
         return '[ object RelatedProducts ]';
       },
 
-      onFavorite : function( evt ) {
+
+      initTooltips : function($favorites) {
+        var self = this;
+
+        $favorites = $favorites || self.$favorites;
+
+        // Favorite the gallery item immediately on touch devices
+        if ( self.hasTouch ) {
+          $favorites.on('touchend', $.proxy( self.onFavorite, self ));
+
+        // Show a tooltip on hover before favoriting on desktop devices
+        } else {
+          $favorites.on('click', $.proxy( self.onFavorite, self ));
+
+          $favorites.tooltip({
+            placement: 'offsettop',
+            title: function() {
+              var $jsFavorite = $(this);
+              return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
+            },
+            template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+          });
+        }
+
+        // Update our favorites
+        self.$favorites = self.$galleryItems.find('.js-favorite');
+      },
+
+      onFavorite : function( e ) {
         var self = this,
-            $jsFavorite = $(evt.delegateTarget),
+            $jsFavorite = $(e.delegateTarget),
             isAdding = !$jsFavorite.hasClass('active'),
-            content = self.getFavoriteContent( $jsFavorite, isAdding );
+            content = self.hasTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding );
+
         $jsFavorite.toggleClass('active');
 
-        $('.gallery-tooltip .tooltip-inner')
-          .html( content )
-          .tooltip('show');
+        // Show the tooltip if it isn't a touch device
+        if ( !self.hasTouch ) {
+          $('.gallery-tooltip .tooltip-inner')
+            .html( content )
+            .tooltip('show');
+        }
 
         // Stop event from bubbling to <a> tag
-        evt.preventDefault();
-        evt.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
       },
 
       getFavoriteContent : function( $jsFavorite, isActive ) {
         return isActive ?
               $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' :
               $jsFavorite.data('defaultTitle');
-      },
-
-      initTooltips : function() {
-        var self = this;
-
-        // Favorite Heart
-        self.$favorites.on('click', $.proxy( self.onFavorite, self ));
-
-        self.$container.find('.js-favorite').tooltip({
-          placement: 'offsettop',
-          title: function() {
-            var $jsFavorite = $(this);
-            return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
-          },
-          template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-        });
       },
 
       //These functions are used by the jquery.shuffle plugin
@@ -717,8 +736,6 @@
 
         self.$pagination = $('<div/>', { 'class' : 'navigation-container'  });
 
-
-
         self.$el.append( self.$pagination );
 
         self.$pagination.sonyNavDots({
@@ -730,10 +747,22 @@
           self.moveTo();
         });
 
-        self.ev.on( 'rpOnUpdateNav', $.debounce(500, function() {
+        self.ev.on( 'rpOnUpdateNav', $.debounce(250, function() {
           self.$pagination.sonyNavDots('reset', {
             'activeButton': self.currentId
           });
+
+
+          if( self.$html.hasClass('lt-ie9') ){
+            var height = 0;
+            self.$pagination.css('display' , 'none');
+            height = self.$pagination.get(0).offsetHeight;
+            self.$pagination.css('display' , 'block');
+            
+          }
+
+
+
         }));
 
        
@@ -1291,6 +1320,7 @@
         self.horDir             = 0;
         self.verDir             = 0;
         self.currRenderPosition = self.sPosition;
+
         self.startTime = self.startInteractionTime = new Date().getTime();
         self.startInteractionPointX = point.pageX;
         self.handleStartPosition = self.getPagePosition(e);
@@ -1384,7 +1414,7 @@
         blockLink;
 
         self.renderMoveEvent = null;
-        self.isDragging      = false;
+        //self.isDragging      = false;
         self.lockAxis        = false;
         self.checkedAxis     = false;
         self.renderMoveTime  = 0;
@@ -1507,6 +1537,8 @@
           (function animloop(){
             if(self.isDragging) {
               self.animFrame = window.requestAnimationFrame(animloop);
+
+              console.log('stuck rendering');
               if(self.renderMoveEvent){
 
                 self.renderMovement(self.renderMoveEvent, isThumbs);
@@ -1515,7 +1547,7 @@
           })();
         }
 
-
+        //fix for vertical scrolling
         if ( Math.abs(distY) > self.dragThreshold ) {
           self.hasPassedThreshold = true;
           return;
@@ -1639,9 +1671,6 @@
         if( widthDifference > 0 && !self.isIE7orIE8 ){
           newPos += Math.ceil( widthDifference );
         }
-
-        
-        
 
         //jQuery animation fallback
         if( !self.useCSS3Transitions ) {

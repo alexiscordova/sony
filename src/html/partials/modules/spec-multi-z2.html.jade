@@ -16,18 +16,18 @@ include ../includes/jade-helpers.jade
       h1.t2.spec-title= data.title
 
     .grid
-      ul.spec-views.inline
+      ul.jump-links.inline
         each link, i in data.internalLinks
           - clss = i ? '' : 'active'
           li(class=clss)
             a.lt3.no-hover-transition(href=link.href)= link.label
 
-  .spec-sticky-nav
+  .sticky-nav.spec-sticky-nav
     .container
       .grid
         .js-sticky-nav-content.clearfix.relative
           h2.t6.sticky-nav-title= data.title
-          ul.spec-views.inline.nav
+          ul.jump-links.inline.nav
             each link, i in data.internalLinks
               - clss = i ? '' : 'active'
               li(class=clss)
