@@ -115,8 +115,10 @@ if (!$('html').hasClass('bp-nav-mobile')){
 
     initTouchToggles: <span class="keyword">function</span>( $touchToggles ) {
       $touchToggles.each(<span class="keyword">function</span>(){
-        $(<span class="keyword">this</span>).on(<span class="string">'touchstart click'</span>,<span class="keyword">function</span>(){
-          $(<span class="keyword">this</span>).toggleClass(<span class="string">'active'</span>);
+        $(<span class="keyword">this</span>).on(<span class="string">'click'</span>,<span class="keyword">function</span>(e){
+          e.preventDefault();
+          e.stopPropagation();
+          $(<span class="keyword">this</span>).parent().toggleClass(<span class="string">'active'</span>);
         });
       });
     }
@@ -195,7 +197,7 @@ $(<span class="keyword">function</span>() {
    $formActions.initInput($(<span class="string">'#store-locator-search-input'</span>));
    $formActions.initInput($(<span class="string">'#nav-search-input'</span>));
 
-   $formActions.initTouchToggles($(<span class="string">'.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'</span>));
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>$formActions.initTouchToggles($('.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'));</p>             </td>             <td class="code">               <div class="highlight"><pre>   $formActions.initTouchToggles($(<span class="string">'.dropdown-hover-toggle'</span>));
 });
 
 
