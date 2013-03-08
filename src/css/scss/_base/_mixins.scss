@@ -737,9 +737,9 @@ $default-transition-delay    : 0s;
   }
 	opacity:1;
   @if ($animateOpacity) {
- 		@include transition(opacity $transitionFast linear 0.4s, $leftOrRight 0s linear 0s);
+ 		@include transition(opacity $transitionFast linear 0s, $leftOrRight 0s linear 0s);
  	} @else {
- 		@include transition(opacity 0s linear 0.4s, $leftOrRight 0s linear 0s);
+ 		@include transition(opacity 0s linear 0s, $leftOrRight 0s linear 0s);
  	}
 }
 @mixin hideshow-navmenu-hide($leftOrRight:left, $animateOpacity:true){

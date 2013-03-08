@@ -5,6 +5,10 @@
 - layout4 = [ "large", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
 - layouts = { "layout1": layout1, "layout2" : layout2, "layout3" : layout3, "layout4": layout4 }
 
+mixin loaderDiv()
+  .loading.gallery-loader.text-center
+    img(src="img/global/loader.gif", alt="Loading...")
+
 mixin filterColor( filterSet )
   ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
     each filter in filterSet.filters
@@ -103,10 +107,10 @@ mixin featuredGallery( submodules, gallery, type )
   gallery = gallery || data.featured
   type = type || 'product'
   i = 0
-  section.gallery.container.fade((id=gallery.name + '-gallery', data-mode=gallery.mode)
+  section.gallery.fade.container((id=gallery.name + '-gallery', data-mode=gallery.mode)
     .grid
       h2.t6.featured-gallery-title= gallery.title
-    .products.slimgrid.m-grid-at-567
+    .products.slimgrid5.shuffle-5.m-grid-at-567
       each module in submodules
         d = locals.data(module.data)
         if d.featured && d.type == type
@@ -125,7 +129,7 @@ mixin detailedGallery( submodules, gallery, type )
   submodules = submodules || data.submodules
   gallery = gallery || data.productCards
   type = type || 'product'
-  section.gallery(id=gallery.name + '-gallery', data-mode=gallery.mode)
+  section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
     .container.filter-display-bar.slide-toggle-parent
       if gallery.sortSet
         .grid.no-grid-at-767

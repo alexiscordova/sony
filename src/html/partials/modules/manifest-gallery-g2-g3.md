@@ -113,6 +113,10 @@ Each module should contain atleast one example JSON file. Additional JSON files 
 * camera-overflow.json
 	*../../data/gallery-g2-g3/camera-overflow.json
 
+The `gallery-g3-accessories.html.jade` uses a different (but similar) json file.
+
+* gallery-g3-accessories.json
+	*../../data/gallery-g2-g3/gallery-g3-accessories.json
 
 
 

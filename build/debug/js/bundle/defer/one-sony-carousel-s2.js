@@ -43,7 +43,9 @@
       self.createPaddles();
       self.setupLinkClicks();
 
-      self.$innerContainer.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.450, 0.735, 0.445, 0.895)');
+      if ( self.useCSS3 ) {
+        self.$innerContainer.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.450, 0.735, 0.445, 0.895)');
+      }
 
       self.$innerContainer.sonyDraggable({
         'axis': 'x',
@@ -284,6 +286,15 @@
         self.$dotnav.sonyNavDots('reset', {
           'activeButton': which
         });
+
+        if( $('html').hasClass('lt-ie9') ){
+          var height = 0;
+          self.$dotnav.css('display' , 'none');
+          height = self.$dotnav.get(0).offsetHeight;
+          self.$dotnav.css('display' , 'block');
+        }
+
+
       });
     },
 

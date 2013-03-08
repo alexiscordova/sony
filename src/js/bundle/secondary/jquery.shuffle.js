@@ -568,7 +568,7 @@
                 // Layout the items with only a position
                 self._reLayout( false, true );
                 // Change the transition-delay value accordingly
-                self._setSequentialDelay( self.itemsOrderedByDelay );
+                self._setSequentialDelay( self.itemsOrderedByDelay || self.$items.get() );
                 self.fire('done');
                 self.$items.css('opacity', 1);
             } else {
@@ -993,6 +993,7 @@
         },
         revealAppendedDelay: 300,
         enabled: true,
+        destroyed: false,
         styleQueue: [],
         supported: Modernizr.csstransforms && Modernizr.csstransitions, // supports transitions and transforms
         prefixed: Modernizr.prefixed,

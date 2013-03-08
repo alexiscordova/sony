@@ -76,6 +76,17 @@
 // Gallery
 // -------------------------
 
+.loading.gallery-loader {
+  position: relative;
+
+  img {
+    position: absolute;
+    left: 50%;
+    margin-left: -30px; // 60x60 gif
+    top: 50px;
+  }
+}
+
 .gallery-content {
   margin-top: 1.5em;
   padding-bottom: 4.375em;
@@ -99,6 +110,17 @@
 
 .gallery .products {
   overflow: hidden;
+}
+
+// filter: alpha(0) not working on elements inside shuffle...
+.lt-ie9 .gallery.fade {
+  position: relative;
+  left: -9999px;
+
+  &.in {
+    position: static;
+    left: auto;
+  }
 }
 
 .featured-gallery-title {
