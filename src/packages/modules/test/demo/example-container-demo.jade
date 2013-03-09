@@ -1,0 +1,14 @@
+mixin partial(m, d)
+  e = {locals:locals, data:data('packages/modules/' + d)}
+  !{partial('packages/modules/' + m, e)}
+doctype 5
+include ../../../common/html/ieconditionals.html
+
+head
+  include ../../../common/html/head.jade
+
+body
+  +partial('test/html/example-container.jade', 'test/demo/data/container.json')
+
+  include ../../../common/html/foot.jade
+</html>

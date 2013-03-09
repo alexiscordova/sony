@@ -1,0 +1,269 @@
+// ------------------------------------------------------------------------------------
+// UP TO LANDSCAPE PHONE
+// ------------------------------------------------------------------------------------
+// 8888888888  .d8888b.  8888888888                          .d8888b.                                  888
+//       d88P d88P  Y88b       d88P                         d88P  "88b                                 888
+//      d88P  888             d88P                          Y88b. d88P                                 888
+//     d88P   888d888b.      d88P   88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888
+//  88888888  888P "Y88b  88888888  888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"
+//   d88P     888    888   d88P     888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888
+//  d88P      Y88b  d88P  d88P      888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888
+// d88P        "Y8888P"  d88P       88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888
+//                                  888
+//                                  888
+//                                  888
+// ------------------------------------------------------------------------------------
+
+// mobile 6col grid
+@media (max-width: px-em(767px)) {
+
+  // these need to be the same for all grids, so everything lines up regardless of what grid is used.
+  .container {
+    width: $mobileContainerWidth480;
+  }
+  .grid,
+  .slimgrid,
+  .slimgrid5, .grid5 {
+    width: $mobileGridWidth480;
+  }
+
+  @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid");
+  @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid-at-767");
+  @include no-grid(".no-grid-at-767");
+
+  .container.full-bleed-at-767,
+  .grid.full-bleed-at-767,
+  .container.m-full-bleed,
+  .grid.m-full-bleed{
+    width:auto;
+  }
+
+
+  // --------------------------------------
+  // TITLES (headers)
+  // --------------------------------------
+  //
+  .t1, .t1-light, h1{
+    @include px-em--font-size--line-height(30,34);
+  }
+  .t2, .t2-light, h2{
+    @include px-em--font-size--line-height(30,34);
+    margin-bottom: 14px;
+  }
+  .t3, .t3-light, h3{
+    @include px-em--font-size--line-height(22,28);
+    margin-bottom: 12px;
+  }
+  // disabling styles that don't change from the 979 breakpoint.
+  // .t4, .t4-light, h4{
+  //   @include px-em--font-size--line-height(22,28);
+  //   margin-bottom: 12px;
+  // }
+  // .t5, .t5-light, h5{
+  //   @include px-em--font-size--line-height(15,18);
+  //   margin-bottom: 8px;
+  // }
+  // .t6, .t6-light, h6{
+  //   @include px-em--font-size--line-height(15,22);
+  //   margin-bottom: 8px;
+  // }
+  // .t7, .t7-light{
+  //   @include px-em--font-size--line-height(13,18);
+  //   margin-bottom: 4px;
+  // }
+
+
+  // ------------------------------------
+  // Labels Text Styles
+  // ------------------------------------
+  .l2, .l2-light{
+    @include px-em--font-size--line-height(11,16);
+    margin-bottom:6px;
+  }
+  .l3, .l3-light{
+    @include px-em--font-size--line-height(10,15);
+    margin-bottom:6px;
+  }
+
+
+  // ------------------------------------
+  // Paragraphs & LinkText
+  // ------------------------------------
+
+  // .p1, .lt1 {
+  //   @include px-em--font-size--line-height(13,20);
+  // }
+  .p2, .lt2, p {
+    @include px-em--font-size--line-height(15,22);
+  }
+  .p3, .lt3, .lt3-alt {
+    @include px-em--font-size--line-height(13,20);
+  }
+  .p4, .lt4 {
+    @include px-em--font-size--line-height(12,18);
+  }
+  .p5, .lt5 {
+    @include px-em--font-size--line-height(9,12);
+  }
+  .p1, .p2, .p3 { margin-bottom: 12px; }
+  .p4 { margin-bottom: 8px; }
+  .p1.lt, .lt1 { margin-bottom: 4px; }
+  .p3.lt, .lt3, .lt3-alt, .p3.lt-alt { margin-bottom: 2px; }
+
+
+// ------------------------------------
+// Block Quotes
+// ------------------------------------
+
+.bq1 p{
+  @include px-em--font-size--line-height(24,28);
+  &:first-child { text-indent:-9px; }
+}
+
+
+  // ----------------------------------------------------------------------------
+  // I think some of this was bootstrap, some is custom, but it was commented out.
+  // If you need it, please uncomment it, and decide if it should be here (767 & below)
+  // or if it should be in _responsive-567px-max.scss
+  // ----------------------------------------------------------------------------
+
+  // // Smooth out the collapsing/expanding nav
+  // .nav-collapse {
+  //   -webkit-transform: translate3d(0, 0, 0); // activate the GPU
+  // }
+
+  // // Block level the page header small tag for readability
+  // .page-header h1 small {
+  //   display: block;
+  //   line-height: $baseLineHeight;
+  // }
+
+
+  // // Remove the horizontal form styles
+  // .form-horizontal {
+  //   .control-label {
+  //     float: none;
+  //     width: auto;
+  //     padding-top: 0;
+  //     text-align: left;
+  //   }
+  //   // Move over all input controls and content
+  //   .controls {
+  //     margin-left: 0;
+  //   }
+  //   // Move the options list down to align with labels
+  //   .control-list {
+  //     padding-top: 0; // has to be padding because margin collaspes
+  //   }
+  //   // Move over buttons in .form-actions to align with .controls
+  //   .form-actions {
+  //     padding-left: 10px;
+  //     padding-right: 10px;
+  //   }
+  // }
+
+  // Modals
+  .modal {
+    height: auto;
+    margin: auto;
+
+    &.fade.in {
+      top: 60px;
+    }
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: 1em;
+  }
+
+  .takeover {
+    top: 0;
+    left: auto;
+    right: auto;
+
+    &.fade.in {
+      top: 0;
+    }
+  }
+
+  .modal-header .close {
+    padding: 10px;
+    margin: -10px;
+  }
+
+  .takeover .modal-header {
+    padding: 30px 0 20px;
+  }
+
+  .takeover .modal-subheader {
+    padding-top: 20px;
+  }
+
+  .takeover .modal-header .box-close {
+    top: 15px;
+  }
+
+  // // Carousel
+  // .carousel-caption {
+  //   position: static;
+  // }
+
+// Button Sizes
+// --------------------------------------------------
+  .btn{
+     padding: 11px 20px 12px;
+     font-size: px-em(12);
+  }
+  .btn-large{
+    padding: 12px 24px 14px;
+    font-size: px-em(13);
+  }
+  .btn-small{
+    padding: 8px 12px 10px;
+    font-size: px-em(11);
+  }
+  .btn-mini{
+    padding: 8px 10px 9px;
+    font-size: px-em(10);
+  }
+  .btn-square {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .btn-alt-special.btn-alt-plus i {
+    margin-top: 0;
+  }
+
+  .pagination-paddles {
+
+    button {
+      width: px-em(42px);
+      height: px-em(64px);
+      margin-top: px-em(64px) / -2;
+
+      &.pagination-next {
+        right: 3%;
+        margin-right: px-em(42px) / -2;
+      }
+
+      &.pagination-prev {
+        left: 3%;
+        margin-left: px-em(42px) / -2;
+      }
+    }
+  }
+
+  .csstransforms .slide-toggle-arrow {
+    left: 25%;
+  }
+
+  .csstransforms .slide-arrow-over .slide-toggle-arrow {
+    left: 25%;
+    left: -webkit-calc(25% - 2px);
+    left: calc(25% - 2px);
+  }
+
+}
+

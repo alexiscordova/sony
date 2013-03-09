@@ -1,0 +1,237 @@
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
+
+// BULLET STYLES FOR PAGINATION
+$bulletSize: px-em(12px);
+$bulletMargin: px-em(5px);
+
+.pagination-bullets {
+  position: absolute;
+  z-index: 35;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 1;
+  opacity: 0;
+  @include transition(opacity $transitionNormal);
+
+  &.pagination-bullets-on,
+  &.on {
+    opacity: 1;
+  }
+
+  .pagination-bullet {
+    display: inline-block;
+    margin-left: $bulletMargin;
+    color: $gray50;
+    cursor: pointer;
+    font-size: $bulletSize;
+    @include transition();
+
+    &:first-child {
+        margin-left: 0;
+    }
+  }
+
+  .pagination-bullet:hover,
+  .bullet-selected {
+    color: $gray20;
+  }
+}
+
+.pagination-paddles {
+  @include transition();
+  @include opacity(0);
+  height: 0;
+
+  &.show-paddles {
+    @include opacity(100);
+  }
+
+  button {
+    @include transition();
+    position: absolute;
+    top: 50%;
+    width: px-em(48px);
+    height: px-em(76px);
+    display: block;
+    margin-top: px-em(76px) / -2;
+    padding: 0;
+    border: none;
+    background-color: $gray60;
+    background-color: rgba($gray10, .4);
+    border-radius: .1875em;
+    @include opacity(0);
+
+    &.on {
+      @include opacity(100);
+    }
+
+    &.pagination-next {
+      right: 3.55%;
+      margin-right: px-em(48px) / -2;
+    }
+
+    &.pagination-prev {
+      left: 3.55%;
+      margin-left: px-em(48px) / -2;
+    }
+
+    .lt-ie9 & {
+      zoom: 1;
+    }
+
+    .touch & {
+      display: none;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $gray20;
+      background-color: rgba($gray10, .8);
+      outline: none;
+      cursor: pointer;
+    }
+
+    i {
+      vertical-align: middle;
+      color: $white;
+      font-size: $font_15_16;
+      margin-left: .0625em;
+      margin-top: -0.125em;
+    }
+
+    i.fonticon-10-chevron-reverse {
+      margin-left: 0;
+      margin-right: 0.0625em;
+    }
+  }
+
+  // If there's a paddle-trigger, fade in the paddles when it's hovered over.
+  // DONT use filter for IE
+  .paddle-trigger button {
+    opacity: 0;
+  }
+
+  .paddle-trigger:hover button,
+  .paddle-trigger button:focus {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Stuff below this line should be deleted once we implement the global paddles.
+
+.nav-paddle {
+  display: block;
+  border: none;
+  background-color: $gray60;
+  background-color: rgba($gray10, .4);
+  border-radius: .1875em; // 3 pixels
+  width: $navPaddleWidth;
+  height: $navPaddleHeight;
+  padding: 0; // override default button padding
+  @include transition();
+
+  .lt-ie9 & {
+    zoom: 1;
+  }
+
+  .touch & {
+    display: none;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $gray20;
+    background-color: rgba($gray10, .8);
+    outline: none;
+    cursor: pointer;
+  }
+
+  i {
+    vertical-align: middle;
+    color: $white;
+    font-size: $font_15_16;
+    margin-left: .0625em;
+    margin-top: -0.125em;
+  }
+
+  i.fonticon-10-chevron-reverse {
+    margin-left: 0;
+    margin-right: 0.0625em;
+  }
+}
+
+// If there's a paddle-trigger, fade in the paddles when it's hovered over.
+// DONT use filter for IE
+.paddle-trigger .nav-paddle {
+  opacity: 0;
+}
+
+
+.paddle-trigger:hover .nav-paddle,
+.paddle-trigger .nav-paddle:focus {
+  opacity: 1;
+}
+
+//     ____  ___    ____  ____  __    ______   _   _____ _    __
+//    / __ \/   |  / __ \/ __ \/ /   / ____/  / | / /   | |  / /
+//   / /_/ / /| | / / / / / / / /   / __/    /  |/ / /| | | / /
+//  / ____/ ___ |/ /_/ / /_/ / /___/ /___   / /|  / ___ | |/ /
+// /_/   /_/  |_/_____/_____/_____/_____/  /_/ |_/_/  |_|___/
+
+.rp-nav .paddle,
+.nav-paddle-large {
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 50px;
+  height: 86px;
+  margin: -100px 0;
+  border-radius: 2px;
+  color: $white;
+  font-size: 1.4em;
+  background-color: $gray60;
+  background-color: rgba($gray10, .4);
+  @include transition($transitionSlow ease-in);
+  cursor: pointer;
+
+  &:hover {
+    background-color: $gray20;
+    background-color: rgba($gray10, .8);
+  }
+
+  i {
+    width: 15px;
+    height: 15px;
+    margin-top: 33px;
+    @include center-block();
+  }
+
+  &.left {
+    left: 10px;
+  }
+
+  &.right {
+    right: 10px;
+  }
+}
+

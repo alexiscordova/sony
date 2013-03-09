@@ -1,0 +1,466 @@
+//
+// Buttons
+// --------------------------------------------------
+
+
+// Base styles
+// --------------------------------------------------
+
+// Core
+.btn {
+  display: inline-block;
+  @include ie7-inline-block();
+  @include border-radius(1px);
+  padding: 11px 24px 13px;
+  margin-bottom: 0; // For input.btn
+
+  font-family: $sansFontFamily;
+  font-size: px-em(13px); // most buttons are not inside a <p> or <td> -- so context is 16px.
+  p & ,
+  td & {
+    font-size: px-em(13px, 15px); // context changes if it's inside a <p> or <td>
+  }
+  // letter-spacing: -0.065em;
+
+  line-height: inherit;
+  *line-height: inherit;
+  text-align: center;
+  vertical-align: middle;
+  color: $btnText;
+  cursor: pointer;
+  background: $btnBackground;
+  border: none;
+  *border: 0; // Remove the border to prevent IE7's black border on input:focus
+
+  &:hover, &:active, &:focus, &.active{
+    color: $btnText;
+    text-decoration: none;
+  }
+  &:hover {
+    background-color: $btnBackgroundHover;
+  }
+  &:focus {
+    background: $btnBackgroundActive;
+    @include tab-focus();
+  }
+  &.active,
+  &:active {
+    background: $btnBackgroundActive;
+  }
+
+  // Disabled state
+  &.disabled,
+  &[disabled] {
+    cursor: default;
+    @include opacity(65);
+  }
+  &.disabled:hover,
+  &[disabled]:hover {
+    background: $btnBackground;
+  }
+}
+
+
+
+
+
+// Alternate button styles
+// --------------------------------------------------
+
+.btn-special {
+  padding: 15px 24px 14px;
+  font-family: $sansFontFamilyMedium;
+  font-size: px-em(15);
+  p & ,
+  td & {
+    font-size: px-em(15px, 15px); // context changes if it's inside a <p> or <td>
+  }
+  background: $btnSpecialBackground;
+
+  &:hover {
+    background: $btnSpecialBackgroundHover;
+  }
+  &.active,
+  &:active {
+    background: $btnSpecialBackgroundActive;
+  }
+  &.disabled:hover,
+  &[disabled]:hover {
+    background: $btnSpecialBackground;
+  }
+}
+
+// An almost square button. Used in gallery filters
+// ---------------------
+.btn-square {
+  position: relative;
+  @include size( 58px, 65px );
+  padding: 16px 0 16px;
+  border-radius: 0;
+  border: 1px solid transparent;
+  border-color: rgba($gray60, 0);
+  background: $white;
+  color: $defaultTextColor;
+  @include box-shadow(0 1px 0 $gray60);
+  @include transition(box-shadow $transitionFast $easeNormal, color $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
+
+  // .t6 and .t6-light
+  // --------------
+  @include fontRegular;
+  @include px-em--font-size--line-height(18,26);
+  // --------------
+
+  &:after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    @include transition(opacity $transitionFast $easeNormal);
+    font-size: 16px;
+  }
+
+  .no-opacity &:after {
+    display: none;
+  }
+
+  &:hover,
+  &:focus {
+    @include box-shadow(none);
+    color: $gray20;
+    background: $gray90;
+  }
+
+  &.active,
+  &:active {
+    color: $white;
+    background: $gray25;
+  }
+
+  &.active:after {
+    opacity: 1;
+  }
+
+  .no-opacity &.active:after {
+    display: inline-block;
+  }
+
+  &.disabled,
+  &[disabled],
+  &.disabled:hover,
+  &[disabled]:hover {
+    color: inherit;
+    border-color: $gray20;
+    border-color: rgba($gray20, .15);
+    background-color: inherit;
+    @include box-shadow(none);
+  }
+
+  // SHOULD BE GLOBAL OR MOVED TO FONTICONS
+  // .fonticon-20 need to be resized...
+  i {
+    line-height: 0;
+    margin: -.125em; // -3px ( 3 / 24 )
+  }
+}
+
+// Secondary
+// -------------------------
+.btn-secondary {
+  background: $btnSecondaryBackground;
+
+  &:hover {
+    background: $btnSecondaryBackgroundHover;
+  }
+  &.active,
+  &:active {
+    background: $btnSecondaryBackgroundActive;
+  }
+  &.disabled:hover,
+  &[disabled]:hover {
+    background: $btnSecondaryBackground;
+  }
+}
+
+// Alt
+// -------------------------
+.btn-alt {
+  padding: 11px 24px 10px;
+  font-family: $sansFontFamilyMedium;
+  background: $btnAltBackground;
+
+  &:hover {
+    background: $btnAltBackgroundHover;
+  }
+  &.active,
+  &:active {
+    background: $btnAltBackgroundActive;
+  }
+  &.disabled:hover,
+  &[disabled]:hover {
+    background: $btnAltBackground;
+  }
+}
+
+// Promo
+// -------------------------
+// .btn-promo {
+//   position: relative;
+//   width: 289px;
+//   padding: 21px 0 32px 35px;
+
+//   background: $btnPromoBackground;
+//   color: $gray;
+
+//   text-align: left;
+//   font-size: px-em(25px); /* 25px/15px */
+//   p & ,
+//   td & {
+//     font-size: px-em(25px, 15px); // context changes if it's inside a <p> or <td>
+//   }
+//   line-height: $baseLineHeight * 0.8;
+//   font-family: $sansFontFamilyLight;
+//   strong{
+//     font-family: $sansFontFamily;
+//     color: $white;
+//   }
+//   &:hover {
+//     background: $btnPromoBackgroundHover;
+//     color: $gray;
+//   }
+//   &.active,
+//   &:active {
+//     background: $btnPromoBackgroundActive;
+//   }
+//   &.disabled:hover,
+//   &[disabled]:hover {
+//     background: $btnPromoBackground;
+//   }
+//   // .icon-ui-arrow-right-white-boxed{
+//   //   @include border-radius(1px);
+//   //   background-color: rgb(51,57,74);
+//   //   background-color: rgba(167,197,255,0.13);
+//   //   position: absolute;
+//   //   top: 0px;
+//   //   right: 0px;
+//   //   margin: 0;
+//   // }
+// }
+
+// .btn-icon-ui-left i {
+//   margin-right: 8px;
+//   vertical-align:0.2em;
+// }
+
+// Text that shouldn't wrap
+.btn-wide {
+  width: auto;
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+
+
+
+// Button Sizes
+// --------------------------------------------------
+
+// Large
+.btn-large {
+  padding: 11px 28px 13px;
+  font-size: px-em(15);
+  p & ,
+  td & {
+    font-size: px-em(15px, 15px); // context changes if it's inside a <p> or <td>
+  }
+  line-height: $baseLineHeight * 1.1;
+  &.btn-special{
+    padding: 15px 28px 17px;
+  }
+}
+.btn-large [class^="icon-"] {
+  margin-top: 2px;
+}
+
+
+// Small
+.btn-small {
+  padding: 10px 18px 12px;
+  font-size: px-em(12);
+  p & ,
+  td & {
+    font-size: px-em(12px, 15px); // context changes if it's inside a <p> or <td>
+  }
+  line-height: $baseLineHeight * 0.75;
+  &.btn-special{
+    padding: 14px 18px 16px;
+  }
+}
+.btn-small [class^="icon-"] {
+  margin-top: 0px;
+}
+
+
+// Mini
+.btn-mini {
+  padding: 9px 14px 11px;
+  font-size: px-em(11);
+  p & ,
+  td & {
+    font-size: px-em(11px, 15px); // context changes if it's inside a <p> or <td>
+  }
+  line-height: $baseLineHeight * 0.6;
+  &.btn-special{
+    padding: 13px 14px 15px;
+  }
+}
+
+
+
+// Block button
+// -------------------------
+
+.btn-block {
+  display: block;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  @include box-sizing(border-box);
+}
+
+// Vertically space out multiple block buttons
+.btn-block + .btn-block {
+  margin-top: 5px;
+}
+
+// Specificity overrides
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  &.btn-block {
+    width: 100%;
+  }
+}
+
+
+// This is after the button sizes because they have set paddings...
+
+// Alt Special; dark, left aligned, room for icon
+// -------------------------
+.btn-alt-special {
+  position: relative;
+  padding-left: $btnAltSpecialPadding;
+  padding-right: $btnAltSpecialPadding;
+  text-align: left;
+  // font-size: $font_13_16;
+  background: $btnAltBackground;
+  min-width: 131px;
+
+  &:hover,
+  &:focus {
+    background: $gray;
+  }
+
+  &:active {
+    background: $gray;
+  }
+
+  &.btn-alt-plus i {
+    float: right;
+
+    // SHOULD BE GLOBAL
+    margin-left: 10px;
+    // font-size: px-em( 16px, 13px );
+    margin-top: 2px;
+    font-size: 16px;
+  }
+}
+
+.btn-reset {
+  position: relative;
+  min-width: 110px;
+  max-width: 110px;
+
+  &,
+  &.active {
+    background-color: $btnSpecialBackground;
+  }
+
+  &:hover {
+    background-color: $btnSpecialBackground;
+  }
+
+  &.disabled,
+  &.disabled:hover {
+    @include opacity(100);
+    color: $gray50;
+    background-color: $gray60;
+  }
+
+  i {
+    position: absolute;
+    top: 9px;
+    right: 24px;
+
+    // reset the font-size to 16px for a .btn-small
+    font-size: px-em(16, 12);
+  }
+}
+
+
+// Cross-browser Jank
+// --------------------------------------------------
+
+button.btn,
+input[type="submit"].btn {
+
+  // Firefox 3.6 only I believe
+  &::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+  }
+
+  // IE7 has some default padding on button controls
+  *padding-top: 3px;
+  *padding-bottom: 3px;
+
+  &.btn-large {
+    *padding-top: 7px;
+    *padding-bottom: 7px;
+  }
+  &.btn-small {
+    *padding-top: 3px;
+    *padding-bottom: 3px;
+  }
+  &.btn-mini {
+    *padding-top: 1px;
+    *padding-bottom: 1px;
+  }
+}
+
+
+// Link buttons
+// --------------------------------------------------
+
+// Make a button look and behave like a link
+.btn-link,
+.btn-link:active,
+.btn-link[disabled] {
+  background-color: transparent;
+  background-image: none;
+  @include box-shadow(none);
+}
+.btn-link {
+  border-color: transparent;
+  cursor: pointer;
+  color: $linkColor;
+  @include border-radius(0);
+}
+.btn-link:hover {
+  color: $linkColorHover;
+  text-decoration: underline;
+  background-color: transparent;
+}
+.btn-link[disabled]:hover {
+  color: $grayDark;
+  text-decoration: none;
+}

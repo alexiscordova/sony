@@ -1,0 +1,69 @@
+//
+// Close icons
+// --------------------------------------------------
+
+
+.close {
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: $baseLineHeight;
+  color: $black;
+  text-shadow: 0 1px 0 rgba(255,255,255,1);
+  @include opacity(20);
+  &:hover {
+    color: $black;
+    text-decoration: none;
+    cursor: pointer;
+    @include opacity(40);
+  }
+}
+
+// Additional properties for button version
+// iOS requires the button element instead of an anchor tag.
+// If you want the anchor version, it requires `href="#"`.
+button.close {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+}
+
+
+// Used in gallery and spec pages
+.box-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  @include size( px-em(40px), px-em(43px) );
+  padding: 0;
+  line-height: 1;
+  background: $gray40;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  @include transition();
+
+  &:hover {
+    background: $gray20;
+  }
+
+  i {
+    color: $white;
+    // vertical-align: baseline;
+  }
+
+}
+
+// Used in gallery compare tool
+.box-close-small {
+  @include square( px-em(23px) );
+  top: 0;
+
+  // We know the icon is 16x16, center it with line-height
+  i {
+    line-height: 16px;
+  }
+}

@@ -1,0 +1,108 @@
+//
+// Sprites
+// --------------------------------------------------
+
+
+// -----
+// All icons receive the styles of the %sprite base class and are
+// then given a unique class to add width, height, and
+// background-position. Your resulting HTML will look like
+// <i class="sprite-32a-sony-logo">
+
+
+%sprite {
+  display: inline-block;
+  @include ie7-restore-right-whitespace();
+  vertical-align: text-top;
+  background-repeat: no-repeat;
+  background-image: url($spritePath);
+}
+
+[class^="sprite-"],
+[class*=" sprite-"]{
+  @extend %sprite;
+}
+
+
+
+// ------------------------------------------
+// SPRITES
+// ------------------------------------------
+// 
+@include sprite-32a(sony-logo,          0,       90px,    31px);
+@include sprite-32a(sony-logo-short,    0,       90px,    16px);
+@include sprite-32a(sony-logo-sm,       -96px,   72px,    25px);
+@include sprite-32a(sony-logo-sm-short, -96px,   72px,    14px);
+
+
+
+
+// --------------------------------------------
+// FLAGS
+// ------------------------------------------
+
+[class^="sprite-flag"],
+[class*=" sprite-flag"] {
+  background-image: url($flagSpritePath);
+}
+[class^="sprite-flag-"],
+[class*=" sprite-flag-"]{
+  @include size(11px,14px);
+  margin-right:11px;
+  margin-top:4px;
+}
+[class^="sprite-flagBig-"],
+[class*=" sprite-flagBig-"]{
+  @include size(15px,22px);
+  margin-top: 2px;
+  margin-right: 10px;
+}
+
+@include sprite-flags-reg-and-big(uk,    -550px);
+@include sprite-flags-reg-and-big(us,    -572px);
+
+@include sprite-flags-reg-and-big(armenia,        0px);
+@include sprite-flags-reg-and-big(austria,        -22px);
+@include sprite-flags-reg-and-big(belgium,        -44px);
+@include sprite-flags-reg-and-big(bosnia,         -66px);
+@include sprite-flags-reg-and-big(bulgaria,       -88px);
+@include sprite-flags-reg-and-big(croatia,        -110px);
+@include sprite-flags-reg-and-big(cyprus,         -132px);
+@include sprite-flags-reg-and-big(czech,          -154px);
+@include sprite-flags-reg-and-big(denmark,        -176px);
+@include sprite-flags-reg-and-big(estonia,        -198px);
+@include sprite-flags-reg-and-big(finland,        -220px);
+@include sprite-flags-reg-and-big(france,         -242px);
+@include sprite-flags-reg-and-big(georgia,        -264px);
+@include sprite-flags-reg-and-big(germany,        -286px);
+@include sprite-flags-reg-and-big(greece,         -308px);
+@include sprite-flags-reg-and-big(hungary,        -330px);
+@include sprite-flags-reg-and-big(ireland,        -352px);
+@include sprite-flags-reg-and-big(italy,          -374px);
+@include sprite-flags-reg-and-big(kazakhstan,     -396px);
+@include sprite-flags-reg-and-big(kyrgyzstan,     -418px);
+@include sprite-flags-reg-and-big(latvia,         -440px);
+@include sprite-flags-reg-and-big(lithuania,      -462px);
+@include sprite-flags-reg-and-big(luxembourg,     -484px);
+@include sprite-flags-reg-and-big(macedonia,      -506px);
+@include sprite-flags-reg-and-big(moldova,        -528px);
+@include sprite-flags-reg-and-big(netherlands,    -550px);
+@include sprite-flags-reg-and-big(norway,         -572px);
+@include sprite-flags-reg-and-big(poland,         -594px);
+@include sprite-flags-reg-and-big(portugal,       -616px);
+@include sprite-flags-reg-and-big(romania,        -638px);
+@include sprite-flags-reg-and-big(russia,         -660px);
+@include sprite-flags-reg-and-big(serbia,         -682px);
+@include sprite-flags-reg-and-big(slovakia,       -704px);
+@include sprite-flags-reg-and-big(slovenia,       -726px);
+@include sprite-flags-reg-and-big(spain,          -748px);
+@include sprite-flags-reg-and-big(sweden,         -770px);
+@include sprite-flags-reg-and-big(switzerland,    -792px);
+@include sprite-flags-reg-and-big(tajikistan,     -814px);
+@include sprite-flags-reg-and-big(turkey,         -836px);
+@include sprite-flags-reg-and-big(turkmenistan,   -858px);
+@include sprite-flags-reg-and-big(ukranie,        -880px);
+@include sprite-flags-reg-and-big(unitedkingdom,  -902px);
+@include sprite-flags-reg-and-big(uzbekistan,     -924px);
+
+

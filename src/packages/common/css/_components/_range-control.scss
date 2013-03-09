@@ -1,0 +1,136 @@
+//
+// Range and slider controls
+// --------------------------------------------------
+
+$rangeControlSize: 14px;
+$handleShadowSize: 6px;
+$ambitActiveColor: $gray25;
+$ambitBackgroundColor: $gray50;
+$handleHighlightColor: $buttonOrange;
+.range-control {
+  position: relative;
+  width: inherit;
+  height: $rangeControlSize;
+  background: $ambitBackgroundColor;
+  border-radius: $rangeControlSize;
+  @include box-shadow(inset 0 0 1px rgba(0,0,0,0.3));
+
+  &.vertical {
+    width: $rangeControlSize;
+    height: 200px;
+  }
+
+  .ambit {
+    z-index: 3;
+    height: $rangeControlSize;
+    background: $ambitActiveColor;
+    border-radius: $rangeControlSize;
+  }
+
+  &.vertical .ambit {
+    width: $rangeControlSize;
+    height: auto;
+  }
+
+  .handle {
+    position: absolute;
+    top: 0;
+    z-index: 5;
+    margin-top: 0;
+    @include square($rangeControlSize);
+    border-radius: 50%;
+    background: $white;
+    @include box-shadow(0 0 0 $handleShadowSize $transparentBlack, 0 0 9px $innerGlow);
+    -webkit-transition: -webkit-transform $transitionFaster linear, box-shadow $transitionFaster linear;
+            transition: transform $transitionFaster linear, box-shadow $transitionFaster linear;
+
+    // Cursors
+    cursor: all-scroll;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+
+    // Give it a border if no transforms
+    .no-csstransforms & {
+      border: 2px solid $white;
+    }
+
+    &.grabbed,
+    &:hover {
+
+      .no-csstransforms & {
+        border-width: 12px;
+        margin-top: -6px;
+        margin-left: -14px;
+      }
+
+      .csstransforms & {
+        @include scale(1.7);
+        @include box-shadow(0 0 0 3px $transparentBlack);
+      }
+    }
+  }
+
+  .rangecontrol-min-handle {
+    left: 0%;
+    margin-left: -2px;
+  }
+  .rangecontrol-max-handle {
+    left: 100%;
+    margin-left: -$rangeControlSize + 2px;
+  }
+}
+
+// .ie .handle {
+//   cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer; /* you should probably localize the cur file */
+// }
+
+.grabbing .range-control .handle,
+.range-control .handle:active {
+  cursor: all-scroll;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
+}
+
+// .ie.grabbing .handle {
+//   cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), move; /* you should probably localize the cur file */
+// }
+
+
+// Range output
+// --------------------
+.range-output-container {
+  position: relative;
+  height: 25px;
+
+  sup {
+    top: -0.3em;
+    margin-right: 1px;
+  }
+}
+
+.range-output-min,
+.range-output-max {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  @include transition(color $transitionFast $easeNormal);
+}
+
+.range-output-min {
+  @include translate(4px, 0);
+}
+
+.range-output-max {
+  @include translate(-6px, 0);
+}
+
+.grabbing-min .range-output-min,
+.grabbing-max .range-output-max {
+  color: $handleHighlightColor;
+}
+
+
+
+

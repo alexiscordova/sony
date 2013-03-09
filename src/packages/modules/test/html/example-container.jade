@@ -1,0 +1,19 @@
+mixin type(tt)
+  for module in data.submodules
+    - d = locals.data('packages/modules/' +module.data)
+    if d.type == tt
+      e = {locals: locals, data: d}
+      li !{locals.partial('packages/modules/' +module.type , e)}
+
+.container-module
+  h1 Container Module
+  i = 0
+  h2 type a
+  ul
+    +type("a")
+    
+  h2 type b
+  ul
+    +type("b")
+  
+  h6 !{data.extra}

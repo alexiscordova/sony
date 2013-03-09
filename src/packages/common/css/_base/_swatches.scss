@@ -1,0 +1,191 @@
+//
+// Swatches
+// --------------------------------------------------
+
+%dark-colors {
+  @include gradient-vertical( rgba(41,26,83,0), rgba(41,26,83,0.16) );
+}
+
+%light-colors {
+  @include gradient-vertical( rgba(41,26,83,0), rgba(41,26,83,0.06) );
+}
+
+%swatch {
+  position: relative;
+  display: inline-block;
+  @include size( px-em(40px), px-em(42px) );
+  @include box-shadow(0 1px 0 $gray50);
+  @include transition(box-shadow $transitionFast ease-out, color $transitionFast ease-out, background-color $transitionFast ease-out);
+
+  &:hover {
+    @include box-shadow(none);
+  }
+
+  .lt-ie8 & {
+    float: left;
+  }
+
+  &:before,
+  &:after {
+    position: absolute;
+    opacity: 0;
+    @include transition(opacity $transitionNormal $easeNormal);
+  }
+
+  .no-opacity &:before,
+  .no-opacity &:after {
+    display: none;
+  }
+
+  // Dark circle
+  $circleSize: px-em(20px);
+  &:before {
+    content: '';
+    left: 50%;
+    top: 50%;
+    margin-left: -($circleSize / 2);
+    margin-top: -($circleSize / 2);
+    @include square($circleSize);
+    border-radius: 50%;
+    background: $gray25;
+  }
+
+  // Check mark
+  &:after {
+    top: 50%;
+    left: 50%;
+    margin-left: -.5em;
+    margin-top: -.5625em;
+    color: $white;
+  }
+
+  &.active {
+    @include box-shadow(none);
+  }
+
+  // Fade in circle and checkmark
+  &.active:before,
+  &.active:after {
+    opacity: 1;
+  }
+
+  // Fade in circle and checkmark
+  .no-opacity &.active:before,
+  .no-opacity &.active:after {
+    display: inline-block;
+  }
+
+  // Disabled state
+  &[disabled] {
+    border: 1px solid $gray20;
+    border: 1px solid rgba($gray20, .15);
+
+    // overwrite backgrond-image, color, etc
+    background: transparent;
+    filter: none;
+    @include box-shadow(none);
+  }
+  &[disabled]:focus,
+  &[disabled]:hover {
+    cursor: auto;
+  }
+
+  // Checked, but disabled state
+  &.active[disabled]:before {
+    opacity: .15;
+  }
+  &.active[disabled]:after {
+    opacity: .7;
+  }
+
+  .no-opacity & .active[disabled]:before,
+  .no-opacity & .active[disabled]:after {
+    display: none;
+  }
+}
+
+[class^="swatch-"],
+[class*=" swatch-"] {
+  @extend %swatch;
+}
+
+// Like btn-group
+.color-swatches > *:not(:last-child) {
+  margin-right: px-em(6px);
+
+  .lt-ie8 & {
+    margin-right: px-em(2);
+  }
+}
+
+.lt-ie8 .color-swatches {
+  @include clearfix();
+}
+
+.filter-container [class*="swatch-"] {
+  cursor: pointer;
+}
+
+.swatch-black,
+.swatch-purple,
+.swatch-teal,
+.swatch-red,
+.swatch-blue,
+.swatch-pink,
+.swatch-green,
+.swatch-orange,
+.swatch-silver {
+  @extend %dark-colors;
+}
+
+.swatch-white,
+.swatch-yellow,
+.swatch-lemon {
+  @extend %light-colors;
+  @include box-shadow(0 1px 0 $gray60);
+}
+
+// These colors all need to be updated since colors have been standardized.
+.swatch-black     { background-color: $gray05; }
+.swatch-yellow    { background-color: $secondaryGold; }
+.swatch-purple    { background-color: $themePurple; }
+.swatch-teal      { background-color: $themeBlueLight; }
+.swatch-white     { background-color: $white; }
+.swatch-red       { background-color: $themeRed; }
+.swatch-blue      { background-color: $themeBlueDark; }
+.swatch-pink      { background-color: $pink; }
+.swatch-green     { background-color: $themeGreen; }
+.swatch-orange    { background-color: $themeOrange; }
+.swatch-silver    { background-color: $gray60; }
+.swatch-lemon     { background-color: $lemon; }
+
+
+// Mini swatches
+.color-swatches > .mini-swatch {
+  margin-right: 0;
+}
+.color-swatches > .mini-swatch:not(:first-child) {
+  margin-left: px-em(2px);
+}
+
+.mini-swatch {
+  @include square(.75em);
+  border: 1px solid $transparentBlack;
+  line-height: 0.1em;
+  // font-size: 0.1em;
+  text-indent: -999em;
+  overflow: hidden;
+  @include box-shadow(none);
+
+  // Disable hover and active states
+  &:before,
+  &:after { content: none; }
+}
+
+
+
+
+
+
+
+
