@@ -1,0 +1,22 @@
+mixin descriptors()
+  for name in locals.pages()
+    li: a( href = '../build/debug/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+
+include ../../common/html/ieconditionals.html
+doctype 5
+
+include docs-head.html
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
+  include docs-nav.html
+
+  .jumbotron.subhead
+    .container-px-width
+      h2.bs-docs-heading Pages
+
+  
+  .container-px-width
+    ul
+      +descriptors()
+    
+  include docs-foot.html
+</html>

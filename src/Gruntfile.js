@@ -42,6 +42,21 @@ module.exports = function(grunt) {
         defer:function(){
           return grunt.file.expand('packages/modules/**/js/*.js').map(function(a){return a.split('/').pop()});
         },
+        doccopages:function(){
+          return grunt.file.expand('../docs/docco/').map(function(a){return a.split('/').pop()});
+        },
+        pages:function(){
+          return grunt.file.expand('packages/pages/*.jade').map(function(a){return a.split('/').pop().replace(/.jade/g, '.html')}).filter(function(a){return a.match(/-pagebuild.html/g)});
+        },
+        demos:function(){
+          return grunt.file.expand('packages/modules/**/demo/*.jade').map(function(a){return a.split('/').pop().replace(/.jade/g, '.html')}).filter(function(a){return a.match(/-demo.html/g)});
+        },
+        generateddemos:function(){
+          return grunt.file.expand('packages/pages/*.jade').map(function(a){return a.split('/').pop().replace(/.jade/g, '.html')}).filter(function(a){return a.match(/-demo.html/g)});
+        },
+        layouts:function(){
+          return grunt.file.expand('packages/modules/**/demo/*.jade').map(function(a){return a.split('/').pop().replace(/.jade/g, '.html')}).filter(function(a){return a.match(/-layouts.html/g)});
+        },
         data: function(path){
           return jadeconfig.data.data(path);
         },
@@ -133,7 +148,11 @@ module.exports = function(grunt) {
       },
       docs:{
         files:[
-        
+          {expand: true, cwd:'packages/common/img/',      src: ['**'], dest: '../docs/img/'},
+          {expand: true, cwd:'packages/common/fonts/',    src: ['**'], dest: '../docs/fonts/'},
+          {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../docs/js/'},
+          {expand: true, cwd:'packages/docs/js/',         src: ['**'], dest: '../docs/js/'},
+          {expand: true, cwd:'packages/docs/img/',        src: ['**'], dest: '../docs/img/'}
         ]
       }
       
@@ -187,9 +206,28 @@ module.exports = function(grunt) {
           environment: 'production'
         }
       },
+      common_docs:{
+        options:{
+          sassDir: 'packages/common/css/',
+          cssDir: '../docs/css',
+          outputStyle: 'expanded',
+          noLineComments: false,
+          force: true,
+          images: '../docs/img',
+          relativeAssets: true,
+          environment: 'development'
+        }
+      },
       docs:{
         options:{
-          
+          sassDir: 'packages/docs/css/',
+          cssDir: '../docs/css',
+          outputStyle: 'expanded',
+          noLineComments: false,
+          force: true,
+          images: '../docs/img',
+          relativeAssets: true,
+          environment: 'development'
         }
       }
     },
@@ -224,7 +262,10 @@ module.exports = function(grunt) {
     },
     jade:{
       docs:{
-        
+        options:jadeconfig,
+        files:[
+          {expand:true, cwd:'packages/docs/html', src:['*.jade'], dest:'../docs/', ext:'.html', flatten:true}
+        ]
       },
       pages:{
         
@@ -240,6 +281,14 @@ module.exports = function(grunt) {
         files:[
           {expand:true, cwd:'packages/modules/', src:['**/demo/*.jade'], dest:'../build/deploy/', ext:'.html', flatten:true}
         ]
+      }
+    },
+    doccoh: {
+      main: {
+        src: ['packages/modules/**/js/*.js', 'packaes/common/js/require/**/*.js', 'packaes/common/js/secondary/**/*.js'],
+        options: {
+          output: '../docs/docco/'
+        }
       }
     }
     
@@ -260,7 +309,7 @@ module.exports = function(grunt) {
   //define task scripts
   grunt.registerTask('default', ['build']);
   
-  grunt.registerTask('docs', []);
+  grunt.registerTask('docs', ['clean:docs', 'compass:common_docs', 'compass:docs', 'copy:docs', 'jade:docs']);
   
   grunt.registerTask('pages', []);
   

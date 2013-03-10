@@ -1,15 +1,15 @@
 mixin docco()
-  for name in doccopages()
+  for name in locals.doccopages()
     if name.indexOf('.html') !== -1
       li
         a(href='docco/' + name) #{name}
 
+include ../../common/html/ieconditionals.html
 doctype 5
-!{partial('includes/ieconditionals.html')}
 
-!{partial('includes/docs-head.html')}
+include docs-head.html
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
-  !{partial('includes/docs-nav.html')}
+  include docs-nav.html
 
   header.jumbotron.subhead#overview
     div.container-px-width
@@ -20,5 +20,5 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
     ul
       +docco()
 
-  !{partial('includes/docs-foot.html')}
+  include docs-foot.html
 </html>

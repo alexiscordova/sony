@@ -1,9 +1,9 @@
+include ../../common/html/ieconditionals.html
 doctype 5
-!{partial('includes/ieconditionals.html')}
 
-!{partial('includes/docs-head.html')}
+include docs-head.html
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
-  !{partial('includes/docs-nav.html')}
+  include docs-nav.html
   
   header.jumbotron.subhead#overview
     div.container
@@ -722,5 +722,5 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
         li
           | Desktop
           span.hidden-desktop ✔ Desktop
-  !{partial('includes/docs-foot.html')}
+  include docs-foot.html
 </html>
