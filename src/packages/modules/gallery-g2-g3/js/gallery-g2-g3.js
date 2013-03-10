@@ -2635,7 +2635,7 @@
     // showCompareStickyHeaders: true,
     currentFilterColor: null,
     lastFilterGroup: null,
-    loadingGif: 'img/global/loader.gif',
+    loadingGif: 'img/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
     valEnd : Modernizr.csstransforms ? 'px)' : 'px',
