@@ -25,6 +25,7 @@
     display: block;
     margin:16px 0 0;
     overflow:hidden;
+    -webkit-transform:translate3d(0,0,0); // flicker fix on iPad
   }
 }
 
@@ -77,7 +78,8 @@
   .fonticon-10-arrowhead-up{
     color:$gray40;
   }
-  .nav-li-link{
+  .nav-li-link{    
+    -webkit-backface-visibility:hidden; // fixes phantom blue select box
     &:hover, &:active, &:focus, &.active{
       .fonticon-10-arrowhead-down,
       .fonticon-10-arrowhead-up{
@@ -372,7 +374,6 @@
 
   &:hover,
   &:active,
-  &:focus,
   &.active{
     background-color: $linkColor;
     border-color: $linkColor;
@@ -407,6 +408,11 @@
   }
 } // end .navtray
 
+
+
+  
+
+
 .navtray-section-main{ // section left
   padding-top:50px;
   width: $navTrayDividerPosition;
@@ -425,7 +431,12 @@
 
     .navtray-li-link {
       margin: 2% 3.3% 0 0;
-      padding:27px 0 0 0;
+      padding:20px 0 0 0;
+      -webkit-backface-visibility:hidden; // images jump on hover otherwise
+      height: 170px; /* only for non-responsive browsers - is overridden for responsive, which is good, because it's too high */
+      .navtray-w-short & {
+        padding-top:25px;
+      }
 
       &:hover,
       &:active,
@@ -451,24 +462,26 @@
     padding-top:0;
   }
   width: (100-$navTrayDividerPosition); 
-  padding-left: 3.8%;
+  padding-left: 3.6%;
   .navtray-secondary-promo{
     max-width: 218px;
-    margin-top: 57px;
-    margin-right:14%;
+    margin-top: 32px;
+    margin-right:11%;
+
     img{
-      padding-bottom:6px;
+      padding-bottom:px-em(9);
     }
     .p2,
     .p3{
-      font-size:$font_13_15;
-      padding:3px 15px 0 0;
+      // padding:3px 15px 0 0;
     }
     .p2{
-      font-size:$font_16_16;
+      margin-bottom:px-em(5);
     }
-    .p3{
-      line-height: 1.5;
+    .p4{
+      display:inline-block;
+      line-height: 1.3;
+      padding-right:px-em(27);
     }
   }
 }

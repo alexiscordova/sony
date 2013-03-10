@@ -11,7 +11,7 @@
 (function($, Modernizr, window, undefined) {
   'use strict';
 
-  var Gallery = function($container, options) {
+  var Gallery = function( $container, options ) {
     var self = this;
 
     $.extend(self, $.fn.gallery.options, options, $.fn.gallery.settings);
@@ -33,6 +33,7 @@
     self.$favorites = self.$grid.find('.js-favorite');
     self.$gridProductNames = self.$grid.find('.product-name-wrap');
     self.$carousels = self.$grid.find('.js-item-carousel');
+    self.$zeroMessage = self.$container.find('.zero-products-message');
 
     // Compare modal
     self.$compareBtn = self.$container.find('.js-compare-toggle');
@@ -55,59 +56,62 @@
 
     self.initShuffle();
 
-    self.$window.on('onorientationchange', $.debounce(325, $.proxy(self.onResize, self)));
-    self.$window.on('resize.gallery', $.debounce(325, $.proxy(self.onResize, self)));
+    self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
+    self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
 
     // Infinite scroll?
-    if (self.hasInfiniteScroll) {
+    if ( self.hasInfiniteScroll ) {
       self.initInfscr();
     }
 
     // Initialize filter dictionaries to keep track of everything
-    if (self.hasFilters) {
+    if ( self.hasFilters ) {
       self.initFilters();
     }
 
-    if (self.hasSorting) {
+    if ( self.hasSorting ) {
       self.initSorting();
     }
 
     self.initSwatches();
     self.initTooltips();
 
-    self.onResize(true);
+    self.onResize( true );
 
     // Launch compare tool on click
-    if (self.hasCompareModal) {
-      self.$compareBtn.on('click', $.proxy(self.onCompareLaunch, self));
-      self.$compareTool.on('hidden', $.proxy(self.onCompareClosed, self));
-      self.$compareTool.on('shown', $.proxy(self.onCompareShown, self));
+    if ( self.hasCompareModal ) {
+      self.$compareBtn.on('click', $.proxy( self.onCompareLaunch, self ));
+      self.$compareTool.on('hidden', $.proxy( self.onCompareClosed, self ));
+      self.$compareTool.on('shown', $.proxy( self.onCompareShown, self ));
     }
 
     // We're done.
     self.isInitialized = true;
 
     // Run once
-    if (self.hasFilters) {
+    if ( self.hasFilters ) {
       self.filter();
     }
 
     // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
-    setTimeout($.proxy(self.loadSwatchImages, self), 2000);
+    setTimeout( $.proxy( self.loadSwatchImages, self ) , 2000);
+
+    log('SONY : Gallery : Initialized');
+
   };
 
   Gallery.prototype = {
 
-    constructor : Gallery,
+    constructor: Gallery,
 
     enable : function() {
       var self = this;
 
       // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
-      self.onResize(undefined, true);
+      self.onResize( undefined, true );
 
       // Already enabled
-      if (self.enabled) {
+      if ( self.enabled ) {
         return;
       }
 
@@ -117,14 +121,15 @@
       self.shuffle.enable();
 
       // Resume infinite scroll if it's there yo
-      if (self.hasInfiniteScroll) {
+      if ( self.hasInfiniteScroll ) {
         self.$grid.infinitescroll('updateNavLocation');
         self.$grid.infinitescroll('resume');
       }
 
       self.$container.removeClass('disabled');
 
-      if (self.hasCarousels) {
+      if ( self.hasEnabledCarousels ) {
+        self.$carousels.scrollerModule('enable');
         self.$carousels.scrollerModule('refresh');
       }
     },
@@ -133,15 +138,20 @@
       var self = this;
 
       // Already disabled
-      if (!self.enabled) {
+      if ( !self.enabled ) {
         return;
       }
 
       // Disable shuffle
       self.shuffle.disable();
 
+      // Disable carousels
+      if ( self.hasEnabledCarousels ) {
+        self.$carousels.scrollerModule('disable');
+      }
+
       // Pause infinite scroll
-      if (self && self.hasInfiniteScroll) {
+      if ( self && self.hasInfiniteScroll ) {
         self.$grid.infinitescroll('pause');
       }
 
@@ -153,40 +163,42 @@
     filter : function() {
       var self = this;
 
-      if (self.hasActiveFilters()) {
+      if ( self.hasActiveFilters() ) {
         self.$grid.shuffle(function($el) {
-          return self.itemPassesFilters($el.data());
+          return self.itemPassesFilters( $el.data() );
         });
       } else {
         self.$grid.shuffle('all');
       }
 
-      self.setFilterStatuses();
+      self
+        .setFilterStatuses()
+        .toggleZeroMessage();
     },
 
     // From the element's data-* attributes, test to see if it passes
-    itemPassesFilters : function(data) {
-      var self = this, filterName = '';
+    itemPassesFilters : function( data ) {
+      var self = this,
+          filterName = '';
 
       // Loop through each filter in the elements filter set
-      for (filterName in data.filterSet ) {
-        if (!data.filterSet.hasOwnProperty(filterName) || !self.filterTypes[filterName]) {
+      for ( filterName in data.filterSet ) {
+        if ( !data.filterSet.hasOwnProperty(filterName) || !self.filterTypes[ filterName ] ) {
           continue;
         }
 
         // filterName e.g. 'price'
-        var filter = data.filterSet[filterName], // e.g. 399.99
-        filterType = self.filterTypes[filterName], // e.g. 'range'
-        activeFilters = self.filters[ filterType ][filterName];
-        // e.g. ["lcd"]
+        var filter = data.filterSet[ filterName ], // e.g. 399.99
+            filterType = self.filterTypes[ filterName ], // e.g. 'range'
+            activeFilters = self.filters[ filterType ][ filterName ]; // e.g. ["lcd"]
 
-        if (filterType === 'button' || filterType === 'checkbox') {
-          var method = $.isArray(filter) ? 'arrayContainsArray' : 'valueInArray';
-          if (activeFilters.length > 0 && !self[ method ](filter, activeFilters)) {
+        if ( filterType === 'button' || filterType === 'checkbox' ) {
+          var method = $.isArray( filter ) ? 'arrayContainsArray' : 'valueInArray';
+          if ( activeFilters.length > 0 && !self[ method ]( filter, activeFilters ) ) {
             return false;
           }
-        } else if (filterType === 'range') {
-          if (filter < self.price.min || (filter > self.price.max && self.price.max !== self.MAX_PRICE )) {
+        } else if ( filterType === 'range' ) {
+          if ( filter < self.price.min || ( filter > self.price.max && self.price.max !== self.MAX_PRICE ) ) {
             return false;
           }
         }
@@ -196,28 +208,32 @@
     },
 
     hasActiveFilters : function() {
-      var self = this, hasActive = false, filterType = '', filterName = '';
+      var self = this,
+          hasActive = false,
+          filterType = '',
+          filterName = '';
 
-      for (filterType in self.filters ) {
-        if (!self.filters.hasOwnProperty(filterType)) {
+      for ( filterType in self.filters ) {
+        if ( !self.filters.hasOwnProperty(filterType) ) {
           continue;
         }
 
-        if (filterType === 'button' || filterType === 'checkbox') {
-          for (filterName in self.filters[filterType] ) {
-            var activeFilters = self.filters[ filterType ][filterName];
+
+        if ( filterType === 'button' || filterType === 'checkbox' ) {
+          for ( filterName in self.filters[ filterType ] ) {
+            var activeFilters = self.filters[ filterType ][ filterName ];
             hasActive = activeFilters.length > 0;
 
             // There is an active filter, break out of the loop and return
-            if (hasActive) {
+            if ( hasActive ) {
               break;
             }
           }
-        } else if (filterType === 'range') {
+        } else if ( filterType === 'range' ) {
           hasActive = self.price.min !== self.MIN_PRICE || self.price.max !== self.MAX_PRICE;
         }
 
-        if (hasActive) {
+        if ( hasActive ) {
           return hasActive;
         }
       }
@@ -225,56 +241,56 @@
     },
 
     displayActiveFilters : function() {
-      var self = this, filterType = '', filterName = '', filters = {}, frag = document.createDocumentFragment();
+      var self = this,
+          filterType = '',
+          filterName = '',
+          filters = {},
+          frag = document.createDocumentFragment(),
+          $clearAll;
 
       // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
-      for (filterType in self.filters ) {
-        if (!self.filters.hasOwnProperty(filterType)) {
+      for ( filterType in self.filters ) {
+        if ( !self.filters.hasOwnProperty(filterType) ) {
           continue;
         }
 
         // Loop through filter types because there could be more than one 'button' or 'checkbox'
-        if (filterType === 'button' || filterType === 'checkbox') {
-          for (filterName in self.filters[filterType] ) {
-            var activeFilters = self.filters[ filterType ][filterName];
+        if ( filterType === 'button' || filterType === 'checkbox' ) {
+          for ( filterName in self.filters[ filterType ] ) {
+            var activeFilters = self.filters[ filterType ][ filterName ];
 
             // This filterType.filterName has some active filters, build an object of its labels and filter names
-            if (activeFilters.length) {
-              for (var j = 0; j < activeFilters.length; j++) {
-                var label = self.filterLabels[ filterName ][activeFilters[j]];
-                filters[activeFilters[j]] = {
-                  label : label,
-                  name : filterName
+            if ( activeFilters.length ) {
+              for ( var j = 0; j < activeFilters.length; j++ ) {
+                var label = self.filterLabels[ filterName ][ activeFilters[ j ] ];
+                filters[ activeFilters[ j ] ] = {
+                  label: label,
+                  name: filterName
                 };
               }
             }
           }
 
-          // Handle range control a bit differently
-        } else if (filterType === 'range') {
-          if (self.price.min !== self.MIN_PRICE) {
+        // Handle range control a bit differently
+        } else if ( filterType === 'range' ) {
+          if ( self.price.min !== self.MIN_PRICE ) {
             filters.min = {
-              key : 'price',
-              label : 'Min price: $' + self.price.min,
-              name : 'min'
+              key: 'price',
+              label: 'Min price: $' + self.price.min,
+              name: 'min'
             };
           }
-          if (self.price.max !== self.MAX_PRICE) {
+          if ( self.price.max !== self.MAX_PRICE) {
             filters.max = {
-              key : 'price',
-              label : 'Max price: $' + self.price.max,
-              name : 'max'
+              key: 'price',
+              label: 'Max price: $' + self.price.max,
+              name: 'max'
             };
           }
         }
       }
 
-      self.$activeFilters.empty();
-      if (self.$activeFilters.hasClass('has-active-filters')) {
-        self.$activeFilters.removeClass('has-active-filters');
-      }
-
-      if (!$.isEmptyObject(filters)) {
+      if ( !$.isEmptyObject( filters ) ) {
         // Create labels showing current filters
         $.each(filters, function(key, obj) {
           var $label = $('<span>', {
@@ -282,57 +298,84 @@
             'data-filter' : key,
             'data-filter-name' : obj.key || obj.name,
             text : obj.label,
-            click : $.proxy(self.onRemoveFilter, self)
+            click : $.proxy( self.onRemoveFilter, self )
           });
 
-          frag.appendChild($label[0]);
+          frag.appendChild( $label[0] );
+
+          $label = null;
         });
 
         // Using em here so I can use :last-of-type to get the spans
-        var $clearAll = $('<em/>', {
-          'class' : 'clear-all-filters lt3',
-          text : self.$activeFilters.data('clearLabel'),
-          click : $.proxy(self.removeActiveFilters, self)
+        $clearAll = $('<em/>', {
+          'class' : 'clear-all-filters lt3 js-clear-filters',
+          text: self.$activeFilters.data('clearLabel')
         });
 
-        frag.appendChild($clearAll[0]);
+        frag.appendChild( $clearAll[0] );
 
-        self.$activeFilters.append(frag).addClass('has-active-filters');
+        // Manipulate DOM at the same time to prevent multiple layouts
+        self.$activeFilters
+          .empty()
+          .append( frag );
+
+        if ( !self.$activeFilters.hasClass('has-active-filters') ) {
+          self.$activeFilters.addClass('has-active-filters');
+        }
+
+      } else {
+
+        self.$activeFilters.empty();
+        if ( self.$activeFilters.hasClass('has-active-filters') ) {
+          self.$activeFilters.removeClass('has-active-filters');
+        }
       }
+
+      filters = null;
+      $clearAll = null;
+      frag = null;
     },
 
     // Removes a single filter from stored data. Does NOT change UI.
-    undoFilter : function(filterValue, filterName, filterType) {
-      var self = this, pos;
+    undoFilter : function( filterValue, filterName, filterType ) {
+      var self = this,
+          pos;
 
-      if (filterType === 'button' || filterType === 'checkbox') {
-        pos = $.inArray(filterValue, self.filters[ filterType ][filterName]);
-        self.filters[ filterType ][filterName].splice(pos, 1);
-      } else if (filterType === 'range') {
-        delete self.filters[ filterType ][ filterName ][filterValue];
+      if ( filterType === 'button' || filterType === 'checkbox' ) {
+        pos = $.inArray( filterValue, self.filters[ filterType ][ filterName ] );
+        self.filters[ filterType ][ filterName ].splice( pos, 1 );
+
+      } else if ( filterType === 'range' ) {
+        delete self.filters[ filterType ][ filterName ][ filterValue ];
       }
 
       return self;
     },
 
     // Removes the active state of a filter. Changes UI.
-    removeFilter : function(filterValue, filterName, filterType) {
-      var self = this, selector = '', rangeControl, method;
+    removeFilter : function( filterValue, filterName, filterType ) {
+      var self = this,
+          selector = '',
+          rangeControl,
+          method;
 
       // There's probably a better way to do this... (store jQuery objects for each filter?)
-      if (filterType === 'button') {
+      if ( filterType === 'button' ) {
         // [data-filter="megapixels"] [data-megapixels="14-16"]
         selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
-        self.$container.find(selector).button('toggle');
+        self.$container.find( selector ).button('toggle');
 
         // Handle media groups
-        self.$container.find(selector + ' .active').button('toggle');
+        self.$container.find( selector + ' .active' ).button('toggle');
 
-      } else if (filterType === 'checkbox') {
+      } else if ( filterType === 'checkbox' ) {
+        // [data-filter="features"] [value="lcd"]
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
-        self.$container.find(selector).prop('checked', false);
+        self.$container.find( selector )
+          .prop('checked', false)
+          .removeClass('active');
 
-      } else if (filterType === 'range') {
+      } else if ( filterType === 'range' ) {
         // Slide appropriate handle to the intial value
         rangeControl = self.$rangeControl.data('rangeControl');
         method = filterValue === 'min' ? 'slideToInitialMin' : 'slideToInitialMax';
@@ -342,85 +385,114 @@
       return self;
     },
 
-    disableFilter : function(filterValue, filterName, filterType) {
-      var self = this, selector = '';
+    disableFilter : function( filterValue, filterName, filterType ) {
+      var self = this,
+          selector = '';
 
       // There's probably a better way to do this... (store jQuery objects for each filter?)
-      if (filterType === 'button') {
+      if ( filterType === 'button' ) {
         // [data-filter="megapixels"] [data-megapixels="14-16"]
         selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
-        self.$container.find(selector).attr('disabled', 'disabled');
+        self.$container.find( selector ).attr('disabled', 'disabled');
 
         // Handle media groups
-        self.$container.find(selector + ' .btn').attr('disabled', 'disabled');
+        self.$container.find( selector + ' .btn' ).attr('disabled', 'disabled');
 
-      } else if (filterType === 'checkbox') {
+      } else if ( filterType === 'checkbox' ) {
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
-        self.$container.find(selector).prop('disabled', true);
+        self.$container.find( selector ).prop('disabled', true);
       }
     },
 
-    deleteFilter : function(filterValue, filterName, filterType) {
+    deleteFilter : function( filterValue, filterName, filterType ) {
       this
       // Remove from internal data
-      .undoFilter(filterValue, filterName, filterType)
+      .undoFilter( filterValue, filterName, filterType )
       // Remove active/checked state
-      .removeFilter(filterValue, filterName, filterType);
+      .removeFilter( filterValue, filterName, filterType );
 
       return this;
     },
 
-    enableFilter : function(filterValue, filterName, filterType) {
-      var self = this, selector = '';
+    enableFilter : function( filterValue, filterName, filterType ) {
+      var self = this,
+          selector = '';
 
       // There's probably a better way to do this... (store jQuery objects for each filter?)
-      if (filterType === 'button') {
+      if ( filterType === 'button' ) {
         // [data-filter="megapixels"] [data-megapixels="14-16"]
         selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
-        self.$container.find(selector).removeAttr('disabled');
+        self.$container.find( selector ).removeAttr('disabled');
 
         // Handle media groups
-        self.$container.find(selector + ' .btn').removeAttr('disabled');
+        self.$container.find( selector + ' .btn' ).removeAttr('disabled');
 
-      } else if (filterType === 'checkbox') {
+      } else if ( filterType === 'checkbox' ) {
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
-        self.$container.find(selector).prop('disabled', false);
+        self.$container.find( selector ).prop('disabled', false);
       }
     },
 
     removeActiveFilters : function() {
-      var self = this, filterType = '', filterName = '', filterValue = '';
+      var self = this,
+          filterType = '',
+          filterName = '',
+          filterValues = [],
+          filterValue = '';
 
-      for (filterType in self.filters ) {
-        for (filterName in self.filters[filterType] ) {
+      self.lastFilterGroup = null;
+      self.currentFilterColor = null;
+      self.hideFilteredSwatchImages();
 
-          if (filterType === 'range') {
-            for (filterValue in self.filters[ filterType ][filterName] ) {
+      for ( filterType in self.filters ) {
+        for ( filterName in self.filters[ filterType ] ) {
+
+          if ( filterType === 'range' ) {
+            for ( filterValue in self.filters[ filterType ][ filterName ] ) {
               // Remove from internal data and UI
-              self.deleteFilter(filterValue, filterName, filterType);
+              self.deleteFilter( filterValue, filterName, filterType );
             }
 
           } else {
-            for (var i = 0; i < self.filters[ filterType ][filterName].length; i++) {
-              filterValue = self.filters[ filterType ][ filterName ][i];
+            // Get the filter values without a reference because we want to delete parts of the array
+            // as its looped through
+            filterValues = $.extend([], self.filters[ filterType ][ filterName ]);
+            for ( var i = 0; i < filterValues.length; i++ ) {
+              filterValue = filterValues[ i ];
               // Remove from internal data and UI
-              self.deleteFilter(filterValue, filterName, filterType);
+              self.deleteFilter( filterValue, filterName, filterType );
             }
           }
         }
       }
 
-      self.currentFilterColor = null;
-      self.hideFilteredSwatchImages();
-
       self.filter();
     },
 
-    onRemoveFilter : function(evt) {
-      var self = this, data = $(evt.target).data(), filterType = self.filterTypes[data.filterName];
+    toggleZeroMessage : function() {
+      var self = this,
+          visibleItems = self.shuffle.visibleItems;
+
+      if ( visibleItems ) {
+        if ( !self.$zeroMessage.hasClass('hide') ) {
+          self.$zeroMessage.addClass('hide');
+        }
+      } else {
+        if ( self.$zeroMessage.hasClass('hide') ) {
+          self.$zeroMessage.removeClass('hide');
+        }
+      }
+
+      return self;
+    },
+
+    onRemoveFilter : function( evt ) {
+      var self = this,
+          data = $(evt.target).data(),
+          filterType = self.filterTypes[ data.filterName ];
 
       // Remove from internal data and UI
-      self.deleteFilter(data.filter, data.filterName, filterType);
+      self.deleteFilter( data.filter, data.filterName, filterType );
 
       // Remove this label
       $(evt.target).remove();
@@ -432,29 +504,28 @@
     initShuffle : function() {
       var self = this;
 
-      self.$grid.on('loading.shuffle', $.proxy(self.onShuffleLoading, self));
-      self.$grid.on('done.shuffle', $.proxy(self.onShuffleDone, self));
+      self.$grid.on('loading.shuffle', $.proxy( self.onShuffleLoading, self ));
+      self.$grid.on('done.shuffle', $.proxy( self.onShuffleDone, self ));
 
       // instantiate shuffle
       self.$grid.shuffle({
-        itemSelector : '.gallery-item',
-        speed : self.shuffleSpeed,
-        easing : self.shuffleEasing,
-        columnWidth : self.shuffleColumns,
-        gutterWidth : self.shuffleGutters,
-        showInitialTransition : false,
-        hideLayoutWithFade : true,
-        sequentialFadeDelay : 60,
-        buffer : 5
+        itemSelector: '.gallery-item',
+        speed: self.shuffleSpeed,
+        easing: self.shuffleEasing,
+        columnWidth: self.shuffleColumns,
+        gutterWidth: self.shuffleGutters,
+        showInitialTransition: false,
+        hideLayoutWithFade: true,
+        sequentialFadeDelay: 60,
+        buffer: 8
       });
 
       self.shuffle = self.$grid.data('shuffle');
 
-      var debouncedShuffleLayout = $.debounce(200, $.proxy(self.shuffle.layout, self.shuffle));
-      self.$grid.find('.iq-img').on('imageLoaded', debouncedShuffleLayout);
+      self.$grid.find('.iq-img').on('imageLoaded', $.debounce( 200, $.proxy( self.shuffle.layout, self.shuffle ) ) );
 
       // Displays active filters on `filter`
-      self.$grid.on('filter.shuffle', $.proxy(self.displayActiveFilters, self));
+      self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ) );
 
       // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
       self.$grid.on('layout.shuffle', function() {
@@ -462,7 +533,7 @@
         iQ.update();
 
         // The position of the nav has changed, update it in infinitescroll
-        if (self.hasInfiniteScroll) {
+        if ( self.hasInfiniteScroll ) {
           self.$grid.infinitescroll('updateNavLocation');
         }
       });
@@ -475,9 +546,9 @@
       var self = this;
 
       self.filters = {
-        range : {},
-        button : {},
-        checkbox : {}
+        range: {},
+        button: {},
+        checkbox: {}
       };
       self.filterTypes = {};
       self.filterLabels = {};
@@ -489,39 +560,45 @@
       self.filterData = {};
 
       self.$filterOpts.find('[data-filter]').each(function() {
-        var $this = $(this), data = $this.data(), type = data.filterType, realType = type, name = data.filter, init = [];
+        var $this = $(this),
+            data = $this.data(),
+            type = data.filterType,
+            realType = type,
+            name = data.filter,
+            init = [];
+
 
         // Initialize it based on type
         switch ( type ) {
           case 'range':
             init = {};
-            self.range($this, name, data.min, data.max);
+            self.range( $this, name, data.min, data.max );
             break;
           case 'button':
-            self.button($this, name, realType);
+            self.button( $this, name, realType );
             break;
           case 'group':
             // Treat groups and colors the same as buttons
             type = 'button';
-            self.button($this, name, realType);
+            self.button( $this, name, realType );
             break;
           case 'color':
             // Treat groups and colors the same as buttons
             type = 'button';
-            self.button($this, name, realType);
+            self.button( $this, name, realType );
             break;
           case 'checkbox':
-            self.checkbox($this, name);
+            self.checkbox ( $this, name );
             break;
         }
 
         // Save the active filters in this filter to an empty array or object
-        self.filters[ type ][name] = init;
-        self.filterTypes[name] = type;
-        self.filterData[name] = {
-          name : name,
-          type : type,
-          realType : realType
+        self.filters[ type ][ name ] = init;
+        self.filterTypes[ name ] = type;
+        self.filterData[ name ] = {
+          name: name,
+          type: type,
+          realType: realType
         };
       });
 
@@ -529,29 +606,41 @@
       self.initPopovers();
 
       // Slide toggle. Reset range control if it was hidden on initialization
-      self.$container.find('.collapse').on('shown', $.proxy(self.onFiltersShown, self)).on('show', $.proxy(self.onFiltersShow, self)).on('hide', $.proxy(self.onFiltersHide, self));
+      self.$container.find('.collapse')
+        .on('shown', $.proxy( self.onFiltersShown, self ))
+        .on('show', $.proxy( self.onFiltersShow, self ))
+        .on('hide', $.proxy( self.onFiltersHide, self ));
 
+      // Bind clearing filters to any class that has `.js-clear-filters` on it
+      // $.proxy( self.removeActiveFilters, self )
+      self.$container.on('click', '.js-clear-filters', function() {
+        self.removeActiveFilters();
+        // Tell jQuery to preventDefault() and stopPropagation()
+        return false;
+      });
     },
 
     initPopovers : function() {
-      var self = this, $triggers = self.$filterOpts.find('.js-popover-trigger');
+      var self = this,
+          $triggers = self.$filterOpts.find('.js-popover-trigger');
 
       $triggers.each(function() {
         var $trigger = $(this);
 
         $trigger.popover({
-          placement : 'in offsetright',
-          trigger : 'click',
+          placement: 'in offsetright',
+          trigger: 'click',
           getArrowOffset : function() {
-            var containerWidth = self.$filterOpts.find('.filter-container').first().parent().width(), columnWidth = self.$filterOpts.find('.filter-container').first().width();
+            var containerWidth = self.$filterOpts.find('.filter-container').first().parent().width(),
+                columnWidth = self.$filterOpts.find('.filter-container').first().width();
 
             return containerWidth - columnWidth;
           },
-          getWidth : function() {
+          getWidth: function() {
             // get the width of the filter-container's parent
             return self.$filterOpts.find('.filter-container').first().parent().width();
           },
-          content : function() {
+          content: function() {
             return $(this).find('.js-popover-content').html();
           }
         });
@@ -560,8 +649,10 @@
       // Hide other popovers when another is clicked
       $triggers.on('tipshow', function() {
         var $trigger = $(this);
-        $triggers.not($trigger).popover('hide');
+        $triggers.not( $trigger ).popover('hide');
       });
+
+      $triggers = null;
     },
 
     initSorting : function() {
@@ -572,18 +663,18 @@
       self.currentSort = 0;
 
       // Set up sorting ---- dropdowm
-      self.$sortBtns.on('click', $.proxy(self.sort, self));
+      self.$sortBtns.on('click',  $.proxy( self.sort, self ));
 
       // Set up sorting ---- select menu
-      self.$sortSelect.on('change', $.proxy(self.sort, self));
+      self.$sortSelect.on('change', $.proxy( self.sort, self ));
 
-      if (!self.hasFilters) {
-        self.$productCount.text(self.shuffle.$items.length);
+      if ( !self.hasFilters ) {
+        self.$productCount.text( self.shuffle.$items.length );
       }
 
       // Firefox's and IE's <select> menu is hard to style...
       var ua = navigator.userAgent.toLowerCase();
-      if (ua.indexOf('firefox') > -1 || ua.indexOf('msie') > -1) {
+      if ( ua.indexOf('firefox') > -1 || ua.indexOf('msie') > -1 ) {
         self.$sortSelect.parent().addClass('moz-ie');
       }
     },
@@ -591,135 +682,156 @@
     initInfscr : function() {
       var self = this;
 
-      function galleryItemsAdded(newElements) {
-        var $newElements = $(newElements).addClass('via-ajax');
+      function galleryItemsAdded( newElements ) {
+          var $newElements = $( newElements ).addClass('via-ajax');
 
-        // Bump up the delay so it's more noticeable.
-        self.shuffle.sequentialFadeDelay = 250;
+          // Bump up the delay so it's more noticeable.
+          self.shuffle.sequentialFadeDelay = 250;
 
-        // Get shuffle to append and show the items for us
-        self.$grid.shuffle('appended', $newElements);
+          // Get shuffle to append and show the items for us
+          self.$grid.shuffle( 'appended', $newElements );
 
-        // Now put it back
-        self.shuffle.sequentialFadeDelay = 60;
+          // Now put it back
+          self.shuffle.sequentialFadeDelay = 60;
 
-        // Show new product count
-        self.$productCount.text(self.$grid.data('shuffle').visibleItems);
+          // Show new product count
+          self.$productCount.text( self.$grid.data('shuffle').visibleItems );
 
-        // Initialize swatches and tooltips for ajax content
-        self.initSwatches($newElements.find('.mini-swatch[data-color]'));
-        self.initTooltips($newElements.find('.js-favorite'));
+          // Initialize swatches and tooltips for ajax content
+          self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
+          self.initTooltips( $newElements.find('.js-favorite') );
 
-        // Update iQ images
-        iQ.update(true);
+          // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
+          setTimeout(function() {
 
-        // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
-        setTimeout(function() {
-          self.loadSwatchImages();
+            // This also calls iQ.update( true )
+            self.loadSwatchImages();
 
-          if (self.currentFilterColor) {
-            self.displayFilteredSwatchImages();
-          }
-        }, 0);
+            if ( self.currentFilterColor ) {
+              self.displayFilteredSwatchImages();
+            }
+
+            // This is silly. Maybe a new method for iQ. iQ.refresh()
+            setTimeout(function() {
+              iQ.update( true );
+            }, 300);
+          }, 15);
       }
 
-
       self.$grid.infinitescroll({
-        local : true,
+        local: true,
         // debug: true,
-        bufferPx : -100, // Load 100px after the navSelector has entered the viewport
-        navSelector : 'div.navigation', // selector for the paged navigation
-        nextSelector : 'div.navigation a', // selector for the NEXT link (to page 2)
-        itemSelector : '.gallery-item', // selector for all items you'll retrieve
-        loading : {
-          selector : '.infscr-holder',
-          msgText : '<em>Loading the next set of products...</em>',
-          finishedMsg : '<em>Finished loading products.</em>',
-          img : self.loadingGif
+        bufferPx: -100, // Load 100px after the navSelector has entered the viewport
+        navSelector: 'div.navigation', // selector for the paged navigation
+        nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
+        itemSelector: '.gallery-item', // selector for all items you'll retrieve
+        loading: {
+          selector: '.infscr-holder',
+          msgText: '<em>Loading the next set of products...</em>',
+          finishedMsg: '<em>Finished loading products.</em>',
+          img: self.loadingGif
         }
-      }, galleryItemsAdded);
+      }, galleryItemsAdded );
     },
 
-    initSwatches : function($collection) {
+    initSwatches : function( $collection ) {
       var self = this;
 
       $collection = $collection || self.$grid.find('.mini-swatch[data-color]');
       $collection.each(function() {
-        var $swatch = $(this), hidden = 'hidden', color = $swatch.data('color'), $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'), $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
+          var $swatch = $(this),
+              hidden = 'hidden',
+              color = $swatch.data('color'),
+              $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
+              $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
 
-        $swatch.on('click', false);
+          $swatch.on('click', false);
 
-        $swatch.hover(function() {
-          // Mouse over, hide the main image, show the swatch image
-          if (self.currentFilterColor) {
-            $swatchImg.siblings(':not(.hidden)').addClass(hidden);
-          } else {
-            $productImg.addClass(hidden);
-          }
-          $swatchImg.removeClass(hidden);
-        }, function() {
-          // Mouse out, hide the swatch image, show the main image
-          if (self.currentFilterColor !== color) {
-            $swatchImg.addClass(hidden);
-          }
-          if (self.currentFilterColor) {
-            $swatchImg.siblings('[data-color="' + self.currentFilterColor + '"]').removeClass(hidden);
-          } else {
-            $productImg.removeClass(hidden);
-          }
-        });
+          $swatch.hover(function() {
+            // Mouse over, hide the main image, show the swatch image
+            if ( self.currentFilterColor ) {
+              $swatchImg.siblings(':not(.hidden)').addClass( hidden );
+            } else {
+              $productImg.addClass( hidden );
+            }
+            $swatchImg.removeClass( hidden );
+          }, function() {
+            // Mouse out, hide the swatch image, show the main image
+            if ( self.currentFilterColor !== color ) {
+              $swatchImg.addClass( hidden );
+            }
+            if ( self.currentFilterColor ) {
+              $swatchImg.siblings('[data-color="' + self.currentFilterColor + '"]').removeClass( hidden );
+            } else {
+              $productImg.removeClass( hidden );
+            }
+          });
+
+          $swatch = null;
       });
+
+      $collection = null;
 
       return self;
     },
 
     loadSwatchImages : function() {
       this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
-      iQ.update(true);
+      iQ.update( true );
 
       return this;
     },
 
     displayFilteredSwatchImages : function() {
-      var self = this, hidden = 'hidden', $productImgs = self.$grid.find('.js-product-imgs:not(.no-swatches)'), $mainImgs = $productImgs.find('.js-product-img-main, [data-color]:not(.hidden)'), $swatchImgs = $productImgs.find('[data-color="' + self.currentFilterColor + '"]');
+      var self = this,
+          hidden = 'hidden',
+          $productImgs = self.$grid.find('.js-product-imgs:not(.no-swatches)'),
+          $mainImgs = $productImgs.find('.js-product-img-main, [data-color]:not(.hidden)'),
+          $swatchImgs = $productImgs.find('[data-color="' + self.currentFilterColor + '"]');
 
-      $mainImgs.addClass(hidden);
-      $swatchImgs.removeClass(hidden);
+      $mainImgs.addClass( hidden );
+      $swatchImgs.removeClass( hidden );
 
       return self;
     },
 
     hideFilteredSwatchImages : function() {
-      var self = this, hidden = 'hidden', $productImgs = self.$grid.find('.js-product-imgs:not(.no-swatches)'), $mainImgs = $productImgs.find('.js-product-img-main'), $swatchImgs = $productImgs.find('[data-color]:not(.hidden)');
+      var self = this,
+          hidden = 'hidden',
+          $productImgs = self.$grid.find('.js-product-imgs:not(.no-swatches)'),
+          $mainImgs = $productImgs.find('.js-product-img-main'),
+          $swatchImgs = $productImgs.find('[data-color]:not(.hidden)');
 
-      $mainImgs.removeClass(hidden);
-      $swatchImgs.addClass(hidden);
+      $mainImgs.removeClass( hidden );
+      $swatchImgs.addClass( hidden );
 
       return self;
     },
 
-    initTooltips : function($favorites) {
+    initTooltips : function( $favorites ) {
       var self = this;
 
       $favorites = $favorites || self.$favorites;
 
       // Favorite the gallery item immediately on touch devices
-      if (self.isTouch) {
-        $favorites.on('touchend', $.proxy(self.onFavorite, self));
+      if ( self.isTouch ) {
+        $favorites.on('touchend', $.proxy( self.onFavorite, self ));
 
-        // Show a tooltip on hover before favoriting on desktop devices
+      // Show a tooltip on hover before favoriting on desktop devices
       } else {
-        $favorites.on('click', $.proxy(self.onFavorite, self));
+        $favorites.on('click', $.proxy( self.onFavorite, self ));
 
         $favorites.tooltip({
-          placement : 'offsettop',
-          title : function() {
+          placement: 'offsettop',
+          title: function() {
             var $jsFavorite = $(this);
-            return self.getFavoriteContent($jsFavorite, $jsFavorite.hasClass('active'));
+            return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
           },
-          template : '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+          template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
         });
       }
+
+      $favorites = null;
 
       // Update our favorites
       self.$favorites = self.$grid.find('.js-favorite');
@@ -728,30 +840,31 @@
     initCarousels : function() {
       var self = this;
 
-      function initializeScroller($carousel) {
+      function initializeScroller( $carousel ) {
         $carousel.scrollerModule({
-          mode : 'carousel',
-          contentSelector : '.js-carousel-container',
-          itemElementSelector : '.slide'
+          mode: 'carousel',
+          contentSelector: '.js-carousel-container',
+          itemElementSelector: '.slide'
         });
 
         self.hasEnabledCarousels = true;
       }
 
       // Go through each possible carousel
-      if (!self.hasEnabledCarousels) {
-        self.$carousels.each(function(i, e) {
-          var $carousel = $(e), $firstImage;
+      if ( !self.hasEnabledCarousels ) {
+        self.$carousels.each(function(i,e) {
+          var $carousel = $(e),
+              $firstImage;
 
           // If this call is from the initial setup, we have to wait for the first image to load
           // to get its height.
           $firstImage = $carousel.find('img').first();
 
-          if ($firstImage[0].naturalHeight > 0) {
-            initializeScroller($carousel);
+          if ( $firstImage[0].naturalHeight > 0 ) {
+            initializeScroller( $carousel );
           } else {
-            $firstImage.on('imageLoaded', function() {
-              initializeScroller($carousel);
+             $firstImage.on('imageLoaded', function() {
+              initializeScroller( $carousel );
             });
           }
 
@@ -760,7 +873,7 @@
     },
 
     destroyCarousels : function() {
-      if (this.hasEnabledCarousels) {
+      if ( this.hasEnabledCarousels ) {
         this.$carousels.scrollerModule('destroy');
         this.hasEnabledCarousels = false;
       }
@@ -769,9 +882,9 @@
     fixCarousels : function() {
       var self = this;
 
-      if (self.hasCarousels) {
+      if ( self.hasCarousels ) {
         // 980+
-        if (Modernizr.mq('(min-width: 61.25em)')) {
+        if ( Modernizr.mq('(min-width: 61.25em)') ) {
           self.initCarousels();
         } else {
           self.destroyCarousels();
@@ -780,101 +893,128 @@
     },
 
     setFilterStatuses : function() {
-      var self = this, $visible = self.shuffle.$items.filter('.filtered'), filterName, filterValue, method;
-      //, filterData;
+      var self = this,
+          $visible = self.shuffle.$items.filter('.filtered'),
+          filterName, filterValue, method, skip, value;//, filterData;
+
 
       // Reset stored data by setting all filterValue values to null
-      for (filterName in self.filterValues ) {
-        if (!self.filterValues.hasOwnProperty(filterName)) {
+      for ( filterName in self.filterValues ) {
+        if ( !self.filterValues.hasOwnProperty(filterName) ) {
           continue;
         }
 
         // filterData = self.filterData[ filterName ];
+        skip = filterName === self.lastFilterGroup;
 
-        for (filterValue in self.filterValues[filterName] ) {
-          self.filterValues[ filterName ][filterValue] = null;
+        for ( filterValue in self.filterValues[ filterName ] ) {
+          self.filterValues[ filterName ][ filterValue ] = skip ? 'skip' : null;
         }
       }
 
       // Build up the dictionary of the filters that should be shown/hidden
       $visible.each(function() {
-        var $item = $(this), filterSet = $item.data('filterSet'), filterValue, filterName;
+        var $item = $(this),
+            filterSet = $item.data('filterSet'),
+            filterValue,
+            filterName;
 
-        for (filterName in self.filterValues ) {
-          if (!self.filterValues.hasOwnProperty(filterName)) {
+        for ( filterName in self.filterValues ) {
+          if ( !self.filterValues.hasOwnProperty(filterName) ) {
             continue;
           }
 
-          for (filterValue in self.filterValues[filterName] ) {
+          for ( filterValue in self.filterValues[ filterName ] ) {
             // If we've already set this to false, we don't need to check again on another element
-            if (self.filterValues[ filterName ][filterValue] === true) {
-              continue;
+            if ( self.filterValues[ filterName ][ filterValue ] === true || self.filterValues[ filterName ][ filterValue ] === 'skip' ) {
+                continue;
             }
 
-            var isArray = $.isArray(filterSet[filterName]), shouldEnable;
+            var isArray = $.isArray( filterSet[ filterName ] ),
+                shouldEnable;
 
-            shouldEnable = isArray ? self.valueInArray(filterValue, filterSet[filterName]) : filterValue === filterSet[filterName];
+            shouldEnable = isArray ?
+                self.valueInArray( filterValue, filterSet[ filterName ] ) :
+                filterValue === filterSet[ filterName ];
 
-            self.filterValues[ filterName ][filterValue] = shouldEnable;
+            self.filterValues[ filterName ][ filterValue ] = shouldEnable;
           }
         }
       });
 
       // Loop through all filters again to disable/enable them
-      for (filterName in self.filterValues ) {
-        if (!self.filterValues.hasOwnProperty(filterName)) {
+      for ( filterName in self.filterValues ) {
+        if ( !self.filterValues.hasOwnProperty(filterName) ) {
           continue;
         }
 
-        for (filterValue in self.filterValues[filterName] ) {
-          method = self.filterValues[ filterName ][filterValue] ? 'enable' : 'disable';
-          self[ method + 'Filter' ](filterValue, filterName, self.filterTypes[filterName]);
+        for ( filterValue in self.filterValues[ filterName ] ) {
+          value = self.filterValues[ filterName ][ filterValue ];
+
+          if ( value !== 'skip' ) {
+            method = value ? 'enable' : 'disable';
+            self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
+          }
         }
       }
 
-      self.$productCount.text($visible.length);
+      self.$productCount.text( $visible.length );
 
+      $visible = null;
+
+      return self;
     },
-    valueInArray : function(value, arr) {
+
+    valueInArray : function( value, arr ) {
       return $.inArray(value, arr) !== -1;
     },
 
-    arrayContainsArray : function(arrToTest, requiredArr) {
-      var i = 0, dictionary = {}, j;
+    arrayContainsArray : function( arrToTest, requiredArr ) {
+      var i = 0,
+          dictionary = {},
+          j;
 
       // Convert groups into object which we can test the keys
-      for ( j = 0; j < arrToTest.length; j++) {
-        dictionary[arrToTest[j]] = true;
+      for (j = 0; j < arrToTest.length; j++) {
+        dictionary[ arrToTest[j] ] = true;
       }
 
       // Loop through selected features, if that feature is not in this elements groups, return false
       for (; i < requiredArr.length; i++) {
-        if (dictionary[requiredArr[i]] === undefined) {
+        if ( dictionary[ requiredArr[i] ] === undefined ) {
           return false;
         }
       }
       return true;
     },
 
-    button : function($filterGroup, filterName, realType) {
-      var self = this, labels = {}, values = {}, $btns = $filterGroup.children();
+    button : function( $filterGroup, filterName, realType ) {
+      var self = this,
+          labels = {},
+          values = {},
+          $btns = $filterGroup.children();
 
       $btns.on('click', function() {
-        var $this = $(this), isMediaGroup = $this.hasClass('media'), $alreadyChecked, checked = [], active = 'active', isActive;
+        var $this = $(this),
+            isMediaGroup = $this.hasClass('media'),
+            $alreadyChecked,
+            checked = [],
+            active = 'active',
+            isActive;
 
         // Abort if this button is disabled
-        if ($this.is('[disabled]')) {
+        if ( $this.is('[disabled]') ) {
           return;
         }
 
         // Already checked buttons which are not this one
         $alreadyChecked = $this.siblings('.' + active);
 
-        if (isMediaGroup) {
+        if ( isMediaGroup ) {
           $this.find('.btn').button('toggle');
           $this.toggleClass(active);
 
-          if ($alreadyChecked.length) {
+          if ( $alreadyChecked.length ) {
             $alreadyChecked.removeClass(active);
             $alreadyChecked.find('.btn').button('toggle');
           }
@@ -882,89 +1022,137 @@
           $this.button('toggle');
 
           // Remove active on already checked buttons to act like radio buttons
-          if ($alreadyChecked.length) {
+          if ( $alreadyChecked.length ) {
             $alreadyChecked.button('toggle');
           }
         }
 
-        isActive = $this.hasClass(active);
+        isActive = $this.hasClass( active );
 
-        if (isActive) {
-          checked.push($this.data(filterName));
+        if ( isActive ) {
+          checked.push( $this.data( filterName ) );
+          self.lastFilterGroup = filterName;
+        } else {
+          self.lastFilterGroup = null;
         }
 
-        if (realType === 'color') {
-          self.currentFilterColor = isActive ? $this.data(filterName) : null;
-          if (isActive) {
+        if ( realType === 'color' ) {
+          self.currentFilterColor = isActive ? $this.data( filterName ) : null;
+          if ( isActive ) {
             self.displayFilteredSwatchImages();
           } else {
             self.hideFilteredSwatchImages();
           }
         }
 
-        self.filters.button[filterName] = checked;
+        self.filters.button[ filterName ] = checked;
 
         self.filter();
       })
+
       // Save each label to the labels object
       .each(function() {
         var data = $(this).data();
-        labels[data[filterName]] = data.label;
-        values[data[filterName]] = data[filterName];
+        labels[ data[ filterName ] ] = data.label;
+        values[ data[ filterName ] ] = data[ filterName ];
       });
 
-      self.filterLabels[filterName] = labels;
-      self.filterValues[filterName] = values;
+      self.filterLabels[ filterName ] = labels;
+      self.filterValues[ filterName ] = values;
+
+      $btns = null;
+      labels = null;
+      values = null;
     },
 
-    checkbox : function($filterGroup, filterName) {
-      var self = this, labels = {}, values = {}, $inputs = $filterGroup.find('input');
+    checkbox : function( $filterGroup, filterName ) {
+      var self = this,
+          labels = {},
+          values = {},
+          $inputs = $filterGroup.find('input');
 
       $inputs.on('change', function() {
-        var $checked = $filterGroup.find('input:checked'), checked = [];
+        var $input = $(this),
+            $checked = $filterGroup.find('input:checked'),
+            checked = [],
+            isActive;
 
         // At least one checkbox is checked, clear the array and loop through the checked checkboxes
         // to build an array of strings
-        if ($checked.length !== 0) {
+        if ( $checked.length !== 0 ) {
           $checked.each(function() {
             checked.push(this.value);
           });
+          isActive = true;
+        } else {
+          isActive = false;
         }
-        self.filters.checkbox[filterName] = checked;
+        self.filters.checkbox[ filterName ] = checked;
 
         // Less than IE9 doesn't support the :checked pseudo class
-        if (SONY.Settings.isLTIE9) {
-          $(this).toggleClass('active');
+        if ( SONY.Settings.isLTIE9 ) {
+          $input.toggleClass('active');
+        }
+
+        if ( isActive ) {
+          self.lastFilterGroup = filterName;
+        } else {
+          self.lastFilterGroup = null;
         }
 
         self.filter();
       })
+
       // Save each label to the labels object
       .each(function() {
         var data = $(this).data();
-        labels[this.value] = data.label;
-        values[this.value] = this.value;
+        labels[ this.value ] = data.label;
+        values[ this.value ] = this.value;
       });
 
-      self.filterLabels[filterName] = labels;
-      self.filterValues[filterName] = values;
+      self.filterLabels[ filterName ] = labels;
+      self.filterValues[ filterName ] = values;
+
+      $inputs = null;
+      labels = null;
+      values = null;
     },
 
-    range : function($rangeControl, filterName, min, max) {
+    range : function( $rangeControl, filterName, min, max ) {
       this.MAX_PRICE = max;
       this.MIN_PRICE = min;
       this.price = {
-        min : this.MIN_PRICE,
-        max : this.MAX_PRICE
+        min: this.MIN_PRICE,
+        max: this.MAX_PRICE
       };
 
-      var self = this, diff = self.MAX_PRICE - self.MIN_PRICE, $output = $rangeControl.closest('.filter-container').find('.range-output-container'), $minOutput = $output.find('.range-output-min'), $maxOutput = $output.find('.range-output-max'), getPrice = function(percent) {
-        return Math.round(diff * (percent / 100)) + self.MIN_PRICE;
+      var self = this,
+      diff = self.MAX_PRICE - self.MIN_PRICE,
+      $output = $rangeControl.closest('.filter-container').find('.range-output-container'),
+      $minOutputWrap = $output.find('.range-output-min'),
+      $maxOutputWrap = $output.find('.range-output-max'),
+      $minOutput = $output.find('.range-output-min .val'),
+      $maxOutput = $output.find('.range-output-max .val'),
+
+      delay = self.isTouch ? 1000 : 750,
+      method = self.isTouch ? 'debounce' : 'throttle',
+      debouncedFilter = $[ method ]( delay, function() {
+        self.filter();
+      }),
+
+      getPrice = function(percent) {
+        return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
       },
 
       // Range control update callback
       update = function(evt, positions, percents) {
-        var minPrice = getPrice(percents.min), maxPrice = getPrice(percents.max), maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice, prevMin = self.price.min, prevMax = self.price.max, delay;
+        var minPrice = getPrice(percents.min),
+        maxPrice = getPrice(percents.max),
+        maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice,
+        prevMin = self.price.min,
+        prevMax = self.price.max;
+
+        self.lastFilterGroup = null;
 
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
@@ -974,36 +1162,37 @@
         self.price.max = maxPrice;
 
         // Filter results only if values have changed
-        if ((prevMin !== self.price.min || prevMax !== self.price.max) && self.isInitialized) {
+        if ( (prevMin !== self.price.min || prevMax !== self.price.max) && self.isInitialized ) {
 
           // Save current filters
-          self.filters.range[filterName].min = self.price.min;
-          self.filters.range[filterName].max = self.price.max;
+          self.filters.range[ filterName ].min = self.price.min;
+          self.filters.range[ filterName ].max = self.price.max;
 
           // Throttle filtering (especially on touch)
-          delay = self.isTouch ? 2500 : 250;
-          $.debounce( delay, function() {
-          self.filter();
-          })();
+          debouncedFilter();
         }
       },
 
       // Show what's happening with the range control
-      displayValues = function(min, max, percents) {
-        var minWidth, maxWidth;
+      displayValues = function( min, max, percents ) {
+        var minWidth,
+            maxWidth;
 
         // Set the new html, then get it's width, then set it's margin-left to negative half that
-        minWidth = $minOutput.html('<sup>$</sup>' + min).width();
-        $minOutput.css({
-          left : percents.min + '%',
-          marginLeft : -minWidth / 2
+        $minOutput.text( min );
+        $maxOutput.text( max );
+        minWidth = $minOutputWrap.width();
+        maxWidth = $maxOutputWrap.width();
+
+        $minOutputWrap.css({
+          left: percents.min + '%',
+          marginLeft: -minWidth / 2
         });
 
         // Do it all over for the max handle
-        maxWidth = $maxOutput.html('<sup>$</sup>' + max).width();
-        $maxOutput.css({
-          left : percents.max + '%',
-          marginLeft : -maxWidth / 2
+        $maxOutputWrap.css({
+          left: percents.max + '%',
+          marginLeft: -maxWidth / 2
         });
       };
 
@@ -1014,31 +1203,38 @@
       self.$rangeControl.on('slid.rangecontrol', update);
 
       self.$rangeControl.rangeControl({
-        initialMin : '0%',
-        initialMax : '100%',
-        range : true,
-        rangeThreshold : 0.25
+        initialMin: '0%',
+        initialMax: '100%',
+        range: true,
+        rangeThreshold: 0.25
       });
     },
 
     // If there is a range control in this element and it's in need of an update
     maybeResetRange : function() {
-      var self = this, $rangeControl = self.$container.find('.range-control');
-      if ($rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden) {
+      var self = this,
+          $rangeControl = self.$container.find('.range-control');
+      if ( $rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden ) {
         $rangeControl.rangeControl('reset');
         return true;
       }
       return false;
     },
 
-    getSortObject : function(evt, $btnText) {
-      var $target = $(evt.target), isSelect = $target.is('select'), data, filterName, reverse, sortObj = {}, index;
+    getSortObject : function( evt, $btnText ) {
+      var $target = $(evt.target),
+          isSelect = $target.is('select'),
+          data,
+          filterName,
+          reverse,
+          sortObj = {},
+          index;
 
       // Get variables based on what kind of component we're working with
-      if (isSelect) {
+      if ( isSelect ) {
         filterName = $target.val();
         index = evt.target.selectedIndex;
-        reverse = evt.target[index].getAttribute('data-reverse');
+        reverse = evt.target[ index ].getAttribute('data-reverse');
         reverse = reverse === 'true' ? true : false;
       } else {
         data = $target.data();
@@ -1046,16 +1242,16 @@
         reverse = data.reverse ? true : false;
         index = $target.closest('li').index();
         evt.preventDefault();
-        $btnText.text($target.text());
+        $btnText.text( $target.text() );
       }
 
-      if (filterName !== 'default') {
+      if ( filterName !== 'default' ) {
         sortObj = {
-          sortIndex : index,
-          reverse : reverse,
-          by : function($el) {
+          sortIndex: index,
+          reverse: reverse,
+          by: function($el) {
             // e.g. filterSet.price
-            return $el.data('filterSet')[filterName];
+            return $el.data('filterSet')[ filterName ];
           }
         };
       } else {
@@ -1066,23 +1262,33 @@
 
     },
 
-    updateSortDisplay : function($container) {
-      var self = this, currentSortValue = '';
+    updateSortDisplay : function( $container ) {
+      var self = this,
+          currentSortValue = '';
 
-      if (Modernizr.mq('(max-width: 47.9375em)')) {
+      if ( Modernizr.mq('(max-width: 47.9375em)') ) {
         // Dealing with the select option menu
-        currentSortValue = $container.find('select').children().eq(self.currentSort).val();
-        $container.find('select').val(currentSortValue).trigger('change');
+        currentSortValue = $container.find('select').children().eq( self.currentSort ).val();
+        $container
+          .find('select')
+          .val( currentSortValue )
+          .trigger('change');
       } else {
         // The dropdown component
-        $container.find('.dropdown-menu').children().eq(self.currentSort).find('a').trigger('click');
+        $container
+          .find('.dropdown-menu')
+          .children()
+          .eq( self.currentSort )
+          .find('a')
+          .trigger('click');
       }
 
       return self;
     },
 
-    sort : function(evt) {
-      var self = this, sortObj = self.getSortObject(evt, self.$dropdownToggleText);
+    sort : function( evt ) {
+      var self = this,
+          sortObj = self.getSortObject( evt, self.$dropdownToggleText );
 
       self.currentSort = sortObj.sortIndex;
       self.$grid.shuffle('sort', sortObj);
@@ -1091,11 +1297,12 @@
     },
 
     sortByPriority : function() {
-      var self = this, isTablet = Modernizr.mq('(max-width: 47.9375em)');
+      var self = this,
+          isTablet = Modernizr.mq('(max-width: 47.9375em)');
 
-      if (isTablet && !self.sorted) {
+      if ( isTablet && !self.sorted ) {
         self.$grid.shuffle('sort', {
-          by : function($el) {
+          by: function($el) {
             var priority = $el.data('priority');
 
             // Returning undefined to the sort plugin will cause it to revert to the original array
@@ -1104,7 +1311,7 @@
         });
         self.sorted = true;
 
-      } else if (!isTablet && self.sorted) {
+      } else if ( !isTablet && self.sorted ) {
         self.$grid.shuffle('sort', {});
         self.sorted = false;
       }
@@ -1149,14 +1356,17 @@
     //   return self;
     // },
 
-    onResize : function(isInit, force) {
-      var self = this, windowWidth = self.$window.width(), windowHeight = self.$window.height(), hasWindowChanged = windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
+    onResize : function( isInit, force ) {
+      var self = this,
+          windowWidth = self.$window.width(),
+          windowHeight = self.$window.height(),
+          hasWindowChanged = windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
       // Make sure isInit is not an event object
       isInit = isInit === true;
 
       // Return if the window hasn't changed sizes or the gallery is disabled
-      if (!force && !isInit && (!self.enabled || !hasWindowChanged)) {
+      if ( !force && !isInit && (!self.enabled || !hasWindowChanged) ) {
         return;
       }
 
@@ -1165,50 +1375,63 @@
 
       // Don't change columns for detail galleries
       // Change the filters column layout
-      if (self.mode === 'detailed') {
+      if ( self.mode === 'detailed' ) {
 
         // Remove heights in case they've aready been set
-        if (Modernizr.mq('(max-width: 47.9375em)')) {
+        if ( Modernizr.mq('(max-width: 47.9375em)') ) {
           self.$gridProductNames.css('height', '');
 
-          // Make all product name heights even
+        // Make all product name heights even
         } else {
           self.$gridProductNames.evenHeights();
         }
 
         // 768-979
         // Make filters a 2up with a span12 below
-        if (Modernizr.mq('(min-width: 48em) and (max-width: 61.1875em)')) {
-          if (self.$filterColumns.eq(0).hasClass('span4')) {
-            self.$filterColumns.removeClass('span4').slice(0, 2).addClass('span6').end().last().addClass('span12').find('.media-list').addClass('inline');
+        if ( Modernizr.mq('(min-width: 48em) and (max-width: 61.1875em)') ) {
+          if ( self.$filterColumns.eq(0).hasClass('span4') ) {
+            self.$filterColumns
+              .removeClass('span4')
+              .slice(0, 2)
+                .addClass('span6')
+                .end()
+              .last()
+                .addClass('span12')
+                .find('.media-list')
+                  .addClass('inline');
 
           }
 
-          // Reset filters to 3 columns
+        // Reset filters to 3 columns
         } else {
-          if (self.$filterColumns.eq(0).hasClass('span6')) {
-            self.$filterColumns.removeClass('span6 span12').addClass('span4').find('.media-list').removeClass('inline');
+          if ( self.$filterColumns.eq(0).hasClass('span6') ) {
+            self.$filterColumns
+              .removeClass('span6 span12')
+              .addClass('span4')
+              .find('.media-list')
+                .removeClass('inline');
           }
         }
 
         // Move sort options around
-        if (Modernizr.mq('(max-width: 47.9375em)')) {
-          if (!self.hasSorterMoved) {
+        if ( Modernizr.mq('(max-width: 47.9375em)') ) {
+          if ( !self.hasSorterMoved ) {
             var $sorter = self.$sortOpts.detach();
-            $sorter.insertAfter(self.$container.find('.slide-toggle-target'));
+            $sorter.insertAfter( self.$container.find('.slide-toggle-target') );
             $sorter.wrap('<div id="sort-options-holder" class="container"><div class="grid"></div></div>');
             self.hasSorterMoved = true;
           }
         } else {
-          if (self.hasSorterMoved) {
-            self.$sortOpts.detach().appendTo(self.$container.find('.slide-toggle-parent .grid'));
+          if ( self.hasSorterMoved ) {
+            self.$sortOpts.detach().appendTo( self.$container.find('.slide-toggle-parent .grid') );
             self.$container.find('#sort-options-holder').remove();
             self.hasSorterMoved = false;
           }
         }
 
+
         // Tell infinite scroll to update where it thinks it's target it
-        if (self.hasInfiniteScroll) {
+        if ( self.hasInfiniteScroll ) {
           setTimeout(function() {
             self.$grid.infinitescroll('updateNavLocation');
           }, 25);
@@ -1218,6 +1441,7 @@
 
         return;
       }
+
 
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
@@ -1229,79 +1453,84 @@
       self.sortByPriority();
     },
 
-    getFavoriteContent : function($jsFavorite, isActive) {
-      return isActive ? $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' : $jsFavorite.data('defaultTitle');
+    getFavoriteContent : function( $jsFavorite, isActive ) {
+      return isActive ?
+            $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' :
+            $jsFavorite.data('defaultTitle');
     },
 
-    onFavorite : function(evt) {
-      var self = this, $jsFavorite = $(evt.delegateTarget), isAdding = !$jsFavorite.hasClass('active'), content = self.isTouch ? '' : self.getFavoriteContent($jsFavorite, isAdding);
+    onFavorite : function( evt ) {
+      var self = this,
+          $jsFavorite = $(evt.delegateTarget),
+          isAdding = !$jsFavorite.hasClass('active'),
+          content = self.isTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding );
 
       $jsFavorite.toggleClass('active');
 
       // Show the tooltip if it isn't a touch device
-      if (!self.isTouch) {
-        $('.gallery-tooltip .tooltip-inner').html(content).tooltip('show');
+      if ( !self.isTouch ) {
+        $('.gallery-tooltip .tooltip-inner')
+          .html( content )
+          .tooltip('show');
       }
+
 
       // Stop event from bubbling to <a> tag
       evt.preventDefault();
       evt.stopPropagation();
     },
 
-    onFiltersHide : function(evt) {
-      evt.stopPropagation();
-      // stop this event from bubbling up to .gallery
+    onFiltersHide : function( evt ) {
+      evt.stopPropagation(); // stop this event from bubbling up to .gallery
       this.$filterArrow.removeClass('in');
     },
 
-    onFiltersShow : function(evt) {
-      evt.stopPropagation();
-      // stop this event from bubbling up to .gallery
+    onFiltersShow : function( evt ) {
+      evt.stopPropagation(); // stop this event from bubbling up to .gallery
       this.$filterArrow.addClass('in');
     },
 
-    onFiltersShown : function(evt) {
-      var self = this, didReset = self.maybeResetRange(evt);
+    onFiltersShown : function( evt ) {
+      var self = this,
+          didReset = self.maybeResetRange(evt);
 
-      evt.stopPropagation();
-      // stop this event from bubbling up to .gallery
+      evt.stopPropagation(); // stop this event from bubbling up to .gallery
 
-      if (!didReset) {
+      if ( !didReset ) {
         self.filter();
       }
 
       // Scroll the window so we can see what's happening with the filtered items
       $.simplescroll({
-        offset : 24, // margin-top of the gallery is 1.5em (24px)
-        target : self.$container
+        offset: 24, // margin-top of the gallery is 1.5em (24px)
+        target: self.$container
       });
     },
 
     onShuffleLoading : function() {
-      var $div = $('<div>', {
-        'class' : 'gallery-loader text-center'
-      }), $img = $('<img>', {
-        src : this.loadingGif
-      });
+      var $div = $('<div>', { 'class' : 'gallery-loader text-center' }),
+          $img = $('<img>', { src: this.loadingGif });
       $div.append($img);
-      $div.insertBefore(this.$grid);
+      $div.insertBefore( this.$grid );
     },
 
     onShuffleDone : function() {
       var self = this;
       self.$container.find('.gallery-loader').remove();
 
-      if (SONY.Settings.isLTIE9) {
+      // Product names get zero height in IE8
+      if ( SONY.Settings.isLTIE9 ) {
         setTimeout(function() {
           self.$gridProductNames.evenHeights();
         }, 1000);
       }
 
       // Fade in the gallery if it isn't already
-      if (!self.$container.hasClass('in')) {
+      if ( !self.$container.hasClass('in') ) {
         setTimeout(function() {
+          SONY.removeGalleryLoader();
           self.$container.addClass('in');
-        }, 250);
+        }, 0);
       }
     },
 
@@ -1519,6 +1748,7 @@
     //     //   e.stopPropagation();
     //     // });
     //   }
+
 
     //   // Initialize inner scroller (for the comparable product items)
     //   self.innerScroller = new IScroll( self.$compareTool.find('.compare-items-wrap')[0], {
@@ -1804,6 +2034,7 @@
 
     //       self.$compareTool.find('.modal-subheader').remove();
 
+
     //       snap = true;
 
     //       // Snap to pages on 'desktop'
@@ -1826,6 +2057,7 @@
     //     .setCompareDimensions()
     //     .setCompareItemsOffset()
     //     .setStickyHeaderPos();
+
 
     //   self.innerScroller.refresh();
 
@@ -1946,6 +2178,7 @@
     //       .addClass('p3')
     //       .removeClass('p2');
 
+
     //     // Create a new div with the same attributes as the anchor tag
     //     // We no longer want the entire thing to be clickable
     //     $div.attr({
@@ -2017,8 +2250,8 @@
     //   self.takeoverHeaderHeight = self.$takeoverStickyHeader.outerHeight();
     // },
 
-    getY : function(y) {
-      return [this.valStart, y, this.valEnd, this.translateZ].join('');
+    getY : function( y ) {
+      return [ this.valStart, y, this.valEnd, this.translateZ ].join('');
     },
 
     // setCompareItemsOffset : function() {
@@ -2090,72 +2323,79 @@
     //     self.$takeoverStickyHeader.css( self.prop, takeoverValue );
     //   }
 
+
+
     //   return self;
     // },
 
     setColumnMode : function() {
       var self = this;
 
-      if (self.mode !== 'detailed') {
+      if ( self.mode !== 'detailed' ) {
         // Make this a 5 column grid. Added to parent because grid must be a descendant of grid5
-        self.$grid.addClass('slimgrid5');
+        if ( !self.$grid.hasClass('slimgrid5') ) {
+          self.$grid.addClass('slimgrid5');
+        }
 
-        self.shuffleColumns = function(containerWidth) {
+
+        self.shuffleColumns = function( containerWidth ) {
           var column;
 
           // Large desktop ( 6 columns )
-          if (Modernizr.mq('(min-width: 75em)')) {
+          if ( Modernizr.mq('(min-width: 75em)') ) {
             column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
 
-            // Landscape tablet + desktop ( 5 columns )
-          } else if (!Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)')) {
+          // Landscape tablet + desktop ( 5 columns )
+          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
             column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth;
 
-            // Portrait Tablet ( 4 columns )
-            // } else if ( Modernizr.mq('(min-width: 48em)') ) {
-            //   column = SONY.Settings.COLUMN_WIDTH_768 * containerWidth;
+          // Portrait Tablet ( 4 columns )
+          // } else if ( Modernizr.mq('(min-width: 48em)') ) {
+          //   column = SONY.Settings.COLUMN_WIDTH_768 * containerWidth;
 
-            // Between Portrait tablet and phone ( 3 columns )
-            // 568px+
-          } else if (Modernizr.mq('(min-width: 35.5em)')) {
+          // Between Portrait tablet and phone ( 3 columns )
+          // 568px+
+          } else if ( Modernizr.mq('(min-width: 35.5em)') ) {
             column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
 
-            // Phone ( 2 columns )
-            // < 568px
+          // Phone ( 2 columns )
+          // < 568px
           } else {
             column = SONY.Settings.COLUMN_WIDTH_320 * containerWidth;
           }
 
+
           return column;
         };
 
-        self.shuffleGutters = function(containerWidth) {
-          var gutter, numColumns = 0;
+        self.shuffleGutters = function( containerWidth ) {
+          var gutter,
+              numColumns = 0;
 
           // Large desktop ( 6 columns )
-          if (Modernizr.mq('(min-width: 75em)')) {
+          if ( Modernizr.mq('(min-width: 75em)') ) {
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 6;
 
-            // Landscape tablet + desktop ( 5 columns )
-          } else if (!Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)')) {
+          // Landscape tablet + desktop ( 5 columns )
+          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
             numColumns = 5;
 
-            // // Portrait Tablet ( 4 columns ) - masonry
-          } else if (Modernizr.mq('(min-width: 48em)')) {
+          // // Portrait Tablet ( 4 columns ) - masonry
+          } else if ( Modernizr.mq('(min-width: 48em)') ) {
             numColumns = 4;
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
 
-            // Between Portrait tablet and phone ( 3 columns )
-          } else if (Modernizr.mq('(min-width: 35.5em)')) {
+          // Between Portrait tablet and phone ( 3 columns )
+          } else if ( Modernizr.mq('(min-width: 35.5em)') ) {
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 3;
 
-            // Phone ( 2 columns )
+
+          // Phone ( 2 columns )
           } else {
-            gutter = SONY.Settings.GUTTER_WIDTH_320 * containerWidth;
-            // 2% of container width
+            gutter = SONY.Settings.GUTTER_WIDTH_320 * containerWidth; // 2% of container width
             numColumns = 2;
           }
 
@@ -2164,7 +2404,8 @@
           return gutter;
         };
 
-        // Use the default 12 column slim grid.
+
+      // Use the default 12 column slim grid.
       } else {
         self.shuffleColumns = SONY.Utilities.masonryColumns;
         self.shuffleGutters = SONY.Utilities.masonryGutters;
@@ -2173,87 +2414,118 @@
       return self;
     },
 
-    setColumns : function(numColumns) {
-      var self = this, allSpans = 'span1 span2 span3 span4 span6 m-span3', shuffleDash = 'shuffle-', grid = 'slimgrid', grid5 = grid + 5, gridClasses = [shuffleDash + 2, shuffleDash + 3, shuffleDash + 4, shuffleDash + 5, shuffleDash + 6, grid, grid5].join(' '), itemSelector = '.gallery-item', span = 'span', mspan = 'm-' + span, large = '.large', promo = '.promo', normal = '.normal';
+    setColumns : function( numColumns ) {
+      var self = this,
+          allSpans = 'span1 span2 span3 span4 span6 m-span3',
+          shuffleDash = 'shuffle-',
+          grid = 'slimgrid',
+          grid5 = grid+5,
+          gridClasses = [ shuffleDash+2, shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6, grid, grid5 ].join(' '),
+          itemSelector = '.gallery-item',
+          span = 'span',
+          mspan = 'm-' + span,
+          large = '.large',
+          promo = '.promo',
+          normal = '.normal';
 
       // Large desktop ( 6 columns )
-      if (numColumns === 6) {
-        if (!self.$grid.hasClass(shuffleDash + 6)) {
+      if ( numColumns === 6 ) {
+        if ( !self.$grid.hasClass(shuffleDash+6) ) {
 
           // add .slimgrid5
-          self.$grid.removeClass(gridClasses).addClass(shuffleDash + 6 + ' ' + grid).parent().removeClass(grid5);
+          self.$grid
+            .removeClass(gridClasses)
+            .addClass(shuffleDash+6 + ' ' + grid)
+            .parent()
+            .removeClass(grid5);
 
-          self.$grid.children(itemSelector).removeClass(allSpans)// Remove current grid span
-          .filter(large)// Select large tiles
-          .addClass(span + 6)// Make them 6/12 width
-          .end()// Go back to all items
-          .filter(promo)// Select promo tiles
-          .addClass(span + 4)// Make them 4/12 width
-          .end()// Go back to all items
-          .filter(normal)// Select tiles not large nor promo
-          .addClass(span + 2);
-          // Make them 2/12 width
+
+          self.$grid.children(itemSelector)
+            .removeClass(allSpans) // Remove current grid span
+              .filter(large) // Select large tiles
+              .addClass(span+6) // Make them 6/12 width
+              .end() // Go back to all items
+            .filter(promo) // Select promo tiles
+              .addClass(span+4) // Make them 4/12 width
+              .end() // Go back to all items
+            .filter(normal) // Select tiles not large nor promo
+              .addClass(span+2); // Make them 2/12 width
         }
 
-        // Landscape tablet + desktop ( 5 columns )
-      } else if (numColumns === 5) {
-        if (!self.$grid.hasClass(shuffleDash + 5)) {
-
+      // Landscape tablet + desktop ( 5 columns )
+      } else if ( numColumns === 5 ) {
+        if ( !self.$grid.hasClass(shuffleDash+5) ) {
           // add .slimgrid5
-          self.$grid.removeClass(gridClasses).addClass(shuffleDash + 5 + ' ' + grid5);
+          self.$grid
+            .removeClass(gridClasses)
+            .addClass(shuffleDash+5 + ' ' + grid5);
 
-          self.$grid.children(itemSelector).removeClass(allSpans)// Remove current grid span
-          .filter(large)// Select large tiles
-          .addClass(span + 3)// Make them 3/5 width
-          .end()// Go back to all items
-          .filter(promo)// Select promo tiles
-          .addClass(span + 2)// Make them 2/5 width
-          .end()// Go back to all items
-          .filter(normal)// Select tiles not large nor promo
-          .addClass(span + 1);
-          // Make them 1/5 width
+
+          self.$grid.children(itemSelector)
+            .removeClass(allSpans) // Remove current grid span
+            .filter(large) // Select large tiles
+              .addClass(span+3) // Make them 3/5 width
+              .end() // Go back to all items
+            .filter(promo) // Select promo tiles
+              .addClass(span+2) // Make them 2/5 width
+              .end() // Go back to all items
+            .filter(normal) // Select tiles not large nor promo
+              .addClass(span+1); // Make them 1/5 width
         }
 
-        // Portrait Tablet ( 4 columns ) - masonry
-      } else if (numColumns === 4) {
-        if (!self.$grid.hasClass(shuffleDash + 4)) {
+      // Portrait Tablet ( 4 columns ) - masonry
+      } else if ( numColumns === 4 ) {
+        if ( !self.$grid.hasClass(shuffleDash+4) ) {
 
           // Remove .slimgrid5
-          self.$grid.removeClass(gridClasses).addClass(shuffleDash + 4 + ' ' + grid);
+          self.$grid
+            .removeClass(gridClasses)
+            .addClass(shuffleDash+4 + ' ' + grid);
 
-          self.$grid.children(itemSelector).removeClass(allSpans)// Remove current grid span
-          .filter(promo)// Select promo tiles
-          .addClass(span + 6)// Make them half width
-          .end()// Go back to all items
-          .filter(large + ',' + normal)// Select tiles not promo
-          .addClass(span + 3);
-          // Make them quarter width
+
+          self.$grid.children(itemSelector)
+            .removeClass(allSpans) // Remove current grid span
+            .filter(promo) // Select promo tiles
+              .addClass(span+6) // Make them half width
+              .end() // Go back to all items
+            .filter(large + ',' + normal) // Select tiles not promo
+              .addClass(span+3); // Make them quarter width
         }
 
-        // Between Portrait tablet and phone ( 3 columns )
-      } else if (numColumns === 3) {
-        if (!self.$grid.hasClass(shuffleDash + 3)) {
+      // Between Portrait tablet and phone ( 3 columns )
+      } else if ( numColumns === 3 ) {
+        if ( !self.$grid.hasClass(shuffleDash+3) ) {
 
           // Remove .slimgrid5, add .grid-small
-          self.$grid.removeClass(gridClasses).addClass(shuffleDash + 3 + ' ' + grid);
+          self.$grid
+            .removeClass(gridClasses)
+            .addClass(shuffleDash+3 + ' ' + grid);
 
           // Remove current grid span
-          self.$grid.children(itemSelector).removeClass(allSpans).addClass(span + 4);
+          self.$grid.children(itemSelector)
+            .removeClass(allSpans)
+            .addClass(span+4);
         }
 
-        // Phone ( 2 columns )
-      } else if (numColumns === 2) {
-        if (!self.$grid.parent().hasClass(shuffleDash + 2)) {
+
+      // Phone ( 2 columns )
+      } else if ( numColumns === 2 ) {
+        if ( !self.$grid.parent().hasClass(shuffleDash+2) ) {
 
           // remove .slimgrid5
-          self.$grid.removeClass(gridClasses).addClass(shuffleDash + 2 + ' ' + grid);
+          self.$grid
+            .removeClass(gridClasses)
+            .addClass(shuffleDash+2 + ' ' + grid);
 
           // Remove current grid span
-          self.$grid.children(itemSelector).removeClass(allSpans).addClass(mspan + 3);
+          self.$grid.children(itemSelector)
+            .removeClass(allSpans)
+            .addClass(mspan+3);
         }
       }
       return self;
     }
+
     // setCompareDimensions : function() {
     //   return this
     //     .setCompareHeight()
@@ -2320,71 +2592,76 @@
   };
 
   // Plugin definition
-  $.fn.gallery = function(options) {
-    var args = Array.prototype.slice.call(arguments, 1);
+  $.fn.gallery = function( options ) {
+    var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
-      var self = $(this), gallery = self.data('gallery');
+      var self = $(this),
+          gallery = self.data('gallery');
 
       // If we don't have a stored gallery, make a new one and save it
-      if (!gallery) {
-        gallery = new Gallery(self, options);
-        self.data('gallery', gallery);
+      if ( !gallery ) {
+        gallery = new Gallery( self, options );
+        self.data( 'gallery', gallery );
       }
 
-      if ( typeof options === 'string') {
-        gallery[options].apply(gallery, args);
+      if ( typeof options === 'string' ) {
+        gallery[ options ].apply( gallery, args );
       }
     });
   };
 
+
   // Overrideable options
   $.fn.gallery.options = {
-    mode : 'editorial',
-    shuffleSpeed : SONY.Settings.shuffleSpeed,
-    shuffleEasing : SONY.Settings.shuffleEasing
+    mode: 'editorial',
+    shuffleSpeed: SONY.Settings.shuffleSpeed,
+    shuffleEasing: SONY.Settings.shuffleEasing
   };
 
   // Not overrideable
   $.fn.gallery.settings = {
-    enabled : true,
-    MIN_PRICE : undefined,
-    MAX_PRICE : undefined,
-    price : {},
-    isInitialized : false,
-    hasEnabledCarousels : false,
-    hasSorterMoved : false,
-    sorted : false,
-    isCompareToolOpen : false,
-    isTouch : SONY.Settings.hasTouchEvents,
-    isiPhone : SONY.Settings.isIPhone,
-    isUsingOuterScroller : !(SONY.Settings.isLTIE9 || SONY.Settings.isPS3 ),
-    showCompareStickyHeaders : true,
-    currentFilterColor : null,
-    loadingGif : 'img/global/loader.gif',
-    prop : Modernizr.csstransforms ? 'transform' : 'top',
+    MIN_PRICE: undefined,
+    MAX_PRICE: undefined,
+    price: {},
+    enabled: true,
+    hasEnabledCarousels: false,
+    hasSorterMoved: false,
+    isInitialized: false,
+    isCompareToolOpen: false,
+    isTouch: SONY.Settings.hasTouchEvents,
+    isiPhone: SONY.Settings.isIPhone,
+    sorted: false,
+    // isUsingOuterScroller: !( SONY.Settings.isLTIE9 || SONY.Settings.isPS3 ),
+    // showCompareStickyHeaders: true,
+    currentFilterColor: null,
+    lastFilterGroup: null,
+    loadingGif: 'img/global/loader.gif',
+    prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
     valEnd : Modernizr.csstransforms ? 'px)' : 'px',
     translateZ : Modernizr.csstransforms3d ? ' translateZ(0)' : ''
   };
 
+
   // Event triggered when this tab is about to be shown
-  SONY.onGalleryTabShow = function(evt) {
+  SONY.onGalleryTabShow = function( evt ) {
     var $prevPane;
 
-    if (evt) {
+    if ( evt ) {
       $prevPane = evt.prevPane;
-      if (evt.prevPane) {
+      if ( evt.prevPane ) {
         $prevPane = evt.prevPane;
-      } else if (evt.originalEvent && evt.originalEvent.prevPane) {
+      } else if ( evt.originalEvent && evt.originalEvent.prevPane ) {
         $prevPane = evt.originalEvent.prevPane;
       } else {
         $prevPane = false;
       }
     }
 
-    if (!evt || !$prevPane) {
+    if ( !evt || !$prevPane ) {
       return;
     }
+
 
     // Loop through each gallery in the tab (there could be more than 1)
     // Disable the gallery (which disableds shuffle and pauses infinite scrolling) for galleries being hidden
@@ -2392,74 +2669,93 @@
       var gallery = $(this).data('gallery');
 
       // If there are active filters, remove them.
-      if (gallery.hasActiveFilters()) {
+      if ( gallery.hasActiveFilters() ) {
         gallery.removeActiveFilters();
       }
 
       gallery.disable();
     });
 
+    $prevPane = null;
+
   };
 
   // Event triggered when tab pane is finished being shown
-  SONY.onGalleryTabShown = function(evt) {
+  SONY.onGalleryTabShown = function( evt ) {
     // Only continue if this is a tab shown event.
-    var $pane, $galleries;
+    var $pane,
+        $galleries;
 
-    if (evt) {
+    if ( evt ) {
       $pane = evt.pane;
-      if (evt.pane) {
+      if ( evt.pane ) {
         $pane = evt.pane;
-      } else if (evt.originalEvent && evt.originalEvent.pane) {
+      } else if ( evt.originalEvent && evt.originalEvent.pane ) {
         $pane = evt.originalEvent.pane;
       } else {
         $pane = false;
       }
     }
 
-    if (!evt || !$pane) {
+    if ( !evt || !$pane ) {
       return;
     }
 
     $galleries = $pane.find('.gallery');
 
+    // Force redraw before fixing galleries
+    SONY.Utilities.forceWebkitRedraw();
+
     $galleries.each(function() {
-      var gallery = $(this).data('gallery'), $collapse = gallery.$container.find('[data-toggle="collapse"]');
+      var gallery = $(this).data('gallery'),
+          $collapse = gallery.$container.find('[data-toggle="collapse"]');
 
       // Enable all galleries in this tab
       gallery.enable();
 
       // Slide up the collapsable if it's visible
-      if ($collapse.length && !$collapse.hasClass('collapsed')) {
+      if ( $collapse.length && !$collapse.hasClass('collapsed') ) {
         $collapse.click();
       }
 
-      if (gallery) {
+      if ( gallery ) {
         gallery.fixCarousels();
       }
     });
 
-    SONY.Utilities.forceWebkitRedraw();
+    $galleries = null;
+    $pane = null;
+  };
+
+  SONY.removeGalleryLoader = function() {
+    if ( !SONY.galleryLoaderRemoved ) {
+      $('.gallery-loader').first().remove();
+    }
+    SONY.galleryLoaderRemoved = true;
   };
 
 })(jQuery, Modernizr, window);
 
+
 SONY.on('global:ready', function() {
 
-  if ($('.gallery').length > 0) {
+  if ( $('.gallery').length > 0 ) {
     // console.profile();
-    log('Gallery(s) initializing');
     // Initialize galleries
     $('.gallery').each(function() {
       var $this = $(this);
 
-      $this.gallery($this.data());
+      // console.profile('gallery ' + this.id);
+      // console.time('Initializing gallery ' + this.id + ' took:');
+      $this.gallery( $this.data() );
+      // console.timeEnd('Initializing gallery ' + this.id + ' took:');
+      // console.profileEnd('gallery ' + this.id);
     });
 
     // Register for tab show(n) events here because not all tabs are galleries
-    $('[data-tab]').on('show', SONY.onGalleryTabShow).on('shown', SONY.onGalleryTabShown);
-
-    log('Gallery(s) initialized');
+    $('[data-tab]')
+      .on('show', SONY.onGalleryTabShow )
+      .on('shown', SONY.onGalleryTabShown );
 
     // Initialize sticky tabs
     $('.tab-strip').stickyTabs();
@@ -2474,9 +2770,9 @@ SONY.on('global:ready', function() {
     // Using a timeout here because the tab shown event is triggered at the end of the transition,
     // which depends on how long the page takes to load (and if the browser has transitions)
     setTimeout(function() {
+      // console.timeStamp('Disabling hidden galleries');
       $('.tab-pane:not(.active) .gallery').gallery('disable');
       // console.profileEnd();
     }, 500);
-    log('Gallery Page done');
   }
 });

@@ -105,7 +105,7 @@ form.footer-store-locator-form{
   display:inline-block;
   @include ie7-inline-block;
   a{
-    display:inline-block;
+    display:block;
     width: px-em(36px);
     height: px-em(32px);
     float:left;
@@ -192,9 +192,9 @@ a.footer-social-youtube {
       display:inline-block;
       position:relative;
       top:-2px;
-      left:4px;
+      left:5px;
       @include transition(all $transitionFast linear);
-      @include transform-origin(47%, 53%, 0);
+      @include transform-origin(40%, 56%, 0);
       @include flickerfix;
       -webkit-font-smoothing:antialiased;
       color:$gray50;
@@ -215,19 +215,27 @@ a.footer-social-youtube {
     // .dropdown-hover-toggle{
     //   padding-left:16px;
     // }
+    &.open *{
+      background:green;
+    }
+    .active *{
+      background:red;
+    }
     .dropdown-hover-menu{
       @include el-hidden(right); // so it's right-justified.
     }
   }
   // pierre
-  .lt-ie8 & div.btn.dropdown-hover-toggle {
-      width: 210px;
-    }
+  .lt-ie8 &.country-selector .btn.dropdown-hover-toggle {
+    padding-left:6%;
+    padding-right:0;
+    width:94%;
+   }
   .lt-ie8 &.language-selector  {
       margin-left: 3px;
       width: 60px;
       a.dropdown-hover-toggle {
-        width: 30px;
+        width: 60px;
         margin-top: 1px;
         display: block;
         line-height: 1.65em;
@@ -326,7 +334,9 @@ a.footer-social-youtube {
 
 .no-touch .btn-hover-group:hover,
 .no-touch .btn-hover-group.open:hover,
-.touch .btn-hover-group.open{ // overrides the .open settings for the non-touch .dropdown-toggle, but not on mobile (touch).
+.touch .btn-hover-group.open,
+.no-touch .btn-hover-group.active:hover,
+.touch .btn-hover-group.active{ // overrides the .open settings for the non-touch .dropdown-toggle, but not on mobile (touch).
 
   .btn.dropdown-hover-toggle{
     color:$white;
@@ -340,11 +350,11 @@ a.footer-social-youtube {
     .dropdown-hover-menu{
       @include el-shown(right);
     }
-    // &.language-selector{
-    //   .dropdown-hover-menu{
-    //     @include el-shown(right); // so it's right-justified.
-    //   }
-    // }
+    &.language-selector{
+      .dropdown-hover-menu{
+        @include el-shown(right); // so it's right-justified.
+      }
+    }
     // &.country-selector{
 
     // }
@@ -517,6 +527,9 @@ a.footer-social-youtube {
   .footer-input{
     width:55%;  
     float:none;
+     &:focus{
+        -webkit-appearance: none;
+      }
   }
   .footer-btn{
     width:35%;

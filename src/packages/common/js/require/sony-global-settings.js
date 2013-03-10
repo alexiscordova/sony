@@ -30,6 +30,7 @@ SONY.Settings = (function(window, document, Modernizr) {
   // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );
 
   self.isLTIE9 = SONY.$html.hasClass('lt-ie9');
+  self.isLTIE10 = SONY.$html.hasClass('lt-ie10');
 
   // http://blogs.windows.com/windows_phone/b/wpdev/archive/2012/11/15/adapting-your-webkit-optimized-site-for-internet-explorer-10.aspx
   self.hasTouchEvents = Modernizr.touch;

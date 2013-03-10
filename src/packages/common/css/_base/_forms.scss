@@ -165,7 +165,8 @@ select {
   color: $grayDark;
 
   &.select-small {
-    width: 129px; // Same as dropdown-small
+    width: auto;
+    min-width: 129px; // Same as dropdown-small
     font-size: $font_11_15;
   }
 }
@@ -739,14 +740,14 @@ input.search-query {
 
   // Check box on focus
   &:focus + label:before {
-    outline: 1px solid $gray25;
+    outline: 1px solid $gray20;
     box-shadow: none;
   }
 
   // Check box on active
   &:checked + label:before,
   &.active + label:before {
-    background: $gray25;
+    background: $gray20;
   }
 
   // Check mark on active

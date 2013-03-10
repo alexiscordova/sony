@@ -54,7 +54,10 @@
 
       self.$containment.on(_startEvents, $.proxy(self.onScrubStart, self));
       self.$containment.on(_endEvents + ' click.sonyDraggable', $.proxy(self.onScrubEnd, self));
-      self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
+
+      if ( !Modernizr.touch ) {
+        self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
+      }
 
       self.throttledSetAcceleration = $.throttle(500, $.proxy(self.setAcceleration, self));
 
@@ -273,12 +276,11 @@
       offsetCorrectionX = (self.$el.outerWidth(true) - self.$el.width()) / 2;
       offsetCorrectionY = (self.$el.outerHeight(true) - self.$el.height()) / 2;
 
-      // IE7/8 doesn't return the correct values for margins if you use 'auto', thus breaking $.outerWidth()
+      // If the browser doesn't properly support the getStyles API for auto margins, manually
+      // shift the destination back to compensate.
 
-      if ( SONY.Settings.isLTIE9 ) {
-        if (self.$el.css('marginLeft') === 'auto') {
-          offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / 2;
-        }
+      if ( !Modernizr.jsautomargins ) {
+        offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / 2;
       }
 
       self.containmentWidth = $widthObject.width();

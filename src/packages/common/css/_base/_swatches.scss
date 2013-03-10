@@ -15,7 +15,23 @@
   display: inline-block;
   @include size( px-em(40px), px-em(42px) );
   @include box-shadow(0 1px 0 $gray50);
-  @include transition(box-shadow $transitionFast ease-out, color $transitionFast ease-out, background-color $transitionFast ease-out);
+  // @include transition($transitionSlow ease-out);
+  -webkit-transition:
+    -webkit-transform $transitionSlow $easeNormal $transitionSlow,
+    box-shadow $transitionSlow $easeNormal $transitionSlow,
+    background $transitionSlow $easeNormal $transitionSlow,
+    color $transitionSlow $easeNormal $transitionSlow,
+    width $transitionSlow $easeNormal 0s,
+    margin $transitionSlow $easeNormal 0s
+  ;
+  transition:
+    transform $transitionSlow $easeNormal $transitionSlow,
+    box-shadow $transitionSlow $easeNormal $transitionSlow,
+    background $transitionSlow $easeNormal $transitionSlow,
+    color $transitionSlow $easeNormal $transitionSlow,
+    width $transitionSlow $easeNormal 0s,
+    margin $transitionSlow $easeNormal 0s
+  ;
 
   &:hover {
     @include box-shadow(none);
@@ -77,25 +93,54 @@
 
   // Disabled state
   &[disabled] {
-    border: 1px solid $gray20;
-    border: 1px solid rgba($gray20, .15);
+    // width: 0;
+    // margin: 0 !important; // Override style with more specificty that i can't change
 
-    // overwrite backgrond-image, color, etc
-    background: transparent;
-    filter: none;
-    @include box-shadow(none);
+    width: 0 !important; // Override media queries which have more specificity
+    margin: 0 !important; // Override style with more specificty that i can't change
+    @include scale(0.001);
+    -webkit-transition:
+      -webkit-transform $transitionSlow $easeNormal,
+      box-shadow $transitionSlow $easeNormal,
+      background $transitionSlow $easeNormal,
+      color $transitionSlow $easeNormal,
+      width $transitionSlow $easeNormal $transitionSlow,
+      margin $transitionSlow $easeNormal $transitionSlow
+    ;
+    transition:
+      transform $transitionSlow $easeNormal,
+      box-shadow $transitionSlow $easeNormal,
+      background $transitionSlow $easeNormal,
+      color $transitionSlow $easeNormal,
+      width $transitionSlow $easeNormal $transitionSlow,
+      margin $transitionSlow $easeNormal $transitionSlow
+    ;
+
+    // border: 1px solid $gray20;
+    // border: 1px solid rgba($gray20, .15);
+
+    // // overwrite backgrond-image, color, etc
+    // background: transparent;
+    // filter: none;
+    // @include box-shadow(none);
   }
+  .no-csstransforms &[disabled],
+  .no-csstransitions &[disabled] {
+    width: 0 !important; // Override media queries which have more specificity
+    margin: 0 !important; // Override style with more specificty that i can't change
+  }
+
   &[disabled]:focus,
   &[disabled]:hover {
-    cursor: auto;
+    // cursor: auto;
   }
 
   // Checked, but disabled state
   &.active[disabled]:before {
-    opacity: .15;
+    // opacity: .15;
   }
   &.active[disabled]:after {
-    opacity: .7;
+    // opacity: .7;
   }
 
   .no-opacity & .active[disabled]:before,

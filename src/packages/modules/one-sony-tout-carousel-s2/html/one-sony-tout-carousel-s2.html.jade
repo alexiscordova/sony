@@ -1,0 +1,97 @@
+.container.soc-header
+  .grid
+    h2.l1 #{data.config.title}
+
+.sony-one-carousel(data-mode = data.config.mode, data-module-name != data.config.module_name, data-module-id = data.config.module_id)
+  .soc-container
+    .soc-container-inner.container
+      for slide in data.slides
+        .soc-content.slimgrid
+          .soc-grid
+            for item in slide
+              - textStyle   = item.typeLayout
+              - alignment   = item.typeAlignment
+              l = item.objectSize
+              hTb = item.headline.linkText.replace(/[\s-]+$/,'').split(/[\s-]/).pop()
+              hTa = item.headline.linkText.split(hTb).shift()
+
+              if item.headline
+                - contentType = 'headline-only'
+                if item.counter
+                  - contentType = 'headline-counter'
+                if item.eyebrow
+                  - contentType = 'headline-eyebrow'
+                if item.bodycopy
+                  - contentType = 'headline-copy'
+                if item.eyebrow && item.bodycopy
+                  - contentType = 'headline-eyebrow-copy'
+                if item.bodycopy && item.counter
+                  - contentType = 'headline-copy-counter'
+
+              if l == 'span8'
+                - c = 'soc-3up span8'
+                - s = 'content-8'
+              else if l == 'span4'
+                - c = 'soc-1up span4'
+                - s = 'content-4'
+              else if l == 'span6'
+                - c = 'soc-2up span6'
+                - s = 'content-6'
+
+              if item.miniPromo
+                - mpc = 'has-mini-promo'
+              else
+                - mpc = ''
+
+              if alignment == 'align-left-center' || alignment == 'align-right-center'
+                - gcwc = 'table-center-wrap'
+                - gcc = 'table-center'
+              else
+                - gcwc = ''
+                - gcc = ''
+
+              .soc-item(class=c)(class=s)
+                article
+                  .soc-image.iq-img(class=c, data-src=item.backgroundImgSrc)
+                  .soc-item-content(class=contentType)(class=textStyle)(class=alignment)(class=s)(class=mpc)(class=gcwc)
+                    div(class=gcc)
+
+                      if item.eyebrow
+                        a.eyebrow(href=item.eyebrow.link)
+                          | #{item.eyebrow.title}
+
+                      if s == 'content-8'
+                        h3.headline!= item.headline.title
+                          if item.headline.link
+                            a(href=item.headline.link)
+                              | !{' ' + hTa}
+                              span !{' ' + hTb}
+                                i.fonticon-10-chevron-sm
+                      else
+                        h4.headline!= item.headline.title
+                          if item.headline.link
+                            a(href=item.headline.link)
+                              | !{' ' + hTa}
+                              span !{' ' + hTb}
+                                i.fonticon-10-chevron-sm
+
+                      if item.bodycopy
+                        p.p3= item.bodycopy
+
+                  if s == 'content-8' || s == 'content-6'
+                    if contentType == 'headline-counter' || contentType == 'headline-copy-counter'
+                      .counter(class=contentType)(class=textStyle)(class=alignment)(class=s)(class=mpc)
+                        - counterText = item.counter.total + ' ' + item.counter.text
+                        h3.l2= counterText
+
+                aside
+                  if s == 'content-8'
+                    if item.miniPromo
+                      a.mini-promo(class=contentType)(class=textStyle)(class=alignment)(class=s)(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
+                        div.mini-promo-image-container
+                          .play-button
+                            i.fonticon-10-video-play
+                          img(src=item.miniPromo.imgSrc)
+                        div.mini-promo-caption.p4
+                          | !{item.miniPromo.caption}
+  div.soc-dot-nav

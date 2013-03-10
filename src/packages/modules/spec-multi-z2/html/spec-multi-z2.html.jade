@@ -1,0 +1,104 @@
+include ../includes/jade-helpers.jade
+
+.spec-multi
+
+  .sticky-tabs.tab-strip.spec-tabs
+    .tabs-container.container.m-full-bleed
+      .tabs
+
+  .container
+
+    .grid.spec-title-wrap
+      a.l2.spec-title-link(href=data.titleLink.href)= data.titleLink.label
+      .sony-recommends
+        span.p3 Sony Recommends
+        i.fonticon-60-win8.win8-logo
+      h1.t2.spec-title= data.title
+
+    .grid
+      ul.jump-links.inline
+        each link, i in data.internalLinks
+          - clss = i ? '' : 'active'
+          li(class=clss)
+            a.lt3.no-hover-transition(href=link.href)= link.label
+
+  .sticky-nav.spec-sticky-nav
+    .container
+      .grid
+        .js-sticky-nav-content.clearfix.relative
+          h2.t6.sticky-nav-title= data.title
+          ul.jump-links.inline.nav
+            each link, i in data.internalLinks
+              - clss = i ? '' : 'active'
+              li(class=clss)
+                a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
+        .js-sticky-mobile-content.hidden.mobile-content-wrap
+          .table-center-wrap.js-mobile-content
+
+  numModels = data.submodules.length
+
+  section.spec-products#specifications
+    .container
+      .spec-nav-wrap
+        nav.spec-nav-container
+          button.nav-paddle.spec-nav.spec-nav-prev
+            i.fonticon-10-chevron-reverse
+          button.nav-paddle.spec-nav.spec-nav-next
+            i.fonticon-10-chevron
+      .grid.no-grid-at-567.spec-items-grid
+        .span2.detail-labels-wrap
+          .compare-sticky-header.sticky-count
+            .right-bar
+            .product-count-wrap.with-some-padding
+              span.p3.product-count
+                strong.text-dark= numModels
+              span.p3  Models
+          .detail-labels-wrapping
+            .product-count-wrap.with-some-padding
+              span.p3.product-count
+                strong.text-dark= numModels
+              span.p3  Models
+
+            .detail-label-group
+              each label in data.labels
+                .detail-label.detail
+                  p.l3
+                    strong= label
+
+        .spec-items-wrap
+          .spec-items-container
+            each module, i in data.submodules
+              d = locals.data(module.data)
+              if d.type == "product"
+                - d.view = "specs"
+                - d.iterator = i
+                e = { "locals" : locals, "data" : d, "labels" : data.labels }
+                path = 'modules/' + module.type
+                !{locals.partial( path, e )}
+
+  section.spec-tiles-wrap.container#features
+    .grid
+      h3.l1.features-title= data.features.title
+    .spec-tiles.slimgrid.no-grid-at-479
+      each tile in data.features.tiles
+        .spec-tile.span4
+          if tile.img
+            figure
+              mixin iQImage( tile.img )
+
+          .tile-content
+            h3.t6.tile-title= tile.title
+            p.p3= tile.description
+            if tile.link
+              p.p3
+                a(href=tile.link.href)= tile.link.text
+
+
+#ports-modal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="ports-modal-label", aria-hidden="true")
+  .container
+    .modal-inner.grid
+      .modal-header(data-reset-label="Reset")
+        h6.t6-light#ports-modal-label
+        button.box-close(data-dismiss="modal", aria-hidden="true")
+          i.fonticon-10-x-skinny
+      .modal-body

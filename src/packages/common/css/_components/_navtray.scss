@@ -16,7 +16,7 @@
   -webkit-perspective: 1000;
   -webkit-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
-  @include box-shadow(0px 0px 10px 0px rgba(39, 43, 55, .25));
+  @include box-shadow(0px 0px 10px 0px $stickyShadowColor);
   @include transition(top $navtrayCloseSpeed ease-in 0.15s, left 0s linear $navtrayCloseSpeed);
 }
 .navtray-w-short{
@@ -57,13 +57,16 @@
   float: left;
   padding-bottom: 17px;
   background: $navTrayBackground; // left side background color
+  .lt-ie9 .navtray-w-tall &{
+    min-height: 400px;
+  }
 }
 
 .navtray-section-featured{ // section right
   float: left;
   z-index: 20;
   position: relative;
-  // pierre
+
   .lt-ie8 &{
     width: 22%;
   }

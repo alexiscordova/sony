@@ -40,7 +40,7 @@ SONY.Global = (function(window, document) {
 window.iQ = {
   options: {
     speedTestExpireMinutes: 30,
-    asyncDistance: 500,
+    asyncDistance: 600, // needs to be at least 600 for the nav images to load, since they're off the top of the viewport when iQ loads.
     throttleSpeed: 300,
     updateOnResize: true
   }
