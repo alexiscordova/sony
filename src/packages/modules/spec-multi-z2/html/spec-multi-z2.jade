@@ -1,4 +1,4 @@
-include ../includes/jade-helpers.jade
+include ../../../common/html/jade-helpers.jade
 
 .spec-multi
 
@@ -73,8 +73,7 @@ include ../includes/jade-helpers.jade
                 - d.view = "specs"
                 - d.iterator = i
                 e = { "locals" : locals, "data" : d, "labels" : data.labels }
-                path = 'modules/' + module.type
-                !{locals.partial( path, e )}
+                !{locals.partial( module.type, e )}
 
   section.spec-tiles-wrap.container#features
     .grid

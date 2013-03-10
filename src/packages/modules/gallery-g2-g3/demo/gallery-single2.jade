@@ -1,5 +1,5 @@
 include ../../../common/html/jade-helpers.jade
-
+      
 doctype 5
 include ../../../common/html/ieconditionals.html
 
@@ -7,7 +7,9 @@ head
   include ../../../common/html/head.jade
 
 body
-  +partial('tertiary-tout-t1-t5/html/tertiary-tout-t1-t5.jade', 'tertiary-tout-t1-t5/demo/data/homepage-en.json')
+  #page-wrap-outer.page-wrap-outer
+    #page-wrap-inner.page-wrap-inner
+      +partial('gallery-g2-g3/html/gallery-filters.jade', 'gallery-g2-g3/demo/data/camera-overflow.json')
 
   include ../../../common/html/foot.jade
 </html>

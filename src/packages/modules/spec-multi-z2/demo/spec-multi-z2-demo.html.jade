@@ -1,17 +1,13 @@
----
-title: Z2. Multiple Product Spec Page
-description:
----
-include ../partials/includes/jade-helpers.jade
-doctype 5
-!{partial('includes/ieconditionals.html')}
+include ../../../common/html/jade-helpers.jade
 
-l = {"locals":locals}
+doctype 5
+include ../../../common/html/ieconditionals.html
+
 head
-  !{partial('includes/head.html.jade', l)}
+  include ../../../common/html/head.jade
 
 body
-  e = {"locals":locals, "data":data('spec-multi-z2/default.json')}
-  !{partial('modules/spec-multi-z2.html.jade', e)}
+  +partial('spec-multi-z2/html/spec-multi-z2.jade', 'spec-multi-z2/demo/data/default.json')
 
-  !{partial('includes/foot.html.jade', l)}
+  include ../../../common/html/foot.jade
+</html>

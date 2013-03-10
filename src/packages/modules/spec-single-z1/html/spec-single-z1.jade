@@ -1,4 +1,4 @@
-include ../includes/jade-helpers.jade
+include ../../../common/html/jade-helpers.jade
 
 .spec-single
 
@@ -31,8 +31,7 @@ include ../includes/jade-helpers.jade
       - d = locals.data(module.data)
       - d.view = 'single-spec'
       e = { "locals" : locals, "data" : d, "labels" : data.labels }
-      path = 'modules/' + module.type
-      !{locals.partial( path, e )}
+      !{locals.partial( module.type, e )}
 
   section.spec-tiles-wrap.container#features
     .grid

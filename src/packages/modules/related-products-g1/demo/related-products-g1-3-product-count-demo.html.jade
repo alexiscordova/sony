@@ -1,21 +1,17 @@
----
-title: G1 Related Products 3 Item Demo
-description: 3 product layout demo w/count
----
 doctype 5
-!{partial('includes/ieconditionals.html')}
+include ../../../common/html/ieconditionals.html
 
-l = {"locals":locals}
 head
-  !{partial('includes/head.html.jade', l)}
+  include ../../../common/html/head.jade
 
 body
 
-	.container
-		h4= 'G1 - Related Products 3 Item Demo w/counter'
+  .container
+    h4= 'G1 - Related Products 3 Item Demo w/counter'
 
-  e = {"locals":locals, "data":data('related-products-g1/3up-orange-color.json')}
+  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/3up-orange-color.json')}
   - e.data.config.standalone = true
-  !{partial('modules/related-products-g1.html.jade', e)}
+  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
 
-!{partial('includes/foot.html.jade', l)}
+  include ../../../common/html/foot.jade
+</html>

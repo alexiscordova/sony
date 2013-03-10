@@ -1,3 +1,4 @@
+include ../../../common/html/jade-helpers.jade
 
 - layout1 = [ "carousel", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
 - layout2 = [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "normal", "normal" ]
@@ -34,7 +35,7 @@ mixin filterButton( filterSet )
       tagString = '<button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</button>'
       | !{tagString}
   if filterSet.help
-    mixin helpPopover( filterSet.help )
+    +helpPopover( filterSet.help )
 
 mixin filterCheckbox( filterSet )
   ul.unstyled(data-filter=filterSet.name, data-filter-type=filterSet.type)
@@ -43,7 +44,7 @@ mixin filterCheckbox( filterSet )
         input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
         label.p3(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
         if filter.help
-          mixin helpPopover( filter.help, true )
+          +helpPopover( filter.help, true )
 
 mixin filterGroup( filterSet )
   ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type, data-length=filterSet.filters.length)
@@ -62,7 +63,7 @@ mixin helpPopover( help, pullRight )
     if help.label
       span.p4.help-label= help.label
     i.fonticon-10-circle-q
-    mixin popoverContent( help )
+    +popoverContent( help )
 
 mixin popoverContent( help )
   - layout = help.layout
@@ -72,10 +73,10 @@ mixin popoverContent( help )
     if layout == '2up'
       .twoup
         .popover-col
-          mixin iQImage( help.col1.img )
+          +iQImage( help.col1.img )
           p.p4= help.col1.text
         .popover-col
-          mixin iQImage( help.col2.img )
+          +iQImage( help.col2.img )
           p.p4= help.col2.text
 
     else if layout == 'text-only'
@@ -87,19 +88,19 @@ mixin filterSet( filterSet )
   .filter-container
     p.l3.filter-label= filterSet.label
     if filterSet.type == 'color'
-      mixin filterColor( filterSet )
+      +filterColor( filterSet )
 
     else if filterSet.type == 'range'
-      mixin filterRange( filterSet )
+      +filterRange( filterSet )
 
     else if filterSet.type == 'button'
-      mixin filterButton( filterSet )
+      +filterButton( filterSet )
 
     else if filterSet.type == 'checkbox'
-      mixin filterCheckbox( filterSet )
+      +filterCheckbox( filterSet )
 
     else if filterSet.type == 'group'
-      mixin filterGroup( filterSet )
+      +filterGroup( filterSet )
 
 
 mixin featuredGallery( submodules, gallery, type )
@@ -118,8 +119,7 @@ mixin featuredGallery( submodules, gallery, type )
           - d.view = "basic"
           - d.iterator = i
           e = { "locals" : locals, "data" : d }
-          path = 'modules/' + module.type
-          !{locals.partial( path, e )}
+          !{locals.partial( module.type, e )}
 
     .grid.see-all
       a.btn.btn-small(href=gallery.href)= gallery.callout
@@ -191,15 +191,15 @@ mixin detailedGallery( submodules, gallery, type )
               .span4
                 each filterSet in gallery.filterSet
                   if filterSet.filterGroup == 1
-                    mixin filterSet( filterSet )
+                    +filterSet( filterSet )
               .span4
                 each filterSet in gallery.filterSet
                   if filterSet.filterGroup == 2
-                    mixin filterSet( filterSet )
+                    +filterSet( filterSet )
               .span4
                 each filterSet in gallery.filterSet
                   if filterSet.filterGroup == 3
-                    mixin filterSet( filterSet )
+                    +filterSet( filterSet )
 
 
 
@@ -213,8 +213,7 @@ mixin detailedGallery( submodules, gallery, type )
           if d.type == type && !d.promo
             - d.view = "detailed"
             e = { "locals" : locals, "data" : d }
-            path = 'modules/' + module.type
-            !{locals.partial( path, e )}
+            !{locals.partial( module.type, e )}
 
     if gallery.filterSet
       .container.zero-products-message.hide
@@ -304,8 +303,7 @@ mixin productStrips( submodules, strips, type )
                 - d.layout = layout3
                 - d.view = "basic"
                 e = { "locals" : locals, "data" : d }
-                path = 'modules/' + module.type
-                !{locals.partial( path, e )}
+                !{locals.partial( module.type, e )}
                 - count += 1
 
 

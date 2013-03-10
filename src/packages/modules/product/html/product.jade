@@ -1,5 +1,4 @@
-include ../includes/jade-helpers.jade
-
+include ../../../common/html/jade-helpers.jade
 
 //- the list is an array of list items like this:
 //- "definitionList" : [
@@ -154,27 +153,27 @@ if data.view == 'basic'
                   .js-carousel-container
                     each img in data.imgCarousel
                       .slide
-                        mixin iQImage( img )
+                        +iQImage( img )
 
               else if data.layout == 'large'
-                mixin iQImage( data.imgLarge )
+                +iQImage( data.imgLarge )
 
               else if data.layout == 'medium'
-                mixin iQImage( data.imgLarge )
+                +iQImage( data.imgLarge )
 
               else
-                mixin iQImage( data.imgSmall )
+                +iQImage( data.imgSmall )
 
               if data.img && data.img.colors
-                mixin iQColorImages( data.img.colors )
+                +iQColorImages( data.img.colors )
 
           if data.img && data.img.colors
-            mixin colorSwatches( data.img.colors )
+            +colorSwatches( data.img.colors )
 
           //- else if data.imgSmall && data.imgSmall.colors
-          //-   mixin colorSwatches( data.img.colors )
+          //-   +colorSwatches( data.img.colors )
 
-          mixin heart()
+          +heart()
 
         .product-content
           .product-name-wrap
@@ -199,13 +198,13 @@ else if data.view == 'detailed'
         - if ( !hasExtraColors ) classes += ' no-swatches'
         div(class=classes)
           .ghost-center
-            mixin iQImage( data.img, 'js-product-img-main', 'image' )
-            mixin iQColorImages( data.img.colors )
+            +iQImage( data.img, 'js-product-img-main', 'image' )
+            +iQColorImages( data.img.colors )
 
         if data.img.colors
-          mixin colorSwatches( data.img.colors )
+          +colorSwatches( data.img.colors )
 
-        mixin heart()
+        +heart()
 
       .product-content
         .product-name-wrap
@@ -295,8 +294,8 @@ else if data.view == 'specs'
             h6.t7-light= spec.name
             p.l3
               strong= spec.listTitle
-            mixin specList( spec.list, 'before-btm-aligned' )
-            mixin iQImage( spec.img, 'btm-aligned' )
+            +specList( spec.list, 'before-btm-aligned' )
+            +iQImage( spec.img, 'btm-aligned' )
 
         else if spec.callout && spec.text
           .spec-cell-inner
@@ -308,7 +307,7 @@ else if data.view == 'specs'
               if spec.listTitle
                 p.l3
                   strong= spec.listTitle
-              mixin specList( spec.list )
+              +specList( spec.list )
 
         else if spec.text
           .spec-cell-inner
@@ -319,13 +318,13 @@ else if data.view == 'specs'
               p.p3= spec.subtext
 
             if spec.sublist
-              mixin specList( spec.sublist )
+              +specList( spec.sublist )
 
         else if spec.colors
           .spec-cell-inner
             p.cell-label.l3
               strong= labels[i]
-            mixin colorSwatches( spec.colors, true )
+            +colorSwatches( spec.colors, true )
 
         else if spec.definitionList && spec.img
           .spec-cell-inner.only-label
@@ -335,16 +334,16 @@ else if data.view == 'specs'
           - imgClass = spec.img.orientation && spec.img.orientation == 'portrait' ? 'vertical' : ''
           .text-center.dl-img.ghost-center-wrap(class=imgClass)
             .ghost-center.v-bottom
-              mixin iQImage( spec.img )
+              +iQImage( spec.img )
 
           .spec-cell-inner
-            mixin definitionList( spec.definitionList, true )
+            +definitionList( spec.definitionList, true )
 
         else if spec.definitionList
           .spec-cell-inner
             p.cell-label.l3
               strong= labels[i]
-            mixin definitionList( spec.definitionList, true )
+            +definitionList( spec.definitionList, true )
 
         else if spec.label && spec.callout && spec.list && spec.icon
           .spec-cell-inner
@@ -357,7 +356,7 @@ else if data.view == 'specs'
               span.t6-light= spec.callout.number
               | &nbsp;
               span.p3= spec.callout.text
-            mixin specList( spec.list )
+            +specList( spec.list )
             p.l3
               strong= spec.label
             p.p3= spec.labeledText
@@ -368,7 +367,7 @@ else if data.view == 'specs'
               strong= labels[i]
 
           .text-center.img-holder
-            mixin iQImage( spec.img )
+            +iQImage( spec.img )
 
           .spec-cell-inner
             button.enlarge.js-enlarge
@@ -376,13 +375,13 @@ else if data.view == 'specs'
               span.l3
                 strong!= '&nbsp;' + spec.iconTitle
 
-            mixin specList( spec.list )
+            +specList( spec.list )
 
             .spec-modal.hide
               .js-spec-modal-title= spec.enlargement.title
               .js-spec-modal-body
                 .spec-modal-body.text-center
-                  mixin iQImage( spec.enlargement )
+                  +iQImage( spec.enlargement )
 
         else if spec.list && spec.img
 
@@ -390,17 +389,17 @@ else if data.view == 'specs'
               .spec-cell-inner.img-bottom
                 p.cell-label.l3
                   strong= labels[i]
-                mixin specList( spec.list )
+                +specList( spec.list )
               .text-center.img-bottom
-                mixin iQImage( spec.img )
+                +iQImage( spec.img )
             else
               .spec-cell-inner.only-label
                 p.cell-label.l3
                   strong= labels[i]
               .text-center
-                mixin iQImage( spec.img )
+                +iQImage( spec.img )
               .spec-cell-inner
-                mixin specList( spec.list )
+                +specList( spec.list )
 
         else if spec.list
           .spec-cell-inner
@@ -412,7 +411,7 @@ else if data.view == 'specs'
                 i(class=spec.icon1)
               if spec.icon2
                 i(class=spec.icon2)
-            mixin specList( spec.list )
+            +specList( spec.list )
 
         else
           .l4 Unable to parse the kind of specification you gav me :(
@@ -431,10 +430,10 @@ else if data.view == 'single-spec'
                   .spec-carousel.clearfix
                     each img in spec.imgs
                       span.slide
-                        mixin iQImage( img )
+                        +iQImage( img )
             .span3.offset1
               h6.t6-light.section-label= spec.label
-              mixin definitionList( spec.definitionList )
+              +definitionList( spec.definitionList )
 
     else if spec.list && spec.list2 && spec.img
       section.container
@@ -442,11 +441,11 @@ else if data.view == 'single-spec'
           .span3.no-m-span
             h6.t6-light.section-label= spec.label
           .span3.alpha.m-span3
-            mixin specList( spec.list )
+            +specList( spec.list )
           .span3.m-span3
-            mixin specList( spec.list2 )
+            +specList( spec.list2 )
           .span3.no-m-span.block-img
-            mixin iQImage( spec.img )
+            +iQImage( spec.img )
 
     else if spec.definitionList && spec.definitionList2
       section.container
@@ -454,9 +453,9 @@ else if data.view == 'single-spec'
           .span3
             h6.t6-light.section-label= spec.label
           .span4
-            mixin definitionList( spec.definitionList )
+            +definitionList( spec.definitionList )
           .span4.offset1
-            mixin definitionList( spec.definitionList2 )
+            +definitionList( spec.definitionList2 )
 
     else if spec.definitionList && spec.img && spec.img.alignment && spec.img.alignment == 'align-right-bottom'
       section.container
@@ -464,9 +463,9 @@ else if data.view == 'single-spec'
           .span3
             h6.t6-light.section-label= spec.label
           .span3
-            mixin definitionList( spec.definitionList )
+            +definitionList( spec.definitionList )
           .span6.has-img
-            mixin iQImage( spec.img )
+            +iQImage( spec.img )
 
     else if spec.definitionList && spec.img
       section.container
@@ -474,12 +473,12 @@ else if data.view == 'single-spec'
           .span3
             h6.t6-light.section-label= spec.label
           .span4
-            mixin definitionList( spec.definitionList )
+            +definitionList( spec.definitionList )
 
           - offset = spec.img.alignment && spec.img.alignment == 'right' ? '2' : '1'
           - classes = 'has-img span3 offset' + offset
           div(class=classes)
-            mixin iQImage( spec.img )
+            +iQImage( spec.img )
 
     else if spec.definitionList
       section.container
@@ -487,7 +486,7 @@ else if data.view == 'single-spec'
           .span3
             h6.t6-light.section-label= spec.label
           .span4
-            mixin definitionList( spec.definitionList )
+            +definitionList( spec.definitionList )
 
     else if spec.features
       section.container

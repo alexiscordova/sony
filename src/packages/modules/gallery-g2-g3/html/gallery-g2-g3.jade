@@ -1,23 +1,21 @@
-include ../../common/ihtml/jade-helpers.jade
 include gallery-helpers.jade
 
-
-mixin galleryStickyTabs( data.tabs, data.config.module_name, data.config.module_id )
++galleryStickyTabs( data.tabs, data.config.module_name, data.config.module_id )
 
 .tab-content.gallery-content(data-module-name=data.config.module_name, data-module-id=data.config.module_id)
   if data.tabs[0]
     .tab-pane.fade.in.active(data-tab=data.tabs[0].slug)
-      mixin featuredGallery( data.submodules, data.featured, 'product' )
-      mixin featuredGallery( data.submodules, data.featured2, 'accessory' )
+      +featuredGallery( data.submodules, data.featured, 'product' )
+      +featuredGallery( data.submodules, data.featured2, 'accessory' )
 
 
   if data.tabs[1]
     .tab-pane.fade(data-tab=data.tabs[1].slug)
-      mixin detailedGallery( data.submodules, data.productCards )
+      +detailedGallery( data.submodules, data.productCards )
 
   if data.tabs[2]
     .tab-pane.fade(data-tab=data.tabs[2].slug)
-      mixin productStrips( data.submodules, data.accessories, 'accessory' )
+      +productStrips( data.submodules, data.accessories, 'accessory' )
 
   - for (i = 3; i < 10; i++) {
   if data.tabs[i]
@@ -33,5 +31,5 @@ mixin galleryStickyTabs( data.tabs, data.config.module_name, data.config.module_
           | proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   - }
 
-//- mixin compareToolModal()
+//- +compareToolModal()
 //- script(src="http://glen.local:8080/target/target-script-min.js#anonymous")

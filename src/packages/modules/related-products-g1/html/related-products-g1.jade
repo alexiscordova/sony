@@ -1,11 +1,10 @@
----
-desc: 'Here are some modules with unique data:'
-layout1: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
-layout2: [ "plate", "medium" , "normal" , "normal" , "normal" , "blank-normal"]
-layout3: [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
-layout4: ["suggested" , "suggested"]
-layout5: ["normal" , "normal"  , "normal" , "normal" , "normal" , "normal" , "normal" , "normal" , "normal" , "normal"]
----
+- desc = 'Here are some modules with unique data:'
+- layout1 = [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
+- layout2 = [ "plate", "medium" , "normal" , "normal" , "normal" , "blank-normal"]
+- layout3 = [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
+- layout4 = ["suggested" , "suggested"]
+- layout5 = ["normal" , "normal"  , "normal" , "normal" , "normal" , "normal" , "normal" , "normal" , "normal" , "normal"]
+
 if data.config.tabbedLayout
   .container
     .grid
@@ -31,10 +30,10 @@ if data.config.tabbedLayout
                     for module in mdata.submodules
                       d = locals.data(module.data)
                       if d.type == 'product' && d.featured
-                        - d.layout = document[mdata.config.layout][i++]
+                        - d.layout = this[mdata.config.layout][i++]
                         - d.view = d.layout == 'blank-normal' ? 'blank' : 'basic'
                         e = { 'locals' : locals , 'data' : d }
-                        !{locals.partial('modules/'+module.type , e )}
+                        !{locals.partial(module.type , e )}
 
 
 else if data.config.standalone != true
@@ -55,10 +54,10 @@ else if data.config.standalone != true
                 for module in mdata.submodules
                   d = locals.data(module.data)
                   if d.type == 'product' && d.featured
-                    - d.layout = document[mdata.config.layout][i++]
+                    - d.layout = this[mdata.config.layout][i++]
                     - d.view = d.layout == 'blank-normal' ? 'blank' : 'basic'
                     e = { 'locals' : locals , 'data' : d }
-                    !{locals.partial('modules/'+module.type , e )}
+                    !{locals.partial(module.type , e )}
 
 else if data.config.standalone == true
   if data.config.mode == 'full'
@@ -75,10 +74,10 @@ else if data.config.standalone == true
               for module in data.submodules
                 d = locals.data(module.data)
                 if d.type == 'product' && d.featured
-                  - d.layout = document[data.config.layout][i++]
+                  - d.layout = this[data.config.layout][i++]
                   - d.view = d.layout == 'blank-normal' ? 'blank' : 'basic'
                   e = { 'locals' : locals , 'data' : d }
-                  !{locals.partial('modules/'+module.type , e )}
+                  !{locals.partial(module.type , e )}
 
   else if data.config.mode == 'suggested'
     - clss = data.config.mode
@@ -91,10 +90,10 @@ else if data.config.standalone == true
           i = 0
           for module in data.submodules
             d = locals.data(module.data)
-            - d.layout = document[data.config.layout][i++]
+            - d.layout = this[data.config.layout][i++]
             - d.view = 'suggested'
             e = { 'locals' : locals , 'data' : d }
-            !{locals.partial('modules/'+module.type , e )}
+            !{locals.partial(module.type , e )}
 
   else if data.config.mode == 'strip'
     - clss = data.config.mode + ' ' + 'span12'
@@ -110,10 +109,10 @@ else if data.config.standalone == true
               for module in data.submodules
                 d = locals.data(module.data)
                 if d.type == 'product' && d.featured
-                  - d.layout = document[data.config.layout][i++]
+                  - d.layout = this[data.config.layout][i++]
                   - d.view = 'basic'
                   e = { 'locals' : locals , 'data' : d }
-                  !{locals.partial('modules/'+module.type , e )}
+                  !{locals.partial(module.type , e )}
 
 
 

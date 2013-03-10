@@ -1,76 +1,72 @@
----
-title: G1. Related Products
-description:
----
 doctype 5
-!{partial('includes/ieconditionals.html')}
+include ../../../common/html/ieconditionals.html
 
-l = {"locals":locals}
 head
-  !{partial('includes/head.html.jade', l)}
-  title= 'G1. Related Products Layouts'
+  include ../../../common/html/head.jade
+
 body
 
-	.container
-		h4= 'G1 - Related Products Grouped 3up Mode'
+  .container
+    h4= 'G1 - Related Products Grouped 3up Mode'
 
-	e = {"locals":locals, "data":data('related-products-g1/3up-orange-color-btn.json')}
-	- e.data.config.standalone = true
-	!{partial('modules/related-products-g1.html.jade', e)}
+  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/3up-orange-color-btn.json')}
+  - e.data.config.standalone = true
+  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
 
-	hr
+  hr
 
-	.container
-		h4= 'G1 - Related Products Tabbed Mode'
+  .container
+    h4= 'G1 - Related Products Tabbed Mode'
 
-	e = {"locals":locals, "data":data('related-products-g1/homepage-tabbed.json')}
-	!{partial('modules/related-products-g1.html.jade', e)}
-	
-	hr
-	
-	.container
-		h4= 'G1 - Related Products Grouped 5up Mode'
+  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/homepage-tabbed.json')}
+  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
+  
+  hr
+  
+  .container
+    h4= 'G1 - Related Products Grouped 5up Mode'
 
-	e = {"locals":locals, "data":data('related-products-g1/5up-teal-color.json')}
-	- e.data.config.standalone = true
-	!{partial('modules/related-products-g1.html.jade', e)}
+  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/5up-teal-color.json')}
+  - e.data.config.standalone = true
+  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
 
-	hr
+  hr
 
-	.container
-		h4= 'G1 - Related Products Grouped 4up Mode'
+  .container
+    h4= 'G1 - Related Products Grouped 4up Mode'
 
-	e = {"locals":locals, "data":data('related-products-g1/4up-purple-color.json')}
-	- e.data.config.standalone = true
-	!{partial('modules/related-products-g1.html.jade', e)}
+  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/4up-purple-color.json')}
+  - e.data.config.standalone = true
+  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
 
-	hr
+  hr
 
-	.container
-		h4= 'G1 - Related Products Grouped 3up Mode'
+  .container
+    h4= 'G1 - Related Products Grouped 3up Mode'
 
-	e = {"locals":locals, "data":data('related-products-g1/3up-orange-color.json')}
-	- e.data.config.standalone = true
-	!{partial('modules/related-products-g1.html.jade', e)}
+  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/3up-orange-color.json')}
+  - e.data.config.standalone = true
+  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
 
-	hr
+  hr
 
-	.container
-		h4= 'G1 - Related Products 2up Mode'
+  .container
+    h4= 'G1 - Related Products 2up Mode'
 
-	e = {"locals":locals, "data":data('related-products-g1/2up-view.json')}
-	- e.data.config.standalone = true
-	!{partial('modules/related-products-g1.html.jade', e)}
+  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/2up-view.json')}
+  - e.data.config.standalone = true
+  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
 
-	hr
+  hr
 
-	.container
-		h4= 'G1 - Related Products Strip Mode'
+  .container
+    h4= 'G1 - Related Products Strip Mode'
 
-	e = {"locals":locals, "data":data('related-products-g1/strip-mode.json')}
-	- e.data.config.standalone = true
-	!{partial('modules/related-products-g1.html.jade', e)}
-	
-	hr
+  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/strip-mode.json')}
+  - e.data.config.standalone = true
+  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
+  
+  hr
 
-!{partial('includes/foot.html.jade', l)}
+  include ../../../common/html/foot.jade
+</html>

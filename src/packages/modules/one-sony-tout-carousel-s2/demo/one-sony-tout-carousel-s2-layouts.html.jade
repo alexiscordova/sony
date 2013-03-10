@@ -1,42 +1,32 @@
----
-title: S2. One Sony Tout Carousel
-description: All One Sony Carousel layouts on one page.
----
-doctype 5
-!{partial('includes/ieconditionals.html')}
+include ../../../common/html/jade-helpers.jade
 
-l = {"locals":locals}
+doctype 5
+include ../../../common/html/ieconditionals.html
+
 head
-  !{partial('includes/head.html.jade', l)}
+  include ../../../common/html/head.jade
 
 body
 
-	.container
-		h4= 'S2. One Sony Tout Carousel'
+  .container
+    h4= 'S2. One Sony Tout Carousel'
 
-  e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/eight-column-left-aligned-examples.json')}
-  !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
+  +partial('one-sony-tout-carousel-s2/html/one-sony-tout-carousel-s2.jade', 'one-sony-tout-carousel-s2/demo/data/eight-column-left-aligned-examples.json')
 
-  e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/eight-column-right-aligned-examples.json')}
-  !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
+  +partial('one-sony-tout-carousel-s2/html/one-sony-tout-carousel-s2.jade', 'one-sony-tout-carousel-s2/demo/data/eight-column-right-aligned-examples.json')
 
-  e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/eight-column-left-aligned-with-mini-touts-examples.json')}
-  !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
+  +partial('one-sony-tout-carousel-s2/html/one-sony-tout-carousel-s2.jade', 'one-sony-tout-carousel-s2/demo/data/eight-column-left-aligned-with-mini-touts-examples.json')
 
-  e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/eight-column-right-aligned-with-mini-touts-examples.json')}
-  !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
+  +partial('one-sony-tout-carousel-s2/html/one-sony-tout-carousel-s2.jade', 'one-sony-tout-carousel-s2/demo/data/eight-column-right-aligned-with-mini-touts-examples.json')
 
-  e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/six-column-left-aligned-examples.json')}
-  !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
+  +partial('one-sony-tout-carousel-s2/html/one-sony-tout-carousel-s2.jade', 'one-sony-tout-carousel-s2/demo/data/six-column-left-aligned-examples.json')
 
-  e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/six-column-right-aligned-examples.json')}
-  !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
+  +partial('one-sony-tout-carousel-s2/html/one-sony-tout-carousel-s2.jade', 'one-sony-tout-carousel-s2/demo/data/six-column-right-aligned-examples.json')
 
-  e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/four-column-examples.json')}
-  !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
+  +partial('one-sony-tout-carousel-s2/html/one-sony-tout-carousel-s2.jade', 'one-sony-tout-carousel-s2/demo/data/four-column-examples.json')
 
-  e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/color-examples.json')}
-  !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
+  +partial('one-sony-tout-carousel-s2/html/one-sony-tout-carousel-s2.jade', 'one-sony-tout-carousel-s2/demo/data/color-examples.json')
 
-  !{partial('includes/foot.html.jade', l)}
+  include ../../../common/html/foot.jade
+</html>
 

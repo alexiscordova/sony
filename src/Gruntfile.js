@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         }
         
         if(templatePath.match(/.jade/g)){
-          return require('grunt-contrib-jade/node_modules/jade').compile(template, {})(dataObj);
+          return require('grunt-contrib-jade/node_modules/jade').compile(template, {filename: templatePath})(dataObj);
         }else{
           return template;
         }  
