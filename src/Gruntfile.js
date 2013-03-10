@@ -152,7 +152,8 @@ module.exports = function(grunt) {
           {expand: true, cwd:'packages/common/fonts/',    src: ['**'], dest: '../docs/fonts/'},
           {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../docs/js/'},
           {expand: true, cwd:'packages/docs/js/',         src: ['**'], dest: '../docs/js/'},
-          {expand: true, cwd:'packages/docs/img/',        src: ['**'], dest: '../docs/img/'}
+          {expand: true, cwd:'packages/docs/img/',        src: ['**'], dest: '../docs/img/'},
+          {expand: true, cwd:'packages/docs/css/',        src: ['*.css'], dest: '../docs/css/'}
         ]
       }
       
@@ -268,7 +269,10 @@ module.exports = function(grunt) {
         ]
       },
       pages:{
-        
+        options:jadeconfig,
+        files:[
+          {expand:true, cwd:'packages/pages/', src:['*.jade'], dest:'../build/debug/', ext:'.html', flatten:true}
+        ]
       },
       build_debug:{
         options:jadeconfig,

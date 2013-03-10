@@ -1,5 +1,5 @@
 mixin partial(m, d)
-  e = {locals:locals, data:data('packages/modules/' + d)}
+  e = {locals:locals, data:data(d)}
   !{partial('packages/modules/' + m, e)}
 //- single line mixin for partials
 //- +partial('example.html.jade', 'example/default.json')
