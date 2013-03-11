@@ -161,7 +161,7 @@ module.exports = function(grunt) {
     compass:{
       common_debug:{
         options:{
-          sassDir: 'packages/common/css/',
+          sassDir: 'packages/common/css',
           cssDir: '../build/debug/css',
           outputStyle: 'expanded',
           noLineComments: false,
@@ -173,7 +173,7 @@ module.exports = function(grunt) {
       },
       common_deploy:{
         options:{
-          sassDir: 'packages/common/css/',
+          sassDir: 'packages/common/css',
           cssDir: '../build/deploy/css',
           outputStyle: 'compressed',
           noLineComments: true,
@@ -209,7 +209,7 @@ module.exports = function(grunt) {
       },
       common_docs:{
         options:{
-          sassDir: 'packages/common/css/',
+          sassDir: 'packages/common/css',
           cssDir: '../docs/css',
           outputStyle: 'expanded',
           noLineComments: false,
@@ -221,7 +221,7 @@ module.exports = function(grunt) {
       },
       docs:{
         options:{
-          sassDir: 'packages/docs/css/',
+          sassDir: 'packages/docs/css',
           cssDir: '../docs/css',
           outputStyle: 'expanded',
           noLineComments: false,
@@ -370,10 +370,11 @@ module.exports = function(grunt) {
     
     grunt.file.write('packages/common/css/responsive-modules.scss', str);
     
-    grunt.task.run('compass:common_' + env);
     if(grunt.option('deploy')){
       grunt.task.run(['min:plugins', 'min:require', 'min:secondary', 'min:polyfill']); 
     }
+    
+    grunt.task.run('compass:common_' + env);
     
     grunt.task.run('copy:common_' + env);
     
@@ -386,7 +387,7 @@ module.exports = function(grunt) {
     
     grunt.file.expand('packages/modules/'+ module +'/css').forEach(function(path){
       grunt.registerTask(path, function(){
-        grunt.config('compass.module_'+env+'.options.sassDir', path);
+        grunt.config('compass.module_'+env+'.options.sassDir', path.toString());
         grunt.task.run('compass:module_' + env);        
       });
       grunt.task.run(path);
@@ -400,7 +401,8 @@ module.exports = function(grunt) {
     })
     
     grunt.file.write('packages/common/css/responsive-modules.scss', str);
-    grunt.config('compass.common_'+env+'.options.specify', 'packages/common/css/responsive-modules.scss')
+    //grunt.config('compass.common_'+env+'.options.specify', 'packages/common/css/responsive-modules.scss')
+    //console.log(grunt.config('compass.common_'+env));
     grunt.task.run('compass:common_'+env);
     
   });

@@ -5,7 +5,6 @@ $(document).ready(function() {
         if ( e.which === 191 && e.shiftKey ) {
             $('body').toggleClass('debug');
 
-
 			//toggle window sizer
 			(function(e,t,$){
 				var win = e,
