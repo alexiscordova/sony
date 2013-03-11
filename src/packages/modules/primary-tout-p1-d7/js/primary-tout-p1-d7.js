@@ -5,7 +5,6 @@
 // Dependencies: jQuery 1.7+
 // -------------------------------------------------------------------------
 (function($, window, undefined) {
-
     'use strict';
 
     // Start module

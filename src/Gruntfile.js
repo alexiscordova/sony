@@ -287,6 +287,28 @@ module.exports = function(grunt) {
         ]
       }
     },
+    watch:{
+      common:{
+        files:['packages/common/**/*.*'],
+        tasks:['common']
+      },
+      js:{
+        files:['packages/modules/**/js/*.js'],
+        tasks:['js']
+      },
+      css:{
+        files:['packages/modules/**/css/*.scss'],
+        tasks:['css']
+      },
+      html:{
+        files:['packages/modules/**/*.jade', 'packages/modules/**/*.json'],
+        tasks:['html']
+      },
+      assets:{
+        files:['packages/modules/**/img/**/*.*'],
+        tasks:['assets']
+      }
+    },
     doccoh: {
       main: {
         src: ['packages/modules/**/js/*.js', 'packaes/common/js/require/**/*.js', 'packaes/common/js/secondary/**/*.js'],
@@ -378,7 +400,7 @@ module.exports = function(grunt) {
     })
     
     grunt.file.write('packages/common/css/responsive-modules.scss', str);
-    // grunt.config('compass.common_'+env+'.options.specify', 'packages/common/css/responsive-modules.scss')
+    grunt.config('compass.common_'+env+'.options.specify', 'packages/common/css/responsive-modules.scss')
     grunt.task.run('compass:common_'+env);
     
   });
@@ -438,5 +460,24 @@ module.exports = function(grunt) {
   grunt.registerTask('build', function(module){
    module = module ? ":" + module : ""
    grunt.task.run(['clear', 'common', 'assets'+module, 'light'+module]) 
+  });
+  
+  grunt.registerTask('w', function(module){
+    module = module || '**';
+    
+    grunt.config('watch.js.files', ['packages/modules/' + module + '/js/*.js']);
+    grunt.config('watch.css.files', ['packages/modules/' + module + '/css/*.scss']);
+    grunt.config('watch.html.files', ['packages/modules/' + module + '/**/*.jade', 'packages/modules/' + module + '/**/*.json']);
+    grunt.config('watch.assets.files', ['packages/modules/' + module + '/img/']);
+    
+    if(module !== '**'){
+      grunt.config('watch.js.tasks', 'js:'+module);
+      grunt.config('watch.css.tasks', 'css:'+module);
+      grunt.config('watch.html.tasks', 'html:'+module);
+      grunt.config('watch.assets.tasks', 'assets:'+module);
+    }
+    
+    grunt.task.run('watch');
+
   });
 };
