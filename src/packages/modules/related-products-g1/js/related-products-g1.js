@@ -85,7 +85,7 @@
       self.lastTouch              = null;
       self.handleStartPosition    = null;
       self.dragThreshold          = 50;
-      
+
       //
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
@@ -97,7 +97,7 @@
       self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
       self.tileHeightSizeFix      = 0;
       self.hasInitedMobile        = false;
-      
+
       //Modes
       self.isMobileMode           = false;
       self.isDesktopMode          = false;
@@ -311,7 +311,9 @@
 
         // Favorite the gallery item immediately on touch devices
         if ( self.hasTouch ) {
-          $favorites.on('touchend', $.proxy( self.onFavorite, self ));
+          $favorites
+            .on('touchend', $.proxy( self.onFavorite, self ))
+            .on('click', false);
 
         // Show a tooltip on hover before favoriting on desktop devices
         } else {
@@ -564,7 +566,7 @@
                     height: 359
                   });
                 }
-    
+
 
                 shfflInst.update();
                 self.updateSlides();
@@ -598,7 +600,7 @@
         if(self.oldIE && self.DEBUG){
           if(window.alert){
                //window.alert(strOut);
-            
+
           }
         }else if(self.DEBUG) {
           if(window.console){
@@ -758,14 +760,14 @@
             self.$pagination.css('display' , 'none');
             height = self.$pagination.get(0).offsetHeight;
             self.$pagination.css('display' , 'block');
-            
+
           }
 
 
 
         }));
 
-       
+
 
       },
 
@@ -774,7 +776,7 @@
 
         var self = this;
 
-       
+
         self.$el.sonyPaddles();
 
         self.$el.on('sonyPaddles:clickLeft', function(){
@@ -1216,7 +1218,7 @@
         //handle stuff for old IE
         if( self.oldIE ){
           self.$el.css( 'height' , 495 + 'px' );
-        
+
           return;
         }
 
