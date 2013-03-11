@@ -81,6 +81,12 @@ ul.jump-links {
   -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
           transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
 
+  // Stop safari from making the sticky nav transparent
+  -webkit-backface-visibility: hidden;
+     -moz-backface-visibility: hidden;
+      -ms-backface-visibility: hidden;
+          backface-visibility: hidden;
+
   &.open {
     left: 0;
     @include translate(0, 0);
