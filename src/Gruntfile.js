@@ -315,7 +315,10 @@ module.exports = function(grunt) {
   
   grunt.registerTask('docs', ['clean:docs', 'compass:common_docs', 'compass:docs', 'copy:docs', 'jade:docs']);
   
-  grunt.registerTask('pages', []);
+  grunt.registerTask('pages', function(){
+    grunt.config('jshint.files', ['packages/pages/data/**/*.json']);
+    grunt.task.run(['jshint', 'jade:pages']);
+  });
   
   grunt.registerTask('lint', ['jshint']);
   
@@ -340,8 +343,6 @@ module.exports = function(grunt) {
     
     var str = '@import "_base/variables"; \n@import "_base/mixins"; \n';
     grunt.file.expand('packages/modules/**/css/*.scss').filter(function(a){return a.match(/_responsive/g)}).forEach(function(path){
-      console.log(path);
-      
       str += '@import "' + path.replace(/packages/g, '../..') +'"; \n';
     })
     
@@ -377,7 +378,7 @@ module.exports = function(grunt) {
     })
     
     grunt.file.write('packages/common/css/responsive-modules.scss', str);
-    grunt.config('compass.common_'+env+'.options.specify', 'packages/common/css/responsive-modules.scss')
+    // grunt.config('compass.common_'+env+'.options.specify', 'packages/common/css/responsive-modules.scss')
     grunt.task.run('compass:common_'+env);
     
   });

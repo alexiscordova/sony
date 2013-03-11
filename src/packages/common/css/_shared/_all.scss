@@ -1,0 +1,706 @@
+@import "../_base/variables";
+@import "../_base/mixins";
+
+
+// This file has CSS which is shared between modules
+// It is named all.scss so that it comes first in the source and is easier to override
+
+
+//  .d8888b.  888    d8b          888                     888b    888
+// d88P  Y88b 888    Y8P          888                     8888b   888
+// Y88b.      888                 888                     88888b  888
+//  "Y888b.   888888 888  .d8888b 888  888 888  888       888Y88b 888  8888b.  888  888
+//     "Y88b. 888    888 d88P"    888 .88P 888  888       888 Y88b888     "88b 888  888
+//       "888 888    888 888      888888K  888  888       888  Y88888 .d888888 Y88  88P
+// Y88b  d88P Y88b.  888 Y88b.    888 "88b Y88b 888       888   Y8888 888  888  Y8bd8P
+//  "Y8888P"   "Y888 888  "Y8888P 888  888  "Y88888       888    Y888 "Y888888   Y88P
+//                                              888
+//                                         Y8b d88P
+//                                          "Y88P"
+
+// Needs to be more specific
+ul.jump-links {
+  margin-left: -.375em;
+  margin-bottom: 0;
+
+  li {
+    margin: 0 0 0 px-em(23px);
+    padding: 0;
+
+    .lt-ie8 & {
+      float: left;
+    }
+  }
+
+  li:first-child {
+    margin-left: 0;
+  }
+
+  a {
+    display: block;
+    margin-bottom: 0;
+    padding-right: 6px;
+    padding-bottom: 10px;
+    padding-left: 6px;
+    color: $gray20;
+    @include box-shadow(inset 0 0 0 $btnBackground);
+    @include transition($transitionFast $easeNormal);
+  }
+
+  li:hover a {
+    color: $linkBlueActive;
+  }
+
+  .no-touch & li:hover a,
+  .active a {
+    @include box-shadow(inset 0 -4px 0 $btnBackground);
+  }
+
+  .no-boxshadow & a {
+    padding-bottom: 6px;
+    border-bottom: 4px solid transparent;
+  }
+
+  .no-boxshadow.no-touch & li:hover a,
+  .no-boxshadow & .active a {
+    border-bottom-color: $btnBackground;
+  }
+}
+
+// Sticky nav
+.sticky-nav {
+  position: fixed;
+  // z-index: 20; // above features
+  z-index: 200; // Safari, what are you doing???
+  top: 0;
+  left: -999em;
+  width: 100%;
+  background: $white;
+  @include box-shadow(0 .0625em .625em $stickyShadowColor);
+  @include translate(0, -2em);
+  -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
+          transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
+
+  &.open {
+    left: 0;
+    @include translate(0, 0);
+    @include transition-delay(0s);
+    @include transition-timing-function(ease-out);
+  }
+
+  // // Disable box shadow if the sticky headers are visible
+  // .sticky-header-open & {
+  //   @include box-shadow(none);
+  // }
+
+  .no-boxshadow & {
+    border-bottom: 1px solid $gray70;
+  }
+}
+
+
+
+
+
+
+// 50px margin-top on detailed gallery items
+.gallery-item.detailed {
+  margin: 3.125em 0 0;
+}
+
+
+//  .d8888b.           888 888                                8888888 888
+// d88P  Y88b          888 888                                  888   888
+// 888    888          888 888                                  888   888
+// 888         8888b.  888 888  .d88b.  888d888 888  888        888   888888 .d88b.  88888b.d88b.
+// 888  88888     "88b 888 888 d8P  Y8b 888P"   888  888        888   888   d8P  Y8b 888 "888 "88b
+// 888    888 .d888888 888 888 88888888 888     888  888        888   888   88888888 888  888  888
+// Y88b  d88P 888  888 888 888 Y8b.     888     Y88b 888        888   Y88b. Y8b.     888  888  888
+//  "Y8888P88 "Y888888 888 888  "Y8888  888      "Y88888      8888888  "Y888 "Y8888  888  888  888
+//                                                   888
+//                                              Y8b d88P
+//                                               "Y88P"
+
+$oneByOnePadding: 165.196%;
+$oneByOneImgPadding: 107.84313725490196%;
+.gallery-item {
+  position: relative;
+  display: block;
+  margin-top: $slimGrid5GutterWidth1200;
+  overflow: hidden;
+  background: $white;
+
+  &:after {
+    content: '';
+    display: block;
+    padding-top: $oneByOnePadding;
+  }
+
+  // < ie8 doesn't support pseudo elements
+  .lt-ie8 & {
+    height: 17.25em; // 276
+  }
+
+  // Make them a bit bigger
+  .shuffle-6 &:after {
+    padding-top: 169.396078%;
+  }
+
+  .gallery-item-inner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+
+  // Container for product images
+  .product-img {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    background: $gray80;
+    @include transition(background-color $transitionFast $easeNormal);
+
+    &:hover {
+      background-color: $gray75;
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      padding-top: $oneByOneImgPadding;
+    }
+
+    .lt-ie8 & {
+      height: 11.3125em; // 181
+    }
+
+    .product-img-wrap {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    img {
+      display: block;
+      max-height: 100%; // This is causing the images to sometimes be tiny. Not sure what to do about it...
+      max-width: 100%;
+      margin: auto;
+    }
+
+  }
+
+  // Large tiles
+  &.large {
+
+    .lt-ie8 & {
+      height: 35.625em; // 570
+
+      .product-img {
+        height: 29.6875em; // 475
+      }
+    }
+
+    &:after {
+      padding-top: 105.92705167173253%;
+    }
+
+    .product-img:after {
+      padding-top: 88.14589665653495%;
+    }
+
+    // Carousels
+    .slide {
+      float: left;
+
+      // For Firefox
+      max-width: 100%;
+    }
+
+    // 30px at 1020px wide grid for large tile
+    .pagination-bullets {
+      bottom: 5.6390977%;
+    }
+
+    .nav-paddle-prev,
+    .nav-paddle-next {
+      position: absolute;
+      z-index: 20;
+      top: 50%;
+      margin-top: -($navPaddleHeight / 2);
+    }
+
+    .nav-paddle-prev {
+      left: 3.75%;
+    }
+
+    .nav-paddle-next {
+      right: 3.75%;
+    }
+
+    // 3 column grid
+    .shuffle-3 & .product-img:after {
+      // padding-top: 107.045%;
+    }
+
+    // Change padding for 4 column grid
+    .shuffle-4 &:after {
+      padding-top: $oneByOnePadding;
+    }
+
+    // 4 column grid
+    .shuffle-4 & .product-img:after {
+      padding-top: $oneByOneImgPadding;
+    }
+
+    // Should = 612px at full width (296 * 2 + 20)
+    .shuffle-6 &:after {
+      padding-top: 105.3%;
+    }
+
+    .shuffle-6 & .product-img:after {
+      padding-top: 87%;
+    }
+  }
+
+  // Title plate
+  &.plate {
+
+    &:after {
+      padding-top: 59.190255%;
+    }
+
+    .shuffle-4 &:after {
+      padding-top: 77.790255%;
+    }
+
+    .product-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+    }
+
+    .product-img {
+      height: 100%;
+    }
+
+    img {
+      max-height: none;
+      max-width: none;
+    }
+
+    div.iq-img {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+  }
+
+  // Promo gallery item images are the full height
+  &.promo {
+
+    .lt-ie8 & {
+      height: 17.25em; // 276
+
+      .product-img {
+        height: 11.3125em; // 181
+      }
+    }
+
+    &:after {
+      padding-top: 78.19025522041764%;
+      // padding-top: 83.6%;
+    }
+
+    div.iq-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+  }
+
+  .label {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    margin: 0;
+  }
+}
+
+// Offset the tooltip to the left
+// -----------------------
+.gallery-tooltip {
+
+  i {
+    position: relative;
+    top: -1px;
+    font-size: 16px;
+    padding-left: 2px;
+  }
+}
+
+
+
+// Styles, not structure, for gallery tiles
+.gallery-item {
+
+  .color-swatches {
+    position: absolute;
+    right: .875em;
+    bottom: .6875em;
+  }
+
+  .favorite-holder {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    cursor: pointer;
+
+    i {
+      // margin-top: px-em(3px);
+      color: $gray60;
+      vertical-align: baseline;
+      font-size: .8125em;
+      padding: .6875em .875em;
+    }
+
+    &:hover i,
+    &.active i {
+      color: rgb(243,84,41);
+    }
+  }
+
+  .fonticon-10-star {
+    color: $gray50;
+  }
+}
+
+
+// 8888888b.                                              88888888888 d8b 888
+// 888   Y88b                                                 888     Y8P 888
+// 888    888                                                 888         888
+// 888   d88P 888d888 .d88b.  88888b.d88b.   .d88b.           888     888 888  .d88b.  .d8888b
+// 8888888P"  888P"  d88""88b 888 "888 "88b d88""88b          888     888 888 d8P  Y8b 88K
+// 888        888    888  888 888  888  888 888  888          888     888 888 88888888 "Y8888b.
+// 888        888    Y88..88P 888  888  888 Y88..88P          888     888 888 Y8b.          X88
+// 888        888     "Y88P"  888  888  888  "Y88P"           888     888 888  "Y8888   88888P'
+
+// Promo Tiles
+// -------------------------
+
+.gallery-item.promo {
+
+  .no-touch & .gallery-item-inner {
+    @include fadeoutOnHover('.iq-img');
+
+    .promo-title i {
+      @include transition();
+    }
+
+    &:hover .promo-title i {
+      @include translate( px-em(6px), 0);
+    }
+
+    .no-csstransforms &:hover .promo-title i {
+      left: 6px;
+    }
+
+  }
+
+  .product-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+  }
+
+  // promo content
+  .product-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 10.129032% 10.6060606% 10.967742%;
+  }
+
+  img {
+    max-height: none;
+    max-width: none;
+  }
+}
+
+.gallery-item .promo-content {
+  position: relative;
+  height: 100%;
+  text-align: left;
+
+  .promo-title {
+    margin: 0;
+
+    i {
+      position: relative;
+      top: px-em(-3px);
+      left: px-em(2px);
+    }
+  }
+
+  .promo-title .title,
+  .promo-title .emphasis {
+    color: $white;
+  }
+
+  .promo-title .emphasis {
+    color: $gray20;
+  }
+
+  // e.g. "22 LENSES"
+  .text-count {
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+  }
+
+  // Override default label colors
+  .text-count span {
+    color: $white;
+  }
+
+  // ::Different styles go here::
+
+  &.light-text-dark-box {}
+  &.light-text-trans-box {}
+  &.dark-text-light-box {}
+  &.dark-text-trans-box {}
+
+  &.align-left-top {}
+  &.align-left-center {}
+  &.align-left-bottom {}
+  &.align-center-center {}
+  &.align-right-top {}
+  &.align-right-center {}
+  &.align-right-bottom {}
+}
+
+
+
+// Detailed gallery item sizes
+// -------------------------
+.gallery-detailed {
+
+  .gallery-item:after {
+    padding-top: 140%;
+  }
+
+  .lt-ie8 & .gallery-item {
+    height: 25.375em; // 406
+
+    .product-img {
+      height: 13.8125em; // 221
+    }
+  }
+
+  .product-img:after {
+    padding-top: 76.05633802816901%;
+  }
+
+}
+
+
+
+
+
+
+//  .d8888b.
+// d88P  Y88b
+// 888    888
+// 888         .d88b.  88888b.d88b.  88888b.   8888b.  888d888  .d88b.
+// 888        d88""88b 888 "888 "88b 888 "88b     "88b 888P"   d8P  Y8b
+// 888    888 888  888 888  888  888 888  888 .d888888 888     88888888
+// Y88b  d88P Y88..88P 888  888  888 888 d88P 888  888 888     Y8b.
+//  "Y8888P"   "Y88P"  888  888  888 88888P"  "Y888888 888      "Y8888
+//                                   888
+//                                   888
+//                                   888
+
+
+// Used in compare tool and multiple spec pages
+
+
+// Don't let label text overflow
+.detail-label strong {
+  display: inline-block;
+  max-width: 100%;
+  @include text-overflow( false );
+}
+
+// Labels
+.detail-labels-wrap {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+
+  .lt-ie9 & {
+    margin-left: 0;
+  }
+
+  //
+  &:before {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 2000px;
+    right: 0;
+    top: 0;
+    background-color: $gray90;
+
+    @include transition(box-shadow $transitionFast ease-in);
+  }
+
+  // Show a little shadow representing content behind the label column
+  &.overflowing:before {
+    @include box-shadow(.125em 0 .1875em -.0625em $transparentBlack);
+    @include transition-timing-function(ease-out);
+  }
+}
+
+// Add a nice slide in
+// For IE, don't use filters for opacity
+.detail-labels-wrapping {
+  @include translate(-0.625em, 0);
+  opacity: 0;
+  -webkit-transition: opacity $transitionNormal $easeNormal .1s, -webkit-transform $transitionNormal $easeNormal .1s;
+          transition: opacity $transitionNormal $easeNormal .1s, transform $transitionNormal $easeNormal .1s;
+
+  &.complete {
+    @include translate(0, 0);
+    opacity: 1;
+  }
+}
+
+.detail-label-group {
+  position: absolute;
+}
+
+.detail-label-group,
+.detail-labels-wrapping .product-count-wrap {
+  width: 100%;
+  width: -webkit-calc(100% - 0.625em);
+  width:         calc(100% - 0.625em);
+}
+
+// Gray border top for labels
+.compare-container .detail,
+.detail-labels-wrapping .product-count-wrap {
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  margin-bottom: 0;
+
+  // Simulate border top because the "border" is not 100% of the width,
+  // therefore, we can't actually use the border property
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    width: 90%;
+    height: 1px;
+    background: $gray60;
+  }
+}
+
+// Make labels have a darker border
+.compare-container .detail-label:after,
+.detail-labels-wrapping .product-count-wrap:after {
+  left: 0;
+  width: 100%;
+  background: $grayLightish;
+}
+
+
+// Sticky header
+// ---------------------
+.compare-sticky-header {
+  position: absolute; // will be changed to fixed with js after the `left` is measured
+  z-index: 10;
+  top: 0;
+  left: -9999px;
+  padding: 1em 0 1.25em;
+  margin: 0;
+  background: $gray90;
+  top: -6.25em;
+  @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
+
+  // The sticky-count uses a pseudo element for the box-shadow
+  &:not(.sticky-count) {
+    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
+  }
+
+  // Needs more specificity to override span margins
+  .sticky-headers & {
+    margin: 0;
+  }
+
+  // Make sticky header visible
+  &.open {
+    left: 0; // Show it
+    top: 0;
+    @include transition-delay(0s);
+    @include transition-timing-function(ease-out);
+  }
+
+  // Create a sticky header box, but position it behind the text and off to the left
+  // so that it looks like it extends the length of the window
+  &.sticky-count:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: -.1875em; // Same as margin-left for compare-items
+    width: 2000px;
+    height: 100%;
+    background: $gray90;
+    border-right: .0625em solid rgba(0,0,0,0.05);
+    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
+  }
+
+  .media .pull-left {
+    max-width: 90px;
+    margin-right: 4px;
+  }
+
+  .product-name {
+    color: $gray20;
+  }
+}
+
+.compare-box {
+  display: inline-block;
+  padding: 11px 12px;
+  color: $white;
+  line-height: 1;
+  background: $gray20;
+}
+
+// @import "../_responsive/responsive-all";
+
