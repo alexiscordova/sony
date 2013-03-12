@@ -117,6 +117,7 @@ define(function(require){
         easing: Settings.shuffleEasing,
         speed: Settings.shuffleSpeed,
         hideLayoutWithFade: true,
+        showInitialTransition: false,
         sequentialFadeDelay: 100,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
@@ -145,8 +146,7 @@ define(function(require){
           self.currentFeatureCols = numCols;
 
           return gutter;
-        },
-        showInitialTransition: false
+        }
       });
       self.shuffle = self.$specTiles.data('shuffle');
 

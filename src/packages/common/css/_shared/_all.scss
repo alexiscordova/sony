@@ -708,5 +708,122 @@ $oneByOneImgPadding: 107.84313725490196%;
   background: $gray20;
 }
 
-// @import "../_responsive/responsive-all";
+
+
+// 888888b.            888    888             .d8888b.
+// 888  "88b           888    888            d88P  Y88b
+// 888  .88P           888    888            Y88b.
+// 8888888K.   .d88b.  888888 88888b.         "Y888b.   88888b.   .d88b.   .d8888b .d8888b
+// 888  "Y88b d88""88b 888    888 "88b           "Y88b. 888 "88b d8P  Y8b d88P"    88K
+// 888    888 888  888 888    888  888             "888 888  888 88888888 888      "Y8888b.
+// 888   d88P Y88..88P Y88b.  888  888       Y88b  d88P 888 d88P Y8b.     Y88b.         X88
+// 8888888P"   "Y88P"   "Y888 888  888        "Y8888P"  88888P"   "Y8888   "Y8888P  88888P'
+//                                                      888
+//                                                      888
+//                                                      888
+
+
+// Spec Header
+// -------------------------
+.spec-single,
+.spec-multi {
+  margin-top: 4.375em; // 70
+
+  dt {
+    margin-bottom: 0;
+  }
+}
+
+.spec-title-wrap {
+  position: relative;
+  margin-bottom: 1.25em;
+}
+
+.spec-title {
+  margin: 0;
+  font-size: 2.25em; // 36
+}
+
+.spec-title-link {
+  color: $linkBlue;
+}
+
+// Sticky nav
+.spec-sticky-nav {
+
+  // Disable box shadow if the sticky headers are visible
+  .sticky-header-open & {
+    @include box-shadow(none);
+  }
+
+  .sticky-nav-title {
+    margin-top: 17px;
+    margin-bottom: 2px;
+    line-height: .9;
+
+    // Add a border-right to the far right of the grid (over the sticky nav)
+    .sticky-header-open &:after {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background: $gray70;
+      right: 0;
+      top: 100%;
+    }
+  }
+
+}
+
+
+
+
+// 8888888888                888                                    88888888888 d8b 888
+// 888                       888                                        888     Y8P 888
+// 888                       888                                        888         888
+// 8888888  .d88b.   8888b.  888888 888  888 888d888  .d88b.            888     888 888  .d88b.  .d8888b
+// 888     d8P  Y8b     "88b 888    888  888 888P"   d8P  Y8b           888     888 888 d8P  Y8b 88K
+// 888     88888888 .d888888 888    888  888 888     88888888           888     888 888 88888888 "Y8888b.
+// 888     Y8b.     888  888 Y88b.  Y88b 888 888     Y8b.               888     888 888 Y8b.          X88
+// 888      "Y8888  "Y888888  "Y888  "Y88888 888      "Y8888            888     888 888  "Y8888   88888P'
+
+
+// Spec Feature Tiles
+// -------------------------
+.spec-tiles-wrap {
+  margin-top: 3.75em; // 60
+  margin-bottom: 9.375em; // 150
+
+  .features-title {
+    margin-bottom: 0;
+    padding-bottom: 12px;
+    border-bottom: 3px solid $gray70;
+  }
+}
+
+.container .spec-tiles .spec-tile {
+  margin-left: 0;
+}
+
+.spec-tile {
+  margin-top: 1.5em;
+  background: $gray80;
+
+  .tile-content {
+    padding: 1.875em 2.5em 2.75em 1.875em;
+  }
+
+  // Remove default header margin top
+  .tile-title {
+    margin-top: 0;
+  }
+}
+
+// In theory, these should be large enough to fill the space all the time :\
+.spec-tile .iq-img {
+  width: 100%;
+  height: auto;
+  min-height: px-em(85px);
+}
+
 
