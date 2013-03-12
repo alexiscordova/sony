@@ -13,9 +13,15 @@
 //
 
 
-(function($, Modernizr, IScroll, window, undefined) {
+define(function(require){
 
   'use strict';
+
+  var $ = require('jquery'),
+      Modernizr = require('modernizr'),
+      iQ = require('iQ'),
+      Settings = require('require/sony-global-settings'),
+      iScroll = require('plugins/sony-iscroll');
 
   var ScrollerModule = function( $element, options ) {
     var self = this;
@@ -23,7 +29,7 @@
     $.extend(self, $.fn.scrollerModule.defaults, options, $.fn.scrollerModule.settings);
 
     self.$el = $element;
-    self.$win = SONY.$window;
+    self.$win = Settings.$window;
     self.unique = '.sm_' + $.now();
     self._init();
   };
@@ -43,8 +49,8 @@
       self.$elements = self.$el.find(self.itemElementSelector);
       self.$sampleElement = self.$elements.eq(0);
 
-      self.windowWidth = SONY.Settings.windowWidth;
-      self.windowHeight = SONY.Settings.windowHeight;
+      self.windowWidth = Settings.windowWidth;
+      self.windowHeight = Settings.windowHeight;
 
       // Initially set the isPaginated boolean. This may be changed later inside paginate()
       self.isPaginated = self.mode === 'paginate';
@@ -594,4 +600,4 @@
     navTemplate: '<nav class="nav-paddles"><button class="nav-paddle nav-paddle-prev"><i class="fonticon-10-chevron-reverse"></i></button><button class="nav-paddle nav-paddle-next"><i class="fonticon-10-chevron"></i></button></nav>'
   };
 
-})(jQuery, Modernizr, IScroll, window);
+});
