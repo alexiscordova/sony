@@ -695,19 +695,23 @@ input.search-query {
   padding-left: 5px;
 }
 
-// Really what matters here is :checked support and generated content
+
+.styled-checkbox {
+  & + label {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin: 0;
+    color: $gray20;
+  }
+}
 
 .generatedcontent .styled-checkbox {
   position: absolute; // take it out of document flow
   opacity: 0; // hide it
 
   & + label {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
     padding: 0;
-    margin: 0;
-    color: $gray20;
   }
 
   // label has a .p3 (13px)
@@ -818,6 +822,20 @@ input.search-query {
   &:checked + label:after,
   &.active + label:after {
     display: inline-block;
+  }
+}
+
+.no-generatedcontent .styled-checkbox {
+
+  // Remove 4px margin-top
+  & {
+    margin-top: 0;
+  }
+
+  // Hide check mark
+  & + label:after {
+    content: none;
+    display: none;
   }
 }
 

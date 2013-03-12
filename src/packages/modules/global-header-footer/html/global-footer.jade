@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
+
 - var store_locator_input_default_full = "      " + sample_session_data.current_location
 
 if typeof minimal !== 'undefined' && minimal === true
@@ -32,45 +33,45 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
                 li.footer-link-li
                   a(href=link.link)= link.label
 
-        .footer-ex.clearfix
+      .footer-ex.clearfix
 
-          .footer-language.span6.mobile-container-padded
-            .footer-language-selectors
-              #country-selector.btn-hover-group.country-selector
-                a.btn.dropdown-hover-toggle(href=data.language.country_selector.link)
-                  i(class='sprite-flagBig-'+sample_session_data.current_flag.id)
-                  span.dropdown-label= sample_session_data.current_flag.label
+        .footer-language.span6.mobile-container-padded
+          .footer-language-selectors
+            #country-selector.btn-hover-group.country-selector
+              a.btn.dropdown-hover-toggle(href=data.language.country_selector.link)
+                i(class='sprite-flagBig-'+sample_session_data.current_flag.id)
+                span.dropdown-label= sample_session_data.current_flag.label
 
-              .btn-hover-group.language-selector
-                //- a.btn.dropdown-hover-toggle(data-toggle='dropdown', href='#')= sample_session_data.current_lang.id
-                a.btn.dropdown-hover-toggle(href='#')= sample_session_data.current_lang.id
-                  i.fonticon-10-arrowhead-down.old-ie-cleartype-fix-gray30
-                .dropdown-hover-menu.bottom-up
-                  .dropdown-hover-menu-lists-w
-                    ul.dropdown-hover-menu-list
+            .btn-hover-group.language-selector
+              //- a.btn.dropdown-hover-toggle(data-toggle='dropdown', href='#')= sample_session_data.current_lang.id
+              a.btn.dropdown-hover-toggle(href='#')= sample_session_data.current_lang.id
+                i.fonticon-10-arrowhead-down.old-ie-cleartype-fix-gray30
+              .dropdown-hover-menu.bottom-up
+                .dropdown-hover-menu-lists-w
+                  ul.dropdown-hover-menu-list
 
-                      - each lang, i in data.language.languages
-                        if lang.id === sample_session_data.current_lang.id
-                          li(class="selected")
-                            a(href=lang.link)
-                              span.dropdown-label-left= lang.id
-                              span.dropdown-label= lang.label
-                        else 
-                          li
-                            a(href=lang.link)
-                              span.dropdown-label-left= lang.id
-                              span.dropdown-label= lang.label
+                    - each lang, i in data.language.languages
+                      if lang.id === sample_session_data.current_lang.id
+                        li(class="selected")
+                          a(href=lang.link)
+                            span.dropdown-label-left= lang.id
+                            span.dropdown-label= lang.label
+                      else 
+                        li
+                          a(href=lang.link)
+                            span.dropdown-label-left= lang.id
+                            span.dropdown-label= lang.label
 
-          .footer-contact.span6.mobile-container-padded(role='navigation')
-            p
-              - each link, i in data.contact.text_links
-                a(href=link.link)= link.label
+        .footer-contact.span6.mobile-container-padded(role='navigation')
+          p
+            - each link, i in data.contact.text_links
+              a(href=link.link)= link.label
 
-            .footer-social-links
-              - each button, i in data.contact.social_buttons
-                a(href=button.link, class='footer-social-'+button.id)
-                  i.old-ie-cleartype-fix-gray05(class=button.icon)
-                  span.visuallyhidden= button.label
+          .footer-social-links
+            - each button, i in data.contact.social_buttons
+              a(href=button.link, class='footer-social-'+button.id)
+                i.old-ie-cleartype-fix-gray05(class=button.icon)
+                span.visuallyhidden= button.label
 
   footer.container.full-bleed-no-max.m-full-bleed.footer-signature-w.mobile-container-padded
     .container

@@ -872,7 +872,9 @@ define(function(require){
 
       // Favorite the gallery item immediately on touch devices
       if ( self.isTouch ) {
-        $favorites.on('touchend', $.proxy( self.onFavorite, self ));
+        $favorites
+          .on('touchend', $.proxy( self.onFavorite, self ))
+          .on('click', false);
 
       // Show a tooltip on hover before favoriting on desktop devices
       } else {
