@@ -1,9 +1,154 @@
 include ../../../common/html/jade-helpers.jade
 
 
+mixin copyblock(module)
+  .tcc-copy               
+    if (module.title)
+      p.p2
+        strong= module.title
+
+    if (module.bodyCopy)
+      p.p4= module.bodyCopy
+
+    if (module.articleLink)
+      p.lt3
+        a(href= module.articleLink) Read More
+
 mixin socialButton(link, label)
   .social-btn
     a.btn.btn-small(href= link)= label
+
+mixin articleDefault(module)
+  .img-container
+    .img-wrap
+      //- assumes there only ever be one image
+      +iQImage(module.images[0])
+
+mixin articleNews(module)
+  .img-container
+    .img-wrap
+      //- assumes there only ever be one image
+      +iQImage(module.images[0])
+      p.news-date.l3-light= module.date
+
+mixin articleEvent(module)
+  //- assumes there only ever be one image
+  .img-container.iq-img(data-src= module.images[0].src)
+    .attendance-count
+      .details
+        p.t3= module.attendanceCount
+        p.l3-light attending
+
+mixin articleFeatured(module)
+  //- assumes there only ever be one image
+  .featured-image.iq-img(data-src= module.images[0].src)
+  article
+    .feature-copy.light-text-dark-box
+      p.t5-light= module.title
+      p.lt3
+        a(href= module.articleLink) Read More
+
+mixin expertQuote(module)
+  .title.l3= module.title
+
+  blockquote.bq3
+    p= module.quote
+
+  .credits
+    .avatar
+      +iQImage(module.images[0])
+    p.author.p4
+      a(href= module.author.link)= module.author.name
+
+mixin userQuote(module)
+  .title.l3= module.title
+
+  blockquote.bq3
+    p= module.quote
+
+  .credits
+    .avatar
+      +iQImage(module.images[0])
+
+    p.handle.p4
+      a(href= module.author.link)= module.author.handle
+
+    p.author.p4= module.author.name
+
+mixin question(module)
+  .credits
+    .avatar
+      +iQImage(module.images[0])
+    
+    p.author.p4
+      a(href= module.author.link)
+        | #{module.author.handle} 
+      | #{module.title}
+
+  blockquote.bq3
+    p
+      | #{module.question}
+
+  p.lt3
+    a(href= module.repliesLink)
+      | See Replies
+
+  .answer-btn
+    a.btn.btn-small(href= module.answerLink)
+      | Answer this Question
+
+mixin twitter(module)
+  blockquote.bq4
+    p= module.quote
+
+mixin facebook(module)
+  .post-tile
+    +iQImage(module.images[0])
+
+  blockquote.post-copy.bq5
+      p= module.postCopy
+        a= module.postLink
+
+mixin instagram(module)
+  div.left
+    div.iq-img(data-src= module.images[1].src)
+    div.last.iq-img(data-src= module.images[2].src)
+  div.right
+    div.iq-img(data-src= module.images[0].src)
+
+mixin sonysVoiceTop(icon, meta)
+  .icon-container
+    .white-bg.fonticon-10-dot
+    div(class=icon)
+    
+  .meta            
+    p.p4    
+      if (meta.user)
+        span.user= meta.user
+
+      if (meta.timestamp)
+        span.timestamp= meta.timestamp
+
+mixin sonysVoiceCenter(mode, module)
+  .center-container
+    case mode
+      when "twitter"
+        +twitter(module)
+      when "facebook"
+        +facebook(module)
+      when "instagram"
+        +instagram(module)
+
+mixin sonysVoiceBottom(mode, module)
+  case mode
+    when "twitter"
+      - label = "Follow Us on Twitter"
+    when "facebook"
+      - label = "Like Us on Facebook"
+    when "instagram"
+      - label = "Follow Us on Instagram"
+
+  +socialButton( module.socialBtnLink, label )
 
 mixin flickrContent(meta, images, btnLink, btnLabel)
   if (contentMode == "default")
@@ -33,59 +178,20 @@ mixin flickrContent(meta, images, btnLink, btnLabel)
             - for (i = 3; i <= 5; i++) {
             if(images[i])
               div
-                mixin iQImage(images[i])
+                +iQImage(images[i])
             -}
     .bottom
-      mixin socialButton( btnLink, btnLabel )
-
-mixin articleDefault (module)
-  .img-container
-    .img-wrap
-      img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
-      noscript
-        img(src= module.noScriptImg)
-
-mixin articleNews(module)
-  .img-container
-    .img-wrap
-      img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
-      noscript
-        img(src= module.noScriptImg)
-      p.news-date.l3-light= module.date
-
-mixin articleEvent(module)
-  .img-container.iq-img(data-src= module.imgSrc)
-    .attendance-count
-      .details
-        p.t3= module.attendanceCount
-        p.l3-light attending
-
-mixin sonysVoiceTop(icon, meta)
-  .icon-container
-    .white-bg.fonticon-10-dot
-    div(class=icon)
-    
-  .meta            
-    p.p4    
-      if (meta.user)
-        span.user= meta.user
-
-      if (meta.timestamp)
-        span.timestamp= meta.timestamp
-
+      +socialButton( btnLink, btnLabel )
 
 //- START Tertiary Content Container
 section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tcc-mode="#{data.moduleMode}")
 
   for header in data.header
     .tcc-header-wrapper.container
-      //- .tcc-header.grid.m-full-bleed
       .tcc-header.grid
         p.tcc-header-title.l1 #{header.title}
-
         p.tcc-header-link.lt3
           a(href="#{header.link}") #{header.linkText}
-  
   .loader
     img(src="img/loader.gif")
 
@@ -94,153 +200,57 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
 
   section(class=scrollerClassNames)
     div(class=bodyClassNames)
-      for module in data.contentModules
-        - contentModulesClassNames = ["tcc-content-module","span4"]
+      //- for module in data.contentModules
+      each module, i in data.contentModules
+        - contentType = module.type
+        - contentMode = module.mode
+        - contentModulesClassNames = ["tcc-content-module","span4", contentType,contentMode]
 
-        for variation in module.variations
-          - contentType = variation.contentType
-          - contentMode = variation.contentMode
-          - contentModulesClassNames.push(contentMode, contentType)
-
-          if(contentType != "users-voice")
-            - contentModulesClassNames.push("table-center-wrap")
+        if(contentType != "users-voice")
+          - contentModulesClassNames.push("table-center-wrap")
 
         div(class=contentModulesClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode)
           case contentType
             when "article"
-              if(contentMode == "featured") && (module.title) && (module.imgSrc)
-                .featured-image.iq-img(data-src= module.imgSrc)
-                article
-                  .feature-copy.light-text-dark-box
-                    p.t5-light= module.title
-                    p.lt3
-                      a(href= module.articleLink) Read More
+              //- if there is a title and a featured image
+              if(contentMode == "featured") && (module.title) && (module.images[0].src)
+
+                +articleFeatured(module)
+
               else                           
+                
                 if(contentMode == "default")
-                  mixin articleDefault( module )
+                
+                  +articleDefault(module)
 
                 if(contentMode == "news") && (module.date)
-                  mixin articleNews( module )
+                
+                  +articleNews(module)
 
                 if(contentMode == "event") && (module.attendanceCount)
-                  mixin articleEvent( module )
+                
+                  +articleEvent(module)
 
-                .tcc-copy               
-                  if (module.title)
-                    p.p2
-                      strong= module.title
-
-                  if (module.bodyCopy)
-                    p.p4= module.bodyCopy
-
-                  if (module.articleLink)
-                    p.lt3
-                      a(href= module.articleLink) Read More
-
+                +copyblock(module)
 
             when "users-voice"
               if (contentMode == "expert-quote")
-                .title.l3= module.title
-
-                blockquote.bq3
-                  p= module.quote
-
-                .credits
-                  .avatar
-                    img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
-                      noscript
-                        img(src= module.avatarNoScriptImg)
-                
-                  p.author.p4
-                    a(href= module.authorLink)= module.author
+                +expertQuote(module)
 
               if (contentMode == "user-quote")
-                .title.l3= module.title
-
-                blockquote.bq3
-                  p= module.quote
-
-                .credits
-                  .avatar
-                    img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
-                      noscript
-                        img(src= module.avatarNoScriptImg)
-
-                  p.handle.p4
-                    a(href= module.authorLink)= module.authorHandle
-
-                  p.author.p4= module.author
+                +userQuote(module)
 
               if (contentMode == "question")
-                .credits
-                  .avatar
-                    img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
-                      noscript
-                        img(src= module.avatarNoScriptImg)
-                  
-                  p.author.p4
-                    a(href= module.authorLink)
-                      | #{module.authorHandle} 
-                    | #{module.title}
-              
-                blockquote.bq3
-                  p
-                    | #{module.question}
-
-                p.lt3
-                  a(href= module.repliesLink)
-                    | See Replies
-
-                .answer-btn
-                  a.btn.btn-small(href= module.answerLink)
-                    | Answer this Question
+                +question(module)
             
             when "sonys-voice"
-              - iconName = "fonticon-15-" + contentMode
-
-
-              if (contentMode != "instagram")
-                .tcc-inner-container
-                  .top
-                    mixin sonysVoiceTop(iconName, module.meta)
-                  .center
-                    .center-container
-                      if (contentMode == "twitter")
-                        - label = "Follow Us on Twitter"
-
-                        blockquote.bq4
-                          p= module.quote
-
-                      if (contentMode == "facebook")
-                        - label = "Like Us on Facebook"
-                        .post-tile
-                          img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
-                            noscript
-                              img(src= module.postImgNoScriptImg)
-
-                        blockquote.post-copy.bq5
-                            p= module.postCopy
-                              a= module.postLink
-
-                  .bottom
-                    - link = module.socialBtnLink
-                    mixin socialButton( link, label )
-
-
-              if (contentMode == "instagram")
-                .tcc-inner-container
-                  .top
-                    mixin sonysVoiceTop(iconName, module.meta)
-
-                  .center
-                    .center-container
-                      div.left
-                        div.iq-img(data-src= module.instagramTLImg)
-                        div.last.iq-img(data-src= module.instagramBLImg)
-                      div.right
-                        div.iq-img(data-src= module.instagramRImg)
-                  .bottom
-                    mixin socialButton( module.socialBtnLink, "Follow Us on Instagram" )
+              .tcc-inner-container
+                .top
+                  +sonysVoiceTop("fonticon-15-" + contentMode, module.meta)
+                .center
+                  +sonysVoiceCenter(contentMode, module)
+                .bottom
+                  +sonysVoiceBottom(contentMode, module)
 
             when "flickr"
               mixin flickrContent(module.meta, module.images, module.socialBtnLink, "View Set on Flickr")

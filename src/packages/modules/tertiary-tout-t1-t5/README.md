@@ -134,86 +134,10 @@ _Modules:_
 + sonysVoice
 
 
-## DEPLOY HEAD FILES
-
-+ modernizr-2.6.2.min.js
-	+ ../../../../build/deploy/js/libs/modernizr-2.6.2.min.js
-+ styles.css
-	+ ../../../../build/deploy/css/styles.css
-+ responsive.css
-	+ ../../../../build/deploy/css/responsive.css
-+ all.css
-	+  ../../../../build/deploy/css/all.css
-+ tertiary-t1-t5.css
-	+  ../../../../build/deploy/css/modules/tertiary-t1-t5.css
-+ responsive-modules.css
-	+  ../../../../build/deploy/css/responsive-modules.css
-+ polyfill.min.js
-	+ ../../../../build/deploy/js/polyfill.min.js
-
-
-## DEPLOY TAIL FILES
-+ bootstrap.js
-	+ ../../../../build/deploy/js/libs/bootstrap.js
-+ plugins.min.js
-	+ ../../../../build/deploy/js/plugins.min.js
-+ require.min.js
-	+ ../../../../build/deploy/js/require.min.js
-+ secondary.min.js
-	+ ../../../../build/deploy/js/secondary.min.js
-+ defer.min.js
-	+ ../../../../build/deploy/js/defer.min.js
-	
-
-## REALTED SOURCE
-+ styles.scss
-	+ ../../../css/scss/styles.scss
-+ responsive.scss
-	+ ../../../css/scss/responsive.scss
-+ all.scss
-	+ ../../../css/scss/modules/all.scss
-+ tertiary-t1-t5.scss
-	+  ../../../css/scss/modules/tertiary-t1-t5.scss
-+ \_responsive-tertiary-t1-t5.scss
-	+ ../../../css/scss/responsive/_responsive-tertiary-t1-t5.scss
-+ bootstrap.js
-	+ ../../../js/libs/bootstrap.js
-+ sony-iscroll.js
-	+ ../../../js/bundle/plugins/sony-iscroll.js
-+ jquery.imagesloaded.js
-	+ ../../../js/bundle/plugins/jquery.imagesloaded.js
-+ jquery.infinitescroll.js
-	+ ../../../js/bundle/plugins/jquery.infinitescroll.js
-+ jquery.throttle-debounce.js
-	+ ../../../js/bundle/plugins/jquery.throttle-debounce.js
-+ jquery.rAF.js
-	+ ../../../js/bundle/plugins/jquery.rAF.js
-+ iq.js
-	+ ../../../js/bundle/require/iq.js
-+ sony-global-analytics.js
-	+ ../../../js/bundle/require/sony-global-analytics.js
-+ sony-global-settings.js
-	+ ../../../js/bundle/require/sony-global-settings.js
-+ sony-global-utilities.js
-	+ ../../../js/bundle/require/sony-global-utilities.js
-+ sony-global.js
-	+ ../../../js/bundle/require/sony-global.js
-+ jquery.shuffle.js
-	+ ../../../js/bundle/secondary/jquery.shuffle.js
-+ sony-navigationdots.js
-	+ ../../../js/bundle/secondary/sony-navigationdots.js
-+ sony-paddles.js
-	+ ../../../js/bundle/secondary/sony-paddles.js
-+ sony-scroller.js
-	+ ../../../js/bundle/secondary/sony-scroller.js
-+ tertiary-t1-t5-module.js
-	+ ../../../js/bundle/defer/tertiary-t1-t5-module.js		
-
-# Example JSON File(s)
+# JSON FIELD VALIDATION
 ---
 
-
-Each module should contain atleast one example JSON file. Additional JSON files that cover the template variables that could be populated in the module (even though some variations may not use all of them) will also be listed here.
+Each module should contain at least one example JSON file. Additional JSON files that cover the template variables that could be populated in the module (even though some variations may not use all of them) will also be listed here.
 
 ## JSON files
 
