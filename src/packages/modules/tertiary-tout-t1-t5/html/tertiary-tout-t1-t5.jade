@@ -119,14 +119,12 @@ mixin instagram(module)
 mixin sonysVoiceTop(icon, meta)
   .icon-container
     .white-bg.fonticon-10-dot
-    div(class=icon)
-    
-  .meta            
-    p.p4    
-      if (meta.user)
-        span.user= meta.user
+    div(class= icon)
 
-      if (meta.timestamp)
+  if (meta)    
+    .meta            
+      p.p4  
+        span.user= meta.user
         span.timestamp= meta.timestamp
 
 mixin sonysVoiceCenter(mode, module)
@@ -184,7 +182,7 @@ mixin flickrContent(meta, images, btnLink, btnLabel)
       +socialButton( btnLink, btnLabel )
 
 //- START Tertiary Content Container
-section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tcc-mode="#{data.moduleMode}")
+section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
 
   for header in data.header
     .tcc-header-wrapper.container

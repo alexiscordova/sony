@@ -16,8 +16,14 @@
 // requires imagesloaded plugin to add on image load listeners:
 // https://github.com/desandro/imagesloaded
 
-(function(iQ, $, Modernizr){
+define(function(require){
+
   'use strict';
+
+  var iQ = window.iQ || {},
+      $ = require('jquery'),
+      Modernizr = require('modernizr'),
+      imagesloaded = require('plugins/jquery.imagesloaded');
 
   iQ.images = [];
   iQ.resizeFlaggedImages = [];
@@ -501,7 +507,7 @@
   // See:
   //
   // * [Quirksmode: A Tale of Two Viewports](http://www.quirksmode.org/mobile/viewports2.html)
-  // * [Quirksmode: Browser compatibility — Viewports](http://www.quirksmode.org/mobile/tableViewport.html)
+  // * [Quirksmode: Browser compatibility â€” Viewports](http://www.quirksmode.org/mobile/tableViewport.html)
   // * [H5BP: The Markup](https://github.com/h5bp/mobile-boilerplate/wiki/The-Markup)
   getScreenWidth = function(){
     return win.outerWidth || win.screen.width;
@@ -608,4 +614,4 @@
   // DOM does not need to be ready to begin the network connection speed test.
   initSpeedTest();
 
-} (this.iQ = this.iQ || {}, jQuery, Modernizr));
+});

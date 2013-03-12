@@ -84,7 +84,7 @@ define(function(require){
       self.afterResizeSpeed               = 200;
       self.setupSpeed                     = 200;
       self.teardownSpeed                  = 50;
-      self.hideAllSpeed                   = 50;
+      self.hideAllSpeed                   = 100;
       self.showAllSpeed                   = 200;
       self.animationSpeed                 = 200;
 
@@ -116,6 +116,7 @@ define(function(require){
       self.$el.find('.iq-img').on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
 
       self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
+       // console.log( 'iq images loaded »');
        $(this).parent().addClass('on');
       });
 
@@ -130,22 +131,7 @@ define(function(require){
 
         var self = this;
 
-        // if(SONY.Settings.isLTIE10){
-        //   // no scroller for >IE10
-
-        //   // still dymaically align height
-        //   self.setCenterContentHeight();
-
-        // }else{
-        //   self.setMode();
-
-        //   // if screen size is in mobile (tablet, phone) mode then create a scroller
-        //   if(self.mode !== 'desktop'){
-        //     self.setup();
-        //   }
-        // }
-
-        if(!Settings.isLTIE10){
+         if(!Settings.isLTIE10){
           self.setMode();
 
           // if screen size is in mobile (tablet, phone) mode then create a scroller
@@ -190,7 +176,7 @@ define(function(require){
         // show the elements if they've beenh hidden
         if(self.isLayoutHidden){
           // show contents again after transition
-          setupSequence.add( self, self.showAll, self.setupSpeed);
+          setupSequence.add( self, self.showAll, self.setupSpeed + 500);
 
           // use very sparingly
           Utilities.forceWebkitRedraw();
@@ -564,7 +550,7 @@ define(function(require){
         }
 
         // show the elements again
-        resizeMobileSequencer.add( self, self.showAll, self.afterResizeSpeed );
+        resizeMobileSequencer.add( self, self.showAll, self.afterResizeSpeed + 500);
 
         // start sequence
         resizeMobileSequencer.start();
