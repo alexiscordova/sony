@@ -102,6 +102,7 @@
         easing: SONY.Settings.shuffleEasing,
         speed: SONY.Settings.shuffleSpeed,
         hideLayoutWithFade: true,
+        showInitialTransition: false,
         sequentialFadeDelay: 100,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
@@ -130,8 +131,7 @@
           self.currentFeatureCols = numCols;
 
           return gutter;
-        },
-        showInitialTransition: false
+        }
       });
       self.shuffle = self.$specTiles.data('shuffle');
 

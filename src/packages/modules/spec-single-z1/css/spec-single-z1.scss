@@ -1,0 +1,170 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+
+
+//  .d8888b.  d8b                   888
+// d88P  Y88b Y8P                   888
+// Y88b.                            888
+//  "Y888b.   888 88888b.   .d88b.  888  .d88b.
+//     "Y88b. 888 888 "88b d88P"88b 888 d8P  Y8b
+//       "888 888 888  888 888  888 888 88888888
+// Y88b  d88P 888 888  888 Y88b 888 888 Y8b.
+//  "Y8888P"  888 888  888  "Y88888 888  "Y8888
+//                              888
+//                         Y8b d88P
+//                          "Y88P"
+
+.spec-product,
+.spec-tiles-wrap {
+  position: relative;
+  z-index: 1; // below sticky nav
+}
+
+// Single Spec Module
+// -------------------------
+.spec-section {
+  margin-top: 2.5em;
+  padding-bottom: 3.75em;
+  border-bottom: 1px solid $gray70;
+}
+
+.spec-overview {
+  background: $gray80;
+  margin-top: 0;
+  padding: 3.125em 0 4.375em; // 50 0 70
+  border-bottom: none;
+
+  .grid > * {
+    padding-bottom: 3.125em;
+  }
+
+  // The title/label above this has a margin-bottom of ~7px
+  dl {
+    margin-top: 1.4375em; // 23
+    margin-bottom: 4.375em; // 70
+  }
+
+  .nav-paddle-prev,
+  .nav-paddle-next {
+    position: absolute;
+    z-index: 20;
+    top: 50%;
+    margin-top: -($navPaddleHeight / 2) - (2.875em / 2); // also subtract the height+margin/2 of the bullets
+  }
+
+  .nav-paddle-prev {
+    left: 0;
+  }
+
+  .nav-paddle-next {
+    right: 0;
+  }
+}
+
+// A row of info
+.spec-section {
+
+  &.align-right-bottom {
+    padding-bottom: 0;
+  }
+
+  .section-label {
+    margin-top: -.125em;
+    line-height: 1;
+  }
+
+  dl:last-child {
+    margin-bottom: 0;
+  }
+
+  dt:not(:first-child) {
+    margin-top: 23px; //1.875em; the font size is set on this, but I don't want to hard-code an em value to go with it
+  }
+
+  dd {
+    margin-left: 0;
+    margin-bottom: 0;
+  }
+
+  .spec-list li:first-child {
+    margin-top: 0;
+  }
+
+  .media + .media {
+    margin-top: 4.75em;
+  }
+
+  .media .pull-left {
+    margin-right: 1.25em;
+  }
+
+  .media-heading {
+    margin-bottom: 0;
+  }
+
+  .media-description {
+    line-height: 1.3;
+  }
+
+  // Font icon holders
+  .holder-for-icon {
+    @include square(52px);
+    text-align: center;
+
+    i {
+      margin-top: 0;
+      vertical-align: middle;
+    }
+  }
+}
+
+// Carousel
+.spec-carousel-wrap {
+  position: relative;
+  margin-top: (2.875em / 2); // bullets are 1em, margin-top of the bullets is 1.875em
+  margin-left: $navPaddleWidth + 1.25em;
+  margin-right: $navPaddleWidth + 1.25em;
+  overflow: hidden;
+
+  .lt-ie9 & {
+    // .span8 is 595
+    width: 482px;
+    height: 217px + 16px; // 16px for nav dots
+    max-height: 400px;
+
+    .navigation-container {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  .spec-carousel {
+    width: 175em;
+  }
+
+  .pagination-bullets {
+    position: static;
+    margin-top: 1.875em;
+  }
+
+  .slide {
+    display: block;
+    float: left;
+    // display: inline-block;
+
+    .lt-ie9 & {
+      width: 600px;
+    }
+
+    img {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+}
+
+
+
