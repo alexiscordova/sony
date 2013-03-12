@@ -8,8 +8,23 @@
 // Dependencies: jQuery 1.7+, Modernizr, imagesLoaded 2.1+
 // --------------------------------------
 
-(function($, Modernizr, window, undefined) {
+define(function(require){
+
   'use strict';
+
+  var $ = require('jquery'),
+      Settings = require('require/sony-global-settings'),
+      Environment = require('require/sony-global-environment'),
+      stickyNav = require('secondary/sony-stickynav'),
+      shuffle = require('secondary/jquery.shuffle');
+
+  var module = {
+    init: function() {
+      if ( $('.spec-single').length > 0 ) {
+        $('.spec-single').specSingle();
+      }
+    }
+  };
 
   var Spec = function( $container, options ) {
     var self = this;
@@ -18,7 +33,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = SONY.$window;
+    self.$window = Settings.$window;
     self._init();
   };
 
@@ -50,7 +65,7 @@
       self._onResize( true );
 
       // self.$window.on('resize', $.debounce(350, $.proxy( self._onResize, self )));
-      SONY.on('global:resizeDebounced', $.proxy( self._onResize, self ));
+      Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
 
       // Push to the end of the stack cause it's not needed immediately.
       setTimeout(function() {
@@ -73,8 +88,8 @@
 
       self.$specTiles.shuffle({
         itemSelector: '.spec-tile',
-        easing: SONY.Settings.shuffleEasing,
-        speed: SONY.Settings.shuffleSpeed,
+        easing: Settings.shuffleEasing,
+        speed: Settings.shuffleSpeed,
         hideLayoutWithFade: true,
         sequentialFadeDelay: 100,
         columnWidth: function( containerWidth ) {
@@ -82,7 +97,7 @@
 
           // 568px+
           if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 30em)') ) {
-            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
+            column = Settings.COLUMN_WIDTH_SLIM * containerWidth;
           }
 
           return column;
@@ -94,7 +109,7 @@
               numCols = is3Col ? 3 : is2Col ? 2 : 1;
 
           if ( is3Col || is2Col ) {
-            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
           }
 
           if ( self.currentFeatureCols !== numCols && numCols !== 1) {
@@ -252,20 +267,6 @@
     isLessThanie9: !!document.attachEvent
   };
 
+  return module;
 
-}(jQuery, Modernizr, window));
-
-
-
-
-
-
-
-SONY.on('global:ready', function() {
-
-  if ( $('.spec-single').length > 0 ) {
-
-    $('.spec-single').specSingle();
-
-  }
 });

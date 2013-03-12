@@ -8,8 +8,24 @@
 // Optional: jQuery throttle-debounce (only used on window resize)
 // -------------------------------------------------------------------------
 
-(function($, Modernizr, window, undefined) {
+define(function(require){
+
   'use strict';
+
+  var $ = require('jquery'),
+      bootstrap = require('bootstrap'),
+      Modernizr = require('modernizr'),
+      enquire = require('enquire'),
+      Settings = require('require/sony-global-settings'),
+      Utilities = require('require/sony-global-utilities'),
+      Environment = require('require/sony-global-environment'),
+      formActions = require('secondary/form-actions');
+
+  var module = {
+    init: function() {
+      $('#nav-wrapper').globalNav();
+    }
+  };
 
   // Start module
   var GlobalNav = function($container) {
@@ -18,8 +34,8 @@
     self.usernameSpace = 40;
     self.minUsernameLength = 6;
     self.searchMenu = {};
-    self.$html = SONY.$html;
-    self.$window = SONY.$window;
+    self.$html = Settings.$html;
+    self.$window = Settings.$window;
     self.$container = $container;
     self.$activeNavBtns = self.$container.find('.nav-dropdown-toggle');
     self.$navbar = $('#navbar');
@@ -33,7 +49,7 @@
     self.mouseLeaveDelay = 500;
     // delay in ms
     self.mouseleaveTimer = false;
-    
+
     if (Modernizr.touch) {
       self.hasTouch = true;
     }
@@ -45,7 +61,7 @@
     self.transitionProperty = Modernizr.prefixed('transitionProperty');
     self.transitionDuration = Modernizr.prefixed('transitionDuration');
     self.transitionEasing = Modernizr.prefixed('transitionTimingFunction');
-    self.transitionEnd = SONY.Settings.transEndEventName;
+    self.transitionEnd = Settings.transEndEventName;
 
     // if ( self.$window.width() <= self.mobileNavThreshold ) {
     //   self.initMobileNav();
@@ -56,6 +72,7 @@
     // }
 
     self.init();
+
   };
 
   GlobalNav.prototype = {
@@ -72,7 +89,7 @@
       // Setting up enquire listeners.
       // These fire the first time they're hit (page-load), and if the breakpoint becomes active during browser resize.
 
-      if (window.enquire && !SONY.Settings.isLTIE10) {
+      if ( !Settings.isLTIE10 ) {
 
         // switch to desktop nav
         window.enquire.register('(min-width: ' + (self.mobileNavThreshold + 1) + 'px)', {
@@ -127,6 +144,9 @@
           }
         });
       }
+
+      log('SONY : Global Header / Footer : Initialized');
+
     },
 
     initDesktopNav : function() {
@@ -265,7 +285,7 @@
           // Activate click for tab navigation
           $thNavBtnTarget.find('a').on('focus', function() {
 
-            if (SONY.Settings.isLTIE9) {
+            if (Settings.isLTIE9) {
               $('.navmenu-w-search').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
             }
             var navTray = $(this).parents('.navtray-w,.navmenu-w'), navTrayId = $(navTray).attr('id');
@@ -283,10 +303,10 @@
             $(this).data('hovering', false);
 
             // Remove focus from search input on mouse out in ie
-            if (SONY.Settings.isLTIE10) {
+            if (Settings.isLTIE10) {
                 $('#nav-search-input').blur();
             }
-             if (SONY.Settings.isLTIE9) {
+             if (Settings.isLTIE9) {
                 $('.navmenu-w-search').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
             }
             // Check to see if it was onto this target's button.
@@ -308,12 +328,14 @@
           });
         }
       });
+
       self.resizeAccountBtn();
-      SONY.on('global:resizeDebounced-200ms', function(){
+
+      Environment.on('global:resizeDebounced-200ms', function(){
         self.resizeAccountBtn();
       });
     }, // end initDesktopNav
-    
+
     resetDesktopNav : function() {
       var self = this;
 
@@ -351,9 +373,9 @@
       var self = this;
       // reset it first so we measure off the full username.
       self.$accountUsername.text(self.fullAccountUsername);
-      
+
       var $nbi = self.$navbar.children('.grid');
-      
+
       if (isTooLong()){
         shortenUsername();
       }
@@ -386,18 +408,18 @@
       }
 
       // check to see if the Account Button still has enough room to display the entire username; and if not, cut it down.
-      
+
       // get the width of the entire nav
 
       // for each child of $navbarInner, add its width to the total
-      
+
 
       // var logoWidth = $nbi.find('.brand').outerWidth();
       // var primaryWidth = $nbi.find('.nav-primary').outerWidth();
 
 
       // self.$accountBtn
-    }, 
+    },
 
     startMouseleaveTimer : function($thNavBtn) {
       var self = this;
@@ -440,7 +462,7 @@
               'right' : ''
             }).find('.reveal-transition-container').css('height', '');
             $('.nav-li-search a').removeClass('active');
-            
+
           });
         }
       }
@@ -512,7 +534,7 @@
           // it's a nav-tray
           // first get the tray's natural height, which it should have offscreen.
           // expand the tray. When it's done, set it to position:relative and natural heights.
-          if (SONY.Settings.isLTIE10) {
+          if (Settings.isLTIE10) {
             // going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.
             self.slideNavTray($thNavTarget, true);
           } else {
@@ -582,7 +604,7 @@
 
       $thInput.on('focus', function() {
         if (self.$html.hasClass('bp-nav-mobile')) {
-          SONY.initMobileNavIScroll();
+          module.initMobileNavIScroll();
         }
         $('.page-wrap-inner').addClass('show-mobile-search-results');
       }).on('blur', function() {
@@ -593,7 +615,7 @@
         }
       }).closest('.input-group').find('.input-clear-btn').on(self.tapOrClick, function() {
         if (self.$html.hasClass('bp-nav-mobile')) {
-          SONY.initMobileNavIScroll();
+          module.initMobileNavIScroll();
           $('.page-wrap-inner').removeClass('show-mobile-search-results');
           setTimeout(function() {
             $thInput.trigger('blur');
@@ -619,7 +641,7 @@
       // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
       // page some height, so the Safari nav will hide.
       // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
-      var pageHeight = SONY.Settings.isIPhone || SONY.Settings.isAndroid ? window.innerHeight : self.$window.height();
+      var pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
       // var pageHeight = parseInt(self.$window.height(), 10) + 'px';
       // var pageHeight = parseInt( self.$window.height(),10 ) + 60 + 'px';
       self.$pageWrapOuter.height(pageHeight);
@@ -631,7 +653,7 @@
         $inner.height(innerHeight);
 
         setTimeout(function() {// make sure heights are already set before initializing iScroll.
-          SONY.initMobileNavIScroll();
+          module.initMobileNavIScroll();
         }, 1);
       }
 
@@ -645,7 +667,7 @@
       if (self.mobileNavVisible){
         $('#page-wrap-inner').one(self.transitionEnd, function() {
           // wait until the $('#page-wrap-inner') is done animating closed before destroying the iScroll.
-          SONY.destroyMobileNavIScroll();
+          module.destroyMobileNavIScroll();
         });
       }
       $('#page-wrap-inner').removeClass('show-mobile-menu');
@@ -659,8 +681,8 @@
 
       setTimeout(function() {
         self.$mobileScreenOverlay.removeClass('opacity0').addClass('opacity1');
-        if ( SONY.Settings.isAndroid ) {
-          SONY.Utilities.forceWebkitRedraw();
+        if ( Settings.isAndroid ) {
+          Utilities.forceWebkitRedraw();
         }
       }, 1);
     },
@@ -792,13 +814,11 @@
 
   // Not overrideable
   $.fn.globalNav.settings = {
-    hasTouch : SONY.Settings.hasTouchEvents || SONY.Settings.hasPointerEvents,
+    hasTouch : Settings.hasTouchEvents || Settings.hasPointerEvents,
     isInitialized : false
   };
 
-
-
-  SONY.initMobileNavIScroll = function() {
+  module.initMobileNavIScroll = function() {
     var globalNav = $('.nav-wrapper').data('globalNav');
     // if there's alreaddy a mobileNavIScroll, refresh it.
     if (!!globalNav.mobileNavIScroll) {
@@ -837,7 +857,8 @@
 
     }
   };
-  SONY.destroyMobileNavIScroll = function() {
+
+  module.destroyMobileNavIScroll = function() {
     var globalNav = $('.nav-wrapper').data('globalNav');
     if ( !!globalNav.mobileNavIScroll ) {
       globalNav.mobileNavIScroll.destroy();
@@ -846,10 +867,9 @@
     globalNav.$pageWrapOuter.css('height', '');
   };
 
-})(jQuery, Modernizr, window);
+  Environment.on('SONY:Navigation:initMobileNavIScroll', module.initMobileNavIScroll);
+  Environment.on('SONY:Navigation:destroyMobileNavIScroll', module.destroyMobileNavIScroll);
 
-SONY.on('global:ready', function(){
-   $('#nav-wrapper').globalNav();
+  return module;
+
 });
-
-
