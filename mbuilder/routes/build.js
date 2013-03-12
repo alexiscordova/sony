@@ -37,7 +37,6 @@ exports.generatePage = function(req, res) {
     }
 
     moduleList = moduleList + '\r          +partial("' + moduleFileName + '/html/' + moduleFileName + '.jade", "packages/modules/' + moduleFileName + '/demo/data/'+ moduleDataFileName + '")\r';
-    //+partial("gallery-g2-g3/html/gallery-g2-g3.jade", "packages/modules/gallery-g2-g3/demo/data/default.json")
     
   };
 
@@ -49,7 +48,7 @@ exports.generatePage = function(req, res) {
 
   var t = pageFileTitle;
   var desc = pageFileDescriptiion;
-  var p = '../src/packages/pages/' + f + ".html.jade";
+  var p = '../src/packages/pages/' + f + ".jade";
   var d = String( fs.readFileSync( selectedTemplate + '.jade' ) );
   d = d.replace( /{{{{t}}}}/g, t );
   d = d.replace( /{{{{d}}}}/g, desc );
@@ -61,7 +60,7 @@ exports.generatePage = function(req, res) {
     }
 
     console.log( 'Sending stdin to terminal' );
-    terminal.stdin.write( 'cd ../src;  grunt pages' );
+    terminal.stdin.write( 'cd ../src;  grunt pages; grunt docs' );
     terminal.stdin.end( );
   } )
 
