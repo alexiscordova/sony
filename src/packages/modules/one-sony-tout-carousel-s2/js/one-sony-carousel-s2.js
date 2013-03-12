@@ -74,6 +74,8 @@ define(function(require){
 
       self.bindEvents();
       self.$cachedSlides = self.$slides.detach();
+      self.$cachedSlides.find('.soc-image').addClass('iq-img');
+
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find('.soc-item').remove();
 
@@ -105,7 +107,7 @@ define(function(require){
 
       self.$innerContainer.on(Settings.transEndEventName, window.iQ.update);
 
-      self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
+      self.$el.find('.soc-image').on('iQ:imageLoaded', function(){
         $(this).closest('.soc-item').addClass('on');
       });
 
