@@ -69,6 +69,24 @@ define(function(require){
       self.stickyHeaderHeight = self.$stickyHeaders.first().height();
       self.stickyNavHeight = self.$stickyNav.outerHeight();
 
+      // Get the properties/values we're animating for the sticky navs
+      if ( Modernizr.csstransforms ) {
+        self.prop = 'transform';
+
+        // 3d transforms will create a new layer for each of the sticky headers
+        if ( Modernizr.csstransforms3d ) {
+          self.prefix = 'translate3d(0,';
+          self.suffix = 'px, 0)';
+        } else {
+          self.prefix = 'translate(0,';
+          self.suffix = 'px)';
+        }
+      } else {
+        self.prop = 'top';
+        self.prefix = '';
+        self.suffix = 'px';
+      }
+
       // Line up spec item cells
       self._onResize( true );
 
@@ -522,11 +540,9 @@ define(function(require){
 
     _setStickyHeaderPos : function( scrollTop ) {
       var self = this,
-          translateZ = Modernizr.csstransforms3d ? ' translateZ(0)' : '',
-          prop = Modernizr.csstransforms ? 'transform' : 'top',
-          value = Modernizr.csstransforms ? 'translate(0,' + scrollTop + 'px)' + translateZ : scrollTop + 'px';
+          value = self.prefix + scrollTop + self.suffix;
 
-      self.$stickyHeaders.css( prop, value );
+      self.$stickyHeaders.css( self.prop, value );
 
       return self;
     },
