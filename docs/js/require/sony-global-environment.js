@@ -12,8 +12,7 @@ define(function (require) {
   'use strict';
 
   var $ = require('jquery'),
-      Settings = require('require/sony-global-settings'),
-      Plugins = require('plugins/index');
+      Settings = require('require/sony-global-settings');
 
   var self = {
 
