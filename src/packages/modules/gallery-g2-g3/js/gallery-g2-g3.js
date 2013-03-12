@@ -8,8 +8,65 @@
 // Author: Glen Cheney
 // --------------------------------------
 
-(function($, Modernizr, window, undefined) {
+define(function(require){
+
   'use strict';
+
+  var $ = require('jquery'),
+      iQ = require('iQ'),
+      bootstrap = require('bootstrap'),
+      Settings = require('require/sony-global-settings'),
+      Environment = require('require/sony-global-environment'),
+      Utilities = require('require/sony-global-utilities'),
+      rangeControl = require('secondary/jodo.rangecontrol.1.4'),
+      stickyTabs = require('secondary/sony-stickytabs'),
+      sonyTab = require('secondary/sony-tab'),
+      shuffle = require('secondary/jquery.shuffle'),
+      simpleScroll = require('secondary/jquery.simplescroll'),
+      scroller = require('secondary/sony-scroller');
+
+  var module = {
+
+    init: function() {
+
+      if ( $('.gallery').length > 0 ) {
+        // console.profile();
+        // Initialize galleries
+        $('.gallery').each(function() {
+          var $this = $(this);
+
+          // console.profile('gallery ' + this.id);
+          // console.time('Initializing gallery ' + this.id + ' took:');
+          $this.gallery( $this.data() );
+          // console.timeEnd('Initializing gallery ' + this.id + ' took:');
+          // console.profileEnd('gallery ' + this.id);
+        });
+
+        // Register for tab show(n) events here because not all tabs are galleries
+        $('[data-tab]')
+          .on('show', module.onGalleryTabShow )
+          .on('shown', module.onGalleryTabShown );
+
+        // Initialize sticky tabs
+        $('.tab-strip').stickyTabs();
+
+        // Hide other tabs
+        $('.tab-pane:not(.active)').addClass('off-screen');
+
+        // Should be called after everything is initialized
+        $(window).trigger('hashchange');
+
+        // Disable hidden galleries.
+        // Using a timeout here because the tab shown event is triggered at the end of the transition,
+        // which depends on how long the page takes to load (and if the browser has transitions)
+        setTimeout(function() {
+          // console.timeStamp('Disabling hidden galleries');
+          $('.tab-pane:not(.active) .gallery').gallery('disable');
+          // console.profileEnd();
+        }, 500);
+      }
+    }
+  };
 
   var Gallery = function( $container, options ) {
     var self = this;
@@ -18,7 +75,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = SONY.$window;
+    self.$window = Settings.$window;
     self.id = self.$container[0].id;
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
@@ -47,8 +104,8 @@
     self.hasCarousels = self.$carousels.length > 0;
 
     // Other vars
-    self.windowWidth = SONY.Settings.windowWidth;
-    self.windowHeight = SONY.Settings.windowHeight;
+    self.windowWidth = Settings.windowWidth;
+    self.windowHeight = Settings.windowHeight;
 
     self.$container.addClass('gallery-' + self.mode);
 
@@ -556,7 +613,7 @@
       // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
       self.$grid.on('layout.shuffle', function() {
         // Things moved around and could possibly be in the viewport
-        iQ.update();
+        window.iQ.update();
 
         // The position of the nav has changed, update it in infinitescroll
         if ( self.hasInfiniteScroll ) {
@@ -737,7 +794,7 @@
 
             // This is silly. Maybe a new method for iQ. iQ.refresh()
             setTimeout(function() {
-              iQ.update( true );
+              window.iQ.update( true );
             }, 300);
           }, 15);
       }
@@ -801,7 +858,7 @@
 
     loadSwatchImages : function() {
       this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
-      iQ.update( true );
+      window.iQ.update( true );
 
       return this;
     },
@@ -1154,7 +1211,7 @@
         self.filters.checkbox[ filterName ] = checked;
 
         // Less than IE9 doesn't support the :checked pseudo class
-        if ( SONY.Settings.isLTIE9 ) {
+        if ( Settings.isLTIE9 ) {
           $input.toggleClass('active');
         }
 
@@ -1531,7 +1588,9 @@
           }, 25);
         }
 
-        self.$rangeControl.rangeControl('reset');
+        if ( self.$rangeControl ) {
+          self.$rangeControl.rangeControl('reset');
+        }
 
         return;
       }
@@ -1540,7 +1599,7 @@
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
-      SONY.Utilities.forceWebkitRedraw();
+      Utilities.forceWebkitRedraw();
 
       self.fixCarousels();
 
@@ -1613,7 +1672,7 @@
       self.$container.find('.gallery-loader').remove();
 
       // Product names get zero height in IE8
-      if ( SONY.Settings.isLTIE9 ) {
+      if ( Settings.isLTIE9 ) {
         setTimeout(function() {
           self.$gridProductNames.evenHeights();
         }, 1000);
@@ -1622,7 +1681,7 @@
       // Fade in the gallery if it isn't already
       if ( !self.$container.hasClass('in') ) {
         setTimeout(function() {
-          SONY.removeGalleryLoader();
+          module.removeGalleryLoader();
           self.$container.addClass('in');
         }, 0);
       }
@@ -1751,7 +1810,7 @@
     //   self.addCompareNav( $compareItemsWrapper );
 
     //   // Cloned images need to be updated
-    //   iQ.update( true );
+    //   window.iQ.update( true );
 
     //   // Save a reference to the count
     //   self.$compareCount = self.$compareTool.find('.product-count');
@@ -1828,7 +1887,7 @@
     //         self.onCompareScroll( self.stickyTriggerPoint, this );
     //       },
     //       onAnimationEnd : function() {
-    //         iQ.update();
+    //         window.iQ.update();
     //         self.onCompareScroll( self.stickyTriggerPoint, this );
     //       }
     //     });
@@ -1836,7 +1895,7 @@
     //   } else {
     //     self.$compareTool.on('scroll', function() {
     //       self.onCompareScroll( self.stickyTriggerPoint );
-    //       iQ.update();
+    //       window.iQ.update();
     //     });
     //     // self.$compareTool.on('touchmove', function(e) {
     //     //   e.stopPropagation();
@@ -1871,7 +1930,7 @@
     //       self.onCompareScroll( 'inner', this );
     //     },
     //     onAnimationEnd : function() {
-    //       iQ.update();
+    //       window.iQ.update();
     //       self.onCompareScroll( 'inner', this );
     //       self.afterCompareScrolled( this );
     //     }
@@ -1882,7 +1941,7 @@
 
     //   // These can be deferred
     //   setTimeout(function() {
-    //     iQ.update();
+    //     window.iQ.update();
 
     //     // Hide the previous nav paddle because we're on the first page
     //     self.afterCompareScrolled( self.innerScroller );
@@ -2029,7 +2088,7 @@
     //     self.afterCompareScrolled( self.innerScroller );
 
     //     // Maybe they haven't scrolled horizontally to see other images
-    //     iQ.update();
+    //     window.iQ.update();
     //   }
 
     //   function noWidth() {
@@ -2199,7 +2258,7 @@
 
     //   // see http://bugs.jquery.com/ticket/8362
     //   if ( offsetTop < 0 && Modernizr.csstransforms ) {
-    //     var matrix = SONY.Utilities.parseMatrix( self.$compareTool.find('.modal-inner').css('transform') );
+    //     var matrix = Utilities.parseMatrix( self.$compareTool.find('.modal-inner').css('transform') );
     //     offsetTop = -matrix.translateY + offsetTop;
     //   }
 
@@ -2437,25 +2496,25 @@
 
           // Large desktop ( 6 columns )
           if ( Modernizr.mq('(min-width: 75em)') ) {
-            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
+            column = Settings.COLUMN_WIDTH_SLIM * containerWidth;
 
           // Landscape tablet + desktop ( 5 columns )
           } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
-            column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth;
+            column = Settings.COLUMN_WIDTH_SLIM_5 * containerWidth;
 
           // Portrait Tablet ( 4 columns )
           // } else if ( Modernizr.mq('(min-width: 48em)') ) {
-          //   column = SONY.Settings.COLUMN_WIDTH_768 * containerWidth;
+          //   column = Settings.COLUMN_WIDTH_768 * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
           // 568px+
           } else if ( Modernizr.mq('(min-width: 35.5em)') ) {
-            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
+            column = Settings.COLUMN_WIDTH_SLIM * containerWidth;
 
           // Phone ( 2 columns )
           // < 568px
           } else {
-            column = SONY.Settings.COLUMN_WIDTH_320 * containerWidth;
+            column = Settings.COLUMN_WIDTH_320 * containerWidth;
           }
 
 
@@ -2468,28 +2527,28 @@
 
           // Large desktop ( 6 columns )
           if ( Modernizr.mq('(min-width: 75em)') ) {
-            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 6;
 
           // Landscape tablet + desktop ( 5 columns )
           } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
-            gutter = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
+            gutter = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
             numColumns = 5;
 
           // // Portrait Tablet ( 4 columns ) - masonry
           } else if ( Modernizr.mq('(min-width: 48em)') ) {
             numColumns = 4;
-            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
           } else if ( Modernizr.mq('(min-width: 35.5em)') ) {
-            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 3;
 
 
           // Phone ( 2 columns )
           } else {
-            gutter = SONY.Settings.GUTTER_WIDTH_320 * containerWidth; // 2% of container width
+            gutter = Settings.GUTTER_WIDTH_320 * containerWidth; // 2% of container width
             numColumns = 2;
           }
 
@@ -2501,8 +2560,8 @@
 
       // Use the default 12 column slim grid.
       } else {
-        self.shuffleColumns = SONY.Utilities.masonryColumns;
-        self.shuffleGutters = SONY.Utilities.masonryGutters;
+        self.shuffleColumns = Utilities.masonryColumns;
+        self.shuffleGutters = Utilities.masonryGutters;
       }
 
       return self;
@@ -2628,7 +2687,7 @@
 
     // setCompareHeight : function() {
     //   var self = this,
-    //       windowHeight = SONY.Settings.isIPhone || SONY.Settings.isAndroid ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
+    //       windowHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
 
     //   self.$compareTool.find('.compare-container').height( self.$compareItems.first().height() );
     //   self.$compareTool.height( windowHeight );
@@ -2708,8 +2767,8 @@
   // Overrideable options
   $.fn.gallery.options = {
     mode: 'editorial',
-    shuffleSpeed: SONY.Settings.shuffleSpeed,
-    shuffleEasing: SONY.Settings.shuffleEasing
+    shuffleSpeed: Settings.shuffleSpeed,
+    shuffleEasing: Settings.shuffleEasing
   };
 
   // Not overrideable
@@ -2722,10 +2781,10 @@
     hasSorterMoved: false,
     isInitialized: false,
     isCompareToolOpen: false,
-    isTouch: SONY.Settings.hasTouchEvents,
-    isiPhone: SONY.Settings.isIPhone,
+    isTouch: Settings.hasTouchEvents,
+    isiPhone: Settings.isIPhone,
     sorted: false,
-    // isUsingOuterScroller: !( SONY.Settings.isLTIE9 || SONY.Settings.isPS3 ),
+    // isUsingOuterScroller: !( Settings.isLTIE9 || Settings.isPS3 ),
     // showCompareStickyHeaders: true,
     currentFilterColor: null,
     lastFilterGroup: null,
@@ -2741,7 +2800,7 @@
 
 
   // Event triggered when this tab is about to be shown
-  SONY.onGalleryTabShow = function( evt ) {
+  module.onGalleryTabShow = function( evt ) {
     var $prevPane;
 
     if ( evt ) {
@@ -2778,7 +2837,7 @@
   };
 
   // Event triggered when tab pane is finished being shown
-  SONY.onGalleryTabShown = function( evt ) {
+  module.onGalleryTabShown = function( evt ) {
     // Only continue if this is a tab shown event.
     var $pane,
         $galleries;
@@ -2801,7 +2860,7 @@
     $galleries = $pane.find('.gallery');
 
     // Force redraw before fixing galleries
-    SONY.Utilities.forceWebkitRedraw();
+    Utilities.forceWebkitRedraw();
 
     $galleries.each(function() {
       var gallery = $(this).data('gallery'),
@@ -2824,52 +2883,13 @@
     $pane = null;
   };
 
-  SONY.removeGalleryLoader = function() {
-    if ( !SONY.galleryLoaderRemoved ) {
+  module.removeGalleryLoader = function() {
+    if ( !module.galleryLoaderRemoved ) {
       $('.gallery-loader').first().remove();
     }
-    SONY.galleryLoaderRemoved = true;
+    module.galleryLoaderRemoved = true;
   };
 
-})(jQuery, Modernizr, window);
+  return module;
 
-
-SONY.on('global:ready', function() {
-
-  if ( $('.gallery').length > 0 ) {
-    // console.profile();
-    // Initialize galleries
-    $('.gallery').each(function() {
-      var $this = $(this);
-
-      // console.profile('gallery ' + this.id);
-      // console.time('Initializing gallery ' + this.id + ' took:');
-      $this.gallery( $this.data() );
-      // console.timeEnd('Initializing gallery ' + this.id + ' took:');
-      // console.profileEnd('gallery ' + this.id);
-    });
-
-    // Register for tab show(n) events here because not all tabs are galleries
-    $('[data-tab]')
-      .on('show', SONY.onGalleryTabShow )
-      .on('shown', SONY.onGalleryTabShown );
-
-    // Initialize sticky tabs
-    $('.tab-strip').stickyTabs();
-
-    // Hide other tabs
-    $('.tab-pane:not(.active)').addClass('off-screen');
-
-    // Should be called after everything is initialized
-    $(window).trigger('hashchange');
-
-    // Disable hidden galleries.
-    // Using a timeout here because the tab shown event is triggered at the end of the transition,
-    // which depends on how long the page takes to load (and if the browser has transitions)
-    setTimeout(function() {
-      // console.timeStamp('Disabling hidden galleries');
-      $('.tab-pane:not(.active) .gallery').gallery('disable');
-      // console.profileEnd();
-    }, 500);
-  }
 });

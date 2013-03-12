@@ -61,14 +61,16 @@ $(document).ready(function() {
 
     $.each(mb.modulePaths, function(i, e) {
       // Remove old template and global element from list
-      if (e.indexOf('.jade') !== -1 && e.indexOf('global') === -1) {
-        var moduleName = e.replace(/.html(.eco|.hb|.jade)/g, '');
+     if (e.indexOf('.jade') !== -1 && e.indexOf('/html/') !== -1 && e.indexOf('global') === -1) {
+        var moduleName = e.substring(e.lastIndexOf('/')+1,e.lastIndexOf('.jade'));
+        var moduleValue = e.substring(0,e.lastIndexOf('/html/'));
+       // replace(/.html(.eco|.hb|.jade)/g, '');
         moduleName = moduleName.replace(/_|-/g, ' ');
 
         // create a list of all module
         mb.moduleList.push({
           name : moduleName,
-          value : e
+          value : moduleValue
         });
 
       }
@@ -214,13 +216,16 @@ function getJsonContent(dataSelect, elem) {
   $(selectedElem).parents('.main-module-container').find('.submodContainer').empty();
  
   typeof elem === 'object' ? jsonUrl = elem.target.value : jsonUrl = elem;
+  
+  jsonUrl = jsonUrl.split('/') 
 
   toggleBuildAll();
 
   $.ajax({
     url : '/getjson',
     data : {
-      path : jsonUrl
+      mname : jsonUrl[0],
+      path : jsonUrl[1]
     },
      statusCode: {
         500: function() {
@@ -457,14 +462,14 @@ function buildPage() {
       $('#pageSaving').hide();
 
       //div('#postResult').show();
-
+      $('#postResult').remove();
       if (res !== 'false' && res !== false) {
 
         $('#dialog-form').after('<div id="postResult">Your page is now available : <a target="_blank" href="http://' + res + '">Link</a></div>');
         $('#postResult').show();
 
       } else {
-         $('#dialog-form').after('<div id="build_success" class="alert alert-success">ERROR: Your page did not built.');
+         $('#dialog-form').after('<div id="postResult" class="alert alert-success">ERROR: Your page did not built.');
             $('#postResult').show();
             }
     },

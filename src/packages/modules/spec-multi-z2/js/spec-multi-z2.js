@@ -8,8 +8,23 @@
 // Dependencies: jQuery 1.7+, Modernizr
 // --------------------------------------
 
-(function($, Modernizr, window, undefined) {
+define(function(require){
+
   'use strict';
+
+  var $ = require('jquery'),
+      Settings = require('require/sony-global-settings'),
+      Environment = require('require/sony-global-environment'),
+      stickyNav = require('secondary/sony-stickynav'),
+      shuffle = require('secondary/jquery.shuffle');
+
+  var module = {
+    init: function() {
+      if ( $('.spec-multi').length > 0 ) {
+        $('.spec-multi').spec();
+      }
+    }
+  };
 
   var Spec = function( $container, options ) {
     var self = this;
@@ -18,7 +33,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = SONY.$window;
+    self.$window = Settings.$window;
     self._init();
   };
 
@@ -99,16 +114,17 @@
 
       self.$specTiles.shuffle({
         itemSelector: '.spec-tile',
-        easing: SONY.Settings.shuffleEasing,
-        speed: SONY.Settings.shuffleSpeed,
+        easing: Settings.shuffleEasing,
+        speed: Settings.shuffleSpeed,
         hideLayoutWithFade: true,
+        showInitialTransition: false,
         sequentialFadeDelay: 100,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 
           // 568px+
           if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 30em)') ) {
-            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
+            column = Settings.COLUMN_WIDTH_SLIM * containerWidth;
           }
 
           return column;
@@ -120,7 +136,7 @@
               numCols = is3Col ? 3 : is2Col ? 2 : 1;
 
           if ( is3Col || is2Col ) {
-            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
           }
 
           if ( self.currentFeatureCols !== numCols && numCols !== 1) {
@@ -130,8 +146,7 @@
           self.currentFeatureCols = numCols;
 
           return gutter;
-        },
-        showInitialTransition: false
+        }
       });
       self.shuffle = self.$specTiles.data('shuffle');
 
@@ -574,24 +589,10 @@
     isStickyTabs: false,
     isScroller: false,
     isMobile: false,
-    showStickyHeaders: !( SONY.Settings.hasTouchEvents || SONY.Settings.isPS3 || SONY.Settings.isLTIE9 ),
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isPS3 || Settings.isLTIE9 ),
     stickyOffset: { top: 0, bottom: 0}
   };
 
+  return module;
 
-})(jQuery, Modernizr, window);
-
-
-
-
-
-
-
-SONY.on('global:ready', function() {
-
-  if ( $('.spec-multi').length > 0 ) {
-
-    $('.spec-multi').spec();
-
-  }
 });

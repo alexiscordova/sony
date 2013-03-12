@@ -1,11 +1,24 @@
-// Your code goes here.// ------------ Primary Tout ------------
+// ------------ Primary Tout ------------
 // Module: Primary Tout
 // Version: 0.1
 // Modified: 01/16/2013
 // Dependencies: jQuery 1.7+
 // -------------------------------------------------------------------------
-(function($, window, undefined) {
+
+define(function(require){
+
     'use strict';
+
+    var $ = require('jquery'),
+        Environment = require('require/sony-global-environment');
+
+    var module = {
+      init: function() {
+        if ( $('.primary-tout').length > 0 ) {
+          $('.primary-tout').primaryTout();
+        }
+      }
+    };
 
     // Start module
     var PrimaryTout = function(element, options){
@@ -37,7 +50,7 @@
 
       _init: function(){
         this._resize();
-        SONY.on('global:resizeDebounced', this._resize);
+        Environment.on('global:resizeDebounced', this._resize);
 
         log('SONY : PrimaryTout : Initialized');
       }
@@ -62,12 +75,6 @@
       });
     };
 
+    return module;
 
- })(jQuery, window, undefined);
-
-SONY.on('global:ready', function(){
-  if ( $('.primary-tout').length > 0 ) {
-    $('.primary-tout').primaryTout();
-  }
 });
-
