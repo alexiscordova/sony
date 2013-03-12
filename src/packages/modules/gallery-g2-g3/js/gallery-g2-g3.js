@@ -433,6 +433,29 @@
       }
     },
 
+    getFilterStatus : function( filterValue, filterName, filterType ) {
+      var self = this,
+          selector = '';
+
+      // There's probably a better way to do this... (store jQuery objects for each filter?)
+      if ( filterType === 'button' ) {
+        // [data-filter="megapixels"] [data-megapixels="14-16"]
+        selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
+        return !self.$container.find( selector ).is(':disabled');
+
+      } else if ( filterType === 'checkbox' ) {
+        // [data-filter="features"] [value="lcd"]
+        selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
+        return !self.$container.find( selector ).is(':disabled');
+
+      } else if ( filterType === 'range' ) {
+        // range is never disabled
+        return true;
+      }
+
+      return null;
+    },
+
     removeActiveFilters : function() {
       var self = this,
           filterType = '',
@@ -441,6 +464,9 @@
           filterValue = '';
 
       self.lastFilterGroup = null;
+      self.secondLastFilterGroup = null;
+      self.lastFilterStatuses = null;
+      self.secondLastFilterStatuses = null;
       self.currentFilterColor = null;
       self.hideFilteredSwatchImages();
 
@@ -895,152 +921,113 @@
     setFilterStatuses : function() {
       var self = this,
           $visible = self.shuffle.$items.filter('.filtered'),
-          filterName,
-          filterValue,
-          filterData,
-          hasActiveFilter = false;
-
-      console.group('setFilterStatuses');
-
+          statuses = {},
+          lastFilterGroup = self.lastFilterGroup,
+          isRange = lastFilterGroup === 'price',
+          isRangeActive = self.filters.range.price.max !== undefined && (self.filters.range.price.max !== self.MAX_PRICE || self.filters.range.price.min !== self.MIN_PRICE);
 
       function testGalleryItems( filterName, filterValue ) {
+        var shouldEnable = false;
+
+        if ( filterName === 'price' ) {
+          statuses[ filterName ][ filterValue ] = true;
+          return true;
+        }
+
         $visible.each(function() {
           var $item = $(this),
               filterSet = $item.data('filterSet'),
               filterGroupValue = filterSet[ filterName ],
-              isArray = $.isArray( filterGroupValue ),
-              shouldEnable = isArray ?
-                self.valueInArray( filterValue, filterGroupValue ) :
-                filterValue === filterGroupValue;
+              isArray = $.isArray( filterGroupValue );
 
-          console.log('shouldEnable:', shouldEnable);
+          shouldEnable = isArray ?
+            self.valueInArray( filterValue, filterGroupValue ) :
+            filterValue === filterGroupValue;
+
+          statuses[ filterName ][ filterValue ] = shouldEnable;
+
+          // If we've found a match, we don't need to go through the rest of the items
+          if ( shouldEnable ) {
+            return false;
+          }
         });
+
+        return shouldEnable;
       }
 
-      for ( filterName in self.filterValues ) {
-        console.groupCollapsed(filterName);
-        filterData = self.filterData[ filterName ];
-        hasActiveFilter = !!self.filters[ filterData.type ][ filterName ].length;
-        console.log('%s hasActiveFilter: %s', filterName, hasActiveFilter);
-        if ( !hasActiveFilter ) {
-          for ( filterValue in self.filterValues[ filterName ] ) {
-            console.log('test value:', filterValue );
-            testGalleryItems( filterName, filterValue );
-          }
-        }
-
-        console.groupEnd();
-      }
-
-      console.groupEnd();
-      return self;
-    },
-
-    /*setFilterStatuses : function() {
-      var self = this,
-          $visible = self.shuffle.$items.filter('.filtered'),
-          filterName, filterValue, method, skip, value, filterData;
-
-      // console.clear();
-      // Reset stored data by setting all filterValue values to null
-      console.groupCollapsed('filterValues');
-      console.log(self.lastFilterGroup);
-      for ( filterName in self.filterValues ) {
-        if ( !self.filterValues.hasOwnProperty(filterName) ) {
-          continue;
-        }
-
-        filterData = self.filterData[ filterName ];
-
-        // This doesn't work because the lastFilterGroup is null if you select
-        // then deselect the same filter
-        // skip = filterName === self.lastFilterGroup;
-
-        // This doesn't work because, even though it gets the correct filter to skip, it doesn't
-        // enable or disable ones it should, it skips over them...
-        // skip = self.lastFilterGroup.length && filterName === self.lastFilterGroup[ self.lastFilterGroup.length - 1 ];
-
-        // This doesnt work because it skips ALL filters that have an active one
-        // skip = !!self.filters[ filterData.type ][ filterName ].length;
-
-        skip = false;
-        // console.log( self.filters[ filterData.type ][ filterName ] );
-        // console.log(filterName, skip, self.lastFilterGroup);
-
-
-        for ( filterValue in self.filterValues[ filterName ] ) {
-          console.log('filterValue:', filterValue);
-          self.filterValues[ filterName ][ filterValue ] = skip ? 'skip' : null;
-        }
-      }
-      console.groupEnd();
-
-      // Build up the dictionary of the filters that should be shown/hidden
-      $visible.each(function() {
-        var $item = $(this),
-            filterSet = $item.data('filterSet'),
+      function setFilterStatusesObject() {
+        var filterName,
             filterValue,
-            filterName;
+            hasActiveFilter;
 
-        console.groupCollapsed($item.index());
         for ( filterName in self.filterValues ) {
-          if ( !self.filterValues.hasOwnProperty(filterName) ) {
-            continue;
-          }
-
-          console.group('filterName:', filterName);
+          hasActiveFilter = filterName === lastFilterGroup;
+          statuses[ filterName ] = {};
 
           for ( filterValue in self.filterValues[ filterName ] ) {
-            value = self.filterValues[ filterName ][ filterValue ];
-            // If we've already set this to true (meaning there's an item that passes this filter), we don't need to check again on another element
-            if ( value === true || value === 'skip' ) {
-                continue;
+
+            if ( hasActiveFilter ) {
+              statuses[ filterName ][ filterValue ] = 'skip';
+            } else {
+              testGalleryItems( filterName, filterValue );
             }
-
-
-            var filterGroupValue = filterSet[ filterName ],
-                isArray = $.isArray( filterGroupValue ),
-                shouldEnable;
-
-            shouldEnable = isArray ?
-                self.valueInArray( filterValue, filterGroupValue ) :
-                filterValue === filterGroupValue;
-
-            console.log('filterValue:', filterValue);
-            console.log('filterGroupValue:', filterGroupValue);
-            console.log('should enable %s:', filterValue, shouldEnable);
-
-            self.filterValues[ filterName ][ filterValue ] = shouldEnable;
-          }
-          console.groupEnd();
-        }
-
-        console.groupEnd();
-      });
-
-
-      // Loop through all filters again to disable/enable them
-      for ( filterName in self.filterValues ) {
-        if ( !self.filterValues.hasOwnProperty(filterName) ) {
-          continue;
-        }
-
-        for ( filterValue in self.filterValues[ filterName ] ) {
-          value = self.filterValues[ filterName ][ filterValue ];
-          console.log('filterValue:', filterValue, 'skip/enable:', value);
-          if ( value !== 'skip' ) {
-            method = value ? 'enable' : 'disable';
-            self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
           }
         }
       }
 
+      function setFilters() {
+        var filterGroup,
+            filterValue,
+            filterType,
+            status,
+            realStatus,
+            method;
+
+        for ( filterGroup in statuses ) {
+          for ( filterValue in statuses[ filterGroup ] ) {
+            status = statuses[ filterGroup ][ filterValue ];
+            filterType = self.filterTypes[ filterGroup ];
+            if ( status !== 'skip' ) {
+              method = status ? 'enable' : 'disable';
+              self[ method + 'Filter' ]( filterValue, filterGroup, filterType );
+
+            // We know we want to skip it, but we need to save the current status so we can come back to it
+            } else {
+              realStatus = self.getFilterStatus( filterValue, filterGroup, filterType );
+              statuses[ filterGroup ][ filterValue ] = realStatus;
+            }
+          }
+        }
+      }
+
+
+      // Use the last filter status that wasn't from this filter group, if appropriate
+      if ( (lastFilterGroup === null || isRange) && self.lastFilterStatuses !== null && self.secondLastFilterStatuses !== null && !(isRange && isRangeActive) && self.hasActiveFilters() ) {
+        statuses = self.secondLastFilterStatuses;
+      } else {
+        setFilterStatusesObject();
+      }
+
+      // Enable or disable them
+      setFilters();
+
+      // If we're filtering again (for example, by "colors"), don't add this statuses object as the
+      // second to last one, it should refer to the last one that is not in the current filter group
+      if ( lastFilterGroup !== self.secondLastFilterGroup ) {
+        self.secondLastFilterStatuses = self.lastFilterStatuses;
+      }
+      self.lastFilterStatuses = statuses;
+
+      self.secondLastFilterGroup = lastFilterGroup;
+
+      // Update product count
       self.$productCount.text( $visible.length );
 
+      // Release for IE
       $visible = null;
 
       return self;
-    },*/
+    },
 
     valueInArray : function( value, arr ) {
       return $.inArray(value, arr) !== -1;
@@ -1195,16 +1182,17 @@
       values = null;
     },
 
-    range : function( $rangeControl, filterName, min, max ) {
-      this.MAX_PRICE = max;
-      this.MIN_PRICE = min;
+    range : function( $rangeControl, filterName, MIN_PRICE, MAX_PRICE ) {
+      this.MAX_PRICE = MAX_PRICE;
+      this.MIN_PRICE = MIN_PRICE;
       this.price = {
-        min: this.MIN_PRICE,
-        max: this.MAX_PRICE
+        MIN_PRICE: this.MIN_PRICE,
+        MAX_PRICE: this.MAX_PRICE
       };
 
       var self = this,
-      diff = self.MAX_PRICE - self.MIN_PRICE,
+
+      diff = MAX_PRICE - MIN_PRICE,
       $output = $rangeControl.closest('.filter-container').find('.range-output-container'),
       $minOutputWrap = $output.find('.range-output-min'),
       $maxOutputWrap = $output.find('.range-output-max'),
@@ -1215,21 +1203,21 @@
       method = self.isTouch ? 'debounce' : 'throttle',
       debouncedFilter = $[ method ]( delay, function() {
         self.filter();
-      }),
+      });
 
-      getPrice = function(percent) {
-        return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
-      },
+      function getPrice( percent ) {
+        return Math.round( diff * (percent / 100) ) + MIN_PRICE;
+      }
 
       // Range control update callback
-      update = function(evt, positions, percents) {
+      function update( evt, positions, percents ) {
         var minPrice = getPrice(percents.min),
         maxPrice = getPrice(percents.max),
-        maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice,
+        maxPriceStr = maxPrice === MAX_PRICE ? maxPrice + '+' : maxPrice,
         prevMin = self.price.min,
         prevMax = self.price.max;
 
-        self.lastFilterGroup = null;
+        self.lastFilterGroup = filterName;
 
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
@@ -1239,19 +1227,19 @@
         self.price.max = maxPrice;
 
         // Filter results only if values have changed
-        if ( (prevMin !== self.price.min || prevMax !== self.price.max) && self.isInitialized ) {
+        if ( (prevMin !== minPrice || prevMax !== maxPrice) && self.isInitialized ) {
 
           // Save current filters
-          self.filters.range[ filterName ].min = self.price.min;
-          self.filters.range[ filterName ].max = self.price.max;
+          self.filters.range[ filterName ].min = minPrice;
+          self.filters.range[ filterName ].max = maxPrice;
 
           // Throttle filtering (especially on touch)
           debouncedFilter();
         }
-      },
+      }
 
       // Show what's happening with the range control
-      displayValues = function( min, max, percents ) {
+      function displayValues( min, max, percents ) {
         var minWidth,
             maxWidth;
 
@@ -1271,7 +1259,7 @@
           left: percents.max + '%',
           marginLeft: -maxWidth / 2
         });
-      };
+      }
 
       // Store jQuery object for later access
       self.$rangeControl = $rangeControl;
@@ -1285,6 +1273,10 @@
         range: true,
         rangeThreshold: 0.25
       });
+
+      self.filterValues[ filterName ] = { min: true, max: true };
+
+      $rangeControl = null;
     },
 
     // If there is a range control in this element and it's in need of an update
@@ -2737,6 +2729,9 @@
     // showCompareStickyHeaders: true,
     currentFilterColor: null,
     lastFilterGroup: null,
+    lastFilterStatuses: null,
+    secondLastFilterGroup: null,
+    secondLastFilterStatuses: null,
     loadingGif: 'img/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
