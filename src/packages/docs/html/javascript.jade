@@ -1,0 +1,27 @@
+mixin docco()
+  for name in locals.doccopages()
+    if name.indexOf('index.html') == -1
+        env = 'pages'
+      hrf = 'docco/' + name.replace(/(.eco|.hb|.jade)/g, '')
+      ti = title(name,env) || name.replace(/(.html|.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
+      li: a( href = hrf) #{ti}
+      
+include ../../common/html/ieconditionals.html
+doctype 5
+
+include docs-head.html
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
+  include docs-nav.html
+
+  .jumbotron.subhead
+    .container-px-width
+      h2.bs-docs-heading JS Documentation
+      p.p1
+        | Documentation for each class may be found on the links below.
+  
+  .container-px-width
+    ul
+      +docco()
+
+  include docs-foot.html
+</html>

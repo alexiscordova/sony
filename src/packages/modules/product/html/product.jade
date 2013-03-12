@@ -1,0 +1,542 @@
+include ../../../common/html/jade-helpers.jade
+
+//- the list is an array of list items like this:
+//- "definitionList" : [
+//-   {
+//-       "term" : "Dimension",
+//-       "definitions" : [
+//-           "12.95 x 7.30 x 2.32cm",
+//-           "(4.375&Prime; x 3.875&Prime; x 2.125&Prime;)"
+//-       ]
+//-   },
+//-   {
+//-       "term" : "Height",
+//-       "definition" : "8.5oz (240g)"
+//-   }
+//- ]
+//- and outputs a definition list like this:
+//- <dl>
+//-   <dt>term</dt>
+//-   <dd>definition</dd>
+//- </dl>
+mixin definitionList( list, isHorizontal )
+  - isHorizontal = isHorizontal || false
+  - clss = isHorizontal ? 'dl-horizontal' : null
+  dl(class=clss)
+    each li in list
+      dt.l3: strong= li.term
+      if li.definition
+        dd.p3= li.definition
+      else
+        each definition in li.definitions
+          dd.p3= definition
+
+
+//- A simple unstyled ul
+mixin specList( list, extraClasses )
+  - classes = 'unstyled spec-list'
+  - extraClasses = extraClasses || false
+  - if ( extraClasses ) classes += ' ' + extraClasses
+  ul(class=classes)
+    each li in list
+      li.p3= li
+
+
+mixin colorSwatches( colors, isShowOnlyChild )
+  classes = ['color-swatches', 'clearfix']
+  - if ( colors.length <= 1 && !isShowOnlyChild ) classes.push('invisible')
+  div(class=classes)
+    each color in colors
+      - colour = typeof color === 'string' ? color : color.color
+      theClass = 'mini-swatch swatch-' + colour + ' pull-left'
+      span(class=theClass, data-color=colour, itemprop="color")= colour
+
+
+//- .iq-img select must be added with javascript later and then iQ.update(true)
+mixin iQColorImages( colors )
+  if colors && colors.length > 1
+    each img in colors
+      //- mixin iQImage( img, 'hidden', 'image' )
+      img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
+      noscript
+        img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
+
+
+mixin heart
+  - heartClass = 'favorite-holder js-favorite'
+  - if ( data.isFavorited ) heartClass += ' active'
+  favoritedTitle = 'Added'
+  toFavoriteTitle = 'Add to Favorites'
+  div(class=heartClass, data-active-title="Added", data-default-title=toFavoriteTitle)
+    i.fonticon-10-favorite
+
+
+mixin basicGalleryItem( layout, priority, href )
+  klass = '';
+  if layout == 'large' || layout == 'carousel'
+    klass = 'span3 large'
+  else if layout == 'promo'
+    klass = 'span2 promo'
+  else if layout == 'medium'
+    klass = 'span2 medium'
+  else if layout == 'plate'
+    klass = 'span2 plate'
+  else if layout == 'blank-normal'
+    klass = 'span1 blank normal'
+  else
+    klass = 'span1 normal'
+
+  //- Add .gallery-item, .basic, and .m-span3 (for 2 up on mobile)
+  klass = 'gallery-item basic m-span3 ' + klass
+
+  if layout == 'plate' || layout == 'blank-normal'
+    div(class=klass, data-priority=priority)
+      block
+  else
+    a(class=klass, data-priority=priority, href=href ? href : '#')
+      block
+
+
+if data.view == 'basic'
+  +basicGalleryItem( data.layout, data.priority, data.href )
+    .gallery-item-inner
+      if data.label
+        span.label.label-success= data.label
+
+      if data.layout == 'promo'
+        .product-img.iq-img(data-src=data.img.src)
+          - style = data.style ? data.style : ''
+          - classes = ['promo-content']
+          - classes.push( style )
+          div(class=classes)
+            .promo-title
+              span.t4.title= data.title
+              if data.layout == 'twoLines'
+                div.t4.emphasis= data.emphasis
+                i.fonticon-10-chevron
+              else
+                span.t4.emphasis= '&nbsp;' + data.emphasis
+                i.text-dark.fonticon-10-chevron
+            if data.count
+              .text-count
+                span.number.l2= data.count.number
+                | &nbsp;
+                span.text.l3= data.count.text
+            else if data.brandLogo
+              .text-count
+                img(src=data.brandLogo.src)
+
+      else if data.layout == 'plate'
+        .product-img(class=data.backgroundColorClass)
+          div(class='promo-content')
+            .text-promo-title
+              h4.t4.title
+                strong= data.title
+              h5.t4.emphasis= data.emphasis
+                i.icon-ui2-chevron-16-black-right
+            if data.count
+              .text-count
+                span.number.l2= data.count.number
+                | &nbsp;
+                span.text.l3= data.count.text
+            else if data.button
+              a(class='btn plate-btn lt4' , href=data.button.link)
+                strong= data.button.title
+
+
+      else
+        .product-img
+          .product-img-wrap.ghost-center-wrap
+            .ghost-center
+              if data.layout == 'carousel'
+                .js-item-carousel
+                  .js-carousel-container
+                    each img in data.imgCarousel
+                      .slide
+                        +iQImage( img )
+
+              else if data.layout == 'large'
+                +iQImage( data.imgLarge )
+
+              else if data.layout == 'medium'
+                +iQImage( data.imgLarge )
+
+              else
+                +iQImage( data.imgSmall )
+
+              if data.img && data.img.colors
+                +iQColorImages( data.img.colors )
+
+          if data.img && data.img.colors
+            +colorSwatches( data.img.colors )
+
+          //- else if data.imgSmall && data.imgSmall.colors
+          //-   +colorSwatches( data.img.colors )
+
+          +heart()
+
+        .product-content
+          .product-name-wrap
+            .product-name.p3
+              strong= data.name
+          .product-price
+            span.price-prefix.p5 Starting at &nbsp;
+            span.price.p2
+              strong= '$' + data.price + '&nbsp;'
+            span.msrp.p5 MSRP
+
+
+else if data.view == 'detailed'
+  filterSet = JSON.stringify( data.filterSet )
+  a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
+    .gallery-item-inner
+      .product-img
+        if data.label
+          span.label.label-success= data.label
+        - hasExtraColors = data.img.colors && data.img.colors.length > 1
+        - classes = 'product-img-wrap ghost-center-wrap js-product-imgs'
+        - if ( !hasExtraColors ) classes += ' no-swatches'
+        div(class=classes)
+          .ghost-center
+            +iQImage( data.img, 'js-product-img-main', 'image' )
+            +iQColorImages( data.img.colors )
+
+        if data.img.colors
+          +colorSwatches( data.img.colors )
+
+        +heart()
+
+      .product-content
+        .product-name-wrap
+          .product-name.p2
+            strong(itemprop="name")= data.name
+          .product-model.l3(itemprop="model")= data.model
+        .product-rating(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
+          meta(itemprop="ratingValue", content=data.rating.stars)
+          i.fonticon-10-star
+          i.fonticon-10-star
+          i.fonticon-10-star
+          i.fonticon-10-star
+          i.fonticon-10-star
+          span.lt4  (
+            span(itemprop="ratingCount")= data.rating.stars
+            |  user reviews)
+
+        ul.product-meta
+          each meta in data.meta
+            li.p4
+              |!{meta.value}&nbsp;
+              span.prodcut-meta-name= meta.name
+        .product-price
+          span.price-prefix.p3 Starting at &nbsp;
+          span.price.p2
+            strong(itemprop="price")= '$' + data.price + '&nbsp;'
+          span.msrp.p3 MSRP
+
+        .detail-group.hidden
+          if data.details
+            each detail in data.details
+              highlightedClass = detail.isHighlighted ? ' highlighted' : ''
+              detailClass = 'detail' + highlightedClass
+              div(class=detailClass, data-label=detail.label, itemprop=detail.slug)
+                if detail.value.check
+                  | !{detail.value.text}
+                else if detail.value.box
+                  p.t6-light.compare-box= detail.value.box
+                  p.p3!= detail.value.lineOne
+                  if detail.value.lineTwo
+                    p.p3!= detail.value.lineTwo
+                  if detail.value.lineThree
+                    p.p3!= detail.value.lineThree
+                else if detail.value.lineOne
+                  p.p3!= detail.value.lineOne
+                  if detail.value.lineTwo
+                    p.p3!= detail.value.lineTwo
+                  if detail.value.lineThree
+                    p.p3!= detail.value.lineThree
+                else if detail.value[0].description
+                  ul.media-list
+                    each value in detail.value
+                      li.media
+                        .pull-left
+                          mediaClass = 'media-object icon-bestfor-' + value.icon
+                          i(class=mediaClass)
+                        .media-body
+                          p.media-heading.p3!= value.label
+                          p.p3!= value.description
+                else
+                  | !{detail.value}
+
+
+else if data.view == 'specs'
+
+  tabSlug = 'spec-tab' + data.iterator
+  .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
+    .compare-sticky-header
+      .product-name-wrap
+        .product-name.p3(itemprop="name")= data.name
+        .product-model.p3
+          strong(itemprop="model")= data.model
+
+    .spec-column-header.table-center-wrap
+      .table-center
+        .product-name.t6-light(itemprop="name")= data.name
+        .product-model.t6
+          strong(itemprop="model")= data.model
+
+    each spec, i in data.specs
+      .spec-item-cell
+
+        if spec.name && spec.list && spec.img
+          .spec-cell-inner
+            p.cell-label.l3
+              strong= labels[i]
+            h6.t7-light= spec.name
+            p.l3
+              strong= spec.listTitle
+            +specList( spec.list, 'before-btm-aligned' )
+            +iQImage( spec.img, 'btm-aligned' )
+
+        else if spec.callout && spec.text
+          .spec-cell-inner
+            p.cell-label.l3
+              strong= labels[i]
+            p.t6-light.compare-box= spec.callout
+            p.t7= spec.text
+            if spec.list
+              if spec.listTitle
+                p.l3
+                  strong= spec.listTitle
+              +specList( spec.list )
+
+        else if spec.text
+          .spec-cell-inner
+            p.cell-label.l3
+              strong= labels[i]
+            p.t7= spec.text
+            if spec.subtext
+              p.p3= spec.subtext
+
+            if spec.sublist
+              +specList( spec.sublist )
+
+        else if spec.colors
+          .spec-cell-inner
+            p.cell-label.l3
+              strong= labels[i]
+            +colorSwatches( spec.colors, true )
+
+        else if spec.definitionList && spec.img
+          .spec-cell-inner.only-label
+            p.cell-label.l3
+              strong= labels[i]
+
+          - imgClass = spec.img.orientation && spec.img.orientation == 'portrait' ? 'vertical' : ''
+          .text-center.dl-img.ghost-center-wrap(class=imgClass)
+            .ghost-center.v-bottom
+              +iQImage( spec.img )
+
+          .spec-cell-inner
+            +definitionList( spec.definitionList, true )
+
+        else if spec.definitionList
+          .spec-cell-inner
+            p.cell-label.l3
+              strong= labels[i]
+            +definitionList( spec.definitionList, true )
+
+        else if spec.label && spec.callout && spec.list && spec.icon
+          .spec-cell-inner
+            p.cell-label.l3
+              strong= labels[i]
+            .holder-for-icon
+              iconClass = 'fonticon-30-' + spec.icon
+              i(class=iconClass)
+            div
+              span.t6-light= spec.callout.number
+              | &nbsp;
+              span.p3= spec.callout.text
+            +specList( spec.list )
+            p.l3
+              strong= spec.label
+            p.p3= spec.labeledText
+
+        else if spec.enlargement
+          .spec-cell-inner.only-label
+            p.cell-label.l3
+              strong= labels[i]
+
+          .text-center.img-holder
+            +iQImage( spec.img )
+
+          .spec-cell-inner
+            button.enlarge.js-enlarge
+              i.fonticon-15-zoom
+              span.l3
+                strong!= '&nbsp;' + spec.iconTitle
+
+            +specList( spec.list )
+
+            .spec-modal.hide
+              .js-spec-modal-title= spec.enlargement.title
+              .js-spec-modal-body
+                .spec-modal-body.text-center
+                  +iQImage( spec.enlargement )
+
+        else if spec.list && spec.img
+
+            if spec.img.alignment == 'bottom'
+              .spec-cell-inner.img-bottom
+                p.cell-label.l3
+                  strong= labels[i]
+                +specList( spec.list )
+              .text-center.img-bottom
+                +iQImage( spec.img )
+            else
+              .spec-cell-inner.only-label
+                p.cell-label.l3
+                  strong= labels[i]
+              .text-center
+                +iQImage( spec.img )
+              .spec-cell-inner
+                +specList( spec.list )
+
+        else if spec.list
+          .spec-cell-inner
+            p.cell-label.l3
+              strong= labels[i]
+
+            .icon-group
+              if spec.icon1
+                i(class=spec.icon1)
+              if spec.icon2
+                i(class=spec.icon2)
+            +specList( spec.list )
+
+        else
+          .l4 Unable to parse the kind of specification you gav me :(
+
+
+else if data.view == 'single-spec'
+
+  each spec in data.fullSpecs
+    if spec.imgs && spec.definitionList
+      section.spec-overview.spec-section
+        .container
+          .grid.no-grid-at-567
+            .span8.relative.ghost-center-wrap
+              .ghost-center
+                .spec-carousel-wrap
+                  .spec-carousel.clearfix
+                    each img in spec.imgs
+                      span.slide
+                        +iQImage( img )
+            .span3.offset1
+              h6.t6-light.section-label= spec.label
+              +definitionList( spec.definitionList )
+
+    else if spec.list && spec.list2 && spec.img
+      section.container
+        .grid.m-grid-at-567.spec-section
+          .span3.no-m-span
+            h6.t6-light.section-label= spec.label
+          .span3.alpha.m-span3
+            +specList( spec.list )
+          .span3.m-span3
+            +specList( spec.list2 )
+          .span3.no-m-span.block-img
+            +iQImage( spec.img )
+
+    else if spec.definitionList && spec.definitionList2
+      section.container
+        .grid.no-grid-at-567.spec-section
+          .span3
+            h6.t6-light.section-label= spec.label
+          .span4
+            +definitionList( spec.definitionList )
+          .span4.offset1
+            +definitionList( spec.definitionList2 )
+
+    else if spec.definitionList && spec.img && spec.img.alignment && spec.img.alignment == 'align-right-bottom'
+      section.container
+        .grid.no-grid-at-567.spec-section.align-right-bottom
+          .span3
+            h6.t6-light.section-label= spec.label
+          .span3
+            +definitionList( spec.definitionList )
+          .span6.has-img
+            +iQImage( spec.img )
+
+    else if spec.definitionList && spec.img
+      section.container
+        .grid.no-grid-at-567.spec-section
+          .span3
+            h6.t6-light.section-label= spec.label
+          .span4
+            +definitionList( spec.definitionList )
+
+          - offset = spec.img.alignment && spec.img.alignment == 'right' ? '2' : '1'
+          - classes = 'has-img span3 offset' + offset
+          div(class=classes)
+            +iQImage( spec.img )
+
+    else if spec.definitionList
+      section.container
+        .grid.no-grid-at-567.spec-section
+          .span3
+            h6.t6-light.section-label= spec.label
+          .span4
+            +definitionList( spec.definitionList )
+
+    else if spec.features
+      section.container
+        .grid.no-grid-at-567.spec-section
+          .span3
+            h6.t6-light.section-label= spec.label
+          each feature, i in spec.features
+            - feature2 = spec.features2[i]
+            .span3
+              .media
+                .pull-left
+                  .media-object.holder-for-icon
+                    i(class=feature.icon)
+                .media-body
+                  p.media-heading.l3
+                    strong!= feature.label
+                  p.media-description.p3!= feature.description
+              .media
+                .pull-left
+                  .media-object.holder-for-icon
+                    i(class=feature2.icon)
+                .media-body
+                  p.media-heading.l3
+                    strong!= feature2.label
+                  p.media-description.p3!= feature2.description
+
+else if data.view == 'suggested'
+  a(class='gallery-item span6 suggested', href=data.href ? data.href : '#')
+    .gallery-item-inner
+      .product-name.p3
+        | !{data.name}
+      .product-tagline.p1
+        | !{data.tagline}
+      .product-img
+        div(class='product-img-wrap ghost-center-wrap')
+          .ghost-center
+            img.iq-img(alt=data.img.alt, data-src=data.img.src)
+            noscript
+              img(src=data.img.noscriptsrc, alt=data.img.alt)
+      .product-price
+        span.price-prefix.p3 Starting at &nbsp;
+        span.price.l2= '$' + data.price + '&nbsp;'
+        span.msrp.p5 MSRP
+
+
+else if data.view == 'blank'
+  div(class='gallery-item basic blank m-span3 normal shuffle-item filtered span1', data-priority=data.priority, href='#')
+
+
+else
+  em oh noes, you don't have a view variable set :(
+
+

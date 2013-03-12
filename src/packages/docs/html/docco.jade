@@ -1,0 +1,24 @@
+mixin docco()
+  for name in locals.doccopages()
+    if name.indexOf('.html') !== -1
+      li
+        a(href='docco/' + name) #{name}
+
+include ../../common/html/ieconditionals.html
+doctype 5
+
+include docs-head.html
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
+  include docs-nav.html
+
+  header.jumbotron.subhead#overview
+    div.container-px-width
+      h2.bs-docs-heading JS Documentation
+      p.p1
+        | Documentation for each class may be found on the links below.
+  div.container-px-width
+    ul
+      +docco()
+
+  include docs-foot.html
+</html>

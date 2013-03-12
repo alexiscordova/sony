@@ -1,0 +1,35 @@
+include gallery-helpers.jade
+
++galleryStickyTabs( data.tabs, data.config.module_name, data.config.module_id )
+
+.tab-content.gallery-content(data-module-name=data.config.module_name, data-module-id=data.config.module_id)
+  if data.tabs[0]
+    .tab-pane.fade.in.active(data-tab=data.tabs[0].slug)
+      +featuredGallery( data.submodules, data.featured, 'product' )
+      +featuredGallery( data.submodules, data.featured2, 'accessory' )
+
+
+  if data.tabs[1]
+    .tab-pane.fade(data-tab=data.tabs[1].slug)
+      +detailedGallery( data.submodules, data.productCards )
+
+  if data.tabs[2]
+    .tab-pane.fade(data-tab=data.tabs[2].slug)
+      +productStrips( data.submodules, data.accessories, 'accessory' )
+
+  - for (i = 3; i < 10; i++) {
+  if data.tabs[i]
+    .tab-pane.fade(data-tab=data.tabs[i].slug)
+      .container
+        .grid
+          h2.t6= data.tabs[i].label
+          | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          | consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          | cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          | proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  - }
+
+//- +compareToolModal()
+//- script(src="http://glen.local:8080/target/target-script-min.js#anonymous")

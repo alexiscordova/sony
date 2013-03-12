@@ -1,0 +1,16 @@
+doctype 5
+include ../../../common/html/ieconditionals.html
+
+head
+  include ../../../common/html/head.jade
+
+body
+
+  .container
+    h4= 'G1 - Related Products Mixed Tile Demo w/counter'
+
+  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/homepage-tabbed.json')}
+  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
+
+  include ../../../common/html/foot.jade
+</html>

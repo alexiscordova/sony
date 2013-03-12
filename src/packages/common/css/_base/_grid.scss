@@ -1,0 +1,25 @@
+//
+// Grid system
+// --------------------------------------------------
+
+
+// base settings are in _responsive-980px-1199px-default.scss
+
+// nested grids don't have margins
+.grid .grid,
+.grid-px-width .grid{
+	width: 100%;
+}
+
+// Reset utility classes due to specificity
+[class*="span"].hide,
+.grid [class*="span"].hide,
+.grid [class*="span"].hide {
+  display: none;
+}
+
+[class*="span"].pull-right,
+.grid [class*="span"].pull-right,
+.grid [class*="span"].pull-right {
+  float: right;
+}

@@ -1,0 +1,323 @@
+
+
+// These should match the variables in gallery.scss
+$galleryThreeColMin: px-em(568px);
+$galleryThreeColMax: px-em(767px);
+$galleryFourColMin: px-em(768px);
+$galleryFourColMax: px-em(979px);
+
+$oneByOnePadding: 165.196%;
+$oneByOneImgPadding: 107.84313725490196%;
+
+
+
+
+// Gallery item media queries
+// -------------------------
+@media (min-width: px-em(980px)) and (max-width: px-em(1100px) ) {
+
+  .gallery-detailed .products {
+    margin-top: -2.5em;
+  }
+
+  .gallery-item.detailed {
+    margin-top: 2.5em;
+
+    &:after {
+      padding-top: 150%;
+    }
+  }
+}
+
+@media (min-width: px-em(980px)) and (max-width: px-em(1023px) ) {
+  .gallery-item.large:after {
+    padding-top: 106.8%
+  }
+}
+
+// <= 979
+@media ( max-width: $galleryFourColMax ) {
+
+  // Hide all but the first slide in the large tile carousel
+  .gallery-item.large .slide:not(:first-child) {
+    display: none;
+  }
+
+  .gallery-item .promo-content .promo-title i {
+    font-size: .8em;
+  }
+}
+
+// 768-979
+@media ( min-width: $galleryFourColMin ) and ( max-width: $galleryFourColMax ) {
+
+  .gallery-detailed .products {
+    margin-top: -2.5em;
+  }
+
+  .gallery-item.detailed {
+    margin-top: 2.5em;
+
+    // Minimum for @768
+    &:after {
+      padding-top: 175%;
+    }
+  }
+
+  .gallery-item.promo .product-img {
+    padding-right: 22%;
+  }
+}
+
+// <= 767
+@media (max-width: $galleryThreeColMax) {
+
+
+  // Promo Media Queries
+  // -------------------------
+
+  .gallery-item .promo-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1.5625em 1em;
+
+    .promo-title,
+    .text-count {
+      position: static;
+    }
+
+    .promo-title {
+      max-width: none;
+      margin: 0 0 0.825em;
+    }
+  }
+
+
+
+  // Remove percentage heights
+  .gallery-item {
+
+    &:after,
+    .product-img:after {
+      content: none;
+    }
+
+    .gallery-item-inner,
+    .product-img .product-img-wrap {
+      position: static;
+    }
+  }
+
+  // Put percentage heights back for editorial
+  .gallery-editorial {
+
+    .gallery-item {
+      margin-top: 0.625em;
+
+       &:after {
+        content: '';
+        padding-top: $oneByOnePadding;
+      }
+    }
+
+    .gallery-item-inner,
+    .product-img .product-img-wrap {
+      position: absolute;
+    }
+
+    // Make all tiles the same size
+    .gallery-item .product-img:after {
+      content: '';
+      padding-top: $oneByOneImgPadding;
+    }
+  }
+
+
+  .gallery-detailed {
+
+    .slide-toggle-parent {
+      margin-bottom: .9375em;
+    }
+
+    .products {
+      margin-top: -1.625em;
+    }
+
+
+    // Detailed Gallery Item Layout
+    // --------------------------------
+
+    .gallery-item {
+      margin-top: 1.625em; // 26
+      width: 100% !important; // override `auto` set by grid system
+    }
+
+    .gallery-item-inner {
+      display: table;
+      height: 100%;
+      width: 100%;
+    }
+
+    .product-img,
+    .product-content {
+      display: table-cell;
+      vertical-align: top;
+      width: 50%;
+    }
+
+    .product-img .product-img-wrap {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    // non webkit browsers need this
+    .product-img img {
+      width: 100%;
+    }
+
+    .product-content {
+      padding-left: 4%;
+      margin-top: 0;
+    }
+
+
+
+
+    // Detailed gallery item styling
+    // ------------------------------
+    .product-name {
+      margin-bottom: 3px;
+    }
+
+    .product-model {
+      margin-bottom: 0;
+    }
+
+    .product-rating {
+      margin: 0 0 .3125em;
+    }
+
+    .fonticon-10-star {
+      font-size: .6em;
+      letter-spacing: -0.15em;
+    }
+
+    .product-meta {
+      margin-bottom: .3125em;
+    }
+
+    .product-price {
+      margin-top: 0;
+    }
+  }
+
+  // Product name, etc
+  .product-content {
+
+    .price-prefix {
+      margin-bottom: 0;
+      display: block;
+    }
+  }
+
+  .favorite-holder i {
+    font-size: .6875em;
+  }
+}
+
+
+
+@media ( min-width: px-em(568px) ) and ( max-width: px-em(979px) ) {
+
+  // Feature Tiles
+  .spec-tiles-wrap {
+    margin-top: 4.6875em;
+    margin-bottom: 6.25em;
+  }
+
+  .spec-tile {
+    margin-top: .625em;
+
+    .tile-content {
+      padding: 1.875em 1.875em 2.8125em 1.25em;
+    }
+  }
+
+}
+
+
+// 568 - 640
+@media ( min-width: $galleryThreeColMin ) and ( max-width: 40em ) {
+
+  // Make gallery items taller
+  .gallery-item.basic:after {
+    padding-top: 187%;
+  }
+}
+
+
+// <= 567
+@media ( max-width: px-em(567px) ) {
+
+
+  // Media queries for both single and mutliple spec pages
+  .spec-multi,
+  .spec-single {
+    margin-top: 0;
+  }
+
+  ul.jump-links {
+    margin-left: -.25em;
+
+    a {
+      padding-right: 4px;
+      padding-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .no-touch & li:hover a,
+    .active a {
+      @include box-shadow(inset 0 -3px 0 $btnBackground);
+    }
+  }
+
+  // Hide links
+  .sticky-nav .jump-links {
+    display: none;
+  }
+
+
+  // Feature tiles
+  .spec-tiles-wrap {
+    margin-top: 3.75em;
+    margin-bottom: 5em;
+  }
+
+  .spec-tile {
+    margin-top: .625em;
+
+    .tile-content {
+      padding: 1.875em 1.875em 2.8125em 1.25em;
+    }
+
+  }
+}
+
+// // <= 479
+// @media ( max-width: 29.9375em ) {
+
+// }
+
+// <= 360
+@media ( max-width: 22.5em ) {
+
+  // Make gallery items taller
+  .gallery-item.basic:after {
+    padding-top: 190%;
+  }
+}
+
+

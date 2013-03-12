@@ -1,0 +1,20 @@
+script(src="js/libs/require.js")
+
+l = {"locals": locals}
+
+script
+
+  window.isDebugMode = true;
+
+  require(['js/common'], function () {
+    require(['require/index'], function(){
+      require(['modules/global-header-footer/global-header-footer'], function(a){a.init();});
+      require(['modules/primary-tout-p1-d7/primary-tout-p1-d7'], function(a){a.init();});
+      require(['modules/one-sony-tout-carousel-s2/one-sony-carousel-s2'], function(a){a.init();});
+      require(['modules/related-products-g1/related-products-g1'], function(a){a.init();});
+      require(['modules/tertiary-tout-t1-t5/tertiary-t1-t5-module'], function(a){a.init();});
+      require(['modules/gallery-g2-g3/gallery-g2-g3'], function(a){a.init();});
+      require(['modules/spec-single-z1/spec-single-z1'], function(a){a.init();});
+      require(['modules/spec-multi-z2/spec-multi-z2'], function(a){a.init();});
+    });
+  });

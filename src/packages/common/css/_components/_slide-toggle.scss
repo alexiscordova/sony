@@ -1,0 +1,84 @@
+//
+// Slide toggle
+// --------------------------------------------------
+
+$inactiveColor: $buttonOrange;
+$inactiveHoverColor: $buttonOrangeHover;
+$activeColor: $gray20;
+$activeHoverColor: $gray40;
+
+.slide-toggle {
+  background: $activeColor;
+
+  // Open state
+  &:hover {
+    background: $activeHoverColor;
+  }
+
+  & i {
+    position: absolute;
+    right: $btnAltSpecialPadding;
+
+    // SHOULD BE GLOBAL
+    // font-size: px-em( 16px, 12px );
+    margin-top: 2px;
+    font-size: 16px;
+
+  }
+
+  // Default state
+  &.collapsed {
+    background: $inactiveColor;
+
+    &:hover {
+      background: $inactiveHoverColor;
+    }
+  }
+}
+
+.slide-toggle-parent {
+  margin-bottom: 1.5em;
+}
+
+.slide-toggle-target {
+  @include lightGrayInset();
+
+  // &.in ~ .spacer {
+  //   @include transition();
+  //   margin-bottom: 1.5em;
+  // }
+}
+
+// A rotated square
+$filterArrowSize: 16px;
+$left: 175px;
+.csstransforms .slide-toggle-arrow {
+  position: absolute;
+  top: -$filterArrowSize / 2;
+  left: $left;
+  width: $filterArrowSize;
+  height: $filterArrowSize;
+  @include rotate(45deg);
+  @include lightGrayInset();
+}
+
+// 2 copies,
+// This goes behind the slide-toggle
+.slide-arrow-under,
+.slide-arrow-over {
+  position: relative;
+  @include transition(opacity .35s ease);
+}
+// This goes above and covers the box-shadow to make our arrow seamless
+.slide-arrow-over {
+  z-index: 10;
+
+  // Nudge it and make it a bit bigger. Undo rotation and box-shadow
+  .csstransforms & .slide-toggle-arrow {
+    top: 0;
+    left: $left - 2px;
+    width: $filterArrowSize + 4px;
+    @include rotate(0deg);
+    @include box-shadow(none);
+  }
+}

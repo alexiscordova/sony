@@ -1,0 +1,17 @@
+doctype 5
+include ../../../common/html/ieconditionals.html
+
+head
+  include ../../../common/html/head.jade
+
+body
+
+  .container
+    h4= 'G1 - Related Products 3 Item Demo w/button'
+
+  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/3up-orange-color-btn.json')}
+  - e.data.config.standalone = true
+  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
+
+  include ../../../common/html/foot.jade
+</html>

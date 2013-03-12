@@ -1,0 +1,21 @@
+doctype 5
+include ../../../common/html/ieconditionals.html
+
+head
+  include ../../../common/html/head.jade
+
+body
+  #page-wrap-outer.page-wrap-outer
+    #page-wrap-inner.page-wrap-inner
+      e = {"locals":locals, "data":data('packages/modules/global-header-footer/demo/data/default-header.json'), "sample_session_data":data('packages/modules/global-header-footer/demo/data/sample_session_data.json'), "sample_search_results":data('packages/modules/global-header-footer/demo/data/sample_search_results.json')}
+      !{partial('packages/modules/global-header-footer/html/global-header.jade', e)}
+
+      #main.container.m-full-bleed(role='main')
+
+        //- put content here - the div below is just to add height for the demo.
+        .bs-docs-grid(style="height:500px; background: rgb(70, 70, 70);")
+
+      e = {"locals":locals, "data":data('packages/modules/global-header-footer/demo/data/default-footer.json'), "sample_session_data":data('packages/modules/global-header-footer/demo/data/sample_session_data.json')}
+      !{partial('packages/modules/global-header-footer/html/global-footer.jade', e)}
+  include ../../../common/html/foot.jade
+</html>

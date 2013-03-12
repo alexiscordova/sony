@@ -1,0 +1,34 @@
+include ../../common/html/ieconditionals.html
+doctype 5
+
+
+include docs-head.html
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
+  include docs-nav.html
+
+  header.jumbotron.masthead.container-px-width
+    img(src='img/indexheader.png')
+  hr.soften
+  div.container-px-width.marketing
+    p.marketing-byline The work on and within these pages represents an in-progress design and code system guidelines. This work will be refined, updated, added to and finalized throughout the course of the Sony Web Transformation project. At this time, please do not consider any of this work final. Instead, it is a look at what we're working on right now, and where we're headed.
+    br
+    div.grid
+      ul.thumbnails.example-sites
+        li.span4
+          p
+            a(href='scaffolding.html')
+              img(src='img/scaffolding.jpg')
+              | Scaffolding
+        li.span4
+          p
+            a(href='base-css.html')
+              img(src='img/basecss.jpg')
+              | Base CSS
+        li.span4
+          p
+            a(href='components.html')
+              img(src='img/components.jpg')
+              | Components
+    
+  include docs-foot.html
+</html>

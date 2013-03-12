@@ -1,0 +1,44 @@
+mixin demos()
+  for name in locals.demos()
+    li: a( href = '../build/debug/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+
+            
+mixin demosGenerated()
+  for name in locals.generateddemos()
+    li: a( href = '../build/debug/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+
+          
+mixin layouts()
+  for name in locals.layouts()
+    li: a( href = '../build/debug/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+
+
+include ../../common/html/ieconditionals.html
+doctype 5
+
+include docs-head.html
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
+    include docs-nav.html
+
+    .jumbotron.subhead
+      .container-px-width
+        h2.bs-docs-heading Module Demos
+
+    
+    .container-px-width
+        ul
+            +demos()
+            strong Generated :
+            +demosGenerated()
+            
+  .jumbotron.subhead
+    .container-px-width
+      h2.bs-docs-heading Module Layouts
+
+  
+  .container-px-width
+    ul
+      +layouts()
+
+  include docs-foot.html
+</html>

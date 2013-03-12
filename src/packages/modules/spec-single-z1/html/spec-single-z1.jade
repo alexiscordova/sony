@@ -1,0 +1,51 @@
+include ../../../common/html/jade-helpers.jade
+
+.spec-single
+
+  .container
+    .grid.spec-title-wrap
+      a.l2.spec-title-link(href=data.titleLink.href)= data.titleLink.label
+      h1.t2.spec-title= data.title
+
+    .grid
+      ul.jump-links.inline
+        each link, i in data.internalLinks
+          - clss = i ? '' : 'active'
+          li(class=clss)
+            a.lt3.no-hover-transition(href=link.href)= link.label
+
+
+  .sticky-nav.spec-sticky-nav
+    .container
+      .grid
+        h2.t6.sticky-nav-title= data.title
+        ul.jump-links.inline.nav
+          each link, i in data.internalLinks
+            - clss = i ? '' : 'active'
+            li(class=clss)
+              a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
+
+
+  section.spec-product#specifications
+    each module, i in data.submodules
+      - d = locals.data(module.data)
+      - d.view = 'single-spec'
+      e = { "locals" : locals, "data" : d, "labels" : data.labels }
+      !{locals.partial( module.type, e )}
+
+  section.spec-tiles-wrap.container#features
+    .grid
+      h3.l1.features-title= data.features.title
+    .spec-tiles.slimgrid.no-grid-at-479
+      each tile in data.features.tiles
+        .spec-tile.span4
+          if tile.img
+            figure
+              mixin iQImage( tile.img )
+
+          .tile-content
+            h3.t6.tile-title= tile.title
+            p.p3= tile.description
+            if tile.link
+              p.p3
+                a(href=tile.link.href)= tile.link.text

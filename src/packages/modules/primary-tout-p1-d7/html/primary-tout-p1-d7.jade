@@ -1,0 +1,132 @@
+mixin eyebrow(d)
+  d = d || data
+  if d.eyebrow
+    if d.eyebrow.link
+      a.eyebrow(href= d.eyebrow.link) 
+        i.fonticon-10-chevron-reverse
+        | !{locals.plusify(d.eyebrow.text)}
+
+    else
+      h2.t7.eyebrow!= locals.plusify(d.eyebrow.text)
+
+mixin header(d)
+  d = d || data
+  if d.variation 
+    if d.variation.quote
+      blockquote.bq1
+        p!= d.quote
+      p.p3!= d.byline
+    else
+      if d.variation.headertext == "larger"
+        h1!= d.headline
+      else
+        h1.t2!= d.headline
+
+mixin bodytext(d, extraclass)
+  d = d || data
+  extraclass = extraclass || ""
+  if d.body 
+    p.p3(class= extraclass)!= d.body
+    
+mixin links(d, extraclass)
+  d = d || data
+  extraclass = extraclass || ""
+  if d.links
+    for link in d.links
+      case link.type
+        when "btn"
+          a(class= extraclass)(class= "btn", href= link.url)!= link.text
+        when "video"
+          a(class= extraclass)(href= link.url)
+            i.fonticon-15-circle-play 
+            span!= link.text
+        when "slider"
+          a(class= extraclass)(href= link.url)
+            i.fonticon-15-popup
+            span!= link.text
+        when "text"
+          a(class= extraclass)( href= link.url)!= link.text
+
+mixin boxclass(layout)
+  layout = layout || data.layout
+  .box(class = layout.alignment)
+    block
+
+mixin boxlayout(layout)
+  layout = layout || data.layout
+  classes = data.style
+  if layout.mobilealign
+    classes = classes + " " + layout.mobilealign
+  if layout.text == "left"
+    .container.inner(class= classes)
+      .grid.no-grid-at-767
+        - span = "span" + layout.columns[0]
+        div(class= span)
+          .table-center-wrap
+            .table-center
+              +boxclass
+                block
+
+  else if layout.text == "right" || layout.text == "center"
+    .container.inner(class= classes)
+      .grid.no-grid-at-767
+        - span = "span" + layout.columns[1]
+        - offset =  "offset" + layout.columns[0]
+        div(class= span)(class= offset)
+          .table-center-wrap
+            .table-center
+              +boxclass
+                block
+
+
+classes = data.mode
+if data.theme
+  classes = classes + " " + data.theme
+.primary-tout.container.full-bleed-no-max(class= classes)
+  e = {"locals":locals, "data":data.image}
+  !{locals.partial('packages/modules/image/html/image.html.jade' , e)}
+  if data.mode == "homepage"
+    if data.variation.secondbox
+      +boxlayout
+        +eyebrow
+        +header
+        .visible-phone
+          +links
+      .secondary.container.full-bleed-no-max.hidden-phone(class= data.variation.substyle)
+        .box
+          .container.grid.no-grid-at-767
+            .span6
+              +bodytext(data, "hidden-phone")
+            .span4.offset2.clearfix
+              +links(data, "pull-right")
+    else
+      +boxlayout
+        +eyebrow
+        +header
+        +bodytext(data, "hidden-phone")
+        +links
+  else if data.mode == "default"
+    +boxlayout
+      +eyebrow
+      +header
+      +bodytext
+      +links
+  else if data.mode == "product-intro-plate"
+    +boxlayout
+      +eyebrow
+      h1.t3!= data.headline
+      +bodytext
+      +links(data, "hidden-phone")
+    .mobile-buttons-wrap.container.grid.no-grid-at-767
+      .mobile-buttons.clearfix
+        +links(data, "visible-phone")
+  else if data.mode == "title-plate"
+    +boxlayout
+      +eyebrow
+      h1.t2!= data.headline
+      +bodytext(data, "hidden-phone")
+      +links
+
+
+
+  
