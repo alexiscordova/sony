@@ -430,8 +430,7 @@ module.exports = function(grunt) {
     })
 
     grunt.file.write('packages/common/css/responsive-modules.scss', str);
-    //grunt.config('compass.common_'+env+'.options.specify', 'packages/common/css/responsive-modules.scss')
-    //console.log(grunt.config('compass.common_'+env));
+    grunt.config('compass.common_'+env+'.options.specify', 'packages/common/css/responsive-modules.scss')
     grunt.task.run('compass:common_'+env);
 
   });
