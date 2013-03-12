@@ -4,9 +4,11 @@
  */
 
 fs = require('fs');
+wrench = require('wrench');
 
 exports.getmnames = function(req, res){
-	var p = '../src/html/partials/modules';
+  var x = wrench.readdirSyncRecursive('../src/packages/modules/');
+	var p = '../src/packages/modules/';
 	var d = fs.existsSync(p) ? fs.readdirSync(p) : [];	
-	res.send(JSON.stringify(d));
+	res.send(JSON.stringify(x));
 }
