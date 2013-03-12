@@ -651,8 +651,6 @@
         var $trigger = $(this);
         $triggers.not( $trigger ).popover('hide');
       });
-
-      $triggers = null;
     },
 
     initSorting : function() {
@@ -897,22 +895,85 @@
     setFilterStatuses : function() {
       var self = this,
           $visible = self.shuffle.$items.filter('.filtered'),
-          filterName, filterValue, method, skip, value;//, filterData;
+          filterName,
+          filterValue,
+          filterData,
+          hasActiveFilter = false;
+
+      console.group('setFilterStatuses');
 
 
+      function testGalleryItems( filterName, filterValue ) {
+        $visible.each(function() {
+          var $item = $(this),
+              filterSet = $item.data('filterSet'),
+              filterGroupValue = filterSet[ filterName ],
+              isArray = $.isArray( filterGroupValue ),
+              shouldEnable = isArray ?
+                self.valueInArray( filterValue, filterGroupValue ) :
+                filterValue === filterGroupValue;
+
+          console.log('shouldEnable:', shouldEnable);
+        });
+      }
+
+      for ( filterName in self.filterValues ) {
+        console.groupCollapsed(filterName);
+        filterData = self.filterData[ filterName ];
+        hasActiveFilter = !!self.filters[ filterData.type ][ filterName ].length;
+        console.log('%s hasActiveFilter: %s', filterName, hasActiveFilter);
+        if ( !hasActiveFilter ) {
+          for ( filterValue in self.filterValues[ filterName ] ) {
+            console.log('test value:', filterValue );
+            testGalleryItems( filterName, filterValue );
+          }
+        }
+
+        console.groupEnd();
+      }
+
+      console.groupEnd();
+      return self;
+    },
+
+    /*setFilterStatuses : function() {
+      var self = this,
+          $visible = self.shuffle.$items.filter('.filtered'),
+          filterName, filterValue, method, skip, value, filterData;
+
+      // console.clear();
       // Reset stored data by setting all filterValue values to null
+      console.groupCollapsed('filterValues');
+      console.log(self.lastFilterGroup);
       for ( filterName in self.filterValues ) {
         if ( !self.filterValues.hasOwnProperty(filterName) ) {
           continue;
         }
 
-        // filterData = self.filterData[ filterName ];
-        skip = filterName === self.lastFilterGroup;
+        filterData = self.filterData[ filterName ];
+
+        // This doesn't work because the lastFilterGroup is null if you select
+        // then deselect the same filter
+        // skip = filterName === self.lastFilterGroup;
+
+        // This doesn't work because, even though it gets the correct filter to skip, it doesn't
+        // enable or disable ones it should, it skips over them...
+        // skip = self.lastFilterGroup.length && filterName === self.lastFilterGroup[ self.lastFilterGroup.length - 1 ];
+
+        // This doesnt work because it skips ALL filters that have an active one
+        // skip = !!self.filters[ filterData.type ][ filterName ].length;
+
+        skip = false;
+        // console.log( self.filters[ filterData.type ][ filterName ] );
+        // console.log(filterName, skip, self.lastFilterGroup);
+
 
         for ( filterValue in self.filterValues[ filterName ] ) {
+          console.log('filterValue:', filterValue);
           self.filterValues[ filterName ][ filterValue ] = skip ? 'skip' : null;
         }
       }
+      console.groupEnd();
 
       // Build up the dictionary of the filters that should be shown/hidden
       $visible.each(function() {
@@ -921,28 +982,42 @@
             filterValue,
             filterName;
 
+        console.groupCollapsed($item.index());
         for ( filterName in self.filterValues ) {
           if ( !self.filterValues.hasOwnProperty(filterName) ) {
             continue;
           }
 
+          console.group('filterName:', filterName);
+
           for ( filterValue in self.filterValues[ filterName ] ) {
-            // If we've already set this to false, we don't need to check again on another element
-            if ( self.filterValues[ filterName ][ filterValue ] === true || self.filterValues[ filterName ][ filterValue ] === 'skip' ) {
+            value = self.filterValues[ filterName ][ filterValue ];
+            // If we've already set this to true (meaning there's an item that passes this filter), we don't need to check again on another element
+            if ( value === true || value === 'skip' ) {
                 continue;
             }
 
-            var isArray = $.isArray( filterSet[ filterName ] ),
+
+            var filterGroupValue = filterSet[ filterName ],
+                isArray = $.isArray( filterGroupValue ),
                 shouldEnable;
 
             shouldEnable = isArray ?
-                self.valueInArray( filterValue, filterSet[ filterName ] ) :
-                filterValue === filterSet[ filterName ];
+                self.valueInArray( filterValue, filterGroupValue ) :
+                filterValue === filterGroupValue;
+
+            console.log('filterValue:', filterValue);
+            console.log('filterGroupValue:', filterGroupValue);
+            console.log('should enable %s:', filterValue, shouldEnable);
 
             self.filterValues[ filterName ][ filterValue ] = shouldEnable;
           }
+          console.groupEnd();
         }
+
+        console.groupEnd();
       });
+
 
       // Loop through all filters again to disable/enable them
       for ( filterName in self.filterValues ) {
@@ -952,7 +1027,7 @@
 
         for ( filterValue in self.filterValues[ filterName ] ) {
           value = self.filterValues[ filterName ][ filterValue ];
-
+          console.log('filterValue:', filterValue, 'skip/enable:', value);
           if ( value !== 'skip' ) {
             method = value ? 'enable' : 'disable';
             self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
@@ -965,7 +1040,7 @@
       $visible = null;
 
       return self;
-    },
+    },*/
 
     valueInArray : function( value, arr ) {
       return $.inArray(value, arr) !== -1;
@@ -1222,6 +1297,31 @@
       }
       return false;
     },
+
+    // setRangeValue : function( min, max ) {
+    //   var self = this,
+    //       rangeControl = self.$rangeControl.data('rangeControl'),
+    //       minPos = 0,
+    //       maxPos = 0,
+    //       diff = self.MAX_PRICE - self.MIN_PRICE,
+    //       railSize = rangeControl.railSize,
+
+    //   priceToRangePosition = function( price ) {
+    //     return ( ( price - self.MIN_PRICE ) / diff ) * railSize;
+    //   };
+
+    //   if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
+    //     minPos = priceToRangePosition( min );
+    //     rangeControl.slideToPos( minPos, rangeControl.$minHandle );
+    //   }
+
+    //   if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
+    //     // console.assert( max > min, 'uh oh. Max higher than min.' );
+    //     maxPos = priceToRangePosition( max );
+    //     rangeControl.slideToPos( maxPos );
+    //   }
+    // },
+
 
     getSortObject : function( evt, $btnText ) {
       var $target = $(evt.target),
