@@ -74,9 +74,10 @@ module.exports = function(grunt) {
      options:{
         force:true
       },
-      debug:['../build/debug/'],
-      deploy:['../build/deploy/'],
-      docs:['../docs/']
+      debug: ['../build/debug/'],
+      deploy: ['../build/deploy/'],
+      deployRequireJSTemp: ['../build/deploy-requirejs-temp/'],
+      docs: ['../docs/']
     },
     jshint: {
       files: ['packages/**/*.js', 'packages/**/*.json', '!packages/docs/**', '!**/libs/*.js'],
@@ -119,7 +120,7 @@ module.exports = function(grunt) {
         files:[
           {expand: true, cwd:'packages/common/img/',      src: ['**'], dest: '../build/deploy/img/'},
           {expand: true, cwd:'packages/common/fonts/',    src: ['**'], dest: '../build/deploy/fonts/'},
-          {expand: true, cwd:'packages/common/js/libs/',  src: ['**'], dest: '../build/debug/js/libs/'}
+          {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../build/deploy/js/'}
         ]
       },
       module_debug:{
@@ -145,6 +146,11 @@ module.exports = function(grunt) {
           });
           return arr;
         }()
+      },
+      rjs_deploy: {
+        files: [
+          {expand: true, cwd:'../build/deploy-requirejs-temp/js/',      src: ['**'], dest: '../build/deploy/js/'},
+        ]
       },
       docs:{
         files:[
@@ -232,35 +238,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    min:{
-      plugins:{
-        src: 'packages/common/js/plugins/*.js',
-        dest: '../build/deploy/js/plugins.min.js'
-      },
-      require:{
-        src: [
-          'packages/common/js/require/sony-global.js',
-          'packages/common/js/require/sony-global-settings.js',
-          'packages/common/js/require/sony-global-analytics.js',
-          'packages/common/js/require/sony-global-utilities.js',
-          'packages/common/js/require/exports.js',
-          'packages/common/js/require/iq.js',
-        ],
-        dest: '../build/deploy/js/require.min.js'
-      },
-      secondary:{
-        src: 'packages/common/js/secondary/*.js',
-        dest: '../build/deploy/js/secondary.min.js'
-      },
-      defer:{
-        src: 'packages/modules/**/js/*.js',
-        dest: '../build/deploy/js/defer.min.js'
-      },
-      polyfill:{
-        src: 'packages/common/js/libs/polyfill/*.js',
-        dest: '../build/deploy/js/polyfill.min.js'
-      }
-    },
     jade:{
       docs:{
         options:jadeconfig,
@@ -268,10 +245,16 @@ module.exports = function(grunt) {
           {expand:true, cwd:'packages/docs/html', src:['*.jade'], dest:'../docs/', ext:'.html', flatten:true}
         ]
       },
-      pages:{
+      pages_debug:{
         options:jadeconfig,
         files:[
           {expand:true, cwd:'packages/pages/', src:['*.jade'], dest:'../build/debug/', ext:'.html', flatten:true}
+        ]
+      },
+      pages_deploy:{
+        options:jadeconfig,
+        files:[
+          {expand:true, cwd:'packages/pages/', src:['*.jade'], dest:'../build/deploy/', ext:'.html', flatten:true}
         ]
       },
       build_debug:{
@@ -316,9 +299,39 @@ module.exports = function(grunt) {
           output: '../docs/docco/'
         }
       }
+    },
+
+    requirejs: {
+      std: {
+        options: {
+          appDir: '../build/deploy',
+          mainConfigFile: '../build/deploy/js/common.js',
+          dir: '../build/deploy-requirejs-temp',
+          fileExclusionRegExp: /css|fonts|img/,
+          logLevel: 1,
+          modules: [
+            {
+              name: 'common',
+              include: [
+                'bootstrap',
+                'jquery',
+                'modernizr',
+                'enquire',
+                'iQ'
+              ]
+            },
+            {
+              name: 'plugins/index',
+              exclude: ['common']
+            },
+            {
+              name: 'require/index',
+              exclude: ['common', 'plugins/index']
+            }
+          ]
+        }
+      }
     }
-
-
   });
 
   //load grunt plugin tasks
@@ -330,6 +343,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-yui-compressor');
+  grunt.loadNpmTasks('grunt-requirejs');
   grunt.loadNpmTasks('grunt-doccoh');
 
   //define task scripts
@@ -339,7 +353,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('pages', function(){
     grunt.config('jshint.files', ['packages/pages/data/**/*.json']);
-    grunt.task.run(['jshint', 'jade:pages']);
+    grunt.task.run(['jshint', 'jade:pages_debug']);
+    grunt.task.run(['jshint', 'jade:pages_deploy']);
   });
 
   grunt.registerTask('lint', ['jshint']);
@@ -357,7 +372,7 @@ module.exports = function(grunt) {
   grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages']);
 
   //all of the following can be called with --deploy otherwise they assume --debug
-  grunt.registerTask('common', 'lint, scss, min js, copy images-fonts-js', function(){
+  grunt.registerTask('common', 'lint, scss, copy images-fonts-js', function(){
     var env = grunt.option('deploy') ? 'deploy' : 'debug';
 
     grunt.config('jshint.files', ['packages/common/js/require/*.js', 'packages/common/js/secondary/*.js']);
@@ -369,10 +384,6 @@ module.exports = function(grunt) {
     })
 
     grunt.file.write('packages/common/css/responsive-modules.scss', str);
-
-    if(grunt.option('deploy')){
-      grunt.task.run(['min:plugins', 'min:require', 'min:secondary', 'min:polyfill']);
-    }
 
     grunt.task.run('compass:common_' + env);
 
@@ -467,8 +478,12 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('build', function(module){
-   module = module ? ":" + module : ""
-   grunt.task.run(['clear', 'common', 'assets'+module, 'light'+module])
+    module = module ? ":" + module : ""
+    grunt.task.run(['clear', 'common', 'assets'+module, 'light'+module])
+
+    if(grunt.option('deploy')){
+      grunt.task.run(['requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
+    }
   });
 
   grunt.registerTask('w', function(module){
