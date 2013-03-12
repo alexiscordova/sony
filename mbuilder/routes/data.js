@@ -2,13 +2,13 @@
 fs = require('fs');
 
 exports.getdnames = function(req, res){
-	var p = '../src/html/data/'+ req.query.mname;
+	var p = '../src/packages/modules/'+ req.query.mname + '/demo/data';
 	var d = fs.existsSync(p) ? fs.readdirSync(p) : [];	
 	res.send(JSON.stringify(d));
 }
 
 exports.getjson = function(req, res){
-	var p = '../src/html/data/' + req.query.path
+	var p = '../src/packages/modules/' + req.query.mname + '/demo/data/' + req.query.path;
 	var d = fs.existsSync(p) ? fs.readFileSync(p) : "";
 	res.send(d);
 }

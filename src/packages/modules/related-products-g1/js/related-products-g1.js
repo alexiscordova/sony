@@ -1557,7 +1557,7 @@ define(function(require){
             if(self.isDragging) {
               self.animFrame = window.requestAnimationFrame(animloop);
 
-              console.log('stuck rendering');
+              
               if(self.renderMoveEvent){
 
                 self.renderMovement(self.renderMoveEvent, isThumbs);
