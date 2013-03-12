@@ -6,11 +6,12 @@
 //
 // This class should only expose key/value pairs for global settings.
 
-var SONY = SONY || {};
-
-SONY.Settings = (function(window, document, Modernizr) {
+define(function (require) {
 
   'use strict';
+
+  var $ = require('jquery'),
+      Modernizr = require('modernizr');
 
   var self = {},
       ua = navigator.userAgent,
@@ -22,6 +23,11 @@ SONY.Settings = (function(window, document, Modernizr) {
         'transition'       : 'transitionend'
       };
 
+  self.$window = $(window);
+  self.$document = $(document);
+  self.$html = $(document.documentElement);
+  self.$body = $(document.body);
+
   self.isIPhone = (/iphone|ipod/gi).test( ua );
   self.isIOS = (/iphone|ipod|ipad/gi).test( ua );
   self.isAndroid = (/android/gi).test( ua );
@@ -29,8 +35,8 @@ SONY.Settings = (function(window, document, Modernizr) {
   self.isSonyTabletS = (/sony tablet s/gi).test( ua );
   // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );
 
-  self.isLTIE9 = SONY.$html.hasClass('lt-ie9');
-  self.isLTIE10 = SONY.$html.hasClass('lt-ie10');
+  self.isLTIE9 = self.$html.hasClass('lt-ie9');
+  self.isLTIE10 = self.$html.hasClass('lt-ie10');
 
   // http://blogs.windows.com/windows_phone/b/wpdev/archive/2012/11/15/adapting-your-webkit-optimized-site-for-internet-explorer-10.aspx
   self.hasTouchEvents = Modernizr.touch;
@@ -42,8 +48,8 @@ SONY.Settings = (function(window, document, Modernizr) {
   self.CANCEL_EV = self.hasTouchEvents ? 'touchcancel' : self.hasPointerEvents ? 'MSPointerCancel' : 'mousecancel';
   self.transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ];
 
-  self.windowWidth = SONY.$window.width();
-  self.windowHeight = SONY.$window.height();
+  self.windowWidth = self.$window.width();
+  self.windowHeight = self.$window.height();
 
   self.shuffleEasing = 'ease-out';
   self.shuffleSpeed = 250;
@@ -76,4 +82,4 @@ SONY.Settings = (function(window, document, Modernizr) {
 
   return self;
 
-})(this, this.document, Modernizr);
+});

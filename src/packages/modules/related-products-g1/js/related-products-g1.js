@@ -14,9 +14,26 @@
 //      $('.related-products').relatedProducts();
 //
 //
-;(function(SONY , $, Modernizr, window, undefined , console) {
+define(function(require){
 
     'use strict';
+
+    var $ = require('jquery'),
+        iQ = require('iQ'),
+        bootstrap = require('bootstrap'),
+        Settings = require('require/sony-global-settings'),
+        Environment = require('require/sony-global-environment'),
+        shuffle = require('secondary/jquery.shuffle'),
+        scroller = require('secondary/sony-scroller'),
+        evenHeights = require('secondary/sony-evenheights'),
+        sonyPaddles = require('secondary/sony-paddles'),
+        sonyNavDots = require('secondary/sony-navigationdots');
+
+    var self = {
+      'init': function() {
+        $('.related-products').relatedProducts();
+      }
+    };
 
     //Related Products Definition
     var RelatedProducts = function(element, options){
@@ -53,9 +70,9 @@
       self.$favorites             = self.$el.find('.js-favorite');
       self.$tabbedContainer       = self.$el.parent();
       self.$bulletNav             = $();
-      self.$doc                   = SONY.$document;
-      self.$win                   = SONY.$window;
-      self.$html                  = SONY.$html;
+      self.$doc                   = Settings.$document;
+      self.$win                   = Settings.$window;
+      self.$html                  = Settings.$html;
 
       self.ev                     = $({}); //event object
       self.prefixed               = Modernizr.prefixed;
@@ -85,7 +102,7 @@
       self.lastTouch              = null;
       self.handleStartPosition    = null;
       self.dragThreshold          = 50;
-      
+
       //
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
@@ -97,7 +114,7 @@
       self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
       self.tileHeightSizeFix      = 0;
       self.hasInitedMobile        = false;
-      
+
       //Modes
       self.isMobileMode           = false;
       self.isDesktopMode          = false;
@@ -311,7 +328,9 @@
 
         // Favorite the gallery item immediately on touch devices
         if ( self.hasTouch ) {
-          $favorites.on('touchend', $.proxy( self.onFavorite, self ));
+          $favorites
+            .on('touchend', $.proxy( self.onFavorite, self ))
+            .on('click', false);
 
         // Show a tooltip on hover before favoriting on desktop devices
         } else {
@@ -366,7 +385,7 @@
               numColumns = 0;
 
           if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
-            gutter = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
+            gutter = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
 
             numColumns = 5;
 
@@ -375,7 +394,7 @@
           // // Portrait Tablet ( 4 columns ) - masonry
           } else if ( self.mq('(min-width: 569px)') ) {
             numColumns = 4;
-            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
           }
 
           self.setColumns(numColumns);
@@ -391,11 +410,11 @@
             var column = 0;
 
             if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
-              column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
+              column = Settings.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
             // Between Portrait tablet and phone ( 3 columns )
             } else if ( self.mq('(min-width: 569px)') ) {
-              column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
+              column = Settings.COLUMN_WIDTH_SLIM * containerWidth;
             // Default
             }else{
               column = containerWidth;
@@ -564,7 +583,7 @@
                     height: 359
                   });
                 }
-    
+
 
                 shfflInst.update();
                 self.updateSlides();
@@ -598,7 +617,7 @@
         if(self.oldIE && self.DEBUG){
           if(window.alert){
                //window.alert(strOut);
-            
+
           }
         }else if(self.DEBUG) {
           if(window.console){
@@ -610,8 +629,8 @@
       setupStripMode: function(){
         var self       = this,
         containerWidth = self.$el.width(),
-        gutterWidth    = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
-        colWidth       = ( SONY.Settings.COLUMN_WIDTH_SLIM_5 * ( containerWidth ) );
+        gutterWidth    = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
+        colWidth       = ( Settings.COLUMN_WIDTH_SLIM_5 * ( containerWidth ) );
 
         //clear out the position style on the gallery items
         self.$galleryItems.removeAttr('style');
@@ -673,8 +692,8 @@
           colWidth           = 0;
 
           if(self.$win.width() > 767){
-            gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
-            colWidth    = ( SONY.Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
+            gutterWidth = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
+            colWidth    = ( Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
           }else{
             gutterWidth = 12.745098039215685;
             colWidth    = 119.80392156862746;
@@ -758,14 +777,14 @@
             self.$pagination.css('display' , 'none');
             height = self.$pagination.get(0).offsetHeight;
             self.$pagination.css('display' , 'block');
-            
+
           }
 
 
 
         }));
 
-       
+
 
       },
 
@@ -774,7 +793,7 @@
 
         var self = this;
 
-       
+
         self.$el.sonyPaddles();
 
         self.$el.on('sonyPaddles:clickLeft', function(){
@@ -819,7 +838,7 @@
           self.$el.sonyPaddles('hidePaddle', 'right');
         }
 
-        iQ.update();
+        window.iQ.update();
 
       },
 
@@ -1216,7 +1235,7 @@
         //handle stuff for old IE
         if( self.oldIE ){
           self.$el.css( 'height' , 495 + 'px' );
-        
+
           return;
         }
 
@@ -2041,7 +2060,7 @@
 
           self.hasInitedMobile = true;
 
-          iQ.update();
+          window.iQ.update();
           self.checkTileHeights();
 
           //animate in container -makes for a smoother experience
@@ -2055,7 +2074,7 @@
       onScrollerEnd: function(){
         var self = this;
 
-        iQ.update();
+        window.iQ.update();
         self.checkTileHeights();
 
       },
@@ -2120,12 +2139,9 @@
       navigationControl: 'bullets'
     };
 
-    //Listen for global sony ready event
-    SONY.on('global:ready', function(){
-      $('.related-products').relatedProducts();
-    });
+    return self;
 
- })(SONY,jQuery, Modernizr, window,undefined , window.console);
+});
 
 
 /*

@@ -1,77 +1,20 @@
-script(src="js/libs/LAB.min.js")
+script(src="js/libs/require.js")
 
 l = {"locals": locals}
 
-if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
+script
 
-  script
-    var pluginScripts = !{JSON.stringify(locals.plugins())},
-        secondaryScripts = !{JSON.stringify(locals.secondary())},
-        deferedScripts = !{JSON.stringify(locals.defer())};
+  window.isDebugMode = true;
 
-  script
-
-    $LAB
-
-      // Libraries
-      .script('http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js').wait()
-      .script('js/libs/bootstrap.js').wait()
-
-      // Plugins
-      .script(function(){
-        var arr = [];
-        for ( i in pluginScripts ) {
-          arr.push('js/plugins/' + pluginScripts[i]);
-        }
-        return arr;
-      }).wait()
-
-      // Global Scripts
-      .script('js/require/sony-global.js').wait()
-      .script('js/require/sony-global-settings.js').wait()
-      .script('js/require/sony-global-analytics.js').wait()
-      .script('js/require/sony-global-environment.js').wait()
-      .script('js/require/sony-global-utilities.js').wait()
-      .script('js/require/exports.js').wait()
-      .script('js/require/iq.js').wait()
-
-      // SONY Plugins
-      .script(function(){
-        var arr = [];
-        for ( i in secondaryScripts ) {
-          arr.push('js/secondary/' + secondaryScripts[i]);
-        }
-        return arr;
-      }).wait()
-
-      // Module Scripts
-      .script(function(){
-        var arr = [];
-        for ( i in deferedScripts ) {
-          arr.push('js/defer/' + deferedScripts[i]);
-        }
-        return arr;
-      })
-
-      .wait(function() {
-        window.isDebugMode = true;
-        SONY.Global.init();
-      });
-
-else
-
-  script
-
-    $LAB
-
-      // Libraries
-      .script('http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js').wait()
-      .script('js/libs/bootstrap.js').wait()
-      .script('js/plugins.min.js').wait()
-      .script('js/require.min.js').wait()
-      .script('js/secondary.min.js').wait()
-      .script('js/defer.min.js').wait()
-
-      .wait(function() {
-        SONY.Global.init();
-      });
+  require(['js/common'], function () {
+    require(['require/index'], function(){
+      require(['modules/global-header-footer/global-header-footer'], function(a){a.init();});
+      require(['modules/primary-tout-p1-d7/primary-tout-p1-d7'], function(a){a.init();});
+      require(['modules/one-sony-tout-carousel-s2/one-sony-carousel-s2'], function(a){a.init();});
+      require(['modules/related-products-g1/related-products-g1'], function(a){a.init();});
+      require(['modules/tertiary-tout-t1-t5/tertiary-t1-t5-module'], function(a){a.init();});
+      require(['modules/gallery-g2-g3/gallery-g2-g3'], function(a){a.init();});
+      require(['modules/spec-single-z1/spec-single-z1'], function(a){a.init();});
+      require(['modules/spec-multi-z2/spec-multi-z2'], function(a){a.init();});
+    });
+  });

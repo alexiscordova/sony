@@ -1,6 +1,6 @@
 include ../../../common/html/jade-helpers.jade
 
-- var search_input_default_full = "      " + data.search.input_default_text
+- var search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
 
 a#SkipToContentLink(href='#main', class='visuallyhidden', tabindex='1')= data.skip_to_content.label
 
@@ -74,9 +74,9 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
                 a.btn.btn-show-all-results(href=data.search.all_results_btn.link, tabindex='1490')= data.search.all_results_btn.label
 
-      div.navmenu-w.navmenu-w-mobile-top.visible-phone
-        ul.navmenu-list.navmenu-list-main
-          if !minimal
+      if !minimal
+        div.navmenu-w.navmenu-w-mobile-top.visible-phone
+          ul.navmenu-list.navmenu-list-main
             li.navmenu-line.navmenu-li-store
               a.tl(href=data.store.link)
                 i.fonticon-10-cart
@@ -91,13 +91,12 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
               a.tl(href=data.support.link)
                 i.fonticon-10-support
                 | !{data.support.label}
-          li.navmenu-line.navmenu-li-favorites
-            a.tl.navmenu-style-tl(href=data.favorites.link)
-              i.fonticon-10-favorite
-              | !{data.favorites.label}
+            li.navmenu-line.navmenu-li-favorites
+              a.tl.navmenu-style-tl(href=data.favorites.link)
+                i.fonticon-10-favorite
+                | !{data.favorites.label}
     
-      //- The navtrays are before the navbar for correct ordering of the mobile nav menu
-      if !minimal
+        //- The navtrays are before the navbar for correct ordering of the mobile nav menu
         div.navtray-w.navtray-w-fullwidth-3-4.navtray-w-electronics.navtray-w-tall#navtray-w-electronics
           div.navtray#navtrayElectronics
 
@@ -153,12 +152,12 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
           div.grid.full-bleed-at-767
             a.brand.sprite-32a-sony-logo(href=data.logo.link, tabindex='10')
               span.hidden-text= data.logo.label
-            if !minimal
-              ul.nav.nav-primary(role='navigation')
-                li.nav-li.nav-li-universal-mobile 
-                  a.nav-li-link(href=data.universal.link) 
-                    i.fonticon-10-square-neg-plus
-                    | !{data.universal.label}
+            ul.nav.nav-primary(role='navigation')
+              li.nav-li.nav-li-universal-mobile 
+                a.nav-li-link(href=data.universal.link) 
+                  i.fonticon-10-square-neg-plus
+                  | !{data.universal.label}
+              if !minimal
                 li.nav-li.nav-li-store
                   a.nav-li-link(href=data.store.link, tabindex='20') 
                     i.fonticon-10-cart
@@ -185,9 +184,6 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 li.nav-li.nav-li-account
                   a#nav-account-btn.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#navmenu-w-account', tabindex='1100') 
                     if sample_session_data.logged_in === true
-                      //- - shortUsername = sample_session_data.username
-                      //- if shortUsername.length > 7
-                        - shortUsername = sample_session_data.username.substr(0,7) + "&hellip;"
                       span.username= sample_session_data.username
                       i.fonticon-10-arrowhead-down
                     else 
@@ -224,11 +220,11 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                       if sample_session_data.logged_in == true
                         a.btn.btn-small.btn-logout(href=data.account.menu.log_out.link, tabindex='1150')= data.account.menu.log_out.label
 
-              li.nav-li.nav-li-favorites
-                a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href=data.favorites.link, tabindex='1200')
-                  i.old-ie-cleartype-fix-gray20.fonticon-10-favorite
-                  span.visuallyhidden 
-                    | !{data.favorites.label}
+                li.nav-li.nav-li-favorites
+                  a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href=data.favorites.link, tabindex='1200')
+                    i.old-ie-cleartype-fix-gray20.fonticon-10-favorite
+                    span.visuallyhidden 
+                      | !{data.favorites.label}
               if !minimal
                 li.nav-li.nav-li-cart
                   a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href=data.cart.link, tabindex='1300')
@@ -239,10 +235,9 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle.nav-dropdown-toggle-btn(data-target='navmenu-w-search', href='#nav-search-input', tabindex='1400')
                   span.lbl= data.search.label
                   i.old-ie-cleartype-fix-gray20.fonticon-10-search
-              if !minimal
-                li.nav-li.nav-li-universal
-                  a.nav-li-link.nav-li-linkBtn(href='#', tabindex='1500')
-                    | !{data.universal.label}
-                    i.fonticon-10-arrowhead-up
+              li.nav-li.nav-li-universal
+                a.nav-li-link.nav-li-linkBtn(href='#', tabindex='1500')
+                  | !{data.universal.label}
+                  i.fonticon-10-arrowhead-up
 
 

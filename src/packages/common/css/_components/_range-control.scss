@@ -45,7 +45,8 @@ $handleHighlightColor: $buttonOrange;
             transition: transform $transitionFaster linear, box-shadow $transitionFaster linear;
 
     // Cursors
-    cursor: all-scroll;
+    // cursor: all-scroll;
+    cursor: ew-resize;
     cursor: -webkit-grab;
     cursor: -moz-grab;
     cursor: grab;
@@ -55,20 +56,25 @@ $handleHighlightColor: $buttonOrange;
       border: 2px solid $white;
     }
 
-    &.grabbed,
-    &:hover {
-
-      .no-csstransforms & {
-        border-width: 12px;
-        margin-top: -6px;
-        margin-left: -14px;
-      }
-
-      .csstransforms & {
-        @include scale(1.7);
-        @include box-shadow(0 0 0 3px $transparentBlack);
-      }
+    .no-csstransforms &.grabbed,
+    .no-csstransforms &:hover {
+      border-width: 12px;
+      margin-top: -6px;
+      margin-left: -14px;
     }
+
+    // Make handles larger on touch
+    // .csstransforms.touch & {
+    //   @include scale(1.4);
+    //   @include box-shadow(0 0 0 3px $transparentBlack);
+    // }
+
+    .csstransforms &.grabbed,
+    .csstransforms &:hover {
+      @include scale(1.7);
+      @include box-shadow(0 0 0 3px $transparentBlack);
+    }
+
   }
 
   .rangecontrol-min-handle {
