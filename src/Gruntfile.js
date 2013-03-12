@@ -325,8 +325,12 @@ module.exports = function(grunt) {
               exclude: ['common']
             },
             {
-              name: 'require/index',
+              name: 'secondary/index',
               exclude: ['common', 'plugins/index']
+            },
+            {
+              name: 'require/index',
+              exclude: ['common', 'plugins/index', 'secondary/index']
             }
           ]
         }
