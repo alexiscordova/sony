@@ -13,9 +13,15 @@
 //        offsetTarget: $('.bob')
 //      });
 
-(function($, Modernizr, window, undefined) {
+define(function(require){
 
   'use strict';
+
+  var $ = require('jquery'),
+      Modernizr = require('modernizr'),
+      Settings = require('require/sony-global-settings'),
+      Utilities = require('require/sony-global-utilities'),
+      Environment = require('require/sony-global-environment');
 
   var StickyNav = function( $element, options ) {
     var self = this;
@@ -23,7 +29,7 @@
     $.extend(self, $.fn.stickyNav.defaults, options, $.fn.stickyNav.settings);
 
     self.$el = $element;
-    self.$window = SONY.$window;
+    self.$window = Settings.$window;
     self._init();
   };
 
@@ -32,13 +38,13 @@
 
     _init : function() {
       var self = this,
-          $body = SONY.$body;
+          $body = Settings.$body;
 
       self._setTriggerPoint( true );
 
       // Bind to window scroll and resize
       self.$window.on('scroll', $.proxy( self._onScroll, self ));
-      SONY.on('global:resizeDebounced', $.proxy( self._onResize, self ));
+      Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
 
       // Set up twitter bootstrap scroll spy
       $body.scrollspy({
@@ -52,11 +58,11 @@
 
       // Scroll to the top of the window on mouseup/touchend/pointerup
       if ( self.scrollToTopOnClick ) {
-        self.$el.on( SONY.Settings.END_EV, function(e) {
+        self.$el.on( Settings.END_EV, function(e) {
           if ( e.target.tagName === 'A' ) {
             return;
           }
-          SONY.Utilities.scrollToTop();
+          Utilities.scrollToTop();
         });
       }
 
@@ -104,7 +110,7 @@
       this._setTriggerPoint();
 
       // Update the positions for the scroll spy
-      SONY.$body
+      Settings.$body
         .scrollspy('refresh')
         .scrollspy('process');
     },
@@ -168,4 +174,4 @@
     isInitialized: false
   };
 
-})(jQuery, Modernizr, window);
+});

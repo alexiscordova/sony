@@ -7,11 +7,12 @@
 // This class contains common, sharable methods that may be called from any
 // script in the application.
 
-var SONY = SONY || {};
-
-SONY.Utilities = (function(window, document) {
+define(function (require) {
 
   'use strict';
+
+  var $ = require('jquery'),
+      Settings = require('require/sony-global-settings');
 
   var self = {
 
@@ -41,12 +42,12 @@ SONY.Utilities = (function(window, document) {
 
       var column = containerWidth;
 
-      if ( !Modernizr || !SONY.Settings ) {
+      if ( !Modernizr || !Settings ) {
         return;
       }
 
       if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 35.5em)') ) {
-        column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
+        column = Settings.COLUMN_WIDTH_SLIM * containerWidth;
       }
 
       return column;
@@ -58,12 +59,12 @@ SONY.Utilities = (function(window, document) {
 
       var gutter = 0;
 
-      if ( !Modernizr || !SONY.Settings ) {
+      if ( !Modernizr || !Settings ) {
         return;
       }
 
       if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 35.5em)') ) {
-        gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
+        gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
       }
 
       return gutter;
@@ -115,4 +116,4 @@ SONY.Utilities = (function(window, document) {
 
   return self;
 
-})(this, this.document);
+});

@@ -1,44 +1,3 @@
-fs = require( 'fs' );
-
-exports.generate = function(req, res) {
-  var terminal = require( 'child_process' ).spawn( 'bash' );
-  var config = require( '../config.js' );
-
-  var t = String( req.query.module ).replace( /.html(.eco|.hb)/g, '' ) + "_" + Math.floor( Date.now( ) / 1000 );
-  var p = '../src/html/generated/' + t + ".html.eco";
-  var d = String( fs.readFileSync( 'module_template.html.eco' ) );
-  d = d.replace( /{{{{t}}}}/g, t );
-  d = d.replace( /{{{{d}}}}/g, "This module page was generated from the module builder" );
-  d = d.replace( /{{{{b}}}}/g, 'e = {"locals":locals, "data":data("' + req.query.data + '")}' );
-  d = d.replace( /{{{{c}}}}/g, "!{partial('modules/" + req.query.module + "', e)}" );
-
-  fs.writeFile( p, d, 'utf8', function(err) {
-    if ( err ) {
-      throw err;
-    }
-
-    console.log( 'Sending stdin to terminal' );
-    terminal.stdin.write( 'cd ../src;  grunt mbuilder' );
-    terminal.stdin.end( );
-  } )
-
-
-  terminal.stdout.on( 'data', function(data) {
-    console.log( 'stdout: ' + data );
-  } );
-
-  terminal.on( 'exit', function(code) {
-    console.log( 'child process exited with code ' + code );
-    if ( code == 0 ) {
-      res.send( config.localbase + t + '.html' );
-    } else {
-      res.send( "false" );
-    }
-
-  } );
-
-}
-
 exports.generatePage = function(req, res) {
 
   var terminal = require( 'child_process' ).spawn( 'bash' );
@@ -68,12 +27,18 @@ exports.generatePage = function(req, res) {
     if ( moduleLength == 1 ) {
       moduleFileName = req.body['module'] || null;
       moduleDataFileName = req.body['moduleData'] || null;
+      moduleDataFileName = moduleDataFileName.split('/');
+      moduleDataFileName = moduleDataFileName[1];
     } else {
       moduleFileName = req.body['module'][i] || null;
       moduleDataFileName = req.body['moduleData'][i] || null;
+      moduleDataFileName = moduleDataFileName.split('/');
+      moduleDataFileName = moduleDataFileName[1];
     }
 
-    moduleList = moduleList + '\r          e = {"locals":locals, "data":data("' + moduleDataFileName + '")}\r          !{partial("modules/' + moduleFileName + '", e)}\r';
+    moduleList = moduleList + '\r          +partial("' + moduleFileName + '/html/' + moduleFileName + '.jade", "packages/modules/' + moduleFileName + '/demo/data/'+ moduleDataFileName + '")\r';
+    //+partial("gallery-g2-g3/html/gallery-g2-g3.jade", "packages/modules/gallery-g2-g3/demo/data/default.json")
+    
   };
 
   var f = pageFileName + "-pagebuild";
@@ -84,7 +49,7 @@ exports.generatePage = function(req, res) {
 
   var t = pageFileTitle;
   var desc = pageFileDescriptiion;
-  var p = '../src/html/generated/' + f + ".html.jade";
+  var p = '../src/packages/pages/' + f + ".html.jade";
   var d = String( fs.readFileSync( selectedTemplate + '.jade' ) );
   d = d.replace( /{{{{t}}}}/g, t );
   d = d.replace( /{{{{d}}}}/g, desc );
@@ -96,7 +61,7 @@ exports.generatePage = function(req, res) {
     }
 
     console.log( 'Sending stdin to terminal' );
-    terminal.stdin.write( 'cd ../src;  grunt mbuilder' );
+    terminal.stdin.write( 'cd ../src;  grunt pages' );
     terminal.stdin.end( );
   } )
 
