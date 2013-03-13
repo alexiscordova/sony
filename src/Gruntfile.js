@@ -497,7 +497,7 @@ module.exports = function(grunt) {
     grunt.task.run(['clear', 'common', 'assets'+module, 'light'+module])
 
     if(grunt.option('deploy')){
-      grunt.task.run(['requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
+      grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
     }
   });
 
