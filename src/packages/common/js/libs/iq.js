@@ -222,6 +222,7 @@ define(function(require){
         });
       }, 900);
       $elm.trigger('imageLoaded');
+      $elm.data('hasLoaded', true);
     }
     $elm.trigger('imageReLoaded');
   },

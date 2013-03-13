@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, SONY*/
+/*global define, Modernizr, log*/
 
 // -------- Sony Full Specs Single -------
 // Module: Full Specs Single
@@ -13,10 +13,13 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
+      iQ = require('iQ'),
+      imagesloaded = require('plugins/jquery.imagesloaded'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
       stickyNav = require('secondary/sony-stickynav'),
-      shuffle = require('secondary/jquery.shuffle');
+      shuffle = require('secondary/jquery.shuffle'),
+      scroller = require('secondary/sony-scroller');
 
   var module = {
     init: function() {
@@ -179,7 +182,11 @@ define(function(require){
 
       // Wait for first image to be loaded,
       // then get its height and set it on the container, then initialize the scroller
-      $firstImage.on('imageLoaded', initScroller );
+      if ( $firstImage.data('hasLoaded') ) {
+        initScroller();
+      } else {
+        $firstImage.on('imageLoaded', initScroller);
+      }
     },
 
     _onScroll : function() {
