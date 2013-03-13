@@ -309,6 +309,7 @@ module.exports = function(grunt) {
           dir: '../build/deploy-requirejs-temp',
           fileExclusionRegExp: /css|fonts|img/,
           logLevel: 1,
+          preserveLicenseComments: false,
           modules: (function(){
             var arr = [
               {
