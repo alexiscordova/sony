@@ -33,6 +33,7 @@ mixin articleNews(module)
 
 mixin articleEvent(module)
   //- assumes there only ever be one image
+  - console.log(module.images[0].src)
   .img-container.iq-img(data-src= module.images[0].src)
     .attendance-count
       .details
@@ -198,39 +199,29 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
 
   section(class=scrollerClassNames)
     div(class=bodyClassNames)
-      //- for module in data.contentModules
-      each module, i in data.contentModules
+      for module in data.contentModules
         - contentType = module.type
         - contentMode = module.mode
-        - contentModulesClassNames = ["tcc-content-module","span4", contentType,contentMode]
-
-        if(contentType != "users-voice")
-          - contentModulesClassNames.push("table-center-wrap")
+        - contentModulesClassNames = ["tcc-content-module","span4", contentType, contentMode]
+          
+          - console.log("contentType " + contentType)
+          - console.log("contentMode " + contentMode)
 
         div(class=contentModulesClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode)
           case contentType
             when "article"
+
               //- if there is a title and a featured image
-              if(contentMode == "featured") && (module.title) && (module.images[0].src)
-
+              if(contentMode == "featured")
                 +articleFeatured(module)
-
-              else                           
-                
+              else                                          
                 if(contentMode == "default")
-                
                   +articleDefault(module)
-
-                if(contentMode == "news") && (module.date)
-                
+                if(contentMode == "news") && (module.date)              
                   +articleNews(module)
-
-                if(contentMode == "event") && (module.attendanceCount)
-                
+                if(contentMode == "event") && (module.attendanceCount)               
                   +articleEvent(module)
-
                 +copyblock(module)
-
             when "users-voice"
               if (contentMode == "expert-quote")
                 +expertQuote(module)

@@ -116,7 +116,7 @@ define(function(require){
       self.$el.find('.iq-img').on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
 
       self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
-       // console.log( 'iq images loaded »');
+       console.log( 'iq images loaded »');
        $(this).parent().addClass('on');
       });
 
