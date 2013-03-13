@@ -1,0 +1,13 @@
+doctype 5
+include ../../../common/html/ieconditionals.html
+
+l = {"locals":locals}
+  head
+    include ../../../common/html/head.jade
+  
+  body
+    e = {"locals":locals, "data":data('packages/modules/recently-viewed/demo/data/default.json')}
+    !{partial('packages/modules/recently-viewed/html/recently-viewed.jade', e)}
+  
+    include ../../../common/html/foot.jade
+</html>
