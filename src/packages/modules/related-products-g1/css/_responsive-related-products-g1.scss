@@ -99,13 +99,13 @@
     /* Gallery Item */
     .GALLERYITEM{}
 
-      .gallery-item {
-        @media (max-width:568px){
-          &.plate .product-img{
+      .gallery-item.small-size {
+        @media ( max-width: px-em(569px) ){
+          &.plate .gallery-item-inner .product-img{
             min-height: 264px;
           }
         }
-      }
+      }       
 
       @media (min-width: px-em(481px)) and (max-width:980px){
         &.related-products-4up {
@@ -138,7 +138,7 @@
 
       .gallery-item.plate .text-promo-title {
         .emphasis {
-          @media (max-width: 568){
+          @media (max-width: px-em( 650px ) ){
             visibility: hidden;
             display: none;
           }
@@ -151,7 +151,7 @@
         }
       }
 
-      @media (max-width: 481px){
+      @media (  max-width: px-em( 568px ) ){
 
         &:after {
           content: none;
