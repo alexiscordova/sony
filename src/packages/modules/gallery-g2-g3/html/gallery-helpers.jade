@@ -232,10 +232,11 @@ mixin detailedGallery( submodules, gallery, type )
         a(href=gallery.nextLink) Camera Overflow
       .infscr-holder.text-center
 
-mixin compareGallery( submodules, gallery, type )
+mixin compareGallery( submodules, gallery, type, labels )
   submodules = submodules || data.submodules
   gallery = gallery || data.productCards
   type = type || 'product'
+  labels = labels || data.labels
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
     +galleryFilters( gallery )
 
