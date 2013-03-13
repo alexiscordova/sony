@@ -32,7 +32,7 @@ $ sudo npm install -g grunt-cli
 * "grunt-contrib-copy": "~0.4.0", //copies files and directories https://github.com/gruntjs/grunt-contrib-copy
 * "grunt-contrib-jade": "~0.4.0", //compiles .jade templates into html https://github.com/gruntjs/grunt-contrib-jade 
 * "grunt-contrib-watch": "~0.3.1",  //watches for changes and runs tasks https://github.com/gruntjs/grunt-contrib-watch
-* "grunt-doccoh": "~0.1.3", //generates js documentation https://github.com/rozmiarek/grunt-doccoh
+* "grunt-doccoh": "~0.2.0", //generates js documentation https://github.com/rozmiarek/grunt-doccoh
 * "grunt-contrib-jshint": "~0.2.0", //runs js-hint on js and json https://github.com/gruntjs/grunt-contrib-jshint
 * "grunt-yui-compressor": "~0.2.1", //magnification & concatenation of js https://github.com/mathiasbynens/grunt-yui-compressor
 * "express": "~3.1.0" //node router for pagebuilder
@@ -82,7 +82,7 @@ or
 $ grunt build --deploy
 ```
 
-**Docs: ** This rebuilds the docs directory. [Docco](https://github.com/jashkenas/docco) documentation requires the [Python Pygments](http://pygments.org/) library, which can be installed with 'sudo easy_install pygments'.
+**Docs: ** This rebuilds the docs directory. 
 ```
 #!terminal
 
@@ -236,7 +236,174 @@ src/packages/modules/**/demo - example demos and layouts for each module, not us
 src/packages/modules/**/demo/data example json files to compile the demo and layouts against
 
 ## **Page Templates**
-For pages we're using Jade templates, see [[Jade%20101|Jade 101]]
+
+**[Home](https://bitbucket.org/nuruncode/sony-global-front-end/wiki/Home)** | 
+**[Code Guide](https://bitbucket.org/nuruncode/sony-global-front-end/wiki/Code-Guide)** | 
+**[Technical Specifications](https://bitbucket.org/nuruncode/sony-global-front-end/wiki/Technical%20Specifications)** | 
+**[Responsive Research](https://bitbucket.org/nuruncode/sony-global-front-end/wiki/Responsive%20Researh)** 
+
+### Intro to Jade template language
+
+Jade is a template language, its based on HAML which is an abstraction of HTML.. unlike other template languages we've used this isn't HTML with extra template syntax mixed in, its a new syntax for HTML which also has some template logic. Think SASS but for html markup instead of CSS, it gets rid of brackets in favor of strict whitespace formatting. 
+
+example:  
+
+```
+#!jade
+
+html(lang="en")
+  head
+    title= pageTitle
+    script(type='text/javascript')
+      if (foo) {
+         bar()
+      }
+  body
+    h1 Jade - node template engine
+    #container
+      if youAreUsingJade
+        p You are amazing
+      else
+        p Get on it!
+```
+
+outputs:  
+```
+#!html
+
+<html lang="en">
+  <head>
+    <title>Jade</title>
+    <script type="text/javascript">
+      if (foo) {
+        bar()
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Jade - node template engine</h1>
+    <div id="container">
+      <p>You are amazing</p>
+    </div>
+  </body>
+</html>   
+```
+
+So the big things to notice:
+* Closing tags are omitted
+* White space is VERY IMPORTANT
+* ID's and classes are very similar to jQuery selectors
+* Parameters other than class and id are done with parenthesis 
+
+Supporting links in order of most to least helpful. 
+
+http://naltatis.github.com/jade-syntax-docs/  
+https://github.com/visionmedia/jade/  
+http://jade-lang.com/  
+
+### Common Pitfalls 
+
+**IE conditionals:** the comment hacks code doesn't parse nicely with jade, therefore i've pulled out 2 additional includes: one for fonts and one for the initial html declaration that will be vanilla html, you probably won't have these in your module code, but I included it here for documentation sake
+
+**Multiple variable class names** If you need to add multiple classes that are defined through variables in your json file (or elsewhere) you will need to use multiple parenthesis sets one for each variable to parse:
+
+jade:
+```
+#!jade
+
+div.myclass.grid(class= data.classes1)(class= data.classes2)
+```
+
+Comment bug
+
+If you have a single line comment before an else statement (and maybe kinds of statements) you might get an error
+
+```
+#!jade
+
+//- This is a comment about the else if below
+else if data.view == 'whoa'
+```
+
+```
+#!terminal
+
+SyntaxError: Unexpected token else
+```
+
+## The power of mixins
+
+Jade mixins are super powerful for repeatable code
+
+example
+```
+#!jade
+
+mixin myhgroup(h1txt, h2txt, h3txt)
+  hgroup.myclass
+    h1 h1txt
+    h2 h2txt
+    h3 h3txt
+
+section
+  +hgroup("this is a h1", "this is a h2", "this is a h3")
+
+section.somethingelse
+  +hgroup("new header", "etc", "etc")
+```
+
+
+you can even use them to create re-usable containers:
+
+```
+#!jade
+
+mixin mycontainer
+  .container.myclass
+    .grid.full-bleed
+      .span6
+        .box
+          block
+
+section.mymodule
+  +mycontainer
+    h1 my headline!
+```
+
+There's a bunch of them we've been putting together that you can include:
+
+```
+#!jade
+
+include ../includes/jade-helpers.jade
+
+```
+
+
+
+
+## Master Page Template
+
+```
+#!jade
+
+include ../../../common/html/jade-helpers.jade
+doctype 5
+include ../../../common/html/ieconditionals.html
+
+head
+  include ../../../common/html/head.jade
+
+body
+  +partial('module-package/html/your_module.jade', 'packages/modules/module-package/demo/data/default.json')}
+
+  include ../../../common/html/foot.jade
+</html>
+
+```
+
+
+
 
 ## **Module Data**
 
@@ -272,8 +439,6 @@ for item in data.myarray
 
 ```
 
-more about jade templates: [Jade 101](Jade%20101)
-
 ## **Javascript Bundles**
 
 inside packages/common/js we've grouped some of the js together in separate bundles
@@ -291,7 +456,7 @@ In deploy all scripts are minified and scripts within required & secondary will 
 All js files except top level libs will automatically be written into pages with the js_foot includes.
 
 ## **Docco JS Documentation**
-We're using [Docco](https://github.com/jashkenas/docco) to create javascript docs automatically. Docco parses JS to pull out single-line comments and parse them using the markdown syntax. For example:
+We're using [Doccoh](https://github.com/rozmiarek/doccoh) to create javascript docs automatically. Docco parses JS to pull out single-line comments and parse them using the markdown syntax. For example:
 
 
 ```
