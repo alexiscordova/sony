@@ -167,7 +167,6 @@ define(function(require){
 
         //Initialize tooltips
         self.initTooltips();
-        
 
         var prodImg = self.$galleryItems.filter('.normal').find('.product-img');
 
@@ -1066,7 +1065,7 @@ define(function(require){
               //self.log('was mobile');
             }
 
-            self.isTabletMode = self.isMobileMode = false;
+            self.isTabletMode = self.isMobileMode = self.hasInitedMobile = false;
 
             if(self.isDesktopMode === true){
               // self.log('already desktop');
@@ -1097,6 +1096,8 @@ define(function(require){
 
             iQ.update();
 
+            self.$el.css('margin-top' , '-20px');
+
             if(!self.hasTouch){
               self.togglePaddles(true);
             }
@@ -1125,7 +1126,7 @@ define(function(require){
               return;
             }
 
-            self.isMobileMode = self.isDesktopMode = false;
+            self.isMobileMode = self.isDesktopMode = self.hasInitedMobile = false;
             self.isTabletMode = true;
 
             self.$el.removeClass('rp-desktop rp-mobile')
@@ -1144,6 +1145,8 @@ define(function(require){
             self.sortByPriority();
 
             iQ.update();
+
+            self.$el.css('margin-top' , '-20px');
 
             if(!self.hasTouch){
               self.togglePaddles(true);
@@ -1533,7 +1536,8 @@ define(function(require){
         var self = this,
             distX = self.getPagePosition(e).x - self.handleStartPosition.x,
             distY = self.getPagePosition(e).y - self.handleStartPosition.y,
-            point;
+            point,
+            distanceMoved;
 
         if(self.hasTouch) {
           if(self.lockAxis) {
@@ -1553,6 +1557,10 @@ define(function(require){
           point = e;
         }
 
+        distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
+
+        //log( distanceMoved );
+
         if(!self.hasMoved) {
           if(self.useCSS3Transitions) {
             self.$container.css( self.prefixed( self.TD ) , '0s' );
@@ -1562,7 +1570,7 @@ define(function(require){
               self.animFrame = window.requestAnimationFrame(animloop);
 
 
-              if(self.renderMoveEvent){
+              if(self.renderMoveEvent && distanceMoved > 10){
 
                 self.renderMovement(self.renderMoveEvent, isThumbs);
               }
@@ -1763,11 +1771,13 @@ define(function(require){
         $taglines.each(function(){
           var $line = $(this);
 
-          if( $line.height() / parseInt($line.css('line-height') , 10 ) > 1 ){
+          if( $line.height() / parseInt($line.css('line-height') , 10 ) >= 2 ){
             $line.parent().addClass('two-line');
+
           }
 
         });
+
       },
 
       disableShuffle: function(){
@@ -2023,6 +2033,9 @@ define(function(require){
 
         //put the item back into the container / make sure to not include blanks
         self.$galleryItems.not('.blank').appendTo(self.$container);
+
+
+        self.$el.css('margin-top' , '0px');
 
         self.$el.find('.gallery-item.medium').css('height' , '');
         self.$el.find('.gallery-item.medium .product-img').css('height' , '');
