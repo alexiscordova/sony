@@ -166,9 +166,8 @@ define(function(require){
         self.setupLinkClicks();
 
         //Initialize tooltips
-        if(!self.hasTouch){
-          self.initTooltips();
-        }
+        self.initTooltips();
+        
 
         var prodImg = self.$galleryItems.filter('.normal').find('.product-img');
 
@@ -330,6 +329,7 @@ define(function(require){
 
         // Favorite the gallery item immediately on touch devices
         if ( self.hasTouch ) {
+
           $favorites
             .on('touchend', $.proxy( self.onFavorite, self ))
             .on('click', false);
@@ -359,6 +359,8 @@ define(function(require){
             content = self.hasTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding );
 
         $jsFavorite.toggleClass('active');
+
+       
 
         // Show the tooltip if it isn't a touch device
         if ( !self.hasTouch ) {
