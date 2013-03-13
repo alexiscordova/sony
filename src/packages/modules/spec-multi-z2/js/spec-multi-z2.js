@@ -13,6 +13,7 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
+      iQ = require('iQ'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
       stickyTabs = require('secondary/sony-stickytabs'),
@@ -186,7 +187,7 @@ define(function(require){
           },
           onAnimationEnd : function() {
             self._onScroll( this );
-            window.iQ.update();
+            iQ.update();
           }
         }
       });
