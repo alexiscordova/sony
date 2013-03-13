@@ -1,10 +1,6 @@
 mixin docco()
   for name in locals.doccopages()
-    if name.indexOf('index.html') == -1
-        env = 'pages'
-      hrf = 'docco/' + name.replace(/(.eco|.hb|.jade)/g, '')
-      ti = title(name,env) || name.replace(/(.html|.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
-      li: a( href = hrf) #{ti}
+    li: a( href = 'docco/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
       
 include ../../common/html/ieconditionals.html
 doctype 5

@@ -43,7 +43,7 @@ module.exports = function(grunt) {
           return grunt.file.expand('packages/modules/**/js/*.js').map(function(a){return a.split('/').pop()});
         },
         doccopages:function(){
-          return grunt.file.expand('../docs/docco/').map(function(a){return a.split('/').pop()});
+          return grunt.file.expand('../docs/docco/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
         },
         pages:function(){
           return grunt.file.expand('packages/pages/*.jade').map(function(a){return a.split('/').pop().replace(/.jade/g, '.html')}).filter(function(a){return a.match(/-pagebuild.html/g)});
@@ -309,26 +309,42 @@ module.exports = function(grunt) {
           dir: '../build/deploy-requirejs-temp',
           fileExclusionRegExp: /css|fonts|img/,
           logLevel: 1,
-          modules: [
-            {
-              name: 'common',
-              include: [
-                'bootstrap',
-                'jquery',
-                'modernizr',
-                'enquire',
-                'iQ'
-              ]
-            },
-            {
-              name: 'plugins/index',
-              exclude: ['common']
-            },
-            {
-              name: 'require/index',
-              exclude: ['common', 'plugins/index']
-            }
-          ]
+          modules: (function(){
+            var arr = [
+              {
+                name: 'common',
+                include: [
+                  'bootstrap',
+                  'jquery',
+                  'modernizr',
+                  'enquire',
+                  'iQ'
+                ]
+              },
+              {
+                name: 'plugins/index',
+                exclude: ['common']
+              },
+              {
+                name: 'secondary/index',
+                exclude: ['common', 'plugins/index']
+              },
+              {
+                name: 'require/index',
+                exclude: ['common', 'plugins/index', 'secondary/index']
+              }
+            ];
+
+            grunt.file.expand('../build/deploy/js/modules/**/index.js').forEach(function(path){
+              arr.push({
+                name: path.split('../build/deploy/js/')[1].split('.js')[0],
+                exclude: ['common', 'plugins/index', 'secondary/index', 'require/index']
+              });
+            })
+
+            return arr;
+
+          })()
         }
       }
     }
@@ -349,7 +365,7 @@ module.exports = function(grunt) {
   //define task scripts
   grunt.registerTask('default', ['build']);
 
-  grunt.registerTask('docs', ['clean:docs', 'compass:common_docs', 'compass:docs', 'copy:docs', 'jade:docs']);
+  grunt.registerTask('docs', ['clean:docs', 'compass:common_docs', 'compass:docs', 'copy:docs', 'doccoh', 'jade:docs']);
 
   grunt.registerTask('pages', function(){
     grunt.config('jshint.files', ['packages/pages/data/**/*.json']);
@@ -414,8 +430,7 @@ module.exports = function(grunt) {
     })
 
     grunt.file.write('packages/common/css/responsive-modules.scss', str);
-    //grunt.config('compass.common_'+env+'.options.specify', 'packages/common/css/responsive-modules.scss')
-    //console.log(grunt.config('compass.common_'+env));
+    grunt.config('compass.common_'+env+'.options.specify', 'packages/common/css/responsive-modules.scss')
     grunt.task.run('compass:common_'+env);
 
   });

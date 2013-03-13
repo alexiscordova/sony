@@ -23,9 +23,12 @@
 //        'bounds': { x: { 'mix': 10, 'max': 90 } }
 //      });
 
-(function($) {
+define(function(require){
 
   'use strict';
+
+  var $ = require('jquery'),
+      Modernizr = require('modernizr');
 
   var _startEvents = 'mousedown.sonyDraggable touchstart.sonyDraggable',
       _endEvents = 'mouseup.sonyDraggable touchend.sonyDraggable',
@@ -340,4 +343,4 @@
     'drag': function(){}
   };
 
-})(jQuery);
+});

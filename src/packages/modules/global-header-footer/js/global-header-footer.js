@@ -63,14 +63,6 @@ define(function(require){
     self.transitionEasing = Modernizr.prefixed('transitionTimingFunction');
     self.transitionEnd = Settings.transEndEventName;
 
-    // if ( self.$window.width() <= self.mobileNavThreshold ) {
-    //   self.initMobileNav();
-    //   self.initMobileFooter();
-    // } else {
-    //   self.initDesktopNav();
-    //   // self.initDesktopFooter();
-    // }
-
     self.init();
 
   };
@@ -164,15 +156,11 @@ define(function(require){
         // init
         self.resetActiveNavBtn($thNavBtn);
 
-        // $(this).on(self.tapOrClick + ' focus blur', function() {
-        // $(this).on(self.tapOrClick, function() {
-        // $(this).on('touchstart mouseenter', function() {
-
         // TOUCH DEVICES
         if (self.hasTouch) {
 
           $thNavBtn.on('touchstart', function() {
-            // var $thNavBtn = $(this);
+
             // if this button is already activated,
             if ($thNavBtn.parent().hasClass('nav-li-selected')) {
               // just hide/reset it.
@@ -219,9 +207,16 @@ define(function(require){
             thTrigger = 'click keypress focus';
           }
 
-          $thNavBtn.on(thTrigger, function() {
+          $thNavBtn.on(thTrigger, function(e) {
 
-            // var $thNavBtn = $(this);
+            // Add a flag to prevent events (click and focus) to trigger at the same time
+            if($(this).data('active')){
+             return false;
+            }
+            else {
+              $(this).data('active', true);
+            }
+      
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
 
@@ -261,7 +256,10 @@ define(function(require){
 
           // If you mouseOut of the nav button
           $thNavBtn.on('mouseleave', function() {
+            
+            $(this).data('active', false);
             $(this).data('hovering', false);
+            
             // Check to see if it was onto the navtray/navmenu.
             // Wait a few ticks to give it a chance for the hover to fire first.
 
@@ -300,6 +298,8 @@ define(function(require){
 
           // If you mouseOut of the target
           $thNavBtnTarget.on('mouseleave', function() {
+            
+            $(this).data('active', false);
             $(this).data('hovering', false);
 
             // Remove focus from search input on mouse out in ie
