@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, SONY*/
+/*global define, Modernizr, log*/
 
 // -------- Sony Full Specs Multi -------
 // Module: Full Specs Multi

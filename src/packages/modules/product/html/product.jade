@@ -533,7 +533,9 @@ else if data.view == 'suggested'
 
 
 else if data.view == 'blank'
-  div(class='gallery-item basic blank m-span3 normal shuffle-item filtered span1', data-priority=data.priority, href='#')
+
+  //- @Tyler: `shuffle-item` and `filtered` are added dynically by shuffle, I've removed them from the classes here
+  div(class='gallery-item basic blank m-span3 normal span1', data-priority=data.priority, href='#')
 
 
 else
