@@ -156,6 +156,9 @@
 
       &:after {
         display:none;
+        visibility: hidden;
+        @include opacity(0);
+        content: '';
       }
 
       .product-price {
@@ -183,6 +186,7 @@
       .gallery-item {
         max-height: 534px;
         background: $gray90;
+        //margin-left: 2.12766%;
 
         &:hover {
           background-color: $gray75;
@@ -195,8 +199,9 @@
         .gallery-item-inner {
 
           &.two-line {
+
             .product-name {
-              margin-top: 13.223455%;
+              margin-top: 7.523455%;
             }
 
             .product-tagline {
@@ -218,7 +223,7 @@
           }
 
           .product-name {
-            margin-top: 17.1428571%;
+            margin-top: 11.142857%;
             text-align: center;
             font-size: $font_13_16;
             font-family: $baseFontFamilyMedium;
@@ -254,10 +259,15 @@
       background-color: $secondaryLavender;
     }
 
-    .gallery-item,
-    .grid .gallery-item {
+
+    
+    .grid .gallery-item:not(.suggested) {
       margin-left: 0;
     }
+
+
+
+
 
     .product-content {
       font-family: $sansFontFamilyMedium;
@@ -465,10 +475,6 @@
       width: 100%;
       height: 100%;         
 
-      .lt-ie10 & {
-        // min-width: 910px;
-      }
-
       -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
       -webkit-backface-visibility: hidden;
     }
@@ -488,64 +494,13 @@
         -webkit-backface-visibility: hidden;
 
         .lt-ie10 & {
-
+          width: 910px;
           height: 495px;
           min-height: 495px;
           max-height: 495px;
-
-          width: 910px;
-
         }
 
       }
       //slides
   }
 
-/* Paddle Nav */
-
-.PADDLENAV{}
-  .rp-nav {
-
-    .paddle {
-      position: absolute;
-      margin: -86px 0px 0px 14px;
-      width: 50px;
-      height: 86px;
-      display: block;
-      color: $white;
-      background: $gray10;
-      border-radius: 2px;
-      z-index: 999;
-      @include opacity(40);
-      background-repeat: no-repeat;
-      cursor: pointer;
-      font-size:1.4em;
-
-      @include transition(all $transitionSlow ease-in);
-
-      &:hover {
-        @include opacity(80);
-      }
-
-      i {
-        height: auto;
-        margin-top: 33px;
-        @include center-block();
-      }
-
-      &.left {
-        left: 10px;
-        right: auto;
-
-        i {
-          margin-left: 11px;
-        }
-      }
-
-      &.right {
-        left: auto;
-        right: 10px;
-      }
-
-    }
-  }
