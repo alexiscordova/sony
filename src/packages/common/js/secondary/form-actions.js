@@ -7,17 +7,32 @@
 // -------------------------------------------------------------------------
 
 
-(function($, Modernizr, window, undefined) {
+// (function($, Modernizr, window, undefined) {
+define(function(require){
 
   'use strict';
+
+  var $ = require('jquery'),
+      Modernizr = require('modernizr'),
+      Environment = require('require/sony-global-environment');
+
+  var module = {
+    init: function() {
+      var $formActionsInit = $('body').formActions(),
+
+      $formActions = $formActionsInit.data('formActions');
+      $formActions.initInput($('#store-locator-search-input'));
+      $formActions.initInput($('#nav-search-input'));
+      // $formActions.initTouchToggles($('.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'));
+      $formActions.initTouchToggles($('.dropdown-hover-toggle'));
+    }
+  };
 
   // Start module
   var FormActions = function( element, options ){
     var self = this;
     $.extend(self, {}, $.fn.formActions.defaults, options, $.fn.formActions.settings);
-
   };
-
 
   // Sample module method
   FormActions.prototype = {
@@ -48,7 +63,7 @@
           $input.val(inputObj.watermarkText);
           inputObj.$inputIcon.show();
         }
-      }).on('mouseup keyup change cut paste', SONY.onSearchInputChange);
+      }).on('mouseup keyup change cut paste', module.onSearchInputChange);
 
       inputObj.$inputIcon.on('click',function(){
         $input.focus();
@@ -68,7 +83,7 @@
     },
 
     makeInputObj: function($input){
-      var iObj = {};  
+      var iObj = {};
       iObj.$input = $input;
       iObj.$inputGroup = $input.closest('.input-group');
       iObj.$inputWrapper = $input.closest('.input-outer-wrapper');
@@ -88,7 +103,7 @@
           // need to call this after the search results have been returned & are displayed (because that'll change the height of the iscroll).
           // need a global way to talk between modules
           // if (!$('html').hasClass('bp-nav-mobile')){
-          //   self.initMobileNavIScroll();
+          //   Environment.trigger('SONY:Navigation:initMobileNavIScroll');
           // }
           break;
 
@@ -102,13 +117,13 @@
     },
 
     clearInput: function( inputObj ){
-      
+
       inputObj.$input.val('');
 
       // if (!$('html').hasClass('bp-nav-mobile')){
         inputObj.$inputIcon.hide();
       // }
-    
+
     },
 
     clearSearchResults: function( inputObj ){
@@ -173,14 +188,14 @@
   };
 
   // Event triggered when this tab is about to be shown
-  SONY.onSearchInputChange = function( evt ) {
+  module.onSearchInputChange = function( evt ) {
     if ($('html').hasClass('bp-nav-mobile')){
-      SONY.initMobileNavIScroll();
+      Environment.trigger('SONY:Navigation:initMobileNavIScroll');
     }
     var $input = $(evt.target),
       formActions = $input.data('formActions'),
       inputObj = formActions.makeInputObj($input);
-    
+
 
     if (!inputObj.$inputWrapper.hasClass('searching')){
       if (!($input.val() === '' || $input.val() === inputObj.watermarkText)){
@@ -192,31 +207,11 @@
     } else {
       formActions.doSearch( inputObj );
     }
-      
-
-
-    // var $prevPane;
-
-    // if ( evt ) {
-    //   $prevPane = evt.prevPane;
-    // }
 
   };
 
-})(jQuery, Modernizr, window, undefined);
+  module.init();
 
+  return module;
 
-$(function() {
-   var $formActionsInit = $('body').formActions(),
-    $formActions = $formActionsInit.data('formActions');
-
-   $formActions.initInput($('#store-locator-search-input'));
-   $formActions.initInput($('#nav-search-input'));
-
-   // $formActions.initTouchToggles($('.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'));
-   $formActions.initTouchToggles($('.dropdown-hover-toggle'));
 });
-
-
-
-

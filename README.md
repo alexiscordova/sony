@@ -37,33 +37,12 @@ https://bitbucket.org/nuruncode/sony-global-front-end/issues?status=new&status=o
 
 
 
-Blog
-----
-
-TBD
-
+WIKI
+-----------
+https://bitbucket.org/nuruncode/sony-global-front-end/wiki/Home
 
 
 IRC
----
-
-TBD
-
-
-
-Build Rules
 -----------
-
-PETE - please add notes here.
-
-+ **dependencies**
-
-
-+ **build** 
-
-
-+ **test** 
-
-
-+ **watch** - 
-
+https://grove.io/
+contact odopod for invite

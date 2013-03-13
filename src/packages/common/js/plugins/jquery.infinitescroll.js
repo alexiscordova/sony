@@ -15,8 +15,11 @@
 
 // Modified by Glen Cheney - added updateNavLocation() and replaced smartscroll with $.throttle
 
-(function (window, $, undefined) {
-	"use strict";
+define(function(require){
+
+    'use strict';
+
+    var $ = require('jquery');
 
     $.infinitescroll = function infscr(options, callback, element) {
         this.element = $(element);
@@ -772,5 +775,4 @@
         return this;
     };
 
-
-})(window, jQuery);
+});

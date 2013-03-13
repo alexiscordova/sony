@@ -9,9 +9,25 @@
 // * **Dependencies:** jQuery 1.7+, Modernizr, Enquire, [SonyDraggable](sony-draggable.html),
 //                     [SonyNavDots](sony-navigationdots.html), [SonyPaddles](sony-paddles.html)
 
-(function($) {
+define(function(require){
 
   'use strict';
+
+  var $ = require('jquery'),
+      Modernizr = require('modernizr'),
+      iQ = require('iQ'),
+      enquire = require('enquire'),
+      Settings = require('require/sony-global-settings'),
+      Environment = require('require/sony-global-environment'),
+      sonyPaddles = require('secondary/sony-paddles'),
+      sonyNavDots = require('secondary/sony-navigationdots'),
+      sonyDraggable = require('secondary/sony-draggable');
+
+  var self = {
+    'init': function() {
+      $('.sony-one-carousel').oneSonyCarousel();
+    }
+  };
 
   var OneSonyCarousel = function($element, options){
 
@@ -53,23 +69,25 @@
         'dragThreshold': 10,
         'containment': self.$container,
         'useCSS3': self.useCSS3,
-        'drag': window.iQ.update
+        'drag': function(){ iQ.update(true); }
       });
 
       self.bindEvents();
       self.$cachedSlides = self.$slides.detach();
+      self.$cachedSlides.find('.soc-image').addClass('iq-img');
+
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find('.soc-item').remove();
 
-      if ( window.enquire && !SONY.$html.hasClass('lt-ie10') ){
+      if ( !Settings.$html.hasClass('lt-ie10') ){
 
-        window.enquire.register("(min-width: 780px)", function() {
+        enquire.register("(min-width: 780px)", function() {
           self.renderDesktop();
         });
-        window.enquire.register("(min-width: 480px) and (max-width: 779px)", function() {
+        enquire.register("(min-width: 480px) and (max-width: 779px)", function() {
           self.renderEvenColumns(6);
         });
-        window.enquire.register("(max-width: 479px)", function() {
+        enquire.register("(max-width: 479px)", function() {
           self.renderEvenColumns(12);
         });
 
@@ -87,13 +105,13 @@
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
       self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
 
-      self.$innerContainer.on(SONY.Settings.transEndEventName, window.iQ.update);
+      self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });
 
-      self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
+      self.$el.find('.soc-image').on('iQ:imageLoaded', function(){
         $(this).closest('.soc-item').addClass('on');
       });
 
-      SONY.on('global:resizeDebounced-200ms', function(){
+      Environment.on('global:resizeDebounced-200ms', function(){
         self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
       });
     },
@@ -226,10 +244,10 @@
       } else {
 
         self.$innerContainer.animate({
-          'left': -100 * destinationLeft / SONY.$window.width() + '%'
+          'left': -100 * destinationLeft / Settings.$window.width() + '%'
         }, {
           'duration': 350,
-          'complete': window.iQ.update
+          'complete': function(){ iQ.update(true); }
         });
       }
 
@@ -349,11 +367,6 @@
     });
   };
 
-  // Initialize
-  // ----------
+  return self;
 
-  SONY.on('global:ready', function(){
-    $('.sony-one-carousel').oneSonyCarousel();
-  });
-
-})(jQuery);
+});
