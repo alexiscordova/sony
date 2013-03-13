@@ -36,9 +36,15 @@ define(function(require){
           var $this = $(this);
 
           // console.profile('gallery ' + this.id);
-          // console.time('Initializing gallery ' + this.id + ' took:');
-          $this.gallery( $this.data() );
-          // console.timeEnd('Initializing gallery ' + this.id + ' took:');
+          // var mode = $this.data('mode').toUpperCase();
+          // var id = this.id.substr(0, this.id.lastIndexOf('-'));
+          // console.timeStamp( mode + ' ' + id );
+          // Stagger gallery initialization
+          setTimeout(function() {
+            // console.time(id + ' (' + mode + ') gallery took');
+            $this.gallery( $this.data() );
+            // console.timeEnd(id + ' (' + mode + ') gallery took');
+          }, 0);
           // console.profileEnd('gallery ' + this.id);
         });
 
@@ -47,14 +53,18 @@ define(function(require){
           .on('show', module.onGalleryTabShow )
           .on('shown', module.onGalleryTabShown );
 
+        // console.timeStamp('initialize sticky tabs');
         // Initialize sticky tabs
         $('.tab-strip').stickyTabs();
 
-        // Hide other tabs
-        $('.tab-pane:not(.active)').addClass('off-screen');
+        // The galleries are in timeouts, so this has to be too
+        setTimeout(function() {
+          // Hide other tabs
+          $('.tab-pane:not(.active)').addClass('off-screen');
 
-        // Should be called after everything is initialized
-        $(window).trigger('hashchange');
+          // Should be called after everything is initialized
+          $(window).trigger('hashchange');
+        }, 0);
 
         // Disable hidden galleries.
         // Using a timeout here because the tab shown event is triggered at the end of the transition,
@@ -107,10 +117,16 @@ define(function(require){
     self.windowWidth = Settings.windowWidth;
     self.windowHeight = Settings.windowHeight;
 
-    self.$container.addClass('gallery-' + self.mode);
-
     self.setColumnMode();
 
+    // console.timeStamp('adding GALLERY-' + self.mode.toUpperCase() + ' class');
+    self.$container.addClass('gallery-' + self.mode);
+    // Adding a class causes a style recalculation, let's throw in the column rearranging here too
+    if ( self.mode === 'editorial' ) {
+      self.shuffleGutters();
+    }
+
+    // console.timeStamp('initializing shuffle');
     self.initShuffle();
 
     self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
@@ -118,21 +134,29 @@ define(function(require){
 
     // Infinite scroll?
     if ( self.hasInfiniteScroll ) {
+      // console.timeStamp('starting infinitescroll');
       self.initInfscr();
     }
 
     // Initialize filter dictionaries to keep track of everything
     if ( self.hasFilters ) {
+      // console.timeStamp('initing filters');
       self.initFilters();
     }
 
     if ( self.hasSorting ) {
+      // console.timeStamp('initing sorting');
       self.initSorting();
     }
 
-    self.initSwatches();
-    self.initTooltips();
+    // Swatches and tooltips are triggered on hover, so they don't need to be
+    // initialized immediately
+    setTimeout(function() {
+      self.initSwatches();
+      self.initTooltips();
+    }, 200);
 
+    // console.timeStamp('trigger resize');
     self.onResize( true );
 
     // Launch compare tool on click
@@ -147,6 +171,7 @@ define(function(require){
 
     // Run once
     if ( self.hasFilters ) {
+      // console.timeStamp('filter()');
       self.filter();
     }
 
@@ -212,7 +237,10 @@ define(function(require){
         self.$grid.infinitescroll('pause');
       }
 
-      self.$container.addClass('disabled');
+      // This causes a style recalculation, but we don't need it to happen immediately if it's just disabling the gallery.
+      setTimeout(function() {
+        self.$container.addClass('disabled');
+      }, 0);
 
       self.enabled = false;
     },
@@ -924,13 +952,19 @@ define(function(require){
       var self = this;
 
       function initializeScroller( $carousel ) {
-        $carousel.scrollerModule({
-          mode: 'carousel',
-          contentSelector: '.js-carousel-container',
-          itemElementSelector: '.slide'
-        });
 
-        self.hasEnabledCarousels = true;
+        // Carousels inside gallery items can be delayed
+        setTimeout(function() {
+          $carousel.scrollerModule({
+            mode: 'carousel',
+            contentSelector: '.js-carousel-container',
+            itemElementSelector: '.slide'
+          });
+
+          self.hasEnabledCarousels = true;
+
+          $carousel = null;
+        }, 0);
       }
 
       // Go through each possible carousel
@@ -1509,9 +1543,9 @@ define(function(require){
 
     onResize : function( isInit, force ) {
       var self = this,
-          windowWidth = self.$window.width(),
-          windowHeight = self.$window.height(),
-          hasWindowChanged = windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
+          windowWidth = Settings.isLTIE9 ? 0 : self.$window.width(),
+          windowHeight = Settings.isLTIE9 ? 0 : self.$window.height(),
+          hasWindowChanged = !Settings.isLTIE9 || windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
       // Make sure isInit is not an event object
       isInit = isInit === true;
@@ -1527,7 +1561,7 @@ define(function(require){
       // Don't change columns for detail galleries
       // Change the filters column layout
       if ( self.mode === 'detailed' ) {
-
+        // console.timeStamp('detailed gallery, rearranging filter stuff');
         // Remove heights in case they've aready been set
         if ( Modernizr.mq('(max-width: 47.9375em)') ) {
           self.$gridProductNames.css('height', '');
@@ -1595,7 +1629,7 @@ define(function(require){
         return;
       }
 
-
+      // console.timeStamp('even heights on product names');
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
@@ -1668,22 +1702,28 @@ define(function(require){
     },
 
     onShuffleDone : function() {
-      var self = this;
-      self.$container.find('.gallery-loader').remove();
+      var self = this,
+          isFadedIn = self.$container.hasClass('in');
+
+      if ( isFadedIn ) {
+        // console.timeStamp('removing gallery loader');
+        self.$container.find('.gallery-loader').remove();
+
+      // Fade in the gallery if it isn't already
+      } else {
+        setTimeout(function() {
+          // console.timeStamp('removing gallery loader and module loader');
+          module.removeGalleryLoader();
+          self.$container.find('.gallery-loader').remove();
+          self.$container.addClass('in');
+        }, 0);
+      }
 
       // Product names get zero height in IE8
       if ( Settings.isLTIE9 ) {
         setTimeout(function() {
           self.$gridProductNames.evenHeights();
         }, 1000);
-      }
-
-      // Fade in the gallery if it isn't already
-      if ( !self.$container.hasClass('in') ) {
-        setTimeout(function() {
-          module.removeGalleryLoader();
-          self.$container.addClass('in');
-        }, 0);
       }
     },
 
