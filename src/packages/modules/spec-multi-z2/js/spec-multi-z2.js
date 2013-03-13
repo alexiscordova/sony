@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, SONY*/
+/*global define, Modernizr, log*/
 
 // -------- Sony Full Specs Multi -------
 // Module: Full Specs Multi
@@ -15,6 +15,7 @@ define(function(require){
   var $ = require('jquery'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
+      stickyTabs = require('secondary/sony-stickytabs'),
       stickyNav = require('secondary/sony-stickynav'),
       shuffle = require('secondary/jquery.shuffle');
 

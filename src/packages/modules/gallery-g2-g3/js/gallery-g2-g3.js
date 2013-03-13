@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, iQ, SONY, log*/
+/*global define, Modernizr, log*/
 
 // ------------ Sony Gallery ------------
 // Module: Gallery
