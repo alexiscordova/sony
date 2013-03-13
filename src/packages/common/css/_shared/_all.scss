@@ -136,6 +136,15 @@ $oneByOneImgPadding: 107.84313725490196%;
   overflow: hidden;
   background: $white;
 
+  &:focus {
+
+  }
+
+  &:focus .product-img,
+  .product-img:hover {
+    background-color: $gray75;
+  }
+
   &:after {
     content: '';
     display: block;
@@ -169,10 +178,6 @@ $oneByOneImgPadding: 107.84313725490196%;
     text-align: center;
     background: $gray80;
     @include transition(background-color $transitionFast $easeNormal);
-
-    &:hover {
-      background-color: $gray75;
-    }
 
     &:after {
       content: '';
