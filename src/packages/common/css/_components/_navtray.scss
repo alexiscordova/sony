@@ -26,7 +26,7 @@
 
 .navtray-w-visible{
   left:0;
-  top: $navbarHeight;
+  top: $navbarHeight - 1; // minus 1 for a little overlap under the navbar - otherwise sometimes you can see half a pixel peek out
   opacity:1;
 
   @include transition(top $navtrayOpenSpeed $easeOutNav 0.15s, left 0s linear 0s);  
