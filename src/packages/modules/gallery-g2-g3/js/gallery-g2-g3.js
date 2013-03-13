@@ -587,7 +587,7 @@ define(function(require){
       // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
       self.$grid.on('layout.shuffle', function() {
         // Things moved around and could possibly be in the viewport
-        window.iQ.update();
+        iQ.update();
 
         // The position of the nav has changed, update it in infinitescroll
         if ( self.hasInfiniteScroll ) {
@@ -770,7 +770,7 @@ define(function(require){
 
             // This is silly. Maybe a new method for iQ. iQ.refresh()
             setTimeout(function() {
-              window.iQ.update( true );
+              iQ.update( true );
             }, 300);
           }, 15);
       }
@@ -834,7 +834,7 @@ define(function(require){
 
     loadSwatchImages : function() {
       this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
-      window.iQ.update( true );
+      iQ.update( true );
 
       return this;
     },
@@ -1718,7 +1718,7 @@ define(function(require){
     //   self.addCompareNav( $compareItemsWrapper );
 
     //   // Cloned images need to be updated
-    //   window.iQ.update( true );
+    //   iQ.update( true );
 
     //   // Save a reference to the count
     //   self.$compareCount = self.$compareTool.find('.product-count');
@@ -1795,7 +1795,7 @@ define(function(require){
     //         self.onCompareScroll( self.stickyTriggerPoint, this );
     //       },
     //       onAnimationEnd : function() {
-    //         window.iQ.update();
+    //         iQ.update();
     //         self.onCompareScroll( self.stickyTriggerPoint, this );
     //       }
     //     });
@@ -1803,7 +1803,7 @@ define(function(require){
     //   } else {
     //     self.$compareTool.on('scroll', function() {
     //       self.onCompareScroll( self.stickyTriggerPoint );
-    //       window.iQ.update();
+    //       iQ.update();
     //     });
     //     // self.$compareTool.on('touchmove', function(e) {
     //     //   e.stopPropagation();
@@ -1838,7 +1838,7 @@ define(function(require){
     //       self.onCompareScroll( 'inner', this );
     //     },
     //     onAnimationEnd : function() {
-    //       window.iQ.update();
+    //       iQ.update();
     //       self.onCompareScroll( 'inner', this );
     //       self.afterCompareScrolled( this );
     //     }
@@ -1849,7 +1849,7 @@ define(function(require){
 
     //   // These can be deferred
     //   setTimeout(function() {
-    //     window.iQ.update();
+    //     iQ.update();
 
     //     // Hide the previous nav paddle because we're on the first page
     //     self.afterCompareScrolled( self.innerScroller );
@@ -1996,7 +1996,7 @@ define(function(require){
     //     self.afterCompareScrolled( self.innerScroller );
 
     //     // Maybe they haven't scrolled horizontally to see other images
-    //     window.iQ.update();
+    //     iQ.update();
     //   }
 
     //   function noWidth() {

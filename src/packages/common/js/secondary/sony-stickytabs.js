@@ -11,6 +11,7 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
+      iQ = require('iQ'),
       Modernizr = require('modernizr'),
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities');
