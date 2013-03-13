@@ -59,7 +59,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 	   padding:0 px-em(20px) px-em(20px) px-em(20px); 
 	} // end .tcc-copy
 	
-	
  	.social-btn{
     margin:0 auto;
   } // end socialBtn
@@ -80,22 +79,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       right:0;
       margin:0; // overwrite .lt2 default
     } // end .tcc-header-link
-
-    .lt-ie10 & {
-			.tcc-header-title{
-	      float:left;
-	      margin:0; // overwrite .l1 default   
-	    } // end .tcc-header-title
-    	
-	    .tcc-header-link{
-	    	position: absolute;
-        right:0;
-      	margin:0; // overwrite .lt2 default
-	      bottom:0; // offset .tcc-header padding
-	    } // end .tcc-header-link
-
-    } // lt-ie10
-
 
 	} // end .tcc-header
 
@@ -185,13 +168,13 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     .img-wrap{
 		  img{
 	      width:100%;
+	      height:140px;
 	      min-height: 100px;
     	} // end img
 
     } // end img-wrap
 
     .tcc-copy{
-    	//max-height: 94px;
     	overflow: hidden;
     }
 
@@ -202,7 +185,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 		// title
 		.p2{
-			max-height: 58px;
+			max-height: 45px;
 			overflow: hidden;
 			color:$titleBlack;			
 		} // end t6
@@ -336,6 +319,15 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 	.users-voice{
 		text-align: left;
 
+		&.user-quote,
+		&.expert-quote,
+		&.question{
+			.avatar{
+				img{
+					max-height:50px; // 2x images need this or it gets too big
+				}
+			}
+		}
 
 		&.user-quote,
 		&.expert-quote{
@@ -523,6 +515,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 			  } // end .user
 
 			  .timestamp{
+			  	padding-left:10px;
 			  	color:$gray40;
 			  } // end .timestamp
 
@@ -548,7 +541,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 
   	.bottom{
-
 			// END IE8 and BELOW
 			.lt-ie10 & {
 				padding:relative;
@@ -566,6 +558,13 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 
 		&.facebook{
+
+			.post-image{
+				img{
+					max-height:86px;
+				}
+			}
+
 			.bq5{
 				margin-top:22px;
 				p{
@@ -700,6 +699,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 				} // end .p4
 
 				.user{
+					padding-right:10px;
 			  	color:$gray20;
 			  } // end .user
 			} // end meta

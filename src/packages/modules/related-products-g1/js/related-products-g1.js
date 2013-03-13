@@ -23,11 +23,11 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        shuffle = require('secondary/jquery.shuffle'),
-        scroller = require('secondary/sony-scroller'),
-        evenHeights = require('secondary/sony-evenheights'),
-        sonyPaddles = require('secondary/sony-paddles'),
-        sonyNavDots = require('secondary/sony-navigationdots');
+        jqueryShuffle = require('secondary/index').jqueryShuffle,
+        sonyScroller = require('secondary/index').sonyScroller,
+        sonyEvenHeights = require('secondary/index').sonyEvenHeights,
+        sonyPaddles = require('secondary/index').sonyPaddles,
+        sonyNavigationDots = require('secondary/index').sonyNavigationDots;
 
     var self = {
       'init': function() {
@@ -126,6 +126,8 @@ define(function(require){
       self.init();
 
       log('SONY : RelatedProducts : Initialized');
+
+
 
     };
 
@@ -675,7 +677,7 @@ define(function(require){
 
           self.$galleryItems.find('.product-name').evenHeights();
 
-          window.iQ.update();
+          iQ.update();
 
         }, 50);
 
@@ -838,7 +840,7 @@ define(function(require){
           self.$el.sonyPaddles('hidePaddle', 'right');
         }
 
-        window.iQ.update();
+        iQ.update();
 
       },
 
@@ -1091,7 +1093,7 @@ define(function(require){
 
             self.sortByPriority();
 
-            window.iQ.update();
+            iQ.update();
 
             if(!self.hasTouch){
               self.togglePaddles(true);
@@ -1139,7 +1141,7 @@ define(function(require){
 
             self.sortByPriority();
 
-            window.iQ.update();
+            iQ.update();
 
             if(!self.hasTouch){
               self.togglePaddles(true);
@@ -1188,7 +1190,7 @@ define(function(require){
             //Hide the bullet navigation
             self.$bulletNav.hide();
 
-            window.iQ.update();
+            iQ.update();
 
             if(self.scrollerModule !== null){
               self.scrollerModule.destroy();
@@ -1557,7 +1559,7 @@ define(function(require){
             if(self.isDragging) {
               self.animFrame = window.requestAnimationFrame(animloop);
 
-              console.log('stuck rendering');
+
               if(self.renderMoveEvent){
 
                 self.renderMovement(self.renderMoveEvent, isThumbs);
@@ -1712,7 +1714,7 @@ define(function(require){
           self.$container.one(self.transitionEndName , function(){
             //Shuffle optimization
             self.toggleShuffles();
-            window.iQ.update();
+            iQ.update();
           });
         }
 
@@ -2060,7 +2062,7 @@ define(function(require){
 
           self.hasInitedMobile = true;
 
-          window.iQ.update();
+          iQ.update();
           self.checkTileHeights();
 
           //animate in container -makes for a smoother experience
@@ -2074,7 +2076,7 @@ define(function(require){
       onScrollerEnd: function(){
         var self = this;
 
-        window.iQ.update();
+        iQ.update();
         self.checkTileHeights();
 
       },

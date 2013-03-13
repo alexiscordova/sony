@@ -1,9 +1,12 @@
-// ------------ Primary Tout ------------
-// Module: Primary Tout
-// Version: 0.1
-// Modified: 01/16/2013
-// Dependencies: jQuery 1.7+
-// -------------------------------------------------------------------------
+// Primary Tout Module
+// --------------------------------------------
+//
+// * **Class:** PrimaryTout
+// * **Version:** 1.0
+// * **Modified:** 02/22/2013
+// * **Author:** Thisispete
+// * **Dependencies:** jQuery 1.7+ , sony-global-environment
+//
 
 define(function(require){
 
@@ -34,9 +37,11 @@ define(function(require){
       _resize: function(){
         var w = $(window).outerWidth();
         if(w > 980){
+          //this makes the header grow 1px taller for every 20px over 980w.. 
           $('.primary-tout.homepage .hero-image').css('height', Math.round(Math.min(770, 490 + ((w - 980) / 5))));
           $('.primary-tout.default .hero-image').css('height', Math.round(Math.min(660, 560 + ((w - 980) / 5))));
         }else{
+          //this removes the dynamic css so it will reset back to responsive styles 
           $('.primary-tout.homepage .hero-image, .primary-tout.default .hero-image').css('height', "");
         }
 

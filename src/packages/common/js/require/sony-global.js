@@ -40,6 +40,8 @@ define(function (require) {
     }
   };
 
+  self.init();
+
   return self;
 
 });

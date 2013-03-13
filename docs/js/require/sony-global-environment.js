@@ -7,11 +7,13 @@
 // This class should be used to extend the global space with events, small polyfills, and extensions.
 // Any callable methods should go into [SONY.Utilities](sony-global-utilities.html).
 
-var SONY = SONY || {};
-
-SONY.Environment = (function(window, document) {
+define(function (require) {
 
   'use strict';
+
+  var $ = require('jquery'),
+      Settings = require('require/sony-global-settings'),
+      throttleDebounce = require('plugins/jquery.throttle-debounce');
 
   var self = {
 
@@ -21,6 +23,8 @@ SONY.Environment = (function(window, document) {
       self.createGlobalEvents();
       self.normalizeLogs();
       self.appendModernizrTests();
+
+      log('SONY : Global : Environment : Initialized');
     },
 
     'appendModernizrTests': function() {
@@ -50,9 +54,8 @@ SONY.Environment = (function(window, document) {
         }
 
       });
-
       // Overwrite the Modernizr.mq function for IE < 10
-      if ( SONY.Settings.isLTIE10 ) {
+      if ( Settings.isLTIE10 ) {
         Modernizr.mq = function() { return false; };
       }
     },
@@ -105,15 +108,15 @@ SONY.Environment = (function(window, document) {
 
       var o = $({});
 
-      SONY.on = function() {
+      self.on = function() {
         o.on.apply(o, arguments);
       };
 
-      SONY.off = function() {
+      self.off = function() {
         o.off.apply(o, arguments);
       };
 
-      SONY.trigger = function() {
+      self.trigger = function() {
         o.trigger.apply(o, arguments);
       };
     },
@@ -132,16 +135,16 @@ SONY.Environment = (function(window, document) {
 
         // If you aren't IE7/8, you may pass.
 
-        if ( !SONY.$html.hasClass('lt-ie9') ) {
+        if ( !Settings.$html.hasClass('lt-ie9') ) {
           return cb();
         }
 
-        var windowWidth = SONY.$window.width(),
-            windowHeight = SONY.$window.height();
+        var windowWidth = Settings.$window.width(),
+            windowHeight = Settings.$window.height();
 
-        if ( windowWidth !== SONY.Settings.windowWidth || windowHeight !== SONY.Settings.windowHeight ) {
-          SONY.Settings.windowWidth = windowWidth;
-          SONY.Settings.windowHeight = windowHeight;
+        if ( windowWidth !== Settings.windowWidth || windowHeight !== Settings.windowHeight ) {
+          Settings.windowWidth = windowWidth;
+          Settings.windowHeight = windowHeight;
           cb();
         }
       };
@@ -153,25 +156,25 @@ SONY.Environment = (function(window, document) {
       // Default Settings.
 
       cachedFunctions.throttledResize = $.throttle(500, function(){
-        SONY.trigger('global:resizeThrottled');
+        self.trigger('global:resizeThrottled');
       });
 
       cachedFunctions.debouncedResize = $.debounce(500, function(){
-        SONY.trigger('global:resizeDebounced');
+        self.trigger('global:resizeDebounced');
       });
 
       // Specific Events.
 
       cachedFunctions.throttledResize200 = $.throttle(200, function(){
-        SONY.trigger('global:resizeThrottled-200ms');
+        self.trigger('global:resizeThrottled-200ms');
       });
 
       cachedFunctions.debouncedResize200 = $.debounce(200, function(){
-        SONY.trigger('global:resizeDebounced-200ms');
+        self.trigger('global:resizeDebounced-200ms');
       });
 
       cachedFunctions.debouncedResizeAtBegin200 = $.debounce(200, true, function(){
-        SONY.trigger('global:resizeDebouncedAtBegin-200ms');
+        self.trigger('global:resizeDebouncedAtBegin-200ms');
       });
 
       // Base Throttle
@@ -190,7 +193,7 @@ SONY.Environment = (function(window, document) {
         });
       });
 
-      SONY.$window.on(resizeEvent, function(){
+      Settings.$window.on(resizeEvent, function(){
         cachedFunctions.baseThrottle();
       });
     },
@@ -198,19 +201,17 @@ SONY.Environment = (function(window, document) {
     fixModernizrFalsePositives : function() {
 
       // The sony tablet s gets a false negative on generated content (pseudo elements)
-      if ( SONY.Settings.isSonyTabletS ) {
+      if ( Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = true;
-        SONY.$html.removeClass('no-generatedcontent').addClass('generatedcontent sonytablets');
+        Settings.$html.removeClass('no-generatedcontent').addClass('generatedcontent sonytablets');
       }
     }
 
   };
 
-  self.init();
-
   return self;
 
-})(this, this.document);
+});
 
 // Need to find a better place for this to live.
 

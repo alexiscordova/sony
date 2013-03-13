@@ -6,8 +6,15 @@
 // * Dependencies: jQuery 1.7+, Modernizr
 // * Author: Glen Cheney
 
-(function($, Modernizr, window, undefined) {
+define(function(require){
+
   'use strict';
+
+  var $ = require('jquery'),
+      iQ = require('iQ'),
+      Modernizr = require('modernizr'),
+      Settings = require('require/sony-global-settings'),
+      Utilities = require('require/sony-global-utilities');
 
   var StickyTabs = function( $container, options ) {
     var self = this;
@@ -35,7 +42,7 @@
 
       // Set variables
       self.$activeTab = self.$tabs.filter('.active');
-      self.$window = SONY.$window || $(window);
+      self.$window = Settings.$window || $(window);
       self.tabWidth = self.$tabs.outerWidth();
       self.tabsContainerWidth = self.$tabsContainer.width();
       self.tabletMode = self.$container.data('tabletMode');
@@ -61,7 +68,7 @@
     },
 
     _getConstrained : function( value ) {
-      return SONY.Utilities.constrain( value, 0, this.tabsContainerWidth - this.tabWidth );
+      return Utilities.constrain( value, 0, this.tabsContainerWidth - this.tabWidth );
     },
 
     _onResize : function() {
@@ -331,8 +338,8 @@
           vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          momentum: !( SONY.Settings.isLTIE9 ),
-          bounce: !( SONY.Settings.isLTIE9 ),
+          momentum: !( Settings.isLTIE9 ),
+          bounce: !( Settings.isLTIE9 ),
           onScrollStart: function() {
             self.isClickCanceled = false;
             self.$tabs.off('.stickytabs');
@@ -455,11 +462,11 @@
     tabWidth: 0,
     overlap: 0,
     isStickyTabs: false,
-    isTouch: SONY.Settings.hasTouchEvents || SONY.Settings.hasPointerEvents,
+    isTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
     prop: Modernizr.csstransforms ? 'transform' : 'left',
     valStart : Modernizr.csstransforms ? 'translate(' : '',
     valEnd : Modernizr.csstransforms ? 'px,0)' : 'px'
   };
 
-})(jQuery, Modernizr, window);
+});
 

@@ -24,9 +24,10 @@ define(function(require){
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         Utilities = require('require/sony-global-utilities'),
-        sequencer = require('secondary/sony-sequencer'),
-        sonyPaddles = require('secondary/sony-paddles'),
-        sonyNavDots = require('secondary/sony-navigationdots');
+        sonyPaddles = require('secondary/index').sonyPaddles,
+        sonyNavigationDots = require('secondary/index').sonyNavigationDots,
+        sequencer = require('secondary/sony-sequencer');
+
 
     var self = {
       'init': function() {
@@ -54,6 +55,7 @@ define(function(require){
       // CACHED CLASSES & TYPES
       self.contentModulesClass            = '.tcc-content-module';
       self.contentSelectorClass           = '.tcc-body';
+      self.imageClass                     = '.tcc-image';
       self.desktopClasses                 = 'span4';
       self.centerContentArr               = ['flickr:default','sonys-voice:instagram','sonys-voice:twitter','sonys-voice:facebook'];
 
@@ -78,13 +80,13 @@ define(function(require){
       // PROXY CALLS
       self.beforeResizeFunc               = $.proxy( self.beforeResize, self );
       self.afterResizeFunc                = $.proxy( self.afterResize, self );
-      self.onImagesLoaded                 = $.proxy( self.setCenterContentHeight, self);
+      self.onImagesLoaded                 = $.proxy( self.handleImagesLoaded, self);
 
       // TIMING
       self.afterResizeSpeed               = 200;
       self.setupSpeed                     = 200;
       self.teardownSpeed                  = 50;
-      self.hideAllSpeed                   = 50;
+      self.hideAllSpeed                   = 100;
       self.showAllSpeed                   = 200;
       self.animationSpeed                 = 200;
 
@@ -113,10 +115,10 @@ define(function(require){
       }
 
       // register for when images are loaded to determine centering
-      self.$el.find('.iq-img').on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
+      //self.$el.find(".iq-img").on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
 
-      self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
-       $(this).parent().addClass('on');
+      self.$el.find(self.imageClass).on('iQ:imageLoaded', function(){
+       self.onImagesLoaded();
       });
 
       // start it all
@@ -130,22 +132,7 @@ define(function(require){
 
         var self = this;
 
-        // if(SONY.Settings.isLTIE10){
-        //   // no scroller for >IE10
-
-        //   // still dymaically align height
-        //   self.setCenterContentHeight();
-
-        // }else{
-        //   self.setMode();
-
-        //   // if screen size is in mobile (tablet, phone) mode then create a scroller
-        //   if(self.mode !== 'desktop'){
-        //     self.setup();
-        //   }
-        // }
-
-        if(!Settings.isLTIE10){
+         if(!Settings.isLTIE10){
           self.setMode();
 
           // if screen size is in mobile (tablet, phone) mode then create a scroller
@@ -154,8 +141,24 @@ define(function(require){
           }
         }
 
+        // can run this now because it's safe to assume (via requireJS) the page is loaded
+        self.onImagesLoaded();
+
         log('SONY : TertiaryModule : Initialized');
 
+      },
+
+      handleImagesLoaded : function(){
+        var self = this;
+
+        $(self.imageClass)
+          .addClass('iq-img')
+          .parent()
+          .addClass('on');
+
+        iQ.update(true);
+
+        self.setCenterContentHeight();
       },
 
       // controller for scroller setup
@@ -190,7 +193,7 @@ define(function(require){
         // show the elements if they've beenh hidden
         if(self.isLayoutHidden){
           // show contents again after transition
-          setupSequence.add( self, self.showAll, self.setupSpeed);
+          setupSequence.add( self, self.showAll, self.setupSpeed + 500);
 
           // use very sparingly
           Utilities.forceWebkitRedraw();
@@ -564,7 +567,7 @@ define(function(require){
         }
 
         // show the elements again
-        resizeMobileSequencer.add( self, self.showAll, self.afterResizeSpeed );
+        resizeMobileSequencer.add( self, self.showAll, self.afterResizeSpeed + 500);
 
         // start sequence
         resizeMobileSequencer.start();

@@ -7,9 +7,13 @@
  * @version 1.6.1
  * @date 02/07/13
  */
-(function($, Modernizr, undefined) {
+
+define(function(require){
+
     'use strict';
 
+    var $ = require('jquery'),
+        Modernizr = require('modernizr');
 
     // You can return `undefined` from the `by` function to revert to DOM order
     // This plugin does NOT return a jQuery object. It returns a plain array because
@@ -146,7 +150,7 @@
 
             // Set up css for transitions
             self.$container[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
-            self._initItems( !self.showInitialTransition );
+            self._initItems( self.showInitialTransition );
 
             // Bind resize events (http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer)
             // Get debounced versions of our resize methods
@@ -167,7 +171,9 @@
             self.shuffle( self.group );
 
             if ( !self.showInitialTransition ) {
-                self._initItems();
+                setTimeout(function() {
+                    self._initItems( true );
+                }, 0);
             }
         },
 
@@ -226,16 +232,18 @@
             return $filtered;
         },
 
-        _initItems : function( withoutTransition, $items ) {
+        _initItems : function( withTransition, $items ) {
             var self = this;
 
+            // Default to true if unspecified
+            withTransition = withTransition === false ? false : true;
             $items = $items || self.$items;
 
             $items.each(function() {
                 $(this).css(self.itemCss);
 
                 // Set CSS transition for transforms and opacity
-                if ( self.supported && !withoutTransition && self.useTransition ) {
+                if ( self.supported && self.useTransition && withTransition ) {
                     self._setTransition(this);
                 }
             });
@@ -1000,4 +1008,4 @@
         threeD: Modernizr.csstransforms3d // supports 3d transforms
     };
 
-})(jQuery, Modernizr);
+});

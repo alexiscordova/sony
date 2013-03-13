@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, SONY*/
+/*global define, Modernizr, log*/
 
 // -------- Sony Full Specs Multi -------
 // Module: Full Specs Multi
@@ -13,10 +13,13 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
+      iQ = require('iQ'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      stickyNav = require('secondary/sony-stickynav'),
-      shuffle = require('secondary/jquery.shuffle');
+      jqueryShuffle = require('secondary/index').jqueryShuffle,
+      sonyScroller = require('secondary/index').sonyScroller,
+      sonyStickyNav = require('secondary/index').sonyStickyNav,
+      stickyTabs = require('secondary/sony-stickytabs');
 
   var module = {
     init: function() {
@@ -203,7 +206,7 @@ define(function(require){
           },
           onAnimationEnd : function() {
             self._onScroll( this );
-            window.iQ.update();
+            iQ.update();
           }
         }
       });
