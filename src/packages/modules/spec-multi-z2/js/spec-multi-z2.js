@@ -18,7 +18,8 @@ define(function(require){
       Environment = require('require/sony-global-environment'),
       stickyTabs = require('secondary/sony-stickytabs'),
       stickyNav = require('secondary/sony-stickynav'),
-      shuffle = require('secondary/jquery.shuffle');
+      shuffle = require('secondary/jquery.shuffle'),
+      scroller = require('secondary/sony-scroller');
 
   var module = {
     init: function() {
