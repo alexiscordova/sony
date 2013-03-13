@@ -221,8 +221,8 @@ define(function(require){
           '-ms-filter' : ''
         });
       }, 900);
-      $elm.trigger('imageLoaded');
       $elm.data('hasLoaded', true);
+      $elm.trigger('imageLoaded');
     }
     $elm.trigger('imageReLoaded');
   },
@@ -306,6 +306,7 @@ define(function(require){
           .attr('src', newsrc)
           .imagesLoaded(function(){
             $img.css('background-image', 'url('+newsrc+')');
+            $img.data('hasLoaded', true);
             $img.trigger('iQ:imageLoaded');
           });
       }
