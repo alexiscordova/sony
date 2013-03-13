@@ -32,9 +32,12 @@
 //        // Do something with whichWasClicked (0-based index).
 //      });
 
-(function($) {
+define(function(require){
 
   'use strict';
+
+  var $ = require('jquery'),
+      Modernizr = require('modernizr');
 
   var SonyNavDots = function($element, options){
 
@@ -159,4 +162,4 @@
     'activeButton': 0
   };
 
-})(jQuery);
+});

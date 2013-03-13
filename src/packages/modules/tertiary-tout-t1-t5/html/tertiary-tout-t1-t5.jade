@@ -33,7 +33,6 @@ mixin articleNews(module)
 
 mixin articleEvent(module)
   //- assumes there only ever be one image
-  - console.log(module.images[0].src)
   .img-container.iq-img(data-src= module.images[0].src)
     .attendance-count
       .details
@@ -203,9 +202,6 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
         - contentType = module.type
         - contentMode = module.mode
         - contentModulesClassNames = ["tcc-content-module","span4", contentType, contentMode]
-          
-          - console.log("contentType " + contentType)
-          - console.log("contentMode " + contentMode)
 
         div(class=contentModulesClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode)
           case contentType

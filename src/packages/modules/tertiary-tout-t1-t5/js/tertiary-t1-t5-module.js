@@ -140,6 +140,8 @@ define(function(require){
           }
         }
 
+        //self.$el.find('.').addClass('iq-img');
+
         log('SONY : TertiaryModule : Initialized');
 
       },

@@ -1,5 +1,9 @@
 
-(function($, undefined) {
+define(function(require){
+
+  'use strict';
+
+  var $ = require('jquery');
 
   $.fn.evenHeights = function( options ) {
     var tallest = 0;
@@ -40,4 +44,4 @@
     margin: false
   };
 
-}(jQuery));
+});

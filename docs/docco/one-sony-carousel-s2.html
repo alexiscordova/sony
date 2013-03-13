@@ -69,7 +69,7 @@ define(<span class="keyword">function</span>(require){
         <span class="string">'dragThreshold'</span>: <span class="number">10</span>,
         <span class="string">'containment'</span>: self.$container,
         <span class="string">'useCSS3'</span>: self.useCSS3,
-        <span class="string">'drag'</span>: window.iQ.update
+        <span class="string">'drag'</span>: <span class="keyword">function</span>(){ iQ.update(<span class="literal">true</span>); }
       });
 
       self.bindEvents();
@@ -105,7 +105,7 @@ define(<span class="keyword">function</span>(require){
       self.$el.on(<span class="string">'sonyDraggable:dragStart'</span>,  $.proxy(self.dragStart, self));
       self.$el.on(<span class="string">'sonyDraggable:dragEnd'</span>,  $.proxy(self.dragEnd, self));
 
-      self.$innerContainer.on(Settings.transEndEventName, window.iQ.update);
+      self.$innerContainer.on(Settings.transEndEventName, <span class="keyword">function</span>(){ iQ.update(<span class="literal">true</span>); });
 
       self.$el.find(<span class="string">'.soc-image'</span>).on(<span class="string">'iQ:imageLoaded'</span>, <span class="keyword">function</span>(){
         $(<span class="keyword">this</span>).closest(<span class="string">'.soc-item'</span>).addClass(<span class="string">'on'</span>);
@@ -239,7 +239,7 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
           <span class="string">'left'</span>: -<span class="number">100</span> * destinationLeft / Settings.$window.width() + <span class="string">'%'</span>
         }, {
           <span class="string">'duration'</span>: <span class="number">350</span>,
-          <span class="string">'complete'</span>: window.iQ.update
+          <span class="string">'complete'</span>: <span class="keyword">function</span>(){ iQ.update(<span class="literal">true</span>); }
         });
       }
 
