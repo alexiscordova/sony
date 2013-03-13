@@ -12,8 +12,10 @@ define(<span class="keyword">function</span>(require){
   <span class="string">'use strict'</span>;
 
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+      iQ = require(<span class="string">'iQ'</span>),
       Settings = require(<span class="string">'require/sony-global-settings'</span>),
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
+      stickyTabs = require(<span class="string">'secondary/sony-stickytabs'</span>),
       stickyNav = require(<span class="string">'secondary/sony-stickynav'</span>),
       shuffle = require(<span class="string">'secondary/jquery.shuffle'</span>);
 
@@ -173,7 +175,7 @@ to make up for its lack of document space</p>             </td>             <td 
           },
           onAnimationEnd : <span class="keyword">function</span>() {
             self._onScroll( <span class="keyword">this</span> );
-            window.iQ.update();
+            iQ.update();
           }
         }
       });

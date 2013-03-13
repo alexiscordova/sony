@@ -9,9 +9,11 @@
 // * **Author:** Pierre Paquet
 // * **Dependencies:**  jQuery 1.7+
 
-(function($, undefined) {
+define(function(require){
 
   'use strict';
+
+  var $ = require('jquery');
 
   var GlobalTracking = function($element, options) {
 
@@ -78,4 +80,4 @@
 
   };
 
-})( jQuery );
+});

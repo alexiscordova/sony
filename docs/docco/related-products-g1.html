@@ -631,7 +631,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           self.$galleryItems.find(<span class="string">'.product-name'</span>).evenHeights();
 
-          window.iQ.update();
+          iQ.update();
 
         }, <span class="number">50</span>);
 
@@ -792,7 +792,7 @@ if their interaction time and movements are below certain thresholds.</p>       
           self.$el.sonyPaddles(<span class="string">'hidePaddle'</span>, <span class="string">'right'</span>);
         }
 
-        window.iQ.update();
+        iQ.update();
 
       },
 
@@ -1032,7 +1032,7 @@ return;</p>             </td>             <td class="code">               <div c
 
             self.sortByPriority();
 
-            window.iQ.update();
+            iQ.update();
 
             <span class="keyword">if</span>(!self.hasTouch){
               self.togglePaddles(<span class="literal">true</span>);
@@ -1079,7 +1079,7 @@ return;</p>             </td>             <td class="code">               <div c
 
             self.sortByPriority();
 
-            window.iQ.update();
+            iQ.update();
 
             <span class="keyword">if</span>(!self.hasTouch){
               self.togglePaddles(<span class="literal">true</span>);
@@ -1126,7 +1126,7 @@ return;</p>             </td>             <td class="code">               <div c
 
 </pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>Hide the bullet navigation</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$bulletNav.hide();
 
-            window.iQ.update();
+            iQ.update();
 
             <span class="keyword">if</span>(self.scrollerModule !== <span class="literal">null</span>){
               self.scrollerModule.destroy();
@@ -1481,7 +1481,7 @@ return;</p>             </td>             <td class="code">               <div c
             <span class="keyword">if</span>(self.isDragging) {
               self.animFrame = window.requestAnimationFrame(animloop);
 
-              
+
               <span class="keyword">if</span>(self.renderMoveEvent){
 
                 self.renderMovement(self.renderMoveEvent, isThumbs);
@@ -1625,7 +1625,7 @@ return;</p>             </td>             <td class="code">               <div c
 
 </pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>IQ Update</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$container.one(self.transitionEndName , <span class="keyword">function</span>(){
 </pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>Shuffle optimization</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.toggleShuffles();
-            window.iQ.update();
+            iQ.update();
           });
         }
 
@@ -1961,7 +1961,7 @@ return;</p>             </td>             <td class="code">               <div c
 
           self.hasInitedMobile = <span class="literal">true</span>;
 
-          window.iQ.update();
+          iQ.update();
           self.checkTileHeights();
 
 </pre></div>             </td>           </tr>                               <tr id="section-100">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-100">&#182;</a>               </div>               <p>animate in container -makes for a smoother experience</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -1974,7 +1974,7 @@ return;</p>             </td>             <td class="code">               <div c
       onScrollerEnd: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-        window.iQ.update();
+        iQ.update();
         self.checkTileHeights();
 
       },

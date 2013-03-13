@@ -522,7 +522,7 @@ as its looped through</p>             </td>             <td class="code">       
 </pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>Displays active filters on <code>filter</code></p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$grid.on(<span class="string">'filter.shuffle'</span>, $.proxy( self.displayActiveFilters, self ) );
 
 </pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>Filtered should already be throttled because whatever calls <code>.filter()</code> should be throttled.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$grid.on(<span class="string">'layout.shuffle'</span>, <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>Things moved around and could possibly be in the viewport</p>             </td>             <td class="code">               <div class="highlight"><pre>        window.iQ.update();
+</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>Things moved around and could possibly be in the viewport</p>             </td>             <td class="code">               <div class="highlight"><pre>        iQ.update();
 
 </pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>The position of the nav has changed, update it in infinitescroll</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.hasInfiniteScroll ) {
           self.$grid.infinitescroll(<span class="string">'updateNavLocation'</span>);
@@ -680,7 +680,7 @@ $.proxy( self.removeActiveFilters, self )</p>             </td>             <td 
             }
 
 </pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>This is silly. Maybe a new method for iQ. iQ.refresh()</p>             </td>             <td class="code">               <div class="highlight"><pre>            setTimeout(<span class="keyword">function</span>() {
-              window.iQ.update( <span class="literal">true</span> );
+              iQ.update( <span class="literal">true</span> );
             }, <span class="number">300</span>);
           }, <span class="number">15</span>);
       }
@@ -741,7 +741,7 @@ $.proxy( self.removeActiveFilters, self )</p>             </td>             <td 
 
     loadSwatchImages : <span class="keyword">function</span>() {
       <span class="keyword">this</span>.$grid.find(<span class="string">'.js-product-imgs img:not(.iq-img)'</span>).addClass(<span class="string">'iq-img'</span>);
-      window.iQ.update( <span class="literal">true</span> );
+      iQ.update( <span class="literal">true</span> );
 
       <span class="keyword">return</span> <span class="keyword">this</span>;
     },
@@ -1544,7 +1544,7 @@ Make filters a 2up with a span12 below</p>             </td>             <td cla
 </pre></div>             </td>           </tr>                               <tr id="section-185">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-185">&#182;</a>               </div>               <p>// Could probably be deferred
   self.addCompareNav( $compareItemsWrapper );</p>             </td>             <td class="code">               <div class="highlight"><pre>
 </pre></div>             </td>           </tr>                               <tr id="section-186">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-186">&#182;</a>               </div>               <p>// Cloned images need to be updated
-  window.iQ.update( true );</p>             </td>             <td class="code">               <div class="highlight"><pre>
+  iQ.update( true );</p>             </td>             <td class="code">               <div class="highlight"><pre>
 </pre></div>             </td>           </tr>                               <tr id="section-187">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-187">&#182;</a>               </div>               <p>// Save a reference to the count
   self.$compareCount = self.$compareTool.find('.product-count');
   // Set item count
@@ -1610,7 +1610,7 @@ self.outerScroller = new IScroll( self.$compareTool[0], {
     self.onCompareScroll( self.stickyTriggerPoint, this );
   },
   onAnimationEnd : function() {
-    window.iQ.update();
+    iQ.update();
     self.onCompareScroll( self.stickyTriggerPoint, this );
   }
 });
@@ -1618,7 +1618,7 @@ self.outerScroller = new IScroll( self.$compareTool[0], {
 </pre></div>             </td>           </tr>                               <tr id="section-200">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-200">&#182;</a>               </div>               <p>} else {
     self.$compareTool.on('scroll', function() {
       self.onCompareScroll( self.stickyTriggerPoint );
-      window.iQ.update();
+      iQ.update();
     });
     // self.$compareTool.on('touchmove', function(e) {
     //   e.stopPropagation();
@@ -1651,7 +1651,7 @@ onAnimate : function() {
   self.onCompareScroll( 'inner', this );
 },
 onAnimationEnd : function() {
-  window.iQ.update();
+  iQ.update();
   self.onCompareScroll( 'inner', this );
   self.afterCompareScrolled( this );
 }
@@ -1662,7 +1662,7 @@ onAnimationEnd : function() {
   self.$compareTool.find('.detail-labels-wrapping').addClass('complete');</p>             </td>             <td class="code">               <div class="highlight"><pre>
 </pre></div>             </td>           </tr>                               <tr id="section-204">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-204">&#182;</a>               </div>               <p>// These can be deferred
   setTimeout(function() {
-    window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
 </pre></div>             </td>           </tr>                               <tr id="section-205">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-205">&#182;</a>               </div>               <pre><code>// Hide the previous nav paddle because we're on the first page
 self.afterCompareScrolled( self.innerScroller );
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -1781,7 +1781,7 @@ self.innerScroller.refresh();
 self.afterCompareScrolled( self.innerScroller );
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
 </pre></div>             </td>           </tr>                               <tr id="section-240">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-240">&#182;</a>               </div>               <pre><code>// Maybe they haven't scrolled horizontally to see other images
-window.iQ.update();
+iQ.update();
 </code></pre>
 
 <p>}</p>             </td>             <td class="code">               <div class="highlight"><pre>

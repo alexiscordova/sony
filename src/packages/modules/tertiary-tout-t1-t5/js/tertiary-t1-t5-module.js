@@ -54,6 +54,7 @@ define(function(require){
       // CACHED CLASSES & TYPES
       self.contentModulesClass            = '.tcc-content-module';
       self.contentSelectorClass           = '.tcc-body';
+      self.imageClass                     = '.tcc-image';
       self.desktopClasses                 = 'span4';
       self.centerContentArr               = ['flickr:default','sonys-voice:instagram','sonys-voice:twitter','sonys-voice:facebook'];
 
@@ -78,7 +79,7 @@ define(function(require){
       // PROXY CALLS
       self.beforeResizeFunc               = $.proxy( self.beforeResize, self );
       self.afterResizeFunc                = $.proxy( self.afterResize, self );
-      self.onImagesLoaded                 = $.proxy( self.setCenterContentHeight, self);
+      self.onImagesLoaded                 = $.proxy( self.handleImagesLoaded, self);
 
       // TIMING
       self.afterResizeSpeed               = 200;
@@ -113,11 +114,10 @@ define(function(require){
       }
 
       // register for when images are loaded to determine centering
-      self.$el.find('.iq-img').on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
+      //self.$el.find(".iq-img").on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
 
-      self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
-       console.log( 'iq images loaded »');
-       $(this).parent().addClass('on');
+      self.$el.find(self.imageClass).on('iQ:imageLoaded', function(){
+       self.onImagesLoaded(); 
       });
 
       // start it all
@@ -140,10 +140,24 @@ define(function(require){
           }
         }
 
-        //self.$el.find('.').addClass('iq-img');
+        // can run this now because it's safe to assume (via requireJS) the page is loaded
+        self.onImagesLoaded(); 
 
         log('SONY : TertiaryModule : Initialized');
 
+      },
+
+      handleImagesLoaded : function(){
+        var self = this;       
+
+        $(self.imageClass)
+          .addClass('iq-img')
+          .parent()
+          .addClass('on');
+        
+        iQ.update(true);
+
+        self.setCenterContentHeight();
       },
 
       // controller for scroller setup
