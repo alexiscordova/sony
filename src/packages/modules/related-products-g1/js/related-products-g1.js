@@ -127,6 +127,8 @@ define(function(require){
 
       log('SONY : RelatedProducts : Initialized');
 
+      
+
     };
 
     //Related Products protoype object definition
@@ -595,7 +597,7 @@ define(function(require){
                 self.animateTiles();
               }else {
                 self.$pagination.show();
-                self.$pagination.stop(true,true).fadeIn(250);
+                self.$pagination.stop(true,true).fadeIn(250); 
               }
 
             } , 50);

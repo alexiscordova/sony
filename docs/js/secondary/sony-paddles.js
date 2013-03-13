@@ -36,9 +36,11 @@
 //        // Do something
 //      });
 
-(function($) {
+define(function(require){
 
   'use strict';
+
+  var $ = require('jquery');
 
   var SonyPaddles = function($element, options){
 
@@ -147,4 +149,4 @@
   $.fn.sonyPaddles.defaults = {
   };
 
-})(jQuery);
+});
