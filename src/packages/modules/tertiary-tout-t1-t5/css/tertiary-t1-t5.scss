@@ -5,8 +5,8 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
-//$tcc-content-module-height-3up:350px;
-$tcc-content-module-height-3up:400px;
+//$tcc-content-block-height-3up:350px;
+$tcc-content-block-height-3up:400px;
 
 $tcc-header-padding-bottom-desktop:20px;
 $users-voice-padding-bottom-desktop:28px;
@@ -84,14 +84,14 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 	.tcc-body{
 		display:inline-block;	
-		height:$tcc-content-module-height-3up;
+		height:$tcc-content-block-height-3up;
 
 
 	} // end .tcc-body
 
-	.tcc-content-module{
+	.tcc-content-block{
 		//border:1px solid blue;
-		height:$tcc-content-module-height-3up;
+		height:$tcc-content-block-height-3up;
 		position: relative;
 		text-align: center;
 		overflow: hidden;
@@ -99,7 +99,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		.tcc-inner-container{
 			position: relative;
 			width:100%;
-			height:$tcc-content-module-height-3up;
+			height:$tcc-content-block-height-3up;
 		}
 
 		// IE8 and BELOW
@@ -109,9 +109,9 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 		&:hover{
 			cursor: pointer;
-		} // end .tcc-content-module:hover;
+		} // end .tcc-content-block:hover;
 
-	} // end .tcc-content-module
+	} // end .tcc-content-block
 
 	// HOVERS
 	#{createSelectorFromData("article","default")},
@@ -278,7 +278,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
         width:100%;
         padding: px-em(30px);
 				max-height: 140px;
-				-webkit-backface-visibility: hidden; // the flicking bug with transition
+				-webkit-backface-visibility: hidden; // fix the flicking bug with transition
 
 				// IE9 and BELOW
 				.lt-ie10 & {

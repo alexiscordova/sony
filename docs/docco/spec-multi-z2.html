@@ -15,9 +15,10 @@ define(<span class="keyword">function</span>(require){
       iQ = require(<span class="string">'iQ'</span>),
       Settings = require(<span class="string">'require/sony-global-settings'</span>),
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
-      stickyTabs = require(<span class="string">'secondary/sony-stickytabs'</span>),
-      stickyNav = require(<span class="string">'secondary/sony-stickynav'</span>),
-      shuffle = require(<span class="string">'secondary/jquery.shuffle'</span>);
+      jqueryShuffle = require(<span class="string">'secondary/index'</span>).jqueryShuffle,
+      sonyScroller = require(<span class="string">'secondary/index'</span>).sonyScroller,
+      sonyStickyNav = require(<span class="string">'secondary/index'</span>).sonyStickyNav,
+      stickyTabs = require(<span class="string">'secondary/sony-stickytabs'</span>);
 
   <span class="keyword">var</span> module = {
     init: <span class="keyword">function</span>() {

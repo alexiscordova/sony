@@ -11,20 +11,20 @@ if data.config.tabbedLayout
       .span12
         .rp-tabs
           for tab in data.config.tabbedLayout
-            a.rp-tab(href='#' , class='lt4 no-hover-transition' , data-rp-panel-id=tab.panelId)
+            a.rp-tab(class='lt4 no-hover-transition' , data-rp-panel-id=tab.panelId , href='#')
               strong= tab.title
 
   .container(class='full-bleed-no-max rp-container-tabbed')
     for tab in data.config.tabbedLayout
       if data.config.mode == 'full'
         - clss = data.config.mode
-        section.related-products( class=clss , data-mode=data.config.mode , data-variation=data.config.variation ,  data-rp-panel-id=tab.panelId )
+        section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation ,  data-rp-panel-id=tab.panelId)
           .rp-overflow
             .rp-container
               j = 0
               for slide in data.slideContent
                 mdata = locals.data(slide.data)
-                .rp-slide(data-variation=mdata.config.variation , class=mdata.config.variation)
+                .rp-slide(class=mdata.config.variation , data-variation=mdata.config.variation)
                   .shuffle-container.slimgrid5
                     i = 0
                     for module in mdata.submodules
@@ -41,14 +41,14 @@ else if data.config.standalone != true
     - clss = data.config.mode
     .container
       .grid
-        h2(class='l1 rp-title')= data.config.headerTitle
+        h2(class='l1')= data.config.headerTitle
     section.related-products( class=clss , data-mode=data.config.mode , data-variation=data.config.variation )
       .rp-overflow
         .rp-container
           j = 0
           for slide in data.slideContent
             mdata = locals.data(slide.data)
-            .rp-slide(data-variation=mdata.config.variation , class=mdata.config.variation)
+            .rp-slide(class=mdata.config.variation , data-variation=mdata.config.variation)
               .shuffle-container.slimgrid5
                 i = 0
                 for module in mdata.submodules
@@ -64,8 +64,8 @@ else if data.config.standalone == true
     - clss = data.config.mode
     .container
       .grid
-        h2(class='l1 rp-title')= data.config.headerTitle
-    section.related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
+        h2(class='l1')= data.config.headerTitle
+    section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation)
       .rp-overflow
         .rp-container
           .rp-slide(class=data.config.variation , data-variation=data.config.variation)
@@ -83,10 +83,10 @@ else if data.config.standalone == true
     - clss = data.config.mode
     .container
       .grid
-        h2(class='l1 rp-title')= data.config.headerTitle
+        h2(class='l1')= data.config.headerTitle
     .container
       .grid
-        section.related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
+        section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation)
           i = 0
           for module in data.submodules
             d = locals.data(module.data)
@@ -99,7 +99,7 @@ else if data.config.standalone == true
     - clss = data.config.mode + ' ' + 'span12'
     .container
       .grid
-        h2(class='l1 rp-title')= data.config.headerTitle
+        h2(class='l1')= data.config.headerTitle
     .container
       .grid
         section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation )
@@ -113,12 +113,6 @@ else if data.config.standalone == true
                   - d.view = 'basic'
                   e = { 'locals' : locals , 'data' : d }
                   !{locals.partial(module.type , e )}
-
-
-
-
-
-
 
 
 
