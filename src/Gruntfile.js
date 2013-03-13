@@ -388,7 +388,7 @@ module.exports = function(grunt) {
   grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages']);
 
   //all of the following can be called with --deploy otherwise they assume --debug
-  grunt.registerTask('common', 'lint', 'scss', 'copy', function(){
+  grunt.registerTask('common', 'lint, scss, copy', function(){
     var env = grunt.option('deploy') ? 'deploy' : 'debug';
 
     grunt.config('jshint.files', ['packages/common/js/require/*.js', 'packages/common/js/secondary/*.js']);
