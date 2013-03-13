@@ -43,7 +43,7 @@ module.exports = function(grunt) {
           return grunt.file.expand('packages/modules/**/js/*.js').map(function(a){return a.split('/').pop()});
         },
         doccopages:function(){
-          return grunt.file.expand('../docs/docco/').map(function(a){return a.split('/').pop()});
+          return grunt.file.expand('../docs/docco/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
         },
         pages:function(){
           return grunt.file.expand('packages/pages/*.jade').map(function(a){return a.split('/').pop().replace(/.jade/g, '.html')}).filter(function(a){return a.match(/-pagebuild.html/g)});
@@ -365,7 +365,7 @@ module.exports = function(grunt) {
   //define task scripts
   grunt.registerTask('default', ['build']);
 
-  grunt.registerTask('docs', ['clean:docs', 'compass:common_docs', 'compass:docs', 'copy:docs', 'jade:docs']);
+  grunt.registerTask('docs', ['clean:docs', 'compass:common_docs', 'compass:docs', 'copy:docs', 'doccoh', 'jade:docs']);
 
   grunt.registerTask('pages', function(){
     grunt.config('jshint.files', ['packages/pages/data/**/*.json']);
