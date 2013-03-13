@@ -675,7 +675,7 @@ define(function(require){
 
           self.$galleryItems.find('.product-name').evenHeights();
 
-          window.iQ.update();
+          iQ.update();
 
         }, 50);
 
@@ -838,7 +838,7 @@ define(function(require){
           self.$el.sonyPaddles('hidePaddle', 'right');
         }
 
-        window.iQ.update();
+        iQ.update();
 
       },
 
@@ -1091,7 +1091,7 @@ define(function(require){
 
             self.sortByPriority();
 
-            window.iQ.update();
+            iQ.update();
 
             if(!self.hasTouch){
               self.togglePaddles(true);
@@ -1139,7 +1139,7 @@ define(function(require){
 
             self.sortByPriority();
 
-            window.iQ.update();
+            iQ.update();
 
             if(!self.hasTouch){
               self.togglePaddles(true);
@@ -1188,7 +1188,7 @@ define(function(require){
             //Hide the bullet navigation
             self.$bulletNav.hide();
 
-            window.iQ.update();
+            iQ.update();
 
             if(self.scrollerModule !== null){
               self.scrollerModule.destroy();
@@ -1557,7 +1557,7 @@ define(function(require){
             if(self.isDragging) {
               self.animFrame = window.requestAnimationFrame(animloop);
 
-              
+
               if(self.renderMoveEvent){
 
                 self.renderMovement(self.renderMoveEvent, isThumbs);
@@ -1712,7 +1712,7 @@ define(function(require){
           self.$container.one(self.transitionEndName , function(){
             //Shuffle optimization
             self.toggleShuffles();
-            window.iQ.update();
+            iQ.update();
           });
         }
 
@@ -2060,7 +2060,7 @@ define(function(require){
 
           self.hasInitedMobile = true;
 
-          window.iQ.update();
+          iQ.update();
           self.checkTileHeights();
 
           //animate in container -makes for a smoother experience
@@ -2074,7 +2074,7 @@ define(function(require){
       onScrollerEnd: function(){
         var self = this;
 
-        window.iQ.update();
+        iQ.update();
         self.checkTileHeights();
 
       },

@@ -5,8 +5,11 @@
  * @date 03.02.13
  * @version 1.2
  */
-;(function($, window, undefined) {
+define(function(require){
+
   'use strict';
+
+  var $ = require('jquery');
 
   var SimpleScroll = function( options, fn ) {
     var self = this;
@@ -127,4 +130,4 @@
     offset: 0
   };
 
-}(jQuery, window));
+});
