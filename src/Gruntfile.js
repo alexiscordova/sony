@@ -313,13 +313,6 @@ module.exports = function(grunt) {
             var arr = [
               {
                 name: 'common',
-                include: [
-                  'bootstrap',
-                  'jquery',
-                  'modernizr',
-                  'enquire',
-                  'iQ'
-                ]
               },
               {
                 name: 'plugins/index',
@@ -338,7 +331,7 @@ module.exports = function(grunt) {
             grunt.file.expand('../build/deploy/js/modules/**/index.js').forEach(function(path){
               arr.push({
                 name: path.split('../build/deploy/js/')[1].split('.js')[0],
-                exclude: ['common', 'plugins/index', 'secondary/index', 'require/index']
+                exclude: ['common', 'plugins/index', 'require/index', 'secondary/index']
               });
             })
 
