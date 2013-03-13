@@ -20,7 +20,11 @@ define(function(require){
 
   'use strict';
 
-  var iQ = window.iQ || {},
+  if ( !window.iQ ) {
+    window.iQ = {};
+  }
+
+  var iQ = window.iQ,
       $ = require('jquery'),
       Modernizr = require('modernizr'),
       imagesloaded = require('plugins/jquery.imagesloaded');
@@ -613,5 +617,7 @@ define(function(require){
 
   // DOM does not need to be ready to begin the network connection speed test.
   initSpeedTest();
+
+  return iQ;
 
 });
