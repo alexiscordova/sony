@@ -383,10 +383,10 @@ define(function(require){
           } else {
             self.resetActiveNavMenu();
           }
+          $thNavTarget.off('touchstart mouseenter mouseleave click');
         }
         // reset touch -- even if these aren't visible on mobile, it's still better to reset them, since they'll get re-inited if switch back
         $thNavBtn.off('touchstart mouseenter mouseleave click');
-        $thNavBtnTarget.off('touchstart mouseenter mouseleave click');
       });
     },
 
@@ -669,7 +669,7 @@ define(function(require){
           $('.page-wrap-inner').removeClass('show-mobile-search-results');
           setTimeout(function() {
             $thInput.trigger('blur');
-          }, 2);
+          }, 0);
         }
       });
 
