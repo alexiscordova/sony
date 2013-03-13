@@ -1,21 +1,21 @@
 # **Introduction**
 This is our standard front-end build stack, it incorporates a number of open source tools and applications to help streamline our development. At the core is Grunt.js. It has 2 main targets: 'deploy' and 'debug'. The idea being debug would run as a constant watch target and update files as they are saved. The deploy being a more robust build that concatenates and minifies javascript and css. Below is a list and the required terminal commands to get up and running as well as links to all associated libraries, plugins, and required frameworks (node, java & ruby). 
 
-## **Build Tools** 
-Assumes your environment already has a minimum of :
-*Node (v0.10.0) / NPM (1.2.14) 
-*Java (1.6.0_37)  - required for yui compressor 
-*Ruby (1.8.7) / Ruby Gems (1.8.24) - required for compass
+## **Build Tools**  
+Assumes your environment already has a minimum of :  
+*Node (v0.10.0) / NPM (1.2.14)   
+*Java (1.6.0_37)  - required for yui compressor  
+*Ruby (1.8.7) / Ruby Gems (1.8.24) - required for compass  
 
-If you don't here's how to get those: 
-* **Node.js** http://nodejs.org/ 
-* **Ruby** http://www.ruby-lang.org/en/downloads/
-* **Java** http://www.java.com/
+If you don't here's how to get those:  
+* **Node.js** http://nodejs.org/  
+* **Ruby** http://www.ruby-lang.org/en/downloads/  
+* **Java** http://www.java.com/  
 
 Many of these are installed and checked into the /src/ directory so you will not need to install all of these however the full install directions are here. You skip the plugins installs, but it is recommended to install docpad and grunt using the -g (global) flag. 
 
 
-**Grunt.js** command line automation tool http://gruntjs.com/ 
+**Grunt.js** command line automation tool http://gruntjs.com/  
 requires: **Node.js** http://nodejs.org/ 
 ```
 #!terminal
@@ -23,7 +23,7 @@ requires: **Node.js** http://nodejs.org/
 $ sudo npm install -g grunt-cli
 ```
 
-*grunt plugins*
+*grunt plugins* 
 (installed in the repo - stored under node_modules by npm)
 
 * "grunt-clear": "~0.1.2", // clears the console output https://github.com/geddesign/grunt-clear
@@ -82,7 +82,7 @@ or
 $ grunt build --deploy
 ```
 
-**Docs: ** This rebuilds the docs directory. [[https://github.com/jashkenas/docco|Docco]] documentation requires the [[http://pygments.org/|Python Pygments]] library, which can be installed with 'sudo easy_install pygments'.
+**Docs: ** This rebuilds the docs directory. [Docco](https://github.com/jashkenas/docco) documentation requires the [Python Pygments](http://pygments.org/) library, which can be installed with 'sudo easy_install pygments'.
 ```
 #!terminal
 
@@ -235,7 +235,7 @@ src/packages/modules/**/demo - example demos and layouts for each module, not us
 
 src/packages/modules/**/demo/data example json files to compile the demo and layouts against
 
-==**Page Templates**==
+## **Page Templates**
 For pages we're using Jade templates, see [[Jade%20101|Jade 101]]
 
 ## **Module Data**
@@ -272,7 +272,7 @@ for item in data.myarray
 
 ```
 
-more about jade templates: [[Jade%20101|Jade 101]]
+more about jade templates: [Jade 101](Jade%20101)
 
 ## **Javascript Bundles**
 
@@ -291,7 +291,7 @@ In deploy all scripts are minified and scripts within required & secondary will 
 All js files except top level libs will automatically be written into pages with the js_foot includes.
 
 ## **Docco JS Documentation**
-We're using [[https://github.com/jashkenas/docco|Docco]] to create javascript docs automatically. Docco parses JS to pull out single-line comments and parse them using the markdown syntax. For example:
+We're using [Docco](https://github.com/jashkenas/docco) to create javascript docs automatically. Docco parses JS to pull out single-line comments and parse them using the markdown syntax. For example:
 
 
 ```
@@ -314,7 +314,27 @@ We're using [[https://github.com/jashkenas/docco|Docco]] to create javascript do
 
 ```
 
-Much more about markdown syntax [[http://daringfireball.net/projects/markdown/basics|here]] and [[http://greg.vario.us/doc/markdown.txt|here]]. 
+Much more about markdown syntax [here](http://daringfireball.net/projects/markdown/basics) and [here](http://greg.vario.us/doc/markdown.txt). 
+
+## ** Migrating from build tools v0.1.0  to v0.2.0 **
+delete your current build files
+
+npm uninstall grunt -g
+npm uninstall docpad -g
+
+update node to v0.10.0
+npm install grunt-cli -g
+
+re-check out master
+
+test your modules
+check for images, I re-linked alot of them
+update your README.md file
+* describe your module
+* document the data .json files and what your jade template expects / options / requirements / etc
+
+don't add build back into the repo, it should be in gitignore now
+
 
 ## ** Troubleshooting** 
 
