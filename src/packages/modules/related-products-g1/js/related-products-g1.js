@@ -23,11 +23,11 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        shuffle = require('secondary/jquery.shuffle'),
-        scroller = require('secondary/sony-scroller'),
-        evenHeights = require('secondary/sony-evenheights'),
-        sonyPaddles = require('secondary/sony-paddles'),
-        sonyNavDots = require('secondary/sony-navigationdots');
+        jqueryShuffle = require('secondary/index').jqueryShuffle,
+        sonyScroller = require('secondary/index').sonyScroller,
+        sonyEvenHeights = require('secondary/index').sonyEvenHeights,
+        sonyPaddles = require('secondary/index').sonyPaddles,
+        sonyNavigationDots = require('secondary/index').sonyNavigationDots;
 
     var self = {
       'init': function() {
@@ -127,7 +127,7 @@ define(function(require){
 
       log('SONY : RelatedProducts : Initialized');
 
-      
+
 
     };
 
@@ -598,7 +598,7 @@ define(function(require){
                 self.animateTiles();
               }else {
                 self.$pagination.show();
-                self.$pagination.stop(true,true).fadeIn(250); 
+                self.$pagination.stop(true,true).fadeIn(250);
               }
 
             } , 50);
