@@ -18,12 +18,12 @@ define(function(require){
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
       Utilities = require('require/sony-global-utilities'),
+      jqueryShuffle = require('secondary/index').jqueryShuffle,
+      scroller = require('secondary/index').sonyScroller,
       rangeControl = require('secondary/jodo.rangecontrol.1.4'),
       stickyTabs = require('secondary/sony-stickytabs'),
       sonyTab = require('secondary/sony-tab'),
-      shuffle = require('secondary/jquery.shuffle'),
-      simpleScroll = require('secondary/jquery.simplescroll'),
-      scroller = require('secondary/sony-scroller');
+      simpleScroll = require('secondary/jquery.simplescroll');
 
   var module = {
 

@@ -17,9 +17,9 @@ define(function(require){
       imagesloaded = require('plugins/jquery.imagesloaded'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      stickyNav = require('secondary/sony-stickynav'),
-      shuffle = require('secondary/jquery.shuffle'),
-      scroller = require('secondary/sony-scroller');
+      jqueryShuffle = require('secondary/index').jqueryShuffle,
+      sonyScroller = require('secondary/index').sonyScroller,
+      sonyStickyNav = require('secondary/index').sonyStickyNav;
 
   var module = {
     init: function() {

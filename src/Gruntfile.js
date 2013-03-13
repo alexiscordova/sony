@@ -326,13 +326,13 @@ module.exports = function(grunt) {
                 exclude: ['common']
               },
               {
-                name: 'secondary/index',
+                name: 'require/index',
                 exclude: ['common', 'plugins/index']
               },
               {
-                name: 'require/index',
-                exclude: ['common', 'plugins/index', 'secondary/index']
-              }
+                name: 'secondary/index',
+                exclude: ['common', 'plugins/index', 'require/index']
+              },
             ];
 
             grunt.file.expand('../build/deploy/js/modules/**/index.js').forEach(function(path){

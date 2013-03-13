@@ -9,6 +9,7 @@ define(function (require) {
     sonyEvenHeights: require('secondary/sony-evenheights'),
     sonyNavigationDots: require('secondary/sony-navigationdots'),
     sonyPaddles: require('secondary/sony-paddles'),
-    sonyScroller: require('secondary/sony-scroller')
+    sonyScroller: require('secondary/sony-scroller'),
+    sonyStickyNav: require('secondary/sony-stickynav')
   };
 });
