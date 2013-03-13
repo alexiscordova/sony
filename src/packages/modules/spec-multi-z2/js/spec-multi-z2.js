@@ -16,9 +16,10 @@ define(function(require){
       iQ = require('iQ'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      stickyTabs = require('secondary/sony-stickytabs'),
-      stickyNav = require('secondary/sony-stickynav'),
-      shuffle = require('secondary/jquery.shuffle');
+      jqueryShuffle = require('secondary/index').jqueryShuffle,
+      sonyScroller = require('secondary/index').sonyScroller,
+      sonyStickyNav = require('secondary/index').sonyStickyNav,
+      stickyTabs = require('secondary/sony-stickytabs');
 
   var module = {
     init: function() {

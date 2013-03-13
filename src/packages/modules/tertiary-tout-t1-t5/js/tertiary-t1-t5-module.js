@@ -24,9 +24,10 @@ define(function(require){
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         Utilities = require('require/sony-global-utilities'),
-        sequencer = require('secondary/sony-sequencer'),
-        sonyPaddles = require('secondary/sony-paddles'),
-        sonyNavDots = require('secondary/sony-navigationdots');
+        sonyPaddles = require('secondary/index').sonyPaddles,
+        sonyNavigationDots = require('secondary/index').sonyNavigationDots,
+        sequencer = require('secondary/sony-sequencer');
+
 
     var self = {
       'init': function() {
@@ -114,7 +115,7 @@ define(function(require){
       }
 
       self.$el.find(self.imageClass).on('iQ:imageLoaded', function(){
-       self.onImagesLoaded(); 
+       self.onImagesLoaded();
       });
 
       // start it all
@@ -138,20 +139,20 @@ define(function(require){
         }
 
         // can run this now because it's safe to assume (via requireJS) the page is loaded
-        self.onImagesLoaded(); 
+        self.onImagesLoaded();
 
         log('SONY : TertiaryModule : Initialized');
 
       },
 
       handleImagesLoaded : function(){
-        var self = this;       
+        var self = this;
 
         $(self.imageClass)
           .addClass('iq-img')
           .parent()
           .addClass('on');
-        
+
         iQ.update(true);
 
         self.setCenterContentHeight();
