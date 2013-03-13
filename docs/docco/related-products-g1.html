@@ -22,11 +22,11 @@
         bootstrap = require(<span class="string">'bootstrap'</span>),
         Settings = require(<span class="string">'require/sony-global-settings'</span>),
         Environment = require(<span class="string">'require/sony-global-environment'</span>),
-        shuffle = require(<span class="string">'secondary/jquery.shuffle'</span>),
-        scroller = require(<span class="string">'secondary/sony-scroller'</span>),
-        evenHeights = require(<span class="string">'secondary/sony-evenheights'</span>),
-        sonyPaddles = require(<span class="string">'secondary/sony-paddles'</span>),
-        sonyNavDots = require(<span class="string">'secondary/sony-navigationdots'</span>);
+        jqueryShuffle = require(<span class="string">'secondary/index'</span>).jqueryShuffle,
+        sonyScroller = require(<span class="string">'secondary/index'</span>).sonyScroller,
+        sonyEvenHeights = require(<span class="string">'secondary/index'</span>).sonyEvenHeights,
+        sonyPaddles = require(<span class="string">'secondary/index'</span>).sonyPaddles,
+        sonyNavigationDots = require(<span class="string">'secondary/index'</span>).sonyNavigationDots;
 
     <span class="keyword">var</span> self = {
       <span class="string">'init'</span>: <span class="keyword">function</span>() {
@@ -119,7 +119,7 @@
 
       log(<span class="string">'SONY : RelatedProducts : Initialized'</span>);
 
-      
+
 
     };
 
@@ -557,7 +557,7 @@ if their interaction time and movements are below certain thresholds.</p>       
                 self.animateTiles();
               }<span class="keyword">else</span> {
                 self.$pagination.show();
-                self.$pagination.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">250</span>); 
+                self.$pagination.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">250</span>);
               }
 
             } , <span class="number">50</span>);
