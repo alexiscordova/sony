@@ -69,11 +69,13 @@ define(function(require){
         'dragThreshold': 10,
         'containment': self.$container,
         'useCSS3': self.useCSS3,
-        'drag': window.iQ.update
+        'drag': function(){ iQ.update(true); }
       });
 
       self.bindEvents();
       self.$cachedSlides = self.$slides.detach();
+      self.$cachedSlides.find('.soc-image').addClass('iq-img');
+
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find('.soc-item').remove();
 
@@ -103,9 +105,9 @@ define(function(require){
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
       self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
 
-      self.$innerContainer.on(Settings.transEndEventName, window.iQ.update);
+      self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });
 
-      self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
+      self.$el.find('.soc-image').on('iQ:imageLoaded', function(){
         $(this).closest('.soc-item').addClass('on');
       });
 
@@ -245,7 +247,7 @@ define(function(require){
           'left': -100 * destinationLeft / Settings.$window.width() + '%'
         }, {
           'duration': 350,
-          'complete': window.iQ.update
+          'complete': function(){ iQ.update(true); }
         });
       }
 
