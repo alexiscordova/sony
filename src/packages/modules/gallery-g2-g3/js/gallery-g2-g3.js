@@ -21,10 +21,10 @@ define(function(require){
       jqueryShuffle = require('secondary/index').jqueryShuffle,
       scroller = require('secondary/index').sonyScroller,
       sonyEvenHeights = require('secondary/index').sonyEvenHeights,
-      rangeControl = require('secondary/jodo.rangecontrol.1.4'),
-      stickyTabs = require('secondary/sony-stickytabs'),
-      sonyTab = require('secondary/sony-tab'),
-      simpleScroll = require('secondary/jquery.simplescroll');
+      sonyTab = require('secondary/index').sonyTab,
+      sonyStickyTabs = require('secondary/index').sonyStickyTabs,
+      jquerySimpleScroll = require('secondary/index').jquerySimpleScroll,
+      rangeControl = require('secondary/jodo.rangecontrol.1.4');
 
   var module = {
 

@@ -20,7 +20,8 @@ define(function(require){
       jqueryShuffle = require('secondary/index').jqueryShuffle,
       sonyScroller = require('secondary/index').sonyScroller,
       sonyEvenHeights = require('secondary/index').sonyEvenHeights,
-      sonyStickyNav = require('secondary/index').sonyStickyNav;
+      sonyStickyNav = require('secondary/index').sonyStickyNav,
+      jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
   var module = {
     init: function() {

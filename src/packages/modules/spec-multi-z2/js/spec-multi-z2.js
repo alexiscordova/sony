@@ -14,13 +14,16 @@ define(function(require){
 
   var $ = require('jquery'),
       iQ = require('iQ'),
+      bootstrap = require('bootstrap'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
       jqueryShuffle = require('secondary/index').jqueryShuffle,
       sonyScroller = require('secondary/index').sonyScroller,
       sonyStickyNav = require('secondary/index').sonyStickyNav,
       sonyEvenHeights = require('secondary/index').sonyEvenHeights,
-      stickyTabs = require('secondary/sony-stickytabs');
+      sonyTab = require('secondary/index').sonyTab,
+      sonyStickyTabs = require('secondary/index').sonyStickyTabs,
+      jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
   var module = {
     init: function() {
