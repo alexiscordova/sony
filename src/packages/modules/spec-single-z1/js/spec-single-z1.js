@@ -19,7 +19,9 @@ define(function(require){
       Environment = require('require/sony-global-environment'),
       jqueryShuffle = require('secondary/index').jqueryShuffle,
       sonyScroller = require('secondary/index').sonyScroller,
-      sonyStickyNav = require('secondary/index').sonyStickyNav;
+      sonyEvenHeights = require('secondary/index').sonyEvenHeights,
+      sonyStickyNav = require('secondary/index').sonyStickyNav,
+      jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
   var module = {
     init: function() {

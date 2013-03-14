@@ -20,32 +20,25 @@ define(function(require){
       Utilities = require('require/sony-global-utilities'),
       jqueryShuffle = require('secondary/index').jqueryShuffle,
       scroller = require('secondary/index').sonyScroller,
-      rangeControl = require('secondary/jodo.rangecontrol.1.4'),
-      stickyTabs = require('secondary/sony-stickytabs'),
-      sonyTab = require('secondary/sony-tab'),
-      simpleScroll = require('secondary/jquery.simplescroll');
+      sonyEvenHeights = require('secondary/index').sonyEvenHeights,
+      sonyTab = require('secondary/index').sonyTab,
+      sonyStickyTabs = require('secondary/index').sonyStickyTabs,
+      jquerySimpleScroll = require('secondary/index').jquerySimpleScroll,
+      rangeControl = require('secondary/jodo.rangecontrol.1.4');
 
   var module = {
 
     init: function() {
 
       if ( $('.gallery').length > 0 ) {
-        // console.profile();
         // Initialize galleries
         $('.gallery').each(function() {
           var $this = $(this);
 
-          // console.profile('gallery ' + this.id);
-          // var mode = $this.data('mode').toUpperCase();
-          // var id = this.id.substr(0, this.id.lastIndexOf('-'));
-          // console.timeStamp( mode + ' ' + id );
           // Stagger gallery initialization
           setTimeout(function() {
-            // console.time(id + ' (' + mode + ') gallery took');
             $this.gallery( $this.data() );
-            // console.timeEnd(id + ' (' + mode + ') gallery took');
           }, 0);
-          // console.profileEnd('gallery ' + this.id);
         });
 
         // Register for tab show(n) events here because not all tabs are galleries
@@ -53,7 +46,6 @@ define(function(require){
           .on('show', module.onGalleryTabShow )
           .on('shown', module.onGalleryTabShown );
 
-        // console.timeStamp('initialize sticky tabs');
         // Initialize sticky tabs
         $('.tab-strip').stickyTabs();
 
@@ -64,16 +56,15 @@ define(function(require){
 
           // Should be called after everything is initialized
           $(window).trigger('hashchange');
+
+          // Disable hidden galleries.
+          // Using a timeout here because the tab shown event is triggered at the end of the transition,
+          // which depends on how long the page takes to load (and if the browser has transitions)
+          setTimeout(function() {
+            $('.tab-pane:not(.active) .gallery').gallery('disable');
+          }, 500);
         }, 0);
 
-        // Disable hidden galleries.
-        // Using a timeout here because the tab shown event is triggered at the end of the transition,
-        // which depends on how long the page takes to load (and if the browser has transitions)
-        setTimeout(function() {
-          // console.timeStamp('Disabling hidden galleries');
-          $('.tab-pane:not(.active) .gallery').gallery('disable');
-          // console.profileEnd();
-        }, 500);
       }
     }
   };
@@ -119,14 +110,12 @@ define(function(require){
 
     self.setColumnMode();
 
-    // console.timeStamp('adding GALLERY-' + self.mode.toUpperCase() + ' class');
     self.$container.addClass('gallery-' + self.mode);
     // Adding a class causes a style recalculation, let's throw in the column rearranging here too
     if ( self.mode === 'editorial' ) {
       self.shuffleGutters();
     }
 
-    // console.timeStamp('initializing shuffle');
     self.initShuffle();
 
     self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
@@ -134,18 +123,15 @@ define(function(require){
 
     // Infinite scroll?
     if ( self.hasInfiniteScroll ) {
-      // console.timeStamp('starting infinitescroll');
       self.initInfscr();
     }
 
     // Initialize filter dictionaries to keep track of everything
     if ( self.hasFilters ) {
-      // console.timeStamp('initing filters');
       self.initFilters();
     }
 
     if ( self.hasSorting ) {
-      // console.timeStamp('initing sorting');
       self.initSorting();
     }
 
@@ -156,7 +142,6 @@ define(function(require){
       self.initTooltips();
     }, 200);
 
-    // console.timeStamp('trigger resize');
     self.onResize( true );
 
     // Launch compare tool on click
@@ -171,8 +156,10 @@ define(function(require){
 
     // Run once
     if ( self.hasFilters ) {
-      // console.timeStamp('filter()');
-      self.filter();
+      // Defer it, then wait until a good time for the browser
+      setTimeout( window.requestAnimationFrame, 400, function() {
+        self.filter();
+      });
     }
 
     // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
@@ -237,10 +224,7 @@ define(function(require){
         self.$grid.infinitescroll('pause');
       }
 
-      // This causes a style recalculation, but we don't need it to happen immediately if it's just disabling the gallery.
-      setTimeout(function() {
-        self.$container.addClass('disabled');
-      }, 0);
+      self.$container.addClass('disabled');
 
       self.enabled = false;
     },
@@ -678,7 +662,6 @@ define(function(require){
             name = data.filter,
             init = [];
 
-
         // Initialize it based on type
         switch ( type ) {
           case 'range':
@@ -723,7 +706,6 @@ define(function(require){
         .on('hide', $.proxy( self.onFiltersHide, self ));
 
       // Bind clearing filters to any class that has `.js-clear-filters` on it
-      // $.proxy( self.removeActiveFilters, self )
       self.$container.on('click', '.js-clear-filters', function() {
         self.removeActiveFilters();
         // Tell jQuery to preventDefault() and stopPropagation()
@@ -955,6 +937,13 @@ define(function(require){
 
         // Carousels inside gallery items can be delayed
         setTimeout(function() {
+          // The gallery could have been disabled within the time we
+          // tried to execute this function and when the browser actually
+          // gets around to running the code.
+          if ( !self.enabled ) {
+            return;
+          }
+
           $carousel.scrollerModule({
             mode: 'carousel',
             contentSelector: '.js-carousel-container',
@@ -1355,8 +1344,9 @@ define(function(require){
       // Store jQuery object for later access
       self.$rangeControl = $rangeControl;
 
-      // On handle slid, update. Register before initialized so it's called during initialization
-      self.$rangeControl.on('slid.rangecontrol', update);
+      // Do a fake update to position the display values. We do this here instead of registering
+      // the slid event because that will be triggered twice on init (once for both handles)
+      update( undefined, undefined, {min: 0, max: 100} );
 
       self.$rangeControl.rangeControl({
         initialMin: '0%',
@@ -1364,6 +1354,9 @@ define(function(require){
         range: true,
         rangeThreshold: 0.25
       });
+
+      // On handle slid, update. Register after initialized so it's not called during initialization
+      self.$rangeControl.on('slid.rangecontrol', update);
 
       self.filterValues[ filterName ] = { min: true, max: true };
 
@@ -1543,8 +1536,8 @@ define(function(require){
 
     onResize : function( isInit, force ) {
       var self = this,
-          windowWidth = Settings.isLTIE9 ? 0 : self.$window.width(),
-          windowHeight = Settings.isLTIE9 ? 0 : self.$window.height(),
+          windowWidth = !Settings.isLTIE9 ? 0 : self.$window.width(),
+          windowHeight = !Settings.isLTIE9 ? 0 : self.$window.height(),
           hasWindowChanged = !Settings.isLTIE9 || windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
       // Make sure isInit is not an event object
@@ -1561,14 +1554,17 @@ define(function(require){
       // Don't change columns for detail galleries
       // Change the filters column layout
       if ( self.mode === 'detailed' ) {
-        // console.timeStamp('detailed gallery, rearranging filter stuff');
         // Remove heights in case they've aready been set
         if ( Modernizr.mq('(max-width: 47.9375em)') ) {
           self.$gridProductNames.css('height', '');
 
         // Make all product name heights even
         } else {
-          self.$gridProductNames.evenHeights();
+          // Let the browser choose the best time to do this becaues it causes a layout
+          window.requestAnimationFrame(function() {
+            // Make all product name heights even
+            self.$gridProductNames.evenHeights();
+          });
         }
 
         // 768-979
@@ -1629,9 +1625,11 @@ define(function(require){
         return;
       }
 
-      // console.timeStamp('even heights on product names');
-      // Make all product name heights even
-      self.$gridProductNames.evenHeights();
+      // Let the browser choose the best time to do this
+      window.requestAnimationFrame(function() {
+        // Make all product name heights even
+        self.$gridProductNames.evenHeights();
+      });
 
       Utilities.forceWebkitRedraw();
 
@@ -1706,13 +1704,11 @@ define(function(require){
           isFadedIn = self.$container.hasClass('in');
 
       if ( isFadedIn ) {
-        // console.timeStamp('removing gallery loader');
         self.$container.find('.gallery-loader').remove();
 
       // Fade in the gallery if it isn't already
       } else {
         setTimeout(function() {
-          // console.timeStamp('removing gallery loader and module loader');
           module.removeGalleryLoader();
           self.$container.find('.gallery-loader').remove();
           self.$container.addClass('in');
@@ -2839,7 +2835,7 @@ define(function(require){
   };
 
 
-  // Event triggered when this tab is about to be shown
+  // Event triggered when the previous tab/pane is about to be hidden
   module.onGalleryTabShow = function( evt ) {
     var $prevPane;
 
@@ -2876,7 +2872,7 @@ define(function(require){
 
   };
 
-  // Event triggered when tab pane is finished being shown
+  // Event triggered when the next tab/pane is finished being shown
   module.onGalleryTabShown = function( evt ) {
     // Only continue if this is a tab shown event.
     var $pane,

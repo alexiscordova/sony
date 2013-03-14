@@ -284,7 +284,7 @@ module.exports = function(grunt) {
         tasks:['css']
       },
       html:{
-        files:['packages/modules/**/*.jade', 'packages/modules/**/*.json'],
+        files:['packages/common/html/**/*.jade', 'packages/modules/**/*.jade', 'packages/modules/**/*.json'],
         tasks:['html']
       },
       assets:{
