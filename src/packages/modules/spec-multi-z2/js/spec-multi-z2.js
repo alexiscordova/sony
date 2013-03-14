@@ -19,6 +19,7 @@ define(function(require){
       jqueryShuffle = require('secondary/index').jqueryShuffle,
       sonyScroller = require('secondary/index').sonyScroller,
       sonyStickyNav = require('secondary/index').sonyStickyNav,
+      jquerySimpleScroll = require('secondary/index').jquerySimpleScroll,
       stickyTabs = require('secondary/sony-stickytabs');
 
   var module = {

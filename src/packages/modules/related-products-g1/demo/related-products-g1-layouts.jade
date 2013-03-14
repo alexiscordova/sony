@@ -1,3 +1,4 @@
+include ../../../common/html/jade-helpers.jade
 doctype 5
 include ../../../common/html/ieconditionals.html
 
@@ -9,63 +10,50 @@ body
   .container
     h4= 'G1 - Related Products Grouped 3up Mode'
 
-  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/3up-orange-color-btn.json')}
-  - e.data.config.standalone = true
-  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
+  +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/3up-orange-color-btn.json', true)
 
   hr
 
   .container
     h4= 'G1 - Related Products Tabbed Mode'
 
-  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/homepage-tabbed.json')}
-  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
-  
+  +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/homepage-tabbed.json', true)
+
   hr
-  
+
   .container
     h4= 'G1 - Related Products Grouped 5up Mode'
 
-  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/5up-teal-color.json')}
-  - e.data.config.standalone = true
-  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
+  +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/5up-teal-color.json', true)
 
   hr
 
   .container
     h4= 'G1 - Related Products Grouped 4up Mode'
 
-  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/4up-purple-color.json')}
-  - e.data.config.standalone = true
-  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
+  +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/4up-purple-color.json', true)
 
   hr
 
   .container
     h4= 'G1 - Related Products Grouped 3up Mode'
 
-  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/3up-orange-color.json')}
-  - e.data.config.standalone = true
-  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
+  +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/3up-orange-color.json', true)
 
   hr
 
   .container
     h4= 'G1 - Related Products 2up Mode'
 
-  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/2up-view.json')}
-  - e.data.config.standalone = true
-  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
+  +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/2up-view.json', true)
 
   hr
 
   .container
     h4= 'G1 - Related Products Strip Mode'
 
-  e = {"locals":locals, "data":data('packages/modules/related-products-g1/demo/data/strip-mode.json')}
-  - e.data.config.standalone = true
-  !{partial('packages/modules/related-products-g1/html/related-products-g1.jade', e)}
-  
+  +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/strip-mode.json', true)
+
   hr
 
   include ../../../common/html/foot.jade
