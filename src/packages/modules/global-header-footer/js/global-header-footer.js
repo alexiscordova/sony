@@ -16,6 +16,7 @@ define(function(require){
       bootstrap = require('bootstrap'),
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
+      iQ = require('iQ'),
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
@@ -216,7 +217,7 @@ define(function(require){
             else {
               $(this).data('active', true);
             }
-      
+
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
 
@@ -256,10 +257,10 @@ define(function(require){
 
           // If you mouseOut of the nav button
           $thNavBtn.on('mouseleave', function() {
-            
+
             $(this).data('active', false);
             $(this).data('hovering', false);
-            
+
             // Check to see if it was onto the navtray/navmenu.
             // Wait a few ticks to give it a chance for the hover to fire first.
 
@@ -298,7 +299,7 @@ define(function(require){
 
           // If you mouseOut of the target
           $thNavBtnTarget.on('mouseleave', function() {
-            
+
             $(this).data('active', false);
             $(this).data('hovering', false);
 
@@ -531,6 +532,12 @@ define(function(require){
 
         // figure out if this is a tray or menu.
         if ($thNavTarget.hasClass('navtray-w')) {
+
+          // Force an iQ check whenever the navs expand.
+          $thNavTarget.one(self.transitionEnd, function() {
+            iQ.update(true);
+          });
+
           // it's a nav-tray
           // first get the tray's natural height, which it should have offscreen.
           // expand the tray. When it's done, set it to position:relative and natural heights.
