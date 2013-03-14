@@ -97,8 +97,16 @@ $ grunt docs
 $ grunt pages
 ```
 
+or for the deploy version in build/deploy/:
 
-**All: ** This runs all 'debug' 'deploy' and 'docs' 'pages' and does clean.
+```
+#!terminal
+
+$ grunt pages_deploy
+```
+
+
+**All: ** This runs all 'clean' 'debug' 'deploy' 'docs' 'pages' and 'pages_deploy'
 ```
 #!terminal
 
@@ -113,6 +121,8 @@ ie:
 
 $ grunt task --deploy
 ```
+
+**Pages: ** duplicate from above, for reference this also accepts --deploy
 
 **Common: ** This compiles all of the global and shared script, css, etc
 ```
