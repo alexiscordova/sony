@@ -361,12 +361,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('docs', ['clean:docs', 'compass:common_docs', 'compass:docs', 'copy:docs', 'doccoh', 'jade:docs']);
 
-  grunt.registerTask('pages', function(){
-    grunt.config('jshint.files', ['packages/pages/data/**/*.json']);
-    grunt.task.run(['jshint', 'jade:pages_debug']);
-    grunt.task.run(['jshint', 'jade:pages_deploy']);
-  });
-
   grunt.registerTask('lint', ['jshint']);
 
   grunt.registerTask('debug', function(){
@@ -378,10 +372,24 @@ module.exports = function(grunt) {
     grunt.option('deploy', true);
     grunt.task.run('build');
   });
+  
+  grunt.registerTask('pages_deploy', function(){
+    grunt.option('deploy', true);
+    grunt.task.run('pages');
+  });
 
-  grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages']);
-
+  grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages', 'pages_deploy']);
+  
+  //******************************************************************************
   //all of the following can be called with --deploy otherwise they assume --debug
+  //******************************************************************************
+    
+  grunt.registerTask('pages', function(){
+    var env = grunt.option('deploy') ? 'deploy' : 'debug';
+    grunt.config('jshint.files', ['packages/pages/data/**/*.json']);
+    grunt.task.run(['jshint', 'jade:pages_'+env]);
+  });
+    
   grunt.registerTask('common', 'lint, scss, copy', function(){
     var env = grunt.option('deploy') ? 'deploy' : 'debug';
 
@@ -401,7 +409,10 @@ module.exports = function(grunt) {
 
   });
 
+  //****************************************************************************************
   //all of the following can also be called with :your-module-name otherwise they assume all
+  //****************************************************************************************
+  
   grunt.registerTask('css', 'run compass on *.scss', function(module){
     module = module || '**';
     var env = grunt.option('deploy') ? 'deploy' : 'debug';

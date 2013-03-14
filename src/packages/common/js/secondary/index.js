@@ -11,6 +11,8 @@ define(function (require) {
     sonyNavigationDots: require('secondary/sony-navigationdots'),
     sonyPaddles: require('secondary/sony-paddles'),
     sonyScroller: require('secondary/sony-scroller'),
-    sonyStickyNav: require('secondary/sony-stickynav')
+    sonyStickyNav: require('secondary/sony-stickynav'),
+    sonyStickyTabs: require('secondary/sony-stickytabs'),
+    sonyTab: require('secondary/sony-tab')
   };
 });
