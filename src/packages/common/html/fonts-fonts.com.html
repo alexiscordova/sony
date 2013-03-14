@@ -5,7 +5,7 @@
   <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
       // Android needs otf/ttf icon-fonts, everybody else is good with woff.
-      var fontIconType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "ttf" : "woff";
+      var fontType = navigator.userAgent.toLowerCase().match(/android|vita|playstation/g) !== null ? "otf" : "woff";
       document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-icons-"+fontIconType+".css'%3E"));
     </script>
   <!--<![endif]-->
