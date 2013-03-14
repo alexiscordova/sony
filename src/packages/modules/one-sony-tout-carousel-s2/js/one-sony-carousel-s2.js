@@ -23,19 +23,19 @@ define(function(require){
       sonyNavigationDots = require('secondary/index').sonyNavigationDots,
       sonyDraggable = require('secondary/index').sonyDraggable;
 
-  var self = {
+  var module = {
     'init': function() {
-      $('.sony-one-carousel').oneSonyCarousel();
+      $('.sony-one-carousel').each(function(){
+        new OneSonyCarousel(this);
+      });
     }
   };
 
-  var OneSonyCarousel = function($element, options){
+  var OneSonyCarousel = function(element){
 
     var self = this;
 
-    $.extend(self, {}, $.fn.oneSonyCarousel.defaults, options);
-
-    self.$el = $element;
+    self.$el = $(element);
     self.$container = self.$el.find('.soc-container');
     self.$innerContainer = self.$container.find('.soc-container-inner');
     self.$slides = self.$container.find('.soc-content');
@@ -350,23 +350,6 @@ define(function(require){
     }
   };
 
-  $.fn.oneSonyCarousel = function( options ) {
-    var args = Array.prototype.slice.call( arguments, 1 );
-    return this.each(function() {
-      var self = $(this),
-        oneSonyCarousel = self.data('oneSonyCarousel');
-
-      if ( !oneSonyCarousel ) {
-          oneSonyCarousel = new OneSonyCarousel( self, options );
-          self.data( 'oneSonyCarousel', oneSonyCarousel );
-      }
-
-      if ( typeof options === 'string' ) {
-        oneSonyCarousel[ options ].apply( oneSonyCarousel, args );
-      }
-    });
-  };
-
-  return self;
+  return module;
 
 });
