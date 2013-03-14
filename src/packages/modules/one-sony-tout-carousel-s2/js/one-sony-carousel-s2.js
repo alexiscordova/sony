@@ -222,7 +222,7 @@ define(function(require){
       // shift the destination back to compensate.
 
       if ( !Modernizr.jsautomargins ) {
-        destinationLeft -= (innerContainerWidth -  $destinationSlide.width()  ) / 2;
+        destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / 2;
       }
 
       if ( self.useCSS3 ) {
@@ -311,8 +311,6 @@ define(function(require){
           height = self.$dotnav.get(0).offsetHeight;
           self.$dotnav.css('display' , 'block');
         }
-
-
       });
     },
 

@@ -20,10 +20,10 @@ define(function(require){
       Utilities = require('require/sony-global-utilities'),
       jqueryShuffle = require('secondary/index').jqueryShuffle,
       scroller = require('secondary/index').sonyScroller,
+      jquerySimpleScroll = require('secondary/index').jquerySimpleScroll,
       rangeControl = require('secondary/jodo.rangecontrol.1.4'),
       stickyTabs = require('secondary/sony-stickytabs'),
-      sonyTab = require('secondary/sony-tab'),
-      simpleScroll = require('secondary/jquery.simplescroll');
+      sonyTab = require('secondary/sony-tab');
 
   var module = {
 

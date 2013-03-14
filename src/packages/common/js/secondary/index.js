@@ -5,6 +5,7 @@ define(function (require) {
 
   return {
     jqueryShuffle: require('secondary/jquery.shuffle'),
+    jquerySimpleScroll: require('secondary/jquery.simplescroll'),
     sonyDraggable: require('secondary/sony-draggable'),
     sonyEvenHeights: require('secondary/sony-evenheights'),
     sonyNavigationDots: require('secondary/sony-navigationdots'),
