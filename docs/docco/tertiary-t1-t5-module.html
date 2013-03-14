@@ -23,9 +23,10 @@ define(<span class="keyword">function</span>(require){
         Settings = require(<span class="string">'require/sony-global-settings'</span>),
         Environment = require(<span class="string">'require/sony-global-environment'</span>),
         Utilities = require(<span class="string">'require/sony-global-utilities'</span>),
-        sequencer = require(<span class="string">'secondary/sony-sequencer'</span>),
-        sonyPaddles = require(<span class="string">'secondary/sony-paddles'</span>),
-        sonyNavDots = require(<span class="string">'secondary/sony-navigationdots'</span>);
+        sonyPaddles = require(<span class="string">'secondary/index'</span>).sonyPaddles,
+        sonyNavigationDots = require(<span class="string">'secondary/index'</span>).sonyNavigationDots,
+        sequencer = require(<span class="string">'secondary/sony-sequencer'</span>);
+
 
     <span class="keyword">var</span> self = {
       <span class="string">'init'</span>: <span class="keyword">function</span>() {
@@ -103,7 +104,7 @@ Namespaced versions of global events</p>             </td>             <td class
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>register for when images are loaded to determine centering
 self.$el.find(".iq-img").on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));</p>             </td>             <td class="code">               <div class="highlight"><pre>
       self.$el.find(self.imageClass).on(<span class="string">'iQ:imageLoaded'</span>, <span class="keyword">function</span>(){
-       self.onImagesLoaded(); 
+       self.onImagesLoaded();
       });
 
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>start it all</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
@@ -124,20 +125,20 @@ self.$el.find(".iq-img").on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLo
           }
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>can run this now because it's safe to assume (via requireJS) the page is loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.onImagesLoaded(); 
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>can run this now because it's safe to assume (via requireJS) the page is loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.onImagesLoaded();
 
         log(<span class="string">'SONY : TertiaryModule : Initialized'</span>);
 
       },
 
       handleImagesLoaded : <span class="keyword">function</span>(){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;       
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
         $(self.imageClass)
           .addClass(<span class="string">'iq-img'</span>)
           .parent()
           .addClass(<span class="string">'on'</span>);
-        
+
         iQ.update(<span class="literal">true</span>);
 
         self.setCenterContentHeight();

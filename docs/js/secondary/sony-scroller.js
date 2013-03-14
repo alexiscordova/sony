@@ -20,7 +20,7 @@ define(function(require){
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       iQ = require('iQ'),
-      Settings = require('require/sony-global-settings'),
+      Settings = require('require/index').Settings,
       iScroll = require('plugins/sony-iscroll');
 
   var ScrollerModule = function( $element, options ) {
