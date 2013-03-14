@@ -7,9 +7,13 @@
  * @version 1.6.1
  * @date 02/07/13
  */
-(function($, Modernizr, undefined) {
+
+define(function(require){
+
     'use strict';
 
+    var $ = require('jquery'),
+        Modernizr = require('modernizr');
 
     // You can return `undefined` from the `by` function to revert to DOM order
     // This plugin does NOT return a jQuery object. It returns a plain array because
@@ -1004,4 +1008,4 @@
         threeD: Modernizr.csstransforms3d // supports 3d transforms
     };
 
-})(jQuery, Modernizr);
+});

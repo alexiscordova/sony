@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, iQ, SONY, log*/
+/*global define, Modernizr, log*/
 
 // ------------ Sony Gallery ------------
 // Module: Gallery
@@ -18,12 +18,12 @@ define(function(require){
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
       Utilities = require('require/sony-global-utilities'),
+      jqueryShuffle = require('secondary/index').jqueryShuffle,
+      scroller = require('secondary/index').sonyScroller,
       rangeControl = require('secondary/jodo.rangecontrol.1.4'),
       stickyTabs = require('secondary/sony-stickytabs'),
       sonyTab = require('secondary/sony-tab'),
-      shuffle = require('secondary/jquery.shuffle'),
-      simpleScroll = require('secondary/jquery.simplescroll'),
-      scroller = require('secondary/sony-scroller');
+      simpleScroll = require('secondary/jquery.simplescroll');
 
   var module = {
 
@@ -36,9 +36,15 @@ define(function(require){
           var $this = $(this);
 
           // console.profile('gallery ' + this.id);
-          // console.time('Initializing gallery ' + this.id + ' took:');
-          $this.gallery( $this.data() );
-          // console.timeEnd('Initializing gallery ' + this.id + ' took:');
+          // var mode = $this.data('mode').toUpperCase();
+          // var id = this.id.substr(0, this.id.lastIndexOf('-'));
+          // console.timeStamp( mode + ' ' + id );
+          // Stagger gallery initialization
+          setTimeout(function() {
+            // console.time(id + ' (' + mode + ') gallery took');
+            $this.gallery( $this.data() );
+            // console.timeEnd(id + ' (' + mode + ') gallery took');
+          }, 0);
           // console.profileEnd('gallery ' + this.id);
         });
 
@@ -47,14 +53,18 @@ define(function(require){
           .on('show', module.onGalleryTabShow )
           .on('shown', module.onGalleryTabShown );
 
+        // console.timeStamp('initialize sticky tabs');
         // Initialize sticky tabs
         $('.tab-strip').stickyTabs();
 
-        // Hide other tabs
-        $('.tab-pane:not(.active)').addClass('off-screen');
+        // The galleries are in timeouts, so this has to be too
+        setTimeout(function() {
+          // Hide other tabs
+          $('.tab-pane:not(.active)').addClass('off-screen');
 
-        // Should be called after everything is initialized
-        $(window).trigger('hashchange');
+          // Should be called after everything is initialized
+          $(window).trigger('hashchange');
+        }, 0);
 
         // Disable hidden galleries.
         // Using a timeout here because the tab shown event is triggered at the end of the transition,
@@ -107,10 +117,16 @@ define(function(require){
     self.windowWidth = Settings.windowWidth;
     self.windowHeight = Settings.windowHeight;
 
-    self.$container.addClass('gallery-' + self.mode);
-
     self.setColumnMode();
 
+    // console.timeStamp('adding GALLERY-' + self.mode.toUpperCase() + ' class');
+    self.$container.addClass('gallery-' + self.mode);
+    // Adding a class causes a style recalculation, let's throw in the column rearranging here too
+    if ( self.mode === 'editorial' ) {
+      self.shuffleGutters();
+    }
+
+    // console.timeStamp('initializing shuffle');
     self.initShuffle();
 
     self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
@@ -118,21 +134,29 @@ define(function(require){
 
     // Infinite scroll?
     if ( self.hasInfiniteScroll ) {
+      // console.timeStamp('starting infinitescroll');
       self.initInfscr();
     }
 
     // Initialize filter dictionaries to keep track of everything
     if ( self.hasFilters ) {
+      // console.timeStamp('initing filters');
       self.initFilters();
     }
 
     if ( self.hasSorting ) {
+      // console.timeStamp('initing sorting');
       self.initSorting();
     }
 
-    self.initSwatches();
-    self.initTooltips();
+    // Swatches and tooltips are triggered on hover, so they don't need to be
+    // initialized immediately
+    setTimeout(function() {
+      self.initSwatches();
+      self.initTooltips();
+    }, 200);
 
+    // console.timeStamp('trigger resize');
     self.onResize( true );
 
     // Launch compare tool on click
@@ -147,6 +171,7 @@ define(function(require){
 
     // Run once
     if ( self.hasFilters ) {
+      // console.timeStamp('filter()');
       self.filter();
     }
 
@@ -212,7 +237,10 @@ define(function(require){
         self.$grid.infinitescroll('pause');
       }
 
-      self.$container.addClass('disabled');
+      // This causes a style recalculation, but we don't need it to happen immediately if it's just disabling the gallery.
+      setTimeout(function() {
+        self.$container.addClass('disabled');
+      }, 0);
 
       self.enabled = false;
     },
@@ -490,6 +518,29 @@ define(function(require){
       }
     },
 
+    getFilterStatus : function( filterValue, filterName, filterType ) {
+      var self = this,
+          selector = '';
+
+      // There's probably a better way to do this... (store jQuery objects for each filter?)
+      if ( filterType === 'button' ) {
+        // [data-filter="megapixels"] [data-megapixels="14-16"]
+        selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
+        return !self.$container.find( selector ).is(':disabled');
+
+      } else if ( filterType === 'checkbox' ) {
+        // [data-filter="features"] [value="lcd"]
+        selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
+        return !self.$container.find( selector ).is(':disabled');
+
+      } else if ( filterType === 'range' ) {
+        // range is never disabled
+        return true;
+      }
+
+      return null;
+    },
+
     removeActiveFilters : function() {
       var self = this,
           filterType = '',
@@ -498,6 +549,9 @@ define(function(require){
           filterValue = '';
 
       self.lastFilterGroup = null;
+      self.secondLastFilterGroup = null;
+      self.lastFilterStatuses = null;
+      self.secondLastFilterStatuses = null;
       self.currentFilterColor = null;
       self.hideFilteredSwatchImages();
 
@@ -587,7 +641,7 @@ define(function(require){
       // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
       self.$grid.on('layout.shuffle', function() {
         // Things moved around and could possibly be in the viewport
-        window.iQ.update();
+        iQ.update();
 
         // The position of the nav has changed, update it in infinitescroll
         if ( self.hasInfiniteScroll ) {
@@ -708,8 +762,6 @@ define(function(require){
         var $trigger = $(this);
         $triggers.not( $trigger ).popover('hide');
       });
-
-      $triggers = null;
     },
 
     initSorting : function() {
@@ -770,7 +822,7 @@ define(function(require){
 
             // This is silly. Maybe a new method for iQ. iQ.refresh()
             setTimeout(function() {
-              window.iQ.update( true );
+              iQ.update( true );
             }, 300);
           }, 15);
       }
@@ -834,7 +886,7 @@ define(function(require){
 
     loadSwatchImages : function() {
       this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
-      window.iQ.update( true );
+      iQ.update( true );
 
       return this;
     },
@@ -900,13 +952,19 @@ define(function(require){
       var self = this;
 
       function initializeScroller( $carousel ) {
-        $carousel.scrollerModule({
-          mode: 'carousel',
-          contentSelector: '.js-carousel-container',
-          itemElementSelector: '.slide'
-        });
 
-        self.hasEnabledCarousels = true;
+        // Carousels inside gallery items can be delayed
+        setTimeout(function() {
+          $carousel.scrollerModule({
+            mode: 'carousel',
+            contentSelector: '.js-carousel-container',
+            itemElementSelector: '.slide'
+          });
+
+          self.hasEnabledCarousels = true;
+
+          $carousel = null;
+        }, 0);
       }
 
       // Go through each possible carousel
@@ -954,71 +1012,109 @@ define(function(require){
     setFilterStatuses : function() {
       var self = this,
           $visible = self.shuffle.$items.filter('.filtered'),
-          filterName, filterValue, method, skip, value;//, filterData;
+          statuses = {},
+          lastFilterGroup = self.lastFilterGroup,
+          isRange = lastFilterGroup === 'price',
+          isRangeActive = self.filters.range.price.max !== undefined && (self.filters.range.price.max !== self.MAX_PRICE || self.filters.range.price.min !== self.MIN_PRICE);
 
+      function testGalleryItems( filterName, filterValue ) {
+        var shouldEnable = false;
 
-      // Reset stored data by setting all filterValue values to null
-      for ( filterName in self.filterValues ) {
-        if ( !self.filterValues.hasOwnProperty(filterName) ) {
-          continue;
+        if ( filterName === 'price' ) {
+          statuses[ filterName ][ filterValue ] = true;
+          return true;
         }
 
-        // filterData = self.filterData[ filterName ];
-        skip = filterName === self.lastFilterGroup;
+        $visible.each(function() {
+          var $item = $(this),
+              filterSet = $item.data('filterSet'),
+              filterGroupValue = filterSet[ filterName ],
+              isArray = $.isArray( filterGroupValue );
 
-        for ( filterValue in self.filterValues[ filterName ] ) {
-          self.filterValues[ filterName ][ filterValue ] = skip ? 'skip' : null;
-        }
+          shouldEnable = isArray ?
+            self.valueInArray( filterValue, filterGroupValue ) :
+            filterValue === filterGroupValue;
+
+          statuses[ filterName ][ filterValue ] = shouldEnable;
+
+          // If we've found a match, we don't need to go through the rest of the items
+          if ( shouldEnable ) {
+            return false;
+          }
+        });
+
+        return shouldEnable;
       }
 
-      // Build up the dictionary of the filters that should be shown/hidden
-      $visible.each(function() {
-        var $item = $(this),
-            filterSet = $item.data('filterSet'),
+      function setFilterStatusesObject() {
+        var filterName,
             filterValue,
-            filterName;
+            hasActiveFilter;
 
         for ( filterName in self.filterValues ) {
-          if ( !self.filterValues.hasOwnProperty(filterName) ) {
-            continue;
-          }
+          hasActiveFilter = filterName === lastFilterGroup;
+          statuses[ filterName ] = {};
 
           for ( filterValue in self.filterValues[ filterName ] ) {
-            // If we've already set this to false, we don't need to check again on another element
-            if ( self.filterValues[ filterName ][ filterValue ] === true || self.filterValues[ filterName ][ filterValue ] === 'skip' ) {
-                continue;
+
+            if ( hasActiveFilter ) {
+              statuses[ filterName ][ filterValue ] = 'skip';
+            } else {
+              testGalleryItems( filterName, filterValue );
             }
-
-            var isArray = $.isArray( filterSet[ filterName ] ),
-                shouldEnable;
-
-            shouldEnable = isArray ?
-                self.valueInArray( filterValue, filterSet[ filterName ] ) :
-                filterValue === filterSet[ filterName ];
-
-            self.filterValues[ filterName ][ filterValue ] = shouldEnable;
-          }
-        }
-      });
-
-      // Loop through all filters again to disable/enable them
-      for ( filterName in self.filterValues ) {
-        if ( !self.filterValues.hasOwnProperty(filterName) ) {
-          continue;
-        }
-
-        for ( filterValue in self.filterValues[ filterName ] ) {
-          value = self.filterValues[ filterName ][ filterValue ];
-
-          if ( value !== 'skip' ) {
-            method = value ? 'enable' : 'disable';
-            self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
           }
         }
       }
 
+      function setFilters() {
+        var filterGroup,
+            filterValue,
+            filterType,
+            status,
+            realStatus,
+            method;
+
+        for ( filterGroup in statuses ) {
+          for ( filterValue in statuses[ filterGroup ] ) {
+            status = statuses[ filterGroup ][ filterValue ];
+            filterType = self.filterTypes[ filterGroup ];
+            if ( status !== 'skip' ) {
+              method = status ? 'enable' : 'disable';
+              self[ method + 'Filter' ]( filterValue, filterGroup, filterType );
+
+            // We know we want to skip it, but we need to save the current status so we can come back to it
+            } else {
+              realStatus = self.getFilterStatus( filterValue, filterGroup, filterType );
+              statuses[ filterGroup ][ filterValue ] = realStatus;
+            }
+          }
+        }
+      }
+
+
+      // Use the last filter status that wasn't from this filter group, if appropriate
+      if ( (lastFilterGroup === null || isRange) && self.lastFilterStatuses !== null && self.secondLastFilterStatuses !== null && !(isRange && isRangeActive) && self.hasActiveFilters() ) {
+        statuses = self.secondLastFilterStatuses;
+      } else {
+        setFilterStatusesObject();
+      }
+
+      // Enable or disable them
+      setFilters();
+
+      // If we're filtering again (for example, by "colors"), don't add this statuses object as the
+      // second to last one, it should refer to the last one that is not in the current filter group
+      if ( lastFilterGroup !== self.secondLastFilterGroup ) {
+        self.secondLastFilterStatuses = self.lastFilterStatuses;
+      }
+      self.lastFilterStatuses = statuses;
+
+      self.secondLastFilterGroup = lastFilterGroup;
+
+      // Update product count
       self.$productCount.text( $visible.length );
 
+      // Release for IE
       $visible = null;
 
       return self;
@@ -1177,16 +1273,17 @@ define(function(require){
       values = null;
     },
 
-    range : function( $rangeControl, filterName, min, max ) {
-      this.MAX_PRICE = max;
-      this.MIN_PRICE = min;
+    range : function( $rangeControl, filterName, MIN_PRICE, MAX_PRICE ) {
+      this.MAX_PRICE = MAX_PRICE;
+      this.MIN_PRICE = MIN_PRICE;
       this.price = {
-        min: this.MIN_PRICE,
-        max: this.MAX_PRICE
+        MIN_PRICE: this.MIN_PRICE,
+        MAX_PRICE: this.MAX_PRICE
       };
 
       var self = this,
-      diff = self.MAX_PRICE - self.MIN_PRICE,
+
+      diff = MAX_PRICE - MIN_PRICE,
       $output = $rangeControl.closest('.filter-container').find('.range-output-container'),
       $minOutputWrap = $output.find('.range-output-min'),
       $maxOutputWrap = $output.find('.range-output-max'),
@@ -1197,21 +1294,21 @@ define(function(require){
       method = self.isTouch ? 'debounce' : 'throttle',
       debouncedFilter = $[ method ]( delay, function() {
         self.filter();
-      }),
+      });
 
-      getPrice = function(percent) {
-        return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
-      },
+      function getPrice( percent ) {
+        return Math.round( diff * (percent / 100) ) + MIN_PRICE;
+      }
 
       // Range control update callback
-      update = function(evt, positions, percents) {
+      function update( evt, positions, percents ) {
         var minPrice = getPrice(percents.min),
         maxPrice = getPrice(percents.max),
-        maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice,
+        maxPriceStr = maxPrice === MAX_PRICE ? maxPrice + '+' : maxPrice,
         prevMin = self.price.min,
         prevMax = self.price.max;
 
-        self.lastFilterGroup = null;
+        self.lastFilterGroup = filterName;
 
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
@@ -1221,19 +1318,19 @@ define(function(require){
         self.price.max = maxPrice;
 
         // Filter results only if values have changed
-        if ( (prevMin !== self.price.min || prevMax !== self.price.max) && self.isInitialized ) {
+        if ( (prevMin !== minPrice || prevMax !== maxPrice) && self.isInitialized ) {
 
           // Save current filters
-          self.filters.range[ filterName ].min = self.price.min;
-          self.filters.range[ filterName ].max = self.price.max;
+          self.filters.range[ filterName ].min = minPrice;
+          self.filters.range[ filterName ].max = maxPrice;
 
           // Throttle filtering (especially on touch)
           debouncedFilter();
         }
-      },
+      }
 
       // Show what's happening with the range control
-      displayValues = function( min, max, percents ) {
+      function displayValues( min, max, percents ) {
         var minWidth,
             maxWidth;
 
@@ -1253,7 +1350,7 @@ define(function(require){
           left: percents.max + '%',
           marginLeft: -maxWidth / 2
         });
-      };
+      }
 
       // Store jQuery object for later access
       self.$rangeControl = $rangeControl;
@@ -1267,6 +1364,10 @@ define(function(require){
         range: true,
         rangeThreshold: 0.25
       });
+
+      self.filterValues[ filterName ] = { min: true, max: true };
+
+      $rangeControl = null;
     },
 
     // If there is a range control in this element and it's in need of an update
@@ -1279,6 +1380,31 @@ define(function(require){
       }
       return false;
     },
+
+    // setRangeValue : function( min, max ) {
+    //   var self = this,
+    //       rangeControl = self.$rangeControl.data('rangeControl'),
+    //       minPos = 0,
+    //       maxPos = 0,
+    //       diff = self.MAX_PRICE - self.MIN_PRICE,
+    //       railSize = rangeControl.railSize,
+
+    //   priceToRangePosition = function( price ) {
+    //     return ( ( price - self.MIN_PRICE ) / diff ) * railSize;
+    //   };
+
+    //   if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
+    //     minPos = priceToRangePosition( min );
+    //     rangeControl.slideToPos( minPos, rangeControl.$minHandle );
+    //   }
+
+    //   if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
+    //     // console.assert( max > min, 'uh oh. Max higher than min.' );
+    //     maxPos = priceToRangePosition( max );
+    //     rangeControl.slideToPos( maxPos );
+    //   }
+    // },
+
 
     getSortObject : function( evt, $btnText ) {
       var $target = $(evt.target),
@@ -1417,9 +1543,9 @@ define(function(require){
 
     onResize : function( isInit, force ) {
       var self = this,
-          windowWidth = self.$window.width(),
-          windowHeight = self.$window.height(),
-          hasWindowChanged = windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
+          windowWidth = Settings.isLTIE9 ? 0 : self.$window.width(),
+          windowHeight = Settings.isLTIE9 ? 0 : self.$window.height(),
+          hasWindowChanged = !Settings.isLTIE9 || windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
       // Make sure isInit is not an event object
       isInit = isInit === true;
@@ -1435,7 +1561,7 @@ define(function(require){
       // Don't change columns for detail galleries
       // Change the filters column layout
       if ( self.mode === 'detailed' ) {
-
+        // console.timeStamp('detailed gallery, rearranging filter stuff');
         // Remove heights in case they've aready been set
         if ( Modernizr.mq('(max-width: 47.9375em)') ) {
           self.$gridProductNames.css('height', '');
@@ -1503,7 +1629,7 @@ define(function(require){
         return;
       }
 
-
+      // console.timeStamp('even heights on product names');
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
@@ -1576,22 +1702,28 @@ define(function(require){
     },
 
     onShuffleDone : function() {
-      var self = this;
-      self.$container.find('.gallery-loader').remove();
+      var self = this,
+          isFadedIn = self.$container.hasClass('in');
+
+      if ( isFadedIn ) {
+        // console.timeStamp('removing gallery loader');
+        self.$container.find('.gallery-loader').remove();
+
+      // Fade in the gallery if it isn't already
+      } else {
+        setTimeout(function() {
+          // console.timeStamp('removing gallery loader and module loader');
+          module.removeGalleryLoader();
+          self.$container.find('.gallery-loader').remove();
+          self.$container.addClass('in');
+        }, 0);
+      }
 
       // Product names get zero height in IE8
       if ( Settings.isLTIE9 ) {
         setTimeout(function() {
           self.$gridProductNames.evenHeights();
         }, 1000);
-      }
-
-      // Fade in the gallery if it isn't already
-      if ( !self.$container.hasClass('in') ) {
-        setTimeout(function() {
-          module.removeGalleryLoader();
-          self.$container.addClass('in');
-        }, 0);
       }
     },
 
@@ -1718,7 +1850,7 @@ define(function(require){
     //   self.addCompareNav( $compareItemsWrapper );
 
     //   // Cloned images need to be updated
-    //   window.iQ.update( true );
+    //   iQ.update( true );
 
     //   // Save a reference to the count
     //   self.$compareCount = self.$compareTool.find('.product-count');
@@ -1795,7 +1927,7 @@ define(function(require){
     //         self.onCompareScroll( self.stickyTriggerPoint, this );
     //       },
     //       onAnimationEnd : function() {
-    //         window.iQ.update();
+    //         iQ.update();
     //         self.onCompareScroll( self.stickyTriggerPoint, this );
     //       }
     //     });
@@ -1803,7 +1935,7 @@ define(function(require){
     //   } else {
     //     self.$compareTool.on('scroll', function() {
     //       self.onCompareScroll( self.stickyTriggerPoint );
-    //       window.iQ.update();
+    //       iQ.update();
     //     });
     //     // self.$compareTool.on('touchmove', function(e) {
     //     //   e.stopPropagation();
@@ -1838,7 +1970,7 @@ define(function(require){
     //       self.onCompareScroll( 'inner', this );
     //     },
     //     onAnimationEnd : function() {
-    //       window.iQ.update();
+    //       iQ.update();
     //       self.onCompareScroll( 'inner', this );
     //       self.afterCompareScrolled( this );
     //     }
@@ -1849,7 +1981,7 @@ define(function(require){
 
     //   // These can be deferred
     //   setTimeout(function() {
-    //     window.iQ.update();
+    //     iQ.update();
 
     //     // Hide the previous nav paddle because we're on the first page
     //     self.afterCompareScrolled( self.innerScroller );
@@ -1996,7 +2128,7 @@ define(function(require){
     //     self.afterCompareScrolled( self.innerScroller );
 
     //     // Maybe they haven't scrolled horizontally to see other images
-    //     window.iQ.update();
+    //     iQ.update();
     //   }
 
     //   function noWidth() {
@@ -2696,6 +2828,9 @@ define(function(require){
     // showCompareStickyHeaders: true,
     currentFilterColor: null,
     lastFilterGroup: null,
+    lastFilterStatuses: null,
+    secondLastFilterGroup: null,
+    secondLastFilterStatuses: null,
     loadingGif: 'img/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',

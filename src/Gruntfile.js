@@ -309,36 +309,30 @@ module.exports = function(grunt) {
           dir: '../build/deploy-requirejs-temp',
           fileExclusionRegExp: /css|fonts|img/,
           logLevel: 1,
+          preserveLicenseComments: false,
           modules: (function(){
             var arr = [
               {
                 name: 'common',
-                include: [
-                  'bootstrap',
-                  'jquery',
-                  'modernizr',
-                  'enquire',
-                  'iQ'
-                ]
               },
               {
                 name: 'plugins/index',
                 exclude: ['common']
               },
               {
-                name: 'secondary/index',
+                name: 'require/index',
                 exclude: ['common', 'plugins/index']
               },
               {
-                name: 'require/index',
-                exclude: ['common', 'plugins/index', 'secondary/index']
-              }
+                name: 'secondary/index',
+                exclude: ['common', 'plugins/index', 'require/index']
+              },
             ];
 
             grunt.file.expand('../build/deploy/js/modules/**/index.js').forEach(function(path){
               arr.push({
                 name: path.split('../build/deploy/js/')[1].split('.js')[0],
-                exclude: ['common', 'plugins/index', 'secondary/index', 'require/index']
+                exclude: ['common', 'plugins/index', 'require/index', 'secondary/index']
               });
             })
 
@@ -388,7 +382,7 @@ module.exports = function(grunt) {
   grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages']);
 
   //all of the following can be called with --deploy otherwise they assume --debug
-  grunt.registerTask('common', 'lint, scss, copy images-fonts-js', function(){
+  grunt.registerTask('common', 'lint, scss, copy', function(){
     var env = grunt.option('deploy') ? 'deploy' : 'debug';
 
     grunt.config('jshint.files', ['packages/common/js/require/*.js', 'packages/common/js/secondary/*.js']);
@@ -402,8 +396,6 @@ module.exports = function(grunt) {
     grunt.file.write('packages/common/css/responsive-modules.scss', str);
 
     grunt.task.run('compass:common_' + env);
-
-    grunt.task.run('html:common_' + env);
 
     grunt.task.run('copy:common_' + env);
 
@@ -497,7 +489,7 @@ module.exports = function(grunt) {
     grunt.task.run(['clear', 'common', 'assets'+module, 'light'+module])
 
     if(grunt.option('deploy')){
-      grunt.task.run(['requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
+      grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
     }
   });
 

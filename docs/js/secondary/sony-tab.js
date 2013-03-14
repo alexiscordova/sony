@@ -1,9 +1,10 @@
 /* Modified from Twitter Bootstrap Tabs */
 
-(function ($, undefined) {
+define(function(require){
 
   'use strict';
 
+  var $ = require('jquery');
 
  /* TAB CLASS DEFINITION
   * ==================== */
@@ -196,4 +197,4 @@
     $(this).tab('show');
   });
 
-})(jQuery);
+});

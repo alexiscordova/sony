@@ -10,7 +10,12 @@
 * http://www.appelsiini.net/projects/viewport
 *
 */
-(function($) {
+
+define(function(require){
+
+    'use strict';
+
+    var $ = require('jquery');
 
     $.belowthefold = function(element, settings) {
         var fold = $(window).height() + $(window).scrollTop();
@@ -96,5 +101,4 @@
         }
     });
 
-
-})(jQuery);
+});

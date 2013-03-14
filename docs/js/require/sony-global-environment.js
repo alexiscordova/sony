@@ -12,7 +12,8 @@ define(function (require) {
   'use strict';
 
   var $ = require('jquery'),
-      Settings = require('require/sony-global-settings');
+      Settings = require('require/sony-global-settings'),
+      throttleDebounce = require('plugins/index').throttleDebounce;
 
   var self = {
 
@@ -207,6 +208,8 @@ define(function (require) {
     }
 
   };
+
+  self.init();
 
   return self;
 
