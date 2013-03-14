@@ -708,20 +708,19 @@ define(function(require){
             'width'       : colWidth,
             'margin'      : 0,
             'margin-left' : 0,
-            'margin-top'  : '20px'
+            'margin-top'  : '0px'
           });
 
           self.$galleryItems.first().css({
             'width'   : colWidth,
             'margin'  : 0,
-            'margin-top' : '20px'
+            'margin-top' : '0px'
           });
 
 
           var $oneProduct = self.$el.find('.gallery-item.normal').first(),
           newContainerHeight = $oneProduct.find('.product-content').outerHeight(true) + $oneProduct.find('.product-img').height();
-          newContainerHeight += 50; //spacing for navigation dots
-
+          newContainerHeight += 30; //spacing for navigation dots
 
 
           self.$el.css({
@@ -730,7 +729,11 @@ define(function(require){
             'min-height' : newContainerHeight
           });
 
+          self.checkTileHeights();
+
         }));
+
+        
 
         self.$win.trigger('resize.rp');
 
@@ -1941,7 +1944,7 @@ define(function(require){
         prodImg = self.$galleryItems.filter('.normal').find('.product-img'),
         newHeight = prodImg.first().height();
 
-        if(self.$win.width() < 569){
+        if(self.$win.width() < 569 || self.mode === 'strip'){
           newHeight = '100%';
         }
 
