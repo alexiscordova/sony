@@ -88,7 +88,7 @@ define(function(require){
       self.teardownSpeed                  = 50;
       self.hideAllSpeed                   = 100;
       self.showAllSpeed                   = 200;
-      self.animationSpeed                 = 200;
+      self.animationSpeed                 = 300;
 
       // BREAKPOINT CONSTANTS
       self.SONY_TCC_PHONE_BREAKPOINT      = 479;
@@ -130,6 +130,9 @@ define(function(require){
         var self = this;
 
          if(!Settings.isLTIE10){
+
+
+
           self.setMode();
 
           // if screen size is in mobile (tablet, phone) mode then create a scroller
@@ -142,7 +145,6 @@ define(function(require){
         self.onImagesLoaded();
 
         log('SONY : TertiaryModule : Initialized');
-
       },
 
       handleImagesLoaded : function(){
@@ -299,7 +301,7 @@ define(function(require){
         // hide content blocks
         $els.css({
           'opacity' : 0,
-          'visibility' : 'hidden'
+          'visibility':'hidden'
         });
 
         // set bool once it's done
@@ -311,7 +313,10 @@ define(function(require){
         var self = this,
             $els = self.$hideShowEls;
 
-        $els.stop(true,true).animate({ opacity: 1 },{ duration: self.animationSpeed , complete: function(){$els.css({"visibility":"visible"});}});
+        $els
+          .stop(true,true)
+          .css({'visibility':'visible'})
+          .animate({ opacity: 1 }, { duration: self.animationSpeed , complete: function(){}});
 
         // set bool once it's done
         self.isLayoutHidden = false;
@@ -497,23 +502,11 @@ define(function(require){
         });
       },
 
-      /**
-       * if resize is not going from desktop to desktop then hide elements for rebuild.
-       * in other words:
-       ** if we're in mobile entering desktop
-       ** or if we're in desktop entering mobile
-       ** or if we're in tablet entering phone or phone entering tablet
-       * @return [nothing]
-       */
       beforeResize : function(){
         var self = this;
 
-        // TODO: if needed, hide on init and desktop to mobile
-
-        if (((self.mode === 'desktop') && (self.prevMode != 'desktop')) || ((self.mode != 'desktop') && (self.prevMode === 'desktop')) || ((self.mode != 'desktop') && (self.prevMode != 'desktop'))){
-          // trigger hide sequence
-          self.hideAll();
-        }
+        // hide content blocks 
+        self.hideAll();
       },
 
       // on resize event (debounced) determine what to do
