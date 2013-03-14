@@ -19,6 +19,7 @@ define(function(require){
       jqueryShuffle = require('secondary/index').jqueryShuffle,
       sonyScroller = require('secondary/index').sonyScroller,
       sonyStickyNav = require('secondary/index').sonyStickyNav,
+      sonyEvenHeights = require('secondary/index').sonyEvenHeights,
       stickyTabs = require('secondary/sony-stickytabs');
 
   var module = {
@@ -101,19 +102,28 @@ define(function(require){
 
       self.$enlargeTriggers.on('click', $.proxy( self._onEnlarge, self ));
 
-      // Put a bottom margin on the sibling of the absoluting positioned element
-      // to make up for its lack of document space
-      self.$container.find('.btm-aligned').each(function() {
-        var $img = $(this);
-        $img.on('imageLoaded', function() {
-          $img.prev().css('marginBottom', $img.css('height'));
-          $img = null;
-        });
-      });
 
       // Redraw table when images have loaded
       var debouncedSetRowHeights = $.debounce( 200, $.proxy( self._setRowHeights, self) );
       self.$specProducts.find('.iq-img').on( 'imageLoaded', debouncedSetRowHeights );
+
+      function adjustBtmAlignedImg( $img ) {
+        $img.prev().css('marginBottom', $img.css('height'));
+        debouncedSetRowHeights();
+      }
+      // Put a bottom margin on the sibling of the absoluting positioned element
+      // to make up for its lack of document space
+      self.$container.find('.btm-aligned').each(function() {
+        var $img = $(this);
+
+        if ( $img.data('hasLoaded') ) {
+          adjustBtmAlignedImg( $img );
+        } else {
+          $img.on('imageLoaded', function() {
+            adjustBtmAlignedImg( $img );
+          });
+        }
+      });
 
       // We're done
       setTimeout(function() {
@@ -337,9 +347,6 @@ define(function(require){
 
         // Loop through the cells (`.spec-item-cell`'s in the same 'row')
         $cells.add($detailLabel).evenHeights();
-
-        // Make bottom aligned images the same height
-        // $cells.find('.dl-img').evenHeights();
       });
 
       // If this is not triggered from a window resize, we still need to update the offsets

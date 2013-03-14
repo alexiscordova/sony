@@ -174,9 +174,10 @@ define(function(require){
             self._setColumns( parseInt( containerCSS.width, 10 ) );
             self.shuffle( self.group );
 
-            if ( !self.showInitialTransition ) {
+            // If we've hidden the initial layout, we need to now add the transition to the elements
+            if ( !self.showInitialTransition && self.supported && self.useTransition ) {
                 setTimeout(function() {
-                    self._initItems( true );
+                    self._setTransitions();
                 }, 0);
             }
         },
@@ -284,6 +285,13 @@ define(function(require){
         _setTransition : function( element ) {
             var self = this;
             element.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
+        },
+
+        _setTransitions : function() {
+            var self = this;
+            self.$items.each(function() {
+                self._setTransition( this );
+            });
         },
 
 
