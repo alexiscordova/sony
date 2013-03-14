@@ -88,8 +88,20 @@ define(function(require){
 
 
     _onScroll : function() {
+      var self = this;
+
+      if ( !self.isTicking ) {
+        self.isTicking = true;
+        self.lastScrollY = self.$window.scrollTop();
+        window.requestAnimationFrame(function() {
+          self._updateStickyNav();
+        });
+      }
+    },
+
+    _updateStickyNav : function() {
       var self = this,
-          st = self.$window.scrollTop();
+          st = self.lastScrollY;
 
       // Open the stick nav if it's past the trigger
       if ( st >= self.stickyTriggerOffset ) {
@@ -104,6 +116,7 @@ define(function(require){
         }
       }
 
+      self.isTicking = false;
     },
 
     _onResize : function() {
@@ -171,7 +184,9 @@ define(function(require){
   // Non override-able settings
   // --------------------------
   $.fn.stickyNav.settings = {
-    isInitialized: false
+    isInitialized: false,
+    isTicking: false,
+    lastScrollY: 0
   };
 
 });
