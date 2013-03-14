@@ -198,12 +198,12 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
 
   section(class=scrollerClassNames)
     div(class=bodyClassNames)
-      for module in data.contentModules
+      for module in data.contentBlocks
         - contentType = module.type
         - contentMode = module.mode
-        - contentModulesClassNames = ["tcc-content-module","span4", contentType, contentMode]
+        - contentBlocksClassNames = ["tcc-content-block","span4", contentType, contentMode]
 
-        div(class=contentModulesClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode)
+        div(class=contentBlocksClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode)
           case contentType
             when "article"
 
