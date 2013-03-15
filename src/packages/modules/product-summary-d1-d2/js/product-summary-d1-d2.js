@@ -17,7 +17,9 @@ define(function(require) {
       iQ = require('iQ'),
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
-      Environment = require('require/sony-global-environment');
+      Environment = require('require/sony-global-environment'),
+      sonyStickyNav = require('secondary/index').sonyStickyNav,
+      jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
   var module = {
     init: function() {
@@ -41,6 +43,17 @@ define(function(require) {
 
     init: function() {
       var self = this;
+
+      self.$stickyNav = self.$el.find('.sticky-nav');
+      self.$jumpLinks = self.$el.find('.jump-links a');
+
+
+      // Init sticky nav
+      self.$stickyNav.stickyNav({
+        scrollToTopOnClick: true,
+        $jumpLinks: self.$jumpLinks,
+        offsetTarget: self.$el.find('.jump-links:not(.nav)')
+      });
 
       if ( Modernizr.mediaqueries ){
 

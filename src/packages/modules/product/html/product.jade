@@ -70,6 +70,35 @@ mixin heart
   div(class=heartClass, data-active-title="Added", data-default-title=toFavoriteTitle)
     i.fonticon-10-favorite
 
+mixin productRating( rating, reviews, reviewsText )
+  //- Default to ' user reviews'
+  - if ( !reviewsText && reviewsText !== '' ) reviewsText = ' user reviews'
+
+  prefix = ' ('
+  suffix = ')'
+
+  .product-rating(data-stars=rating, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
+    span.star-holder
+      i.fonticon-10-star
+      i.fonticon-10-star-half
+    span.star-holder
+      i.fonticon-10-star
+      i.fonticon-10-star-half
+    span.star-holder
+      i.fonticon-10-star
+      i.fonticon-10-star-half
+    span.star-holder
+      i.fonticon-10-star
+      i.fonticon-10-star-half
+    span.star-holder
+      i.fonticon-10-star
+      i.fonticon-10-star-half
+    span.lt4
+      | !{ prefix }
+      span(itemprop="ratingCount")= reviews
+      | !{ reviewsText }
+      | !{ suffix }
+    meta(itemprop="ratingValue", content=rating)
 
 mixin basicGalleryItem( layout, priority, href )
   klass = '';
@@ -211,16 +240,7 @@ else if data.view == 'detailed'
           .product-name.p2
             strong(itemprop="name")= data.name
           .product-model.l3(itemprop="model")= data.model
-        .product-rating(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
-          meta(itemprop="ratingValue", content=data.rating.stars)
-          i.fonticon-10-star
-          i.fonticon-10-star
-          i.fonticon-10-star
-          i.fonticon-10-star
-          i.fonticon-10-star
-          span.lt4  (
-            span(itemprop="ratingCount")= data.rating.stars
-            |  user reviews)
+        +productRating( data.rating.stars, data.rating.reviews )
 
         ul.product-meta
           each meta in data.meta
@@ -537,6 +557,11 @@ else if data.view == 'blank'
   //- @Tyler: `shuffle-item` and `filtered` are added dynically by shuffle, I've removed them from the classes here
   div(class='gallery-item basic blank m-span3 normal span1', data-priority=data.priority, href='#')
 
+
+else if data.view == 'summary'
+  .container
+    .grid
+      +productRating( data.rating.stars, data.rating.reviews )
 
 else
   em oh noes, you don't have a view variable set :(

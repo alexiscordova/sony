@@ -5,7 +5,7 @@
  * Use it for whatever you want! Requires jQuery 1.9+
  * @author Glen Cheney (http://glencheney.com)
  * @version 1.6.1
- * @date 02/07/13
+ * @date 03/14/13
  */
 
 define(function(require){

@@ -14,20 +14,20 @@
 
 
 
-  <!-- FONTS -->
   <!--[if lt IE 9]>
-    <link rel="stylesheet" href="fonts/fonts-eot.css">
     <link rel="stylesheet" href="fonts/icons-eot.css">
   <![endif]-->
+
   <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
-      // Android needs otf/ttf fonts.
-      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
-      var fontIconType = fontType === "otf" ? "ttf" : fontType; // fontIcons are ttf instead of otf.
-      document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-fonts-"+fontType+".css'%3E"));
+      // Android needs ttf icon-fonts, everybody else is good with woff.
+      var fontIconType = navigator.userAgent.toLowerCase().match(/android|vita|playstation/g) !== null ? "ttf" : "woff";
       document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-icons-"+fontIconType+".css'%3E"));
     </script>
   <!--<![endif]-->
+
+  <!-- FONTS.COM -->
+  <script type="text/javascript" src="http://fast.fonts.com/jsapi/8fbb71aa-d686-4248-9f02-d25e0012fe0a.js"></script>
 
 
 
@@ -86,7 +86,7 @@
           </div>
         </div>
       </div>
-    </div><div class="jumbotron subhead"><div class="container-px-width"><h2 class="bs-docs-heading">JS Documentation</h2><p class="p1">Documentation for each class may be found on the links below.</p></div></div><div class="container-px-width"><ul><li><a href="docco/gallery-g2-g3.html">gallery g2 g3</a></li><li><a href="docco/global-header-footer.html">global header footer</a></li><li><a href="docco/one-sony-carousel-s2.html">one sony carousel s2</a></li><li><a href="docco/primary-tout-p1-d7.html">primary tout p1 d7</a></li><li><a href="docco/related-products-g1.html">related products g1</a></li><li><a href="docco/spec-multi-z2.html">spec multi z2</a></li><li><a href="docco/spec-single-z1.html">spec single z1</a></li><li><a href="docco/tertiary-t1-t5-module.html">tertiary t1 t5 module</a></li></ul></div>    <footer class="footer">
+    </div><div class="jumbotron subhead"><div class="container-px-width"><h2 class="bs-docs-heading">JS Documentation</h2><p class="p1">Documentation for each class may be found on the links below.</p></div></div><div class="container-px-width"><ul><li><a href="docco/gallery-g2-g3.html">gallery g2 g3</a></li><li><a href="docco/global-header-footer.html">global header footer</a></li><li><a href="docco/one-sony-carousel-s2.html">one sony carousel s2</a></li><li><a href="docco/primary-tout-p1-d7.html">primary tout p1 d7</a></li><li><a href="docco/product-summary-d1-d2.html">product summary d1 d2</a></li><li><a href="docco/related-products-g1.html">related products g1</a></li><li><a href="docco/spec-multi-z2.html">spec multi z2</a></li><li><a href="docco/spec-single-z1.html">spec single z1</a></li><li><a href="docco/tertiary-t1-t5-module.html">tertiary t1 t5 module</a></li></ul></div>    <footer class="footer">
       <div class="container-px-width">
         <p class="pull-right"><a href="#">Back to top</a></p>
         <p>&#169; Odopod - Proprietary and Confidential.</p>

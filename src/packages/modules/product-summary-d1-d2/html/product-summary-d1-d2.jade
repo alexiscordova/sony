@@ -1,4 +1,30 @@
-div= data.hello
+
+.product-summary-module
+
+    module = data.submodules[0]
+    - console.log(module)
+    d = locals.data(module.data)
+    - d.view = 'summary'
+    e = { "locals" : locals, "data" : d }
+    !{locals.partial( module.type, e )}
+
+    .grid
+      ul.jump-links.inline
+        each link, i in data.internalLinks
+          - clss = i ? '' : 'active'
+          li(class=clss)
+            a.lt3.no-hover-transition(href=link.href)= link.label
+
+
+  .sticky-nav
+    .container
+      .grid
+        h2.t6.sticky-nav-title= data.title
+        ul.jump-links.inline.nav
+          each link, i in data.internalLinks
+            - clss = i ? '' : 'active'
+            li(class=clss)
+              a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
 
 #features(style="height:200px;background:hsl(50, 90%, 52%)")
   h2 Features
