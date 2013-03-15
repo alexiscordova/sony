@@ -1,6 +1,6 @@
-### D04. PDP Slide Show
+### D4. PDP Slide Show
 
-The pdp slide show D04.
+The pdp slide show D4.
 
 
 Document Overview
@@ -23,8 +23,8 @@ Each module will include this document, which contains an ordered list of the fi
 * all.css
 	*../../../../build/deploy/css/modules/all.css
 	
-* pdp-slideshow-do4.css
-	*../../../../build/deploy/css/modules/pdp-slideshow-do4.css
+* pdp-slideshow-d4.css
+	*../../../../build/deploy/css/modules/pdp-slideshow-d4.css
 
 * responsive.css
 	*../../../../build/deploy/css/responsive-modules.css	
@@ -50,14 +50,14 @@ Each module will include this document, which contains an ordered list of the fi
 	
 == Related Source ==
 
-* pdp-slideshow-do4.js
-	*../../../js/bundle/defer/pdp-slideshow-do4.js
+* pdp-slideshow-d4.js
+	*../../../js/bundle/defer/pdp-slideshow-d4.js
 
-* pdp-slideshow-do4.scss
-	*../../../css/scss/modules/pdp-slideshow-do4.scss
+* pdp-slideshow-d4.scss
+	*../../../css/scss/modules/pdp-slideshow-d4.scss
 
-* _responsive-pdp-slideshow-do4.scss
-	*../../../css/scss/_responsive/_responsive-pdp-slideshow-do4.scss
+* _responsive-pdp-slideshow-d4.scss
+	*../../../css/scss/_responsive/_responsive-pdp-slideshow-d4.scss
 	
 Example JSON File(s)
 --------------------
