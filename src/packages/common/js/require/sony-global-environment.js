@@ -57,6 +57,7 @@ define(function (require) {
       // Overwrite the Modernizr.mq function for IE < 10
       if ( Settings.isLTIE10 ) {
         Modernizr.mq = function() { return false; };
+        Modernizr.mediaqueries = false;
       }
     },
 

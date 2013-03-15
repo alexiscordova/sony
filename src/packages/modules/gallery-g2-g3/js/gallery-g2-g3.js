@@ -47,7 +47,9 @@ define(function(require){
           .on('shown', module.onGalleryTabShown );
 
         // Initialize sticky tabs
-        $('.tab-strip').stickyTabs();
+        window.requestAnimationFrame(function() {
+          $('.tab-strip').stickyTabs();
+        });
 
         // The galleries are in timeouts, so this has to be too
         setTimeout(function() {
@@ -63,7 +65,7 @@ define(function(require){
           setTimeout(function() {
             $('.tab-pane:not(.active) .gallery').gallery('disable');
           }, 500);
-        }, 0);
+        }, 16);
 
       }
     }
@@ -157,9 +159,11 @@ define(function(require){
     // Run once
     if ( self.hasFilters ) {
       // Defer it, then wait until a good time for the browser
-      setTimeout( window.requestAnimationFrame, 400, function() {
-        self.filter();
-      });
+      setTimeout(function() {
+        window.requestAnimationFrame(function() {
+          self.filter();
+        });
+      }, 400);
     }
 
     // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
