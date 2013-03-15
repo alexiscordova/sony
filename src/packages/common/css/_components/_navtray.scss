@@ -17,7 +17,7 @@
   -webkit-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
   @include box-shadow(0px 0px 10px 0px $stickyShadowColor);
-  @include transition(top $navtrayCloseSpeed ease-in 0.15s, left 0s linear $navtrayCloseSpeed);
+  @include transition(top $navtrayCloseSpeed ease-in 0.125s, left 0s linear $navtrayCloseSpeed);
 }
 .navtray-w-short{
   @include transition(top $navtrayShortCloseSpeed ease-in 0.1s, left 0s linear $navtrayShortCloseSpeed);      
@@ -29,7 +29,7 @@
   top: $navbarHeight - 1; // minus 1 for a little overlap under the navbar - otherwise sometimes you can see half a pixel peek out
   opacity:1;
 
-  @include transition(top $navtrayOpenSpeed $easeOutNav 0.15s, left 0s linear 0s);  
+  @include transition(top $navtrayOpenSpeed $easeOutNav 0.13s, left 0s linear 0s);  
   &.navtray-w-short{
     @include transition(top $navtrayShortOpenSpeed $easeOutNav 0.1s, left 0s linear 0s);      
   }

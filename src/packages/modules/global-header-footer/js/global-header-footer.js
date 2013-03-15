@@ -274,12 +274,12 @@ define(function(require){
                   // delay opening the new one until the old tray has a chance to close.
                   setTimeout(function() {
                     self.setActiveNavBtn($thNavBtn);
-                  }, 250);
+                  }, 350);
                 } else {
                   // update the Nav button & open the new tray after just a short delay for the old menu to fade out.
                   setTimeout(function() {
                     self.setActiveNavBtn($thNavBtn);
-                  }, 10);
+                  }, 150);
                 }
               }
 
