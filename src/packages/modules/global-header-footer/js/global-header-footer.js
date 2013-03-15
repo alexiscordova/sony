@@ -222,34 +222,40 @@ define(function(require){
 
           // NOT touch device - set up HOVER triggers
         } else {
-
-          // for the search button only, we want it to trigger on click. All others on mouseenter.
+  
           var thTrigger = 'mouseenter focus';
+          
+          // for the search button only, we want it to trigger on click. All others on mouseenter.
           if ($thNavBtn.parent().hasClass('nav-li-search')) {
               thTrigger = 'click focus';
           }
           
           $thNavBtn.on(thTrigger, function(e) {
-
-           // if this is the search button
-            var isSearchButtonActive = $thNavBtn.data('target') ==='navmenu-w-search' && $(this).data('active') ? true : false;
-
             
+            $('.nav .nav-li a.active').trigger('touchstart');
+            self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
+            $('#nav-search-input').blur();
+            var isSearchButtonActive = $thNavBtn.data('target') ==='navmenu-w-search' && self.active ? true : false;
+        
+            // Prevent focus and click to trigger at the same time
             if (self.active) {
               return false;                     
             }
             else {
               self.active = true;
             }
-
+            
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
 
             // if this button is NOT activated,
-            if (!$thNavBtn.parent().hasClass('nav-li-selected') && !isSearchButtonActive) {
+            if (!$thNavBtn.parent().hasClass('nav-li-selected') || $thNavBtn.data('target') ==='navmenu-w-search') {
               // See if any other buttons are activated.
               var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
-              
+
+              if(isSearchButtonActive) {
+                otherIsActive = false;
+              }
               // If there's NOT
               if (!otherIsActive) {
                 // update the Nav button & open this tray/menu immediately
@@ -257,6 +263,7 @@ define(function(require){
 
                 // if there WAS already an active button,
               } else {
+                
                 // deactivate it first
                 self.resetActiveNavBtn(self.$currentOpenNavBtn);
                 var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
@@ -309,7 +316,7 @@ define(function(require){
 
           // Activate click for tab navigation
           $thNavBtnTarget.find('a').on('focus', function() {
-            
+
             self.active = false;
             $thNavBtnTarget.data('hovering', true);
             $thNavBtn.trigger('mouseenter');
