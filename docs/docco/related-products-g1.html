@@ -664,20 +664,19 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="string">'width'</span>       : colWidth,
             <span class="string">'margin'</span>      : <span class="number">0</span>,
             <span class="string">'margin-left'</span> : <span class="number">0</span>,
-            <span class="string">'margin-top'</span>  : <span class="string">'20px'</span>
+            <span class="string">'margin-top'</span>  : <span class="string">'0px'</span>
           });
 
           self.$galleryItems.first().css({
             <span class="string">'width'</span>   : colWidth,
             <span class="string">'margin'</span>  : <span class="number">0</span>,
-            <span class="string">'margin-top'</span> : <span class="string">'20px'</span>
+            <span class="string">'margin-top'</span> : <span class="string">'0px'</span>
           });
 
 
           <span class="keyword">var</span> $oneProduct = self.$el.find(<span class="string">'.gallery-item.normal'</span>).first(),
           newContainerHeight = $oneProduct.find(<span class="string">'.product-content'</span>).outerHeight(<span class="literal">true</span>) + $oneProduct.find(<span class="string">'.product-img'</span>).height();
-          newContainerHeight += <span class="number">50</span>; <span class="comment">//spacing for navigation dots</span>
-
+          newContainerHeight += <span class="number">30</span>; <span class="comment">//spacing for navigation dots</span>
 
 
           self.$el.css({
@@ -686,7 +685,11 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="string">'min-height'</span> : newContainerHeight
           });
 
+          self.checkTileHeights();
+
         }));
+
+        
 
         self.$win.trigger(<span class="string">'resize.rp'</span>);
 
@@ -1851,7 +1854,7 @@ return;</p>             </td>             <td class="code">               <div c
         prodImg = self.$galleryItems.filter(<span class="string">'.normal'</span>).find(<span class="string">'.product-img'</span>),
         newHeight = prodImg.first().height();
 
-        <span class="keyword">if</span>(self.$win.width() &lt; <span class="number">569</span>){
+        <span class="keyword">if</span>(self.$win.width() &lt; <span class="number">569</span> || self.mode === <span class="string">'strip'</span>){
           newHeight = <span class="string">'100%'</span>;
         }
 
