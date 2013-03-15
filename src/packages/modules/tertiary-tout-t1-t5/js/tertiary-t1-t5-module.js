@@ -129,7 +129,7 @@ define(function(require){
       init : function() {
 
         var self = this,
-            $allImages = self.$el.find(self.imageClass),//.find('img'), // make sure iq has loaded images first
+            $allImages = self.$el.find(self.imageClass),
             $readyImages = $allImages.filter(function(){return $(this).data('hasLoaded');});
 
         $allImages.on('imageLoaded iQ:imageLoaded', function(){
@@ -141,14 +141,13 @@ define(function(require){
 
         });
 
-        // TODO: DRY THIS
         if ($readyImages.length === $allImages.length) {
           self.onImagesLoaded();
         }
 
         self.setImageClass();
-
         self.setMode();
+
         if(!Settings.isLTIE10){
           // if screen size is in mobile (tablet, phone) mode then create a scroller
           if(self.mode !== 'desktop'){
@@ -410,7 +409,6 @@ define(function(require){
       },
 
       setCenterContentHeight : function(){
-        console.log( 'setCenterContentHeight »');
         var self = this;
 
         // prevent redundancy
