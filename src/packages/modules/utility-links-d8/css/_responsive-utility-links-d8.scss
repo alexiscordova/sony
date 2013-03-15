@@ -42,6 +42,9 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       
     .ulink-list {
       padding-top: 24px; 
+      h5, a {
+        white-space: nowrap;
+      }
     }
   }
 
@@ -103,24 +106,15 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       width: 74.153846153846%;
       
       h5 {
-
         font-size: $font_20_16;
         margin-bottom: 10px;
         line-height: 1em;
-/*
-        @include px-em--font-size--line-height(20,12);
-
-*/
       }
       
       p {
-        font-size: $font_13_16;
         margin-bottom: 0;
+        font-size: $font_13_16;
         line-height: 1.4em;
-/*
-        @include px-em--font-size--line-height(13,22);
-
-*/
       }
 
       a {
@@ -131,7 +125,8 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     
     .ulink-list {
       h5, a {
-        @include px-em--font-size--line-height(13,22);
+        font-size: $font_13_16;
+        line-height: px-em(22px);
       }
     }
     
@@ -267,7 +262,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     width: 100%;
     font-size: $font_15_16;
     line-height: 22px;
-/*     @include px-em--font-size--line-height(15,22); */
   }
     
   #pdp-g-links .span4 {
@@ -275,6 +269,5 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     margin-left: 0;
     font-size: $font_18_16;
     line-height: 30px;
-/*     @include px-em--font-size--line-height(18,30); */
   }
 }
