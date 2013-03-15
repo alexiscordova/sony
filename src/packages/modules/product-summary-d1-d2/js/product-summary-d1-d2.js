@@ -50,7 +50,6 @@ define(function(require) {
 
       // Init sticky nav
       self.$stickyNav.stickyNav({
-        scrollToTopOnClick: true,
         $jumpLinks: self.$jumpLinks,
         offsetTarget: self.$el.find('.jump-links:not(.nav)')
       });

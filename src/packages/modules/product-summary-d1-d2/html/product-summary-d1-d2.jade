@@ -1,13 +1,13 @@
 
-.product-summary-module
+.product-summary-module.product-summary
 
-    module = data.submodules[0]
-    - console.log(module)
-    d = locals.data(module.data)
-    - d.view = 'summary'
-    e = { "locals" : locals, "data" : d }
-    !{locals.partial( module.type, e )}
+  module = data.submodules[0]
+  d = locals.data(module.data)
+  - d.view = 'summary'
+  e = { "locals" : locals, "data" : d }
+  !{locals.partial( module.type, e )}
 
+  .container
     .grid
       ul.jump-links.inline
         each link, i in data.internalLinks
@@ -26,13 +26,13 @@
             li(class=clss)
               a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
 
-#features(style="height:200px;background:hsl(50, 90%, 52%)")
+#features(style="height:800px;background:hsl(50, 90%, 52%)")
   h2 Features
-#details(style="height:200px;background:hsl(250, 90%, 52%)")
+#details(style="height:800px;background:hsl(250, 90%, 52%)")
   h2 Details
-#reviews(style="height:200px;background:hsl(150, 90%, 52%)")
+#reviews(style="height:800px;background:hsl(150, 90%, 52%)")
   h2 Reviews
-#accessories(style="height:200px;background:hsl(0, 90%, 52%)")
+#accessories(style="height:800px;background:hsl(0, 90%, 52%)")
   h2 Accessories
-#owners(style="height:200px;background:hsl(124, 90%, 52%)")
+#owners(style="height:800px;background:hsl(124, 90%, 52%)")
   h2 Owners

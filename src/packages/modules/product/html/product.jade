@@ -559,9 +559,23 @@ else if data.view == 'blank'
 
 
 else if data.view == 'summary'
+  sizes = ['11.6', '14', '15.5', '17.3cm']
+  sizesStr = sizes.join(', ')
   .container
     .grid
-      +productRating( data.rating.stars, data.rating.reviews )
+      .span2
+        .product-img
+          +iQImage( data.imgSmall, '', 'image' )
+      .span6
+        a.l2.link-color(href="#")= 'some link'
+        h2.t5(itemprop="name")= data.title
+        .product-details
+          span.product-model.p5(itemprop="model")= data.model
+          span.spacer.text-med-dark.ib.p5 |
+          span.p5= sizesStr
+          span.spacer.text-med-dark.ib.p5 |
+          +colorSwatches( data.img.colors, true )
+        +productRating( data.rating.stars, data.rating.reviews )
 
 else
   em oh noes, you don't have a view variable set :(
