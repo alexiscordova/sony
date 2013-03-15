@@ -5,7 +5,7 @@
 <ul>
 <li><strong>Module:</strong> Tertiary Module</li>
 <li><strong>Version:</strong> 0.1</li>
-<li><strong>Modified:</strong> 03/05/2013</li>
+<li><strong>Modified:</strong> 03/14/2013</li>
 <li><strong>Author:</strong> Telly Koosis</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+, Modernizr, <a href="sony-iscroll.html">sony-iscroll.js</a>, <a href="sony-scroller.html">sony-scroller.js</a>, <a href="sony-sequencer.html">sony-sequencer.js</a></li>
 </ul>
@@ -101,11 +101,11 @@ Namespaced versions of global events</p>             </td>             <td class
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>register listener for global debounce to call method <strong>after</strong> debounce begins</p>             </td>             <td class="code">               <div class="highlight"><pre>        Environment.on(self.debounceEvent, self.afterResizeFunc);
       }
 
-      self.$el.find(self.imageClass).on(<span class="string">'iQ:imageLoaded'</span>, <span class="keyword">function</span>(){
-       self.onImagesLoaded();
-      });
-
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>start it all</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>listen for background images that have laoded
+self.$el.find(self.imageClass).on('iQ:imageLoaded', function(){
+  self.onImagesLoaded();
+});</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>start it all</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
     };
 
     TertiaryModule.prototype = {
@@ -113,32 +113,49 @@ Namespaced versions of global events</p>             </td>             <td class
 
       init : <span class="keyword">function</span>() {
 
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+            $allImages = self.$el.find(self.imageClass),
+            $readyImages = $allImages.filter(<span class="keyword">function</span>(){<span class="keyword">return</span> $(<span class="keyword">this</span>).data(<span class="string">'hasLoaded'</span>);});
 
-         <span class="keyword">if</span>(!Settings.isLTIE10){
+        $allImages.on(<span class="string">'imageLoaded iQ:imageLoaded'</span>, <span class="keyword">function</span>(){
+          $readyImages = $readyImages.add($(<span class="keyword">this</span>));
+         
+          <span class="keyword">if</span> ($readyImages.length === $allImages.length) {
+            self.onImagesLoaded();
+          }
 
-          self.setMode();
+        });
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>if screen size is in mobile (tablet, phone) mode then create a scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.mode !== <span class="string">'desktop'</span>){
+        <span class="keyword">if</span> ($readyImages.length === $allImages.length) {
+          self.onImagesLoaded();
+        }
+
+        self.setImageClass();
+        self.setMode();
+
+        <span class="keyword">if</span>(!Settings.isLTIE10){
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>if screen size is in mobile (tablet, phone) mode then create a scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.mode !== <span class="string">'desktop'</span>){
             self.setup();
           }
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>can run this now because it's safe to assume (via requireJS) the page is loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.onImagesLoaded();
-
         log(<span class="string">'SONY : TertiaryModule : Initialized'</span>);
       },
 
-      handleImagesLoaded : <span class="keyword">function</span>(){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-        $(self.imageClass)
+      setImageClass : <span class="keyword">function</span>(  ){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;     
+        
+        self.$el
+          .find(self.imageClass)
           .addClass(<span class="string">'iq-img'</span>)
           .parent()
           .addClass(<span class="string">'on'</span>);
 
         iQ.update(<span class="literal">true</span>);
+      },
 
+      handleImagesLoaded : <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
         self.setCenterContentHeight();
       },
 
