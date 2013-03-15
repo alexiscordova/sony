@@ -23,19 +23,19 @@ define(<span class="keyword">function</span>(require){
       sonyNavigationDots = require(<span class="string">'secondary/index'</span>).sonyNavigationDots,
       sonyDraggable = require(<span class="string">'secondary/index'</span>).sonyDraggable;
 
-  <span class="keyword">var</span> self = {
+  <span class="keyword">var</span> module = {
     <span class="string">'init'</span>: <span class="keyword">function</span>() {
-      $(<span class="string">'.sony-one-carousel'</span>).oneSonyCarousel();
+      $(<span class="string">'.sony-one-carousel'</span>).each(<span class="keyword">function</span>(){
+        <span class="keyword">new</span> OneSonyCarousel(<span class="keyword">this</span>);
+      });
     }
   };
 
-  <span class="keyword">var</span> OneSonyCarousel = <span class="keyword">function</span>($element, options){
+  <span class="keyword">var</span> OneSonyCarousel = <span class="keyword">function</span>(element){
 
     <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-    $.extend(self, {}, $.fn.oneSonyCarousel.defaults, options);
-
-    self.$el = $element;
+    self.$el = $(element);
     self.$container = self.$el.find(<span class="string">'.soc-container'</span>);
     self.$innerContainer = self.$container.find(<span class="string">'.soc-container-inner'</span>);
     self.$slides = self.$container.find(<span class="string">'.soc-content'</span>);
@@ -215,7 +215,7 @@ reset position to the nearest one.</p>             </td>             <td class="
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If the browser doesn't properly support the getStyles API for auto margins, manually
 shift the destination back to compensate.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       <span class="keyword">if</span> ( !Modernizr.jsautomargins ) {
-        destinationLeft -= (innerContainerWidth -  $destinationSlide.width()  ) / <span class="number">2</span>;
+        destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / <span class="number">2</span>;
       }
 
       <span class="keyword">if</span> ( self.useCSS3 ) {
@@ -302,8 +302,6 @@ if their interaction time and movements are below certain thresholds.</p>       
           height = self.$dotnav.get(<span class="number">0</span>).offsetHeight;
           self.$dotnav.css(<span class="string">'display'</span> , <span class="string">'block'</span>);
         }
-
-
       });
     },
 
@@ -341,24 +339,7 @@ if their interaction time and movements are below certain thresholds.</p>       
     }
   };
 
-  $.fn.oneSonyCarousel = <span class="keyword">function</span>( options ) {
-    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
-    <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
-        oneSonyCarousel = self.data(<span class="string">'oneSonyCarousel'</span>);
-
-      <span class="keyword">if</span> ( !oneSonyCarousel ) {
-          oneSonyCarousel = <span class="keyword">new</span> OneSonyCarousel( self, options );
-          self.data( <span class="string">'oneSonyCarousel'</span>, oneSonyCarousel );
-      }
-
-      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
-        oneSonyCarousel[ options ].apply( oneSonyCarousel, args );
-      }
-    });
-  };
-
-  <span class="keyword">return</span> self;
+  <span class="keyword">return</span> module;
 
 });
 

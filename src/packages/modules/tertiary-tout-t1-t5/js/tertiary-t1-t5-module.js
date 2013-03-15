@@ -5,7 +5,7 @@
 //
 // * **Module:** Tertiary Module
 // * **Version:** 0.1
-// * **Modified:** 03/05/2013
+// * **Modified:** 03/14/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html), [sony-scroller.js](sony-scroller.html), [sony-sequencer.js](sony-sequencer.html)
 //
@@ -88,7 +88,7 @@ define(function(require){
       self.teardownSpeed                  = 50;
       self.hideAllSpeed                   = 100;
       self.showAllSpeed                   = 200;
-      self.animationSpeed                 = 200;
+      self.animationSpeed                 = 300;
 
       // BREAKPOINT CONSTANTS
       self.SONY_TCC_PHONE_BREAKPOINT      = 479;
@@ -114,9 +114,10 @@ define(function(require){
         Environment.on(self.debounceEvent, self.afterResizeFunc);
       }
 
-      self.$el.find(self.imageClass).on('iQ:imageLoaded', function(){
-       self.onImagesLoaded();
-      });
+      // listen for background images that have laoded
+      // self.$el.find(self.imageClass).on('iQ:imageLoaded', function(){
+      //   self.onImagesLoaded();
+      // });
 
       // start it all
       self.init();
@@ -127,34 +128,50 @@ define(function(require){
 
       init : function() {
 
-        var self = this;
+        var self = this,
+            $allImages = self.$el.find(self.imageClass),
+            $readyImages = $allImages.filter(function(){return $(this).data('hasLoaded');});
 
-         if(!Settings.isLTIE10){
-          self.setMode();
+        $allImages.on('imageLoaded iQ:imageLoaded', function(){
+          $readyImages = $readyImages.add($(this));
+         
+          if ($readyImages.length === $allImages.length) {
+            self.onImagesLoaded();
+          }
 
+        });
+
+        if ($readyImages.length === $allImages.length) {
+          self.onImagesLoaded();
+        }
+
+        self.setImageClass();
+        self.setMode();
+
+        if(!Settings.isLTIE10){
           // if screen size is in mobile (tablet, phone) mode then create a scroller
           if(self.mode !== 'desktop'){
             self.setup();
           }
         }
 
-        // can run this now because it's safe to assume (via requireJS) the page is loaded
-        self.onImagesLoaded();
-
         log('SONY : TertiaryModule : Initialized');
-
       },
 
-      handleImagesLoaded : function(){
-        var self = this;
-
-        $(self.imageClass)
+      setImageClass : function(  ){
+        var self = this;     
+        
+        self.$el
+          .find(self.imageClass)
           .addClass('iq-img')
           .parent()
           .addClass('on');
 
         iQ.update(true);
+      },
 
+      handleImagesLoaded : function(){
+        var self = this;
         self.setCenterContentHeight();
       },
 
@@ -299,7 +316,7 @@ define(function(require){
         // hide content blocks
         $els.css({
           'opacity' : 0,
-          'visibility' : 'hidden'
+          'visibility':'hidden'
         });
 
         // set bool once it's done
@@ -311,7 +328,10 @@ define(function(require){
         var self = this,
             $els = self.$hideShowEls;
 
-        $els.stop(true,true).animate({ opacity: 1 },{ duration: self.animationSpeed , complete: function(){$els.css({"visibility":"visible"});}});
+        $els
+          .stop(true,true)
+          .css({'visibility':'visible'})
+          .animate({ opacity: 1 }, { duration: self.animationSpeed , complete: function(){}});
 
         // set bool once it's done
         self.isLayoutHidden = false;
@@ -497,23 +517,11 @@ define(function(require){
         });
       },
 
-      /**
-       * if resize is not going from desktop to desktop then hide elements for rebuild.
-       * in other words:
-       ** if we're in mobile entering desktop
-       ** or if we're in desktop entering mobile
-       ** or if we're in tablet entering phone or phone entering tablet
-       * @return [nothing]
-       */
       beforeResize : function(){
         var self = this;
 
-        // TODO: if needed, hide on init and desktop to mobile
-
-        if (((self.mode === 'desktop') && (self.prevMode != 'desktop')) || ((self.mode != 'desktop') && (self.prevMode === 'desktop')) || ((self.mode != 'desktop') && (self.prevMode != 'desktop'))){
-          // trigger hide sequence
-          self.hideAll();
-        }
+        // hide content blocks 
+        self.hideAll();
       },
 
       // on resize event (debounced) determine what to do
