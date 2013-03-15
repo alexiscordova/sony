@@ -15,10 +15,8 @@ define(function(require){
 
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
-      iQ = require('iQ'),
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
-      Environment = require('require/sony-global-environment'),
       sonyNavigationDots = require('secondary/index').sonyNavigationDots,
       sonyDraggable = require('secondary/index').sonyDraggable;
 
