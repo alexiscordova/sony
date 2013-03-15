@@ -232,9 +232,6 @@ define(function(require){
           
           $thNavBtn.on(thTrigger, function(e) {
             
-            $('.nav .nav-li a.active').trigger('touchstart');
-            self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
-            $('#nav-search-input').blur();
             var isSearchButtonActive = $thNavBtn.data('target') ==='navmenu-w-search' && self.active ? true : false;
         
             // Prevent focus and click to trigger at the same time
@@ -245,11 +242,15 @@ define(function(require){
               self.active = true;
             }
             
+            $('.nav .nav-li a.active').trigger('touchstart');
+            self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
+            $('#nav-search-input').blur();
+            
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
 
             // if this button is NOT activated,
-            if (!$thNavBtn.parent().hasClass('nav-li-selected') || $thNavBtn.data('target') ==='navmenu-w-search') {
+            if (!$thNavBtn.parent().hasClass('nav-li-selected') && !isSearchButtonActive) { 
               // See if any other buttons are activated.
               var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
 
@@ -278,7 +279,7 @@ define(function(require){
                   // update the Nav button & open the new tray after just a short delay for the old menu to fade out.
                   setTimeout(function() {
                     self.setActiveNavBtn($thNavBtn);
-                  }, 150);
+                  }, 10);
                 }
               }
 
