@@ -42,7 +42,7 @@ define(function(require){
 
       // Set variables
       self.$activeTab = self.$tabs.filter('.active');
-      self.$window = Settings.$window || $(window);
+      self.$window = Settings.$window;
       self.tabWidth = self.$tabs.outerWidth();
       self.tabsContainerWidth = self.$tabsContainer.width();
       self.tabletMode = self.$container.data('tabletMode');
@@ -164,10 +164,7 @@ define(function(require){
         self.$activeTab.prev().css('marginRight', self.tabWidth);
       }
 
-      // We've manipulated the DOM, refresh iScroll
-      if ( self.scroller ) {
-        self.scroller.refresh();
-      }
+      // iScroll doesn't need to be refreshed here because the content width is the same as it was before
     },
 
     // We know the offset we want within the container, but the container is translated too
@@ -321,9 +318,6 @@ define(function(require){
     setupCarousel : function() {
       var self = this;
 
-      self.$navPrev.addClass('hide');
-      self.$navNext.addClass('hide');
-
       self.$tabsContainer.scrollerModule({
         contentSelector: '.tabs',
         itemElementSelector: '.tab',
@@ -383,10 +377,10 @@ define(function(require){
 
       self.scroller = self.$tabsContainer.data('scrollerModule').scroller;
 
-      self.$container.addClass('tab-carousel');
 
       self.isTabCarousel = true;
       self._onTabSelected();
+      self.$container.addClass('tab-carousel');
       self.setOverflowClasses( self.scroller.x, self.scroller.maxScrollX + 3 );
     },
 

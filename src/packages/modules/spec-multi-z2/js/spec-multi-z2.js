@@ -14,11 +14,16 @@ define(function(require){
 
   var $ = require('jquery'),
       iQ = require('iQ'),
+      bootstrap = require('bootstrap'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      stickyTabs = require('secondary/sony-stickytabs'),
-      stickyNav = require('secondary/sony-stickynav'),
-      shuffle = require('secondary/jquery.shuffle');
+      jqueryShuffle = require('secondary/index').jqueryShuffle,
+      sonyScroller = require('secondary/index').sonyScroller,
+      sonyStickyNav = require('secondary/index').sonyStickyNav,
+      sonyEvenHeights = require('secondary/index').sonyEvenHeights,
+      sonyTab = require('secondary/index').sonyTab,
+      sonyStickyTabs = require('secondary/index').sonyStickyTabs,
+      jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
   var module = {
     init: function() {
@@ -71,6 +76,24 @@ define(function(require){
       self.stickyHeaderHeight = self.$stickyHeaders.first().height();
       self.stickyNavHeight = self.$stickyNav.outerHeight();
 
+      // Get the properties/values we're animating for the sticky navs
+      if ( Modernizr.csstransforms ) {
+        self.prop = 'transform';
+
+        // 3d transforms will create a new layer for each of the sticky headers
+        if ( Modernizr.csstransforms3d ) {
+          self.prefix = 'translate3d(0,';
+          self.suffix = 'px, 0)';
+        } else {
+          self.prefix = 'translate(0,';
+          self.suffix = 'px)';
+        }
+      } else {
+        self.prop = 'top';
+        self.prefix = '';
+        self.suffix = 'px';
+      }
+
       // Line up spec item cells
       self._onResize( true );
 
@@ -82,19 +105,28 @@ define(function(require){
 
       self.$enlargeTriggers.on('click', $.proxy( self._onEnlarge, self ));
 
-      // Put a bottom margin on the sibling of the absoluting positioned element
-      // to make up for its lack of document space
-      self.$container.find('.btm-aligned').each(function() {
-        var $img = $(this);
-        $img.on('imageLoaded', function() {
-          $img.prev().css('marginBottom', $img.css('height'));
-          $img = null;
-        });
-      });
 
       // Redraw table when images have loaded
       var debouncedSetRowHeights = $.debounce( 200, $.proxy( self._setRowHeights, self) );
       self.$specProducts.find('.iq-img').on( 'imageLoaded', debouncedSetRowHeights );
+
+      function adjustBtmAlignedImg( $img ) {
+        $img.prev().css('marginBottom', $img.css('height'));
+        debouncedSetRowHeights();
+      }
+      // Put a bottom margin on the sibling of the absoluting positioned element
+      // to make up for its lack of document space
+      self.$container.find('.btm-aligned').each(function() {
+        var $img = $(this);
+
+        if ( $img.data('hasLoaded') ) {
+          adjustBtmAlignedImg( $img );
+        } else {
+          $img.on('imageLoaded', function() {
+            adjustBtmAlignedImg( $img );
+          });
+        }
+      });
 
       // We're done
       setTimeout(function() {
@@ -318,9 +350,6 @@ define(function(require){
 
         // Loop through the cells (`.spec-item-cell`'s in the same 'row')
         $cells.add($detailLabel).evenHeights();
-
-        // Make bottom aligned images the same height
-        // $cells.find('.dl-img').evenHeights();
       });
 
       // If this is not triggered from a window resize, we still need to update the offsets
@@ -524,11 +553,9 @@ define(function(require){
 
     _setStickyHeaderPos : function( scrollTop ) {
       var self = this,
-          translateZ = Modernizr.csstransforms3d ? ' translateZ(0)' : '',
-          prop = Modernizr.csstransforms ? 'transform' : 'top',
-          value = Modernizr.csstransforms ? 'translate(0,' + scrollTop + 'px)' + translateZ : scrollTop + 'px';
+          value = self.prefix + scrollTop + self.suffix;
 
-      self.$stickyHeaders.css( prop, value );
+      self.$stickyHeaders.css( self.prop, value );
 
       return self;
     },

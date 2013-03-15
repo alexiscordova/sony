@@ -211,6 +211,7 @@ define(function(require){
   },
 
   onImageLoad = function($elm /*, $images, $proper, $broken*/ ) {
+    //$elm.data('hasLoaded', true);
     if (fade && $elm.data('fadeonce') !== true && !$elm.hasClass(noFadeFlag)) {
       $elm.data('fadeonce', true);
       $elm.css({'opacity': 1, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=100)"', 'filter':'alpha(opacity=100)'});
@@ -221,6 +222,7 @@ define(function(require){
           '-ms-filter' : ''
         });
       }, 900);
+      $elm.data('hasLoaded', true);
       $elm.trigger('imageLoaded');
     }
     $elm.trigger('imageReLoaded');
@@ -305,6 +307,7 @@ define(function(require){
           .attr('src', newsrc)
           .imagesLoaded(function(){
             $img.css('background-image', 'url('+newsrc+')');
+            $img.data('hasLoaded', true);
             $img.trigger('iQ:imageLoaded');
           });
       }

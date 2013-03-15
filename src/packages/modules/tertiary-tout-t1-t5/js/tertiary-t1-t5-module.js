@@ -5,7 +5,7 @@
 //
 // * **Module:** Tertiary Module
 // * **Version:** 0.1
-// * **Modified:** 03/05/2013
+// * **Modified:** 03/14/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html), [sony-scroller.js](sony-scroller.html), [sony-sequencer.js](sony-sequencer.html)
 //
@@ -24,9 +24,10 @@ define(function(require){
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         Utilities = require('require/sony-global-utilities'),
-        sequencer = require('secondary/sony-sequencer'),
-        sonyPaddles = require('secondary/sony-paddles'),
-        sonyNavDots = require('secondary/sony-navigationdots');
+        sonyPaddles = require('secondary/index').sonyPaddles,
+        sonyNavigationDots = require('secondary/index').sonyNavigationDots,
+        sequencer = require('secondary/sony-sequencer');
+
 
     var self = {
       'init': function() {
@@ -52,8 +53,9 @@ define(function(require){
       self.$scrollerInstance              = null;
 
       // CACHED CLASSES & TYPES
-      self.contentModulesClass            = '.tcc-content-module';
+      self.contentBlocksClass             = '.tcc-content-block';
       self.contentSelectorClass           = '.tcc-body';
+      self.imageClass                     = '.tcc-image';
       self.desktopClasses                 = 'span4';
       self.centerContentArr               = ['flickr:default','sonys-voice:instagram','sonys-voice:twitter','sonys-voice:facebook'];
 
@@ -65,8 +67,8 @@ define(function(require){
       self.$tccHeader                     = self.$tccHeaderWrapper.find(".tcc-header");
       self.$tccBodyWrapper                = self.$el;
       self.$tccBody                       = self.$tccBodyWrapper.find(self.contentSelectorClass);
-      self.$contentModules                = self.$el.find(self.contentModulesClass);
-      self.$hideShowEls                   = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);
+      self.$contentBlocks                 = self.$el.find(self.contentBlocksClass);
+      self.$hideShowEls                   = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentBlocks);
       self.$loader                        = self.$container.find(".loader");
 
       // EVENTS
@@ -78,15 +80,15 @@ define(function(require){
       // PROXY CALLS
       self.beforeResizeFunc               = $.proxy( self.beforeResize, self );
       self.afterResizeFunc                = $.proxy( self.afterResize, self );
-      self.onImagesLoaded                 = $.proxy( self.setCenterContentHeight, self);
+      self.onImagesLoaded                 = $.proxy( self.handleImagesLoaded, self);
 
       // TIMING
       self.afterResizeSpeed               = 200;
       self.setupSpeed                     = 200;
       self.teardownSpeed                  = 50;
-      self.hideAllSpeed                   = 50;
+      self.hideAllSpeed                   = 100;
       self.showAllSpeed                   = 200;
-      self.animationSpeed                 = 200;
+      self.animationSpeed                 = 300;
 
       // BREAKPOINT CONSTANTS
       self.SONY_TCC_PHONE_BREAKPOINT      = 479;
@@ -112,12 +114,10 @@ define(function(require){
         Environment.on(self.debounceEvent, self.afterResizeFunc);
       }
 
-      // register for when images are loaded to determine centering
-      self.$el.find('.iq-img').on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
-
-      self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
-       $(this).parent().addClass('on');
-      });
+      // listen for background images that have laoded
+      // self.$el.find(self.imageClass).on('iQ:imageLoaded', function(){
+      //   self.onImagesLoaded();
+      // });
 
       // start it all
       self.init();
@@ -128,26 +128,27 @@ define(function(require){
 
       init : function() {
 
-        var self = this;
+        var self = this,
+            $allImages = self.$el.find(self.imageClass),
+            $readyImages = $allImages.filter(function(){return $(this).data('hasLoaded');});
 
-        // if(SONY.Settings.isLTIE10){
-        //   // no scroller for >IE10
+        $allImages.on('imageLoaded iQ:imageLoaded', function(){
+          $readyImages = $readyImages.add($(this));
+         
+          if ($readyImages.length === $allImages.length) {
+            self.onImagesLoaded();
+          }
 
-        //   // still dymaically align height
-        //   self.setCenterContentHeight();
+        });
 
-        // }else{
-        //   self.setMode();
+        if ($readyImages.length === $allImages.length) {
+          self.onImagesLoaded();
+        }
 
-        //   // if screen size is in mobile (tablet, phone) mode then create a scroller
-        //   if(self.mode !== 'desktop'){
-        //     self.setup();
-        //   }
-        // }
+        self.setImageClass();
+        self.setMode();
 
         if(!Settings.isLTIE10){
-          self.setMode();
-
           // if screen size is in mobile (tablet, phone) mode then create a scroller
           if(self.mode !== 'desktop'){
             self.setup();
@@ -155,7 +156,23 @@ define(function(require){
         }
 
         log('SONY : TertiaryModule : Initialized');
+      },
 
+      setImageClass : function(  ){
+        var self = this;     
+        
+        self.$el
+          .find(self.imageClass)
+          .addClass('iq-img')
+          .parent()
+          .addClass('on');
+
+        iQ.update(true);
+      },
+
+      handleImagesLoaded : function(){
+        var self = this;
+        self.setCenterContentHeight();
       },
 
       // controller for scroller setup
@@ -164,12 +181,12 @@ define(function(require){
             setupSequence = new Sequencer();
 
         // remove desktop spans if there are any
-        if(self.$contentModules.hasClass(self.desktopClasses)){
+        if(self.$contentBlocks.hasClass(self.desktopClasses)){
           setupSequence.add( self, self.removeDesktopClasses, self.setupSpeed);
         }
 
-        // set content module sizes
-        setupSequence.add( self, self.setContentModuleSizes, self.setupSpeed );
+        // set content block sizes
+        setupSequence.add( self, self.setcontentBlockSizes, self.setupSpeed );
 
         // set scroller & iscroll options
         setupSequence.add( self, self.setScrollerOptions, self.setupSpeed );
@@ -178,7 +195,7 @@ define(function(require){
         setupSequence.add( self, self.createScroller, self.setupSpeed );
 
         if(self.mode === "tablet"){
-          // adjusts margins after content modules are absolute positioned
+          // adjusts margins after content blocks are absolute positioned
           setupSequence.add( self, self.adjustPositionForMargins, self.setupSpeed );
         }
 
@@ -190,7 +207,7 @@ define(function(require){
         // show the elements if they've beenh hidden
         if(self.isLayoutHidden){
           // show contents again after transition
-          setupSequence.add( self, self.showAll, self.setupSpeed);
+          setupSequence.add( self, self.showAll, self.setupSpeed + 500);
 
           // use very sparingly
           Utilities.forceWebkitRedraw();
@@ -282,13 +299,13 @@ define(function(require){
       // adds grid classes back in
       addDesktopClasses : function(){
         var self = this;
-        self.$contentModules.addClass(self.desktopClasses);
+        self.$contentBlocks.addClass(self.desktopClasses);
       },
 
       // takes out grid-specific classes (scroller is out of grid)
       removeDesktopClasses : function(){
         var self = this;
-        self.$contentModules.removeClass(self.desktopClasses);
+        self.$contentBlocks.removeClass(self.desktopClasses);
       },
 
       // hide $elements: opacity & visibility
@@ -296,10 +313,10 @@ define(function(require){
         var self  = this,
         $els = self.$hideShowEls;
 
-        // hide content modules
+        // hide content blocks
         $els.css({
           'opacity' : 0,
-          'visibility' : 'hidden'
+          'visibility':'hidden'
         });
 
         // set bool once it's done
@@ -311,8 +328,10 @@ define(function(require){
         var self = this,
             $els = self.$hideShowEls;
 
-        // TODO: expand this out
-        $els.stop(true,true).animate({ opacity: 1 },{ duration: self.animationSpeed , complete: function(){$els.css({"visibility":"visible"});}});
+        $els
+          .stop(true,true)
+          .css({'visibility':'visible'})
+          .animate({ opacity: 1 }, { duration: self.animationSpeed , complete: function(){}});
 
         // set bool once it's done
         self.isLayoutHidden = false;
@@ -336,8 +355,8 @@ define(function(require){
       clearContentWidth : function(){
         var self  = this;
 
-        // clear out content module widths to be responsive
-        self.$contentModules.css('width','');
+        // clear out content block widths to be responsive
+        self.$contentBlocks.css('width','');
       },
 
       clearTransition : function(  ){
@@ -368,10 +387,10 @@ define(function(require){
         return Math.round(Number($selector.outerWidth(true) - $selector.outerWidth()));
       },
 
-      // on every (debounced) resize event determine size of each content module
-      setContentModuleSizes : function(){
+      // on every (debounced) resize event determine size of each content block
+      setcontentBlockSizes : function(){
         var self               = this,
-        $elements              = self.$contentModules,
+        $elements              = self.$contentBlocks,
         eachContentWidth       = Math.round(self.$tccHeader.innerWidth()); // no margins
 
         // tablet is 2-up and split evenly
@@ -383,16 +402,7 @@ define(function(require){
            eachContentWidth = Math.round((eachContentWidth / 2) - (self.contentInnerMargin / 2));
         }
 
-        // phone is 1-up
-        // if(self.mode === 'phone'){
-        //   // eachContentWidth's default is "100%" of the available space
-        //   // so no changes are needed for 1-up
-
-        //   // check if we need to set width of specific children elements
-        //   //$elements = self.addDynamicWidthElements( $elements );
-        // }
-
-        // set each content module's width
+        // set each content block's width
         $elements.each(function() {
           $(this).innerWidth(eachContentWidth);
         });
@@ -404,8 +414,8 @@ define(function(require){
         // prevent redundancy
         if(!self.heightsAdjusted){
 
-          // loop through the content modules
-          self.$contentModules.each(function() {
+          // loop through the content blocks
+          self.$contentBlocks.each(function() {
             var $el = $(this),
                 modeType = $el.data("tcc-content-type") + ':' + $el.data("tcc-content-mode");
 
@@ -424,7 +434,7 @@ define(function(require){
               // check boundaries
               newCenterHeight = self.checkHeightBoundaries(newCenterHeight, modeType);
 
-              // special case for >IE10 and particular content module
+              // special case for >IE10 and particular content block
               if((Settings.isLTIE10) && ($el.data("tcc-content-type") === "sonys-voice")){
                 newCenterHeight = newCenterHeight - imgContainerTop;
                 imgContainerTop = imgContainerTop/2;
@@ -479,7 +489,7 @@ define(function(require){
 
       /**
        * Get availble container width from header (because it's still in the grid)
-       * For each content module, adjust current left position to accomodate new margins on resize
+       * For each content block, adjust current left position to accomodate new margins on resize
        * Assumes exactly three modules always
        * @return none
        */
@@ -488,16 +498,16 @@ define(function(require){
         headerLeftRightMargins = self.contentInnerMargin,//self.getHorizontalMargins(self.$tccHeader),
         $content, newLeft, contentPosition, contentLeft;
 
-        self.$contentModules.each(function(i) {
-          $content = $(self.$contentModules[i]); // content module
+        self.$contentBlocks.each(function(i) {
+          $content = $(self.$contentBlocks[i]); // content block
           contentPosition = $content.position(); // current position object
-          contentLeft = Number(contentPosition.left); // content module left position
+          contentLeft = Number(contentPosition.left); // content block left position
 
           if((i === 0) || (i === 2)){
-            // first / last content module move left
+            // first / last content block move left
             newLeft = Math.round(Number(contentLeft - (headerLeftRightMargins/2)));
           }else{
-            // second content module move right
+            // second content block move right
             newLeft = Math.round(Number(contentLeft + (headerLeftRightMargins/2)));
           }
 
@@ -507,24 +517,11 @@ define(function(require){
         });
       },
 
-      /**
-       * if resize is not going from desktop to desktop then hide elements for rebuild.
-       * in other words:
-       ** if we're in mobile entering desktop
-       ** or if we're in desktop entering mobile
-       ** or if we're in tablet entering phone or phone entering tablet
-       * @return [nothing]
-       */
       beforeResize : function(){
         var self = this;
 
-        // TODO: if needed, hide on init and desktop to mobile
-
-        if (((self.mode === 'desktop') && (self.prevMode != 'desktop')) || ((self.mode != 'desktop') && (self.prevMode === 'desktop')) || ((self.mode != 'desktop') && (self.prevMode != 'desktop'))){
-        //if (!((self.mode === 'desktop') && (self.prevMode === 'desktop'))){
-          // trigger hide sequence
-          self.hideAll();
-        }
+        // hide content blocks 
+        self.hideAll();
       },
 
       // on resize event (debounced) determine what to do
@@ -564,7 +561,7 @@ define(function(require){
         }
 
         // show the elements again
-        resizeMobileSequencer.add( self, self.showAll, self.afterResizeSpeed );
+        resizeMobileSequencer.add( self, self.showAll, self.afterResizeSpeed + 500);
 
         // start sequence
         resizeMobileSequencer.start();
@@ -618,7 +615,7 @@ define(function(require){
     $.fn.tertiaryModule.defaults = {
       options : {
         contentSelector: ".tcc-body",
-        itemElementSelector: ".tcc-content-module",
+        itemElementSelector: ".tcc-content-block",
         appendBulletsTo:".tcc-wrapper",
         mode: 'paginate',
         generatePagination: true,

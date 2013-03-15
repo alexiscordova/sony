@@ -20,7 +20,7 @@ define(function(require){
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       iQ = require('iQ'),
-      Settings = require('require/sony-global-settings'),
+      Settings = require('require/index').Settings,
       iScroll = require('plugins/sony-iscroll');
 
   var ScrollerModule = function( $element, options ) {
@@ -308,15 +308,15 @@ define(function(require){
       }
 
       // When `isPaginated` or `isCarouselMode`, we're using iscroll, which needs to be updated.
-      if ( self.isPaginated || self.isCarouselMode || self.isFreeMode ) {
+      // However, only `isPaginated` needs an update on init
+      if ( isInit && self.isPaginated ) {
         self.scroller.refresh();
-
+      } else if ( !isInit && (self.isPaginated || self.isCarouselMode || self.isFreeMode) ) {
+        self.scroller.refresh();
         // As long as this isn't the initial setup, scroll to the current page.
         // We don't want to call this on init because it calls the `onScrollStart` function/option
         // Which might not have a reference to the scroller yet
-        if ( !isInit ) {
-          self.scroller.scrollToPage(self.currentPage, 0, 400);
-        }
+        self.scroller.scrollToPage(self.currentPage, 0, 400);
       }
 
       self._fire('update');

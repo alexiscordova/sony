@@ -2,7 +2,7 @@
  * jQuery Shuffle Plugin
  * Uses CSS Transforms to filter down a grid of items (degrades to jQuery's animate).
  * Inspired by Isotope http://isotope.metafizzy.co/
- * Use it for whatever you want!
+ * Use it for whatever you want! Requires jQuery 1.9+
  * @author Glen Cheney (http://glencheney.com)
  * @version 1.6.1
  * @date 02/07/13
@@ -116,6 +116,7 @@ define(function(require){
 
         _init : function() {
             var self = this,
+                containerCSS,
                 transEndEventNames,
                 afterResizeFunc,
                 debouncedAfterResize,
@@ -127,11 +128,6 @@ define(function(require){
             self.transitionDelayName = self.prefixed('transitionDelay');
             self.transform = self.getPrefixed('transform');
 
-            // Get offset from container
-            self.offset = {
-                left: parseInt( ( self.$container.css('padding-left') || 0 ), 10 ),
-                top: parseInt( ( self.$container.css('padding-top') || 0 ), 10 )
-            };
             self.isFluid = self.columnWidth && typeof self.columnWidth === 'function';
 
             // Get transitionend event name
@@ -143,10 +139,6 @@ define(function(require){
                 'transition'       : 'transitionend'
             };
             self.transitionend = transEndEventNames[ self.transitionName ];
-
-            if ( self.$container.css('position') === 'static' ) {
-                self.$container.css('position', 'relative');
-            }
 
             // Set up css for transitions
             self.$container[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
@@ -166,13 +158,26 @@ define(function(require){
                 self.$window.on('resize.shuffle', debouncedBeforeResize);
             }
 
-            self._setColumns();
+            // Position cannot be static
+            containerCSS = self.$container.css(['paddingLeft', 'paddingRight', 'position', 'width']);
+            if ( containerCSS.position === 'static' ) {
+                self.$container.css('position', 'relative');
+            }
+
+            // Get offset from container
+            self.offset = {
+                left: parseInt( containerCSS.paddingLeft, 10 ) || 0,
+                top: parseInt( containerCSS.paddingTop, 10 ) || 0
+            };
             self._resetCols();
+            // We already got the container's width above, no need to cause another reflow getting it again...
+            self._setColumns( parseInt( containerCSS.width, 10 ) );
             self.shuffle( self.group );
 
-            if ( !self.showInitialTransition ) {
+            // If we've hidden the initial layout, we need to now add the transition to the elements
+            if ( !self.showInitialTransition && self.supported && self.useTransition ) {
                 setTimeout(function() {
-                    self._initItems( true );
+                    self._setTransitions();
                 }, 0);
             }
         },
@@ -188,15 +193,15 @@ define(function(require){
             self.fire('filter');
 
             // Default is to show all items
-            $items.removeClass('concealed filtered');
+            // $items.removeClass('concealed filtered');
 
             // Loop through each item and use provided function to determine
             // whether to hide it or not.
-            if ($.isFunction(category)) {
+            if ( $.isFunction(category) ) {
                 $items.each(function() {
                     var $item = $(this),
                     passes = category.call($item[0], $item, self);
-                    $item.addClass(passes ? 'filtered' : 'concealed');
+                    // $item.addClass(passes ? 'filtered' : 'concealed');
 
                     if ( passes ) {
                         $filtered = $filtered.add($item);
@@ -212,10 +217,10 @@ define(function(require){
                         var $this = $(this),
                         groups = $this.data('groups'),
                         keys = self.delimeter && !$.isArray( groups ) ? groups.split( self.delimeter ) : groups,
-                        passes = $.inArray(category, keys) > -1,
-                        theClass = passes ? 'concealed' : 'filtered';
+                        passes = $.inArray(category, keys) > -1;
+                        // theClass = passes ? 'concealed' : 'filtered';
 
-                        $this.addClass( theClass );
+                        // $this.addClass( theClass );
 
                         if ( passes ) {
                             $filtered = $filtered.add($this);
@@ -225,9 +230,37 @@ define(function(require){
 
                 // category === 'all', add filtered class to everything
                 else {
-                    $filtered = $items.addClass('filtered');
+                    $filtered = $items;
+                    // $filtered = $items.addClass('filtered');
                 }
             }
+
+            // Individually add/remove concealed/filtered classes
+            $items.filter( $filtered ).each(function() {
+                var $filteredItem = $(this);
+                // Remove concealed if it's there
+                if ( $filteredItem.hasClass('concealed') ) {
+                    $filteredItem.removeClass('concealed');
+                }
+                // Add filtered class if it's not there
+                if ( !$filteredItem.hasClass('filtered') ) {
+                    $filteredItem.addClass('filtered');
+                }
+            });
+            $items.not( $filtered ).each(function() {
+                var $filteredItem = $(this);
+                // Add concealed if it's not there
+                if ( !$filteredItem.hasClass('concealed') ) {
+                    $filteredItem.addClass('concealed');
+                }
+                // Remove filtered class if it's there
+                if ( $filteredItem.hasClass('filtered') ) {
+                    $filteredItem.removeClass('filtered');
+                }
+            });
+
+            $items = null;
+            $collection = null;
 
             return $filtered;
         },
@@ -252,6 +285,13 @@ define(function(require){
         _setTransition : function( element ) {
             var self = this;
             element.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
+        },
+
+        _setTransitions : function() {
+            var self = this;
+            self.$items.each(function() {
+                self._setTransition( this );
+            });
         },
 
 
@@ -677,13 +717,13 @@ define(function(require){
                     transform = 'translate(' + opts.x + 'px, ' + opts.y + 'px) scale(' + opts.scale + ', ' + opts.scale + ')';
                 }
 
+                if ( opts.x !== undefined ) {
+                    self.setPrefixedCss(opts.$this, 'transform', transform);
+                }
+
                 if ( opts.opacity !== undefined && self.useTransition ) {
                     // Update css to trigger CSS Animation
                     opts.$this.css('opacity' , opts.opacity);
-                }
-
-                if ( opts.x !== undefined ) {
-                    self.setPrefixedCss(opts.$this, 'transform', transform);
                 }
 
                 if ( self.useTransition ) {

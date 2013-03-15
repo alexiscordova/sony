@@ -13,7 +13,7 @@ define(function (require) {
 
   var $ = require('jquery'),
       Settings = require('require/sony-global-settings'),
-      throttleDebounce = require('plugins/jquery.throttle-debounce');
+      throttleDebounce = require('plugins/index').throttleDebounce;
 
   var self = {
 
@@ -57,6 +57,7 @@ define(function (require) {
       // Overwrite the Modernizr.mq function for IE < 10
       if ( Settings.isLTIE10 ) {
         Modernizr.mq = function() { return false; };
+        Modernizr.mediaqueries = false;
       }
     },
 
@@ -208,6 +209,8 @@ define(function (require) {
     }
 
   };
+
+  self.init();
 
   return self;
 

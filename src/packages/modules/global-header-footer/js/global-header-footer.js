@@ -16,6 +16,7 @@ define(function(require){
       bootstrap = require('bootstrap'),
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
+      iQ = require('iQ'),
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
@@ -126,35 +127,57 @@ define(function(require){
         self.isDesktopNav = true;
         self.isMobileNav = false;
       }
-
-      if (self.hasTouch) {
-        // add a click event to close the menu
-        self.$pageWrapOuter.on('click touchstart focus',function(e) {
-          if ( !($(e.target).hasClass('navtray-w,navmenu-w,nav') || $(e.target).parents('.navtray-w,.navmenu-w,.nav').length > 0)) {
-            $('.nav .nav-li a.active').trigger('touchstart');
-            $('#nav-search-input').blur();
-          }
-        });
-      }
-
-      log('SONY : Global Header / Footer : Initialized');
-
     },
 
     initDesktopNav : function() {
       var self = this;
-
+      
+      // add a click event to close the currently open navmenu/navtray if you click outside of it.
+      self.$pageWrapOuter.on('click touchstart focus',function(e) {
+        // as long as the click wasn't on one of the nav-menu/trays, or one of their children, or one of the activeNavBtns, reset any active menus.
+        // if ( !($(e.target).hasClass('navtray-w,navmenu-w,nav') || $(e.target).parents('.navtray-w,.navmenu-w,.nav').length > 0)) {
+        var clickIsInNavItem = $(e.target).hasClass('navtray-w') || $(e.target).hasClass('navmenu-w') || $(e.target).hasClass('nav-dropdown-toggle') || $(e.target).parents('.navtray-w,.navmenu-w,nav-dropdown-toggle').length > 0;
+        if (!clickIsInNavItem){
+          // $('.nav .nav-li a.active').trigger('touchstart');
+          self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
+          $('#nav-search-input').blur();
+        }
+      });
+      
       // Set up primary nav buttons
       self.$activeNavBtns.each(function() {
 
         var $thNavBtn = $(this), $thNavBtnTarget = $('.' + $thNavBtn.data('target')), $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
-        $thNavBtn.on('click', function(e) {
+        $thNavBtn.on('click touchstart', function(e) {
           e.preventDefault();
         });
 
         // init
         self.resetActiveNavBtn($thNavBtn);
+
+        // UPDATE
+        // 
+        // On hover, add the 'selected' (or whatever) class to the button. set a 'justActivated' boolean to true, 
+        // and set a timer that so if you click before the timer is up, it doesn't toggle the menu back closed. This way
+        // if the user goes to click the button, they won't get a double-toggle (hover followed by click)
+        // 
+        // On click, check for the 'justActivated' boolean - if it's not true, toggle the menu state.
+        // This will allow closing by way of clicking the button when the menu is open.
+        // This may also mean we can just have 1 function for touch-or-click, since touch will
+        // never trigger hover, it'll just be ready for the touch to toggle it.
+        // 
+        // TODO: Why does search menu close
+        // TODO: Clicking off the nav will close it.
+        // 
+        // 
+        // 
+
+        // $(this).on(self.tapOrClick + ' focus blur', function() {
+        // $(this).on(self.tapOrClick, function() {
+        // $(this).on('touchstart mouseenter', function() {
+
+
 
         // TOUCH DEVICES
         if (self.hasTouch) {
@@ -203,9 +226,9 @@ define(function(require){
 
           // for the search button only, we want it to trigger on click. All others on mouseenter.
           var thTrigger = 'mouseenter focus';
-          if ($thNavBtn.parent().hasClass('nav-li-search')) {
-            thTrigger = 'click keypress focus';
-          }
+          // if ($thNavBtn.parent().hasClass('nav-li-search')) {
+          //   thTrigger = 'click keypress focus';
+          // }
 
           $thNavBtn.on(thTrigger, function(e) {
 
@@ -216,7 +239,7 @@ define(function(require){
             else {
               $(this).data('active', true);
             }
-      
+
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
 
@@ -256,10 +279,10 @@ define(function(require){
 
           // If you mouseOut of the nav button
           $thNavBtn.on('mouseleave', function() {
-            
+
             $(this).data('active', false);
             $(this).data('hovering', false);
-            
+
             // Check to see if it was onto the navtray/navmenu.
             // Wait a few ticks to give it a chance for the hover to fire first.
 
@@ -298,7 +321,7 @@ define(function(require){
 
           // If you mouseOut of the target
           $thNavBtnTarget.on('mouseleave', function() {
-            
+
             $(this).data('active', false);
             $(this).data('hovering', false);
 
@@ -329,19 +352,23 @@ define(function(require){
         }
       });
 
-      self.resizeAccountBtn();
 
+      self.resizeAccountUsername();
       Environment.on('global:resizeDebounced-200ms', function(){
-        self.resizeAccountBtn();
+        self.resizeAccountUsername();
       });
     }, // end initDesktopNav
 
     resetDesktopNav : function() {
       var self = this;
 
+      self.$pageWrapOuter.off('click touchstart focus');
+
       self.$activeNavBtns.each(function() {
 
-        var $thNavBtn = $(this), $thNavBtnTarget = $('.' + $thNavBtn.data('target'));
+        var $thNavBtn = $(this);
+
+        self.resetActiveNavBtn($thNavBtn);
 
         // reset the button
         $thNavBtn.removeClass('active').parent().removeClass('nav-li-selected');
@@ -351,25 +378,46 @@ define(function(require){
           var $thNavTarget = $('.' + $thNavBtn.data('target'));
 
           if ($thNavTarget.hasClass('navtray-w')) {
-            self.setNavTrayContentNaturalFlow($thNavTarget, false);
+            // self.setNavTrayContentNaturalFlow($thNavTarget, false);
+            // WHICH ONE?
+            self.slideNavTray($thNavTarget, false);
           } else {
-            $('.navmenu-w-visible').removeClass('navmenu-w-visible').one(self.transitionEnd, function() {
-              $(this).css({
-                'left' : '',
-                'right' : ''
-              }).find('.reveal-transition-container').css('height', '');
-            });
+            self.resetActiveNavMenu();
           }
+          $thNavTarget.off('touchstart mouseenter mouseleave click');
         }
-
         // reset touch -- even if these aren't visible on mobile, it's still better to reset them, since they'll get re-inited if switch back
         $thNavBtn.off('touchstart mouseenter mouseleave click');
-        $thNavBtnTarget.off('touchstart mouseenter mouseleave click');
-
       });
     },
 
-    resizeAccountBtn : function() {
+
+    resetActiveNavMenu : function() {
+      var self = this;
+
+      // console.log("resetActiveNavMenu");
+      $('.navmenu-w-visible').each(function(){
+        $(this)
+          .removeClass('navmenu-w-visible')
+          .one(self.transitionEnd, function() {
+            // console.log("transitionEnd");
+            var $transitionContainer = $(this).find('.reveal-transition-container');
+            $transitionContainer.css('height', '');
+            $(this).css({'left':'', 'right':''});
+
+            // clear active class from THIS button!
+            // $('.nav-li-search a').removeClass('active');
+            
+            // setTimeout(function(){
+            //   var c = $transitionContainer.attr('class');
+            //   var h = $transitionContainer.outerHeight();
+            //   console.log("c: " + c + ", h: " + h);
+            // },5);
+        });
+      });
+    },
+
+    resizeAccountUsername : function() {
       var self = this;
       // reset it first so we measure off the full username.
       self.$accountUsername.text(self.fullAccountUsername);
@@ -456,14 +504,7 @@ define(function(require){
         if ($thNavTarget.hasClass('navtray-w')) {
           self.slideNavTray($thNavTarget, false);
         } else {
-          $('.navmenu-w-visible').removeClass('navmenu-w-visible').one(self.transitionEnd, function() {
-            $(this).css({
-              'left' : '',
-              'right' : ''
-            }).find('.reveal-transition-container').css('height', '');
-            $('.nav-li-search a').removeClass('active');
-
-          });
+          self.resetActiveNavMenu();
         }
       }
     },
@@ -531,6 +572,12 @@ define(function(require){
 
         // figure out if this is a tray or menu.
         if ($thNavTarget.hasClass('navtray-w')) {
+
+          // Force an iQ check whenever the navs expand.
+          $thNavTarget.one(self.transitionEnd, function() {
+            iQ.update(true);
+          });
+
           // it's a nav-tray
           // first get the tray's natural height, which it should have offscreen.
           // expand the tray. When it's done, set it to position:relative and natural heights.
@@ -545,7 +592,9 @@ define(function(require){
           var $revealContainer = $thNavTarget.find('.reveal-transition-container');
           var expHeight = $revealContainer.height();
 
-          $revealContainer.css('height', '0px');
+          // console.log("expHeight: " + expHeight);
+
+          $revealContainer.css('height', '1px');
           // wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate
           setTimeout(function() {
             $revealContainer.addClass('transition-height');
@@ -554,9 +603,17 @@ define(function(require){
               $thNavTarget.addClass('navmenu-w-visible');
               $revealContainer.height(expHeight);
               $revealContainer.one(self.transitionEnd, function() {
+                // when it's done revealing, get rid of the height transition
                 $revealContainer.removeClass('transition-height');
+                // wait a tick to make sure the transition-height class is gone. 
                 setTimeout(function() {
+                  // reset to natural height
                   $revealContainer.css('height', '');
+                  // setTimeout(function() {
+                  //   var expHeight = $revealContainer.height();
+                  //   console.log("expHeight: " + expHeight);                 
+                  // }, 1);
+
                 }, 1);
               });
             }, 1);
@@ -619,7 +676,7 @@ define(function(require){
           $('.page-wrap-inner').removeClass('show-mobile-search-results');
           setTimeout(function() {
             $thInput.trigger('blur');
-          }, 2);
+          }, 0);
         }
       });
 
