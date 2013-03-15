@@ -1,7 +1,78 @@
-.container.raa-header
-  .grid
-    h2.l1 #{data.config.title}
 
-.raa-module.container
-  .grid
-    div Foo!
+.raa-module
+  .container.raa-header
+    .grid
+      h2.l1 #{data.config.title}
+
+  .container
+    .grid
+
+      userReviewColumns = 8;
+      if (!data.expertReviews || !data.userReviews || data.userReviews.count <= 0)
+        userReviewTakeover = true
+        userReviewColumns = 12;
+
+      .raa-user-reviews(class='span'+ userReviewColumns)
+        div.user-ratings
+          h5 Users Say
+          if data.userReviews && data.userReviews.count > 0
+            div.raa-overall
+              div.raa-stars
+                - for ( i = 1; i < data.userReviews.average; i++ ) {
+                  span *
+                - }
+              p #{data.userReviews.average} based on #{data.userReviews.count} reviews
+            div.raa-breakdown
+              for item in data.userReviews.criteria
+                div
+                  h6 #{item.name}
+                  span #{Math.round(item.score)}
+
+          else
+            div.raa-overall
+              div.raa-stars no stars
+              p Currently there are no reviews. Would you like to be the first?
+
+          a(href="#") Add your own review
+
+        if data.userSocialMentions
+          div.raa-social-mentions
+            for item in data.userSocialMentions
+              div
+                p "#{item.message}"
+                div
+                  a(href=item.profileLink)
+                    img(src=item.profileImage)
+                    | #{item.name}
+
+      if !userReviewTakeover
+        .span4
+          if data.expertReviews
+            div.raa-expert-reviews
+              for item in data.expertReviews
+                div
+                  a(href=item.link)
+                    img(src=item.logoImage, alt=item.reviewer)
+                  p "#{item.blurb}"
+                  a(href=item.link) Read Review
+
+          if data.awards
+            ul.raa-awards
+              for item in data.awards
+                li
+                  a(href=item.link)
+                    img(src=item.badgeImage)
+                  p #{item.awardedBy} #{item.title}
+                    span #{" "+item.year}
+
+    if userReviewTakeover
+      .grid
+        .span12
+          if data.awards
+            ul.raa-awards
+              for item in data.awards
+                li
+                  a(href=item.link)
+                    img(src=item.badgeImage)
+                  p #{item.awardedBy} #{item.title}
+                    span #{" "+item.year}
