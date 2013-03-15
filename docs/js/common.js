@@ -30,3 +30,13 @@ requirejs.config({
   }
 
 });
+
+define(function(require){
+
+  var bootstrap = require('bootstrap'),
+      jquery = require('jquery'),
+      modernizr = require('modernizr'),
+      enquire = require('enquire'),
+      iQ = require('iQ');
+});
+

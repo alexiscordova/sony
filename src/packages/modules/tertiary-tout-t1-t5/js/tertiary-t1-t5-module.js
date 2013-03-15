@@ -5,7 +5,7 @@
 //
 // * **Module:** Tertiary Module
 // * **Version:** 0.1
-// * **Modified:** 03/05/2013
+// * **Modified:** 03/14/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html), [sony-scroller.js](sony-scroller.html), [sony-sequencer.js](sony-sequencer.html)
 //
@@ -114,9 +114,10 @@ define(function(require){
         Environment.on(self.debounceEvent, self.afterResizeFunc);
       }
 
-      self.$el.find(self.imageClass).on('iQ:imageLoaded', function(){
-       self.onImagesLoaded();
-      });
+      // listen for background images that have laoded
+      // self.$el.find(self.imageClass).on('iQ:imageLoaded', function(){
+      //   self.onImagesLoaded();
+      // });
 
       // start it all
       self.init();
@@ -127,36 +128,51 @@ define(function(require){
 
       init : function() {
 
-        var self = this;
+        var self = this,
+            $allImages = self.$el.find(self.imageClass),//.find('img'), // make sure iq has loaded images first
+            $readyImages = $allImages.filter(function(){return $(this).data('hasLoaded');});
 
-         if(!Settings.isLTIE10){
+        $allImages.on('imageLoaded iQ:imageLoaded', function(){
+          $readyImages = $readyImages.add($(this));
+         
+          if ($readyImages.length === $allImages.length) {
+            self.onImagesLoaded();
+          }
 
+        });
 
+        // TODO: DRY THIS
+        if ($readyImages.length === $allImages.length) {
+          self.onImagesLoaded();
+        }
 
-          self.setMode();
+        self.setImageClass();
 
+        self.setMode();
+        if(!Settings.isLTIE10){
           // if screen size is in mobile (tablet, phone) mode then create a scroller
           if(self.mode !== 'desktop'){
             self.setup();
           }
         }
 
-        // can run this now because it's safe to assume (via requireJS) the page is loaded
-        self.onImagesLoaded();
-
         log('SONY : TertiaryModule : Initialized');
       },
 
-      handleImagesLoaded : function(){
-        var self = this;
-
-        $(self.imageClass)
+      setImageClass : function(  ){
+        var self = this;     
+        
+        self.$el
+          .find(self.imageClass)
           .addClass('iq-img')
           .parent()
           .addClass('on');
 
         iQ.update(true);
+      },
 
+      handleImagesLoaded : function(){
+        var self = this;
         self.setCenterContentHeight();
       },
 
@@ -394,6 +410,7 @@ define(function(require){
       },
 
       setCenterContentHeight : function(){
+        console.log( 'setCenterContentHeight »');
         var self = this;
 
         // prevent redundancy
