@@ -4,10 +4,9 @@ This is the static manifest file for the Tertiary Tout (T1 - T5) module.
 # Document Overview
 ---
 
-
 Each module will include this document, which contains an ordered list of the files required for the module. This manifest will be split into two sections - files in document HEAD & TAIL files (those loaded at the bottom of the file). While, CSS files will all be in the document HEAD, the two section convention will be followed for consistency. Paths should be relative to the base folder, where this file is. The CSS and JS files themselves should be un-minified development versions. Tasks like minification and SCSS compilation will be handled at build time by the platform team.
 
-The Tertiary Tout module consists of three internal content blocks (contentBlocks).  Each content block has different modes.  Each mode has different combinations of elements associated with it. The data relationship of each content block is detailed below.  
+The Tertiary Tout module consists of three internal content blocks (contentBlocks).  Each content block has different modes.  Each mode has different combinations of elements associated with it. The data relationship of each content block is detailed below.
 
 ## Notes & Assumptions 
 
@@ -312,4 +311,3 @@ The json definitions can be seen used in these json example files:
 ---
 
 This module does not support submodules. 
-w

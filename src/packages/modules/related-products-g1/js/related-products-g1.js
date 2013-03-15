@@ -596,7 +596,7 @@ define(function(require){
                 self.updateTiles();
                 shfflInst.update();
                 self.animateTiles();
-              }else {
+              }else if (!self.isMobileMode){
                 self.$pagination.show();
                 self.$pagination.stop(true,true).fadeIn(250);
               }
@@ -1260,7 +1260,7 @@ define(function(require){
             //self.log('using alternate height calculatio >>> TABLET' , newHeight);
           }
 
-         self.$el.css( 'height' , newHeight + 62 + 'px' );
+         self.$el.css( 'height' , newHeight + 14 + 'px' );
 
           if(!!self.isTabbedContainer){
             self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 62 + 'px');
@@ -1284,6 +1284,10 @@ define(function(require){
         if(self.$win.width() < 1120){
           newHeight += 20;
         }
+/*
+        if(self.$win.width() > 1200){
+          newHeight -= 40;
+        }*/
 
         self.$el.css( 'height' , newHeight + 0 + 'px' );
 
@@ -1994,10 +1998,15 @@ define(function(require){
 
         if( totalAnimationDelay > 0 ){
           setTimeout( function(){
-            self.$pagination.stop(true,true).fadeIn(250);
+            if(!self.isMobileMode){
+              self.$pagination.stop(true,true).fadeIn(250);
+            }
+            
           }, totalAnimationDelay );
         }else{
+          if(!self.isMobileMode){
            self.$pagination.stop(true,true).fadeIn(250);
+          }
         }
 
       },

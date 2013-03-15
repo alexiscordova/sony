@@ -556,7 +556,7 @@ if their interaction time and movements are below certain thresholds.</p>       
                 self.updateTiles();
                 shfflInst.update();
                 self.animateTiles();
-              }<span class="keyword">else</span> {
+              }<span class="keyword">else</span> <span class="keyword">if</span> (!self.isMobileMode){
                 self.$pagination.show();
                 self.$pagination.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">250</span>);
               }
@@ -664,20 +664,19 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="string">'width'</span>       : colWidth,
             <span class="string">'margin'</span>      : <span class="number">0</span>,
             <span class="string">'margin-left'</span> : <span class="number">0</span>,
-            <span class="string">'margin-top'</span>  : <span class="string">'20px'</span>
+            <span class="string">'margin-top'</span>  : <span class="string">'0px'</span>
           });
 
           self.$galleryItems.first().css({
             <span class="string">'width'</span>   : colWidth,
             <span class="string">'margin'</span>  : <span class="number">0</span>,
-            <span class="string">'margin-top'</span> : <span class="string">'20px'</span>
+            <span class="string">'margin-top'</span> : <span class="string">'0px'</span>
           });
 
 
           <span class="keyword">var</span> $oneProduct = self.$el.find(<span class="string">'.gallery-item.normal'</span>).first(),
           newContainerHeight = $oneProduct.find(<span class="string">'.product-content'</span>).outerHeight(<span class="literal">true</span>) + $oneProduct.find(<span class="string">'.product-img'</span>).height();
-          newContainerHeight += <span class="number">50</span>; <span class="comment">//spacing for navigation dots</span>
-
+          newContainerHeight += <span class="number">30</span>; <span class="comment">//spacing for navigation dots</span>
 
 
           self.$el.css({
@@ -686,7 +685,11 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="string">'min-height'</span> : newContainerHeight
           });
 
+          self.checkTileHeights();
+
         }));
+
+        
 
         self.$win.trigger(<span class="string">'resize.rp'</span>);
 
@@ -1190,7 +1193,7 @@ return;</p>             </td>             <td class="code">               <div c
             newHeight = Math.ceil( $(<span class="string">'.shuffle-container'</span>).eq(<span class="number">0</span>).width() * <span class="number">0.984615385</span> );
 </pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>self.log('using alternate height calculatio >>> TABLET' , newHeight);</p>             </td>             <td class="code">               <div class="highlight"><pre>          }
 
-         self.$el.css( <span class="string">'height'</span> , newHeight + <span class="number">62</span> + <span class="string">'px'</span> );
+         self.$el.css( <span class="string">'height'</span> , newHeight + <span class="number">14</span> + <span class="string">'px'</span> );
 
           <span class="keyword">if</span>(!!self.isTabbedContainer){
             self.$tabbedContainer.css(<span class="string">'height'</span> , $(<span class="string">'.shuffle-container'</span>).eq(<span class="number">0</span>).height() + <span class="number">62</span> + <span class="string">'px'</span>);
@@ -1213,6 +1216,10 @@ return;</p>             </td>             <td class="code">               <div c
         <span class="keyword">if</span>(self.$win.width() &lt; <span class="number">1120</span>){
           newHeight += <span class="number">20</span>;
         }
+<span class="comment">/*
+        if(self.$win.width() &gt; 1200){
+          newHeight -= 40;
+        }*/</span>
 
         self.$el.css( <span class="string">'height'</span> , newHeight + <span class="number">0</span> + <span class="string">'px'</span> );
 
@@ -1851,7 +1858,7 @@ return;</p>             </td>             <td class="code">               <div c
         prodImg = self.$galleryItems.filter(<span class="string">'.normal'</span>).find(<span class="string">'.product-img'</span>),
         newHeight = prodImg.first().height();
 
-        <span class="keyword">if</span>(self.$win.width() &lt; <span class="number">569</span>){
+        <span class="keyword">if</span>(self.$win.width() &lt; <span class="number">569</span> || self.mode === <span class="string">'strip'</span>){
           newHeight = <span class="string">'100%'</span>;
         }
 
@@ -1901,10 +1908,15 @@ return;</p>             </td>             <td class="code">               <div c
 
         <span class="keyword">if</span>( totalAnimationDelay &gt; <span class="number">0</span> ){
           setTimeout( <span class="keyword">function</span>(){
-            self.$pagination.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">250</span>);
+            <span class="keyword">if</span>(!self.isMobileMode){
+              self.$pagination.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">250</span>);
+            }
+            
           }, totalAnimationDelay );
         }<span class="keyword">else</span>{
+          <span class="keyword">if</span>(!self.isMobileMode){
            self.$pagination.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">250</span>);
+          }
         }
 
       },

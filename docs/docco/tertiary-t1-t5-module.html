@@ -5,7 +5,7 @@
 <ul>
 <li><strong>Module:</strong> Tertiary Module</li>
 <li><strong>Version:</strong> 0.1</li>
-<li><strong>Modified:</strong> 03/05/2013</li>
+<li><strong>Modified:</strong> 03/14/2013</li>
 <li><strong>Author:</strong> Telly Koosis</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+, Modernizr, <a href="sony-iscroll.html">sony-iscroll.js</a>, <a href="sony-scroller.html">sony-scroller.js</a>, <a href="sony-sequencer.html">sony-sequencer.js</a></li>
 </ul>
@@ -81,7 +81,7 @@ Namespaced versions of global events</p>             </td>             <td class
       self.teardownSpeed                  = <span class="number">50</span>;
       self.hideAllSpeed                   = <span class="number">100</span>;
       self.showAllSpeed                   = <span class="number">200</span>;
-      self.animationSpeed                 = <span class="number">200</span>;
+      self.animationSpeed                 = <span class="number">300</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>BREAKPOINT CONSTANTS</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.SONY_TCC_PHONE_BREAKPOINT      = <span class="number">479</span>;
       self.SONY_TCC_TABLET_BREAKPOINT_MIN = <span class="number">480</span>;
@@ -101,11 +101,11 @@ Namespaced versions of global events</p>             </td>             <td class
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>register listener for global debounce to call method <strong>after</strong> debounce begins</p>             </td>             <td class="code">               <div class="highlight"><pre>        Environment.on(self.debounceEvent, self.afterResizeFunc);
       }
 
-      self.$el.find(self.imageClass).on(<span class="string">'iQ:imageLoaded'</span>, <span class="keyword">function</span>(){
-       self.onImagesLoaded();
-      });
-
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>start it all</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>listen for background images that have laoded
+self.$el.find(self.imageClass).on('iQ:imageLoaded', function(){
+  self.onImagesLoaded();
+});</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>start it all</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
     };
 
     TertiaryModule.prototype = {
@@ -113,32 +113,49 @@ Namespaced versions of global events</p>             </td>             <td class
 
       init : <span class="keyword">function</span>() {
 
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+            $allImages = self.$el.find(self.imageClass),
+            $readyImages = $allImages.filter(<span class="keyword">function</span>(){<span class="keyword">return</span> $(<span class="keyword">this</span>).data(<span class="string">'hasLoaded'</span>);});
 
-         <span class="keyword">if</span>(!Settings.isLTIE10){
-          self.setMode();
+        $allImages.on(<span class="string">'imageLoaded iQ:imageLoaded'</span>, <span class="keyword">function</span>(){
+          $readyImages = $readyImages.add($(<span class="keyword">this</span>));
+         
+          <span class="keyword">if</span> ($readyImages.length === $allImages.length) {
+            self.onImagesLoaded();
+          }
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>if screen size is in mobile (tablet, phone) mode then create a scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.mode !== <span class="string">'desktop'</span>){
+        });
+
+        <span class="keyword">if</span> ($readyImages.length === $allImages.length) {
+          self.onImagesLoaded();
+        }
+
+        self.setImageClass();
+        self.setMode();
+
+        <span class="keyword">if</span>(!Settings.isLTIE10){
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>if screen size is in mobile (tablet, phone) mode then create a scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.mode !== <span class="string">'desktop'</span>){
             self.setup();
           }
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>can run this now because it's safe to assume (via requireJS) the page is loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.onImagesLoaded();
-
         log(<span class="string">'SONY : TertiaryModule : Initialized'</span>);
-
       },
 
-      handleImagesLoaded : <span class="keyword">function</span>(){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-        $(self.imageClass)
+      setImageClass : <span class="keyword">function</span>(  ){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;     
+        
+        self.$el
+          .find(self.imageClass)
           .addClass(<span class="string">'iq-img'</span>)
           .parent()
           .addClass(<span class="string">'on'</span>);
 
         iQ.update(<span class="literal">true</span>);
+      },
 
+      handleImagesLoaded : <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
         self.setCenterContentHeight();
       },
 
@@ -248,7 +265,7 @@ desktop mode sometimes sticks in old position</p>             </td>             
 
 </pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>hide content blocks</p>             </td>             <td class="code">               <div class="highlight"><pre>        $els.css({
           <span class="string">'opacity'</span> : <span class="number">0</span>,
-          <span class="string">'visibility'</span> : <span class="string">'hidden'</span>
+          <span class="string">'visibility'</span>:<span class="string">'hidden'</span>
         });
 
 </pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>set bool once it's done</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.isLayoutHidden = <span class="literal">true</span>;
@@ -258,7 +275,10 @@ desktop mode sometimes sticks in old position</p>             </td>             
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             $els = self.$hideShowEls;
 
-        $els.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({ opacity: <span class="number">1</span> },{ duration: self.animationSpeed , complete: <span class="keyword">function</span>(){$els.css({<span class="string">"visibility"</span>:<span class="string">"visible"</span>});}});
+        $els
+          .stop(<span class="literal">true</span>,<span class="literal">true</span>)
+          .css({<span class="string">'visibility'</span>:<span class="string">'visible'</span>})
+          .animate({ opacity: <span class="number">1</span> }, { duration: self.animationSpeed , complete: <span class="keyword">function</span>(){}});
 
 </pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>set bool once it's done</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.isLayoutHidden = <span class="literal">false</span>;
       },
@@ -415,57 +435,46 @@ accomplished in self.adjustPositionForMargins()</p>             </td>           
         });
       },
 
-      <span class="comment">/**
-       * if resize is not going from desktop to desktop then hide elements for rebuild.
-       * in other words:
-       ** if we're in mobile entering desktop
-       ** or if we're in desktop entering mobile
-       ** or if we're in tablet entering phone or phone entering tablet
-       * @return [nothing]
-       */</span>
       beforeResize : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>TODO: if needed, hide on init and desktop to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
-        <span class="keyword">if</span> (((self.mode === <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode != <span class="string">'desktop'</span>)) || ((self.mode != <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode === <span class="string">'desktop'</span>)) || ((self.mode != <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode != <span class="string">'desktop'</span>))){
-</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>trigger hide sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.hideAll();
-        }
+</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>hide content blocks </p>             </td>             <td class="code">               <div class="highlight"><pre>        self.hideAll();
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>on resize event (debounced) determine what to do</p>             </td>             <td class="code">               <div class="highlight"><pre>      afterResize : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>on resize event (debounced) determine what to do</p>             </td>             <td class="code">               <div class="highlight"><pre>      afterResize : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             resizeMobileSequencer = <span class="keyword">new</span> Sequencer();
 
-</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>update mode at current break point</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setMode();
+</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>update mode at current break point</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setMode();
 
-</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>what direction are we going?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>((self.mode != <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode === <span class="string">'desktop'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>from desktop to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>set to false b/c it was set to true in desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.heightsAdjusted = <span class="literal">false</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>what direction are we going?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>((self.mode != <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode === <span class="string">'desktop'</span>)){
+</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>from desktop to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>set to false b/c it was set to true in desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.heightsAdjusted = <span class="literal">false</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>build new (assumes there's no scroller instance)</p>             </td>             <td class="code">               <div class="highlight"><pre>          resizeMobileSequencer.add( self, self.setup, self.afterResizeSpeed );
+</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>build new (assumes there's no scroller instance)</p>             </td>             <td class="code">               <div class="highlight"><pre>          resizeMobileSequencer.add( self, self.setup, self.afterResizeSpeed );
         }<span class="keyword">else</span> <span class="keyword">if</span> ((self.mode != <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode != <span class="string">'desktop'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>from mobile to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>teardown</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.$scrollerInstance){
+</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>from mobile to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>teardown</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.$scrollerInstance){
             resizeMobileSequencer.add( self, self.teardown, self.afterResizeSpeed );
           }
 
-</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>build new scroller instance (assumes there's no scroller instance)</p>             </td>             <td class="code">               <div class="highlight"><pre>          resizeMobileSequencer.add( self, self.setup, self.afterResizeSpeed);
+</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>build new scroller instance (assumes there's no scroller instance)</p>             </td>             <td class="code">               <div class="highlight"><pre>          resizeMobileSequencer.add( self, self.setup, self.afterResizeSpeed);
         }<span class="keyword">else</span> <span class="keyword">if</span>((self.mode === <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode != <span class="string">'desktop'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>from mobile to desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-96">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-96">&#182;</a>               </div>               <p>teardown</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.$scrollerInstance){
+</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>from mobile to desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>teardown</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.$scrollerInstance){
             resizeMobileSequencer.add( self, self.teardown, self.afterResizeSpeed );
           }
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-97">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-97">&#182;</a>               </div>               <p>show the elements again</p>             </td>             <td class="code">               <div class="highlight"><pre>        resizeMobileSequencer.add( self, self.showAll, self.afterResizeSpeed + <span class="number">500</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-96">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-96">&#182;</a>               </div>               <p>show the elements again</p>             </td>             <td class="code">               <div class="highlight"><pre>        resizeMobileSequencer.add( self, self.showAll, self.afterResizeSpeed + <span class="number">500</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-98">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-98">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        resizeMobileSequencer.start();
+</pre></div>             </td>           </tr>                               <tr id="section-97">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-97">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        resizeMobileSequencer.start();
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-99">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-99">&#182;</a>               </div>               <p>set mode based on current breakpoint</p>             </td>             <td class="code">               <div class="highlight"><pre>      setMode : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-98">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-98">&#182;</a>               </div>               <p>set mode based on current breakpoint</p>             </td>             <td class="code">               <div class="highlight"><pre>      setMode : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-100">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-100">&#182;</a>               </div>               <p>archive current mode to use in directional situations
+</pre></div>             </td>           </tr>                               <tr id="section-99">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-99">&#182;</a>               </div>               <p>archive current mode to use in directional situations
 ex. desktop entering mobile (phone or desktop)
 ex. mobile entering desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.prevMode = self.mode;
 
@@ -478,19 +487,19 @@ ex. mobile entering desktop</p>             </td>             <td class="code"> 
         }
 
         <span class="keyword">if</span>(self.prevMode === <span class="literal">null</span>){
-</pre></div>             </td>           </tr>                               <tr id="section-101">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-101">&#182;</a>               </div>               <p>handle init</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.prevMode = self.mode;
+</pre></div>             </td>           </tr>                               <tr id="section-100">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-100">&#182;</a>               </div>               <p>handle init</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.prevMode = self.mode;
         }
       }
 
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-102">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-102">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.tertiaryModule = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-101">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-101">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.tertiaryModule = <span class="keyword">function</span>( options ) {
       <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           tertiaryModule = self.data(<span class="string">'tertiaryModule'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-103">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-103">&#182;</a>               </div>               <p>If we don't have a stored tertiaryModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !tertiaryModule ) {
+</pre></div>             </td>           </tr>                               <tr id="section-102">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-102">&#182;</a>               </div>               <p>If we don't have a stored tertiaryModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !tertiaryModule ) {
             tertiaryModule = <span class="keyword">new</span> TertiaryModule( self, options );
             self.data( <span class="string">'tertiaryModule'</span>, tertiaryModule );
         }
@@ -501,7 +510,7 @@ ex. mobile entering desktop</p>             </td>             <td class="code"> 
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-104">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-104">&#182;</a>               </div>               <p>Defaults options for the module</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.tertiaryModule.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-103">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-103">&#182;</a>               </div>               <p>Defaults options for the module</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.tertiaryModule.defaults = {
       options : {
         contentSelector: <span class="string">".tcc-body"</span>,
         itemElementSelector: <span class="string">".tcc-content-block"</span>,

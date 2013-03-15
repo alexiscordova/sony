@@ -170,7 +170,7 @@ mixin flickrContent(meta, images, btnLink, btnLabel)
             - for (i = 0; i <= 2; i++) {
             if(images[i])
               div
-                mixin iQImage(images[i],'tcc-image')
+                +iQImage(images[i],'tcc-image')
             -}
         .bottom-row
             - for (i = 3; i <= 5; i++) {
