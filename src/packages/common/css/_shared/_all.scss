@@ -6,6 +6,25 @@
 // It is named all.scss so that it comes first in the source and is easier to override
 
 
+
+.favorite-holder {
+  display: inline-block;
+  cursor: pointer;
+
+  i {
+    color: $gray60;
+    vertical-align: baseline;
+    font-size: .8125em;
+    padding: .6875em .875em;
+  }
+
+  .no-touch &:hover i,
+  &.active i {
+    color: rgb(243,84,41);
+  }
+}
+
+
 //  .d8888b.  888    d8b          888                     888b    888
 // d88P  Y88b 888    Y8P          888                     8888b   888
 // Y88b.      888                 888                     88888b  888
@@ -381,21 +400,6 @@ $oneByOneImgPadding: 107.84313725490196%;
     position: absolute;
     left: 0;
     bottom: 0;
-    text-align: center;
-    cursor: pointer;
-
-    i {
-      // margin-top: px-em(3px);
-      color: $gray60;
-      vertical-align: baseline;
-      font-size: .8125em;
-      padding: .6875em .875em;
-    }
-
-    .no-touch &:hover i,
-    &.active i {
-      color: rgb(243,84,41);
-    }
   }
 }
 

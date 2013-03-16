@@ -1,10 +1,14 @@
 
-.product-summary-module.product-summary
+section.product-summary-module.product-summary
 
   module = data.submodules[0]
-  d = locals.data(module.data)
-  - d.view = 'summary'
-  e = { "locals" : locals, "data" : d }
+  productData = locals.data(module.data)
+  - productData.view = 'summary'
+  - productData.collectionLabel = data.titleLink.label
+  - productData.collectionHref = data.titleLink.href
+  - productData.favoriteText = 'Favorite'
+  - productData.shareText = 'Share'
+  e = { "locals" : locals, "data" : productData }
   !{locals.partial( module.type, e )}
 
   .container
@@ -19,7 +23,7 @@
   .sticky-nav
     .container
       .grid
-        h2.t6.sticky-nav-title= data.title
+        h2.t6.sticky-nav-title= productData.title
         ul.jump-links.inline.nav
           each link, i in data.internalLinks
             - clss = i ? '' : 'active'

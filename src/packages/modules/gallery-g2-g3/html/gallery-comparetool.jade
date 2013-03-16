@@ -1,0 +1,19 @@
+include gallery-helpers.jade
+
++galleryStickyTabs( data.tabs, data.config.module_name, data.config.module_id )
+
+.tab-content.gallery-content(data-module-name=data.config.module_name, data-module-id=data.config.module_id)
+  if data.tabs[0]
+    .tab-pane.fade.in.active(data-tab=data.tabs[0].slug)
+      +featuredGallery( data.submodules, data.featured, 'product' )
+      +featuredGallery( data.submodules, data.featured2, 'accessory' )
+
+
+  if data.tabs[1]
+    .tab-pane.fade(data-tab=data.tabs[1].slug)
+      //- This is the only thing that's different
+      +compareGallery( data.submodules, data.productCards, 'product', data.labels )
+
+  if data.tabs[2]
+    .tab-pane.fade(data-tab=data.tabs[2].slug)
+      +productStrips( data.submodules, data.accessories, 'accessory' )
