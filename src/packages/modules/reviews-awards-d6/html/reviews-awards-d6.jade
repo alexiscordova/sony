@@ -4,7 +4,7 @@
     .grid
       h2.l1 #{data.config.title}
 
-  .container
+  .container.raa-content
     .grid
 
       userReviewColumns = 8;
@@ -13,27 +13,36 @@
         userReviewColumns = 12;
 
       .raa-user-reviews(class='span'+ userReviewColumns)
+        h3.l3 Users Say
         div.user-ratings
-          h5 Users Say
+
           if data.userReviews && data.userReviews.count > 0
             div.raa-overall
               div.raa-stars
-                - for ( i = 1; i < data.userReviews.average; i++ ) {
-                  span *
+                - for ( i = 1; i <= 5; i++ ) {
+                  - starClass = "star"+i
+                  if i < data.userReviews.average
+                    - starClass += " on"
+                  i.fonticon-10-star.star(class=starClass)
                 - }
               p #{data.userReviews.average} based on #{data.userReviews.count} reviews
             div.raa-breakdown
               for item in data.userReviews.criteria
                 div
                   h6 #{item.name}
+                  div.raa-rating-bar
+                    div.raa-rating-bar-active(class = "score-" + Math.round(item.score))
                   span #{Math.round(item.score)}
 
           else
             div.raa-overall
-              div.raa-stars no stars
+              div.raa-stars
+                - for ( i = 1; i <= 5; i++ ) {
+                  i.fonticon-10-star.star(class="star"+i)
+                - }
               p Currently there are no reviews. Would you like to be the first?
 
-          a(href="#") Add your own review
+          a.btn(href="#") Add your own review
 
         if data.userSocialMentions
           div.raa-social-mentions
@@ -48,6 +57,7 @@
       if !userReviewTakeover
         .span4
           if data.expertReviews
+            .l3 Experts Say
             div.raa-expert-reviews
               for item in data.expertReviews
                 div
@@ -57,6 +67,7 @@
                   a(href=item.link) Read Review
 
           if data.awards
+            .l3 Awards
             ul.raa-awards
               for item in data.awards
                 li
@@ -69,6 +80,7 @@
       .grid
         .span12
           if data.awards
+            .l3 Awards
             ul.raa-awards
               for item in data.awards
                 li
