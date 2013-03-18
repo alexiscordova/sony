@@ -3,69 +3,136 @@
 
 .product-summary {
 
+  .product-img-wrap {
+    padding-top: px-em(22);
+
+    .ghost-center-wrap {
+      height: 100%;
+    }
+  }
+
+  .product-details {
+    padding-top: px-em(34);
+    padding-bottom: px-em(41);
+  }
+
+  .price-content {
+    padding-top: px-em( 53px );
+  }
+
   .link-color {
     color: $linkBlue;
   }
 
   .product-title {
-    margin-bottom: 14px;
-  }
-
-  .color-swatches {
-    display: inline-block;
+    margin-top: -2px;
+    margin-bottom: 6px;
   }
 
   .spacer {
     padding: 0 10px;
   }
 
-  // is this the same as .p# ?
-  .price-prefix {
-    color: $gray40;
-  }
-
+  // Inline details (model | sizes | swatches)
   .inline-details {
-    margin-bottom: 1em;
+    margin-bottom: px-em(3);
   }
 
   .inline-details > * {
+    display: block;
+    float: left;
     margin: 0;
+  }
+
+  .inline-details .color-swatches {
+    margin-top: .25em;
+  }
+
+
+  // Content on the right
+  // -----------------------
+
+  .space-right {
+    margin-right: 1.25em;
+  }
+
+  .space-top {
+    margin-top: 1em;
+  }
+
+  .price-prefix {
+    margin-bottom: -3px;
+  }
+
+  .msrp {
+    padding-right: 2px;
+  }
+
+  .price-content a:hover > span,
+  .price-content a:hover i {
+    color: $linkBlue;
   }
 
   .arrow-holder {
     display: inline-block;
-    cursor: pointer;
 
     i {
-      // color: $gray50;
+      position: relative;
+      top: -(px-em(2));
       vertical-align: baseline;
-      // font-size: .8125em;
-      padding: px-em(10, 16) 0 0 px-em(8, 16);
+      padding: 0 0 0 px-em(8, 16);
     }
-
-    .no-touch &:hover i,
-    &.active i {
-      color: $linkBlue;
-    }
-  }
-
-  .favorite-holder {
-    padding-right: px-em(25, 16);
   }
 
   .favorite-holder i {
-    padding: px-em(10, 13) 0 0 px-em(8, 13);
+    padding: 0 0 0 px-em(8, 13);
   }
 
   .fonticon-10-arrowhead-down,
   .fonticon-10-favorite {
     color: $gray50;
-    @include transition(color 0.25s linear);
+  }
+}
 
-    // .no-touch &:hover,
-    // &.active {
-    //   color: $linkBlue;
-    // }
+// Product summary sticky nav
+.ps-sticky-nav {
+  .product-img {
+    margin-top: px-em(6);
+    margin-bottom: px-em(6);
+    max-width: 96px;
+    max-height: 60px;
+
+    img {
+      max-height: 100%;
+    }
   }
 
+  .sticky-nav-title {
+    margin-top: px-em(22, 18);
+    margin-bottom: px-em(12, 18);
+    line-height: .9;
+  }
+
+  .btn {
+    margin-top: px-em(13, 15);
+    margin-bottom: px-em(11, 15);
+  }
+
+  .price-prefix {
+    margin-top: px-em(22, 12);
+  }
+
+  .grid {
+    position: relative;
+  }
+
+  // THIS WILL PROBABLY CHANGE WITH THE BUTTON SIZE
+  .jump-links {
+    padding-top: 4px;
+  }
 }
+
+
+
+
+

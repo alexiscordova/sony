@@ -49,7 +49,8 @@ define(function(require){
 
       // Set up twitter bootstrap scroll spy
       $body.scrollspy({
-        target: '.spec-sticky-nav'
+        target: '.sticky-nav',
+        offset: self.offset
       });
 
       // Setup links that scroll within the page
@@ -77,7 +78,7 @@ define(function(require){
 
     _initJumpLinks : function() {
       var self = this,
-          scrollspyOffset = 10,
+          scrollspyOffset = self.offset,
           navHeight = parseFloat( self.$el.css('height') ),
           offset = scrollspyOffset + navHeight;
 
@@ -180,6 +181,7 @@ define(function(require){
   $.fn.stickyNav.defaults = {
     $jumpLinks: undefined,
     offsetTarget: 300,
+    offset: 10,
     scrollToTopOnClick: false
   };
 

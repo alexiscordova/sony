@@ -177,6 +177,7 @@
   top: .25em;
   display: inline-block;
   @include square( 1em ); // should match .fonticon's size
+  line-height: 1;
 
   .fonticon-10-star,
   .fonticon-10-star-half {
@@ -197,6 +198,12 @@
 
 [data-stars] .fonticon-10-star {
   color: $gray50;
+}
+
+[data-stars] .reviews-text {
+  line-height: 1;
+  margin: 0;
+  color: $gray40;
 }
 
 // Ratings without half stars
