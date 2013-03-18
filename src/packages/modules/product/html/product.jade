@@ -598,10 +598,12 @@ else if data.view == 'summary'
 
   .container
     .grid.js-even-cols
+
       .span2.product-img-wrap
         .ghost-center-wrap
           .product-img.ghost-center
             +iQImage( data.imgSmall, '', 'image' )
+
       .span5.product-details
         a.l2.link-color(href=titleHref)= titleLabel
         h2.t5.product-title(itemprop="name")= data.title
@@ -612,6 +614,7 @@ else if data.view == 'summary'
           span.spacer.text-med-dark.p5 |
           +colorSwatches( data.img.colors, true, true )
         +productRating( data.rating.stars, data.rating.reviews )
+
       .span5.price-content
         .clearfix
           a.btn.btn-special.btn-large.pull-right(href=data.storeLink)= buyText
@@ -620,15 +623,23 @@ else if data.view == 'summary'
             span.p5.msrp= msrp
             span.p1.price
               strong.text-dark !{ priceUnit + data.price }
-        .text-right
+        .text-right.relative
           a.ib.space-right.js-favorite(href="#")
             span.p3= data.favoriteText
             +heart()
-          a.ib.js-share(href="#")
+          a.ib.js-share(data-toggle="dropdown", href="#")
             span.p3= data.shareText
             span.arrow-holder
               i.fonticon-10-arrowhead-down
-
+          ul.dropdown-menu.dropdown-menu-alt.pull-right.text-left(role="menu")
+            each social in data.socialButtons
+              li
+                a(href=social.link)
+                  span.social-icon(class="social-icon-" + social.id)
+                    i(class=social.icon)
+                  span.social-label= social.label
+            li.input-holder
+              input(type="text", value="so.ny/psvita31")
 
 
 

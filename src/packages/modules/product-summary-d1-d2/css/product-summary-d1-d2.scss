@@ -20,6 +20,16 @@
     padding-top: px-em( 53px );
   }
 
+
+  .product-img-wrap .product-img {
+    max-width: 141px;
+    max-height: 152px;
+
+    img {
+      max-height: 100%;
+    }
+  }
+
   .link-color {
     color: $linkBlue;
   }
@@ -69,7 +79,8 @@
   }
 
   .price-content a:hover > span,
-  .price-content a:hover i {
+  .price-content a:hover .fonticon-10-arrowhead-down,
+  .price-content a:hover .fonticon-10-favorite {
     color: $linkBlue;
   }
 
@@ -88,9 +99,64 @@
     padding: 0 0 0 px-em(8, 13);
   }
 
-  .fonticon-10-arrowhead-down,
   .fonticon-10-favorite {
     color: $gray50;
+  }
+
+
+  // Dropdown
+  // ------------------
+
+  .dropdown-menu {
+    padding-top: 20px;
+    padding-bottom: 18px;
+
+    a {
+      padding-top: 1px;
+      padding-bottom: 1px;
+    }
+
+    a:last-of-type {
+      padding-bottom: 10px;
+    }
+
+    .input-holder {
+      padding: 0 17px;
+    }
+  }
+
+  .social-label {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .social-icon {
+    display: inline-block;
+    text-align: center;
+    width: px-em(36);
+    height: px-em(32);
+    margin-right: px-em(12);
+
+    i {
+      color: $white;
+      vertical-align: middle;
+    }
+  }
+
+  .social-icon-facebook {
+    background-color: $facebookColor;
+  }
+
+  .social-icon-twitter {
+    background-color: $twitterColor;
+  }
+
+  .social-icon-gplus {
+    background-color: $gplusColor;
+  }
+
+  .social-icon-pinterest {
+    background-color: $pinterestColor;
   }
 }
 

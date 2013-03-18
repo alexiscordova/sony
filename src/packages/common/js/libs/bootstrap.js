@@ -661,7 +661,8 @@
 
       if (!isActive || (isActive && e.keyCode == 27)) return $this.click()
 
-      $items = $('[role=menu] li:not(.divider) a', $parent)
+      // $items = $('[role=menu] li:not(.divider) a', $parent)
+      $items = $('[role=menu] li:not(.divider) a, [role=menu] li:not(.divider) input', $parent)
 
       if (!$items.length) return
 
@@ -679,6 +680,7 @@
   }
 
   function clearMenus(evt) {
+    console.log('clearMenus');
     var $parent = getParent($(toggle))
 
     if ( $parent.hasClass('open') ) {
