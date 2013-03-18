@@ -66,10 +66,18 @@
     position:relative;
 
     .nav-paddles {
-      position: absolute;
-      right: -55px;
-      top: 44px;
-    }
+
+        .nav-paddle {
+
+          position: absolute;
+          top: 50%;
+          margin-top: -$navPaddleHeight;
+
+          &.nav-paddle-next { right: 0; }
+
+          &.nav-paddle-prev { left: 0; }
+        }
+      }
 
   }
 
