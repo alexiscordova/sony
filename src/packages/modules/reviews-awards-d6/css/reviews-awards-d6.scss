@@ -132,11 +132,17 @@ $maximumChildren: 20;
       float: left;
       text-align: center;
     }
-  }
 
-  .has-expert-reviews.has-user-reviews & {
     p {
-      display: none;
+      float: left;
+
+      span {
+        display: block;
+      }
+
+      .has-expert-reviews.has-user-reviews & {
+        display: none;
+      }
     }
   }
 }

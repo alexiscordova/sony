@@ -83,8 +83,10 @@
                 li
                   a(href=item.link)
                     img(src=item.badgeImage)
-                  p #{item.awardedBy} #{item.title}
-                    span #{" "+item.year}
+                  p
+                    span.award-org #{item.awardedBy} #{''}
+                    span.award-name #{item.title} #{''}
+                    span.award-year #{" "+item.year} #{''}
 
     if userReviewTakeover
       .grid
@@ -96,5 +98,7 @@
                 li
                   a(href=item.link)
                     img(src=item.badgeImage)
-                  p #{item.awardedBy} #{item.title}
-                    span #{" "+item.year}
+                  p
+                    span.award-org #{item.awardedBy} #{''}
+                    span.award-name #{item.title} #{''}
+                    span.award-year #{" "+item.year} #{''}
