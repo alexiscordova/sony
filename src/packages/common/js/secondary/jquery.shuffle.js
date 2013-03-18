@@ -5,7 +5,7 @@
  * Use it for whatever you want! Requires jQuery 1.9+
  * @author Glen Cheney (http://glencheney.com)
  * @version 1.6.1
- * @date 02/07/13
+ * @date 03/14/13
  */
 
 define(function(require){
@@ -98,7 +98,6 @@ define(function(require){
 
     var Shuffle = function( $container, options ) {
         var self = this;
-
         $.extend(self, $.fn.shuffle.options, options, $.fn.shuffle.settings);
 
         self.$container = $container.addClass('shuffle');
@@ -123,9 +122,10 @@ define(function(require){
                 beforeResizeFunc,
                 debouncedBeforeResize;
 
-            self.$items = self._getItems().addClass('shuffle-item');
+            self.$items = self._getItems().addClass('shuffle-item filtered');
             self.transitionName = self.prefixed('transition'),
             self.transitionDelayName = self.prefixed('transitionDelay');
+            self.transitionDuration = self.prefixed('transitionDuration');
             self.transform = self.getPrefixed('transform');
 
             self.isFluid = self.columnWidth && typeof self.columnWidth === 'function';
@@ -780,10 +780,16 @@ define(function(require){
             this.fire('sorted');
         },
 
-        _skipTransition : function(element, property, value) {
+        /**
+         * Change a property or execute a function which will not have a transition
+         * @param  {Element}         element    DOM element that won't be transitioned
+         * @param  {string|function} property   the new style property which will be set or a function which will be called
+         * @param  {string}          [value]    the value that `property` should be.
+         */
+        _skipTransition : function( element, property, value ) {
             var self = this,
                 reflow,
-                durationName = self.getPrefixed('transitionDuration'),
+                durationName = self.transitionDuration,
                 duration = element.style[ durationName ];
 
             // Set the duration to zero so it happens immediately

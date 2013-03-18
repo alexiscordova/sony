@@ -5061,8 +5061,8 @@ button.close {
   transform: translate3d(0, 0, 0);
   -webkit-box-shadow: 0px 0px 10px 0px rgba(39, 43, 55, 0.25);
   box-shadow: 0px 0px 10px 0px rgba(39, 43, 55, 0.25);
-  -webkit-transition: top 0.3s ease-in 0.15s, left 0s linear 0.3s;
-  transition: top 0.3s ease-in 0.15s, left 0s linear 0.3s;
+  -webkit-transition: top 0.3s ease-in 0.125s, left 0s linear 0.3s;
+  transition: top 0.3s ease-in 0.125s, left 0s linear 0.3s;
 }
 
 /* line 22, ../../src/packages/common/css/_components/_navtray.scss */
@@ -5076,8 +5076,8 @@ button.close {
   left: 0;
   top: 63px;
   opacity: 1;
-  -webkit-transition: top 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.15s, left 0s linear 0s;
-  transition: top 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.15s, left 0s linear 0s;
+  -webkit-transition: top 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.13s, left 0s linear 0s;
+  transition: top 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.13s, left 0s linear 0s;
 }
 /* line 33, ../../src/packages/common/css/_components/_navtray.scss */
 .navtray-w-visible.navtray-w-short {
@@ -7450,21 +7450,59 @@ a.label:hover {
   vertical-align: middle;
 }
 
-/* line 170, ../../src/packages/common/css/_base/_utilities.scss */
-[data-stars] .icon-ui-star:not(:first-child) {
-  margin-left: 2px;
+/* line 175, ../../src/packages/common/css/_base/_utilities.scss */
+.star-holder {
+  position: relative;
+  top: .25em;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
+/* line 182, ../../src/packages/common/css/_base/_utilities.scss */
+.star-holder .fonticon-10-star,
+.star-holder .fonticon-10-star-half {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/* line 188, ../../src/packages/common/css/_base/_utilities.scss */
+.star-holder .fonticon-10-star {
+  z-index: 1;
+}
+/* line 192, ../../src/packages/common/css/_base/_utilities.scss */
+.star-holder .fonticon-10-star-half {
+  display: none;
+  z-index: 2;
 }
 
-/* line 179, ../../src/packages/common/css/_base/_utilities.scss */
-[data-stars="1"] .fonticon-10-star:nth-child(-n + 1),
-[data-stars="2"] .fonticon-10-star:nth-child(-n + 2),
-[data-stars="3"] .fonticon-10-star:nth-child(-n + 3),
-[data-stars="4"] .fonticon-10-star:nth-child(-n + 4),
-[data-stars="5"] .fonticon-10-star:nth-child(-n + 5) {
+/* line 198, ../../src/packages/common/css/_base/_utilities.scss */
+[data-stars] .fonticon-10-star {
+  color: #bcbccc;
+}
+
+/* line 223, ../../src/packages/common/css/_base/_utilities.scss */
+[data-stars="1"] .star-holder:nth-child(-n + 1) .fonticon-10-star,
+[data-stars="2"] .star-holder:nth-child(-n + 2) .fonticon-10-star,
+[data-stars="3"] .star-holder:nth-child(-n + 3) .fonticon-10-star,
+[data-stars="4"] .star-holder:nth-child(-n + 4) .fonticon-10-star,
+[data-stars="5"] .star-holder:nth-child(-n + 5) .fonticon-10-star,
+[data-stars="0.5"] .star-holder:nth-child(-n + 0) .fonticon-10-star,
+[data-stars=".5"] .star-holder:nth-child(-n + 0) .fonticon-10-star,
+[data-stars="1.5"] .star-holder:nth-child(-n + 1) .fonticon-10-star,
+[data-stars="2.5"] .star-holder:nth-child(-n + 2) .fonticon-10-star,
+[data-stars="3.5"] .star-holder:nth-child(-n + 3) .fonticon-10-star,
+[data-stars="4.5"] .star-holder:nth-child(-n + 4) .fonticon-10-star,
+[data-stars="0.5"] .star-holder:nth-child(-n + 1) .fonticon-10-star-half,
+[data-stars=".5"] .star-holder:nth-child(-n + 1) .fonticon-10-star-half,
+[data-stars="1.5"] .star-holder:nth-child(-n + 2) .fonticon-10-star-half,
+[data-stars="2.5"] .star-holder:nth-child(-n + 3) .fonticon-10-star-half,
+[data-stars="3.5"] .star-holder:nth-child(-n + 4) .fonticon-10-star-half,
+[data-stars="4.5"] .star-holder:nth-child(-n + 5) .fonticon-10-star-half {
+  display: inline-block;
   color: #f25529;
 }
 
-/* line 186, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 231, ../../src/packages/common/css/_base/_utilities.scss */
 .el-hidden {
   display: block;
   position: absolute;
@@ -7477,7 +7515,7 @@ a.label:hover {
   transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
 }
 
-/* line 187, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 232, ../../src/packages/common/css/_base/_utilities.scss */
 .el-shown {
   opacity: 1;
   visibility: visible;
@@ -8567,10 +8605,6 @@ ul.jump-links .active a {
 .no-touch .gallery-item .favorite-holder:hover i, .gallery-item .favorite-holder.active i {
   color: #f35429;
 }
-/* line 401, ../../src/packages/common/css/_shared/_all.scss */
-.gallery-item .fonticon-10-star {
-  color: #bcbccc;
-}
 
 /* line 776, ../../src/packages/common/css/_base/_mixins.scss */
 .no-touch .gallery-item.promo .gallery-item-inner .iq-img {
@@ -8583,22 +8617,22 @@ ul.jump-links .active a {
 .no-touch .gallery-item.promo .gallery-item-inner:hover .iq-img {
   opacity: 0.9;
 }
-/* line 424, ../../src/packages/common/css/_shared/_all.scss */
+/* line 420, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .gallery-item.promo .gallery-item-inner .promo-title i {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
-/* line 428, ../../src/packages/common/css/_shared/_all.scss */
+/* line 424, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .gallery-item.promo .gallery-item-inner:hover .promo-title i {
   -webkit-transform: translate(0.375em, 0);
   -ms-transform: translate(0.375em, 0);
   transform: translate(0.375em, 0);
 }
-/* line 432, ../../src/packages/common/css/_shared/_all.scss */
+/* line 428, ../../src/packages/common/css/_shared/_all.scss */
 .no-csstransforms .no-touch .gallery-item.promo .gallery-item-inner:hover .promo-title i {
   left: 6px;
 }
-/* line 438, ../../src/packages/common/css/_shared/_all.scss */
+/* line 434, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo .product-content {
   position: absolute;
   top: 0;
@@ -8607,7 +8641,7 @@ ul.jump-links .active a {
   height: 100%;
   text-align: left;
 }
-/* line 448, ../../src/packages/common/css/_shared/_all.scss */
+/* line 444, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo .product-img {
   position: absolute;
   top: 0;
@@ -8615,66 +8649,66 @@ ul.jump-links .active a {
   height: 100%;
   padding: 10.129032% 10.6060606% 10.967742%;
 }
-/* line 456, ../../src/packages/common/css/_shared/_all.scss */
+/* line 452, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo img {
   max-height: none;
   max-width: none;
 }
 
-/* line 462, ../../src/packages/common/css/_shared/_all.scss */
+/* line 458, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content {
   position: relative;
   height: 100%;
   text-align: left;
 }
-/* line 467, ../../src/packages/common/css/_shared/_all.scss */
+/* line 463, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title {
   margin: 0;
 }
-/* line 470, ../../src/packages/common/css/_shared/_all.scss */
+/* line 466, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title i {
   position: relative;
   top: -0.1875em;
   left: 0.125em;
 }
-/* line 478, ../../src/packages/common/css/_shared/_all.scss */
+/* line 474, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title .title,
 .gallery-item .promo-content .promo-title .emphasis {
   color: white;
 }
-/* line 482, ../../src/packages/common/css/_shared/_all.scss */
+/* line 478, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title .emphasis {
   color: #2f353d;
 }
-/* line 487, ../../src/packages/common/css/_shared/_all.scss */
+/* line 483, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .text-count {
   position: absolute;
   bottom: 0;
   margin: 0;
 }
-/* line 494, ../../src/packages/common/css/_shared/_all.scss */
+/* line 490, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .text-count span {
   color: white;
 }
 
-/* line 520, ../../src/packages/common/css/_shared/_all.scss */
+/* line 516, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-detailed .gallery-item:after {
   padding-top: 140%;
 }
-/* line 524, ../../src/packages/common/css/_shared/_all.scss */
+/* line 520, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-detailed .gallery-item {
   height: 25.375em;
 }
-/* line 527, ../../src/packages/common/css/_shared/_all.scss */
+/* line 523, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-detailed .gallery-item .product-img {
   height: 13.8125em;
 }
-/* line 532, ../../src/packages/common/css/_shared/_all.scss */
+/* line 528, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-detailed .product-img:after {
   padding-top: 76.05633802816901%;
 }
 
-/* line 560, ../../src/packages/common/css/_shared/_all.scss */
+/* line 556, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label strong {
   display: inline-block;
   max-width: 100%;
@@ -8682,17 +8716,17 @@ ul.jump-links .active a {
   text-overflow: ellipsis;
 }
 
-/* line 567, ../../src/packages/common/css/_shared/_all.scss */
+/* line 563, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap {
   position: relative;
   z-index: 5;
   height: 100%;
 }
-/* line 572, ../../src/packages/common/css/_shared/_all.scss */
+/* line 568, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie9 .detail-labels-wrap {
   margin-left: 0;
 }
-/* line 577, ../../src/packages/common/css/_shared/_all.scss */
+/* line 573, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap:before {
   content: '';
   position: absolute;
@@ -8705,7 +8739,7 @@ ul.jump-links .active a {
   -webkit-transition: box-shadow 0.15s ease-in;
   transition: box-shadow 0.15s ease-in;
 }
-/* line 591, ../../src/packages/common/css/_shared/_all.scss */
+/* line 587, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap.overflowing:before {
   -webkit-box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
   box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
@@ -8713,7 +8747,7 @@ ul.jump-links .active a {
   transition-timing-function: ease-out;
 }
 
-/* line 599, ../../src/packages/common/css/_shared/_all.scss */
+/* line 595, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrapping {
   -webkit-transform: translate(-0.625em, 0);
   -ms-transform: translate(-0.625em, 0);
@@ -8722,7 +8756,7 @@ ul.jump-links .active a {
   -webkit-transition: opacity 0.2s ease-out 0.1s, -webkit-transform 0.2s ease-out 0.1s;
   transition: opacity 0.2s ease-out 0.1s, transform 0.2s ease-out 0.1s;
 }
-/* line 605, ../../src/packages/common/css/_shared/_all.scss */
+/* line 601, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrapping.complete {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
@@ -8730,12 +8764,12 @@ ul.jump-links .active a {
   opacity: 1;
 }
 
-/* line 611, ../../src/packages/common/css/_shared/_all.scss */
+/* line 607, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label-group {
   position: absolute;
 }
 
-/* line 616, ../../src/packages/common/css/_shared/_all.scss */
+/* line 612, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
@@ -8743,7 +8777,7 @@ ul.jump-links .active a {
   width: calc(100% - 0.625em);
 }
 
-/* line 624, ../../src/packages/common/css/_shared/_all.scss */
+/* line 620, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail,
 .detail-labels-wrapping .product-count-wrap {
   position: relative;
@@ -8751,7 +8785,7 @@ ul.jump-links .active a {
   padding-bottom: 30px;
   margin-bottom: 0;
 }
-/* line 632, ../../src/packages/common/css/_shared/_all.scss */
+/* line 628, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail:after,
 .detail-labels-wrapping .product-count-wrap:after {
   content: '';
@@ -8763,7 +8797,7 @@ ul.jump-links .active a {
   background: #d2d2db;
 }
 
-/* line 645, ../../src/packages/common/css/_shared/_all.scss */
+/* line 641, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail-label:after,
 .detail-labels-wrapping .product-count-wrap:after {
   left: 0;
@@ -8771,7 +8805,7 @@ ul.jump-links .active a {
   background: #d2d2db;
 }
 
-/* line 654, ../../src/packages/common/css/_shared/_all.scss */
+/* line 650, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header {
   position: absolute;
   z-index: 10;
@@ -8784,16 +8818,16 @@ ul.jump-links .active a {
   -webkit-transition: top 0.2s ease-in, left 0s 0.2s;
   transition: top 0.2s ease-in, left 0s 0.2s;
 }
-/* line 666, ../../src/packages/common/css/_shared/_all.scss */
+/* line 662, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header:not(.sticky-count) {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
 }
-/* line 671, ../../src/packages/common/css/_shared/_all.scss */
+/* line 667, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-headers .compare-sticky-header {
   margin: 0;
 }
-/* line 676, ../../src/packages/common/css/_shared/_all.scss */
+/* line 672, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header.open {
   left: 0;
   top: 0;
@@ -8802,7 +8836,7 @@ ul.jump-links .active a {
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 685, ../../src/packages/common/css/_shared/_all.scss */
+/* line 681, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header.sticky-count:before {
   content: '';
   position: absolute;
@@ -8816,17 +8850,17 @@ ul.jump-links .active a {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
 }
-/* line 698, ../../src/packages/common/css/_shared/_all.scss */
+/* line 694, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header .media .pull-left {
   max-width: 90px;
   margin-right: 4px;
 }
-/* line 703, ../../src/packages/common/css/_shared/_all.scss */
+/* line 699, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header .product-name {
   color: #2f353d;
 }
 
-/* line 708, ../../src/packages/common/css/_shared/_all.scss */
+/* line 704, ../../src/packages/common/css/_shared/_all.scss */
 .compare-box {
   display: inline-block;
   padding: 11px 12px;
@@ -8835,46 +8869,46 @@ ul.jump-links .active a {
   background: #2f353d;
 }
 
-/* line 734, ../../src/packages/common/css/_shared/_all.scss */
+/* line 730, ../../src/packages/common/css/_shared/_all.scss */
 .spec-single,
 .spec-multi {
   margin-top: 4.375em;
 }
-/* line 737, ../../src/packages/common/css/_shared/_all.scss */
+/* line 733, ../../src/packages/common/css/_shared/_all.scss */
 .spec-single dt,
 .spec-multi dt {
   margin-bottom: 0;
 }
 
-/* line 742, ../../src/packages/common/css/_shared/_all.scss */
+/* line 738, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title-wrap {
   position: relative;
   margin-bottom: 1.25em;
 }
 
-/* line 747, ../../src/packages/common/css/_shared/_all.scss */
+/* line 743, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title {
   margin: 0;
   font-size: 2.25em;
 }
 
-/* line 752, ../../src/packages/common/css/_shared/_all.scss */
+/* line 748, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title-link {
   color: #4572ed;
 }
 
-/* line 760, ../../src/packages/common/css/_shared/_all.scss */
+/* line 756, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-header-open .spec-sticky-nav {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 764, ../../src/packages/common/css/_shared/_all.scss */
+/* line 760, ../../src/packages/common/css/_shared/_all.scss */
 .spec-sticky-nav .sticky-nav-title {
   margin-top: 17px;
   margin-bottom: 2px;
   line-height: .9;
 }
-/* line 770, ../../src/packages/common/css/_shared/_all.scss */
+/* line 766, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-header-open .spec-sticky-nav .sticky-nav-title:after {
   content: '';
   position: absolute;
@@ -8885,38 +8919,38 @@ ul.jump-links .active a {
   top: 100%;
 }
 
-/* line 798, ../../src/packages/common/css/_shared/_all.scss */
+/* line 794, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tiles-wrap {
   margin-top: 3.75em;
   margin-bottom: 9.375em;
 }
-/* line 802, ../../src/packages/common/css/_shared/_all.scss */
+/* line 798, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tiles-wrap .features-title {
   margin-bottom: 0;
   padding-bottom: 12px;
   border-bottom: 3px solid #e4e7eb;
 }
 
-/* line 809, ../../src/packages/common/css/_shared/_all.scss */
+/* line 805, ../../src/packages/common/css/_shared/_all.scss */
 .container .spec-tiles .spec-tile {
   margin-left: 0;
 }
 
-/* line 813, ../../src/packages/common/css/_shared/_all.scss */
+/* line 809, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile {
   margin-top: 1.5em;
   background: #f1f5f9;
 }
-/* line 817, ../../src/packages/common/css/_shared/_all.scss */
+/* line 813, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .tile-content {
   padding: 1.875em 2.5em 2.75em 1.875em;
 }
-/* line 822, ../../src/packages/common/css/_shared/_all.scss */
+/* line 818, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .tile-title {
   margin-top: 0;
 }
 
-/* line 828, ../../src/packages/common/css/_shared/_all.scss */
+/* line 824, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .iq-img {
   width: 100%;
   height: auto;

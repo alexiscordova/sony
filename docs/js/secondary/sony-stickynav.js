@@ -5,7 +5,7 @@
 // * **Version:** 0.1
 // * **Modified:** 03/07/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.7+, Modernizr
+// * **Dependencies:** jQuery 1.7+, Modernizr, Bootstrap's scrollspy
 //
 // *Example Usage:*
 //
@@ -18,6 +18,7 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
+      bootstrap = require('bootstrap'),
       Modernizr = require('modernizr'),
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities'),
@@ -59,7 +60,8 @@ define(function(require){
       // Scroll to the top of the window on mouseup/touchend/pointerup
       if ( self.scrollToTopOnClick ) {
         self.$el.on( Settings.END_EV, function(e) {
-          if ( e.target.tagName === 'A' ) {
+          var tagName = e.target.tagName;
+          if ( tagName === 'A' || tagName === 'BUTTON' ) {
             return;
           }
           Utilities.scrollToTop();
@@ -178,7 +180,7 @@ define(function(require){
   $.fn.stickyNav.defaults = {
     $jumpLinks: undefined,
     offsetTarget: 300,
-    scrollToTopOnClick: true
+    scrollToTopOnClick: false
   };
 
   // Non override-able settings
