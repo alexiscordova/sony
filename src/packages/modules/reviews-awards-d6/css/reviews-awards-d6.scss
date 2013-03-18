@@ -1,2 +1,142 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
+
+// For floated carousels, specify the maximum number of children.
+// Any beyond this count will go to the next line / be outside the overflow area.
+$maximumChildren: 20;
+
+.raa-user-reviews {
+  position: relative;
+  overflow: hidden;
+  height: 420px;
+  border-right: 1px solid $gray70;
+
+  &.span12 {
+    border: none;
+  }
+
+  .no-user-reviews & {
+    background-color: $gray80;
+  }
+
+  > div {
+    position: relative;
+    width: $maximumChildren * 100%;
+  }
+
+  .user-ratings,
+  .raa-social-mentions > div {
+    float: left;
+    width: (100% / $maximumChildren);
+  }
+
+  .raa-breakdown,
+  .raa-social-mentions aside {
+    width: 355px;
+    margin: 0 auto;
+  }
+
+  .user-ratings {
+    text-align: center;
+
+    .cta {
+      clear: both;
+    }
+
+    .raa-overall {
+
+      .star {
+        color: $gray70;
+        font-size: px-em(46px, 13px);
+
+        &.on {
+          color: $buttonOrange;
+        }
+      }
+    }
+
+    .raa-breakdown{
+
+      dl {
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        clear: both;
+
+        dt {
+          text-align: left;
+        }
+
+        dd {
+          position: absolute;
+          right: 0;
+          bottom: -2px;
+          margin: 0;
+          line-height: 1em;
+        }
+      }
+
+      .raa-rating-bar {
+        width: 94%;
+        height: 4px;
+        float: left;
+        background-color: $gray70;
+
+        .raa-rating-bar-score {
+          height: 100%;
+          float: left;
+          background-color: $buttonOrange;
+
+          &.score-1 { width: 20%; }
+          &.score-2 { width: 40%; }
+          &.score-3 { width: 60%; }
+          &.score-4 { width: 80%; }
+          &.score-5 { width: 100%; }
+        }
+      }
+    }
+  }
+}
+
+.raa-expert-reviews {
+  position: relative;
+  overflow: hidden;
+
+  > div {
+    position: relative;
+    width: $maximumChildren * 100%;
+  }
+
+  .raa-expert-review {
+    width: (100% / $maximumChildren);
+    float: left;
+    background-color: $gray80;
+    padding: 20px 24px;
+  }
+}
+
+.raa-awards {
+  margin: 0;
+
+  li {
+    float: left;
+
+    .no-expert-reviews.has-user-reviews & {
+      width: 100%;
+    }
+
+    a {
+      display: block;
+      width: 60px;
+      height: 60px;
+      float: left;
+      text-align: center;
+    }
+  }
+
+  .has-expert-reviews.has-user-reviews & {
+    p {
+      display: none;
+    }
+  }
+}
