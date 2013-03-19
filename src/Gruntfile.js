@@ -517,12 +517,22 @@ module.exports = function(grunt) {
         htmlWatch = ['packages/modules/' + module + '/**/*.jade', 'packages/modules/' + module + '/**/*.json'],
         imgWatch = ['packages/modules/' + module + '/img/*.*'];
 
+    var jsTask = ['js:'+module],
+        cssTask = ['css:'+module],
+        htmlTask = ['html:'+module],
+        imgTask = ['assets:'+module];
+
     for ( var i = 1; i < arguments.length; i++ ) {
       jsWatch.push('packages/modules/' + arguments[i] + '/js/*.js');
       cssWatch.push('packages/modules/' + arguments[i] + '/css/*.scss');
       htmlWatch.push('packages/modules/' + arguments[i] + '/**/*.jade');
       htmlWatch.push('packages/modules/' + arguments[i] + '/**/*.json');
       imgWatch.push('packages/modules/' + arguments[i] + '/img/*.*');
+
+      jsTask.push('js:'+arguments[i]);
+      cssTask.push('css:'+arguments[i]);
+      htmlTask.push('html:'+arguments[i]);
+      imgTask.push('assets:'+arguments[i]);
     }
 
     grunt.config('watch.js.files', jsWatch);
@@ -532,10 +542,10 @@ module.exports = function(grunt) {
 
     if(module !== '**'){
 
-      grunt.config('watch.js.tasks', 'js:'+module);
-      grunt.config('watch.css.tasks', 'css:'+module);
-      grunt.config('watch.html.tasks', 'html:'+module);
-      grunt.config('watch.assets.tasks', 'assets:'+module);
+      grunt.config('watch.js.tasks', jsTask);
+      grunt.config('watch.css.tasks', cssTask);
+      grunt.config('watch.html.tasks', htmlTask);
+      grunt.config('watch.assets.tasks', imgTask);
     }
 
     grunt.task.run('watch');
