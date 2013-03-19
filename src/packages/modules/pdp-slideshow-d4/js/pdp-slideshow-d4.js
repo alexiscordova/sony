@@ -11,15 +11,30 @@
 //
 //      $('.pdp-slideshow').PDPSlideShow();
 
-(function($, Modernizr, window, undefined) {
+define(function(require){
 
     'use strict';
+
+    var $ = require('jquery'),
+        Modernizr = require('modernizr'),
+        iQ = require('iQ'),
+        bootstrap = require('bootstrap'),
+        Settings = require('require/sony-global-settings'),
+        Environment = require('require/sony-global-environment'),
+        sonyScroller = require('secondary/index').sonyScroller,
+        sonyPaddles = require('secondary/index').sonyPaddles;
+
+    var self = {
+      'init': function() {
+        $('.pdp-slideshow').pdpSlideShow();
+      }
+    };
     
     var PDPSlideShow = function(element, options){
       var self = this;
        
       //Extend
-      $.extend( self, {}, $.fn.PDPSlideShow.defaults, options, $.fn.PDPSlideShow.settings );
+      $.extend( self, {}, $.fn.pdpSlideShow.defaults, options, $.fn.pdpSlideShow.settings );
       
       //Set base element
       self.$el = $( element );
@@ -41,6 +56,8 @@
       self.clickEvent           = null;
       self.isDragging           = false;
 
+      self.hasTouch             = Modernizr.touch;
+
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
       
       //Interaction vars
@@ -51,15 +68,20 @@
       self.startDragX           = -1;
       self.hasMoved             = false;
       self.startPosition        = null;
+      self.currentId            = 0;
+      self.transitionType       = 'slide';
       
       //Cache some jQuery objects we'll reference later
       self.$document = $(document);
       self.$window = $(window);
       self.$html = $('html');
       self.$slides = self.$el.find( self.SLIDE_CLASS );
+      self.numSlides = self.$slides.length;
       self.$slideContainer = self.$el.find( self.SLIDE_CONTAINER );
-      
-      //Init the module  
+      self.$thumbNav            = self.$el.find('.thumb-nav');
+      self.hasThumbs            = self.$thumbNav.length > 0;
+
+      //Init the module
       self.init();
 
     };
@@ -72,8 +94,29 @@
         var self = this;
         
         self.setupEvents();
+
+        if( !self.hasTouch ){
+          self.createPaddles();
+        }
+
+        if(self.hasThumbs){
+          self.createThumbNav();
+        }
+
+        self.setupSlides();
         
-        self.$el.on( self.downEvent , $.proxy( self.dragStart , self ) );
+        self.enableDrag();
+      },
+
+      enableDrag: function(){
+        var self = this;
+        self.$slideContainer.on( self.downEvent , $.proxy( self.dragStart , self ) );
+
+      },
+
+      disableDrag: function(){
+        var self = this;
+        self.$slideContainer.off( self.downEvent , $.proxy( self.dragStart , self ) );
       },
 
       //Checks for new breakpoints on debounced resize
@@ -82,6 +125,16 @@
         
     
       },
+
+      setupSlides: function(){
+        var self = this;
+
+        self.$slideContainer.width( 100 * self.numSlides + '%' );
+        self.$slides.width( 100 / self.numSlides + '%' );
+
+      },
+
+
       
       setupEvents: function(){
         var self = this;
@@ -98,6 +151,10 @@
           self.cancelEvent     = 'mouseup.pdpss';
           self.clickEvent      = 'click.pdpss';
         }
+
+        self.tapOrClick = function(){
+          return self.hasTouch ? self.upEvent : self.clickEvent;
+        };
 
       },
       
@@ -225,9 +282,9 @@
 
         window.cancelAnimationFrame( self.animationFrame );
 
-        
-        
         self.pageX = self.currRenderPosition = point.pageX;
+
+        iQ.update();
        
 
         console.log('released');
@@ -238,6 +295,105 @@
         var self = this;
 
   
+      },
+      
+      createThumbNav: function(){
+        var self = this,
+        $anchors = self.$thumbNav.find('a');
+        
+        $anchors.on( self.tapOrClick() , function(e){
+          e.preventDefault();
+          self.onThumbSelected($(this));
+        });
+       
+        $anchors.eq(0).addClass('active');
+      },
+
+      onThumbSelected: function($el){
+        var self = this,
+        $anchors = self.$thumbNav.find('a'),
+        selectedIndx =  $el.parent().index();
+
+        $anchors.removeClass('active');
+        $el.addClass('active');
+
+        self.currentId = selectedIndx;
+        
+        self.goToSlide( self.currentId );
+
+
+        console.log( 'anchors' , self.currentId );
+
+      },
+
+      goToSlide: function(indx){
+        var self = this;
+
+        self.$slideContainer.css({
+          'left' : - indx * 100 + '%'
+        });
+
+      },
+
+      onPaddleNavUpdate: function(){
+        var self = this;
+
+        self.$el.sonyPaddles('showPaddle', 'right');
+        self.$el.sonyPaddles('showPaddle', 'left');
+
+        //check for the left paddle compatibility
+       // if(self.currentId === 0){
+          //self.$el.sonyPaddles('hidePaddle', 'left');
+        //}
+
+        //check for right paddle compatiblity
+       // if(self.currentId === self.numSlides - 1){
+          //self.$el.sonyPaddles('hidePaddle', 'right');
+        //}
+
+        iQ.update();
+
+      },      
+
+
+      createPaddles: function(){
+
+        var self = this;
+
+
+        self.$el.find('.pdp-slideshow-outer').sonyPaddles();
+
+        console.log('creating paddles...');
+
+        self.onPaddleNavUpdate();
+       // self.ev.on('rpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
+
+
+
+
+
+/*        self.$el.on('sonyPaddles:clickLeft', function(){
+          self.currentId --;
+          if(self.currentId < 0){
+            self.currentId = 0;
+          }
+
+          self.moveTo();
+        });
+
+        self.$el.on('sonyPaddles:clickRight', function(){
+          self.currentId ++;
+
+          if(self.currentId >= self.$slides.length){
+            self.currentId = self.$slides.length - 1;
+          }
+
+          self.moveTo();
+        });
+
+        self.onPaddleNavUpdate();
+        self.ev.on('rpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));*/
+
       }
       
       //end prototype object
@@ -246,11 +402,11 @@
     // jQuery Plugin Definition
     // ------------------------
 
-    $.fn.PDPSlideShow = function( options ) {
+    $.fn.pdpSlideShow = function( options ) {
       var args = Array.prototype.slice.call( arguments, 1 );
       return this.each(function() {
         var self = $( this ),
-          pdpSlideShow = self.data( 'PDPSlideShow' );
+          pdpSlideShow = self.data( 'pdpSlideShow' );
 
         // If we don't have a stored moduleName, make a new one and save it.
         if ( !pdpSlideShow ) {
@@ -267,22 +423,20 @@
     // Defaults
     // --------
 
-    $.fn.PDPSlideShow.defaults = {
+    $.fn.pdpSlideShow.defaults = {
 
       // Description of this option.
-
+      transitionType: 'slide', //could add more , like fade in out etc
       sampleOption: 0
     };
 
     // Non override-able settings
     // --------------------------
 
-    $.fn.PDPSlideShow.settings = {
+    $.fn.pdpSlideShow.settings = {
       isInitialized: false
     };
   
-  $(function(){
-    $( '.pdp-slideshow' ).PDPSlideShow({});
-  });
+    return self;
 
- })( jQuery, Modernizr, window, undefined );
+ });
