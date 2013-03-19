@@ -1244,6 +1244,12 @@ $default-transition-delay    : 0s;
 		.#{$spanName}#{$gridColumns} { @include grid-fluid-span($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
 		$gridColumns: $gridColumns - 1;
 	}
+
+	// TODO: THIS SHOULD WORK (CJM)
+	// .grid .#{$spanName}#{$gridColumns} {
+	// 	margin-left:0; // if you're using a full-width column (span12 in a 12-column grid) it should never have a left margin.
+	// }
+
 }
 
 @mixin grid-fluid-offset-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid) {
