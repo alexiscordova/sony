@@ -28,8 +28,8 @@ section.raa-module
                         - starClass += " on"
                       i.fonticon-10-star.star(class=starClass)
                     - }
-                  p
-                    span.p2 #{data.userReviews.average}
+                  p.average-rating.p2
+                    strong #{data.userReviews.average}
                     span.p3  based on
                       a(href=data.userReviews.reviewPageLink)  #{data.userReviews.count} reviews
                 dl.raa-breakdown
@@ -46,10 +46,13 @@ section.raa-module
                     - for ( i = 1; i <= 5; i++ ) {
                       i.fonticon-10-star.star(class="star"+i)
                     - }
+                  p.zero-ratings.p2
+                    strong #{data.userReviews.average}
+                    span  reviews
                   p Currently there are no reviews. Would you like to be the first?
 
               div.cta
-                a.btn(href="#") Add your own review
+                a.btn.btn-small(href="#") Add your own review
 
             if data.userSocialMentions
               div.raa-social-mentions
@@ -86,9 +89,8 @@ section.raa-module
                   a(href=item.link)
                     img(src=item.badgeImage)
                   p.p4
-                    span.award-org #{item.awardedBy} #{''}
-                    span.award-name #{item.title} #{''}
-                    span.p5.award-year #{" "+item.year} #{''}
+                    span.award-name #{item.awardedBy} #{item.title} #{''}
+                    span.award-year #{" "+item.year} #{''}
 
     if userReviewTakeover
       .grid
@@ -101,6 +103,5 @@ section.raa-module
                   a(href=item.link)
                     img(src=item.badgeImage)
                   p.p4
-                    span.award-org #{item.awardedBy} #{''}
-                    span.award-name #{item.title} #{''}
-                    span.p5.award-year #{" "+item.year} #{''}
+                    span.award-name #{item.awardedBy} #{item.title} #{''}
+                    span.award-year #{" "+item.year} #{''}

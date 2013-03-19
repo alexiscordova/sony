@@ -18,10 +18,6 @@ $maximumChildren: 20;
 
 .raa-user-reviews {
 
-  .no-user-reviews & {
-    background-color: $gray80;
-  }
-
   .raa-user-reviews-carousel {
     position: relative;
     top: 8px;
@@ -33,6 +29,12 @@ $maximumChildren: 20;
   &.span12 {
     .raa-user-reviews-carousel {
       border: none;
+
+      .no-user-reviews & {
+        height: 300px;
+        margin-bottom: 21px;
+        background-color: $gray80;
+      }
     }
   }
 
@@ -43,7 +45,7 @@ $maximumChildren: 20;
     .user-ratings,
     .raa-social-mentions > div {
       width: (100% / $maximumChildren);
-      margin-top: 60px;
+      margin-top: 53px;
       float: left;
     }
   }
@@ -69,6 +71,18 @@ $maximumChildren: 20;
         font-size: px-em(46px, 13px);
 
         &.on {
+          color: $buttonOrange;
+        }
+      }
+
+      .zero-ratings {
+        color: $buttonOrange;
+      }
+
+      .average-rating {
+        margin-top: 10px;
+
+        strong {
           color: $buttonOrange;
         }
       }
@@ -121,7 +135,7 @@ $maximumChildren: 20;
 
 .raa-expert-reviews {
   position: relative;
-  margin: 16px 0 0;
+  margin: 16px 0 40px;
   overflow: hidden;
 
   > div {
@@ -134,19 +148,47 @@ $maximumChildren: 20;
     float: left;
     background-color: $gray80;
     padding: 20px 24px;
+
+    blockquote {
+      margin-top: 22px;
+
+      p {
+        margin-bottom: 12px;
+      }
+    }
   }
 }
 
 .raa-awards {
   margin: 0;
 
+  .span12 & {
+    margin-top: 22px;
+  }
+
   li {
     float: left;
     max-width: 180px;
 
+    .span12 & {
+      width: 33%;
+      max-width: none;
+
+      p {
+        margin-left: 14px;
+      }
+    }
+
     .no-expert-reviews.has-user-reviews & {
       width: 100%;
       max-width: none;
+      min-width: 200px;
+      margin: 13px 0 4px;
+
+      p {
+        margin-left: 10px;
+        max-width: 110px;
+      }
     }
 
     a {
@@ -155,13 +197,23 @@ $maximumChildren: 20;
       height: 60px;
       float: left;
       text-align: center;
+
+      .has-expert-reviews.has-user-reviews & {
+        margin: 16px 10px 0 0;
+      }
     }
 
     p {
       float: left;
       max-width: 120px;
 
+      .award-name {
+        color: $gray20;
+        float: left;
+      }
+
       .award-year {
+        color: $gray40;
         display: block;
       }
 
