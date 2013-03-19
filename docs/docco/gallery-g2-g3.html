@@ -42,7 +42,9 @@ define(<span class="keyword">function</span>(require){
           .on(<span class="string">'show'</span>, module.onGalleryTabShow )
           .on(<span class="string">'shown'</span>, module.onGalleryTabShown );
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Initialize sticky tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(<span class="string">'.tab-strip'</span>).stickyTabs();
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Initialize sticky tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>        window.requestAnimationFrame(<span class="keyword">function</span>() {
+          $(<span class="string">'.tab-strip'</span>).stickyTabs();
+        });
 
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>The galleries are in timeouts, so this has to be too</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>() {
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Hide other tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>          $(<span class="string">'.tab-pane:not(.active)'</span>).addClass(<span class="string">'off-screen'</span>);
@@ -54,7 +56,7 @@ Using a timeout here because the tab shown event is triggered at the end of the 
 which depends on how long the page takes to load (and if the browser has transitions)</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>() {
             $(<span class="string">'.tab-pane:not(.active) .gallery'</span>).gallery(<span class="string">'disable'</span>);
           }, <span class="number">500</span>);
-        }, <span class="number">0</span>);
+        }, <span class="number">16</span>);
 
       }
     }
@@ -136,9 +138,11 @@ initialized immediately</p>             </td>             <td class="code">     
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>We're done.</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.isInitialized = <span class="literal">true</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Run once</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( self.hasFilters ) {
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Defer it, then wait until a good time for the browser</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout( window.requestAnimationFrame, <span class="number">400</span>, <span class="keyword">function</span>() {
-        self.filter();
-      });
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Defer it, then wait until a good time for the browser</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+        window.requestAnimationFrame(<span class="keyword">function</span>() {
+          self.filter();
+        });
+      }, <span class="number">400</span>);
     }
 
 </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Add the .iq-img class to hidden swatch images, then tell iQ to update itself</p>             </td>             <td class="code">               <div class="highlight"><pre>    setTimeout( $.proxy( self.loadSwatchImages, self ) , <span class="number">2000</span>);
