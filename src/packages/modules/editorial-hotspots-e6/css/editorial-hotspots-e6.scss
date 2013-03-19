@@ -1,0 +1,74 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$outerStroke: 8px;
+$innerDiameter: 71.428571428571%; /* 40px */
+$centerRatio: (28.571428571429% / 2);
+$indicatorRatio: 35%; /* 14px / 40px = 35% */
+$indicatorOffset: 15%;
+
+.editorial-hs-wrapper {
+  .hspot-outer {
+    height: 56px;
+    width: 56px;
+/*     border: 1px solid black; */
+    cursor: pointer;
+    .hspot-core {
+      margin: $centerRatio;
+      height: $innerDiameter;
+      width: $innerDiameter;
+      border-radius: 50%;
+      border: 0;
+      background-color: $buttonOrange;
+      -moz-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+      -webkit-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+      box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+      -o-transition:.5s;
+      -ms-transition:.5s;
+      -moz-transition:.5s;
+      -webkit-transition:.5s;
+      transition:.5s;
+      &:hover {
+        background-color: $buttonOrangeHover;
+      }
+      .hspot-indicator {
+        padding: 12.5% 0 0 33.5%;
+/*
+        &:hover {
+          img {
+            @include rotate(45deg);
+          }
+        }
+*/
+      }
+    }
+    .hspot-core-on {
+      margin: $centerRatio;
+      height: $innerDiameter;
+      width: $innerDiameter;
+      border-radius: 50%;
+      border: 0;
+      background-color: $gray40;
+      -moz-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+      -webkit-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+      box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+      -o-transition:.5s;
+      -ms-transition:.5s;
+      -moz-transition:.5s;
+      -webkit-transition:.5s;
+      transition:.5s;
+      &:hover {
+        background-color: $gray30;
+      }
+      .hspot-indicator {
+/*
+        &:hover {
+          img {
+            @include rotate(45deg);
+          }
+        }
+*/
+      }
+    }
+  }
+} 
