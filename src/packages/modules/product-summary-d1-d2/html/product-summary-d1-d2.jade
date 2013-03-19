@@ -16,6 +16,7 @@ include ../../../common/html/jade-helpers.jade
   - productData.priceUnit = data.priceUnit
   - productData.buyText = data.buyText
   - productData.socialButtons = data.socialButtons
+  - productData.shortLink = data.shortLink
 
   e = { "locals" : locals, "data" : productData }
   !{locals.partial( module.type, e )}
@@ -29,7 +30,7 @@ include ../../../common/html/jade-helpers.jade
             a.lt3.no-hover-transition(href=link.href)= link.label
 
 
-  .sticky-nav.ps-sticky-nav
+  section.sticky-nav.ps-sticky-nav
     .container
       .grid.no-grid-at-767
         .span7
@@ -45,20 +46,9 @@ include ../../../common/html/jade-helpers.jade
 
         .span5
           a.btn.btn-special.pull-right(data-long-text=data.buyText, href=productData.storeLink)= data.buyTextShort
-          .text-right.pull-right.space-right
+          .text-right.pull-right.space-right.price-text
             p.p4.price-prefix= data.startingAtText
             span.p5.msrp= data.msrp
             span.p1.price
               strong.text-dark !{ data.priceUnit + productData.price }
 
-
-#features(style="height:800px;background:hsl(50, 90%, 52%)")
-  h2 Features
-#details(style="height:800px;background:hsl(250, 90%, 52%)")
-  h2 Details
-#reviews(style="height:800px;background:hsl(150, 90%, 52%)")
-  h2 Reviews
-#accessories(style="height:800px;background:hsl(0, 90%, 52%)")
-  h2 Accessories
-#owners(style="height:800px;background:hsl(124, 90%, 52%)")
-  h2 Owners

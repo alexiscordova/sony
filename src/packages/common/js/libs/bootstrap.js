@@ -659,7 +659,13 @@
 
       isActive = $parent.hasClass('open')
 
-      if (!isActive || (isActive && e.keyCode == 27)) return $this.click()
+      if (!isActive) return $this.click()
+
+      if (isActive && e.keyCode == 27) {
+        return $this.click() && setTimeout(function() {
+          $(':focus').blur()
+        }, 16)
+      }
 
       // $items = $('[role=menu] li:not(.divider) a', $parent)
       $items = $('[role=menu] li:not(.divider) a, [role=menu] li:not(.divider) input', $parent)
@@ -682,11 +688,10 @@
   function clearMenus( evt ) {
     var $parent = getParent($(toggle))
       , $target = evt && evt.target ? $( evt.target ) : false
-      , parentContainsTarget = $.contains( $parent[0], $target[0] )
-
+      , parentContainsTarget = $target.length && $parent.length ? $.contains( $parent[0], $target[0] ) : false
 
     // Check for inputs in the dropdown
-    if ( parentContainsTarget && $target.is('input') ) {
+    if ( (parentContainsTarget && $target.is('input')) || ( $target && $target.hasClass('js-no-close')) ) {
       return;
     }
 
@@ -744,16 +749,23 @@
   /* APPLY TO STANDARD DROPDOWN ELEMENTS
    * =================================== */
 
-  $(function () {
-    $('html')
-      .on('click.dropdown.data-api touchstart.dropdown.data-api', clearMenus)
-    $('body')
-      .on('click.dropdown touchstart.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-      .on('click.dropdown.data-api touchstart.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
-      .on('keydown.dropdown.data-api touchstart.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
-  })
+  $(document)
+    .on('click.dropdown.data-api', clearMenus)
+    .on('click.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.dropdown-menu', function (e) { e.stopPropagation() })
+    .on('click.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
+    .on('keydown.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
+  // $(function () {
+  //   $('html')
+  //     .on('click.dropdown.data-api touchstart.dropdown.data-api', clearMenus)
+  //   $('body')
+  //     .on('click.dropdown touchstart.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+  //     .on('click.dropdown.data-api touchstart.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
+  //     .on('keydown.dropdown.data-api touchstart.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
+  // })
 
-}(window.jQuery);/* =========================================================
+}(window.jQuery);
+/* =========================================================
  * bootstrap-modal.js v2.1.1
  * http://twitter.github.com/bootstrap/javascript.html#modals
  * =========================================================
@@ -937,7 +949,7 @@
         if (this.isShown && this.options.backdrop) {
           var doAnimate = $.support.transition && animate
 
-          this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
+          this.$backdrop = $('<div class="modal-backdrop ' + this.backdropClass + ' ' + animate + '" />')
             .appendTo(document.body)
 
           if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
@@ -978,6 +990,7 @@
 
   $.fn.modal.defaults = {
       backdrop: true
+    , backdropClass: ''
     , keyboard: true
     , show: true
   }

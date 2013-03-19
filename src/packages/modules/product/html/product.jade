@@ -98,7 +98,7 @@ mixin productRating( rating, reviews, reviewsText )
     span.lt4.reviews-text
       | !{ prefix }
       span(itemprop="ratingCount")= reviews
-      | !{ reviewsText }
+      span.review-text= reviewsText
       | !{ suffix }
     meta(itemprop="ratingValue", content=rating)
 
@@ -597,7 +597,7 @@ else if data.view == 'summary'
   buyText = data.buyText || 'Buy Now'
 
   .container
-    .grid.js-even-cols
+    .grid.no-grid-at-767.js-even-cols
 
       .span2.product-img-wrap
         .ghost-center-wrap
@@ -607,6 +607,7 @@ else if data.view == 'summary'
       .span5.product-details
         a.l2.link-color(href=titleHref)= titleLabel
         h2.t5.product-title(itemprop="name")= data.title
+        +iQImage( data.imgSmall, 'm-product-img pull-right', 'image' )
         .inline-details.clearfix
           span.product-model.p5(itemprop="model")= data.model
           span.spacer.text-med-dark.p5 |
@@ -616,14 +617,17 @@ else if data.view == 'summary'
         +productRating( data.rating.stars, data.rating.reviews )
 
       .span5.price-content
+
         .clearfix
-          a.btn.btn-special.btn-large.btn-block.pull-right(href=data.storeLink)= buyText
-          .text-right.pull-right.space-right.space-top
-            p.p4.price-prefix= startingAtText
-            span.p5.msrp= msrp
-            span.p1.price
-              strong.text-dark !{ priceUnit + data.price }
-        .text-right.relative
+          .pull-right.buy-block
+            .text-right.pull-left.space-right.space-top
+              p.p4.price-prefix= startingAtText
+              span.p5.msrp= msrp
+              span.p1.price
+                strong.text-dark !{ priceUnit + data.price }
+            a.btn.btn-special.btn-large.pull-left(href=data.storeLink)= buyText
+
+        .text-right.relative.be-social
           a.ib.space-right.js-favorite(href="#")
             span.p3= data.favoriteText
             +heart()
@@ -639,7 +643,9 @@ else if data.view == 'summary'
                     i(class=social.icon)
                   span.social-label.p2= social.label
             li.input-holder
-              input(type="text", value="so.ny/psvita31")
+              span.link-icon.ghost-center-wrap.js-no-close
+                i.fonticon-10-link.ghost-center.js-no-close
+              input(type="text", value=data.shortLink)
 
 
 

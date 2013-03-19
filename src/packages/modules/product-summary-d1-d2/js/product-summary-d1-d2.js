@@ -31,6 +31,10 @@ define(function(require) {
 
     var self = this;
 
+    self.isDesktop = false;
+    // self.isTablet = false;
+    self.isMobile = false;
+
     self.$el = $( element );
     self.init();
 
@@ -48,13 +52,17 @@ define(function(require) {
       self.$jumpLinks = self.$el.find('.jump-links a');
       self.$evenCols = self.$el.find('.js-even-cols').children();
       self.$favoriteBtn = self.$el.find('.js-favorite');
-      self.$shareLink = self.$el.find('.dropdown-menu input');
+      self.$shareBtn = self.$el.find('.js-share');
+      self.$dropdown = self.$el.find('.dropdown-menu');
+      self.$shareLink = self.$dropdown.find('input');
       self.$textSwaps = self.$el.find('[data-long-text]');
       self.$blockBtns = self.$el.find('.btn-block');
+      self.$stickyTitle = self.$stickyNav.find('.sticky-nav-title');
+      self.$stickyPriceText = self.$stickyNav.find('.price-text');
 
       self.$favoriteBtn.on('click', $.proxy( self._onFavorite, self ));
+      self.$shareBtn.on('click', $.proxy( self._onShare, self ));
 
-      self._onResize();
       Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
 
       // Save the short text value
@@ -88,6 +96,8 @@ define(function(require) {
         self._setupDesktop();
       }
 
+      self._onResize();
+
       // Setup that can be deferred
       setTimeout(function() {
 
@@ -115,7 +125,10 @@ define(function(require) {
     _onResize : function() {
       var self = this;
 
-      self.$evenCols.evenHeights();
+      if ( !self.isMobile ) {
+        self.$evenCols.evenHeights();
+      }
+
       self.stickyNavHeight = self.$stickyNav.height();
     },
 
@@ -123,6 +136,21 @@ define(function(require) {
       var self = this;
 
       evt.preventDefault();
+    },
+
+    _onShare : function( evt ) {
+      var self = this;
+
+      evt.preventDefault();
+
+      // Use a dropdown
+      if ( self.isDesktop ) {
+        // self.$dropdown.dropdown('toggle');
+
+      // Use a modal
+      } else if ( self.isMobile ) {
+
+      }
     },
 
     _swapTexts : function( toLong ) {
@@ -140,40 +168,53 @@ define(function(require) {
       });
     },
 
-    _swapBlockBtns : function( toBlock ) {
+    _swapDomElements : function( toDesktop ) {
       var self = this,
-          blockClass = 'btn-block';
+          $price,
+          $msrp;
 
-      self.$blockBtns.each(function() {
-        var $btn = $(this);
+      self.$stickyPriceText.detach();
+      $price = self.$stickyPriceText.find('.price');
+      $msrp = self.$stickyPriceText.find('.msrp').detach();
 
-        // Has .btn-block class
-        if ( $btn.hasClass( blockClass ) ) {
-          if ( !toBlock ) {
-            $btn.removeClass( blockClass );
-          }
+      if ( toDesktop ) {
+        $msrp.insertBefore( $price );
+        self.$stickyNav.find('.btn').after( self.$stickyPriceText );
+      } else {
+        $msrp.insertAfter( $price );
+        self.$stickyTitle.after( self.$stickyPriceText );
+      }
 
-        // Doesn't have .btn-block
-        } else {
-          if ( toBlock ) {
-            $btn.addClass( blockClass );
-          }
-        }
-      });
+
     },
 
     _setupDesktop : function() {
       var self = this;
+      console.log('_setupDesktop');
+
+      self.isMobile = false;
+      self.isDesktop = true;
 
       self._swapTexts( true );
-      self._swapBlockBtns( false );
+      self._swapDomElements( true );
     },
 
     _setupMobile : function() {
-      var self = this;
+      var self = this,
+          wasDesktop = self.isDesktop;
+
+      console.log('_setupMobile');
+
+      self.isMobile = true;
+      self.isDesktop = false;
 
       self._swapTexts( false );
-      self._swapBlockBtns( true );
+      self._swapDomElements( false );
+
+      // If this was originally setup desktop, there will be heights set on the columns
+      if ( wasDesktop ) {
+        self.$evenCols.css('height', '');
+      }
     }
   };
 

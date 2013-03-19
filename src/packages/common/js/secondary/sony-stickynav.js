@@ -141,7 +141,7 @@ define(function(require){
 
       // jQuery offset().top is returning negative numbers...
       // Get the trigger point for when the nav should `open`
-      if ( isInit && triggerPoint < 100 ) {
+      if ( triggerPoint < 100 ) {
         setTimeout(function() {
           var triggerPoint = $offsetTarget[0].offsetTop;
           // If we still don't have a high enough value, use the default

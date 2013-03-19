@@ -6,10 +6,94 @@
 }
 
 
-@media ( max-width: px-em(479px) ) {
+@media ( max-width: px-em(767px) ) {
   .product-summary {
-    .jump-links {
-      display: none;
+
+    .product-details,
+    .price-content {
+      padding: 0;
     }
+
+    .product-img-wrap,
+    .jump-links,
+    .spacer,
+    .review-text {
+      display: none !important; // override grid -_-
+    }
+
+    .m-product-img,
+    .inline-details {
+      display: inline-block;
+    }
+
+    .buy-block .btn {
+      display: block;
+    }
+
+    .inline-details > *,
+    .buy-block,
+    .buy-block .text-right,
+    .buy-block .btn {
+      float: none;
+    }
+
+    .buy-block .text-right,
+    .price-text {
+      text-align: left;
+    }
+
+    .be-social {
+      text-align: center;
+    }
+
+    .m-product-img {
+      max-width: 50%;
+    }
+
+    .buy-block .btn {
+      clear: both;
+    }
+
   }
+
+  // Sticky nav
+  .ps-sticky-nav {
+
+    .product-img {
+      margin: px-em(16) px-em(10) 0 0;
+      max-width: px-em(50);
+      max-height: px-em(50);
+    }
+
+    .sticky-nav-title {
+      margin-top: px-em(16, 15);
+      margin-bottom: px-em(-2, 15);
+    }
+
+    .price-text {
+      margin: 0 0 1em 0;
+    }
+
+    .price-text .price-prefix {
+      display: inline;
+      margin: 0;
+      padding-right: px-em(3, 12);
+    }
+
+    .price-text .msrp {
+      padding: 0 0 0 px-em(3, 9);
+    }
+
+    .btn {
+      margin-top: px-em(12, 12);
+      margin-bottom: px-em(12, 12);
+    }
+
+  }
+
+}
+
+
+@media ( max-width: px-em(479px) ) {
+
 }
