@@ -174,6 +174,9 @@ define(function(require){
       // Add back the extra spacing we took away for previous calculations
       containerWidth += self.extraSpacing;
 
+       // Add extra marging
+      containerWidth += self.extraMarging;
+
       // Update the width again to the new width based on however many 'pages' there are now
       self._setContentWidth( numPages, containerWidth );
 
@@ -464,6 +467,16 @@ define(function(require){
       self.gutterWidth = gutterWidth;
     },
 
+    setFitPerPage: function(fitPerPage){
+      var self = this;
+      self.fitPerPage = fitPerPage;
+    },
+
+    setExtraMarging: function(extraMarging){
+      var self = this;
+      self.extraMarging = extraMarging;
+    },
+
     gotopage: function( pageNumber, duration ) {
       duration = duration || 400;
       this.scroller.scrollToPage(pageNumber, 0, duration);
@@ -559,6 +572,7 @@ define(function(require){
     itemElementSelector: '.block', // items in scroller
     lastPageCenter: false, // option to center last page elements
     extraSpacing: 0, // per page
+    extraMarging: 0, // per page
     nextSelector: '', // selector for next paddle
     prevSelector: '', // selector for previous paddle
     fitPerPage: null, // if content needs to be fixed per page
