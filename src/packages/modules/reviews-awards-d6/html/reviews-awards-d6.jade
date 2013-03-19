@@ -1,5 +1,5 @@
 
-.raa-module
+section.raa-module
   .container.raa-header
     .grid
       h2.l1 #{data.config.title}
@@ -13,58 +13,60 @@
         userReviewColumns = 12;
 
       .raa-user-reviews(class='span'+ userReviewColumns)
-        div
-          h3.l3 Users Say
-          div.user-ratings
+        h3.l3 Users Say
 
-            if data.userReviews && data.userReviews.count > 0
-              div.raa-overall
-                div.raa-stars
-                  - for ( i = 1; i <= 5; i++ ) {
-                    - starClass = "star"+i
-                    if i < data.userReviews.average
-                      - starClass += " on"
-                    i.fonticon-10-star.star(class=starClass)
-                  - }
-                p
-                  span.p2 #{data.userReviews.average}
-                  span.p3  based on
-                    a(href=data.userReviews.reviewPageLink)  #{data.userReviews.count} reviews
-              div.raa-breakdown
-                for item in data.userReviews.criteria
-                  dl
-                    dt.l3 #{item.name}
-                    div.raa-rating-bar
-                      div.raa-rating-bar-score(class = "score-" + Math.round(item.score))
-                    dd #{Math.round(item.score)}
+        .raa-user-reviews-carousel
+          .carousel-slide
 
-            else
-              div.raa-overall
-                div.raa-stars
-                  - for ( i = 1; i <= 5; i++ ) {
-                    i.fonticon-10-star.star(class="star"+i)
-                  - }
-                p Currently there are no reviews. Would you like to be the first?
+            div.user-ratings
+              if data.userReviews && data.userReviews.count > 0
+                div.raa-overall
+                  div.raa-stars
+                    - for ( i = 1; i <= 5; i++ ) {
+                      - starClass = "star"+i
+                      if i < data.userReviews.average
+                        - starClass += " on"
+                      i.fonticon-10-star.star(class=starClass)
+                    - }
+                  p
+                    span.p2 #{data.userReviews.average}
+                    span.p3  based on
+                      a(href=data.userReviews.reviewPageLink)  #{data.userReviews.count} reviews
+                dl.raa-breakdown
+                  for item in data.userReviews.criteria
+                    div
+                      dt.l3 #{item.name}
+                      div.raa-rating-bar
+                        div.raa-rating-bar-score(class = "score-" + Math.round(item.score))
+                      dd #{Math.round(item.score)}
 
-            div.cta
-              a.btn(href="#") Add your own review
+              else
+                div.raa-overall
+                  div.raa-stars
+                    - for ( i = 1; i <= 5; i++ ) {
+                      i.fonticon-10-star.star(class="star"+i)
+                    - }
+                  p Currently there are no reviews. Would you like to be the first?
 
-          if data.userSocialMentions
-            div.raa-social-mentions
-              for item in data.userSocialMentions
-                div
-                  aside
-                    blockquote.bq4
-                      p #{item.message}
-                    div.p4.lt
-                      a(href=item.profileLink)
-                        img(src=item.profileImage)
-                        | #{item.name}
+              div.cta
+                a.btn(href="#") Add your own review
+
+            if data.userSocialMentions
+              div.raa-social-mentions
+                for item in data.userSocialMentions
+                  div
+                    aside
+                      blockquote.bq4
+                        p #{item.message}
+                      div.p4.lt
+                        a(href=item.profileLink)
+                          img(src=item.profileImage)
+                          | #{item.name}
 
       if !userReviewTakeover
         .span4
           if data.expertReviews
-            .l3 Experts Say
+            h3.l3 Experts Say
             div.raa-expert-reviews
               div
                 for item in data.expertReviews
@@ -77,7 +79,7 @@
                       a(href=item.link) Read Review
 
           if data.awards
-            .l3 Awards
+            h3.l3 Awards
             ul.raa-awards
               for item in data.awards
                 li
@@ -92,7 +94,7 @@
       .grid
         .span12
           if data.awards
-            .l3 Awards
+            h3.l3 Awards
             ul.raa-awards
               for item in data.awards
                 li

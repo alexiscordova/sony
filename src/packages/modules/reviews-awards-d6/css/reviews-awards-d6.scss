@@ -5,29 +5,47 @@
 // Any beyond this count will go to the next line / be outside the overflow area.
 $maximumChildren: 20;
 
-.raa-user-reviews {
-  position: relative;
-  overflow: hidden;
-  height: 420px;
-  border-right: 1px solid $gray70;
+.raa-content {
+  > .grid {
+    margin-top: -10px;
+    padding-top: 26px;
 
-  &.span12 {
-    border: none;
+    &:first-of-type {
+      border-top: 3px solid $gray70;
+    }
   }
+}
+
+.raa-user-reviews {
 
   .no-user-reviews & {
     background-color: $gray80;
   }
 
-  > div {
+  .raa-user-reviews-carousel {
     position: relative;
-    width: $maximumChildren * 100%;
+    top: 8px;
+    overflow: hidden;
+    height: 420px;
+    border-right: 1px solid $gray70;
   }
 
-  .user-ratings,
-  .raa-social-mentions > div {
-    float: left;
-    width: (100% / $maximumChildren);
+  &.span12 {
+    .raa-user-reviews-carousel {
+      border: none;
+    }
+  }
+
+  .carousel-slide {
+    position: relative;
+    width: $maximumChildren * 100%;
+
+    .user-ratings,
+    .raa-social-mentions > div {
+      width: (100% / $maximumChildren);
+      margin-top: 60px;
+      float: left;
+    }
   }
 
   .raa-breakdown,
@@ -40,6 +58,7 @@ $maximumChildren: 20;
     text-align: center;
 
     .cta {
+      margin-top: 30px;
       clear: both;
     }
 
@@ -55,15 +74,17 @@ $maximumChildren: 20;
       }
     }
 
-    .raa-breakdown{
+    .raa-breakdown {
+      margin-top: 36px;
 
-      dl {
+      > div {
         position: relative;
         overflow: hidden;
-        margin: 0;
+        margin: 12px 0 0;
         clear: both;
 
         dt {
+          margin: 0;
           text-align: left;
         }
 
@@ -100,6 +121,7 @@ $maximumChildren: 20;
 
 .raa-expert-reviews {
   position: relative;
+  margin: 16px 0 0;
   overflow: hidden;
 
   > div {
