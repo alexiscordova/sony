@@ -12,6 +12,7 @@
     overflow: hidden;
     background: #f1f5f9;
 
+
     .lt-ie9 & {
       width: 1200px;
       height: 610px;
@@ -24,14 +25,15 @@
         @include flex-ratio-box-content();
         width: 100%; // this will get set dynamically based on the number of slides
         max-height: 610px;
+        @include opacity(0);
         @include transition();
       }
 
       //these will get set dynamically based on number of slides
       .pdp-slideshow-slide {
         width: 100%;
-        float:left;
-        display:inline-block;
+        float: left;
+        display: inline-block;
       }
     
     }

@@ -72,6 +72,7 @@ define(function(require){
       self.transitionType       = 'slide';
       
       //Cache some jQuery objects we'll reference later
+      self.$ev = $({});
       self.$document = $(document);
       self.$window = $(window);
       self.$html = $('html');
@@ -106,6 +107,9 @@ define(function(require){
         self.setupSlides();
         
         self.enableDrag();
+
+        self.$slideContainer.css( 'opacity' , 1 );
+
       },
 
       enableDrag: function(){
@@ -333,6 +337,9 @@ define(function(require){
           'left' : - indx * 100 + '%'
         });
 
+        //todo
+        self.$ev.trigger('pdpOnUpdateNav');
+
       },
 
       onPaddleNavUpdate: function(){
@@ -342,14 +349,14 @@ define(function(require){
         self.$el.sonyPaddles('showPaddle', 'left');
 
         //check for the left paddle compatibility
-       // if(self.currentId === 0){
-          //self.$el.sonyPaddles('hidePaddle', 'left');
-        //}
+        if(self.currentId === 0){
+          self.$el.sonyPaddles('hidePaddle', 'left');
+        }
 
         //check for right paddle compatiblity
-       // if(self.currentId === self.numSlides - 1){
-          //self.$el.sonyPaddles('hidePaddle', 'right');
-        //}
+        if(self.currentId === self.numSlides - 1){
+          self.$el.sonyPaddles('hidePaddle', 'right');
+        }
 
         iQ.update();
 
@@ -360,25 +367,18 @@ define(function(require){
 
         var self = this;
 
-
         self.$el.find('.pdp-slideshow-outer').sonyPaddles();
 
         console.log('creating paddles...');
 
-        self.onPaddleNavUpdate();
-       // self.ev.on('rpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
-
-
-
-
-
-/*        self.$el.on('sonyPaddles:clickLeft', function(){
+        self.$el.on('sonyPaddles:clickLeft', function(){
           self.currentId --;
           if(self.currentId < 0){
             self.currentId = 0;
           }
 
-          self.moveTo();
+          self.goToSlide(self.currentId);
+          
         });
 
         self.$el.on('sonyPaddles:clickRight', function(){
@@ -387,12 +387,12 @@ define(function(require){
           if(self.currentId >= self.$slides.length){
             self.currentId = self.$slides.length - 1;
           }
-
-          self.moveTo();
+           self.goToSlide(self.currentId);
+          
         });
 
         self.onPaddleNavUpdate();
-        self.ev.on('rpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));*/
+        self.$ev.on('pdpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
 
       }
       
