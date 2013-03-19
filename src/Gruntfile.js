@@ -272,7 +272,7 @@ module.exports = function(grunt) {
     },
     watch:{
       common:{
-        files:['packages/common/**/*.*'],
+        files:['packages/common/**/*.*', '!packages/common/css/responsive-modules.scss'],
         tasks:['common']
       },
       js:{
@@ -372,24 +372,29 @@ module.exports = function(grunt) {
     grunt.option('deploy', true);
     grunt.task.run('build');
   });
-  
+
+  grunt.registerTask('pages_debug', function(){
+    grunt.option('deploy', false);
+    grunt.task.run('pages');
+  });
+
   grunt.registerTask('pages_deploy', function(){
     grunt.option('deploy', true);
     grunt.task.run('pages');
   });
 
-  grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages', 'pages_deploy']);
-  
+  grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages_debug', 'pages_deploy']);
+
   //******************************************************************************
   //all of the following can be called with --deploy otherwise they assume --debug
   //******************************************************************************
-    
+
   grunt.registerTask('pages', function(){
     var env = grunt.option('deploy') ? 'deploy' : 'debug';
     grunt.config('jshint.files', ['packages/pages/data/**/*.json']);
     grunt.task.run(['jshint', 'jade:pages_'+env]);
   });
-    
+
   grunt.registerTask('common', 'lint, scss, copy', function(){
     var env = grunt.option('deploy') ? 'deploy' : 'debug';
 
@@ -412,7 +417,7 @@ module.exports = function(grunt) {
   //****************************************************************************************
   //all of the following can also be called with :your-module-name otherwise they assume all
   //****************************************************************************************
-  
+
   grunt.registerTask('css', 'run compass on *.scss', function(module){
     module = module || '**';
     var env = grunt.option('deploy') ? 'deploy' : 'debug';
@@ -427,7 +432,7 @@ module.exports = function(grunt) {
 
    var str = '@import "_base/variables"; \n@import "_base/mixins"; \n';
     grunt.file.expand('packages/modules/**/css/*.scss').filter(function(a){return a.match(/_responsive/g)}).forEach(function(path){
-      console.log(path);
+      // console.log(path);
 
       str += '@import "' + path.replace(/packages/g, '../..') +'"; \n';
     })
@@ -510,13 +515,15 @@ module.exports = function(grunt) {
     grunt.config('watch.js.files', ['packages/modules/' + module + '/js/*.js']);
     grunt.config('watch.css.files', ['packages/modules/' + module + '/css/*.scss']);
     grunt.config('watch.html.files', ['packages/modules/' + module + '/**/*.jade', 'packages/modules/' + module + '/**/*.json']);
-    grunt.config('watch.assets.files', ['packages/modules/' + module + '/img/']);
+    grunt.config('watch.assets.files', ['packages/modules/' + module + '/img/*.*']);
 
     if(module !== '**'){
+      
       grunt.config('watch.js.tasks', 'js:'+module);
       grunt.config('watch.css.tasks', 'css:'+module);
       grunt.config('watch.html.tasks', 'html:'+module);
       grunt.config('watch.assets.tasks', 'assets:'+module);
+      // console.log(grunt.config('watch'))
     }
 
     grunt.task.run('watch');
