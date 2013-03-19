@@ -23,11 +23,63 @@ body {
   padding-top: 0;
 }
 
-/* Code in headings */
-h3 code {
-  font-size: 14px;
-  font-weight: normal;
+// docs need to have more generic styles, so they don't look just like the rest of the actual site. Fun!
+p,h1,h2,h3,h4,h5,h6 {
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing:0;
 }
+
+p{ 
+  @include px-em--font-size--line-height(13,20);
+  margin-bottom: 12px;
+  color: #83838f;
+}
+h1{
+  @include px-em--font-size--line-height(44,50);
+  margin-bottom: 24px;
+  color: $defaultTextColor;
+}
+h2{
+  @include px-em--font-size--line-height(44,50);
+  margin-bottom: 24px;
+  color: $defaultTextColor;
+}
+h3{
+  font-weight:bold;
+  @include px-em--font-size--line-height(22,30);
+  text-transform: uppercase;
+  color: $defaultTextColor;
+}
+h4{
+  @include px-em--font-size--line-height(18,26);
+  margin-bottom: 14px;  
+}
+
+.jumbotron {
+  position: relative;
+  padding: 70px 0 40px;
+  background: $gray20; /* CJM */
+  border:none !important;
+  margin-bottom:30px;
+}
+.jumbotron h1{
+  color:$white;
+  margin-bottom:17px;
+}
+.jumbotron p {
+  color:#bcbccc;
+}
+
+
+
+
+
+
+/* Code in headings */
+// h3 code {
+//   font-size: 14px;
+//   font-weight: normal;
+// }
 
 /*h2.heading-docs{
   font-size: 14px;
@@ -42,23 +94,23 @@ h3 code {
 .sub-section h2.heading-docs{
   border-top:solid 1px #e4e4e6;
 }*/
-h3.bs-docs-heading,
-h4.bs-docs-heading,
-h5.bs-docs-heading{
-  margin-top:1.4em;
-  // margin-bottom:0.5em;
-  margin-bottom:0.2em;
-}
-h2.bs-docs-heading.first-heading{
-  margin-top:0;
-  padding-top:0;
-}
-h6.bs-docs-heading{
-  margin-bottom:2em;
-}
-h4{
-  clear:both;
-}
+// h3.bs-docs-heading,
+// h4.bs-docs-heading,
+// h5.bs-docs-heading{
+//   margin-top:1.4em;
+//   // margin-bottom:0.5em;
+//   margin-bottom:0.2em;
+// }
+// h2.bs-docs-heading.first-heading{
+//   margin-top:0;
+//   padding-top:0;
+// }
+// h6.bs-docs-heading{
+//   margin-bottom:2em;
+// }
+// h4{
+//   clear:both;
+// }
 
 /* Tweak navbar brand link to be super sleek
 -------------------------------------------------- */
@@ -135,29 +187,29 @@ hr.soften {
 
 /* Base class
 ------------------------- */
-.jumbotron {
-  position: relative;
-  padding: 70px 0 40px;
-  background: $gray20; /* CJM */
-  border:none !important;
-  margin-bottom:30px;
-}
-.jumbotron h1,
-.jumbotron h2,
-.jumbotron h3 {
-  color:$white;
-  margin-bottom:17px;
-  // font-size: 80px;
-  // font-weight: bold;
-  // letter-spacing: -1px;
-  // line-height: 1;
-}
-.jumbotron p {
-  // font-size: 24px;
-  // font-weight: 300;
-  // line-height: 30px;
-  // margin-bottom: 30px;
-}
+// .jumbotron {
+//   position: relative;
+//   padding: 70px 0 40px;
+//   background: $gray20; /* CJM */
+//   border:none !important;
+//   margin-bottom:30px;
+// }
+// .jumbotron h1,
+// .jumbotron h2,
+// .jumbotron h3 {
+//   color:$white;
+//   margin-bottom:17px;
+//   // font-size: 80px;
+//   // font-weight: bold;
+//   // letter-spacing: -1px;
+//   // line-height: 1;
+// }
+// .jumbotron p {
+//   // font-size: 24px;
+//   // font-weight: 300;
+//   // line-height: 30px;
+//   // margin-bottom: 30px;
+// }
 
 // /* Link styles (used on .masthead-links as well) */
 // .jumbotron a {
@@ -1655,65 +1707,6 @@ form.bs-docs-example {
   }
 }
 
-
-.prettyprint.prettyprint-jade{
-  margin:15px 0 25px;
-  line-height: 1.2em;
-  padding: 5px 25px;
-
-  &.tall{
-    margin-top: 4px;
-    margin-bottom: 4px;
-  }
-  &.fused{
-    margin: -22px 0 25px;
-    line-height: 1.4em;
-    padding: 14px 25px 9px;
-  }
-
-  .pln, .kwd, .pun, .lit { color:#ff485e;} // classes / default
-  .tag .pln { color:#44f; } // tag
-  .com { color:rgb(6, 156, 0);} // id
-  .invisibles-column .pun{ color:rgba(0,0,0,0.35); }
-
-  .plain span{
-    color:$gray40;
-    font-size:0.7em;
-  }
-}
-
-
-
-
-
-
-
-
-
-
-.docs-page-structure-page,
-.docs-container-demo{
-  .prettyprint.linenums,
-  .prettyprint,
-  pre.prettyprint{
-    padding:2px 8px;
-    font-size:$font_13_15;
-    background-color:rgba(255,255,255,0.5);
-    border-color:rgba(255,255,255,0.7);
-    @include box-shadow(none);
-    margin-bottom:0;
-    display:inline-block;
-    text-align:left;
-
-    ol.linenums {
-      margin: 0;
-      li{
-        margin:0;
-        padding:0;
-      }
-    }
-  }
-}
 
 
 
