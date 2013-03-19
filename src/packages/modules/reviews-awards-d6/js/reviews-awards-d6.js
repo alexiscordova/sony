@@ -17,8 +17,7 @@ define(function(require){
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
-      sonyNavigationDots = require('secondary/index').sonyNavigationDots,
-      sonyDraggable = require('secondary/index').sonyDraggable;
+      SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
     'init': function() {
@@ -43,7 +42,27 @@ define(function(require){
     constructor: ReviewsAwards,
 
     init: function() {
+
       var self = this;
+
+      if ( !Settings.$html.hasClass('lt-ie10') ){
+        enquire.register("(min-width: 480px)", function() {
+          self.renderDesktop();
+        });
+        enquire.register("(max-width: 479px)", function() {
+          self.renderMobile();
+        });
+      } else {
+        self.renderDesktop();
+      }
+    },
+
+    renderDesktop: function() {
+
+    },
+
+    renderMobile: function() {
+
     }
   };
 
