@@ -143,7 +143,14 @@ define(function(require){
       // Get the trigger point for when the nav should `open`
       if ( isInit && triggerPoint < 100 ) {
         setTimeout(function() {
-          self.updateTriggerOffset( $offsetTarget[0].offsetTop ); //$offsetTarget.offset().top;
+          var triggerPoint = $offsetTarget[0].offsetTop;
+          // If we still don't have a high enough value, use the default
+          if ( triggerPoint < 100 ) {
+            triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
+          }
+          self.updateTriggerOffset( triggerPoint );
+
+
         }, 50);
       }
 

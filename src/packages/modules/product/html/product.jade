@@ -617,7 +617,7 @@ else if data.view == 'summary'
 
       .span5.price-content
         .clearfix
-          a.btn.btn-special.btn-large.pull-right(href=data.storeLink)= buyText
+          a.btn.btn-special.btn-large.btn-block.pull-right(href=data.storeLink)= buyText
           .text-right.pull-right.space-right.space-top
             p.p4.price-prefix= startingAtText
             span.p5.msrp= msrp
@@ -637,7 +637,7 @@ else if data.view == 'summary'
                 a(href=social.link)
                   span.social-icon(class="social-icon-" + social.id)
                     i(class=social.icon)
-                  span.social-label= social.label
+                  span.social-label.p2= social.label
             li.input-holder
               input(type="text", value="so.ny/psvita31")
 

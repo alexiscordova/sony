@@ -679,9 +679,16 @@
 
   }
 
-  function clearMenus(evt) {
-    console.log('clearMenus');
+  function clearMenus( evt ) {
     var $parent = getParent($(toggle))
+      , $target = evt && evt.target ? $( evt.target ) : false
+      , parentContainsTarget = $.contains( $parent[0], $target[0] )
+
+
+    // Check for inputs in the dropdown
+    if ( parentContainsTarget && $target.is('input') ) {
+      return;
+    }
 
     if ( $parent.hasClass('open') ) {
       $parent.removeClass('open');
@@ -691,18 +698,15 @@
       return;
     }
 
-    if ( evt && evt.target ) {
-      var $target = $(evt.target);
-      if ( $target.is('a') && $parent.find($target).length ) {
-        $target
-          .parent()
-            .addClass('active')
-            .siblings()
-            .removeClass('active')
+    if ( $target && $target.is('a') && parentContainsTarget ) {
+      $target
+        .parent()
+          .addClass('active')
+          .siblings()
+          .removeClass('active')
 
-        // Return focus to the window
-        $target.blur();
-      }
+      // Return focus to the window
+      $target.blur();
     }
   }
 

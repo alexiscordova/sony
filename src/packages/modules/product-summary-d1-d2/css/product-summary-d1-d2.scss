@@ -108,26 +108,47 @@
   // ------------------
 
   .dropdown-menu {
-    padding-top: 20px;
-    padding-bottom: 18px;
+    margin-top: 1.125em;
+    padding-top: 1.25em;
+    padding-bottom: 1.125em;
+    min-width: 12.25em;
+    width: auto;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -.8125em;
+      right: 1.5em;
+      width: 0;
+      height: 0;
+      border-bottom: .75em solid $white;
+      border-left: .625em solid transparent;
+      border-right: .625em solid transparent;
+    }
 
     a {
       padding-top: 1px;
       padding-bottom: 1px;
     }
 
-    a:last-of-type {
-      padding-bottom: 10px;
-    }
-
     .input-holder {
+      margin-top: 9px;
       padding: 0 17px;
+
+      input {
+        margin: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        width: auto;
+        height: 33px;
+      }
     }
   }
 
   .social-label {
     display: inline-block;
     vertical-align: middle;
+    margin: 0;
   }
 
   .social-icon {
