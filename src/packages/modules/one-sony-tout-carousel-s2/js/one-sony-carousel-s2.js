@@ -19,9 +19,10 @@ define(function(require){
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      sonyPaddles = require('secondary/index').sonyPaddles,
-      sonyNavigationDots = require('secondary/index').sonyNavigationDots,
-      sonyDraggable = require('secondary/index').sonyDraggable;
+      SonyCarousel = require('secondary/index').sonyCarousel,
+      SonyPaddles = require('secondary/index').sonyPaddles,
+      SonyNavigationDots = require('secondary/index').sonyNavigationDots,
+      SonyDraggable = require('secondary/index').sonyDraggable;
 
   var module = {
     'init': function() {
