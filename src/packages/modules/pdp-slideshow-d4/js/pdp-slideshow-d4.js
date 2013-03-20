@@ -21,7 +21,9 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
+        enquire = require('enquire'),
         sonyScroller = require('secondary/index').sonyScroller,
+        sonyDraggable = require('secondary/index').sonyDraggable,
         sonyPaddles = require('secondary/index').sonyPaddles;
 
     var self = {
@@ -59,6 +61,7 @@ define(function(require){
       self.hasTouch             = Modernizr.touch;
 
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
+      self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
       
       //Interaction vars
       self.startInteractionTime = -1;
@@ -70,6 +73,10 @@ define(function(require){
       self.startPosition        = null;
       self.currentId            = 0;
       self.transitionType       = 'slide';
+      
+      self.isDesktopMode        = true; //true by default
+      self.isTabletMode         = false;
+      self.isMobileMode         = false;
       
       //Cache some jQuery objects we'll reference later
       self.$ev = $({});
@@ -105,40 +112,142 @@ define(function(require){
         }
 
         self.setupSlides();
+
+        self.setupBreakpoints();
         
-        self.enableDrag();
+        
+        self.$slideContainer.sonyDraggable({
+          'axis': 'x',
+          'unit': '%',
+          'dragThreshold': 10,
+          'containment': self.$el.find('.pdp-slideshow-outer'),
+          'useCSS3': self.useCSS3,
+          'drag': iQ.update
+        });
+
+        self.$slideContainer.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
+        self.$slideContainer.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
+
+      //self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });
 
         self.$slideContainer.css( 'opacity' , 1 );
 
       },
 
-      enableDrag: function(){
+      // Stop animations that were ongoing when you started to drag.
+
+      dragStart: function() {
+
         var self = this;
-        self.$slideContainer.on( self.downEvent , $.proxy( self.dragStart , self ) );
+
+        self.startInteractionTime = new Date().getTime();
+        self.$slideContainer.stop();
+      },
+
+      // Depending on how fast you were dragging, either proceed to an adjacent slide or
+      // reset position to the nearest one.
+
+      dragEnd: function(e, data) {
+
+        var self = this,
+            goToWhich;
+
+        if ( data.acceleration.x > 150 ) {
+
+          if ( self.currentSlide === 0 ) {
+            self.gotoNearestSlide();
+          } else {
+            self.gotoSlide(self.currentSlide - 1);
+          }
+        } else if ( data.acceleration.x < -150 ) {
+
+          if ( self.currentSlide === self.$slides.length - 1 ) {
+            self.gotoNearestSlide();
+          } else {
+            self.gotoSlide(self.currentSlide + 1);
+          }
+        } else {
+          self.gotoNearestSlide();
+        }
+      },
+
+      // Find the nearest slide, and move the carousel to that.
+
+      gotoNearestSlide: function(e, data) {
+
+        var self = this,
+            leftBounds = self.$el.get(0).getBoundingClientRect().left,
+            positions = [];
+
+        self.$slides.each(function(a){
+          positions.push(Math.abs(leftBounds - this.getBoundingClientRect().left));
+        });
+
+        self.gotoSlide(positions.indexOf(Math.min.apply(Math, positions)));
+      },
+
+      setupBreakpoints: function(){
+        var self = this;
+        
+        enquire.register("(min-width: 769px)", function() {
+          console.log('Desktop Mode');
+          self.isMobileMode = self.isTabletMode = false;
+          self.isDesktopMode = true;
+          self.showThumbNav();
+        });
+
+        enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
+          console.log('Tablet Mode');
+          self.isMobileMode = self.isDesktopMode = false;
+          self.isTabletMode = true;
+          self.hideThumbNav();
+        });
+
+        enquire.register("(max-width: 568px)", function() {
+          console.log('Mobile Mode');
+          self.isDesktopMode = self.isTabletMode = false;
+          self.isMobileMode = true;
+          self.hideThumbNav();
+        });
+
+        console.log('Register with enquire');
 
       },
 
-      disableDrag: function(){
+      hideThumbNav: function(){
         var self = this;
-        self.$slideContainer.off( self.downEvent , $.proxy( self.dragStart , self ) );
+        if(self.$thumbNav.length > 0){
+          self.$thumbNav.hide();
+        }
+      },
+
+      showThumbNav: function(){
+        var self = this;
+        if(self.$thumbNav.length > 0){
+          self.$thumbNav.show();
+        }
       },
 
       //Checks for new breakpoints on debounced resize
       checkForBreakpoints: function(){
         var self = this;
         
-    
+        
       },
 
       setupSlides: function(){
         var self = this;
 
+/*        console.log( 'lol' );
+
+        self.$slides.clone().appendTo(self.$slideContainer);
+        self.$slides = self.$el.find( self.SLIDE_CLASS );
+        self.numSlides = self.$slides.length;  */      
+
         self.$slideContainer.width( 100 * self.numSlides + '%' );
         self.$slides.width( 100 / self.numSlides + '%' );
 
       },
-
-
       
       setupEvents: function(){
         var self = this;
@@ -162,137 +271,6 @@ define(function(require){
 
       },
       
-      dragStart: function( e ){
-        var self = this,
-            point;
-        
-        console.log('starting drag');
-        
-        if(self.hasTouch){
-          var touches = e.originalEvent.touches;
-          if( touches && touches.length > 0 ){
-            point = touches[0];
-          }else{
-            return;
-          }
-        }else{
-          point = e;
-          e.preventDefault();
-
-          if(e.which !== 1){
-            return; // make sure it was left mouse click!
-          }
-        }
-        
-        self.isDragging         = true;
-        self.pageX              = self.startDragX = self.accelerationPos = point.pageX;
-        self.pageY              = point.pageY;
-        self.startTime          = self.startInteractionTime = ( new Date().getTime() );
-        self.startPosition      = self.getPagePosition(e);
-        self.currRenderPosition = self.pageX;
-        
-        //Setup listener for drag finish
-        self.$document.on( self.moveEvent , $.proxy( self.dragMove , self ) )
-                      .on( self.upEvent , $.proxy( self.dragRelease , self ) );
-        
-        console.log('setting up listens again');
-
-      },
-      
-      dragMove: function(e){
-        var self = this,
-            point = null;
-        
-         console.log('drag move');
-        
-        if(self.hasTouch) {
-          var touches = e.originalEvent.touches;
-          if(touches) {
-              if(touches.length > 1) {
-                return;
-              } else {
-                point = touches[0];
-              }
-          } else {
-            return;
-          }
-        } else {
-          point = e;
-        }
-        
-        self.dragPosition = point.pageX;
-        self.moveEventPoint = point;
-
-        (function animloop(){
-          if(self.isDragging){
-            self.animationFrame = window.requestAnimationFrame(animloop);
-            if(self.moveEventPoint){
-              self.move(self.moveEventPoint);
-            }
-          }      
-        })();
-        
-      },
-      
-      //Move function on animationFrame loop 
-      move: function(point) {
-        var self     = this,
-            deltaX   = point.pageX - self.pageX,
-            newX     = self.pageX + deltaX;
-
-        self.pageX   = newX;
-
-        self.$slideContainer.css({
-          'left' : newX
-        });
-
-        console.log( self.pageX , deltaX );
-
-      },
-      
-      getPagePosition: function(e) {
-
-        var self = this;
-
-        if ( !e.pageX && !e.originalEvent ) {
-          return;
-        }
-
-        self.lastTouch = self.lastTouch || {};
-
-        // Cache position for touchmove/touchstart, as touchend doesn't provide it.
-        if ( e.type === 'touchmove' || e.type === 'touchstart' ) {
-          self.lastTouch = e.originalEvent.touches[0];
-        }
-
-        return {
-          'x': (e.pageX || self.lastTouch.pageX),
-          'y': (e.pageY || self.lastTouch.pageY)
-        };
-      },
-      
-      dragRelease: function(e){
-        var self = this,
-            point = self.hasTouch ? e.originalEvent.changedTouches[0] : e,
-            totalMoveDist = Math.abs( point.pageX - self.startDragX );
-        
-        console.log( 'Animation Frame: ' , totalMoveDist  , self.moveEvent);
-        
-        //cancel animation frame
-        self.$document.off( self.moveEvent )
-                 .off( self.upEvent );
-        
-        self.isDragging = false;
-
-        window.cancelAnimationFrame( self.animationFrame );
-
-        self.pageX = self.currRenderPosition = point.pageX;
-
-        iQ.update();
-       
-
-        console.log('released');
-      },
 
       //Debounced resize handler
       handleResize: function(){
@@ -323,19 +301,60 @@ define(function(require){
 
         self.currentId = selectedIndx;
         
-        self.goToSlide( self.currentId );
+        self.gotoSlide( self.currentId );
 
 
         console.log( 'anchors' , self.currentId );
 
       },
 
-      goToSlide: function(indx){
-        var self = this;
+      gotoSlide: function(which){
+        
+        var self = this,
+            $destinationSlide = self.$slides.eq(which),
+            destinationLeft, innerContainerWidth;
 
-        self.$slideContainer.css({
-          'left' : - indx * 100 + '%'
-        });
+        if ( $destinationSlide.length === 0 ) { return; }
+
+        self.currentSlide = which;
+
+        destinationLeft = $destinationSlide.position().left;
+        innerContainerWidth = self.$slideContainer.width();
+
+        // If the browser doesn't properly support the getStyles API for auto margins, manually
+        // shift the destination back to compensate.
+
+        if ( !Modernizr.jsautomargins ) {
+          destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / 2;
+        }
+
+        if ( self.useCSS3 ) {
+
+          var newPosition = destinationLeft / innerContainerWidth;
+
+          // If you're on the last slide, only move over enough to show the last child.
+          // Prevents excess whitespace on the right.
+
+          if ( which === self.$slides.length - 1 ) {
+            var childrenWidth = 0;
+/*            $destinationSlide.find('.soc-item').each(function(){ childrenWidth += $(this).outerWidth(true); });
+            newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;*/
+          }
+
+          self.$slideContainer.css(Modernizr.prefixed('transitionDuration'), '450ms');
+          self.$slideContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
+
+        } else {
+
+          self.$slideContainer.animate({
+            'left': -100 * destinationLeft / Settings.$window.width() + '%'
+          }, {
+            'duration': 350,
+            'complete': function(){ iQ.update(true); }
+          });
+        }
+
+        //self.$el.trigger('oneSonyCarousel:gotoSlide', self.currentSlide);
 
         //todo
         self.$ev.trigger('pdpOnUpdateNav');
@@ -377,7 +396,7 @@ define(function(require){
             self.currentId = 0;
           }
 
-          self.goToSlide(self.currentId);
+          self.gotoSlide(self.currentId);
           
         });
 
@@ -387,7 +406,7 @@ define(function(require){
           if(self.currentId >= self.$slides.length){
             self.currentId = self.$slides.length - 1;
           }
-           self.goToSlide(self.currentId);
+           self.gotoSlide(self.currentId);
           
         });
 

@@ -12,9 +12,14 @@
     overflow: hidden;
     background: #f1f5f9;
 
+    .ghost-center-wrap {
+      height: 100%;
+    }
 
     .lt-ie9 & {
       width: 1200px;
+
+      
       height: 610px;
     }
 
@@ -32,20 +37,27 @@
       //these will get set dynamically based on number of slides
       .pdp-slideshow-slide {
         width: 100%;
+        height: 100%;
         float: left;
         display: inline-block;
+        text-align: center;
+
+        .full-max {
+          width: 100%;
+        }
       }
     
     }
 
     .thumb-nav {
       position: absolute;
-      bottom: 6.557377%;
+      bottom: 5.057377%;
       left: 0;
       width: 100%;
       text-align:center;
       height: 11.8032787%;
       max-height: 72px;
+      margin:0;
 
      .thumb {
         width: 6.1666667%;
@@ -55,7 +67,6 @@
         background: $gray80;
         background: $gray70; //just to see some contrast 
         display: inline-block;
-        //outline: 1px solid grey;
 
         .lt-ie8 & {
           @include ie7-inline-block();
@@ -66,6 +77,9 @@
           display: block;
           width: 100%;   
           height: auto;
+          max-width: 68px;
+          max-height: 48px;
+
         }
 
         a {
@@ -97,8 +111,16 @@
             @include box-shadow(inset 0 4px 0 $linkBlue);
           }
 
-
         }
+      }
+
+      &.dark .thumb {
+        background: #2f353d; //TODO: need global color for this;
+      }
+
+      &.light .thumb {
+        background: $gray80;
+        background: $gray70; //just to see some contrast 
       }
 
     }
