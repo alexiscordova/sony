@@ -2,8 +2,8 @@
 @import "../../../common/css/_base/mixins";
 
 .product-details{
+	padding:60px 0 90px 0;
 	border:3px solid red;
-
 
 	// 88888888888  .d88888b.  8888888b.  
 	//     888     d88P" "Y88b 888   Y88b 
@@ -15,14 +15,15 @@
 	//     888      "Y88888P"  888        
 	
 	.top{
-		background-color: rgba(88,206,229,1);
-
 		.title{
-			outline:1px solid black;
+			margin:0;
+			padding:0 0 26px 0;
+			border-bottom: 4px solid $gray70;
 		} // title
 
 		.desc{
-			outline:1px solid black;
+			margin:40px 0 36px 0;
+			@include content-columns(2);
 		} //. desc
 
 	} // .top
@@ -68,18 +69,21 @@
 	// 888     Y8b.     888  888 Y88b.  Y88b 888 888     Y8b.          X88 
 	// 888      "Y8888  "Y888888  "Y888  "Y88888 888      "Y8888   88888P' 
 	.features{
+		padding-top:40px;
+
 		.feature-list{
 			margin:0;
 		}
 
 		.feature{
 			outline:1px solid black;
-			// display:table;
 
-			.p2,
-			.icon{
-				// display: table-cell;
-				// vertical-align: middle;
+			p{
+				margin-bottom: 0px;			
+			}
+
+			a{
+				text-transform: capitalize;
 			}
 
 		} //feature
@@ -99,7 +103,14 @@
 	//            888                                 
 	//            888                                 
 	.specs{
+		padding-top:40px;
+
+		dt{
+			outline:1px solid black;
+		}
+
 		dd{
+			outline:1px solid black;
 			margin-left:0;
 		} // dd
 	} // .specs
@@ -115,8 +126,10 @@
 	// 888   "   888 Y8b.     888  888      X88 Y88b 888 888     Y8b.     888  888  888 Y8b.     888  888 Y88b.       X88 
 	// 888       888  "Y8888  "Y888888  88888P'  "Y88888 888      "Y8888  888  888  888  "Y8888  888  888  "Y888  88888P' 
 	.measurements{
+		outline:1px solid black;
+		background-color:$gray80;
 		.measurement{
-			outline:1px solid black;
+			background-color: rgba(0,211,255,.5);
 		}
 	}
 
@@ -129,16 +142,11 @@
 	// 888        .d8""8b. Y88b.  888     888  888      X88 
 	// 8888888888 888  888  "Y888 888     "Y888888  88888P' 
 	.extras{
+		outline:1px solid black;
 		.extra{
-			outline:1px solid black;
+			background-color: rgba(182,22,255,.5);
 		} //.extra
 	} // end .extras
-
-
-
-
-
-
 
 
 	// 888888b.    .d88888b. 88888888888 88888888888  .d88888b.  888b     d888 
@@ -152,15 +160,30 @@
 
 
 	.bottom{
-		background-color: rgba(125, 210, 164, 1);
+		outline:1px solid black;	
 
 		.text-tout{
-			outline:1px solid black;
+			background-color: rgba(125, 210, 164, .8);
+			text-align: left;
+
+			a{
+				text-transform: capitalize;
+			}
+
 		} // .text-tout
 
 		.bottomBtn{
+			background-color: rgba(125, 210, 164, .6);
+			text-align: left;
 			outline:1px solid black;
+
+			&.span6{
+				text-align: right;
+			} // .span6
+
 		} // .bottomBtn
+
+
 	} // bottom
 
 

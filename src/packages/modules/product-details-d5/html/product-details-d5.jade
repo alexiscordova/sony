@@ -6,13 +6,14 @@ mixin featureList( list, extraClasses)
   - if ( extraClasses ) classes += ' ' + extraClasses
   ul(class=classes)
     each li in list
-      li.feature
-        p.icon(class= li.icon)
-        p.p2= li.copy
-          //- if li.link
-          //-   a.bt3= li.linkLabel
-            //- li.link
-
+      li.feature     
+        if (li.icon)
+          i(class= li.icon)
+        p
+          | #{li.copy}
+          if li.link
+            a(href=li.link)= li.linkLabel
+            
 mixin definitionList( list, isHorizontal )
   - isHorizontal = isHorizontal || false
   - clss = isHorizontal ? 'dl-horizontal' : null
@@ -66,22 +67,23 @@ case columnCount
 
 //- BOTTOM DATA
 - bottom = data.bottom
-- textTout = bottom.textTout
-- isTextTout = textTout.length > 0
-
 - bottomBtn = bottom.bottomBtn
-- isBottomBtn = bottomBtn.buttonLink != ""
+- textTout = bottom.textTout
 
+- isBottomBtn = bottomBtn.buttonLink != ""
+- isTextTout = textTout.copy != ""
 - bottomSpanClass = []
 
-if(isTextTout && isBottomBtn)
+if((isTextTout) && (isBottomBtn))
   - bottomSpanClass.push("span6")
 
 //- START PRODUCT DETAILS
 section.product-details.container
   .top.grid
-    .title= top.title
-    .desc= top.desc
+    .title.l1= top.title
+
+    if(top.desc.length > 0)
+      .desc.p3= top.desc
 
   .center.grid
     if(isFeatures)
@@ -107,12 +109,15 @@ section.product-details.container
   
   .bottom.grid
     if(isTextTout)
-      .text-tout(class= bottomSpanClass)
-        .copy= textTout.copy
+      .text-tout.span6
+        .copy.p3
+          | #{textTout.copy}
+          if(textTout.link)
+            a(href= textTout.link)= textTout.linkLabel
     
     if(isBottomBtn)
       .bottomBtn(class= bottomSpanClass)
-        .buttonLabel= bottomBtn.buttonLabel
+        a.btn.buttonLabel(href= bottomBtn.buttonLink)= bottomBtn.buttonLabel
 
 
 //- END PRODUCT DETAILS
