@@ -32,7 +32,6 @@ define(function(require) {
     var self = this;
 
     self.isDesktop = false;
-    // self.isTablet = false;
     self.isMobile = false;
 
     self.$el = $( element );
@@ -59,6 +58,7 @@ define(function(require) {
       self.$blockBtns = self.$el.find('.btn-block');
       self.$stickyTitle = self.$stickyNav.find('.sticky-nav-title');
       self.$stickyPriceText = self.$stickyNav.find('.price-text');
+      self.$modal = self.$el.find('#share-tool');
 
       self.$favoriteBtn.on('click', $.proxy( self._onFavorite, self ));
       self.$shareBtn.on('click', $.proxy( self._onShare, self ));
@@ -81,11 +81,6 @@ define(function(require) {
             self._setupDesktop();
           }
         })
-        // .register('(min-width: 480px) and (max-width: 779px)', {
-        //   match: function() {
-        //     console.log('(min-width: 480px) and (max-width: 779px)');
-        //   }
-        // })
         .register('(max-width: 47.9375em)', {
           match: function() {
             self._setupMobile();
@@ -141,15 +136,13 @@ define(function(require) {
     _onShare : function( evt ) {
       var self = this;
 
-      evt.preventDefault();
+      // Uses a modal instead of dropdown
+      if ( self.isMobile ) {
+        evt.preventDefault();
+        // Don't let the dropdown handler receive this event
+        evt.stopImmediatePropagation();
 
-      // Use a dropdown
-      if ( self.isDesktop ) {
-        // self.$dropdown.dropdown('toggle');
-
-      // Use a modal
-      } else if ( self.isMobile ) {
-
+        self.$modal.modal( {backdropClass: 'dark'} );
       }
     },
 
@@ -185,15 +178,22 @@ define(function(require) {
         self.$stickyTitle.after( self.$stickyPriceText );
       }
 
+    },
+
+    _hideShareDialog : function( toDesktop ) {
+      var $closer = toDesktop ? $('.modal-backdrop') : Settings.$document;
+      $closer.click();
 
     },
 
     _setupDesktop : function() {
       var self = this;
-      console.log('_setupDesktop');
 
       self.isMobile = false;
       self.isDesktop = true;
+
+      // Hide dropdown or modal if it's active
+      self._hideShareDialog( true );
 
       self._swapTexts( true );
       self._swapDomElements( true );
@@ -203,10 +203,11 @@ define(function(require) {
       var self = this,
           wasDesktop = self.isDesktop;
 
-      console.log('_setupMobile');
-
       self.isMobile = true;
       self.isDesktop = false;
+
+      // Hide dropdown or modal if it's active
+      self._hideShareDialog( false );
 
       self._swapTexts( false );
       self._swapDomElements( false );

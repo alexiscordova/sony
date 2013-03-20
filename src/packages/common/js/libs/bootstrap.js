@@ -688,10 +688,10 @@
   function clearMenus( evt ) {
     var $parent = getParent($(toggle))
       , $target = evt && evt.target ? $( evt.target ) : false
-      , parentContainsTarget = $target.length && $parent.length ? $.contains( $parent[0], $target[0] ) : false
+      , targetInsideDropdown = $target.length && $parent.length ? $target.closest('.dropdown-menu').length > 0 : false
 
     // Check for inputs in the dropdown
-    if ( (parentContainsTarget && $target.is('input')) || ( $target && $target.hasClass('js-no-close')) ) {
+    if ( (targetInsideDropdown && $target.is('input')) || ( $target && $target.hasClass('js-no-close')) ) {
       return;
     }
 
@@ -703,7 +703,7 @@
       return;
     }
 
-    if ( $target && $target.is('a') && parentContainsTarget ) {
+    if ( $target && $target.is('a') && targetInsideDropdown ) {
       $target
         .parent()
           .addClass('active')
@@ -945,11 +945,10 @@
     , backdrop: function (callback) {
         var that = this
           , animate = this.$element.hasClass('fade') ? 'fade' : ''
-
         if (this.isShown && this.options.backdrop) {
           var doAnimate = $.support.transition && animate
 
-          this.$backdrop = $('<div class="modal-backdrop ' + this.backdropClass + ' ' + animate + '" />')
+          this.$backdrop = $('<div class="modal-backdrop ' + this.options.backdropClass + ' ' + animate + '" />')
             .appendTo(document.body)
 
           if (doAnimate) this.$backdrop[0].offsetWidth // force reflow

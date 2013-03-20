@@ -128,6 +128,27 @@ mixin basicGalleryItem( layout, priority, href )
       block
 
 
+mixin shareMenu( socialButtons, shortLink, addCloseButton )
+  //- Default to false
+  addCloseButton = addCloseButton === true
+
+  ul.dropdown-menu.dropdown-menu-alt.share-menu.pull-right(role="menu")
+    if addCloseButton
+      button.box-close.box-close-small(data-dismiss="modal", aria-hidden="true")
+        i.fonticon-10-x
+    each social in socialButtons
+      li
+        a(href=social.link)
+          span.social-icon(class="social-icon-" + social.id)
+            i(class=social.icon)
+          span.social-label.p2= social.label
+    li.input-holder
+      span.link-icon.ghost-center-wrap.js-no-close
+        i.fonticon-10-link.ghost-center.js-no-close
+      input(type="text", value=shortLink)
+
+
+
 if data.view == 'basic'
   +basicGalleryItem( data.layout, data.priority, data.href )
     .gallery-item-inner
@@ -635,17 +656,11 @@ else if data.view == 'summary'
             span.p3= data.shareText
             span.arrow-holder
               i.fonticon-10-arrowhead-down
-          ul.dropdown-menu.dropdown-menu-alt.pull-right.text-left(role="menu")
-            each social in data.socialButtons
-              li
-                a(href=social.link)
-                  span.social-icon(class="social-icon-" + social.id)
-                    i(class=social.icon)
-                  span.social-label.p2= social.label
-            li.input-holder
-              span.link-icon.ghost-center-wrap.js-no-close
-                i.fonticon-10-link.ghost-center.js-no-close
-              input(type="text", value=data.shortLink)
+          +shareMenu( data.socialButtons, data.shortLink )
+
+  #share-tool.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+    .modal-inner.transparent
+      +shareMenu( data.socialButtons, data.shortLink, true )
 
 
 

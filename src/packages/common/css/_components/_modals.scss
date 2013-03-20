@@ -35,6 +35,12 @@ body.modal-open {
 .modal-backdrop.fade.in {
   @include opacity(70);
 }
+.modal-backdrop.dark {
+  background-color: $gray10;
+}
+.modal-backdrop.dark.in {
+  @include opacity(10);
+}
 
 // Base modal
 $modalHeight: 550px;
@@ -113,6 +119,11 @@ $modalHeight: 550px;
   overflow: auto;
   background-color: $white;
   @include box-shadow(0 0 1.875em rgba(39, 43, 55, 0.15));
+
+  &.transparent {
+    background-color: transparent;
+    @include box-shadow(none);
+  }
 }
 
 // Body (where all modal content resides)

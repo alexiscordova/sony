@@ -100,6 +100,24 @@ define(function(require){
           self._updateStickyNav();
         });
       }
+
+      // IE8 still has sticky open sometimes at the top
+      /*
+
+      function update() {
+        self._updateStickyNav();
+      }
+
+      if ( !self.isTicking ) {
+        self.isTicking = true;
+        self.lastScrollY = self.$window.scrollTop();
+        if ( Modernizr.raf ) {
+          update();
+        } else {
+          window.requestAnimationFrame( update );
+        }
+      }
+       */
     },
 
     _updateStickyNav : function() {
