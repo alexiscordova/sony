@@ -10,7 +10,7 @@
 
 define(function(require) {
   
-  'use string';
+  'use strict';
   
   var $ = require('jquery'),
       iQ = require('iQ'),
@@ -22,20 +22,32 @@ define(function(require) {
   var self = {
     'init': function() {
       log('init editorial');
-      // detect if there are any hotspots per the given container
-      $('.hspot-outer').each(function() {
-        // read each hotspot's data property
-        log('hotspot detected');
-        $(this).hotspotsController({}).data('hotspotsController');
-        
+      // detect if there are any hotspot containers present
+      $('.hspot-container').each(function(el) {
+        // for each container, initialize an instance
+        log('hotspot container present');
+        $(this).hotspotsController({});
       });
     }
   };
   
   var HotspotsController = function(element, options){
-    // closure pointer for scope
+
     var self = this;
-    // make this a plugin
+    // SETUP DEFAULTS
+    // ...
+        
+    // SELECTORS
+    
+    // container element holding the hotspots
+    self.$container                     = $( element );
+    // collection of hotspots we must initialize
+    self.$els                           = self.$container.find(".hspot-outer");
+    
+    // COORDINATES AND HOTSPOT STATUS COLLECTION
+    self.$hotspotData                    = [];
+    
+    // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend(self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings);
     self.init();
   };
@@ -45,7 +57,47 @@ define(function(require) {
 
     init : function() {
       var self = this;
+      
+      // initialize hotspot(s)
+      $(self.$els).each(function(index, el) {
+        // bind the click, place it based on the data-x and -y coordinates, and fade em in
+        self.bind(el);
+        self.place(el);
+        self.show(el);
+      });
+
       log('SONY : Editorial Hotspots : Initialized');
+    },
+    
+    bind: function(el) {
+      var self = this;
+      $(el).bind('click', self.click);
+    },
+    place: function(el) {
+      var self = this;
+      // this places the hotspot absolutely, but we need to track each of these locations so on resize
+      var xAnchor = $(el).data("x");
+      var yAnchor = $(el).data("y");
+      $(el).css("left",xAnchor);
+      $(el).css("top",yAnchor);
+      self.$hotspotData.push({
+        el: el,
+        xAnchor: xAnchor,
+        yAnchor: yAnchor,
+        open: false
+      });
+    },
+    show: function(el) {
+      
+    },
+    click: function(event) {
+        // first things first, find the element in the collection of element status
+        
+        // if closed, open it
+          log(event.currentTarget);
+          log('click');
+          log($(event.currentTarget).find('.hspot-core').removeClass('hspot-core').addClass('hspot-core-on'));        
+        // else close it      
     }
     
   };
