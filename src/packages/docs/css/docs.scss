@@ -1,10 +1,78 @@
 
 @import "../../common/css/_base/variables";
 @import "../../common/css/_base/mixins";
+
+// Wiki Variables
+// main text and background colors
+$wiki_text:           #333;
+$wiki_background:     #fff;
+// alternative text and background colors
+$wiki_textAlt:        #999;
+$wiki_backgroundAlt:  #eee;
+// neutral text and background colors
+$wiki_textNeu:        #666;
+$wiki_backgroundNeu:  #ddd;
+// border color
+$wiki_border:         #ccc;
+
+// highlighted text (e.g. search snippets)
+$wiki_highlight:      #ff9;
+
+$wiki_backgroundSite: #fbfaf9;
+
+// these are used for links
+$wiki_link:           #2b73b7;
+$wiki_existing:       #080;
+$wiki_missing:        #d30;
+
+// site and sidebar widths
+$wiki_siteWidth:      75em;
+$wiki_sidebarWidth:   16em;
+// cut off points for mobile devices
+$wiki_tabletWidth:    800px;
+$wiki_phoneWidth:     480px;
+
+
 @import "_base/code";
 @import "_base/wells";
 @import "_base/navbar-simple";
 @import "_base/navs-simple";
+
+// root dokuwiki styles
+@import "_wiki/lib/all";
+@import "_wiki/lib/feed";
+@import "_wiki/lib/print";
+@import "_wiki/lib/screen";
+
+// template dokuwiki styles
+@import "_wiki/tpl/admin";
+@import "_wiki/tpl/diff";
+@import "_wiki/tpl/edit";
+@import "_wiki/tpl/fileuploader";
+@import "_wiki/tpl/footnotes";
+@import "_wiki/tpl/forms";
+@import "_wiki/tpl/imgdetail";
+@import "_wiki/tpl/links";
+@import "_wiki/tpl/media_fullscreen";
+@import "_wiki/tpl/media_popup";
+@import "_wiki/tpl/modal";
+@import "_wiki/tpl/recent";
+@import "_wiki/tpl/search";
+@import "_wiki/tpl/tabs";
+@import "_wiki/tpl/toc";
+
+// @import "_wiki/tpl/basic";
+// @import "_wiki/tpl/content";
+// @import "_wiki/tpl/design";
+// @import "_wiki/tpl/includes";
+// @import "_wiki/tpl/mobile";
+// @import "_wiki/tpl/pagetools";
+// @import "_wiki/tpl/print";
+// @import "_wiki/tpl/structure";
+
+
+
+
 
 
 
@@ -23,11 +91,63 @@ body {
   padding-top: 0;
 }
 
-/* Code in headings */
-h3 code {
-  font-size: 14px;
-  font-weight: normal;
+// docs need to have more generic styles, so they don't look just like the rest of the actual site. Fun!
+p,h1,h2,h3,h4,h5,h6 {
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing:0;
 }
+
+p{ 
+  @include px-em--font-size--line-height(13,20);
+  margin-bottom: 12px;
+  color: #83838f;
+}
+h1{
+  @include px-em--font-size--line-height(44,50);
+  margin-bottom: 24px;
+  color: $defaultTextColor;
+}
+h2{
+  @include px-em--font-size--line-height(44,50);
+  margin-bottom: 24px;
+  color: $defaultTextColor;
+}
+h3{
+  font-weight:bold;
+  @include px-em--font-size--line-height(22,30);
+  text-transform: uppercase;
+  color: $defaultTextColor;
+}
+h4{
+  @include px-em--font-size--line-height(18,26);
+  margin-bottom: 14px;  
+}
+
+.jumbotron {
+  position: relative;
+  padding: 70px 0 40px;
+  background: $gray20; /* CJM */
+  border:none !important;
+  margin-bottom:30px;
+}
+.jumbotron h1{
+  color:$white;
+  margin-bottom:17px;
+}
+.jumbotron p {
+  color:#bcbccc;
+}
+
+
+
+
+
+
+/* Code in headings */
+// h3 code {
+//   font-size: 14px;
+//   font-weight: normal;
+// }
 
 /*h2.heading-docs{
   font-size: 14px;
@@ -42,22 +162,23 @@ h3 code {
 .sub-section h2.heading-docs{
   border-top:solid 1px #e4e4e6;
 }*/
-h3.bs-docs-heading,
-h4.bs-docs-heading,
-h5.bs-docs-heading{
-  margin-top:1.4em;
-  margin-bottom:0.5em;
-}
-h2.bs-docs-heading.first-heading{
-  margin-top:0;
-  padding-top:0;
-}
-h6.bs-docs-heading{
-  margin-bottom:2em;
-}
-h4{
-  clear:both;
-}
+// h3.bs-docs-heading,
+// h4.bs-docs-heading,
+// h5.bs-docs-heading{
+//   margin-top:1.4em;
+//   // margin-bottom:0.5em;
+//   margin-bottom:0.2em;
+// }
+// h2.bs-docs-heading.first-heading{
+//   margin-top:0;
+//   padding-top:0;
+// }
+// h6.bs-docs-heading{
+//   margin-bottom:2em;
+// }
+// h4{
+//   clear:both;
+// }
 
 /* Tweak navbar brand link to be super sleek
 -------------------------------------------------- */
@@ -134,146 +255,108 @@ hr.soften {
 
 /* Base class
 ------------------------- */
-.jumbotron {
-  position: relative;
-  padding: 40px 0 10px;
-  color: #2b2d33;
-  text-align: center;
-  background:#fff; /* CJM */
-  border:none !important;
-}
-.jumbotron h1 {
-  font-size: 80px;
-  font-weight: bold;
-  letter-spacing: -1px;
-  line-height: 1;
-}
-.jumbotron p {
-  font-size: 24px;
-  font-weight: 300;
-  line-height: 30px;
-  margin-bottom: 30px;
-}
+// .jumbotron {
+//   position: relative;
+//   padding: 70px 0 40px;
+//   background: $gray20; /* CJM */
+//   border:none !important;
+//   margin-bottom:30px;
+// }
+// .jumbotron h1,
+// .jumbotron h2,
+// .jumbotron h3 {
+//   color:$white;
+//   margin-bottom:17px;
+//   // font-size: 80px;
+//   // font-weight: bold;
+//   // letter-spacing: -1px;
+//   // line-height: 1;
+// }
+// .jumbotron p {
+//   // font-size: 24px;
+//   // font-weight: 300;
+//   // line-height: 30px;
+//   // margin-bottom: 30px;
+// }
 
-/* Link styles (used on .masthead-links as well) */
-.jumbotron a {
-  color: #fff;
-  color: rgba(255,255,255,.5);
-  -webkit-transition: all .2s ease-in-out;
-     -moz-transition: all .2s ease-in-out;
-          transition: all .2s ease-in-out;
-}
-.jumbotron a:hover {
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255,255,255,.25);
-}
+// /* Link styles (used on .masthead-links as well) */
+// .jumbotron a {
+//   color: #fff;
+//   color: rgba(255,255,255,.5);
+//   -webkit-transition: all .2s ease-in-out;
+//      -moz-transition: all .2s ease-in-out;
+//           transition: all .2s ease-in-out;
+// }
+// .jumbotron a:hover {
+//   color: #fff;
+//   text-shadow: 0 0 10px rgba(255,255,255,.25);
+// }
 
-/* Download button */
-.masthead .btn {
-  padding: 14px 24px;
-  font-size: 24px;
-  font-weight: 200;
-  color: #fff; /* redeclare to override the `.jumbotron a` */
-  border: 0;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-     -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-  -webkit-transition: none;
-     -moz-transition: none;
-          transition: none;
-}
-.masthead .btn:hover {
-  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-     -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-}
-.masthead .btn:active {
-  -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-     -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-          box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-}
+// /* Download button */
+// .masthead .btn {
+//   padding: 14px 24px;
+//   font-size: 24px;
+//   font-weight: 200;
+//   color: #fff; /* redeclare to override the `.jumbotron a` */
+//   border: 0;
+//   -webkit-border-radius: 6px;
+//      -moz-border-radius: 6px;
+//           border-radius: 6px;
+//   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+//      -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+//           box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+//   -webkit-transition: none;
+//      -moz-transition: none;
+//           transition: none;
+// }
+// .masthead .btn:hover {
+//   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+//      -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+//           box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+// }
+// .masthead .btn:active {
+//   -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
+//      -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
+//           box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
+// }
 
 
-/* Pattern overlay
-------------------------- */
-.jumbotron .container-px-width {
-  position: relative;
-  z-index: 2;
-}
-.jumbotron:after {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  /*background: url(../img/bs-docs-masthead-pattern.png) repeat center center;*/
-  opacity: .4;
-}
+// /* Pattern overlay
+// ------------------------- */
+// .jumbotron .container-px-width {
+//   position: relative;
+//   z-index: 2;
+// }
+// .jumbotron:after {
+//   content: '';
+//   display: block;
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+//   /*background: url(../img/bs-docs-masthead-pattern.png) repeat center center;*/
+//   opacity: .4;
+// }
 
-/* Masthead (docs home)
-------------------------- */
-.masthead {
-  padding: 70px 0 0;
-  margin-bottom: 0;
-}
-
-/* Textual links in masthead */
-.masthead-links {
-  margin: 0;
-  list-style: none;
-}
-.masthead-links li {
-  display: inline;
-  padding: 0 10px;
-  color: rgba(255,255,255,.25);
-}
-
-/* Social proof buttons from GitHub & Twitter */
-.bs-docs-social {
-  padding: 15px 0;
-  text-align: center;
-  background-color: #f5f5f5;
-  border-top: 1px solid #fff;
-  border-bottom: 1px solid #ddd;
-}
-
-/* Quick links on Home */
-.bs-docs-social-buttons {
-  margin-left: 0;
-  margin-bottom: 0;
-  padding-left: 0;
-  list-style: none;
-}
-.bs-docs-social-buttons li {
-  display: inline-block;
-  padding: 5px 8px;
-  line-height: 1;
-  *display: inline;
-  *zoom: 1;
-}
 
 /* Subhead (other pages)
 ------------------------- */
-.subhead {
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-.subhead h1 {
-  font-size: 60px;
-  padding-bottom: 0;
-  margin-bottom: 5px;
-}
-.subhead p {
-  margin-bottom: 20px;
-}
-.subhead .simple-navbar {
-  display: none;
-}
+// .subhead {
+//   text-align: left;
+//   border-bottom: 1px solid #ddd;
+// }
+// .subhead h1 {
+//   font-size: 60px;
+//   padding-bottom: 0;
+//   margin-bottom: 5px;
+// }
+// .subhead p {
+//   margin-bottom: 20px;
+// }
+// .subhead .simple-navbar {
+//   display: none;
+// }
 
 
 .title-docs{
@@ -1446,8 +1529,10 @@ form.bs-docs-example {
 [class*=" docs-color-swatch--"] {
   display:block;
   width:auto;
-  height:30px;
-  margin-bottom:2px;
+  height: 60px;
+  margin-bottom: 2px;
+  margin-top: 10px;
+
 }
 .docs-color-swatch p{
   color:$gray;
@@ -1690,64 +1775,6 @@ form.bs-docs-example {
   }
 }
 
-
-.prettyprint.prettyprint-jade{
-  margin:15px 0 25px;
-  line-height: 1.2em;
-  padding: 5px 25px;
-
-  &.tall{
-    margin-top: 4px;
-    margin-bottom: 4px;
-  }
-  &.fused{
-    margin: -22px 0 25px;
-    line-height: 1.4em;
-    padding: 14px 25px 9px;
-  }
-
-  .pln, .kwd, .pun, .lit { color:#ff485e;} // classes / default
-  .tag .pln { color:#44f; } // tag
-  .com { color:rgb(6, 156, 0);} // id
-  .invisibles-column .pun{ color:rgba(0,0,0,0.35); }
-  .plain span{
-    color:$gray40;
-    font-size:0.85em;
-  }
-}
-
-
-
-
-
-
-
-
-
-
-.docs-page-structure-page,
-.docs-container-demo{
-  .prettyprint.linenums,
-  .prettyprint,
-  pre.prettyprint{
-    padding:2px 8px;
-    font-size:$font_13_15;
-    background-color:rgba(255,255,255,0.5);
-    border-color:rgba(255,255,255,0.7);
-    @include box-shadow(none);
-    margin-bottom:0;
-    display:inline-block;
-    text-align:left;
-
-    ol.linenums {
-      margin: 0;
-      li{
-        margin:0;
-        padding:0;
-      }
-    }
-  }
-}
 
 
 

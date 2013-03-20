@@ -141,7 +141,7 @@
       })
 
     // carousel demo
-    $('#myCarousel').carousel()
+    $('#myCarousel').length > 0 && $('#myCarousel').carousel()
 
     // javascript build logic
     var inputsComponent = $("#components.download input")
