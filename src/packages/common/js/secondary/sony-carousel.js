@@ -65,6 +65,7 @@ define(function(require){
 
       var self = this;
 
+      self.setupLinkClicks();
       self.setupDraggable();
     },
 
@@ -276,6 +277,37 @@ define(function(require){
       });
     },
 
+    // To prevent drags from being misinterpreted as clicks, we only redirect the user
+    // if their interaction time and movements are below certain thresholds.
+
+    setupLinkClicks: function() {
+
+      var self = this;
+
+      self.$el.find(self.slideChildren).on('click', function(e){
+
+        var $this = $(this),
+            destination = $this.find(self.defaultLink).attr('href'),
+            closestLink = $(e.target).closest('a').attr('href');
+
+        if ( !self.isDragging ) {
+
+          if ((new Date().getTime()) - self.startInteractionTime < 250 ) {
+
+            if ( !closestLink && !destination ) {
+              return;
+            }
+
+            if ( closestLink && closestLink !== destination ) {
+              destination = closestLink;
+            }
+
+            window.location = destination;
+          }
+        }
+      });
+    },
+
     setSlides: function($newSlides) {
 
       var self = this;
@@ -323,6 +355,10 @@ define(function(require){
     // If a selector is specified, gotoSlide will look for this on the last slide
     // and not reveal unneccesary whitespace to the right of the last matched element.
     slideChildren: undefined,
+
+    // If a selector is specified, the matched anchor's href will be the default click for any point
+    // in the slideChildren set.
+    defaultLink: undefined,
 
     // Which direction the carousel moves in. Plugin currently only supports 'x'.
     axis: 'x',

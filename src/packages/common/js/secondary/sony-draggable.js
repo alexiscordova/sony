@@ -279,6 +279,8 @@ define(function(require){
       offsetCorrectionX = (self.$el.outerWidth(true) - self.$el.width()) / 2;
       offsetCorrectionY = (self.$el.outerHeight(true) - self.$el.height()) / 2;
 
+      offsetCorrectionX += self.$containment.position().left;
+
       // If the browser doesn't properly support the getStyles API for auto margins, manually
       // shift the destination back to compensate.
 

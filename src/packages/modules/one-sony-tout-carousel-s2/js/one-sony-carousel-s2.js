@@ -58,6 +58,7 @@ define(function(require){
         $draggable: self.$innerContainer,
         $slides: self.$slides,
         slideChildren: '.soc-item',
+        defaultLink: '.headline a',
         axis: 'x',
         unit: '%',
         dragThreshold: 10,
@@ -66,7 +67,6 @@ define(function(require){
         pagination: true
       });
 
-      self.setupLinkClicks();
       self.bindEvents();
 
       self.$cachedSlides = self.$slides.detach();
@@ -137,34 +137,8 @@ define(function(require){
       }
 
       self.$container.sonyCarousel('setSlides', self.$innerContainer.find('.soc-content'));
-    },
-
-    // To prevent drags from being misinterpreted as clicks, we only redirect the user
-    // if their interaction time and movements are below certain thresholds.
-
-    setupLinkClicks: function() {
-
-      var self = this;
-
-      self.$el.find('.soc-item').on('click', function(e){
-
-        var $this = $(this),
-            destination = $this.find('.headline a').attr('href'),
-            closestLink = $(e.target).closest('a').attr('href');
-
-        if ( !self.isDragging ) {
-
-          if ((new Date().getTime()) - self.startInteractionTime < 100 ) {
-
-            if ( closestLink && closestLink !== destination ) {
-              destination = closestLink;
-            }
-
-            window.location = destination;
-          }
-        }
-      });
     }
+
   };
 
   return module;

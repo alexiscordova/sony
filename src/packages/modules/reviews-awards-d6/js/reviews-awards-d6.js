@@ -32,6 +32,8 @@ define(function(require){
     var self = this;
 
     self.$el = $(element);
+    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
+
     self.init();
 
     log('SONY : ReviewsAwards : Initialized');
@@ -58,6 +60,34 @@ define(function(require){
     },
 
     renderDesktop: function() {
+
+      var self = this;
+
+      self.$el.find('.carousel-slide').sonyCarousel({
+        $wrapper: self.$el.find('.raa-user-reviews-carousel'),
+        $draggable: self.$el.find('.carousel-slide'),
+        $slides: self.$el.find('.user-ratings, .raa-social-mentions > div'),
+        slideChildren: '.user-ratings, .raa-social-mentions > div',
+        axis: 'x',
+        unit: '%',
+        dragThreshold: 10,
+        useCSS3: self.useCSS3,
+        paddles: false,
+        pagination: true
+      });
+
+      self.$el.find('.raa-expert-reviews > div').sonyCarousel({
+        $wrapper: self.$el.find('.raa-expert-reviews'),
+        $draggable: self.$el.find('.raa-expert-reviews > div'),
+        $slides: self.$el.find('.raa-expert-review'),
+        slideChildren: '.raa-expert-review',
+        axis: 'x',
+        unit: '%',
+        dragThreshold: 10,
+        useCSS3: self.useCSS3,
+        paddles: false,
+        pagination: true
+      });
 
     },
 
