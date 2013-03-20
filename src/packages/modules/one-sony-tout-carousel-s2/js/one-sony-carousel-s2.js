@@ -57,7 +57,7 @@ define(function(require){
         $wrapper: self.$container,
         $draggable: self.$innerContainer,
         $slides: self.$slides,
-        slieChildren: '.soc-item',
+        slideChildren: '.soc-item',
         axis: 'x',
         unit: '%',
         dragThreshold: 10,
@@ -67,8 +67,8 @@ define(function(require){
       });
 
       self.setupLinkClicks();
-
       self.bindEvents();
+
       self.$cachedSlides = self.$slides.detach();
       self.$cachedSlides.find('.soc-image').addClass('iq-img');
 
@@ -115,7 +115,6 @@ define(function(require){
       self.$innerContainer.empty().append($newSlides);
 
       self.$container.sonyCarousel('setSlides', $newSlides);
-      self.$container.sonyCarousel('createPagination');
     },
 
     // Splits the default layout into slides with children each of column width
@@ -138,7 +137,6 @@ define(function(require){
       }
 
       self.$container.sonyCarousel('setSlides', self.$innerContainer.find('.soc-content'));
-      self.$container.sonyCarousel('createPagination');
     },
 
     // To prevent drags from being misinterpreted as clicks, we only redirect the user

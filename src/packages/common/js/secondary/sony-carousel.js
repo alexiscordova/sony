@@ -24,6 +24,15 @@
 //        paddles: true,
 //        pagination: true
 //      });
+//
+// Go to a specific slide (0-based).
+//
+//      $('#foo').sonyCarousel('gotoSlide', 0);
+//
+// If you've replaced or manipulated the slides, gather them up and tell SonyCarousel to update.
+//
+//      $('#foo').sonyCarousel('setSlides', $newSlides);
+
 
 define(function(require){
 
@@ -272,6 +281,7 @@ define(function(require){
       var self = this;
 
       self.$slides = $newSlides;
+      self.createPagination();
     }
   };
 
