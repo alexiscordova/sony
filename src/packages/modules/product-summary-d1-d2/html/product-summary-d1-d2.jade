@@ -1,6 +1,6 @@
 include ../../../common/html/jade-helpers.jade
 
-section.product-summary-module.product-summary
+.product-summary-module.product-summary
 
   //- Here we're using a submodule because it has the mixins defined already in the file
   module = data.submodules[0]
@@ -15,6 +15,8 @@ section.product-summary-module.product-summary
   - productData.msrp = data.msrp
   - productData.priceUnit = data.priceUnit
   - productData.buyText = data.buyText
+  - productData.socialButtons = data.socialButtons
+  - productData.shortLink = data.shortLink
 
   e = { "locals" : locals, "data" : productData }
   !{locals.partial( module.type, e )}
@@ -28,7 +30,7 @@ section.product-summary-module.product-summary
             a.lt3.no-hover-transition(href=link.href)= link.label
 
 
-  .sticky-nav.ps-sticky-nav
+  section.sticky-nav.ps-sticky-nav
     .container
       .grid.no-grid-at-767
         .span7
@@ -43,21 +45,10 @@ section.product-summary-module.product-summary
                   a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
 
         .span5
-          a.btn.btn-special.pull-right(href=productData.storeLink)= data.buyText
-          .text-right.pull-right.space-right
+          a.btn.btn-special.pull-right(data-long-text=data.buyText, href=productData.storeLink)= data.buyTextShort
+          .text-right.pull-right.space-right.price-text
             p.p4.price-prefix= data.startingAtText
             span.p5.msrp= data.msrp
             span.p1.price
               strong.text-dark !{ data.priceUnit + productData.price }
 
-
-#features(style="height:800px;background:hsl(50, 90%, 52%)")
-  h2 Features
-#details(style="height:800px;background:hsl(250, 90%, 52%)")
-  h2 Details
-#reviews(style="height:800px;background:hsl(150, 90%, 52%)")
-  h2 Reviews
-#accessories(style="height:800px;background:hsl(0, 90%, 52%)")
-  h2 Accessories
-#owners(style="height:800px;background:hsl(124, 90%, 52%)")
-  h2 Owners
