@@ -481,7 +481,7 @@ function html_revisions($first=0, $media_id = false){
         $form->addElement($date);
         $form->addElement(form_makeCloseTag('span'));
 
-        $form->addElement('<img src="'.DOKU_BASE.'../sonyglobal/development/docs/img/wiki/blank.gif" width="15" height="11" alt="" />');
+        $form->addElement('<img src="'.DOKU_BASE.'../sonyglobal/development/docs/img/_wiki/blank.gif" width="15" height="11" alt="" />');
 
         if (!$media_id) $href = wl($id);
         else $href = media_managerURL(array('image' => $id, 'tab_details' => 'view'), '&');
@@ -542,7 +542,7 @@ function html_revisions($first=0, $media_id = false){
                             'name' => 'rev2[]',
                             'value' => $rev)));
         }else{
-            $form->addElement('<img src="'.DOKU_BASE.'../sonyglobal/development/docs/img/wiki/blank.gif" width="15" height="11" alt="" />');
+            $form->addElement('<img src="'.DOKU_BASE.'../sonyglobal/development/docs/img/_wiki/blank.gif" width="15" height="11" alt="" />');
         }
 
         $form->addElement(form_makeOpenTag('span', array('class' => 'date')));
@@ -554,7 +554,7 @@ function html_revisions($first=0, $media_id = false){
             else $href = media_managerURL(array('image' => $id, 'rev' => $rev, 'mediado' => 'diff'), '&');
             $form->addElement(form_makeOpenTag('a', array('href' => $href, 'class' => 'diff_link')));
             $form->addElement(form_makeTag('img', array(
-                            'src'    => DOKU_BASE.'../sonyglobal/development/docs/img/wiki/diff.png',
+                            'src'    => DOKU_BASE.'../sonyglobal/development/docs/img/_wiki/diff.png',
                             'width'  => 15,
                             'height' => 11,
                             'title'  => $lang['diff'],
@@ -566,7 +566,7 @@ function html_revisions($first=0, $media_id = false){
             $form->addElement($display_name);
             $form->addElement(form_makeCloseTag('a'));
         }else{
-            $form->addElement('<img src="'.DOKU_BASE.'../sonyglobal/development/docs/img/wiki/blank.gif" width="15" height="11" alt="" />');
+            $form->addElement('<img src="'.DOKU_BASE.'../sonyglobal/development/docs/img/_wiki/blank.gif" width="15" height="11" alt="" />');
             $form->addElement($display_name);
         }
 
@@ -708,7 +708,7 @@ function html_recent($first=0, $show_changes='both'){
         if ($recent['media']) {
             $form->addElement(media_printicon($recent['id']));
         } else {
-            $icon = DOKU_BASE.'../sonyglobal/development/docs/img/wiki/fileicons/file.png';
+            $icon = DOKU_BASE.'../sonyglobal/development/docs/img/_wiki/fileicons/file.png';
             $form->addElement('<img src="'.$icon.'" alt="'.$recent['id'].'" class="icon" />');
         }
 
@@ -730,11 +730,11 @@ function html_recent($first=0, $show_changes='both'){
         }
 
         if ($recent['media'] && !$diff) {
-            $form->addElement('<img src="'.DOKU_BASE.'../sonyglobal/development/docs/img/wiki/blank.gif" width="15" height="11" alt="" />');
+            $form->addElement('<img src="'.DOKU_BASE.'../sonyglobal/development/docs/img/_wiki/blank.gif" width="15" height="11" alt="" />');
         } else {
             $form->addElement(form_makeOpenTag('a', array('class' => 'diff_link', 'href' => $href)));
             $form->addElement(form_makeTag('img', array(
-                            'src'   => DOKU_BASE.'../sonyglobal/development/docs/img/wiki/diff.png',
+                            'src'   => DOKU_BASE.'../sonyglobal/development/docs/img/_wiki/diff.png',
                             'width' => 15,
                             'height'=> 11,
                             'title' => $lang['diff'],
@@ -751,7 +751,7 @@ function html_recent($first=0, $show_changes='both'){
         }
         $form->addElement(form_makeOpenTag('a', array('class' => 'revisions_link', 'href' => $href)));
         $form->addElement(form_makeTag('img', array(
-                        'src'   => DOKU_BASE.'../sonyglobal/development/docs/img/wiki/history.png',
+                        'src'   => DOKU_BASE.'../sonyglobal/development/docs/img/_wiki/history.png',
                         'width' => 12,
                         'height'=> 14,
                         'title' => $lang['btn_revs'],
