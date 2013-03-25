@@ -65,13 +65,14 @@ define(function(require){
 
       setTimeout(function() {
         self._setOffset();
-        self._onScroll();
 
         // Set up twitter bootstrap scroll spy
         $body.scrollspy({
           target: '.sticky-nav',
-          offset: self.targetOffset
+          offset: self.targetOffset + 1
         });
+
+        self._onScroll();
       }, 100);
     },
 
