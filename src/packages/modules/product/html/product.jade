@@ -42,13 +42,15 @@ mixin specList( list, extraClasses )
       li.p3= li
 
 
-mixin colorSwatches( colors, isShowOnlyChild )
+mixin colorSwatches( colors, showOnlyChild, isMicroSwatch )
   classes = ['color-swatches', 'clearfix']
-  - if ( colors.length <= 1 && !isShowOnlyChild ) classes.push('invisible')
+  - if ( colors.length <= 1 && !showOnlyChild ) classes.push('invisible')
   div(class=classes)
     each color in colors
       - colour = typeof color === 'string' ? color : color.color
-      theClass = 'mini-swatch swatch-' + colour + ' pull-left'
+      theClass = 'swatch-' + colour + ' pull-left'
+      size = isMicroSwatch ? 'micro-swatch' : 'mini-swatch'
+      theClass = size + ' ' + theClass
       span(class=theClass, data-color=colour, itemprop="color")= colour
 
 
@@ -67,9 +69,38 @@ mixin heart
   - if ( data.isFavorited ) heartClass += ' active'
   favoritedTitle = 'Added'
   toFavoriteTitle = 'Add to Favorites'
-  div(class=heartClass, data-active-title="Added", data-default-title=toFavoriteTitle)
+  span(class=heartClass, data-active-title="Added", data-default-title=toFavoriteTitle)
     i.fonticon-10-favorite
 
+mixin productRating( rating, reviews, reviewsText )
+  //- Default to ' user reviews'
+  - if ( !reviewsText && reviewsText !== '' ) reviewsText = ' user reviews'
+
+  prefix = ' ('
+  suffix = ')'
+
+  .product-rating(data-stars=rating, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
+    span.star-holder
+      i.fonticon-10-star
+      i.fonticon-10-star-half
+    span.star-holder
+      i.fonticon-10-star
+      i.fonticon-10-star-half
+    span.star-holder
+      i.fonticon-10-star
+      i.fonticon-10-star-half
+    span.star-holder
+      i.fonticon-10-star
+      i.fonticon-10-star-half
+    span.star-holder
+      i.fonticon-10-star
+      i.fonticon-10-star-half
+    span.lt4.reviews-text
+      | !{ prefix }
+      span(itemprop="ratingCount")= reviews
+      | !{ reviewsText }
+      | !{ suffix }
+    meta(itemprop="ratingValue", content=rating)
 
 mixin basicGalleryItem( layout, priority, href )
   klass = '';
@@ -211,16 +242,7 @@ else if data.view == 'detailed'
           .product-name.p2
             strong(itemprop="name")= data.name
           .product-model.l3(itemprop="model")= data.model
-        .product-rating(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
-          meta(itemprop="ratingValue", content=data.rating.stars)
-          i.fonticon-10-star
-          i.fonticon-10-star
-          i.fonticon-10-star
-          i.fonticon-10-star
-          i.fonticon-10-star
-          span.lt4  (
-            span(itemprop="ratingCount")= data.rating.stars
-            |  user reviews)
+        +productRating( data.rating.stars, data.rating.reviews )
 
         ul.product-meta
           each meta in data.meta
@@ -247,16 +269,7 @@ else if data.view == 'compare'
         .product-name.p2
           strong(itemprop="name")= data.name
         .product-model.l3(itemprop="model")= data.model
-      .product-rating(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
-        meta(itemprop="ratingValue", content=data.rating.stars)
-        i.fonticon-10-star
-        i.fonticon-10-star
-        i.fonticon-10-star
-        i.fonticon-10-star
-        i.fonticon-10-star
-        span.lt4  (
-          span(itemprop="ratingCount")= data.rating.stars
-          | )
+      +productRating( data.rating.stars, data.rating.reviews, '' )
 
       .product-price
         span.price-prefix.p3 Starting at &nbsp;
@@ -572,6 +585,51 @@ else if data.view == 'blank'
 
   //- @Tyler: `shuffle-item` and `filtered` are added dynically by shuffle, I've removed them from the classes here
   div(class='gallery-item basic blank m-span3 normal span1', data-priority=data.priority, href='#')
+
+
+else if data.view == 'summary'
+  titleLabel = data.collectionLabel || 'Cybershot'
+  titleHref = data.collectionHref || '#'
+  sizes = (data.sizes || ['11.6', '14', '15.5', '17.3cm']).join(', ')
+  startingAtText = data.startingAtText || 'Staring at'
+  msrp = data.msrp || 'MSRP'
+  priceUnit = data.priceUnit || '$'
+  buyText = data.buyText || 'Buy Now'
+
+  .container
+    .grid.js-even-cols
+      .span2.product-img-wrap
+        .ghost-center-wrap
+          .product-img.ghost-center
+            +iQImage( data.imgSmall, '', 'image' )
+      .span5.product-details
+        a.l2.link-color(href=titleHref)= titleLabel
+        h2.t5.product-title(itemprop="name")= data.title
+        .inline-details.clearfix
+          span.product-model.p5(itemprop="model")= data.model
+          span.spacer.text-med-dark.p5 |
+          span.p5= sizes
+          span.spacer.text-med-dark.p5 |
+          +colorSwatches( data.img.colors, true, true )
+        +productRating( data.rating.stars, data.rating.reviews )
+      .span5.price-content
+        .clearfix
+          a.btn.btn-special.btn-large.pull-right(href=data.storeLink)= buyText
+          .text-right.pull-right.space-right.space-top
+            p.p4.price-prefix= startingAtText
+            span.p5.msrp= msrp
+            span.p1.price
+              strong.text-dark !{ priceUnit + data.price }
+        .text-right
+          a.ib.space-right.js-favorite(href="#")
+            span.p3= data.favoriteText
+            +heart()
+          a.ib.js-share(href="#")
+            span.p3= data.shareText
+            span.arrow-holder
+              i.fonticon-10-arrowhead-down
+
+
 
 
 else

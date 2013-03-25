@@ -1,9 +1,3 @@
-/*    ________    _______  __ ________  __    ______   ____  ____ _  __    __  _______  ____  ________ 
-	   / ____/ /   / ____/ |/ //  _/ __ )/ /   / ____/  / __ )/ __ \ |/ /   /  |/  / __ \/ __ \/ ____/ / 
-	  / /_  / /   / __/  |   / / // __  / /   / __/    / __  / / / /   /   / /|_/ / / / / / / / __/ / /  
-	 / __/ / /___/ /___ /   |_/ // /_/ / /___/ /___   / /_/ / /_/ /   |   / /  / / /_/ / /_/ / /___/ /___
-	/_/   /_____/_____//_/|_/___/_____/_____/_____/  /_____/\____/_/|_|  /_/  /_/\____/_____/_____/_____/
-*/
 /* This is a combination of Eric Meyers reset, and Nicolas Gallagher's normalize */
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -3984,8 +3978,9 @@ input[type="submit"].btn.btn-mini {
   margin-left: 0.125em;
 }
 
-/* line 216, ../../src/packages/common/css/_base/_swatches.scss */
-.mini-swatch {
+/* line 217, ../../src/packages/common/css/_base/_swatches.scss */
+.mini-swatch,
+.micro-swatch {
   width: 0.75em;
   height: 0.75em;
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -3995,9 +3990,17 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 227, ../../src/packages/common/css/_base/_swatches.scss */
-.mini-swatch:before, .mini-swatch:after {
+/* line 228, ../../src/packages/common/css/_base/_swatches.scss */
+.mini-swatch:before, .mini-swatch:after,
+.micro-swatch:before,
+.micro-swatch:after {
   content: none;
+}
+
+/* line 231, ../../src/packages/common/css/_base/_swatches.scss */
+.micro-swatch {
+  width: 0.625em;
+  height: 0.625em;
 }
 
 /* line 8, ../../src/packages/common/css/_components/_dropdowns.scss */
@@ -7456,21 +7459,67 @@ a.label:hover {
   vertical-align: middle;
 }
 
-/* line 170, ../../src/packages/common/css/_base/_utilities.scss */
-[data-stars] .icon-ui-star:not(:first-child) {
-  margin-left: 2px;
+/* line 175, ../../src/packages/common/css/_base/_utilities.scss */
+.star-holder {
+  position: relative;
+  top: .25em;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+}
+/* line 183, ../../src/packages/common/css/_base/_utilities.scss */
+.star-holder .fonticon-10-star,
+.star-holder .fonticon-10-star-half {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/* line 189, ../../src/packages/common/css/_base/_utilities.scss */
+.star-holder .fonticon-10-star {
+  z-index: 1;
+}
+/* line 193, ../../src/packages/common/css/_base/_utilities.scss */
+.star-holder .fonticon-10-star-half {
+  display: none;
+  z-index: 2;
 }
 
-/* line 179, ../../src/packages/common/css/_base/_utilities.scss */
-[data-stars="1"] .fonticon-10-star:nth-child(-n + 1),
-[data-stars="2"] .fonticon-10-star:nth-child(-n + 2),
-[data-stars="3"] .fonticon-10-star:nth-child(-n + 3),
-[data-stars="4"] .fonticon-10-star:nth-child(-n + 4),
-[data-stars="5"] .fonticon-10-star:nth-child(-n + 5) {
+/* line 199, ../../src/packages/common/css/_base/_utilities.scss */
+[data-stars] .fonticon-10-star {
+  color: #bcbccc;
+}
+
+/* line 203, ../../src/packages/common/css/_base/_utilities.scss */
+[data-stars] .reviews-text {
+  line-height: 1;
+  margin: 0;
+  color: #83838f;
+}
+
+/* line 230, ../../src/packages/common/css/_base/_utilities.scss */
+[data-stars="1"] .star-holder:nth-child(-n + 1) .fonticon-10-star,
+[data-stars="2"] .star-holder:nth-child(-n + 2) .fonticon-10-star,
+[data-stars="3"] .star-holder:nth-child(-n + 3) .fonticon-10-star,
+[data-stars="4"] .star-holder:nth-child(-n + 4) .fonticon-10-star,
+[data-stars="5"] .star-holder:nth-child(-n + 5) .fonticon-10-star,
+[data-stars="0.5"] .star-holder:nth-child(-n + 0) .fonticon-10-star,
+[data-stars=".5"] .star-holder:nth-child(-n + 0) .fonticon-10-star,
+[data-stars="1.5"] .star-holder:nth-child(-n + 1) .fonticon-10-star,
+[data-stars="2.5"] .star-holder:nth-child(-n + 2) .fonticon-10-star,
+[data-stars="3.5"] .star-holder:nth-child(-n + 3) .fonticon-10-star,
+[data-stars="4.5"] .star-holder:nth-child(-n + 4) .fonticon-10-star,
+[data-stars="0.5"] .star-holder:nth-child(-n + 1) .fonticon-10-star-half,
+[data-stars=".5"] .star-holder:nth-child(-n + 1) .fonticon-10-star-half,
+[data-stars="1.5"] .star-holder:nth-child(-n + 2) .fonticon-10-star-half,
+[data-stars="2.5"] .star-holder:nth-child(-n + 3) .fonticon-10-star-half,
+[data-stars="3.5"] .star-holder:nth-child(-n + 4) .fonticon-10-star-half,
+[data-stars="4.5"] .star-holder:nth-child(-n + 5) .fonticon-10-star-half {
+  display: inline-block;
   color: #f25529;
 }
 
-/* line 186, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 238, ../../src/packages/common/css/_base/_utilities.scss */
 .el-hidden {
   display: block;
   position: absolute;
@@ -7483,7 +7532,7 @@ a.label:hover {
   transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
 }
 
-/* line 187, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 239, ../../src/packages/common/css/_base/_utilities.scss */
 .el-shown {
   opacity: 1;
   visibility: visible;
@@ -8255,64 +8304,84 @@ textarea,
   margin-left: 30px;
 }
 
-/*    ________    _______  __ ________  __    ______   ____  ____ _  __    __  _______  ____  ________ 
-	   / ____/ /   / ____/ |/ //  _/ __ )/ /   / ____/  / __ )/ __ \ |/ /   /  |/  / __ \/ __ \/ ____/ / 
-	  / /_  / /   / __/  |   / / // __  / /   / __/    / __  / / / /   /   / /|_/ / / / / / / / __/ / /  
-	 / __/ / /___/ /___ /   |_/ // /_/ / /___/ /___   / /_/ / /_/ /   |   / /  / / /_/ / /_/ / /___/ /___
-	/_/   /_____/_____//_/|_/___/_____/_____/_____/  /_____/\____/_/|_|  /_/  /_/\____/_____/_____/_____/
-*/
-/* line 22, ../../src/packages/common/css/_shared/_all.scss */
+/* line 10, ../../src/packages/common/css/_shared/_all.scss */
+.favorite-holder {
+  display: inline-block;
+  cursor: pointer;
+}
+/* line 14, ../../src/packages/common/css/_shared/_all.scss */
+.favorite-holder i {
+  color: #d2d2db;
+  vertical-align: baseline;
+  font-size: .8125em;
+  padding: .6875em .875em;
+}
+/* line 23, ../../src/packages/common/css/_shared/_all.scss */
+.no-touch .favorite-holder:hover i, a:hover > .favorite-holder i, .favorite-holder.active i {
+  color: #f35429;
+}
+
+/* line 42, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links {
   margin-left: -0.375em;
   margin-bottom: 0;
+  *zoom: 1;
 }
-/* line 26, ../../src/packages/common/css/_shared/_all.scss */
+/* line 87, ../../src/packages/common/css/_base/_mixins.scss */
+ul.jump-links:before, ul.jump-links:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+/* line 94, ../../src/packages/common/css/_base/_mixins.scss */
+ul.jump-links:after {
+  clear: both;
+}
+/* line 47, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links li {
   margin: 0 0 0 1.4375em;
   padding: 0;
-}
-/* line 30, ../../src/packages/common/css/_shared/_all.scss */
-.lt-ie8 ul.jump-links li {
   float: left;
 }
-/* line 35, ../../src/packages/common/css/_shared/_all.scss */
+/* line 53, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links li:first-child {
   margin-left: 0;
 }
-/* line 39, ../../src/packages/common/css/_shared/_all.scss */
+/* line 57, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links a {
   display: block;
   margin-bottom: 0;
   padding-right: 6px;
   padding-bottom: 10px;
   padding-left: 6px;
+  line-height: 1;
   color: #2f353d;
   -webkit-box-shadow: inset 0 0 0 #5887f5;
   box-shadow: inset 0 0 0 #5887f5;
   -webkit-transition: 0.15s ease-out;
   transition: 0.15s ease-out;
 }
-/* line 50, ../../src/packages/common/css/_shared/_all.scss */
+/* line 69, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links li:hover a {
   color: #5787f4;
 }
-/* line 55, ../../src/packages/common/css/_shared/_all.scss */
+/* line 74, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch ul.jump-links li:hover a,
 ul.jump-links .active a {
   -webkit-box-shadow: inset 0 -4px 0 #5887f5;
   box-shadow: inset 0 -4px 0 #5887f5;
 }
-/* line 59, ../../src/packages/common/css/_shared/_all.scss */
+/* line 78, ../../src/packages/common/css/_shared/_all.scss */
 .no-boxshadow ul.jump-links a {
   padding-bottom: 6px;
   border-bottom: 4px solid transparent;
 }
-/* line 65, ../../src/packages/common/css/_shared/_all.scss */
+/* line 84, ../../src/packages/common/css/_shared/_all.scss */
 .no-boxshadow.no-touch ul.jump-links li:hover a, .no-boxshadow ul.jump-links .active a {
   border-bottom-color: #5887f5;
 }
 
-/* line 71, ../../src/packages/common/css/_shared/_all.scss */
+/* line 90, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-nav {
   position: fixed;
   z-index: 200;
@@ -8332,7 +8401,7 @@ ul.jump-links .active a {
   -ms-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-/* line 90, ../../src/packages/common/css/_shared/_all.scss */
+/* line 109, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-nav.open {
   left: 0;
   -webkit-transform: translate(0, 0);
@@ -8343,17 +8412,17 @@ ul.jump-links .active a {
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 102, ../../src/packages/common/css/_shared/_all.scss */
+/* line 121, ../../src/packages/common/css/_shared/_all.scss */
 .no-boxshadow .sticky-nav {
   border-bottom: 1px solid #e4e7eb;
 }
 
-/* line 113, ../../src/packages/common/css/_shared/_all.scss */
+/* line 132, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.detailed {
   margin: 3.125em 0 0;
 }
 
-/* line 132, ../../src/packages/common/css/_shared/_all.scss */
+/* line 151, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item {
   position: relative;
   display: block;
@@ -8361,26 +8430,26 @@ ul.jump-links .active a {
   overflow: hidden;
   background: white;
 }
-/* line 144, ../../src/packages/common/css/_shared/_all.scss */
+/* line 163, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item:focus .product-img,
 .gallery-item .product-img:hover {
   background-color: #e8edf3;
 }
-/* line 148, ../../src/packages/common/css/_shared/_all.scss */
+/* line 167, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item:after {
   content: '';
   display: block;
   padding-top: 165.196%;
 }
-/* line 155, ../../src/packages/common/css/_shared/_all.scss */
+/* line 174, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item {
   height: 17.25em;
 }
-/* line 160, ../../src/packages/common/css/_shared/_all.scss */
+/* line 179, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item:after {
   padding-top: 169.396078%;
 }
-/* line 164, ../../src/packages/common/css/_shared/_all.scss */
+/* line 183, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .gallery-item-inner {
   position: absolute;
   top: 0;
@@ -8388,7 +8457,7 @@ ul.jump-links .active a {
   left: 0;
   right: 0;
 }
-/* line 174, ../../src/packages/common/css/_shared/_all.scss */
+/* line 193, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img {
   position: relative;
   width: 100%;
@@ -8398,17 +8467,17 @@ ul.jump-links .active a {
   -webkit-transition: background-color 0.15s ease-out;
   transition: background-color 0.15s ease-out;
 }
-/* line 182, ../../src/packages/common/css/_shared/_all.scss */
+/* line 201, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img:after {
   content: '';
   display: block;
   padding-top: 107.84314%;
 }
-/* line 188, ../../src/packages/common/css/_shared/_all.scss */
+/* line 207, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item .product-img {
   height: 11.3125em;
 }
-/* line 192, ../../src/packages/common/css/_shared/_all.scss */
+/* line 211, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img .product-img-wrap {
   position: absolute;
   top: 0;
@@ -8416,39 +8485,39 @@ ul.jump-links .active a {
   left: 0;
   right: 0;
 }
-/* line 200, ../../src/packages/common/css/_shared/_all.scss */
+/* line 219, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img img {
   display: block;
   max-height: 100%;
   max-width: 100%;
   margin: auto;
 }
-/* line 212, ../../src/packages/common/css/_shared/_all.scss */
+/* line 231, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.large {
   height: 35.625em;
 }
-/* line 215, ../../src/packages/common/css/_shared/_all.scss */
+/* line 234, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.large .product-img {
   height: 29.6875em;
 }
-/* line 220, ../../src/packages/common/css/_shared/_all.scss */
+/* line 239, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large:after {
   padding-top: 105.92705167173253%;
 }
-/* line 224, ../../src/packages/common/css/_shared/_all.scss */
+/* line 243, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .product-img:after {
   padding-top: 88.14589665653495%;
 }
-/* line 229, ../../src/packages/common/css/_shared/_all.scss */
+/* line 248, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .slide {
   float: left;
   max-width: 100%;
 }
-/* line 237, ../../src/packages/common/css/_shared/_all.scss */
+/* line 256, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .pagination-bullets {
   bottom: 5.6390977%;
 }
-/* line 242, ../../src/packages/common/css/_shared/_all.scss */
+/* line 261, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-prev,
 .gallery-item.large .nav-paddle-next {
   position: absolute;
@@ -8456,39 +8525,39 @@ ul.jump-links .active a {
   top: 50%;
   margin-top: -1.625em;
 }
-/* line 249, ../../src/packages/common/css/_shared/_all.scss */
+/* line 268, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-prev {
   left: 3.75%;
 }
-/* line 253, ../../src/packages/common/css/_shared/_all.scss */
+/* line 272, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-next {
   right: 3.75%;
 }
-/* line 263, ../../src/packages/common/css/_shared/_all.scss */
+/* line 282, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.large:after {
   padding-top: 165.196%;
 }
-/* line 268, ../../src/packages/common/css/_shared/_all.scss */
+/* line 287, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.large .product-img:after {
   padding-top: 107.84314%;
 }
-/* line 273, ../../src/packages/common/css/_shared/_all.scss */
+/* line 292, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item.large:after {
   padding-top: 105.3%;
 }
-/* line 277, ../../src/packages/common/css/_shared/_all.scss */
+/* line 296, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item.large .product-img:after {
   padding-top: 87%;
 }
-/* line 285, ../../src/packages/common/css/_shared/_all.scss */
+/* line 304, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate:after {
   padding-top: 59.190255%;
 }
-/* line 289, ../../src/packages/common/css/_shared/_all.scss */
+/* line 308, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.plate:after {
   padding-top: 77.790255%;
 }
-/* line 293, ../../src/packages/common/css/_shared/_all.scss */
+/* line 312, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate .product-content {
   position: absolute;
   top: 0;
@@ -8497,16 +8566,16 @@ ul.jump-links .active a {
   height: 100%;
   text-align: left;
 }
-/* line 302, ../../src/packages/common/css/_shared/_all.scss */
+/* line 321, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate .product-img {
   height: 100%;
 }
-/* line 306, ../../src/packages/common/css/_shared/_all.scss */
+/* line 325, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate img {
   max-height: none;
   max-width: none;
 }
-/* line 311, ../../src/packages/common/css/_shared/_all.scss */
+/* line 330, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate div.iq-img {
   width: 100%;
   height: 100%;
@@ -8514,19 +8583,19 @@ ul.jump-links .active a {
   background-position: center center;
   background-size: cover;
 }
-/* line 323, ../../src/packages/common/css/_shared/_all.scss */
+/* line 342, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.promo {
   height: 17.25em;
 }
-/* line 326, ../../src/packages/common/css/_shared/_all.scss */
+/* line 345, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.promo .product-img {
   height: 11.3125em;
 }
-/* line 331, ../../src/packages/common/css/_shared/_all.scss */
+/* line 350, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo:after {
   padding-top: 78.19025522041764%;
 }
-/* line 336, ../../src/packages/common/css/_shared/_all.scss */
+/* line 355, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo div.iq-img {
   position: absolute;
   top: 0;
@@ -8537,7 +8606,7 @@ ul.jump-links .active a {
   background-position: center center;
   background-size: cover;
 }
-/* line 348, ../../src/packages/common/css/_shared/_all.scss */
+/* line 367, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .label {
   position: absolute;
   z-index: 10;
@@ -8546,7 +8615,7 @@ ul.jump-links .active a {
   margin: 0;
 }
 
-/* line 361, ../../src/packages/common/css/_shared/_all.scss */
+/* line 380, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-tooltip i {
   position: relative;
   top: -1px;
@@ -8554,34 +8623,17 @@ ul.jump-links .active a {
   padding-left: 2px;
 }
 
-/* line 374, ../../src/packages/common/css/_shared/_all.scss */
+/* line 393, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .color-swatches {
   position: absolute;
   right: .875em;
   bottom: .6875em;
 }
-/* line 380, ../../src/packages/common/css/_shared/_all.scss */
+/* line 399, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .favorite-holder {
   position: absolute;
   left: 0;
   bottom: 0;
-  text-align: center;
-  cursor: pointer;
-}
-/* line 387, ../../src/packages/common/css/_shared/_all.scss */
-.gallery-item .favorite-holder i {
-  color: #d2d2db;
-  vertical-align: baseline;
-  font-size: .8125em;
-  padding: .6875em .875em;
-}
-/* line 396, ../../src/packages/common/css/_shared/_all.scss */
-.no-touch .gallery-item .favorite-holder:hover i, .gallery-item .favorite-holder.active i {
-  color: #f35429;
-}
-/* line 401, ../../src/packages/common/css/_shared/_all.scss */
-.gallery-item .fonticon-10-star {
-  color: #bcbccc;
 }
 
 /* line 776, ../../src/packages/common/css/_base/_mixins.scss */

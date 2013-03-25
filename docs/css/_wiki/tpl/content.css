@@ -1,0 +1,439 @@
+/**
+ * This file provides the main design styles for the page content.
+ *
+ * @author Anika Henke <anika@selfthinker.org>
+ * @author Andreas Gohr <andi@splitbrain.org>
+ * @author Clarence Lee <clarencedglee@gmail.com>
+ */
+/*____________ section indenting ____________
+
+.dokuwiki.page  h1 {margin-left: 0;}
+.dokuwiki.page  h2 {margin-left: .666em;}
+.dokuwiki.page  h3 {margin-left: 1.776em;}
+.dokuwiki.page  h4 {margin-left: 3em;}
+.dokuwiki.page  h5 {margin-left: 4.5712em;}
+.dokuwiki.page  div.level1 {margin-left: 0;}
+.dokuwiki.page  div.level2 {margin-left: 1em;}
+.dokuwiki.page  div.level3 {margin-left: 2em;}
+.dokuwiki.page  div.level4 {margin-left: 3em;}
+.dokuwiki.page  div.level5 {margin-left: 4em;}
+
+[dir=rtl] .dokuwiki .page h1 {margin-left: 0; margin-right: 0;}
+[dir=rtl] .dokuwiki .page h2 {margin-left: 0; margin-right: .666em;}
+[dir=rtl] .dokuwiki .page h3 {margin-left: 0; margin-right: 1.776em;}
+[dir=rtl] .dokuwiki .page h4 {margin-left: 0; margin-right: 3em;}
+[dir=rtl] .dokuwiki .page h5 {margin-left: 0; margin-right: 4.5712em;}
+[dir=rtl] .dokuwiki .page div.level1 {margin-left: 0; margin-right: 0;}
+[dir=rtl] .dokuwiki .page div.level2 {margin-left: 0; margin-right: 1em;}
+[dir=rtl] .dokuwiki .page div.level3 {margin-left: 0; margin-right: 2em;}
+[dir=rtl] .dokuwiki .page div.level4 {margin-left: 0; margin-right: 3em;}
+[dir=rtl] .dokuwiki .page div.level5 {margin-left: 0; margin-right: 4em;}
+*/
+/* hx margin-left = (1 / font-size) * .levelx-margin */
+/*____________ links to wiki pages (addition to _links) ____________*/
+/* existing wikipage */
+/* line 42, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki a.wikilink1 {
+  color: #008800;
+  background-color: inherit;
+}
+
+/* not existing wikipage */
+/* line 47, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki a.wikilink2 {
+  color: #dd3300;
+  background-color: inherit;
+}
+
+/*____________ images ____________*/
+/* embedded images (styles are already partly set in lib/styles/all.css) */
+/* line 56, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki img.media {
+  margin: .2em 0;
+}
+
+/* line 59, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki img.medialeft {
+  margin: .2em 1em .2em 0;
+}
+
+/* line 62, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki img.mediaright {
+  margin: .2em 0 .2em 1em;
+}
+
+/* line 65, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki img.mediacenter {
+  margin: .2em auto;
+}
+
+/*____________ lists ____________*/
+/* line 73, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__content ul li,
+#dokuwiki__aside ul li {
+  color: #999999;
+}
+
+/* line 77, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__content ol li,
+#dokuwiki__aside ol li {
+  color: #666666;
+}
+
+/* line 81, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__content li .li,
+#dokuwiki__aside li .li {
+  color: #333333;
+}
+
+/*____________ tables ____________*/
+/* div around each table */
+/* line 89, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.table {
+  overflow-x: auto;
+  margin-bottom: 1.4em;
+}
+
+/* line 93, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.table table {
+  margin-bottom: 0;
+}
+
+/* line 97, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki table.inline {
+  min-width: 50%;
+}
+
+/* line 101, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki table.inline tr td,
+.dokuwiki table.inline tr td.label {
+  background-color: white;
+  color: #2f353d;
+  text-transform: none;
+}
+
+/* line 107, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki table.inline tr:hover td,
+.dokuwiki table.inline tr:hover td.label {
+  background-color: #eeeeee;
+}
+
+/* line 111, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki table.inline tr:hover th,
+.dokuwiki table.inline tr:hover th.label {
+  background-color: #cccccc;
+}
+
+/*____________ code ____________*/
+/* fix if background-color hides underlining */
+/* line 119, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki em.u code {
+  text-decoration: underline;
+}
+
+/* for code in <file> */
+/* filenames for downloadable file and code blocks */
+/* line 133, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki dl.code dt,
+.dokuwiki dl.file dt {
+  background-color: #fbfaf9;
+  background: -moz-linear-gradient(top, #eeeeee 0%, #fbfaf9 100%);
+  background: -webkit-linear-gradient(top, #eeeeee 0%, #fbfaf9 100%);
+  background: -o-linear-gradient(top, #eeeeee 0%, #fbfaf9 100%);
+  background: -ms-linear-gradient(top, #eeeeee 0%, #fbfaf9 100%);
+  background: linear-gradient(top, #eeeeee 0%, #fbfaf9 100%);
+  color: inherit;
+  border: 1px solid #cccccc;
+  border-bottom-color: #fbfaf9;
+  border-top-left-radius: .3em;
+  border-top-right-radius: .3em;
+  padding: .3em .6em .1em;
+  margin-bottom: -1px;
+  float: left;
+}
+
+/* line 150, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .dokuwiki dl.code dt,
+[dir=rtl] .dokuwiki dl.file dt {
+  float: right;
+}
+
+/* line 154, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki dl.code dt a,
+.dokuwiki dl.file dt a {
+  background-color: transparent;
+  font-size: 0.875em;
+  font-weight: normal;
+  display: block;
+  min-height: 16px;
+}
+
+/* line 163, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki dl.code dd,
+.dokuwiki dl.file dd {
+  margin: 0;
+  clear: left;
+  min-height: 1px;
+  /* for IE7 */
+}
+
+/* line 169, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .dokuwiki dl.code dd,
+[dir=rtl] .dokuwiki dl.file dd {
+  clear: right;
+}
+
+/* line 174, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki dl.code pre,
+.dokuwiki dl.file pre {
+  box-shadow: inset -4px -4px 0.5em -0.3em #cccccc;
+}
+
+/*____________ JS popup ____________*/
+/* line 181, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.JSpopup {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #cccccc;
+  box-shadow: 0.1em 0.1em 0.1em #cccccc;
+  border-radius: 2px;
+  padding: .3em .5em;
+  font-size: .9em;
+}
+
+/* line 190, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki form.search div.ajax_qsearch {
+  top: -0.35em;
+  font-size: 1em;
+  text-overflow: ellipsis;
+}
+
+/* line 197, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.JSpopup ul,
+.JSpopup ol {
+  padding-left: 0;
+}
+
+/* line 201, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .JSpopup ul,
+[dir=rtl] .JSpopup ol {
+  padding-right: 0;
+}
+
+/* changes to underscored CSS files
+********************************************************************/
+/* line 209, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#acl__tree li {
+  margin: 0;
+}
+
+/* line 213, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__content span.curid a {
+  font-weight: normal;
+}
+
+/* line 216, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__content strong span.curid a {
+  font-weight: bold;
+}
+
+/*____________ changes to _edit ____________*/
+/* line 223, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.toolbar button.toolbutton {
+  border-radius: 0;
+  border-left-width: 0;
+  padding: .1em .35em;
+}
+
+/* line 228, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.toolbar button.toolbutton:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-left-width: 1px;
+}
+
+/* line 233, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .dokuwiki div.toolbar button.toolbutton:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-left-width: 0;
+  border-right-width: 1px;
+}
+
+/* line 241, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.toolbar button.toolbutton:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* line 245, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .dokuwiki div.toolbar button.toolbutton:last-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-left-width: 1px;
+}
+
+/* line 253, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.section_highlight {
+  margin: 0 -2em;
+  padding: 0 1em;
+  border-width: 0 1em;
+}
+
+/* line 259, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki textarea.edit {
+  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Bitstream Vera Sans Mono", "Nimbus Mono L", Monaco, "Courier New", monospace;
+}
+
+/* line 263, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.preview {
+  margin: 0 -2em;
+  padding: 0 2em;
+}
+
+/* line 267, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki.hasSidebar div.preview {
+  border-right: 16em solid #eeeeee;
+}
+
+/* line 270, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .dokuwiki.hasSidebar div.preview {
+  border-right-width: 0;
+  border-left: 16em solid #eeeeee;
+}
+
+/* line 274, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.preview div.pad {
+  padding: 1.556em 0 2em;
+}
+
+/*____________ changes to _toc ____________*/
+/* line 281, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc {
+  margin: -1.556em -2em 0.5em 1.4em;
+  width: 16em;
+  border-left: 1px solid #cccccc;
+  background: white;
+  color: inherit;
+}
+
+/* line 288, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] #dw__toc {
+  margin: -1.556em 1.4em 0.5em -2em;
+  border-left-width: 0;
+  border-right: 1px solid #cccccc;
+}
+
+/* line 294, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki h3.toggle {
+  padding: .5em 1em;
+  margin-bottom: 0;
+  font-size: .875em;
+  letter-spacing: .1em;
+}
+
+/* line 300, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__aside h3.toggle {
+  display: none;
+}
+
+/* line 304, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki .toggle strong {
+  background: transparent url(../img/wiki/tpl/toc-arrows.png) 0 0;
+  width: 8px;
+  height: 5px;
+  margin: .4em 0 0;
+}
+
+/* line 310, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki .toggle.closed strong {
+  background-position: 0 -5px;
+}
+
+/* line 314, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki .toggle strong span {
+  display: none;
+}
+
+/* line 319, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc > div {
+  font-size: 0.875em;
+  padding: .5em 1em 1em;
+}
+
+/* line 323, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc ul {
+  padding: 0 0 0 1.2em;
+}
+
+/* line 326, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] #dw__toc ul {
+  padding: 0 1.5em 0 0;
+}
+
+/* line 329, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc ul li {
+  list-style-image: url(../img/wiki/tpl/toc-bullet.png);
+}
+
+/* line 332, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc ul li.clear {
+  list-style: none;
+}
+
+/* line 335, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc ul li div.li {
+  padding: .2em 0;
+}
+
+/*____________ changes to _imgdetail ____________*/
+/* line 342, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail {
+  padding: 0;
+}
+
+/* line 345, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail img {
+  float: none;
+  margin-bottom: 1.4em;
+}
+
+/* line 349, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail div.img_detail {
+  float: none;
+}
+
+/* line 353, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail div.img_detail dl {
+  overflow: hidden;
+}
+
+/* line 356, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail div.img_detail dl dt {
+  float: left;
+  width: 9em;
+  text-align: right;
+  clear: left;
+}
+
+/* line 362, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] #dokuwiki__detail div.img_detail dl dt {
+  float: right;
+  text-align: left;
+  clear: right;
+}
+
+/* line 367, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail div.img_detail dl dd {
+  margin-left: 9.5em;
+}
+
+/* line 370, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] #dokuwiki__detail div.img_detail dl dd {
+  margin-left: 0;
+  margin-right: 9.5em;
+}
