@@ -282,9 +282,16 @@ define(function(require){
 
     setupLinkClicks: function() {
 
-      var self = this;
+      var self = this,
+          $clickContext;
 
-      self.$el.find(self.slideChildren).on('click', function(e){
+      if ( self.slideChildren ) {
+        $clickContext = self.$el.find(self.slideChildren);
+      } else {
+        $clickContext = self.$slides;
+      }
+
+      $clickContext.on('click', function(e){
 
         var $this = $(this),
             destination = $this.find(self.defaultLink).attr('href'),
@@ -377,7 +384,7 @@ define(function(require){
     paddles: false,
 
     // Create dot pagination, which is inserted after self.$el.
-    pagination: true
+    pagination: false
   };
 
 });
