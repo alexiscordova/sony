@@ -173,11 +173,14 @@ define(function(require){
       destinationLeft = $destinationSlide.position().left;
       innerContainerWidth = self.$el.width();
 
-      // If the browser doesn't properly support the getStyles API for auto margins, manually
-      // shift the destination back to compensate.
+      // This exception is built specifically for carousels like the OSC (S2) module, which must
+      // respect the grid even though they aren't really in it. Refer to S2 for usage example;
+      // `sony-carousel-flex` is the required trigger class for that layout stategy.
 
       if ( !Modernizr.jsautomargins ) {
-        destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / 2;
+        if ( self.$el.hasClass('sony-carousel-flex') ) {
+          destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / 2;
+        }
       }
 
       if ( self.useCSS3 ) {
@@ -199,7 +202,7 @@ define(function(require){
       } else {
 
         self.$el.animate({
-          'left': -100 * destinationLeft / Settings.$window.width() + '%'
+          'left': -100 * destinationLeft / self.$wrapper.width() + '%'
         }, {
           'duration': 350,
           'complete': function(){ iQ.update(true); }

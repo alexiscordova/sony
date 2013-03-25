@@ -281,11 +281,14 @@ define(function(require){
 
       offsetCorrectionX += self.$containment.position().left;
 
-      // If the browser doesn't properly support the getStyles API for auto margins, manually
-      // shift the destination back to compensate.
+      // This exception is built specifically for carousels like the OSC (S2) module, which must
+      // respect the grid even though they aren't really in it. Refer to S2 for usage example;
+      // `sony-carousel-flex` is the required trigger class for that layout stategy.
 
       if ( !Modernizr.jsautomargins ) {
-        offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / 2;
+        if ( self.$el.hasClass('sony-carousel-flex') ) {
+          offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / 2;
+        }
       }
 
       self.containmentWidth = $widthObject.width();
