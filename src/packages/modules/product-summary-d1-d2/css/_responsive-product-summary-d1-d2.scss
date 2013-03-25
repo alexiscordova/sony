@@ -6,10 +6,125 @@
 }
 
 
-@media ( max-width: px-em(479px) ) {
+@media ( max-width: px-em(767px) ) {
   .product-summary {
-    .jump-links {
-      display: none;
+
+    .price-content {
+      padding: 0;
     }
+
+    .product-details {
+      padding-top: px-em(24);
+      padding-bottom: 0;
+    }
+
+    .product-img-wrap,
+    .jump-links,
+    .spacer,
+    .review-text {
+      display: none !important; // override grid -_-
+    }
+
+    .m-product-img,
+    .inline-details {
+      display: inline-block;
+    }
+
+    .buy-block .btn {
+      display: block;
+    }
+
+    .inline-details > *,
+    .buy-block,
+    .buy-block .text-right,
+    .buy-block .btn {
+      float: none;
+    }
+
+    .buy-block .text-right,
+    .price-text {
+      text-align: left;
+    }
+
+    .be-social {
+      margin-top: 2px;
+      text-align: center;
+      padding-bottom: px-em(26);
+    }
+
+    .m-product-img {
+      max-width: 60%;
+    }
+
+    .buy-block .btn {
+      clear: both;
+    }
+
+    .product-title {
+      margin-bottom: px-em(8, 18);
+    }
+
+    .inline-details > * {
+      margin-bottom: px-em(9, 9);
+    }
+
+    .color-swatches,
+    .inline-details {
+      margin-bottom: 0;
+    }
+
+    .inline-details .color-swatches {
+      margin-top: px-em(10);
+    }
+
+    .product-rating {
+      margin: px-em(14) 0 px-em(14);
+    }
+
+    .buy-block .text-right {
+      margin: 0 0 px-em(14);
+    }
+
   }
+
+  // Sticky nav
+  .ps-sticky-nav {
+
+    .product-img {
+      margin: px-em(12) px-em(10) 0 0;
+      max-width: px-em(50);
+      max-height: px-em(50);
+    }
+
+    .sticky-nav-title {
+      margin-top: px-em(16, 15);
+      margin-bottom: px-em(-2, 15);
+    }
+
+    .price-text {
+      margin: 0 0 1em 0;
+    }
+
+    .price-text .price-prefix {
+      display: inline;
+      margin: 0;
+      padding-right: px-em(3, 12);
+    }
+
+    .price-text .msrp {
+      padding: 0 0 0 px-em(3, 9);
+    }
+
+    .btn {
+      margin-top: px-em(12, 12);
+      margin-bottom: px-em(12, 12);
+    }
+
+  }
+
+}
+
+
+@media ( max-width: px-em(479px) ) {
+
 }

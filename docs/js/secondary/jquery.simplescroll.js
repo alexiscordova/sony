@@ -112,11 +112,19 @@ define(function(require){
     return this.each(function() {
       $(this).on('click', function( evt ) {
         evt.preventDefault();
-        options = options || {};
-        options.target = $.isFunction( options.target ) ?
-          options.target.call( this ) :
+        var opts = $.extend({}, options);
+
+        // If the target option is a function, use its return value, else try the href attribute
+        opts.target = $.isFunction( opts.target ) ?
+          opts.target.call( this ) :
           this.getAttribute('href');
-        $.simplescroll( options, fn );
+
+        // If the offset option is a function, use its return value, else use the given value or zero
+        opts.offset = $.isFunction( opts.offset ) ?
+          opts.offset.call( this ) :
+          opts.offset || 0;
+
+        $.simplescroll( opts, fn );
       });
     });
   };

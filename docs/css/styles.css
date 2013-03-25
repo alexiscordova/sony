@@ -3969,16 +3969,11 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 209, ../../src/packages/common/css/_base/_swatches.scss */
-.color-swatches > .mini-swatch {
-  margin-right: 0;
+.color-swatches > .mini-swatch:not(:last-child) {
+  margin-right: 0.125em;
 }
 
-/* line 212, ../../src/packages/common/css/_base/_swatches.scss */
-.color-swatches > .mini-swatch:not(:first-child) {
-  margin-left: 0.125em;
-}
-
-/* line 217, ../../src/packages/common/css/_base/_swatches.scss */
+/* line 214, ../../src/packages/common/css/_base/_swatches.scss */
 .mini-swatch,
 .micro-swatch {
   width: 0.75em;
@@ -3990,17 +3985,22 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 228, ../../src/packages/common/css/_base/_swatches.scss */
+/* line 225, ../../src/packages/common/css/_base/_swatches.scss */
 .mini-swatch:before, .mini-swatch:after,
 .micro-swatch:before,
 .micro-swatch:after {
   content: none;
 }
 
-/* line 231, ../../src/packages/common/css/_base/_swatches.scss */
+/* line 228, ../../src/packages/common/css/_base/_swatches.scss */
 .micro-swatch {
   width: 0.625em;
   height: 0.625em;
+}
+
+/* line 231, ../../src/packages/common/css/_base/_swatches.scss */
+.color-swatches > .micro-swatch:not(:last-child) {
+  margin-right: 0.0625em;
 }
 
 /* line 8, ../../src/packages/common/css/_components/_dropdowns.scss */
@@ -4171,7 +4171,7 @@ input[type="submit"].btn.btn-mini {
   color: #83838f;
   -webkit-transition-duration: 0.2s;
   transition-duration: 0.2s;
-  padding: 10px 20px;
+  padding: 10px 19px;
 }
 
 /* line 165, ../../src/packages/common/css/_components/_dropdowns.scss */
@@ -4318,6 +4318,111 @@ input[type="submit"].btn.btn-mini {
   margin-top: 2px;
 }
 
+/* line 301, ../../src/packages/common/css/_components/_dropdowns.scss */
+.share-menu {
+  margin-top: 1.125em;
+  padding-top: 1.25em;
+  padding-bottom: 1.125em;
+  min-width: 12.25em;
+  width: auto;
+  text-align: left;
+}
+/* line 310, ../../src/packages/common/css/_components/_dropdowns.scss */
+.share-menu:before {
+  content: '';
+  position: absolute;
+  top: -0.8125em;
+  right: 1.5em;
+  width: 0;
+  height: 0;
+  border-bottom: 0.75em solid white;
+  border-left: .625em solid transparent;
+  border-right: .625em solid transparent;
+}
+/* line 322, ../../src/packages/common/css/_components/_dropdowns.scss */
+.share-menu a {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+/* line 327, ../../src/packages/common/css/_components/_dropdowns.scss */
+.share-menu .input-holder {
+  position: relative;
+  margin-top: 9px;
+  padding: 0 17px;
+}
+/* line 333, ../../src/packages/common/css/_components/_dropdowns.scss */
+.share-menu .input-holder input {
+  display: block;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  width: auto;
+  height: 33px;
+}
+/* line 342, ../../src/packages/common/css/_components/_dropdowns.scss */
+.lt-ie10 .share-menu .input-holder input {
+  width: 167px;
+}
+/* line 353, ../../src/packages/common/css/_components/_dropdowns.scss */
+.share-menu .input-holder .link-icon {
+  position: absolute;
+  right: 23px;
+  top: 6px;
+  height: 25px;
+  width: 36px;
+  background: #bcbccc;
+  text-align: center;
+  pointer-events: none;
+}
+/* line 365, ../../src/packages/common/css/_components/_dropdowns.scss */
+.share-menu .input-holder i {
+  color: white;
+  background: white;
+  width: 16px;
+  height: 16px;
+}
+
+/* line 373, ../../src/packages/common/css/_components/_dropdowns.scss */
+.social-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+/* line 379, ../../src/packages/common/css/_components/_dropdowns.scss */
+.social-icon {
+  display: inline-block;
+  text-align: center;
+  width: 2.25em;
+  height: 2em;
+  margin-right: 0.75em;
+}
+/* line 386, ../../src/packages/common/css/_components/_dropdowns.scss */
+.social-icon i {
+  color: white;
+  vertical-align: middle;
+}
+
+/* line 392, ../../src/packages/common/css/_components/_dropdowns.scss */
+.social-icon-facebook {
+  background-color: #3b5b99;
+}
+
+/* line 396, ../../src/packages/common/css/_components/_dropdowns.scss */
+.social-icon-twitter {
+  background-color: #00acee;
+}
+
+/* line 400, ../../src/packages/common/css/_components/_dropdowns.scss */
+.social-icon-gplus {
+  background-color: #db4a39;
+}
+
+/* line 404, ../../src/packages/common/css/_components/_dropdowns.scss */
+.social-icon-pinterest {
+  background-color: #cb2027;
+}
+
 /* line 6, ../../src/packages/common/css/_base/_component-animations.scss */
 .fade {
   opacity: 0;
@@ -4401,13 +4506,13 @@ button.close {
 
 /* line 61, ../../src/packages/common/css/_base/_close.scss */
 .box-close-small {
-  width: 1.4375em;
-  height: 1.4375em;
+  width: 1.375em;
+  height: 1.375em;
   top: 0;
 }
 /* line 66, ../../src/packages/common/css/_base/_close.scss */
 .box-close-small i {
-  line-height: 16px;
+  vertical-align: bottom;
 }
 
 /* line 10, ../../src/packages/common/css/_components/_navs.scss */
@@ -5677,7 +5782,7 @@ form.footer-store-locator-form i {
 
 /* line 136, ../../src/packages/common/css/_components/_footer.scss */
 a.footer-social-twitter:hover, a.footer-social-twitter:active, a.footer-social-twitter:focus, a.footer-social-twitter.active {
-  background-color: #28aae1;
+  background-color: #00acee;
 }
 
 /* line 144, ../../src/packages/common/css/_components/_footer.scss */
@@ -6389,7 +6494,18 @@ body.modal-open {
   filter: alpha(opacity=70);
 }
 
+/* line 38, ../../src/packages/common/css/_components/_modals.scss */
+.modal-backdrop.dark {
+  background-color: #212530;
+}
+
 /* line 41, ../../src/packages/common/css/_components/_modals.scss */
+.modal-backdrop.dark.in {
+  opacity: 0.1;
+  filter: alpha(opacity=10);
+}
+
+/* line 47, ../../src/packages/common/css/_components/_modals.scss */
 .modal {
   position: fixed;
   top: 50%;
@@ -6399,69 +6515,69 @@ body.modal-open {
   height: 34.375em;
   margin-top: -17.1875em;
 }
-/* line 50, ../../src/packages/common/css/_components/_modals.scss */
+/* line 56, ../../src/packages/common/css/_components/_modals.scss */
 .modal.fade {
   -webkit-transition: opacity 0.3s linear, top 0.3s ease-out;
   transition: opacity 0.3s linear, top 0.3s ease-out;
   top: -25%;
 }
-/* line 55, ../../src/packages/common/css/_components/_modals.scss */
+/* line 61, ../../src/packages/common/css/_components/_modals.scss */
 .modal.fade.in {
   top: 50%;
 }
-/* line 58, ../../src/packages/common/css/_components/_modals.scss */
+/* line 64, ../../src/packages/common/css/_components/_modals.scss */
 .modal:focus {
   outline: none;
 }
 
 @media (max-height: 34.375em) {
-  /* line 65, ../../src/packages/common/css/_components/_modals.scss */
+  /* line 71, ../../src/packages/common/css/_components/_modals.scss */
   .modal {
     top: 0;
     height: 90%;
     margin-top: 2.5%;
   }
-  /* line 71, ../../src/packages/common/css/_components/_modals.scss */
+  /* line 77, ../../src/packages/common/css/_components/_modals.scss */
   .modal .container,
   .modal .grid {
     height: 100%;
   }
-  /* line 75, ../../src/packages/common/css/_components/_modals.scss */
+  /* line 81, ../../src/packages/common/css/_components/_modals.scss */
   .modal .modal-header {
     max-height: 20%;
   }
-  /* line 79, ../../src/packages/common/css/_components/_modals.scss */
+  /* line 85, ../../src/packages/common/css/_components/_modals.scss */
   .modal .modal-body {
     padding-top: 0;
     padding-bottom: 0em;
     max-height: 75%;
     overflow: hidden;
   }
-  /* line 88, ../../src/packages/common/css/_components/_modals.scss */
+  /* line 94, ../../src/packages/common/css/_components/_modals.scss */
   .modal .js-spec-modal-body,
   .modal .spec-modal-body,
   .modal .js-spec-modal-body img {
     max-height: 100%;
   }
-  /* line 92, ../../src/packages/common/css/_components/_modals.scss */
+  /* line 98, ../../src/packages/common/css/_components/_modals.scss */
   .modal.fade.in {
     top: 0;
   }
 }
-/* line 96, ../../src/packages/common/css/_components/_modals.scss */
+/* line 102, ../../src/packages/common/css/_components/_modals.scss */
 .modal-header {
   padding: 2.5em 2.5em 1.25em;
 }
-/* line 101, ../../src/packages/common/css/_components/_modals.scss */
+/* line 107, ../../src/packages/common/css/_components/_modals.scss */
 .modal-header .close {
   margin-top: 2px;
 }
-/* line 104, ../../src/packages/common/css/_components/_modals.scss */
+/* line 110, ../../src/packages/common/css/_components/_modals.scss */
 .modal-header h3 {
   margin: 0;
 }
 
-/* line 110, ../../src/packages/common/css/_components/_modals.scss */
+/* line 116, ../../src/packages/common/css/_components/_modals.scss */
 .modal-inner {
   position: relative;
   width: 100%;
@@ -6470,19 +6586,25 @@ body.modal-open {
   -webkit-box-shadow: 0 0 1.875em rgba(39, 43, 55, 0.15);
   box-shadow: 0 0 1.875em rgba(39, 43, 55, 0.15);
 }
+/* line 123, ../../src/packages/common/css/_components/_modals.scss */
+.modal-inner.transparent {
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
 
-/* line 119, ../../src/packages/common/css/_components/_modals.scss */
+/* line 130, ../../src/packages/common/css/_components/_modals.scss */
 .modal-body {
   overflow-y: auto;
   padding: 2.5em;
 }
 
-/* line 124, ../../src/packages/common/css/_components/_modals.scss */
+/* line 135, ../../src/packages/common/css/_components/_modals.scss */
 .modal-form {
   margin-bottom: 0;
 }
 
-/* line 129, ../../src/packages/common/css/_components/_modals.scss */
+/* line 140, ../../src/packages/common/css/_components/_modals.scss */
 .modal-footer {
   padding: 14px 15px 15px;
   margin-bottom: 0;
@@ -6504,17 +6626,17 @@ body.modal-open {
 .modal-footer:after {
   clear: both;
 }
-/* line 140, ../../src/packages/common/css/_components/_modals.scss */
+/* line 151, ../../src/packages/common/css/_components/_modals.scss */
 .modal-footer .btn + .btn {
   margin-left: 5px;
   margin-bottom: 0;
 }
-/* line 145, ../../src/packages/common/css/_components/_modals.scss */
+/* line 156, ../../src/packages/common/css/_components/_modals.scss */
 .modal-footer .btn-group .btn + .btn {
   margin-left: -1px;
 }
 
-/* line 150, ../../src/packages/common/css/_components/_modals.scss */
+/* line 161, ../../src/packages/common/css/_components/_modals.scss */
 .takeover {
   top: 0;
   left: 0;
@@ -6523,41 +6645,41 @@ body.modal-open {
   height: 100%;
   border: none;
 }
-/* line 159, ../../src/packages/common/css/_components/_modals.scss */
+/* line 170, ../../src/packages/common/css/_components/_modals.scss */
 .takeover.native-scrolling {
   overflow-x: hidden;
   overflow-y: auto;
 }
-/* line 168, ../../src/packages/common/css/_components/_modals.scss */
+/* line 179, ../../src/packages/common/css/_components/_modals.scss */
 .takeover.fade.in {
   top: 0;
 }
-/* line 170, ../../src/packages/common/css/_components/_modals.scss */
+/* line 181, ../../src/packages/common/css/_components/_modals.scss */
 .takeover .modal-inner {
   overflow: visible;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 175, ../../src/packages/common/css/_components/_modals.scss */
+/* line 186, ../../src/packages/common/css/_components/_modals.scss */
 .takeover .modal-header {
   position: relative;
   padding: 4.375em 0 1.875em;
   border: none;
 }
-/* line 180, ../../src/packages/common/css/_components/_modals.scss */
+/* line 191, ../../src/packages/common/css/_components/_modals.scss */
 .takeover .modal-header .box-close {
   top: 1.25em;
 }
-/* line 184, ../../src/packages/common/css/_components/_modals.scss */
+/* line 195, ../../src/packages/common/css/_components/_modals.scss */
 .takeover .modal-header h3 {
   margin-top: -8px;
 }
-/* line 191, ../../src/packages/common/css/_components/_modals.scss */
+/* line 202, ../../src/packages/common/css/_components/_modals.scss */
 .takeover .modal-header > button,
 .takeover .modal-header > .sort-options {
   margin: 0 0 0 8px;
 }
-/* line 195, ../../src/packages/common/css/_components/_modals.scss */
+/* line 206, ../../src/packages/common/css/_components/_modals.scss */
 .takeover .modal-body {
   overflow-x: hidden;
   overflow-y: visible;
@@ -6566,6 +6688,26 @@ body.modal-open {
   background: #f3f4f6;
   -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.12), inset 0 0 1px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.12), inset 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+/* line 217, ../../src/packages/common/css/_components/_modals.scss */
+.share-tool .modal-inner {
+  overflow: visible;
+}
+
+/* line 221, ../../src/packages/common/css/_components/_modals.scss */
+.share-tool .share-menu {
+  display: block;
+  position: relative;
+  z-index: 1;
+  margin: auto;
+  float: none;
+  width: 12.6875em;
+  border: 0;
+}
+/* line 231, ../../src/packages/common/css/_components/_modals.scss */
+.share-tool .share-menu:before {
+  content: none;
 }
 
 /* line 7, ../../src/packages/common/css/_components/_tooltip.scss */
@@ -8317,7 +8459,7 @@ textarea,
   padding: .6875em .875em;
 }
 /* line 23, ../../src/packages/common/css/_shared/_all.scss */
-.no-touch .favorite-holder:hover i, a:hover > .favorite-holder i, .favorite-holder.active i {
+.no-touch .favorite-holder:hover i, .no-touch a:hover > .favorite-holder i, .favorite-holder.active i {
   color: #f35429;
 }
 
@@ -8362,7 +8504,7 @@ ul.jump-links a {
   transition: 0.15s ease-out;
 }
 /* line 69, ../../src/packages/common/css/_shared/_all.scss */
-ul.jump-links li:hover a {
+.no-touch ul.jump-links li:hover a {
   color: #5787f4;
 }
 /* line 74, ../../src/packages/common/css/_shared/_all.scss */
@@ -8431,8 +8573,7 @@ ul.jump-links .active a {
   background: white;
 }
 /* line 163, ../../src/packages/common/css/_shared/_all.scss */
-.gallery-item:focus .product-img,
-.gallery-item .product-img:hover {
+.gallery-item:focus .product-img, .no-touch .gallery-item .product-img:hover {
   background-color: #e8edf3;
 }
 /* line 167, ../../src/packages/common/css/_shared/_all.scss */

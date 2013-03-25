@@ -35,6 +35,12 @@ body.modal-open {
 .modal-backdrop.fade.in {
   @include opacity(70);
 }
+.modal-backdrop.dark {
+  background-color: $gray10;
+}
+.modal-backdrop.dark.in {
+  @include opacity(10);
+}
 
 // Base modal
 $modalHeight: 550px;
@@ -113,6 +119,11 @@ $modalHeight: 550px;
   overflow: auto;
   background-color: $white;
   @include box-shadow(0 0 1.875em rgba(39, 43, 55, 0.15));
+
+  &.transparent {
+    background-color: transparent;
+    @include box-shadow(none);
+  }
 }
 
 // Body (where all modal content resides)
@@ -200,3 +211,25 @@ $modalHeight: 550px;
     @include lightGrayInset( $gray90 );
   }
 }
+
+
+// For the share dropdown in a modal window
+.share-tool .modal-inner {
+  overflow: visible;
+}
+
+.share-tool .share-menu {
+  display: block;
+  position: relative;
+  z-index: 1;
+  margin: auto;
+  float: none;
+  width: px-em(203);
+  border: 0;
+
+  // Hide arrow
+  &:before {
+    content: none;
+  }
+}
+
