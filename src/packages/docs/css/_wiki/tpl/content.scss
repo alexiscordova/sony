@@ -99,17 +99,26 @@
 }
 .dokuwiki table.inline tr td,
 .dokuwiki table.inline tr td.label {
-    background-color: $wiki_background;
+    background-color: transparent;
     color:$defaultTextColor;
     text-transform:none;
+    padding-right:10px;
+    font-size:12px;
+}
+
+.dokuwiki .donts-table table.inline tr td,
+.dokuwiki .donts-table table.inline tr td.label {
+    color:$gray40;
+    font-size:10px;
+    padding-bottom:8px;
 }
 .dokuwiki table.inline tr:hover td,
 .dokuwiki table.inline tr:hover td.label {
-    background-color: $wiki_backgroundAlt;
+    background-color: transparent;
 }
 .dokuwiki table.inline tr:hover th,
 .dokuwiki table.inline tr:hover th.label {
-    background-color: $wiki_border;
+    background-color: transparent;
 }
 
 
@@ -278,18 +287,7 @@
 
 /*____________ changes to _toc ____________*/
 
-#dw__toc {
-    margin:  -1.556em -2em .5em 1.4em;
-    width: $wiki_sidebarWidth;
-    border-left: 1px solid $wiki_border;
-    background: $wiki_background;
-    color: inherit;
-}
-[dir=rtl] #dw__toc {
-    margin: -1.556em 1.4em .5em -2em;
-    border-left-width: 0;
-    border-right: 1px solid $wiki_border;
-}
+
 
 .dokuwiki h3.toggle {
     padding: .5em 1em;
@@ -371,3 +369,21 @@
     margin-left: 0;
     margin-right: 9.5em;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+#dokuwiki__top > #main > .grid{
+    position:relative;
+}
+
+
+
