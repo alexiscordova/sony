@@ -16,8 +16,18 @@
 #dokuwiki__header .headings,
 #dokuwiki__header .tools {
   margin-bottom: 1.5em;
-  width: 49%;
+  text-align:right;
+  // width: 49%;
 }
+
+#dokuwiki__header .primaryNav{
+  width:50%;
+  float:left;
+}
+
+
+
+
 #dokuwiki__header h1 img {
   // float: left;
   // margin-right: .5em;
@@ -169,10 +179,15 @@
 
 #dokuwiki__sitetools {
   text-align: right;
+  display:block;
+  width:48%;
+  float:right;
+
+  form{
+    margin:0;
+  }
 }
-[dir=rtl] #dokuwiki__sitetools {
-  text-align: left;
-}
+
 
 #dokuwiki__sitetools form.search {
   display: block;
@@ -185,10 +200,8 @@
 }
 #dokuwiki__sitetools form.search input.edit {
   width: 18em;
-  padding: .35em 22px .35em .1em;
-}
-[dir=rtl] #dokuwiki__sitetools form.search input.edit {
-  padding: .35em .1em .35em 22px;
+  padding: .1em 22px .1em .4em;
+  margin-top:7px;
 }
 #dokuwiki__sitetools form.search input.button {
   background: transparent url(../img/wiki/tpl/search.png) no-repeat 0 0;
@@ -261,7 +274,7 @@
   height:42px;
   
   .sprite-32a-sony-logo-sm-short {
-    margin: 14px 0 0 -3px;
+    margin: 12px 0 0 -3px;
   }
 }
 
@@ -358,47 +371,44 @@
 }
 
 .dokuwiki .pageId {
-  position: absolute;
-  top: -2.3em;
-  right: -1em;
-  overflow: hidden;
-  padding: 1em 1em 0;
-}
-[dir=rtl] .dokuwiki .pageId {
-  right: auto;
-  left: -1em;
+//    position: absolute;
+//    top: -2.3em;
+//    right: -1em;
+    overflow: hidden;
+//    padding: 1em 1em 0;
 }
 .dokuwiki .pageId span {
-  font-size: 0.875em;
-  border: solid $wiki_backgroundAlt;
-  border-width: 1px 1px 0;
-  background-color: $wiki_background;
-  color: $wiki_textAlt;
-  padding: .1em .35em;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-  box-shadow: 0 0 .5em #999;
-  display: block;
+    font-size: 0.875em;
+    // border: solid $wiki_backgroundAlt;
+    border-width: 1px 1px 0;
+    // background-color: $wiki_background;
+    color: $wiki_textAlt;
+    padding: .1em .35em;
+    // border-top-left-radius: 2px;
+    // border-top-right-radius: 2px;
+    // box-shadow: 0 0 .5em #999;
+    display: block;
 }
 
 .dokuwiki div.page {
-  // background: $wiki_background;
-  // color: inherit;
-  // border: 1px solid #eee;
-  // box-shadow: 0 0 .5em #999;
-  // border-radius: 2px;
-  // padding: 1.556em 2em 2em;
-  // margin-bottom: .5em;
-  // overflow: hidden;
-  // word-wrap: break-word;
+    // background: $wiki_background;
+    // color: inherit;
+    // border: 1px solid #eee;
+    // box-shadow: 0 0 .5em #999;
+    // border-radius: 2px;
+    // padding: 1.556em 2em 2em;
+    // margin-bottom: .5em;
+    // overflow: hidden;
+    // word-wrap: break-word;
 }
 
 .dokuwiki .docInfo {
-  font-size: 0.875em;
-  text-align: right;
+    font-size: 0.875em;
+    text-align: right;
+    margin-top:20px;
 }
 [dir=rtl] .dokuwiki .docInfo {
-  text-align: left;
+    text-align: left;
 }
 
 /* license note under edit window */
@@ -438,4 +448,11 @@
 #dokuwiki__footer div.buttons a:active img,
 #dokuwiki__footer div.buttons a:focus img {
   opacity: 1;
+}
+
+
+
+input,
+textarea {
+  width: auto;
 }

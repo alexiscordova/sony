@@ -1,65 +1,438 @@
-/*
-Syntax error: Undefined variable: "$wiki_existing".
-        on line 40 of /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/content.scss
+/**
+ * This file provides the main design styles for the page content.
+ *
+ * @author Anika Henke <anika@selfthinker.org>
+ * @author Andreas Gohr <andi@splitbrain.org>
+ * @author Clarence Lee <clarencedglee@gmail.com>
+ */
+/*____________ section indenting ____________
 
-Backtrace:
-/Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/content.scss:40
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/script/variable.rb:49:in `_perform'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/script/node.rb:40:in `perform'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:294:in `visit_prop'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:37:in `send'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:98:in `visit'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:53:in `visit_children'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:53:in `map'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:53:in `visit_children'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:107:in `visit_children'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:119:in `with_environment'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:106:in `visit_children'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:316:in `visit_rule'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:37:in `send'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:98:in `visit'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:53:in `visit_children'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:53:in `map'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:53:in `visit_children'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:107:in `visit_children'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:119:in `with_environment'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:106:in `visit_children'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:126:in `visit_root'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:37:in `send'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:98:in `visit'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:7:in `send'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/visitors/perform.rb:7:in `visit'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/tree/root_node.rb:20:in `render'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/engine.rb:315:in `_render'
-/usr/local/lib/ruby/gems/1.8/gems/sass-3.3.0.alpha.3/lib/sass/../sass/engine.rb:262:in `render'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:140:in `compile'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:126:in `timed'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:139:in `compile'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/logger.rb:45:in `red'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:138:in `compile'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:118:in `compile_if_required'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:103:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:101:in `each'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:101:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:126:in `timed'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:100:in `run'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/commands/update_project.rb:45:in `perform'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/commands/base.rb:18:in `execute'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/commands/project_base.rb:19:in `execute'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/lib/compass/exec/sub_command_ui.rb:15:in `run!'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/bin/compass:30
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/bin/compass:44:in `call'
-/usr/local/lib/ruby/gems/1.8/gems/compass-0.12.2/bin/compass:44
-/usr/local/bin/compass:23:in `load'
-/usr/local/bin/compass:23
+.dokuwiki.page  h1 {margin-left: 0;}
+.dokuwiki.page  h2 {margin-left: .666em;}
+.dokuwiki.page  h3 {margin-left: 1.776em;}
+.dokuwiki.page  h4 {margin-left: 3em;}
+.dokuwiki.page  h5 {margin-left: 4.5712em;}
+.dokuwiki.page  div.level1 {margin-left: 0;}
+.dokuwiki.page  div.level2 {margin-left: 1em;}
+.dokuwiki.page  div.level3 {margin-left: 2em;}
+.dokuwiki.page  div.level4 {margin-left: 3em;}
+.dokuwiki.page  div.level5 {margin-left: 4em;}
+
+[dir=rtl] .dokuwiki .page h1 {margin-left: 0; margin-right: 0;}
+[dir=rtl] .dokuwiki .page h2 {margin-left: 0; margin-right: .666em;}
+[dir=rtl] .dokuwiki .page h3 {margin-left: 0; margin-right: 1.776em;}
+[dir=rtl] .dokuwiki .page h4 {margin-left: 0; margin-right: 3em;}
+[dir=rtl] .dokuwiki .page h5 {margin-left: 0; margin-right: 4.5712em;}
+[dir=rtl] .dokuwiki .page div.level1 {margin-left: 0; margin-right: 0;}
+[dir=rtl] .dokuwiki .page div.level2 {margin-left: 0; margin-right: 1em;}
+[dir=rtl] .dokuwiki .page div.level3 {margin-left: 0; margin-right: 2em;}
+[dir=rtl] .dokuwiki .page div.level4 {margin-left: 0; margin-right: 3em;}
+[dir=rtl] .dokuwiki .page div.level5 {margin-left: 0; margin-right: 4em;}
 */
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$wiki_existing\".\A         on line 40 of /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/content.scss"; }
+/* hx margin-left = (1 / font-size) * .levelx-margin */
+/*____________ links to wiki pages (addition to _links) ____________*/
+/* existing wikipage */
+/* line 42, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki a.wikilink1 {
+  color: #008800;
+  background-color: inherit;
+}
+
+/* not existing wikipage */
+/* line 47, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki a.wikilink2 {
+  color: #dd3300;
+  background-color: inherit;
+}
+
+/*____________ images ____________*/
+/* embedded images (styles are already partly set in lib/styles/all.css) */
+/* line 56, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki img.media {
+  margin: .2em 0;
+}
+
+/* line 59, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki img.medialeft {
+  margin: .2em 1em .2em 0;
+}
+
+/* line 62, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki img.mediaright {
+  margin: .2em 0 .2em 1em;
+}
+
+/* line 65, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki img.mediacenter {
+  margin: .2em auto;
+}
+
+/*____________ lists ____________*/
+/* line 73, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__content ul li,
+#dokuwiki__aside ul li {
+  color: #999999;
+}
+
+/* line 77, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__content ol li,
+#dokuwiki__aside ol li {
+  color: #666666;
+}
+
+/* line 81, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__content li .li,
+#dokuwiki__aside li .li {
+  color: #333333;
+}
+
+/*____________ tables ____________*/
+/* div around each table */
+/* line 89, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.table {
+  overflow-x: auto;
+  margin-bottom: 1.4em;
+}
+
+/* line 93, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.table table {
+  margin-bottom: 0;
+}
+
+/* line 97, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki table.inline {
+  min-width: 50%;
+}
+
+/* line 101, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki table.inline tr td,
+.dokuwiki table.inline tr td.label {
+  background-color: transparent;
+  color: #2f353d;
+  text-transform: none;
+  padding-right: 10px;
+  font-size: 12px;
+}
+
+/* line 110, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki .donts-table table.inline tr td,
+.dokuwiki .donts-table table.inline tr td.label {
+  color: #83838f;
+  font-size: 10px;
+  padding-bottom: 8px;
+}
+
+/* line 116, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki table.inline tr:hover td,
+.dokuwiki table.inline tr:hover td.label {
+  background-color: transparent;
+}
+
+/* line 120, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki table.inline tr:hover th,
+.dokuwiki table.inline tr:hover th.label {
+  background-color: transparent;
+}
+
+/*____________ code ____________*/
+/* fix if background-color hides underlining */
+/* line 128, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki em.u code {
+  text-decoration: underline;
+}
+
+/* for code in <file> */
+/* filenames for downloadable file and code blocks */
+/* line 142, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki dl.code dt,
+.dokuwiki dl.file dt {
+  background-color: #fbfaf9;
+  background: -moz-linear-gradient(top, #eeeeee 0%, #fbfaf9 100%);
+  background: -webkit-linear-gradient(top, #eeeeee 0%, #fbfaf9 100%);
+  background: -o-linear-gradient(top, #eeeeee 0%, #fbfaf9 100%);
+  background: -ms-linear-gradient(top, #eeeeee 0%, #fbfaf9 100%);
+  background: linear-gradient(top, #eeeeee 0%, #fbfaf9 100%);
+  color: inherit;
+  border: 1px solid #cccccc;
+  border-bottom-color: #fbfaf9;
+  border-top-left-radius: .3em;
+  border-top-right-radius: .3em;
+  padding: .3em .6em .1em;
+  margin-bottom: -1px;
+  float: left;
+}
+
+/* line 159, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .dokuwiki dl.code dt,
+[dir=rtl] .dokuwiki dl.file dt {
+  float: right;
+}
+
+/* line 163, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki dl.code dt a,
+.dokuwiki dl.file dt a {
+  background-color: transparent;
+  font-size: 0.875em;
+  font-weight: normal;
+  display: block;
+  min-height: 16px;
+}
+
+/* line 172, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki dl.code dd,
+.dokuwiki dl.file dd {
+  margin: 0;
+  clear: left;
+  min-height: 1px;
+  /* for IE7 */
+}
+
+/* line 178, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .dokuwiki dl.code dd,
+[dir=rtl] .dokuwiki dl.file dd {
+  clear: right;
+}
+
+/* line 183, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki dl.code pre,
+.dokuwiki dl.file pre {
+  box-shadow: inset -4px -4px 0.5em -0.3em #cccccc;
+}
+
+/*____________ JS popup ____________*/
+/* line 190, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.JSpopup {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #cccccc;
+  box-shadow: 0.1em 0.1em 0.1em #cccccc;
+  border-radius: 2px;
+  padding: .3em .5em;
+  font-size: .9em;
+}
+
+/* line 199, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki form.search div.ajax_qsearch {
+  top: -0.35em;
+  font-size: 1em;
+  text-overflow: ellipsis;
+}
+
+/* line 206, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.JSpopup ul,
+.JSpopup ol {
+  padding-left: 0;
+}
+
+/* line 210, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .JSpopup ul,
+[dir=rtl] .JSpopup ol {
+  padding-right: 0;
+}
+
+/* changes to underscored CSS files
+********************************************************************/
+/* line 218, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#acl__tree li {
+  margin: 0;
+}
+
+/* line 222, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__content span.curid a {
+  font-weight: normal;
+}
+
+/* line 225, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__content strong span.curid a {
+  font-weight: bold;
+}
+
+/*____________ changes to _edit ____________*/
+/* line 232, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.toolbar button.toolbutton {
+  border-radius: 0;
+  border-left-width: 0;
+  padding: .1em .35em;
+}
+
+/* line 237, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.toolbar button.toolbutton:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-left-width: 1px;
+}
+
+/* line 242, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .dokuwiki div.toolbar button.toolbutton:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-left-width: 0;
+  border-right-width: 1px;
+}
+
+/* line 250, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.toolbar button.toolbutton:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* line 254, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .dokuwiki div.toolbar button.toolbutton:last-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-left-width: 1px;
+}
+
+/* line 262, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.section_highlight {
+  margin: 0 -2em;
+  padding: 0 1em;
+  border-width: 0 1em;
+}
+
+/* line 268, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki textarea.edit {
+  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Bitstream Vera Sans Mono", "Nimbus Mono L", Monaco, "Courier New", monospace;
+}
+
+/* line 272, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.preview {
+  margin: 0 -2em;
+  padding: 0 2em;
+}
+
+/* line 276, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki.hasSidebar div.preview {
+  border-right: 16em solid #eeeeee;
+}
+
+/* line 279, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] .dokuwiki.hasSidebar div.preview {
+  border-right-width: 0;
+  border-left: 16em solid #eeeeee;
+}
+
+/* line 283, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki div.preview div.pad {
+  padding: 1.556em 0 2em;
+}
+
+/*____________ changes to _toc ____________*/
+/* line 292, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki h3.toggle {
+  padding: .5em 1em;
+  margin-bottom: 0;
+  font-size: .875em;
+  letter-spacing: .1em;
+}
+
+/* line 298, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__aside h3.toggle {
+  display: none;
+}
+
+/* line 302, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki .toggle strong {
+  background: transparent url(../img/wiki/tpl/toc-arrows.png) 0 0;
+  width: 8px;
+  height: 5px;
+  margin: .4em 0 0;
+}
+
+/* line 308, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki .toggle.closed strong {
+  background-position: 0 -5px;
+}
+
+/* line 312, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+.dokuwiki .toggle strong span {
+  display: none;
+}
+
+/* line 317, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc > div {
+  font-size: 0.875em;
+  padding: .5em 1em 1em;
+}
+
+/* line 321, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc ul {
+  padding: 0 0 0 1.2em;
+}
+
+/* line 324, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] #dw__toc ul {
+  padding: 0 1.5em 0 0;
+}
+
+/* line 327, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc ul li {
+  list-style-image: url(../img/wiki/tpl/toc-bullet.png);
+}
+
+/* line 330, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc ul li.clear {
+  list-style: none;
+}
+
+/* line 333, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dw__toc ul li div.li {
+  padding: .2em 0;
+}
+
+/*____________ changes to _imgdetail ____________*/
+/* line 340, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail {
+  padding: 0;
+}
+
+/* line 343, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail img {
+  float: none;
+  margin-bottom: 1.4em;
+}
+
+/* line 347, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail div.img_detail {
+  float: none;
+}
+
+/* line 351, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail div.img_detail dl {
+  overflow: hidden;
+}
+
+/* line 354, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail div.img_detail dl dt {
+  float: left;
+  width: 9em;
+  text-align: right;
+  clear: left;
+}
+
+/* line 360, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] #dokuwiki__detail div.img_detail dl dt {
+  float: right;
+  text-align: left;
+  clear: right;
+}
+
+/* line 365, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__detail div.img_detail dl dd {
+  margin-left: 9.5em;
+}
+
+/* line 368, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+[dir=rtl] #dokuwiki__detail div.img_detail dl dd {
+  margin-left: 0;
+  margin-right: 9.5em;
+}
+
+/* line 384, ../../../../src/packages/docs/css/_wiki/tpl/content.scss */
+#dokuwiki__top > #main > .grid {
+  position: relative;
+}
