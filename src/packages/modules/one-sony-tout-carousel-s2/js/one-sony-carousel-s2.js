@@ -53,10 +53,9 @@ define(function(require){
 
       var self = this;
 
-      self.$container.sonyCarousel({
-        $wrapper: self.$container,
-        $draggable: self.$innerContainer,
-        $slides: self.$slides,
+      self.$innerContainer.sonyCarousel({
+        wrapper: '.soc-container',
+        slides: '.soc-content',
         slideChildren: '.soc-item',
         defaultLink: '.headline a',
         axis: 'x',
@@ -91,7 +90,7 @@ define(function(require){
         self.renderDesktop();
       }
 
-      self.$container.sonyCarousel('gotoSlide', 0);
+      self.$innerContainer.sonyCarousel('gotoSlide', 0);
     },
 
     'bindEvents': function() {
@@ -114,7 +113,7 @@ define(function(require){
 
       self.$innerContainer.empty().append($newSlides);
 
-      self.$container.sonyCarousel('setSlides', $newSlides);
+      self.$innerContainer.sonyCarousel('resetSlides');
     },
 
     // Splits the default layout into slides with children each of column width
@@ -136,7 +135,7 @@ define(function(require){
         self.$innerContainer.append(newItem);
       }
 
-      self.$container.sonyCarousel('setSlides', self.$innerContainer.find('.soc-content'));
+      self.$innerContainer.sonyCarousel('resetSlides');
     }
 
   };

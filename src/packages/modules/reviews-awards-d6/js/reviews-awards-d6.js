@@ -64,9 +64,8 @@ define(function(require){
       var self = this;
 
       self.$el.find('.carousel-slide').sonyCarousel({
-        $wrapper: self.$el.find('.raa-user-reviews-carousel'),
-        $draggable: self.$el.find('.carousel-slide'),
-        $slides: self.$el.find('.user-ratings, .raa-social-mentions > div'),
+        wrapper: '.raa-user-reviews-carousel',
+        slides: '.user-ratings, .raa-social-mentions > div',
         axis: 'x',
         unit: '%',
         dragThreshold: 10,
@@ -76,9 +75,8 @@ define(function(require){
       });
 
       self.$el.find('.raa-expert-reviews > div').sonyCarousel({
-        $wrapper: self.$el.find('.raa-expert-reviews'),
-        $draggable: self.$el.find('.raa-expert-reviews > div'),
-        $slides: self.$el.find('.raa-expert-review'),
+        wrapper: '.raa-expert-reviews',
+        slides: '.raa-expert-review',
         axis: 'x',
         unit: '%',
         dragThreshold: 10,
