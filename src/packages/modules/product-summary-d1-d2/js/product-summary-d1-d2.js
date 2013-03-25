@@ -95,7 +95,6 @@ define(function(require) {
 
       // Setup that can be deferred
       setTimeout(function() {
-
         self.$shareLink.on('focus', function() {
           var input = this;
 
@@ -107,9 +106,10 @@ define(function(require) {
         });
 
         // Init sticky nav
+        var offsetFromTarget = 15;
         self.$stickyNav.stickyNav({
           $jumpLinks: self.$jumpLinks,
-          offset: self.stickyNavHeight + 10,
+          offset: 10,
           offsetTarget: self.$el.find('.jump-links:not(.nav)')
         });
 
@@ -123,8 +123,6 @@ define(function(require) {
       if ( !self.isMobile ) {
         self.$evenCols.evenHeights();
       }
-
-      self.stickyNavHeight = self.$stickyNav.height();
     },
 
     _onFavorite : function( evt ) {

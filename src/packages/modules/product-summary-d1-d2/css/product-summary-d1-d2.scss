@@ -106,43 +106,29 @@
     color: $gray50;
   }
 
+  .open .share-trigger > span,
+  .open .share-trigger > span i,
   .no-touch & .price-content a:hover > span,
   .no-touch & .price-content a:hover .fonticon-10-arrowhead-down,
   .no-touch & .price-content a:hover .fonticon-10-favorite {
     color: $linkBlue;
   }
 
-  .modal .modal-inner {
-    overflow: visible;
-  }
-
-  .modal .share-menu {
-    display: block;
-    position: relative;
-    z-index: 1;
-    margin: auto;
-    float: none;
-    width: px-em(203);
-
-    // Hide arrow
-    &:before {
-      content: none;
-    }
-  }
-
-
 }
 
 // Product summary sticky nav
 .ps-sticky-nav {
   .product-img {
+    overflow: hidden;
     margin-top: px-em(6);
     margin-bottom: px-em(6);
     max-width: px-em(96);
     max-height: px-em(60);
 
+    // Don't let the image exceed 100% of the parent's height
     img {
-      max-height: 100%;
+      // max-height: 100%;
+      max-height: px-em(60); // firefox why u no like 100%?!
     }
   }
 
@@ -164,11 +150,6 @@
   .grid {
     position: relative;
   }
-
-  // THIS WILL PROBABLY CHANGE WITH THE BUTTON SIZE
-  // .jump-links {
-  //   padding-top: 4px;
-  // }
 
   .jump-links {
     position: absolute;

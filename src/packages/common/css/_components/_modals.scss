@@ -211,3 +211,25 @@ $modalHeight: 550px;
     @include lightGrayInset( $gray90 );
   }
 }
+
+
+// For the share dropdown in a modal window
+.share-tool .modal-inner {
+  overflow: visible;
+}
+
+.share-tool .share-menu {
+  display: block;
+  position: relative;
+  z-index: 1;
+  margin: auto;
+  float: none;
+  width: px-em(203);
+  border: 0;
+
+  // Hide arrow
+  &:before {
+    content: none;
+  }
+}
+

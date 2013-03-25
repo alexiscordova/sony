@@ -652,13 +652,13 @@ else if data.view == 'summary'
           a.ib.space-right.js-favorite(href="#")
             span.p3= data.favoriteText
             +heart()
-          a.ib.js-share(data-toggle="dropdown", href="#")
+          a.ib.js-share.share-trigger(data-toggle="dropdown", href="#")
             span.p3= data.shareText
             span.arrow-holder
               i.fonticon-10-arrowhead-down
           +shareMenu( data.socialButtons, data.shortLink )
 
-  #share-tool.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+  #share-tool.share-tool.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
     .modal-inner.transparent
       +shareMenu( data.socialButtons, data.shortLink, true )
 

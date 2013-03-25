@@ -331,11 +331,23 @@
   }
 
   .input-holder input {
+    display: block;
     margin: 0;
     padding-top: 0;
     padding-bottom: 0;
     width: auto;
     height: 33px;
+
+    // Input not extending 100%
+    .lt-ie10 & {
+      width: 167px;
+    }
+
+    // IE8 not vertically aligning input text... but when I toggle some styles
+    // then put them back, it works...
+    .lt-ie9 & {
+
+    }
   }
 
   .input-holder .link-icon {
