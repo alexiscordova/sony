@@ -547,21 +547,12 @@ define(function(require){
   // Returns the URL of an image
   // If reload is true, a timestamp is added to avoid caching.
 
-  getImageSrc = function(img, breakpointName, reload) {
-    var src = ($(img).data('base') || base) + pathTemplate,
-        fileName = ($(img).data('src') || EMPTYSTRING).split('.');
+  getImageSrc = function(img, breakpointName) {
+    var isHighRes = (bandwidth === HIGH && devicePixelRatio >= minDevicePixelRatio),
+        standardResSrc = $(img).data('src-' + breakpointName),
+        highResSrc = $(img).data('src-' + breakpointName + '-highres');
 
-    src = src.replace(BREAKPOINT_NAME_REGEX, breakpointName);
-    src = src.replace(FILE_NAME_REGEX, fileName[0]);
-    src = src.replace(FILE_EXT_REGEX, fileName[1]);
-    src = src.replace(HIGH_RES_REGEX, (bandwidth === HIGH && devicePixelRatio >= minDevicePixelRatio)? highResPathSuffix : EMPTYSTRING);
-
-    // if (reload) {
-      // src += (QUESTION_MARK_REGEX.test(src) ? '&' : '?');
-      // src += 'riloadrts='+(new Date).getTime();
-    // }
-
-    return src;
+    return (isHighRes && highResSrc) ? highResSrc : standardResSrc;
   },
 
   // Tells if an image is visible to the user or not.
