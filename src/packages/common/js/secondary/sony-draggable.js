@@ -28,7 +28,8 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr');
+      Modernizr = require('modernizr'),
+      Utilities = require('require/sony-global-utilities');
 
   var _startEvents = 'mousedown.sonyDraggable touchstart.sonyDraggable',
       _endEvents = 'mouseup.sonyDraggable touchend.sonyDraggable',
@@ -238,8 +239,8 @@ define(function(require){
       }
 
       if ( self.bounds ) {
-        newX = self.bounds.x ? SONY.Utilities.constrain( newX, self.bounds.x.min, self.bounds.x.max ) : newX;
-        newY = self.bounds.y ? SONY.Utilities.constrain( newY, self.bounds.y.min, self.bounds.y.max ) : newY;
+        newX = self.bounds.x ? Utilities.constrain( newX, self.bounds.x.min, self.bounds.x.max ) : newX;
+        newY = self.bounds.y ? Utilities.constrain( newY, self.bounds.y.min, self.bounds.y.max ) : newY;
       }
 
       // TODO: For CSS3, translate is relative to the width of the element itself. This works fine for carousels

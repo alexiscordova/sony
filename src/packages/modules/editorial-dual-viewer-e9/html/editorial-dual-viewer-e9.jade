@@ -1,0 +1,18 @@
+
+section(class='mode-'+data.mode.toLowerCase()).edv.container
+
+  header
+    h2 #{data.header.title}
+    p #{data.header.description}
+    a(href = data.header.linkURL) Learn more
+
+  div.edv-images
+    - for (var i = 0; i < 2 && i < data.images.length; i++)
+      edvImage = data.images[i]
+      figure(class='image-'+(i+1)).edv-image
+        div.edv-image-wrapper.iq-img(data-src=edvImage.src)
+          span
+          img.iq-img(data-src=edvImage.src)
+        figcaption #{edvImage.title}
+    div.edv-scrubber-container
+      a.edv-scrubber(href="#", title="Alternate between images.") Scrub
