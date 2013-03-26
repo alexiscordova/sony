@@ -238,8 +238,26 @@ mixin compareGallery( submodules, gallery, type, labels )
   gallery = gallery || data.productCards
   type = type || 'product'
   labels = labels || data.labels
+
+  label = gallery.galleryName || 'Compare Things'
+  legend = gallery.legend || 'this is defined in gallery.legend'
+  resetLabel = gallery.resetLabel || 'do things'
+
+
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
     +galleryFilters( gallery, true )
+
+    .tone-bar
+      .container
+        .grid
+          .pull-left
+            h2.t6.pull-left.compare-gallery-title= label
+            i.swatch-lemon.mini-swatch
+            span.p5
+              em!= '&nbsp;' + legend
+          a.pull-right.compare-reset.lt4.js-compare-reset.js-clear-filters.disabled(href="#")
+            i.fonticon-10-circlearrow
+            span= resetLabel
 
     .container
       .products.slimgrid.no-grid-at-767
@@ -247,10 +265,12 @@ mixin compareGallery( submodules, gallery, type, labels )
           d = locals.data(module.data)
           if d.type == type && !d.promo
             - d.view = "compare"
-            e = { "locals" : locals, "data" : d }
+            e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
             !{locals.partial( module.type, e )}
 
     +zeroProductsMessage( gallery )
+
+
 
 mixin galleryStickyTabs( tabs, moduleName, moduleId )
   .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel", data-module-name=moduleName, data-module-id=moduleId)
@@ -324,25 +344,25 @@ mixin productStrips( submodules, strips, type )
                 - count += 1
 
 
-mixin compareToolModal()
-  label = 'Compare'
-  legend = 'Highlights indicate highest performance features'
-  resetLabel = 'Reset'
+//- mixin compareToolModal()
+//-   label = 'Compare'
+//-   legend = 'Highlights indicate highest performance features'
+//-   resetLabel = 'Reset'
 
-  #compare-tool.modal.takeover.hide.fade(tabindex="-1", role="dialog", aria-labelledby="compare-tool-label", aria-hidden="true")
-    .modal-inner
-      .modal-header.container(data-reset-label=resetLabel)
-        h3.t3.pull-left#compare-tool-label= label
-        button.box-close(data-dismiss="modal", aria-hidden="true")
-          i.fonticon-10-x-skinny
-      .modal-body
-        .container.compare-key
-          div
-            i.swatch-lemon.mini-swatch
-            span.p4!= '&nbsp;' + legend
-      .takeover-sticky-header
-        .container.relative
-          h6.t6-light.sticky-nav-title
-          button.box-close(data-dismiss="modal", aria-hidden="true")
-            i.fonticon-10-x-skinny
+//-   #compare-tool.modal.takeover.hide.fade(tabindex="-1", role="dialog", aria-labelledby="compare-tool-label", aria-hidden="true")
+//-     .modal-inner
+//-       .modal-header.container(data-reset-label=resetLabel)
+//-         h3.t3.pull-left#compare-tool-label= label
+//-         button.box-close(data-dismiss="modal", aria-hidden="true")
+//-           i.fonticon-10-x-skinny
+//-       .modal-body
+//-         .container.compare-key
+//-           div
+//-             i.swatch-lemon.mini-swatch
+//-             span.p4!= '&nbsp;' + legend
+//-       .takeover-sticky-header
+//-         .container.relative
+//-           h6.t6-light.sticky-nav-title
+//-           button.box-close(data-dismiss="modal", aria-hidden="true")
+//-             i.fonticon-10-x-skinny
 

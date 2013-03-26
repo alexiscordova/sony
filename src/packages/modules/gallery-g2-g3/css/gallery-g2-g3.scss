@@ -529,8 +529,34 @@
 //                                   888
 
 
-.compare-key {
-  margin-bottom: 1.125em;
+.tone-bar {
+  padding-top: 1.125em;
+  padding-bottom: 1.5625em;
+  background: $gray80;
+
+  .mini-swatch {
+    vertical-align: middle;
+  }
+}
+
+.compare-gallery-title {
+  margin-right: 1em;
+  margin-bottom: 0;
+}
+
+.compare-reset {
+  display: block;
+  color: $gray20;
+
+  &.disabled {
+    color: $gray50;
+  }
+
+  i {
+    position: relative;
+    font-size: 16px; // don't get font size from the font
+    margin-right: .4375em;
+  }
 }
 
 // Holds labels and compare-items
@@ -599,10 +625,13 @@
 // Compare Items
 .compare-item {
   position: relative;
-  margin-left: .1875em;
   background: $white;
   color: $gray20;
   @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
+
+  .gallery & {
+    margin: 0;
+  }
 
   &.faded {
     opacity: 0;
@@ -610,6 +639,10 @@
 
   &.no-width {
     width: 0;
+  }
+
+  .product-img {
+    text-align: center;
   }
 
   .compare-sticky-header .product-name-wrap {
@@ -630,6 +663,18 @@
     min-height: 2.5em;
     padding-right: 1.25em;
     padding-left: 1.25em;
+
+    // Copy paste the .visuallyhidden class
+    .cell-label {
+      border: 0;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
   }
 
   .detail.highlighted {

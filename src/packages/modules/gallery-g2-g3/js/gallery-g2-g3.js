@@ -37,7 +37,10 @@ define(function(require){
 
           // Stagger gallery initialization
           setTimeout(function() {
+            var id = $this.attr('id').substring( 0, $this.attr('id').lastIndexOf('-') );
+            // console.time( id );
             $this.gallery( $this.data() );
+            // console.timeEnd( id );
           }, 0);
         });
 
@@ -101,6 +104,7 @@ define(function(require){
     self.isCompareMode = self.mode === 'compare';
 
     self.$compareBtn = self.$container.find('.js-compare-toggle');
+    self.$compareReset = self.$container.find('.js-compare-reset');
     self.itemSelector = '.' + ( self.isCompareMode ? 'compare' : 'gallery' ) + '-item';
     self.$items = self.$grid.find( self.itemSelector );
 
@@ -696,7 +700,14 @@ define(function(require){
       var self = this;
 
       // Add events to close buttons
-      self.$items.find('.compare-item-remove').on('click', $.proxy( self.hideCompareItem, self ));
+      self.$items.find('.js-remove-item').on('click', function( evt ) {
+        $.when( self.hideCompareItem( evt ) ).always(function() {
+          self.onCompareFiltered();
+        });
+      });
+
+      // Reset button
+      self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
     },
 
     initShuffle : function() {
@@ -1656,7 +1667,7 @@ define(function(require){
 
       // Don't change columns for detail galleries
       // Change the filters column layout
-      if ( self.isDetailedMode ) {
+      if ( self.isDetailedMode || self.isCompareMode ) {
         // Remove heights in case they've aready been set
         if ( Modernizr.mq('(max-width: 47.9375em)') ) {
           self.$gridProductNames.css('height', '');
@@ -1738,7 +1749,9 @@ define(function(require){
 
       self.fixCarousels();
 
-      self.sortByPriority();
+      if ( self.isEditorialMode ) {
+        self.sortByPriority();
+      }
     },
 
     getFavoriteContent : function( $jsFavorite, isActive ) {
@@ -2166,37 +2179,35 @@ define(function(require){
     //   return self;
     // },
 
-    // onCompareReset : function() {
-    //   var self = this,
-    //       state = self.compareState;
+    onCompareReset : function( evt ) {
+      var self = this;
 
-    //   if ( self.$compareReset.hasClass('disabled') || self.$compareTool.data('galleryId') !== self.id ) {
-    //     return;
-    //   }
+      evt.preventDefault();
 
-    //   self.$compareCount.text( state.count );
-    //   state.$items
-    //     .find('.compare-item-remove')
-    //     .parent()
-    //     .addBack()
-    //     .removeClass('hide faded no-width');
+      if ( self.$compareReset.hasClass('disabled') ) {
+        evt.stopImmediatePropagation();
+        return self;
+      }
 
-    //   // Disable reset button
-    //   self.$compareReset.addClass('disabled').removeClass('active');
+      // self.$items
+      //   .find('.compare-item-remove')
+      //   .parent()
+      //   .addBack()
+      //   .removeClass('hide faded no-width');
 
-    //   // Reset sort
-    //   self.updateSortDisplay( self.$compareTool );
+      // Disable reset button
+      self.$compareReset.addClass('disabled').removeClass('active');
 
-    //   // Set container width
-    //   self.setCompareWidth();
+      // Set container width
+      // self.setCompareWidth();
 
-    //   // Reset iscroll
-    //   self.innerScroller.refresh();
+      // Reset iscroll
+      // self.innerScroller.refresh();
 
-    //   self.afterCompareScrolled( self.innerScroller );
+      // self.afterCompareScrolled( self.innerScroller );
 
-    //   return self;
-    // },
+      return self;
+    },
 
     showCompareItem : function( $item ) {
       var dfd = new $.Deferred();
@@ -2269,73 +2280,75 @@ define(function(require){
       return dfd.promise();
     },
 
-    onCompareItemRemove : function( evt ) {
-      var self = this,
-          remaining,
-          $compareItem = $(evt.target).closest('.compare-item');
+    // onCompareItemRemove : function( evt ) {
+    //   var self = this,
+    //       remaining,
+    //       $compareItem = $(evt.target).closest('.compare-item');
 
-      function afterHidden() {
-        // console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName);
-        // Hide the column
-        $compareItem.addClass('hide');
+    //   console.log('on compare item remove');
 
-        // Make sure we can press reset
-        self.$compareReset.removeClass('disabled').addClass('active');
+    //   function afterHidden() {
+    //     // console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName);
+    //     // Hide the column
+    //     $compareItem.addClass('hide');
 
-        // Get remaining
-        remaining = self.$compareItems.not('.hide').length;
+    //     // Make sure we can press reset
+    //     self.$compareReset.removeClass('disabled').addClass('active');
 
-        // Set remaining text
-        self.$compareCount.text( remaining );
+    //     // Get remaining
+    //     remaining = self.$compareItems.not('.hide').length;
 
-        // Hide close button if there are only 2 left
-        if ( remaining < 3 ) {
-          self.$compareTool.find('.compare-item-remove').addClass('hide');
-        }
+    //     // Set remaining text
+    //     self.$compareCount.text( remaining );
 
-        self.setCompareWidth();
-        self.innerScroller.refresh();
-        self.afterCompareScrolled( self.innerScroller );
+    //     // Hide close button if there are only 2 left
+    //     if ( remaining < 3 ) {
+    //       self.$compareTool.find('.compare-item-remove').addClass('hide');
+    //     }
 
-        // Maybe they haven't scrolled horizontally to see other images
-        iQ.update();
-      }
+    //     self.setCompareWidth();
+    //     self.innerScroller.refresh();
+    //     self.afterCompareScrolled( self.innerScroller );
 
-      function noWidth() {
-        // console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName );
-        $compareItem
-          .one( $.support.transition.end, afterHidden )
-          .addClass('no-width');
-      }
+    //     // Maybe they haven't scrolled horizontally to see other images
+    //     iQ.update();
+    //   }
 
-      if ( Modernizr.csstransitions ) {
-        // console.log('adding opacity:0');
-        $compareItem
-          .one( $.support.transition.end, noWidth )
-          .addClass('faded');
-      } else {
-        afterHidden();
-      }
+    //   function noWidth() {
+    //     // console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName );
+    //     $compareItem
+    //       .one( $.support.transition.end, afterHidden )
+    //       .addClass('no-width');
+    //   }
 
-      return self;
-    },
+    //   if ( Modernizr.csstransitions ) {
+    //     // console.log('adding opacity:0');
+    //     $compareItem
+    //       .one( $.support.transition.end, noWidth )
+    //       .addClass('faded');
+    //   } else {
+    //     afterHidden();
+    //   }
+
+    //   return self;
+    // },
 
     onCompareFiltered : function() {
       var self = this,
-          remaining;
+          total = self.$items.length,
+          remaining = self.$items.not('.hide').length;
 
-      // Make sure we can press reset
-      self.$compareReset.removeClass('disabled').addClass('active');
 
-      // Get remaining
-      remaining = self.$items.not('.hide').length;
+      if ( total !== remaining ) {
+        self.$compareReset.removeClass('disabled').addClass('active');
+      }
 
       // Set remaining text
-      // self.$compareCount.text( remaining );
+
 
       // Hide close button if there are only 2 left
       if ( remaining < 3 ) {
-        self.$grid.find('.compare-item-remove').addClass('hide');
+        self.$grid.find('.js-remove-item').addClass('hide');
       }
 
       // self.setCompareWidth();
