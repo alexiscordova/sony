@@ -192,19 +192,15 @@ define(function(require){
 
             self.fire('filter');
 
-            // Default is to show all items
-            // $items.removeClass('concealed filtered');
-
             // Loop through each item and use provided function to determine
             // whether to hide it or not.
             if ( $.isFunction(category) ) {
                 $items.each(function() {
                     var $item = $(this),
                     passes = category.call($item[0], $item, self);
-                    // $item.addClass(passes ? 'filtered' : 'concealed');
 
                     if ( passes ) {
-                        $filtered = $filtered.add($item);
+                        $filtered = $filtered.add( $item );
                     }
                 });
             }
@@ -218,12 +214,9 @@ define(function(require){
                         groups = $this.data('groups'),
                         keys = self.delimeter && !$.isArray( groups ) ? groups.split( self.delimeter ) : groups,
                         passes = $.inArray(category, keys) > -1;
-                        // theClass = passes ? 'concealed' : 'filtered';
-
-                        // $this.addClass( theClass );
 
                         if ( passes ) {
-                            $filtered = $filtered.add($this);
+                            $filtered = $filtered.add( $this );
                         }
                     });
                 }
@@ -231,31 +224,32 @@ define(function(require){
                 // category === 'all', add filtered class to everything
                 else {
                     $filtered = $items;
-                    // $filtered = $items.addClass('filtered');
                 }
             }
 
             // Individually add/remove concealed/filtered classes
+            var concealed = 'concealed',
+                filtered = 'filtered';
             $items.filter( $filtered ).each(function() {
                 var $filteredItem = $(this);
                 // Remove concealed if it's there
-                if ( $filteredItem.hasClass('concealed') ) {
-                    $filteredItem.removeClass('concealed');
+                if ( $filteredItem.hasClass( concealed ) ) {
+                    $filteredItem.removeClass( concealed );
                 }
                 // Add filtered class if it's not there
-                if ( !$filteredItem.hasClass('filtered') ) {
-                    $filteredItem.addClass('filtered');
+                if ( !$filteredItem.hasClass( filtered ) ) {
+                    $filteredItem.addClass( filtered );
                 }
             });
             $items.not( $filtered ).each(function() {
                 var $filteredItem = $(this);
                 // Add concealed if it's not there
-                if ( !$filteredItem.hasClass('concealed') ) {
-                    $filteredItem.addClass('concealed');
+                if ( !$filteredItem.hasClass( concealed ) ) {
+                    $filteredItem.addClass( concealed );
                 }
                 // Remove filtered class if it's there
-                if ( $filteredItem.hasClass('filtered') ) {
-                    $filteredItem.removeClass('filtered');
+                if ( $filteredItem.hasClass( filtered ) ) {
+                    $filteredItem.removeClass( filtered );
                 }
             });
 
@@ -870,7 +864,7 @@ define(function(require){
                 return;
             }
 
-            if (!category) {
+            if ( !category ) {
                 category = 'all';
             }
 
