@@ -528,73 +528,66 @@
 //                                   888
 //                                   888
 
-// Compare Tool
-// -------------------------
 
-// .modal-subheader {
-//   clear: both;
+.tone-bar {
+  padding-top: 1.125em;
+  padding-bottom: 1.5625em;
+  background: $gray80;
 
-//   .takeover .modal-header & {
-//     margin: 0;
-//   }
+  .mini-swatch {
+    vertical-align: middle;
+  }
+}
 
-//   .btn-reset {
-//     float: right;
-//   }
+.compare-gallery-title {
+  margin-right: 1em;
+  margin-bottom: 0;
+}
 
-//   .sort-options {
-//     float: left;
-//     margin-top: 0;
-//     clear: none;
+.compare-reset {
+  display: block;
+  color: $gray20;
 
-//     .filter-label {
-//       display: inline-block;
-//       margin-bottom: 0;
-//       padding-right: 4px;
-//     }
+  &.disabled {
+    color: $gray50;
+  }
 
-//     .touch & .native-dropdown,
-//     .no-touch & .dropdown {
-//       max-width: 130px;
-//       display: inline-block;
-//     }
+  i {
+    position: relative;
+    font-size: 16px; // don't get font size from the font
+    margin-right: .4375em;
+  }
+}
 
-//   }
-// }
+// Holds labels and compare-items
+.compare-container {
+  padding-bottom: 5em;
 
-// .compare-key {
-//   margin-bottom: 1.125em;
-// }
+  // Show the navigation
+  &:hover .compare-nav {
+    opacity: 1;
+  }
 
-// // Holds labels and compare-items
-// .compare-container {
-//   padding-bottom: 5em;
+  .no-opacity &:hover .compare-nav {
+    display: block;
+  }
+}
 
-//   // Show the navigation
-//   &:hover .compare-nav {
-//     opacity: 1;
-//   }
+// Wrapper for the items in the compare tool. Sibling of the labels.
+.compare-items-wrap {
+  position: relative;
+  height: 100%; // Get parent's height
+  overflow: visible !important; // override iscroll
 
-//   .no-opacity &:hover .compare-nav {
-//     display: block;
-//   }
-// }
+  // .lt-ie9 &,
+  // .sonytablets & {
+  //   overflow: hidden !important;
+  // }
+}
 
-// // Wrapper for the items in the compare tool. Sibling of the labels.
-// .compare-items-wrap {
-//   position: relative;
-//   height: 100%; // Get parent's height
-//   overflow: visible !important; // override iscroll
-
-//   // .lt-ie9 &,
-//   // .sonytablets & {
-//   //   overflow: hidden !important;
-//   // }
-// }
-
-// .compare-items-container {
-//   height: 100%;
-// }
+.compare-items-container {
+  height: 100%;
+}
 
 // .compare-nav {
 //   position: absolute;
@@ -629,59 +622,78 @@
 //   }
 // }
 
-// // Compare Items
-// .compare-item {
-//   position: relative;
-//   margin-left: .1875em;
-//   background: $white;
-//   color: $gray20;
-//   @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
+// Compare Items
+.compare-item {
+  position: relative;
+  background: $white;
+  color: $gray20;
+  @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
 
-//   &.faded {
-//     opacity: 0;
-//   }
+  .gallery & {
+    margin: 0;
+  }
 
-//   &.no-width {
-//     width: 0;
-//   }
+  &.faded {
+    opacity: 0;
+  }
 
-//   .compare-sticky-header .product-name-wrap {
-//     padding-right: 2.5em;
-//   }
+  &.no-width {
+    width: 0;
+  }
 
-//   .product-content .product-name-wrap,
-//   .product-rating,
-//   .product-price,
-//   .color-swatches {
-//     margin-bottom: 1.25em;
-//     padding-right: 1.25em;
-//     padding-left: 1.25em;
-//   }
+  .product-img {
+    text-align: center;
+  }
 
-//   .detail {
-//     color: $gray20;
-//     min-height: 2.5em;
-//     padding-right: 1.25em;
-//     padding-left: 1.25em;
-//   }
+  .compare-sticky-header .product-name-wrap {
+    padding-right: 2.5em;
+  }
 
-//   .detail.highlighted {
-//     background: $lemon;
-//   }
+  .product-content .product-name-wrap,
+  .product-rating,
+  .product-price,
+  .color-swatches {
+    margin-bottom: 1.25em;
+    padding-right: 1.25em;
+    padding-left: 1.25em;
+  }
 
-//   .media p:not(.media-heading) {
-//     color: $gray40;
-//   }
+  .detail {
+    color: $gray20;
+    min-height: 2.5em;
+    padding-right: 1.25em;
+    padding-left: 1.25em;
 
-//   .product-model {
-//     color: $gray40;
-//   }
+    // Copy paste the .visuallyhidden class
+    .cell-label {
+      border: 0;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+  }
 
-//   .product-name,
-//   .product-model {
-//     margin-bottom: 0;
-//   }
-// }
+  .detail.highlighted {
+    background: $lemon;
+  }
+
+  .media p:not(.media-heading) {
+    color: $gray40;
+  }
+
+  .product-model {
+    color: $gray40;
+  }
+
+  .product-name,
+  .product-model {
+    margin-bottom: 0;
+  }
+}
 
 // .takeover-sticky-header {
 //   position: absolute;
