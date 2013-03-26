@@ -24,6 +24,7 @@ define(function(require){
         enquire = require('enquire'),
         sonyScroller = require('secondary/index').sonyScroller,
         sonyDraggable = require('secondary/index').sonyDraggable,
+        sonyNavDots = require('secondary/index').sonyNavDots,
         sonyPaddles = require('secondary/index').sonyPaddles;
 
     var self = {
@@ -79,14 +80,15 @@ define(function(require){
       self.isMobileMode         = false;
       
       //Cache some jQuery objects we'll reference later
-      self.$ev = $({});
-      self.$document = $(document);
-      self.$window = $(window);
-      self.$html = $('html');
-      self.$slides = self.$el.find( self.SLIDE_CLASS );
-      self.numSlides = self.$slides.length;
-      self.$slideContainer = self.$el.find( self.SLIDE_CONTAINER );
+      self.$ev                  = $({});
+      self.$document            = $(document);
+      self.$window              = $(window);
+      self.$html                = $('html');
+      self.$slides              = self.$el.find( self.SLIDE_CLASS );
+      self.numSlides            = self.$slides.length;
+      self.$slideContainer      = self.$el.find( self.SLIDE_CONTAINER );
       self.$thumbNav            = self.$el.find('.thumb-nav');
+      self.$dotnav              = null;
       self.hasThumbs            = self.$thumbNav.length > 0;
 
       //Init the module
@@ -111,12 +113,12 @@ define(function(require){
           self.createThumbNav();
         }
 
-        self.setupSlides();
+        //self.setupSlides();
 
         self.setupBreakpoints();
         
         
-        self.$slideContainer.sonyDraggable({
+/*        self.$slideContainer.sonyDraggable({
           'axis': 'x',
           'unit': '%',
           'dragThreshold': 10,
@@ -126,7 +128,7 @@ define(function(require){
         });
 
         self.$slideContainer.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
-        self.$slideContainer.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
+        self.$slideContainer.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));*/
 
       //self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });
 
@@ -194,6 +196,7 @@ define(function(require){
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
           self.showThumbNav();
+          self.toggleDotNav( true );
         });
 
         enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
@@ -201,6 +204,7 @@ define(function(require){
           self.isMobileMode = self.isDesktopMode = false;
           self.isTabletMode = true;
           self.hideThumbNav();
+          self.toggleDotNav( true );
         });
 
         enquire.register("(max-width: 568px)", function() {
@@ -208,9 +212,52 @@ define(function(require){
           self.isDesktopMode = self.isTabletMode = false;
           self.isMobileMode = true;
           self.hideThumbNav();
+          self.toggleDotNav( false );
+
+          
         });
 
         console.log('Register with enquire');
+
+      },
+
+      setupDotNavigation: function(){
+        var self = this;
+
+        if ( !self.$dotnav ) {
+
+          self.$dotnav = $( '<div/>', { 'class' : 'navigation-container'  } );
+
+          self.$el.append( self.$dotnav );
+
+          self.$dotnav.sonyNavDots( {
+            'buttonCount': self.numSlides
+          });
+
+          self.$dotnav.on('SonyNavDots:clicked', function( e, indx ){
+            //self.currentId = indx;
+            console.log('SonyNavDots:clicked',indx);
+          });
+          
+          console.log( 'Creating Dot Navigation: ' , self.numSlides );
+        }
+
+
+      },
+
+      toggleDotNav: function(hide){
+        var self = this;
+
+        // Make sure dot nav has been instantiated
+        if(!self.$dotnav){
+          self.setupDotNavigation();
+        }
+
+        if(hide){
+          self.$dotnav.hide();
+        }else{
+          self.$dotnav.show();
+        }
 
       },
 
