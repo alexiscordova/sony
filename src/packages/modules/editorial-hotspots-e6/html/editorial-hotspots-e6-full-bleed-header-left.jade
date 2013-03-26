@@ -1,12 +1,47 @@
-mixin hotspotCore(hotspotData)
-  .hspot-outer(data-x="0",data-y="0")
+mixin hotspotCore(hotspotData, assets)
+  size = hotspotData.size
+  .hspot-outer(data-x=hotspotData.coords[0],data-y=hotspotData.coords[1])
     .hspot-core
       .hspot-indicator
-        img(src="img/editorial-hotspots-e6/hotspot-indicator.png");
-    .overlay-variant1.hidden
-      .top top
-      .middle middle
-      .footer foot
+        img(src=assets.indicator);
+    case size
+      when "large"
+        .overlay-base.variant1.hidden
+          .top 
+            img(src=hotspotData.image)
+          .middle
+            h5.t6 #{hotspotData.title}
+            p.p3 #{hotspotData.bodyCopy}
+            .arrow-left-top.hidden
+              img(src=assets.large.arrowLeft)
+            .arrow-left-bottom.hidden
+              img(src=assets.large.arrowLeft)
+            .arrow-right-top.hidden
+              img(src=assets.large.arrowRight)
+            .arrow-right-bottom.hidden
+              img(src=assets.large.arrowRight)
+          .footer
+            p.p3 #{hotspotData.testimonial.copy}
+            blockquote.l4 #{hotspotData.testimonial.credit}
+      when "small"
+        .overlay-base.variant2.hidden
+          .top 
+            img(src=hotspotData.image)
+          .middle
+            h5.t6 #{hotspotData.title}
+            p.p3 #{hotspotData.bodyCopy}
+            .arrow-left-top.hidden
+              img(src=assets.small.arrowLeft)
+            .arrow-left-bottom.hidden
+              img(src=assets.small.arrowLeft)
+            .arrow-right-top.hidden
+              img(src=assets.small.arrowRight)
+            .arrow-right-bottom.hidden
+              img(src=assets.small.arrowRight)
+          .footer
+            p.p3 #{hotspotData.testimonial.copy}
+            blockquote.l4 #{hotspotData.testimonial.credit}
+        
 
 type = data.type
 
@@ -16,7 +51,8 @@ case type
     .ehs.full-bleed-header-left.container
       .grid
         .span12
-          .hotspot-outer
-            img(class="iq-img", alt=data.hostspotContainerImage.alt, data-src=data.hostspotContainerImage.src)
-            - for hotstpot in data.hotspots
-              +hotspotCore(hotstpot)
+          .hotspot-instance
+            img(class="iq-img", alt=data.hotspotContainerImage.alt, data-src=data.hotspotContainerImage.src)
+            - assets = data.hotspots.assets
+            - for hotstpot in data.hotspots.items
+              +hotspotCore(hotstpot, assets)

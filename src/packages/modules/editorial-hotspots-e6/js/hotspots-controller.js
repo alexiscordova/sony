@@ -23,7 +23,7 @@ define(function(require) {
     'init': function() {
       log('init editorial');
       // detect if there are any hotspot containers present
-      $('.hspot-container').each(function(el) {
+      $('.hotspot-instance').each(function(el) {
         // for each container, initialize an instance
         log('hotspot container present');
         $(this).hotspotsController({});
