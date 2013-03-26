@@ -66,6 +66,8 @@ define(function(require){
       self.nbPages                = 1;
 
       self.prefixed               = Modernizr.prefixed;
+      self.transitionName         = self.prefixed('transition');
+      self.transitionEndName      = transEndEventNames[ self.transitionName ];
       self.TP                     = 'transitionProperty';
       self.TD                     = 'transitionDuration';
       self.TTF                    = 'transitionTimingFunction';
@@ -98,6 +100,7 @@ define(function(require){
 
         var self = this;
 
+        
         //Initialize media queries detection
         self.mqFix();
 
@@ -328,19 +331,32 @@ define(function(require){
         //clear out the position style on the gallery items
         self.$galleryItems.removeAttr('style');
 
-        self.$galleryItems.not(self.$galleryItems.first()).css({
+        var $galleryItemsFirst = self.$galleryItems.first();
+
+        self.$galleryItems.not($galleryItemsFirst).css({
           'width'       : colWidth,
           'margin'      : 0,
           'margin-left' : 0,
           'margin-top'  : 0
         });
 
-        self.$galleryItems.first().css({
+        $galleryItemsFirst.css({
           'width'  : colWidth,
           'margin' : 0
         });
+        /*
+        self.$container.css({
+          'display': 'block'
+        }).animate({
+
+        })
+        */
+
+        // Animation Init
+        self.animationInit();
 
         //Create the sony-scroller instance
+        
         setTimeout(function(){
 
           if(self.scrollerModule !== null){
@@ -378,9 +394,13 @@ define(function(require){
              window.iQ.update();
           });
 
-          window.iQ.update();
+
+          //window.iQ.update();
+
+
 
         }, 50);
+
 
         self.$win.on('resize.rp', $.debounce(50 , function() {
 
@@ -423,14 +443,14 @@ define(function(require){
           self.scrollerModule.setFitPerPage(numColumns);
           self.scrollerModule.setExtraMarging(extraMarging);
 
-          self.$galleryItems.not(self.$galleryItems.first()).css({
+          self.$galleryItems.not($galleryItemsFirst).css({
             'width'       : colWidth,
             'margin'      : 0,
             'margin-left' : 0,
             'margin-top'  : 0
           });
 
-          self.$galleryItems.first().css({
+          $galleryItemsFirst.css({
             'width'   : colWidth,
             'margin'  : 0
           }); 
@@ -446,12 +466,36 @@ define(function(require){
             //'min-width'  : 550 + 'px'
           });
 
-          window.iQ.update();
+          //window.iQ.update();
 
         }));
 
         self.$win.trigger('resize.rp');
 
+      },
+
+      animationInit : function(){
+        var self    = this,
+            animObj = {};
+
+        //if( !self.useCSS3Transitions ) {
+
+          //jquery fallback
+          animObj.opacity = 1;
+          self.$container.removeClass("hide").animate(animObj, 700);
+
+        /*}else {
+          
+          animObj[ self.prefixed( self.TD ) ] = 700 + 'ms';
+          animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.easeOutBack;
+          console.log("animObj", animObj);
+          //animObj.display = 'block';
+          //animObj.opacity = 1;
+          self.$container.css( animObj );
+          //self.$container.removeClass("hide").addClass("in");
+        }
+        */
+        
       },
 
       tapOrClick: function(){
@@ -460,7 +504,7 @@ define(function(require){
       },
 
       toString: function(){
-        return '[ object RelatedProducts ]';
+        return '[ object RecentlyViewed ]';
       },
 
       _onScrollerModuleUpdate: function(e){

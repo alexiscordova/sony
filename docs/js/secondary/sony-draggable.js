@@ -28,7 +28,8 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr');
+      Modernizr = require('modernizr'),
+      Utilities = require('require/sony-global-utilities');
 
   var _startEvents = 'mousedown.sonyDraggable touchstart.sonyDraggable',
       _endEvents = 'mouseup.sonyDraggable touchend.sonyDraggable',
@@ -238,8 +239,8 @@ define(function(require){
       }
 
       if ( self.bounds ) {
-        newX = self.bounds.x ? SONY.Utilities.constrain( newX, self.bounds.x.min, self.bounds.x.max ) : newX;
-        newY = self.bounds.y ? SONY.Utilities.constrain( newY, self.bounds.y.min, self.bounds.y.max ) : newY;
+        newX = self.bounds.x ? Utilities.constrain( newX, self.bounds.x.min, self.bounds.x.max ) : newX;
+        newY = self.bounds.y ? Utilities.constrain( newY, self.bounds.y.min, self.bounds.y.max ) : newY;
       }
 
       // TODO: For CSS3, translate is relative to the width of the element itself. This works fine for carousels
@@ -279,11 +280,16 @@ define(function(require){
       offsetCorrectionX = (self.$el.outerWidth(true) - self.$el.width()) / 2;
       offsetCorrectionY = (self.$el.outerHeight(true) - self.$el.height()) / 2;
 
-      // If the browser doesn't properly support the getStyles API for auto margins, manually
-      // shift the destination back to compensate.
+      offsetCorrectionX += self.$containment.position().left;
+
+      // This exception is built specifically for carousels like the OSC (S2) module, which must
+      // respect the grid even though they aren't really in it. Refer to S2 for usage example;
+      // `sony-carousel-flex` is the required trigger class for that layout stategy.
 
       if ( !Modernizr.jsautomargins ) {
-        offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / 2;
+        if ( self.$el.hasClass('sony-carousel-flex') ) {
+          offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / 2;
+        }
       }
 
       self.containmentWidth = $widthObject.width();
