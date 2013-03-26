@@ -2136,911 +2136,6 @@ div.insitu-footnote {
 }
 
 /**
- * This file provides the styles for the fullscreen media manager
- * (?do=media).
- *
- * What most templates would probably need to change (depending on
- * their site width) are the 4 min-width's (search for @change).
- */
-/*____________ structure ____________*/
-/* line 12, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page h1 {
-  margin-bottom: .5em;
-}
-
-/* line 16, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page {
-  /* min-width must be summary of all 3 panels' min-widths */
-  min-width: 50em;
-  /* @change */
-  width: 100%;
-  text-align: left;
-}
-
-/* line 23, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panel {
-  float: left;
-}
-
-/* line 27, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .namespaces {
-  width: 20%;
-  min-width: 10em;
-  /* @change */
-}
-
-/* line 31, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist {
-  width: 50%;
-  min-width: 25em;
-  /* @change */
-}
-
-/* line 35, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .file {
-  width: 30%;
-  min-width: 15em;
-  /* @change */
-}
-
-/* line 40, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panelHeader {
-  background-color: #eeeeee;
-  margin: 0 10px 10px 0;
-  padding: 10px 10px 8px;
-  text-align: left;
-  min-height: 20px;
-  overflow: hidden;
-}
-
-/* line 49, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panelContent {
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 0;
-  margin: 0 10px 10px 0;
-  position: relative;
-}
-
-/* line 56, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-[dir=rtl] #mediamanager__page .panelContent {
-  text-align: right;
-}
-
-/* line 61, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .file .panelHeader,
-#mediamanager__page .file .panelContent {
-  margin-right: 0;
-}
-
-/* line 65, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .ui-resizable-e {
-  width: 6px;
-  right: 2px;
-  background: transparent url(../img/_wiki/resizecol.png) center center no-repeat;
-}
-
-/* line 70, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .ui-resizable-e:hover {
-  background-color: #eeeeee;
-}
-
-/* line 75, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page dd {
-  margin: 0;
-}
-
-/* line 79, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panelHeader h3 {
-  float: left;
-  font-weight: normal;
-  font-size: 1em;
-  padding: 0;
-  margin: 0 0 3px;
-}
-
-/*____________ namespaces panel ____________*/
-/* line 90, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-[dir=rtl] #mediamanager__page .namespaces {
-  text-align: right;
-}
-
-/* make it look like a tab (as in _tabs.css) */
-/* line 95, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .namespaces h2 {
-  font-size: 1em;
-  display: inline-block;
-  padding: 0.3em 0.8em;
-  margin: 0 0 0 0.3em;
-  border-radius: 0.5em 0.5em 0 0;
-  font-weight: normal;
-  background-color: #eeeeee;
-  color: #333333;
-  border: 1px solid #cccccc;
-  border-bottom-color: #eeeeee;
-  line-height: 1.4em;
-  position: relative;
-  bottom: -1px;
-  z-index: 2;
-}
-
-/* line 112, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-* html #mediamanager__page .namespaces h2,
-* + html #mediamanager__page .namespaces h2 {
-  display: inline;
-}
-
-/* line 115, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-[dir=rtl] #mediamanager__page .namespaces h2 {
-  margin: 0 0.3em 0 0;
-  position: relative;
-  right: 10px;
-}
-
-/* line 120, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .namespaces .panelHeader {
-  border-top: 1px solid #cccccc;
-  z-index: 1;
-}
-
-/* line 125, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .namespaces ul {
-  margin-left: .2em;
-  margin-bottom: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* line 131, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-[dir=rtl] #mediamanager__page .namespaces ul {
-  margin-left: 0;
-  margin-right: .2em;
-}
-
-/* line 135, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .namespaces ul ul {
-  margin-left: 1em;
-}
-
-/* line 138, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-[dir=rtl] #mediamanager__page .namespaces ul ul {
-  margin-left: 0;
-  margin-right: 1em;
-}
-
-/* line 142, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .namespaces ul ul li {
-  margin: 0;
-}
-
-/* line 146, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .namespaces ul .selected {
-  background-color: #ffff99;
-  font-weight: bold;
-}
-
-/*____________ file list panel ____________*/
-/* file list header */
-/* line 156, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panelHeader form.options {
-  float: right;
-  margin-top: -3px;
-}
-
-/* line 161, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panelHeader ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* line 166, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panelHeader ul li {
-  color: #333333;
-  float: left;
-  line-height: 1;
-  padding-left: 3px;
-}
-
-/* line 172, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-[dir=rtl] #mediamanager__page .panelHeader ul li {
-  margin-right: 0;
-  margin-left: .5em;
-}
-
-/* line 177, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panelHeader ul li.listType {
-  padding-left: 30px;
-  margin: 0 0 0 5px;
-  background: url("../img/_wiki/icon-list.png") 3px 1px no-repeat;
-}
-
-/* line 182, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panelHeader ul li.sortBy {
-  padding-left: 30px;
-  margin: 0 0 0 5px;
-  background: url("../img/_wiki/icon-sort.png") 3px 1px no-repeat;
-}
-
-/* line 188, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panelHeader form.options .ui-buttonset label {
-  font-size: 90%;
-  margin-right: -0.4em;
-}
-
-/* line 192, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .panelHeader form.options .ui-buttonset .ui-button-text {
-  padding: 0.3em 0.5em;
-  line-height: 1;
-}
-
-/* file list content */
-/* line 199, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist ul {
-  padding: 0;
-  margin: 0 10px 0 0;
-}
-
-/* line 203, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-[dir=rtl] #mediamanager__page .filelist ul {
-  margin: 0 10px 0 0;
-}
-
-/* line 207, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .panelContent ul li:hover {
-  background-color: #eeeeee;
-}
-
-/* line 211, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist li dt a {
-  vertical-align: middle;
-  display: table-cell;
-  overflow: hidden;
-}
-
-/* line 217, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-* html #mediamanager__page .filelist .thumbs li dt a,
-* + html #mediamanager__page .filelist .thumbs li dt a {
-  display: block;
-}
-
-/* line 221, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-* html #mediamanager__page .filelist .rows li dt a,
-* + html #mediamanager__page .filelist .rows li dt a {
-  display: inline;
-}
-
-/* file list as thumbs */
-/* line 227, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .thumbs li {
-  width: 100px;
-  min-height: 130px;
-  display: inline-block;
-  display: -moz-inline-stack;
-  /* the right margin should visually be 10px, but because of its inline-block nature the whitespace inbetween is about 4px more */
-  margin: 0 6px 10px 0;
-  background-color: #dddddd;
-  color: #333333;
-  padding: 5px;
-  vertical-align: top;
-  text-align: center;
-  position: relative;
-  line-height: 1.2;
-}
-
-/* line 242, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-[dir=rtl] #mediamanager__page .filelist .thumbs li {
-  margin-right: 0;
-  margin-left: 6px;
-}
-
-/* line 247, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-* html #mediamanager__page .filelist .thumbs li,
-* + html #mediamanager__page .filelist .thumbs li {
-  display: inline;
-  zoom: 1;
-}
-
-/* line 252, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .thumbs li dt a {
-  width: 100px;
-  height: 90px;
-}
-
-/* line 257, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .thumbs li dt a img {
-  max-width: 90px;
-  max-height: 90px;
-}
-
-/* line 265, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .thumbs li .name,
-#mediamanager__page .filelist .thumbs li .size,
-#mediamanager__page .filelist .thumbs li .filesize,
-#mediamanager__page .filelist .thumbs li .date {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 90px;
-  white-space: nowrap;
-}
-
-/* line 272, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .thumbs li .name {
-  padding: 5px 0;
-  font-weight: bold;
-}
-
-/* line 276, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .thumbs li .date {
-  font-style: italic;
-  white-space: normal;
-}
-
-/* file list as rows */
-/* line 283, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .rows li {
-  list-style: none;
-  display: block;
-  position: relative;
-  max-height: 50px;
-  margin: 0;
-  margin-bottom: 3px;
-  background-color: white;
-  color: #333333;
-  overflow: hidden;
-}
-
-/* line 295, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .rows li:nth-child(2n+1) {
-  background-color: #dddddd;
-}
-
-/* line 299, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .rows li dt {
-  float: left;
-  width: 10%;
-  height: 40px;
-  text-align: center;
-}
-
-/* line 306, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .rows li dt a {
-  width: 100px;
-  height: 40px;
-}
-
-/* line 311, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .rows li dt a img {
-  max-width: 40px;
-  max-height: 40px;
-}
-
-/* line 319, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .rows li .name,
-#mediamanager__page .filelist .rows li .size,
-#mediamanager__page .filelist .rows li .filesize,
-#mediamanager__page .filelist .rows li .date {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  float: left;
-  margin-left: 1%;
-  white-space: nowrap;
-}
-
-/* line 327, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .rows li .name {
-  width: 30%;
-  font-weight: bold;
-}
-
-/* line 332, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .rows li .size,
-#mediamanager__page .filelist .rows li .filesize {
-  width: 15%;
-}
-
-/* line 335, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .filelist .rows li .date {
-  width: 20%;
-  font-style: italic;
-  white-space: normal;
-}
-
-/* upload form */
-/* line 343, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page div.upload {
-  padding-bottom: 0.5em;
-}
-
-/*____________ file panel ____________*/
-/* line 349, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .file ul.actions {
-  text-align: center;
-  margin: 0 0 5px;
-  padding: 0;
-  list-style: none;
-}
-
-/* line 355, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .file ul.actions li {
-  display: inline;
-  margin: 0;
-}
-
-/* line 360, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .file div.image {
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-/* line 365, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .file div.image img {
-  width: 100%;
-}
-
-/* line 369, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .file dl {
-  margin-bottom: 0;
-}
-
-/* line 372, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .file dl dt {
-  font-weight: bold;
-  display: block;
-  background-color: #eeeeee;
-}
-
-/* line 377, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .file dl dd {
-  display: block;
-  background-color: #dddddd;
-}
-
-/* file meta data edit form */
-/* line 385, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page form.meta div.row {
-  margin-bottom: 5px;
-}
-
-/* line 389, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page form.meta label span {
-  display: block;
-}
-
-/* line 393, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page form.meta input {
-  width: 50%;
-}
-
-/* line 397, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page form.meta input.button {
-  width: auto;
-}
-
-/* line 401, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page form.meta textarea.edit {
-  height: 6em;
-  width: 95%;
-  min-width: 95%;
-  max-width: 95%;
-}
-
-/* file revisions form */
-/* line 410, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page #page__revisions ul {
-  margin-left: 10px;
-  padding: 0;
-  list-style-type: none;
-}
-
-/* line 416, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page #page__revisions ul li div.li div {
-  font-size: 90%;
-  color: #666666;
-  padding-left: 18px;
-}
-
-/* line 422, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page #page__revisions ul li div.li input {
-  position: relative;
-  top: 1px;
-}
-
-/* file diff view */
-/* line 429, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff table {
-  table-layout: fixed;
-  border-width: 0;
-}
-
-/* line 435, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff td,
-#mediamanager__diff th {
-  width: 48%;
-  margin: 0 5px 10px 0;
-  padding: 0;
-  vertical-align: top;
-  text-align: left;
-  border-color: white;
-}
-
-/* line 444, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-[dir=rtl] #mediamanager__diff td,
-[dir=rtl] #mediamanager__diff th {
-  text-align: right;
-}
-
-/* line 448, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff th {
-  font-weight: normal;
-  background-color: white;
-  line-height: 1.2;
-}
-
-/* line 453, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff th a {
-  font-weight: bold;
-}
-
-/* line 456, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff th span {
-  font-size: 90%;
-}
-
-/* line 460, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff dl dd strong {
-  background-color: #ffff99;
-  color: #333333;
-  font-weight: normal;
-}
-
-/* image diff views */
-/* line 468, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__page .file form.diffView {
-  margin-bottom: 10px;
-  display: block;
-}
-
-/* line 473, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff div.slider {
-  margin: 10px;
-  width: 95%;
-}
-
-/* line 478, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff .imageDiff {
-  position: relative;
-}
-
-/* line 481, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff .imageDiff .image2 {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* line 487, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff .imageDiff.opacity .image2 {
-  opacity: 0.5;
-}
-
-/* line 491, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff .imageDiff.portions .image2 {
-  border-right: 1px solid red;
-  overflow: hidden;
-}
-
-/* line 496, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff .imageDiff.portions img {
-  float: left;
-}
-
-/* line 500, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
-#mediamanager__diff .imageDiff img {
-  width: 100%;
-  max-width: none;
-}
-
-/**
- * This file provides styles for the media manager popup
- * (mediamanager.php).
- */
-/*____________ structure ____________*/
-/* line 8, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-html.popup {
-  overflow: auto;
-}
-
-/* line 12, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__manager {
-  height: 100%;
-  overflow: hidden;
-}
-
-/* line 17, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#mediamgr__aside {
-  width: 30%;
-  height: 100%;
-  overflow: auto;
-  position: absolute;
-  left: 0;
-  border-right: 1px solid #cccccc;
-}
-
-/* line 25, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #mediamgr__aside {
-  left: auto;
-  right: 0;
-  border-right-width: 0;
-  border-left: 1px solid #cccccc;
-}
-
-/* line 31, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#mediamgr__aside .pad {
-  padding: .5em;
-}
-
-/* line 35, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#mediamgr__content {
-  width: 69.7%;
-  height: 100%;
-  overflow: auto;
-  position: absolute;
-  right: 0;
-}
-
-/* line 42, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #mediamgr__content {
-  right: auto;
-  left: 0;
-}
-
-/* line 46, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#mediamgr__content .pad {
-  padding: .5em;
-}
-
-/* line 51, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__manager h1,
-#media__manager h2 {
-  font-size: 1.5em;
-  margin-bottom: .5em;
-  padding-bottom: .2em;
-  border-bottom: 1px solid #cccccc;
-}
-
-/* left side
-********************************************************************/
-/*____________ options ____________*/
-/* line 63, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__opts {
-  margin-bottom: .5em;
-}
-
-/* line 67, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__opts input {
-  margin-right: .3em;
-}
-
-/* line 70, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__opts input {
-  margin-right: 0;
-  margin-left: .3em;
-}
-
-/*____________ tree ____________*/
-/* line 79, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__tree ul {
-  padding-left: .2em;
-}
-
-/* line 82, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__tree ul {
-  padding-left: 0;
-  padding-right: .2em;
-}
-
-/* line 86, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__tree ul li {
-  clear: left;
-  list-style-type: none;
-  list-style-image: none;
-  margin-left: 0;
-}
-
-/* line 92, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__tree ul li {
-  clear: right;
-  margin-right: 0;
-}
-
-/* line 96, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__tree ul li img {
-  float: left;
-  padding: 0.5em 0.3em 0 0;
-}
-
-/* line 100, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__tree ul li img {
-  float: right;
-  padding: 0.5em 0 0 0.3em;
-}
-
-/* line 104, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__tree ul li div.li {
-  display: inline;
-}
-
-/* line 107, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__tree ul li li {
-  margin-left: 1.5em;
-}
-
-/* line 110, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__tree ul li li {
-  margin-left: 0;
-  margin-right: 1.5em;
-}
-
-/* right side
-********************************************************************/
-/*____________ upload form ____________*/
-/* upload info */
-/* line 121, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content div.upload {
-  font-size: .9em;
-  margin-bottom: .5em;
-}
-
-/* line 126, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#mediamanager__uploader {
-  margin-bottom: 1em;
-}
-
-/* line 129, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#mediamanager__uploader p {
-  margin-bottom: .5em;
-}
-
-/*____________ file list ____________*/
-/* line 135, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content img.load {
-  margin: 1em auto;
-}
-
-/* line 140, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content .odd,
-#media__content .even {
-  padding: .5em;
-}
-
-/* line 143, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content .odd {
-  background-color: #eeeeee;
-}
-
-/* highlight newly uploaded or edited file */
-/* line 149, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content #scroll__here {
-  border: 1px dashed #cccccc;
-}
-
-/* link which inserts media file */
-/* line 154, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content a.mediafile {
-  margin-right: 1.5em;
-  font-weight: bold;
-}
-
-/* line 158, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__content a.mediafile {
-  margin-right: 0;
-  margin-left: 1.5em;
-}
-
-/* line 164, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content img.btn {
-  vertical-align: text-bottom;
-}
-
-/* info how to insert media, if JS disabled */
-/* line 169, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content div.example {
-  color: #666666;
-  margin-left: 1em;
-}
-
-/* line 174, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content div.detail {
-  padding: 0.2em 0;
-}
-
-/* line 177, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content div.detail div.thumb {
-  float: left;
-  margin: 0 0.5em 0 18px;
-}
-
-/* line 181, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__content div.detail div.thumb {
-  float: right;
-  margin: 0 18px 0 0.5em;
-}
-
-/* line 185, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content div.detail div.thumb a {
-  display: block;
-  cursor: pointer;
-}
-
-/* line 189, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content div.detail p {
-  margin-bottom: 0;
-}
-
-/*____________ media search ____________*/
-/* meta edit form
-********************************************************************/
-/* line 216, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content form.meta div.metafield {
-  clear: left;
-  margin-bottom: .5em;
-  overflow: hidden;
-}
-
-/* line 221, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__content form.meta div.metafield {
-  clear: right;
-}
-
-/* line 225, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content form.meta label {
-  display: block;
-  width: 25%;
-  float: left;
-  font-weight: bold;
-  clear: left;
-}
-
-/* line 232, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__content form.meta label {
-  float: right;
-  clear: right;
-}
-
-/* line 236, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content form.meta .edit {
-  float: left;
-  width: 70%;
-  margin: 0;
-}
-
-/* line 241, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__content form.meta .edit {
-  float: right;
-}
-
-/* line 244, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content form.meta textarea.edit {
-  /* needed because of IE8 hack in _edit.css for textarea.edit: */
-  max-width: 70%;
-  min-width: 70%;
-}
-
-/* line 250, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-#media__content form.meta div.buttons {
-  clear: left;
-  margin: 0.2em 0 0 25%;
-}
-
-/* line 254, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
-[dir=rtl] #media__content form.meta div.buttons {
-  clear: right;
-  margin: 0.2em 25% 0 0;
-}
-
-/**
  * This file provides styles for modal dialogues.
  */
 /* line 5, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_modal.scss */
@@ -5875,19 +4970,19 @@ body {
 */
 /* Body and structure
 -------------------------------------------------- */
-/* line 58, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 56, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 body {
   position: relative;
   padding-top: 0;
 }
 
-/* line 64, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 62, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 p, h1, h2, h3, h4, h5, h6 {
   font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 0;
 }
 
-/* line 69, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 67, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 p {
   font-size: 0.8125em;
   line-height: 1.38462;
@@ -5895,7 +4990,7 @@ p {
   color: #83838f;
 }
 
-/* line 74, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 72, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 h1 {
   font-size: 2.75em;
   line-height: 1.09091;
@@ -5905,7 +5000,7 @@ h1 {
   margin-bottom: 40px;
 }
 
-/* line 81, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 79, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 h2 {
   font-size: 1.75em;
   line-height: 1.14286;
@@ -5915,7 +5010,7 @@ h2 {
   font-weight: bold;
 }
 
-/* line 88, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 86, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 h3 {
   font-size: 1em;
   line-height: 1.25;
@@ -5926,7 +5021,7 @@ h3 {
   margin-bottom: 12px;
 }
 
-/* line 96, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 94, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 h4 {
   font-size: 0.875em;
   line-height: 1.28571;
@@ -5935,7 +5030,7 @@ h4 {
   font-weight: bold;
 }
 
-/* line 102, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 100, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 h5 {
   font-size: 0.6875em;
   line-height: 1.36364;
@@ -5945,12 +5040,12 @@ h5 {
   margin-bottom: 12px;
 }
 
-/* line 110, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 108, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 #main {
   width: 1000px;
 }
 
-/* line 114, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 112, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .jumbotron {
   position: relative;
   padding: 70px 0 40px;
@@ -5960,13 +5055,13 @@ h5 {
   margin-bottom: 30px;
 }
 
-/* line 121, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 119, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .jumbotron h1 {
   color: white;
   margin-bottom: 17px;
 }
 
-/* line 125, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 123, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .jumbotron p {
   color: #bcbccc;
 }
@@ -5987,13 +5082,13 @@ h5 {
 }*/
 /* Tweak navbar brand link to be super sleek
 -------------------------------------------------- */
-/* line 174, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 172, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 body > .simple-navbar {
   font-size: 12px;
 }
 
 /* Change the docs' brand */
-/* line 179, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 177, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 body > .simple-navbar .brand {
   padding-right: 0;
   padding-left: 0;
@@ -6008,7 +5103,7 @@ body > .simple-navbar .brand {
   transition: all 0.2s linear;
 }
 
-/* line 192, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 190, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 body > .simple-navbar .brand:hover {
   text-decoration: none;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.4);
@@ -6017,7 +5112,7 @@ body > .simple-navbar .brand:hover {
 /* Sections
 -------------------------------------------------- */
 /* padding for in-page bookmarks and fixed navbar */
-/* line 202, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 200, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 section {
   padding-top: 30px;
   padding-bottom: 60px;
@@ -6035,36 +5130,36 @@ section:after {
   clear: both;
 }
 
-/* line 208, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 206, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 section:first-child {
   margin-top: 0;
   border-top: 0;
 }
 
-/* line 212, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 210, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 section:first-child h2 {
   margin-top: 0;
 }
 
-/* line 216, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 214, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 section > .page-header,
 section > .lead {
   color: #5a5a5a;
 }
 
-/* line 219, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 217, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 section > ul li {
   margin-bottom: 5px;
 }
 
 /* Separators (hr) */
-/* line 224, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 222, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-separator {
   margin: 50px 0 17px;
 }
 
 /* Faded out hr */
-/* line 229, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 227, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 hr.soften {
   height: 1px;
   margin: 70px 0;
@@ -6081,7 +5176,7 @@ hr.soften {
 ------------------------- */
 /* Subhead (other pages)
 ------------------------- */
-/* line 350, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 348, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .title-docs {
   color: #ff485e;
   font-size: 0.75em;
@@ -6092,20 +5187,20 @@ hr.soften {
   margin: 20px 0 0;
 }
 
-/* line 357, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 355, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .big-bottom-margin {
   margin-bottom: 55px;
 }
 
 /* Marketing section of Overview
 -------------------------------------------------- */
-/* line 366, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 364, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .marketing {
   text-align: center;
   color: #5a5a5a;
 }
 
-/* line 370, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 368, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .marketing h1 {
   margin: 60px 0 10px;
   font-size: 60px;
@@ -6114,19 +5209,19 @@ hr.soften {
   letter-spacing: -1px;
 }
 
-/* line 377, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 375, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .marketing h2 {
   font-weight: 200;
   margin-bottom: 5px;
 }
 
-/* line 381, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 379, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .marketing p {
   font-size: 16px;
   line-height: 1.5;
 }
 
-/* line 385, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 383, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .marketing .marketing-byline {
   margin-bottom: 40px;
   font-size: 20px;
@@ -6135,7 +5230,7 @@ hr.soften {
   color: #999;
 }
 
-/* line 392, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 390, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .marketing img {
   display: block;
   margin: 0 auto 30px;
@@ -6143,7 +5238,7 @@ hr.soften {
 
 /* Footer
 -------------------------------------------------- */
-/* line 402, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 400, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .footer {
   padding: 70px 0;
   margin-top: 70px;
@@ -6151,18 +5246,18 @@ hr.soften {
   background-color: #f5f5f5;
 }
 
-/* line 408, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 406, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .footer p {
   margin-bottom: 0;
   color: #777;
 }
 
-/* line 412, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 410, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .footer-links {
   margin: 10px 0;
 }
 
-/* line 415, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 413, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .footer-links li {
   display: inline;
   margin-right: 10px;
@@ -6170,7 +5265,7 @@ hr.soften {
 
 /* Special grid styles
 -------------------------------------------------- */
-/* line 425, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 423, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .show-grid [class*="span"] {
   background-color: #eee;
   text-align: center;
@@ -6181,25 +5276,25 @@ hr.soften {
   line-height: 40px;
 }
 
-/* line 434, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 432, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .show-grid:hover [class*="span"] {
   background: #ddd;
 }
 
-/* line 437, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 435, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .show-grid .show-grid {
   margin-top: 0;
   margin-bottom: 0;
 }
 
-/* line 441, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 439, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .show-grid .show-grid [class*="span"] {
   background-color: #ccc;
 }
 
 /* Mini layout previews
 -------------------------------------------------- */
-/* line 449, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 447, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .mini-layout {
   border: 1px solid #dddddd;
   -webkit-border-radius: 6px;
@@ -6210,60 +5305,60 @@ hr.soften {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);
 }
 
-/* line 460, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 458, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .mini-layout,
 .mini-layout .mini-layout-body,
 .mini-layout.fluid .mini-layout-sidebar {
   height: 300px;
 }
 
-/* line 463, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 461, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .mini-layout {
   margin-bottom: 20px;
   padding: 9px;
 }
 
-/* line 467, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 465, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .mini-layout div {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
 
-/* line 472, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 470, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .mini-layout .mini-layout-body {
   background-color: #dceaf4;
   margin: 0 auto;
   width: 70%;
 }
 
-/* line 479, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 477, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .mini-layout.fluid .mini-layout-sidebar,
 .mini-layout.fluid .mini-layout-header,
 .mini-layout.fluid .mini-layout-body {
   float: left;
 }
 
-/* line 482, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 480, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .mini-layout.fluid .mini-layout-sidebar {
   background-color: #bbd8e9;
   width: 20%;
 }
 
-/* line 486, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 484, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .mini-layout.fluid .mini-layout-body {
   width: 77.5%;
   margin-left: 2.5%;
 }
 
-/* line 494, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 492, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidebar:not(.span3) {
   float: left;
   width: 20%;
   margin-right: 4%;
 }
 
-/* line 499, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 497, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-main-content:not(.span9) {
   float: left;
   width: 76%;
@@ -6271,30 +5366,30 @@ hr.soften {
 
 /* Download page
 -------------------------------------------------- */
-/* line 511, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 509, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .download .page-header {
   margin-top: 36px;
 }
 
-/* line 514, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 512, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .page-header .toggle-all {
   margin-top: 5px;
 }
 
 /* Space out h3s when following a section */
-/* line 519, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 517, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .download h3 {
   margin-bottom: 5px;
 }
 
-/* line 523, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 521, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .download-builder input + h3,
 .download-builder .checkbox + h3 {
   margin-top: 9px;
 }
 
 /* Fields for variables */
-/* line 528, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 526, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .download-builder input[type=text] {
   margin-bottom: 9px;
   font-family: Menlo, Monaco, "Courier New", monospace;
@@ -6302,13 +5397,13 @@ hr.soften {
   color: #d14;
 }
 
-/* line 534, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 532, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .download-builder input[type=text]:focus {
   background-color: #fff;
 }
 
 /* Custom, larger checkbox labels */
-/* line 539, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 537, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .download .checkbox {
   padding: 6px 10px 6px 25px;
   font-size: 13px;
@@ -6321,31 +5416,31 @@ hr.soften {
   cursor: pointer;
 }
 
-/* line 550, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 548, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .download .checkbox:hover {
   color: #333;
   background-color: #f5f5f5;
 }
 
-/* line 554, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 552, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .download .checkbox small {
   font-size: 12px;
   color: #777;
 }
 
 /* Variables section */
-/* line 560, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 558, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 #variables label {
   margin-bottom: 0;
 }
 
 /* Giant download button */
-/* line 565, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 563, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .download-btn {
   margin: 36px 0 108px;
 }
 
-/* line 569, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 567, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 #download p,
 #download h4 {
   max-width: 50%;
@@ -6354,17 +5449,17 @@ hr.soften {
   text-align: center;
 }
 
-/* line 575, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 573, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 #download h4 {
   margin-bottom: 0;
 }
 
-/* line 578, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 576, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 #download p {
   margin-bottom: 18px;
 }
 
-/* line 581, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 579, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .download-btn .btn {
   display: block;
   width: auto;
@@ -6381,7 +5476,7 @@ hr.soften {
 /* Misc
 -------------------------------------------------- */
 /* Make tables spaced out a bit more */
-/* line 603, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 601, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 h2 + table,
 h3 + table,
 h4 + table,
@@ -6390,18 +5485,18 @@ h2 + .grid-px-width {
 }
 
 /* Example sites showcase */
-/* line 608, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 606, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .example-sites {
   xmargin-left: 20px;
 }
 
-/* line 611, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 609, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .example-sites img {
   max-width: 100%;
   margin: 0 auto;
 }
 
-/* line 616, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 614, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .scrollspy-example {
   height: 200px;
   overflow: auto;
@@ -6409,7 +5504,7 @@ h2 + .grid-px-width {
 }
 
 /* Fake the :focus state to demo it */
-/* line 624, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 622, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .focused {
   border-color: rgba(82, 168, 236, 0.8);
   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
@@ -6419,7 +5514,7 @@ h2 + .grid-px-width {
 }
 
 /* For input sizes, make them display block */
-/* line 634, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 632, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-input-sizes select,
 .docs-input-sizes input[type=text] {
   display: block;
@@ -6428,13 +5523,13 @@ h2 + .grid-px-width {
 
 /* Icons
 ------------------------- */
-/* line 641, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 639, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .the-icons {
   margin-left: 0;
   list-style: none;
 }
 
-/* line 645, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 643, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .the-icons li {
   float: left;
   width: 33%;
@@ -6443,26 +5538,26 @@ h2 + .grid-px-width {
   padding: 5px 0 5px 8px;
 }
 
-/* line 652, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 650, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .the-icons li:hover {
   background: black;
   color: white;
 }
 
-/* line 656, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 654, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .the-icons i {
   margin-right: 4px;
 }
 
 /* Example page
 ------------------------- */
-/* line 662, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 660, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bootstrap-examples p {
   font-size: 13px;
   line-height: 18px;
 }
 
-/* line 666, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 664, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bootstrap-examples .thumbnail {
   margin-bottom: 9px;
   background-color: #fff;
@@ -6471,7 +5566,7 @@ h2 + .grid-px-width {
 /* Bootstrap code examples
 -------------------------------------------------- */
 /* Base class */
-/* line 677, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 675, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example {
   /*border-bottom:solid 1px #e4e4e6;*/
   margin-bottom: 22px;
@@ -6488,12 +5583,12 @@ h2 + .grid-px-width {
 .bs-docs-example:after {
   clear: both;
 }
-/* line 683, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 681, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example .grid {
   width: auto;
 }
 
-/* line 691, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 689, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .col-50 {
   float: none;
   width: auto;
@@ -6511,34 +5606,34 @@ h2 + .grid-px-width {
   clear: both;
 }
 
-/* line 697, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 695, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .col-33 {
   float: left;
   width: 32%;
   margin-right: 2%;
 }
-/* line 701, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 699, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .col-33:nth-child(3n+0) {
   margin-right: 0;
 }
 
 @media (min-width: 1024px) {
-  /* line 706, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 704, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .col-50 {
     float: left;
     width: 48.5%;
     margin-right: 3%;
   }
-  /* line 711, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 709, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .col-50:nth-child(even):not(.margin-right-1) {
     margin-right: 0;
   }
-  /* line 714, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 712, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .col-50.margin-right-1 {
     margin-right: 1%;
   }
 }
-/* line 725, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 723, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example-headings h1,
 .bs-docs-example-headings h2,
 .bs-docs-example-headings h3,
@@ -6548,17 +5643,17 @@ h2 + .grid-px-width {
   margin-top: 0;
 }
 
-/* line 728, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 726, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .start-new-section {
   padding-top: 50px;
 }
 
-/* line 731, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 729, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .sub-section {
   margin-top: 100px;
 }
 
-/* line 734, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 732, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example {
   position: relative;
   margin: 15px 0;
@@ -6572,7 +5667,7 @@ h2 + .grid-px-width {
 }
 
 /* Echo out a label for the example */
-/* line 747, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 745, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example:after {
   content: "Example";
   position: absolute;
@@ -6590,7 +5685,7 @@ h2 + .grid-px-width {
 }
 
 /* Remove spacing between an example and it's code */
-/* line 764, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 762, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example + .prettyprint {
   margin-top: -20px;
   padding-top: 15px;
@@ -6598,7 +5693,7 @@ h2 + .grid-px-width {
 
 /* Tweak examples
 ------------------------- */
-/* line 782, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 780, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example .table,
 .bs-docs-example .progress,
 .bs-docs-example .well,
@@ -6611,12 +5706,12 @@ h2 + .grid-px-width {
   margin-bottom: 5px;
 }
 
-/* line 785, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 783, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example .pagination {
   margin-top: 0;
 }
 
-/* line 789, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 787, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-navbar-top-example,
 .bs-navbar-bottom-example {
   z-index: 1;
@@ -6626,21 +5721,21 @@ h2 + .grid-px-width {
   /* cut the drop shadows off */
 }
 
-/* line 796, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 794, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-navbar-top-example .simple-navbar-fixed-top,
 .bs-navbar-bottom-example .simple-navbar-fixed-bottom {
   margin-left: 0;
   margin-right: 0;
 }
 
-/* line 800, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 798, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-navbar-top-example {
   -webkit-border-radius: 0 0 4px 4px;
   -moz-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
 }
 
-/* line 805, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 803, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-navbar-top-example:after {
   top: auto;
   bottom: -1px;
@@ -6649,52 +5744,52 @@ h2 + .grid-px-width {
   border-radius: 0 4px 0 4px;
 }
 
-/* line 812, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 810, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-navbar-bottom-example {
   -webkit-border-radius: 4px 4px 0 0;
   -moz-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
 
-/* line 817, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 815, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-navbar-bottom-example .simple-navbar {
   margin-bottom: 0;
 }
 
-/* line 820, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 818, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 form.bs-docs-example {
   padding-bottom: 19px;
 }
 
 /* Images */
-/* line 825, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 823, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example-images img {
   margin: 10px;
   display: inline-block;
 }
 
 /* Tooltips */
-/* line 831, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 829, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-tooltip-examples {
   text-align: center;
   margin: 0 0 10px;
   list-style: none;
 }
 
-/* line 836, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 834, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-tooltip-examples li {
   display: inline;
   padding: 0 10px;
 }
 
 /* Popovers */
-/* line 842, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 840, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example-popover {
   padding-bottom: 24px;
   background-color: #f9f9f9;
 }
 
-/* line 846, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 844, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-example-popover .popover {
   position: relative;
   display: block;
@@ -6705,7 +5800,7 @@ form.bs-docs-example {
 
 /* Colors
 -------------------------------------------------- */
-/* line 860, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 858, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .color-swatch {
   width: 75px;
   height: 75px;
@@ -6715,30 +5810,30 @@ form.bs-docs-example {
 -------------------------------------------------- */
 /* Utility classes table
 ------------------------- */
-/* line 874, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 872, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .responsive-utilities th small {
   display: block;
   font-weight: normal;
   color: #999;
 }
 
-/* line 879, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 877, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .responsive-utilities tbody th {
   font-weight: normal;
 }
 
-/* line 882, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 880, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .responsive-utilities td {
   text-align: center;
 }
 
-/* line 885, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 883, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .responsive-utilities td.is-visible {
   color: #468847;
   background-color: #dff0d8 !important;
 }
 
-/* line 889, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 887, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .responsive-utilities td.is-hidden {
   color: #ccc;
   background-color: #f9f9f9 !important;
@@ -6746,7 +5841,7 @@ form.bs-docs-example {
 
 /* Responsive tests
 ------------------------- */
-/* line 896, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 894, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .responsive-utilities-test {
   margin-top: 5px;
   margin-left: 0;
@@ -6755,7 +5850,7 @@ form.bs-docs-example {
   /* clear floats */
 }
 
-/* line 902, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 900, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .responsive-utilities-test li {
   position: relative;
   float: left;
@@ -6772,12 +5867,12 @@ form.bs-docs-example {
   border-radius: 4px;
 }
 
-/* line 917, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 915, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .responsive-utilities-test li + li {
   margin-left: 10px;
 }
 
-/* line 920, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 918, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .responsive-utilities-test span {
   position: absolute;
   top: -1px;
@@ -6789,7 +5884,7 @@ form.bs-docs-example {
   border-radius: 4px;
 }
 
-/* line 930, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 928, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .responsive-utilities-test span {
   color: #468847;
   background-color: #dff0d8;
@@ -6798,7 +5893,7 @@ form.bs-docs-example {
 
 /* Sidenav for Docs
 -------------------------------------------------- */
-/* line 941, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 939, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav {
   margin: 30px 0 0;
   padding: 0;
@@ -6811,7 +5906,7 @@ form.bs-docs-example {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
 }
 
-/* line 953, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 951, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav > li > a {
   display: block;
   *width: 190px;
@@ -6820,21 +5915,21 @@ form.bs-docs-example {
   border: 1px solid #e5e5e5;
 }
 
-/* line 960, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 958, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav > li:first-child > a {
   -webkit-border-radius: 6px 6px 0 0;
   -moz-border-radius: 6px 6px 0 0;
   border-radius: 6px 6px 0 0;
 }
 
-/* line 965, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 963, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav > li:last-child > a {
   -webkit-border-radius: 0 0 6px 6px;
   -moz-border-radius: 0 0 6px 6px;
   border-radius: 0 0 6px 6px;
 }
 
-/* line 970, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 968, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav > .active > a {
   position: relative;
   z-index: 2;
@@ -6847,7 +5942,7 @@ form.bs-docs-example {
 }
 
 /* Chevrons */
-/* line 981, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 979, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav .icon-chevron-right {
   float: right;
   margin-top: 2px;
@@ -6855,29 +5950,29 @@ form.bs-docs-example {
   opacity: .25;
 }
 
-/* line 987, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 985, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav > li > a:hover {
   background-color: #f5f5f5;
 }
 
-/* line 990, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 988, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav a:hover .icon-chevron-right {
   opacity: .5;
 }
 
-/* line 994, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 992, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav .active .icon-chevron-right,
 .bs-docs-sidenav .active a:hover .icon-chevron-right {
   background-image: url(../img/glyphicons-halflings-white.png);
   opacity: 1;
 }
 
-/* line 998, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 996, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav.affix {
   top: 40px;
 }
 
-/* line 1001, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 999, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .bs-docs-sidenav.affix-bottom {
   position: absolute;
   top: auto;
@@ -6885,29 +5980,29 @@ form.bs-docs-example {
 }
 
 @media (max-width: 979px) {
-  /* line 1036, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1034, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   body {
     padding-top: 0;
   }
 
-  /* line 1041, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1039, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar-fixed-top,
   .simple-navbar-fixed-bottom {
     position: static;
   }
 
-  /* line 1044, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1042, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar-fixed-top {
     margin-bottom: 1.65;
     height: 60px;
   }
 
-  /* line 1048, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1046, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar-fixed-bottom {
     margin-top: 1.65;
   }
 
-  /* line 1052, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1050, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar-fixed-top .simple-navbar-inner,
   .simple-navbar-fixed-bottom .simple-navbar-inner {
     padding: 5px;
@@ -6915,52 +6010,52 @@ form.bs-docs-example {
     position: relative;
   }
 
-  /* line 1057, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1055, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar .container-px-width {
     width: auto;
     padding: 0;
   }
 
-  /* line 1062, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1060, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar .brand {
     padding-left: 10px;
     padding-right: 10px;
     margin: 0 0 0 -5px;
   }
 
-  /* line 1071, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1069, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse {
     clear: both;
   }
 
-  /* line 1075, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1073, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .simple-nav {
     float: none;
     margin: 0 0 0.825;
   }
 
-  /* line 1079, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1077, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .simple-nav > li {
     float: none;
   }
 
-  /* line 1082, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1080, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .simple-nav > li > a {
     margin-bottom: 2px;
   }
 
-  /* line 1085, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1083, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .simple-nav > .divider-vertical {
     display: none;
   }
 
-  /* line 1088, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1086, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .simple-nav .simple-nav-header {
     color: #4572ed;
     text-shadow: none;
   }
 
-  /* line 1094, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1092, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .simple-nav > li > a,
   .simple-nav-collapse .dropdown-menu a {
     padding: 9px 15px;
@@ -6968,37 +6063,37 @@ form.bs-docs-example {
     border-radius: 3px;
   }
 
-  /* line 1101, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1099, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .btn {
     padding: 4px 10px 4px;
     font-weight: normal;
     border-radius: 4px;
   }
 
-  /* line 1106, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1104, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .dropdown-menu li + li a {
     margin-bottom: 2px;
   }
 
-  /* line 1110, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1108, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .simple-nav > li > a:hover,
   .simple-nav-collapse .dropdown-menu a:hover {
     background-color: black;
   }
 
-  /* line 1114, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1112, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar-inverse .simple-nav-collapse .simple-nav > li > a:hover,
   .simple-navbar-inverse .simple-nav-collapse .dropdown-menu a:hover {
     background-color: #111111;
   }
 
-  /* line 1118, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1116, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse.in .btn-group {
     margin-top: 5px;
     padding: 0;
   }
 
-  /* line 1123, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1121, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .dropdown-menu {
     position: static;
     top: auto;
@@ -7015,23 +6110,23 @@ form.bs-docs-example {
     box-shadow: none;
   }
 
-  /* line 1138, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1136, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .dropdown-menu:before,
   .simple-nav-collapse .dropdown-menu:after {
     display: none;
   }
 
-  /* line 1141, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1139, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .dropdown-menu .divider {
     display: none;
   }
 
-  /* line 1146, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1144, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .simple-nav > li > .dropdown-menu:before, .simple-nav-collapse .simple-nav > li > .dropdown-menu:after {
     display: none;
   }
 
-  /* line 1152, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1150, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse .simple-navbar-form,
   .simple-nav-collapse .simple-navbar-search {
     float: none;
@@ -7043,32 +6138,32 @@ form.bs-docs-example {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
-  /* line 1161, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1159, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar-inverse .simple-nav-collapse .simple-navbar-form,
   .simple-navbar-inverse .simple-nav-collapse .simple-navbar-search {
     border-top-color: #111111;
     border-bottom-color: #111111;
   }
 
-  /* line 1166, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1164, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar .simple-nav-collapse .simple-nav.pull-right {
     float: none;
     margin-left: 0;
   }
 
-  /* line 1172, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1170, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse,
   .simple-nav-collapse.collapse {
     overflow: hidden;
     height: 0;
   }
 
-  /* line 1177, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1175, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar .btn-navbar {
     display: block;
   }
 
-  /* line 1183, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1181, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar-static .simple-navbar-inner {
     padding-left: 10px;
     padding-right: 10px;
@@ -7077,7 +6172,7 @@ form.bs-docs-example {
   }
 }
 @media (min-width: 980px) {
-  /* line 1200, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1198, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-nav-collapse.collapse {
     height: auto !important;
     overflow: visible !important;
@@ -7090,7 +6185,7 @@ form.bs-docs-example {
 /* Desktop large
 ------------------------- */
 @media (min-width: 980px) and (max-width: 1199px) {
-  /* line 1276, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1274, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
@@ -7100,13 +6195,13 @@ form.bs-docs-example {
 ------------------------- */
 @media (min-width: 768px) and (max-width: 979px) {
   /* Remove any padding from the body */
-  /* line 1285, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1283, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   body {
     padding-top: 0;
   }
 
   /* Unfloat brand */
-  /* line 1289, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1287, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   body > .simple-navbar-fixed-top .brand {
     float: left;
     margin-left: 0;
@@ -7116,7 +6211,7 @@ form.bs-docs-example {
     padding-top: 2px;
   }
 
-  /* line 1299, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1297, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar .btn-navbar {
     display: block;
     width: auto;
@@ -7125,51 +6220,51 @@ form.bs-docs-example {
   }
 
   /* Inline-block quick links for more spacing */
-  /* line 1307, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1305, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .quick-links li {
     display: inline-block;
     margin: 5px;
   }
 
   /* When affixed, space properly */
-  /* line 1313, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1311, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .bs-docs-sidenav {
     top: 0;
     margin-top: 30px;
     margin-right: 0;
   }
 
-  /* line 1319, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1317, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
   }
 
   /* Widen masthead and social buttons to fill body padding */
-  /* line 1324, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1322, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .jumbotron {
     margin-top: -20px;
     /* Offset bottom margin on .simple-navbar */
   }
 
   /* Adjust sidenav width */
-  /* line 1328, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1326, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .bs-docs-sidenav {
     margin-top: 20px;
   }
 
-  /* line 1332, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1330, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .bs-docs-sidenav.affix {
     top: 0;
   }
 
-  /* line 1336, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1334, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
   }
 
-  /* line 1341, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1339, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar .btn-simple-navbar {
     display: block;
     width: auto;
@@ -7181,19 +6276,19 @@ form.bs-docs-example {
 ------------------------- */
 @media (max-width: 767px) {
   /* Remove any padding from the body */
-  /* line 1353, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1351, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   body {
     padding-top: 0;
   }
 
-  /* line 1357, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1355, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   body > .simple-navbar-fixed-top .brand {
     font-size: 1.4em;
     padding-top: 2px;
   }
 
   /* Widen masthead and social buttons to fill body padding */
-  /* line 1363, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1361, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .jumbotron {
     padding: 40px 20px;
     margin-top: -20px;
@@ -7202,41 +6297,41 @@ form.bs-docs-example {
     margin-left: -20px;
   }
 
-  /* line 1369, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1367, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .masthead h1 {
     font-size: 90px;
   }
 
-  /* line 1373, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1371, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .masthead p,
   .masthead .btn {
     font-size: 24px;
   }
 
-  /* line 1376, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1374, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .marketing .span4 {
     margin-bottom: 40px;
   }
 
-  /* line 1379, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1377, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .bs-docs-social {
     margin: 0 -20px;
   }
 
   /* Space out the show-grid examples */
-  /* line 1384, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1382, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .show-grid [class*="span"] {
     margin-bottom: 5px;
   }
 
   /* Sidenav */
-  /* line 1389, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1387, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .bs-docs-sidenav {
     width: auto;
     margin-bottom: 20px;
   }
 
-  /* line 1393, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1391, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .bs-docs-sidenav.affix {
     position: static;
     width: auto;
@@ -7244,7 +6339,7 @@ form.bs-docs-example {
   }
 
   /* Unfloat the back to top link in footer */
-  /* line 1400, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1398, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .footer {
     margin-left: -20px;
     margin-right: -20px;
@@ -7252,18 +6347,18 @@ form.bs-docs-example {
     padding-right: 20px;
   }
 
-  /* line 1406, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1404, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .footer p {
     margin-bottom: 9px;
   }
 
-  /* line 1410, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1408, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
   }
 
-  /* line 1414, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1412, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .simple-navbar .btn-simple-navbar {
     display: block;
     width: auto;
@@ -7275,55 +6370,55 @@ form.bs-docs-example {
 ------------------------- */
 @media (max-width: 480px) {
   /* Remove padding above jumbotron */
-  /* line 1426, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1424, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   body {
     padding-top: 0;
   }
 
   /* Change up some type stuff */
-  /* line 1431, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1429, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   h2 small {
     display: block;
   }
 
   /* Downsize the jumbotrons */
-  /* line 1436, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1434, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .jumbotron h1 {
     font-size: 60px;
   }
 
-  /* line 1440, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1438, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .jumbotron p,
   .jumbotron .btn {
     font-size: 20px;
   }
 
-  /* line 1443, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1441, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .jumbotron .btn {
     display: block;
     margin: 0 auto;
   }
 
   /* center align subhead text like the masthead */
-  /* line 1450, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1448, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .subhead h1,
   .subhead p {
     text-align: center;
   }
 
   /* Marketing on home */
-  /* line 1455, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1453, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .marketing h1 {
     font-size: 40px;
   }
 
   /* center example sites */
-  /* line 1460, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1458, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .example-sites {
     margin-left: 0;
   }
 
-  /* line 1463, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1461, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .example-sites > li {
     float: none;
     display: block;
@@ -7332,13 +6427,13 @@ form.bs-docs-example {
     text-align: center;
   }
 
-  /* line 1470, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1468, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .example-sites .thumbnail > img {
     max-width: 270px;
   }
 
   /* Do our best to make tables work in narrow viewports */
-  /* line 1475, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1473, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   table code {
     white-space: normal;
     word-wrap: break-word;
@@ -7346,7 +6441,7 @@ form.bs-docs-example {
   }
 
   /* Modal example */
-  /* line 1482, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1480, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .modal-example .modal {
     position: relative;
     top: auto;
@@ -7356,21 +6451,21 @@ form.bs-docs-example {
   }
 
   /* Unfloat the back to top in footer to prevent odd text wrapping */
-  /* line 1491, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+  /* line 1489, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
   .footer .pull-right {
     float: none;
   }
 }
-/* line 1501, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1499, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch {
   margin-bottom: 20px;
 }
 
-/* line 1505, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1503, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 #colors h4 {
   margin-top: 25px;
 }
-/* line 1508, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1506, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 #colors .row {
   *zoom: 1;
 }
@@ -7385,12 +6480,12 @@ form.bs-docs-example {
   clear: both;
 }
 
-/* line 1513, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1511, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch-outlined {
   border: solid 1px #d2d2db;
 }
 
-/* line 1517, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1515, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 [class^="docs-color-swatch--"],
 [class*=" docs-color-swatch--"] {
   display: block;
@@ -7400,7 +6495,7 @@ form.bs-docs-example {
   margin-top: 10px;
 }
 
-/* line 1525, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1523, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch p {
   color: #83838f;
   font-size: 0.6875em;
@@ -7409,282 +6504,282 @@ form.bs-docs-example {
   line-height: 1.3;
 }
 
-/* line 1531, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1529, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--black {
   background: black;
 }
 
-/* line 1532, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1530, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray05 {
   background: #1f2024;
 }
 
-/* line 1533, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1531, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray10 {
   background: #212530;
 }
 
-/* line 1534, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1532, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray20 {
   background: #2f353d;
 }
 
-/* line 1535, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1533, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray25 {
   background: #3c3c42;
 }
 
-/* line 1536, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1534, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray30 {
   background: #504d56;
 }
 
-/* line 1537, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1535, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray40 {
   background: #83838f;
 }
 
-/* line 1538, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1536, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray50 {
   background: #bcbccc;
 }
 
-/* line 1539, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1537, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray60 {
   background: #d2d2db;
 }
 
-/* line 1540, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1538, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray70 {
   background: #e4e7eb;
 }
 
-/* line 1541, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1539, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray80 {
   background: #f1f5f9;
 }
 
-/* line 1542, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1540, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray90 {
   background: #f3f4f6;
 }
 
-/* line 1543, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1541, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--white {
   background: white;
 }
 
-/* line 1545, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1543, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonBlue {
   background: #5887f5;
 }
 
-/* line 1546, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1544, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonBlueHover {
   background: #4572ed;
 }
 
-/* line 1547, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1545, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonBlueActive {
   background: #6694ff;
 }
 
-/* line 1548, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1546, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonOrange {
   background: #f25529;
 }
 
-/* line 1549, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1547, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonOrangeHover {
   background: #d94c25;
 }
 
-/* line 1550, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1548, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonOrangeActive {
   background: #e54322;
 }
 
-/* line 1551, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1549, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--linkBlue {
   background: #4572ed;
 }
 
-/* line 1552, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1550, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--linkBlueHover {
   background: #3c4c74;
 }
 
-/* line 1553, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1551, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--linkBlueActive {
   background: #5787f4;
 }
 
-/* line 1555, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1553, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeRed {
   background: #c93434;
 }
 
-/* line 1556, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1554, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeRedHover {
   background: #b02e2e;
 }
 
-/* line 1557, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1555, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeRedActive {
   background: #e33b3b;
 }
 
-/* line 1558, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1556, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themePurple {
   background: #913f99;
 }
 
-/* line 1559, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1557, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themePurpleHover {
   background: #793480;
 }
 
-/* line 1560, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1558, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themePurpleActive {
   background: #aa49b2;
 }
 
-/* line 1561, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1559, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueLight {
   background: #31b0cc;
 }
 
-/* line 1562, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1560, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueLightHover {
   background: #2b9ab2;
 }
 
-/* line 1563, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1561, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueLightActive {
   background: #37c6e5;
 }
 
-/* line 1564, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1562, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeGreen {
   background: #8bc748;
 }
 
-/* line 1565, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1563, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeGreenHover {
   background: #7aad3e;
 }
 
-/* line 1566, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1564, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeGreenActive {
   background: #9de051;
 }
 
-/* line 1567, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1565, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeOrange {
   background: #e87533;
 }
 
-/* line 1568, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1566, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeOrangeHover {
   background: #cf692d;
 }
 
-/* line 1569, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1567, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeOrangeActive {
   background: #ff8138;
 }
 
-/* line 1570, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1568, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueDark {
   background: #2763a3;
 }
 
-/* line 1571, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1569, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueDarkHover {
   background: #21548a;
 }
 
-/* line 1572, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1570, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueDarkActive {
   background: #2d73bd;
 }
 
-/* line 1574, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1572, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryGold {
   background: #f0b938;
 }
 
-/* line 1575, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1573, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondarySage {
   background: #92b9a4;
 }
 
-/* line 1576, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1574, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryOlive {
   background: #a2b849;
 }
 
-/* line 1577, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1575, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryAqua {
   background: #45afc9;
 }
 
-/* line 1578, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1576, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryEggplant {
   background: #975b77;
 }
 
-/* line 1579, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1577, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryLavender {
   background: #6e5d91;
 }
 
-/* line 1580, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1578, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondarySlate {
   background: #5887ab;
 }
 
-/* line 1581, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1579, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondarySlateDark {
   background: #44506e;
 }
 
-/* line 1583, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1581, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--twitterColor {
   background: #00acee;
 }
 
-/* line 1584, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1582, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--facebookColor {
   background: #3b5b99;
 }
 
-/* line 1585, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1583, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--gplusColor {
   background: #db4a39;
 }
 
-/* line 1586, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1584, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--youtubeColor {
   background: #ef3c39;
 }
 
-/* line 1587, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1585, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--flickrblue {
   background: #0063dc;
 }
 
-/* line 1588, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1586, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-color-swatch--flickrpink {
   background: #ff0084;
 }
 
-/* line 1600, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1598, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page:not(.full-size) .docs-page-structure-main .container:not(.full-bleed-no-max) {
   max-width: 460px;
 }
 
-/* line 1606, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1604, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page {
   position: relative;
   width: 400px;
@@ -7692,33 +6787,33 @@ form.bs-docs-example {
   color: #2f353d;
   text-align: center;
 }
-/* line 1613, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1611, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-nav {
   padding: 6px 0;
   background: #bcbccc;
 }
-/* line 1617, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1615, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-footer {
   padding: 6px 0;
   background: #bcbccc;
 }
-/* line 1623, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1621, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page.overall-page-demo .docs-page-structure-main {
   padding: 100px 0;
 }
-/* line 1628, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1626, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main {
   background: #3dadfe;
   padding: 1px 0;
 }
-/* line 1632, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1630, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .show-grid {
   margin: 2px auto;
   border-radius: 0;
   background: rgba(255, 234, 0, 0.4) !important;
   border: solid 1px rgba(255, 234, 0, 0.6);
 }
-/* line 1640, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1638, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed {
   background: #6ed8ff;
@@ -7729,22 +6824,22 @@ form.bs-docs-example {
   -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
-/* line 1646, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1644, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container:first-child,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed:first-child {
   margin-top: 0;
 }
-/* line 1647, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1645, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container:last-child,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed:last-child {
   margin-bottom: 0;
 }
-/* line 1650, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1648, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container .container,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed .container {
   margin: 1px auto;
 }
-/* line 1656, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1654, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container.nesting-demo-parent, .docs-page-structure-page .docs-page-structure-main .container.full-bleed.nesting-demo-parent, .docs-page-structure-page .docs-page-structure-main .container.full-bleed-no-max.nesting-demo-parent,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed.nesting-demo-parent,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed.full-bleed.nesting-demo-parent,
@@ -7753,11 +6848,11 @@ form.bs-docs-example {
   padding-bottom: 1px;
   margin: 1px auto;
 }
-/* line 1678, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1676, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page.docs-page-structure-page-max {
   width: 600px;
 }
-/* line 1681, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1679, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page.docs-page-structure-page-max .docs-docs-page-structure-maxWidth-outline {
   position: absolute;
   border-left: solid 1px #c80000;
@@ -7769,37 +6864,37 @@ form.bs-docs-example {
   left: 50%;
   top: 0;
 }
-/* line 1693, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1691, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page.docs-page-structure-page-max .container {
   margin: 1px auto;
   z-index: 1;
 }
-/* line 1697, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1695, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page.docs-page-structure-page-max .container.full-bleed {
   margin: 1px auto;
   z-index: 1;
 }
-/* line 1701, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1699, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page.docs-page-structure-page-max .container.full-bleed-no-max {
   margin: 1px auto;
   z-index: 1;
 }
-/* line 1711, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1709, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page.full-size {
   width: 100%;
   padding: 1px 0;
 }
-/* line 1717, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1715, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page.grid-examples .docs-page-structure-main {
   background: #d5edff;
 }
-/* line 1720, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1718, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-page-structure-page.grid-examples .docs-page-structure-main .show-grid {
   background: rgba(255, 234, 0, 0.1) !important;
   border: solid 1px rgba(255, 234, 0, 0.7);
 }
 
-/* line 1729, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1727, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-container-demo {
   border: none;
   font-size: 0.875em;
@@ -7809,36 +6904,959 @@ form.bs-docs-example {
   padding: 20px 0;
   margin-bottom: 10px;
 }
-/* line 1739, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1737, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .docs-container-demo .grid {
   margin-top: 1px;
   margin-bottom: 1px;
   background: rgba(255, 234, 0, 0.4);
 }
 
-/* line 1749, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1747, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .limit-paragraph-widths #small-screens-section > p,
 .limit-paragraph-widths #overview > .container > p {
   max-width: 425px;
 }
-/* line 1752, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1750, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .limit-paragraph-widths #small-screens-section > p:not(.p4) {
   font-size: 0.8em;
 }
-/* line 1755, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1753, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .limit-paragraph-widths #small-screens-section > p.p4 {
   font-size: 0.7em;
 }
-/* line 1758, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1756, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .limit-paragraph-widths .jumbotron {
   padding-bottom: 10px;
 }
-/* line 1760, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1758, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .limit-paragraph-widths .jumbotron p {
   font-size: 24px !important;
 }
 
-/* line 1779, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
+/* line 1777, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/docs.scss */
 .NotUpdatedYet {
   background: #dcfbfa;
+}
+
+/**
+ * This file provides the styles for the fullscreen media manager
+ * (?do=media).
+ *
+ * What most templates would probably need to change (depending on
+ * their site width) are the 4 min-width's (search for @change).
+ */
+/*____________ structure ____________*/
+/* line 16, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page h1 {
+  margin-bottom: .5em;
+}
+
+/* line 20, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page {
+  /* min-width must be summary of all 3 panels' min-widths */
+  min-width: 50em;
+  /* @change */
+  width: 100%;
+  text-align: left;
+}
+
+/* line 27, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panel {
+  float: left;
+}
+
+/* line 31, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .namespaces {
+  width: 20%;
+  min-width: 10em;
+  /* @change */
+}
+
+/* line 35, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist {
+  width: 50%;
+  min-width: 25em;
+  /* @change */
+}
+
+/* line 39, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .file {
+  width: 30%;
+  min-width: 15em;
+  /* @change */
+}
+
+/* line 44, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panelHeader {
+  background-color: #eeeeee;
+  margin: 0 10px 10px 0;
+  padding: 10px 10px 8px;
+  text-align: left;
+  min-height: 20px;
+  overflow: hidden;
+}
+
+/* line 53, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panelContent {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0 10px 10px 0;
+  position: relative;
+}
+
+/* line 60, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+[dir=rtl] #mediamanager__page .panelContent {
+  text-align: right;
+}
+
+/* line 65, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .file .panelHeader,
+#mediamanager__page .file .panelContent {
+  margin-right: 0;
+}
+
+/* line 69, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .ui-resizable-e {
+  width: 6px;
+  right: 2px;
+  background: transparent url(../img/_wiki/resizecol.png) center center no-repeat;
+}
+
+/* line 74, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .ui-resizable-e:hover {
+  background-color: #eeeeee;
+}
+
+/* line 79, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page dd {
+  margin: 0;
+}
+
+/* line 83, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panelHeader h3 {
+  float: left;
+  font-weight: normal;
+  font-size: 1em;
+  padding: 0;
+  margin: 0 0 3px;
+}
+
+/*____________ namespaces panel ____________*/
+/* line 94, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+[dir=rtl] #mediamanager__page .namespaces {
+  text-align: right;
+}
+
+/* make it look like a tab (as in _tabs.css) */
+/* line 99, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .namespaces h2 {
+  font-size: 1em;
+  display: inline-block;
+  padding: 0.3em 0.8em;
+  margin: 0 0 0 0.3em;
+  border-radius: 0.5em 0.5em 0 0;
+  font-weight: normal;
+  background-color: #eeeeee;
+  color: #333333;
+  border: 1px solid #cccccc;
+  border-bottom-color: #eeeeee;
+  line-height: 1.4em;
+  position: relative;
+  bottom: -1px;
+  z-index: 2;
+}
+
+/* line 116, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+* html #mediamanager__page .namespaces h2,
+* + html #mediamanager__page .namespaces h2 {
+  display: inline;
+}
+
+/* line 119, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+[dir=rtl] #mediamanager__page .namespaces h2 {
+  margin: 0 0.3em 0 0;
+  position: relative;
+  right: 10px;
+}
+
+/* line 124, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .namespaces .panelHeader {
+  border-top: 1px solid #cccccc;
+  z-index: 1;
+}
+
+/* line 129, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .namespaces ul {
+  margin-left: .2em;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* line 135, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+[dir=rtl] #mediamanager__page .namespaces ul {
+  margin-left: 0;
+  margin-right: .2em;
+}
+
+/* line 139, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .namespaces ul ul {
+  margin-left: 1em;
+}
+
+/* line 142, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+[dir=rtl] #mediamanager__page .namespaces ul ul {
+  margin-left: 0;
+  margin-right: 1em;
+}
+
+/* line 146, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .namespaces ul ul li {
+  margin: 0;
+}
+
+/* line 150, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .namespaces ul .selected {
+  background-color: #ffff99;
+  font-weight: bold;
+}
+
+/*____________ file list panel ____________*/
+/* file list header */
+/* line 160, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panelHeader form.options {
+  float: right;
+  margin-top: -3px;
+}
+
+/* line 165, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panelHeader ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 170, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panelHeader ul li {
+  color: #333333;
+  float: left;
+  line-height: 1;
+  padding-left: 3px;
+}
+
+/* line 176, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+[dir=rtl] #mediamanager__page .panelHeader ul li {
+  margin-right: 0;
+  margin-left: .5em;
+}
+
+/* line 181, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panelHeader ul li.listType {
+  padding-left: 30px;
+  margin: 0 0 0 5px;
+  background: url("../img/_wiki/icon-list.png") 3px 1px no-repeat;
+}
+
+/* line 186, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panelHeader ul li.sortBy {
+  padding-left: 30px;
+  margin: 0 0 0 5px;
+  background: url("../img/_wiki/icon-sort.png") 3px 1px no-repeat;
+}
+
+/* line 192, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panelHeader form.options .ui-buttonset label {
+  font-size: 90%;
+  margin-right: -0.4em;
+}
+
+/* line 196, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .panelHeader form.options .ui-buttonset .ui-button-text {
+  padding: 0.3em 0.5em;
+  line-height: 1;
+}
+
+/* file list content */
+/* line 203, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist ul {
+  padding: 0;
+  margin: 0 10px 0 0;
+}
+
+/* line 207, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+[dir=rtl] #mediamanager__page .filelist ul {
+  margin: 0 10px 0 0;
+}
+
+/* line 211, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .panelContent ul li:hover {
+  background-color: #eeeeee;
+}
+
+/* line 215, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist li dt a {
+  vertical-align: middle;
+  display: table-cell;
+  overflow: hidden;
+}
+
+/* line 221, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+* html #mediamanager__page .filelist .thumbs li dt a,
+* + html #mediamanager__page .filelist .thumbs li dt a {
+  display: block;
+}
+
+/* line 225, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+* html #mediamanager__page .filelist .rows li dt a,
+* + html #mediamanager__page .filelist .rows li dt a {
+  display: inline;
+}
+
+/* file list as thumbs */
+/* line 231, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .thumbs li {
+  width: 200px;
+  min-height: 130px;
+  display: inline-block;
+  display: -moz-inline-stack;
+  /* the right margin should visually be 10px, but because of its inline-block nature the whitespace inbetween is about 4px more */
+  margin: 0 6px 10px 0;
+  background-color: #dddddd;
+  color: #333333;
+  padding: 5px;
+  vertical-align: top;
+  position: relative;
+  line-height: 1.2;
+  font-size: 0.75em;
+}
+
+/* line 246, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+[dir=rtl] #mediamanager__page .filelist .thumbs li {
+  margin-right: 0;
+  margin-left: 6px;
+}
+
+/* line 251, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+* html #mediamanager__page .filelist .thumbs li,
+* + html #mediamanager__page .filelist .thumbs li {
+  display: inline;
+  zoom: 1;
+}
+
+/* line 256, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .thumbs li dt a {
+  width: 100px;
+  height: 90px;
+}
+
+/* line 261, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .thumbs li dt a img {
+  max-width: 90px;
+  max-height: 90px;
+}
+
+/* line 269, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .thumbs li .name,
+#mediamanager__page .filelist .thumbs li .size,
+#mediamanager__page .filelist .thumbs li .filesize,
+#mediamanager__page .filelist .thumbs li .date {
+  display: block;
+  overflow: hidden;
+  width: 90%;
+  white-space: nowrap;
+}
+
+/* line 275, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .thumbs li .name {
+  padding: 5px 0;
+  font-weight: bold;
+}
+
+/* line 279, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .thumbs li .date {
+  font-style: italic;
+  white-space: normal;
+}
+
+/* file list as rows */
+/* line 286, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li {
+  list-style: none;
+  display: block;
+  position: relative;
+  margin: 5px 0 3px 0;
+  background-color: white;
+  color: #333333;
+  overflow: hidden;
+  font-size: 0.75em;
+}
+
+/* line 298, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li:nth-child(2n+1) {
+  background-color: #dddddd;
+}
+
+/* line 302, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li dl {
+  overflow: hidden;
+}
+
+/* line 305, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li dt {
+  float: left;
+  width: 60px;
+  height: 40px;
+  text-align: center;
+}
+
+/* line 313, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li dt a {
+  width: 100px;
+  height: 40px;
+}
+
+/* line 318, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li dt a img {
+  max-width: 40px;
+  max-height: 40px;
+}
+
+/* line 326, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li .name,
+#mediamanager__page .filelist .rows li .size,
+#mediamanager__page .filelist .rows li .filesize,
+#mediamanager__page .filelist .rows li .date {
+  overflow: hidden;
+  margin-left: 1%;
+  padding-top: 11px;
+}
+
+/* line 333, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li .size,
+#mediamanager__page .filelist .rows li .filesize,
+#mediamanager__page .filelist .rows li .date {
+  float: right;
+}
+
+/* line 338, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li .name {
+  float: left;
+  width: auto;
+  font-weight: bold;
+}
+
+/* line 345, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li .size,
+#mediamanager__page .filelist .rows li .filesize {
+  width: 75px;
+}
+
+/* line 348, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .filelist .rows li .date {
+  width: 120px;
+  font-style: italic;
+  white-space: normal;
+}
+
+/* upload form */
+/* line 356, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page div.upload {
+  padding-bottom: 0.5em;
+}
+
+/*____________ file panel ____________*/
+/* line 362, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .file ul.actions {
+  text-align: center;
+  margin: 0 0 5px;
+  padding: 0;
+  list-style: none;
+}
+
+/* line 368, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .file ul.actions li {
+  display: inline;
+  margin: 0;
+}
+
+/* line 373, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .file div.image {
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+/* line 378, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .file div.image img {
+  width: 100%;
+}
+
+/* line 382, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .file dl {
+  margin-bottom: 0;
+}
+
+/* line 385, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .file dl dt {
+  font-weight: bold;
+  display: block;
+  background-color: #eeeeee;
+}
+
+/* line 390, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .file dl dd {
+  display: block;
+  background-color: #dddddd;
+}
+
+/* file meta data edit form */
+/* line 398, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page form.meta div.row {
+  margin-bottom: 5px;
+}
+
+/* line 402, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page form.meta label span {
+  display: block;
+}
+
+/* line 406, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page form.meta input {
+  width: 50%;
+}
+
+/* line 410, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page form.meta input.button {
+  width: auto;
+}
+
+/* line 414, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page form.meta textarea.edit {
+  height: 6em;
+  width: 95%;
+  min-width: 95%;
+  max-width: 95%;
+}
+
+/* file revisions form */
+/* line 423, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page #page__revisions ul {
+  margin-left: 10px;
+  padding: 0;
+  list-style-type: none;
+}
+
+/* line 429, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page #page__revisions ul li div.li div {
+  font-size: 90%;
+  color: #666666;
+  padding-left: 18px;
+}
+
+/* line 435, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page #page__revisions ul li div.li input {
+  position: relative;
+  top: 1px;
+}
+
+/* file diff view */
+/* line 442, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff table {
+  table-layout: fixed;
+  border-width: 0;
+}
+
+/* line 448, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff td,
+#mediamanager__diff th {
+  width: 48%;
+  margin: 0 5px 10px 0;
+  padding: 0;
+  vertical-align: top;
+  text-align: left;
+  border-color: white;
+}
+
+/* line 457, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+[dir=rtl] #mediamanager__diff td,
+[dir=rtl] #mediamanager__diff th {
+  text-align: right;
+}
+
+/* line 461, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff th {
+  font-weight: normal;
+  background-color: white;
+  line-height: 1.2;
+}
+
+/* line 466, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff th a {
+  font-weight: bold;
+}
+
+/* line 469, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff th span {
+  font-size: 90%;
+}
+
+/* line 473, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff dl dd strong {
+  background-color: #ffff99;
+  color: #333333;
+  font-weight: normal;
+}
+
+/* image diff views */
+/* line 481, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__page .file form.diffView {
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* line 486, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff div.slider {
+  margin: 10px;
+  width: 95%;
+}
+
+/* line 491, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff .imageDiff {
+  position: relative;
+}
+
+/* line 494, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff .imageDiff .image2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* line 500, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff .imageDiff.opacity .image2 {
+  opacity: 0.5;
+}
+
+/* line 504, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff .imageDiff.portions .image2 {
+  border-right: 1px solid red;
+  overflow: hidden;
+}
+
+/* line 509, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff .imageDiff.portions img {
+  float: left;
+}
+
+/* line 513, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#mediamanager__diff .imageDiff img {
+  width: 100%;
+  max-width: none;
+}
+
+/* line 526, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#dokuwiki__top.mode_media #main {
+  width: 92%;
+  max-width: none;
+}
+/* line 529, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#dokuwiki__top.mode_media #main > .grid {
+  width: auto;
+}
+/* line 531, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#dokuwiki__top.mode_media #main > .grid .span3 {
+  display: none;
+}
+/* line 534, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_fullscreen.scss */
+#dokuwiki__top.mode_media #main > .grid .span9 {
+  width: 98%;
+  margin: 0;
+}
+
+/**
+ * This file provides styles for the media manager popup
+ * (mediamanager.php).
+ */
+/*____________ structure ____________*/
+/* line 8, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+html.popup {
+  overflow: auto;
+}
+
+/* line 12, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__manager {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* line 17, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#mediamgr__aside {
+  width: 30%;
+  height: 100%;
+  overflow: auto;
+  float: left;
+  border-right: 1px solid #cccccc;
+}
+
+/* line 24, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#mediamgr__aside .pad {
+  padding: .5em;
+}
+
+/* line 28, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#mediamgr__content {
+  width: 69%;
+  height: 100%;
+  overflow: auto;
+  float: left;
+}
+
+/* line 34, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #mediamgr__content {
+  right: auto;
+  left: 0;
+}
+
+/* line 38, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#mediamgr__content .pad {
+  padding: .5em;
+}
+
+/* line 43, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__manager h1,
+#media__manager h2 {
+  font-size: 1.5em;
+  margin-bottom: .5em;
+  padding-bottom: .2em;
+  border-bottom: 1px solid #cccccc;
+}
+
+/* left side
+********************************************************************/
+/*____________ options ____________*/
+/* line 55, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__opts {
+  margin-bottom: .5em;
+}
+
+/* line 59, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__opts input {
+  margin-right: .3em;
+}
+
+/* line 62, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__opts input {
+  margin-right: 0;
+  margin-left: .3em;
+}
+
+/*____________ tree ____________*/
+/* line 71, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__tree ul {
+  padding-left: .2em;
+}
+
+/* line 74, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__tree ul {
+  padding-left: 0;
+  padding-right: .2em;
+}
+
+/* line 78, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__tree ul li {
+  clear: left;
+  list-style-type: none;
+  list-style-image: none;
+  margin-left: 0;
+}
+
+/* line 84, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__tree ul li {
+  clear: right;
+  margin-right: 0;
+}
+
+/* line 88, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__tree ul li img {
+  float: left;
+  padding: 0.5em 0.3em 0 0;
+}
+
+/* line 92, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__tree ul li img {
+  float: right;
+  padding: 0.5em 0 0 0.3em;
+}
+
+/* line 96, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__tree ul li div.li {
+  display: inline;
+}
+
+/* line 99, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__tree ul li li {
+  margin-left: 1.5em;
+}
+
+/* line 102, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__tree ul li li {
+  margin-left: 0;
+  margin-right: 1.5em;
+}
+
+/* right side
+********************************************************************/
+/*____________ upload form ____________*/
+/* upload info */
+/* line 113, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content div.upload {
+  font-size: .9em;
+  margin-bottom: .5em;
+}
+
+/* line 118, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#mediamanager__uploader {
+  margin-bottom: 1em;
+}
+
+/* line 121, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#mediamanager__uploader p {
+  margin-bottom: .5em;
+}
+
+/*____________ file list ____________*/
+/* line 127, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content img.load {
+  margin: 1em auto;
+}
+
+/* line 132, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content .odd,
+#media__content .even {
+  padding: .5em;
+}
+
+/* line 135, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content .odd {
+  background-color: #eeeeee;
+}
+
+/* highlight newly uploaded or edited file */
+/* line 141, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content #scroll__here {
+  border: 1px dashed #cccccc;
+}
+
+/* link which inserts media file */
+/* line 146, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content a.mediafile {
+  margin-right: 1.5em;
+  font-weight: bold;
+}
+
+/* line 150, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__content a.mediafile {
+  margin-right: 0;
+  margin-left: 1.5em;
+}
+
+/* line 156, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content img.btn {
+  vertical-align: text-bottom;
+}
+
+/* info how to insert media, if JS disabled */
+/* line 161, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content div.example {
+  color: #666666;
+  margin-left: 1em;
+}
+
+/* line 166, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content div.detail {
+  padding: 0.2em 0;
+}
+
+/* line 169, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content div.detail div.thumb {
+  float: left;
+  margin: 0 0.5em 0 18px;
+}
+
+/* line 173, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__content div.detail div.thumb {
+  float: right;
+  margin: 0 18px 0 0.5em;
+}
+
+/* line 177, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content div.detail div.thumb a {
+  display: block;
+  cursor: pointer;
+}
+
+/* line 181, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content div.detail p {
+  margin-bottom: 0;
+}
+
+/*____________ media search ____________*/
+/* meta edit form
+********************************************************************/
+/* line 208, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content form.meta div.metafield {
+  clear: left;
+  margin-bottom: .5em;
+  overflow: hidden;
+}
+
+/* line 213, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__content form.meta div.metafield {
+  clear: right;
+}
+
+/* line 217, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content form.meta label {
+  display: block;
+  width: 25%;
+  float: left;
+  font-weight: bold;
+  clear: left;
+}
+
+/* line 224, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__content form.meta label {
+  float: right;
+  clear: right;
+}
+
+/* line 228, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content form.meta .edit {
+  float: left;
+  width: 70%;
+  margin: 0;
+}
+
+/* line 233, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__content form.meta .edit {
+  float: right;
+}
+
+/* line 236, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content form.meta textarea.edit {
+  /* needed because of IE8 hack in _edit.css for textarea.edit: */
+  max-width: 70%;
+  min-width: 70%;
+}
+
+/* line 242, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+#media__content form.meta div.buttons {
+  clear: left;
+  margin: 0.2em 0 0 25%;
+}
+
+/* line 246, /Storage/Projects/sonyglobal_webtransformation/sonyglobal/development/src/packages/docs/css/_wiki/tpl/_media_popup.scss */
+[dir=rtl] #media__content form.meta div.buttons {
+  clear: right;
+  margin: 0.2em 25% 0 0;
 }
