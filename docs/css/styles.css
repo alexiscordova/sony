@@ -104,7 +104,7 @@ html {
 
 /* line 119, ../../src/packages/common/css/_base/_reset.scss */
 a:focus {
-  outline: thin dotted #333;
+  outline: thin dotted #333333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -248,7 +248,7 @@ body {
 .img-polaroid {
   padding: 4px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -1022,7 +1022,7 @@ body {
 /* line 32, ../../src/packages/common/css/_base/_fonticons.scss */
 [class*="fonticon-20-"] {
   font-size: 2.0em;
-  margin: -0.125em;
+  margin: -.125em;
 }
 
 /* line 37, ../../src/packages/common/css/_base/_fonticons.scss */
@@ -2551,7 +2551,7 @@ select:focus,
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
-  outline: thin dotted #333;
+  outline: thin dotted #333333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -2933,7 +2933,7 @@ p .btn, td .btn {
 /* line 42, ../../src/packages/common/css/_base/_buttons.scss */
 .btn:focus {
   background: #6694ff;
-  outline: thin dotted #333;
+  outline: thin dotted #333333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -3043,7 +3043,7 @@ p .btn-special, td .btn-special {
 /* line 160, ../../src/packages/common/css/_base/_buttons.scss */
 .btn-square i {
   line-height: 0;
-  margin: -0.125em;
+  margin: -.125em;
 }
 
 /* line 168, ../../src/packages/common/css/_base/_buttons.scss */
@@ -3824,8 +3824,8 @@ input[type="submit"].btn.btn-mini {
 [class*=" swatch-"]:after {
   top: 50%;
   left: 50%;
-  margin-left: -0.5em;
-  margin-top: -0.5625em;
+  margin-left: -.5em;
+  margin-top: -.5625em;
   color: white;
 }
 /* line 78, ../../src/packages/common/css/_base/_swatches.scss */
@@ -4095,7 +4095,7 @@ input[type="submit"].btn.btn-mini {
   margin: 0;
   list-style: none;
   background-color: white;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   *border-right-width: 2px;
   *border-bottom-width: 2px;
@@ -4331,13 +4331,13 @@ input[type="submit"].btn.btn-mini {
 .share-menu:before {
   content: '';
   position: absolute;
-  top: -0.8125em;
+  top: -.8125em;
   right: 1.5em;
   width: 0;
   height: 0;
   border-bottom: 0.75em solid white;
-  border-left: .625em solid transparent;
-  border-right: .625em solid transparent;
+  border-left: 0.625em solid transparent;
+  border-right: 0.625em solid transparent;
 }
 /* line 322, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu a {
@@ -5012,7 +5012,7 @@ button.close {
 }
 /* line 424, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-main .navtray-list-main {
-  margin: 0 4.0% 1.0% 4.0%;
+  margin: 0 4% 1% 4%;
   overflow: hidden;
 }
 /* line 428, ../../src/packages/common/css/_components/_navbar.scss */
@@ -6225,6 +6225,12 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
 }
 
 /* line 9, ../../src/packages/common/css/_components/_pagination.scss */
+.sony-dot-nav {
+  position: relative;
+  margin-top: 40px;
+}
+
+/* line 14, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets {
   position: absolute;
   z-index: 35;
@@ -6238,11 +6244,11 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   -webkit-transition: opacity 0.2s;
   transition: opacity 0.2s;
 }
-/* line 22, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 27, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets.pagination-bullets-on, .pagination-bullets.on {
   opacity: 1;
 }
-/* line 26, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 31, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet {
   display: inline-block;
   margin-left: 0.3125em;
@@ -6252,17 +6258,17 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
-/* line 34, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 39, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet:first-child {
   margin-left: 0;
 }
-/* line 40, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 45, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet:hover,
 .pagination-bullets .bullet-selected {
   color: #2f353d;
 }
 
-/* line 45, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 50, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
@@ -6271,12 +6277,12 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   height: 0;
   z-index: 999;
 }
-/* line 51, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 56, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles.show-paddles {
   opacity: 1;
   filter: alpha(opacity=100);
 }
-/* line 55, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 60, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles button {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
@@ -6294,37 +6300,37 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   opacity: 0;
   filter: alpha(opacity=0);
 }
-/* line 70, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 75, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles button.on {
   opacity: 1;
   filter: alpha(opacity=100);
 }
-/* line 74, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 79, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles button.pagination-next {
   right: 3.55%;
   margin-right: -1.5em;
 }
-/* line 79, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 84, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles button.pagination-prev {
   left: 3.55%;
   margin-left: -1.5em;
 }
-/* line 84, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 89, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles button {
   zoom: 1;
 }
-/* line 88, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 93, ../../src/packages/common/css/_components/_pagination.scss */
 .touch .pagination-paddles button {
   display: none;
 }
-/* line 93, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 98, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles button:hover, .pagination-paddles button:focus {
   background-color: #2f353d;
   background-color: rgba(33, 37, 48, 0.8);
   outline: none;
   cursor: pointer;
 }
-/* line 100, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 105, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles button i {
   vertical-align: middle;
   color: white;
@@ -6332,22 +6338,22 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   margin-left: .0625em;
   margin-top: -0.125em;
 }
-/* line 108, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 113, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles button i.fonticon-10-chevron-reverse {
   margin-left: 0;
   margin-right: 0.0625em;
 }
-/* line 116, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 121, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .paddle-trigger button {
   opacity: 0;
 }
-/* line 121, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 126, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .paddle-trigger:hover button,
 .pagination-paddles .paddle-trigger button:focus {
   opacity: 1;
 }
 
-/* line 143, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 148, ../../src/packages/common/css/_components/_pagination.scss */
 .nav-paddle {
   display: block;
   border: none;
@@ -6360,22 +6366,22 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
-/* line 154, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 159, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .nav-paddle {
   zoom: 1;
 }
-/* line 158, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 163, ../../src/packages/common/css/_components/_pagination.scss */
 .touch .nav-paddle {
   display: none;
 }
-/* line 163, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 168, ../../src/packages/common/css/_components/_pagination.scss */
 .nav-paddle:hover, .nav-paddle:focus {
   background-color: #2f353d;
   background-color: rgba(33, 37, 48, 0.8);
   outline: none;
   cursor: pointer;
 }
-/* line 170, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 175, ../../src/packages/common/css/_components/_pagination.scss */
 .nav-paddle i {
   vertical-align: middle;
   color: white;
@@ -6383,24 +6389,24 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   margin-left: .0625em;
   margin-top: -0.125em;
 }
-/* line 178, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 183, ../../src/packages/common/css/_components/_pagination.scss */
 .nav-paddle i.fonticon-10-chevron-reverse {
   margin-left: 0;
   margin-right: 0.0625em;
 }
 
-/* line 186, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 191, ../../src/packages/common/css/_components/_pagination.scss */
 .paddle-trigger .nav-paddle {
   opacity: 0;
 }
 
-/* line 192, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 197, ../../src/packages/common/css/_components/_pagination.scss */
 .paddle-trigger:hover .nav-paddle,
 .paddle-trigger .nav-paddle:focus {
   opacity: 1;
 }
 
-/* line 203, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 208, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle,
 .nav-paddle-large {
   position: absolute;
@@ -6418,13 +6424,13 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   transition: 0.3s ease-in;
   cursor: pointer;
 }
-/* line 218, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 223, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle:hover,
 .nav-paddle-large:hover {
   background-color: #2f353d;
   background-color: rgba(33, 37, 48, 0.8);
 }
-/* line 223, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 228, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle i,
 .nav-paddle-large i {
   width: 15px;
@@ -6434,12 +6440,12 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   margin-left: auto;
   margin-right: auto;
 }
-/* line 230, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 235, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle.left,
 .nav-paddle-large.left {
   left: 10px;
 }
-/* line 234, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 239, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle.right,
 .nav-paddle-large.right {
   right: 10px;
@@ -6610,7 +6616,7 @@ body.modal-open {
   margin-bottom: 0;
   text-align: right;
   background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
   border-radius: 0 0 6px 6px;
   -webkit-box-shadow: inset 0 1px 0 white;
   box-shadow: inset 0 1px 0 white;
@@ -8456,7 +8462,7 @@ textarea,
   color: #d2d2db;
   vertical-align: baseline;
   font-size: .8125em;
-  padding: .6875em .875em;
+  padding: 0.6875em 0.875em;
 }
 /* line 23, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .favorite-holder:hover i, .no-touch a:hover > .favorite-holder i, .favorite-holder.active i {
@@ -8465,7 +8471,7 @@ textarea,
 
 /* line 42, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links {
-  margin-left: -0.375em;
+  margin-left: -.375em;
   margin-bottom: 0;
   *zoom: 1;
 }
@@ -8820,7 +8826,7 @@ ul.jump-links .active a {
   top: 0;
   left: 0;
   height: 100%;
-  padding: 10.129032% 10.6060606% 10.967742%;
+  padding: 10.12903% 10.60606% 10.96774%;
 }
 /* line 459, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo img {
@@ -9015,7 +9021,7 @@ ul.jump-links .active a {
   position: absolute;
   z-index: -1;
   top: 0;
-  right: -0.1875em;
+  right: -.1875em;
   width: 2000px;
   height: 100%;
   background: #f3f4f6;
@@ -9243,10 +9249,10 @@ ul.jump-links .active a {
 .scHidden {
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: visibility 0s linear 0.3s,opacity 0.3s linear;
-  -moz-transition: visibility 0s linear 0.3s,opacity 0.3s linear;
-  -o-transition: visibility 0s linear 0.3s,opacity 0.3s linear;
-  transition: visibility 0s linear 0.3s,opacity 0.3s linear;
+  -webkit-transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+  -moz-transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+  -o-transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 
 /* line 97, ../../src/packages/common/css/_shared/_sonycarousel.scss */
@@ -9652,7 +9658,7 @@ ul.jump-links .active a {
 /* line 426, ../../src/packages/common/css/_shared/_sonycarousel.scss */
 .scDefault .scThumb.scNavSelected {
   /* background: #DA15DA; */
-  border: 3px solid #007AFF;
+  border: 3px solid #007aff;
   border-radius: 5px;
 }
 
