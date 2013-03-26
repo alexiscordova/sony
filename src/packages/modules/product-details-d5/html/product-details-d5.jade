@@ -1,19 +1,33 @@
 include ../../../common/html/jade-helpers.jade
 
 mixin featureList( list, extraClasses)
-  - classes = 'feature-list'
-  - extraClasses = extraClasses || false
-  - if ( extraClasses ) classes += ' ' + extraClasses
-  ul(class=classes)
+  - listClasses = 'feature-list'
+  - extraClasses = extraClasses || false 
+  - if ( extraClasses ) listClasses += ' ' + extraClasses
+
+  ul(class=listClasses)
     each li in list
-      li.feature     
-        if (li.icon)
-          i(class= li.icon)
-        p
-          | #{li.copy}
-          if li.link
-            a(href=li.link)= li.linkLabel
+      - copyClasses = ["copy"]
+
+      //- at least copy required
+      if (li.copy)
+        
+        li
+          
+          if (li.icon)
+            - iconClasses = ["icon", li.icon]
+            - copyClasses.push("with-icon")
             
+            p(class= iconClasses)
+          
+          p(class= copyClasses)
+            | #{li.copy}
+            
+            if (li.link)
+              a(href=li.link)= li.linkLabel
+            
+
+
 mixin definitionList( list, isHorizontal )
   - isHorizontal = isHorizontal || false
   - clss = isHorizontal ? 'dl-horizontal' : null
@@ -22,7 +36,6 @@ mixin definitionList( list, isHorizontal )
       dt.l3: strong= li.title
       if li.copy
         dd.p3= li.copy
-
 
 //- +iQImage(module.images[0],'tcc-image')
 
