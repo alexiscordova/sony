@@ -1,0 +1,136 @@
+@import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../../../common/css/_base/mixins";
+
+
+//PDP SLIDESHOW D4
+.PDPSLIDESHOW {}
+  
+  .pdp-slideshow {
+    position: relative;
+    width: 100%;
+    max-height: 610px;
+    overflow: hidden;
+    //background: #f1f5f9; //should this be set on each slide?
+
+    .ghost-center-wrap {
+      height: 100%;
+    }
+
+    .lt-ie9 & {
+      width: 1200px;
+
+      
+      height: 610px;
+    }
+
+    .pdp-slideshow-outer {
+       @include flex-ratio-box( 1200 , 610 );
+
+      .pdp-slideshow-inner {
+        @include flex-ratio-box-content();
+        width: 100%; // this will get set dynamically based on the number of slides
+        max-height: 610px;
+        @include opacity(0);
+        @include transition();
+      }
+
+      //these will get set dynamically based on number of slides
+      .pdp-slideshow-slide {
+        width: 100%;
+        height: 100%;
+        float: left;
+        display: inline-block;
+        text-align: center;
+
+        .full-max {
+          width: 100%;
+        }
+      }
+    
+    }
+
+    .thumb-nav {
+      position: absolute;
+      bottom: 5.057377%;
+      left: 0;
+      width: 100%;
+      text-align:center;
+      height: 11.8032787%;
+      max-height: 72px;
+      margin:0;
+
+     .thumb {
+        width: 6.1666667%;
+        height: 100%;
+        max-width: 74px;
+        max-height: 72px;
+        background: $gray80;
+        background: $gray70; //just to see some contrast 
+        display: inline-block;
+
+        .lt-ie8 & {
+          @include ie7-inline-block();
+        }
+
+        img {
+          position: relative;
+          display: block;
+          width: 100%;   
+          height: auto;
+          max-width: 68px;
+          max-height: 48px;
+
+        }
+
+        a {
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+          display: block;
+          @include transition();
+          
+          &.light {
+            img {
+              @include opacity(60);
+            }            
+          }
+
+          &.dark {
+            img {
+              @include opacity(75);
+            }            
+          }
+
+          &.active,
+          &:hover {
+
+            img {
+              @include opacity(100);
+            }            
+            
+            @include box-shadow(inset 0 4px 0 $linkBlue);
+          }
+
+        }
+      }
+
+      &.dark .thumb {
+        background: #2f353d; //TODO: need global color for this;
+      }
+
+      &.light .thumb {
+        background: $gray80;
+        background: $gray70; //just to see some contrast 
+      }
+
+    }
+
+    // some navigation dot container adjustments
+    .navigation-container {
+      width: 100%;
+      height: 40px;
+
+    }
+
+
+  }
