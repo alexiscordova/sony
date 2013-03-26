@@ -37,7 +37,10 @@ define(function(require){
 
           // Stagger gallery initialization
           setTimeout(function() {
+            var id = $this.attr('id').substring( 0, $this.attr('id').lastIndexOf('-') );
+            // console.time( id );
             $this.gallery( $this.data() );
+            // console.timeEnd( id );
           }, 0);
         });
 
@@ -95,12 +98,17 @@ define(function(require){
     self.$carousels = self.$grid.find('.js-item-carousel');
     self.$zeroMessage = self.$container.find('.zero-products-message');
 
-    // Compare modal
+    // Modes
+    self.isEditorialMode = self.mode === 'editorial';
+    self.isDetailedMode = self.mode === 'detailed';
+    self.isCompareMode = self.mode === 'compare';
+
     self.$compareBtn = self.$container.find('.js-compare-toggle');
-    self.$compareTool = $('#compare-tool');
+    self.$compareReset = self.$container.find('.js-compare-reset');
+    self.itemSelector = '.' + ( self.isCompareMode ? 'compare' : 'gallery' ) + '-item';
+    self.$items = self.$grid.find( self.itemSelector );
 
     // What do we have here?
-    self.hasCompareModal = self.$compareBtn.length > 0 && self.$compareTool.length > 0;
     self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
     self.hasFilters = self.$filterOpts.length > 0;
     self.hasSorting = self.$sortBtns.length > 0;
@@ -114,11 +122,16 @@ define(function(require){
 
     self.$container.addClass('gallery-' + self.mode);
     // Adding a class causes a style recalculation, let's throw in the column rearranging here too
-    if ( self.mode === 'editorial' ) {
+    if ( self.isEditorialMode ) {
       self.shuffleGutters();
     }
 
-    self.initShuffle();
+    if ( self.isEditorialMode || self.isDetailedMode ) {
+      self.initShuffle();
+    } else {
+      self.onGalleryLoading();
+      self.initCompareGallery();
+    }
 
     self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
     self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
@@ -146,11 +159,12 @@ define(function(require){
 
     self.onResize( true );
 
-    // Launch compare tool on click
-    if ( self.hasCompareModal ) {
-      self.$compareBtn.on('click', $.proxy( self.onCompareLaunch, self ));
-      self.$compareTool.on('hidden', $.proxy( self.onCompareClosed, self ));
-      self.$compareTool.on('shown', $.proxy( self.onCompareShown, self ));
+    // Compare mode doesn't have a shuffle plugin to execute the event
+    if ( self.isCompareMode ) {
+      // self.$compareBtn.on('click', $.proxy( self.onCompareLaunch, self ));
+      // self.$compareTool.on('hidden', $.proxy( self.onCompareClosed, self ));
+      // self.$compareTool.on('shown', $.proxy( self.onCompareShown, self ));
+      self.onGalleryDoneLoading();
     }
 
     // We're done.
@@ -191,7 +205,9 @@ define(function(require){
       self.enabled = true;
 
       // Enable shuffle, which triggers a layout update
-      self.shuffle.enable();
+      if ( !self.isCompareMode ) {
+        self.shuffle.enable();
+      }
 
       // Resume infinite scroll if it's there yo
       if ( self.hasInfiniteScroll ) {
@@ -216,7 +232,9 @@ define(function(require){
       }
 
       // Disable shuffle
-      self.shuffle.disable();
+      if ( !self.isCompareMode ) {
+        self.shuffle.disable();
+      }
 
       // Disable carousels
       if ( self.hasEnabledCarousels ) {
@@ -234,19 +252,97 @@ define(function(require){
     },
 
     filter : function() {
-      var self = this;
+      var self = this,
+          context,
+          filterFunction = !self.isCompareMode ? self.$grid.shuffle : self.manualFilter,
+          returnFilteredItem;
 
-      if ( self.hasActiveFilters() ) {
-        self.$grid.shuffle(function($el) {
-          return self.itemPassesFilters( $el.data() );
-        });
+      if ( self.isCompareMode ) {
+        context = self;
+        filterFunction = self.manualFilter;
+
       } else {
-        self.$grid.shuffle('all');
+        context = self.shuffle;
+        filterFunction = self.shuffle.shuffle;
       }
+
+      // If there are active filters, we need to check each item to see if it passes
+      if ( self.hasActiveFilters() ) {
+        returnFilteredItem = function( $el ) {
+          return self.itemPassesFilters( $el.data() );
+        };
+
+      // Otherwise, we just want to show them all
+      } else {
+        returnFilteredItem = 'all';
+      }
+
+      // Run the filtering function
+      filterFunction.call( context, returnFilteredItem );
 
       self
         .setFilterStatuses()
         .toggleZeroMessage();
+    },
+
+    manualFilter : function( fn ) {
+      var self = this,
+          deferreds = [],
+          $items = self.$items,
+          $filtered = $(),
+          $concealed = $(),
+          showAll = fn === 'all',
+          concealed = 'concealed',
+          filtered = 'filtered';
+
+      if ( !showAll ) {
+        $items.each(function() {
+          var $item = $(this),
+              passes = fn.call($item[0], $item, self);
+
+          if ( passes ) {
+            $filtered = $filtered.add( $item );
+          }
+        });
+
+        $concealed = $items.not( $filtered );
+
+      } else {
+        $filtered = $items;
+      }
+
+      // Individually add/remove concealed/filtered classes
+      $filtered.each(function() {
+          var $filteredItem = $(this);
+
+          // Remove concealed if it's there
+          if ( $filteredItem.hasClass( concealed ) ) {
+            $filteredItem.removeClass( concealed );
+            deferreds.push( self.showCompareItem( $filteredItem ) );
+          }
+          // Add filtered class if it's not there
+          if ( !$filteredItem.hasClass( filtered ) ) {
+            $filteredItem.addClass( filtered );
+          }
+      });
+      $concealed.each(function() {
+          var $filteredItem = $(this);
+          // Add concealed if it's not there
+          if ( !$filteredItem.hasClass( concealed ) ) {
+            $filteredItem.addClass( concealed );
+            deferreds.push( self.hideCompareItem( $filteredItem ) );
+          }
+          // Remove filtered class if it's there
+          if ( $filteredItem.hasClass( filtered ) ) {
+            $filteredItem.removeClass( filtered );
+          }
+      });
+
+      // When everything is done animating
+      $.when.apply( $, deferreds ).always( $.proxy( self.onCompareFiltered, self ) );
+
+      // Kill it with fire!
+      $items = $filtered = $concealed = null;
     },
 
     // From the element's data-* attributes, test to see if it passes
@@ -570,7 +666,7 @@ define(function(require){
 
     toggleZeroMessage : function() {
       var self = this,
-          visibleItems = self.shuffle.visibleItems;
+          visibleItems = self.shuffle ? self.shuffle.visibleItems : self.$items.filter('.filtered').length;
 
       if ( visibleItems ) {
         if ( !self.$zeroMessage.hasClass('hide') ) {
@@ -600,15 +696,29 @@ define(function(require){
       self.filter();
     },
 
+    initCompareGallery : function() {
+      var self = this;
+
+      // Add events to close buttons
+      self.$items.find('.js-remove-item').on('click', function( evt ) {
+        $.when( self.hideCompareItem( evt ) ).always(function() {
+          self.onCompareFiltered();
+        });
+      });
+
+      // Reset button
+      self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
+    },
+
     initShuffle : function() {
       var self = this;
 
-      self.$grid.on('loading.shuffle', $.proxy( self.onShuffleLoading, self ));
-      self.$grid.on('done.shuffle', $.proxy( self.onShuffleDone, self ));
+      self.$grid.on('loading.shuffle', $.proxy( self.onGalleryLoading, self ));
+      self.$grid.on('done.shuffle', $.proxy( self.onGalleryDoneLoading, self ));
 
       // instantiate shuffle
       self.$grid.shuffle({
-        itemSelector: '.gallery-item',
+        itemSelector: self.itemSelector,
         speed: self.shuffleSpeed,
         easing: self.shuffleEasing,
         columnWidth: self.shuffleColumns,
@@ -764,7 +874,7 @@ define(function(require){
       self.$sortSelect.on('change', $.proxy( self.sort, self ));
 
       if ( !self.hasFilters ) {
-        self.$productCount.text( self.shuffle.$items.length );
+        self.$productCount.text( self.$items.length );
       }
 
       // Firefox's and IE's <select> menu is hard to style...
@@ -1004,7 +1114,7 @@ define(function(require){
 
     setFilterStatuses : function() {
       var self = this,
-          $visible = self.shuffle.$items.filter('.filtered'),
+          $visible = self.$items.filter('.filtered'),
           statuses = {},
           lastFilterGroup = self.lastFilterGroup,
           isRange = lastFilterGroup === 'price',
@@ -1557,7 +1667,7 @@ define(function(require){
 
       // Don't change columns for detail galleries
       // Change the filters column layout
-      if ( self.mode === 'detailed' ) {
+      if ( self.isDetailedMode || self.isCompareMode ) {
         // Remove heights in case they've aready been set
         if ( Modernizr.mq('(max-width: 47.9375em)') ) {
           self.$gridProductNames.css('height', '');
@@ -1639,7 +1749,9 @@ define(function(require){
 
       self.fixCarousels();
 
-      self.sortByPriority();
+      if ( self.isEditorialMode ) {
+        self.sortByPriority();
+      }
     },
 
     getFavoriteContent : function( $jsFavorite, isActive ) {
@@ -1696,14 +1808,14 @@ define(function(require){
       });
     },
 
-    onShuffleLoading : function() {
+    onGalleryLoading : function() {
       var $div = $('<div>', { 'class' : 'gallery-loader text-center' }),
           $img = $('<img>', { src: this.loadingGif });
       $div.append($img);
       $div.insertBefore( this.$grid );
     },
 
-    onShuffleDone : function() {
+    onGalleryDoneLoading : function() {
       var self = this,
           isFadedIn = self.$container.hasClass('in');
 
@@ -1731,7 +1843,7 @@ define(function(require){
     //   var self = this,
 
     //       // Clone all visible
-    //       $currentItems = self.shuffle.$items.filter('.filtered').clone(),
+    //       $currentItems = self.$items.filter('.filtered').clone(),
     //       $compareItemsContainer = $('<div class="compare-items-container grab">'),
     //       $compareItemsWrapper = $('<div class="compare-items-wrap">'),
 
@@ -2067,42 +2179,113 @@ define(function(require){
     //   return self;
     // },
 
-    // onCompareReset : function() {
-    //   var self = this,
-    //       state = self.compareState;
+    onCompareReset : function( evt ) {
+      var self = this;
 
-    //   if ( self.$compareReset.hasClass('disabled') || self.$compareTool.data('galleryId') !== self.id ) {
-    //     return;
-    //   }
+      evt.preventDefault();
 
-    //   self.$compareCount.text( state.count );
-    //   state.$items
-    //     .find('.compare-item-remove')
-    //     .parent()
-    //     .addBack()
-    //     .removeClass('hide faded no-width');
+      if ( self.$compareReset.hasClass('disabled') ) {
+        evt.stopImmediatePropagation();
+        return self;
+      }
 
-    //   // Disable reset button
-    //   self.$compareReset.addClass('disabled').removeClass('active');
+      // self.$items
+      //   .find('.compare-item-remove')
+      //   .parent()
+      //   .addBack()
+      //   .removeClass('hide faded no-width');
 
-    //   // Reset sort
-    //   self.updateSortDisplay( self.$compareTool );
+      // Disable reset button
+      self.$compareReset.addClass('disabled').removeClass('active');
 
-    //   // Set container width
-    //   self.setCompareWidth();
+      // Set container width
+      // self.setCompareWidth();
 
-    //   // Reset iscroll
-    //   self.innerScroller.refresh();
+      // Reset iscroll
+      // self.innerScroller.refresh();
 
-    //   self.afterCompareScrolled( self.innerScroller );
+      // self.afterCompareScrolled( self.innerScroller );
 
-    //   return self;
-    // },
+      return self;
+    },
+
+    showCompareItem : function( $item ) {
+      var dfd = new $.Deferred();
+
+      // 1
+      function showItem() {
+        // Show the column
+        $item.removeClass('hide');
+      }
+
+      // 2
+      function giveWidth() {
+        $item
+          .one( $.support.transition.end, fadeItemIn )
+          .removeClass('no-width');
+      }
+
+      // 3
+      function fadeItemIn() {
+        $item
+          .one( $.support.transition.end, function() {
+            dfd.resolve();
+          })
+          .removeClass('fade');
+      }
+
+      if ( Modernizr.csstransitions ) {
+        showItem();
+        giveWidth();
+
+      } else {
+        showItem();
+      }
+
+      return dfd.promise();
+    },
+
+    hideCompareItem : function( $item ) {
+      var dfd = new $.Deferred();
+
+      $item = $item.jquery ? $item : $($item.target).closest('.compare-item');
+
+      // 3
+      function hideItem() {
+        // Hide the column
+        $item.addClass('hide');
+        dfd.resolve();
+      }
+
+      // 2
+      function noWidth() {
+        $item
+          .one( $.support.transition.end, hideItem )
+          .addClass('no-width');
+      }
+
+      // 1
+      function fadeItemOut() {
+        $item.addClass('fade');
+      }
+
+      if ( Modernizr.csstransitions ) {
+        $item.one( $.support.transition.end, noWidth );
+        fadeItemOut();
+
+      } else {
+        hideItem();
+      }
+
+      return dfd.promise();
+    },
 
     // onCompareItemRemove : function( evt ) {
     //   var self = this,
     //       remaining,
     //       $compareItem = $(evt.target).closest('.compare-item');
+
+    //   console.log('on compare item remove');
 
     //   function afterHidden() {
     //     // console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName);
@@ -2149,6 +2332,32 @@ define(function(require){
 
     //   return self;
     // },
+
+    onCompareFiltered : function() {
+      var self = this,
+          total = self.$items.length,
+          remaining = self.$items.not('.hide').length;
+
+
+      if ( total !== remaining ) {
+        self.$compareReset.removeClass('disabled').addClass('active');
+      }
+
+      // Set remaining text
+
+
+      // Hide close button if there are only 2 left
+      if ( remaining < 3 ) {
+        self.$grid.find('.js-remove-item').addClass('hide');
+      }
+
+      // self.setCompareWidth();
+      // self.innerScroller.refresh();
+      // self.afterCompareScrolled( self.innerScroller );
+
+      // Maybe they haven't scrolled horizontally to see other images
+      iQ.update();
+    },
 
     // onCompareResize : function( $header, $sortOpts, isFirst ) {
     //   var self = this,
@@ -2524,7 +2733,7 @@ define(function(require){
     setColumnMode : function() {
       var self = this;
 
-      if ( self.mode !== 'detailed' ) {
+      if ( self.isEditorialMode ) {
         // Make this a 5 column grid. Added to parent because grid must be a descendant of grid5
         if ( !self.$grid.hasClass('slimgrid5') ) {
           self.$grid.addClass('slimgrid5');
@@ -2599,7 +2808,7 @@ define(function(require){
 
 
       // Use the default 12 column slim grid.
-      } else {
+      } else if ( self.isDetailedMode ) {
         self.shuffleColumns = Utilities.masonryColumns;
         self.shuffleGutters = Utilities.masonryGutters;
       }

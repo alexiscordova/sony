@@ -1,8 +1,8 @@
 extraclass = data.classes || ""
 if data.background == "true"
-  .hero-image.image-module.iq-img(class= extraclass)(alt= data.alt, data-src= data.src, data-base= data.base)
+  .hero-image.image-module.iq-img(class= extraclass)(alt= data.alt, data-src-desktop= data.srcDesktop, data-src-tablet= data.srcTablet, data-src-phone= data.srcPhone, data-src-desktop-highres= data.srcDesktopHighRes, data-src-tablet-highres= data.srcTabletHighRes, data-src-phone-highres= data.srcPhoneHighRes)
 else
   .image-module
-    img.iq-img(class= extraclass)(alt= data.alt, data-src= data.src, data-base= data.base)
+    img.iq-img(class= extraclass)(alt= data.alt, data-src-desktop= data.srcDesktop, data-src-tablet= data.srcTablet, data-src-phone= data.srcPhone, data-src-desktop-highres= data.srcDesktopHighRes, data-src-tablet-highres= data.srcTabletHighRes, data-src-phone-highres= data.srcPhoneHighRes)
       noscript
           img(src= data.noscriptsrc)

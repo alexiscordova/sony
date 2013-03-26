@@ -397,41 +397,37 @@ $galleryFourColMax: px-em(979px);
 //                                   888                                                           Y8b
 //                                   888
 //                                   888
-// @media (max-width: $galleryThreeColMax) {
+@media (max-width: $galleryThreeColMax) {
 
-//   .compare-nav {
-//     display: none;
-//   }
+  .compare-nav {
+    display: none;
+  }
 
-//   // Get rid of grid width
-//   .js-compare-wrap {
-//     width: 100%;
-//   }
+  // Get rid of grid width
+  .js-compare-wrap {
+    width: 100%;
+  }
 
-//   .compare-items-wrap {
-//     overflow: hidden !important; // override iscroll
-//   }
+  .compare-items-wrap {
+    overflow: hidden !important; // override iscroll
+  }
 
-//   .takeover-sticky-header .box-close {
-//     display: block;
-//   }
+  .compare-item {
 
-//   .sort-options select,
-//   .sort-options .dropdown-toggle {
-//     height: 31px;
-//   }
+    // undo the .visuallyhidden class
+    .detail .cell-label {
+      clip: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      position: static;
+      width: auto;
 
-//   .compare-item .detail:before {
-//     content: attr(data-label);
-//     display: block;
-//     margin-bottom: 0.625em;
+      // padding: 18px 0 14px;
+    }
+  }
 
-//     // .l4
-//     // ------------
-//     color: $gray40;
-//     @include fontMedium;
-//     text-transform: uppercase;
-//     font-size: $font_11_16;
-//     // ------------
-//   }
-// }
+  // .takeover-sticky-header .box-close {
+  //   display: block;
+  // }
+}
