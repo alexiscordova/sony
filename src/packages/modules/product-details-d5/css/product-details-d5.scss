@@ -1,7 +1,8 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-.product-details{
+// "product-details-module"
+.pd-module{
 	padding:60px 0 90px 0;
 	border:3px solid red;
 
@@ -46,7 +47,7 @@
 		} // .features
 
 		.specs{
-			outline:1px solid black;	
+			//outline:1px solid black;	
 		} // .specs
 
 		.measurements{
@@ -90,27 +91,39 @@
 		.copy,
 		.icon{
 			margin-bottom: 0px;
+			// vertical-align: middle;
 		} 
 
 		.copy{
-	 		border:1px solid purple;
+	 		//border:1px solid purple;
 
 	 		&.with-icon{
-				width:84%;
-				padding-left: px-em(26px);
+				width:76%;
+				margin-left: px-em(26px);
 				display: inline-block;
-				border:1px solid green;
+				//border:1px solid green;
 			} // .with-icon
 
 		} // copy
 
 		.icon {
 			text-align: center;
-			border:1px solid black;
 			color:$gray20;
+			height: 45px;
 			width:16%;
 			display: inline-block;
 		} // icon
+
+
+		.fonticon-40-panorama{
+			position: relative;
+			top:3px;
+		}
+
+		.fonticon-40-face{
+			position: relative;
+			top:6px;
+		}
 
 		a{
 			text-transform: capitalize;
@@ -134,11 +147,11 @@
 		padding-top:40px;
 
 		dt{
-			outline:1px solid black;
+			//outline:1px solid black;
 		}
 
 		dd{
-			outline:1px solid black;
+			//outline:1px solid black;
 			margin-left:0;
 		} // dd
 	} // .specs
@@ -156,6 +169,7 @@
 	.measurements{
 		outline:1px solid black;
 		background-color:$gray80;
+		
 		.measurement{
 			background-color: rgba(0,211,255,.5);
 		}
@@ -171,9 +185,11 @@
 	// 8888888888 888  888  "Y888 888     "Y888888  88888P' 
 	.extras{
 		outline:1px solid black;
+		
 		.extra{
 			background-color: rgba(182,22,255,.5);
 		} //.extra
+
 	} // end .extras
 
 
@@ -213,15 +229,6 @@
 
 
 	} // bottom
-
-
-
-
-
-
-
-
-
 
 } // .product-details
 
