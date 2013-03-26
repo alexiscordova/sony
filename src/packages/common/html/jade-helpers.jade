@@ -22,7 +22,7 @@ mixin iQImage( img, extraClasses, itemprop )
   - extraClasses = extraClasses || false
   - itemprop = itemprop || false
   - if ( extraClasses ) classes += ' ' + extraClasses
-  img(class=classes, data-src=img.src, alt=img.alt, itemprop=itemprop)
+  img(class=classes, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes, alt=img.alt, itemprop=itemprop)
   noscript
     img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
 

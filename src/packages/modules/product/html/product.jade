@@ -59,7 +59,7 @@ mixin iQColorImages( colors )
   if colors && colors.length > 1
     each img in colors
       //- mixin iQImage( img, 'hidden', 'image' )
-      img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
+      img.hidden(data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes, data-color=img.color, alt=img.alt, itemprop="image")
       noscript
         img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
 
@@ -156,7 +156,7 @@ if data.view == 'basic'
         span.label.label-success= data.label
 
       if data.layout == 'promo'
-        .product-img.iq-img(data-src=data.img.src)
+        .product-img.iq-img(data-src-desktop=data.img.srcDesktop, data-src-tablet=data.img.srcTablet, data-src-phone=data.img.srcPhone, data-src-desktop-highres=data.img.srcDesktopHighRes, data-src-tablet-highres=data.img.srcTabletHighRes, data-src-phone-highres=data.img.srcPhoneHighRes)
           - style = data.style ? data.style : ''
           - classes = ['promo-content']
           - classes.push( style )
@@ -598,7 +598,7 @@ else if data.view == 'suggested'
       .product-img
         div(class='product-img-wrap ghost-center-wrap')
           .ghost-center
-            img.iq-img(alt=data.img.alt, data-src=data.img.src)
+            img.iq-img(alt=data.img.alt, data-src-desktop=data.img.srcDesktop, data-src-tablet=data.img.srcTablet, data-src-phone=data.img.srcPhone, data-src-desktop-highres=data.img.srcDesktopHighRes, data-src-tablet-highres=data.img.srcTabletHighRes, data-src-phone-highres=data.img.srcPhoneHighRes)
             noscript
               img(src=data.img.noscriptsrc, alt=data.img.alt)
       .product-price
