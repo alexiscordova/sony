@@ -659,9 +659,16 @@
 
       isActive = $parent.hasClass('open')
 
-      if (!isActive || (isActive && e.keyCode == 27)) return $this.click()
+      if (!isActive) return $this.click()
 
-      $items = $('[role=menu] li:not(.divider) a', $parent)
+      if (isActive && e.keyCode == 27) {
+        return $this.click() && setTimeout(function() {
+          $(':focus').blur()
+        }, 16)
+      }
+
+      // $items = $('[role=menu] li:not(.divider) a', $parent)
+      $items = $('[role=menu] li:not(.divider) a, [role=menu] li:not(.divider) input', $parent)
 
       if (!$items.length) return
 
@@ -678,8 +685,15 @@
 
   }
 
-  function clearMenus(evt) {
+  function clearMenus( evt ) {
     var $parent = getParent($(toggle))
+      , $target = evt && evt.target ? $( evt.target ) : false
+      , targetInsideDropdown = $target.length && $parent.length ? $target.closest('.dropdown-menu').length > 0 : false
+
+    // Check for inputs in the dropdown
+    if ( (targetInsideDropdown && $target.is('input')) || ( $target && $target.hasClass('js-no-close')) ) {
+      return;
+    }
 
     if ( $parent.hasClass('open') ) {
       $parent.removeClass('open');
@@ -689,18 +703,15 @@
       return;
     }
 
-    if ( evt && evt.target ) {
-      var $target = $(evt.target);
-      if ( $target.is('a') && $parent.find($target).length ) {
-        $target
-          .parent()
-            .addClass('active')
-            .siblings()
-            .removeClass('active')
+    if ( $target && $target.is('a') && targetInsideDropdown ) {
+      $target
+        .parent()
+          .addClass('active')
+          .siblings()
+          .removeClass('active')
 
-        // Return focus to the window
-        $target.blur();
-      }
+      // Return focus to the window
+      $target.blur();
     }
   }
 
@@ -738,16 +749,23 @@
   /* APPLY TO STANDARD DROPDOWN ELEMENTS
    * =================================== */
 
-  $(function () {
-    $('html')
-      .on('click.dropdown.data-api touchstart.dropdown.data-api', clearMenus)
-    $('body')
-      .on('click.dropdown touchstart.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-      .on('click.dropdown.data-api touchstart.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
-      .on('keydown.dropdown.data-api touchstart.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
-  })
+  $(document)
+    .on('click.dropdown.data-api', clearMenus)
+    .on('click.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.dropdown-menu', function (e) { e.stopPropagation() })
+    .on('click.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
+    .on('keydown.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
+  // $(function () {
+  //   $('html')
+  //     .on('click.dropdown.data-api touchstart.dropdown.data-api', clearMenus)
+  //   $('body')
+  //     .on('click.dropdown touchstart.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+  //     .on('click.dropdown.data-api touchstart.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
+  //     .on('keydown.dropdown.data-api touchstart.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
+  // })
 
-}(window.jQuery);/* =========================================================
+}(window.jQuery);
+/* =========================================================
  * bootstrap-modal.js v2.1.1
  * http://twitter.github.com/bootstrap/javascript.html#modals
  * =========================================================
@@ -927,11 +945,10 @@
     , backdrop: function (callback) {
         var that = this
           , animate = this.$element.hasClass('fade') ? 'fade' : ''
-
         if (this.isShown && this.options.backdrop) {
           var doAnimate = $.support.transition && animate
 
-          this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
+          this.$backdrop = $('<div class="modal-backdrop ' + this.options.backdropClass + ' ' + animate + '" />')
             .appendTo(document.body)
 
           if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
@@ -972,6 +989,7 @@
 
   $.fn.modal.defaults = {
       backdrop: true
+    , backdropClass: ''
     , keyboard: true
     , show: true
   }
@@ -1485,7 +1503,7 @@
         for (i = offsets.length; i--;) {
           activeTarget != targets[i]
             && scrollTop >= offsets[i]
-            && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+            && (!offsets[i + 1] || scrollTop < offsets[i + 1])
             && this.activate( targets[i] )
         }
       }

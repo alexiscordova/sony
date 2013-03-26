@@ -8,16 +8,14 @@
 
 /* toc container */
 #dw__toc {
-    float: right;
-    margin: 0 0 1.4em 1.4em;
-    width: 12em;
-    background-color: $wiki_backgroundAlt;
-    color: inherit;
+    position:absolute;
+    left:0;
+    top:0;
+    margin: 0;
+    width: $wiki_sidebarWidth;
 }
-[dir=rtl] #dw__toc {
-    float: left;
-    margin: 0 1.4em 1.4em 0;
-}
+
+
 
 /*____________ toc header ____________*/
 
@@ -80,14 +78,14 @@
     padding-right: 0;
 }
 .dokuwiki ul.idx li {
-    list-style-image: url(../img/wiki/bullet.png);
+    list-style-image: url(../img/_wiki/bullet.png);
 }
 .dokuwiki ul.idx li.open {
-    list-style-image: url(../img/wiki/open.png);
+    list-style-image: url(../img/_wiki/open.png);
 }
 .dokuwiki ul.idx li.closed {
-    list-style-image: url(../img/wiki/closed.png);
+    list-style-image: url(../img/_wiki/closed.png);
 }
 [dir=rtl] .dokuwiki ul.idx li.closed {
-    list-style-image: url(../img/wiki/closed-rtl.png);
+    list-style-image: url(../img/_wiki/closed-rtl.png);
 }

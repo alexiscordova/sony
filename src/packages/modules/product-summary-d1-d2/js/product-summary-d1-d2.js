@@ -31,6 +31,9 @@ define(function(require) {
 
     var self = this;
 
+    self.isDesktop = false;
+    self.isMobile = false;
+
     self.$el = $( element );
     self.init();
 
@@ -49,42 +52,63 @@ define(function(require) {
       self.$evenCols = self.$el.find('.js-even-cols').children();
       self.$favoriteBtn = self.$el.find('.js-favorite');
       self.$shareBtn = self.$el.find('.js-share');
-
-
-      if ( Modernizr.mediaqueries ) {
-
-        enquire.register('(min-width: 780px)', {
-          match: function() {
-            console.log('min-width: 780px');
-          }
-        })
-        .register('(min-width: 480px) and (max-width: 779px)', {
-          match: function() {
-            console.log('(min-width: 480px) and (max-width: 779px)');
-          }
-        })
-        .register('(max-width: 479px)', {
-          match: function() {
-            console.log('(max-width: 479px)');
-          }
-        });
-
-      } else {
-        console.log('desktoppy');
-      }
+      self.$dropdown = self.$el.find('.dropdown-menu');
+      self.$shareLink = self.$dropdown.find('input');
+      self.$textSwaps = self.$el.find('[data-long-text]');
+      self.$blockBtns = self.$el.find('.btn-block');
+      self.$stickyTitle = self.$stickyNav.find('.sticky-nav-title');
+      self.$stickyPriceText = self.$stickyNav.find('.price-text');
+      self.$modal = self.$el.find('#share-tool');
 
       self.$favoriteBtn.on('click', $.proxy( self._onFavorite, self ));
       self.$shareBtn.on('click', $.proxy( self._onShare, self ));
 
-      self._onResize();
       Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
 
+      // Save the short text value
+      self.$textSwaps.each(function() {
+        var $this = $(this),
+            data = $this.data();
+
+        data.shortText = $this.text();
+        data.currentKey = 'shortText';
+      });
+
+      if ( Modernizr.mediaqueries ) {
+
+        enquire.register('(min-width: 48em)', {
+          match: function() {
+            self._setupDesktop();
+          }
+        })
+        .register('(max-width: 47.9375em)', {
+          match: function() {
+            self._setupMobile();
+          }
+        });
+
+      } else {
+        self._setupDesktop();
+      }
+
+      self._onResize();
+
+      // Setup that can be deferred
       setTimeout(function() {
+        self.$shareLink.on('focus', function() {
+          var input = this;
+
+          // We use a timeout here because .select() will select everything,
+          // then the default browser action will deselect our selection
+          setTimeout(function() {
+            input.select();
+          }, 0);
+        });
 
         // Init sticky nav
         self.$stickyNav.stickyNav({
           $jumpLinks: self.$jumpLinks,
-          offset: self.stickyNavHeight + 10,
+          offset: 10,
           offsetTarget: self.$el.find('.jump-links:not(.nav)')
         });
 
@@ -95,8 +119,9 @@ define(function(require) {
     _onResize : function() {
       var self = this;
 
-      self.$evenCols.evenHeights();
-      self.stickyNavHeight = self.$stickyNav.height();
+      if ( !self.isMobile ) {
+        self.$evenCols.evenHeights();
+      }
     },
 
     _onFavorite : function( evt ) {
@@ -108,7 +133,86 @@ define(function(require) {
     _onShare : function( evt ) {
       var self = this;
 
-      evt.preventDefault();
+      // Uses a modal instead of dropdown
+      if ( self.isMobile ) {
+        evt.preventDefault();
+        // Don't let the dropdown handler receive this event
+        evt.stopImmediatePropagation();
+
+        self.$modal.modal( {backdropClass: 'dark'} );
+      }
+    },
+
+    _swapTexts : function( toLong ) {
+      var self = this,
+          key = (toLong ? 'long' : 'short') + 'Text';
+
+      self.$textSwaps.each(function() {
+        var $this = $(this),
+            data = $this.data();
+
+        if ( key !== data.currentKey ) {
+          $this.text( data[ key ] );
+          data.currentKey = key;
+        }
+      });
+    },
+
+    _swapDomElements : function( toDesktop ) {
+      var self = this,
+          $price,
+          $msrp;
+
+      self.$stickyPriceText.detach();
+      $price = self.$stickyPriceText.find('.price');
+      $msrp = self.$stickyPriceText.find('.msrp').detach();
+
+      if ( toDesktop ) {
+        $msrp.insertBefore( $price );
+        self.$stickyNav.find('.btn').after( self.$stickyPriceText );
+      } else {
+        $msrp.insertAfter( $price );
+        self.$stickyTitle.after( self.$stickyPriceText );
+      }
+
+    },
+
+    _hideShareDialog : function( toDesktop ) {
+      var $closer = toDesktop ? $('.modal-backdrop') : Settings.$document;
+      $closer.click();
+
+    },
+
+    _setupDesktop : function() {
+      var self = this;
+
+      self.isMobile = false;
+      self.isDesktop = true;
+
+      // Hide dropdown or modal if it's active
+      self._hideShareDialog( true );
+
+      self._swapTexts( true );
+      self._swapDomElements( true );
+    },
+
+    _setupMobile : function() {
+      var self = this,
+          wasDesktop = self.isDesktop;
+
+      self.isMobile = true;
+      self.isDesktop = false;
+
+      // Hide dropdown or modal if it's active
+      self._hideShareDialog( false );
+
+      self._swapTexts( false );
+      self._swapDomElements( false );
+
+      // If this was originally setup desktop, there will be heights set on the columns
+      if ( wasDesktop ) {
+        self.$evenCols.css('height', '');
+      }
     }
   };
 

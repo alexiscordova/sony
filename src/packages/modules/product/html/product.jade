@@ -98,7 +98,7 @@ mixin productRating( rating, reviews, reviewsText )
     span.lt4.reviews-text
       | !{ prefix }
       span(itemprop="ratingCount")= reviews
-      | !{ reviewsText }
+      span.review-text= reviewsText
       | !{ suffix }
     meta(itemprop="ratingValue", content=rating)
 
@@ -126,6 +126,27 @@ mixin basicGalleryItem( layout, priority, href )
   else
     a(class=klass, data-priority=priority, href=href ? href : '#')
       block
+
+
+mixin shareMenu( socialButtons, shortLink, addCloseButton )
+  //- Default to false
+  addCloseButton = addCloseButton === true
+
+  ul.dropdown-menu.dropdown-menu-alt.share-menu.pull-right(role="menu")
+    if addCloseButton
+      button.box-close.box-close-small(data-dismiss="modal", aria-hidden="true")
+        i.fonticon-10-x
+    each social in socialButtons
+      li
+        a(href=social.link)
+          span.social-icon(class="social-icon-" + social.id)
+            i(class=social.icon)
+          span.social-label.p2= social.label
+    li.input-holder
+      span.link-icon.ghost-center-wrap.js-no-close
+        i.fonticon-10-link.ghost-center.js-no-close
+      input(type="text", value=shortLink)
+
 
 
 if data.view == 'basic'
@@ -379,7 +400,7 @@ else if data.view == 'specs'
           .spec-cell-inner.only-label
             p.cell-label.l3
               strong= labels[i]
-
+              
           - imgClass = spec.img.orientation && spec.img.orientation == 'portrait' ? 'vertical' : ''
           .text-center.dl-img.ghost-center-wrap(class=imgClass)
             .ghost-center.v-bottom
@@ -597,14 +618,17 @@ else if data.view == 'summary'
   buyText = data.buyText || 'Buy Now'
 
   .container
-    .grid.js-even-cols
+    .grid.no-grid-at-767.js-even-cols
+
       .span2.product-img-wrap
         .ghost-center-wrap
           .product-img.ghost-center
             +iQImage( data.imgSmall, '', 'image' )
+
       .span5.product-details
         a.l2.link-color(href=titleHref)= titleLabel
         h2.t5.product-title(itemprop="name")= data.title
+        +iQImage( data.imgSmall, 'm-product-img pull-right', 'image' )
         .inline-details.clearfix
           span.product-model.p5(itemprop="model")= data.model
           span.spacer.text-med-dark.p5 |
@@ -612,23 +636,31 @@ else if data.view == 'summary'
           span.spacer.text-med-dark.p5 |
           +colorSwatches( data.img.colors, true, true )
         +productRating( data.rating.stars, data.rating.reviews )
+
       .span5.price-content
+
         .clearfix
-          a.btn.btn-special.btn-large.pull-right(href=data.storeLink)= buyText
-          .text-right.pull-right.space-right.space-top
-            p.p4.price-prefix= startingAtText
-            span.p5.msrp= msrp
-            span.p1.price
-              strong.text-dark !{ priceUnit + data.price }
-        .text-right
+          .pull-right.buy-block
+            .text-right.pull-left.space-right.space-top
+              p.p4.price-prefix= startingAtText
+              span.p5.msrp= msrp
+              span.p1.price
+                strong.text-dark !{ priceUnit + data.price }
+            a.btn.btn-special.btn-large.pull-left(href=data.storeLink)= buyText
+
+        .text-right.relative.be-social
           a.ib.space-right.js-favorite(href="#")
             span.p3= data.favoriteText
             +heart()
-          a.ib.js-share(href="#")
+          a.ib.js-share.share-trigger(data-toggle="dropdown", href="#")
             span.p3= data.shareText
             span.arrow-holder
               i.fonticon-10-arrowhead-down
+          +shareMenu( data.socialButtons, data.shortLink )
 
+  #share-tool.share-tool.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+    .modal-inner.transparent
+      +shareMenu( data.socialButtons, data.shortLink, true )
 
 
 
