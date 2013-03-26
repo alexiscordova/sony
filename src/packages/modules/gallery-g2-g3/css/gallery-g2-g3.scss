@@ -528,73 +528,40 @@
 //                                   888
 //                                   888
 
-// Compare Tool
-// -------------------------
 
-// .modal-subheader {
-//   clear: both;
+.compare-key {
+  margin-bottom: 1.125em;
+}
 
-//   .takeover .modal-header & {
-//     margin: 0;
-//   }
+// Holds labels and compare-items
+.compare-container {
+  padding-bottom: 5em;
 
-//   .btn-reset {
-//     float: right;
-//   }
+  // Show the navigation
+  &:hover .compare-nav {
+    opacity: 1;
+  }
 
-//   .sort-options {
-//     float: left;
-//     margin-top: 0;
-//     clear: none;
+  .no-opacity &:hover .compare-nav {
+    display: block;
+  }
+}
 
-//     .filter-label {
-//       display: inline-block;
-//       margin-bottom: 0;
-//       padding-right: 4px;
-//     }
+// Wrapper for the items in the compare tool. Sibling of the labels.
+.compare-items-wrap {
+  position: relative;
+  height: 100%; // Get parent's height
+  overflow: visible !important; // override iscroll
 
-//     .touch & .native-dropdown,
-//     .no-touch & .dropdown {
-//       max-width: 130px;
-//       display: inline-block;
-//     }
+  // .lt-ie9 &,
+  // .sonytablets & {
+  //   overflow: hidden !important;
+  // }
+}
 
-//   }
-// }
-
-// .compare-key {
-//   margin-bottom: 1.125em;
-// }
-
-// // Holds labels and compare-items
-// .compare-container {
-//   padding-bottom: 5em;
-
-//   // Show the navigation
-//   &:hover .compare-nav {
-//     opacity: 1;
-//   }
-
-//   .no-opacity &:hover .compare-nav {
-//     display: block;
-//   }
-// }
-
-// // Wrapper for the items in the compare tool. Sibling of the labels.
-// .compare-items-wrap {
-//   position: relative;
-//   height: 100%; // Get parent's height
-//   overflow: visible !important; // override iscroll
-
-//   // .lt-ie9 &,
-//   // .sonytablets & {
-//   //   overflow: hidden !important;
-//   // }
-// }
-
-// .compare-items-container {
-//   height: 100%;
-// }
+.compare-items-container {
+  height: 100%;
+}
 
 // .compare-nav {
 //   position: absolute;
@@ -629,59 +596,59 @@
 //   }
 // }
 
-// // Compare Items
-// .compare-item {
-//   position: relative;
-//   margin-left: .1875em;
-//   background: $white;
-//   color: $gray20;
-//   @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
+// Compare Items
+.compare-item {
+  position: relative;
+  margin-left: .1875em;
+  background: $white;
+  color: $gray20;
+  @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
 
-//   &.faded {
-//     opacity: 0;
-//   }
+  &.faded {
+    opacity: 0;
+  }
 
-//   &.no-width {
-//     width: 0;
-//   }
+  &.no-width {
+    width: 0;
+  }
 
-//   .compare-sticky-header .product-name-wrap {
-//     padding-right: 2.5em;
-//   }
+  .compare-sticky-header .product-name-wrap {
+    padding-right: 2.5em;
+  }
 
-//   .product-content .product-name-wrap,
-//   .product-rating,
-//   .product-price,
-//   .color-swatches {
-//     margin-bottom: 1.25em;
-//     padding-right: 1.25em;
-//     padding-left: 1.25em;
-//   }
+  .product-content .product-name-wrap,
+  .product-rating,
+  .product-price,
+  .color-swatches {
+    margin-bottom: 1.25em;
+    padding-right: 1.25em;
+    padding-left: 1.25em;
+  }
 
-//   .detail {
-//     color: $gray20;
-//     min-height: 2.5em;
-//     padding-right: 1.25em;
-//     padding-left: 1.25em;
-//   }
+  .detail {
+    color: $gray20;
+    min-height: 2.5em;
+    padding-right: 1.25em;
+    padding-left: 1.25em;
+  }
 
-//   .detail.highlighted {
-//     background: $lemon;
-//   }
+  .detail.highlighted {
+    background: $lemon;
+  }
 
-//   .media p:not(.media-heading) {
-//     color: $gray40;
-//   }
+  .media p:not(.media-heading) {
+    color: $gray40;
+  }
 
-//   .product-model {
-//     color: $gray40;
-//   }
+  .product-model {
+    color: $gray40;
+  }
 
-//   .product-name,
-//   .product-model {
-//     margin-bottom: 0;
-//   }
-// }
+  .product-name,
+  .product-model {
+    margin-bottom: 0;
+  }
+}
 
 // .takeover-sticky-header {
 //   position: absolute;

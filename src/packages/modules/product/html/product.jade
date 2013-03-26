@@ -279,7 +279,9 @@ else if data.view == 'detailed'
 
 else if data.view == 'compare'
   filterSet = JSON.stringify( data.filterSet )
-  div.span4.gallery-item.compare-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product")
+  div.span4.compare-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product")
+    button(class="box-close box-close-small", data-dismiss="modal", aria-hidden="true")
+      i.fonticon-10-x
     .product-img.ghost-center-wrap
       .ghost-center
         +iQImage( data.img, 'image' )
