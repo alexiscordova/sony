@@ -26,6 +26,10 @@
 
 #mediamanager__page .panel {
     float: left;
+    font-size:px-em(12);
+    p{
+        font-size:0.95em;
+    }
 }
 
 #mediamanager__page .namespaces {
@@ -237,11 +241,10 @@
     margin: 0 6px 10px 0;
     background-color: $wiki_backgroundNeu;
     color: $wiki_text;
-    padding: 5px;
+    padding: 12px;
     vertical-align: top;
     position: relative;
     line-height: 1.2;
-    font-size:px-em(12);
 }
 [dir=rtl] #mediamanager__page .filelist .thumbs li {
     margin-right: 0;
@@ -254,8 +257,9 @@
 }
 
 #mediamanager__page .filelist .thumbs li dt a {
-    width: 100px;
-    height: 90px;
+    display:block;
+    text-align:center;
+    padding-bottom:10px;
 }
 
 #mediamanager__page .filelist .thumbs li dt a img {
@@ -292,7 +296,6 @@
     background-color: $wiki_background;
     color: $wiki_text;
     overflow: hidden;
-    font-size:px-em(12);
 }
 
 #mediamanager__page .filelist .rows li:nth-child(2n+1) {
@@ -301,6 +304,7 @@
 
 #mediamanager__page .filelist .rows li dl {
     overflow:hidden;
+    margin-bottom:0;
 }
 #mediamanager__page .filelist .rows li dt {
     // display:inline-block;
