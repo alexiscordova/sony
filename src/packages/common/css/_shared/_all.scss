@@ -75,13 +75,16 @@ ul.jump-links {
     @include box-shadow(inset 0 -4px 0 $btnBackground);
   }
 
-  .no-boxshadow & a {
+  .no-boxshadow & a,
+  .sonytablets & a {
+    @include box-shadow(none);
     padding-bottom: 6px;
     border-bottom: 4px solid transparent;
   }
 
   .no-boxshadow.no-touch & li:hover a,
-  .no-boxshadow & .active a {
+  .no-boxshadow & .active a,
+  .sonytablets & .active a {
     border-bottom-color: $btnBackground;
   }
 }

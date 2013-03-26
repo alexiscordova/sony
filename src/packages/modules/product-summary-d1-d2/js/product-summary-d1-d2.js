@@ -106,7 +106,6 @@ define(function(require) {
         });
 
         // Init sticky nav
-        var offsetFromTarget = 15;
         self.$stickyNav.stickyNav({
           $jumpLinks: self.$jumpLinks,
           offset: 10,
