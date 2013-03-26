@@ -7,6 +7,9 @@ $centerRatio: (28.571428571429% / 2);
 $indicatorRatio: 35%; /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
+$transitionSpeed: .5s;
+
+/*EXAMPLE CONTAINER*/
 
 .hotspot-container-example {
   width: 600px;
@@ -15,6 +18,8 @@ $indicatorRotateSpeed: .25s;
   position: relative;
 }
 
+/*HOTSPOT*/
+
 .editorial-hs-wrapper {
   .hspot-outer {
     position: absolute;
@@ -22,7 +27,6 @@ $indicatorRotateSpeed: .25s;
     left: 0;
     height: 56px;
     width: 56px;
-/*     border: 1px solid black; */
     cursor: pointer;
     .hspot-core {
       margin: $centerRatio;
@@ -34,22 +38,22 @@ $indicatorRotateSpeed: .25s;
       -moz-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
       -webkit-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
       box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-      -o-transition:.5s;
-      -ms-transition:.5s;
-      -moz-transition:.5s;
-      -webkit-transition:.5s;
-      transition:.5s;
+      -o-transition:$indicatorRotateSpeed;
+      -ms-transition:$indicatorRotateSpeed;
+      -moz-transition:$indicatorRotateSpeed;
+      -webkit-transition:$indicatorRotateSpeed;
+      transition:$indicatorRotateSpeed;
       &:hover {
         background-color: $buttonOrangeHover;
       }
       .hspot-indicator {
         padding: 12.5% 0 0 33.5%;
         img {
-          -o-transition:.5s;
-          -ms-transition:.5s;
-          -moz-transition:.5s;
-          -webkit-transition:.5s;
-          transition:.5s;
+          -o-transition:$indicatorRotateSpeed;
+          -ms-transition:$indicatorRotateSpeed;
+          -moz-transition:$indicatorRotateSpeed;
+          -webkit-transition:$indicatorRotateSpeed;
+          transition:$indicatorRotateSpeed;
           @include rotate(0deg);
         }
       }
@@ -85,4 +89,175 @@ $indicatorRotateSpeed: .25s;
       }
     }
   }
-} 
+}
+
+/*DETAILS WINDOW EXAMPLE CONTAINER*/
+.overlay-container-example {
+  width: 1112px;  
+  height: 560px;
+  background-image: url('../../img/editorial-hotspots-e6/editorial-hotspots-bg-fpo.jpg');
+  padding-top: 65px;
+  .overlay-base {
+    margin: 0px auto;
+  }
+}
+/*DETAILS WINDOW*/
+
+.overlay-base {
+  background-color: #fff;
+  -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  &.variant1 { 
+    width: 280px;
+    max-height: 454px;
+    .top {
+      
+    }
+    .middle {
+      padding: 30px 40px 29px 30px;
+      border-bottom: 1px solid #e4e7eb;
+      position: relative;
+      .p3 {
+        margin-bottom: 0;
+      }
+      .arrow-left-top {
+        position: absolute;
+        top: 27px;
+        left: -10px;
+        width: 10px;
+        height: 22px;
+      }
+      .arrow-right-top {
+        position: absolute;
+        top: 27px;
+        right: -10px;
+        width: 10px;
+        height: 22px;
+      }
+      .arrow-left-bottom {
+        position: absolute;
+        bottom: 44px;
+        left: -10px;
+        width: 10px;
+        height: 22px;
+      }
+      .arrow-right-bottom {
+        position: absolute;
+        bottom: 44px;
+        right: -10px;
+        width: 10px;
+        height: 22px;
+      }
+      
+    }
+    .footer {
+      padding: 18px 40px 32px 30px;
+      .p3 {
+        font-style: italic;
+        color: $secondarySlateDark;
+        margin-bottom: 5px;
+      }
+      blockquote.l4 {
+        color: $gray40;
+        position: relative;
+        margin-left: 24px;
+        &:before {
+          display: block;
+          content: "\201C";
+          font-size: 40px;
+          font-family: Georgia;
+          position: absolute;
+          left: -24px;
+          top: -13px;
+          color: $secondarySlateDark;
+        }
+      }
+    }
+  }
+  &.variant2 { 
+    width: 230px;
+    max-height: 398px;
+    .top {}
+    .middle {
+      padding: 20px 30px 23px 20px;
+      border-bottom: 1px solid #e4e7eb;
+      position: relative;
+      .p4 {
+        &.cHBI {
+          margin-bottom: 0;
+        }
+      }
+      .arrow-left-top {
+        position: absolute;
+        top: 18px;
+        left: -8px;
+        width: 8px;
+        height: 18px;
+      }
+      .arrow-right-top {
+        position: absolute;
+        top: 18px;
+        right: -8px;
+        width: 8px;
+        height: 18px; 
+      }
+      .arrow-left-bottom {
+        position: absolute;
+        bottom: 36px;
+        left: -8px;
+        width: 8px;
+        height: 18px;
+      }
+      .arrow-right-bottom {
+        position: absolute;
+        bottom: 36px;
+        right: -8px;
+        width: 8px;
+        height: 18px;
+      }
+    }
+    .footer {
+      padding: 20px 30px 30px 20px;
+      p.p4 {
+        font-style: italic;
+        color: $secondarySlateDark;
+        margin-bottom: 5px;
+      }
+      blockquote.l4 {
+        color: $gray40;
+        position: relative;
+        margin-left: 24px;
+        &:before {
+          display: block;
+          content: "\201C";
+          font-size: 40px;
+          font-family: Georgia;
+          position: absolute;
+          left: -24px;
+          top: -13px;
+          color: $secondarySlateDark;
+        }
+      }
+    }
+  }
+}  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

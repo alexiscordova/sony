@@ -90,14 +90,27 @@ define(function(require) {
     show: function(el) {
       
     },
+    find: function(currentTarget) {
+      var self = this;
+      self.$els.each(function(index, el) {
+        log('searching');
+        if($(el).is(currentTarget)) {
+          return el;
+        } else {
+          log('no match');
+        }
+      });
+    },
     click: function(event) {
-        // first things first, find the element in the collection of element status
-        
-        // if closed, open it
-          log(event.currentTarget);
-          log('click');
-          log($(event.currentTarget).find('.hspot-core').removeClass('hspot-core').addClass('hspot-core-on'));        
-        // else close it      
+      var self  = this,
+          me    = $(event.currentTarget).find('.hspot-core, .hspot-core-on');
+      if(me.data('state')=='open') {
+        me.data('state','closed');
+        me.removeClass('hspot-core-on').addClass('hspot-core');
+      } else {
+        me.data('state','open');        
+        me.removeClass('hspot-core').addClass('hspot-core-on');
+      }
     }
     
   };
