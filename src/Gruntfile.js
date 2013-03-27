@@ -272,7 +272,7 @@ module.exports = function(grunt) {
     },
     watch:{
       common:{
-        files:['packages/common/**/*.*'],
+        files:['packages/common/**/*.*', '!packages/common/css/responsive-modules.scss'],
         tasks:['common']
       },
       js:{
@@ -432,7 +432,7 @@ module.exports = function(grunt) {
 
    var str = '@import "_base/variables"; \n@import "_base/mixins"; \n';
     grunt.file.expand('packages/modules/**/css/*.scss').filter(function(a){return a.match(/_responsive/g)}).forEach(function(path){
-      console.log(path);
+      // console.log(path);
 
       str += '@import "' + path.replace(/packages/g, '../..') +'"; \n';
     })
@@ -512,16 +512,40 @@ module.exports = function(grunt) {
   grunt.registerTask('w', function(module){
     module = module || '**';
 
-    grunt.config('watch.js.files', ['packages/modules/' + module + '/js/*.js']);
-    grunt.config('watch.css.files', ['packages/modules/' + module + '/css/*.scss']);
-    grunt.config('watch.html.files', ['packages/modules/' + module + '/**/*.jade', 'packages/modules/' + module + '/**/*.json']);
-    grunt.config('watch.assets.files', ['packages/modules/' + module + '/img/']);
+    var jsWatch = ['packages/modules/' + module + '/js/*.js'],
+        cssWatch = ['packages/modules/' + module + '/css/*.scss'],
+        htmlWatch = ['packages/modules/' + module + '/**/*.jade', 'packages/modules/' + module + '/**/*.json'],
+        imgWatch = ['packages/modules/' + module + '/img/*.*'];
+
+    var jsTask = ['js:'+module],
+        cssTask = ['css:'+module],
+        htmlTask = ['html:'+module],
+        imgTask = ['assets:'+module];
+
+    for ( var i = 1; i < arguments.length; i++ ) {
+      jsWatch.push('packages/modules/' + arguments[i] + '/js/*.js');
+      cssWatch.push('packages/modules/' + arguments[i] + '/css/*.scss');
+      htmlWatch.push('packages/modules/' + arguments[i] + '/**/*.jade');
+      htmlWatch.push('packages/modules/' + arguments[i] + '/**/*.json');
+      imgWatch.push('packages/modules/' + arguments[i] + '/img/*.*');
+
+      jsTask.push('js:'+arguments[i]);
+      cssTask.push('css:'+arguments[i]);
+      htmlTask.push('html:'+arguments[i]);
+      imgTask.push('assets:'+arguments[i]);
+    }
+
+    grunt.config('watch.js.files', jsWatch);
+    grunt.config('watch.css.files', cssWatch);
+    grunt.config('watch.html.files', htmlWatch);
+    grunt.config('watch.assets.files', imgWatch);
 
     if(module !== '**'){
-      grunt.config('watch.js.tasks', 'js:'+module);
-      grunt.config('watch.css.tasks', 'css:'+module);
-      grunt.config('watch.html.tasks', 'html:'+module);
-      grunt.config('watch.assets.tasks', 'assets:'+module);
+
+      grunt.config('watch.js.tasks', jsTask);
+      grunt.config('watch.css.tasks', cssTask);
+      grunt.config('watch.html.tasks', htmlTask);
+      grunt.config('watch.assets.tasks', imgTask);
     }
 
     grunt.task.run('watch');

@@ -1,0 +1,123 @@
+<!DOCTYPE html>  <html> <head>   <title>editorial-dual-viewer-e9.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="hotspots-controller.html">                 hotspots-controller.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="gallery-g2-g3.html">                 gallery-g2-g3.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="global-header-footer.html">                 global-header-footer.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="pdp-slideshow-d04_2.html">                 pdp-slideshow-d04_2.js               </a>                                           <a class="source" href="pdp-slideshow-d4.html">                 pdp-slideshow-d4.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="product-details-d5.html">                 product-details-d5.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="product-summary-d1-d2.html">                 product-summary-d1-d2.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="recently-viewed.html">                 recently-viewed.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="related-products-g1.html">                 related-products-g1.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="reviews-awards-d6.html">                 reviews-awards-d6.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               editorial-dual-viewer-e9.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Sony Editorial + Dual Viewer (EditorialDualViewer) ModuleModule</h2>
+
+<ul>
+<li><strong>Class:</strong> EditorialDualViewer</li>
+<li><strong>Version:</strong> 0.2</li>
+<li><strong>Modified:</strong> 03/25/2013</li>
+<li><strong>Author:</strong> George Pantazis</li>
+<li><strong>Dependencies:</strong> jQuery 1.7+, <a href="sony-draggable.html">SonyDraggable</a></li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+define(<span class="keyword">function</span>(require){
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+      SonyDraggable = require(<span class="string">'secondary/index'</span>).sonyDraggable;
+
+  <span class="keyword">var</span> module = {
+    <span class="string">'init'</span>: <span class="keyword">function</span>() {
+      $(<span class="string">'.edv'</span>).each(<span class="keyword">function</span>(){
+        <span class="keyword">new</span> EditorialDualViewer(<span class="keyword">this</span>);
+      });
+    }
+  };
+
+  <span class="keyword">var</span> EditorialDualViewer = <span class="keyword">function</span>(element){
+
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    self.$el = $(element);
+    self.$dualViewContainer = self.$el.find(<span class="string">'.edv-images'</span>);
+    self.$scrubber = self.$el.find(<span class="string">'.edv-scrubber-container'</span>);
+    self.$bottomSlide = self.$el.find(<span class="string">'.image-1'</span>);
+    self.$topSlide = self.$el.find(<span class="string">'.image-2'</span>);
+    self.$topSlideImageContainer = self.$topSlide.find(<span class="string">'.edv-image-wrapper'</span>);
+    self.$images = self.$dualViewContainer.find(<span class="string">'img'</span>);
+
+    self.init();
+
+    log(<span class="string">'SONY : EditorialDualViewer : Initialized'</span>);
+  };
+
+  EditorialDualViewer.prototype = {
+
+    <span class="string">'constructor'</span>: EditorialDualViewer,
+
+    <span class="string">'init'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$scrubber.sonyDraggable({
+        <span class="string">'axis'</span>: <span class="string">'x'</span>,
+        <span class="string">'unit'</span>: <span class="string">'%'</span>,
+        <span class="string">'containment'</span>: self.$dualViewContainer,
+        <span class="string">'drag'</span>: $.proxy(self.onDrag, self),
+        <span class="string">'bounds'</span>: self.getDragBounds()
+      });
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>We just need the images to be ready <em>enough</em> to provide dimensions.
+Since the usual imagesLoaded plugin approach wasn't compatible with iQ,
+we just poll for a width until one is available.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'initTimeout'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          ready = <span class="literal">true</span>;
+
+      self.$images.each(<span class="keyword">function</span>(){
+        <span class="keyword">if</span> ( $(<span class="keyword">this</span>).width() === <span class="number">0</span> || $(<span class="keyword">this</span>).height() === <span class="number">0</span> ) {
+          ready = <span class="literal">false</span>;
+        }
+      });
+
+      <span class="keyword">if</span> ( ready ) {
+        self._init();
+      } <span class="keyword">else</span> {
+        setTimeout($.proxy(self.initTimeout, self), <span class="number">500</span>);
+      }
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Compute the dragging bounds based on the width of the container.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'getDragBounds'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          minBounds = self.$dualViewContainer.width() * <span class="number">0.1</span>,
+          containerWidth = self.$dualViewContainer.width();
+
+      <span class="keyword">return</span> {
+        <span class="string">'x'</span>: {
+          <span class="string">'min'</span>: <span class="number">100</span> * minBounds / containerWidth,
+          <span class="string">'max'</span>: <span class="number">100</span> - <span class="number">100</span> * minBounds / containerWidth
+        }
+      };
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Based on the current bounds, Reset the position of the scrubber via
+<a href="sony-draggable.html">SonyDraggable's</a> <em>setBounds</em> method.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'setPositions'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          bounds = self.getDragBounds();
+
+      self.$scrubber.sonyDraggable(<span class="string">'setBounds'</span>, bounds);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>As <a href="sony-draggable.html">SonyDraggable</a> returns scrubbing changes, update the top slide's width to match,
+and adjust the image container's width by that percentage's inverse to maintain the
+desired positioning.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'onDrag'</span>: <span class="keyword">function</span>(e) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$topSlide.css(<span class="string">'width'</span>, (<span class="number">100</span> - e.position.left) + <span class="string">'%'</span>);
+      self.$topSlideImageContainer.css(<span class="string">'width'</span>, <span class="number">10000</span> / (<span class="number">100</span> - e.position.left) + <span class="string">'%'</span>);
+    }
+
+  };
+
+  <span class="keyword">return</span> module;
+
+});
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
