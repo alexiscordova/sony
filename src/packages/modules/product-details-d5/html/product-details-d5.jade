@@ -1,0 +1,149 @@
+include ../../../common/html/jade-helpers.jade
+
+
+mixin measurement(m)
+  //- +iQImage(module.images[0],'tcc-image')
+  p
+    | #{m.height.centimeters}cm
+    br 
+    | (#{m.height.inches}")
+
+
+
+mixin featureList( list, extraClasses)
+  - listClasses = 'feature-list'
+  - extraClasses = extraClasses || false 
+  - if ( extraClasses ) listClasses += ' ' + extraClasses
+
+  ul(class=listClasses)
+    each li in list
+      - copyClasses = ["copy", "ghost-center"]
+
+      //- at least copy required
+      if (li.copy)
+        
+        li
+          .ghost-center-wrap
+
+            if (li.icon)
+              - iconClasses = ["icon", "ghost-center"]
+              - copyClasses.push("with-icon")
+              p(class= iconClasses)
+                i(class= li.icon)
+            
+            p(class= copyClasses)
+              | #{li.copy}
+              
+              if (li.link)
+                a(href=li.link)= li.linkLabel
+            
+
+
+mixin definitionList( list, isHorizontal )
+  - isHorizontal = isHorizontal || false
+  - clss = isHorizontal ? 'dl-horizontal' : null
+  dl(class=clss)
+    each li in list
+      dt.l3: strong= li.title
+      if li.copy
+        dd.p3= li.copy
+
+
+//- TOP DATA
+- top = data.top
+
+//- CENTER DATA
+- center = data.center
+- features = center.features
+- isFeatures = features.length > 0
+
+- specs = center.specs
+- isSpecs = specs.length > 0
+
+- measurements = center.measurements
+- isMeasurements = measurements.length > 0
+
+- extras = center.extras
+- isExtras = extras.length > 0
+
+//- MOVE TO MIXIN!
+- columnCount = 0
+- centerSpanClass = []
+
+if(isFeatures) 
+  - columnCount = columnCount + 1
+
+if(isSpecs)
+  - columnCount = columnCount + 1
+
+if(isMeasurements)
+  - columnCount = columnCount + 1
+
+case columnCount
+ when 2
+   - centerSpanClass.push("span6")
+ when 3
+   - centerSpanClass.push("span4")
+
+//- END MOVE TO MIXIN!
+
+
+//- BOTTOM DATA
+- bottom = data.bottom
+- bottomBtn = bottom.bottomBtn
+- textTout = bottom.textTout
+
+- isBottomBtn = bottomBtn.buttonLink != ""
+- isTextTout = textTout.copy != ""
+- bottomSpanClass = []
+
+if((isTextTout) && (isBottomBtn))
+  - bottomSpanClass.push("span6")
+
+
+- productDetailsClasses = ["p-d-m","container"]
+
+//- START PRODUCT DETAILS
+section(class= productDetailsClasses)
+  .top.grid
+    .title.l1= top.title
+
+    if(top.desc.length > 0)
+      .desc.p3= top.desc
+
+  .center.grid
+    if(isFeatures)
+      .features(class= centerSpanClass)
+        +featureList(features)
+
+    if(isSpecs)
+      .specs(class= centerSpanClass)
+        +definitionList(specs, false)
+      
+    if(isMeasurements)
+      .measurements(class= centerSpanClass)
+        for measurement in measurements
+          .measurement
+            +measurement(measurement)
+
+        if(isExtras)
+          .extras
+            for extra in extras
+              .extra
+                p= extra.title
+                p= extra.copy
+  
+  .bottom.grid
+    if(isTextTout)
+      .text-tout.span6
+        .copy.p3
+          | #{textTout.copy}
+          if(textTout.link)
+            a(href= textTout.link)= textTout.linkLabel
+    
+    if(isBottomBtn)
+      .bottomBtn(class= bottomSpanClass)
+        a.btn.buttonLabel(href= bottomBtn.buttonLink)= bottomBtn.buttonLabel
+
+
+//- END PRODUCT DETAILS

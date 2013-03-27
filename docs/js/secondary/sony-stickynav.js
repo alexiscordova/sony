@@ -5,7 +5,7 @@
 // * **Version:** 0.1
 // * **Modified:** 03/07/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.7+, Modernizr
+// * **Dependencies:** jQuery 1.7+, Modernizr, Bootstrap's scrollspy
 //
 // *Example Usage:*
 //
@@ -18,6 +18,7 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
+      bootstrap = require('bootstrap'),
       Modernizr = require('modernizr'),
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities'),
@@ -46,11 +47,6 @@ define(function(require){
       self.$window.on('scroll', $.proxy( self._onScroll, self ));
       Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
 
-      // Set up twitter bootstrap scroll spy
-      $body.scrollspy({
-        target: '.spec-sticky-nav'
-      });
-
       // Setup links that scroll within the page
       if ( self.$jumpLinks ) {
         self._initJumpLinks();
@@ -59,7 +55,8 @@ define(function(require){
       // Scroll to the top of the window on mouseup/touchend/pointerup
       if ( self.scrollToTopOnClick ) {
         self.$el.on( Settings.END_EV, function(e) {
-          if ( e.target.tagName === 'A' ) {
+          var tagName = e.target.tagName;
+          if ( tagName === 'A' || tagName === 'BUTTON' ) {
             return;
           }
           Utilities.scrollToTop();
@@ -67,22 +64,25 @@ define(function(require){
       }
 
       setTimeout(function() {
-        self._onScroll();
-        $body.scrollspy('refresh');
+        self._setOffset();
 
+        // Set up twitter bootstrap scroll spy
+        $body.scrollspy({
+          target: '.sticky-nav',
+          offset: self.targetOffset + 1
+        });
+
+        self._onScroll();
       }, 100);
     },
 
     _initJumpLinks : function() {
-      var self = this,
-          scrollspyOffset = 10,
-          navHeight = parseFloat( self.$el.css('height') ),
-          offset = scrollspyOffset + navHeight;
+      var self = this;
 
       self.$jumpLinks.simplescroll({
         showHash: true,
         speed: 400,
-        offset: offset
+        offset: function() { return self.targetOffset; }
       });
     },
 
@@ -90,13 +90,21 @@ define(function(require){
     _onScroll : function() {
       var self = this;
 
+      // IE8 still has sticky open sometimes at the top
+      function update() {
+        self._updateStickyNav();
+      }
+
       if ( !self.isTicking ) {
         self.isTicking = true;
         self.lastScrollY = self.$window.scrollTop();
-        window.requestAnimationFrame(function() {
-          self._updateStickyNav();
-        });
+        if ( !Modernizr.raf ) {
+          update();
+        } else {
+          window.requestAnimationFrame( update );
+        }
       }
+
     },
 
     _updateStickyNav : function() {
@@ -120,7 +128,9 @@ define(function(require){
     },
 
     _onResize : function() {
-      this._setTriggerPoint();
+      this
+        ._setTriggerPoint()
+        ._setOffset();
 
       // Update the positions for the scroll spy
       Settings.$body
@@ -138,17 +148,45 @@ define(function(require){
 
       // jQuery offset().top is returning negative numbers...
       // Get the trigger point for when the nav should `open`
-      if ( isInit && triggerPoint < 100 ) {
+      if ( triggerPoint < 100 ) {
         setTimeout(function() {
-          self.updateTriggerOffset( $offsetTarget[0].offsetTop ); //$offsetTarget.offset().top;
+          var triggerPoint = $offsetTarget[0].offsetTop;
+          // If we still don't have a high enough value, use the default
+          if ( triggerPoint < 100 ) {
+            triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
+          }
+          self.updateTriggerOffset( triggerPoint );
+
+
         }, 50);
       }
 
       self.updateTriggerOffset( triggerPoint );
+
+      return self;
+    },
+
+    _setOffset : function() {
+      var self = this,
+          navHeight = self.$el.outerHeight(),
+          offset = self.offset + navHeight;
+
+
+      self.updateOffset( offset );
+
+      return self;
     },
 
     updateTriggerOffset : function( newOffset ) {
       this.stickyTriggerOffset = newOffset;
+    },
+
+    updateOffset : function( newOffset ) {
+      var scrollspy = Settings.$body.data('scrollspy');
+      this.targetOffset = newOffset;
+      if ( scrollspy ) {
+        scrollspy.options.offset = newOffset;
+      }
     }
   };
 
@@ -163,8 +201,8 @@ define(function(require){
 
       // If we don't have a stored stickyNav, make a new one and save it.
       if ( !stickyNav ) {
-          stickyNav = new StickyNav( self, options );
-          self.data( 'stickyNav', stickyNav );
+        stickyNav = new StickyNav( self, options );
+        self.data( 'stickyNav', stickyNav );
       }
 
       if ( typeof options === 'string' ) {
@@ -177,8 +215,9 @@ define(function(require){
   // --------
   $.fn.stickyNav.defaults = {
     $jumpLinks: undefined,
-    offsetTarget: 300,
-    scrollToTopOnClick: true
+    offsetTarget: 300, // Trigger offset which opens the sticky nav. Can be a number or jQuery element
+    offset: 10, // Distance from the target when scrollspy should active the next link
+    scrollToTopOnClick: false
   };
 
   // Non override-able settings
@@ -186,6 +225,7 @@ define(function(require){
   $.fn.stickyNav.settings = {
     isInitialized: false,
     isTicking: false,
+    targetOffset: 10,
     lastScrollY: 0
   };
 

@@ -167,16 +167,68 @@
 
 // Star highlighting!
 // -------------------------
-[data-stars] .icon-ui-star:not(:first-child) {
-  margin-left: 2px;
+// [data-stars] .star-holder:not(:first-child) {
+//   margin-left: 2px;
+// }
+
+// Put the half star above the single star
+.star-holder {
+  position: relative;
+  top: .25em;
+  display: inline-block;
+  @include square( 1em ); // should match .fonticon's size
+  line-height: 1;
+
+  .fonticon-10-star,
+  .fonticon-10-star-half {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .fonticon-10-star {
+    z-index: 1;
+  }
+
+  .fonticon-10-star-half {
+    display: none;
+    z-index: 2;
+  }
 }
 
-// We have to add half-stars to this. I gues that means it's actually a 10-star rating system.
-[data-stars="1"] .fonticon-10-star:nth-child(-n + 1),
-[data-stars="2"] .fonticon-10-star:nth-child(-n + 2),
-[data-stars="3"] .fonticon-10-star:nth-child(-n + 3),
-[data-stars="4"] .fonticon-10-star:nth-child(-n + 4),
-[data-stars="5"] .fonticon-10-star:nth-child(-n + 5) {
+[data-stars] .fonticon-10-star {
+  color: $gray50;
+}
+
+[data-stars] .reviews-text {
+  line-height: 1;
+  margin: 0;
+  color: $gray40;
+}
+
+// Ratings without half stars
+[data-stars="1"] .star-holder:nth-child(-n + 1) .fonticon-10-star,
+[data-stars="2"] .star-holder:nth-child(-n + 2) .fonticon-10-star,
+[data-stars="3"] .star-holder:nth-child(-n + 3) .fonticon-10-star,
+[data-stars="4"] .star-holder:nth-child(-n + 4) .fonticon-10-star,
+[data-stars="5"] .star-holder:nth-child(-n + 5) .fonticon-10-star,
+
+// Ratings with half stars, targetting the full star
+[data-stars="0.5"] .star-holder:nth-child(-n + 0) .fonticon-10-star,
+[data-stars=".5"]  .star-holder:nth-child(-n + 0) .fonticon-10-star,
+[data-stars="1.5"] .star-holder:nth-child(-n + 1) .fonticon-10-star,
+[data-stars="2.5"] .star-holder:nth-child(-n + 2) .fonticon-10-star,
+[data-stars="3.5"] .star-holder:nth-child(-n + 3) .fonticon-10-star,
+[data-stars="4.5"] .star-holder:nth-child(-n + 4) .fonticon-10-star,
+
+// Ratings with half stars, targetting the half star
+[data-stars="0.5"] .star-holder:nth-child(-n + 1) .fonticon-10-star-half,
+[data-stars=".5"]  .star-holder:nth-child(-n + 1) .fonticon-10-star-half,
+[data-stars="1.5"] .star-holder:nth-child(-n + 2) .fonticon-10-star-half,
+[data-stars="2.5"] .star-holder:nth-child(-n + 3) .fonticon-10-star-half,
+[data-stars="3.5"] .star-holder:nth-child(-n + 4) .fonticon-10-star-half,
+[data-stars="4.5"] .star-holder:nth-child(-n + 5) .fonticon-10-star-half {
+  display: inline-block;
   color: $buttonOrange;
 }
 
@@ -196,7 +248,7 @@
 //   margin-left: 0;
 //   list-style: none;
 //   width:900px;
-//   background:white; 
+//   background:white;
 //   padding:10px 90px 10px 10px;
 //   margin:200px auto 20px;
 // }

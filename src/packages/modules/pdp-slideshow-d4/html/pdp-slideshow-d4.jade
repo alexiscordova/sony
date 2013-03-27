@@ -1,0 +1,57 @@
+include ../../../common/html/jade-helpers.jade
+
+- desc = 'Here are some modules with unique data:'
+- layout1 = [ "" ]
+
+
+mixin pdpSlide(data)
+  for slide in data.submodules
+    slideData = locals.data( slide.data )
+    .pdp-slideshow-slide
+      if slideData.mode == 'imageGallery'
+        if slideData.type == 1
+          .ghost-center-wrap
+            .ghost-center
+              img( class='iq-img', data-src=slideData.productImg.src, alt=slideData.productImg.alt )
+              noscript
+                img( src=slideData.productImg.noscriptSrc )
+        else if slideData.type == 2
+          img( class='iq-img full-max', data-src=slideData.productImg.src, alt=slideData.productImg.alt )
+          noscript
+            img( src=slideData.productImg.noscriptSrc )
+
+mixin pdpThumbs(data)
+ for slide in data.submodules
+  slideData = locals.data(slide.data)
+  li.thumb
+    a( class=data.config.variation , href='#' )
+      .ghost-center-wrap
+        .ghost-center
+          img( class='iq-img', data-src=slideData.thumb.src, alt=slideData.thumb.alt )
+          noscript
+            img( src=slideData.thumb.noscriptSrc ) 
+
+section.pdp-slideshow
+  .pdp-slideshow-outer
+    .pdp-slideshow-inner
+      +pdpSlide(data)
+  - clsss = 'thumb-nav ' + data.config.variation 
+  ul( class= clsss )
+    +pdpThumbs(data)
+
+.container
+  .grid
+    h2.l1 What's Hot
+
+
+
+
+
+
+
+
+
+//- Will be needed for later
+//- CLOSE BUTTON
+//- .div(class='box-close box-close-small')
+//-   i.fonticon-10-x

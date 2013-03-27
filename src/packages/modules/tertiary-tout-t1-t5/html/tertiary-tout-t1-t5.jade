@@ -33,7 +33,7 @@ mixin articleNews(module)
 
 mixin articleEvent(module)
   //- assumes there only ever be one image
-  .img-container.tcc-image(data-src= module.images[0].src)
+  .img-container.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
     .attendance-count
       .details
         p.t3= module.attendanceCount
@@ -41,7 +41,7 @@ mixin articleEvent(module)
 
 mixin articleFeatured(module)
   //- assumes there only ever be one image
-  .featured-image.tcc-image(data-src= module.images[0].src)
+  .featured-image.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
   article
     .feature-copy.light-text-dark-box
       p.t5-light= module.title
@@ -111,10 +111,10 @@ mixin facebook(module)
 
 mixin instagram(module)
   div.left
-    div.tcc-image(data-src= module.images[1].src)
-    div.tcc-image.last(data-src= module.images[2].src)
+    div.tcc-image(data-src-desktop= module.images[1].srcDesktop, data-src-tablet= module.images[1].srcTablet, data-src-phone= module.images[1].srcPhone, data-src-desktop-highres= module.images[1].srcDesktopHighRes, data-src-tablet-highres= module.images[1].srcTabletHighRes, data-src-phone-highres= module.images[1].srcPhoneHighRes)
+    div.tcc-image.last(data-src-desktop= module.images[2].srcDesktop, data-src-tablet= module.images[2].srcTablet, data-src-phone= module.images[2].srcPhone, data-src-desktop-highres= module.images[2].srcDesktopHighRes, data-src-tablet-highres= module.images[2].srcTabletHighRes, data-src-phone-highres= module.images[2].srcPhoneHighRes)
   div.right
-    div.tcc-image(data-src= module.images[0].src)
+    div.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
 
 mixin sonysVoiceTop(icon, meta)
   .icon-container

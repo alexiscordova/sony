@@ -1,0 +1,54 @@
+include ../../../common/html/jade-helpers.jade
+
+.product-summary-module.product-summary
+
+  //- Here we're using a submodule because it has the mixins defined already in the file
+  module = data.submodules[0]
+  productData = locals.data(module.data)
+  - productData.view = 'summary'
+
+  - productData.collectionLabel = data.titleLink.label
+  - productData.collectionHref = data.titleLink.href
+  - productData.favoriteText = 'Favorite'
+  - productData.shareText = 'Share'
+  - productData.startingAtText = data.startingAtText
+  - productData.msrp = data.msrp
+  - productData.priceUnit = data.priceUnit
+  - productData.buyText = data.buyText
+  - productData.socialButtons = data.socialButtons
+  - productData.shortLink = data.shortLink
+
+  e = { "locals" : locals, "data" : productData }
+  !{locals.partial( module.type, e )}
+
+  .container
+    .grid.no-grid-at-767
+      ul.jump-links.inline
+        each link, i in data.internalLinks
+          - clss = i ? '' : 'active'
+          li(class=clss)
+            a.lt3.no-hover-transition(href=link.href)= link.label
+
+
+  section.sticky-nav.ps-sticky-nav
+    .container
+      .grid.no-grid-at-767
+        .span7
+          .pull-left.product-img.space-right
+            +iQImage( productData.imgSmall )
+          .pull-left
+            h2.t6.sticky-nav-title= productData.title
+            ul.jump-links.inline.nav
+              each link, i in data.internalLinks
+                - clss = i ? '' : 'active'
+                li(class=clss)
+                  a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
+
+        .span5
+          a.btn.btn-special.pull-right(data-long-text=data.buyText, href=productData.storeLink)= data.buyTextShort
+          .text-right.pull-right.space-right.price-text
+            p.p4.price-prefix= data.startingAtText
+            span.p5.msrp= data.msrp
+            span.p1.price
+              strong.text-dark !{ data.priceUnit + productData.price }
+
