@@ -26,7 +26,7 @@
 }
 
 #dokuwiki__header .primaryNav{
-  width:50%;
+  width:70%;
   float:left;
 }
 
@@ -170,7 +170,7 @@
 #dokuwiki__sitetools {
   text-align: right;
   display:block;
-  width:48%;
+  width:28%;
   float:right;
 
   form{
@@ -189,9 +189,12 @@
   z-index: 21;
 }
 #dokuwiki__sitetools form.search input.edit {
-  width: 18em;
-  padding: .1em 22px .1em .4em;
-  margin-top:7px;
+  width: 16.5em;
+  padding: 3px 22px 3px 8px;
+  margin-top:9px;
+  height:19px;
+  border:none;
+
 }
 #dokuwiki__sitetools form.search input.button {
   background: transparent url(../img/_wiki/tpl/search.png) no-repeat 0 0;
@@ -199,7 +202,7 @@
   width: 19px;
   height: 14px;
   text-indent: -99999px;
-  margin-left: -20px;
+  margin-left: -22px;
   box-shadow: none;
   padding: 0;
 }
@@ -264,7 +267,30 @@
   height:42px;
   
   .sprite-32a-sony-logo-sm-short {
-    margin: 12px 0 0 -3px;
+    margin: 2px 0 0 -3px;
+  }
+  .primaryNav{
+    ul{
+      li{
+        display:inline-block;
+        margin-top:7px;
+        &.navLogo{
+          margin-right:20px;
+        }
+
+        a{
+          font-family:arial, sans-serif;
+          margin-right:19px;
+          color:$gray60;
+          -webkit-font-smoothing:antialiased;
+          font-size:px-em(15);
+          &:hover,
+          &:active{
+            color:$white;
+          };
+        }
+      }
+    }
   }
 }
 
