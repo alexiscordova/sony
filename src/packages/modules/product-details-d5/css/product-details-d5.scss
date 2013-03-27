@@ -6,6 +6,16 @@
 	padding:60px 0 90px 0;
 	border:3px solid red;
 
+
+	.pd-image{
+		@include transition(opacity $transitionFast ease-in);
+		opacity: 0;
+
+		&.on {
+			opacity: 1;
+		}
+	}
+
 	// 88888888888  .d88888b.  8888888b.  
 	//     888     d88P" "Y88b 888   Y88b 
 	//     888     888     888 888    888 
@@ -39,26 +49,26 @@
 	// Y88b  d88P 888        888   Y8888     888     888        888  T88b  
 	//  "Y8888P"  8888888888 888    Y888     888     8888888888 888   T88b 
 
-	.center{
-		//background: rgba(227,208,229,1);
+	// .center{
+	// 	//background: rgba(227,208,229,1);
 
-		.features{
-			//outline:1px solid black;
-		} // .features
+	// 	.features{
+	// 		//outline:1px solid black;
+	// 	} // .features
 
-		.specs{
-			//outline:1px solid black;	
-		} // .specs
+	// 	.specs{
+	// 		//outline:1px solid black;	
+	// 	} // .specs
 
-		.measurements{
-		  outline:1px solid black;
-		} // end .measurements
+	// 	.measurements{
+	// 	  outline:1px solid black;
+	// 	} // end .measurements
 		
-		.extras{
-		  outline:1px solid black;
-		} // end .extras
+	// 	.extras{
+	// 	  outline:1px solid black;
+	// 	} // end .extras
 
-	} // center	
+	// } // center	
 
 
 	// 8888888888                888                                       
@@ -175,15 +185,16 @@
 	// 888   "   888 Y8b.     888  888      X88 Y88b 888 888     Y8b.     888  888  888 Y8b.     888  888 Y88b.       X88 
 	// 888       888  "Y8888  "Y888888  88888P'  "Y88888 888      "Y8888  888  888  888  "Y8888  888  888  "Y888  88888P' 
 	.measurements{
+		outline:1px solid black;
 		background-color:$gray80;
-		padding:39px px-em(32px) 50px px-em(32px);
+		padding:39px px-em(32px) 52px px-em(32px);
 		
-		.measurement{
-			background-color: rgba(0,211,255,.5);
-		} // measurement
+		// .measurement{
+		// 	background-color: rgba(0,211,255,.5);
+		// } // measurement
 
-		.image-wrapper{
-			display:inline-block;
+		.wrapper{
+			//display:inline-block;
 			border:1px solid red;
 			//padding:0 px-em(18px) 15px 0;
 		}
@@ -201,15 +212,25 @@
 			margin:0;
 		}
 
-		.measurement-height{
+		// img{
+		// 	border:2px solid #990033;
+		// }
+
+		.vertical-measurement{
+			text-align: center;
 			display:inline-block;
-			border:1px solid #ff00ff;
+			padding-left:0;
+
+			&.not-thin{
+				padding-left: px-em(24px);
+			}
+
 		}
 
-		.measurement-width{
+		.horizontal-measurement{
 			text-align: center;
 			display:block;
-			border:1px solid #009966;
+			padding-top: px-em(24px);
 		}
 		
 
@@ -225,6 +246,7 @@
 	// 8888888888 888  888  "Y888 888     "Y888888  88888P' 
 	.extras{
 		outline:1px solid green;
+		margin-top:40px;
 		
 		.extra{
 			//background-color: rgba(182,22,255,.5);
@@ -245,11 +267,14 @@
 
 
 	.bottom{
+		margin-top:36px;
 		outline:1px solid black;	
+		background-color: rgba(125, 210, 164, .8);
 
 		.text-tout{
-			background-color: rgba(125, 210, 164, .8);
+			padding-top:5px;
 			text-align: left;
+			outline:1px solid #003300;	
 
 			a{
 				text-transform: capitalize;
@@ -258,9 +283,9 @@
 		} // .text-tout
 
 		.bottomBtn{
-			background-color: rgba(125, 210, 164, .6);
+			// background-color: rgba(125, 210, 164, .6);
 			text-align: left;
-			outline:1px solid black;
+			outline:1px solid #ff0033;
 
 			&.span6{
 				text-align: right;

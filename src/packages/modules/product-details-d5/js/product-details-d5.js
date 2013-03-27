@@ -32,6 +32,10 @@ define(function(require){
 
     self.$el = $(element);
     self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
+    self.$el = $( element );
+    self.$horzMeasurements = $(".horizontal-measurement");
+    self.$images = self.$el.find(".pd-image"); //$(".measurement-image");
+
 
     self.init();
 
@@ -46,10 +50,25 @@ define(function(require){
     constructor: ProductDetails,
 
     init: function() {
-      var self = this;
+      var self = this,
+          $images = self.$images,
+          $readyImages = $images.filter(function(){return $(this).data('hasLoaded');});
+
+      $images.on('imageLoaded iQ:imageLoaded', function(){
+        $readyImages = $readyImages.add($(this));
+       
+        if ($readyImages.length === $images.length) {
+          self.onImagesLoaded();
+        }
+
+      });
+
+      if ($readyImages.length === $images.length) {
+        self.onImagesLoaded();
+      }
 
       // TODO: put this in listener 
-      self.onImageLoad();
+      //self.onImagesLoaded();
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
         enquire.register("(min-width: 480px)", function() {
@@ -63,38 +82,41 @@ define(function(require){
       }
     },
 
-    onImageLoad : function(  ){
+    onImagesLoaded : function(  ){
       var self = this;
     
+      self.showImages();
       self.setMeasurementWidths();
       self.animateDimensions();
       
     },
 
+    showImages : function(  ){
+      console.log( '««« showImages »»»' );
+      var self = this,
+          $images = self.$images;
+
+      $images.each(function() {
+        $(this).addClass('on');
+      });
+    },
+
     setMeasurementWidths : function(  ){
       console.log( '««« setMeasurementWidths »»»' );
       var self = this,
-          $mWidths = $(".measurement-width"),
-          $mHeights = $(".measurement-height"),
-          $imgs = $(".measurement-image"),
-          widths = [],
-          heights = [];
+          mImgWidths = [],
+          $images = self.$images,
+          $measures = self.$horzMeasurements;
       
       // get the height / widths
-      $.each($imgs, function(index, value) { 
-        widths[index] = $(this).outerWidth();
-        heights[index] = $(this).height();
+      $images.each(function(index, value) { 
+        mImgWidths[index] = $(this).outerWidth();
       });
 
       // set the widths
-      $.each($mWidths, function(index) { 
-        $(this).width(widths[index]);
+      $measures.each(function(index) { 
+        $(this).width(mImgWidths[index]);
       });      
-
-      // set the heights 
-      $.each($mHeights, function(index) { 
-        $(this).height(heights[index]);
-      });
 
     },
 

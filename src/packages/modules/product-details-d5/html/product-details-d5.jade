@@ -9,9 +9,13 @@ mixin cmString(cm)
   p.centimeters
     | #{cm}cm
 
-mixin measurementValues(value, dir)
-  - cls = "measurement-" + dir
-  div(class = cls) 
+mixin measurementValues(value, dir, thin)
+  - clss = [dir + "-measurement"]
+  
+  if ((!thin) && (dir == "vertical"))
+    - clss.push('not-thin')
+
+  div(class = clss) 
     +cmString(value.cm)
 
     if (value.inches)
@@ -21,15 +25,15 @@ mixin measurementsList(measurements)
   for m in measurements
     .measurement.p4
 
-      .image-wrapper
-        +iQImage(m.image, "measurement-image")
+      .wrapper
+        +iQImage(m.image, "pd-image")
 
         if (m.height)
-          +measurementValues(m.height, "height")  
+          +measurementValues(m.height, "vertical", m.thinImage)  
 
         //- put width in image wrapper for simple centering solution
         if (m.width)
-          +measurementValues(m.width, "width")
+          +measurementValues(m.width, "horizontal", m.thinImage)
 
 
 
