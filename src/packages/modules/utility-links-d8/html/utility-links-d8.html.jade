@@ -34,7 +34,9 @@ if(displayType == "category-view")
         div.ulinks-content-module.ul-content-box-outer.span6.table-center-wrap
           .ul-content-box.clearfix
             .first
-              img(src=cat3.imgSrc).ut-block-img
+              img(class=cat3.imgSrc.classes, data-src-desktop=cat3.imgSrc.srcDesktop, data-src-tablet=cat3.imgSrc.srcTablet, data-src-phone=cat3.imgSrc.srcPhone, data-src-desktop-highres=cat3.imgSrc.srcDesktopHighRes, data-src-tablet-highres=cat3.imgSrc.srcTabletHighRes, data-src-phone-highres=cat3.imgSrc.srcPhoneHighRes).ut-block-img
+              noscript
+                img(src=cat3.imgSrc.noscriptsrc)
             .last
               h5.t5-light #{cat3.title}
               p.p3 #{cat3.body}
@@ -48,7 +50,10 @@ else
       section.ulinks-body-wrapper.container
           div.ulinks-body.grid
             div(id="pdp-product-image").ulinks-pdp-module.span3.m-span3.table-center-wrap
-              img(src=data.imgSrc)
+              - image = data.image
+              img(class=image.classes, data-src-desktop=image.srcDesktop, data-src-tablet=image.srcTablet, data-src-phone=image.srcPhone, data-src-desktop-highres=image.srcDesktopHighRes, data-src-tablet-highres=image.srcTabletHighRes, data-src-phone-highres=image.srcPhoneHighRes)
+              noscript
+                img(src=image.noscriptsrc)
             div.ulinks-pdp-module.span9.table-center-wrap
               #pdp-g-head.grid
                 .span4.t7.pdp-help-title

@@ -53,6 +53,8 @@ define(function(require){
 
       var self = this;
 
+      self.bindEvents();
+
       self.$innerContainer.sonyCarousel({
         wrapper: '.soc-container',
         slides: '.soc-content',
@@ -65,8 +67,6 @@ define(function(require){
         paddles: true,
         pagination: true
       });
-
-      self.bindEvents();
 
       self.$cachedSlides = self.$slides.detach();
       self.$cachedSlides.find('.soc-image').addClass('iq-img');
