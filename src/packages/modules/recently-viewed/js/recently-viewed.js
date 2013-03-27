@@ -533,9 +533,10 @@ define(function(require){
             'margin'  : 0
           }); 
 
-          //console.log("height",  self.$el.find('.gallery-item.medium').first().height() );
+          // margin-top : 55, margin-bottom : 30, heightBullets : 17
+          var newContainerHeight = self.$el.find('.gallery-item.medium').first().height() + 55 + 17 + 30 + 'px';
 
-          var newContainerHeight = self.$el.find('.gallery-item.medium').first().height() + 40 + 'px';
+
 
           self.$el.css({
             'height'     : newContainerHeight,
