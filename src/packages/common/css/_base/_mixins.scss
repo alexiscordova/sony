@@ -35,6 +35,7 @@ $default-transition-delay    : 0s;
 @function px-em-reverse-size($px, $context:16){
   @return (strip-units($context) / strip-units($px)) + 0em;
 }
+
 @mixin fonticon-text-px-to-em($px, $context:16) {
 	font-size: px-em($px, $context); // the size of the text
 
@@ -1244,6 +1245,12 @@ $default-transition-delay    : 0s;
 		.#{$spanName}#{$gridColumns} { @include grid-fluid-span($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
 		$gridColumns: $gridColumns - 1;
 	}
+
+	// TODO: THIS SHOULD WORK (CJM)
+	// .grid .#{$spanName}#{$gridColumns} {
+	// 	margin-left:0; // if you're using a full-width column (span12 in a 12-column grid) it should never have a left margin.
+	// }
+
 }
 
 @mixin grid-fluid-offset-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid) {
@@ -1788,6 +1795,44 @@ $default-transition-delay    : 0s;
 
 @mixin dttb {
   // Moved these styles into type.scss to be usable globally
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*    ________    _______  __ ________  __    ______   ____  ____ _  __    __  _______  ____  ________ 
+	   / ____/ /   / ____/ |/ //  _/ __ )/ /   / ____/  / __ )/ __ \ |/ /   /  |/  / __ \/ __ \/ ____/ / 
+	  / /_  / /   / __/  |   / / // __  / /   / __/    / __  / / / /   /   / /|_/ / / / / / / / __/ / /  
+	 / __/ / /___/ /___ /   |_/ // /_/ / /___/ /___   / /_/ / /_/ /   |   / /  / / /_/ / /_/ / /___/ /___
+	/_/   /_____/_____//_/|_/___/_____/_____/_____/  /_____/\____/_/|_|  /_/  /_/\____/_____/_____/_____/
+*/	                                                                                                     
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@mixin flex-ratio-box( $width, $height , $horizontal: true) {
+
+	$px: unquote("px");
+	$lt-ie: unquote("lt-ie10");
+
+  position: relative;
+  height: 0;
+  padding-bottom: ( ( $height / $width ) * 100 ) + unquote("%");
+  overflow:hidden;
+  
+  //IE Fallbacks
+   .#{ $lt-ie } & {
+    width: $width + $px;
+    height: $height + $px;
+    padding-bottom: 0;
+  }
+  
+}
+
+@mixin flex-ratio-box-content(){
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  
 }
 
 

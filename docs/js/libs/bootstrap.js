@@ -1186,6 +1186,8 @@
           .addClass('in')
 
         this.$element.trigger('tipshow')
+
+        $tip = null
       }
     }
 
