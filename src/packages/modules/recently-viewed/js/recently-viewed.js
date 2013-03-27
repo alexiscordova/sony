@@ -57,10 +57,17 @@ define(function(require){
       self.$bulletNav             = $();
       self.$el                    = $(element);
       self.$galleryItems          = self.$el.find('.gallery-item');
+      
       self.$container             = self.$el.find('.rp-container').eq(0);
+      self.$containerProduct      = self.$el.parent().parent();
+      self.$slimGrid              = self.$el.parent();
 
       self.mode                   = self.$el.data('mode').toLowerCase(); //Determine the mode of the module
       self.variation              = self.$el.data('variation').split('-')[2]; //Determine the variaion of the module
+
+      self.colWidth               = { 'default' : 127/846, '1200' : 150/1020, '980' : 127/846, '768' : 140/650, 'mobile' : 220/598 };
+      self.gutterWidth            = { 'default' : 18/846,  '1200' : 24/1020,  '980' : 18/846,  '768' : 22/650 , 'mobile' : 24/598 };
+      self.containerWidthPct      = (92.1875 / 100) * (91.80791 / 100);
 
       self.scrollerModule         = null;
       self.nbPages                = 1;
@@ -100,7 +107,6 @@ define(function(require){
 
         var self = this;
 
-        
         //Initialize media queries detection
         self.mqFix();
 
@@ -296,34 +302,74 @@ define(function(require){
 
         var self       = this,
         containerWidth = self.$el.width(),
-        gutterWidth    = Settings.GUTTER_WIDTH_320 * containerWidth,
-        colWidth       = ( Settings.COLUMN_WIDTH_320 * ( containerWidth ) ),
+        gutterWidth    = self.gutterWidth['default'] * containerWidth,
+        colWidth       = self.colWidth['default']    * containerWidth,
         extraMarging   = 0,
+        slimGridW      = 0,
+        margeSlimGrid  = 0,
         extraPct       = 1,
+        heightContainer= 55 + 17 + 30,
         numColumns     = 6;
 
-        if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+        //reset
+        self.$slimGrid.removeAttr('style');
 
-          gutterWidth    = Settings.GUTTER_WIDTH_320 * containerWidth;
-          colWidth       = ( Settings.COLUMN_WIDTH_320 * ( containerWidth ) );
+        if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
+        {
+
+          self.$containerProduct.removeClass('full-bleed-no-max');
+
+          //gutterWidth    = Settings.GUTTER_WIDTH_320 * containerWidth;
+          gutterWidth    = self.gutterWidth['1200'] * containerWidth;
+          //colWidth       = ( Settings.COLUMN_WIDTH_320 * ( containerWidth ) );
+          colWidth       = self.colWidth['1200'] * containerWidth;
+          numColumns     = 6;
+        }
+        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+
+          self.$containerProduct.removeClass('full-bleed-no-max');
+
+          //gutterWidth    = Settings.GUTTER_WIDTH_320 * containerWidth;
+          gutterWidth    = self.gutterWidth['default'] * containerWidth;
+          //colWidth       = ( Settings.COLUMN_WIDTH_320 * ( containerWidth ) );
+          colWidth       = self.colWidth['default'] * containerWidth  ;
           numColumns     = 6;
 
-        } else if ( self.mq('(min-width: 768px)') ) {
+        } 
+        else if ( self.mq('(min-width: 768px)') ) {
+
+          self.$containerProduct.addClass('full-bleed-no-max');
+
+          //SlimGrid
+          slimGridW = $(window).width() * self.containerWidthPct;
+          margeSlimGrid = ( $(window).width() - slimGridW ) / 2;
+          slimGridW += margeSlimGrid;
+          self.$slimGrid.css( { 'width' : slimGridW, 'margin' : '0 0 0 '+ margeSlimGrid +'px' } );
 
           extraPct       = 1.1;
-          containerWidth = self.$el.width() * extraPct; //110%
-          gutterWidth    = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
-          colWidth       = ( Settings.COLUMN_WIDTH_SLIM_5 * ( containerWidth ) );
-          extraMarging   = containerWidth - self.$el.width() + gutterWidth;
+          //containerWidth = self.$el.width() * extraPct;
+          containerWidth = $(window).width() * self.containerWidthPct * extraPct; //110%
+          gutterWidth    = self.gutterWidth['768'] * $(window).width() * self.containerWidthPct;
+          colWidth       = self.colWidth['768']    * $(window).width() * self.containerWidthPct;
+          extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
           numColumns     = 5;
 
         }else {
 
+          self.$containerProduct.addClass('full-bleed-no-max');
+
+          //SlimGrid
+          slimGridW      = $(window).width() * self.containerWidthPct;
+          margeSlimGrid  = ( $(window).width() - slimGridW ) / 2;
+          slimGridW += margeSlimGrid;
+          self.$slimGrid.css( { 'width' : slimGridW, 'margin' : '0 0 0 '+ margeSlimGrid +'px' } );
+
           extraPct       = 1.1525;
-          containerWidth = self.$el.width() * extraPct;
-          gutterWidth    = ( Settings.GUTTER_WIDTH_320 * 2 ) * containerWidth;
-          colWidth       = ( ( Settings.COLUMN_WIDTH_320 * 2  ) * ( containerWidth ) );
-          extraMarging   = containerWidth - self.$el.width() + gutterWidth / 2;
+          //containerWidth = self.$el.width() * extraPct;
+          containerWidth = $(window).width() * self.containerWidthPct * extraPct; //110%
+          gutterWidth    = self.gutterWidth.mobile * $(window).width() * self.containerWidthPct;
+          colWidth       = self.colWidth.mobile    * $(window).width() * self.containerWidthPct;
+          extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
           numColumns     = 3;
 
         }
@@ -394,10 +440,7 @@ define(function(require){
              window.iQ.update();
           });
 
-
           //window.iQ.update();
-
-
 
         }, 50);
 
@@ -405,34 +448,77 @@ define(function(require){
         self.$win.on('resize.rp', $.debounce(50 , function() {
 
           var containerWidth = self.$el.width(),
-          gutterWidth        = Settings.GUTTER_WIDTH_320 * containerWidth,
-          colWidth           = ( Settings.COLUMN_WIDTH_320 * (containerWidth ) ),
+          gutterWidth        = self.gutterWidth['default'] * containerWidth;
+          colWidth           = self.colWidth['default'] * containerWidth;
           extraMarging       = 0,
+          slimGridW          = 0,
+          margeSlimGrid      = 0,
           extraPct           = 1,
+          heightContainer    = 55 + 17 + 30,
           numColumns         = 6;
 
-          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+          //reset
+          self.$slimGrid.removeAttr('style');
 
-            gutterWidth      = Settings.GUTTER_WIDTH_320 * containerWidth;
-            colWidth         = ( Settings.COLUMN_WIDTH_320 * (containerWidth ) );
-            numColumns       = 6;
+          if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
+          {
 
-          } else if ( self.mq('(min-width: 768px)') ) {
+            self.$containerProduct.removeClass('full-bleed-no-max');
+
+            gutterWidth    = self.gutterWidth['1200'] * containerWidth;
+            colWidth       = self.colWidth['1200'] * containerWidth;
+            numColumns     = 6;
+
+          }
+          else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) 
+          {
+
+            self.$containerProduct.removeClass('full-bleed-no-max');
+            
+
+            gutterWidth    = self.gutterWidth['default'] * containerWidth;
+            colWidth       = self.colWidth['default'] * containerWidth;
+            numColumns     = 6;
+
+          }else if ( self.mq('(min-width: 768px)') ) 
+          {
+
+            self.$containerProduct.addClass('full-bleed-no-max');
+
+            //heightContainer
+            heightContainer = 40;
+
+            //SlimGrid
+            slimGridW = $(window).width() * self.containerWidthPct;
+            margeSlimGrid = ( $(window).width() - slimGridW ) / 2;
+            slimGridW += margeSlimGrid;
+            self.$slimGrid.css( { 'width' : slimGridW, 'margin' : '0 0 0 '+ margeSlimGrid +'px' } );
 
             extraPct       = 1.1;
-            containerWidth = self.$el.width() * extraPct; //110%
-            gutterWidth    = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
-            colWidth       = ( Settings.COLUMN_WIDTH_SLIM_5 * ( containerWidth ) );
-            extraMarging   = containerWidth - self.$el.width() + gutterWidth;
+            containerWidth = $(window).width() * self.containerWidthPct * extraPct; //110%
+            gutterWidth    = self.gutterWidth['768'] * $(window).width() * self.containerWidthPct;
+            colWidth       = self.colWidth['768']    * $(window).width() * self.containerWidthPct;
+            extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
             numColumns     = 5;
 
           }else {
 
+            self.$containerProduct.addClass('full-bleed-no-max');
+
+            //heightContainer
+            heightContainer = 40;
+
+            //SlimGrid
+            slimGridW = $(window).width() * self.containerWidthPct;
+            margeSlimGrid = ( $(window).width() - slimGridW ) / 2;
+            slimGridW += margeSlimGrid;
+            self.$slimGrid.css( { 'width' : slimGridW, 'margin' : '0 0 0 '+ margeSlimGrid +'px' } );
+
             extraPct       = 1.1525;
-            containerWidth = self.$el.width() * extraPct; 
-            gutterWidth    = ( Settings.GUTTER_WIDTH_320 * 2 ) * containerWidth;
-            colWidth       = ( ( Settings.COLUMN_WIDTH_320 * 2  ) * ( containerWidth ) );
-            extraMarging   = containerWidth - self.$el.width()+ gutterWidth / 2;
+            containerWidth = $(window).width() * self.containerWidthPct * extraPct; //110%
+            gutterWidth    = self.gutterWidth.mobile * $(window).width() * self.containerWidthPct;
+            colWidth       = self.colWidth.mobile    * $(window).width() * self.containerWidthPct;
+            extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
             numColumns     = 3;
 
           }
@@ -455,9 +541,8 @@ define(function(require){
             'margin'  : 0
           }); 
 
-          //console.log("height",  self.$el.find('.gallery-item.medium').first().height() );
-
-          var newContainerHeight = self.$el.find('.gallery-item.medium').first().height() + 40 + 'px';
+          console.log("heightContainer", heightContainer);
+          var newContainerHeight = self.$el.find('.gallery-item.medium').first().height() + heightContainer + 'px';
 
           self.$el.css({
             'height'     : newContainerHeight,

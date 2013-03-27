@@ -125,7 +125,6 @@ define(function(require){
 
       // High-resolution settings
       minDevicePixelRatio = opts.minDevicePixelRatio || 2,
-      highResPathSuffix = opts.highResPathSuffix || '@2x',
 
       // Deferred loading
       asyncDistance = opts.asyncDistance || 0,
@@ -133,13 +132,6 @@ define(function(require){
       throttleSpeed = opts.throttleSpeed || 250,
 
       // Image path template settings
-      base = opts.base || '',
-      pathTemplate = opts.pathTemplate || '{fileName}-{breakpoint}{highRes}.{ext}',
-      QUESTION_MARK_REGEX = /\?/,
-      BREAKPOINT_NAME_REGEX = /\{breakpoint\}/gi,
-      HIGH_RES_REGEX = /\{highRes\}/gi,
-      FILE_NAME_REGEX = /\{fileName\}/gi,
-      FILE_EXT_REGEX = /\{ext\}/gi,
       breakpoint,
       breakpointName,
       breakpoints = opts.breakpoints || [
