@@ -73,7 +73,9 @@ define(function(require){
       self.hasMoved             = false;
       self.startPosition        = null;
       self.currentId            = 0;
+      self.previousId           = -1;
       self.transitionType       = 'slide';
+      self.isTransitioning      = false;
       
       self.isDesktopMode        = true; //true by default
       self.isTabletMode         = false;
@@ -85,11 +87,13 @@ define(function(require){
       self.$window              = $(window);
       self.$html                = $('html');
       self.$slides              = self.$el.find( self.SLIDE_CLASS );
+      self.$currentSlide        = null;
       self.numSlides            = self.$slides.length;
       self.$slideContainer      = self.$el.find( self.SLIDE_CONTAINER );
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$dotnav              = null;
       self.hasThumbs            = self.$thumbNav.length > 0;
+
 
       //Init the module
       self.init();
@@ -113,7 +117,7 @@ define(function(require){
           self.createThumbNav();
         }
 
-        //self.setupSlides();
+        self.setupSlides();
 
         self.setupBreakpoints();
         
@@ -196,6 +200,7 @@ define(function(require){
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
           self.showThumbNav();
+          self.showPaddles();
           self.toggleDotNav( true );
         });
 
@@ -204,6 +209,7 @@ define(function(require){
           self.isMobileMode = self.isDesktopMode = false;
           self.isTabletMode = true;
           self.hideThumbNav();
+          self.hidePaddles();
           self.toggleDotNav( true );
         });
 
@@ -212,6 +218,7 @@ define(function(require){
           self.isDesktopMode = self.isTabletMode = false;
           self.isMobileMode = true;
           self.hideThumbNav();
+          self.hidePaddles();
           self.toggleDotNav( false );
 
           
@@ -222,7 +229,8 @@ define(function(require){
       },
 
       setupDotNavigation: function(){
-        var self = this;
+        var self = this,
+        animDirection = '';
 
         if ( !self.$dotnav ) {
 
@@ -237,6 +245,16 @@ define(function(require){
           self.$dotnav.on('SonyNavDots:clicked', function( e, indx ){
             //self.currentId = indx;
             console.log('SonyNavDots:clicked',indx);
+
+            if(indx < self.currentId){
+              animDirection = 'right';
+            }else{
+              animDirection = 'left';
+            }
+
+            self.currentId = indx;
+            self.gotoSlide( self.currentId , animDirection);
+
           });
           
           console.log( 'Creating Dot Navigation: ' , self.numSlides );
@@ -275,11 +293,18 @@ define(function(require){
         }
       },
 
-      //Checks for new breakpoints on debounced resize
-      checkForBreakpoints: function(){
+      showPaddles: function(){
         var self = this;
-        
-        
+
+        self.$el.find('.pagination-paddles').css( 'visibility' , 'visible' );
+
+      },
+
+      hidePaddles: function(){
+        var self = this;
+
+        self.$el.find('.pagination-paddles').css( 'visibility' , 'hidden' );
+
       },
 
       setupSlides: function(){
@@ -291,8 +316,16 @@ define(function(require){
         self.$slides = self.$el.find( self.SLIDE_CLASS );
         self.numSlides = self.$slides.length;  */      
 
-        self.$slideContainer.width( 100 * self.numSlides + '%' );
-        self.$slides.width( 100 / self.numSlides + '%' );
+        //original
+/*        self.$slideContainer.width( 100 * self.numSlides + '%' );
+        self.$slides.width( 100 / self.numSlides + '%' );*/
+
+        //nue
+        self.$slideContainer.width( '100%' );
+        self.$slides.width( '100%' );
+
+        //get the first one to show up center screen
+        self.$currentSlide = self.$slides.eq ( self.currentId ).css( 'left' , 0 );
 
       },
       
@@ -341,65 +374,134 @@ define(function(require){
       onThumbSelected: function($el){
         var self = this,
         $anchors = self.$thumbNav.find('a'),
-        selectedIndx =  $el.parent().index();
+        selectedIndx =  $el.parent().index(),
+        animDirection = '';
 
         $anchors.removeClass('active');
         $el.addClass('active');
 
+        if(selectedIndx === self.currentId){
+          return; //already on this slide
+        }
+
+        if(selectedIndx < self.currentId){
+          animDirection = 'right';
+        }else{
+          animDirection = 'left';
+        }
+
         self.currentId = selectedIndx;
         
-        self.gotoSlide( self.currentId );
+        self.gotoSlide( self.currentId , animDirection);
 
 
         console.log( 'anchors' , self.currentId );
 
       },
 
-      gotoSlide: function(which){
+      setCurrentActiveThumb: function(){
+        var self = this,
+        $anchors = self.$thumbNav.find('a');
+        $anchors.removeClass('active');
+        $anchors.eq( self.currentId ).addClass('active');
+      },
+
+      gotoSlide: function( which, fromDirection ){
         
         var self = this,
             $destinationSlide = self.$slides.eq(which),
             destinationLeft, innerContainerWidth;
 
-        if ( $destinationSlide.length === 0 ) { return; }
-
-        self.currentSlide = which;
-
-        destinationLeft = $destinationSlide.position().left;
-        innerContainerWidth = self.$slideContainer.width();
-
-        // If the browser doesn't properly support the getStyles API for auto margins, manually
-        // shift the destination back to compensate.
-
-        if ( !Modernizr.jsautomargins ) {
-          destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / 2;
+        if(self.isTransitioning) {
+          return;
         }
 
-        if ( self.useCSS3 ) {
+        self.isTransitioning = true;
+       
+          console.log( 'Entering new territory here with queing up next slide, no longer moving the whole container' , (new Date).getTime() );
+          console.log( 'goto this slide number',which  , fromDirection);
 
-          var newPosition = destinationLeft / innerContainerWidth;
+          //cue up next slide, get rid of current one out of view.
 
-          // If you're on the last slide, only move over enough to show the last child.
-          // Prevents excess whitespace on the right.
+/*          if(self.previousId != -1){
+            if( self.previousId < self.currentId ){
+              fromDirection = 'right';
+            }else{
+              fromDirection = 'left';
+            }
+          }*/
 
-          if ( which === self.$slides.length - 1 ) {
-            var childrenWidth = 0;
-/*            $destinationSlide.find('.soc-item').each(function(){ childrenWidth += $(this).outerWidth(true); });
-            newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;*/
+          var completeFunction = function(){
+            
+            self.isTransitioning = false;
+          };
+
+          if( fromDirection === 'left'){
+            self.$currentSlide.stop(true,true).animate( { left: '-100%' } , 500 , completeFunction );
+            self.$currentSlide = self.$slides.eq( which );
+            self.$currentSlide.css('left' , '100%');
+            self.$currentSlide.stop(true,true).animate( { left : 0 } , 500 );            
+          }else if( fromDirection === 'right' ){
+            self.$currentSlide.stop(true,true).animate( { left: '100%' } , 500 , completeFunction);
+            self.$currentSlide = self.$slides.eq( which );
+            self.$currentSlide.css('left' , '-100%');
+            self.$currentSlide.stop(true,true).animate( { left : 0 } , 500 );  
+          }else{
+            //default
+            self.$currentSlide.stop(true,true).animate( { left: '-100%' } , 500 , completeFunction);
+            self.$currentSlide = self.$slides.eq( which );
+            self.$currentSlide.css('left' , '100%');
+            self.$currentSlide.stop(true,true).animate( { left : 0 } , 500 );  
           }
 
-          self.$slideContainer.css(Modernizr.prefixed('transitionDuration'), '450ms');
-          self.$slideContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
+          setTimeout(function(){
+            iQ.update( true );
+          } , 250);
 
-        } else {
+          self.previousId = self.currentId;
 
-          self.$slideContainer.animate({
-            'left': -100 * destinationLeft / Settings.$window.width() + '%'
-          }, {
-            'duration': 350,
-            'complete': function(){ iQ.update(true); }
-          });
-        }
+          self.setCurrentActiveThumb();
+        
+
+//         if ( $destinationSlide.length === 0 ) { return; }
+
+//         self.currentSlide = which;
+
+//         destinationLeft = $destinationSlide.position().left;
+//         innerContainerWidth = self.$slideContainer.width();
+
+//         // If the browser doesn't properly support the getStyles API for auto margins, manually
+//         // shift the destination back to compensate.
+
+//         if ( !Modernizr.jsautomargins ) {
+//           destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / 2;
+//         }
+
+//         if ( self.useCSS3 ) {
+
+//           var newPosition = destinationLeft / innerContainerWidth;
+
+//           // If you're on the last slide, only move over enough to show the last child.
+//           // Prevents excess whitespace on the right.
+
+//           if ( which === self.$slides.length - 1 ) {
+//             var childrenWidth = 0;
+// /*            $destinationSlide.find('.soc-item').each(function(){ childrenWidth += $(this).outerWidth(true); });
+//             newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;*/
+//           }
+
+//           self.$slideContainer.css(Modernizr.prefixed('transitionDuration'), '450ms');
+//           self.$slideContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
+
+//         } else {
+
+//           self.$slideContainer.animate({
+//             'left': -100 * destinationLeft / Settings.$window.width() + '%'
+//           }, {
+//             'duration': 350,
+//             'complete': function(){ iQ.update(true); }
+//           });
+//         }
 
         //self.$el.trigger('oneSonyCarousel:gotoSlide', self.currentSlide);
 
@@ -415,7 +517,7 @@ define(function(require){
         self.$el.sonyPaddles('showPaddle', 'left');
 
         //check for the left paddle compatibility
-        if(self.currentId === 0){
+/*        if(self.currentId === 0){
           self.$el.sonyPaddles('hidePaddle', 'left');
         }
 
@@ -423,6 +525,8 @@ define(function(require){
         if(self.currentId === self.numSlides - 1){
           self.$el.sonyPaddles('hidePaddle', 'right');
         }
+
+        iQ.update();*/
 
         iQ.update();
 
@@ -435,15 +539,16 @@ define(function(require){
 
         self.$el.find('.pdp-slideshow-outer').sonyPaddles();
 
-        console.log('creating paddles...');
+        console.log('creating paddles...' , self.numSlides);
 
         self.$el.on('sonyPaddles:clickLeft', function(){
           self.currentId --;
           if(self.currentId < 0){
-            self.currentId = 0;
+            self.currentId = self.numSlides- 1;
+            console.log( 'New slide id#', self.currentId );
           }
 
-          self.gotoSlide(self.currentId);
+          self.gotoSlide( self.currentId , 'right' );
           
         });
 
@@ -452,8 +557,10 @@ define(function(require){
 
           if(self.currentId >= self.$slides.length){
             self.currentId = self.$slides.length - 1;
+            self.currentId = 0;
+            console.log( 'New slide id#',self.currentId );
           }
-           self.gotoSlide(self.currentId);
+           self.gotoSlide( self.currentId , 'left' );
           
         });
 

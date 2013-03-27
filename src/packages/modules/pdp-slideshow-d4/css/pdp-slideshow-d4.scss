@@ -12,6 +12,7 @@
     overflow: hidden;
     //background: #f1f5f9; //should this be set on each slide?
 
+
     .ghost-center-wrap {
       height: 100%;
     }
@@ -38,12 +39,20 @@
       .pdp-slideshow-slide {
         width: 100%;
         height: 100%;
-        float: left;
+        position:absolute;
+        top: 0;
+        left: -10000em;//off screen to start let JS do the rest
         display: inline-block;
         text-align: center;
 
         .full-max {
           width: 100%;
+        }
+
+        &.type2 {
+          img {
+            width: 100%;
+          }
         }
       }
     
