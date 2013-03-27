@@ -6,7 +6,7 @@ mixin hotspotCore(hotspotData, assets)
         img(src=assets.indicator);
     case size
       when "large"
-        .overlay-base.variant1.hidden
+        .overlay-base.variant1.eh-transparent.hidden
           .top 
             img(src=hotspotData.image)
           .middle
@@ -24,7 +24,7 @@ mixin hotspotCore(hotspotData, assets)
             p.p3 #{hotspotData.testimonial.copy}
             blockquote.l4 #{hotspotData.testimonial.credit}
       when "small"
-        .overlay-base.variant2.hidden
+        .overlay-base.variant2.eh-transparent.hidden
           .top 
             img(src=hotspotData.image)
           .middle

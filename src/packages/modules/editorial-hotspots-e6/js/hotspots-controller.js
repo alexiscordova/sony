@@ -47,6 +47,12 @@ define(function(require) {
     // COORDINATES AND HOTSPOT STATUS COLLECTION
     self.$hotspotData                    = [];
     
+    // LAST OPEN
+    self.$lastOpen                       = null,
+    
+    // TRANSITION VARIABLES
+    self.$transitionSpeed                = 500;
+    
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend(self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings);
     self.init();
@@ -54,7 +60,6 @@ define(function(require) {
 
   HotspotsController.prototype = {
     constructor: HotspotsController,
-
     init : function() {
       var self = this;
       
@@ -71,7 +76,9 @@ define(function(require) {
     
     bind: function(el) {
       var self = this;
-      $(el).bind('click', self.click);
+      $($(el).find('.hspot-core')).bind('click',function(event) {
+        self.click(event, self);
+      });
     },
     place: function(el) {
       var self = this;
@@ -101,18 +108,56 @@ define(function(require) {
         }
       });
     },
-    click: function(event) {
-      var self  = this,
-          me    = $(event.currentTarget).find('.hspot-core, .hspot-core-on');
-      if(me.data('state')=='open') {
-        me.data('state','closed');
-        me.removeClass('hspot-core-on').addClass('hspot-core');
+    click: function(event, self) {
+      var container = $(event.currentTarget).parent(),
+          hotspot   = container.find('.hspot-core, .hspot-core-on'),
+          info      = container.find('.overlay-base');
+      
+      if(container.data('state')=='open') {
+        self.close(container, hotspot, info);
       } else {
-        me.data('state','open');        
-        me.removeClass('hspot-core').addClass('hspot-core-on');
+        if(self.$lastOpen && !container.is(self.$lastOpen)) {
+          self.reset();
+        }
+        self.open(container, hotspot, info);
       }
-    }
-    
+      
+    },
+    reposition: function(el) {
+      var self = this;
+      var overlay = el.find('.overlay-base');
+      log(overlay);
+      log(overlay.height());
+    },
+    close: function(container, hotspot, info) {
+        var self = this;
+        container.data('state','closed').removeClass('info-jump-to-top');
+        hotspot.removeClass('hspot-core-on').addClass('hspot-core');
+        info.removeClass('eh-visible').addClass('eh-transparent');
+        var anon = function() {
+          info.addClass('hidden');
+        };
+        setTimeout(anon, self.$transitionSpeed);
+    },
+    open: function(container, hotspot, info) {
+        var self = this;
+        // save last open state
+        self.$lastOpen = new Array(container, hotspot, info);
+        // add data- info to this hotspot
+        container.data('state','open').addClass('info-jump-to-top');
+        // perform CSS transitions
+        hotspot.removeClass('hspot-core').addClass('hspot-core-on');
+        // we have to set display: block to allow DOM to calculate dimension
+        info.removeClass('hidden');
+        // reposition window per it's collision detection
+        self.reposition(container);
+        // fade in info window
+        info.addClass('eh-visible');
+    },
+    reset: function(container) {
+      var self = this;
+      self.close(self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2]);
+    }    
   };
   
   // Plugin definition

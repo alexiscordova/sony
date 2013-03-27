@@ -9,6 +9,31 @@ $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
 $transitionSpeed: .5s;
 
+/*MIXINZ*/
+@mixin ehsTransition() {
+  -o-transition:$transitionSpeed;
+  -ms-transition:$transitionSpeed;
+  -moz-transition:$transitionSpeed;
+  -webkit-transition:$transitionSpeed;
+  transition:$transitionSpeed;	
+}
+
+/*UTILS*/
+.ehs {
+  .info-jump-to-top {
+    z-index: 99;
+  }
+  
+  .eh-transparent {
+    @include ehsTransition();
+    opacity: 0;
+  }
+  
+  .eh-visible {
+    @include ehsTransition();
+    opacity: 1;    
+  }
+}
 /*CONTAINER DEFINITIONS*/
 
 .ehs {
@@ -46,6 +71,7 @@ $transitionSpeed: .5s;
     -moz-transition:$indicatorRotateSpeed;
     -webkit-transition:$indicatorRotateSpeed;
     transition:$indicatorRotateSpeed;
+    z-index: 1;
     &:hover {
       background-color: $buttonOrangeHover;
     }
@@ -76,6 +102,7 @@ $transitionSpeed: .5s;
     -moz-transition: $indicatorRotateSpeed;
     -webkit-transition: $indicatorRotateSpeed;
     transition: $indicatorRotateSpeed;
+    z-index: 1;
     &:hover {
       background-color: $gray30;
     }
@@ -100,6 +127,7 @@ $transitionSpeed: .5s;
   -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
   -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  z-index: 2;
   &.variant1 { 
     width: 280px;
     max-height: 454px;
