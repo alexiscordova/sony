@@ -1,5 +1,15 @@
 include ../../../common/html/jade-helpers.jade
 
+
+mixin measurement(m)
+  //- +iQImage(module.images[0],'tcc-image')
+  p
+    | #{m.height.centimeters}cm
+    br 
+    | (#{m.height.inches}")
+
+
+
 mixin featureList( list, extraClasses)
   - listClasses = 'feature-list'
   - extraClasses = extraClasses || false 
@@ -7,24 +17,25 @@ mixin featureList( list, extraClasses)
 
   ul(class=listClasses)
     each li in list
-      - copyClasses = ["copy"]
+      - copyClasses = ["copy", "ghost-center"]
 
       //- at least copy required
       if (li.copy)
         
         li
-          
-          if (li.icon)
-            - iconClasses = ["icon", li.icon]
-            - copyClasses.push("with-icon")
+          .ghost-center-wrap
+
+            if (li.icon)
+              - iconClasses = ["icon", "ghost-center"]
+              - copyClasses.push("with-icon")
+              p(class= iconClasses)
+                i(class= li.icon)
             
-            p(class= iconClasses)
-          
-          p(class= copyClasses)
-            | #{li.copy}
-            
-            if (li.link)
-              a(href=li.link)= li.linkLabel
+            p(class= copyClasses)
+              | #{li.copy}
+              
+              if (li.link)
+                a(href=li.link)= li.linkLabel
             
 
 
@@ -37,7 +48,6 @@ mixin definitionList( list, isHorizontal )
       if li.copy
         dd.p3= li.copy
 
-//- +iQImage(module.images[0],'tcc-image')
 
 //- TOP DATA
 - top = data.top
@@ -90,8 +100,11 @@ case columnCount
 if((isTextTout) && (isBottomBtn))
   - bottomSpanClass.push("span6")
 
+
+- productDetailsClasses = ["p-d-m","container"]
+
 //- START PRODUCT DETAILS
-section.product-details.container
+section(class= productDetailsClasses)
   .top.grid
     .title.l1= top.title
 
@@ -111,7 +124,7 @@ section.product-details.container
       .measurements(class= centerSpanClass)
         for measurement in measurements
           .measurement
-            p= measurement.height.centimeters
+            +measurement(measurement)
 
         if(isExtras)
           .extras
