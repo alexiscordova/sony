@@ -125,7 +125,6 @@ define(function(require){
 
       // High-resolution settings
       minDevicePixelRatio = opts.minDevicePixelRatio || 2,
-      highResPathSuffix = opts.highResPathSuffix || '@2x',
 
       // Deferred loading
       asyncDistance = opts.asyncDistance || 0,
