@@ -699,6 +699,8 @@ define(function(require){
     initCompareGallery : function() {
       var self = this;
 
+      self.$toneBar = self.$container.find('.tone-bar');
+
       // Adding events can be deferred
       setTimeout(function() {
 
@@ -716,11 +718,15 @@ define(function(require){
         // Reset button
         self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
 
-        // Keep
+        // Keep the original index of the compare items so when we sort by default, we can use it
         self.$items.each(function() {
           var $this = $(this);
           $this.data('index', $this.index());
         });
+
+        // Listen for the scroll event
+        self.$window.on('scroll', $.proxy( self.onScroll, self ));
+        self.setToneBarOffset();
       }, 0);
 
     },
@@ -1686,6 +1692,58 @@ define(function(require){
       return self;
     },
 
+    updateStickyNav : function() {
+      var self = this,
+          st = self.lastScrollY,
+          theClass = 'fixed';
+
+      function toSticky() {
+        self.$toneBar.find('.compare-gallery-title').removeClass('t6').addClass('t7');
+        self.$toneBar.find('.fade').removeClass('in');
+      }
+
+      function fromSticky() {
+        self.$toneBar.find('.compare-gallery-title').removeClass('t7').addClass('t6');
+        self.$toneBar.find('.fade').addClass('in');
+      }
+
+      // Open the stick nav if it's past the trigger
+      if ( st >= self.toneBarOffset ) {
+        if ( !self.$toneBar.hasClass( theClass ) ) {
+          self.$toneBar.addClass( theClass );
+          window.requestAnimationFrame( toSticky );
+        }
+
+      // Close the sticky nav if it's past the trigger
+      } else {
+        if ( self.$toneBar.hasClass( theClass ) ) {
+          self.$toneBar.removeClass( theClass );
+          window.requestAnimationFrame( fromSticky );
+        }
+      }
+
+      self.isTicking = false;
+    },
+
+    onScroll : function() {
+      var self = this;
+
+      // IE8 still has sticky open sometimes at the top
+      function update() {
+        self.updateStickyNav();
+      }
+
+      if ( !self.isTicking ) {
+        self.isTicking = true;
+        self.lastScrollY = self.$window.scrollTop();
+        if ( !Modernizr.raf ) {
+          update();
+        } else {
+          window.requestAnimationFrame( update );
+        }
+      }
+    },
+
     onResize : function( isInit, force ) {
       var self = this,
           windowWidth = !Settings.isLTIE9 ? 0 : self.$window.width(),
@@ -1736,6 +1794,11 @@ define(function(require){
 
         if ( self.$rangeControl ) {
           self.$rangeControl.rangeControl('reset');
+        }
+
+        // Setting the tone bar variable is deferred. Calling it here results in an error
+        if ( self.isCompareMode && !isInit ) {
+          self.setToneBarOffset();
         }
 
         return;
@@ -2052,6 +2115,10 @@ define(function(require){
       return [ this.valStart, y, this.valEnd, this.translateZ ].join('');
     },
 
+    setToneBarOffset : function() {
+      this.toneBarOffset = this.$toneBar.offset().top;
+    },
+
     setColumnMode : function() {
       var self = this;
 
@@ -2291,6 +2358,8 @@ define(function(require){
     isCompareToolOpen: false,
     isTouch: Settings.hasTouchEvents,
     isiPhone: Settings.isIPhone,
+    isTicking: false,
+    lastScrollY: 0,
     sorted: false,
     currentFilterColor: null,
     lastFilterGroup: null,

@@ -539,9 +539,27 @@ $gifHeight: 60px;
 
 
 .tone-bar {
-  padding-top: 1.125em;
-  padding-bottom: 1.5625em;
+  position: relative;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  padding-top: px-em(19);
+  padding-bottom: px-em(25);
+  width: 100%;
   background: $gray80;
+
+  // Fix it, change padding
+  &.fixed {
+    position: fixed;
+    padding-top: px-em(20);
+    padding-bottom: px-em(14);
+    @include transition(padding $transitionNormal $easeNormal $transitionNormal);
+
+    // Replace the 70px of space that the .tone-bar takes up
+    & + .container {
+      margin-top: px-em(70);
+    }
+  }
 
   .mini-swatch {
     vertical-align: middle;
@@ -551,6 +569,7 @@ $gifHeight: 60px;
 .compare-gallery-title {
   margin-right: 1em;
   margin-bottom: 0;
+  @include transition();
 }
 
 .compare-reset {

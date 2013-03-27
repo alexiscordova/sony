@@ -68,7 +68,7 @@ mixin helpPopover( help, pullRight )
 mixin popoverContent( help )
   - layout = help.layout
   .js-popover-content.hidden
-    .box-close.box-close-small
+    button.box-close.box-close-small
       i.fonticon-10-x
     if layout == '2up'
       .twoup
@@ -252,9 +252,10 @@ mixin compareGallery( submodules, gallery, type, labels )
         .grid
           .pull-left
             h2.t6.pull-left.compare-gallery-title= label
-            i.swatch-lemon.mini-swatch
-            span.p5
-              em!= '&nbsp;' + legend
+            span.ib.fade.in
+              i.swatch-lemon.mini-swatch
+              span.p5
+                em!= '&nbsp;' + legend
           a.pull-right.compare-reset.lt4.js-compare-reset.js-clear-filters.disabled(href="#")
             i.fonticon-10-circlearrow
             span= resetLabel
@@ -343,26 +344,4 @@ mixin productStrips( submodules, strips, type )
                 !{locals.partial( module.type, e )}
                 - count += 1
 
-
-//- mixin compareToolModal()
-//-   label = 'Compare'
-//-   legend = 'Highlights indicate highest performance features'
-//-   resetLabel = 'Reset'
-
-//-   #compare-tool.modal.takeover.hide.fade(tabindex="-1", role="dialog", aria-labelledby="compare-tool-label", aria-hidden="true")
-//-     .modal-inner
-//-       .modal-header.container(data-reset-label=resetLabel)
-//-         h3.t3.pull-left#compare-tool-label= label
-//-         button.box-close(data-dismiss="modal", aria-hidden="true")
-//-           i.fonticon-10-x-skinny
-//-       .modal-body
-//-         .container.compare-key
-//-           div
-//-             i.swatch-lemon.mini-swatch
-//-             span.p4!= '&nbsp;' + legend
-//-       .takeover-sticky-header
-//-         .container.relative
-//-           h6.t6-light.sticky-nav-title
-//-           button.box-close(data-dismiss="modal", aria-hidden="true")
-//-             i.fonticon-10-x-skinny
 
