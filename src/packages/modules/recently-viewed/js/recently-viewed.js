@@ -308,6 +308,7 @@ define(function(require){
         slimGridW      = 0,
         margeSlimGrid  = 0,
         extraPct       = 1,
+        heightContainer= 55 + 17 + 30,
         numColumns     = 6;
 
         //reset
@@ -453,6 +454,7 @@ define(function(require){
           slimGridW          = 0,
           margeSlimGrid      = 0,
           extraPct           = 1,
+          heightContainer    = 55 + 17 + 30,
           numColumns         = 6;
 
           //reset
@@ -483,6 +485,9 @@ define(function(require){
 
             self.$containerProduct.addClass('full-bleed-no-max');
 
+            //heightContainer
+            heightContainer = 40;
+
             //SlimGrid
             slimGridW = $(window).width() * self.containerWidthPct;
             margeSlimGrid = ( $(window).width() - slimGridW ) / 2;
@@ -499,6 +504,9 @@ define(function(require){
           }else {
 
             self.$containerProduct.addClass('full-bleed-no-max');
+
+            //heightContainer
+            heightContainer = 40;
 
             //SlimGrid
             slimGridW = $(window).width() * self.containerWidthPct;
@@ -533,10 +541,8 @@ define(function(require){
             'margin'  : 0
           }); 
 
-          // margin-top : 55, margin-bottom : 30, heightBullets : 17
-          var newContainerHeight = self.$el.find('.gallery-item.medium').first().height() + 55 + 17 + 30 + 'px';
-
-
+          console.log("heightContainer", heightContainer);
+          var newContainerHeight = self.$el.find('.gallery-item.medium').first().height() + heightContainer + 'px';
 
           self.$el.css({
             'height'     : newContainerHeight,
