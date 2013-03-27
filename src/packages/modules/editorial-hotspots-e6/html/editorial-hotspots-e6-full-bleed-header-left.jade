@@ -52,7 +52,8 @@ case type
       .grid
         .span12
           .hotspot-instance
-            img(class="iq-img", alt=data.hotspotContainerImage.alt, data-src=data.hotspotContainerImage.src)
+            - image = data.hotspotContainerImage.image
+            img.iq-img(class=image.classes)(alt=image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
             - assets = data.hotspots.assets
             - for hotstpot in data.hotspots.items
               +hotspotCore(hotstpot, assets)
