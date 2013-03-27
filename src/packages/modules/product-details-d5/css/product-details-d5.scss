@@ -80,13 +80,13 @@
 			border-top:1px solid $gray70;
 			padding-bottom:16px;
 			padding-top:16px;
-
+		
 			&:first-child{
 				border-top:0px none;
 				padding-top:0px;
 			}
 		
-		}
+		} // li
 
 		.copy,
 		.icon{
@@ -94,8 +94,12 @@
 			// vertical-align: middle;
 		} 
 
-		.copy{
-	 		//border:1px solid purple;
+		.copy{		
+			font-size: 15px; // AKA p2; need to set this because ghost-center removes it
+						
+			a{
+				font-size: 12px; // AKA bt3; need to set this because ghost-center removes it
+			}
 
 	 		&.with-icon{
 				width:76%;
@@ -114,6 +118,10 @@
 			display: inline-block;
 		} // icon
 
+
+		[class*="fonticon-40"]{
+			font-size: 3.0em;
+		}
 
 		.fonticon-40-panorama{
 			position: relative;
@@ -167,13 +175,45 @@
 	// 888   "   888 Y8b.     888  888      X88 Y88b 888 888     Y8b.     888  888  888 Y8b.     888  888 Y88b.       X88 
 	// 888       888  "Y8888  "Y888888  88888P'  "Y88888 888      "Y8888  888  888  888  "Y8888  888  888  "Y888  88888P' 
 	.measurements{
-		outline:1px solid black;
 		background-color:$gray80;
+		padding:39px px-em(32px) 50px px-em(32px);
 		
 		.measurement{
 			background-color: rgba(0,211,255,.5);
+		} // measurement
+
+		.image-wrapper{
+			display:inline-block;
+			border:1px solid red;
+			//padding:0 px-em(18px) 15px 0;
 		}
-	}
+
+		.inches{
+			color:$gray40;
+		}
+
+		.centimeters{
+			color:$gray10;
+		}
+
+		.inches,
+		.centimeters{
+			margin:0;
+		}
+
+		.measurement-height{
+			display:inline-block;
+			border:1px solid #ff00ff;
+		}
+
+		.measurement-width{
+			text-align: center;
+			display:block;
+			border:1px solid #009966;
+		}
+		
+
+	} // measurements
 
 	// 8888888888          888                              
 	// 888                 888                              
@@ -184,10 +224,11 @@
 	// 888        .d8""8b. Y88b.  888     888  888      X88 
 	// 8888888888 888  888  "Y888 888     "Y888888  88888P' 
 	.extras{
-		outline:1px solid black;
+		outline:1px solid green;
 		
 		.extra{
-			background-color: rgba(182,22,255,.5);
+			//background-color: rgba(182,22,255,.5);
+			outline:1px solid blue;
 		} //.extra
 
 	} // end .extras

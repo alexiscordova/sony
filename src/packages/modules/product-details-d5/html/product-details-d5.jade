@@ -1,12 +1,35 @@
 include ../../../common/html/jade-helpers.jade
 
 
-mixin measurement(m)
-  //- +iQImage(module.images[0],'tcc-image')
-  p
-    | #{m.height.centimeters}cm
-    br 
-    | (#{m.height.inches}")
+mixin inchesString(inches)
+  - inches = "(" + inches + "\")"
+  p.inches= inches
+
+mixin cmString(cm)
+  p.centimeters
+    | #{cm}cm
+
+mixin measurementValues(value, dir)
+  - cls = "measurement-" + dir
+  div(class = cls) 
+    +cmString(value.cm)
+
+    if (value.inches)
+      +inchesString(value.inches)
+
+mixin measurementsList(measurements)
+  for m in measurements
+    .measurement.p4
+
+      .image-wrapper
+        +iQImage(m.image, "measurement-image")
+
+        if (m.height)
+          +measurementValues(m.height, "height")  
+
+        //- put width in image wrapper for simple centering solution
+        if (m.width)
+          +measurementValues(m.width, "width")
 
 
 
@@ -20,11 +43,9 @@ mixin featureList( list, extraClasses)
       - copyClasses = ["copy", "ghost-center"]
 
       //- at least copy required
-      if (li.copy)
-        
+      if (li.copy)        
         li
           .ghost-center-wrap
-
             if (li.icon)
               - iconClasses = ["icon", "ghost-center"]
               - copyClasses.push("with-icon")
@@ -37,8 +58,6 @@ mixin featureList( list, extraClasses)
               if (li.link)
                 a(href=li.link)= li.linkLabel
             
-
-
 mixin definitionList( list, isHorizontal )
   - isHorizontal = isHorizontal || false
   - clss = isHorizontal ? 'dl-horizontal' : null
@@ -101,7 +120,7 @@ if((isTextTout) && (isBottomBtn))
   - bottomSpanClass.push("span6")
 
 
-- productDetailsClasses = ["p-d-m","container"]
+- productDetailsClasses = ["pd-module","container"]
 
 //- START PRODUCT DETAILS
 section(class= productDetailsClasses)
@@ -122,16 +141,16 @@ section(class= productDetailsClasses)
       
     if(isMeasurements)
       .measurements(class= centerSpanClass)
-        for measurement in measurements
-          .measurement
-            +measurement(measurement)
+        +measurementsList(measurements)
 
         if(isExtras)
           .extras
             for extra in extras
               .extra
-                p= extra.title
-                p= extra.copy
+                p.l3
+                  strong= extra.title
+                p.p3= extra.copy
+
   
   .bottom.grid
     if(isTextTout)
