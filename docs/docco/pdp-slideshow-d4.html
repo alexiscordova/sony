@@ -68,7 +68,9 @@ define(<span class="keyword">function</span>(require){
       self.hasMoved             = <span class="literal">false</span>;
       self.startPosition        = <span class="literal">null</span>;
       self.currentId            = <span class="number">0</span>;
+      self.previousId           = -<span class="number">1</span>;
       self.transitionType       = <span class="string">'slide'</span>;
+      self.isTransitioning      = <span class="literal">false</span>;
       
       self.isDesktopMode        = <span class="literal">true</span>; <span class="comment">//true by default</span>
       self.isTabletMode         = <span class="literal">false</span>;
@@ -79,11 +81,13 @@ define(<span class="keyword">function</span>(require){
       self.$window              = $(window);
       self.$html                = $(<span class="string">'html'</span>);
       self.$slides              = self.$el.find( self.SLIDE_CLASS );
+      self.$currentSlide        = <span class="literal">null</span>;
       self.numSlides            = self.$slides.length;
       self.$slideContainer      = self.$el.find( self.SLIDE_CONTAINER );
       self.$thumbNav            = self.$el.find(<span class="string">'.thumb-nav'</span>);
       self.$dotnav              = <span class="literal">null</span>;
       self.hasThumbs            = self.$thumbNav.length &gt; <span class="number">0</span>;
+
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Init the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
 
@@ -98,20 +102,38 @@ define(<span class="keyword">function</span>(require){
         self.setupEvents();
 
         <span class="keyword">if</span>( !self.hasTouch ){
-          self.createPaddles();
+         self.createPaddles();
         }
 
         <span class="keyword">if</span>(self.hasThumbs){
           self.createThumbNav();
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>self.setupSlides();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+        self.setupSlides();
+
         self.setupBreakpoints();
+
+        self.$slides.each(<span class="keyword">function</span>(i){
+          <span class="keyword">var</span> htag = $(<span class="string">'&lt;h2 class="debug_header" /&gt;'</span>).appendTo( $(<span class="keyword">this</span>) );
+          htag.html(<span class="string">'SLIDE '</span> + ( i + <span class="number">1</span> ) );
+        });
+
+<span class="comment">/*        self.$slideContainer.sonyCarousel({
+          wrapper: '.pdp-slideshow-outer',
+          slides: '.pdp-slideshow-slide',
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>defaultLink: '.headline a',</p>             </td>             <td class="code">               <div class="highlight"><pre>          looped: true,
+          axis: 'x',
+          unit: '%',
+          dragThreshold: 2,
+          useCSS3: self.useCSS3,
+          paddles: true,
+          pagination: true
+        });*/
         
         
-<span class="comment">/*        self.$slideContainer.sonyDraggable({
+/*        self.$slideContainer.sonyDraggable({
           'axis': 'x',
-          'unit': '%',
+          'unit': '%',http://tyler.odopod.com/~tyler.madison/sonyglobalfrontend/build/debug/js/secondary/sony-draggable.js
           'dragThreshold': 10,
           'containment': self.$el.find('.pdp-slideshow-outer'),
           'useCSS3': self.useCSS3,
@@ -119,10 +141,12 @@ define(<span class="keyword">function</span>(require){
         });
 
         self.$slideContainer.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
-        self.$slideContainer.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));*/</span>
+        self.$slideContainer.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));*/
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });</p>             </td>             <td class="code">               <div class="highlight"><pre>
         self.$slideContainer.css( <span class="string">'opacity'</span> , <span class="number">1</span> );
+
+        iQ.update( <span class="literal">true</span> ); 
 
       },
 
@@ -183,6 +207,7 @@ reset position to the nearest one.</p>             </td>             <td class="
           self.isMobileMode = self.isTabletMode = <span class="literal">false</span>;
           self.isDesktopMode = <span class="literal">true</span>;
           self.showThumbNav();
+          self.showPaddles();
           self.toggleDotNav( <span class="literal">true</span> );
         });
 
@@ -191,6 +216,7 @@ reset position to the nearest one.</p>             </td>             <td class="
           self.isMobileMode = self.isDesktopMode = <span class="literal">false</span>;
           self.isTabletMode = <span class="literal">true</span>;
           self.hideThumbNav();
+          self.hidePaddles();
           self.toggleDotNav( <span class="literal">true</span> );
         });
 
@@ -199,6 +225,7 @@ reset position to the nearest one.</p>             </td>             <td class="
           self.isDesktopMode = self.isTabletMode = <span class="literal">false</span>;
           self.isMobileMode = <span class="literal">true</span>;
           self.hideThumbNav();
+          self.hidePaddles();
           self.toggleDotNav( <span class="literal">false</span> );
 
           
@@ -209,7 +236,8 @@ reset position to the nearest one.</p>             </td>             <td class="
       },
 
       setupDotNavigation: <span class="keyword">function</span>(){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        animDirection = <span class="string">''</span>;
 
         <span class="keyword">if</span> ( !self.$dotnav ) {
 
@@ -223,6 +251,16 @@ reset position to the nearest one.</p>             </td>             <td class="
 
           self.$dotnav.on(<span class="string">'SonyNavDots:clicked'</span>, <span class="keyword">function</span>( e, indx ){
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>self.currentId = indx;</p>             </td>             <td class="code">               <div class="highlight"><pre>            console.log(<span class="string">'SonyNavDots:clicked'</span>,indx);
+
+            <span class="keyword">if</span>(indx &lt; self.currentId){
+              animDirection = <span class="string">'right'</span>;
+            }<span class="keyword">else</span>{
+              animDirection = <span class="string">'left'</span>;
+            }
+
+            self.currentId = indx;
+            self.gotoSlide( self.currentId , animDirection);
+
           });
           
           console.log( <span class="string">'Creating Dot Navigation: '</span> , self.numSlides );
@@ -260,10 +298,18 @@ reset position to the nearest one.</p>             </td>             <td class="
         }
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Checks for new breakpoints on debounced resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      checkForBreakpoints: <span class="keyword">function</span>(){
+      showPaddles: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
-        
-        
+
+        self.$el.find(<span class="string">'.pagination-paddles'</span>).css( <span class="string">'visibility'</span> , <span class="string">'visible'</span> );
+
+      },
+
+      hidePaddles: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        self.$el.find(<span class="string">'.pagination-paddles'</span>).css( <span class="string">'visibility'</span> , <span class="string">'hidden'</span> );
+
       },
 
       setupSlides: <span class="keyword">function</span>(){
@@ -275,8 +321,14 @@ reset position to the nearest one.</p>             </td>             <td class="
         self.$slides = self.$el.find( self.SLIDE_CLASS );
         self.numSlides = self.$slides.length;  */</span>      
 
-        self.$slideContainer.width( <span class="number">100</span> * self.numSlides + <span class="string">'%'</span> );
-        self.$slides.width( <span class="number">100</span> / self.numSlides + <span class="string">'%'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>original</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*        self.$slideContainer.width( 100 * self.numSlides + '%' );
+        self.$slides.width( 100 / self.numSlides + '%' );*/</span>
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>self.$slideContainer.width( 100 * self.numSlides + '%' );
+self.$slides.width( 100 / self.numSlides + '%' );
+nue</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slideContainer.width( <span class="string">'100%'</span> );
+        self.$slides.width( <span class="string">'100%'</span> );
+
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>get the first one to show up center screen</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$currentSlide = self.$slides.eq ( self.currentId ).css( <span class="string">'left'</span> , <span class="number">0</span> );
 
       },
       
@@ -303,7 +355,7 @@ reset position to the nearest one.</p>             </td>             <td class="
       },
       
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Debounced resize handler</p>             </td>             <td class="code">               <div class="highlight"><pre>      handleResize: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Debounced resize handler</p>             </td>             <td class="code">               <div class="highlight"><pre>      handleResize: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
   
@@ -324,66 +376,136 @@ reset position to the nearest one.</p>             </td>             <td class="
       onThumbSelected: <span class="keyword">function</span>($el){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $anchors = self.$thumbNav.find(<span class="string">'a'</span>),
-        selectedIndx =  $el.parent().index();
+        selectedIndx =  $el.parent().index(),
+        animDirection = <span class="string">''</span>;
 
         $anchors.removeClass(<span class="string">'active'</span>);
         $el.addClass(<span class="string">'active'</span>);
 
+        <span class="keyword">if</span>(selectedIndx === self.currentId){
+          <span class="keyword">return</span>; <span class="comment">//already on this slide</span>
+        }
+
+        <span class="keyword">if</span>(selectedIndx &lt; self.currentId){
+          animDirection = <span class="string">'right'</span>;
+        }<span class="keyword">else</span>{
+          animDirection = <span class="string">'left'</span>;
+        }
+
         self.currentId = selectedIndx;
         
-        self.gotoSlide( self.currentId );
+        self.gotoSlide( self.currentId , animDirection);
 
 
         console.log( <span class="string">'anchors'</span> , self.currentId );
 
       },
 
-      gotoSlide: <span class="keyword">function</span>(which){
+      setCurrentActiveThumb: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        $anchors = self.$thumbNav.find(<span class="string">'a'</span>);
+        $anchors.removeClass(<span class="string">'active'</span>);
+        $anchors.eq( self.currentId ).addClass(<span class="string">'active'</span>);
+      },
+
+      gotoSlide: <span class="keyword">function</span>( which, fromDirection ){
         
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             $destinationSlide = self.$slides.eq(which),
             destinationLeft, innerContainerWidth;
 
-        <span class="keyword">if</span> ( $destinationSlide.length === <span class="number">0</span> ) { <span class="keyword">return</span>; }
-
-        self.currentSlide = which;
-
-        destinationLeft = $destinationSlide.position().left;
-        innerContainerWidth = self.$slideContainer.width();
-
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>If the browser doesn't properly support the getStyles API for auto margins, manually
-shift the destination back to compensate.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-        <span class="keyword">if</span> ( !Modernizr.jsautomargins ) {
-          destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / <span class="number">2</span>;
+        <span class="keyword">if</span>(self.isTransitioning) {
+          <span class="keyword">return</span>;
         }
 
-        <span class="keyword">if</span> ( self.useCSS3 ) {
+        self.isTransitioning = <span class="literal">true</span>;
+       
+          console.log( <span class="string">'Entering new territory here with queing up next slide, no longer moving the whole container'</span> , (<span class="keyword">new</span> Date).getTime() );
+          console.log( <span class="string">'goto this slide number'</span>,which  , fromDirection);
 
-          <span class="keyword">var</span> newPosition = destinationLeft / innerContainerWidth;
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>cue up next slide, get rid of current one out of view.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+<span class="comment">/*          if(self.previousId != -1){
+            if( self.previousId &lt; self.currentId ){
+              fromDirection = 'right';
+            }else{
+              fromDirection = 'left';
+            }
+          }*/</span>
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>If you're on the last slide, only move over enough to show the last child.
-Prevents excess whitespace on the right.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-          <span class="keyword">if</span> ( which === self.$slides.length - <span class="number">1</span> ) {
-            <span class="keyword">var</span> childrenWidth = <span class="number">0</span>;
-<span class="comment">/*            $destinationSlide.find('.soc-item').each(function(){ childrenWidth += $(this).outerWidth(true); });
-            newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;*/</span>
+          <span class="keyword">var</span> completeFunction = <span class="keyword">function</span>(){
+            
+            self.isTransitioning = <span class="literal">false</span>;
+          };
+
+          <span class="keyword">if</span>( fromDirection === <span class="string">'left'</span>){
+            self.$currentSlide.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate( { left: <span class="string">'-100%'</span> } , <span class="number">500</span> , completeFunction );
+            self.$currentSlide = self.$slides.eq( which );
+            self.$currentSlide.css(<span class="string">'left'</span> , <span class="string">'100%'</span>);
+            self.$currentSlide.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate( { left : <span class="number">0</span> } , <span class="number">500</span> );            
+          }<span class="keyword">else</span> <span class="keyword">if</span>( fromDirection === <span class="string">'right'</span> ){
+            self.$currentSlide.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate( { left: <span class="string">'100%'</span> } , <span class="number">500</span> , completeFunction);
+            self.$currentSlide = self.$slides.eq( which );
+            self.$currentSlide.css(<span class="string">'left'</span> , <span class="string">'-100%'</span>);
+            self.$currentSlide.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate( { left : <span class="number">0</span> } , <span class="number">500</span> );  
+          }<span class="keyword">else</span>{
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>default</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$currentSlide.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate( { left: <span class="string">'-100%'</span> } , <span class="number">500</span> , completeFunction);
+            self.$currentSlide = self.$slides.eq( which );
+            self.$currentSlide.css(<span class="string">'left'</span> , <span class="string">'100%'</span>);
+            self.$currentSlide.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate( { left : <span class="number">0</span> } , <span class="number">500</span> );  
           }
 
-          self.$slideContainer.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">'450ms'</span>);
-          self.$slideContainer.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + (-<span class="number">100</span> * newPosition + <span class="string">'%'</span>) + <span class="string">',0)'</span>);
+          setTimeout(<span class="keyword">function</span>(){
+            iQ.update( <span class="literal">true</span> );
+          } , <span class="number">250</span>);
 
-        } <span class="keyword">else</span> {
+          self.previousId = self.currentId;
 
-          self.$slideContainer.animate({
-            <span class="string">'left'</span>: -<span class="number">100</span> * destinationLeft / Settings.$window.width() + <span class="string">'%'</span>
-          }, {
-            <span class="string">'duration'</span>: <span class="number">350</span>,
-            <span class="string">'complete'</span>: <span class="keyword">function</span>(){ iQ.update(<span class="literal">true</span>); }
-          });
-        }
+          self.setCurrentActiveThumb();
+        
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>self.$el.trigger('oneSonyCarousel:gotoSlide', self.currentSlide);</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>todo</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$ev.trigger(<span class="string">'pdpOnUpdateNav'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <pre><code>    if ( $destinationSlide.length === 0 ) { return; }
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <pre><code>    self.currentSlide = which;
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <pre><code>    destinationLeft = $destinationSlide.position().left;
+    innerContainerWidth = self.$slideContainer.width();
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <pre><code>    // If the browser doesn't properly support the getStyles API for auto margins, manually
+    // shift the destination back to compensate.
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <pre><code>    if ( !Modernizr.jsautomargins ) {
+      destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / 2;
+    }
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <pre><code>    if ( self.useCSS3 ) {
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <pre><code>      var newPosition = destinationLeft / innerContainerWidth;
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <pre><code>      // If you're on the last slide, only move over enough to show the last child.
+      // Prevents excess whitespace on the right.
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <pre><code>      if ( which === self.$slides.length - 1 ) {
+        var childrenWidth = 0;
+</code></pre>
+
+<p>/*            $destinationSlide.find('.soc-item').each(function(){ childrenWidth += $(this).outerWidth(true); });
+            newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;*/
+          }</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <pre><code>      self.$slideContainer.css(Modernizr.prefixed('transitionDuration'), '450ms');
+      self.$slideContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <pre><code>    } else {
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <pre><code>      self.$slideContainer.animate({
+        'left': -100 * destinationLeft / Settings.$window.width() + '%'
+      }, {
+        'duration': 350,
+        'complete': function(){ iQ.update(true); }
+      });
+    }
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>self.$el.trigger('oneSonyCarousel:gotoSlide', self.currentSlide);</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>todo</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$ev.trigger(<span class="string">'pdpOnUpdateNav'</span>);
 
       },
 
@@ -393,62 +515,67 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
         self.$el.sonyPaddles(<span class="string">'showPaddle'</span>, <span class="string">'right'</span>);
         self.$el.sonyPaddles(<span class="string">'showPaddle'</span>, <span class="string">'left'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>check for the left paddle compatibility</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.currentId === <span class="number">0</span>){
-          self.$el.sonyPaddles(<span class="string">'hidePaddle'</span>, <span class="string">'left'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>check for the left paddle compatibility</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*        if(self.currentId === 0){
+          self.$el.sonyPaddles('hidePaddle', 'left');
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>check for right paddle compatiblity</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.currentId === self.numSlides - <span class="number">1</span>){
-          self.$el.sonyPaddles(<span class="string">'hidePaddle'</span>, <span class="string">'right'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>check for right paddle compatiblity</p>             </td>             <td class="code">               <div class="highlight"><pre>        if(self.currentId === self.numSlides - 1){
+          self.$el.sonyPaddles('hidePaddle', 'right');
         }
+
+        iQ.update();*/
 
         iQ.update();
 
       },      
 
 
-      createPaddles: <span class="keyword">function</span>(){
+      createPaddles: function(){
 
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        var self = this;
 
-        self.$el.find(<span class="string">'.pdp-slideshow-outer'</span>).sonyPaddles();
+        self.$el.find('.pdp-slideshow-outer').sonyPaddles();
 
-        console.log(<span class="string">'creating paddles...'</span>);
+        console.log('creating paddles...' , self.numSlides);
 
-        self.$el.on(<span class="string">'sonyPaddles:clickLeft'</span>, <span class="keyword">function</span>(){
+        self.$el.on('sonyPaddles:clickLeft', function(){
           self.currentId --;
-          <span class="keyword">if</span>(self.currentId &lt; <span class="number">0</span>){
-            self.currentId = <span class="number">0</span>;
+          if(self.currentId &lt; 0){
+            self.currentId = self.numSlides- 1;
+            console.log( 'New slide id#', self.currentId );
           }
 
-          self.gotoSlide(self.currentId);
+          self.gotoSlide( self.currentId , 'right' );
           
         });
 
-        self.$el.on(<span class="string">'sonyPaddles:clickRight'</span>, <span class="keyword">function</span>(){
+        self.$el.on('sonyPaddles:clickRight', function(){
           self.currentId ++;
 
-          <span class="keyword">if</span>(self.currentId &gt;= self.$slides.length){
-            self.currentId = self.$slides.length - <span class="number">1</span>;
+          if(self.currentId &gt;= self.$slides.length){
+            self.currentId = self.$slides.length - 1;
+            self.currentId = 0;
+            console.log( 'New slide id#',self.currentId );
           }
-           self.gotoSlide(self.currentId);
+           self.gotoSlide( self.currentId , 'left' );
           
         });
 
         self.onPaddleNavUpdate();
-        self.$ev.on(<span class="string">'pdpOnUpdateNav'</span> , $.proxy(self.onPaddleNavUpdate , self));
+        self.$ev.on('pdpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
 
       }
       
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>             </td>             <td class="code">               <div class="highlight"><pre>
     $.fn.pdpSlideShow = <span class="keyword">function</span>( options ) {
       <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> self = $( <span class="keyword">this</span> ),
           pdpSlideShow = self.data( <span class="string">'pdpSlideShow'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !pdpSlideShow ) {
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !pdpSlideShow ) {
             pdpSlideShow = <span class="keyword">new</span> PDPSlideShow( self, options );
             self.data( <span class="string">'moduleName'</span>, pdpSlideShow );
         }
@@ -459,14 +586,14 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
     $.fn.pdpSlideShow.defaults = {
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Description of this option.</p>             </td>             <td class="code">               <div class="highlight"><pre>      transitionType: <span class="string">'slide'</span>, <span class="comment">//could add more , like fade in out etc</span>
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Description of this option.</p>             </td>             <td class="code">               <div class="highlight"><pre>      transitionType: <span class="string">'slide'</span>, <span class="comment">//could add more , like fade in out etc</span>
       sampleOption: <span class="number">0</span>
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>
     $.fn.pdpSlideShow.settings = {
       isInitialized: <span class="literal">false</span>
     };

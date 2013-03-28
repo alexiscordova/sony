@@ -110,7 +110,7 @@ define(function(require){
         self.setupEvents();
 
         if( !self.hasTouch ){
-          self.createPaddles();
+         self.createPaddles();
         }
 
         if(self.hasThumbs){
@@ -120,11 +120,29 @@ define(function(require){
         self.setupSlides();
 
         self.setupBreakpoints();
+
+        self.$slides.each(function(i){
+          var htag = $('<h2 class="debug_header" />').appendTo( $(this) );
+          htag.html('SLIDE ' + ( i + 1 ) );
+        });
+
+/*        self.$slideContainer.sonyCarousel({
+          wrapper: '.pdp-slideshow-outer',
+          slides: '.pdp-slideshow-slide',
+          //defaultLink: '.headline a',
+          looped: true,
+          axis: 'x',
+          unit: '%',
+          dragThreshold: 2,
+          useCSS3: self.useCSS3,
+          paddles: true,
+          pagination: true
+        });*/
         
         
 /*        self.$slideContainer.sonyDraggable({
           'axis': 'x',
-          'unit': '%',
+          'unit': '%',http://tyler.odopod.com/~tyler.madison/sonyglobalfrontend/build/debug/js/secondary/sony-draggable.js
           'dragThreshold': 10,
           'containment': self.$el.find('.pdp-slideshow-outer'),
           'useCSS3': self.useCSS3,
@@ -137,6 +155,8 @@ define(function(require){
       //self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });
 
         self.$slideContainer.css( 'opacity' , 1 );
+
+        iQ.update( true ); 
 
       },
 
@@ -319,7 +339,8 @@ define(function(require){
         //original
 /*        self.$slideContainer.width( 100 * self.numSlides + '%' );
         self.$slides.width( 100 / self.numSlides + '%' );*/
-
+        //self.$slideContainer.width( 100 * self.numSlides + '%' );
+        //self.$slides.width( 100 / self.numSlides + '%' );
         //nue
         self.$slideContainer.width( '100%' );
         self.$slides.width( '100%' );

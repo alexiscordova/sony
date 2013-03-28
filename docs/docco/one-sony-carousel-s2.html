@@ -53,6 +53,8 @@ define(<span class="keyword">function</span>(require){
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      self.bindEvents();
+
       self.$innerContainer.sonyCarousel({
         wrapper: <span class="string">'.soc-container'</span>,
         slides: <span class="string">'.soc-content'</span>,
@@ -65,8 +67,6 @@ define(<span class="keyword">function</span>(require){
         paddles: <span class="literal">true</span>,
         pagination: <span class="literal">true</span>
       });
-
-      self.bindEvents();
 
       self.$cachedSlides = self.$slides.detach();
       self.$cachedSlides.find(<span class="string">'.soc-image'</span>).addClass(<span class="string">'iq-img'</span>);
