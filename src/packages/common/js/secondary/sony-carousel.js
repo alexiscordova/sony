@@ -526,10 +526,10 @@ define(function(require){
     defaultLink: undefined,
 
     // Should this carousel seamlessly loop from end to end?
-    looped: true,
+    looped: false,
 
     // Should the carousel jump directly to the next slide in either direction?
-    jumping: true,
+    jumping: false,
 
     // If this is a looped carousel, how many clones should be on either side to create the infinite illusion?
     // Helpful if your carousel lets the user see more than a few slides at once.
