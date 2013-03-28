@@ -60,6 +60,8 @@ define(function(require){
         slides: '.soc-content',
         slideChildren: '.soc-item',
         defaultLink: '.headline a',
+        // looped: true,
+        // jumping: true,
         useCSS3: self.useCSS3,
         paddles: true,
         pagination: true
