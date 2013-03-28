@@ -1,3 +1,8 @@
+
+@import "../../../../common/css/_base/variables";
+@import "../../../../common/css/_base/mixins";
+
+
 /**
  * This file provides the styles for the page tools
  * (fly out navigation beside the page to edit, etc).
@@ -19,8 +24,13 @@
     height: auto;
 }
 #dokuwiki__usertools {
-    /* move the tools just outside of the site */
-    right: 40px;
+    font-size:px-em(12);
+}
+.Admin.intro{
+    padding-top:10px;
+    p{
+        font-size:px-em(12);    
+    }
 }
 [dir=rtl] #dokuwiki__usertools {
     right: auto;
@@ -85,7 +95,7 @@
 }
 
 #dokuwiki__pagetools ul li a:before {
-    content: url(../img/wiki/tpl/pagetools-sprite.png);
+    content: url(../img/_wiki/tpl/pagetools-sprite.png);
     display: inline-block;
     font-size: 0;
     line-height: 0;
@@ -114,7 +124,7 @@
     height: auto;
     overflow: visible;
     padding: 5px 40px 5px 5px;
-    background-image: url(../img/wiki/tpl/pagetools-sprite.png);
+    background-image: url(../img/_wiki/tpl/pagetools-sprite.png);
 }
 
 #dokuwiki__pagetools:hover ul li a:before,
@@ -136,7 +146,7 @@
 /* IE7 fixes, doesn't work without images */
 
 #IE7 #dokuwiki__pagetools ul li a {
-    background-image: url(../img/wiki/tpl/pagetools-sprite.png);
+    background-image: url(../img/_wiki/tpl/pagetools-sprite.png);
 }
 
 #IE7 #dokuwiki__pagetools:hover ul li a span,

@@ -1,3 +1,10 @@
+
+@import "../../../../common/css/_base/variables";
+@import "../../../../common/css/_base/mixins";
+
+
+
+
 /**
  * This file provides the main design styles for the page content.
  *
@@ -96,17 +103,26 @@
 }
 .dokuwiki table.inline tr td,
 .dokuwiki table.inline tr td.label {
-    background-color: $wiki_background;
+    background-color: transparent;
     color:$defaultTextColor;
     text-transform:none;
+    padding-right:10px;
+    font-size:12px;
+}
+
+.dokuwiki .donts-table table.inline tr td,
+.dokuwiki .donts-table table.inline tr td.label {
+    color:$gray40;
+    font-size:10px;
+    padding-bottom:8px;
 }
 .dokuwiki table.inline tr:hover td,
 .dokuwiki table.inline tr:hover td.label {
-    background-color: $wiki_backgroundAlt;
+    background-color: transparent;
 }
 .dokuwiki table.inline tr:hover th,
 .dokuwiki table.inline tr:hover th.label {
-    background-color: $wiki_border;
+    background-color: transparent;
 }
 
 
@@ -220,7 +236,9 @@
 .dokuwiki div.toolbar button.toolbutton {
     border-radius: 0;
     border-left-width: 0;
-    padding: .1em .35em;
+    padding: 0.1em 0.35em 0.3em;
+    line-height:1;
+    background:#ccc;
 }
 .dokuwiki div.toolbar button.toolbutton:first-child {
     border-top-left-radius: 4px;
@@ -255,6 +273,8 @@
 
 .dokuwiki textarea.edit {
     font-family: Consolas, "Andale Mono WT", "Andale Mono", "Bitstream Vera Sans Mono", "Nimbus Mono L", Monaco, "Courier New", monospace;
+    font-size:12px;
+    color:$gray40;
 }
 
 .dokuwiki div.preview {
@@ -275,18 +295,7 @@
 
 /*____________ changes to _toc ____________*/
 
-#dw__toc {
-    margin:  -1.556em -2em .5em 1.4em;
-    width: $wiki_sidebarWidth;
-    border-left: 1px solid $wiki_border;
-    background: $wiki_background;
-    color: inherit;
-}
-[dir=rtl] #dw__toc {
-    margin: -1.556em 1.4em .5em -2em;
-    border-left-width: 0;
-    border-right: 1px solid $wiki_border;
-}
+
 
 .dokuwiki h3.toggle {
     padding: .5em 1em;
@@ -299,7 +308,7 @@
 }
 
 .dokuwiki .toggle strong {
-    background: transparent url(../img/wiki/tpl/toc-arrows.png) 0 0;
+    background: transparent url(../img/_wiki/tpl/toc-arrows.png) 0 0;
     width: 8px;
     height: 5px;
     margin: .4em 0 0;
@@ -324,7 +333,7 @@
     padding: 0 1.5em 0 0;
 }
 #dw__toc ul li {
-    list-style-image: url(../img/wiki/tpl/toc-bullet.png);
+    list-style-image: url(../img/_wiki/tpl/toc-bullet.png);
 }
 #dw__toc ul li.clear {
     list-style: none;
@@ -368,3 +377,21 @@
     margin-left: 0;
     margin-right: 9.5em;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+#dokuwiki__top > #main > .grid{
+    position:relative;
+}
+
+
+

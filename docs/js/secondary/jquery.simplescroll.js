@@ -23,7 +23,7 @@ define(function(require){
 
     _init : function( fn ) {
       var self = this,
-          selector = self.target.jquery ? '' : self.target.replace(/.*(?=#[^\s]*$)/, ''), // strip for ie7
+          selector = self.target.jquery ? '#' + self.target.attr('id') : self.target.replace(/.*(?=#[^\s]*$)/, ''), // strip for ie7
           $target = self.target.jquery ? self.target : $(selector),
           targetOffset = $target.length ? $target.offset().top - self.offset : 0,
           totalHeight = $(document).height(),
@@ -46,7 +46,7 @@ define(function(require){
       }
 
       if ( self.showHash ) {
-        self._showHash( self.target, $target );
+        self._showHash( selector, $target );
       }
 
       self._animate(targetOffset, self.speed, self.easing, self.callback);
@@ -68,8 +68,13 @@ define(function(require){
     _showHash : function( hash, $target ) {
       var fake;
 
+      // the hash should already be cleaned up for ie7 here, we're just removing the `#`
+      // to make it an id of a new element
       hash = hash.replace(/^#/, '');
 
+      // Create a new, fake element which will have the id of the target,
+      // position it absolutely with the current window's scrollTop,
+      // and append it to the DOM
       if ( $target.length ) {
         $target.attr( 'id', '' );
         fake = $( '<div/>' ).css({
@@ -85,8 +90,10 @@ define(function(require){
         document.body.appendChild( fake );
       }
 
+      // Set the hash
       window.location.hash = hash;
 
+      // Remove the fake element and put the id back on the real one
       if ( $target.length ) {
         document.body.removeChild( fake );
         $target.attr( 'id', hash );
@@ -112,11 +119,19 @@ define(function(require){
     return this.each(function() {
       $(this).on('click', function( evt ) {
         evt.preventDefault();
-        options = options || {};
-        options.target = $.isFunction( options.target ) ?
-          options.target.call( this ) :
+        var opts = $.extend({}, options);
+
+        // If the target option is a function, use its return value, else try the href attribute
+        opts.target = $.isFunction( opts.target ) ?
+          opts.target.call( this ) :
           this.getAttribute('href');
-        $.simplescroll( options, fn );
+
+        // If the offset option is a function, use its return value, else use the given value or zero
+        opts.offset = $.isFunction( opts.offset ) ?
+          opts.offset.call( this ) :
+          opts.offset || 0;
+
+        $.simplescroll( opts, fn );
       });
     });
   };

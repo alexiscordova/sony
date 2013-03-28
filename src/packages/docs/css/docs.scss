@@ -2,37 +2,6 @@
 @import "../../common/css/_base/variables";
 @import "../../common/css/_base/mixins";
 
-// Wiki Variables
-// main text and background colors
-$wiki_text:           #333;
-$wiki_background:     #fff;
-// alternative text and background colors
-$wiki_textAlt:        #999;
-$wiki_backgroundAlt:  #eee;
-// neutral text and background colors
-$wiki_textNeu:        #666;
-$wiki_backgroundNeu:  #ddd;
-// border color
-$wiki_border:         #ccc;
-
-// highlighted text (e.g. search snippets)
-$wiki_highlight:      #ff9;
-
-$wiki_backgroundSite: #fbfaf9;
-
-// these are used for links
-$wiki_link:           #2b73b7;
-$wiki_existing:       #080;
-$wiki_missing:        #d30;
-
-// site and sidebar widths
-$wiki_siteWidth:      75em;
-$wiki_sidebarWidth:   16em;
-// cut off points for mobile devices
-$wiki_tabletWidth:    800px;
-$wiki_phoneWidth:     480px;
-
-
 @import "_base/code";
 @import "_base/wells";
 @import "_base/navbar-simple";
@@ -53,22 +22,20 @@ $wiki_phoneWidth:     480px;
 @import "_wiki/tpl/forms";
 @import "_wiki/tpl/imgdetail";
 @import "_wiki/tpl/links";
-@import "_wiki/tpl/media_fullscreen";
-@import "_wiki/tpl/media_popup";
 @import "_wiki/tpl/modal";
 @import "_wiki/tpl/recent";
 @import "_wiki/tpl/search";
 @import "_wiki/tpl/tabs";
 @import "_wiki/tpl/toc";
 
-// @import "_wiki/tpl/basic";
-// @import "_wiki/tpl/content";
-// @import "_wiki/tpl/design";
-// @import "_wiki/tpl/includes";
-// @import "_wiki/tpl/mobile";
-// @import "_wiki/tpl/pagetools";
-// @import "_wiki/tpl/print";
-// @import "_wiki/tpl/structure";
+@import "_wiki/tpl/basic";
+@import "_wiki/tpl/content";
+@import "_wiki/tpl/design";
+@import "_wiki/tpl/includes";
+@import "_wiki/tpl/mobile";
+@import "_wiki/tpl/pagetools";
+@import "_wiki/tpl/print";
+@import "_wiki/tpl/structure";
 
 
 
@@ -98,29 +65,48 @@ p,h1,h2,h3,h4,h5,h6 {
 }
 
 p{ 
-  @include px-em--font-size--line-height(13,20);
+  @include px-em--font-size--line-height(13,18);
   margin-bottom: 12px;
   color: #83838f;
 }
 h1{
-  @include px-em--font-size--line-height(44,50);
+  @include px-em--font-size--line-height(44,48);
+  margin-top:20px;
   margin-bottom: 24px;
   color: $defaultTextColor;
+  margin-bottom:40px;
 }
 h2{
-  @include px-em--font-size--line-height(44,50);
-  margin-bottom: 24px;
+  @include px-em--font-size--line-height(28,32);
+  margin-top:30px;
+  margin-bottom: 8px;
   color: $defaultTextColor;
+  font-weight:bold;
 }
 h3{
+  @include px-em--font-size--line-height(16,20);
+  margin-top:30px;
+  text-transform: none;
   font-weight:bold;
-  @include px-em--font-size--line-height(22,30);
-  text-transform: uppercase;
   color: $defaultTextColor;
+  margin-bottom: 12px;
 }
 h4{
-  @include px-em--font-size--line-height(18,26);
-  margin-bottom: 14px;  
+  @include px-em--font-size--line-height(14,18);
+  margin-top:20px;
+  margin-bottom: 12px;
+  font-weight:bold;
+}
+h5{
+  @include px-em--font-size--line-height(11,15);
+  margin-top:20px;
+  text-transform:uppercase;
+  font-weight:bold;
+  margin-bottom: 12px;
+}
+
+#main {
+  width:1000px;
 }
 
 .jumbotron {
@@ -1791,3 +1777,16 @@ form.bs-docs-example {
 .NotUpdatedYet{
   background:#dcfbfa;
 }
+
+
+
+
+
+
+@import "_wiki/tpl/media_fullscreen";
+@import "_wiki/tpl/media_popup";
+
+
+
+
+

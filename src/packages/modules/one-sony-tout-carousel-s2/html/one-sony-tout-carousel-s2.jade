@@ -4,7 +4,7 @@
 
 .sony-one-carousel(data-mode = data.config.mode, data-module-name != data.config.module_name, data-module-id = data.config.module_id)
   .soc-container
-    .soc-container-inner.container
+    .soc-container-inner.container.sony-carousel-flex
       for slide in data.slides
         .soc-content.slimgrid
           .soc-grid
@@ -52,7 +52,7 @@
 
               .soc-item(class=c)(class=s)
                 article
-                  .soc-image(class=c, data-src=item.backgroundImgSrc)
+                  .soc-image(class=c, data-src-desktop=item.backgroundImgSrcDesktop, data-src-tablet=item.backgroundImgSrcTablet, data-src-phone=item.backgroundImgSrcPhone, data-src-desktop-highres=item.backgroundImgSrcDesktopHighRes, data-src-tablet-highres=item.backgroundImgSrcTabletHighRes, data-src-phone-highres=item.backgroundImgSrcPhoneHighRes)
                   .soc-item-content(class=contentType)(class=textStyle)(class=alignment)(class=s)(class=mpc)(class=gcwc)
                     div(class=gcc)
 

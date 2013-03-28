@@ -59,7 +59,7 @@ mixin iQColorImages( colors )
   if colors && colors.length > 1
     each img in colors
       //- mixin iQImage( img, 'hidden', 'image' )
-      img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
+      img.hidden(data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes, data-color=img.color, alt=img.alt, itemprop="image")
       noscript
         img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
 
@@ -98,7 +98,7 @@ mixin productRating( rating, reviews, reviewsText )
     span.lt4.reviews-text
       | !{ prefix }
       span(itemprop="ratingCount")= reviews
-      | !{ reviewsText }
+      span.review-text= reviewsText
       | !{ suffix }
     meta(itemprop="ratingValue", content=rating)
 
@@ -128,6 +128,27 @@ mixin basicGalleryItem( layout, priority, href )
       block
 
 
+mixin shareMenu( socialButtons, shortLink, addCloseButton )
+  //- Default to false
+  addCloseButton = addCloseButton === true
+
+  ul.dropdown-menu.dropdown-menu-alt.share-menu.pull-right(role="menu")
+    if addCloseButton
+      button.box-close.box-close-small(data-dismiss="modal", aria-hidden="true")
+        i.fonticon-10-x
+    each social in socialButtons
+      li
+        a(href=social.link)
+          span.social-icon(class="social-icon-" + social.id)
+            i(class=social.icon)
+          span.social-label.p2= social.label
+    li.input-holder
+      span.link-icon.ghost-center-wrap.js-no-close
+        i.fonticon-10-link.ghost-center.js-no-close
+      input(type="text", value=shortLink)
+
+
+
 if data.view == 'basic'
   +basicGalleryItem( data.layout, data.priority, data.href )
     .gallery-item-inner
@@ -135,7 +156,7 @@ if data.view == 'basic'
         span.label.label-success= data.label
 
       if data.layout == 'promo'
-        .product-img.iq-img(data-src=data.img.src)
+        .product-img.iq-img(data-src-desktop=data.img.srcDesktop, data-src-tablet=data.img.srcTablet, data-src-phone=data.img.srcPhone, data-src-desktop-highres=data.img.srcDesktopHighRes, data-src-tablet-highres=data.img.srcTabletHighRes, data-src-phone-highres=data.img.srcPhoneHighRes)
           - style = data.style ? data.style : ''
           - classes = ['promo-content']
           - classes.push( style )
@@ -257,8 +278,11 @@ else if data.view == 'detailed'
 
 
 else if data.view == 'compare'
+
   filterSet = JSON.stringify( data.filterSet )
-  div.span4.gallery-item.compare-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product")
+  div.span4.compare-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product")
+    button(class="box-close box-close-small js-remove-item", data-dismiss="modal", aria-hidden="true")
+      i.fonticon-10-x
     .product-img.ghost-center-wrap
       .ghost-center
         +iQImage( data.img, 'image' )
@@ -280,41 +304,43 @@ else if data.view == 'compare'
       if data.img.colors
         +colorSwatches( data.img.colors )
 
-      .detail-group.hidden
-        if data.details
-          each detail in data.details
-            highlightedClass = detail.isHighlighted ? ' highlighted' : ''
-            detailClass = 'detail' + highlightedClass
+      if data.details
+        each detail, i in data.details
+          highlightedClass = detail.isHighlighted ? ' highlighted' : ''
+          detailClass = 'detail' + highlightedClass
+          label = labels[i].label
+          prop = labels[i].slug
+
+          div(class=detailClass, itemprop=prop)
             p.cell-label.l3
-              //- strong= labels[i]
-            div(class=detailClass, data-label=detail.label, itemprop=detail.slug)
-              if detail.value.check
-                | !{detail.value.text}
-              else if detail.value.box
-                p.t6-light.compare-box= detail.value.box
-                p.p3!= detail.value.lineOne
-                if detail.value.lineTwo
-                  p.p3!= detail.value.lineTwo
-                if detail.value.lineThree
-                  p.p3!= detail.value.lineThree
-              else if detail.value.lineOne
-                p.p3!= detail.value.lineOne
-                if detail.value.lineTwo
-                  p.p3!= detail.value.lineTwo
-                if detail.value.lineThree
-                  p.p3!= detail.value.lineThree
-              else if detail.value[0].description
-                ul.media-list
-                  each value in detail.value
-                    li.media
-                      .pull-left
-                        mediaClass = 'media-object icon-bestfor-' + value.icon
-                        i(class=mediaClass)
-                      .media-body
-                        p.media-heading.p3!= value.label
-                        p.p3!= value.description
-              else
-                | !{detail.value}
+              strong= label
+            if detail.value.check
+              | !{detail.value.text}
+            else if detail.value.box
+              p.t6-light.compare-box= detail.value.box
+              p.p3!= detail.value.lineOne
+              if detail.value.lineTwo
+                p.p3!= detail.value.lineTwo
+              if detail.value.lineThree
+                p.p3!= detail.value.lineThree
+            else if detail.value.lineOne
+              p.p3!= detail.value.lineOne
+              if detail.value.lineTwo
+                p.p3!= detail.value.lineTwo
+              if detail.value.lineThree
+                p.p3!= detail.value.lineThree
+            else if detail.value[0].description
+              ul.media-list
+                each value in detail.value
+                  li.media
+                    .pull-left
+                      mediaClass = 'media-object icon-bestfor-' + value.icon
+                      i(class=mediaClass)
+                    .media-body
+                      p.media-heading.p3!= value.label
+                      p.p3!= value.description
+            else
+              | !{detail.value}
 
 
 else if data.view == 'specs'
@@ -379,7 +405,7 @@ else if data.view == 'specs'
           .spec-cell-inner.only-label
             p.cell-label.l3
               strong= labels[i]
-
+              
           - imgClass = spec.img.orientation && spec.img.orientation == 'portrait' ? 'vertical' : ''
           .text-center.dl-img.ghost-center-wrap(class=imgClass)
             .ghost-center.v-bottom
@@ -572,7 +598,7 @@ else if data.view == 'suggested'
       .product-img
         div(class='product-img-wrap ghost-center-wrap')
           .ghost-center
-            img.iq-img(alt=data.img.alt, data-src=data.img.src)
+            img.iq-img(alt=data.img.alt, data-src-desktop=data.img.srcDesktop, data-src-tablet=data.img.srcTablet, data-src-phone=data.img.srcPhone, data-src-desktop-highres=data.img.srcDesktopHighRes, data-src-tablet-highres=data.img.srcTabletHighRes, data-src-phone-highres=data.img.srcPhoneHighRes)
             noscript
               img(src=data.img.noscriptsrc, alt=data.img.alt)
       .product-price
@@ -597,14 +623,17 @@ else if data.view == 'summary'
   buyText = data.buyText || 'Buy Now'
 
   .container
-    .grid.js-even-cols
+    .grid.no-grid-at-767.js-even-cols
+
       .span2.product-img-wrap
         .ghost-center-wrap
           .product-img.ghost-center
             +iQImage( data.imgSmall, '', 'image' )
+
       .span5.product-details
         a.l2.link-color(href=titleHref)= titleLabel
         h2.t5.product-title(itemprop="name")= data.title
+        +iQImage( data.imgSmall, 'm-product-img pull-right', 'image' )
         .inline-details.clearfix
           span.product-model.p5(itemprop="model")= data.model
           span.spacer.text-med-dark.p5 |
@@ -612,23 +641,31 @@ else if data.view == 'summary'
           span.spacer.text-med-dark.p5 |
           +colorSwatches( data.img.colors, true, true )
         +productRating( data.rating.stars, data.rating.reviews )
+
       .span5.price-content
+
         .clearfix
-          a.btn.btn-special.btn-large.pull-right(href=data.storeLink)= buyText
-          .text-right.pull-right.space-right.space-top
-            p.p4.price-prefix= startingAtText
-            span.p5.msrp= msrp
-            span.p1.price
-              strong.text-dark !{ priceUnit + data.price }
-        .text-right
+          .pull-right.buy-block
+            .text-right.pull-left.space-right.space-top
+              p.p4.price-prefix= startingAtText
+              span.p5.msrp= msrp
+              span.p1.price
+                strong.text-dark !{ priceUnit + data.price }
+            a.btn.btn-special.btn-large.pull-left(href=data.storeLink)= buyText
+
+        .text-right.relative.be-social
           a.ib.space-right.js-favorite(href="#")
             span.p3= data.favoriteText
             +heart()
-          a.ib.js-share(href="#")
+          a.ib.js-share.share-trigger(data-toggle="dropdown", href="#")
             span.p3= data.shareText
             span.arrow-holder
               i.fonticon-10-arrowhead-down
+          +shareMenu( data.socialButtons, data.shortLink )
 
+  #share-tool.share-tool.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
+    .modal-inner.transparent
+      +shareMenu( data.socialButtons, data.shortLink, true )
 
 
 
