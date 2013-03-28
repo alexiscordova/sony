@@ -19,7 +19,7 @@
 //
 //      $('#foo').sonyPaddles();
 //
-// *Example - Show the left paddle, hide the right:*
+// *Example - Show the left paddle, hide the right (you can also pass `both`):*
 //
 //      $('#foo').sonyPaddles('showPaddle', 'left');
 //      $('#foo').sonyPaddles('hidePaddle', 'right');
@@ -108,14 +108,16 @@ define(function(require){
 
       var self = this;
 
-      if ( which === 'left' ) {
+      if ( which === 'left' || which === 'both' ) {
 
         if ( visible ) {
           self.$leftPaddle.show().addClass('on');
         } else {
           self.$leftPaddle.hide().removeClass('on');
         }
-      } else if ( which === 'right' ) {
+      }
+
+      if ( which === 'right' || which === 'both' ) {
 
         if ( visible ) {
           self.$rightPaddle.show().addClass('on');

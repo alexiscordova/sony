@@ -402,10 +402,11 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           self.$el.find(<span class="string">'.rp-overflow'</span>).on(<span class="string">"update.sm"</span>, <span class="keyword">function</span>(e){
              self.scrollerModule._generatePagination( self.nbPages );
-             window.iQ.update();
-          });
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
 
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+          self.$win.trigger(<span class="string">'resize.rp'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
         }, <span class="number">50</span>);
 
 
@@ -421,7 +422,7 @@ if their interaction time and movements are below certain thresholds.</p>       
           heightContainer    = <span class="number">55</span> + <span class="number">17</span> + <span class="number">30</span>,
           numColumns         = <span class="number">6</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$slimGrid.removeAttr(<span class="string">'style'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$slimGrid.removeAttr(<span class="string">'style'</span>);
 
           <span class="keyword">if</span> ( Modernizr.mediaqueries &amp;&amp; self.mq(<span class="string">'(min-width: 1200px)'</span>) &amp;&amp; ! self.$html.hasClass(<span class="string">'lt-ie10'</span>) )
           {
@@ -448,9 +449,9 @@ if their interaction time and movements are below certain thresholds.</p>       
 
             self.$containerProduct.addClass(<span class="string">'full-bleed-no-max'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>heightContainer</p>             </td>             <td class="code">               <div class="highlight"><pre>            heightContainer = <span class="number">40</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>heightContainer</p>             </td>             <td class="code">               <div class="highlight"><pre>            heightContainer = <span class="number">40</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>            slimGridW = $(window).width() * self.containerWidthPct;
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>            slimGridW = $(window).width() * self.containerWidthPct;
             margeSlimGrid = ( $(window).width() - slimGridW ) / <span class="number">2</span>;
             slimGridW += margeSlimGrid;
             self.$slimGrid.css( { <span class="string">'width'</span> : slimGridW, <span class="string">'margin'</span> : <span class="string">'0 0 0 '</span>+ margeSlimGrid +<span class="string">'px'</span> } );
@@ -466,9 +467,9 @@ if their interaction time and movements are below certain thresholds.</p>       
 
             self.$containerProduct.addClass(<span class="string">'full-bleed-no-max'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>heightContainer</p>             </td>             <td class="code">               <div class="highlight"><pre>            heightContainer = <span class="number">40</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>heightContainer</p>             </td>             <td class="code">               <div class="highlight"><pre>            heightContainer = <span class="number">40</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>            slimGridW = $(window).width() * self.containerWidthPct;
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>            slimGridW = $(window).width() * self.containerWidthPct;
             margeSlimGrid = ( $(window).width() - slimGridW ) / <span class="number">2</span>;
             slimGridW += margeSlimGrid;
             self.$slimGrid.css( { <span class="string">'width'</span> : slimGridW, <span class="string">'margin'</span> : <span class="string">'0 0 0 '</span>+ margeSlimGrid +<span class="string">'px'</span> } );
@@ -507,9 +508,9 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="string">'height'</span>     : newContainerHeight,
             <span class="string">'max-height'</span> : newContainerHeight,
             <span class="string">'min-height'</span> : newContainerHeight
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>'min-width'  : 550 + 'px'</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>'min-width'  : 550 + 'px'</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
         }));
 
         self.$win.trigger(<span class="string">'resize.rp'</span>);
@@ -520,8 +521,8 @@ if their interaction time and movements are below certain thresholds.</p>       
         <span class="keyword">var</span> self    = <span class="keyword">this</span>,
             animObj = {};
 
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>if( !self.useCSS3Transitions ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>jquery fallback</p>             </td>             <td class="code">               <div class="highlight"><pre>          animObj.opacity = <span class="number">1</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>if( !self.useCSS3Transitions ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>jquery fallback</p>             </td>             <td class="code">               <div class="highlight"><pre>          animObj.opacity = <span class="number">1</span>;
           self.$container.removeClass(<span class="string">"hide"</span>).animate(animObj, <span class="number">700</span>);
 
         <span class="comment">/*}else {
@@ -529,9 +530,9 @@ if their interaction time and movements are below certain thresholds.</p>       
           animObj[ self.prefixed( self.TD ) ] = 700 + 'ms';
           animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.easeOutBack;
           console.log("animObj", animObj);
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>animObj.display = 'block';
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>animObj.display = 'block';
 animObj.opacity = 1;</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$container.css( animObj );
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>self.$container.removeClass("hide").addClass("in");</p>             </td>             <td class="code">               <div class="highlight"><pre>        }
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>self.$container.removeClass("hide").addClass("in");</p>             </td>             <td class="code">               <div class="highlight"><pre>        }
         */
         
       },
@@ -555,7 +556,7 @@ animObj.opacity = 1;</p>             </td>             <td class="code">        
 
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Recently Viewed definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.recentlyViewed = <span class="keyword">function</span>(options) {
+</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>Recently Viewed definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.recentlyViewed = <span class="keyword">function</span>(options) {
       <span class="keyword">var</span> args = arguments;
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(){
         <span class="keyword">var</span> self = $(<span class="keyword">this</span>);
@@ -572,7 +573,7 @@ animObj.opacity = 1;</p>             </td>             <td class="code">        
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>defaults for the related products</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.recentlyViewed.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>defaults for the related products</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.recentlyViewed.defaults = {
       throttleTime: <span class="number">50</span>,
       autoScaleContainer: <span class="literal">true</span>,
       minSlideOffset: <span class="number">10</span>,
@@ -600,7 +601,7 @@ $(<span class="keyword">function</span>(){
     <span class="keyword">return</span>;
   }
 
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> transEndEventNames = {
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> transEndEventNames = {
       <span class="string">'WebkitTransition'</span> : <span class="string">'webkitTransitionEnd'</span>,
       <span class="string">'MozTransition'</span>    : <span class="string">'transitionend'</span>,
       <span class="string">'OTransition'</span>      : <span class="string">'oTransitionEnd'</span>,
