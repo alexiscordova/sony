@@ -11,6 +11,9 @@
 // This plugin is used to create flexible carousels. Given that *#foo* is an element containing a
 // number of slides, hidden by *#foo-carousel-wrapper*'s `overflow: hidden;` property, #foo will
 // become draggable with each slide being a snap-point for progression between the slides.
+// Additionally, your CSS should be such that the carousel can have slides added to it
+// on either end without breaking; this allows for "infinite" carousels.
+//
 // Refer to this Jade structure:
 //
 //      div#foo-carousel-wrapper
@@ -34,9 +37,6 @@
 //        wrapper: '#foo-carousel-wrapper',
 //        slides: '.foo-carousel-slide',
 //        slideChildren: '.foo-slide-children',
-//        axis: 'x',
-//        unit: '%',
-//        dragThreshold: 10,
 //        useCSS3: true,
 //        paddles: true,
 //        pagination: true
@@ -46,7 +46,7 @@
 //
 //      $('#foo').sonyCarousel('gotoSlide', 0);
 //
-// If you've replaced or manipulated the slides, tell SonyCarousel to re-cache them again.
+// If you've replaced or manipulated the slides, tell SonyCarousel to cache them again.
 //
 //      $('#foo').sonyCarousel('resetSlides');
 
@@ -124,8 +124,7 @@ define(function(require){
         $backSlide.addClass('sony-carousel-edge-clone');
         $backSlide.data('sonyCarouselGoto', self.$slides.length - 1 - i);
 
-        self.$el.append($frontSlide);
-        self.$el.prepend($backSlide);
+        self.$el.append($frontSlide).prepend($backSlide);
 
         self.$allSlides = self.$allSlides.add($frontSlide).add($backSlide);
       }
@@ -249,19 +248,20 @@ define(function(require){
         $destinationSlide = $slideSet.eq(which);
       }
 
-      if ( self.jumping && !self.needsJumpCorrection && self.$slides.filter($destinationSlide).length > 0 && speed ) {
+      // Logic for swapping slides around, to make transitions from distant slides seamless. (see: `self.jumping`)
+
+      if ( self.jumping && !self.isJumped && self.$slides.filter($destinationSlide).length > 0 && speed ) {
 
         var positions = self.getPositions(self.$slides),
             destIndex = self.$slides.index($destinationSlide),
             currentIndex = positions.indexOf(Utilities.closestInArray(positions, 0)),
-            leftIndex, rightIndex;
+            leftIndex, rightIndex, positionsExcludingCurrent;
 
         if ( Math.abs(currentIndex - destIndex) > 1 ) {
 
-          self.needsJumpCorrection = true;
+          self.isJumped = true;
 
-          var positionsExcludingCurrent = positions.slice(0);
-
+          positionsExcludingCurrent = positions.slice(0);
           positionsExcludingCurrent.splice(currentIndex, 1);
 
           leftIndex = positions.indexOf(Utilities.closestInArray(positionsExcludingCurrent, 0, '<'));
@@ -270,7 +270,7 @@ define(function(require){
           if ( destIndex > currentIndex ) {
             Utilities.swapElements(self.$slides.eq(rightIndex), $destinationSlide);
           } else if ( destIndex < currentIndex ) {
-           Utilities.swapElements(self.$slides.eq(leftIndex), $destinationSlide);
+            Utilities.swapElements(self.$slides.eq(leftIndex), $destinationSlide);
           }
         }
       }
@@ -316,9 +316,10 @@ define(function(require){
         });
       }
 
-      // Reorder if you were jumping
+      // Reorder if you were jumping (see: `self.jumping`)
+      // TODO: The callback logic here should be extracted, I'm re-typing it for the looped case below.
 
-      if ( self.needsJumpCorrection && speed ) {
+      if ( self.isJumped && speed ) {
 
         var jumpCb = Utilities.once(function(){
 
@@ -329,7 +330,7 @@ define(function(require){
           self.gotoSlide( which, true );
           iQ.update(true);
 
-          self.needsJumpCorrection = false;
+          self.isJumped = false;
         });
 
         if ( self.useCSS3 ) {
@@ -337,7 +338,11 @@ define(function(require){
         } else {
           setTimeout(jumpCb, speed);
         }
+
+        return;
       }
+
+      // If this is a cloned slide, jump to the "real" slide.
 
       if ( typeof $destinationSlide.data('sonyCarouselGoto') !== 'undefined' ) {
 
@@ -399,25 +404,26 @@ define(function(require){
 
     createPaddles: function() {
 
-      var self = this;
+      var self = this,
+          paddles = function(a,b){ self.$wrapper.sonyPaddles(a,b); };
 
       if ( Modernizr.touch ) {
         return;
       }
 
-      self.$wrapper.sonyPaddles();
+      paddles();
 
       self.$wrapper.on('SonyCarousel:gotoSlide', function(e, which) {
 
-        self.$wrapper.sonyPaddles('showPaddle', 'left');
-        self.$wrapper.sonyPaddles('showPaddle', 'right');
+        paddles('showPaddle', 'left');
+        paddles('showPaddle', 'right');
 
         if ( which === 0 && !self.looped ) {
-          self.$wrapper.sonyPaddles('hidePaddle', 'left');
+          paddles('hidePaddle', 'left');
         }
 
         if ( which === self.$slides.length - 1 && !self.looped ) {
-          self.$wrapper.sonyPaddles('hidePaddle', 'right');
+          paddles('hidePaddle', 'right');
         }
       });
 
@@ -526,10 +532,10 @@ define(function(require){
     defaultLink: undefined,
 
     // Should this carousel seamlessly loop from end to end?
-    looped: true,
+    looped: false,
 
     // Should the carousel jump directly to the next slide in either direction?
-    jumping: true,
+    jumping: false,
 
     // If this is a looped carousel, how many clones should be on either side to create the infinite illusion?
     // Helpful if your carousel lets the user see more than a few slides at once.
