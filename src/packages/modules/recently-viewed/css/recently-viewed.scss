@@ -2,13 +2,31 @@
 @import "../../../common/css/_base/mixins";
 
 
+.js {
+
+  .recently-viewed {
+
+    .rp-overflow {
+      overflow:hidden;
+    }
+
+  }
+
+}
 
 
 .recently-viewed {
 
+  position:relative;
+
+  h6 {
+    margin-top:50px;
+    margin-bottom:0;
+  }
+
   .products {
 
-    margin-top: 12px;
+    margin-top: 25px;
 
     .p3 {
       margin-top :9px;
@@ -71,7 +89,7 @@
 
           height:52px;
           position: absolute;
-          top: 86px;
+          top: 148px;
           width:34px;
 
           background-color:rgba($gray10, 0.2);
@@ -141,7 +159,19 @@
 
   @media screen and (max-width: 979px) {
 
+    h6 {
+      margin-top:38px;
+    }
+
+    .products {
+      margin-top:20px;
+    }
+
     .nav-paddles {
+      display:none;
+    }
+
+    .navigation-container{
       display:none;
     }
 
@@ -149,6 +179,10 @@
 
   .product-img:after {
     content: '';
+  }
+
+  .pagination-bullets {
+    bottom:30px;
   }
 
   /*
