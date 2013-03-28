@@ -59,6 +59,7 @@ define(function(require){
       Modernizr = require('modernizr'),
       iQ = require('iQ'),
       Settings = require('require/sony-global-settings'),
+      Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
       sonyDraggable = require('secondary/sony-draggable'),
       sonyPaddles = require('secondary/sony-paddles'),
@@ -190,6 +191,20 @@ define(function(require){
       }
     },
 
+    getPositions: function($slideSet) {
+
+      var self = this,
+          leftBounds = self.$wrapper.get(0).getBoundingClientRect().left,
+          positions = [],
+          destination;
+
+      $slideSet.each(function(a){
+        positions.push(this.getBoundingClientRect().left - leftBounds);
+      });
+
+      return positions;
+    },
+
     // Find the nearest slide, and move the carousel to that.
 
     gotoNearestSlide: function(e, data) {
@@ -197,14 +212,11 @@ define(function(require){
       var self = this,
           leftBounds = self.$wrapper.get(0).getBoundingClientRect().left,
           $slideSet = self.$allSlides || self.$slides,
-          positions = [],
-          destination;
+          destination, positions;
 
-      $slideSet.each(function(a){
-        positions.push(Math.abs(leftBounds - this.getBoundingClientRect().left));
-      });
+      positions = self.getPositions($slideSet);
 
-      destination = positions.indexOf(Math.min.apply(Math, positions));
+      destination = positions.indexOf(Utilities.closestInArray(positions, 0));
 
       if ( self.looped ) {
         destination -= self.edgeSlides;
@@ -214,6 +226,7 @@ define(function(require){
     },
 
     // Go to a given slide.
+    // TODO: This is getting to be confusing. Should split it into a few methods for readability.
 
     gotoSlide: function(which, noAnim) {
 
@@ -221,6 +234,8 @@ define(function(require){
           $slideSet = self.$slides,
           speed = ( noAnim ? 0 : self.animationSpeed ),
           $destinationSlide, destinationLeft, innerContainerWidth;
+
+      // Logic for the natural ends of a carousel that has been looped
 
       if ( self.looped && ( which === -1 || which >= self.$slides.length )) {
         if ( which === -1 ) {
@@ -232,6 +247,32 @@ define(function(require){
         }
       } else {
         $destinationSlide = $slideSet.eq(which);
+      }
+
+      if ( self.jumping && !self.needsJumpCorrection && self.$slides.filter($destinationSlide).length > 0 && speed ) {
+
+        var positions = self.getPositions(self.$slides),
+            destIndex = self.$slides.index($destinationSlide),
+            currentIndex = positions.indexOf(Utilities.closestInArray(positions, 0)),
+            leftIndex, rightIndex;
+
+        if ( Math.abs(currentIndex - destIndex) > 1 ) {
+
+          self.needsJumpCorrection = true;
+
+          var positionsExcludingCurrent = positions.slice(0);
+
+          positionsExcludingCurrent.splice(currentIndex, 1);
+
+          leftIndex = positions.indexOf(Utilities.closestInArray(positionsExcludingCurrent, 0, '<'));
+          rightIndex = positions.indexOf(Utilities.closestInArray(positionsExcludingCurrent, 0, '>'));
+
+          if ( destIndex > currentIndex ) {
+            Utilities.swapElements(self.$slides.eq(rightIndex), $destinationSlide);
+          } else if ( destIndex < currentIndex ) {
+           Utilities.swapElements(self.$slides.eq(leftIndex), $destinationSlide);
+          }
+        }
       }
 
       if ( $destinationSlide.length === 0 ) { return; }
@@ -275,11 +316,42 @@ define(function(require){
         });
       }
 
+      // Reorder if you were jumping
+
+      if ( self.needsJumpCorrection && speed ) {
+
+        var jumpCb = Utilities.once(function(){
+
+          self.$allSlides.each(function(){
+            $(this).detach().appendTo(self.$el);
+          });
+
+          self.gotoSlide( which, true );
+          iQ.update(true);
+
+          self.needsJumpCorrection = false;
+        });
+
+        if ( self.useCSS3 ) {
+          self.$el.on(Settings.transEndEventName, jumpCb);
+        } else {
+          setTimeout(jumpCb, speed);
+        }
+      }
+
       if ( typeof $destinationSlide.data('sonyCarouselGoto') !== 'undefined' ) {
-        setTimeout(function(){
+
+        var loopedCb = Utilities.once(function(){
           self.gotoSlide( $destinationSlide.data('sonyCarouselGoto'), true );
           iQ.update(true);
-        }, speed);
+        });
+
+        if ( self.useCSS3 ) {
+          self.$el.on(Settings.transEndEventName, loopedCb);
+        } else {
+          setTimeout(loopedCb, speed);
+        }
+
         return;
       }
 
@@ -454,7 +526,10 @@ define(function(require){
     defaultLink: undefined,
 
     // Should this carousel seamlessly loop from end to end?
-    looped: false,
+    looped: true,
+
+    // Should the carousel jump directly to the next slide in either direction?
+    jumping: true,
 
     // If this is a looped carousel, how many clones should be on either side to create the infinite illusion?
     // Helpful if your carousel lets the user see more than a few slides at once.
