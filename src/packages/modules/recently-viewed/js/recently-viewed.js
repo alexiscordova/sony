@@ -437,8 +437,10 @@ define(function(require){
 
           self.$el.find('.rp-overflow').on("update.sm", function(e){
              self.scrollerModule._generatePagination( self.nbPages );
-             window.iQ.update();
+             //window.iQ.update();
           });
+
+          self.$win.trigger('resize.rp');
 
           //window.iQ.update();
 
