@@ -11,12 +11,9 @@
 // This plugin is used to create flexible carousels. Given that *#foo* is an element containing a
 // number of slides, hidden by *#foo-carousel-wrapper*'s `overflow: hidden;` property, #foo will
 // become draggable with each slide being a snap-point for progression between the slides.
-<<<<<<< HEAD
-=======
 // Additionally, your CSS should be such that the carousel can have slides added to it
 // on either end without breaking; this allows for "infinite" carousels.
 //
->>>>>>> origin/master
 // Refer to this Jade structure:
 //
 //      div#foo-carousel-wrapper
@@ -127,12 +124,7 @@ define(function(require){
         $backSlide.addClass('sony-carousel-edge-clone');
         $backSlide.data('sonyCarouselGoto', self.$slides.length - 1 - i);
 
-<<<<<<< HEAD
-        self.$el.append($frontSlide);
-        self.$el.prepend($backSlide);
-=======
         self.$el.append($frontSlide).prepend($backSlide);
->>>>>>> origin/master
 
         self.$allSlides = self.$allSlides.add($frontSlide).add($backSlide);
       }
@@ -219,21 +211,6 @@ define(function(require){
       var self = this,
           leftBounds = self.$wrapper.get(0).getBoundingClientRect().left,
           $slideSet = self.$allSlides || self.$slides,
-<<<<<<< HEAD
-          positions = [],
-          destination;
-
-      $slideSet.each(function(a){
-        positions.push(Math.abs(leftBounds - this.getBoundingClientRect().left));
-      });
-
-      destination = positions.indexOf(Math.min.apply(Math, positions));
-
-      if ( self.looped ) {
-        destination -= self.edgeSlides;
-      }
-
-=======
           destination, positions;
 
       positions = self.getPositions($slideSet);
@@ -244,7 +221,6 @@ define(function(require){
         destination -= self.edgeSlides;
       }
 
->>>>>>> origin/master
       self.gotoSlide(destination);
     },
 
@@ -258,11 +234,8 @@ define(function(require){
           speed = ( noAnim ? 0 : self.animationSpeed ),
           $destinationSlide, destinationLeft, innerContainerWidth;
 
-<<<<<<< HEAD
-=======
       // Logic for the natural ends of a carousel that has been looped
 
->>>>>>> origin/master
       if ( self.looped && ( which === -1 || which >= self.$slides.length )) {
         if ( which === -1 ) {
           $slideSet = self.$allSlides;
@@ -277,8 +250,6 @@ define(function(require){
 
       // Logic for swapping slides around, to make transitions from distant slides seamless. (see: `self.jumping`)
 
-<<<<<<< HEAD
-=======
       if ( self.jumping && !self.isJumped && self.$slides.filter($destinationSlide).length > 0 && speed ) {
 
         var positions = self.getPositions(self.$slides),
@@ -306,7 +277,6 @@ define(function(require){
 
       if ( $destinationSlide.length === 0 ) { return; }
 
->>>>>>> origin/master
       destinationLeft = $destinationSlide.position().left;
       innerContainerWidth = self.$el.width();
 
@@ -346,13 +316,6 @@ define(function(require){
         });
       }
 
-<<<<<<< HEAD
-      if ( typeof $destinationSlide.data('sonyCarouselGoto') !== 'undefined' ) {
-        setTimeout(function(){
-          self.gotoSlide( $destinationSlide.data('sonyCarouselGoto'), true );
-          iQ.update(true);
-        }, speed);
-=======
       // Reorder if you were jumping (see: `self.jumping`)
       // TODO: The callback logic here should be extracted, I'm re-typing it for the looped case below.
 
@@ -394,7 +357,6 @@ define(function(require){
           setTimeout(loopedCb, speed);
         }
 
->>>>>>> origin/master
         return;
       }
 
@@ -457,19 +419,11 @@ define(function(require){
         paddles('showPaddle', 'right');
 
         if ( which === 0 && !self.looped ) {
-<<<<<<< HEAD
-          self.$wrapper.sonyPaddles('hidePaddle', 'left');
-        }
-
-        if ( which === self.$slides.length - 1 && !self.looped ) {
-          self.$wrapper.sonyPaddles('hidePaddle', 'right');
-=======
           paddles('hidePaddle', 'left');
         }
 
         if ( which === self.$slides.length - 1 && !self.looped ) {
           paddles('hidePaddle', 'right');
->>>>>>> origin/master
         }
       });
 
@@ -580,12 +534,9 @@ define(function(require){
     // Should this carousel seamlessly loop from end to end?
     looped: false,
 
-<<<<<<< HEAD
-=======
     // Should the carousel jump directly to the next slide in either direction?
     jumping: false,
 
->>>>>>> origin/master
     // If this is a looped carousel, how many clones should be on either side to create the infinite illusion?
     // Helpful if your carousel lets the user see more than a few slides at once.
     edgeSlides: 1,

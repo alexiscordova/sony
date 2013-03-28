@@ -41,29 +41,24 @@ define(function(require){
       
       //Set base element
       self.$el = $( element );
+
+
+      //Debug mode
+      self.DEBUG                = false;
       
       //Modernizr vars
-      self.hasTouch = Modernizr.touch;
-      self.cssTransitions = Modernizr.transitions;
+      self.hasTouch             = Modernizr.touch;
+      self.cssTransitions       = Modernizr.transitions;
       
       //CLASS CONSTANTS
       self.SLIDE_CLASS          = '.pdp-slideshow-slide';
       self.SLIDE_CONTAINER      = '.pdp-slideshow-inner';
-      
-      //Event vars
-      self.downEvent            = null;
-      self.downEvent            = null;
-      self.moveEventPoint       = null;
-      self.upEvent              = null;
-      self.cancelEvent          = null;
-      self.clickEvent           = null;
 
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
       self.currentId            = 0;
 
-      
       self.isDesktopMode        = true; //true by default
       self.isTabletMode         = false;
       self.isMobileMode         = false;
@@ -79,6 +74,8 @@ define(function(require){
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.hasThumbs            = self.$thumbNav.length > 0;
 
+      self.$pagination = null;
+
       //Init the module
       self.init();
 
@@ -90,27 +87,24 @@ define(function(require){
       //Initalize the module
       init : function( param ) {
         var self = this;
-        
-        self.setupEvents();
 
+        if(self.DEBUG === true){
+          self.$slides.each(function(i){
+            var htag = $('<h2 class="debug_header" />').appendTo( $(this) );
+            htag.html('SLIDE ' + ( i + 1 ) );
+          });
+        }
+
+        self.setupEvents();
+        self.setupSlides();
+        self.setupCarousel();
+        self.setupBreakpoints();
+        
         if(self.hasThumbs){
           self.createThumbNav();
         }
 
-        self.setupSlides();
-
-        self.setupBreakpoints();
-
-        self.$slides.each(function(i){
-          var htag = $('<h2 class="debug_header" />').appendTo( $(this) );
-          htag.html('SLIDE ' + ( i + 1 ) );
-        });
-
-        self.setupCarousel();
-
         self.$slideContainer.css( 'opacity' , 1 );
-
-        iQ.update( true ); 
 
       },
 
@@ -130,14 +124,19 @@ define(function(require){
           pagination: true
         });
 
+        self.$pagination = self.$el.find('.pagination-bullets');
+
         self.$slideContainer.on('SonyCarousel:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
+
+        iQ.update();
 
       },
 
-      onSlideUpdate: function(currSlideIndx){
+      onSlideUpdate: function(e , currIndx){
         var self = this;
 
-        console.log( 'Current Slide after update', currSlideIndx);
+        self.currentId = currIndx;
+        self.setCurrentActiveThumb();
 
         iQ.update();
       },
@@ -150,7 +149,7 @@ define(function(require){
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
           self.showThumbNav();
-
+          self.toggleDotNav(true); //hide
         });
 
         enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
@@ -158,6 +157,7 @@ define(function(require){
           self.isMobileMode = self.isDesktopMode = false;
           self.isTabletMode = true;
           self.hideThumbNav();
+          self.toggleDotNav(true); //hide
 
         });
 
@@ -166,6 +166,7 @@ define(function(require){
           self.isDesktopMode = self.isTabletMode = false;
           self.isMobileMode = true;
           self.hideThumbNav();
+          self.toggleDotNav(false); //show
           
         });
 
@@ -176,15 +177,10 @@ define(function(require){
       toggleDotNav: function(hide){
         var self = this;
 
-        // Make sure dot nav has been instantiated
-        if(!self.$dotnav){
-          self.setupDotNavigation();
-        }
-
         if(hide){
-          self.$dotnav.hide();
+          self.$pagination.hide();
         }else{
-          self.$dotnav.show();
+          self.$pagination.show();
         }
 
       },
@@ -215,16 +211,9 @@ define(function(require){
         var self = this;
         
         if( self.hasTouch ){
-         self.downEvent        = 'touchstart.pdpss';
-         self.moveEvent        = 'touchmove.pdpss';
-         self.upEvent          = 'touchend.pdpss';
-         self.cancelEvent      = 'touchcancel.pdpss';
+          self.upEvent = 'touchend.pdpss';
         }else {
-          self.downEvent       = 'mousedown.pdpss';
-          self.moveEvent       = 'mousemove.pdpss';
-          self.upEvent         = 'mouseup.pdpss';
-          self.cancelEvent     = 'mouseup.pdpss';
-          self.clickEvent      = 'click.pdpss';
+          self.clickEvent = 'click.pdpss';
         }
 
         self.tapOrClick = function(){
