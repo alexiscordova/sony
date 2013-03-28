@@ -80,6 +80,8 @@ define(function(require){
       } else {
         self.renderDesktop();
       }
+
+
     },
 
     onImagesLoaded : function(  ){
@@ -87,7 +89,7 @@ define(function(require){
     
       self.showImages();
       self.setMeasurementWidths();
-      self.animateDimensions();
+      self.drawLines();
       
     },
 
@@ -120,8 +122,11 @@ define(function(require){
 
     },
 
-    animateDimensions : function(  ){
-      console.log( '««« animateDimensions »»»' );
+    drawLines : function(  ){
+      console.log( '««« drawLines »»»' );
+
+
+
       var self = this;
     },
 

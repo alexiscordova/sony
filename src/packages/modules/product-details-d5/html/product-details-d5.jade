@@ -1,6 +1,5 @@
 include ../../../common/html/jade-helpers.jade
 
-
 mixin inchesString(inches)
   - inches = "(" + inches + "\")"
   p.inches= inches
@@ -14,7 +13,10 @@ mixin measurementValues(value, dir, thin)
   
   if ((!thin) && (dir == "vertical"))
     - clss.push('not-thin')
-
+  
+  if (!thin)
+    canvas(id= "vert-up-canvas")
+  
   div(class = clss) 
     +cmString(value.cm)
 
@@ -72,6 +74,39 @@ mixin definitionList( list, isHorizontal )
         dd.p3= li.copy
 
 
+//- mixin countColumns(cols)
+//-   - columnCount = 0
+
+//-   for col in cols
+//-     if(col)
+//-       - columnCount++  
+  
+//-   //- if(isFeatures) 
+//-   //-   - columnCount++
+
+//-   //- if(isSpecs)
+//-   //-   - columnCount++
+
+//-   //- if(isMeasurements)
+//-   //-   - columnCount++
+
+//-   !{columnCount}
+
+//- mixin handleColCount(count)
+//-   - spanValue
+//-   case count
+//-    when 2
+//-     - spanValue = "span6"
+//-     - centerSpanClass.push("span6")
+//-    when 3
+//-     - spanValue = "span4"
+//-     - centerSpanClass.push("span4")
+
+//-   return spanValue
+
+
+
+
 //- TOP DATA
 - top = data.top
 
@@ -89,44 +124,45 @@ mixin definitionList( list, isHorizontal )
 - extras = center.extras
 - isExtras = extras.length > 0
 
-//- MOVE TO MIXIN!
+//- Defaults
 - columnCount = 0
 - centerSpanClass = []
 
+//- Check how many columns there are
 if(isFeatures) 
-  - columnCount = columnCount + 1
+  - columnCount++
 
 if(isSpecs)
-  - columnCount = columnCount + 1
+  - columnCount++
 
 if(isMeasurements)
-  - columnCount = columnCount + 1
+  - columnCount++
 
+
+//- Set the right grid span based on columnCount
 case columnCount
  when 2
    - centerSpanClass.push("span6")
  when 3
    - centerSpanClass.push("span4")
 
-//- END MOVE TO MIXIN!
-
-
-//- BOTTOM DATA
+//- BOTTOM DATA VARS
 - bottom = data.bottom
 - bottomBtn = bottom.bottomBtn
 - textTout = bottom.textTout
-
 - isBottomBtn = bottomBtn.buttonLink != ""
 - isTextTout = textTout.copy != ""
 - bottomSpanClass = []
 
+//- Add necessary class
 if((isTextTout) && (isBottomBtn))
   - bottomSpanClass.push("span6")
 
 
-- productDetailsClasses = ["pd-module","container"]
-
 //- START PRODUCT DETAILS
+
+//- General vars
+- productDetailsClasses = ["pd-module","container"]
 section(class= productDetailsClasses)
   .top.grid
     .title.l1= top.title
@@ -157,15 +193,21 @@ section(class= productDetailsClasses)
 
   
   .bottom.grid
+    - btmCopyClasses = ["copy","p3"]
     if(isTextTout)
       .text-tout.span6
-        .copy.p3
+        //- FPO IMAGE FOR NOW, THIS SHOULD BE CHANGED FROM A PATH TO A ICON CLASS AS ALL OTHERS ARE
+        if (textTout.icon)
+          - btmCopyClasses.push("with-icon")
+          .icon
+            img(src= textTout.icon)      
+        div(class= btmCopyClasses)
           | #{textTout.copy}
           if(textTout.link)
             a(href= textTout.link)= textTout.linkLabel
     
     if(isBottomBtn)
-      .bottomBtn(class= bottomSpanClass)
+      .bottom-btn(class= bottomSpanClass)
         a.btn.buttonLabel(href= bottomBtn.buttonLink)= bottomBtn.buttonLabel
 
 

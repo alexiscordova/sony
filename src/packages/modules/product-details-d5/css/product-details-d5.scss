@@ -4,7 +4,7 @@
 // "product-details-module"
 .pd-module{
 	padding:60px 0 90px 0;
-	border:3px solid red;
+	//border:3px solid red;
 
 
 	.pd-image{
@@ -185,18 +185,14 @@
 	// 888   "   888 Y8b.     888  888      X88 Y88b 888 888     Y8b.     888  888  888 Y8b.     888  888 Y88b.       X88 
 	// 888       888  "Y8888  "Y888888  88888P'  "Y88888 888      "Y8888  888  888  888  "Y8888  888  888  "Y888  88888P' 
 	.measurements{
-		outline:1px solid black;
 		background-color:$gray80;
 		padding:39px px-em(32px) 52px px-em(32px);
 		
-		// .measurement{
-		// 	background-color: rgba(0,211,255,.5);
-		// } // measurement
-
-		.wrapper{
-			//display:inline-block;
+		#vert-up-canvas{
 			border:1px solid red;
-			//padding:0 px-em(18px) 15px 0;
+			width:100px;
+			height:200px;
+			display:inline-block;
 		}
 
 		.inches{
@@ -212,10 +208,6 @@
 			margin:0;
 		}
 
-		// img{
-		// 	border:2px solid #990033;
-		// }
-
 		.vertical-measurement{
 			text-align: center;
 			display:inline-block;
@@ -223,16 +215,15 @@
 
 			&.not-thin{
 				padding-left: px-em(24px);
-			}
+			} // not-thin
 
-		}
+		} // vert measurements
 
 		.horizontal-measurement{
 			text-align: center;
 			display:block;
 			padding-top: px-em(24px);
-		}
-		
+		} // horz measurements
 
 	} // measurements
 
@@ -245,11 +236,11 @@
 	// 888        .d8""8b. Y88b.  888     888  888      X88 
 	// 8888888888 888  888  "Y888 888     "Y888888  88888P' 
 	.extras{
+		background-color:$gray80;
 		outline:1px solid green;
 		margin-top:40px;
 		
 		.extra{
-			//background-color: rgba(182,22,255,.5);
 			outline:1px solid blue;
 		} //.extra
 
@@ -268,30 +259,47 @@
 
 	.bottom{
 		margin-top:36px;
-		outline:1px solid black;	
-		background-color: rgba(125, 210, 164, .8);
+		//outline:1px solid black;	
+		//background-color: rgba(125, 210, 164, .8);
 
 		.text-tout{
-			padding-top:5px;
 			text-align: left;
-			outline:1px solid #003300;	
+			//outline:1px solid #003300;	
 
-			a{
-				text-transform: capitalize;
+			.icon{
+				display: inline-block;
+				margin-right:26px;
+				border:1px solid red; // fpo
+				max-width:11%;
 			}
+
+			.copy{
+				display: inline-block;
+				padding-top:5px;
+		
+				&.with-icon{
+					width:84%;	
+				}
+
+				a{
+					text-transform: capitalize;
+				}
+	
+			} // copy
+
 
 		} // .text-tout
 
-		.bottomBtn{
+		.bottom-btn{
 			// background-color: rgba(125, 210, 164, .6);
 			text-align: left;
-			outline:1px solid #ff0033;
+			//outline:1px solid #ff0033;
 
 			&.span6{
 				text-align: right;
 			} // .span6
 
-		} // .bottomBtn
+		} // .bottom-btn
 
 
 	} // bottom
