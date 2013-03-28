@@ -237,7 +237,7 @@ mixin compareGallery( submodules, gallery, type, labels )
   submodules = submodules || data.submodules
   gallery = gallery || data.productCards
   type = type || 'product'
-  labels = labels || data.labels
+  labels = labels || gallery.labels
 
   label = gallery.galleryName || 'Compare Things'
   legend = gallery.legend || 'this is defined in gallery.legend'
@@ -260,14 +260,41 @@ mixin compareGallery( submodules, gallery, type, labels )
             i.fonticon-10-circlearrow
             span= resetLabel
 
-    .container
-      .products.slimgrid.no-grid-at-767
-        each module in submodules
-          d = locals.data(module.data)
-          if d.type == type && !d.promo
-            - d.view = "compare"
-            e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
-            !{locals.partial( module.type, e )}
+
+    .sticky-nav.tone-bar
+      .container
+        .grid
+          .pull-left
+            h2.t7.sticky-nav-title= label
+          a.pull-right.compare-reset.lt4.js-compare-reset.js-clear-filters.disabled(href="#")
+            i.fonticon-10-circlearrow
+            span= resetLabel
+
+
+    .container.compare-wrap
+      .compare-nav-wrap
+        nav.compare-nav-container
+          button.nav-paddle.compare-nav.compare-nav-prev
+            i.fonticon-10-chevron-reverse
+          button.nav-paddle.compare-nav.compare-nav-next
+            i.fonticon-10-chevron
+      .products.no-grid-at-767
+        .span2.detail-labels-wrap
+          .detail-labels-wrapping
+            .detail-label-group
+              each label in labels
+                .detail-label.detail
+                  p.l3
+                    strong= label.label
+
+        .compare-items-wrap
+          .compare-items-container
+            each module in submodules
+              d = locals.data(module.data)
+              if d.type == type && !d.promo
+                - d.view = "compare"
+                e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
+                !{locals.partial( module.type, e )}
 
     +zeroProductsMessage( gallery )
 

@@ -23,6 +23,7 @@ define(function(require){
       sonyEvenHeights = require('secondary/index').sonyEvenHeights,
       sonyTab = require('secondary/index').sonyTab,
       sonyStickyTabs = require('secondary/index').sonyStickyTabs,
+      sonyStickyNav = require('secondary/index').sonyStickyNav,
       jquerySimpleScroll = require('secondary/index').jquerySimpleScroll,
       rangeControl = require('secondary/jodo.rangecontrol.1.4');
 
@@ -104,7 +105,6 @@ define(function(require){
     self.isCompareMode = self.mode === 'compare';
 
     self.$compareBtn = self.$container.find('.js-compare-toggle');
-    self.$compareReset = self.$container.find('.js-compare-reset');
     self.itemSelector = '.' + ( self.isCompareMode ? 'compare' : 'gallery' ) + '-item';
     self.$items = self.$grid.find( self.itemSelector );
 
@@ -699,11 +699,42 @@ define(function(require){
     initCompareGallery : function() {
       var self = this;
 
+      // Set variables that only apply to the compare mode
+      self.$stickyNav = self.$container.find('.sticky-nav');
+      self.$compareReset = self.$container.find('.js-compare-reset');
       self.$toneBar = self.$container.find('.tone-bar');
+      self.$compareItemsWrap = self.$grid.find('.compare-items-wrap');
+
+      // Navs
+      self.$navWrap = self.$container.find('.compare-nav-wrap');
+      self.$navContainer = self.$navWrap.find('.compare-nav-container');
+      self.$navNext = self.$navWrap.find('.compare-nav-next');
+      self.$navPrev = self.$navWrap.find('.compare-nav-prev');
+      self.$detailLabelsWrap = self.$grid.find('.detail-labels-wrap');
+      self.$stickyHeaders = self.$grid.find('.compare-sticky-header');
+
+      // Get the properties/values we're animating for the sticky navs
+      if ( Modernizr.csstransforms ) {
+        self.prop = 'transform';
+
+        // 3d transforms will create a new layer for each of the sticky headers
+        if ( Modernizr.csstransforms3d ) {
+          self.prefix = 'translate3d(0,';
+          self.suffix = 'px, 0)';
+        } else {
+          self.prefix = 'translate(0,';
+          self.suffix = 'px)';
+        }
+      } else {
+        self.prop = 'top';
+        self.prefix = '';
+        self.suffix = 'px';
+      }
 
       // Adding events can be deferred
       setTimeout(function() {
 
+        console.time('compare defer 1');
         // Add events to close buttons
         self.$items.find('.js-remove-item')
           .on('click', function( evt ) {
@@ -726,9 +757,89 @@ define(function(require){
 
         // Listen for the scroll event
         self.$window.on('scroll', $.proxy( self.onScroll, self ));
-        self.setToneBarOffset();
-      }, 0);
 
+
+        // Redraw table when images have loaded
+        // self.$grid.find('.iq-img').on( 'imageLoaded', $.proxy( self.debouncedSetRowHeights, self ) );
+
+        self.stickyHeaderHeight = self.$stickyHeaders.first().height();
+        self.stickyNavHeight = self.$stickyNav.outerHeight();
+        self
+          .setToneBarOffset()
+          .initScroller();
+
+
+        // We're done
+        setTimeout(function() {
+
+          self.initStickyNav();
+          self.onScroll();
+
+          // Add the complete class to the labels to transition them in
+          self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
+
+        }, 150);
+        console.timeEnd('compare defer 1');
+      }, 0);
+    },
+
+    initStickyNav : function() {
+      this.$stickyNav.stickyNav({
+        offsetTarget: this.$grid
+      });
+    },
+
+    initScroller : function() {
+      var self = this,
+          data;
+
+      self.$compareItemsWrap.scrollerModule({
+        contentSelector: '.compare-items-container',
+        itemElementSelector: '.compare-item',
+        mode: 'free',
+        nextSelector: self.$navNext,
+        prevSelector: self.$navPrev,
+        centerItems: false,
+
+        // Need custom function to account for hidden items
+        getContentWidth: function() {
+          var contentWidth = 0;
+
+          // Count it
+          self.$items.not('.hide').each(function() {
+            contentWidth += $(this).outerWidth();
+          });
+
+          return contentWidth;
+        },
+
+        // iscroll props get mixed in
+        iscrollProps: {
+          snap: !self.isTouch,
+          hScroll: true,
+          vScroll: false,
+          hScrollbar: false,
+          vScrollbar: false,
+          momentum: true,
+          bounce: false,
+          onScrollMove : function() {
+            self.updateStickyNav( this );
+          },
+          onAnimate : function() {
+            self.updateStickyNav( this );
+          },
+          onAnimationEnd : function() {
+            self.updateStickyNav( this );
+            iQ.update();
+          }
+        }
+      });
+
+      // Save the iScroll instance
+      data = self.$compareItemsWrap.data('scrollerModule');
+      self.scroller = data;
+      self.iscroll = data.scroller;
+      self.updateStickyNav( self.iscroll );
     },
 
     initShuffle : function() {
@@ -1002,8 +1113,11 @@ define(function(require){
     },
 
     loadSwatchImages : function() {
-      this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
-      iQ.update( true );
+      var $newIQImgs = this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
+
+      if ( $newIQImgs.length ) {
+        iQ.update( true );
+      }
 
       return this;
     },
@@ -1582,7 +1696,6 @@ define(function(require){
       }
 
       return sortObj;
-
     },
 
     // Get the function and context for how we want to sort items
@@ -1682,45 +1795,195 @@ define(function(require){
       });
 
       // Append document fragment to the compare-item container
-      self.$grid.append( frag );
+      self.$compareItemsWrap.find('.compare-items-container').append( frag );
 
       // Save our new compare items
       self.$items = self.$grid.find( self.itemSelector );
+
+      // Tell iQ that images have moved around
+      iQ.update();
 
       frag = null;
 
       return self;
     },
 
-    updateStickyNav : function() {
+    debouncedSetRowHeights : $.debounce( 600, function() {
+      this
+        .setRowHeights.apply( this, arguments )
+        .setItemContainerHeight();
+    }),
+
+    setRowHeights : function( isFromResize ) {
+      var self = this,
+          $detailGroup = self.$items.not('.hidden').find('.detail-group').first(),
+          offset = 0;
+
+      // Don't set row heights on mobile size. It's a single column, so it doesn't need to line up.
+      // if ( self.isMobile ) {
+      //   return;
+      // }
+      console.time('SET ROW HEIGHTS');
+      isFromResize = isFromResize === true;
+
+      // Set detail rows to even heights
+      self.$container.find('.detail-label').each(function(i) {
+        var $detailLabel = $(this),
+
+            // plus 1 because i is a zero based index and nth-child is one based.
+            $cells = self.$items.find('.detail-group .detail:nth-child(' + (i + 1) + ')');
+
+        // Loop through the cells (`.spec-item-cell`'s in the same 'row')
+        $cells.add($detailLabel).evenHeights();
+      });
+
+      // If this is not triggered from a window resize, we still need to update the offsets
+      // because the heights have changed.
+      if ( !isFromResize ) {
+        self.setTriggerPoint();
+      }
+
+      self.setDetailLabelOffset();
+
+      // Refresh iScroll
+      if ( self.iscroll ) {
+        self.iscroll.refresh();
+      }
+
+      console.timeEnd('SET ROW HEIGHTS');
+      return self;
+    },
+
+    // Set the top offset for the labels so they align with the details
+    setDetailLabelOffset : function() {
+      var self = this,
+          $item = self.$items.not('.hidden').first(),
+          $detailGroup = $item.find('.detail-group'),
+          $firstImage = $item.find('.product-img .iq-img'),
+          offset = 0;
+
+      function doit() {
+        offset = $detailGroup.position().top;
+        offset += parseFloat( $detailGroup.css('marginTop') );
+        self.$grid.find('.detail-label-group').css('top', offset);
+      }
+
+      if ( $firstImage.data('hasLoaded') ) {
+        doit();
+      } else {
+        $firstImage.on('imageLoaded', doit);
+      }
+
+      $item = $firstImage = null;
+
+      return self;
+    },
+
+    setStickyHeaderPos : function( scrollTop ) {
+      console.log(this.prop, this.getY( scrollTop ));
+      this.$stickyHeaders.css( this.prop, this.getY( scrollTop ) );
+      return this;
+    },
+
+    getStickyHeaderOffset : function() {
+      var self = this,
+          top = self.$grid.offset().top,
+          bottom = self.$grid.height() + top;
+
+      // Factor in the height of the sticky nav and sticky headers
+      bottom = bottom - self.stickyHeaderHeight - self.stickyNavHeight;
+
+      return {
+        top: top,
+        bottom: bottom
+      };
+    },
+
+    setTriggerPoint : function( dontUpdateStickyNav ) {
+      var self = this;
+
+      self.stickyNavHeight = self.$stickyNav.outerHeight();
+      self.stickyOffset = self.getStickyHeaderOffset();
+      if ( !dontUpdateStickyNav ) {
+        self.$stickyNav.stickyNav('updateTriggerOffset', self.stickyOffset.top);
+      }
+    },
+
+    setItemContainerHeight : function() {
+      var self = this,
+          height = self.$items.not('.hidden').first().height();
+
+      self.$compareItemsWrap.find('.compare-items-container').height( height );
+
+      // The detail labels don't get a height because they're positioned absolutely
+      self.$detailLabelsWrap.height( height );
+
+      return self;
+    },
+
+    setScrollerWrapperDimensions : function() {
+      var self = this,
+          containerWidth = self.$grid.width(),
+          containerHeight = self.$grid.height(),
+          labelsWidth = self.$detailLabelsWrap.width(),
+          scrollerWidth = containerWidth - labelsWidth - 2; // not sure why it doesn't fit
+
+      self.$compareItemsWrap
+        .width( scrollerWidth )
+        .height( containerHeight );
+    },
+
+    updateStickyNav : function( iscroll ) {
       var self = this,
           st = self.lastScrollY,
-          theClass = 'fixed';
+          isIScroll = iscroll !== undefined && iscroll.y !== undefined,
+          scrollTop = isIScroll ? iscroll.y * -1 : st,
+          overflowing = 'overflowing', // make minifying better
+          open = 'open',
+          x, maxScrollX;
 
-      function toSticky() {
-        self.$toneBar.find('.compare-gallery-title').removeClass('t6').addClass('t7');
-        self.$toneBar.find('.fade').removeClass('in');
-      }
+      // Add/remove a class to show the items have been scrolled horizontally
+      if ( isIScroll ) {
+        x = iscroll.x;
+        maxScrollX = iscroll.maxScrollX + 3;
 
-      function fromSticky() {
-        self.$toneBar.find('.compare-gallery-title').removeClass('t7').addClass('t6');
-        self.$toneBar.find('.fade').addClass('in');
-      }
-
-      // Open the stick nav if it's past the trigger
-      if ( st >= self.toneBarOffset ) {
-        if ( !self.$toneBar.hasClass( theClass ) ) {
-          self.$toneBar.addClass( theClass );
-          window.requestAnimationFrame( toSticky );
+        // Overflow left
+        if ( x < -3 && !self.$detailLabelsWrap.hasClass( overflowing ) ) {
+          self.$detailLabelsWrap.addClass( overflowing );
+        } else if ( x >= -3 && self.$detailLabelsWrap.hasClass( overflowing ) ) {
+          self.$detailLabelsWrap.removeClass( overflowing );
         }
 
-      // Close the sticky nav if it's past the trigger
+        // Overflow right
+        if ( x > maxScrollX && !self.$grid.hasClass( overflowing ) ) {
+          self.$grid.addClass( overflowing );
+        } else if ( x <= maxScrollX && self.$grid.hasClass( overflowing ) ) {
+          self.$grid.removeClass( overflowing );
+        }
+
+        // We haven't scrolled vertically, exit the function
+        return;
+      }
+
+      // Open/close sticky headers
+      if ( self.showStickyHeaders && scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
+        if ( !self.$stickyHeaders.hasClass( open ) ) {
+          self.$stickyHeaders.addClass( open );
+          self.$container.addClass('sticky-header-open');
+          self.$navContainer.addClass('container');
+          self.$navWrap.css('top', self.stickyNavHeight);
+        }
+        self.setStickyHeaderPos( scrollTop - self.stickyOffset.top + self.stickyNavHeight );
+
       } else {
-        if ( self.$toneBar.hasClass( theClass ) ) {
-          self.$toneBar.removeClass( theClass );
-          window.requestAnimationFrame( fromSticky );
+        if ( self.showStickyHeaders && self.$stickyHeaders.hasClass( open ) ) {
+          self.$container.removeClass('sticky-header-open');
+          self.$stickyHeaders.removeClass( open );
+          self.$navContainer.removeClass('container');
+          self.$navWrap.css('top', 'auto');
         }
       }
+
 
       self.isTicking = false;
     },
@@ -1766,6 +2029,8 @@ define(function(require){
         self.$gridProductNames.evenHeights();
       }
 
+      console.time(this.id + ' resize');
+
       // Don't change columns for detail galleries
       // Change the filters column layout
       if ( self.isDetailedMode || self.isCompareMode ) {
@@ -1801,6 +2066,22 @@ define(function(require){
           self.setToneBarOffset();
         }
 
+        if ( self.isCompareMode ) {
+          self.debouncedSetRowHeights( true );
+
+          // Without transforms, iScroll uses absolute positioning and the container
+          // gets a width/height of 0 with overflow:hidden
+          if ( !Modernizr.csstransforms ) {
+            self.setScrollerWrapperDimensions();
+          }
+
+          // Set timeout here because we were getting the wrong height for the
+          // spec products after a big resize
+          setTimeout(function() {
+            self.setTriggerPoint( isInit );
+          }, 100);
+        }
+
         return;
       }
 
@@ -1814,6 +2095,8 @@ define(function(require){
       if ( self.isEditorialMode ) {
         self.sortByPriority();
       }
+
+      console.timeEnd(this.id + ' resize');
     },
 
     moveFilters : function() {
@@ -1896,6 +2179,8 @@ define(function(require){
     onFiltersHide : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
       this.$filterArrow.removeClass('in');
+
+      this.setTriggerPoint();
     },
 
     onFiltersShow : function( evt ) {
@@ -1912,6 +2197,8 @@ define(function(require){
       if ( !didReset ) {
         self.filter();
       }
+
+      self.setTriggerPoint();
 
       // Scroll the window so we can see what's happening with the filtered items
       $.simplescroll({
@@ -2065,58 +2352,24 @@ define(function(require){
         self.$compareReset.removeClass('disabled').addClass('active');
       }
 
-      // Set remaining text
-
-
       // Hide close button if there are only 2 left
       if ( remaining < 3 ) {
         self.$grid.find('.js-remove-item').addClass('hidden');
       }
 
-      // self.setCompareWidth();
-      // self.innerScroller.refresh();
-      // self.afterCompareScrolled( self.innerScroller );
+      self.scroller.refresh();
 
       // Maybe they haven't scrolled horizontally to see other images
       iQ.update();
     },
 
-    addCompareNav : function( $parent ) {
-      var $navContainer = $('<nav class="compare-nav">'),
-          $prevPaddle = $('<button class="nav-paddle nav-prev"><i class="fonticon-10-chevron-reverse"></i></button>'),
-          $nextPaddle = $('<button class="nav-paddle nav-next"><i class="fonticon-10-chevron"></i></button>');
-
-      $navContainer.append( $prevPaddle, $nextPaddle );
-      $parent.append( $navContainer );
-
-      this.$compareNav = $navContainer;
-    },
-
-    addCompareNavEvents : function() {
-      var self = this,
-          iscroll = self.innerScroller,
-          $prev = self.$compareTool.find('.nav-prev'),
-          $next = self.$compareTool.find('.nav-next');
-
-      $prev.on('click', function() {
-        iscroll.scrollToPage('prev');
-      });
-
-      $next.on('click', function() {
-        iscroll.scrollToPage('next');
-      });
-    },
-
-    removeCompareNavEvents : function() {
-      this.$compareTool.find('.compare-nav').children().off('click');
-    },
-
     getY : function( y ) {
-      return [ this.valStart, y, this.valEnd, this.translateZ ].join('');
+      return [ this.prefix, y, this.suffix ].join('');
     },
 
     setToneBarOffset : function() {
       this.toneBarOffset = this.$toneBar.offset().top;
+      return this;
     },
 
     setColumnMode : function() {
@@ -2359,6 +2612,7 @@ define(function(require){
     isTouch: Settings.hasTouchEvents,
     isiPhone: Settings.isIPhone,
     isTicking: false,
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE9 ),
     lastScrollY: 0,
     sorted: false,
     currentFilterColor: null,

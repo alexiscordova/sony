@@ -399,17 +399,23 @@ $galleryFourColMax: px-em(979px);
 //                                   888
 @media (max-width: $galleryThreeColMax) {
 
-  .compare-nav {
+  .compare-nav,
+  .detail-labels-wrap {
     display: none;
   }
 
-  // Get rid of grid width
-  .js-compare-wrap {
-    width: 100%;
-  }
+  .gallery-compare {
 
-  .compare-items-wrap {
-    overflow: hidden !important; // override iscroll
+    .compare-wrap {
+      position: relative;
+      // left: (100% - $mobileContainerWidth480) / 2;
+      width: 100%;
+      border-left: .0625em solid $gray70;
+    }
+
+    .products {
+      width: 100%;
+    }
   }
 
   .compare-item {
