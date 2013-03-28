@@ -12,14 +12,16 @@ mixin hotspotCore(hotspotData, assets)
           .middle
             h5.t6 #{hotspotData.title}
             p.p3 #{hotspotData.bodyCopy}
+            - imageLeft = assets.large.arrowLeft.image
+            - imageRight = assets.large.arrowRight.image
             .arrow-left-top.hidden
-              img(src=assets.large.arrowLeft)
+              img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
             .arrow-left-bottom.hidden
-              img(src=assets.large.arrowLeft)
+              img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
             .arrow-right-top.hidden
-              img(src=assets.large.arrowRight)
+              img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
             .arrow-right-bottom.hidden
-              img(src=assets.large.arrowRight)
+              img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
           .footer
             p.p3 #{hotspotData.testimonial.copy}
             blockquote.l4 #{hotspotData.testimonial.credit}

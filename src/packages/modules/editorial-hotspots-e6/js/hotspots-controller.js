@@ -48,10 +48,11 @@ define(function(require) {
     self.$hotspotData                    = [];
     
     // LAST OPEN
-    self.$lastOpen                       = null,
+    self.$lastOpen                       = null;
     
     // TRANSITION VARIABLES
     self.$transitionSpeed                = 500;
+    self.$lastTimer                      = null;
     
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend(self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings);
@@ -124,23 +125,46 @@ define(function(require) {
       
     },
     reposition: function(el) {
-      var self = this;
-      var overlay = el.find('.overlay-base');
-      log(overlay);
-      log(overlay.height());
+      var self                = this,
+          overlay             = el.find('.overlay-base'),
+          overlayHeight       = overlay.height(),
+          overlayPosition     = overlay.position(),
+          overlayHeaderHeight = overlay.find('.top').height(),
+          hotspotPosition     = overlay.parent().position();
+      
+      overlay.find('.arrow-left-top').removeClass('hidden');
+      
+      log('/****POSITION STUFFS****/');
+      log('overlay '+overlay);
+      log('overlayHeight '+overlayHeight);
+      log('overlayPosition ');
+      log(overlayPosition);
+      log('overlayHeaderHeight ');
+      log(overlayHeaderHeight);
+      log('hotspotPosition ');
+      log(hotspotPosition);
     },
     close: function(container, hotspot, info) {
         var self = this;
+        // we are setting display:none when the trasition is complete, and managing the timer here
+        self.cleanTimer();
+        // save last close state
         container.data('state','closed').removeClass('info-jump-to-top');
+        // perform CSS transitions
         hotspot.removeClass('hspot-core-on').addClass('hspot-core');
+        // begin fade out
         info.removeClass('eh-visible').addClass('eh-transparent');
+        // closure to allow script to set display:none when transition is complete
         var anon = function() {
           info.addClass('hidden');
         };
-        setTimeout(anon, self.$transitionSpeed);
+        // fire a timer that will set the display to none when the element is closed. 
+        self.$lastTimer = setTimeout(anon, self.$transitionSpeed);
     },
     open: function(container, hotspot, info) {
         var self = this;
+        // we are setting display:none when the trasition is complete, and managing the timer here
+        self.cleanTimer();
         // save last open state
         self.$lastOpen = new Array(container, hotspot, info);
         // add data- info to this hotspot
@@ -157,7 +181,17 @@ define(function(require) {
     reset: function(container) {
       var self = this;
       self.close(self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2]);
-    }    
+    },
+    cleanTimer: function() {
+      /*
+        BUG EXISTS WHEN YOU CLICK A DIFFERENT HOTSPOT. THE TIMEOUT FAILS TO SET 
+        DISPLAY TO NONE ON THE LAST OPEN/CLOSING WINDOW.
+      */
+      var self = this;
+      if(self.$lastTimer) {
+        clearTimeout(self.$lastTimer);
+      }      
+    } 
   };
   
   // Plugin definition
