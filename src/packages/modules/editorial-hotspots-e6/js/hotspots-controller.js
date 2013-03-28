@@ -118,6 +118,7 @@ define(function(require) {
         self.close(container, hotspot, info);
       } else {
         if(self.$lastOpen && !container.is(self.$lastOpen)) {
+          log('resetting:::::');
           self.reset();
         }
         self.open(container, hotspot, info);
@@ -135,6 +136,7 @@ define(function(require) {
       overlay.find('.arrow-left-top').removeClass('hidden');
       
       log('/****POSITION STUFFS****/');
+/*
       log('overlay '+overlay);
       log('overlayHeight '+overlayHeight);
       log('overlayPosition ');
@@ -143,6 +145,7 @@ define(function(require) {
       log(overlayHeaderHeight);
       log('hotspotPosition ');
       log(hotspotPosition);
+*/
     },
     close: function(container, hotspot, info) {
         var self = this;
@@ -156,15 +159,19 @@ define(function(require) {
         info.removeClass('eh-visible').addClass('eh-transparent');
         // closure to allow script to set display:none when transition is complete
         var anon = function() {
+          log('info: '+info);
           info.addClass('hidden');
         };
+        log('anon '+anon);
         // fire a timer that will set the display to none when the element is closed. 
         self.$lastTimer = setTimeout(anon, self.$transitionSpeed);
     },
     open: function(container, hotspot, info) {
         var self = this;
         // we are setting display:none when the trasition is complete, and managing the timer here
-        self.cleanTimer();
+        if(self.$lastOpen && container.is(self.$lastOpen[0])) {
+          self.cleanTimer();
+        }
         // save last open state
         self.$lastOpen = new Array(container, hotspot, info);
         // add data- info to this hotspot
