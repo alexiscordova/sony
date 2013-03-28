@@ -57,25 +57,12 @@ define(function(require){
       self.upEvent              = null;
       self.cancelEvent          = null;
       self.clickEvent           = null;
-      self.isDragging           = false;
 
       self.hasTouch             = Modernizr.touch;
-
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
-      
-      //Interaction vars
-      self.startInteractionTime = -1;
-      self.startTime            = -1;
-      self.pageX                = -1;
-      self.pageY                = -1;
-      self.startDragX           = -1;
-      self.hasMoved             = false;
-      self.startPosition        = null;
       self.currentId            = 0;
-      self.previousId           = -1;
-      self.transitionType       = 'slide';
-      self.isTransitioning      = false;
+
       
       self.isDesktopMode        = true; //true by default
       self.isTabletMode         = false;
@@ -87,13 +74,10 @@ define(function(require){
       self.$window              = $(window);
       self.$html                = $('html');
       self.$slides              = self.$el.find( self.SLIDE_CLASS );
-      self.$currentSlide        = null;
       self.numSlides            = self.$slides.length;
       self.$slideContainer      = self.$el.find( self.SLIDE_CONTAINER );
       self.$thumbNav            = self.$el.find('.thumb-nav');
-      self.$dotnav              = null;
       self.hasThumbs            = self.$thumbNav.length > 0;
-
 
       //Init the module
       self.init();
@@ -109,10 +93,6 @@ define(function(require){
         
         self.setupEvents();
 
-        if( !self.hasTouch ){
-         self.createPaddles();
-        }
-
         if(self.hasThumbs){
           self.createThumbNav();
         }
@@ -126,33 +106,7 @@ define(function(require){
           htag.html('SLIDE ' + ( i + 1 ) );
         });
 
-/*        self.$slideContainer.sonyCarousel({
-          wrapper: '.pdp-slideshow-outer',
-          slides: '.pdp-slideshow-slide',
-          //defaultLink: '.headline a',
-          looped: true,
-          axis: 'x',
-          unit: '%',
-          dragThreshold: 2,
-          useCSS3: self.useCSS3,
-          paddles: true,
-          pagination: true
-        });*/
-        
-        
-/*        self.$slideContainer.sonyDraggable({
-          'axis': 'x',
-          'unit': '%',http://tyler.odopod.com/~tyler.madison/sonyglobalfrontend/build/debug/js/secondary/sony-draggable.js
-          'dragThreshold': 10,
-          'containment': self.$el.find('.pdp-slideshow-outer'),
-          'useCSS3': self.useCSS3,
-          'drag': iQ.update
-        });
-
-        self.$slideContainer.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
-        self.$slideContainer.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));*/
-
-      //self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });
+        self.setupCarousel();
 
         self.$slideContainer.css( 'opacity' , 1 );
 
@@ -160,56 +114,32 @@ define(function(require){
 
       },
 
-      // Stop animations that were ongoing when you started to drag.
-
-      dragStart: function() {
-
+      setupCarousel: function(){
         var self = this;
 
-        self.startInteractionTime = new Date().getTime();
-        self.$slideContainer.stop();
-      },
-
-      // Depending on how fast you were dragging, either proceed to an adjacent slide or
-      // reset position to the nearest one.
-
-      dragEnd: function(e, data) {
-
-        var self = this,
-            goToWhich;
-
-        if ( data.acceleration.x > 150 ) {
-
-          if ( self.currentSlide === 0 ) {
-            self.gotoNearestSlide();
-          } else {
-            self.gotoSlide(self.currentSlide - 1);
-          }
-        } else if ( data.acceleration.x < -150 ) {
-
-          if ( self.currentSlide === self.$slides.length - 1 ) {
-            self.gotoNearestSlide();
-          } else {
-            self.gotoSlide(self.currentSlide + 1);
-          }
-        } else {
-          self.gotoNearestSlide();
-        }
-      },
-
-      // Find the nearest slide, and move the carousel to that.
-
-      gotoNearestSlide: function(e, data) {
-
-        var self = this,
-            leftBounds = self.$el.get(0).getBoundingClientRect().left,
-            positions = [];
-
-        self.$slides.each(function(a){
-          positions.push(Math.abs(leftBounds - this.getBoundingClientRect().left));
+        self.$slideContainer.sonyCarousel({
+          wrapper: '.pdp-slideshow-outer',
+          slides: '.pdp-slideshow-slide',
+          looped: true,
+          jumping: true,
+          axis: 'x',
+          unit: '%',
+          dragThreshold: 2,
+          useCSS3: self.useCSS3,
+          paddles: true,
+          pagination: true
         });
 
-        self.gotoSlide(positions.indexOf(Math.min.apply(Math, positions)));
+        self.$slideContainer.on('SonyCarousel:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
+
+      },
+
+      onSlideUpdate: function(currSlideIndx){
+        var self = this;
+
+        console.log( 'Current Slide after update', currSlideIndx);
+
+        iQ.update();
       },
 
       setupBreakpoints: function(){
@@ -220,8 +150,7 @@ define(function(require){
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
           self.showThumbNav();
-          self.showPaddles();
-          self.toggleDotNav( true );
+
         });
 
         enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
@@ -229,8 +158,7 @@ define(function(require){
           self.isMobileMode = self.isDesktopMode = false;
           self.isTabletMode = true;
           self.hideThumbNav();
-          self.hidePaddles();
-          self.toggleDotNav( true );
+
         });
 
         enquire.register("(max-width: 568px)", function() {
@@ -238,48 +166,10 @@ define(function(require){
           self.isDesktopMode = self.isTabletMode = false;
           self.isMobileMode = true;
           self.hideThumbNav();
-          self.hidePaddles();
-          self.toggleDotNav( false );
-
           
         });
 
         console.log('Register with enquire');
-
-      },
-
-      setupDotNavigation: function(){
-        var self = this,
-        animDirection = '';
-
-        if ( !self.$dotnav ) {
-
-          self.$dotnav = $( '<div/>', { 'class' : 'navigation-container'  } );
-
-          self.$el.append( self.$dotnav );
-
-          self.$dotnav.sonyNavDots( {
-            'buttonCount': self.numSlides
-          });
-
-          self.$dotnav.on('SonyNavDots:clicked', function( e, indx ){
-            //self.currentId = indx;
-            console.log('SonyNavDots:clicked',indx);
-
-            if(indx < self.currentId){
-              animDirection = 'right';
-            }else{
-              animDirection = 'left';
-            }
-
-            self.currentId = indx;
-            self.gotoSlide( self.currentId , animDirection);
-
-          });
-          
-          console.log( 'Creating Dot Navigation: ' , self.numSlides );
-        }
-
 
       },
 
@@ -313,40 +203,11 @@ define(function(require){
         }
       },
 
-      showPaddles: function(){
-        var self = this;
-
-        self.$el.find('.pagination-paddles').css( 'visibility' , 'visible' );
-
-      },
-
-      hidePaddles: function(){
-        var self = this;
-
-        self.$el.find('.pagination-paddles').css( 'visibility' , 'hidden' );
-
-      },
-
       setupSlides: function(){
         var self = this;
 
-/*        console.log( 'lol' );
-
-        self.$slides.clone().appendTo(self.$slideContainer);
-        self.$slides = self.$el.find( self.SLIDE_CLASS );
-        self.numSlides = self.$slides.length;  */      
-
-        //original
-/*        self.$slideContainer.width( 100 * self.numSlides + '%' );
-        self.$slides.width( 100 / self.numSlides + '%' );*/
-        //self.$slideContainer.width( 100 * self.numSlides + '%' );
-        //self.$slides.width( 100 / self.numSlides + '%' );
-        //nue
-        self.$slideContainer.width( '100%' );
-        self.$slides.width( '100%' );
-
-        //get the first one to show up center screen
-        self.$currentSlide = self.$slides.eq ( self.currentId ).css( 'left' , 0 );
+        self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
+        self.$slides.width( 100 / (self.numSlides + 2) + '%' );
 
       },
       
@@ -372,14 +233,6 @@ define(function(require){
 
       },
       
-
-      //Debounced resize handler
-      handleResize: function(){
-        var self = this;
-
-  
-      },
-      
       createThumbNav: function(){
         var self = this,
         $anchors = self.$thumbNav.find('a');
@@ -398,23 +251,12 @@ define(function(require){
         selectedIndx =  $el.parent().index(),
         animDirection = '';
 
+        self.currentId = selectedIndx;
+
         $anchors.removeClass('active');
         $el.addClass('active');
 
-        if(selectedIndx === self.currentId){
-          return; //already on this slide
-        }
-
-        if(selectedIndx < self.currentId){
-          animDirection = 'right';
-        }else{
-          animDirection = 'left';
-        }
-
-        self.currentId = selectedIndx;
-        
-        self.gotoSlide( self.currentId , animDirection);
-
+        self.$slideContainer.sonyCarousel( 'gotoSlide' , self.currentId );
 
         console.log( 'anchors' , self.currentId );
 
@@ -425,171 +267,8 @@ define(function(require){
         $anchors = self.$thumbNav.find('a');
         $anchors.removeClass('active');
         $anchors.eq( self.currentId ).addClass('active');
-      },
-
-      gotoSlide: function( which, fromDirection ){
-        
-        var self = this,
-            $destinationSlide = self.$slides.eq(which),
-            destinationLeft, innerContainerWidth;
-
-        if(self.isTransitioning) {
-          return;
-        }
-
-        self.isTransitioning = true;
-       
-          console.log( 'Entering new territory here with queing up next slide, no longer moving the whole container' , (new Date).getTime() );
-          console.log( 'goto this slide number',which  , fromDirection);
-
-          //cue up next slide, get rid of current one out of view.
-
-/*          if(self.previousId != -1){
-            if( self.previousId < self.currentId ){
-              fromDirection = 'right';
-            }else{
-              fromDirection = 'left';
-            }
-          }*/
-
-          var completeFunction = function(){
-            
-            self.isTransitioning = false;
-          };
-
-          if( fromDirection === 'left'){
-            self.$currentSlide.stop(true,true).animate( { left: '-100%' } , 500 , completeFunction );
-            self.$currentSlide = self.$slides.eq( which );
-            self.$currentSlide.css('left' , '100%');
-            self.$currentSlide.stop(true,true).animate( { left : 0 } , 500 );            
-          }else if( fromDirection === 'right' ){
-            self.$currentSlide.stop(true,true).animate( { left: '100%' } , 500 , completeFunction);
-            self.$currentSlide = self.$slides.eq( which );
-            self.$currentSlide.css('left' , '-100%');
-            self.$currentSlide.stop(true,true).animate( { left : 0 } , 500 );  
-          }else{
-            //default
-            self.$currentSlide.stop(true,true).animate( { left: '-100%' } , 500 , completeFunction);
-            self.$currentSlide = self.$slides.eq( which );
-            self.$currentSlide.css('left' , '100%');
-            self.$currentSlide.stop(true,true).animate( { left : 0 } , 500 );  
-          }
-
-          setTimeout(function(){
-            iQ.update( true );
-          } , 250);
-
-          self.previousId = self.currentId;
-
-          self.setCurrentActiveThumb();
-        
-
-//         if ( $destinationSlide.length === 0 ) { return; }
-
-//         self.currentSlide = which;
-
-//         destinationLeft = $destinationSlide.position().left;
-//         innerContainerWidth = self.$slideContainer.width();
-
-//         // If the browser doesn't properly support the getStyles API for auto margins, manually
-//         // shift the destination back to compensate.
-
-//         if ( !Modernizr.jsautomargins ) {
-//           destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / 2;
-//         }
-
-//         if ( self.useCSS3 ) {
-
-//           var newPosition = destinationLeft / innerContainerWidth;
-
-//           // If you're on the last slide, only move over enough to show the last child.
-//           // Prevents excess whitespace on the right.
-
-//           if ( which === self.$slides.length - 1 ) {
-//             var childrenWidth = 0;
-// /*            $destinationSlide.find('.soc-item').each(function(){ childrenWidth += $(this).outerWidth(true); });
-//             newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;*/
-//           }
-
-//           self.$slideContainer.css(Modernizr.prefixed('transitionDuration'), '450ms');
-//           self.$slideContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
-
-//         } else {
-
-//           self.$slideContainer.animate({
-//             'left': -100 * destinationLeft / Settings.$window.width() + '%'
-//           }, {
-//             'duration': 350,
-//             'complete': function(){ iQ.update(true); }
-//           });
-//         }
-
-        //self.$el.trigger('oneSonyCarousel:gotoSlide', self.currentSlide);
-
-        //todo
-        self.$ev.trigger('pdpOnUpdateNav');
-
-      },
-
-      onPaddleNavUpdate: function(){
-        var self = this;
-
-        self.$el.sonyPaddles('showPaddle', 'right');
-        self.$el.sonyPaddles('showPaddle', 'left');
-
-        //check for the left paddle compatibility
-/*        if(self.currentId === 0){
-          self.$el.sonyPaddles('hidePaddle', 'left');
-        }
-
-        //check for right paddle compatiblity
-        if(self.currentId === self.numSlides - 1){
-          self.$el.sonyPaddles('hidePaddle', 'right');
-        }
-
-        iQ.update();*/
-
-        iQ.update();
-
-      },      
-
-
-      createPaddles: function(){
-
-        var self = this;
-
-        self.$el.find('.pdp-slideshow-outer').sonyPaddles();
-
-        console.log('creating paddles...' , self.numSlides);
-
-        self.$el.on('sonyPaddles:clickLeft', function(){
-          self.currentId --;
-          if(self.currentId < 0){
-            self.currentId = self.numSlides- 1;
-            console.log( 'New slide id#', self.currentId );
-          }
-
-          self.gotoSlide( self.currentId , 'right' );
-          
-        });
-
-        self.$el.on('sonyPaddles:clickRight', function(){
-          self.currentId ++;
-
-          if(self.currentId >= self.$slides.length){
-            self.currentId = self.$slides.length - 1;
-            self.currentId = 0;
-            console.log( 'New slide id#',self.currentId );
-          }
-           self.gotoSlide( self.currentId , 'left' );
-          
-        });
-
-        self.onPaddleNavUpdate();
-        self.$ev.on('pdpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
-
       }
-      
+
       //end prototype object
     };
 
@@ -616,7 +295,6 @@ define(function(require){
 
     // Defaults
     // --------
-
     $.fn.pdpSlideShow.defaults = {
 
       // Description of this option.
@@ -626,11 +304,9 @@ define(function(require){
 
     // Non override-able settings
     // --------------------------
-
     $.fn.pdpSlideShow.settings = {
       isInitialized: false
     };
   
     return self;
-
  });

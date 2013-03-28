@@ -30,6 +30,7 @@
       .pdp-slideshow-inner {
         @include flex-ratio-box-content();
         width: 100%; // this will get set dynamically based on the number of slides
+        width: 1000em;
         max-height: 610px;
         @include opacity(0);
         @include transition();
@@ -39,10 +40,11 @@
       .pdp-slideshow-slide {
         width: 100%;
         height: 100%;
-        position:absolute;
-        top: 0;
-        left: -10000em;//off screen to start let JS do the rest
-        display: inline-block;
+        position:relative;
+/*         top: 0;
+        left: -10000em;//off screen to start let JS do the rest */
+        float: left;
+        display: block;
         text-align: center;
 
         .debug_header {
