@@ -106,10 +106,10 @@ define(function(require){
         var $frontSlide = self.$slides.eq(i).clone(true),
             $backSlide = self.$slides.eq(self.$slides.length - 1 - i).clone(true);
 
-        $frontSlide.addClass('sony-carousel-edge-clone')
+        $frontSlide.addClass(self.cloneClass)
             .data('sonyCarouselGoto', i);
 
-        $backSlide.addClass('sony-carousel-edge-clone')
+        $backSlide.addClass(self.cloneClass)
             .data('sonyCarouselGoto', self.$slides.length - 1 - i);
 
         self.$el.append($frontSlide).prepend($backSlide);
@@ -220,7 +220,7 @@ define(function(require){
       var self = this,
           $slideSet = self.$slides,
           speed = ( noAnim ? 0 : self.animationSpeed ),
-          $destinationSlide, destinationLeft, innerContainerWidth;
+          $destinationSlide, destinationLeft, destinationRedirect, innerContainerWidth, repositionCb, newPosition;
 
       // Logic for the natural ends of a carousel that has been looped
 
@@ -279,7 +279,7 @@ define(function(require){
 
       if ( self.useCSS3 ) {
 
-        var newPosition = destinationLeft / innerContainerWidth;
+        newPosition = destinationLeft / innerContainerWidth;
 
         // If you're on the last slide, only move over enough to show the last child.
         // Prevents excess whitespace on the right.
@@ -303,45 +303,31 @@ define(function(require){
         });
       }
 
-      // Reorder if you were jumping (see: `self.jumping`)
-      // TODO: The callback logic here should be extracted, I'm re-typing it for the looped case below.
+      // If you've taken the carousel out of its normal flow (either with `self.jumping` or `self.looped`)
+      // Reset the carousel to its natural position and order.
 
-      if ( self.isJumped && speed ) {
+      destinationRedirect = $destinationSlide.data('sonyCarouselGoto');
 
-        var jumpCb = Utilities.once(function(){
+      if ( ( self.isJumped && speed ) || typeof destinationRedirect !== 'undefined' ) {
 
-          self.$allSlides.each(function(){
-            $(this).detach().appendTo(self.$el);
-          });
+        repositionCb = Utilities.once(function(){
 
-          self.gotoSlide( which, true );
+          if ( self.isJumped ) {
+            self.$allSlides.each(function(){
+              $(this).detach().appendTo(self.$el);
+            });
+          }
+
+          self.gotoSlide( self.isJumped ? which : destinationRedirect, true );
+
           iQ.update(true);
-
           self.isJumped = false;
         });
 
         if ( self.useCSS3 ) {
-          self.$el.on(Settings.transEndEventName, jumpCb);
+          self.$el.on(Settings.transEndEventName, repositionCb);
         } else {
-          setTimeout(jumpCb, speed);
-        }
-
-        return;
-      }
-
-      // If this is a cloned slide, jump to the "real" slide.
-
-      if ( typeof $destinationSlide.data('sonyCarouselGoto') !== 'undefined' ) {
-
-        var loopedCb = Utilities.once(function(){
-          self.gotoSlide( $destinationSlide.data('sonyCarouselGoto'), true );
-          iQ.update(true);
-        });
-
-        if ( self.useCSS3 ) {
-          self.$el.on(Settings.transEndEventName, loopedCb);
-        } else {
-          setTimeout(loopedCb, speed);
+          setTimeout(repositionCb, speed);
         }
 
         return;
@@ -385,9 +371,11 @@ define(function(require){
       var self = this,
           $wrapper = self.$wrapper;
 
-      if ( Modernizr.touch ) {
+      if ( Modernizr.touch || self.paddlesInit ) {
         return;
       }
+
+      self.paddlesInit = true;
 
       $wrapper.sonyPaddles();
 
@@ -455,7 +443,7 @@ define(function(require){
 
       var self = this;
 
-      self.$slides = self.$el.find(self.slides);
+      self.$slides = self.$el.find(self.slides).not(self.cloneClass);
 
       if ( self.looped ) {
         self.setupLoopedCarousel();
@@ -521,6 +509,9 @@ define(function(require){
     // If this is a looped carousel, how many clones should be on either side to create the infinite illusion?
     // Helpful if your carousel lets the user see more than a few slides at once.
     edgeSlides: 1,
+
+    // Default class for edgeSlides.
+    cloneClass: 'sony-carousel-edge-clone',
 
     // Speed of slide animation, in ms.
     animationSpeed: 450,
