@@ -72,7 +72,6 @@ define(function(require){
 
     self.$el = $element;
     self.$wrapper = self.$el.parent(self.wrapper);
-    self.$slides = self.$el.find(self.slides);
 
     self.init();
   };
@@ -85,20 +84,9 @@ define(function(require){
 
       var self = this;
 
+      self.resetSlides();
       self.setupLinkClicks();
       self.setupDraggable();
-
-      if ( self.looped ) {
-        self.setupLoopedCarousel();
-      }
-
-      if ( self.paddles ) {
-        self.createPaddles();
-      }
-
-      if ( self.pagination ) {
-        self.createPagination();
-      }
 
       Environment.on('global:resizeDebounced-200ms', function(){
         self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
@@ -118,11 +106,11 @@ define(function(require){
         var $frontSlide = self.$slides.eq(i).clone(true),
             $backSlide = self.$slides.eq(self.$slides.length - 1 - i).clone(true);
 
-        $frontSlide.addClass('sony-carousel-edge-clone');
-        $frontSlide.data('sonyCarouselGoto', i);
+        $frontSlide.addClass('sony-carousel-edge-clone')
+            .data('sonyCarouselGoto', i);
 
-        $backSlide.addClass('sony-carousel-edge-clone');
-        $backSlide.data('sonyCarouselGoto', self.$slides.length - 1 - i);
+        $backSlide.addClass('sony-carousel-edge-clone')
+            .data('sonyCarouselGoto', self.$slides.length - 1 - i);
 
         self.$el.append($frontSlide).prepend($backSlide);
 
@@ -237,11 +225,10 @@ define(function(require){
       // Logic for the natural ends of a carousel that has been looped
 
       if ( self.looped && ( which === -1 || which >= self.$slides.length )) {
+        $slideSet = self.$allSlides;
         if ( which === -1 ) {
-          $slideSet = self.$allSlides;
           $destinationSlide = $slideSet.eq(self.edgeSlides - 1);
         } else if ( which >= self.$slides.length ) {
-          $slideSet = self.$allSlides;
           $destinationSlide = $slideSet.eq(self.edgeSlides + self.$slides.length);
         }
       } else {
@@ -376,9 +363,7 @@ define(function(require){
         return;
       }
 
-      var $dotnavWrapper = $('<div class="sony-dot-nav" />');
-
-      $dotnavWrapper.insertAfter(self.$wrapper);
+      var $dotnavWrapper = $('<div class="sony-dot-nav" />').insertAfter(self.$wrapper);
 
       self.$dotnav = $dotnavWrapper.sonyNavDots({
         'buttonCount': self.$slides.length
@@ -388,50 +373,42 @@ define(function(require){
         self.gotoSlide(which);
       });
 
-      self.$wrapper.on('SonyCarousel:gotoSlide', function(e, which) {
+      self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
         self.$dotnav.sonyNavDots('reset', {
           'activeButton': which
         });
-
-        if( $('html').hasClass('lt-ie9') ){
-          var height = 0;
-          self.$dotnav.css('display' , 'none');
-          height = self.$dotnav.get(0).offsetHeight;
-          self.$dotnav.css('display' , 'block');
-        }
       });
     },
 
     createPaddles: function() {
 
       var self = this,
-          paddles = function(a,b){ self.$wrapper.sonyPaddles(a,b); };
+          $wrapper = self.$wrapper;
 
       if ( Modernizr.touch ) {
         return;
       }
 
-      paddles();
+      $wrapper.sonyPaddles();
 
-      self.$wrapper.on('SonyCarousel:gotoSlide', function(e, which) {
+      self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
 
-        paddles('showPaddle', 'left');
-        paddles('showPaddle', 'right');
+        $wrapper.sonyPaddles('showPaddle', 'both');
 
         if ( which === 0 && !self.looped ) {
-          paddles('hidePaddle', 'left');
+          $wrapper.sonyPaddles('hidePaddle', 'left');
         }
 
         if ( which === self.$slides.length - 1 && !self.looped ) {
-          paddles('hidePaddle', 'right');
+          $wrapper.sonyPaddles('hidePaddle', 'right');
         }
       });
 
-      self.$wrapper.on('sonyPaddles:clickLeft', function(){
+      $wrapper.on('sonyPaddles:clickLeft', function(){
         self.gotoSlide(self.currentSlide - 1);
       });
 
-      self.$wrapper.on('sonyPaddles:clickRight', function(){
+      $wrapper.on('sonyPaddles:clickRight', function(){
         self.gotoSlide(self.currentSlide + 1);
       });
     },
@@ -478,14 +455,18 @@ define(function(require){
 
       var self = this;
 
-      self.$slides = self.$el.find(self.slides).not('.sony-carousel-edge-clone');
-
-      if ( self.pagination ) {
-        self.createPagination();
-      }
+      self.$slides = self.$el.find(self.slides);
 
       if ( self.looped ) {
         self.setupLoopedCarousel();
+      }
+
+      if ( self.paddles ) {
+        self.createPaddles();
+      }
+
+      if ( self.pagination ) {
+        self.createPagination();
       }
     }
   };
