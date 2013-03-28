@@ -308,21 +308,21 @@ module.exports = function(grunt) {
 
     doccoh: {
       modules: {
-        src: ['packages/modules/**/js/*.js'],
+        src: grunt.file.expand('packages/modules/**/js/*.js').filter(function(a){return !a.match(/index.js/g)}),
         options: {
           output: '../docs/docco/modules'
         }
       },
 
       secondary: {
-        src: ['packages/common/js/secondary/**/*.js'],
+        src: grunt.file.expand('packages/common/js/secondary/**/*.js').filter(function(a){return !a.match(/index.js/g)}),
         options: {
           output: '../docs/docco/secondary'
         }
       },
 
       global: {
-        src: ['packages/common/js/require/**/*.js'],
+        src: grunt.file.expand('packages/common/js/require/**/*.js').filter(function(a){return !a.match(/index.js/g)}),
         options: {
           output: '../docs/docco/global'
         }
