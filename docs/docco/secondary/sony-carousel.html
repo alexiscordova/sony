@@ -1,0 +1,515 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-carousel.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="index.html">                 index.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="sony-carousel.html">                 sony-carousel.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickynav.html">                 sony-stickynav.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-carousel.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Sony Carousel (SonyCarousel) Module</h2>
+
+<ul>
+<li><strong>Class:</strong> SonyCarousel</li>
+<li><strong>Version:</strong> 0.1</li>
+<li><strong>Modified:</strong> 03/19/2013</li>
+<li><strong>Author:</strong> George Pantazis</li>
+<li><strong>Dependencies:</strong> jQuery 1.7+</li>
+</ul>
+
+<p>This plugin is used to create flexible carousels. Given that <em>#foo</em> is an element containing a
+number of slides, hidden by <em>#foo-carousel-wrapper</em>'s <code>overflow: hidden;</code> property, #foo will
+become draggable with each slide being a snap-point for progression between the slides.
+Additionally, your CSS should be such that the carousel can have slides added to it
+on either end without breaking; this allows for "infinite" carousels.</p>
+
+<p>Refer to this Jade structure:</p>
+
+<pre><code> div#foo-carousel-wrapper
+   div#foo
+     div.foo-carousel-slide
+       div.foo-slide-children
+       div.foo-slide-children
+     div.foo-carousel-slide
+       div.foo-slide-children
+       div.foo-slide-children
+     div.foo-carousel-slide
+       div.foo-slide-children
+       div.foo-slide-children
+</code></pre>
+
+<p><em>Example Usage:</em></p>
+
+<p>See Defaults for detailed explanation of properties. The sonyCarousel() method should be called
+on the draggable carousel object.</p>
+
+<pre><code> $('#foo').sonyCarousel({
+   wrapper: '#foo-carousel-wrapper',
+   slides: '.foo-carousel-slide',
+   slideChildren: '.foo-slide-children',
+   useCSS3: true,
+   paddles: true,
+   pagination: true
+ });
+</code></pre>
+
+<p>Go to a specific slide (0-based).</p>
+
+<pre><code> $('#foo').sonyCarousel('gotoSlide', 0);
+</code></pre>
+
+<p>If you've replaced or manipulated the slides, tell SonyCarousel to cache them again.</p>
+
+<pre><code> $('#foo').sonyCarousel('resetSlides');
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+
+define(<span class="keyword">function</span>(require){
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+      Modernizr = require(<span class="string">'modernizr'</span>),
+      iQ = require(<span class="string">'iQ'</span>),
+      Settings = require(<span class="string">'require/sony-global-settings'</span>),
+      Utilities = require(<span class="string">'require/sony-global-utilities'</span>),
+      Environment = require(<span class="string">'require/sony-global-environment'</span>),
+      sonyDraggable = require(<span class="string">'secondary/sony-draggable'</span>),
+      sonyPaddles = require(<span class="string">'secondary/sony-paddles'</span>),
+      sonyNavigationDots = require(<span class="string">'secondary/sony-draggable'</span>);
+
+  <span class="keyword">var</span> SonyCarousel = <span class="keyword">function</span>($element, options){
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    $.extend(self, {}, $.fn.sonyCarousel.defaults, options, $.fn.sonyCarousel.settings);
+
+    self.$el = $element;
+    self.$wrapper = self.$el.parent(self.wrapper);
+
+    self.init();
+  };
+
+  SonyCarousel.prototype = {
+
+    constructor: SonyCarousel,
+
+    init: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.resetSlides();
+      self.setupLinkClicks();
+      self.setupDraggable();
+
+      Environment.on(<span class="string">'global:resizeDebounced-200ms'</span>, <span class="keyword">function</span>(){
+        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
+      });
+
+      self.gotoSlide(<span class="number">0</span>);
+    },
+
+    setupLoopedCarousel: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$allSlides = self.$slides;
+
+      <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; self.edgeSlides; i++ ) {
+
+        <span class="keyword">var</span> $frontSlide = self.$slides.eq(i).clone(<span class="literal">true</span>),
+            $backSlide = self.$slides.eq(self.$slides.length - <span class="number">1</span> - i).clone(<span class="literal">true</span>);
+
+        $frontSlide.addClass(self.cloneClass)
+            .data(<span class="string">'sonyCarouselGoto'</span>, i);
+
+        $backSlide.addClass(self.cloneClass)
+            .data(<span class="string">'sonyCarouselGoto'</span>, self.$slides.length - <span class="number">1</span> - i);
+
+        self.$el.append($frontSlide).prepend($backSlide);
+
+        self.$allSlides = self.$allSlides.add($frontSlide).add($backSlide);
+      }
+    },
+
+    setupDraggable: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.currentSlide = <span class="number">0</span>;
+
+      <span class="keyword">if</span> ( self.useCSS3 ) {
+        self.$el.css(Modernizr.prefixed(<span class="string">'transitionTimingFunction'</span>), <span class="string">'cubic-bezier(0.450, 0.735, 0.445, 0.895)'</span>);
+      }
+
+      self.$el.sonyDraggable({
+        <span class="string">'axis'</span>: self.axis,
+        <span class="string">'unit'</span>: self.unit,
+        <span class="string">'dragThreshold'</span>: self.dragThreshold,
+        <span class="string">'containment'</span>: self.$wrapper,
+        <span class="string">'useCSS3'</span>: self.useCSS3,
+        <span class="string">'drag'</span>: <span class="keyword">function</span>(){ iQ.update(<span class="literal">true</span>); }
+      });
+
+      self.$el.on(<span class="string">'sonyDraggable:dragStart'</span>,  $.proxy(self.dragStart, self));
+      self.$el.on(<span class="string">'sonyDraggable:dragEnd'</span>,  $.proxy(self.dragEnd, self));
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Stop animations that were ongoing when you started to drag.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    dragStart: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.startInteractionTime = <span class="keyword">new</span> Date().getTime();
+      self.$el.stop();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Depending on how fast you were dragging, either proceed to an adjacent slide or
+reset position to the nearest one.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    dragEnd: <span class="keyword">function</span>(e, data) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          goToWhich;
+
+      <span class="keyword">if</span> ( data.acceleration.x &gt; <span class="number">150</span> ) {
+
+        <span class="keyword">if</span> ( self.currentSlide === <span class="number">0</span> ) {
+          self.gotoNearestSlide();
+        } <span class="keyword">else</span> {
+          self.gotoSlide(self.currentSlide - <span class="number">1</span>);
+        }
+      } <span class="keyword">else</span> <span class="keyword">if</span> ( data.acceleration.x &lt; -<span class="number">150</span> ) {
+
+        <span class="keyword">if</span> ( self.currentSlide === self.$slides.length - <span class="number">1</span> ) {
+          self.gotoNearestSlide();
+        } <span class="keyword">else</span> {
+          self.gotoSlide(self.currentSlide + <span class="number">1</span>);
+        }
+      } <span class="keyword">else</span> {
+        self.gotoNearestSlide();
+      }
+    },
+
+    getPositions: <span class="keyword">function</span>($slideSet) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          leftBounds = self.$wrapper.get(<span class="number">0</span>).getBoundingClientRect().left,
+          positions = [],
+          destination;
+
+      $slideSet.each(<span class="keyword">function</span>(a){
+        positions.push(<span class="keyword">this</span>.getBoundingClientRect().left - leftBounds);
+      });
+
+      <span class="keyword">return</span> positions;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Find the nearest slide, and move the carousel to that.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    gotoNearestSlide: <span class="keyword">function</span>(e, data) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          leftBounds = self.$wrapper.get(<span class="number">0</span>).getBoundingClientRect().left,
+          $slideSet = self.$allSlides || self.$slides,
+          destination, positions;
+
+      positions = self.getPositions($slideSet);
+
+      destination = positions.indexOf(Utilities.closestInArray(positions, <span class="number">0</span>));
+
+      <span class="keyword">if</span> ( self.looped ) {
+        destination -= self.edgeSlides;
+      }
+
+      self.gotoSlide(destination);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Go to a given slide.
+TODO: This is getting to be confusing. Should split it into a few methods for readability.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    gotoSlide: <span class="keyword">function</span>(which, noAnim) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $slideSet = self.$slides,
+          speed = ( noAnim ? <span class="number">0</span> : self.animationSpeed ),
+          $destinationSlide, destinationLeft, destinationRedirect, innerContainerWidth, repositionCb, newPosition;
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Logic for the natural ends of a carousel that has been looped</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      <span class="keyword">if</span> ( self.looped &amp;&amp; ( which === -<span class="number">1</span> || which &gt;= self.$slides.length )) {
+        $slideSet = self.$allSlides;
+        <span class="keyword">if</span> ( which === -<span class="number">1</span> ) {
+          $destinationSlide = $slideSet.eq(self.edgeSlides - <span class="number">1</span>);
+        } <span class="keyword">else</span> <span class="keyword">if</span> ( which &gt;= self.$slides.length ) {
+          $destinationSlide = $slideSet.eq(self.edgeSlides + self.$slides.length);
+        }
+      } <span class="keyword">else</span> {
+        $destinationSlide = $slideSet.eq(which);
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Logic for swapping slides around, to make transitions from distant slides seamless. (see: <code>self.jumping</code>)</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      <span class="keyword">if</span> ( self.jumping &amp;&amp; !self.isJumped &amp;&amp; self.$slides.filter($destinationSlide).length &gt; <span class="number">0</span> &amp;&amp; speed ) {
+
+        <span class="keyword">var</span> positions = self.getPositions(self.$slides),
+            destIndex = self.$slides.index($destinationSlide),
+            currentIndex = positions.indexOf(Utilities.closestInArray(positions, <span class="number">0</span>)),
+            leftIndex, rightIndex, positionsExcludingCurrent;
+
+        <span class="keyword">if</span> ( Math.abs(currentIndex - destIndex) &gt; <span class="number">1</span> ) {
+
+          self.isJumped = <span class="literal">true</span>;
+
+          positionsExcludingCurrent = positions.slice(<span class="number">0</span>);
+          positionsExcludingCurrent.splice(currentIndex, <span class="number">1</span>);
+
+          leftIndex = positions.indexOf(Utilities.closestInArray(positionsExcludingCurrent, <span class="number">0</span>, <span class="string">'&lt;'</span>));
+          rightIndex = positions.indexOf(Utilities.closestInArray(positionsExcludingCurrent, <span class="number">0</span>, <span class="string">'&gt;'</span>));
+
+          <span class="keyword">if</span> ( destIndex &gt; currentIndex ) {
+            Utilities.swapElements(self.$slides.eq(rightIndex), $destinationSlide);
+          } <span class="keyword">else</span> <span class="keyword">if</span> ( destIndex &lt; currentIndex ) {
+            Utilities.swapElements(self.$slides.eq(leftIndex), $destinationSlide);
+          }
+        }
+      }
+
+      <span class="keyword">if</span> ( $destinationSlide.length === <span class="number">0</span> ) { <span class="keyword">return</span>; }
+
+      destinationLeft = $destinationSlide.position().left;
+      innerContainerWidth = self.$el.width();
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>This exception is built specifically for carousels like the OSC (S2) module, which must
+respect the grid even though they aren't really in it. Refer to S2 for usage example;
+<code>sony-carousel-flex</code> is the required trigger class for that layout stategy.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      <span class="keyword">if</span> ( !Modernizr.jsautomargins ) {
+        <span class="keyword">if</span> ( self.$el.hasClass(<span class="string">'sony-carousel-flex'</span>) ) {
+          destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / <span class="number">2</span>;
+        }
+      }
+
+      <span class="keyword">if</span> ( self.useCSS3 ) {
+
+        newPosition = destinationLeft / innerContainerWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>If you're on the last slide, only move over enough to show the last child.
+Prevents excess whitespace on the right.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+        <span class="keyword">if</span> ( self.slideChildren &amp;&amp; which === $slideSet.length - <span class="number">1</span> ) {
+          <span class="keyword">var</span> childrenWidth = <span class="number">0</span>;
+          $destinationSlide.find(self.slideChildren).each(<span class="keyword">function</span>(){ childrenWidth += $(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>); });
+          newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;
+        }
+
+        self.$el.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), speed + <span class="string">'ms'</span> );
+        self.$el.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + (-<span class="number">100</span> * newPosition + <span class="string">'%'</span>) + <span class="string">',0)'</span>);
+
+      } <span class="keyword">else</span> {
+
+        self.$el.animate({
+          <span class="string">'left'</span>: -<span class="number">100</span> * destinationLeft / self.$wrapper.width() + <span class="string">'%'</span>
+        }, {
+          <span class="string">'duration'</span>: speed,
+          <span class="string">'complete'</span>: <span class="keyword">function</span>(){ iQ.update(<span class="literal">true</span>); }
+        });
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If you've taken the carousel out of its normal flow (either with <code>self.jumping</code> or <code>self.looped</code>)
+Reset the carousel to its natural position and order.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      destinationRedirect = $destinationSlide.data(<span class="string">'sonyCarouselGoto'</span>);
+
+      <span class="keyword">if</span> ( ( self.isJumped &amp;&amp; speed ) || <span class="keyword">typeof</span> destinationRedirect !== <span class="string">'undefined'</span> ) {
+
+        repositionCb = Utilities.once(<span class="keyword">function</span>(){
+
+          <span class="keyword">if</span> ( self.isJumped ) {
+            self.$allSlides.each(<span class="keyword">function</span>(){
+              $(<span class="keyword">this</span>).detach().appendTo(self.$el);
+            });
+          }
+
+          self.gotoSlide( self.isJumped ? which : destinationRedirect, <span class="literal">true</span> );
+
+          iQ.update(<span class="literal">true</span>);
+          self.isJumped = <span class="literal">false</span>;
+        });
+
+        <span class="keyword">if</span> ( self.useCSS3 ) {
+          self.$el.on(Settings.transEndEventName, repositionCb);
+        } <span class="keyword">else</span> {
+          setTimeout(repositionCb, speed);
+        }
+
+        <span class="keyword">return</span>;
+      }
+
+      self.currentSlide = which;
+
+      self.$el.trigger(<span class="string">'SonyCarousel:gotoSlide'</span>, self.currentSlide);
+    },
+
+    createPagination: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( self.$dotnav ) {
+        self.$dotnav.sonyNavDots(<span class="string">'reset'</span>, {
+          <span class="string">'buttonCount'</span>: self.$slides.length
+        });
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">var</span> $dotnavWrapper = $(<span class="string">'&lt;div class="sony-dot-nav" /&gt;'</span>).insertAfter(self.$wrapper);
+
+      self.$dotnav = $dotnavWrapper.sonyNavDots({
+        <span class="string">'buttonCount'</span>: self.$slides.length
+      });
+
+      self.$dotnav.on(<span class="string">'SonyNavDots:clicked'</span>, <span class="keyword">function</span>(e, which) {
+        self.gotoSlide(which);
+      });
+
+      self.$el.on(<span class="string">'SonyCarousel:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
+        self.$dotnav.sonyNavDots(<span class="string">'reset'</span>, {
+          <span class="string">'activeButton'</span>: which
+        });
+      });
+    },
+
+    createPaddles: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $wrapper = self.$wrapper;
+
+      <span class="keyword">if</span> ( Modernizr.touch || self.paddlesInit ) {
+        <span class="keyword">return</span>;
+      }
+
+      self.paddlesInit = <span class="literal">true</span>;
+
+      $wrapper.sonyPaddles();
+
+      self.$el.on(<span class="string">'SonyCarousel:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
+
+        $wrapper.sonyPaddles(<span class="string">'showPaddle'</span>, <span class="string">'both'</span>);
+
+        <span class="keyword">if</span> ( which === <span class="number">0</span> &amp;&amp; !self.looped ) {
+          $wrapper.sonyPaddles(<span class="string">'hidePaddle'</span>, <span class="string">'left'</span>);
+        }
+
+        <span class="keyword">if</span> ( which === self.$slides.length - <span class="number">1</span> &amp;&amp; !self.looped ) {
+          $wrapper.sonyPaddles(<span class="string">'hidePaddle'</span>, <span class="string">'right'</span>);
+        }
+      });
+
+      $wrapper.on(<span class="string">'sonyPaddles:clickLeft'</span>, <span class="keyword">function</span>(){
+        self.gotoSlide(self.currentSlide - <span class="number">1</span>);
+      });
+
+      $wrapper.on(<span class="string">'sonyPaddles:clickRight'</span>, <span class="keyword">function</span>(){
+        self.gotoSlide(self.currentSlide + <span class="number">1</span>);
+      });
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>To prevent drags from being misinterpreted as clicks, we only redirect the user
+if their interaction time and movements are below certain thresholds.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    setupLinkClicks: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $clickContext;
+
+      <span class="keyword">if</span> ( self.slideChildren ) {
+        $clickContext = self.$el.find(self.slideChildren);
+      } <span class="keyword">else</span> {
+        $clickContext = self.$slides;
+      }
+
+      $clickContext.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
+
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+            destination = $<span class="keyword">this</span>.find(self.defaultLink).attr(<span class="string">'href'</span>),
+            closestLink = $(e.target).closest(<span class="string">'a'</span>).attr(<span class="string">'href'</span>);
+
+        <span class="keyword">if</span> ( !self.isDragging ) {
+
+          <span class="keyword">if</span> ((<span class="keyword">new</span> Date().getTime()) - self.startInteractionTime &lt; <span class="number">150</span> ) {
+
+            <span class="keyword">if</span> ( !closestLink &amp;&amp; !destination ) {
+              <span class="keyword">return</span>;
+            }
+
+            <span class="keyword">if</span> ( closestLink &amp;&amp; closestLink !== destination ) {
+              destination = closestLink;
+            }
+
+            window.location = destination;
+          }
+        }
+      });
+    },
+
+    resetSlides: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$slides = self.$el.find(self.slides).not(self.cloneClass);
+
+      <span class="keyword">if</span> ( self.looped ) {
+        self.setupLoopedCarousel();
+      }
+
+      <span class="keyword">if</span> ( self.paddles ) {
+        self.createPaddles();
+      }
+
+      <span class="keyword">if</span> ( self.pagination ) {
+        self.createPagination();
+      }
+    }
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+  $.fn.sonyCarousel = <span class="keyword">function</span>( options ) {
+    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+    <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
+        sonyCarousel = self.data(<span class="string">'sonyCarousel'</span>);
+
+      <span class="keyword">if</span> ( !sonyCarousel ) {
+          sonyCarousel = <span class="keyword">new</span> SonyCarousel( self, options );
+          self.data( <span class="string">'sonyCarousel'</span>, sonyCarousel );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        sonyCarousel[ options ].apply( sonyCarousel, args );
+      }
+    });
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+  $.fn.sonyCarousel.defaults = {
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p><strong>Required</strong>: Selector for the <code>overflow:hidden;</code> element that wraps the draggable object.
+Accessed by .parent() method.</p>             </td>             <td class="code">               <div class="highlight"><pre>    wrapper: <span class="literal">undefined</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p><strong>Required</strong>: Selector for the individual slides within the carousel, used for
+positioning, snapping, and pagination.</p>             </td>             <td class="code">               <div class="highlight"><pre>    slides: <span class="literal">undefined</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>If a selector is specified, gotoSlide will look for this on the last slide
+and not reveal unneccesary whitespace to the right of the last matched element.</p>             </td>             <td class="code">               <div class="highlight"><pre>    slideChildren: <span class="literal">undefined</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>If a selector is specified, the matched anchor's href will be the default click for any point
+in the slideChildren set.</p>             </td>             <td class="code">               <div class="highlight"><pre>    defaultLink: <span class="literal">undefined</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Should this carousel seamlessly loop from end to end?</p>             </td>             <td class="code">               <div class="highlight"><pre>    looped: <span class="literal">false</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Should the carousel jump directly to the next slide in either direction?</p>             </td>             <td class="code">               <div class="highlight"><pre>    jumping: <span class="literal">false</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>If this is a looped carousel, how many clones should be on either side to create the infinite illusion?
+Helpful if your carousel lets the user see more than a few slides at once.</p>             </td>             <td class="code">               <div class="highlight"><pre>    edgeSlides: <span class="number">1</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Default class for edgeSlides.</p>             </td>             <td class="code">               <div class="highlight"><pre>    cloneClass: <span class="string">'sony-carousel-edge-clone'</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Speed of slide animation, in ms.</p>             </td>             <td class="code">               <div class="highlight"><pre>    animationSpeed: <span class="number">450</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Which direction the carousel moves in. Plugin currently only supports 'x'.</p>             </td>             <td class="code">               <div class="highlight"><pre>    axis: <span class="string">'x'</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Unit by which sony-draggable positions the carousel. Plugin not tested for 'px'... <em>yet</em>.</p>             </td>             <td class="code">               <div class="highlight"><pre>    unit: <span class="string">'%'</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Amount of distance user must move in touch environments before the carousel begins to move
+<strong>and</strong> preventDefault() is triggered. Allows for vertical scrolling before trapping the touch.</p>             </td>             <td class="code">               <div class="highlight"><pre>    dragThreshold: <span class="number">10</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Use CSS3 transitions and transforms over jQuery animations if possible.</p>             </td>             <td class="code">               <div class="highlight"><pre>    useCSS3: <span class="literal">true</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Create paddles.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paddles: <span class="literal">false</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Create dot pagination, which is inserted after self.$el.</p>             </td>             <td class="code">               <div class="highlight"><pre>    pagination: <span class="literal">false</span>
+  };
+
+});
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
