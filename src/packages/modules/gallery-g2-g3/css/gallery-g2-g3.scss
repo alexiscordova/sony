@@ -202,11 +202,14 @@ $gifHeight: 60px;
 // Holdes Filter Results button, compare button, # products, and sorting dropdown
 .filter-display-bar {
   position: relative;
-  // z-index: 1;
   z-index: 11;
 
   .btn {
     margin-bottom: 0;
+  }
+
+  .product-count {
+    padding-right: px-em(2, 13);
   }
 
   .slide-toggle,
@@ -541,6 +544,7 @@ $gifHeight: 60px;
 // $fluidGridWidth1200
 .gallery-compare .products {
   width: $fluidGridWidth;
+  overflow: visible;
   border-right: .0625em solid $gray70;
   @include transition(box-shadow $transitionFast ease-in);
 
@@ -646,8 +650,18 @@ $compareBorder: .0625em solid $gray70;
   // }
 }
 
+
+.compare-items-wrap {
+  position: relative;
+  z-index: 15;
+
+  .no-csstransforms & {
+    float: left;
+  }
+}
+
 .compare-items-container {
-  height: 100%;
+  // height: 100%;
 }
 
 // .compare-nav {
@@ -706,7 +720,15 @@ $stickyHeaderHeight: px-em(82);
     width: 0;
   }
 
+  .favorite-holder {
+    font-size: 16px; // ghost-center-wrap set it to zero
+    position: absolute;
+    left: .125em;;
+    bottom: 0;
+  }
+
   .product-img {
+    position: relative;
     text-align: center;
   }
 
@@ -757,19 +779,6 @@ $stickyHeaderHeight: px-em(82);
     margin-bottom: 0;
   }
 
-
-  // .detail-labels-wrap {
-  //   // width: $specLabelWidth1200; // override % width
-  //   border-right: .0625em solid $gray70;
-  // }
-
-  // .product-count-wrap,
-  // .detail-label-group {
-  //   width: 100%;
-  // }
-
-
-
   // Sticky headers
   .compare-sticky-header {
     top: -2em;
@@ -792,6 +801,36 @@ $stickyHeaderHeight: px-em(82);
       position: absolute;
       left: 16px;
       bottom: 16px;
+    }
+  }
+}
+
+.gallery-compare {
+
+
+  .sticky-count {
+    padding: 0;
+    width: 100%;
+    height: px-em(106);
+
+    // Gray bar on the left side of the container
+    &:before {
+      background: $white;
+      width: 3000px;
+      right: 1px;
+      @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
+    }
+
+    // Gray bar on the right side of the container
+    .right-bar {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 800%;
+      height: px-em(106);
+      width: 187em;
+      background: $white;
+      @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
     }
   }
 }

@@ -341,6 +341,10 @@ define(function(require){
       // When everything is done animating
       $.when.apply( $, deferreds ).always( $.proxy( self.onCompareFiltered, self ) );
 
+      setTimeout(function() {
+        self.displayActiveFilters();
+      }, 0);
+
       // Kill it with fire!
       $items = $filtered = $concealed = null;
     },
@@ -712,6 +716,7 @@ define(function(require){
       self.$navPrev = self.$navWrap.find('.compare-nav-prev');
       self.$detailLabelsWrap = self.$grid.find('.detail-labels-wrap');
       self.$stickyHeaders = self.$grid.find('.compare-sticky-header');
+      self.$stickyRightBar = self.$stickyHeaders.find('.right-bar');
 
       // Get the properties/values we're animating for the sticky navs
       if ( Modernizr.csstransforms ) {
@@ -720,7 +725,7 @@ define(function(require){
         // 3d transforms will create a new layer for each of the sticky headers
         if ( Modernizr.csstransforms3d ) {
           self.prefix = 'translate3d(0,';
-          self.suffix = 'px, 0)';
+          self.suffix = 'px,0)';
         } else {
           self.prefix = 'translate(0,';
           self.suffix = 'px)';
@@ -734,7 +739,7 @@ define(function(require){
       // Adding events can be deferred
       setTimeout(function() {
 
-        console.time('compare defer 1');
+        window.console && console.time && console.time('compare defer 1');
         // Add events to close buttons
         self.$items.find('.js-remove-item')
           .on('click', function( evt ) {
@@ -779,7 +784,7 @@ define(function(require){
           self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
 
         }, 150);
-        console.timeEnd('compare defer 1');
+        window.console && console.time && console.timeEnd('compare defer 1');
       }, 0);
     },
 
@@ -1811,7 +1816,11 @@ define(function(require){
     debouncedSetRowHeights : $.debounce( 600, function() {
       this
         .setRowHeights.apply( this, arguments )
-        .setItemContainerHeight();
+        .setItemContainerHeight()
+        .setTriggerPoint()
+        .updateStickyNav();
+
+      this.$stickyRightBar.css('left', this.$grid.width());
     }),
 
     setRowHeights : function( isFromResize ) {
@@ -1823,7 +1832,7 @@ define(function(require){
       // if ( self.isMobile ) {
       //   return;
       // }
-      console.time('SET ROW HEIGHTS');
+      window.console && console.time && console.time('SET ROW HEIGHTS');
       isFromResize = isFromResize === true;
 
       // Set detail rows to even heights
@@ -1850,7 +1859,7 @@ define(function(require){
         self.iscroll.refresh();
       }
 
-      console.timeEnd('SET ROW HEIGHTS');
+      window.console && console.time && console.timeEnd('SET ROW HEIGHTS');
       return self;
     },
 
@@ -1880,7 +1889,6 @@ define(function(require){
     },
 
     setStickyHeaderPos : function( scrollTop ) {
-      console.log(this.prop, this.getY( scrollTop ));
       this.$stickyHeaders.css( this.prop, this.getY( scrollTop ) );
       return this;
     },
@@ -1907,31 +1915,56 @@ define(function(require){
       if ( !dontUpdateStickyNav ) {
         self.$stickyNav.stickyNav('updateTriggerOffset', self.stickyOffset.top);
       }
+
+      return self;
     },
 
     setItemContainerHeight : function() {
       var self = this,
-          height = self.$items.not('.hidden').first().height();
+          height = self.$items.not('.hidden').first().height(),
+          width, labelsWidth, scrollerWidth;
+
+      // Get all dimensions before changing any - avoid reflows
+      if ( !Modernizr.csstransforms ) {
+        width = Modernizr.csstransforms ? 0 : self.$grid.width();
+        labelsWidth = Modernizr.csstransforms ? 0 : self.$grid.width();
+        scrollerWidth = width - labelsWidth - 2;
+      }
 
       self.$compareItemsWrap.find('.compare-items-container').height( height );
 
       // The detail labels don't get a height because they're positioned absolutely
       self.$detailLabelsWrap.height( height );
 
+      // Without transforms, iScroll uses absolute positioning and the container
+      // gets a width/height of 0 with overflow:hidden
+      if ( !Modernizr.csstransforms ) {
+        console.log('containerWidth: ' + width);
+        console.log('containerHeight: ' + height);
+
+        self.$compareItemsWrap
+          .width( scrollerWidth )
+          .height( height );
+
+      }
+
       return self;
     },
 
-    setScrollerWrapperDimensions : function() {
-      var self = this,
-          containerWidth = self.$grid.width(),
-          containerHeight = self.$grid.height(),
-          labelsWidth = self.$detailLabelsWrap.width(),
-          scrollerWidth = containerWidth - labelsWidth - 2; // not sure why it doesn't fit
+    // setScrollerWrapperDimensions : function() {
+    //   var self = this,
+    //       containerWidth = self.$grid.width(),
+    //       containerHeight = self.$grid.height(),
+    //       labelsWidth = self.$detailLabelsWrap.width(),
+    //       scrollerWidth = containerWidth - labelsWidth - 2; // not sure why it doesn't fit
 
-      self.$compareItemsWrap
-        .width( scrollerWidth )
-        .height( containerHeight );
-    },
+    //   console.log('containerWidth: ' + containerWidth);
+    //   console.log('containerHeight: ' + containerHeight);
+
+    //   self.$compareItemsWrap
+    //     .width( scrollerWidth )
+    //     .height( containerHeight );
+    // },
 
     updateStickyNav : function( iscroll ) {
       var self = this,
@@ -1991,20 +2024,8 @@ define(function(require){
     onScroll : function() {
       var self = this;
 
-      // IE8 still has sticky open sometimes at the top
-      function update() {
-        self.updateStickyNav();
-      }
-
-      if ( !self.isTicking ) {
-        self.isTicking = true;
-        self.lastScrollY = self.$window.scrollTop();
-        if ( !Modernizr.raf ) {
-          update();
-        } else {
-          window.requestAnimationFrame( update );
-        }
-      }
+      self.lastScrollY = self.$window.scrollTop();
+      self.updateStickyNav();
     },
 
     onResize : function( isInit, force ) {
@@ -2029,7 +2050,7 @@ define(function(require){
         self.$gridProductNames.evenHeights();
       }
 
-      console.time(this.id + ' resize');
+      window.console && console.time && console.time(this.id + ' resize');
 
       // Don't change columns for detail galleries
       // Change the filters column layout
@@ -2069,12 +2090,6 @@ define(function(require){
         if ( self.isCompareMode ) {
           self.debouncedSetRowHeights( true );
 
-          // Without transforms, iScroll uses absolute positioning and the container
-          // gets a width/height of 0 with overflow:hidden
-          if ( !Modernizr.csstransforms ) {
-            self.setScrollerWrapperDimensions();
-          }
-
           // Set timeout here because we were getting the wrong height for the
           // spec products after a big resize
           setTimeout(function() {
@@ -2096,7 +2111,7 @@ define(function(require){
         self.sortByPriority();
       }
 
-      console.timeEnd(this.id + ' resize');
+      window.console && console.time && console.timeEnd(this.id + ' resize');
     },
 
     moveFilters : function() {
@@ -2180,7 +2195,9 @@ define(function(require){
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
       this.$filterArrow.removeClass('in');
 
-      this.setTriggerPoint();
+      if ( this.isCompareMode ) {
+        this.setTriggerPoint();
+      }
     },
 
     onFiltersShow : function( evt ) {
@@ -2198,7 +2215,9 @@ define(function(require){
         self.filter();
       }
 
-      self.setTriggerPoint();
+      if ( self.isCompareMode ) {
+        self.setTriggerPoint();
+      }
 
       // Scroll the window so we can see what's happening with the filtered items
       $.simplescroll({
@@ -2250,19 +2269,13 @@ define(function(require){
       // Show all close buttons again
       self.$items.find('.js-remove-item').removeClass('hidden');
 
-      // Set container width
-      // self.setCompareWidth();
-
-      // Reset iscroll
-      // self.innerScroller.refresh();
-
-      // self.afterCompareScrolled( self.innerScroller );
-
       return self;
     },
 
     showCompareItem : function( $item ) {
-      var dfd = new $.Deferred();
+      var dfd = new $.Deferred(),
+          hasTransitionEnded = false,
+          timeout;
 
       // 1
       function showItem() {
@@ -2275,12 +2288,23 @@ define(function(require){
         $item
           .one( Settings.transEndEventName, fadeItemIn )
           .removeClass('no-width');
+
+        // transition end event not being called for the width in firefox, but only sometimes and only the width
+        timeout = setTimeout(function() {
+          if ( !hasTransitionEnded ) {
+            fadeItemIn();
+          }
+        }, 200);
       }
 
       // 3
-      function fadeItemIn(e) {
+      function fadeItemIn() {
+        // transition actually happened, clear fallback
+        hasTransitionEnded = true;
+        clearTimeout( timeout );
+
         $item
-          .one( Settings.transEndEventName, function(evt) {
+          .one( Settings.transEndEventName, function() {
             dfd.resolve();
           })
           .removeClass('fade');
@@ -2292,6 +2316,7 @@ define(function(require){
 
       } else {
         showItem();
+        dfd.resolve();
       }
 
       return dfd.promise();
@@ -2346,15 +2371,18 @@ define(function(require){
           total = self.$items.length,
           remaining = self.$items.not('.hidden').length;
 
-
       // Enable the reset button if the remaining items is not the same as the total
       if ( total !== remaining ) {
         self.$compareReset.removeClass('disabled').addClass('active');
+      } else if ( !self.$compareReset.hasClass('disabled') ) {
+        self.$compareReset.addClass('disabled');
       }
 
       // Hide close button if there are only 2 left
       if ( remaining < 3 ) {
         self.$grid.find('.js-remove-item').addClass('hidden');
+      } else {
+        self.$grid.find('.js-remove-item.hidden').removeClass('hidden');
       }
 
       self.scroller.refresh();
@@ -2612,7 +2640,7 @@ define(function(require){
     isTouch: Settings.hasTouchEvents,
     isiPhone: Settings.isIPhone,
     isTicking: false,
-    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE9 ),
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE9 || Settings.isPS3 ),
     lastScrollY: 0,
     sorted: false,
     currentFilterColor: null,

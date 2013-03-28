@@ -102,6 +102,11 @@ mixin filterSet( filterSet )
 
 
 mixin galleryFilters( gallery, isCompareGallery )
+  compareStr = 'Compare'
+  sortByStr = 'Sort By:'
+  productsStr = 'Products'
+  filterStr = 'Filter'
+
   .container.filter-display-bar.slide-toggle-parent
     if gallery.sortSet
       .grid.no-grid-at-767
@@ -110,18 +115,20 @@ mixin galleryFilters( gallery, isCompareGallery )
         //- Product Count
         span.p3.ib.product-count-wrap
           strong.text-dark.product-count= gallery.total
-          | &nbsp;Products
+          | !{ productsStr }
 
 
         //- Filter and compare buttons
         if gallery.filterSet
           button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
-            | Filter
+            | !{ filterStr }
             i.fonticon-10-arrowhead-down
           button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool")
-            i.fonticon-10-grid-3x3
-            i.fonticon-10-speaker.hide
-            | Compare
+            if isCompareGallery
+              i.fonticon-10-grid-3x3
+            else
+              i.fonticon-10-speaker
+            | !{ compareStr }
 
         else if gallery.accessoryFinder
           button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder
@@ -252,7 +259,7 @@ mixin compareGallery( submodules, gallery, type, labels )
         .grid
           .pull-left
             h2.t6.pull-left.compare-gallery-title= label
-            span.ib.fade.in
+            span.ib
               i.swatch-lemon.mini-swatch
               span.p5
                 em!= '&nbsp;' + legend
@@ -280,6 +287,8 @@ mixin compareGallery( submodules, gallery, type, labels )
             i.fonticon-10-chevron
       .products.no-grid-at-767
         .span2.detail-labels-wrap
+          .compare-sticky-header.sticky-count
+            .right-bar
           .detail-labels-wrapping
             .detail-label-group
               each label in labels
