@@ -65,7 +65,7 @@ define(function(require){
 
       self.$el.find('.carousel-slide').sonyCarousel({
         wrapper: '.raa-user-reviews-carousel',
-        slides: '.user-ratings, .raa-social-mentions > div',
+        slides: '.user-ratings, .raa-social-mention',
         axis: 'x',
         unit: '%',
         dragThreshold: 10,
