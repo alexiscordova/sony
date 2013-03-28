@@ -2,13 +2,31 @@
 @import "../../../common/css/_base/mixins";
 
 
+.js {
+
+  .recently-viewed {
+
+    .rp-overflow {
+      overflow:hidden;
+    }
+
+  }
+
+}
 
 
 .recently-viewed {
 
+  position:relative;
+
+  h6 {
+    margin-top:50px;
+    margin-bottom:0;
+  }
+
   .products {
 
-    margin-top: 12px;
+    margin-top: 25px;
 
     .p3 {
       margin-top :9px;
@@ -65,19 +83,20 @@
 
   .recently-views-products {
 
-    position:relative;
-
     .nav-paddles {
 
         .nav-paddle {
 
+          height:52px;
           position: absolute;
-          top: 50%;
-          margin-top: -$navPaddleHeight;
+          top: 148px;
+          width:34px;
 
-          &.nav-paddle-next { right: 0; }
+          background-color:rgba($gray10, 0.2);
 
-          &.nav-paddle-prev { left: 0; }
+          &.nav-paddle-next { right: 2.33333333%; }
+
+          &.nav-paddle-prev { left: 2.33333333%; }
         }
       }
 
@@ -127,9 +146,33 @@
     }
 
     @media screen and (max-width: 767px) {
+
       .product-img:after {
         padding-top: 0;
       }
+
+    }
+
+    
+
+  }
+
+  @media screen and (max-width: 979px) {
+
+    h6 {
+      margin-top:38px;
+    }
+
+    .products {
+      margin-top:20px;
+    }
+
+    .nav-paddles {
+      display:none;
+    }
+
+    .navigation-container{
+      display:none;
     }
 
   }
@@ -138,7 +181,18 @@
     content: '';
   }
 
- 
+  .pagination-bullets {
+    bottom:30px;
+  }
+
+  /*
+  .full-bleed-no-max {
+    .slimgrid {
+      width:100%;
+    }
+  }
+  */
+
 
 }
 

@@ -53,20 +53,17 @@ define(function(require){
 
       var self = this;
 
+      self.bindEvents();
+
       self.$innerContainer.sonyCarousel({
         wrapper: '.soc-container',
         slides: '.soc-content',
         slideChildren: '.soc-item',
         defaultLink: '.headline a',
-        axis: 'x',
-        unit: '%',
-        dragThreshold: 10,
         useCSS3: self.useCSS3,
         paddles: true,
         pagination: true
       });
-
-      self.bindEvents();
 
       self.$cachedSlides = self.$slides.detach();
       self.$cachedSlides.find('.soc-image').addClass('iq-img');

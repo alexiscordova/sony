@@ -84,7 +84,7 @@ if data.theme
   classes = classes + " " + data.theme
 .primary-tout.container.full-bleed-no-max(class= classes)
   e = {"locals":locals, "data":data.image}
-  !{locals.partial('packages/modules/image/html/image.html.jade' , e)}
+  !{locals.partial('packages/modules/image/html/image.jade' , e)}
   if data.mode == "homepage"
     if data.variation.secondbox
       +boxlayout

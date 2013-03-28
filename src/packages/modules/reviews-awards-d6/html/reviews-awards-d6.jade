@@ -55,16 +55,15 @@ section.raa-module
                 a.btn.btn-small(href="#") Add your own review
 
             if data.userSocialMentions
-              div.raa-social-mentions
-                for item in data.userSocialMentions
-                  div
-                    aside
-                      blockquote.bq4
-                        p #{item.message}
-                      div.p4.lt
-                        a(href=item.profileLink)
-                          img(src=item.profileImage)
-                          | #{item.name}
+              for item in data.userSocialMentions
+                div.raa-social-mention
+                  aside
+                    blockquote.bq4
+                      p #{item.message}
+                    div.p4.lt
+                      a(href=item.profileLink)
+                        img(src=item.profileImage)
+                        | #{item.name}
 
       if !userReviewTakeover
         .span4

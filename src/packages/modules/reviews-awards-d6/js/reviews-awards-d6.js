@@ -65,23 +65,15 @@ define(function(require){
 
       self.$el.find('.carousel-slide').sonyCarousel({
         wrapper: '.raa-user-reviews-carousel',
-        slides: '.user-ratings, .raa-social-mentions > div',
-        axis: 'x',
-        unit: '%',
-        dragThreshold: 10,
+        slides: '.user-ratings, .raa-social-mention',
         useCSS3: self.useCSS3,
-        paddles: false,
         pagination: true
       });
 
       self.$el.find('.raa-expert-reviews > div').sonyCarousel({
         wrapper: '.raa-expert-reviews',
         slides: '.raa-expert-review',
-        axis: 'x',
-        unit: '%',
-        dragThreshold: 10,
         useCSS3: self.useCSS3,
-        paddles: false,
         pagination: true
       });
 

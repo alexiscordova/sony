@@ -1,3 +1,7 @@
+
+@import "../../../../common/css/_base/variables";
+@import "../../../../common/css/_base/mixins";
+
 /**
  * This file provides the styles for the fullscreen media manager
  * (?do=media).
@@ -22,6 +26,10 @@
 
 #mediamanager__page .panel {
     float: left;
+    font-size:px-em(12);
+    p{
+        font-size:0.95em;
+    }
 }
 
 #mediamanager__page .namespaces {
@@ -225,7 +233,7 @@
 /* file list as thumbs */
 
 #mediamanager__page .filelist .thumbs li {
-    width: 100px;
+    width: 200px;
     min-height: 130px;
     display: inline-block;
     display: -moz-inline-stack;
@@ -233,9 +241,8 @@
     margin: 0 6px 10px 0;
     background-color: $wiki_backgroundNeu;
     color: $wiki_text;
-    padding: 5px;
+    padding: 12px;
     vertical-align: top;
-    text-align: center;
     position: relative;
     line-height: 1.2;
 }
@@ -250,8 +257,9 @@
 }
 
 #mediamanager__page .filelist .thumbs li dt a {
-    width: 100px;
-    height: 90px;
+    display:block;
+    text-align:center;
+    padding-bottom:10px;
 }
 
 #mediamanager__page .filelist .thumbs li dt a img {
@@ -265,8 +273,7 @@
 #mediamanager__page .filelist .thumbs li .date {
     display: block;
     overflow: hidden;
-    text-overflow: ellipsis;
-    width: 90px;
+    width: 90%;
     white-space: nowrap;
 }
 #mediamanager__page .filelist .thumbs li .name {
@@ -284,9 +291,8 @@
     list-style: none;
     display: block;
     position: relative;
-    max-height: 50px;
-    margin: 0;
-    margin-bottom: 3px;
+    // max-height: 50px;
+    margin: 5px 0 3px 0;
     background-color: $wiki_background;
     color: $wiki_text;
     overflow: hidden;
@@ -296,9 +302,14 @@
     background-color: $wiki_backgroundNeu;
 }
 
+#mediamanager__page .filelist .rows li dl {
+    overflow:hidden;
+    margin-bottom:0;
+}
 #mediamanager__page .filelist .rows li dt {
+    // display:inline-block;
     float: left;
-    width: 10%;
+    width: 60px;
     height: 40px;
     text-align: center;
 }
@@ -318,22 +329,28 @@
 #mediamanager__page .filelist .rows li .filesize,
 #mediamanager__page .filelist .rows li .date {
     overflow: hidden;
-    text-overflow: ellipsis;
-    float: left;
     margin-left: 1%;
-    white-space: nowrap;
+    padding-top:11px;
+}
+#mediamanager__page .filelist .rows li .size,
+#mediamanager__page .filelist .rows li .filesize,
+#mediamanager__page .filelist .rows li .date {
+    // display:inline-block;
+    float:right;
 }
 
 #mediamanager__page .filelist .rows li .name {
-    width: 30%;
+    // display:inline-block;
+    float: left;
+    width: auto;
     font-weight: bold;
 }
 #mediamanager__page .filelist .rows li .size,
 #mediamanager__page .filelist .rows li .filesize {
-    width: 15%;
+    width: 75px;
 }
 #mediamanager__page .filelist .rows li .date {
-    width: 20%;
+    width: 120px;
     font-style: italic;
     white-space: normal;
 }
@@ -500,5 +517,29 @@
 #mediamanager__diff .imageDiff img {
     width: 100%;
     max-width: none;
+}
+
+
+
+
+
+
+
+// media_fullscreen
+#dokuwiki__top.mode_media{
+  #main {
+    width:92%;
+    max-width:none;
+    > .grid{
+      width:auto;
+      .span3{
+        display:none;
+      }
+      .span9{
+        width:98%;
+        margin:0;
+      }
+    }
+  }
 }
 

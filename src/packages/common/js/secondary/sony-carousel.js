@@ -8,6 +8,26 @@
 // * **Author:** George Pantazis
 // * **Dependencies:** jQuery 1.7+
 //
+// This plugin is used to create flexible carousels. Given that *#foo* is an element containing a
+// number of slides, hidden by *#foo-carousel-wrapper*'s `overflow: hidden;` property, #foo will
+// become draggable with each slide being a snap-point for progression between the slides.
+// Additionally, your CSS should be such that the carousel can have slides added to it
+// on either end without breaking; this allows for "infinite" carousels.
+//
+// Refer to this Jade structure:
+//
+//      div#foo-carousel-wrapper
+//        div#foo
+//          div.foo-carousel-slide
+//            div.foo-slide-children
+//            div.foo-slide-children
+//          div.foo-carousel-slide
+//            div.foo-slide-children
+//            div.foo-slide-children
+//          div.foo-carousel-slide
+//            div.foo-slide-children
+//            div.foo-slide-children
+//
 // *Example Usage:*
 //
 // See Defaults for detailed explanation of properties. The sonyCarousel() method should be called
@@ -15,11 +35,8 @@
 //
 //      $('#foo').sonyCarousel({
 //        wrapper: '#foo-carousel-wrapper',
-//        slides: '.foo-carousel-slides',
+//        slides: '.foo-carousel-slide',
 //        slideChildren: '.foo-slide-children',
-//        axis: 'x',
-//        unit: '%',
-//        dragThreshold: 10,
 //        useCSS3: true,
 //        paddles: true,
 //        pagination: true
@@ -29,7 +46,7 @@
 //
 //      $('#foo').sonyCarousel('gotoSlide', 0);
 //
-// If you've replaced or manipulated the slides, tell SonyCarousel to re-cache them again.
+// If you've replaced or manipulated the slides, tell SonyCarousel to cache them again.
 //
 //      $('#foo').sonyCarousel('resetSlides');
 
@@ -42,6 +59,7 @@ define(function(require){
       Modernizr = require('modernizr'),
       iQ = require('iQ'),
       Settings = require('require/sony-global-settings'),
+      Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
       sonyDraggable = require('secondary/sony-draggable'),
       sonyPaddles = require('secondary/sony-paddles'),
@@ -54,7 +72,6 @@ define(function(require){
 
     self.$el = $element;
     self.$wrapper = self.$el.parent(self.wrapper);
-    self.$slides = self.$el.find(self.slides);
 
     self.init();
   };
@@ -67,8 +84,38 @@ define(function(require){
 
       var self = this;
 
+      self.resetSlides();
       self.setupLinkClicks();
       self.setupDraggable();
+
+      Environment.on('global:resizeDebounced-200ms', function(){
+        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
+      });
+
+      self.gotoSlide(0);
+    },
+
+    setupLoopedCarousel: function() {
+
+      var self = this;
+
+      self.$allSlides = self.$slides;
+
+      for ( var i = 0; i < self.edgeSlides; i++ ) {
+
+        var $frontSlide = self.$slides.eq(i).clone(true),
+            $backSlide = self.$slides.eq(self.$slides.length - 1 - i).clone(true);
+
+        $frontSlide.addClass(self.cloneClass)
+            .data('sonyCarouselGoto', i);
+
+        $backSlide.addClass(self.cloneClass)
+            .data('sonyCarouselGoto', self.$slides.length - 1 - i);
+
+        self.$el.append($frontSlide).prepend($backSlide);
+
+        self.$allSlides = self.$allSlides.add($frontSlide).add($backSlide);
+      }
     },
 
     setupDraggable: function() {
@@ -88,18 +135,6 @@ define(function(require){
         'containment': self.$wrapper,
         'useCSS3': self.useCSS3,
         'drag': function(){ iQ.update(true); }
-      });
-
-      if ( self.paddles ) {
-        self.createPaddles();
-      }
-
-      if ( self.pagination ) {
-        self.createPagination();
-      }
-
-      Environment.on('global:resizeDebounced-200ms', function(){
-        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
       });
 
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
@@ -143,32 +178,91 @@ define(function(require){
       }
     },
 
+    getPositions: function($slideSet) {
+
+      var self = this,
+          leftBounds = self.$wrapper.get(0).getBoundingClientRect().left,
+          positions = [],
+          destination;
+
+      $slideSet.each(function(a){
+        positions.push(this.getBoundingClientRect().left - leftBounds);
+      });
+
+      return positions;
+    },
+
     // Find the nearest slide, and move the carousel to that.
 
     gotoNearestSlide: function(e, data) {
 
       var self = this,
           leftBounds = self.$wrapper.get(0).getBoundingClientRect().left,
-          positions = [];
+          $slideSet = self.$allSlides || self.$slides,
+          destination, positions;
 
-      self.$slides.each(function(a){
-        positions.push(Math.abs(leftBounds - this.getBoundingClientRect().left));
-      });
+      positions = self.getPositions($slideSet);
 
-      self.gotoSlide(positions.indexOf(Math.min.apply(Math, positions)));
+      destination = positions.indexOf(Utilities.closestInArray(positions, 0));
+
+      if ( self.looped ) {
+        destination -= self.edgeSlides;
+      }
+
+      self.gotoSlide(destination);
     },
 
     // Go to a given slide.
+    // TODO: This is getting to be confusing. Should split it into a few methods for readability.
 
-    gotoSlide: function(which) {
+    gotoSlide: function(which, noAnim) {
 
       var self = this,
-          $destinationSlide = self.$slides.eq(which),
-          destinationLeft, innerContainerWidth;
+          $slideSet = self.$slides,
+          speed = ( noAnim ? 0 : self.animationSpeed ),
+          $destinationSlide, destinationLeft, destinationRedirect, innerContainerWidth, repositionCb, newPosition;
+
+      // Logic for the natural ends of a carousel that has been looped
+
+      if ( self.looped && ( which === -1 || which >= self.$slides.length )) {
+        $slideSet = self.$allSlides;
+        if ( which === -1 ) {
+          $destinationSlide = $slideSet.eq(self.edgeSlides - 1);
+        } else if ( which >= self.$slides.length ) {
+          $destinationSlide = $slideSet.eq(self.edgeSlides + self.$slides.length);
+        }
+      } else {
+        $destinationSlide = $slideSet.eq(which);
+      }
+
+      // Logic for swapping slides around, to make transitions from distant slides seamless. (see: `self.jumping`)
+
+      if ( self.jumping && !self.isJumped && self.$slides.filter($destinationSlide).length > 0 && speed ) {
+
+        var positions = self.getPositions(self.$slides),
+            destIndex = self.$slides.index($destinationSlide),
+            currentIndex = positions.indexOf(Utilities.closestInArray(positions, 0)),
+            leftIndex, rightIndex, positionsExcludingCurrent;
+
+        if ( Math.abs(currentIndex - destIndex) > 1 ) {
+
+          self.isJumped = true;
+
+          positionsExcludingCurrent = positions.slice(0);
+          positionsExcludingCurrent.splice(currentIndex, 1);
+
+          leftIndex = positions.indexOf(Utilities.closestInArray(positionsExcludingCurrent, 0, '<'));
+          rightIndex = positions.indexOf(Utilities.closestInArray(positionsExcludingCurrent, 0, '>'));
+
+          if ( destIndex > currentIndex ) {
+            Utilities.swapElements(self.$slides.eq(rightIndex), $destinationSlide);
+          } else if ( destIndex < currentIndex ) {
+            Utilities.swapElements(self.$slides.eq(leftIndex), $destinationSlide);
+          }
+        }
+      }
 
       if ( $destinationSlide.length === 0 ) { return; }
-
-      self.currentSlide = which;
 
       destinationLeft = $destinationSlide.position().left;
       innerContainerWidth = self.$el.width();
@@ -185,18 +279,18 @@ define(function(require){
 
       if ( self.useCSS3 ) {
 
-        var newPosition = destinationLeft / innerContainerWidth;
+        newPosition = destinationLeft / innerContainerWidth;
 
         // If you're on the last slide, only move over enough to show the last child.
         // Prevents excess whitespace on the right.
 
-        if ( self.slideChildren && which === self.$slides.length - 1 ) {
+        if ( self.slideChildren && which === $slideSet.length - 1 ) {
           var childrenWidth = 0;
           $destinationSlide.find(self.slideChildren).each(function(){ childrenWidth += $(this).outerWidth(true); });
           newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;
         }
 
-        self.$el.css(Modernizr.prefixed('transitionDuration'), '450ms');
+        self.$el.css(Modernizr.prefixed('transitionDuration'), speed + 'ms' );
         self.$el.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
 
       } else {
@@ -204,10 +298,42 @@ define(function(require){
         self.$el.animate({
           'left': -100 * destinationLeft / self.$wrapper.width() + '%'
         }, {
-          'duration': 350,
+          'duration': speed,
           'complete': function(){ iQ.update(true); }
         });
       }
+
+      // If you've taken the carousel out of its normal flow (either with `self.jumping` or `self.looped`)
+      // Reset the carousel to its natural position and order.
+
+      destinationRedirect = $destinationSlide.data('sonyCarouselGoto');
+
+      if ( ( self.isJumped && speed ) || typeof destinationRedirect !== 'undefined' ) {
+
+        repositionCb = Utilities.once(function(){
+
+          if ( self.isJumped ) {
+            self.$allSlides.each(function(){
+              $(this).detach().appendTo(self.$el);
+            });
+          }
+
+          self.gotoSlide( self.isJumped ? which : destinationRedirect, true );
+
+          iQ.update(true);
+          self.isJumped = false;
+        });
+
+        if ( self.useCSS3 ) {
+          self.$el.on(Settings.transEndEventName, repositionCb);
+        } else {
+          setTimeout(repositionCb, speed);
+        }
+
+        return;
+      }
+
+      self.currentSlide = which;
 
       self.$el.trigger('SonyCarousel:gotoSlide', self.currentSlide);
     },
@@ -223,9 +349,7 @@ define(function(require){
         return;
       }
 
-      var $dotnavWrapper = $('<div class="sony-dot-nav" />');
-
-      $dotnavWrapper.insertAfter(self.$wrapper);
+      var $dotnavWrapper = $('<div class="sony-dot-nav" />').insertAfter(self.$wrapper);
 
       self.$dotnav = $dotnavWrapper.sonyNavDots({
         'buttonCount': self.$slides.length
@@ -235,49 +359,44 @@ define(function(require){
         self.gotoSlide(which);
       });
 
-      self.$wrapper.on('SonyCarousel:gotoSlide', function(e, which) {
+      self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
         self.$dotnav.sonyNavDots('reset', {
           'activeButton': which
         });
-
-        if( $('html').hasClass('lt-ie9') ){
-          var height = 0;
-          self.$dotnav.css('display' , 'none');
-          height = self.$dotnav.get(0).offsetHeight;
-          self.$dotnav.css('display' , 'block');
-        }
       });
     },
 
     createPaddles: function() {
 
-      var self = this;
+      var self = this,
+          $wrapper = self.$wrapper;
 
-      if ( Modernizr.touch ) {
+      if ( Modernizr.touch || self.paddlesInit ) {
         return;
       }
 
-      self.$wrapper.sonyPaddles();
+      self.paddlesInit = true;
 
-      self.$wrapper.on('SonyCarousel:gotoSlide', function(e, which) {
+      $wrapper.sonyPaddles();
 
-        self.$wrapper.sonyPaddles('showPaddle', 'left');
-        self.$wrapper.sonyPaddles('showPaddle', 'right');
+      self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
 
-        if ( which === 0 ) {
-          self.$wrapper.sonyPaddles('hidePaddle', 'left');
+        $wrapper.sonyPaddles('showPaddle', 'both');
+
+        if ( which === 0 && !self.looped ) {
+          $wrapper.sonyPaddles('hidePaddle', 'left');
         }
 
-        if ( which === self.$slides.length - 1 ) {
-          self.$wrapper.sonyPaddles('hidePaddle', 'right');
+        if ( which === self.$slides.length - 1 && !self.looped ) {
+          $wrapper.sonyPaddles('hidePaddle', 'right');
         }
       });
 
-      self.$wrapper.on('sonyPaddles:clickLeft', function(){
+      $wrapper.on('sonyPaddles:clickLeft', function(){
         self.gotoSlide(self.currentSlide - 1);
       });
 
-      self.$wrapper.on('sonyPaddles:clickRight', function(){
+      $wrapper.on('sonyPaddles:clickRight', function(){
         self.gotoSlide(self.currentSlide + 1);
       });
     },
@@ -324,8 +443,19 @@ define(function(require){
 
       var self = this;
 
-      self.$slides = self.$el.find(self.slides);
-      self.createPagination();
+      self.$slides = self.$el.find(self.slides).not(self.cloneClass);
+
+      if ( self.looped ) {
+        self.setupLoopedCarousel();
+      }
+
+      if ( self.paddles ) {
+        self.createPaddles();
+      }
+
+      if ( self.pagination ) {
+        self.createPagination();
+      }
     }
   };
 
@@ -369,6 +499,22 @@ define(function(require){
     // If a selector is specified, the matched anchor's href will be the default click for any point
     // in the slideChildren set.
     defaultLink: undefined,
+
+    // Should this carousel seamlessly loop from end to end?
+    looped: false,
+
+    // Should the carousel jump directly to the next slide in either direction?
+    jumping: false,
+
+    // If this is a looped carousel, how many clones should be on either side to create the infinite illusion?
+    // Helpful if your carousel lets the user see more than a few slides at once.
+    edgeSlides: 1,
+
+    // Default class for edgeSlides.
+    cloneClass: 'sony-carousel-edge-clone',
+
+    // Speed of slide animation, in ms.
+    animationSpeed: 450,
 
     // Which direction the carousel moves in. Plugin currently only supports 'x'.
     axis: 'x',
