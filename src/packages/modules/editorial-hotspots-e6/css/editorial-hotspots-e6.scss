@@ -18,6 +18,7 @@ $transitionSpeed: .5s;
   transition:$transitionSpeed;	
 }
 
+
 /*UTILS*/
 .ehs {
   .info-jump-to-top {
@@ -33,6 +34,98 @@ $transitionSpeed: .5s;
     @include ehsTransition();
     opacity: 1;    
   }
+  .info-large {
+    .three-stack {
+      .right-top-justified {
+        top: -159px;
+        left: 63px;
+      }
+      
+      .left-top-justified {
+        top: -159px;
+        left: -288px;
+      }
+    
+      .right-bottom-justified {
+        top: -284px;
+        left: 63px;
+      }
+      
+      .left-bottom-justified {
+        left: -288px;
+        top: -284px;
+      }
+    }
+    .two-stack, .one-stack {
+      .right-top-justified {
+        top: -14px;
+        left: 63px;
+      }
+      
+      .left-top-justified {
+        top: -14px;
+        left: -288px;
+      }
+    
+      .right-bottom-justified {
+        top: -139px;
+        left: 63px;
+      }
+      
+      .left-bottom-justified {
+        top: -139px;
+        left: -288px;        
+      }
+    }
+  }
+  
+  .info-small {
+    .three-stack {
+      .right-top-justified {
+        top: -124px;
+        left: 60px;
+      }
+      
+      .left-top-justified {
+        top: -124px;
+        left: -235px;
+      }
+    
+      .right-bottom-justified {
+        top: -239px;
+        left: 60px;
+      }
+      
+      .left-bottom-justified {
+        top: -239px;
+        left: -235px;
+      }
+    }
+    .two-stack, .one-stack {
+      .right-top-justified {
+        top: -4px;
+        left: 60px;
+      }
+      
+      .left-top-justified {
+        top: -4px;
+        left: -235px;        
+      }
+    
+      .right-bottom-justified {
+        top: -119px;
+        left: 60px;        
+      }
+      
+      .left-bottom-justified {
+        top: -119px;
+        left: -235px;        
+      }
+    }
+  }
+
+
+
 }
 /*CONTAINER DEFINITIONS*/
 
@@ -128,14 +221,13 @@ $transitionSpeed: .5s;
   -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   z-index: 2;
-  /* default right justified, left top arrow showing */
-  position: absolute;
-  top: -159px;
-  left: 63px;
-  
+  position: absolute;  
   &.variant1 { 
     width: 280px;
     max-height: 454px;
+    /* default right justified, left top arrow showing */
+    top: -159px;
+    left: 63px;
     .top {
       
     }
@@ -205,6 +297,9 @@ $transitionSpeed: .5s;
   &.variant2 { 
     width: 230px;
     max-height: 398px;
+    /* default right-top justified */
+    top: -124px;
+    left: 60px;
     .top {}
     .middle {
       padding: 20px 30px 23px 20px;
