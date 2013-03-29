@@ -411,6 +411,11 @@ module.exports = function(grunt) {
     grunt.task.run('pages');
   });
 
+  grunt.registerTask('requirejs_deploy', function(){
+    grunt.option('deploy', true);
+    grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
+  });
+
   grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages_debug', 'pages_deploy']);
 
   //******************************************************************************
@@ -533,7 +538,7 @@ module.exports = function(grunt) {
     grunt.task.run(['clear', 'common', 'assets'+module, 'light'+module])
 
     if(grunt.option('deploy')){
-      grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
+      grunt.task.run('requirejs_deploy');
     }
   });
 
