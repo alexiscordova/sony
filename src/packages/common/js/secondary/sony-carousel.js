@@ -313,7 +313,7 @@ define(function(require){
         repositionCb = Utilities.once(function(){
 
           if ( self.isJumped ) {
-            self.$allSlides.each(function(){
+            ( self.$allSlides || self.$slides ).each(function(){
               $(this).detach().appendTo(self.$el);
             });
           }
