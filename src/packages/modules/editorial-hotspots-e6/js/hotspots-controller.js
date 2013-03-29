@@ -162,7 +162,7 @@ define(function(require) {
           collidesRight         = false,
           collidesFloor         = false,
           collidesLeft          = false,
-          collides              = true, // assume there is a problem to start the loop, and break the loop
+          collides              = null, // assume there is a problem to start the loop, and break the loop
           topOverlayPosition    = null,
           leftOverlayPosition   = null,
           bottomOverlayPosition = null,
@@ -172,36 +172,77 @@ define(function(require) {
        * INITIAL CALCULATIONS TO SEE IF WE'RE COLLIDING AT THE DEFAULT POSITIONING (TOP RIGHT)
        * THIS SHOULD LOOP 4 TIMES. IF IT'S STILL COLLIDING WE HAVE TO FIGURE THAT OUT...heh...
        **/
+       
+/*
+      log('pre:');
+      log(overlay.position().top);
+      log(overlay.position().left);
+*/
 
-      for( var i=0; i<4 && collides === true; i++ ) {
+      for( var i=0; i<4 && ( true === collides || null === collides ); i++ ) { 
+        
+        // resample coordinates
+        overlayHeight       = overlay.height(),
+        overlayPosition     = overlay.position(),
+        overlayHeaderHeight = overlay.find( '.top' ).height(),
+        hotspotPosition     = overlay.parent().position(),
         
         // check if the hotspot's offset plus the negative margin of the overlay is at or less than "top:0" with resepct to it's container
         topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top );
         if( topOverlayPosition <= 0 ) {
           // it is colliding with the top of the parent container
-          collidesTop = collides = true;
+          collidesTop = true;
+          self.clearPositionStyles(overlay);
+          overlay.addClass( rows + '-stack-right-top-justified' );
+          overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
           log('::overlay hits container top::');
+        } else {
+          collidesTop = false;
         }
         
         // check if overlays' width plus position offset is overlapping the rightmost boundary of it's container
         rightOverlayPosition = hotspotPosition.left + overlayPosition.left + overlay.width();
         if( rightOverlayPosition >= parentRight ) {
-          collidesRight = collides = true;
+          collidesRight = true;
+          self.clearPositionStyles(overlay);
+          overlay.addClass( rows + '-stack-left-top-justified' );
+          overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
           log('::overlay hits container right::');
+        } else {
+          collidesRight = false;
         }
         
         bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height();
         if( bottomOverlayPosition >= parentFloor ) {
-          collidesFloor = collides = true;
+          collidesFloor = true;
+          self.clearPositionStyles(overlay);
+          overlay.addClass( rows + '-stack-left-bottom-justified' );
+          overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
           log('::overlay hits container floor::');
+          log();
+        } else {
+          collidesFloor = false;
         }
         
         leftOverlayPosition = hotspotPosition.left + overlayPosition.left;
         if( leftOverlayPosition <= 0 ) {
-          collidesLeft = collides = true;
+          collidesLeft = true;
+          self.clearPositionStyles(overlay);
+          overlay.addClass( rows + '-stack-right-bottom-justified' );
+          overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
           log('::overlay hits container left::');
+        } else {
+          collidesLeft = false;
         }
         
+        log(collidesTop , collidesRight , collidesFloor , collidesLeft);
+        
+        if( collidesTop || collidesRight || collidesFloor || collidesLeft ) {
+          collides = true;
+        } else {
+          collides = false;
+        }
+
 /*
         log('rightOverlayPosition '+rightOverlayPosition);
         log('topOverlayPosition '+topOverlayPosition);
@@ -210,73 +251,43 @@ define(function(require) {
 */
         
         
-        // IF WE NEED TO, CLEAR ALL PREVIOUS POSITIONS
-        if( collidesLeft || collidesRight || collidesTop || collidesFloor ) {
-          self.clearPositionStyles(overlay);
-        }
-        
-        
         /*
          * START CLOCKWISE AT HIGH NOON AND ROLL THROUGH ONCE
-         * AND MAKE ADJUSTMENTS
+         * AND MAKE ADJUSTMENTS (CAN BE COMBINED ABOVE, LATER)
          **/
         
+/*
         if(collidesTop) {
           overlay.addClass( rows + '-stack-right-top-justified' );
-          overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
+          overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
+          log('activating left top arrow');
         } else if(collidesRight) {
           overlay.addClass( rows + '-stack-left-top-justified' );
-          overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
+          overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
+          log('activating right top arrow');
         } else if(collidesFloor) {
           overlay.addClass( rows + '-stack-left-bottom-justified' );
-          overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
+          overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
+          log('activating right bottom arrow');
         } else if(collidesLeft) {
           overlay.addClass( rows + '-stack-right-bottom-justified' );
-          overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
+          overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
+          log('activating left bottom arrow');
         } else {
           collides = false;
         }
+*/
+
+        log('collides '+collides);   
         
-      }
-
-      
-
-
-
-      /*
-       * RETEST THE HITS AROUND THE CLOCK
-       * 
-       **/
-
-
-      /*
-       * IF THERE IS STILL COLLISION, WE NEED TO ATTEMPT TO SHRINK THE OVERLAY (SHUT OFF TOP IMAGE, IF PRESENT, ETC)
-       * AND RERUN THE TEST
-       **/
-
-
-       
-      /*
-       * IF TOP IMAGE ON, TURN IT OFF AND RETEST
-       * 
-       **/
-
-
-
-      /*
-       * IF TOP IMAGE OFF, BUT BOTTOM NODE IS ON, TURN IT OFF AND RETEST
-       * 
-       **/
-
-
-
-      /*
-       * IF THERE IS STILL COLLISION, WE HAVE A PRETTY SMALL SCREEN
-       * ...
-       **/
-      
-      
-      
+        // if we're in the last iteration of the loop, and no position has been found,
+        // we need to attempt to turn off the the top or bottom section to make room
+        // since we're tracking collisions by side, we can easily do this prescriptively,
+        // ...
+        if( true === collides ) {
+          log('NO POSITIONS WORKED! YEEEEKS. ');
+        }
+      } // END COLLISION DETECTION
 
     },
     clearPositionStyles: function(el) {
@@ -297,37 +308,49 @@ define(function(require) {
         var self = this;
         // we are setting display:none when the trasition is complete, and managing the timer here
         self.cleanTimer();
+        
         // save last close state
         container.data( 'state', 'closed' ).removeClass( 'info-jump-to-top' );
+        
         // perform CSS transitions
         hotspot.removeClass( 'hspot-core-on' ).addClass( 'hspot-core' );
+        
         // begin fade out
         info.find('.top').removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
         info.find('.middle').removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
         info.find('.footer').removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
+        
         // closure to allow script to set display:none when transition is complete
         var anon = function() {
           info.addClass( 'hidden' );
         };
+        
         // fire a timer that will set the display to none when the element is closed. 
         self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
     },
     open: function( container, hotspot, info ) {
         var self = this;
+        
         // we are setting display:none when the trasition is complete, and managing the timer here
         if(self.$lastOpen && container.is(self.$lastOpen[0])) {
           self.cleanTimer();
         }
+        
         // save last open state
         self.$lastOpen = new Array( container, hotspot, info );
+        
         // add data- info to this hotspot
         container.data( 'state', 'open' ).addClass( 'info-jump-to-top' );
+        
         // perform CSS transitions
         hotspot.removeClass( 'hspot-core' ).addClass( 'hspot-core-on' );
+        
         // we have to set display: block to allow DOM to calculate dimension
         info.removeClass( 'hidden' );
+        
         // reposition window per it's collision detection
         self.reposition( container );
+        
         // fade in info window
         info.find('.top').addClass( 'eh-visible' );
         info.find('.middle').addClass( 'eh-visible' );
