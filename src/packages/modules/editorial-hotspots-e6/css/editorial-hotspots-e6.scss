@@ -34,93 +34,97 @@ $transitionSpeed: .5s;
     @include ehsTransition();
     opacity: 1;    
   }
-  .info-large {
-    .three-stack {
-      .right-top-justified {
-        top: -159px;
-        left: 63px;
-      }
-      
-      .left-top-justified {
-        top: -159px;
-        left: -288px;
-      }
-    
-      .right-bottom-justified {
-        top: -284px;
-        left: 63px;
-      }
-      
-      .left-bottom-justified {
-        left: -288px;
-        top: -284px;
-      }
+  .variant1 {
+    -o-transition:0s;
+    -ms-transition:0s;
+    -moz-transition:0s;
+    -webkit-transition:0s;
+    transition:0s;
+    &.three-stack-right-top-justified {
+      top: -159px;
+      left: 63px;
     }
-    .two-stack, .one-stack {
-      .right-top-justified {
-        top: -14px;
-        left: 63px;
-      }
       
-      .left-top-justified {
-        top: -14px;
-        left: -288px;
-      }
+    &.three-stack-left-top-justified {
+      top: -159px;
+      left: -288px;
+    }
     
-      .right-bottom-justified {
-        top: -139px;
-        left: 63px;
-      }
+    &.three-stack-right-bottom-justified {
+      top: -284px;
+      left: 63px;
+    }
       
-      .left-bottom-justified {
-        top: -139px;
-        left: -288px;        
-      }
+    &.three-stack-left-bottom-justified {
+      left: -288px;
+      top: -284px;
+    }
+    
+    &.two-stack-right-top-justified {
+      top: -14px;
+      left: 63px;
+    }
+      
+    &.two-stack-left-top-justified {
+      top: -14px;
+      left: -288px;
+    }
+    
+    &.two-stack-right-bottom-justified {
+      top: -139px;
+      left: 63px;
+    }
+      
+    &.two-stack-left-bottom-justified {
+      top: -139px;
+      left: -288px;        
     }
   }
   
-  .info-small {
-    .three-stack {
-      .right-top-justified {
-        top: -124px;
-        left: 60px;
-      }
-      
-      .left-top-justified {
-        top: -124px;
-        left: -235px;
-      }
-    
-      .right-bottom-justified {
-        top: -239px;
-        left: 60px;
-      }
-      
-      .left-bottom-justified {
-        top: -239px;
-        left: -235px;
-      }
+  .variant2 {
+    -o-transition:0s;
+    -ms-transition:0s;
+    -moz-transition:0s;
+    -webkit-transition:0s;
+    transition:0s;
+    &.three-stack-right-top-justified {
+      top: -124px;
+      left: 60px;
     }
-    .two-stack, .one-stack {
-      .right-top-justified {
-        top: -4px;
-        left: 60px;
-      }
       
-      .left-top-justified {
-        top: -4px;
-        left: -235px;        
-      }
+    &.three-stack-left-top-justified {
+      top: -124px;
+      left: -235px;
+    }
     
-      .right-bottom-justified {
-        top: -119px;
-        left: 60px;        
-      }
+    &.three-stack-right-bottom-justified {
+      top: -239px;
+      left: 60px;
+    }
       
-      .left-bottom-justified {
-        top: -119px;
-        left: -235px;        
-      }
+    &.three-stack-left-bottom-justified {
+      top: -239px;
+      left: -235px;
+    }
+
+    &.two-stack-right-top-justified {
+      top: -4px;
+      left: 60px;
+    }
+      
+    &.two-stack-left-top-justified {
+      top: -4px;
+      left: -235px;        
+    }
+    
+    &.two-stack-right-bottom-justified {
+      top: -119px;
+      left: 60px;        
+    }
+      
+    &.two-stack-left-bottom-justified {
+      top: -119px;
+      left: -235px;        
     }
   }
 
@@ -216,12 +220,13 @@ $transitionSpeed: .5s;
 /*DETAILS WINDOW*/
 
 .overlay-base {
-  background-color: #fff;
+/*
   -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
   -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
+*/
   z-index: 2;
-  position: absolute;  
+  position: absolute;
   &.variant1 { 
     width: 280px;
     max-height: 454px;
@@ -229,9 +234,10 @@ $transitionSpeed: .5s;
     top: -159px;
     left: 63px;
     .top {
-      
+      background-color: #fff;
     }
     .middle {
+      background-color: #fff;
       padding: 30px 40px 29px 30px;
       border-bottom: 1px solid #e4e7eb;
       position: relative;
@@ -271,6 +277,7 @@ $transitionSpeed: .5s;
       
     }
     .footer {
+      background-color: #fff;
       padding: 18px 40px 32px 30px;
       .p3 {
         font-style: italic;
@@ -300,8 +307,11 @@ $transitionSpeed: .5s;
     /* default right-top justified */
     top: -124px;
     left: 60px;
-    .top {}
+    .top {
+      background-color: #fff;
+    }
     .middle {
+      background-color: #fff;
       padding: 20px 30px 23px 20px;
       border-bottom: 1px solid #e4e7eb;
       position: relative;
@@ -340,6 +350,7 @@ $transitionSpeed: .5s;
       }
     }
     .footer {
+      background-color: #fff;
       padding: 20px 30px 30px 20px;
       p.p4 {
         font-style: italic;
