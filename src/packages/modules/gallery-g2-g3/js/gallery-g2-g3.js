@@ -737,17 +737,17 @@ define(function(require){
       }
 
       // Adding events can be deferred
-      setTimeout(function() {
+      setTimeout(function( self ) {
 
-        window.console && console.time && console.time('compare defer 1');
+        function removeButtonClick( evt ) {
+          $.when( self.hideCompareItem( evt ) ).always(function() {
+            self.onCompareFiltered();
+          });
+        }
+
         // Add events to close buttons
         self.$items.find('.js-remove-item')
-          .on('click', function( evt ) {
-            $.when( self.hideCompareItem( evt ) ).always(function() {
-              self.onCompareFiltered();
-            });
-          })
-
+          .on('click', removeButtonClick)
           // Don't let the transition end event from the button bubble up to the compare-item
           .on( Settings.transEndEventName, false );
 
@@ -784,8 +784,7 @@ define(function(require){
           self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
 
         }, 150);
-        window.console && console.time && console.timeEnd('compare defer 1');
-      }, 0);
+      }, 0, self);
     },
 
     initStickyNav : function() {
@@ -811,7 +810,7 @@ define(function(require){
           var contentWidth = 0;
 
           // Count it
-          self.$items.not('.hide').each(function() {
+          self.$items.not('.hidden').each(function() {
             contentWidth += $(this).outerWidth();
           });
 
@@ -1939,9 +1938,6 @@ define(function(require){
       // Without transforms, iScroll uses absolute positioning and the container
       // gets a width/height of 0 with overflow:hidden
       if ( !Modernizr.csstransforms ) {
-        console.log('containerWidth: ' + width);
-        console.log('containerHeight: ' + height);
-
         self.$compareItemsWrap
           .width( scrollerWidth )
           .height( height );
@@ -2050,8 +2046,6 @@ define(function(require){
         self.$gridProductNames.evenHeights();
       }
 
-      window.console && console.time && console.time(this.id + ' resize');
-
       // Don't change columns for detail galleries
       // Change the filters column layout
       if ( self.isDetailedMode || self.isCompareMode ) {
@@ -2078,8 +2072,9 @@ define(function(require){
           }, 25);
         }
 
+        // Reset the range control, but don't trigger any events
         if ( self.$rangeControl ) {
-          self.$rangeControl.rangeControl('reset');
+          self.$rangeControl.rangeControl('reset', undefined, false);
         }
 
         // Setting the tone bar variable is deferred. Calling it here results in an error
@@ -2110,8 +2105,6 @@ define(function(require){
       if ( self.isEditorialMode ) {
         self.sortByPriority();
       }
-
-      window.console && console.time && console.timeEnd(this.id + ' resize');
     },
 
     moveFilters : function() {
@@ -2325,26 +2318,31 @@ define(function(require){
     hideCompareItem : function( $item ) {
       var self = this,
           dfd = new $.Deferred(),
-          isEvent = !!$item.type;
+          isEvent = !!$item.type,
+          evt;
 
+      evt = isEvent ? $item : undefined;
       $item = !isEvent ? $item : $($item.target).closest('.compare-item');
 
       // If this is coming from an event, we're going to assume that it's from clicking the
       // x button on a gallery item. We'll need to add the .concealed class
 
       // 3
-      function hideItem(evt) {
+      function hideItem() {
         // Hide the column
         $item.addClass('hidden');
         if ( isEvent ) {
           $item.addClass('concealed').removeClass('filtered');
-          self.setFilterStatuses();
+          // Putting this in a rAF because it can be deferred and also takes a while
+          window.requestAnimationFrame(function() {
+            self.setFilterStatuses();
+          });
         }
         dfd.resolve();
       }
 
       // 2
-      function noWidth( evt ) {
+      function noWidth() {
         $item
           .one( Settings.transEndEventName, hideItem )
           .addClass('no-width');
@@ -2357,10 +2355,15 @@ define(function(require){
 
       if ( Modernizr.csstransitions ) {
         $item.one( Settings.transEndEventName, noWidth );
-        fadeItemOut();
+        window.requestAnimationFrame( fadeItemOut );
 
       } else {
         hideItem();
+      }
+
+      // Stop click from bubbling to iScroll
+      if ( isEvent ) {
+        evt.stopPropagation();
       }
 
       return dfd.promise();
@@ -2369,26 +2372,42 @@ define(function(require){
     onCompareFiltered : function() {
       var self = this,
           total = self.$items.length,
-          remaining = self.$items.not('.hidden').length;
+          remaining = self.$items.not('.hidden').length,
+          isResetDisabled = self.$compareReset.hasClass('disabled'),
+          $removeButtons = self.$grid.find('.js-remove-item'),
+          $hiddenButtons;
 
       // Enable the reset button if the remaining items is not the same as the total
       if ( total !== remaining ) {
-        self.$compareReset.removeClass('disabled').addClass('active');
-      } else if ( !self.$compareReset.hasClass('disabled') ) {
-        self.$compareReset.addClass('disabled');
+        if ( isResetDisabled ) {
+          self.$compareReset.removeClass('disabled').addClass('active');
+        }
+
+      } else {
+        if ( !isResetDisabled ) {
+          self.$compareReset.addClass('disabled');
+        }
       }
 
       // Hide close button if there are only 2 left
       if ( remaining < 3 ) {
-        self.$grid.find('.js-remove-item').addClass('hidden');
+        $removeButtons.addClass('hidden');
+
       } else {
-        self.$grid.find('.js-remove-item.hidden').removeClass('hidden');
+        $hiddenButtons = $removeButtons.filter('.hidden');
+        if ( $hiddenButtons.length ) {
+          $hiddenButtons.removeClass('hidden');
+        }
       }
 
-      self.scroller.refresh();
+      window.requestAnimationFrame(function() {
+        self.scroller.refresh();
 
-      // Maybe they haven't scrolled horizontally to see other images
-      iQ.update();
+        // Maybe they haven't scrolled horizontally to see other images
+        iQ.update();
+      });
+
+      $removeButtons = null;
     },
 
     getY : function( y ) {

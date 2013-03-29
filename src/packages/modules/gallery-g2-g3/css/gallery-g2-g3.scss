@@ -202,7 +202,7 @@ $gifHeight: 60px;
 // Holdes Filter Results button, compare button, # products, and sorting dropdown
 .filter-display-bar {
   position: relative;
-  z-index: 11;
+  z-index: 20;
 
   .btn {
     margin-bottom: 0;
@@ -638,22 +638,8 @@ $compareBorder: .0625em solid $gray70;
   }
 }
 
-// Wrapper for the items in the compare tool. Sibling of the labels.
-.compare-items-wrap {
-  // position: relative;
-  // height: 100%; // Get parent's height
-  // overflow: visible !important; // override iscroll
-
-  // .lt-ie9 &,
-  // .sonytablets & {
-  //   overflow: hidden !important;
-  // }
-}
-
-
 .compare-items-wrap {
   position: relative;
-  z-index: 15;
 
   .no-csstransforms & {
     float: left;
@@ -703,6 +689,7 @@ $stickyHeaderHeight: px-em(82);
 .compare-item {
   position: relative;
   overflow: hidden;
+  min-width: px-em(180);
   background: $white;
   color: $gray20;
   border-right: .0625em solid $gray70;
@@ -744,6 +731,10 @@ $stickyHeaderHeight: px-em(82);
   .detail {
     color: $gray20;
     padding: 1.25em 1.875em 2.5em .9375em;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
 
     // Copy paste the .visuallyhidden class
     .cell-label {

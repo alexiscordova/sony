@@ -287,7 +287,7 @@ else if data.view == 'compare'
       button(class="box-close box-close-small js-remove-item", data-dismiss="modal", aria-hidden="true")
         i.fonticon-10-x
       +iQImage( data.imgTiny )
-      p.product-model.l3-light= data.model
+      span.product-model.l3-light= data.model
 
     //- Close button
     button(class="box-close box-close-small js-remove-item", data-dismiss="modal", aria-hidden="true")
@@ -350,7 +350,7 @@ else if data.view == 'compare'
                           span= value.label
                         p.p3!= value.description
               else
-                | !{detail.value}
+                p.p3= detail.value
 
 
 else if data.view == 'specs'

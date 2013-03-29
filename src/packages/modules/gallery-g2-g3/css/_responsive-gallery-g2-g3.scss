@@ -420,20 +420,34 @@ $galleryFourColMax: px-em(979px);
 
   .compare-item {
 
+    .compare-sticky-header {
+      height: auto;
+      text-align: left;
+    }
+
+    .compare-sticky-header img,
+    .compare-sticky-header .product-model {
+      display: inline-block;
+    }
+
+    .compare-sticky-header .product-model {
+      position: static;
+      vertical-align: middle;
+      margin-left: 1em;
+    }
+
     // undo the .visuallyhidden class
     .detail .cell-label {
       clip: auto;
       height: auto;
-      margin: 0;
+      margin: 0 0 px-em(14, 10) 0;
       overflow: visible;
       position: static;
       width: auto;
-
-      // padding: 18px 0 14px;
     }
   }
 
-  // .takeover-sticky-header .box-close {
-  //   display: block;
-  // }
+  .sticky-nav.tone-bar {
+    padding-top: px-em(18);
+  }
 }
