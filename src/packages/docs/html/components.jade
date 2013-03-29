@@ -1,0 +1,389 @@
+include ../../common/html/ieconditionals.html
+
+doctype 5
+
+include docs-head.html
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
+  include docs-nav.html
+
+  header.jumbotron.subhead#overview
+    div.container
+      h1 Components
+      p Basic UI Components, with examples.
+
+  div.container
+
+    div.bs-docs-sidebar
+      ul.simple-nav.nav-list.bs-docs-sidenav
+        li
+          a(href='#carousels')
+            i.icon-chevron-right
+            | Carousels
+
+    div.bs-docs-main-content
+      section#carousels
+        h2#headings Carousels
+        p
+          | The&nbsp;
+          code
+            | SonyCarousel
+          |  class creates a number of carousel variations. "sony-carousel" classes (see Jade example below) provide
+          | basic styles, and are used throughout this page, but you may create your own implementation of the CSS
+          | so long as:
+
+        ol
+          li The carousel wrapper (.sony-carousel-wrapper in examples) is overflow: hidden; and is position: relative/absolute;
+          li The carousel slider (.sony-carousel in examples) contains all the slides (.sony-carousel-slides in examples)
+            | from left to right, whether by absolute/relative positioning or floats. (Though should at least be position: relative;)
+          li If you're making a looped carousel, your CSS should allow for items to be dynamically added
+            | on both ends of the carousel without breaking the layout.
+
+        p More detailed documentation of the Javascript class is located
+          a(href="docco/secondary/sony-carousel.html")  here.
+
+        h4 Example (Jade)
+
+        pre.prettyprint.prettyprint-jade
+          |   div#carousel-(number)
+          |     div.sony-carousel-wrapper
+          |       div.sony-carousel
+          |         div.sony-carousel-slide
+          |           div.sony-carousel-slide-children
+          |           div.sony-carousel-slide-children
+          |         div.sony-carousel-slide
+          |           div.sony-carousel-slide-children
+          |           div.sony-carousel-slide-children
+          |         div.carousel-slide
+          |           div.sony-carousel-slide-children
+          |           div.sony-carousel-slide-children
+
+        h3#headers Basic
+        p The basic SonyCarousel implementation, with paddles and navigation.
+
+        .container
+          .grid
+            .span12
+              h4 Basic 12 Column
+          .grid
+            .span12
+              div.carousel-1
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide A
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide B
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide C
+
+        .container
+          .grid
+            .span12
+              h4 Basic 6 Column
+          .grid
+            .span6
+              div.carousel-1
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide A
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide B
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide C
+            .span6
+              div.carousel-1
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide A
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide B
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide C
+          .grid
+            .span12
+              h5 Code
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   $('.carousel-1 .sony-carousel').sonyCarousel({
+                |     wrapper: '.sony-carousel-wrapper',
+                |     slides: '.sony-carousel-slide',
+                |     slideChildren: '.sony-carousel-slide-children',
+                |     useCSS3: true,
+                |     paddles: true,
+                |     pagination: true
+                |   });
+
+
+
+
+        h3#headers Infinite Loop Carousels
+        p These carousels loop from end to end.
+
+        .container
+          .grid
+            .span12
+              div.carousel-2
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide A
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide B
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide C
+
+        .container
+          .grid
+            .span12
+              h5 Code
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   $('.carousel-2 .sony-carousel').sonyCarousel({
+                |     wrapper: '.sony-carousel-wrapper',
+                |     slides: '.sony-carousel-slide',
+                |     slideChildren: '.sony-carousel-slide-children',
+                |     looped: true,
+                |     useCSS3: true,
+                |     paddles: true,
+                |     pagination: true
+                |   });
+
+
+
+
+
+        h3#headers Slide-Jumping Carousels
+        p These carousels jump directly to the destination slide, rather than scrolling throw all the slides in between.
+          | To see this functionality, go from slide 1 -> 4, or visa versa.
+
+        .container
+          .grid
+            .span12
+              div.carousel-3
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide A
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide B
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide C
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide D
+
+        .container
+          .grid
+            .span12
+              h5 Code
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   $('.carousel-3 .sony-carousel').sonyCarousel({
+                |     wrapper: '.sony-carousel-wrapper',
+                |     slides: '.sony-carousel-slide',
+                |     slideChildren: '.sony-carousel-slide-children',
+                |     jumping: true,
+                |     useCSS3: true,
+                |     paddles: true,
+                |     pagination: true
+                |   });
+
+
+
+
+
+        h3#headers Combination Infinite/Jumping Carousels
+        p Combines the looped and jumping options.
+
+        .container
+          .grid
+            .span12
+              div.carousel-4
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide A
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide B
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide C
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide D
+
+        .container
+          .grid
+            .span12
+              h5 Code
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   $('.carousel-4 .sony-carousel').sonyCarousel({
+                |     wrapper: '.sony-carousel-wrapper',
+                |     slides: '.sony-carousel-slide',
+                |     slideChildren: '.sony-carousel-slide-children',
+                |     looped: true,
+                |     jumping: true,
+                |     useCSS3: true,
+                |     paddles: true,
+                |     pagination: true
+                |   });
+
+
+
+
+
+        h3#headers Incomplete Last Slide
+        p If (in a non-looping carousel) your last slide doesn't have enough children to fill the space,
+          | the carousel will only move over enough to show the last child.
+        .container
+          .grid
+            .span6
+              div.carousel-5
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1.half Slide A1
+                      div.sony-carousel-slide-children.t1.half Slide A2
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1.half Slide B1
+                      div.sony-carousel-slide-children.t1.half Slide B2
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1.half Slide C1
+            .span6
+              div.carousel-5
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1.third Slide A1
+                      div.sony-carousel-slide-children.t1.third Slide A2
+                      div.sony-carousel-slide-children.t1.third Slide A3
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1.third Slide B1
+                      div.sony-carousel-slide-children.t1.third Slide B2
+                      div.sony-carousel-slide-children.t1.third Slide B3
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1.third Slide C1
+        .container
+          .grid
+            .span12
+              h5 Code
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   $('.carousel-5 .sony-carousel').sonyCarousel({
+                |     wrapper: '.sony-carousel-wrapper',
+                |     slides: '.sony-carousel-slide',
+                |     slideChildren: '.sony-carousel-slide-children',
+                |     useCSS3: true,
+                |     paddles: true,
+                |     pagination: true
+                |   });
+
+
+
+
+
+
+        h3#headers Barebones
+        p Just draggable, no pagination nav or paddles.
+        .container
+          .grid
+            .span12
+              div.carousel-6
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide A
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide B
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide C
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide D
+        .container
+          .grid
+            .span12
+              h5 Code
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   $('.carousel-6 .sony-carousel').sonyCarousel({
+                |     wrapper: '.sony-carousel-wrapper',
+                |     slides: '.sony-carousel-slide',
+                |     slideChildren: '.sony-carousel-slide-children',
+                |     useCSS3: true
+                |   });
+
+
+  script(src="js/libs/require.js")
+  script
+    window.isDebugMode = true;
+  script
+    require(["js/common"], function () {
+      require(["require/index", "secondary/index"], function(Global, Secondary){
+
+        var SonyCarousel = Secondary.sonyCarousel;
+
+        $('.carousel-1 .sony-carousel').sonyCarousel({
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          slideChildren: '.sony-carousel-slide-children',
+          useCSS3: true,
+          paddles: true,
+          pagination: true
+        });
+
+        $('.carousel-2 .sony-carousel').sonyCarousel({
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          slideChildren: '.sony-carousel-slide-children',
+          looped: true,
+          useCSS3: true,
+          paddles: true,
+          pagination: true
+        });
+
+        $('.carousel-3 .sony-carousel').sonyCarousel({
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          slideChildren: '.sony-carousel-slide-children',
+          jumping: true,
+          useCSS3: true,
+          paddles: true,
+          pagination: true
+        });
+
+        $('.carousel-4 .sony-carousel').sonyCarousel({
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          slideChildren: '.sony-carousel-slide-children',
+          looped: true,
+          jumping: true,
+          useCSS3: true,
+          paddles: true,
+          pagination: true
+        });
+
+        $('.carousel-5 .sony-carousel').sonyCarousel({
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          slideChildren: '.sony-carousel-slide-children',
+          useCSS3: true,
+          paddles: true,
+          pagination: true
+        });
+
+        $('.carousel-6 .sony-carousel').sonyCarousel({
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          slideChildren: '.sony-carousel-slide-children',
+          useCSS3: true
+        });
+      });
+    });
+
+  include docs-foot.html

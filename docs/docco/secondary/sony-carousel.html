@@ -308,7 +308,7 @@ Reset the carousel to its natural position and order.</p>             </td>     
         repositionCb = Utilities.once(<span class="keyword">function</span>(){
 
           <span class="keyword">if</span> ( self.isJumped ) {
-            self.$allSlides.each(<span class="keyword">function</span>(){
+            ( self.$allSlides || self.$slides ).each(<span class="keyword">function</span>(){
               $(<span class="keyword">this</span>).detach().appendTo(self.$el);
             });
           }
