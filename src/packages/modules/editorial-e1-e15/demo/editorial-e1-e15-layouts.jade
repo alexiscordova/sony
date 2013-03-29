@@ -6,7 +6,18 @@ head
   include ../../../common/html/head.jade
 
 body 
-  h5 Variations from the PSD (PSD Titles in parens)
+  h6 textonly full: 
+  +partial('editorial-e1-e15/html/editorial-e1-e15.jade', 'packages/modules/editorial-e1-e15/demo/data/textonly-full-D-C-lorem1.json')
+  hr
+  
+  h6 textonly left 7.5: 
+  +partial('editorial-e1-e15/html/editorial-e1-e15.jade', 'packages/modules/editorial-e1-e15/demo/data/textonly-left-75-D-L-lorem1.json')
+  hr
+  
+  h6 textonly right 5.7:
+  +partial('editorial-e1-e15/html/editorial-e1-e15.jade', 'packages/modules/editorial-e1-e15/demo/data/textonly-right-57-D-L-lorem1.json')
+  hr
+
   h6 full: (E01.A1 Large Header Center)
   +partial('editorial-e1-e15/html/editorial-e1-e15.jade', 'packages/modules/editorial-e1-e15/demo/data/full-D-C-photo1.json')
   hr
@@ -78,19 +89,6 @@ body
   h6 smallright: (E01.QR2 Small Editorials - One Up - Image Right)
   +partial('editorial-e1-e15/html/editorial-e1-e15.jade', 'packages/modules/editorial-e1-e15/demo/data/smallright-D-L-photo1.json')
   hr
-  
-  h5 Variations not in the PSD
-  h6 textonly full: 
-  +partial('editorial-e1-e15/html/editorial-e1-e15.jade', 'packages/modules/editorial-e1-e15/demo/data/textonly-full-D-C-lorem1.json')
-  hr
-  
-  h6 textonly left 7.5: 
-  +partial('editorial-e1-e15/html/editorial-e1-e15.jade', 'packages/modules/editorial-e1-e15/demo/data/textonly-left-75-D-L-lorem1.json')
-  hr
-  
-  h6 textonly right 5.7:
-  +partial('editorial-e1-e15/html/editorial-e1-e15.jade', 'packages/modules/editorial-e1-e15/demo/data/textonly-right-57-D-L-lorem1.json')
-  hr
-  
+    
   include ../../../common/html/foot.jade
 </html>
