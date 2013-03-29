@@ -8,11 +8,15 @@
 
 /* toc container */
 #dw__toc {
+
+    // DISABLED
+    display:none;
+
     position:absolute;
     left:0;
-    top:0;
+    top:25px;
     margin: 0;
-    width: $wiki_sidebarWidth;
+    width:210px;
 }
 
 
@@ -35,11 +39,16 @@
 /*____________ toc list ____________*/
 
 #dw__toc > div {
-    padding: .2em .5em;
 }
 #dw__toc ul {
     padding: 0;
     margin: 0;
+}
+#dw__toc > div > ul > li > .li > a{
+    color:$gray20;
+    display:inline-block;
+    font-size:14px;
+    margin-top:10px;
 }
 #dw__toc ul li {
     list-style: none;
