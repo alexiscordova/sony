@@ -1,18 +1,25 @@
 
-section(class='mode-'+data.mode.toLowerCase()).edv.container
+section(class=data.mode.toLowerCase()+' '+data.axis.toLowerCase()+' '+data.background.toLowerCase()).edv.full-bleed-no-max.m-full-bleed.container
 
-  header
-    h2 #{data.header.title}
-    p #{data.header.description}
-    a(href = data.header.linkURL) Learn more
+  .grid
 
-  div.edv-images
-    - for (var i = 0; i < 2 && i < data.images.length; i++)
-      edvImage = data.images[i]
-      figure(class='image-'+(i+1)).edv-image
-        div.edv-image-wrapper.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
-          span
-          img.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
-        figcaption #{edvImage.title}
-    div.edv-scrubber-container
-      a.edv-scrubber(href="#", title="Alternate between images.") Scrub
+    article.container
+      .container
+        h2 #{data.header.title}
+        h3.t6 #{data.header.subheader}
+        p #{data.header.description}
+        p
+          a(href = data.header.linkURL) #{data.header.linkText}
+
+    .edv-images
+      - for (var i = 0; i < 2 && i < data.images.length; i++)
+        edvImage = data.images[i]
+        figure(class='image-'+(i+1)).edv-image
+          .edv-image-wrapper.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
+            img.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
+        figcaption.l3 #{edvImage.title}
+      .scrubber
+        span.handle
+          span.inner(title="Alternate between images.")
+            i.fonticon-10-chevron-reverse
+            i.fonticon-10-chevron

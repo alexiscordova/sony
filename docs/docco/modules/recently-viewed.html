@@ -285,7 +285,8 @@ if their interaction time and movements are below certain thresholds.</p>       
         slimGridW      = <span class="number">0</span>,
         margeSlimGrid  = <span class="number">0</span>,
         extraPct       = <span class="number">1</span>,
-        heightContainer= <span class="number">55</span> + <span class="number">17</span> + <span class="number">30</span>,
+        heightContainer     = <span class="number">55</span> + <span class="number">17</span> + <span class="number">30</span>,
+        marginLeftContainer = <span class="number">0</span>,
         numColumns     = <span class="number">6</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slimGrid.removeAttr(<span class="string">'style'</span>);
@@ -346,10 +347,15 @@ if their interaction time and movements are below certain thresholds.</p>       
 
         <span class="keyword">var</span> $galleryItemsFirst = self.$galleryItems.first();
 
+        <span class="keyword">if</span>( self.$galleryItems.length &lt;= numColumns)
+        {
+          marginLeftContainer = gutterWidth;
+        }
+
         self.$galleryItems.not($galleryItemsFirst).css({
           <span class="string">'width'</span>       : colWidth,
           <span class="string">'margin'</span>      : <span class="number">0</span>,
-          <span class="string">'margin-left'</span> : <span class="number">0</span>,
+          <span class="string">'margin-left'</span> : marginLeftContainer,
           <span class="string">'margin-top'</span>  : <span class="number">0</span>
         });
 
@@ -420,6 +426,7 @@ if their interaction time and movements are below certain thresholds.</p>       
           margeSlimGrid      = <span class="number">0</span>,
           extraPct           = <span class="number">1</span>,
           heightContainer    = <span class="number">55</span> + <span class="number">17</span> + <span class="number">30</span>,
+          marginLeftContainer  = <span class="number">0</span>,
           numColumns         = <span class="number">6</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$slimGrid.removeAttr(<span class="string">'style'</span>);
@@ -489,10 +496,17 @@ if their interaction time and movements are below certain thresholds.</p>       
           self.scrollerModule.setFitPerPage(numColumns);
           self.scrollerModule.setExtraMarging(extraMarging);
 
+          <span class="keyword">if</span>( self.$galleryItems.length &lt;= numColumns)
+          {
+            marginLeftContainer = gutterWidth;
+          }
+
+          console.log(<span class="string">"marginLeftContainer"</span>, marginLeftContainer);
+
           self.$galleryItems.not($galleryItemsFirst).css({
             <span class="string">'width'</span>       : colWidth,
             <span class="string">'margin'</span>      : <span class="number">0</span>,
-            <span class="string">'margin-left'</span> : <span class="number">0</span>,
+            <span class="string">'margin-left'</span> : marginLeftContainer,
             <span class="string">'margin-top'</span>  : <span class="number">0</span>
           });
 
@@ -501,7 +515,6 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="string">'margin'</span>  : <span class="number">0</span>
           }); 
 
-          console.log(<span class="string">"heightContainer"</span>, heightContainer);
           <span class="keyword">var</span> newContainerHeight = self.$el.find(<span class="string">'.gallery-item.medium'</span>).first().height() + heightContainer + <span class="string">'px'</span>;
 
           self.$el.css({
@@ -549,7 +562,6 @@ animObj.opacity = 1;</p>             </td>             <td class="code">        
       _onScrollerModuleUpdate: function(e){
         
         var self = this;
-        console.log("update fire", self);
         self.scrollerModule._generatePagination( self.nbPages );
       }
 

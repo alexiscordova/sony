@@ -303,6 +303,10 @@ module.exports = function(grunt) {
       assets:{
         files:['packages/modules/**/img/**/*.*'],
         tasks:['assets']
+      },
+      docs: {
+        files:['packages/docs/**/*.*'],
+        tasks:['docs']
       }
     },
 

@@ -6,44 +6,33 @@
 @import "../../../common/css/_base/mixins";
 
 .edv {
+  padding:50px 0;
 
-  header {
-
+  article {
+    text-align:center;
   }
-
   .edv-images {
     position: relative;
-    height: 380px;
+    height: 560px;
+    margin-bottom:23px;
 
     .edv-image {
       position: absolute;
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: #000;
       overflow: hidden;
 
       &.image-1 {
         left: 0;
-
-        figcaption {
-          left: 0;
-          text-align: left;
-        }
+        z-index:1;
       }
 
-      &.image-2 {
-        right: 0;
-
-        figcaption {
-          right: 0;
-          text-align: right;
-        }
-      }
+      &.image-2 {right: 0;}
 
       .edv-image-wrapper {
         position: absolute;
-        right: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         background-position: center;
@@ -57,38 +46,89 @@
           width: 100%;
         }
       }
+    }
+
+    figcaption {
+      position: absolute;
+      bottom: -35px;
+      text-transform: uppercase;
+      padding:0 45px;
+      color:$gray40;
+    }
+    figcaption + figure + figcaption {
+      right:0;
+    }
+
+    .scrubber {
+      position: absolute;
+      margin-left:-1px;
+      width: 1px;
+      height: 100%;
+      background-color:$gray60;
+      z-index: 3;
+      color:$white;
+
+      .handle {
+        position: absolute;
+        top: 50%;
+        margin-top:-32px;
+        left: -31px;
+        width: 65px;
+        height: 65px;
+        background:url('../../img/editorial-dual-viewer-e9/gray30.png');
+        padding:8px;
+        cursor:pointer;
+        @include border-radius(100px);
+      }
+        .inner {
+          width:49px;
+          height:49px;
+          background:$buttonOrange;
+          display:block;
+          text-align:center;
+          line-height:47px;
+          font-size:0.9em;
+          @include border-radius(100px);
+        }
+    }
+  }
+
+  &.y {
+    .edv-images {
+      margin-top:35px;
 
       figcaption {
-        position: absolute;
-        bottom: 0;
-        min-width: 300px;
+        width:100%;
+        text-align:center;
+        top: -35px;
+        padding:0;
       }
-    }
+      figcaption + figure + figcaption {
+        top:auto;
+        bottom:-35px;
+      }
 
-    .edv-scrubber-container {
-      position: absolute;
-      width: 10px;
-      height: 100%;
-      background-color: red;
-      z-index: 3;
+      .scrubber {
+        margin-left:0;
+        width: 100%;
+        height: 2px;
 
-      .edv-scrubber {
-        position: absolute;
-        bottom: 50px;
-        left: -25px;
-        width: 50px;
-        height: 50px;
-        background-color: blue;
+        .handle {
+          left: 50%;
+          margin-left:-32px;
+          margin-top:-33px;
+        }
       }
     }
   }
 
-  &.scrubber-disabled {
-
-    .edv-scrubber-container {
-      display: none;
-    }
+  &.gray {
+    background:$gray80;
+ 
+    .scrubber {background:$white;}
   }
+
+  &.scrubber-disabled .scrubber {display:none;}
 }
 
 .no-backgroundsize {

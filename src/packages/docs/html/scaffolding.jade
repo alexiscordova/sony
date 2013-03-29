@@ -4,7 +4,7 @@ doctype 5
 include docs-head.html
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
   include docs-nav.html
-  
+
   header.jumbotron.subhead#overview
     div.container
       h2.bs-docs-heading Scaffolding
@@ -31,18 +31,18 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
                 span.tag footer
           h3.bs-docs-heading Page sections
           p
-            | Directly inside of "#page-wrap-inner" are the major 
+            | Directly inside of "#page-wrap-inner" are the major
             code
               | .container
-            | &nbsp;sections of the page, each its own 'row' of content. All "root-level" modules should be wrapped in one of these 
+            | &nbsp;sections of the page, each its own 'row' of content. All "root-level" modules should be wrapped in one of these
             code
               | &lt;section class="container"&gt;
             | .
           p
-            | Each container has left &amp; right margins*, which may be different at each breakpoint. To remove the side margins, add 
+            | Each container has left &amp; right margins*, which may be different at each breakpoint. To remove the side margins, add
             code
               | .full-bleed
-            | &nbsp;to the 
+            | &nbsp;to the
             code
               | .container
             | .
@@ -64,13 +64,13 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
                 span.tag footer
           h3.bs-docs-heading Max-width
           p
-            | The 
+            | The
             code
               | .container
-            | &nbsp;sections have a max-width, so they won't expand past a certain width. If you need a container to be full bleed no matter how wide the browser window is (for instance for full-browser-width background), add 
+            | &nbsp;sections have a max-width, so they won't expand past a certain width. If you need a container to be full bleed no matter how wide the browser window is (for instance for full-browser-width background), add
             code
               | .full-bleed-no-max
-            | &nbsp;to your 
+            | &nbsp;to your
             code
               | .container
           div.docs-page-structure-page.docs-page-structure-page-max
@@ -88,13 +88,13 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             | The red lines indicate the "max-width" setting.
           h3.bs-docs-heading Nesting containers
           p
-            | If you need a full-bleed for a background, but still need the regular margins for content, you can nest a 
+            | If you need a full-bleed for a background, but still need the regular margins for content, you can nest a
             code
               | .container
-            | &nbsp;section inside of a 
+            | &nbsp;section inside of a
             code
               | .full-bleed
-            | &nbsp;and/or 
+            | &nbsp;and/or
             code
               | .full-bleed-no-max
             | &nbsp;section.
@@ -139,13 +139,13 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
                 pre.prettyprint.prettyprint-jade .container
           h3.bs-docs-heading Grid container &amp; margins
           p
-            | To utilize the standard grid, add a 
+            | To utilize the standard grid, add a
             code
               | .grid
-            | &nbsp;div inside of 
+            | &nbsp;div inside of
             code
               | .container
-            | . The grid has its own margins, in addition to the 
+            | . The grid has its own margins, in addition to the
             code
               | .container
             | &nbsp;margins.
@@ -170,25 +170,25 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
       section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
         h3.bs-docs-heading Examples
         p
-          | Resize your browser to see how the 
+          | Resize your browser to see how the
           code
             | .container
-          | &nbsp;and 
+          | &nbsp;and
           code
             | .grid
-          | &nbsp;respond with the 
+          | &nbsp;respond with the
           code
             | .full-bleed
-          | &nbsp;and 
+          | &nbsp;and
           code
             | .full-bleed-no-max
           | &nbsp;classes.
         p
           small
-            | Note: You need a display wider than 1400px to see any difference between 
+            | Note: You need a display wider than 1400px to see any difference between
             code
               | .full-bleed
-            | &nbsp;and 
+            | &nbsp;and
             code
               | full-bleed-no-max
             | .
@@ -227,7 +227,7 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
         p
           | The default grid system utilizes
           strong 12 fluid columns
-          | . Column widths and gutters are percent based, and flex with the width of the parent 
+          | . Column widths and gutters are percent based, and flex with the width of the parent
           code
             | .grid
           | &nbsp;element. They are also responsive, and change at different breakpoints, ensuring proper proportions across screen resolutions and devices.
@@ -280,13 +280,13 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
       section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
         h4.bs-docs-heading Basic grid HTML
         p
-          | For a simple two column layout, create a 
+          | For a simple two column layout, create a
           code
             | .grid
-          | &nbsp;and add the appropriate number of 
+          | &nbsp;and add the appropriate number of
           code
             | .span*
-          | &nbsp;columns. As this is a 12-column grid, each 
+          | &nbsp;columns. As this is a 12-column grid, each
           code
             | .span*
           | &nbsp;spans a number of those 12 columns, and should always add up to 12 for each grid row.
@@ -303,16 +303,16 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             |     .span4
             |     .span8
         p
-          | Given this example, we have 
+          | Given this example, we have
           code
             | .span4
-          | &nbsp;and 
+          | &nbsp;and
           code
             | .span8
           | , making for 12 total columns and a complete grid row.
         h3.bs-docs-heading Rows
         p
-          | Each row is its own individual grid. For multiple rows, just stack multiple 
+          | Each row is its own individual grid. For multiple rows, just stack multiple
           code
             | .grid
           | &nbsp;containers.
@@ -326,10 +326,10 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             div.span12
               | 12
         p.p4(style='padding-top:15px;')
-          | For the rest of this document, the code samples will assume all 
+          | For the rest of this document, the code samples will assume all
           code
             | .grid
-          | 's are contained withing a 
+          | 's are contained withing a
           code
             | .container
           | .
@@ -342,13 +342,13 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             |   .span12
         h3.bs-docs-heading Offsetting columns
         p
-          | Move columns to the right using 
+          | Move columns to the right using
           code
             | .offset*
-          | &nbsp;classes. Each class increases the left margin of a column by a whole column. For example, 
+          | &nbsp;classes. Each class increases the left margin of a column by a whole column. For example,
           code
             | .offset2
-          | &nbsp;moves 
+          | &nbsp;moves
           code
             | .span4
           | &nbsp;over two columns.
@@ -390,20 +390,20 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             |   .span3
             |   .span3
         p
-          | The slim grid is usually used in concert with 
+          | The slim grid is usually used in concert with
           a(href='http://masonry.desandro.com/') masonary
           | . Javascript can be used to change the number of columns dynamically at different breakpoints.
         p
-          | To implement the slim grid, use 
+          | To implement the slim grid, use
           code
             | .slimgrid
-          | &nbsp;in place of 
+          | &nbsp;in place of
           code
             | .grid
           | .
         h4.bs-docs-heading 5 Column Slim Grid
         p
-          | The slim grid has a 5-column option, which can be implemented using 
+          | The slim grid has a 5-column option, which can be implemented using
           code
             | .slimgrid5
           | . The number of columns needs to add up to 5.
@@ -431,13 +431,13 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
         strong Mobile-Grid
         | and
         strong No-Grid
-        | . The small-screen grid will override the 
+        | . The small-screen grid will override the
         code
           | .grid
-        | , 
+        | ,
         code
           | .slimgrid
-        | &nbsp;or 
+        | &nbsp;or
         code
           | .slimgrid5
         | &nbsp;classes, and should be used in addition to them..
@@ -447,32 +447,32 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
         strong 6 fluid columns
         | . To implement, add the appropriate m-grid class
         strong in addition
-        | to your primary 
+        | to your primary
         code
           | .grid
-        | &nbsp;class. Class options are 
+        | &nbsp;class. Class options are
         code
           | .m-grid-at-767
-        | , 
+        | ,
         code
           | .m-grid-at-567
-        | , 
+        | ,
         code
           | .m-grid-at-479
-        | &nbsp;or 
+        | &nbsp;or
         code
           | .m-grid
-        | &nbsp;(same as 
+        | &nbsp;(same as
         code
           | .m-grid-at-767
         | &nbsp;);
-        | and add the appropriate 
+        | and add the appropriate
         code
           | .m-span
-        | &nbsp;and (optionally) 
+        | &nbsp;and (optionally)
         code
           | .m-offset
-        | &nbsp;class to each column - again, in addition to the primary 
+        | &nbsp;class to each column - again, in addition to the primary
         code
           | .span
         | &nbsp;class. The total mobile spans/offsets need to add up to 6.
@@ -481,8 +481,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
         br
         | Hover over any of the columns to see the actual class names that affect it.
       p.well#hide-pre-small-screen-content-w
-        span.label.label-success Check it out! 
-        | - You can 
+        span.label.label-success Check it out!
+        | - You can
         a(href='#') hide prior content on this page
         | , and limit the paragraph widths, so the content doesn't jump around so much when you're resizing.
       div.bs-docs-grid
@@ -503,30 +503,30 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
       p
         | The
         strong no-grid
-        | option collapses all grid spans into stacked rows, ignoring all 
+        | option collapses all grid spans into stacked rows, ignoring all
         code
           | .span
-        | 's, 
+        | 's,
         code
           | .offset
-        | 's, 
+        | 's,
         code
           | .m-span
-        | 's and 
+        | 's and
         code
           | .m-offset
-        | 's. To implement, add the appropriate no-grid class 
-        strong in addition 
-        | to your primary 
+        | 's. To implement, add the appropriate no-grid class
+        strong in addition
+        | to your primary
         code
           | .grid
-        | &nbsp;class. Possible classes are 
+        | &nbsp;class. Possible classes are
         code
           | .no-grid-at-767
-        | , 
+        | ,
         code
           | .no-grid-at-567
-        | , and 
+        | , and
         code
           | .no-grid-at-479
         | .
@@ -546,10 +546,10 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           |   .span4
       h4.bs-docs-heading Using both m-grid and no-grid
       p
-        | You can use the mobile-grid for a range of breakpoints, and switch to the no-grid below a certain breakpoint. Simply add the appropriate 
+        | You can use the mobile-grid for a range of breakpoints, and switch to the no-grid below a certain breakpoint. Simply add the appropriate
         code
           | .m-grid-at
-        | &nbsp;and 
+        | &nbsp;and
         code
           | .no-grid-at
         | &nbsp;classes for the target breakpoints.
@@ -571,30 +571,30 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           |   .span4.m-span2.m-offset1
       h4.bs-docs-heading Full-bleed on small screens
       p
-        | By default, margins are applied to small screens the same as desktop. The 
+        | By default, margins are applied to small screens the same as desktop. The
         code
           | .full-bleed
-        | &nbsp;(and 
+        | &nbsp;(and
         code
           | .full-bleed-no-max
-        | &nbsp;) classes will affect all resolution sizes. To apply full-bleed below 768px, when not used on desktop, use 
+        | &nbsp;) classes will affect all resolution sizes. To apply full-bleed below 768px, when not used on desktop, use
         code
           | .full-bleed-at-767
-        | , 
+        | ,
         code
           | .full-bleed-at-567
-        | , 
+        | ,
         code
           | .full-bleed-at-479
-        | , or 
+        | , or
         code
           | .m-full-bleed
-        | &nbsp;(same as 
+        | &nbsp;(same as
         code
           | .full-bleed-at-767
         | &nbsp;).
       p
-        | Currently, there's no way to override a 
+        | Currently, there's no way to override a
         code
           | .full-bleed
         | &nbsp;to add margins back for mobile.
@@ -602,10 +602,10 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
       h2.bs-docs-heading Responsive design
       img(src='img/responsive-illustrations.png',alt='Responsive devices',style='float: right; margin: 0 0 20px 20px;')
       p
-        | Media queries allow for custom CSS based on a number of conditions—ratios, widths, display type, etc—but usually focuses around 
+        | Media queries allow for custom CSS based on a number of conditions—ratios, widths, display type, etc—but usually focuses around
         code
           | min-width
-        | &nbsp;and 
+        | &nbsp;and
         code
           | max-width
         | .
@@ -679,14 +679,14 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             td.is-hidden Hidden
       h4.bs-docs-heading Overrides for phone/tablet
       p
-        | On a per-module bases, the 
-        strong phone/tablet 
-        | breakpoints can be overridden, so that 
-        strong phone 
-        | won't apply until a lower breakpoint. You can trigger the phone layout at a lower breakpoint by adding 
+        | On a per-module bases, the
+        strong phone/tablet
+        | breakpoints can be overridden, so that
+        strong phone
+        | won't apply until a lower breakpoint. You can trigger the phone layout at a lower breakpoint by adding
         code
           | .phone-at-567
-        | &nbsp;or 
+        | &nbsp;or
         code
           | .phone-at-479
         | .

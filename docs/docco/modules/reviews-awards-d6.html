@@ -66,14 +66,22 @@ define(<span class="keyword">function</span>(require){
       self.$el.find(<span class="string">'.carousel-slide'</span>).sonyCarousel({
         wrapper: <span class="string">'.raa-user-reviews-carousel'</span>,
         slides: <span class="string">'.user-ratings, .raa-social-mention'</span>,
+        axis: <span class="string">'x'</span>,
+        unit: <span class="string">'%'</span>,
+        dragThreshold: <span class="number">10</span>,
         useCSS3: self.useCSS3,
+        paddles: <span class="literal">false</span>,
         pagination: <span class="literal">true</span>
       });
 
       self.$el.find(<span class="string">'.raa-expert-reviews &gt; div'</span>).sonyCarousel({
         wrapper: <span class="string">'.raa-expert-reviews'</span>,
         slides: <span class="string">'.raa-expert-review'</span>,
+        axis: <span class="string">'x'</span>,
+        unit: <span class="string">'%'</span>,
+        dragThreshold: <span class="number">10</span>,
         useCSS3: self.useCSS3,
+        paddles: <span class="literal">false</span>,
         pagination: <span class="literal">true</span>
       });
 
