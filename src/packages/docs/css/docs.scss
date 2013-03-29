@@ -7,6 +7,8 @@
 @import "_base/navbar-simple";
 @import "_base/navs-simple";
 
+@import "_components/sony-carousel";
+
 // root dokuwiki styles
 @import "_wiki/lib/all";
 @import "_wiki/lib/feed";
@@ -64,7 +66,7 @@ p,h1,h2,h3,h4,h5,h6 {
   letter-spacing:0;
 }
 
-p{ 
+p, ol {
   @include px-em--font-size--line-height(13,18);
   margin-bottom: 12px;
   color: #83838f;
@@ -104,6 +106,9 @@ h5{
   font-weight:bold;
   margin-bottom: 12px;
 }
+ol {
+  list-style: decimal;
+}
 
 #main {
   width:1000px;
@@ -123,11 +128,6 @@ h5{
 .jumbotron p {
   color:#bcbccc;
 }
-
-
-
-
-
 
 /* Code in headings */
 // h3 code {
@@ -199,7 +199,7 @@ body > .simple-navbar .brand:hover {
 /* padding for in-page bookmarks and fixed navbar */
 section {
   padding-top:30px;
-  padding-bottom: 60px;  
+  padding-bottom: 60px;
   border-top:solid 1px #e4e4e6;
   @include clearfix;
 }
@@ -496,7 +496,7 @@ hr.soften {
 }
 .bs-docs-main-content:not(.span9){
   float:left;
-  width:76%;  
+  width:76%;
 };
 
 
@@ -695,10 +695,10 @@ h2 + .grid-px-width {
 .col-33{
   float:left;
   width:32%;
-  margin-right:2%; 
+  margin-right:2%;
   &:nth-child(3n+0){
     margin-right:0;
-  }   
+  }
 }
 @media (min-width: 1024px) {
   .col-50{
@@ -1273,7 +1273,7 @@ form.bs-docs-example {
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
-  }  
+  }
 }
 
 /* Tablet to desktop
@@ -1670,7 +1670,7 @@ form.bs-docs-example {
     //   }
     // }
   }
-  
+
 
 
   &.docs-page-structure-page-max{
@@ -1689,7 +1689,7 @@ form.bs-docs-example {
     }
 
     .container{
-      margin:1px auto;  
+      margin:1px auto;
       z-index:1;
     }
     .container.full-bleed{
@@ -1745,7 +1745,7 @@ form.bs-docs-example {
 
   #small-screens-section > p,
   #overview > .container > p{
-    max-width: 425px;    
+    max-width: 425px;
   }
   #small-screens-section > p:not(.p4) {
     font-size:0.8em;
