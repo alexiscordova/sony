@@ -303,26 +303,30 @@ module.exports = function(grunt) {
       assets:{
         files:['packages/modules/**/img/**/*.*'],
         tasks:['assets']
+      },
+      docs: {
+        files:['packages/docs/**/*.*'],
+        tasks:['docs']
       }
     },
 
     doccoh: {
       modules: {
-        src: ['packages/modules/**/js/*.js'],
+        src: grunt.file.expand('packages/modules/**/js/*.js').filter(function(a){return !a.match(/index.js/g)}),
         options: {
           output: '../docs/docco/modules'
         }
       },
 
       secondary: {
-        src: ['packages/common/js/secondary/**/*.js'],
+        src: grunt.file.expand('packages/common/js/secondary/**/*.js').filter(function(a){return !a.match(/index.js/g)}),
         options: {
           output: '../docs/docco/secondary'
         }
       },
 
       global: {
-        src: ['packages/common/js/require/**/*.js'],
+        src: grunt.file.expand('packages/common/js/require/**/*.js').filter(function(a){return !a.match(/index.js/g)}),
         options: {
           output: '../docs/docco/global'
         }
@@ -409,6 +413,11 @@ module.exports = function(grunt) {
   grunt.registerTask('pages_deploy', function(){
     grunt.option('deploy', true);
     grunt.task.run('pages');
+  });
+
+  grunt.registerTask('requirejs_deploy', function(){
+    grunt.option('deploy', true);
+    grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
   });
 
   grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages_debug', 'pages_deploy']);
@@ -533,7 +542,7 @@ module.exports = function(grunt) {
     grunt.task.run(['clear', 'common', 'assets'+module, 'light'+module])
 
     if(grunt.option('deploy')){
-      grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
+      grunt.task.run('requirejs_deploy');
     }
   });
 

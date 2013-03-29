@@ -1,8 +1,22 @@
 
 //- single line mixin for partials
 //- +partial('example.html.jade', 'example/default.json')
-mixin partial(m, d)
+
+//- mixin partial(m, d)
+//-   e = {"locals":locals, "data":locals.data(d)}
+//-   !{locals.partial('packages/modules/' + m, e)}
+
+mixin partial(m, d, loadJS)
+
   e = {"locals":locals, "data":locals.data(d)}
+  moduleName = m.split('/')[0]
+
+  if ( !e.locals.javascriptModules )
+    - e.locals.javascriptModules = []
+  if ( e.locals.javascriptModules && loadJS )
+    if ( e.locals.javascriptModules.indexOf(moduleName) === -1 )
+      - e.locals.javascriptModules.push(moduleName);
+
   !{locals.partial('packages/modules/' + m, e)}
 
 //- img - an object with at least: `src`, `alt`, `noscriptsrc`
