@@ -345,6 +345,7 @@ define(function(require){
         self.displayActiveFilters();
       }, 0);
 
+
       // Kill it with fire!
       $items = $filtered = $concealed = null;
     },
@@ -648,8 +649,12 @@ define(function(require){
 
           if ( filterType === 'range' ) {
             for ( filterValue in self.filters[ filterType ][ filterName ] ) {
+              // Abusing the isInitialized prop so we don't call filter again from the range control until we're ready
+              self.isInitialized = false;
               // Remove from internal data and UI
               self.deleteFilter( filterValue, filterName, filterType );
+              // Set it back to true so filtering by `range` works again
+              self.isInitialized = true;
             }
 
           } else {
@@ -675,10 +680,18 @@ define(function(require){
       if ( visibleItems ) {
         if ( !self.$zeroMessage.hasClass('hide') ) {
           self.$zeroMessage.addClass('hide');
+
+          if ( self.isCompareMode ) {
+            self.$grid.removeClass('hidden');
+          }
         }
       } else {
         if ( self.$zeroMessage.hasClass('hide') ) {
           self.$zeroMessage.removeClass('hide');
+
+          if ( self.isCompareMode ) {
+            self.$grid.addClass('hidden');
+          }
         }
       }
 
@@ -737,7 +750,7 @@ define(function(require){
       }
 
       // Adding events can be deferred
-      setTimeout(function( self ) {
+      setTimeout(function() {
 
         function removeButtonClick( evt ) {
           $.when( self.hideCompareItem( evt ) ).always(function() {
@@ -776,15 +789,10 @@ define(function(require){
 
         // We're done
         setTimeout(function() {
-
           self.initStickyNav();
           self.onScroll();
-
-          // Add the complete class to the labels to transition them in
-          self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
-
         }, 150);
-      }, 0, self);
+      }, 0);
     },
 
     initStickyNav : function() {
@@ -1824,13 +1832,17 @@ define(function(require){
 
     setRowHeights : function( isFromResize ) {
       var self = this,
-          $detailGroup = self.$items.not('.hidden').find('.detail-group').first(),
+          $visibleItems = self.$items.filter('.filtered'),
+          $detailGroup = $visibleItems.find('.detail-group').first(),
           offset = 0;
 
-      // Don't set row heights on mobile size. It's a single column, so it doesn't need to line up.
-      // if ( self.isMobile ) {
-      //   return;
-      // }
+      // If there aren't any visible items left, exit
+      if ( !$visibleItems.length ) {
+        return this;
+      } else if ( !self.scroller.enabled ) {
+        self.scroller.enable();
+      }
+
       window.console && console.time && console.time('SET ROW HEIGHTS');
       isFromResize = isFromResize === true;
 
@@ -1858,6 +1870,8 @@ define(function(require){
         self.iscroll.refresh();
       }
 
+      $visibleItems = $detailGroup = null;
+
       window.console && console.time && console.timeEnd('SET ROW HEIGHTS');
       return self;
     },
@@ -1868,12 +1882,19 @@ define(function(require){
           $item = self.$items.not('.hidden').first(),
           $detailGroup = $item.find('.detail-group'),
           $firstImage = $item.find('.product-img .iq-img'),
+          $wrapping = self.$detailLabelsWrap.find('.detail-labels-wrapping'),
+          isAlreadyComplete = $wrapping.hasClass('complete'),
           offset = 0;
 
       function doit() {
         offset = $detailGroup.position().top;
         offset += parseFloat( $detailGroup.css('marginTop') );
         self.$grid.find('.detail-label-group').css('top', offset);
+
+        // Add the complete class to the labels to transition them in
+        if ( !isAlreadyComplete ) {
+          $wrapping.addClass('complete');
+        }
       }
 
       if ( $firstImage.data('hasLoaded') ) {
@@ -2057,7 +2078,9 @@ define(function(require){
         // Make all product name heights even
         } else {
           // Let the browser choose the best time to do this becaues it causes a layout
-          window.requestAnimationFrame( evenTheHeights );
+          if ( !self.scroller || (self.scroller && self.scroller.enabled) ) {
+            window.requestAnimationFrame( evenTheHeights );
+          }
         }
 
         self.moveFilters();
@@ -2252,15 +2275,10 @@ define(function(require){
       evt.preventDefault();
 
       if ( self.$compareReset.hasClass('disabled') ) {
+        // stop the clear all filters from happening
         evt.stopImmediatePropagation();
         return self;
       }
-
-      // Disable reset button
-      self.$compareReset.addClass('disabled').removeClass('active');
-
-      // Show all close buttons again
-      self.$items.find('.js-remove-item').removeClass('hidden');
 
       return self;
     },
@@ -2268,7 +2286,9 @@ define(function(require){
     showCompareItem : function( $item ) {
       var dfd = new $.Deferred(),
           hasTransitionEnded = false,
-          timeout;
+          hasFadeEnded = false,
+          widthTimeout,
+          fadeTimeout;
 
       // 1
       function showItem() {
@@ -2283,24 +2303,36 @@ define(function(require){
           .removeClass('no-width');
 
         // transition end event not being called for the width in firefox, but only sometimes and only the width
-        timeout = setTimeout(function() {
+        widthTimeout = setTimeout(function() {
           if ( !hasTransitionEnded ) {
+            $item.off( Settings.transEndEventName );
             fadeItemIn();
           }
-        }, 200);
+        }, 250);
       }
 
       // 3
       function fadeItemIn() {
         // transition actually happened, clear fallback
         hasTransitionEnded = true;
-        clearTimeout( timeout );
+        clearTimeout( widthTimeout );
 
         $item
-          .one( Settings.transEndEventName, function() {
-            dfd.resolve();
-          })
+          .one( Settings.transEndEventName, finish )
           .removeClass('fade');
+
+        fadeTimeout = setTimeout(function() {
+          if ( !hasFadeEnded ) {
+            $item.off( Settings.transEndEventName );
+            finish();
+          }
+        }, 250);
+      }
+
+      function finish() {
+        hasFadeEnded = true;
+        clearTimeout( fadeTimeout );
+        dfd.resolve();
       }
 
       if ( Modernizr.csstransitions ) {
@@ -2319,7 +2351,11 @@ define(function(require){
       var self = this,
           dfd = new $.Deferred(),
           isEvent = !!$item.type,
-          evt;
+          evt,
+          hasFadeEnded,
+          hasWidthEnded,
+          fadeTimeout,
+          widthTimeout;
 
       evt = isEvent ? $item : undefined;
       $item = !isEvent ? $item : $($item.target).closest('.compare-item');
@@ -2329,6 +2365,9 @@ define(function(require){
 
       // 3
       function hideItem() {
+        hasWidthEnded = true;
+        clearTimeout( widthTimeout );
+
         // Hide the column
         $item.addClass('hidden');
         if ( isEvent ) {
@@ -2343,14 +2382,31 @@ define(function(require){
 
       // 2
       function noWidth() {
-        $item
-          .one( Settings.transEndEventName, hideItem )
-          .addClass('no-width');
+        hasFadeEnded = true;
+        clearTimeout( fadeTimeout );
+
+        $item.one( Settings.transEndEventName, hideItem );
+        window.requestAnimationFrame(function() {
+          $item.addClass('no-width');
+
+          widthTimeout = setTimeout(function() {
+            if ( !hasWidthEnded ) {
+              $item.off( Settings.transEndEventName );
+              hideItem();
+            }
+          }, 250);
+        });
       }
 
       // 1
       function fadeItemOut() {
         $item.addClass('fade');
+        fadeTimeout = setTimeout(function() {
+          if ( !hasFadeEnded ) {
+            $item.off( Settings.transEndEventName );
+            noWidth();
+          }
+        }, 250);
       }
 
       if ( Modernizr.csstransitions ) {
@@ -2372,7 +2428,7 @@ define(function(require){
     onCompareFiltered : function() {
       var self = this,
           total = self.$items.length,
-          remaining = self.$items.not('.hidden').length,
+          remaining = self.$items.filter('.filtered').length,
           isResetDisabled = self.$compareReset.hasClass('disabled'),
           $removeButtons = self.$grid.find('.js-remove-item'),
           $hiddenButtons;
@@ -2380,7 +2436,7 @@ define(function(require){
       // Enable the reset button if the remaining items is not the same as the total
       if ( total !== remaining ) {
         if ( isResetDisabled ) {
-          self.$compareReset.removeClass('disabled').addClass('active');
+          self.$compareReset.removeClass('disabled');
         }
 
       } else {
@@ -2400,12 +2456,26 @@ define(function(require){
         }
       }
 
-      window.requestAnimationFrame(function() {
-        self.scroller.refresh();
+      if ( remaining ) {
+        // If it was disabled, enable it
+        if ( !self.scroller.enabled ) {
+          self.scroller.enable();
+          // rows need to be updated
+          window.requestAnimationFrame(function() {
+            self.debouncedSetRowHeights();
+          });
+        }
+        window.requestAnimationFrame(function() {
+          self.scroller.refresh();
 
-        // Maybe they haven't scrolled horizontally to see other images
-        iQ.update();
-      });
+          // Maybe they haven't scrolled horizontally to see other images
+          iQ.update();
+        });
+      } else {
+        if ( self.scroller.enabled ) {
+          self.scroller.disable();
+        }
+      }
 
       $removeButtons = null;
     },
@@ -2659,7 +2729,7 @@ define(function(require){
     isTouch: Settings.hasTouchEvents,
     isiPhone: Settings.isIPhone,
     isTicking: false,
-    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE9 || Settings.isPS3 ),
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE10 || Settings.isPS3 ),
     lastScrollY: 0,
     sorted: false,
     currentFilterColor: null,

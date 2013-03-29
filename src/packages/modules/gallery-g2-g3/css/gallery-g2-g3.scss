@@ -599,6 +599,7 @@ $gifHeight: 60px;
 
 $compareBorder: .0625em solid $gray70;
 .gallery-compare {
+  overflow: hidden;
 
   .detail-label-group:first-child,
   .detail-group {
@@ -689,7 +690,6 @@ $stickyHeaderHeight: px-em(82);
 .compare-item {
   position: relative;
   overflow: hidden;
-  min-width: px-em(180);
   background: $white;
   color: $gray20;
   border-right: .0625em solid $gray70;
@@ -773,7 +773,8 @@ $stickyHeaderHeight: px-em(82);
   // Sticky headers
   .compare-sticky-header {
     top: -2em;
-    width: inherit;
+    // width: inherit;
+    width: 100%;
     height: px-em(106);
     padding: 0;
     background: $white;
