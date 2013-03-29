@@ -308,7 +308,8 @@ define(function(require){
         slimGridW      = 0,
         margeSlimGrid  = 0,
         extraPct       = 1,
-        heightContainer= 55 + 17 + 30,
+        heightContainer     = 55 + 17 + 30,
+        marginLeftContainer = 0,
         numColumns     = 6;
 
         //reset
@@ -379,10 +380,15 @@ define(function(require){
 
         var $galleryItemsFirst = self.$galleryItems.first();
 
+        if( self.$galleryItems.length <= numColumns)
+        {
+          marginLeftContainer = gutterWidth;
+        }
+
         self.$galleryItems.not($galleryItemsFirst).css({
           'width'       : colWidth,
           'margin'      : 0,
-          'margin-left' : 0,
+          'margin-left' : marginLeftContainer,
           'margin-top'  : 0
         });
 
@@ -437,8 +443,10 @@ define(function(require){
 
           self.$el.find('.rp-overflow').on("update.sm", function(e){
              self.scrollerModule._generatePagination( self.nbPages );
-             window.iQ.update();
+             //window.iQ.update();
           });
+
+          self.$win.trigger('resize.rp');
 
           //window.iQ.update();
 
@@ -455,6 +463,7 @@ define(function(require){
           margeSlimGrid      = 0,
           extraPct           = 1,
           heightContainer    = 55 + 17 + 30,
+          marginLeftContainer  = 0,
           numColumns         = 6;
 
           //reset
@@ -529,10 +538,17 @@ define(function(require){
           self.scrollerModule.setFitPerPage(numColumns);
           self.scrollerModule.setExtraMarging(extraMarging);
 
+          if( self.$galleryItems.length <= numColumns)
+          {
+            marginLeftContainer = gutterWidth;
+          }
+
+          console.log("marginLeftContainer", marginLeftContainer);
+
           self.$galleryItems.not($galleryItemsFirst).css({
             'width'       : colWidth,
             'margin'      : 0,
-            'margin-left' : 0,
+            'margin-left' : marginLeftContainer,
             'margin-top'  : 0
           });
 
@@ -541,7 +557,6 @@ define(function(require){
             'margin'  : 0
           }); 
 
-          console.log("heightContainer", heightContainer);
           var newContainerHeight = self.$el.find('.gallery-item.medium').first().height() + heightContainer + 'px';
 
           self.$el.css({
@@ -595,7 +610,6 @@ define(function(require){
       _onScrollerModuleUpdate: function(e){
         
         var self = this;
-        console.log("update fire", self);
         self.scrollerModule._generatePagination( self.nbPages );
       }
 

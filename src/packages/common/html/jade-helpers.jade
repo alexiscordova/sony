@@ -1,6 +1,11 @@
 
 //- single line mixin for partials
 //- +partial('example.html.jade', 'example/default.json')
+
+//- mixin partial(m, d)
+//-   e = {"locals":locals, "data":locals.data(d)}
+//-   !{locals.partial('packages/modules/' + m, e)}
+
 mixin partial(m, d, loadJS)
 
   e = {locals:locals, data:data(d)}
