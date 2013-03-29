@@ -7,6 +7,8 @@
 @import "_base/navbar-simple";
 @import "_base/navs-simple";
 
+@import "_components/sony-carousel";
+
 // root dokuwiki styles
 @import "_wiki/lib/all";
 @import "_wiki/lib/feed";
@@ -36,6 +38,7 @@
 @import "_wiki/tpl/pagetools";
 @import "_wiki/tpl/print";
 @import "_wiki/tpl/structure";
+@import "_wiki/tpl/sidebar";
 
 
 
@@ -64,7 +67,7 @@ p,h1,h2,h3,h4,h5,h6 {
   letter-spacing:0;
 }
 
-p{ 
+p, ol {
   @include px-em--font-size--line-height(13,18);
   margin-bottom: 12px;
   color: #83838f;
@@ -84,7 +87,7 @@ h2{
   font-weight:bold;
 }
 h3{
-  @include px-em--font-size--line-height(16,20);
+  @include px-em--font-size--line-height(22,20);
   margin-top:30px;
   text-transform: none;
   font-weight:bold;
@@ -103,6 +106,9 @@ h5{
   text-transform:uppercase;
   font-weight:bold;
   margin-bottom: 12px;
+}
+ol {
+  list-style: decimal;
 }
 
 #main {
@@ -124,8 +130,35 @@ h5{
   color:#bcbccc;
 }
 
-
-
+.wrap_caption { font-size:11px; }
+.wrap_fontsize9 { font-size:9px; }
+.wrap_fontsize10{ font-size:10px; }
+.wrap_fontsize11{ font-size:11px; }
+.wrap_fontsize12{ font-size:12px; }
+.wrap_fontsize13{ font-size:13px; }
+.wrap_fontsize14{ font-size:14px; }
+.wrap_fontsize15{ font-size:15px; }
+.wrap_fontsize16{ font-size:16px; }
+.wrap_fontsize17{ font-size:17px; }
+.wrap_fontsize18{ font-size:18px; }
+.wrap_fontsize19{ font-size:19px; }
+.wrap_fontsize20{ font-size:20px; }
+// reset the paragraphs inside the custom fontsize divs.
+.wrap_caption p,
+.wrap_fontsize9 p,
+.wrap_fontsize10 p,
+.wrap_fontsize11 p,
+.wrap_fontsize12 p,
+.wrap_fontsize13 p,
+.wrap_fontsize14 p,
+.wrap_fontsize15 p,
+.wrap_fontsize16 p,
+.wrap_fontsize17 p,
+.wrap_fontsize18 p,
+.wrap_fontsize19 p,
+.wrap_fontsize20 p{
+  font-size:1em;
+}
 
 
 
@@ -199,7 +232,7 @@ body > .simple-navbar .brand:hover {
 /* padding for in-page bookmarks and fixed navbar */
 section {
   padding-top:30px;
-  padding-bottom: 60px;  
+  padding-bottom: 60px;
   border-top:solid 1px #e4e4e6;
   @include clearfix;
 }
@@ -496,7 +529,7 @@ hr.soften {
 }
 .bs-docs-main-content:not(.span9){
   float:left;
-  width:76%;  
+  width:76%;
 };
 
 
@@ -695,10 +728,10 @@ h2 + .grid-px-width {
 .col-33{
   float:left;
   width:32%;
-  margin-right:2%; 
+  margin-right:2%;
   &:nth-child(3n+0){
     margin-right:0;
-  }   
+  }
 }
 @media (min-width: 1024px) {
   .col-50{
@@ -1273,7 +1306,7 @@ form.bs-docs-example {
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
-  }  
+  }
 }
 
 /* Tablet to desktop
@@ -1670,7 +1703,7 @@ form.bs-docs-example {
     //   }
     // }
   }
-  
+
 
 
   &.docs-page-structure-page-max{
@@ -1689,7 +1722,7 @@ form.bs-docs-example {
     }
 
     .container{
-      margin:1px auto;  
+      margin:1px auto;
       z-index:1;
     }
     .container.full-bleed{
@@ -1745,7 +1778,7 @@ form.bs-docs-example {
 
   #small-screens-section > p,
   #overview > .container > p{
-    max-width: 425px;    
+    max-width: 425px;
   }
   #small-screens-section > p:not(.p4) {
     font-size:0.8em;

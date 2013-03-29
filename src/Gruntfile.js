@@ -42,8 +42,14 @@ module.exports = function(grunt) {
         defer:function(){
           return grunt.file.expand('packages/modules/**/js/*.js').map(function(a){return a.split('/').pop()});
         },
-        doccopages:function(){
-          return grunt.file.expand('../docs/docco/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
+        doccoModules:function(){
+          return grunt.file.expand('../docs/docco/modules/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
+        },
+        doccoSecondary:function(){
+          return grunt.file.expand('../docs/docco/secondary/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
+        },
+        doccoGlobal:function(){
+          return grunt.file.expand('../docs/docco/global/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
         },
         pages:function(){
           return grunt.file.expand('packages/pages/*.jade').map(function(a){return a.split('/').pop().replace(/.jade/g, '.html')}).filter(function(a){return a.match(/-pagebuild.html/g)});
@@ -69,7 +75,9 @@ module.exports = function(grunt) {
   }
 
   grunt.config.init({
+
     pkg: grunt.file.readJSON('package.json'),
+
     clean:{
      options:{
         force:true
@@ -79,6 +87,7 @@ module.exports = function(grunt) {
       deployRequireJSTemp: ['../build/deploy-requirejs-temp/'],
       docs: ['../docs/']
     },
+
     jshint: {
       files: ['packages/**/*.js', 'packages/**/*.json', '!packages/docs/**', '!**/libs/*.js'],
       options: {
@@ -108,6 +117,7 @@ module.exports = function(grunt) {
         }
       }
     },
+
     copy:{
       common_debug:{
         files:[
@@ -164,6 +174,7 @@ module.exports = function(grunt) {
       }
 
     },
+
     compass:{
       common_debug:{
         options:{
@@ -238,6 +249,7 @@ module.exports = function(grunt) {
         }
       }
     },
+
     jade:{
       docs:{
         options:jadeconfig,
@@ -270,6 +282,7 @@ module.exports = function(grunt) {
         ]
       }
     },
+
     watch:{
       common:{
         files:['packages/common/**/*.*', '!packages/common/css/responsive-modules.scss'],
@@ -290,13 +303,32 @@ module.exports = function(grunt) {
       assets:{
         files:['packages/modules/**/img/**/*.*'],
         tasks:['assets']
+      },
+      docs: {
+        files:['packages/docs/**/*.*'],
+        tasks:['docs']
       }
     },
+
     doccoh: {
-      main: {
-        src: ['packages/modules/**/js/*.js', 'packaes/common/js/require/**/*.js', 'packaes/common/js/secondary/**/*.js'],
+      modules: {
+        src: grunt.file.expand('packages/modules/**/js/*.js').filter(function(a){return !a.match(/index.js/g)}),
         options: {
-          output: '../docs/docco/'
+          output: '../docs/docco/modules'
+        }
+      },
+
+      secondary: {
+        src: grunt.file.expand('packages/common/js/secondary/**/*.js').filter(function(a){return !a.match(/index.js/g)}),
+        options: {
+          output: '../docs/docco/secondary'
+        }
+      },
+
+      global: {
+        src: grunt.file.expand('packages/common/js/require/**/*.js').filter(function(a){return !a.match(/index.js/g)}),
+        options: {
+          output: '../docs/docco/global'
         }
       }
     },
@@ -381,6 +413,11 @@ module.exports = function(grunt) {
   grunt.registerTask('pages_deploy', function(){
     grunt.option('deploy', true);
     grunt.task.run('pages');
+  });
+
+  grunt.registerTask('requirejs_deploy', function(){
+    grunt.option('deploy', true);
+    grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
   });
 
   grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages_debug', 'pages_deploy']);
@@ -505,7 +542,7 @@ module.exports = function(grunt) {
     grunt.task.run(['clear', 'common', 'assets'+module, 'light'+module])
 
     if(grunt.option('deploy')){
-      grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
+      grunt.task.run('requirejs_deploy');
     }
   });
 
