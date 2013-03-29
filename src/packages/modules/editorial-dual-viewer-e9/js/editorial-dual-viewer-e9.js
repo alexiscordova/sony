@@ -1,4 +1,3 @@
-
 // Sony Editorial + Dual Viewer (EditorialDualViewer) ModuleModule
 // ---------------------------------------------------------------
 //
