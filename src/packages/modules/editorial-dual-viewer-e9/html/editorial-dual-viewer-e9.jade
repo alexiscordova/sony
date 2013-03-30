@@ -1,25 +1,66 @@
+mixin txtContent
+  h2 #{data.header.title}
+  h3.t6 #{data.header.subheader}
+  p #{data.header.description}
+  p
+    a(href = data.header.linkURL) #{data.header.linkText}
 
-section(class=data.mode.toLowerCase()+' '+data.axis.toLowerCase()+' '+data.background.toLowerCase()).edv.full-bleed-no-max.m-full-bleed.container
+mixin imgContent
+  - for (var i = 0; i < 2 && i < data.images.length; i++)
+    edvImage = data.images[i]
+    figure(class='image-'+(i+1)).edv-image
+      .edv-image-wrapper.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
+        img.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
+    figcaption.l3 #{edvImage.title}
+  .scrubber
+    span.handle
+      span.inner(title="Alternate between images.")
+        i.fonticon-10-chevron-reverse
+        i.fonticon-10-chevron
 
-  .grid
+section(class=data.mode+' '+data.axis+' '+data.background).edv.full-bleed-no-max.m-full-bleed.container
 
-    article.container
+  case data.mode
+    when "text-left-4"
+      .grid
+        article.span4
+          +txtContent
+        .edv-images.span8
+          +imgContent
+    when "text-left-5"
+      .grid
+        article.span5
+          +txtContent
+        .edv-images.span7
+          +imgContent
+    when "text-left-6"
+      .grid
+        article.span6
+          +txtContent
+        .edv-images.span6
+          +imgContent
+    when "text-right-4"
+      .grid
+        .edv-images.span8
+          +imgContent
+        article.span4
+          +txtContent
+    when "text-right-5"
+      .grid
+        .edv-images.span7
+          +imgContent
+        article.span5
+          +txtContent
+    when "text-right-6"
+      .grid
+        .edv-images.span6
+          +imgContent
+        article.span6
+          +txtContent
+    default
       .container
-        h2 #{data.header.title}
-        h3.t6 #{data.header.subheader}
-        p #{data.header.description}
-        p
-          a(href = data.header.linkURL) #{data.header.linkText}
-
-    .edv-images
-      - for (var i = 0; i < 2 && i < data.images.length; i++)
-        edvImage = data.images[i]
-        figure(class='image-'+(i+1)).edv-image
-          .edv-image-wrapper.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
-            img.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
-        figcaption.l3 #{edvImage.title}
-      .scrubber
-        span.handle
-          span.inner(title="Alternate between images.")
-            i.fonticon-10-chevron-reverse
-            i.fonticon-10-chevron
+        .container
+          article.container
+            +txtContent
+        .edv-images
+          +imgContent
