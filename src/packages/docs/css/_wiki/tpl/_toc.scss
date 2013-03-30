@@ -84,13 +84,14 @@
   padding-left: 0;
 }
 .dokuwiki ul.idx li {
-  list-style-image: url(../img/_wiki/bullet.png);
+  // list-style-image: url(../img/_wiki/bullet.png);
+  list-style: none;
   i{
     float:right;
   }
 }
 .dokuwiki ul.idx li.open {
-  list-style-image: url(../img/_wiki/open.png);
+  // list-style-image: url(../img/_wiki/open.png);
   i { 
     @include rotate(90deg); 
     @include transition(all $transitionFast linear);
@@ -99,7 +100,7 @@
   }
 }
 .dokuwiki ul.idx li.closed {
-  list-style-image: url(../img/_wiki/closed.png);
+  // list-style-image: url(../img/_wiki/closed.png);
   i{   
     @include transition(all $transitionFast linear);
     @include rotate(0deg);  
