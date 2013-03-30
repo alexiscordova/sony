@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('editorial-e1-e15')
 
 mixin gridstyle(style)
   style = style || ""
@@ -26,7 +27,7 @@ mixin innerboxlayout(layout)
         .table-center
           .box(class = layout.alignment)
             block
-  
+
 mixin copyblock(copyobject, h4class, h5class)
   - copyobject = copyobject || data
   - h4class = h4class || ""
@@ -38,8 +39,8 @@ mixin copyblock(copyobject, h4class, h5class)
     a(class= copyobject.link.type, href= copyobject.link.url) !{copyobject.link.text}
 
 section.editorial.container.clearfix(class= data.layout.media)
-  if data.layout.media == "full" 
-    if data.layout.inner == "true" 
+  if data.layout.media == "full"
+    if data.layout.inner == "true"
       .grid.full-bleed.no-grid-at-767
         .span12
           +partial(data.submodules[0].type, data.submodules[0].data)
@@ -54,7 +55,7 @@ section.editorial.container.clearfix(class= data.layout.media)
         .span12
           +partial(data.submodules[0].type, data.submodules[0].data)
 
-  else if data.layout.media == "mediaright" 
+  else if data.layout.media == "mediaright"
     +gridstyle("table-center-wrap")
       span = "span" + data.layout.columns[0]
       .table-center.box(class = span)
@@ -63,7 +64,7 @@ section.editorial.container.clearfix(class= data.layout.media)
       .table-center.media-element(class = span)
         +partial(data.submodules[0].type, data.submodules[0].data)
 
-  else if data.layout.media == "medialeft"   
+  else if data.layout.media == "medialeft"
     +gridstyle("table-center-wrap")
       span = "span" + data.layout.columns[0]
       .table-center.media-element(class = span)
@@ -78,7 +79,7 @@ section.editorial.container.clearfix(class= data.layout.media)
         .box(class= data.layout.alignment)
           +copyblock()
         +partial(data.submodules[0].type, data.submodules[0].data)
-  
+
     .grid.no-grid-at-767
       for col, i in data.layout.columns
         - colalign = data.columns[i].align || "left"
@@ -92,25 +93,25 @@ section.editorial.container.clearfix(class= data.layout.media)
   else if data.layout.media == "m3up" || data.layout.media == "m2up"
     +gridstyle
       +copyblock()
-  
+
     .grid.no-grid-at-767
       for col, i in data.layout.columns
         span = "span" + data.layout.columns[i]
         div(class = span)
           +partial(data.submodules[i].type, data.submodules[i].data)
 
-          if data.layout.inner 
+          if data.layout.inner
             .grid.no-grid-at-767.inner
               +copyblock(data.columns[i], "alt")
           else
             .grid.no-grid-at-767
               +copyblock(data.columns[i], "alt")
 
-  else if data.layout.media == "textonly" 
+  else if data.layout.media == "textonly"
     +gridstyle(data.layout.text)
-      if data.layout.text == "full" 
+      if data.layout.text == "full"
         .box.span12(class= data.layout.alignment)
-          +copyblock(data, "alt") 
+          +copyblock(data, "alt")
       else
         extras = "box " + data.layout.alignment
         +col(data.layout, extras)
