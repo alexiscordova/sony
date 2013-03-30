@@ -257,15 +257,14 @@ mixin compareGallery( submodules, gallery, type, labels )
     .tone-bar
       .container
         .grid
-          .pull-left
-            h2.t6.pull-left.compare-gallery-title= label
-            span.ib
-              i.swatch-lemon.mini-swatch
-              span.p5
-                em!= '&nbsp;' + legend
-          a.pull-right.compare-reset.lt4.js-compare-reset.js-clear-filters.disabled(href="#")
+          h2.t6.compare-gallery-title= label
+          a.compare-reset.lt4.js-compare-reset.js-clear-filters.disabled(href="#")
             i.fonticon-10-circlearrow
             span= resetLabel
+          span.legend
+            i.swatch-lemon.mini-swatch
+            span.p5
+              em!= '&nbsp;' + legend
 
 
     .sticky-nav.tone-bar

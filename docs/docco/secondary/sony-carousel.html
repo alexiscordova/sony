@@ -138,7 +138,7 @@ define(<span class="keyword">function</span>(require){
         <span class="string">'dragThreshold'</span>: self.dragThreshold,
         <span class="string">'containment'</span>: self.$wrapper,
         <span class="string">'useCSS3'</span>: self.useCSS3,
-        <span class="string">'drag'</span>: <span class="keyword">function</span>(){ iQ.update(<span class="literal">true</span>); }
+        <span class="string">'drag'</span>: iQ.update
       });
 
       self.$el.on(<span class="string">'sonyDraggable:dragStart'</span>,  $.proxy(self.dragStart, self));

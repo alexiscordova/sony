@@ -1833,8 +1833,7 @@ define(function(require){
     setRowHeights : function( isFromResize ) {
       var self = this,
           $visibleItems = self.$items.filter('.filtered'),
-          $detailGroup = $visibleItems.find('.detail-group').first(),
-          offset = 0;
+          $detailGroup = $visibleItems.find('.detail-group').first();
 
       // If there aren't any visible items left, exit
       if ( !$visibleItems.length ) {
@@ -1947,7 +1946,7 @@ define(function(require){
       // Get all dimensions before changing any - avoid reflows
       if ( !Modernizr.csstransforms ) {
         width = Modernizr.csstransforms ? 0 : self.$grid.width();
-        labelsWidth = Modernizr.csstransforms ? 0 : self.$grid.width();
+        labelsWidth = Modernizr.csstransforms ? 0 : self.$detailLabelsWrap.width();
         scrollerWidth = width - labelsWidth - 2;
       }
 
