@@ -1,4 +1,11 @@
 module.exports = function(grunt) {
+
+  var gruntconfig = {};
+
+  if ( grunt.file.exists('gruntconfig.json') ) {
+    gruntconfig = grunt.file.readJSON('gruntconfig.json');
+  }
+
   var jadeconfig = {
     data:{
       partial: function(templatePath, dataObj){
@@ -586,6 +593,83 @@ module.exports = function(grunt) {
     }
 
     grunt.task.run('watch');
+  });
 
+  //*************************************
+  // The following are utility functions.
+  //*************************************
+
+  // Use in conjunction with timerEnd to test performance/load of your commands.
+  // ex. `grunt timerStart command-foo timerEnd
+
+  grunt.registerTask('timer-start', function() {
+    grunt.config('timerStartStamp', new Date());
+  });
+
+  grunt.registerTask('timer-end', function() {
+    console.log('Completed in ' + ((new Date()) - grunt.config('timerStartStamp')) / 1000 + ' seconds.')
+  });
+
+  grunt.registerTask('jade-one', function(filePath){
+
+    var env = grunt.option('deploy') ? 'deploy' : 'debug';
+
+    // For extension of grunt-contrib-jade, this should be a user-defined setting in the normal jade block with
+    // a similar specific name.
+    grunt.config('jade.oneFile', {
+      options: jadeconfig,
+      files:[
+        {expand:true, cwd:'./', src: filePath, dest:'../build/'+ env +'/', ext:'.html', flatten:true}
+      ]
+    });
+
+    grunt.task.run('jade:oneFile');
+  });
+
+  grunt.registerTask('jade-spawn', function(fileString){
+
+    maxProcesses = gruntconfig.maxProcesses || 1;
+
+    var done = this.async(),
+        fileList = grunt.file.expand(fileString),
+        filesPerProcess = Math.floor(fileList.length / maxProcesses);
+        filePosition = 0,
+        processPosition = 0;
+
+    for ( var i = 0; i < maxProcesses; i++ ) {
+
+      var processTasks = [],
+          startPoint = filePosition,
+          endOffset = ( i < fileList.length % maxProcesses ) ? 1 : 0;
+
+      for ( var j = startPoint; j < startPoint + filesPerProcess + endOffset; j++ ) {
+
+        processTasks.push('jade-one:' + fileList[j]);
+        filePosition++;
+      }
+
+      // If there are any current options, extend them onto the new process list. (--deploy, etc.)
+      processTasks = processTasks.concat(grunt.option.flags());
+
+      grunt.util.spawn({
+        grunt: true,
+        args: processTasks
+      }, function(error, result, code) {
+        if (error) {
+          grunt.fail.warn(result.stdout);
+        }
+
+        // Get stdout of spawned process and find the pertinent lines for CLI success feedback.
+        console.log(result.stdout.split('\n').filter(function(resultLine){
+          resultLine = resultLine.toLowerCase();
+          return (resultLine.search('file') > -1 && resultLine.search('created') > -1);
+        }).join('\n'));
+
+        processPosition++
+        if ( processPosition === maxProcesses * 1 ) {
+          done();
+        }
+      })
+    }
   });
 };
