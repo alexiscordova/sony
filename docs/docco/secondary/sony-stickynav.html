@@ -55,8 +55,8 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Scroll to the top of the window on mouseup/touchend/pointerup</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.scrollToTopOnClick ) {
         self.$el.on( Settings.END_EV, <span class="keyword">function</span>(e) {
-          <span class="keyword">var</span> tagName = e.target.tagName;
-          <span class="keyword">if</span> ( tagName === <span class="string">'A'</span> || tagName === <span class="string">'BUTTON'</span> ) {
+          <span class="keyword">var</span> nodeName = e.target.nodeName;
+          <span class="keyword">if</span> ( nodeName === <span class="string">'A'</span> || nodeName === <span class="string">'BUTTON'</span> ) {
             <span class="keyword">return</span>;
           }
           Utilities.scrollToTop();

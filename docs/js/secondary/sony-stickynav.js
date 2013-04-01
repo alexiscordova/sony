@@ -57,8 +57,8 @@ define(function(require){
       // Scroll to the top of the window on mouseup/touchend/pointerup
       if ( self.scrollToTopOnClick ) {
         self.$el.on( Settings.END_EV, function(e) {
-          var tagName = e.target.tagName;
-          if ( tagName === 'A' || tagName === 'BUTTON' ) {
+          var nodeName = e.target.nodeName;
+          if ( nodeName === 'A' || nodeName === 'BUTTON' ) {
             return;
           }
           Utilities.scrollToTop();

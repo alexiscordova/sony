@@ -111,9 +111,49 @@ ol {
   list-style: decimal;
 }
 
-#main {
-  width:1000px;
+#main,
+.wikiNav > .container,
+#dokuwiki__header > .container,
+#dokuwiki__page_title > .container {
+  max-width:1200px;
+  min-width:1050px;
+
+  .primaryNav > ul{
+    margin:0;
+  }
 }
+
+#dokuwiki__header{
+  background:#FFFFDD;
+}
+
+#dokuwiki__page_title{
+  background:$linkColor;
+  padding:43px 0 55px;
+
+  h6{
+    font-family:arial, sans-serif;
+    text-transform:uppercase;
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:6px;
+
+  }
+  h1{
+    font-family:arial, sans-serif;
+    font-size:38px;
+    font-weight:bold;
+    color:$white;
+    margin:0;
+  }
+}
+
+#dokuwiki__content,
+#sidebar{
+  margin-top: 40px;
+}
+
+
 
 .jumbotron {
   position: relative;
@@ -170,17 +210,27 @@ ol {
 .wrap_fontsize17 p,
 .wrap_fontsize18 p,
 .wrap_fontsize19 p,
-.wrap_fontsize20 p{
+.wrap_fontsize20 p,
+.wrap_fontsize22 p,
+.wrap_fontsize24 p,
+.wrap_fontsize26 p,
+.wrap_fontsize28 p,
+.wrap_fontsize30 p,
+.wrap_fontsize32 p,
+.wrap_fontsize34 p,
+.wrap_fontsize36 p,
+.wrap_fontsize38 p,
+.wrap_fontsize40 p{
   font-size:1em;
 }
 
-.indent2{ padding-left:2px; }
-.indent5{ padding-left:5px; }
-.indent10{ padding-left:10px; }
-.indent20{ padding-left:20px; }
-.indent30{ padding-left:30px; }
-.indent40{ padding-left:40px; }
-.indent50{ padding-left:50px; }
+.wrap_indent2{ padding-left:2px; }
+.wrap_indent5{ padding-left:5px; }
+.wrap_indent10{ padding-left:10px; }
+.wrap_indent20{ padding-left:20px; }
+.wrap_indent30{ padding-left:30px; }
+.wrap_indent40{ padding-left:40px; }
+.wrap_indent50{ padding-left:50px; }
 
 
 /* Code in headings */
