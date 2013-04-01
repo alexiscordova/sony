@@ -2,8 +2,8 @@ module.exports = function(grunt) {
 
   var gruntconfig = {};
 
-  if ( grunt.file.exists('gruntconfig.json') ) {
-    gruntconfig = grunt.file.readJSON('gruntconfig.json');
+  if ( grunt.file.exists('.gruntconfig') ) {
+    gruntconfig = grunt.file.readJSON('.gruntconfig');
   }
 
   var jadeconfig = {
