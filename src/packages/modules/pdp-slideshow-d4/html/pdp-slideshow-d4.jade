@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('pdp-slideshow-d4')
 
 - desc = 'Here are some modules with unique data:'
 - layout1 = [ "" ]
@@ -29,13 +30,13 @@ mixin pdpThumbs(data)
         .ghost-center
           img( class='iq-img', data-src=slideData.thumb.src, alt=slideData.thumb.alt )
           noscript
-            img( src=slideData.thumb.noscriptSrc ) 
+            img( src=slideData.thumb.noscriptSrc )
 
 section.pdp-slideshow
   .pdp-slideshow-outer
     .pdp-slideshow-inner
       +pdpSlide(data)
-  - clsss = 'thumb-nav ' + data.config.variation 
+  - clsss = 'thumb-nav ' + data.config.variation
   ul( class= clsss )
     +pdpThumbs(data)
 
