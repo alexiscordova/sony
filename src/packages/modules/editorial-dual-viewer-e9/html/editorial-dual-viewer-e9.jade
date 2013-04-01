@@ -1,6 +1,6 @@
 mixin txtContent
-  h2 #{data.header.title}
-  h3.t6 #{data.header.subheader}
+  h3 #{data.header.title}
+  h4.t7 #{data.header.subheader}
   p #{data.header.description}
   p
     a(href = data.header.linkURL) #{data.header.linkText}
@@ -18,7 +18,7 @@ mixin imgContent
         i.fonticon-10-chevron-reverse
         i.fonticon-10-chevron
 
-section(class=data.mode+' '+data.axis+' '+data.background).edv.full-bleed-no-max.m-full-bleed.container
+section(class=data.mode+' '+data.axis+' '+data.background+' '+data.edges).edv.full-bleed-no-max.m-full-bleed.container
 
   case data.mode
     when "text-left-4"
