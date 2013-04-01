@@ -608,7 +608,7 @@ $compareBorder: .0625em solid $gray70;
 .gallery-compare {
   overflow: hidden;
 
-  .detail-label-group:first-child,
+  .detail-label-group,
   .detail-group {
     border-top: $compareBorder;
   }
@@ -876,5 +876,13 @@ $columnHeaderHeight: px-em(82);
   }
 }
 
+// Don't even bother with elements if we're not going to use them
+.no-sticky-headers {
+  .compare-sticky-header,
+  .sticky-count,
+  .right-bar {
+    display: none !important;
+  }
+}
 
 

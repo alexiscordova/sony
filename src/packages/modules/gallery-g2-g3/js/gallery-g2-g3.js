@@ -161,9 +161,6 @@ define(function(require){
 
     // Compare mode doesn't have a shuffle plugin to execute the event
     if ( self.isCompareMode ) {
-      // self.$compareBtn.on('click', $.proxy( self.onCompareLaunch, self ));
-      // self.$compareTool.on('hidden', $.proxy( self.onCompareClosed, self ));
-      // self.$compareTool.on('shown', $.proxy( self.onCompareShown, self ));
       self.onGalleryDoneLoading();
     }
 
@@ -176,6 +173,7 @@ define(function(require){
       setTimeout(function() {
         window.requestAnimationFrame(function() {
           self.filter();
+          self.isFilteringInitialized = true;
         });
       }, 400);
     }
@@ -342,7 +340,10 @@ define(function(require){
       $.when.apply( $, deferreds ).always( $.proxy( self.onCompareFiltered, self ) );
 
       setTimeout(function() {
-        self.displayActiveFilters();
+        self
+          .displayActiveFilters()
+          .setTriggerPoint()
+          .setToneBarOffset();
       }, 0);
 
 
@@ -508,6 +509,8 @@ define(function(require){
       filters = null;
       $clearAll = null;
       frag = null;
+
+      return self;
     },
 
     // Removes a single filter from stored data. Does NOT change UI.
@@ -776,21 +779,20 @@ define(function(require){
         // Listen for the scroll event
         self.$window.on('scroll', $.proxy( self.onScroll, self ));
 
-
-        // Redraw table when images have loaded
-        // self.$grid.find('.iq-img').on( 'imageLoaded', $.proxy( self.debouncedSetRowHeights, self ) );
-
         self.stickyHeaderHeight = self.$stickyHeaders.first().height();
         self.stickyNavHeight = self.$stickyNav.outerHeight();
-        self
-          .setToneBarOffset()
-          .initScroller();
+        self.setToneBarOffset();
+
+        if ( !self.showStickyHeaders ) {
+          self.$container.addClass('no-sticky-headers');
+        }
+
+        self.initScroller();
 
 
         // We're done
         setTimeout(function() {
           self.initStickyNav();
-          self.onScroll();
         }, 150);
       }, 0);
     },
@@ -799,6 +801,8 @@ define(function(require){
       this.$stickyNav.stickyNav({
         offsetTarget: this.$grid
       });
+      this.setTriggerPoint( true );
+      this.onScroll();
     },
 
     initScroller : function() {
@@ -961,6 +965,7 @@ define(function(require){
       self.$container.find('.collapse')
         .on('shown', $.proxy( self.onFiltersShown, self ))
         .on('show', $.proxy( self.onFiltersShow, self ))
+        .on('hidden', $.proxy( self.onFiltersHidden, self ))
         .on('hide', $.proxy( self.onFiltersHide, self ));
 
       // Bind clearing filters to any class that has `.js-clear-filters` on it
@@ -1820,12 +1825,16 @@ define(function(require){
       return self;
     },
 
-    debouncedSetRowHeights : $.debounce( 600, function() {
+    debouncedSetRowHeights : $.debounce( 600, function( isFromResize, isInit ) {
       this
-        .setRowHeights.apply( this, arguments )
-        .setItemContainerHeight()
-        .setTriggerPoint()
-        .updateStickyNav();
+        .setRowHeights( isFromResize )
+        .setItemContainerHeight();
+
+      if ( isFromResize && !isInit ) {
+        this.setTriggerPoint();
+      }
+
+      this.updateStickyNav();
 
       this.$stickyRightBar.css('left', this.$grid.width());
     }),
@@ -1914,8 +1923,9 @@ define(function(require){
 
     getStickyHeaderOffset : function() {
       var self = this,
-          top = self.$grid.offset().top,
-          bottom = self.$grid.height() + top;
+          isReliable = !self.$grid.hasClass('hidden'),
+          top = isReliable ? self.$grid.offset().top : this.toneBarOffset + self.$toneBar.height(),
+          bottom = isReliable ? self.$grid.height() + top : top;
 
       // Factor in the height of the sticky nav and sticky headers
       bottom = bottom - self.stickyHeaderHeight - self.stickyNavHeight;
@@ -1961,26 +1971,12 @@ define(function(require){
         self.$compareItemsWrap
           .width( scrollerWidth )
           .height( height );
+        self.$grid.height( height );
 
       }
 
       return self;
     },
-
-    // setScrollerWrapperDimensions : function() {
-    //   var self = this,
-    //       containerWidth = self.$grid.width(),
-    //       containerHeight = self.$grid.height(),
-    //       labelsWidth = self.$detailLabelsWrap.width(),
-    //       scrollerWidth = containerWidth - labelsWidth - 2; // not sure why it doesn't fit
-
-    //   console.log('containerWidth: ' + containerWidth);
-    //   console.log('containerHeight: ' + containerHeight);
-
-    //   self.$compareItemsWrap
-    //     .width( scrollerWidth )
-    //     .height( containerHeight );
-    // },
 
     updateStickyNav : function( iscroll ) {
       var self = this,
@@ -1989,6 +1985,7 @@ define(function(require){
           scrollTop = isIScroll ? iscroll.y * -1 : st,
           overflowing = 'overflowing', // make minifying better
           open = 'open',
+          stickyTop,
           x, maxScrollX;
 
       // Add/remove a class to show the items have been scrolled horizontally
@@ -2022,7 +2019,8 @@ define(function(require){
           self.$navContainer.addClass('container');
           self.$navWrap.css('top', self.stickyNavHeight);
         }
-        self.setStickyHeaderPos( scrollTop - self.stickyOffset.top + self.stickyNavHeight );
+        stickyTop = scrollTop - self.stickyOffset.top + self.stickyNavHeight;
+        self.setStickyHeaderPos( stickyTop );
 
       } else {
         if ( self.showStickyHeaders && self.$stickyHeaders.hasClass( open ) ) {
@@ -2039,6 +2037,10 @@ define(function(require){
 
     onScroll : function() {
       var self = this;
+
+      if ( !self.enabled ) {
+        return;
+      }
 
       self.lastScrollY = self.$window.scrollTop();
       self.updateStickyNav();
@@ -2105,13 +2107,13 @@ define(function(require){
         }
 
         if ( self.isCompareMode ) {
-          self.debouncedSetRowHeights( true );
-
-          // Set timeout here because we were getting the wrong height for the
-          // spec products after a big resize
-          setTimeout(function() {
-            self.setTriggerPoint( isInit );
-          }, 100);
+          if ( self.isFilteringInitialized ) {
+            self.debouncedSetRowHeights( true, isInit );
+          } else {
+            setTimeout(function() {
+              self.debouncedSetRowHeights( true, isInit );
+            }, 200);
+          }
         }
 
         return;
@@ -2209,6 +2211,10 @@ define(function(require){
     onFiltersHide : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
       this.$filterArrow.removeClass('in');
+    },
+
+    onFiltersHidden : function( evt ) {
+      evt.stopPropagation(); // stop this event from bubbling up to .gallery
 
       if ( this.isCompareMode ) {
         this.setTriggerPoint();
@@ -2228,10 +2234,6 @@ define(function(require){
 
       if ( !didReset ) {
         self.filter();
-      }
-
-      if ( self.isCompareMode ) {
-        self.setTriggerPoint();
       }
 
       // Scroll the window so we can see what's happening with the filtered items
@@ -2724,6 +2726,7 @@ define(function(require){
     hasEnabledCarousels: false,
     hasSorterMoved: false,
     isInitialized: false,
+    isFilteringInitialized: false,
     isCompareToolOpen: false,
     isTouch: Settings.hasTouchEvents,
     isiPhone: Settings.isIPhone,
