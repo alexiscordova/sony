@@ -543,8 +543,6 @@ define(function(require){
             marginLeftContainer = gutterWidth;
           }
 
-          console.log("marginLeftContainer", marginLeftContainer);
-
           self.$galleryItems.not($galleryItemsFirst).css({
             'width'       : colWidth,
             'margin'      : 0,
