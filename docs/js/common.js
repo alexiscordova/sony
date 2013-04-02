@@ -27,7 +27,9 @@ requirejs.config({
     modernizr: {
       exports: 'Modernizr'
     }
-  }
+  },
+
+  waitSeconds: 20
 
 });
 

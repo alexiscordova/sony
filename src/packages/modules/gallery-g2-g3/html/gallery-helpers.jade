@@ -68,7 +68,7 @@ mixin helpPopover( help, pullRight )
 mixin popoverContent( help )
   - layout = help.layout
   .js-popover-content.hidden
-    .box-close.box-close-small
+    button.box-close.box-close-small
       i.fonticon-10-x
     if layout == '2up'
       .twoup
@@ -102,6 +102,11 @@ mixin filterSet( filterSet )
 
 
 mixin galleryFilters( gallery, isCompareGallery )
+  compareStr = isCompareGallery ? 'Browse' : 'Compare'
+  sortByStr = 'Sort By:'
+  productsStr = 'Products'
+  filterStr = 'Filter'
+
   .container.filter-display-bar.slide-toggle-parent
     if gallery.sortSet
       .grid.no-grid-at-767
@@ -110,18 +115,20 @@ mixin galleryFilters( gallery, isCompareGallery )
         //- Product Count
         span.p3.ib.product-count-wrap
           strong.text-dark.product-count= gallery.total
-          | &nbsp;Products
+          | !{ productsStr }
 
 
         //- Filter and compare buttons
         if gallery.filterSet
           button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
-            | Filter
+            | !{ filterStr }
             i.fonticon-10-arrowhead-down
           button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool")
-            i.fonticon-10-grid-3x3
-            i.fonticon-10-speaker.hide
-            | Compare
+            if isCompareGallery
+              i.fonticon-10-grid-3x3
+            else
+              i.fonticon-10-speaker
+            | !{ compareStr }
 
         else if gallery.accessoryFinder
           button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder
@@ -237,7 +244,7 @@ mixin compareGallery( submodules, gallery, type, labels )
   submodules = submodules || data.submodules
   gallery = gallery || data.productCards
   type = type || 'product'
-  labels = labels || data.labels
+  labels = labels || gallery.labels
 
   label = gallery.galleryName || 'Compare Things'
   legend = gallery.legend || 'this is defined in gallery.legend'
@@ -250,23 +257,52 @@ mixin compareGallery( submodules, gallery, type, labels )
     .tone-bar
       .container
         .grid
-          .pull-left
-            h2.t6.pull-left.compare-gallery-title= label
+          h2.t6.compare-gallery-title= label
+          a.compare-reset.lt4.js-compare-reset.js-clear-filters.disabled(href="#")
+            i.fonticon-10-circlearrow
+            span= resetLabel
+          span.legend
             i.swatch-lemon.mini-swatch
             span.p5
               em!= '&nbsp;' + legend
+
+
+    .sticky-nav.tone-bar
+      .container
+        .grid
+          .pull-left
+            h2.t7.sticky-nav-title= label
           a.pull-right.compare-reset.lt4.js-compare-reset.js-clear-filters.disabled(href="#")
             i.fonticon-10-circlearrow
             span= resetLabel
 
-    .container
-      .products.slimgrid.no-grid-at-767
-        each module in submodules
-          d = locals.data(module.data)
-          if d.type == type && !d.promo
-            - d.view = "compare"
-            e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
-            !{locals.partial( module.type, e )}
+
+    .container.compare-wrap
+      .compare-nav-wrap
+        nav.compare-nav-container
+          button.nav-paddle.compare-nav.compare-nav-prev
+            i.fonticon-10-chevron-reverse
+          button.nav-paddle.compare-nav.compare-nav-next
+            i.fonticon-10-chevron
+      .products
+        .span2.detail-labels-wrap
+          .compare-sticky-header.sticky-count
+            .right-bar
+          .detail-labels-wrapping
+            .detail-label-group
+              each label in labels
+                .detail-label.detail
+                  p.l3
+                    strong= label.label
+
+        .compare-items-wrap
+          .compare-items-container
+            each module in submodules
+              d = locals.data(module.data)
+              if d.type == type && !d.promo
+                - d.view = "compare"
+                e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
+                !{locals.partial( module.type, e )}
 
     +zeroProductsMessage( gallery )
 
@@ -343,26 +379,4 @@ mixin productStrips( submodules, strips, type )
                 !{locals.partial( module.type, e )}
                 - count += 1
 
-
-//- mixin compareToolModal()
-//-   label = 'Compare'
-//-   legend = 'Highlights indicate highest performance features'
-//-   resetLabel = 'Reset'
-
-//-   #compare-tool.modal.takeover.hide.fade(tabindex="-1", role="dialog", aria-labelledby="compare-tool-label", aria-hidden="true")
-//-     .modal-inner
-//-       .modal-header.container(data-reset-label=resetLabel)
-//-         h3.t3.pull-left#compare-tool-label= label
-//-         button.box-close(data-dismiss="modal", aria-hidden="true")
-//-           i.fonticon-10-x-skinny
-//-       .modal-body
-//-         .container.compare-key
-//-           div
-//-             i.swatch-lemon.mini-swatch
-//-             span.p4!= '&nbsp;' + legend
-//-       .takeover-sticky-header
-//-         .container.relative
-//-           h6.t6-light.sticky-nav-title
-//-           button.box-close(data-dismiss="modal", aria-hidden="true")
-//-             i.fonticon-10-x-skinny
 
