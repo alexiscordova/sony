@@ -1224,15 +1224,15 @@ define(function(require){
 
       // Go through each possible carousel
       if ( !self.hasEnabledCarousels ) {
-        self.$carousels.each(function(i,e) {
-          var $carousel = $(e),
+        self.$carousels.each(function( i, e ) {
+          var $carousel = $( e ),
               $firstImage;
 
           // If this call is from the initial setup, we have to wait for the first image to load
           // to get its height.
           $firstImage = $carousel.find('img').first();
 
-          if ( $firstImage[0].naturalHeight > 0 ) {
+          if ( $firstImage.data('hasLoaded') ) {
             initializeScroller( $carousel );
           } else {
              $firstImage.on('imageLoaded', function() {
@@ -1263,8 +1263,10 @@ define(function(require){
 
         // Carousels are already enabled, we need to refresh them
         if ( self.hasEnabledCarousels ) {
-          self.$carousels.scrollerModule('enable');
-          self.$carousels.scrollerModule('refresh');
+          setTimeout(function() {
+            self.$carousels.scrollerModule('enable');
+            self.$carousels.scrollerModule('refresh');
+          }, 0);
 
         // Carousels need to be created
         } else {
@@ -1856,8 +1858,8 @@ define(function(require){
       self.setRowHeights( isFromResize );
 
       // Get new dimensions after the rows have been resized
-      itemHeight = self.$items.not('.hidden').first().css('height'),
-      gridWidth = self.$grid.css('width');
+      itemHeight = self.$items.not('.hidden').first().height(),
+      gridWidth = self.$grid.width();
 
       // Sets css
       self.setItemContainerHeight( itemHeight, gridWidth );
@@ -1901,7 +1903,9 @@ define(function(require){
 
       // Refresh iScroll
       if ( self.iscroll ) {
-        self.iscroll.refresh();
+        setTimeout(function() {
+          self.iscroll.refresh();
+        }, 0);
       }
 
       $visibleItems = $detailGroup = null;
@@ -1975,13 +1979,13 @@ define(function(require){
 
     setItemContainerHeight : function( itemHeight, gridWidth ) {
       var self = this,
-          height = itemHeight || self.$items.not('.hidden').first().css('height'),
+          height = itemHeight || self.$items.not('.hidden').first().height(),
           width, labelsWidth, scrollerWidth;
 
       // Get all dimensions before changing any - avoid reflows
       if ( !Modernizr.csstransforms ) {
-        width = gridWidth || self.$grid.css('width');
-        labelsWidth = self.$detailLabelsWrap.css('width');
+        width = gridWidth || self.$grid.width();
+        labelsWidth = self.$detailLabelsWrap.width();
         scrollerWidth = width - labelsWidth - 2;
       }
 
@@ -1990,15 +1994,15 @@ define(function(require){
         .$compareItemsWrap
         .find('.compare-items-container')
         .add( self.$detailLabelsWrap )
-        .css( 'height', height );
+        .css( 'height', height + 'px' );
 
       // Without transforms, iScroll uses absolute positioning and the container
       // gets a width/height of 0 with overflow:hidden
       if ( !Modernizr.csstransforms ) {
         self.$compareItemsWrap
-          .css( 'width', scrollerWidth )
-          .css( 'height', height );
-        self.$grid.css( 'height', height );
+          .css( 'width', scrollerWidth + 'px' )
+          .css( 'height', height + 'px' );
+        self.$grid.css( 'height', height + 'px' );
       }
 
       return self;
