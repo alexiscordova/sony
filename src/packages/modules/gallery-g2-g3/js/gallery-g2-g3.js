@@ -51,7 +51,7 @@ define(function(require){
           .on('shown', module.onGalleryTabShown );
 
         // Initialize sticky tabs
-        window.requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
           $('.tab-strip').stickyTabs();
         });
 
@@ -171,7 +171,7 @@ define(function(require){
     if ( self.hasFilters ) {
       // Defer it, then wait until a good time for the browser
       setTimeout(function() {
-        window.requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
           self.filter();
           self.isFilteringInitialized = true;
         });
@@ -213,12 +213,12 @@ define(function(require){
         self.$grid.infinitescroll('resume');
       }
 
-      self.$container.removeClass('disabled');
+      // Will create, update, or destroy carousels depending
+      // on the window size and their current state
+      self.fixCarousels();
 
-      if ( self.hasEnabledCarousels ) {
-        self.$carousels.scrollerModule('enable');
-        self.$carousels.scrollerModule('refresh');
-      }
+      // Removes visibility:hidden
+      self.$container.removeClass('disabled');
     },
 
     disable : function() {
@@ -780,24 +780,18 @@ define(function(require){
         // Listen for the scroll event
         self.$window.on('scroll', $.proxy( self.onScroll, self ));
 
-        console.timeStamp('STICKY HEADER HEIGHT');
         self.stickyHeaderHeight = self.$stickyHeaders.first().height();
-        console.timeStamp('STICKY NAV HEIGHT');
         self.stickyNavHeight = self.$stickyNav.outerHeight();
-        console.timeStamp('TONE BAR OFFSET');
         self.setToneBarOffset();
 
         if ( !self.showStickyHeaders ) {
           self.$container.addClass('no-sticky-headers');
         }
 
-        console.timeStamp('INIT SCROLLER');
         self.initScroller();
-
 
         // We're done
         setTimeout(function() {
-          console.timeStamp('INIT STICKY NAV');
           self.initStickyNav();
         }, 150);
       }, 0);
@@ -861,7 +855,6 @@ define(function(require){
       data = self.$compareItemsWrap.data('scrollerModule');
       self.scroller = data;
       self.iscroll = data.scroller;
-      console.timeStamp('UPDATE STICKY NAV');
       self.updateStickyNav( self.iscroll );
     },
 
@@ -1261,13 +1254,26 @@ define(function(require){
     fixCarousels : function() {
       var self = this;
 
-      if ( self.hasCarousels ) {
-        // 980+
-        if ( Modernizr.mq('(min-width: 61.25em)') ) {
-          self.initCarousels();
+      if ( !self.hasCarousels ) {
+        return;
+      }
+
+      // 980+
+      if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
+
+        // Carousels are already enabled, we need to refresh them
+        if ( self.hasEnabledCarousels ) {
+          self.$carousels.scrollerModule('enable');
+          self.$carousels.scrollerModule('refresh');
+
+        // Carousels need to be created
         } else {
-          self.destroyCarousels();
+          self.initCarousels();
         }
+
+      // < 980
+      } else {
+        self.destroyCarousels();
       }
     },
 
@@ -1833,20 +1839,37 @@ define(function(require){
     },
 
     debouncedSetRowHeights : $.debounce( 600, function( isFromResize, isInit ) {
-      this
-        .setRowHeights( isFromResize )
-        .setItemContainerHeight();
+      var self = this,
+          itemHeight,
+          gridWidth;
 
-      if ( isFromResize && !isInit ) {
-        this.setTriggerPoint();
+      isFromResize = isFromResize === true;
+
+      // If this is not triggered from a window resize, we still need to update the offsets
+      // because the heights have changed.
+      if ( (isFromResize && !isInit) || !isFromResize ) {
+        // Gets css
+        self.setTriggerPoint();
       }
 
-      this.updateStickyNav();
+      // Gets and sets css
+      self.setRowHeights( isFromResize );
 
-      this.$stickyRightBar.css('left', this.$grid.width());
+      // Get new dimensions after the rows have been resized
+      itemHeight = self.$items.not('.hidden').first().css('height'),
+      gridWidth = self.$grid.css('width');
+
+      // Sets css
+      self.setItemContainerHeight( itemHeight, gridWidth );
+
+      // Sets css
+      self.updateStickyNav();
+
+      // Sets css
+      self.$stickyRightBar.css('left', gridWidth);
     }),
 
-    setRowHeights : function( isFromResize ) {
+    setRowHeights : function() {
       var self = this,
           $visibleItems = self.$items.filter('.filtered'),
           $detailGroup = $visibleItems.find('.detail-group').first(),
@@ -1858,9 +1881,6 @@ define(function(require){
       } else if ( !self.scroller.enabled ) {
         self.scroller.enable();
       }
-
-      window.console && console.time && console.time('SET ROW HEIGHTS');
-      isFromResize = isFromResize === true;
 
       // Set detail rows to even heights
       self.$container.find('.detail-label').each(function(i) {
@@ -1876,12 +1896,7 @@ define(function(require){
 
       $.evenHeights( groups );
 
-      // If this is not triggered from a window resize, we still need to update the offsets
-      // because the heights have changed.
-      if ( !isFromResize ) {
-        self.setTriggerPoint();
-      }
-
+      // Gets the offset of the first detail group to align the labels properly (gets and sets css)
       self.setDetailLabelOffset();
 
       // Refresh iScroll
@@ -1891,7 +1906,6 @@ define(function(require){
 
       $visibleItems = $detailGroup = null;
 
-      window.console && console.time && console.timeEnd('SET ROW HEIGHTS');
       return self;
     },
 
@@ -1959,31 +1973,32 @@ define(function(require){
       return self;
     },
 
-    setItemContainerHeight : function() {
+    setItemContainerHeight : function( itemHeight, gridWidth ) {
       var self = this,
-          height = self.$items.not('.hidden').first().height(),
+          height = itemHeight || self.$items.not('.hidden').first().css('height'),
           width, labelsWidth, scrollerWidth;
 
       // Get all dimensions before changing any - avoid reflows
       if ( !Modernizr.csstransforms ) {
-        width = Modernizr.csstransforms ? 0 : self.$grid.width();
-        labelsWidth = Modernizr.csstransforms ? 0 : self.$detailLabelsWrap.width();
+        width = gridWidth || self.$grid.css('width');
+        labelsWidth = self.$detailLabelsWrap.css('width');
         scrollerWidth = width - labelsWidth - 2;
       }
 
-      self.$compareItemsWrap.find('.compare-items-container').height( height );
-
       // The detail labels don't get a height because they're positioned absolutely
-      self.$detailLabelsWrap.height( height );
+      self
+        .$compareItemsWrap
+        .find('.compare-items-container')
+        .add( self.$detailLabelsWrap )
+        .css( 'height', height );
 
       // Without transforms, iScroll uses absolute positioning and the container
       // gets a width/height of 0 with overflow:hidden
       if ( !Modernizr.csstransforms ) {
         self.$compareItemsWrap
-          .width( scrollerWidth )
-          .height( height );
-        self.$grid.height( height );
-
+          .css( 'width', scrollerWidth )
+          .css( 'height', height );
+        self.$grid.css( 'height', height );
       }
 
       return self;
@@ -2043,7 +2058,7 @@ define(function(require){
       }
 
 
-      self.isTicking = false;
+      // self.isTicking = false;
     },
 
     onScroll : function() {
@@ -2091,7 +2106,7 @@ define(function(require){
         } else {
           // Let the browser choose the best time to do this becaues it causes a layout
           if ( !self.scroller || (self.scroller && self.scroller.enabled) ) {
-            window.requestAnimationFrame( evenTheHeights );
+            requestAnimationFrame( evenTheHeights );
           }
         }
 
@@ -2131,7 +2146,7 @@ define(function(require){
       }
 
       // Let the browser choose the best time to do this becaues it causes a layout
-      window.requestAnimationFrame( evenTheHeights );
+      requestAnimationFrame( evenTheHeights );
 
       Utilities.forceWebkitRedraw();
 
@@ -2263,7 +2278,7 @@ define(function(require){
           isFadedIn = self.$container.hasClass('in');
 
       if ( isFadedIn ) {
-        window.requestAnimationFrame( module.hideGalleryLoader );
+        requestAnimationFrame( module.hideGalleryLoader );
 
       // Fade in the gallery if it isn't already
       } else {
@@ -2385,7 +2400,7 @@ define(function(require){
         if ( isEvent ) {
           $item.addClass('concealed').removeClass('filtered');
           // Putting this in a rAF because it can be deferred and also takes a while
-          window.requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
             self.setFilterStatuses();
           });
         }
@@ -2398,7 +2413,7 @@ define(function(require){
         clearTimeout( fadeTimeout );
 
         $item.one( Settings.transEndEventName, hideItem );
-        window.requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
           $item.addClass('no-width');
 
           widthTimeout = setTimeout(function() {
@@ -2423,7 +2438,7 @@ define(function(require){
 
       if ( Modernizr.csstransitions ) {
         $item.one( Settings.transEndEventName, noWidth );
-        window.requestAnimationFrame( fadeItemOut );
+        requestAnimationFrame( fadeItemOut );
 
       } else {
         hideItem();
@@ -2473,11 +2488,11 @@ define(function(require){
         if ( !self.scroller.enabled ) {
           self.scroller.enable();
           // rows need to be updated
-          window.requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
             self.debouncedSetRowHeights();
           });
         }
-        window.requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
           self.scroller.refresh();
 
           // Maybe they haven't scrolled horizontally to see other images
@@ -2762,6 +2777,7 @@ define(function(require){
   module.onGalleryTabShow = function( evt ) {
     var $prevPane;
 
+    // Get the previous pane jQuery object from the evt object
     if ( evt ) {
       $prevPane = evt.prevPane;
       if ( evt.prevPane ) {
@@ -2801,6 +2817,7 @@ define(function(require){
     var $pane,
         $galleries;
 
+    // Get the $pane variable from the evt
     if ( evt ) {
       $pane = evt.pane;
       if ( evt.pane ) {
@@ -2816,25 +2833,27 @@ define(function(require){
       return;
     }
 
+    // Get all galleries in this tab pane
     $galleries = $pane.find('.gallery');
 
     // Force redraw before fixing galleries
     Utilities.forceWebkitRedraw();
 
+    // Loop through each gallery in this tab pane to enable it and update the carousels
     $galleries.each(function() {
       var gallery = $(this).data('gallery'),
           $collapse = gallery.$container.find('[data-toggle="collapse"]');
 
       // Enable all galleries in this tab
-      gallery.enable();
-
-      // Slide up the collapsable if it's visible
-      if ( $collapse.length && !$collapse.hasClass('collapsed') ) {
-        $collapse.click();
+      if ( gallery ) {
+        requestAnimationFrame(function() {
+          gallery.enable();
+        });
       }
 
-      if ( gallery ) {
-        gallery.fixCarousels();
+      // Slide up the collapsable if it's visible. This CANNOT be done in the `show` event
+      if ( $collapse.length && !$collapse.hasClass('collapsed') ) {
+        $collapse.trigger('click');
       }
     });
 
@@ -2842,6 +2861,7 @@ define(function(require){
     $pane = null;
   };
 
+  // Hides the loading gif
   module.hideGalleryLoader = function() {
     if ( !module.galleryLoaderHidden ) {
       $('.gallery-loader').addClass('hidden');
@@ -2849,6 +2869,7 @@ define(function(require){
     module.galleryLoaderHidden = true;
   };
 
+  // Shows the loading gif
   module.showGalleryLoader = function() {
     if ( module.galleryLoaderHidden ) {
       $('.gallery-loader').removeClass('hidden');
