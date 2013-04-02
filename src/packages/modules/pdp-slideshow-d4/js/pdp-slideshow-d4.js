@@ -172,7 +172,7 @@ define(function(require){
 
         console.log('Register with enquire');
 
-      },
+      }, 
 
       toggleDotNav: function(hide){
         var self = this;
