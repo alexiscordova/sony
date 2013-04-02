@@ -76,14 +76,23 @@
 // Gallery
 // -------------------------
 
+// 60x60 gif
+$gifWidth: 60px;
+$gifHeight: 60px;
 .loading.gallery-loader {
-  position: relative;
+  position: absolute;
+  z-index: 400;
+  width: 100%;
+  height: $gifHeight;
+  left: 0;
+  top: 200px;
 
   img {
     position: absolute;
     left: 50%;
-    margin-left: -30px; // 60x60 gif
-    top: 50px;
+    top: 50%;
+    margin-left: -$gifWidth / 2;
+    margin-top: -$gifHeight / 2;
   }
 }
 
@@ -193,11 +202,14 @@
 // Holdes Filter Results button, compare button, # products, and sorting dropdown
 .filter-display-bar {
   position: relative;
-  // z-index: 1;
-  z-index: 11;
+  z-index: 20;
 
   .btn {
     margin-bottom: 0;
+  }
+
+  .product-count {
+    padding-right: px-em(2, 13);
   }
 
   .slide-toggle,
@@ -528,11 +540,33 @@
 //                                   888
 //                                   888
 
+// We want the width of the grid, but not the .span# sizes that come with it
+// $fluidGridWidth1200
+.gallery-compare .products {
+  width: $fluidGridWidth;
+  overflow: visible;
+  border-right: .0625em solid $gray70;
+  @include transition(box-shadow $transitionFast ease-in);
 
+  &.overflowing {
+    @include box-shadow(inset -.125em 0 .1875em -.125em $transparentBlack);
+    @include transition-timing-function(ease-out);
+  }
+}
+
+// Tone bar
+// -------------------
 .tone-bar {
-  padding-top: 1.125em;
-  padding-bottom: 1.5625em;
+  padding-top: px-em(19);
+  padding-bottom: px-em(25);
+  width: 100%;
   background: $gray80;
+
+  // Fix it, change padding
+  &.sticky-nav {
+    padding-top: px-em(20);
+    padding-bottom: px-em(14);
+  }
 
   .mini-swatch {
     vertical-align: middle;
@@ -540,13 +574,23 @@
 }
 
 .compare-gallery-title {
+  float: left;
   margin-right: 1em;
   margin-bottom: 0;
+  @include transition();
+}
+
+.tone-bar .legend {
+  float: left;
+  display: inline-block;
 }
 
 .compare-reset {
   display: block;
+  float: right;
   color: $gray20;
+  margin-top: 5px;
+  margin-bottom: 0;
 
   &.disabled {
     color: $gray50;
@@ -556,6 +600,35 @@
     position: relative;
     font-size: 16px; // don't get font size from the font
     margin-right: .4375em;
+  }
+}
+
+
+$compareBorder: .0625em solid $gray70;
+.gallery-compare {
+  overflow: hidden;
+
+  .detail-label-group,
+  .detail-group {
+    border-top: $compareBorder;
+  }
+
+  .detail-labels-wrap {
+    border-right: $compareBorder;
+
+    &:before {
+      width: 100%;
+      background-color: transparent;
+    }
+  }
+
+  .detail,
+  .detail-label {
+    border-bottom: $compareBorder;
+  }
+
+  .detail-label {
+    padding: 1.125em 1em 0 0;
   }
 }
 
@@ -573,20 +646,16 @@
   }
 }
 
-// Wrapper for the items in the compare tool. Sibling of the labels.
 .compare-items-wrap {
   position: relative;
-  height: 100%; // Get parent's height
-  overflow: visible !important; // override iscroll
 
-  // .lt-ie9 &,
-  // .sonytablets & {
-  //   overflow: hidden !important;
-  // }
+  .no-csstransforms & {
+    float: left;
+  }
 }
 
 .compare-items-container {
-  height: 100%;
+  // height: 100%;
 }
 
 // .compare-nav {
@@ -623,10 +692,14 @@
 // }
 
 // Compare Items
+// --------------------
+$stickyHeaderHeight: px-em(82);
 .compare-item {
   position: relative;
+  overflow: hidden;
   background: $white;
   color: $gray20;
+  border-right: .0625em solid $gray70;
   @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
 
   .gallery & {
@@ -641,12 +714,16 @@
     width: 0;
   }
 
-  .product-img {
-    text-align: center;
+  .favorite-holder {
+    font-size: 16px; // ghost-center-wrap set it to zero
+    position: absolute;
+    left: .125em;;
+    bottom: 0;
   }
 
-  .compare-sticky-header .product-name-wrap {
-    padding-right: 2.5em;
+  .product-img {
+    position: relative;
+    text-align: center;
   }
 
   .product-content .product-name-wrap,
@@ -654,15 +731,17 @@
   .product-price,
   .color-swatches {
     margin-bottom: 1.25em;
-    padding-right: 1.25em;
-    padding-left: 1.25em;
+    padding-right: 1.875em;
+    padding-left: .9375em;
   }
 
   .detail {
     color: $gray20;
-    min-height: 2.5em;
-    padding-right: 1.25em;
-    padding-left: 1.25em;
+    padding: 1.25em 1.875em 2.5em .9375em;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
 
     // Copy paste the .visuallyhidden class
     .cell-label {
@@ -679,6 +758,10 @@
 
   .detail.highlighted {
     background: $lemon;
+
+    .p3 {
+      color: $gray20;
+    }
   }
 
   .media p:not(.media-heading) {
@@ -693,47 +776,113 @@
   .product-model {
     margin-bottom: 0;
   }
+
+  // Sticky headers
+  .compare-sticky-header {
+    top: -2em;
+    // width: inherit;
+    width: 100%;
+    height: px-em(106);
+    padding: 0;
+    background: $white;
+    border-right: .0625em solid $gray70; // 1 pixel
+    text-align: center;
+
+    &.open {
+      top: 0;
+    }
+
+    img {
+      max-height: 80px;
+    }
+
+    .product-model {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+    }
+  }
 }
 
-// .takeover-sticky-header {
-//   position: absolute;
-//   z-index: 20;
-//   top: -6.25em;
-//   left: -999em;
-//   width: 100%;
-//   background: $white;
-//   @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
-
-//   .native-scrolling & {
-//     position: fixed;
-//   }
-
-//   .no-sticky-headers & {
-//     border-bottom: 1px solid $gray70;
-//   }
-
-//   &.open {
-//     left: 0;
-//     top: 0;
-//     @include transition-delay(0s);
-//     @include transition-timing-function(ease-out);
-//   }
-
-//   .sticky-nav-title {
-//     padding: 18px 0;
-//     margin-bottom: 0;
-//   }
-
-//   .box-close {
-//     top: 15px;
-//   }
-// }
+.gallery-compare {
 
 
-// .compare-item-remove {
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-// }
+  .sticky-count {
+    padding: 0;
+    width: 100%;
+    height: px-em(106);
+
+    // Gray bar on the left side of the container
+    &:before {
+      background: $white;
+      width: 3000px;
+      right: 1px;
+      @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
+    }
+
+    // Gray bar on the right side of the container
+    .right-bar {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 800%;
+      height: px-em(106);
+      width: 187em;
+      background: $white;
+      @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
+    }
+  }
+}
+
+
+// Spec Nav
+// -------------------------
+.compare-nav-container {
+  position: relative;
+}
+
+$columnHeaderHeight: px-em(82);
+.compare-nav {
+  position: absolute;
+  z-index: 16;
+  top: ($columnHeaderHeight - $navPaddleHeight) / 2;
+}
+
+.compare-nav-prev {
+  left: -.625em;
+}
+
+.compare-nav-next {
+  right: -.625em;
+}
+
+// Affix the nav paddles when the sticky headers are open
+.sticky-header-open {
+
+  .compare-nav-wrap {
+    position: fixed;
+    z-index: 15;
+    top: 72px; // Should be overriden by js
+    left: 0;
+    width: 100%;
+  }
+
+  .compare-nav-container {
+    // Turns into .container
+
+    .compare-nav {
+      top: ( $stickyHeaderHeight - $navPaddleHeight ) / 2;
+    }
+  }
+}
+
+// Don't even bother with elements if we're not going to use them
+.no-sticky-headers {
+  .compare-sticky-header,
+  .sticky-count,
+  .right-bar {
+    display: none !important;
+  }
+}
 
 

@@ -1,18 +1,18 @@
 include ../../../common/html/jade-helpers.jade
-
++includeJavascriptModule('product-details-d5')
 
 mixin measurement(m)
   //- +iQImage(module.images[0],'tcc-image')
   p
     | #{m.height.centimeters}cm
-    br 
+    br
     | (#{m.height.inches}")
 
 
 
 mixin featureList( list, extraClasses)
   - listClasses = 'feature-list'
-  - extraClasses = extraClasses || false 
+  - extraClasses = extraClasses || false
   - if ( extraClasses ) listClasses += ' ' + extraClasses
 
   ul(class=listClasses)
@@ -21,7 +21,7 @@ mixin featureList( list, extraClasses)
 
       //- at least copy required
       if (li.copy)
-        
+
         li
           .ghost-center-wrap
 
@@ -30,13 +30,13 @@ mixin featureList( list, extraClasses)
               - copyClasses.push("with-icon")
               p(class= iconClasses)
                 i(class= li.icon)
-            
+
             p(class= copyClasses)
               | #{li.copy}
-              
+
               if (li.link)
                 a(href=li.link)= li.linkLabel
-            
+
 
 
 mixin definitionList( list, isHorizontal )
@@ -70,7 +70,7 @@ mixin definitionList( list, isHorizontal )
 - columnCount = 0
 - centerSpanClass = []
 
-if(isFeatures) 
+if(isFeatures)
   - columnCount = columnCount + 1
 
 if(isSpecs)
@@ -119,7 +119,7 @@ section(class= productDetailsClasses)
     if(isSpecs)
       .specs(class= centerSpanClass)
         +definitionList(specs, false)
-      
+
     if(isMeasurements)
       .measurements(class= centerSpanClass)
         for measurement in measurements
@@ -132,7 +132,7 @@ section(class= productDetailsClasses)
               .extra
                 p= extra.title
                 p= extra.copy
-  
+
   .bottom.grid
     if(isTextTout)
       .text-tout.span6
@@ -140,7 +140,7 @@ section(class= productDetailsClasses)
           | #{textTout.copy}
           if(textTout.link)
             a(href= textTout.link)= textTout.linkLabel
-    
+
     if(isBottomBtn)
       .bottomBtn(class= bottomSpanClass)
         a.btn.buttonLabel(href= bottomBtn.buttonLink)= bottomBtn.buttonLabel
