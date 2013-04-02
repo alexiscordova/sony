@@ -2103,18 +2103,18 @@ div.insitu-footnote {
 /*____________ links to wiki pages ____________*/
 /* existing wikipage */
 /* not existing wikipage */
-/* line 11, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
+/* line 13, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
 .dokuwiki a.wikilink2 {
   text-decoration: none;
 }
 
-/* line 15, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
+/* line 17, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
 .dokuwiki a.wikilink2:link,
 .dokuwiki a.wikilink2:visited {
   border-bottom: 1px dashed;
 }
 
-/* line 20, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
+/* line 22, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
 .dokuwiki a.wikilink2:hover,
 .dokuwiki a.wikilink2:active,
 .dokuwiki a.wikilink2:focus {
@@ -2122,13 +2122,13 @@ div.insitu-footnote {
 }
 
 /* any link to current page */
-/* line 25, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
+/* line 27, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
 .dokuwiki span.curid a {
-  font-weight: bold;
+  font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /*____________ other link types ____________*/
-/* line 35, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
+/* line 37, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
 .dokuwiki a.urlextern,
 .dokuwiki a.windows,
 .dokuwiki a.mail,
@@ -2140,19 +2140,19 @@ div.insitu-footnote {
 }
 
 /* external link */
-/* line 41, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
+/* line 43, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
 .dokuwiki a.urlextern {
   background-image: url(../img/_wiki/external-link.png);
 }
 
 /* windows share */
-/* line 45, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
+/* line 47, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
 .dokuwiki a.windows {
   background-image: url(../img/_wiki/unc.png);
 }
 
 /* email link */
-/* line 49, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
+/* line 51, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
 .dokuwiki a.mail {
   background-image: url(../img/_wiki/email.png);
 }
@@ -2161,7 +2161,7 @@ div.insitu-footnote {
 /* link to some embedded media */
 /* interwiki link */
 /* RTL corrections; if link icons don't work as expected, remove the following lines */
-/* line 66, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
+/* line 68, ../../src/packages/docs/css/_wiki/tpl/_links.scss */
 [dir=rtl] .dokuwiki a.urlextern,
 [dir=rtl] .dokuwiki a.windows,
 [dir=rtl] .dokuwiki a.mail,
@@ -2655,18 +2655,14 @@ div.insitu-footnote {
 
 /* line 86, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
 .dokuwiki ul.idx li {
-  list-style-image: url(../img/_wiki/bullet.png);
+  list-style: none;
 }
-/* line 88, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
+/* line 89, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
 .dokuwiki ul.idx li i {
   float: right;
 }
 
-/* line 92, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
-.dokuwiki ul.idx li.open {
-  list-style-image: url(../img/_wiki/open.png);
-}
-/* line 94, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
+/* line 95, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
 .dokuwiki ul.idx li.open i {
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
@@ -2683,11 +2679,7 @@ div.insitu-footnote {
   backface-visibility: hidden;
 }
 
-/* line 101, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
-.dokuwiki ul.idx li.closed {
-  list-style-image: url(../img/_wiki/closed.png);
-}
-/* line 103, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
+/* line 104, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
 .dokuwiki ul.idx li.closed i {
   -webkit-transition: all 0.15s linear;
   transition: all 0.15s linear;
@@ -2696,7 +2688,7 @@ div.insitu-footnote {
   transform: rotate(0deg);
 }
 
-/* line 110, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
+/* line 111, ../../src/packages/docs/css/_wiki/tpl/_toc.scss */
 .dokuwiki ul.idx li a.idx_dir strong {
   display: none;
 }
@@ -3199,12 +3191,6 @@ textarea[readonly] {
 /* hx margin-left = (1 / font-size) * .levelx-margin */
 /*____________ links to wiki pages (addition to _links) ____________*/
 /* existing wikipage */
-/* line 46, ../../src/packages/docs/css/_wiki/tpl/content.scss */
-.dokuwiki a.wikilink1 {
-  color: #008800;
-  background-color: inherit;
-}
-
 /* not existing wikipage */
 /* line 51, ../../src/packages/docs/css/_wiki/tpl/content.scss */
 .dokuwiki a.wikilink2 {
@@ -5426,37 +5412,37 @@ ol {
 }
 
 /* line 187, ../../src/packages/docs/css/docs.scss */
-.indent2 {
+.wrap_indent2 {
   padding-left: 2px;
 }
 
 /* line 188, ../../src/packages/docs/css/docs.scss */
-.indent5 {
+.wrap_indent5 {
   padding-left: 5px;
 }
 
 /* line 189, ../../src/packages/docs/css/docs.scss */
-.indent10 {
+.wrap_indent10 {
   padding-left: 10px;
 }
 
 /* line 190, ../../src/packages/docs/css/docs.scss */
-.indent20 {
+.wrap_indent20 {
   padding-left: 20px;
 }
 
 /* line 191, ../../src/packages/docs/css/docs.scss */
-.indent30 {
+.wrap_indent30 {
   padding-left: 30px;
 }
 
 /* line 192, ../../src/packages/docs/css/docs.scss */
-.indent40 {
+.wrap_indent40 {
   padding-left: 40px;
 }
 
 /* line 193, ../../src/packages/docs/css/docs.scss */
-.indent50 {
+.wrap_indent50 {
   padding-left: 50px;
 }
 
