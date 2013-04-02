@@ -11,10 +11,10 @@ include ../../../common/html/jade-helpers.jade
         .rp-overflow
           .rp-container(class="hide fade")
             i = 0
-            for module in data.submodules
-              d = locals.data(module.data)
-              if d.type == 'product' && d.featured
-                - d.layout = 'medium'
-                - d.view = 'basic'
-                e = { 'locals' : locals , 'data' : d }
-                !{locals.partial(module.type , e )}
+            for item in data.slide
+              a(class="gallery-item m-span4 span3 medium")
+                .gallery-item-inner
+                  div(class="headline-counter")= item.headline.title
+                  img.iq-img(alt=item.alt, data-src-desktop=item.backgroundImgSrcDesktop, data-src-tablet=item.backgroundImgSrcTablet, data-src-phone=item.backgroundImgSrcPhone, data-src-desktop-highres=item.backgroundImgSrcDesktopHighRes, data-src-tablet-highres=item.backgroundImgSrcTabletHighRes, data-src-phone-highres=item.backgroundImgSrcPhoneHighRes)
+                    noscript
+                      img(src=item.noscriptsrc, alt=item.alt)
