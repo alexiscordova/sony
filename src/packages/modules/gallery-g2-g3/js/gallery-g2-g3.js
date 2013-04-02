@@ -30,7 +30,7 @@ define(function(require){
   var module = {
 
     init: function() {
-
+      window.console && console.time && console.timeEnd('parsing');
       if ( $('.gallery').length > 0 ) {
         // Initialize galleries
         $('.gallery').each(function() {
@@ -638,7 +638,8 @@ define(function(require){
           filterType = '',
           filterName = '',
           filterValues = [],
-          filterValue = '';
+          filterValue = '',
+          i = 0;
 
       self.lastFilterGroup = null;
       self.secondLastFilterGroup = null;
@@ -664,7 +665,7 @@ define(function(require){
             // Get the filter values without a reference because we want to delete parts of the array
             // as its looped through
             filterValues = $.extend([], self.filters[ filterType ][ filterName ]);
-            for ( var i = 0; i < filterValues.length; i++ ) {
+            for ( ; i < filterValues.length; i++ ) {
               filterValue = filterValues[ i ];
               // Remove from internal data and UI
               self.deleteFilter( filterValue, filterName, filterType );
@@ -779,19 +780,24 @@ define(function(require){
         // Listen for the scroll event
         self.$window.on('scroll', $.proxy( self.onScroll, self ));
 
+        console.timeStamp('STICKY HEADER HEIGHT');
         self.stickyHeaderHeight = self.$stickyHeaders.first().height();
+        console.timeStamp('STICKY NAV HEIGHT');
         self.stickyNavHeight = self.$stickyNav.outerHeight();
+        console.timeStamp('TONE BAR OFFSET');
         self.setToneBarOffset();
 
         if ( !self.showStickyHeaders ) {
           self.$container.addClass('no-sticky-headers');
         }
 
+        console.timeStamp('INIT SCROLLER');
         self.initScroller();
 
 
         // We're done
         setTimeout(function() {
+          console.timeStamp('INIT STICKY NAV');
           self.initStickyNav();
         }, 150);
       }, 0);
@@ -855,6 +861,7 @@ define(function(require){
       data = self.$compareItemsWrap.data('scrollerModule');
       self.scroller = data;
       self.iscroll = data.scroller;
+      console.timeStamp('UPDATE STICKY NAV');
       self.updateStickyNav( self.iscroll );
     },
 
@@ -1842,7 +1849,8 @@ define(function(require){
     setRowHeights : function( isFromResize ) {
       var self = this,
           $visibleItems = self.$items.filter('.filtered'),
-          $detailGroup = $visibleItems.find('.detail-group').first();
+          $detailGroup = $visibleItems.find('.detail-group').first(),
+          groups = [];
 
       // If there aren't any visible items left, exit
       if ( !$visibleItems.length ) {
@@ -1862,8 +1870,11 @@ define(function(require){
             $cells = self.$items.find('.detail-group .detail:nth-child(' + (i + 1) + ')');
 
         // Loop through the cells (`.spec-item-cell`'s in the same 'row')
-        $cells.add($detailLabel).evenHeights();
+        $cells = $cells.add($detailLabel);
+        groups.push( $cells );
       });
+
+      $.evenHeights( groups );
 
       // If this is not triggered from a window resize, we still need to update the offsets
       // because the heights have changed.
