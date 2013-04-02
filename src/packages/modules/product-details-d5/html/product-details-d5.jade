@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('product-details-d5')
 
 mixin inchesString(inches)
   - inches = "(" + inches + "\")"
@@ -16,11 +17,6 @@ mixin measurementValues(value, dir, isThin)
   
   div(class = clss) 
     
-    //- if (!isThin)
-    //-   - canvasCls = dir + "-canvas"
-    //-   canvas(class= canvasCls)
-    //-     | fallback here
-
     div.measurements-container
       +cmString(value.cm)
 
@@ -78,39 +74,6 @@ mixin definitionList( list, isHorizontal )
       dt.l3: strong= li.title
       if li.copy
         dd.p3= li.copy
-
-
-//- mixin countColumns(cols)
-//-   - columnCount = 0
-
-//-   for col in cols
-//-     if(col)
-//-       - columnCount++  
-  
-//-   //- if(isFeatures) 
-//-   //-   - columnCount++
-
-//-   //- if(isSpecs)
-//-   //-   - columnCount++
-
-//-   //- if(isMeasurements)
-//-   //-   - columnCount++
-
-//-   !{columnCount}
-
-//- mixin handleColCount(count)
-//-   - spanValue
-//-   case count
-//-    when 2
-//-     - spanValue = "span6"
-//-     - centerSpanClass.push("span6")
-//-    when 3
-//-     - spanValue = "span4"
-//-     - centerSpanClass.push("span4")
-
-//-   return spanValue
-
-
 
 
 //- TOP DATA

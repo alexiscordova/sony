@@ -3,7 +3,7 @@
 //
 // * **Class:** ProductDetails
 // * **Version:** 0.1
-// * **Modified:** 03/26/2013
+// * **Modified:** 04/2/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr
 
@@ -17,7 +17,6 @@ define(function(require){
 
   // Public methods
   // --------------
-
   var module = {
     'init': function() {
       $('.pd-module').each(function(){
@@ -92,11 +91,10 @@ define(function(require){
       self.showImages();
       self.getMImageDimensions();
       self.setMeasurementDimensions();
-      //self.handleCanvases();
     },
 
     showImages : function(  ){
-      console.log( '««« showImages »»»' );
+      // console.log( '««« showImages »»»' );
       var self = this,
           $images = self.$measurementImages;
 
@@ -106,7 +104,7 @@ define(function(require){
     },
 
     getMImageDimensions : function(){
-      console.log( '««« getImageWidths »»»' );
+      // console.log( '««« getImageWidths »»»' );
       var self = this,
           $images = self.$measurementImages;
       
@@ -118,7 +116,7 @@ define(function(require){
     },
 
     setMeasurementDimensions : function(){
-      console.group( '««« setMeasurementDimensions »»»' );
+      // console.group( '««« setMeasurementDimensions »»»' );
       var self = this,
           $measurements = self.$vertMeasurements.add(self.$horzMeasurements);
       
@@ -143,112 +141,16 @@ define(function(require){
 
         });
       
-      console.log( '« end »');
-      console.groupEnd();
     },
 
-
-    // handleCanvases : function(){
-    //   console.log( '««« handleCanvases »»»' );
-    //   var self = this;
-
-    //   //  for each measurement dimension
-    //   //  set height of stroke
-    //   //  set width of stroke
-    //   //  set x position of stroke
-    //   //  set y position of stroke
-    //   //  set weight of stroke
-
-    //   self.setCanvasDimensions(self.$canvases);
-    //   self.drawLines();
-    
-    // },
-
-
-    // setCanvasDimensions : function($canvases){
-    //   console.log( '««« setCanvasDimensions »»»' );
-    //   var self = this;
-        
-    //   $canvases.each(function(index) { 
-    //     console.log( 'this canvas »' , $(this));
-    //   });
-
-    //   // if vertical, width gets set to width of parent - 1
-    //   // if horizontal, width gets set to width  self.$horzMeasurements[INDEX]
-      
-    //   // if vertical, height gets set to height of silbing image-wrapper > img
-    //   // if horizontal, height gets set to height of parent - 1
-
-    //   // $el.height();
-    //   // $el.width(); 
-      
-    //   // 
-    //   // vertical width
-    //   // $("canvas:eq(0)").siblings('.measurements-container').outerWidth()
-    //   // 
-    //   // vertical height
-    //   // GET FROM IMAGE HEIGHT
-    //   // 
-    //   // horizontal width
-    //   // GET FROM IMAGE WIDTH
-    //   // 
-    //   // h height
-    //   // $(".horizontal-measurement canvas:eq(0)").siblings('.measurements-container').outerHeight()
-      
-      
-    //   // console.log( 'canvas parent »' , $canvas.parent());
-    //   // console.log( 'canvas parent width»' , $canvas.parent().innerWidth());
-    //   // $canvas.width($canvas.parent().innerWidth());
-    //   // console.log( 'canvas sibling measurements width»' , $(".vertical-canvas + .measurements-container"));
-    //   // $canvas.height($(".vertical-canvas + .measurements-container").innerHeight());
-   
-    // },
-
-    // // TODO: animate growth
-    // drawLines : function(){
-    //   console.log( '««« drawLines »»»' );
-    //   var self = this,
-    //       context = self.$canvases.get(0).getContext("2d"),  // IN LOOP
-    //       xStart = 10,
-    //       xEnd = xStart, // do not want a diagonal
-    //       yStart = 0, //top
-    //       yEnd = 100; // height of canvas
-    
-    //   //self.resetCanvas($canvas); // for window resize... redraw 
-
-    //   // styles
-    //   context.lineWidth = self.lineWidth; //thickness
-    //   context.strokeStyle = self.gray50; // color
-      
-    //   context.beginPath(); // Start the path
-      
-    //   context.moveTo(xStart, yStart); // Set the path origin
-    //   context.lineTo(xEnd, yEnd); // Set the path destination
-      
-    //   context.closePath(); // Close the path
-      
-    //   context.stroke(); // Outline the path
-    // },
-
-
-    // resetCanvas : function(cnvs){
-    //   console.log( '««« resetCanvas »»»' );
-    //   var self = this;
-    
-    //   cnvs.attr("width", cnvs.width());
-    //   cnvs.attr("height", cnvs.height());
-    // },
-
     renderDesktop: function() {
-
       var self = this;
-
-      console.log( 'renderDesktop »' );
-
+      // console.log( 'renderDesktop »' );
     },
 
     renderMobile: function() {
-      console.log( 'renderMobile »' );
+      var self = this;
+      // console.log( 'renderMobile »' );
     }
   };
 
