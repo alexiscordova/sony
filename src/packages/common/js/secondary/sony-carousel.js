@@ -134,7 +134,7 @@ define(function(require){
         'dragThreshold': self.dragThreshold,
         'containment': self.$wrapper,
         'useCSS3': self.useCSS3,
-        'drag': function(){ iQ.update(true); }
+        'drag': iQ.update
       });
 
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));

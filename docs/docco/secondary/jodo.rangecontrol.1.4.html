@@ -292,7 +292,7 @@ this will ignore whether 'steps' is enabled.</p>             </td>             <
         Returns:
             RangeControl - .
     */</span>
-    RangeControl.prototype.slideToPos = <span class="keyword">function</span>(newPos, $handle) {
+    RangeControl.prototype.slideToPos = <span class="keyword">function</span>(newPos, $handle, triggerEvent) {
         $handle = $handle || <span class="keyword">this</span>.$handle;
 
         <span class="keyword">var</span> th = <span class="keyword">this</span>,
@@ -327,7 +327,7 @@ this will ignore whether 'steps' is enabled.</p>             </td>             <
                 positionDelta : newPos - th.currentPosition
             };
 
-            th.goToPos(newPos, $handle, isMin);
+            th.goToPos(newPos, $handle, isMin, triggerEvent);
         }
 
         <span class="keyword">return</span> th;
@@ -387,7 +387,7 @@ this will ignore whether 'steps' is enabled.</p>             </td>             <
         Returns:
             RangeControl - .
     */</span>
-    RangeControl.prototype.goToPos = <span class="keyword">function</span>(pos, $handle, isMin) {
+    RangeControl.prototype.goToPos = <span class="keyword">function</span>(pos, $handle, isMin, triggerEvent) {
         <span class="keyword">var</span> th = <span class="keyword">this</span>,
             response = [];
 
@@ -453,7 +453,9 @@ To update isHidden, call .rangeControl('refresh') when the visibility changes</p
             response = [ th.currentPositionPct, th ];
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Trigger slid event</p>             </td>             <td class="code">               <div class="highlight"><pre>        th.fire( th.evts.slid, response );
+        <span class="keyword">if</span> ( triggerEvent !== <span class="literal">false</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Trigger slid event</p>             </td>             <td class="code">               <div class="highlight"><pre>            th.fire( th.evts.slid, response );
+        }
 
         <span class="keyword">return</span> th;
     };
@@ -547,7 +549,7 @@ To update isHidden, call .rangeControl('refresh') when the visibility changes</p
         <span class="keyword">return</span> <span class="keyword">this</span>;
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>Resest sizing and handle positions</p>             </td>             <td class="code">               <div class="highlight"><pre>    RangeControl.prototype.reset = <span class="keyword">function</span>( isHardReset ) {
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>Resest sizing and handle positions</p>             </td>             <td class="code">               <div class="highlight"><pre>    RangeControl.prototype.reset = <span class="keyword">function</span>( isHardReset, triggerEvent ) {
         <span class="keyword">var</span> th = <span class="keyword">this</span>,
             hasPercent = th.$handle[<span class="number">0</span>].style[ th.property ].indexOf(<span class="string">'%'</span>) &gt; -<span class="number">1</span>;
 
@@ -561,8 +563,8 @@ We can use this to determine if we've already initialized the handle</p>        
             <span class="keyword">if</span> ( !th.range ) {
                 th.slideToPos( th.parseHandlePosition( th.$handle[<span class="number">0</span>].style[ th.property ] ) );
             } <span class="keyword">else</span> {
-                th.slideToPos( th.parseHandlePosition( th.$minHandle[<span class="number">0</span>].style[ th.property ] ), th.$minHandle );
-                th.slideToPos( th.parseHandlePosition( th.$handle[<span class="number">0</span>].style[ th.property ] ), th.$handle );
+                th.slideToPos( th.parseHandlePosition( th.$minHandle[<span class="number">0</span>].style[ th.property ] ), th.$minHandle, triggerEvent );
+                th.slideToPos( th.parseHandlePosition( th.$handle[<span class="number">0</span>].style[ th.property ] ), th.$handle, triggerEvent );
             }
         }
     };
