@@ -1,5 +1,15 @@
 module.exports = function(grunt) {
+
+  var gruntconfig = {};
+
+  if ( grunt.file.exists('.gruntconfig') ) {
+    gruntconfig = grunt.file.readJSON('.gruntconfig');
+  }
+
   var jadeconfig = {
+
+    processes: gruntconfig.maxProcesses,
+
     data:{
       partial: function(templatePath, dataObj){
         var template = grunt.file.read(templatePath);
@@ -586,6 +596,21 @@ module.exports = function(grunt) {
     }
 
     grunt.task.run('watch');
-
   });
+
+  //*************************************
+  // The following are utility functions.
+  //*************************************
+
+  // Use in conjunction with timerEnd to test performance/load of your commands.
+  // ex. `grunt timerStart command-foo timerEnd
+
+  grunt.registerTask('timer-start', function() {
+    grunt.config('timerStartStamp', new Date());
+  });
+
+  grunt.registerTask('timer-end', function() {
+    console.log('Completed in ' + ((new Date()) - grunt.config('timerStartStamp')) / 1000 + ' seconds.')
+  });
+
 };
