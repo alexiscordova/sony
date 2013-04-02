@@ -104,7 +104,7 @@ define(function(require){
     self.isDetailedMode = self.mode === 'detailed';
     self.isCompareMode = self.mode === 'compare';
 
-    self.$compareBtn = self.$container.find('.js-compare-toggle');
+    // self.$compareBtn = self.$container.find('.js-compare-toggle');
     self.itemSelector = '.' + ( self.isCompareMode ? 'compare' : 'gallery' ) + '-item';
     self.$items = self.$grid.find( self.itemSelector );
 
