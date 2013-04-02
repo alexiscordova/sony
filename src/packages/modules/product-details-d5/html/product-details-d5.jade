@@ -8,34 +8,40 @@ mixin cmString(cm)
   p.centimeters
     | #{cm}cm
 
-mixin measurementValues(value, dir, thin)
+mixin measurementValues(value, dir, isThin)
   - clss = [dir + "-measurement"]
   
-  if ((!thin) && (dir == "vertical"))
+  if ((!isThin) && (dir == "vertical"))
     - clss.push('not-thin')
   
-  if (!thin)
-    canvas(id= "vert-up-canvas")
-  
   div(class = clss) 
-    +cmString(value.cm)
+    
+    //- if (!isThin)
+    //-   - canvasCls = dir + "-canvas"
+    //-   canvas(class= canvasCls)
+    //-     | fallback here
 
-    if (value.inches)
-      +inchesString(value.inches)
+    div.measurements-container
+      +cmString(value.cm)
 
+      if (value.inches)
+        +inchesString(value.inches)
+  
 mixin measurementsList(measurements)
   for m in measurements
+    - isThin = m.thinImage
     .measurement.p4
 
       .wrapper
-        +iQImage(m.image, "pd-image")
+        .img-wrapper
+          +iQImage(m.image, "pd-image")
 
         if (m.height)
-          +measurementValues(m.height, "vertical", m.thinImage)  
+          +measurementValues(m.height, "vertical", isThin)  
 
         //- put width in image wrapper for simple centering solution
         if (m.width)
-          +measurementValues(m.width, "horizontal", m.thinImage)
+          +measurementValues(m.width, "horizontal", isThin)
 
 
 
