@@ -1,0 +1,242 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-global-environment.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="sony-global-analytics.html">                 sony-global-analytics.js               </a>                                           <a class="source" href="sony-global-environment.html">                 sony-global-environment.js               </a>                                           <a class="source" href="sony-global-settings.html">                 sony-global-settings.js               </a>                                           <a class="source" href="sony-global-utilities.html">                 sony-global-utilities.js               </a>                                           <a class="source" href="sony-global.html">                 sony-global.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-global-environment.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Sony Environment Class</h2>
+
+<ul>
+<li><strong>Class:</strong> SONY.Environment</li>
+</ul>
+
+<p>This class should be used to extend the global space with events, small polyfills, and extensions.
+Any callable methods should go into <a href="sony-global-utilities.html">SONY.Utilities</a>.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+define(<span class="function"><span class="keyword">function</span> <span class="params">(require)</span> {</span>
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+      Settings = require(<span class="string">'require/sony-global-settings'</span>),
+      throttleDebounce = require(<span class="string">'plugins/index'</span>).throttleDebounce;
+
+  <span class="keyword">var</span> self = {
+
+    <span class="string">'init'</span>: <span class="keyword">function</span>() {
+      self.fixModernizrFalsePositives();
+      self.createPubSub();
+      self.createGlobalEvents();
+      self.normalizeLogs();
+      self.appendModernizrTests();
+
+      log(<span class="string">'SONY : Global : Environment : Initialized'</span>);
+    },
+
+    <span class="string">'appendModernizrTests'</span>: <span class="keyword">function</span>() {
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Before IE 9, the getStyles API would not return the pixel values of the margin if set to 'auto'.
+Also, Firefox has a longstanding issue where the pixel value of 'auto' is always zero.
+https://bugzilla.mozilla.org/show_bug.cgi?id=381328</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      Modernizr.addTest(<span class="string">'JSAutoMargins'</span>, <span class="keyword">function</span>() {
+
+        <span class="keyword">var</span> x = document.createElement(<span class="string">'div'</span>),
+            y = document.createElement(<span class="string">'div'</span>);
+
+        x.appendChild(y);
+        x.style.width = <span class="string">'100px'</span>;
+        y.style.width = <span class="string">'50px'</span>;
+        y.style.margin = <span class="string">'0 auto'</span>;
+
+        document.body.appendChild(x);
+
+        <span class="keyword">if</span> ( parseInt($(y).css(<span class="string">'marginLeft'</span>), <span class="number">10</span>) === <span class="number">25</span>) {
+          $(x).remove();
+          <span class="keyword">return</span> <span class="literal">true</span>;
+        } <span class="keyword">else</span> {
+          $(x).remove();
+          <span class="keyword">return</span> <span class="literal">false</span>;
+        }
+
+      });
+
+      <span class="keyword">if</span> ( Settings.isSonyTabletS ) {
+        Settings.$html.addClass(<span class="string">'sonytablets'</span>);
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Overwrite the Modernizr.mq function for IE &lt; 10</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Settings.isLTIE10 ) {
+        Modernizr.mq = <span class="keyword">function</span>() { <span class="keyword">return</span> <span class="literal">false</span>; };
+        Modernizr.mediaqueries = <span class="literal">false</span>;
+      }
+
+
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Normalizes the console.log method.
+use "`" key to display logs in production mode.
+http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'normalizeLogs'</span>: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+
+      window.log = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        <span class="comment">/*@cc_on
+          return;
+        @*/</span>
+        window.log.history = window.log.history || [];
+        window.log.history.push(arguments);
+
+        <span class="keyword">if</span> (window.isDebugMode) {
+          <span class="keyword">if</span> (window.console) {
+            window.console.log(Array.prototype.slice.call(arguments));
+          }
+        }
+      };
+
+      <span class="comment">/*@cc_on
+        return;
+      @*/</span>
+      <span class="keyword">if</span> (!window.isDebugMode) {
+        $(document).keyup(<span class="function"><span class="keyword">function</span> <span class="params">(e)</span> {</span>
+
+          <span class="keyword">var</span> i, len;
+
+          <span class="keyword">if</span> ( e.keyCode === <span class="number">192</span> || e.keyCode === <span class="number">19</span> ) {
+            <span class="keyword">if</span> (window.console) {
+              window.log.history = window.log.history || []; <span class="comment">// store logs to an array for reference</span>
+              <span class="keyword">for</span> (i = <span class="number">0</span>, len = window.log.history.length; i &lt; len; i++) {
+                window.console.log(Array.prototype.slice.call(window.log.history[i]));
+              }
+            }
+          }
+          window.log.history = [];
+        });
+      }
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>This is a modified version of jQuery Tiny PubSub by Ben Alman
+https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'createPubSub'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> o = $({});
+
+      self.on = <span class="keyword">function</span>() {
+        o.on.apply(o, arguments);
+      };
+
+      self.off = <span class="keyword">function</span>() {
+        o.off.apply(o, arguments);
+      };
+
+      self.trigger = <span class="keyword">function</span>() {
+        o.trigger.apply(o, arguments);
+      };
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Create global events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'createGlobalEvents'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> cachedFunctions = {},
+          resizeEvent = <span class="string">'onorientationchange'</span> <span class="keyword">in</span> window ? <span class="string">'orientationchange'</span> : <span class="string">'resize'</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Figure out if the window actually resized, or if IE is faking us out.
+http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      cachedFunctions.IEResizeCheck = <span class="keyword">function</span>(cb) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If you aren't IE7/8, you may pass.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+        <span class="keyword">if</span> ( !Settings.$html.hasClass(<span class="string">'lt-ie9'</span>) ) {
+          <span class="keyword">return</span> cb();
+        }
+
+        <span class="keyword">var</span> windowWidth = Settings.$window.width(),
+            windowHeight = Settings.$window.height();
+
+        <span class="keyword">if</span> ( windowWidth !== Settings.windowWidth || windowHeight !== Settings.windowHeight ) {
+          Settings.windowWidth = windowWidth;
+          Settings.windowHeight = windowHeight;
+          cb();
+        }
+      };
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <h2>Throttle and Debounce variations</h2>
+
+<ul>
+<li>Any new version should be added here, then referenced in cachedFunctions.baseThrottle();</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Default Settings.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      cachedFunctions.throttledResize = $.throttle(<span class="number">500</span>, <span class="keyword">function</span>(){
+        self.trigger(<span class="string">'global:resizeThrottled'</span>);
+      });
+
+      cachedFunctions.debouncedResize = $.debounce(<span class="number">500</span>, <span class="keyword">function</span>(){
+        self.trigger(<span class="string">'global:resizeDebounced'</span>);
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Specific Events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      cachedFunctions.throttledResize200 = $.throttle(<span class="number">200</span>, <span class="keyword">function</span>(){
+        self.trigger(<span class="string">'global:resizeThrottled-200ms'</span>);
+      });
+
+      cachedFunctions.debouncedResize200 = $.debounce(<span class="number">200</span>, <span class="keyword">function</span>(){
+        self.trigger(<span class="string">'global:resizeDebounced-200ms'</span>);
+      });
+
+      cachedFunctions.debouncedResizeAtBegin200 = $.debounce(<span class="number">200</span>, <span class="literal">true</span>, <span class="keyword">function</span>(){
+        self.trigger(<span class="string">'global:resizeDebouncedAtBegin-200ms'</span>);
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <h2>Base Throttle</h2>
+
+<ul>
+<li>Used to contain all of the various speeds and configurations of
+throttle and debounce, so they aren't all constantly being called by
+window.resize.</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+      cachedFunctions.baseThrottle = $.throttle(<span class="number">100</span>, <span class="keyword">function</span>(){
+        cachedFunctions.IEResizeCheck(<span class="keyword">function</span>(){
+          cachedFunctions.throttledResize();
+          cachedFunctions.debouncedResize();
+          cachedFunctions.throttledResize200();
+          cachedFunctions.debouncedResize200();
+          cachedFunctions.debouncedResizeAtBegin200();
+        });
+      });
+
+      Settings.$window.on(resizeEvent, <span class="keyword">function</span>(){
+        cachedFunctions.baseThrottle();
+      });
+    },
+
+    fixModernizrFalsePositives : <span class="keyword">function</span>() {
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>The sony tablet s gets a false negative on generated content (pseudo elements)</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !Modernizr.generatedcontent &amp;&amp; Settings.isSonyTabletS ) {
+        Modernizr.generatedcontent = <span class="literal">true</span>;
+        Settings.$html.removeClass(<span class="string">'no-generatedcontent'</span>).addClass(<span class="string">'generatedcontent'</span>);
+      }
+
+      <span class="keyword">if</span> ( Settings.isLTIE8 ) {
+        Modernizr.generatedcontent = <span class="literal">false</span>;
+        Settings.$html.removeClass(<span class="string">'generatedcontent'</span>).addClass(<span class="string">'no-generatedcontent'</span>);
+      }
+    }
+
+  };
+
+  self.init();
+
+  <span class="keyword">return</span> self;
+
+});
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Need to find a better place for this to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+<span class="keyword">if</span> (!Array.prototype.indexOf) {
+  Array.prototype.indexOf = <span class="keyword">function</span>(elt <span class="comment">/*, from*/</span>) {
+
+    <span class="keyword">var</span> len = <span class="keyword">this</span>.length &gt;&gt;&gt; <span class="number">0</span>,
+        from = Number(arguments[<span class="number">1</span>]) || <span class="number">0</span>;
+
+    from = (from &lt; <span class="number">0</span>) ? Math.ceil(from) : Math.floor(from);
+
+    <span class="keyword">if</span> ( from &lt; <span class="number">0</span> ) { from += len; }
+
+    <span class="keyword">for</span> (; from &lt; len; from++) {
+      <span class="keyword">if</span> (from <span class="keyword">in</span> <span class="keyword">this</span> &amp;&amp; <span class="keyword">this</span>[from] === elt) {
+        <span class="keyword">return</span> from;
+      }
+    }
+    <span class="keyword">return</span> -<span class="number">1</span>;
+  };
+}
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

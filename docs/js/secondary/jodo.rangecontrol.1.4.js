@@ -315,7 +315,7 @@ define(function(require){
         Returns:
             RangeControl - .
     */
-    RangeControl.prototype.slideToPos = function(newPos, $handle) {
+    RangeControl.prototype.slideToPos = function(newPos, $handle, triggerEvent) {
         $handle = $handle || this.$handle;
 
         var th = this,
@@ -351,7 +351,7 @@ define(function(require){
                 positionDelta : newPos - th.currentPosition
             };
 
-            th.goToPos(newPos, $handle, isMin);
+            th.goToPos(newPos, $handle, isMin, triggerEvent);
         }
 
         return th;
@@ -414,7 +414,7 @@ define(function(require){
         Returns:
             RangeControl - .
     */
-    RangeControl.prototype.goToPos = function(pos, $handle, isMin) {
+    RangeControl.prototype.goToPos = function(pos, $handle, isMin, triggerEvent) {
         var th = this,
             response = [];
 
@@ -487,8 +487,10 @@ define(function(require){
             response = [ th.currentPositionPct, th ];
         }
 
-        // Trigger slid event
-        th.fire( th.evts.slid, response );
+        if ( triggerEvent !== false ) {
+            // Trigger slid event
+            th.fire( th.evts.slid, response );
+        }
 
         return th;
     };
@@ -589,7 +591,7 @@ define(function(require){
     };
 
     // Resest sizing and handle positions
-    RangeControl.prototype.reset = function( isHardReset ) {
+    RangeControl.prototype.reset = function( isHardReset, triggerEvent ) {
         var th = this,
             hasPercent = th.$handle[0].style[ th.property ].indexOf('%') > -1;
 
@@ -606,8 +608,8 @@ define(function(require){
             if ( !th.range ) {
                 th.slideToPos( th.parseHandlePosition( th.$handle[0].style[ th.property ] ) );
             } else {
-                th.slideToPos( th.parseHandlePosition( th.$minHandle[0].style[ th.property ] ), th.$minHandle );
-                th.slideToPos( th.parseHandlePosition( th.$handle[0].style[ th.property ] ), th.$handle );
+                th.slideToPos( th.parseHandlePosition( th.$minHandle[0].style[ th.property ] ), th.$minHandle, triggerEvent );
+                th.slideToPos( th.parseHandlePosition( th.$handle[0].style[ th.property ] ), th.$handle, triggerEvent );
             }
         }
     };
