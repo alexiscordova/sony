@@ -112,18 +112,26 @@ if data.variation
 
   else if data.layout.media == "tout"
     if data.columns.length == 1
+      e = {"locals":locals, "data":data.columns[0].image}
+      !{locals.partial('packages/modules/image/html/image.jade' , e)}
       if data.layout.text == "right"
         p 1up mediaright
       else
         p 1up medialeft
       
     else if data.columns.length == 2
+      for col in data.columns
+        e = {"locals":locals, "data":col.image}
+        !{locals.partial('packages/modules/image/html/image.jade' , e)}
       if data.layout.orientation == "vertical"
         p 2up vertical
       else
         p 2up horizontal    
       
     else if data.columns.length == 3
+      for col in data.columns
+        e = {"locals":locals, "data":col.image}
+        !{locals.partial('packages/modules/image/html/image.jade' , e)}
       p 3up
     
     
