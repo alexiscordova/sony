@@ -3,8 +3,8 @@
 //
 // * **Module:** PDP Slideshow - D4
 // * **Version:** 1.0a
-// * **Modified:** 03/06/2013
-// * **Author:** Joe 'Tyler Madison' Developer
+// * **Modified:** 04/3/2013
+// * **Author:** Tyler Madison, George Pantazis
 // * **Dependencies:** jQuery 1.9.1+, Modernizr
 //
 // *Example Usage:*
@@ -108,7 +108,7 @@ define(function(require){
 
         self.$slideContainer.css( 'opacity' , 1 );
 
-        console.log( 'PDPSlideshow:: init' );
+        //console.log( 'PDPSlideshow:: init' );
 
         Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
 
@@ -165,47 +165,47 @@ define(function(require){
         
         if( !self.$html.hasClass('lt-ie10') ){
         enquire.register("(min-width: 769px)", function() {
-          console.log('Desktop Mode');
+          //console.log('Desktop Mode');
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
           self.showThumbNav();
           self.toggleDotNav(true); //hide
 
-          console.log( 'Desktop breakpoint fired' );
+         // console.log( 'Desktop breakpoint fired' );
         });
 
         enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
-          console.log('Tablet Mode');
+          //console.log('Tablet Mode');
           self.isMobileMode = self.isDesktopMode = false;
           self.isTabletMode = true;
           self.hideThumbNav();
           self.toggleDotNav(true); //hide
 
-          console.log( 'Tablet breakpoint fired' );
+          //console.log( 'Tablet breakpoint fired' );
 
         });
 
         enquire.register("(max-width: 568px)", function() {
-          console.log('Mobile Mode');
+          //console.log('Mobile Mode');
           self.isDesktopMode = self.isTabletMode = false;
           self.isMobileMode = true;
           self.hideThumbNav();
           self.toggleDotNav(false); //show
 
-          console.log( 'Mobile breakpoint fired' );
+          //console.log( 'Mobile breakpoint fired' );
           
         });
 
       }
 
-        console.log('Register with enquire');
+        //console.log('Register with enquire');
 
         if( self.$html.hasClass('lt-ie10') ){
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
           self.showThumbNav();
           self.toggleDotNav(true); //hide
-          console.log( 'Desktop breakpoint fired' );
+          //console.log( 'Desktop breakpoint fired' );
         }
 
       }, 
@@ -283,7 +283,7 @@ define(function(require){
 
         self.$slideContainer.sonyCarousel( 'gotoSlide' , self.currentId );
 
-        console.log( 'anchors' , self.currentId );
+        //console.log( 'anchors' , self.currentId );
 
       },
 
