@@ -2777,6 +2777,29 @@ define(function(require){
   };
 
 
+  var AccessoryFinder = function() {
+
+  };
+
+  AccessoryFinder.prototype = {
+    constructor: AccessoryFinder,
+
+    init : function() {
+
+    },
+
+    getSorter : function() {
+      return {
+        context: this.shuffle,
+        fn: this.shuffle.sort
+      };
+    },
+    getSortObject : Gallery.prototype.getSortObject,
+    sort : Gallery.prototype.sort
+
+  };
+
+
   // Event triggered when the previous tab/pane is about to be hidden
   module.onGalleryTabShow = function( evt ) {
     var $prevPane;

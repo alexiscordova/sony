@@ -141,24 +141,7 @@ mixin galleryFilters( gallery, isCompareGallery )
             i.fonticon-10-sm-bold-plus
 
         //- Sort options
-        .sort-options.pull-right
-          label.l3.filter-label(for="select-sort-by") Sort By:&nbsp;
-          span.dropdown.dropdown-alt.ib
-            button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
-              span.js-toggle-text= gallery.sortSet[0].label
-              i.fonticon-10-arrowheads-elevator
-            ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
-              each sort in gallery.sortSet
-                //- Jade will interpret attr=true as attr=attr. We need to make it a string
-                - reverse = sort.reverse === true ? 'true' : 'false'
-                li
-                  a(data-value=sort.name, data-reverse=reverse, tabindex="-1", href="#")= sort.label
-          .native-dropdown
-            i.fonticon-10-arrowheads-elevator.absolutely
-            select#select-sort-by.select-small
-              each sort in gallery.sortSet
-                - reverse = sort.reverse === true ? 'true' : 'false'
-                option(value=sort.name, data-reverse=reverse)= sort.label
+        +sorter( gallery.sortSet )
 
 
   if gallery.filterSet
@@ -188,6 +171,29 @@ mixin galleryFilters( gallery, isCompareGallery )
 
   .container.active-filters-wrap
     .grid.active-filters(data-clear-label="Clear All")
+
+
+mixin sorter( sortSet )
+  text = 'Sort By:'
+
+  .sort-options.pull-right
+    label.l3.filter-label(for="select-sort-by")= text
+    span.dropdown.dropdown-alt.ib
+      button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
+        span.js-toggle-text= sortSet[0].label
+        i.fonticon-10-arrowheads-elevator
+      ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
+        each sort in sortSet
+          //- Jade will interpret attr=true as attr=attr. We need to make it a string
+          - reverse = sort.reverse === true ? 'true' : 'false'
+          li
+            a(data-value=sort.name, data-reverse=reverse, tabindex="-1", href="#")= sort.label
+    .native-dropdown
+      i.fonticon-10-arrowheads-elevator.absolutely
+      select#select-sort-by.select-small
+        each sort in sortSet
+          - reverse = sort.reverse === true ? 'true' : 'false'
+          option(value=sort.name, data-reverse=reverse)= sort.label
 
 
 mixin zeroProductsMessage( gallery )
@@ -335,6 +341,9 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
           button.nav-paddle.tab-nav.tab-nav-next.hide
             i.fonticon-10-chevron
 
+mixin accessoryFinder( submodules, finder )
+  submodules = submodules ? submodules : data.submodules
+  .notblank
 
 mixin productStrips( submodules, strips, type )
   submodules = submodules || data.submodules
