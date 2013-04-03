@@ -33,47 +33,45 @@ define(function(require){
     var PDPSlideShow = function(element, options){
       var self = this;
        
-      //Extend
+      // Extend
       $.extend( self, {}, $.fn.pdpSlideShow.defaults, options, $.fn.pdpSlideShow.settings );
       
-      //Set base element
+      // Set base element
       self.$el = $( element );
-
-
-      //Debug mode
-      self.DEBUG                = false;
       
-      //Modernizr vars
+      // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.cssTransitions       = Modernizr.transitions;
       
-      //CLASS CONSTANTS
+      // CLASS SELECTOR CONSTANTS
       self.SLIDE_CLASS          = '.pdp-slideshow-slide';
       self.SLIDE_CONTAINER      = '.pdp-slideshow-inner';
 
+      // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
-      self.currentId            = 0;
 
       self.isDesktopMode        = true; //true by default
       self.isTabletMode         = false;
       self.isMobileMode         = false;
       
-      //Cache some jQuery objects we'll reference later
+      // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
       self.$document            = $(document);
       self.$window              = $(window);
       self.$html                = $('html');
       self.$slides              = self.$el.find( self.SLIDE_CLASS );
-      self.numSlides            = self.$slides.length;
       self.$slideContainer      = self.$el.find( self.SLIDE_CONTAINER );
       self.$thumbNav            = self.$el.find('.thumb-nav');
+      self.$pagination          = null;
+
       self.hasThumbs            = self.$thumbNav.length > 0;
+      self.numSlides            = self.$slides.length;
+      self.currentId            = 0;
 
-      self.$pagination = null;
 
-      //Init the module
+      // Inits the module
       self.init();
 
     };
@@ -81,20 +79,13 @@ define(function(require){
     PDPSlideShow.prototype = {
       constructor: PDPSlideShow,
 
-      //Initalize the module
+      // Initalize the module
       init : function( param ) {
         var self = this;
 
         if(!window.console){
           window.console = {};
           window.console.log = function(){};
-        }
-
-        if(self.DEBUG === true){
-          self.$slides.each(function(i){
-            var htag = $('<h2 class="debug_header" />').appendTo( $(this) );
-            htag.html('SLIDE ' + ( i + 1 ) );
-          });
         }
 
         self.setupEvents();
@@ -108,12 +99,13 @@ define(function(require){
 
         self.$slideContainer.css( 'opacity' , 1 );
 
-        //console.log( 'PDPSlideshow:: init' );
 
+        // Listen for debounced resize event
         Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
 
       },
 
+      // Handles global debounced resize event
       onDebouncedResize: function(){
         var self = this,
         wW = self.$window.width();
@@ -126,9 +118,11 @@ define(function(require){
 
       },
 
+      // Main setup method for the carousel
       setupCarousel: function(){
         var self = this;
 
+        // Using Sony Carousel for this module
         self.$slideContainer.sonyCarousel({
           wrapper: '.pdp-slideshow-outer',
           slides: '.pdp-slideshow-slide',
@@ -151,6 +145,7 @@ define(function(require){
 
       },
 
+      // Listens for slide changes and updates the correct thumbnail
       onSlideUpdate: function(e , currIndx){
         var self = this;
 
@@ -160,56 +155,46 @@ define(function(require){
         iQ.update();
       },
 
+
+      // Registers with Enquire JS for breakpoint firing
       setupBreakpoints: function(){
         var self = this;
         
         if( !self.$html.hasClass('lt-ie10') ){
         enquire.register("(min-width: 769px)", function() {
-          //console.log('Desktop Mode');
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
           self.showThumbNav();
           self.toggleDotNav(true); //hide
-
-         // console.log( 'Desktop breakpoint fired' );
         });
 
         enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
-          //console.log('Tablet Mode');
           self.isMobileMode = self.isDesktopMode = false;
           self.isTabletMode = true;
           self.hideThumbNav();
           self.toggleDotNav(true); //hide
-
-          //console.log( 'Tablet breakpoint fired' );
-
         });
 
         enquire.register("(max-width: 568px)", function() {
-          //console.log('Mobile Mode');
           self.isDesktopMode = self.isTabletMode = false;
           self.isMobileMode = true;
           self.hideThumbNav();
           self.toggleDotNav(false); //show
-
-          //console.log( 'Mobile breakpoint fired' );
-          
         });
 
       }
-
-        //console.log('Register with enquire');
 
         if( self.$html.hasClass('lt-ie10') ){
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
           self.showThumbNav();
           self.toggleDotNav(true); //hide
-          //console.log( 'Desktop breakpoint fired' );
+          
         }
 
-      }, 
+      },
 
+      // Toggles dot nav based on breakpoints
       toggleDotNav: function(hide){
         var self = this;
 
@@ -221,6 +206,7 @@ define(function(require){
 
       },
 
+      // Toggles thumb nav based on breakpoints
       hideThumbNav: function(){
         var self = this;
         if(self.$thumbNav.length > 0){
@@ -228,6 +214,7 @@ define(function(require){
         }
       },
 
+      // Toggles thumb nav based on breakpoints
       showThumbNav: function(){
         var self = this;
         if(self.$thumbNav.length > 0){
@@ -235,6 +222,7 @@ define(function(require){
         }
       },
 
+      // Sets up slides to correct width based on how many there are
       setupSlides: function(){
         var self = this;
 
@@ -243,6 +231,7 @@ define(function(require){
 
       },
       
+      // Setup touch event types
       setupEvents: function(){
         var self = this;
         
@@ -258,6 +247,7 @@ define(function(require){
 
       },
       
+      // Bind events to the thumbnail navigation
       createThumbNav: function(){
         var self = this,
         $anchors = self.$thumbNav.find('a');
@@ -270,6 +260,8 @@ define(function(require){
         $anchors.eq(0).addClass('active');
       },
 
+
+      // Handles when a thumbnail is chosen
       onThumbSelected: function($el){
         var self = this,
         $anchors = self.$thumbNav.find('a'),
@@ -283,10 +275,9 @@ define(function(require){
 
         self.$slideContainer.sonyCarousel( 'gotoSlide' , self.currentId );
 
-        //console.log( 'anchors' , self.currentId );
-
       },
 
+      // Sets the current active thumbnail
       setCurrentActiveThumb: function(){
         var self = this,
         $anchors = self.$thumbNav.find('a');
@@ -298,8 +289,6 @@ define(function(require){
     };
 
     // jQuery Plugin Definition
-    // ------------------------
-
     $.fn.pdpSlideShow = function( options ) {
       var args = Array.prototype.slice.call( arguments, 1 );
       return this.each(function() {
@@ -320,18 +309,11 @@ define(function(require){
 
     // Defaults
     // --------
-    $.fn.pdpSlideShow.defaults = {
-
-      // Description of this option.
-      transitionType: 'slide', //could add more , like fade in out etc
-      sampleOption: 0
-    };
+    $.fn.pdpSlideShow.defaults = {};
 
     // Non override-able settings
     // --------------------------
-    $.fn.pdpSlideShow.settings = {
-      isInitialized: false
-    };
+    $.fn.pdpSlideShow.settings = {};
   
     return self;
  });

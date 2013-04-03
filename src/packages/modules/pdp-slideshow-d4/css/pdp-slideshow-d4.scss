@@ -10,7 +10,6 @@
     width: 100%;
     max-height: 610px;
     overflow: visible; 
-    //background: #f1f5f9; //should this be set on each slide?
     background: $gray80;
 
     .ghost-center-wrap {
@@ -28,55 +27,27 @@
 
       .pdp-slideshow-inner {
         @include flex-ratio-box-content();
-        width: 100%; // this will get set dynamically based on the number of slides
+        width: 100%; // This will get set dynamically based on the number of slides
         width: 1000em;
         max-height: 610px;
         @include opacity(0);
         @include transition();
       }
 
-      //these will get set dynamically based on number of slides
+      // These will get set dynamically based on number of slides
       .pdp-slideshow-slide {
         width: 100%;
         height: 100%;
         position:relative;
-/*         top: 0;
-        left: -10000em;//off screen to start let JS do the rest */
         float: left;
         display: block;
         text-align: center;
-
-        .debug_header {
-          color: #df3d82;
-          position: absolute;
-          margin: auto;
-          top:0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          width: 4em;
-          height: 1.4em;
-          background: grey;
-          outline: 1px solid black;
-
-        }
-
-        &.type1 {
-          img {
-/*             max-width: 1014px;
-            max-height: 610px; */
-          }
-          
-        }
 
         &.type2 {
           img {
             width: 100%;
           }
-
         }
-
-
       }
     
     }
@@ -96,8 +67,6 @@
         height: 100%;
         max-width: 74px;
         max-height: 72px;
-        //background: $gray80;
-        //background: $gray70; //just to see some contrast 
         display: inline-block;
 
         .lt-ie10 & {
@@ -120,7 +89,6 @@
           height: auto;
           max-width: 68px;
           max-height: 48px;
-
         }
 
         a {
@@ -156,18 +124,13 @@
 
           &.active,
           &:hover {
-
-           span {
-            @include opacity(100);
-           }
-
+            span {
+              @include opacity(100);
+            }
             img {
               @include opacity(100);
             }            
-            
-            //@include box-shadow(inset 0 4px 0 $linkBlue);
           }
-
         }
       }
 
@@ -177,9 +140,7 @@
 
       &.light .thumb .ghost-center-wrap {
         background: $gray80;
-        //background: $gray70; //just to see some contrast 
       }
-
     }
 
     // some navigation dot container adjustments
@@ -188,6 +149,5 @@
       height: 40px;
 
     }
-
 
   }
