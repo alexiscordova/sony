@@ -36,8 +36,9 @@ define(function(require){
     self.$el = $(element);
     self.$imageWrappers = self.$el.find(".measurement .img-wrapper"); 
     self.$measurementImages = self.$imageWrappers.find(".pd-image"); 
-    self.$horzMeasurements = $(".horizontal-measurement");
-    self.$vertMeasurements = $(".vertical-measurement");
+    self.$horzMeasurements = self.$el.find(".horizontal-measurement");
+    self.$vertMeasurements = self.$el.find(".vertical-measurement");
+    self.$measurements = self.$el.find(".measurement");
 
     // DEFAULTS
     self.mImageWidths = [];
@@ -89,6 +90,7 @@ define(function(require){
       var self = this;
     
       self.showImages();
+      self.showMeasurements();
       self.getMImageDimensions();
       self.setMeasurementDimensions();
     },
@@ -101,6 +103,18 @@ define(function(require){
       $images.each(function() {
         $(this).addClass('on');
       });
+    },
+
+    showMeasurements : function(  ){
+      var self = this,
+          $measurements = self.$measurements;
+
+      console.log( '$measurements »' , $measurements);    
+      
+      $measurements.each(function() {
+        $(this).addClass('on');
+      });  
+
     },
 
     getMImageDimensions : function(){

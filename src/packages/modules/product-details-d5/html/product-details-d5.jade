@@ -27,7 +27,6 @@ mixin measurementsList(measurements)
   for m in measurements
     - isThin = m.thinImage
     .measurement.p4
-
       .wrapper
         .img-wrapper
           +iQImage(m.image, "pd-image")
@@ -38,8 +37,6 @@ mixin measurementsList(measurements)
         //- put width in image wrapper for simple centering solution
         if (m.width)
           +measurementValues(m.width, "horizontal", isThin)
-
-
 
 mixin featureList( list, extraClasses)
   - listClasses = 'feature-list'
@@ -75,6 +72,14 @@ mixin definitionList( list, isHorizontal )
       if li.copy
         dd.p3= li.copy
 
+mixin extras(extras)
+  for extra in extras
+    if(extra.copy)
+      .extra
+        p.l3
+          strong= extra.title
+        p.p3 !{extra.copy}        
+
 
 //- TOP DATA
 - top = data.top
@@ -95,25 +100,46 @@ mixin definitionList( list, isHorizontal )
 
 //- Defaults
 - columnCount = 0
-- centerSpanClass = []
+- centerSpanClasses = []
+- lastCoumnClasses = []
+
+- sectionCount = 0 //- features/specs/measurements
+- console.log("Init" + sectionCount)
 
 //- Check how many columns there are
 if(isFeatures) 
-  - columnCount++
+  - sectionCount = sectionCount + 100 
+  - console.log("Feaures:" + sectionCount)
+  - columnCount++   
 
 if(isSpecs)
+  - sectionCount = sectionCount + 10
+  - console.log("Specs" + sectionCount)
   - columnCount++
 
 if(isMeasurements)
+  - sectionCount = sectionCount + 1
+  - console.log("Measurements" + sectionCount)
   - columnCount++
+
+//- KEY
+//- 111 = Features / Specs / Measurements
+//- 101 = Features / Measurements
+//- 011 = Specs / Measurements
+//- 110 = Features / Specs
+//- 100 = Features
+//- 010 = Specs
+- console.log(sectionCount)
+
+
 
 
 //- Set the right grid span based on columnCount
 case columnCount
  when 2
-   - centerSpanClass.push("span6")
+   - centerSpanClasses.push("span6")
  when 3
-   - centerSpanClass.push("span4")
+   - centerSpanClasses.push("span4")
 
 //- BOTTOM DATA VARS
 - bottom = data.bottom
@@ -127,7 +153,6 @@ case columnCount
 if((isTextTout) && (isBottomBtn))
   - bottomSpanClass.push("span6")
 
-
 //- START PRODUCT DETAILS
 
 //- General vars
@@ -140,26 +165,75 @@ section(class= productDetailsClasses)
       .desc.p3= top.desc
 
   .center.grid
-    if(isFeatures)
-      .features(class= centerSpanClass)
-        +featureList(features)
+    case sectionCount
+      when 111
+        .features(class= centerSpanClasses)
+          +featureList(features)
 
-    if(isSpecs)
-      .specs(class= centerSpanClass)
-        +definitionList(specs, false)
+        .specs(class= centerSpanClasses)
+          +definitionList(specs, false)
+
+        .last-column.has-measurements(class= centerSpanClasses)
+          .measurements
+            +measurementsList(measurements)
+
+          if(isExtras)
+            .extras.with-measurements
+              +extras(extras)
+
+      when 101
+        .features(class= centerSpanClasses)
+          +featureList(features)
+
+        .last-column.has-measurements(class= centerSpanClasses)       
+          .measurements
+            +measurementsList(measurements)
+
+          if(isExtras)
+            .extras.with-measurements
+              +extras(extras) 
+
+      when 11
+        .specs(class= centerSpanClasses)
+          +definitionList(specs, false)
+
+        .last-column.has-measurements(class= centerSpanClasses)       
+          .measurements
+            +measurementsList(measurements)
+
+          if(isExtras)
+            .extras.with-measurements
+              +extras(extras) 
       
-    if(isMeasurements)
-      .measurements(class= centerSpanClass)
-        +measurementsList(measurements)
+      when 110
+        .features(class= centerSpanClasses)
+          +featureList(features)
 
-        if(isExtras)
-          .extras
-            for extra in extras
-              .extra
-                p.l3
-                  strong= extra.title
-                p.p3= extra.copy
+        .last-column(class= centerSpanClasses)
+          .specs(class= centerSpanClasses)
+            +definitionList(specs, false)
 
+          if(isExtras)
+            .extras
+              +extras(extras)
+      
+      when 100
+        .features(class= centerSpanClasses)
+          +featureList(features)
+
+        .last-column(class= centerSpanClasses)
+          if(isExtras)
+            .extras
+              +extras(extras) 
+
+      when 10
+        .specs(class= centerSpanClasses)
+          +definitionList(specs, false)
+
+        .last-column(class= centerSpanClasses)
+          if(isExtras)
+            .extras
+              +extras(extras)
   
   .bottom.grid
     - btmCopyClasses = ["copy","p3"]

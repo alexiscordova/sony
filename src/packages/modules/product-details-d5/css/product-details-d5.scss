@@ -5,16 +5,6 @@
 .pd-module{
 	padding:60px 0 90px 0;
 
-	.pd-image{
-		@include transition(opacity $transitionFast ease-in);
-		opacity: 0;
-
-		&.on {
-			opacity: 1;
-		} // on
-
-	} // 	.pd-image
-
 	// 88888888888  .d88888b.  8888888b.  
 	//     888     d88P" "Y88b 888   Y88b 
 	//     888     888     888 888    888 
@@ -133,12 +123,53 @@
 	.specs{
 		padding-top:40px;
 
+		.in-last-column{
+			padding-left: px-em(18px); 
+		}
+
 		dd{
 			margin-left:0;
 		} // dd
 
 	} // .specs
+                 
+                                                                             
+	.last-column{
+		// border:1px solid black;
 
+		&.has-measurements{
+			background-color:$gray80;
+			padding:39px px-em(32px) 52px px-em(32px);
+		}
+
+		.specs{
+			padding-left: px-em(18px); 
+		} // .specs
+
+
+
+		// .pd-image{
+		// 	opacity: 0;
+
+		// 	&.on {
+		// 		@include transition(opacity $transitionFast ease-in);
+		// 		opacity: 1;
+		// 	} // on
+
+		// } // 	.pd-image
+
+		// .measurement{
+		//   opacity: 0;
+
+		//   .on{
+		//   	// @include transition(opacity $transitionFast ease-in);
+		// 		opacity: 1;
+		//   }
+
+		//} // end .measurement
+
+
+	}
 
 
 	// 888b     d888                                                                                      888             
@@ -153,13 +184,15 @@
 	$measurementPadding:8px;
 
 	.measurements{
-		background-color:$gray80;
-		padding:39px px-em(32px) 52px px-em(32px);
+		display: inline-block;
+		border:1px solid red;
+		// padding:39px px-em(32px) 52px px-em(32px);
 
 		.measurement{
 		  margin-bottom:18px;
 		  margin-right: px-em(20px);
 		  float:left;
+
 		} // end .measurement
 		
 		.img-wrapper{
@@ -258,10 +291,18 @@
 		clear:both;
 		background-color:$gray80;
 		//outline:1px solid green;
-		margin-top:40px;
+
+		margin-top: 26px;
+		// padding:26px px-em(18px) 24px px-em(18px);
+		padding:18px px-em(18px);
+
+		&.with-measurements{
+			margin-top:52px;	
+			padding:0;
+		}
 		
 		.extra{
-			max-width: px-em(380px);
+			//max-width: px-em(380px);
 			//outline:1px solid blue;
 		} //.extra
 
