@@ -26,29 +26,30 @@ mixin measurementValues(value, dir, isThin)
 mixin measurementsList(measurements)
   for m in measurements
     - isThin = m.thinImage
+    - cm = m.height.cm
+    - inches = m.width.inches
+    - console.log(cm)
+
     .measurement.p4
       .wrapper
         .img-wrapper
           +iQImage(m.image, "pd-image")
 
-        if (m.height)
+        if (cm)
           +measurementValues(m.height, "vertical", isThin)  
 
         //- put width in image wrapper for simple centering solution
-        if (m.width)
+        if (inches)
           +measurementValues(m.width, "horizontal", isThin)
 
-mixin featureList( list, extraClasses)
+mixin featureList(list)
   - listClasses = 'feature-list'
-  - extraClasses = extraClasses || false 
-  - if ( extraClasses ) listClasses += ' ' + extraClasses
 
   ul(class=listClasses)
     each li in list
       - copyClasses = ["copy", "ghost-center"]
-
       //- at least copy required
-      if (li.copy)        
+      if (li.copy)
         li
           .ghost-center-wrap
             if (li.icon)
@@ -81,6 +82,26 @@ mixin extras(extras)
         p.p3 !{extra.copy}        
 
 
+mixin textTout(textTout)
+  .text-tout.span6
+    //- FPO IMAGE FOR NOW, THIS SHOULD BE CHANGED FROM A PATH TO A ICON CLASS AS ALL OTHERS ARE
+    if (textTout.icon)
+      - btmCopyClasses.push("with-icon")
+      .icon
+        img(src= textTout.icon)      
+    div(class= btmCopyClasses)
+      | #{textTout.copy}
+      if(textTout.link)
+        a(href= textTout.link)= textTout.linkLabel
+
+mixin bottomBtn(btn)
+  .bottom-btn(class= bottomSpanClass)
+    a.btn.buttonLabel(href= btn.buttonLink)= btn.buttonLabel
+
+
+//- CONTAINER
+- productDetailsClasses = ["pd-module","container"]
+
 //- TOP DATA
 - top = data.top
 
@@ -99,47 +120,37 @@ mixin extras(extras)
 - isExtras = extras.length > 0
 
 //- Defaults
-- columnCount = 0
 - centerSpanClasses = []
 - lastCoumnClasses = []
 
 - sectionCount = 0 //- features/specs/measurements
-- console.log("Init" + sectionCount)
 
 //- Check how many columns there are
 if(isFeatures) 
   - sectionCount = sectionCount + 100 
-  - console.log("Feaures:" + sectionCount)
-  - columnCount++   
 
 if(isSpecs)
   - sectionCount = sectionCount + 10
-  - console.log("Specs" + sectionCount)
-  - columnCount++
 
 if(isMeasurements)
   - sectionCount = sectionCount + 1
-  - console.log("Measurements" + sectionCount)
-  - columnCount++
+
 
 //- KEY
 //- 111 = Features / Specs / Measurements
-//- 101 = Features / Measurements
-//- 011 = Specs / Measurements
-//- 110 = Features / Specs
-//- 100 = Features
-//- 010 = Specs
-- console.log(sectionCount)
+//- 101 = Features / Measurements (2 col)
+//- 011 = Specs / Measurements (2 col)
+//- 110 = Features / Specs (2 col)
+//- 100 = Features (treat as 2 col)
+//- 010 = Specs (treat as 2 col)
 
-
-
-
-//- Set the right grid span based on columnCount
-case columnCount
- when 2
-   - centerSpanClasses.push("span6")
- when 3
-   - centerSpanClasses.push("span4")
+//- Set the right grid span based on sectionCount
+if(sectionCount == 111)
+  //- Three Columns
+  - centerSpanClasses.push("span4")
+else
+  //- Two Columns
+  - centerSpanClasses.push("span6")
 
 //- BOTTOM DATA VARS
 - bottom = data.bottom
@@ -154,9 +165,6 @@ if((isTextTout) && (isBottomBtn))
   - bottomSpanClass.push("span6")
 
 //- START PRODUCT DETAILS
-
-//- General vars
-- productDetailsClasses = ["pd-module","container"]
 section(class= productDetailsClasses)
   .top.grid
     .title.l1= top.title
@@ -210,7 +218,7 @@ section(class= productDetailsClasses)
           +featureList(features)
 
         .last-column(class= centerSpanClasses)
-          .specs(class= centerSpanClasses)
+          .specs
             +definitionList(specs, false)
 
           if(isExtras)
@@ -218,19 +226,50 @@ section(class= productDetailsClasses)
               +extras(extras)
       
       when 100
+        //- SPLIT INTO TWO COLS
+        - totalItems = features.length 
+        
+        - col1Start = 0
+        - col1End = Math.floor(totalItems/2)
+        
+        - col2Start = col1End + 1
+        - col2End = totalItems - 1
+
+        - col1Items = features.slice(col1Start,col1End)
+        - col2Items = features.slice(col2Start,col2End)
+
         .features(class= centerSpanClasses)
-          +featureList(features)
+          //- +featureList(features)
+          +featureList(col1Items)
 
         .last-column(class= centerSpanClasses)
+          .features
+            +featureList(col2Items)
+          
           if(isExtras)
             .extras
               +extras(extras) 
 
       when 10
+        //- SPLIT INTO TWO COLS
+        - totalItems = specs.length 
+        
+        - col1Start = 0
+        - col1End = Math.floor(totalItems/2)
+        
+        - col2Start = col1End + 1
+        - col2End = totalItems - 1
+
+        - col1Items = specs.slice(col1Start,col1End)
+        - col2Items = specs.slice(col2Start,col2End)
+
         .specs(class= centerSpanClasses)
-          +definitionList(specs, false)
+          +definitionList(col1Items, false)
 
         .last-column(class= centerSpanClasses)
+          .specs
+            +definitionList(col2Items, false)
+          
           if(isExtras)
             .extras
               +extras(extras)
@@ -238,20 +277,10 @@ section(class= productDetailsClasses)
   .bottom.grid
     - btmCopyClasses = ["copy","p3"]
     if(isTextTout)
-      .text-tout.span6
-        //- FPO IMAGE FOR NOW, THIS SHOULD BE CHANGED FROM A PATH TO A ICON CLASS AS ALL OTHERS ARE
-        if (textTout.icon)
-          - btmCopyClasses.push("with-icon")
-          .icon
-            img(src= textTout.icon)      
-        div(class= btmCopyClasses)
-          | #{textTout.copy}
-          if(textTout.link)
-            a(href= textTout.link)= textTout.linkLabel
+      +textTout(textTout)
     
     if(isBottomBtn)
-      .bottom-btn(class= bottomSpanClass)
-        a.btn.buttonLabel(href= bottomBtn.buttonLink)= bottomBtn.buttonLabel
-
+      +bottomBtn(bottomBtn)
+      
 
 //- END PRODUCT DETAILS

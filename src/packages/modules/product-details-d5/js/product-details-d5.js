@@ -3,7 +3,7 @@
 //
 // * **Class:** ProductDetails
 // * **Version:** 0.1
-// * **Modified:** 04/2/2013
+// * **Modified:** 04/5/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr
 
@@ -38,7 +38,7 @@ define(function(require){
     self.$measurementImages = self.$imageWrappers.find(".pd-image"); 
     self.$horzMeasurements = self.$el.find(".horizontal-measurement");
     self.$vertMeasurements = self.$el.find(".vertical-measurement");
-    self.$measurements = self.$el.find(".measurement");
+    self.$measurements = self.$horzMeasurements.add(self.$vertMeasurements);
 
     // DEFAULTS
     self.mImageWidths = [];
