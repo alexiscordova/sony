@@ -68,7 +68,10 @@ mixin textonlylayout(layout)
     +col(layout, extras)
       block
 
-.editorial.container.full-bleed-no-max(class= data.layout.media)
+bg = ""
+if data.variation
+  bg = data.variation.background || ""
+.editorial.container.full-bleed-no-max(class= data.layout.media)(class= bg)
   if data.layout.media == "textonly"
     .container
       +gridstyle
@@ -77,7 +80,7 @@ mixin textonlylayout(layout)
   
   else if data.layout.media == "full"
     if data.layout.inner == "true"
-      .container.submodule.full-bleed-no-max
+      .container.submodule
         +partial(data.submodules[0].type, data.submodules[0].data)
       +boxlayout
         +copyblock()
@@ -86,7 +89,7 @@ mixin textonlylayout(layout)
         +gridstyle
           +textonlylayout
             +copyblock(data, "alt")
-      .container.submodule.full-bleed-no-max
+      .container.submodule
         +partial(data.submodules[0].type, data.submodules[0].data)
 
   else if data.layout.media == "mediaright"
@@ -107,21 +110,22 @@ mixin textonlylayout(layout)
       .table-center.box(class = span)
         +copyblock()
 
-  else if data.layout.media == "m3up" || data.layout.media == "m2up"
-    +gridstyle
-      +copyblock()
-
-    .grid.no-grid-at-767
-      for col, i in data.layout.columns
-        span = "span" + data.layout.columns[i]
-        div(class = span)
-          +partial(data.submodules[i].type, data.submodules[i].data)
-
-          if data.layout.inner
-            .grid.no-grid-at-767.inner
-              +copyblock(data.columns[i], "alt")
-          else
-            .grid.no-grid-at-767
-              +copyblock(data.columns[i], "alt")
+  else if data.layout.media == "tout"
+    if data.columns.length == 1
+      if data.layout.text == "right"
+        p 1up mediaright
+      else
+        p 1up medialeft
+      
+    else if data.columns.length == 2
+      if data.layout.orientation == "vertical"
+        p 2up vertical
+      else
+        p 2up horizontal    
+      
+    else if data.columns.length == 3
+      p 3up
+    
+    
 
 
