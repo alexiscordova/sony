@@ -9,23 +9,22 @@
     position: relative;
     width: 100%;
     max-height: 610px;
- /*    overflow: hidden; */
+    overflow: visible; 
     //background: #f1f5f9; //should this be set on each slide?
-
+    background: $gray80;
 
     .ghost-center-wrap {
-      height: 100%;
+      height: 95%;
     }
 
-    .lt-ie9 & {
-      width: 1200px;
-
-      
-      height: 610px;
-    }
+    .lt-ie10 & {
+      min-width: 1200px;
+      min-height: 610px;
+    } 
 
     .pdp-slideshow-outer {
        @include flex-ratio-box( 1200 , 610 );
+       position: relative;
 
       .pdp-slideshow-inner {
         @include flex-ratio-box-content();
@@ -62,15 +61,22 @@
 
         }
 
-        .full-max {
-          width: 100%;
+        &.type1 {
+          img {
+/*             max-width: 1014px;
+            max-height: 610px; */
+          }
+          
         }
 
         &.type2 {
           img {
             width: 100%;
           }
+
         }
+
+
       }
     
     }
@@ -90,12 +96,21 @@
         height: 100%;
         max-width: 74px;
         max-height: 72px;
-        background: $gray80;
-        background: $gray70; //just to see some contrast 
+        //background: $gray80;
+        //background: $gray70; //just to see some contrast 
         display: inline-block;
+
+        .lt-ie10 & {
+          width: 74px;
+          height: 72px;
+        } 
 
         .lt-ie8 & {
           @include ie7-inline-block();
+
+          img {
+            margin-top: 10px;
+          }
         }
 
         img {
@@ -114,7 +129,19 @@
           height: 100%;
           display: block;
           @include transition();
-          
+
+          .ghost-center-wrap {
+            height: 95%;
+          }
+
+          span {
+            background: $linkBlue;
+            width: 100%;
+            height: 5%;
+            display: block;
+            @include opacity(0);
+          }
+
           &.light {
             img {
               @include opacity(60);
@@ -130,23 +157,27 @@
           &.active,
           &:hover {
 
+           span {
+            @include opacity(100);
+           }
+
             img {
               @include opacity(100);
             }            
             
-            @include box-shadow(inset 0 4px 0 $linkBlue);
+            //@include box-shadow(inset 0 4px 0 $linkBlue);
           }
 
         }
       }
 
-      &.dark .thumb {
+      &.dark .thumb .ghost-center-wrap {
         background: #2f353d; //TODO: need global color for this;
       }
 
-      &.light .thumb {
+      &.light .thumb .ghost-center-wrap {
         background: $gray80;
-        background: $gray70; //just to see some contrast 
+        //background: $gray70; //just to see some contrast 
       }
 
     }

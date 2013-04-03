@@ -22,10 +22,7 @@ define(function(require){
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         enquire = require('enquire'),
-        sonyScroller = require('secondary/index').sonyScroller,
-        sonyDraggable = require('secondary/index').sonyDraggable,
-        sonyNavDots = require('secondary/index').sonyNavDots,
-        sonyPaddles = require('secondary/index').sonyPaddles;
+        sonyCarousel = require('secondary/index').sonyCarousel;
 
     var self = {
       'init': function() {
@@ -88,6 +85,11 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
+        if(!window.console){
+          window.console = {};
+          window.console.log = function(){};
+        }
+
         if(self.DEBUG === true){
           self.$slides.each(function(i){
             var htag = $('<h2 class="debug_header" />').appendTo( $(this) );
@@ -106,6 +108,22 @@ define(function(require){
 
         self.$slideContainer.css( 'opacity' , 1 );
 
+        console.log( 'PDPSlideshow:: init' );
+
+        Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
+
+      },
+
+      onDebouncedResize: function(){
+        var self = this,
+        wW = self.$window.width();
+        
+        if(wW > 1199){
+          self.$el.css('overflow' , 'hidden');
+        }else{
+          self.$el.css('overflow' , 'visible');
+        }
+
       },
 
       setupCarousel: function(){
@@ -121,7 +139,8 @@ define(function(require){
           dragThreshold: 2,
           useCSS3: self.useCSS3,
           paddles: true,
-          pagination: true
+          pagination: true,
+          $paddleWrapper: self.$el
         });
 
         self.$pagination = self.$el.find('.pagination-bullets');
@@ -144,12 +163,15 @@ define(function(require){
       setupBreakpoints: function(){
         var self = this;
         
+        if( !self.$html.hasClass('lt-ie10') ){
         enquire.register("(min-width: 769px)", function() {
           console.log('Desktop Mode');
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
           self.showThumbNav();
           self.toggleDotNav(true); //hide
+
+          console.log( 'Desktop breakpoint fired' );
         });
 
         enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
@@ -159,6 +181,8 @@ define(function(require){
           self.hideThumbNav();
           self.toggleDotNav(true); //hide
 
+          console.log( 'Tablet breakpoint fired' );
+
         });
 
         enquire.register("(max-width: 568px)", function() {
@@ -167,10 +191,22 @@ define(function(require){
           self.isMobileMode = true;
           self.hideThumbNav();
           self.toggleDotNav(false); //show
+
+          console.log( 'Mobile breakpoint fired' );
           
         });
 
+      }
+
         console.log('Register with enquire');
+
+        if( self.$html.hasClass('lt-ie10') ){
+          self.isMobileMode = self.isTabletMode = false;
+          self.isDesktopMode = true;
+          self.showThumbNav();
+          self.toggleDotNav(true); //hide
+          console.log( 'Desktop breakpoint fired' );
+        }
 
       }, 
 
