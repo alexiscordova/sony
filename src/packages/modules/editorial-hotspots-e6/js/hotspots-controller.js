@@ -72,6 +72,15 @@ define(function(require) {
         self.show( el );
       });
 
+      // LISTEN FOR RESIZE
+      $(window).resize(function() {
+        if(self.$lastOpen) {
+          try {
+            self.reposition(self.$lastOpen[0]);
+          } catch(e) {}
+        }
+      });
+
       log('SONY : Editorial Hotspots : Initialized');
     },
     
@@ -125,6 +134,15 @@ define(function(require) {
       }
       
     },
+    
+    
+   /*
+    * AN ISSUE WHERE THE BREAKPOINT TEXT IS SHRINKING NEEDS TO BE ADJUSTED. WHEN THE TEXT SHRINKS THE 
+    * TOPS ARE OFF, NEED TO INVESTIGATE
+    * 
+    * TODO: RE-INTRODUCE TOP OR BOTTOM NODES IF THEY ARE ON BY DEFAULT, IF THERE IS ROOM
+    */
+    
     reposition: function(el) {
       var self                = this,
           parentContainer     = el.parent(),
@@ -136,10 +154,12 @@ define(function(require) {
           overlayHeight       = overlay.height(),
           overlayPosition     = overlay.position(),
           overlayHeaderHeight = overlay.find( '.top' ).height(),
+          overlayFooterHeight = overlay.find( '.footer' ).height(),
           hotspotPosition     = overlay.parent().position(),
           rows                = (overlayHeaderHeight>0) ? 'three' : 'two';
-      
-      log('/****POSITION STUFFS****/');
+      log(' ');
+      log('/* POSITIONING */');
+      log(' ');
 /*
       log(parentContainer);
       log(parentContainer.height());
@@ -166,7 +186,8 @@ define(function(require) {
           topOverlayPosition    = null,
           leftOverlayPosition   = null,
           bottomOverlayPosition = null,
-          rightOverlayPosition  = null;
+          rightOverlayPosition  = null,
+          passes                = 0;
 
       /*
        * INITIAL CALCULATIONS TO SEE IF WE'RE COLLIDING AT THE DEFAULT POSITIONING (TOP RIGHT)
@@ -180,15 +201,22 @@ define(function(require) {
 */
 
       for( var i=0; i<4 && ( true === collides || null === collides ); i++ ) { 
-        
         // resample coordinates
         overlayHeight       = overlay.height(),
         overlayPosition     = overlay.position(),
         overlayHeaderHeight = overlay.find( '.top' ).height(),
-        hotspotPosition     = overlay.parent().position(),
+        overlayFooterHeight = overlay.find( '.footer' ).height(),
+        hotspotPosition     = overlay.parent().position();
         
         // check if the hotspot's offset plus the negative margin of the overlay is at or less than "top:0" with resepct to it's container
         topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top );
+        // check if overlays' width plus position offset is overlapping the rightmost boundary of it's container
+        rightOverlayPosition = hotspotPosition.left + overlayPosition.left + overlay.width();
+        
+        bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height();
+        
+        leftOverlayPosition = hotspotPosition.left + overlayPosition.left;
+                
         if( topOverlayPosition <= 0 ) {
           // it is colliding with the top of the parent container
           collidesTop = true;
@@ -200,8 +228,6 @@ define(function(require) {
           collidesTop = false;
         }
         
-        // check if overlays' width plus position offset is overlapping the rightmost boundary of it's container
-        rightOverlayPosition = hotspotPosition.left + overlayPosition.left + overlay.width();
         if( rightOverlayPosition >= parentRight ) {
           collidesRight = true;
           self.clearPositionStyles(overlay);
@@ -212,19 +238,18 @@ define(function(require) {
           collidesRight = false;
         }
         
-        bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height();
+        
         if( bottomOverlayPosition >= parentFloor ) {
           collidesFloor = true;
           self.clearPositionStyles(overlay);
           overlay.addClass( rows + '-stack-left-bottom-justified' );
           overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
           log('::overlay hits container floor::');
-          log();
         } else {
           collidesFloor = false;
         }
         
-        leftOverlayPosition = hotspotPosition.left + overlayPosition.left;
+
         if( leftOverlayPosition <= 0 ) {
           collidesLeft = true;
           self.clearPositionStyles(overlay);
@@ -241,68 +266,111 @@ define(function(require) {
           collides = true;
         } else {
           collides = false;
+          /* 
+           * No collisions, good stuff, this is also a good spot to turn on default pieces if they fit
+           * !!!! This may have a bug due to the use of abs on some side calculations and, keep an eye
+           */
+          /*
+          if( overlay.find( '.top' ).hasClass( 'is-default-on' ) && overlay.find( '.top' ).hasClass( 'hidden' ) ) {
+            // does adding this reintroduce collision?
+            topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top ) - overlayHeaderHeight;
+            if( topOverlayPosition >= 0 ) {
+              // add it back!       
+              overlay.find( '.top' ).removeClass( 'hidden' );
+            }            
+          }
+
+          if( overlay.find( '.footer' ).hasClass( 'is-default-on' ) && overlay.find( '.footer' ).hasClass( 'hidden' ) ) {
+            // does adding this reintroduce collision?
+            bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height() + overlayFooterHeight;
+            if( bottomOverlayPosition > parentFloor ) {
+              // add it back!
+              overlay.find( '.footer' ).removeClass( 'hidden' );
+            }
+          }
+          */
+          
         }
 
-/*
+        /*
         log('rightOverlayPosition '+rightOverlayPosition);
         log('topOverlayPosition '+topOverlayPosition);
         log('bottomOverlayPosition '+bottomOverlayPosition);
         log('leftOverlayPosition '+leftOverlayPosition);
-*/
-        
-        
-        /*
-         * START CLOCKWISE AT HIGH NOON AND ROLL THROUGH ONCE
-         * AND MAKE ADJUSTMENTS (CAN BE COMBINED ABOVE, LATER)
-         **/
-        
-/*
-        if(collidesTop) {
-          overlay.addClass( rows + '-stack-right-top-justified' );
-          overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
-          log('activating left top arrow');
-        } else if(collidesRight) {
-          overlay.addClass( rows + '-stack-left-top-justified' );
-          overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
-          log('activating right top arrow');
-        } else if(collidesFloor) {
-          overlay.addClass( rows + '-stack-left-bottom-justified' );
-          overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
-          log('activating right bottom arrow');
-        } else if(collidesLeft) {
-          overlay.addClass( rows + '-stack-right-bottom-justified' );
-          overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
-          log('activating left bottom arrow');
-        } else {
-          collides = false;
-        }
-*/
+        */
 
         log('collides '+collides);   
         
         // if we're in the last iteration of the loop, and no position has been found,
         // we need to attempt to turn off the the top or bottom section to make room
         // since we're tracking collisions by side, we can easily do this prescriptively,
-        // ...
-        if( true === collides ) {
-          log('NO POSITIONS WORKED! YEEEEKS. ');
+        if( true === collides && i == 3 ) {
+        
+          /* log('Reposition did not work. '); */
+          
+          var top = overlay.find( '.top' );
+          var footer = overlay.find( '.footer' );
+          
+          if( collidesTop && ( top.height() > 0 ) ) {
+            /* log('turning off top section and restting loop'); */
+            top.addClass( 'hidden' );
+            rows = 'two';
+            self.downstepStacks( el );
+            i=-1;
+          }
+          if( collidesFloor && ( footer.height() > 0 ) ) {
+            /* log('turning off bottom section and resetting loop'); */
+            footer.addClass( 'hidden' );            
+            rows = 'two';
+            self.downstepStacks( el );
+            i=-1;
+          }
+          // two passes, and no dice; lets turn off top and bottom in an attempt to 
+          // make room one last time
+          if(passes==1) {
+            top.addClass( 'hidden' );
+            footer.addClass( 'hidden' );
+            i=-1;
+          } else if(passes>1) {
+            i=99; // leave loop
+          }
+          /* log('finished '+passes+' passes' ); */
+          passes++;
+
         }
       } // END COLLISION DETECTION
 
     },
     clearPositionStyles: function(el) {
-      el.removeClass('three-stack-left-top-justified');
-      el.removeClass('three-stack-left-bottom-justified');
-      el.removeClass('three-stack-right-top-justified');
-      el.removeClass('three-stack-right-bottom-justified');
-      el.removeClass('two-stack-left-top-justified');
-      el.removeClass('two-stack-left-bottom-justified');
-      el.removeClass('two-stack-right-top-justified');
-      el.removeClass('two-stack-right-bottom-justified');
-      el.find('.arrow-left-top').addClass('hidden');
-      el.find('.arrow-right-top').addClass('hidden');
-      el.find('.arrow-left-bottom').addClass('hidden');
-      el.find('.arrow-right-bottom').addClass('hidden');
+      el.removeClass( 'three-stack-left-top-justified' );
+      el.removeClass( 'three-stack-left-bottom-justified' );
+      el.removeClass( 'three-stack-right-top-justified' ); 
+      el.removeClass( 'three-stack-right-bottom-justified' );
+      el.removeClass( 'two-stack-left-top-justified' );
+      el.removeClass( 'two-stack-left-bottom-justified' );
+      el.removeClass( 'two-stack-right-top-justified' );
+      el.removeClass( 'two-stack-right-bottom-justified' );
+      el.find( '.arrow-left-top' ).addClass( 'hidden' );
+      el.find( '.arrow-right-top' ).addClass( 'hidden' );
+      el.find( '.arrow-left-bottom' ).addClass( 'hidden' );
+      el.find( '.arrow-right-bottom' ).addClass( 'hidden' );
+    },
+    downstepStacks: function(el) {
+      log('swapping stack class');
+      el = el.find( '.overlay-base' );
+      log(el);
+      if( el.hasClass( 'three-stack-left-top-justified' )) { 
+        el.removeClass( 'three-stack-left-top-justified' ).addClass( 'two-stack-left-top-justified' );
+      }
+      if(el.hasClass( 'three-stack-left-bottom-justified' )) { 
+        el.removeClass( 'three-stack-left-bottom-justified' ).addClass( 'two-stack-left-bottom-justified' );
+      }
+      if(el.hasClass( 'three-stack-right-top-justified' )) { 
+        el.removeClass( 'three-stack-right-top-justified' ).addClass( 'two-stack-right-top-justified' );
+      }
+      if(el.hasClass( 'three-stack-right-bottom-justified' )) { 
+        el.removeClass( 'three-stack-right-bottom-justified' ).addClass( 'two-stack-right-bottom-justified' );
+      }
     },
     close: function( container, hotspot, info ) {
         var self = this;
