@@ -7,8 +7,9 @@ include ../../../common/html/jade-helpers.jade
 - layouts = { "layout1": layout1, "layout2" : layout2, "layout3" : layout3, "layout4": layout4 }
 
 mixin loaderDiv()
-  .loading.gallery-loader.text-center
-    img(src="img/loader.gif", alt="Loading...")
+  .relative.gallery-loader
+    .loading.text-center
+      img(src="img/loader.gif", alt="Loading...")
 
 mixin filterColor( filterSet )
   ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
@@ -106,6 +107,10 @@ mixin galleryFilters( gallery, isCompareGallery )
   sortByStr = 'Sort By:'
   productsStr = 'Products'
   filterStr = 'Filter'
+  compareBrowseLink = isCompareGallery ? gallery.browseLink : gallery.compareLink
+  - console.log(gallery.browseLink, gallery.compareLink)
+  - console.log('glen')
+  compareBrowseLink = compareBrowseLink ? compareBrowseLink : '#'
 
   .container.filter-display-bar.slide-toggle-parent
     if gallery.sortSet
@@ -123,7 +128,7 @@ mixin galleryFilters( gallery, isCompareGallery )
           button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
             | !{ filterStr }
             i.fonticon-10-arrowhead-down
-          button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool")
+          a.lt3.btn.btn-alt-special.btn-alt-plus(href=compareBrowseLink)
             if isCompareGallery
               i.fonticon-10-grid-3x3
             else
@@ -249,7 +254,6 @@ mixin compareGallery( submodules, gallery, type, labels )
   label = gallery.galleryName || 'Compare Things'
   legend = gallery.legend || 'this is defined in gallery.legend'
   resetLabel = gallery.resetLabel || 'do things'
-
 
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
     +galleryFilters( gallery, true )
