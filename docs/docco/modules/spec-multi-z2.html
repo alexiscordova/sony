@@ -310,7 +310,8 @@ $tabs.append( $btn );</p>             </td>             <td class="code">       
     },
 
     _setRowHeights : <span class="keyword">function</span>( isFromResize ) {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          groups = [];
 
 </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Don't set row heights on mobile size. It's a single column, so it doesn't need to line up.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isMobile ) {
         <span class="keyword">return</span>;
@@ -325,8 +326,11 @@ $tabs.append( $btn );</p>             </td>             <td class="code">       
 is the title, which is not a .spec-item-cell, so we need to add another to our selector
 Also, there is a sticky header that needs to be excluded: add 1 more</p>             </td>             <td class="code">               <div class="highlight"><pre>            $cells = self.$specItems.find(<span class="string">'.spec-item-cell:nth-child('</span> + (i + <span class="number">3</span>) + <span class="string">')'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Loop through the cells (<code>.spec-item-cell</code>'s in the same 'row')</p>             </td>             <td class="code">               <div class="highlight"><pre>        $cells.add($detailLabel).evenHeights();
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Loop through the cells (<code>.spec-item-cell</code>'s in the same 'row')</p>             </td>             <td class="code">               <div class="highlight"><pre>        $cells = $cells.add( $detailLabel );
+        groups.push( $cells );
       });
+
+      $.evenHeights( groups );
 
 </pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>If this is not triggered from a window resize, we still need to update the offsets
 because the heights have changed.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !isFromResize ) {

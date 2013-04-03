@@ -43,5 +43,41 @@ Chrome used to be 100x slower calculating these values</p>             </td>    
     margin: <span class="literal">false</span>
   };
 
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>For groups of elements which should be the same height.
+Using this method will create far less style recalculations and layouts
+The first parameter should be an array of jQuery objects</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.evenHeights = <span class="keyword">function</span>( groups, options ) {
+    <span class="keyword">if</span> ( !groups.length ) {
+      <span class="keyword">return</span>;
+    }
+
+    <span class="keyword">var</span> winners = [];
+    options = $.extend({}, $.fn.evenHeights.options, options);
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>First, reset the height for every element.
+This is done first, otherwise we dirty the DOM on each loop!</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.each( groups, <span class="keyword">function</span>( i, $elements ) {
+      $elements.css(<span class="string">'height'</span>, <span class="string">''</span>);
+    });
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Now, measure heights in each group and save the tallest value
+Instead of setting the height value for the entire group, we're going to save it
+If it was set, the next iteration in the loop would have to recalculate styles in the DOM</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.each( groups, <span class="keyword">function</span>( i, $elements ) {
+      <span class="keyword">var</span> tallest = <span class="number">0</span>;
+      $elements.each(<span class="keyword">function</span>() {
+        <span class="keyword">var</span> height = $(<span class="keyword">this</span>).outerHeight( options.margin );
+
+        <span class="keyword">if</span> ( height &gt; tallest ) {
+          tallest = height;
+        }
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Keep track of the winner!</p>             </td>             <td class="code">               <div class="highlight"><pre>      winners.push( tallest );
+    });
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Lastly, we set them all</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.each( groups, <span class="keyword">function</span>( i, $elements ) {
+      $elements.css( <span class="string">'height'</span>, winners[ i ] );
+    });
+  };
 });
+
+
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
