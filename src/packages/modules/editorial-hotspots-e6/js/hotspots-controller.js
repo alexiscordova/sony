@@ -53,7 +53,8 @@ define(function(require) {
     // TRANSITION VARIABLES
     self.$transitionSpeed                = 500;
     self.$lastTimer                      = null;
-    
+    self.curX                            = null;
+    self.curY                            = null;
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -97,12 +98,25 @@ define(function(require) {
       var yAnchor = $( el ).data( "y" );
       $( el ).css( "left", xAnchor );
       $( el ).css( "top", yAnchor );
+      
+      /*
+var pos = $( el ).position();
+      
+      self.curX = pos.left;
+      self.curY = pos.top;
+      
+      self.percToPixels(self.curX, self.curY);
+*/
+      
       self.$hotspotData.push({
         el: el,
         xAnchor: xAnchor,
         yAnchor: yAnchor,
         open: false
       });
+    },
+    percToPixels: function() {
+      
     },
     show: function( el ) {
       
@@ -187,7 +201,9 @@ define(function(require) {
           leftOverlayPosition   = null,
           bottomOverlayPosition = null,
           rightOverlayPosition  = null,
-          passes                = 0;
+          passes                = 0,
+          top                   = null,
+          footer                = null;
 
       /*
        * INITIAL CALCULATIONS TO SEE IF WE'RE COLLIDING AT THE DEFAULT POSITIONING (TOP RIGHT)
@@ -266,29 +282,14 @@ define(function(require) {
           collides = true;
         } else {
           collides = false;
-          /* 
-           * No collisions, good stuff, this is also a good spot to turn on default pieces if they fit
-           * !!!! This may have a bug due to the use of abs on some side calculations and, keep an eye
-           */
-          /*
+          
           if( overlay.find( '.top' ).hasClass( 'is-default-on' ) && overlay.find( '.top' ).hasClass( 'hidden' ) ) {
-            // does adding this reintroduce collision?
-            topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top ) - overlayHeaderHeight;
-            if( topOverlayPosition >= 0 ) {
-              // add it back!       
-              overlay.find( '.top' ).removeClass( 'hidden' );
-            }            
+            
           }
 
           if( overlay.find( '.footer' ).hasClass( 'is-default-on' ) && overlay.find( '.footer' ).hasClass( 'hidden' ) ) {
-            // does adding this reintroduce collision?
-            bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height() + overlayFooterHeight;
-            if( bottomOverlayPosition > parentFloor ) {
-              // add it back!
-              overlay.find( '.footer' ).removeClass( 'hidden' );
-            }
+            
           }
-          */
           
         }
 
@@ -308,8 +309,8 @@ define(function(require) {
         
           /* log('Reposition did not work. '); */
           
-          var top = overlay.find( '.top' );
-          var footer = overlay.find( '.footer' );
+          top = overlay.find( '.top' );
+          footer = overlay.find( '.footer' );
           
           if( collidesTop && ( top.height() > 0 ) ) {
             /* log('turning off top section and restting loop'); */
@@ -325,6 +326,10 @@ define(function(require) {
             self.downstepStacks( el );
             i=-1;
           }
+
+          log('finished '+passes+' passes' );
+          passes++;
+          
           // two passes, and no dice; lets turn off top and bottom in an attempt to 
           // make room one last time
           if(passes==1) {
@@ -334,8 +339,7 @@ define(function(require) {
           } else if(passes>1) {
             i=99; // leave loop
           }
-          /* log('finished '+passes+' passes' ); */
-          passes++;
+
 
         }
       } // END COLLISION DETECTION
