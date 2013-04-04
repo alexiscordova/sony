@@ -48,16 +48,20 @@ mixin boxlayout(layout)
               +boxclass
                 block
 
-mixin copyblock(copyobject, h4class, h5class)
-  - copyobject = copyobject || data
-  - h4class = h4class || ""
-  - h5class = h5class || ""
-  +hgroup(copyobject, "", "", "", h4class, h5class)
+mixin copyblock(copyobject, titleclass, subtitleclass, bodyclass)
+  copyobject = copyobject || data
+  titleclass = titleclass || "t2"
+  subtitleclass = subtitleclass || "t6"
+  bodyclass = bodyclass || "p2"
+  if copyobject.title
+    h2(class = titleclass) !{copyobject.title}
+  if copyobject.subtitle
+    h3(class = subtitleclass) !{copyobject.subtitle}
   if copyobject.body
-    p.p3 !{copyobject.body}
+    p(class = bodyclass) !{copyobject.body}
   if copyobject.link
     a(class= copyobject.link.type, href= copyobject.link.url) !{copyobject.link.text}
-    
+ 
 mixin textonlylayout(layout)
   layout = layout || data.layout
   if layout.text == "full"
@@ -76,19 +80,19 @@ if data.variation
     .container
       +gridstyle
         +textonlylayout
-          +copyblock(data, "alt")
+          +copyblock
   
   else if data.layout.media == "full"
     if data.layout.inner == "true"
       .container.submodule
         +partial(data.submodules[0].type, data.submodules[0].data)
       +boxlayout
-        +copyblock()
+        +copyblock(data, "t3", "t7", "p3")
     else
       .container
         +gridstyle
           +textonlylayout
-            +copyblock(data, "alt")
+            +copyblock
       .container.submodule
         +partial(data.submodules[0].type, data.submodules[0].data)
 
@@ -96,7 +100,7 @@ if data.variation
     +gridstyle("table-center-wrap")
       span = "span" + data.layout.columns[0]
       .table-center.box(class = span)
-        +copyblock()
+        +copyblock(data, "t3", "t7", "p3")
       span = "span" + data.layout.columns[1]
       .table-center.media-element(class = span)
         +partial(data.submodules[0].type, data.submodules[0].data)
@@ -108,12 +112,13 @@ if data.variation
         +partial(data.submodules[0].type, data.submodules[0].data)
       span = "span" + data.layout.columns[1]
       .table-center.box(class = span)
-        +copyblock()
+        +copyblock(data, "t3", "t7", "p3")
 
   else if data.layout.media == "tout"
     if data.columns.length == 1
       e = {"locals":locals, "data":data.columns[0].image}
       !{locals.partial('packages/modules/image/html/image.jade' , e)}
+      +copyblock(data.columns[0], "t5", "", "p3")
       if data.layout.text == "right"
         p 1up mediaright
       else
@@ -123,16 +128,16 @@ if data.variation
       for col in data.columns
         e = {"locals":locals, "data":col.image}
         !{locals.partial('packages/modules/image/html/image.jade' , e)}
-      if data.layout.orientation == "vertical"
-        p 2up vertical
-      else
-        p 2up horizontal    
+        if data.layout.orientation == "vertical"
+          +copyblock(col,"t5", "", "p3")
+        else
+          +copyblock(col, "t7", "", "p3") 
       
     else if data.columns.length == 3
       for col in data.columns
         e = {"locals":locals, "data":col.image}
         !{locals.partial('packages/modules/image/html/image.jade' , e)}
-      p 3up
+        +copyblock(col,"t5", "", "p3")
     
     
 
