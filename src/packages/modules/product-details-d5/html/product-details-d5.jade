@@ -16,7 +16,6 @@ mixin measurementValues(value, dir, isThin)
     - clss.push('not-thin')
   
   div(class = clss) 
-    
     div.measurements-container
       +cmString(value.cm)
 
@@ -28,7 +27,6 @@ mixin measurementsList(measurements)
     - isThin = m.thinImage
     - cm = m.height.cm
     - inches = m.width.inches
-    - console.log(cm)
 
     .measurement.p4
       .wrapper
@@ -62,7 +60,7 @@ mixin featureList(list)
               | #{li.copy}
               
               if (li.link)
-                a(href=li.link)= li.linkLabel
+                a.no-wrap(href=li.link)= li.linkLabel
             
 mixin definitionList( list, isHorizontal )
   - isHorizontal = isHorizontal || false
@@ -227,19 +225,18 @@ section(class= productDetailsClasses)
       
       when 100
         //- SPLIT INTO TWO COLS
-        - totalItems = features.length 
-        
+        - totalItems = features.length + extras.length
+      
         - col1Start = 0
-        - col1End = Math.floor(totalItems/2)
+        - col1End = Math.round(totalItems/2) 
         
-        - col2Start = col1End + 1
-        - col2End = totalItems - 1
+        - col2Start = col1End
+        - col2End = totalItems
 
-        - col1Items = features.slice(col1Start,col1End)
-        - col2Items = features.slice(col2Start,col2End)
+        - col1Items = features.slice(col1Start, col1End)
+        - col2Items = features.slice(col2Start)
 
         .features(class= centerSpanClasses)
-          //- +featureList(features)
           +featureList(col1Items)
 
         .last-column(class= centerSpanClasses)
@@ -252,16 +249,16 @@ section(class= productDetailsClasses)
 
       when 10
         //- SPLIT INTO TWO COLS
-        - totalItems = specs.length 
+        - totalItems = specs.length + extras.length
         
         - col1Start = 0
-        - col1End = Math.floor(totalItems/2)
+        - col1End = Math.round(totalItems/2)
         
-        - col2Start = col1End + 1
-        - col2End = totalItems - 1
+        - col2Start = col1End
+        - col2End = totalItems
 
-        - col1Items = specs.slice(col1Start,col1End)
-        - col2Items = specs.slice(col2Start,col2End)
+        - col1Items = specs.slice(col1Start, col1End)
+        - col2Items = specs.slice(col2Start)
 
         .specs(class= centerSpanClasses)
           +definitionList(col1Items, false)
