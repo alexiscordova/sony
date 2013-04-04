@@ -4,7 +4,6 @@
 // "product-details-module"
 .pd-module{
 	padding:60px 0 90px 0;
-	border:3px solid red;
 
 	// 88888888888  .d88888b.  8888888b.  
 	//     888     d88P" "Y88b 888   Y88b 
@@ -16,6 +15,7 @@
 	//     888      "Y88888P"  888        
 	
 	.top{
+
 		.title{
 			margin:0;
 			padding:0 0 26px 0;
@@ -28,37 +28,6 @@
 		} //. desc
 
 	} // .top
-
-
-	// 	 .d8888b.  8888888888 888b    888 88888888888 8888888888 8888888b.  
-	// d88P  Y88b 888        8888b   888     888     888        888   Y88b 
-	// 888    888 888        88888b  888     888     888        888    888 
-	// 888        8888888    888Y88b 888     888     8888888    888   d88P 
-	// 888        888        888 Y88b888     888     888        8888888P"  
-	// 888    888 888        888  Y88888     888     888        888 T88b   
-	// Y88b  d88P 888        888   Y8888     888     888        888  T88b  
-	//  "Y8888P"  8888888888 888    Y888     888     8888888888 888   T88b 
-
-	.center{
-		//background: rgba(227,208,229,1);
-
-		.features{
-			//outline:1px solid black;
-		} // .features
-
-		.specs{
-			//outline:1px solid black;	
-		} // .specs
-
-		.measurements{
-		  outline:1px solid black;
-		} // end .measurements
-		
-		.extras{
-		  outline:1px solid black;
-		} // end .extras
-
-	} // center	
 
 
 	// 8888888888                888                                       
@@ -74,19 +43,23 @@
 
 		.feature-list{
 			margin:0;
-		}
+		} // feature-list
 
 		li{
 			border-top:1px solid $gray70;
 			padding-bottom:16px;
 			padding-top:16px;
-
+		
 			&:first-child{
 				border-top:0px none;
 				padding-top:0px;
-			}
+			} // :first-child
 		
-		}
+			&.hidden{
+				display:none;
+			}
+
+		} // li
 
 		.copy,
 		.icon{
@@ -94,8 +67,17 @@
 			// vertical-align: middle;
 		} 
 
-		.copy{
-	 		//border:1px solid purple;
+		.copy{		
+			font-size: 15px; // AKA p2; need to set this because ghost-center removes it
+						
+			a{
+				font-size: 12px; // AKA bt3; need to set this because ghost-center removes it
+
+				&.no-wrap{
+					white-space: nowrap;
+				}
+
+			}
 
 	 		&.with-icon{
 				width:76%;
@@ -114,6 +96,10 @@
 			display: inline-block;
 		} // icon
 
+
+		[class*="fonticon-40"]{
+			font-size: 3.0em;
+		}
 
 		.fonticon-40-panorama{
 			position: relative;
@@ -146,16 +132,42 @@
 	.specs{
 		padding-top:40px;
 
-		dt{
-			//outline:1px solid black;
+		.in-last-column{
+			padding-left: px-em(18px); 
 		}
 
 		dd{
-			//outline:1px solid black;
 			margin-left:0;
 		} // dd
-	} // .specs
 
+	} // .specs
+                 
+                                                                             
+	.last-column{
+
+		&.has-measurements{
+			background-color:$gray80;
+			padding:39px px-em(32px) 52px px-em(32px);
+		}
+
+		.specs{
+			padding-left: px-em(18px); 
+		} // .specs
+
+
+		// show only after images are loaded
+		.vertical-measurement,
+		.horizontal-measurement{
+			opacity: 0;
+		  
+		  &.on{
+		  	@include transition(opacity $transitionFast ease-in);
+				opacity: 1;
+		  } // on
+			
+		} // horizontal-measurement
+
+	} // vertical-measurement
 
 
 	// 888b     d888                                                                                      888             
@@ -166,14 +178,104 @@
 	// 888  Y8P  888 88888888 .d888888 "Y8888b. 888  888 888     88888888 888  888  888 88888888 888  888 888    "Y8888b. 
 	// 888   "   888 Y8b.     888  888      X88 Y88b 888 888     Y8b.     888  888  888 Y8b.     888  888 Y88b.       X88 
 	// 888       888  "Y8888  "Y888888  88888P'  "Y88888 888      "Y8888  888  888  888  "Y8888  888  888  "Y888  88888P' 
+	
+	$measurementPadding:8px;
+
 	.measurements{
-		outline:1px solid black;
-		background-color:$gray80;
-		
+		display: inline-block;
+		//border:1px solid red;
+		// padding:39px px-em(32px) 52px px-em(32px);
+
 		.measurement{
-			background-color: rgba(0,211,255,.5);
+		  margin-bottom:18px;
+		  margin-right: px-em(30px);
+		  float:left;
+
+		} // end .measurement
+		
+		.img-wrapper{
+			float:left;
+			position: relative;
 		}
-	}
+
+		.inches{
+			color:$gray40;
+		}
+
+		.centimeters{
+			color:$gray10;
+		}
+
+		.inches,
+		.centimeters{	
+			margin:0;
+		}
+
+		.measurements-container{
+			background-color:$gray80;
+			position: absolute;
+			top:0;
+			left:0;
+			z-index: 2;
+		} // .measurements-container
+
+		.vertical-measurement{
+			@include clearfix();
+			position: relative;
+			float:left;
+			text-align: center;
+			padding-left:0;
+
+			.measurements-container{
+				top:50%;
+				padding:$measurementPadding 0;
+			} //.vertical-measurement > .measurements-container
+
+			&.not-thin{
+				margin-left: px-em(24px);
+
+				&:after{
+	  				content:'';
+	          display:block;
+	          border-left:1px solid $gray50;
+	   				position: absolute;
+	   				left:50%;
+	   				top:0;
+	   				width:100%;
+	   				height:100%;
+	   				z-index:1;
+					} // :after
+
+			} // not-thin
+
+		} // vertical-measurement
+
+		.horizontal-measurement{
+			clear:both;
+			position: relative;
+			text-align: center;
+			display:block;
+
+			.measurements-container{
+				padding:26px px-em($measurementPadding) 0 px-em($measurementPadding);
+				left:50%;
+			} // .horizontal-measurement > .measurements-container
+
+			&:after{
+  				content:'';
+          display:block;
+          border-top:1px solid $gray50;
+   				position: absolute;
+   				left:0;
+   				top:70%;
+   				width:100%;
+   				height:100%;
+   				z-index:1;
+				} // :after
+
+		} // .horizontal-measurement
+
+	} // .measurements
 
 	// 8888888888          888                              
 	// 888                 888                              
@@ -184,14 +286,25 @@
 	// 888        .d8""8b. Y88b.  888     888  888      X88 
 	// 8888888888 888  888  "Y888 888     "Y888888  88888P' 
 	.extras{
-		outline:1px solid black;
+		clear:both;
+		background-color:$gray80;
+		//outline:1px solid green;
+
+		margin-top: 26px;
+		// padding:26px px-em(18px) 24px px-em(18px);
+		padding:18px px-em(18px);
+
+		&.with-measurements{
+			// margin-top:52px;	
+			padding:0;
+		}
 		
 		.extra{
-			background-color: rgba(182,22,255,.5);
+			//max-width: px-em(380px);
+			//outline:1px solid blue;
 		} //.extra
 
-	} // end .extras
-
+	} // .extras
 
 	// 888888b.    .d88888b. 88888888888 88888888888  .d88888b.  888b     d888 
 	// 888  "88b  d88P" "Y88b    888         888     d88P" "Y88b 8888b   d8888 
@@ -204,35 +317,43 @@
 
 
 	.bottom{
-		outline:1px solid black;	
+		margin-top:36px;
 
 		.text-tout{
-			background-color: rgba(125, 210, 164, .8);
 			text-align: left;
 
-			a{
-				text-transform: capitalize;
-			}
+			.icon{
+				display: inline-block;
+				margin-right:26px;
+				max-width:11%;
+			} // .icon
+
+			.copy{
+				display: inline-block;
+				padding-top:5px;
+		
+				&.with-icon{
+					width:84%;	
+				} // .with-icon
+
+				a{
+					text-transform: capitalize;
+				} // a
+	
+			} // copy
+
 
 		} // .text-tout
 
-		.bottomBtn{
-			background-color: rgba(125, 210, 164, .6);
+		.bottom-btn{
 			text-align: left;
-			outline:1px solid black;
 
 			&.span6{
 				text-align: right;
 			} // .span6
 
-		} // .bottomBtn
-
+		} // .bottom-btn
 
 	} // bottom
 
 } // .product-details
-
-
-
-
-
