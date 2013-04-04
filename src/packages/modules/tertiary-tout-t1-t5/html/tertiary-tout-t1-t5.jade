@@ -1,8 +1,8 @@
 include ../../../common/html/jade-helpers.jade
-
++includeJavascriptModule('tertiary-tout-t1-t5')
 
 mixin copyblock(module)
-  .tcc-copy               
+  .tcc-copy
     if (module.title)
       p.p2
         strong= module.title
@@ -79,10 +79,10 @@ mixin question(module)
   .credits
     .avatar
       +iQImage(module.images[0],'tcc-image')
-    
+
     p.author.p4
       a(href= module.author.link)
-        | #{module.author.handle} 
+        | #{module.author.handle}
       | #{module.title}
 
   blockquote.bq3
@@ -121,9 +121,9 @@ mixin sonysVoiceTop(icon, meta)
     .white-bg.fonticon-10-dot
     div(class= icon)
 
-  if (meta)    
-    .meta            
-      p.p4  
+  if (meta)
+    .meta
+      p.p4
         span.user= meta.user
         span.timestamp= meta.timestamp
 
@@ -155,12 +155,12 @@ mixin flickrContent(meta, images, btnLink, btnLabel)
         .white-bg.fonticon-10-dot
         .left.fonticon-10-dot
         .right.fonticon-10-dot
-        
+
       .meta.p4
         for info in meta
           if (info.user)
             span.user= info.user
-            
+
           if (info.title)
             span= info.title
 
@@ -210,12 +210,12 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
               //- if there is a title and a featured image
               if(contentMode == "featured")
                 +articleFeatured(module)
-              else                                          
+              else
                 if(contentMode == "default")
                   +articleDefault(module)
-                if(contentMode == "news") && (module.date)              
+                if(contentMode == "news") && (module.date)
                   +articleNews(module)
-                if(contentMode == "event") && (module.attendanceCount)               
+                if(contentMode == "event") && (module.attendanceCount)
                   +articleEvent(module)
                 +copyblock(module)
             when "users-voice"
@@ -227,7 +227,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
 
               if (contentMode == "question")
                 +question(module)
-            
+
             when "sonys-voice"
               .tcc-inner-container
                 .top

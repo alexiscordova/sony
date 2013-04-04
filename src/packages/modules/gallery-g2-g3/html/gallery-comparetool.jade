@@ -1,6 +1,11 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('gallery-g2-g3')
+
 include gallery-helpers.jade
 
 +galleryStickyTabs( data.tabs, data.config.module_name, data.config.module_id )
+
++loaderDiv()
 
 .tab-content.gallery-content(data-module-name=data.config.module_name, data-module-id=data.config.module_id)
   if data.tabs[0]

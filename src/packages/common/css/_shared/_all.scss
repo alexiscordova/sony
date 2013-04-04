@@ -116,10 +116,10 @@ ul.jump-links {
     @include transition-timing-function(ease-out);
   }
 
-  // // Disable box shadow if the sticky headers are visible
-  // .sticky-header-open & {
-  //   @include box-shadow(none);
-  // }
+  // Disable box shadow if the sticky headers are visible
+  .sticky-header-open & {
+    @include box-shadow(none);
+  }
 
   .no-boxshadow & {
     border-bottom: 1px solid $gray70;
@@ -245,6 +245,12 @@ $oneByOneImgPadding: 107.84313725490196%;
 
     .product-img:after {
       padding-top: 88.14589665653495%;
+    }
+
+    // IE8 gets 0 wrapper width
+    .lt-ie9 & .js-item-carousel {
+      width: px-em(538);
+      height: px-em(475);
     }
 
     // Carousels
@@ -618,8 +624,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
-  width: -webkit-calc(100% - 0.625em);
-  width:         calc(100% - 0.625em);
 }
 
 // Gray border top for labels
@@ -667,7 +671,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   // The sticky-count uses a pseudo element for the box-shadow
   &:not(.sticky-count) {
-    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
+    @include box-shadow(0 .125em .3125em 0 $stickyShadowColor);
   }
 
   // Needs more specificity to override span margins
@@ -695,7 +699,7 @@ $oneByOneImgPadding: 107.84313725490196%;
     height: 100%;
     background: $gray90;
     border-right: .0625em solid rgba(0,0,0,0.05);
-    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
+    @include box-shadow(0 .125em .3125em 0 $stickyShadowColor);
   }
 
   .media .pull-left {
@@ -758,11 +762,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 // Sticky nav
 .spec-sticky-nav {
-
-  // Disable box shadow if the sticky headers are visible
-  .sticky-header-open & {
-    @include box-shadow(none);
-  }
 
   .sticky-nav-title {
     margin-top: 17px;

@@ -203,7 +203,6 @@ define(function(require){
   },
 
   onImageLoad = function($elm /*, $images, $proper, $broken*/ ) {
-    //$elm.data('hasLoaded', true);
     if (fade && $elm.data('fadeonce') !== true && !$elm.hasClass(noFadeFlag)) {
       $elm.data('fadeonce', true);
       $elm.css({'opacity': 1, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=100)"', 'filter':'alpha(opacity=100)'});

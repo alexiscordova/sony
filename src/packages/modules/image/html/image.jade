@@ -1,8 +1,14 @@
 extraclass = data.classes || ""
+id = data.id || ""
+if data.heights 
+  string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+id+" {height: "+data.heights.phone+"}} "
+  style(type = "text/css")
+    #{string}
+  
 if data.background == "true"
-  .hero-image.image-module.iq-img(class= extraclass)(alt= data.alt, data-src-desktop= data.srcDesktop, data-src-tablet= data.srcTablet, data-src-phone= data.srcPhone, data-src-desktop-highres= data.srcDesktopHighRes, data-src-tablet-highres= data.srcTabletHighRes, data-src-phone-highres= data.srcPhoneHighRes)
+  .image-module.iq-img(id= id, class= extraclass, alt= data.alt, data-src-desktop= data.srcDesktop, data-src-tablet= data.srcTablet, data-src-phone= data.srcPhone, data-src-desktop-highres= data.srcDesktopHighRes, data-src-tablet-highres= data.srcTabletHighRes, data-src-phone-highres= data.srcPhoneHighRes)
 else
   .image-module
-    img.iq-img(class= extraclass)(alt= data.alt, data-src-desktop= data.srcDesktop, data-src-tablet= data.srcTablet, data-src-phone= data.srcPhone, data-src-desktop-highres= data.srcDesktopHighRes, data-src-tablet-highres= data.srcTabletHighRes, data-src-phone-highres= data.srcPhoneHighRes)
+    img.iq-img(id= id, class= extraclass, alt= data.alt, data-src-desktop= data.srcDesktop, data-src-tablet= data.srcTablet, data-src-phone= data.srcPhone, data-src-desktop-highres= data.srcDesktopHighRes, data-src-tablet-highres= data.srcTabletHighRes, data-src-phone-highres= data.srcPhoneHighRes)
       noscript
           img(src= data.noscriptsrc)

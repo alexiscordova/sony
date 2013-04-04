@@ -53,10 +53,17 @@ https://bugzilla.mozilla.org/show_bug.cgi?id=381328</p>             </td>       
         }
 
       });
+
+      <span class="keyword">if</span> ( Settings.isSonyTabletS ) {
+        Settings.$html.addClass(<span class="string">'sonytablets'</span>);
+      }
+
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Overwrite the Modernizr.mq function for IE &lt; 10</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Settings.isLTIE10 ) {
         Modernizr.mq = <span class="keyword">function</span>() { <span class="keyword">return</span> <span class="literal">false</span>; };
         Modernizr.mediaqueries = <span class="literal">false</span>;
       }
+
+
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Normalizes the console.log method.
@@ -194,9 +201,14 @@ window.resize.</li>
 
     fixModernizrFalsePositives : <span class="keyword">function</span>() {
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>The sony tablet s gets a false negative on generated content (pseudo elements)</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Settings.isSonyTabletS ) {
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>The sony tablet s gets a false negative on generated content (pseudo elements)</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !Modernizr.generatedcontent &amp;&amp; Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = <span class="literal">true</span>;
-        Settings.$html.removeClass(<span class="string">'no-generatedcontent'</span>).addClass(<span class="string">'generatedcontent sonytablets'</span>);
+        Settings.$html.removeClass(<span class="string">'no-generatedcontent'</span>).addClass(<span class="string">'generatedcontent'</span>);
+      }
+
+      <span class="keyword">if</span> ( Settings.isLTIE8 ) {
+        Modernizr.generatedcontent = <span class="literal">false</span>;
+        Settings.$html.removeClass(<span class="string">'generatedcontent'</span>).addClass(<span class="string">'no-generatedcontent'</span>);
       }
     }
 

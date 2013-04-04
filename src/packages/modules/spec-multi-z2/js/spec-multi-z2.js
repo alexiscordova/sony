@@ -330,7 +330,8 @@ define(function(require){
     },
 
     _setRowHeights : function( isFromResize ) {
-      var self = this;
+      var self = this,
+          groups = [];
 
       // Don't set row heights on mobile size. It's a single column, so it doesn't need to line up.
       if ( self.isMobile ) {
@@ -349,8 +350,11 @@ define(function(require){
             $cells = self.$specItems.find('.spec-item-cell:nth-child(' + (i + 3) + ')');
 
         // Loop through the cells (`.spec-item-cell`'s in the same 'row')
-        $cells.add($detailLabel).evenHeights();
+        $cells = $cells.add( $detailLabel );
+        groups.push( $cells );
       });
+
+      $.evenHeights( groups );
 
       // If this is not triggered from a window resize, we still need to update the offsets
       // because the heights have changed.

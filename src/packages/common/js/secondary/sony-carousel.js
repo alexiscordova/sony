@@ -134,7 +134,7 @@ define(function(require){
         'dragThreshold': self.dragThreshold,
         'containment': self.$wrapper,
         'useCSS3': self.useCSS3,
-        'drag': function(){ iQ.update(true); }
+        'drag': iQ.update
       });
 
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
@@ -375,6 +375,10 @@ define(function(require){
         return;
       }
 
+      if ( self.$paddleWrapper ) {
+        $wrapper = self.$paddleWrapper;
+      }
+
       self.paddlesInit = true;
 
       $wrapper.sonyPaddles();
@@ -531,6 +535,9 @@ define(function(require){
 
     // Create paddles.
     paddles: false,
+
+    // If selector is specified, insert paddles into a matching parent of $el.
+    $paddleWrapper: undefined,
 
     // Create dot pagination, which is inserted after self.$el.
     pagination: false
