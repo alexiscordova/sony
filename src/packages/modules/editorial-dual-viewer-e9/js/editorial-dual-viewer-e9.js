@@ -80,7 +80,7 @@ define(function(require){
 
       }
 
-      // If tablet/desktop, set bounds to desktop mode
+      /*// If tablet/desktop, set bounds to desktop mode
       enquire.register("(min-width: 480px)", function() {
         self.$scrubber.sonyDraggable('setBounds', self.getDragBounds('desktop'));
       });
@@ -88,7 +88,7 @@ define(function(require){
       // If mobile, set bounds to mobile mode
       enquire.register("(max-width: 479px)", function() {
         self.$scrubber.sonyDraggable('setBounds', self.getDragBounds('mobile'));
-      });
+      });*/
 
     },
 
@@ -123,9 +123,9 @@ define(function(require){
       if ( self.axis == 'x' ) {
         
         // If mobile mode, leave a little more space for the larger draggable handle
-        if ( mode == "mobile" ) {
+        /*if ( mode == "mobile" ) {
           minBounds = self.$dualViewContainer.width() * 0.16;
-        }
+        }*/
 
         return {
           'x': {
@@ -141,9 +141,9 @@ define(function(require){
         var containerHeight = self.$dualViewContainer.height();
 
         // If mobile mode, leave a little more space for the larger draggable handle
-        if ( mode == "mobile" ) {
+        /*if ( mode == "mobile" ) {
           minBounds = self.$dualViewContainer.height() * 0.27;
-        }
+        }*/
 
         return {
           'y': {
