@@ -4,7 +4,8 @@ include ../../../common/html/jade-helpers.jade
 .editorial-carousel-e13
   .container
     .grid
-      h6(class='t6-light')= data.title
+      h3(class='t3')= data.title
+      p(class='p3')= data.subtitle
   .container.products.pd-container
     .slimgrid
       section.editorial-carousel-e13-products(class="span12", data-mode=data.config.mode , data-variation=data.config.variation )
@@ -14,7 +15,15 @@ include ../../../common/html/jade-helpers.jade
             for item in data.slide
               a(class="gallery-item m-span4 span3 medium")
                 .gallery-item-inner
-                  div(class="headline-counter")= item.headline.title
+                  if item.headline
+                    div(class="headline-counter")
+                      span.p3= item.headline.nbPlayer
+                      span.p5= item.headline.player
                   img.iq-img(alt=item.alt, data-src-desktop=item.backgroundImgSrcDesktop, data-src-tablet=item.backgroundImgSrcTablet, data-src-phone=item.backgroundImgSrcPhone, data-src-desktop-highres=item.backgroundImgSrcDesktopHighRes, data-src-tablet-highres=item.backgroundImgSrcTabletHighRes, data-src-phone-highres=item.backgroundImgSrcPhoneHighRes)
                     noscript
                       img(src=item.noscriptsrc, alt=item.alt)
+                  div(class="infos")
+                    p(class='p4 title')= item.infos.title
+                    p(class='p4 players')
+                      span= item.infos.nbPlayer
+                      span.bold= item.infos.player

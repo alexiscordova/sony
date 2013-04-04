@@ -16,27 +16,27 @@
 //
 define(function(require){
 
-    'use strict';
+    //'use strict';
 
-    var $ = require('jquery'),
-        iQ = require('iQ'),
-        bootstrap = require('bootstrap'),
-        Settings = require('require/sony-global-settings'),
-        Environment = require('require/sony-global-environment'),
-        scroller = require('secondary/sony-scroller'),
-        evenHeights = require('secondary/sony-evenheights'),
-        sonyPaddles = require('secondary/sony-paddles'),
-        sonyNavDots = require('secondary/sony-navigationdots');
+    $ = require('jquery');
+    iQ = require('iQ');
+    bootstrap = require('bootstrap');
+    Settings = require('require/sony-global-settings');
+    Environment = require('require/sony-global-environment');
+    scroller = require('secondary/sony-scroller');
+    evenHeights = require('secondary/sony-evenheights');
+    sonyPaddles = require('secondary/sony-paddles');
+    sonyNavDots = require('secondary/sony-navigationdots');
 
-    var self = {
+    self = {
       'init': function() {
         $('.editorial-carousel-e13-products').editorialCarouselE13();
       }
     };
 
     //Related Products Definition
-    var EditorialCarouselE13 = function(element, options){
-      var self           = this,
+    EditorialCarouselE13 = function(element, options){
+      self           = this,
       transEndEventNames = {
         'WebkitTransition' : 'webkitTransitionEnd',
         'MozTransition'    : 'transitionend',
@@ -102,7 +102,7 @@ define(function(require){
       //Inital setup of module
       init: function(){
 
-        var self = this;
+        self = this;
 
         //Initialize media queries detection
         self.mqFix();
@@ -130,7 +130,7 @@ define(function(require){
       },
       //Fixes a bug in IE when media queries aren't available
       mqFix: function(){
-        var self = this;
+        self = this;
         
         if( !self.hasMediaQueries && self.isIE7orIE8 || self.oldIE){
           self.mq = function(){
@@ -140,7 +140,7 @@ define(function(require){
 
       },
       initAnimationProps: function(){
-        var self = this;
+        self = this;
 
         if(self.useCSS3Transitions) {
             self.use3dTransform = Modernizr.csstransforms3d;
@@ -173,7 +173,7 @@ define(function(require){
 
       },
       setupEasing: function(){
-        var self = this;
+        self = this;
 
         //Define easing equations
         self.css3Easing = {
@@ -184,7 +184,7 @@ define(function(require){
         };
       },
       initEvents: function(){
-        var self = this;
+        self = this;
         
         if(Modernizr.touch) {
             self.hasTouch         = true;
@@ -206,10 +206,10 @@ define(function(require){
 
        //Store gallery items orginal parent slide for teardown and rebuild
       storeGalleryItemParentSlides: function(){
-        var self = this;
+        self = this;
 
         self.$galleryItems.each(function(){
-          var $item = $(this);
+          $item = $(this);
           $item.data('slide' , $item.parent());
         });
       },
@@ -217,10 +217,10 @@ define(function(require){
       //Set up outbound links to not interfere with dragging between slides
       setupLinkClicks: function(){
 
-        var self = this;
+        self = this;
 
         self.$galleryItems.on( self.tapOrClick() , function(e){
-          var $item   = $(this),
+          $item   = $(this),
           destination = $item.attr('href'),
           point, distanceMoved;
 
@@ -250,16 +250,16 @@ define(function(require){
       setupStripMode: function(){
 
 
-        var self       = this,
-        containerWidth = self.$el.width(),
-        gutterWidth    = self.gutterWidth['default'] * containerWidth,
-        colWidth       = self.colWidth['default']    * containerWidth,
-        extraMarging   = 0,
-        slimGridW      = 0,
-        margeSlimGrid  = 0,
-        extraPct       = 1,
-        heightContainer     = 55 + 17 + 30,
-        marginLeftContainer = 0,
+        self       = this;
+        containerWidth = self.$el.width();
+        gutterWidth    = self.gutterWidth['default'] * containerWidth;
+        colWidth       = self.colWidth['default']    * containerWidth;
+        extraMarging   = 0;
+        slimGridW      = 0;
+        margeSlimGrid  = 0;
+        extraPct       = 1;
+        heightContainer     = 55 + 17 + 30;
+        marginLeftContainer = 0;
         numColumns     = 4;
 
         //reset
@@ -317,7 +317,7 @@ define(function(require){
         //clear out the position style on the gallery items
         self.$galleryItems.removeAttr('style');
 
-        var $galleryItemsFirst = self.$galleryItems.first();
+        $galleryItemsFirst = self.$galleryItems.first();
 
         if( self.$galleryItems.length <= numColumns)
         {
@@ -394,15 +394,15 @@ define(function(require){
 
         self.$win.on('resize.rp', $.debounce(50 , function() {
 
-          var containerWidth = self.$el.width(),
+          containerWidth = self.$el.width();
           gutterWidth        = self.gutterWidth['default'] * containerWidth;
           colWidth           = self.colWidth['default'] * containerWidth;
-          extraMarging       = 0,
-          slimGridW          = 0,
-          margeSlimGrid      = 0,
-          extraPct           = 1,
-          heightContainer    = 55 + 17 + 30,
-          marginLeftContainer  = 0,
+          extraMarging       = 0;
+          slimGridW          = 0;
+          margeSlimGrid      = 0;
+          extraPct           = 1;
+          heightContainer    = 55 + 17 + 30;
+          marginLeftContainer  = 0;
           numColumns         = 4;
 
           //reset
@@ -486,7 +486,7 @@ define(function(require){
             'margin'  : 0
           }); 
 
-          var newContainerHeight = self.$el.find('.gallery-item.medium').first().height() + heightContainer + 'px';
+          newContainerHeight = self.$el.find('.gallery-item.medium').first().height() + heightContainer + 'px';
 
           self.$el.css({
             'height'     : newContainerHeight,
@@ -504,7 +504,7 @@ define(function(require){
       },
 
       animationInit : function(){
-        var self    = this,
+        self    = this,
             animObj = {};
 
         //if( !self.useCSS3Transitions ) {
@@ -528,7 +528,7 @@ define(function(require){
       },
 
       tapOrClick: function(){
-        var self = this;
+        self = this;
         return self.hasTouch ? self.upEvent : self.clickEvent ;
       },
 
@@ -538,7 +538,7 @@ define(function(require){
 
       _onScrollerModuleUpdate: function(e){
         
-        var self = this;
+        self = this;
         self.scrollerModule._generatePagination( self.nbPages );
       }
 
@@ -547,15 +547,15 @@ define(function(require){
 
     //E13 Editorial Carousel definition on jQuery
     $.fn.editorialCarouselE13 = function(options) {
-      var args = arguments;
+      args = arguments;
       return this.each(function(){
-        var self = $(this);
-        if (typeof options === "object" ||  !options) {
+        self = $(this);
+        if (options instanceof Object || !options) {
           if( !self.data('editorialCarouselE13') ) {
             self.data('editorialCarouselE13', new EditorialCarouselE13(self, options));
           }
         } else {
-          var editorialCarouselE13 = self.data('editorialCarouselE13');
+          editorialCarouselE13 = self.data('editorialCarouselE13');
           if (editorialCarouselE13 && editorialCarouselE13[options]) {
               return editorialCarouselE13[options].apply(editorialCarouselE13, Array.prototype.slice.call(args, 1));
           }
@@ -572,89 +572,5 @@ define(function(require){
     };
 
     return self;
-
-});
-
-
-
-/*
-  Tab system for managing multiple
-  instances of related products
-*/
-$(function(){
-  /*
-    figure out tabbed stuff here and let that
-    module instantiate the related products that its bound to
-  */
-
-  if($('.rp-container-tabbed').length === 0){
-    $('.rp-tabs').hide();
-    return;
-  }
-
-  // Get transitionend event name
-  var transEndEventNames = {
-      'WebkitTransition' : 'webkitTransitionEnd',
-      'MozTransition'    : 'transitionend',
-      'OTransition'      : 'oTransitionEnd',
-      'msTransition'     : 'MSTransitionEnd',
-      'transition'       : 'transitionend'
-  },
-  transitionEndName;
-  transitionEndName = transEndEventNames[ window.Modernizr.prefixed('transition') ];
-
-  var $tabs = $('.rp-tabs').find('.rp-tab'),
-      currentPanelId = 1,
-      $currentPanel = $('.editorial-carousel-e13-products[data-rp-panel-id=' + currentPanelId + ']'),
-      $productPanels = $('.editorial-carousel-e13-products[data-rp-panel-id]');
-
-  $productPanels.not($currentPanel).css({
-    'opacity' : 0,
-    'z-index' : 0
-  });
-
-  $currentPanel.css({
-    'z-index' : 1
-  });
-
-  $tabs.eq(0).addClass('active');
-
-  if($tabs.length > 0){
-    var handleTabClick = function(e){
-      var $tab = $(this),
-      visibleObj = function(visibleBool , zIndx){
-        var cssO = {'visibility' : visibleBool === true ? 'visible' : 'hidden'};
-        if(zIndx !== undefined){
-          cssO.zIndex = zIndx;
-        }
-        return cssO;
-      };
-
-      e.preventDefault();
-      $tabs.removeClass('active');
-      $tab.addClass('active');
-
-      newPanelId = $tab.data('rpPanelId');
-
-      if(newPanelId === currentPanelId) {
-        return;
-      }
-      $oldPanel = $currentPanel;
-      currentPanelId = newPanelId;
-      $currentPanel = $('.editorial-carousel-e13-products[data-rp-panel-id='+ currentPanelId +']');
-
-      $oldPanel.css(visibleObj(true, 1));
-      $oldPanel.stop(true,true).animate({ opacity: 0 },{ duration: 500 , delay: 0 , complete: function(){
-        $oldPanel.css(visibleObj(false, 0));
-        $oldPanel.data('editorialCarouselE13').disableShuffle();
-      }});
-
-      $currentPanel.css(visibleObj(true, 1));
-      $currentPanel.data('editorialCarouselE13').enableShuffle();
-      $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500});
-    };
-
-    $tabs.on(window.Modernizr.touch ? 'touchend' : 'click' , handleTabClick);
-  }
 
 });

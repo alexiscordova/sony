@@ -17,17 +17,25 @@
 
 .editorial-carousel-e13 {
 
+  background-color:#f1f5f9;
   position:relative;
 
-  h6 {
-    margin-top:50px;
+  h3 {
+    color:$gray20;
+    margin-top:60px;
     margin-bottom:0;
+    text-align:center;
+  }
+
+  p.p3 {
+    color:$gray40;
+    margin-top: 28px;
     text-align:center;
   }
 
   .products {
 
-    margin-top: 25px;
+    margin-top: 50px;
 
     .p3 {
       margin-top :9px;
@@ -84,14 +92,43 @@
     }
 
     img {
+      cursor: pointer;
       display: block;
       max-height: 100%;
       width: 100%;
       margin: auto;
     }
+
+    img:hover{
+      @include opacity(90);
+    }
     
     .gallery-item-inner {
-      position:static;
+
+      
+      position:relative;
+
+      .headline-counter{
+
+        background-color:#e32f30;
+        font-weight: bold;
+        padding:0 0 0 15px;
+        position:absolute;
+        top:0;
+        width: 100%;
+        z-index: 1;
+
+        .p3, .p5{
+          color:$white;
+          margin:0;
+        }
+
+        .p5 {
+          margin:0 0 0 2px;
+          text-transform:uppercase;
+        } 
+      }
+
     }
 
     .normal{
@@ -153,27 +190,31 @@
 
   .gallery-item {
 
+    background-color: $white;
     overflow: inherit;
 
-    .product-img {
 
-      .product-img-wrap{
+    .infos{
+      background-color: $white;
+      padding: 12px 16px 18px 12px;
 
-        padding: 0 6.666666666%;
-
+      p{
+        color: $gray20;
       }
 
+      .title{
+        font-weight: bold;
+        margin-bottom:31px;
+      }
 
-    }
+      .players{
+        color:$gray20;
 
-    .product-img:after {
-      padding-top: 86.843137%;
-    }
+        .bold{
+          color:$gray40;
+          margin:0 0 0 4px;
+        }
 
-    @media screen and (max-width: 767px) {
-
-      .product-img:after {
-        padding-top: 0;
       }
 
     }
