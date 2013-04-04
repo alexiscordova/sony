@@ -109,7 +109,7 @@ define(function(require){
       var self = this,
           $measurements = self.$measurements;
 
-      console.log( '$measurements »' , $measurements);    
+      //console.log( '$measurements »' , $measurements);    
       
       $measurements.each(function() {
         $(this).addClass('on');
