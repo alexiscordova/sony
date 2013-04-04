@@ -20,7 +20,8 @@ include gallery-helpers.jade
 
   if data.tabs[2]
     .tab-pane.fade(data-tab=data.tabs[2].slug)
-      +productStrips( data.submodules, data.accessories, 'accessory' )
+      +accessoryFinder( data.submodules, data.accessories.accessoryFinder )
+      +productStrips( data.submodules, data.accessories.productStrips, 'accessory' )
 
   - for (i = 3; i < 10; i++) {
   if data.tabs[i]

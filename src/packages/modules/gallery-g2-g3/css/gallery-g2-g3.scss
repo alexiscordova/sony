@@ -208,6 +208,10 @@ $gifHeight: 60px;
     margin-bottom: 0;
   }
 
+  .product-count-wrap {
+    margin: 0;
+  }
+
   .product-count {
     padding-right: px-em(2, 13);
   }
@@ -231,6 +235,10 @@ $gifHeight: 60px;
   .btn + .btn {
     margin-left: .375em;
   }
+}
+
+.btn.accessory-finder {
+
 }
 
 .filter-options {
@@ -556,7 +564,7 @@ $gifHeight: 60px;
 
 // Tone bar
 // -------------------
-.tone-bar {
+.gallery .tone-bar {
   padding-top: px-em(19);
   padding-bottom: px-em(25);
   width: 100%;
@@ -580,7 +588,7 @@ $gifHeight: 60px;
   @include transition();
 }
 
-.tone-bar .legend {
+.gallery .tone-bar .legend {
   float: left;
   display: inline-block;
 }
@@ -884,5 +892,120 @@ $columnHeaderHeight: px-em(82);
     display: none !important;
   }
 }
+
+
+
+//        d8888                                                                              8888888888 d8b               888
+//       d88888                                                                              888        Y8P               888
+//      d88P888                                                                              888                          888
+//     d88P 888  .d8888b  .d8888b  .d88b.  .d8888b  .d8888b   .d88b.  888d888 888  888       8888888    888 88888b.   .d88888  .d88b.  888d888
+//    d88P  888 d88P"    d88P"    d8P  Y8b 88K      88K      d88""88b 888P"   888  888       888        888 888 "88b d88" 888 d8P  Y8b 888P"
+//   d88P   888 888      888      88888888 "Y8888b. "Y8888b. 888  888 888     888  888       888        888 888  888 888  888 88888888 888
+//  d8888888888 Y88b.    Y88b.    Y8b.          X88      X88 Y88..88P 888     Y88b 888       888        888 888  888 Y88b 888 Y8b.     888
+// d88P     888  "Y8888P  "Y8888P  "Y8888   88888P'  88888P'  "Y88P"  888      "Y88888       888        888 888  888  "Y88888  "Y8888  888
+//                                                                                 888
+//                                                                            Y8b d88P
+//                                                                             "Y88P"
+
+
+// Accessory Finder
+// ------------------
+
+.accessory-finder {
+  height: 100%;
+  margin-top: auto;
+  text-align: center;
+
+  &.fade.in {
+    top: 0;
+  }
+
+  & > .ghost-center {
+    max-width: $fluidContainerWidthMax-px;
+    max-height: px-em(900);
+  }
+
+  .modal-inner {
+    text-align: left;
+  }
+
+  .modal-header {
+    padding: px-em(40) 0 px-em(34);
+  }
+  .modal-body {
+    padding: px-em(42) 0 px-em(40);
+  }
+
+  .modal-subhead {
+    height: px-em(80);
+    padding: px-em(15) 0;
+    background: $gray80;
+  }
+
+  .search-form {
+    position: relative;
+    width: 40%;
+
+    .input-icon {
+      position: absolute;
+      left: px-em(13, 18);
+      top: 50%;
+      margin-top: px-em(-9, 18);
+      color: $gray50;
+      font-size: px-em(18);
+    }
+
+    #accessory-finder-input {
+      width: 100%;
+      height: px-em(50, 15);
+      border: 0;
+      margin: 0;
+      padding: 0 px-em(10, 15) 0 px-em(45, 15);
+      @include borderBox();
+    }
+  }
+
+  .help-container {
+    float: left;
+    margin-left: px-em(20);
+
+    i {
+      margin-right: 4px;
+    }
+  }
+
+  .modal-body {
+    overflow: auto;
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -45,6 +45,13 @@ define(function(require){
           }, 0);
         });
 
+        // Instantiate accessory finders
+        $('.af-module').each(function( i, el ) {
+          setTimeout(function() {
+            new AccessoryFinder( el );
+          }, 0);
+        });
+
         // Register for tab show(n) events here because not all tabs are galleries
         $('[data-tab]')
           .on('show', module.onGalleryTabShow )
@@ -2777,15 +2784,103 @@ define(function(require){
   };
 
 
-  var AccessoryFinder = function() {
+  var AccessoryFinder = function( element, options ) {
+      var self = this;
 
+      $.extend( self, AccessoryFinder.options, options, AccessoryFinder.settings );
+
+
+      self.$container = $( element );
+      self.init();
+      self.$container.data( 'accessoryFinder', self );
+
+      log('SONY : ProductSummary : Initialized');
   };
 
   AccessoryFinder.prototype = {
     constructor: AccessoryFinder,
 
     init : function() {
+      var self = this;
 
+
+      self.$grid = self.$container.find('.products');
+      self.$popoverTriggers = self.$container.find('.js-popover-trigger');
+
+      self
+        .initPopover()
+        .initModal();
+    },
+
+    initPopover: function() {
+      var self = this,
+          $triggers = self.$popoverTriggers;
+
+      $triggers.each(function() {
+        var $trigger = $(this);
+
+        $trigger.popover({
+          placement: 'in offsetright',
+          trigger: 'click',
+          // getArrowOffset : function() {
+          //   var containerWidth = self.$filterOpts.find('.filter-container').first().parent().width(),
+          //       columnWidth = self.$filterOpts.find('.filter-container').first().width();
+
+          //   return containerWidth - columnWidth;
+          // },
+          // getWidth: function() {
+          //   // get the width of the filter-container's parent
+          //   return self.$filterOpts.find('.filter-container').first().parent().width();
+          // },
+          content: function() {
+            return $(this).find('.js-popover-content').html();
+          }
+        });
+      });
+
+      // Hide other popovers when another is clicked
+      // $triggers.on('tipshow', function() {
+      //   var $trigger = $(this);
+      //   $triggers.not( $trigger ).popover('hide');
+      // });
+      return self;
+    },
+
+    initModal : function() {
+      var self = this;
+
+      return self;
+    },
+
+    initShuffle : function() {
+      var self = this;
+
+      self.$grid.on('loading.shuffle', $.proxy( self.onGalleryLoading, self ));
+      self.$grid.on('done.shuffle', $.proxy( self.onGalleryDoneLoading, self ));
+
+      // instantiate shuffle
+      self.$grid.shuffle({
+        itemSelector: self.itemSelector,
+        speed: Settings.shuffleSpeed,
+        easing: Settings.shuffleEasing,
+        columnWidth: Utilities.masonryColumns,
+        gutterWidth: Utilities.masonryGutters,
+        showInitialTransition: false,
+        hideLayoutWithFade: true,
+        sequentialFadeDelay: 60,
+        buffer: 8
+      });
+
+      // Save ref to shuffle
+      self.shuffle = self.$grid.data('shuffle');
+
+      // Relayout when images load
+      self.$grid.find('.iq-img').on('imageLoaded', $.debounce( 200, $.proxy( self.shuffle.layout, self.shuffle ) ) );
+
+      // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
+      self.$grid.on( 'layout.shuffle', iQ.update );
+
+      return self;
     },
 
     getSorter : function() {
@@ -2795,8 +2890,35 @@ define(function(require){
       };
     },
     getSortObject : Gallery.prototype.getSortObject,
-    sort : Gallery.prototype.sort
+    sort : Gallery.prototype.sort,
 
+
+
+    onModalShow : function() {
+
+    },
+
+    onModalShown : function() {
+      var self = this;
+
+      self.initShuffle();
+    },
+
+    onModalClosed : function() {
+      var self = this;
+
+      self.shuffle.destroy();
+    }
+
+  };
+
+  AccessoryFinder.options = {
+    abc : 'xyz'
+  };
+
+  AccessoryFinder.settings = {
+    isDesktop: false,
+    isMobile: false
   };
 
 

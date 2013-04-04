@@ -56,14 +56,17 @@ mixin filterGroup( filterSet )
       mediaObject = li + btn + body + '</li>'
       | !{ mediaObject }
 
-mixin helpPopover( help, pullRight )
+mixin helpPopover( help, pullRight, circleOnLeft )
   pullRight = pullRight || false
   classes = 'help-container js-popover-trigger'
   - if ( pullRight ) classes += ' pull-right'
   div(class=classes, data-original-title=help.title)
+    if circleOnLeft
+      i.fonticon-10-circle-q
     if help.label
       span.p4.help-label= help.label
-    i.fonticon-10-circle-q
+    if !circleOnLeft
+      i.fonticon-10-circle-q
     +popoverContent( help )
 
 mixin popoverContent( help )
@@ -102,20 +105,23 @@ mixin filterSet( filterSet )
       +filterGroup( filterSet )
 
 
-mixin galleryFilters( gallery, isCompareGallery )
+mixin galleryFilters( gallery, isCompareGallery, noGridClasses )
   compareStr = isCompareGallery ? 'Browse' : 'Compare'
-  sortByStr = 'Sort By:'
-  productsStr = 'Products'
+  sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
+  productsStr = gallery.productsStr ? gallery.productsStr : 'Products'
   filterStr = 'Filter'
   compareBrowseLink = isCompareGallery ? gallery.browseLink : gallery.compareLink
-  - console.log(gallery.browseLink, gallery.compareLink)
-  - console.log('glen')
   compareBrowseLink = compareBrowseLink ? compareBrowseLink : '#'
+  wrapperClass = 'filter-display-bar slide-toggle-parent'
+  gridClass = ''
+  - if ( !noGridClasses ) {
+    - wrapperClass = 'container ' + wrapperClass
+    - gridClass = 'grid no-grid-at-767'
+  - }
 
-  .container.filter-display-bar.slide-toggle-parent
+  div(class=wrapperClass)
     if gallery.sortSet
-      .grid.no-grid-at-767
-
+      div(class=gridClass)
 
         //- Product Count
         span.p3.ib.product-count-wrap
@@ -141,7 +147,7 @@ mixin galleryFilters( gallery, isCompareGallery )
             i.fonticon-10-sm-bold-plus
 
         //- Sort options
-        +sorter( gallery.sortSet )
+        +sorter( gallery.sortSet, sortByStr )
 
 
   if gallery.filterSet
@@ -173,9 +179,7 @@ mixin galleryFilters( gallery, isCompareGallery )
     .grid.active-filters(data-clear-label="Clear All")
 
 
-mixin sorter( sortSet )
-  text = 'Sort By:'
-
+mixin sorter( sortSet, text )
   .sort-options.pull-right
     label.l3.filter-label(for="select-sort-by")= text
     span.dropdown.dropdown-alt.ib
@@ -211,6 +215,7 @@ mixin featuredGallery( submodules, gallery, type )
   gallery = gallery || data.featured
   type = type || 'product'
   i = 0
+
   section.gallery.fade.container((id=gallery.name + '-gallery', data-mode=gallery.mode)
     .grid
       h2.t6.featured-gallery-title= gallery.title
@@ -232,6 +237,7 @@ mixin detailedGallery( submodules, gallery, type )
   submodules = submodules || data.submodules
   gallery = gallery || data.productCards
   type = type || 'product'
+
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
     +galleryFilters( gallery )
 
@@ -262,6 +268,7 @@ mixin compareGallery( submodules, gallery, type, labels )
   resetLabel = gallery.resetLabel || 'do things'
 
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
+    - console.log('compare gallery filters')
     +galleryFilters( gallery, true )
 
     .tone-bar
@@ -315,6 +322,7 @@ mixin compareGallery( submodules, gallery, type, labels )
                 !{locals.partial( module.type, e )}
 
     +zeroProductsMessage( gallery )
+    - console.log('done with compare gallery')
 
 
 
@@ -343,37 +351,51 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
 
 mixin accessoryFinder( submodules, finder )
   submodules = submodules ? submodules : data.submodules
-  .notblank
+  finder = finder ? finder : data.accessories.accessoryFinder
+  buttonStr = 'Accessory Finder'
+  type = type || 'product'
+
+  .af-module
+    .container
+      .grid
+        button.btn.accessory-finder
+          | !{ buttonStr }
+          i.fonticon-10-sm-bold-plus
+
+    #accessory-finder-modal.accessory-finder.modal.fade.in.ghost-center-wrap(tabindex="-1", role="dialog", aria-labelledby="accessory-modal-title", aria-hidden="true")
+      .container.ghost-center
+        .modal-inner
+          .modal-header.grid
+            h4.t4#accessory-modal-title= finder.title
+            p.p3= finder.subtitle
+            button.box-close(data-dismiss="modal", aria-hidden="true")
+              i.fonticon-10-x-skinny
+          .modal-subhead
+            .grid
+              .search-form.pull-left
+                i.fonticon-10-search.input-icon
+                label.visuallyhidden(for="accessory-finder-input")
+                input(class="p2", id="accessory-finder-input", type="search", placeholder=finder.placeholder)
+              +helpPopover( finder.help, undefined, true )
+          .modal-body
+            .grid
+              +galleryFilters( finder, false, true )
+
+            .products.slimgrid.m-grid-at-767
+              each module in submodules
+                d = locals.data(module.data)
+                if d.type == type
+                  - d.view = "compatibility"
+                  e = { "locals" : locals, "data" : d }
+                  !{locals.partial( module.type, e )}
+
+
 
 mixin productStrips( submodules, strips, type )
   submodules = submodules || data.submodules
   type = type || 'accessory'
+
   section
-    //- .slide-toggle-parent.container
-    //-   button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target="#IDGOESHERE")
-    //-     | Accessory Finder
-    //-     i.icon-ui-arrowhead-up-white.up.hide
-    //-     i.icon-ui-arrowhead-down-white.down
-    //- .container.slide-arrow-under.fade
-    //-   .relative
-    //-     .slide-toggle-arrow
-    //- .container.slide-arrow-over.fade
-    //-   .relative
-    //-     .slide-toggle-arrow
-
-    //- .collapse.slide-toggle-target(id="IDGOESHERE")
-    //-   .container
-    //-     .grid.no-grid-at-767
-    //-       h1 Collapse
-    //-       h2 Collapse
-    //-       h3 Collapse
-    //-       h4 Collapse
-    //-       h5 Collapse
-    //-       h6 Collapse
-
-
-    //- .spacer
-
     .container
       each strip in strips
         .slimgrid5.m-grid-at-767.product-strip-wrap
