@@ -61,7 +61,7 @@ mixin copyblock(copyobject, titleclass, subtitleclass, bodyclass)
     p(class = bodyclass) !{copyobject.body}
   if copyobject.link
     a(class= copyobject.link.type, href= copyobject.link.url) !{copyobject.link.text}
- 
+
 mixin textonlylayout(layout)
   layout = layout || data.layout
   if layout.text == "full"
@@ -81,7 +81,7 @@ if data.variation
       +gridstyle
         +textonlylayout
           +copyblock
-  
+
   else if data.layout.media == "full"
     if data.layout.inner == "true"
       .container.submodule
@@ -115,30 +115,50 @@ if data.variation
         +copyblock(data, "t3", "t7", "p3")
 
   else if data.layout.media == "tout"
-    if data.columns.length == 1
-      e = {"locals":locals, "data":data.columns[0].image}
-      !{locals.partial('packages/modules/image/html/image.jade' , e)}
-      +copyblock(data.columns[0], "t5", "", "p3")
-      if data.layout.text == "right"
-        p 1up mediaright
-      else
-        p 1up medialeft
-      
-    else if data.columns.length == 2
-      for col in data.columns
-        e = {"locals":locals, "data":col.image}
-        !{locals.partial('packages/modules/image/html/image.jade' , e)}
-        if data.layout.orientation == "vertical"
-          +copyblock(col,"t5", "", "p3")
+    columnoffset = data.layout.columnoffset || 0;
+    offset = "offset" + columnoffset;
+    +gridstyle
+      if data.columns.length == 1
+        e = {"locals":locals, "data":data.columns[0].image}
+        if data.layout.text == "right"
+          span = "span"+ data.layout.columns[columnoffset]
+          div(class= span)(class= offset)
+            !{locals.partial('packages/modules/image/html/image.jade' , e)}
+          span = "span"+ data.layout.columns[columnoffset +1]
+          div(class= span)
+            +copyblock(data.columns[0], "t5", "", "p3")
+
         else
-          +copyblock(col, "t7", "", "p3") 
-      
-    else if data.columns.length == 3
-      for col in data.columns
-        e = {"locals":locals, "data":col.image}
-        !{locals.partial('packages/modules/image/html/image.jade' , e)}
-        +copyblock(col,"t5", "", "p3")
-    
-    
+          span = "span"+ data.layout.columns[columnoffset]
+          div(class= span)(class= offset)
+            +copyblock(data.columns[0], "t5", "", "p3")
+          span = "span"+ data.layout.columns[columnoffset +1]
+          div(class= span)
+            !{locals.partial('packages/modules/image/html/image.jade' , e)}
+
+
+      else if data.columns.length == 2
+        for col, i in data.columns
+          e = {"locals":locals, "data":col.image}
+          span = "span"+ data.layout.columns[i + columnoffset]
+          offset = i == 0 ? "offset"+columnoffset : ""
+          if data.layout.orientation == "vertical"
+            .vertical(class= span)(class = offset)
+              !{locals.partial('packages/modules/image/html/image.jade' , e)}
+              +copyblock(col,"t5", "", "p3")
+          else
+            .horizontal(class= span)(class = offset)
+              !{locals.partial('packages/modules/image/html/image.jade' , e)}
+              +copyblock(col, "t7", "", "p3")
+
+      else if data.columns.length == 3
+        for col, i in data.columns
+          e = {"locals":locals, "data":col.image}
+          span = "span"+ data.layout.columns[i]
+          div(class = span)
+            !{locals.partial('packages/modules/image/html/image.jade' , e)}
+            +copyblock(col,"t5", "", "p3")
+
+
 
 
