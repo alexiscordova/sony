@@ -1,3 +1,11 @@
+$outerStroke: 5px;
+$innerDiameter: 71.428571428571%; /* 40px */
+$centerRatio: (28.571428571429% / 2);
+$indicatorRatio: 35%; /* 14px / 40px = 35% */
+$indicatorOffset: 15%;
+$indicatorRotateSpeed: .25s;
+$transitionSpeed: .5s;
+
 @media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
   .variant1 {
     .middle {
@@ -22,4 +30,89 @@
     }
   }
 
+}
+
+@media (max-width: px-em(768px)) {
+  .ehs {
+    .variant1 {
+      &.three-stack-right-top-justified {
+        top: -159px;
+        left: 63px;
+      }
+        
+      &.three-stack-left-top-justified {
+        top: -159px;
+        left: -288px;
+      }
+      
+      &.three-stack-right-bottom-justified {
+        top: -284px;
+        left: 63px;
+      }
+        
+      &.three-stack-left-bottom-justified {
+        left: -288px;
+        top: -284px;
+      }
+      
+      &.two-stack-right-top-justified {
+        top: -25px;
+        left: 42px;
+      }
+        
+      &.two-stack-left-top-justified {
+        top: -25px;
+        left: -288px;
+      }
+      
+      &.two-stack-right-bottom-justified {
+        top: -149px;
+        left: 42px;
+      }
+        
+      &.two-stack-left-bottom-justified {
+        top: -149px;
+        left: -288px;        
+      }
+    }
+    .variant2 {
+      
+    }
+  }
+  .hspot-outer {
+    height: 30px;
+    width: 30px;
+    .hspot-core {
+      height: 25px;
+      width: 25px;
+      -moz-box-shadow: 0 0 0 5px rgba($gray30, 0.3);
+      -webkit-box-shadow: 0 0 0 5px rgba($gray30, 0.3);
+      box-shadow: 0 0 0 5px rgba($gray30, 0.3);
+      .hspot-indicator {
+        padding: 0 0 0 33.5%;
+        img {
+          margin-top: -3px;
+          width: 9px;
+          height: 9px;
+          
+        }
+      }
+    }
+    .hspot-core-on {
+      height: 25px;
+      width: 25px;
+      -moz-box-shadow: 0 0 0 5px rgba($gray30, 0.3);
+      -webkit-box-shadow: 0 0 0 5px rgba($gray30, 0.3);
+      box-shadow: 0 0 0 5px rgba($gray30, 0.3);
+      .hspot-indicator {
+        padding: 0 0 0 33.5%;
+        img {
+          margin-top: -3px;
+          width: 9px;
+          height: 9px;
+        }
+      }
+    }
+
+  }
 }

@@ -53,8 +53,7 @@ define(function(require) {
     // TRANSITION VARIABLES
     self.$transitionSpeed                = 500;
     self.$lastTimer                      = null;
-    self.curX                            = null;
-    self.curY                            = null;
+    
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -99,24 +98,12 @@ define(function(require) {
       $( el ).css( "left", xAnchor );
       $( el ).css( "top", yAnchor );
       
-      /*
-var pos = $( el ).position();
-      
-      self.curX = pos.left;
-      self.curY = pos.top;
-      
-      self.percToPixels(self.curX, self.curY);
-*/
-      
       self.$hotspotData.push({
         el: el,
         xAnchor: xAnchor,
         yAnchor: yAnchor,
         open: false
       });
-    },
-    percToPixels: function() {
-      
     },
     show: function( el ) {
       
