@@ -113,7 +113,7 @@ mixin galleryFilters( gallery, isCompareGallery, noGridClasses )
   compareBrowseLink = isCompareGallery ? gallery.browseLink : gallery.compareLink
   compareBrowseLink = compareBrowseLink ? compareBrowseLink : '#'
   wrapperClass = 'filter-display-bar slide-toggle-parent'
-  gridClass = ''
+  gridClass = 'clearfix'
   - if ( !noGridClasses ) {
     - wrapperClass = 'container ' + wrapperClass
     - gridClass = 'grid no-grid-at-767'
@@ -175,8 +175,8 @@ mixin galleryFilters( gallery, isCompareGallery, noGridClasses )
                 if filterSet.filterGroup == 3
                   +filterSet( filterSet )
 
-  .container.active-filters-wrap
-    .grid.active-filters(data-clear-label="Clear All")
+    .container.active-filters-wrap
+      .grid.active-filters(data-clear-label="Clear All")
 
 
 mixin sorter( sortSet, text )
@@ -358,12 +358,12 @@ mixin accessoryFinder( submodules, finder )
   .af-module
     .container
       .grid
-        button.btn.accessory-finder
+        button.btn.accessory-finder(data-toggle="modal", data-target="#accessory-finder-modal")
           | !{ buttonStr }
           i.fonticon-10-sm-bold-plus
 
-    #accessory-finder-modal.accessory-finder.modal.fade.in.ghost-center-wrap(tabindex="-1", role="dialog", aria-labelledby="accessory-modal-title", aria-hidden="true")
-      .container.ghost-center
+    #accessory-finder-modal.accessory-finder.modal.fade.hide(tabindex="-1", role="dialog", aria-labelledby="accessory-modal-title", aria-hidden="true")
+      .container
         .modal-inner
           .modal-header.grid
             h4.t4#accessory-modal-title= finder.title
@@ -371,20 +371,20 @@ mixin accessoryFinder( submodules, finder )
             button.box-close(data-dismiss="modal", aria-hidden="true")
               i.fonticon-10-x-skinny
           .modal-subhead
-            .grid
+            .grid.filter-container
               .search-form.pull-left
                 i.fonticon-10-search.input-icon
                 label.visuallyhidden(for="accessory-finder-input")
                 input(class="p2", id="accessory-finder-input", type="search", placeholder=finder.placeholder)
               +helpPopover( finder.help, undefined, true )
           .modal-body
-            .grid
+            .grid.compat-filters
               +galleryFilters( finder, false, true )
 
-            .products.slimgrid.m-grid-at-767
+            .slimgrid.m-grid-at-767.products
               each module in submodules
                 d = locals.data(module.data)
-                if d.type == type
+                if d.type == type && !d.promo
                   - d.view = "compatibility"
                   e = { "locals" : locals, "data" : d }
                   !{locals.partial( module.type, e )}

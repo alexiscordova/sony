@@ -1038,6 +1038,8 @@ define(function(require){
       if ( ua.indexOf('firefox') > -1 || ua.indexOf('msie') > -1 ) {
         self.$sortSelect.parent().addClass('moz-ie');
       }
+
+      return self;
     },
 
     initInfscr : function() {
@@ -2785,16 +2787,20 @@ define(function(require){
 
 
   var AccessoryFinder = function( element, options ) {
-      var self = this;
+    var self = this;
 
-      $.extend( self, AccessoryFinder.options, options, AccessoryFinder.settings );
+    $.extend( self, AccessoryFinder.options, options, AccessoryFinder.settings );
 
 
-      self.$container = $( element );
+    self.$container = $( element );
+
+    // Defer initialization
+    setTimeout(function() {
       self.init();
       self.$container.data( 'accessoryFinder', self );
 
       log('SONY : ProductSummary : Initialized');
+    }, 0);
   };
 
   AccessoryFinder.prototype = {
@@ -2803,13 +2809,32 @@ define(function(require){
     init : function() {
       var self = this;
 
+      // Modal pieces
+      self.$modal = self.$container.find('#accessory-finder-modal');
+      self.$modalBody = self.$modal.find('.modal-body');
+      self.$modalHeader = self.$modal.find('.modal-header');
+      self.$modalSubhead = self.$modal.find('.modal-subhead');
 
+      // Components
       self.$grid = self.$container.find('.products');
+      self.$items = self.$grid.find( self.itemSelector );
+      self.$productCount = self.$container.find('.product-count');
       self.$popoverTriggers = self.$container.find('.js-popover-trigger');
+      self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
+      self.$sortSelect = self.$container.find('.sort-options select');
+      self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
+      self.$searchField = self.$container.find('#accessory-finder-input');
 
+      // Initialize components
       self
+        .onResize( true )
         .initPopover()
-        .initModal();
+        .initModal()
+        .initSorting()
+        .initSearch();
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
     },
 
     initPopover: function() {
@@ -2820,34 +2845,50 @@ define(function(require){
         var $trigger = $(this);
 
         $trigger.popover({
-          placement: 'in offsetright',
+          placement: 'in bottom',
           trigger: 'click',
-          // getArrowOffset : function() {
-          //   var containerWidth = self.$filterOpts.find('.filter-container').first().parent().width(),
-          //       columnWidth = self.$filterOpts.find('.filter-container').first().width();
-
-          //   return containerWidth - columnWidth;
-          // },
-          // getWidth: function() {
-          //   // get the width of the filter-container's parent
-          //   return self.$filterOpts.find('.filter-container').first().parent().width();
-          // },
           content: function() {
             return $(this).find('.js-popover-content').html();
           }
         });
       });
 
-      // Hide other popovers when another is clicked
-      // $triggers.on('tipshow', function() {
-      //   var $trigger = $(this);
-      //   $triggers.not( $trigger ).popover('hide');
-      // });
       return self;
     },
 
     initModal : function() {
       var self = this;
+
+      // Listen for modal events
+      self.$modal.on( 'show', $.proxy( self.onModalShow, self ) );
+      self.$modal.on( 'shown', $.proxy( self.onModalShown, self ) );
+      self.$modal.on( 'hidden', $.proxy( self.onModalClosed, self ) );
+
+      return self;
+    },
+
+    initSearch : function() {
+      var self = this,
+
+      keyup = function() {
+        // Value they've entered
+        var val = this.value.toLowerCase();
+
+        // Filter elements based on if their string exists in the product model or product name
+        self.shuffle.shuffle(function( $el ) {
+          var $searchable = $el.find('.product-model, .product-name'),
+              text = $.trim( $searchable.text() ).toLowerCase();
+
+          return text.indexOf(val) !== -1;
+        });
+
+        // Update the count
+        self.$productCount.text( self.shuffle.visibleItems );
+      },
+
+      debouncedKeyup = $.debounce( 50, keyup );
+
+      self.$searchField.on( 'keyup change', debouncedKeyup );
 
       return self;
     },
@@ -2889,12 +2930,49 @@ define(function(require){
         fn: this.shuffle.sort
       };
     },
+    initSorting : Gallery.prototype.initSorting,
     getSortObject : Gallery.prototype.getSortObject,
     sort : Gallery.prototype.sort,
 
+    onResize : function( isInit ) {
+      var self = this,
+          maxModalHeight,
+          modalHeaderHeight,
+          maxBodyHeight;
 
+      // False for event objects
+      isInit = isInit === true;
+
+
+      if ( !isInit ) {
+        // Caculate how much room the modal body has
+        self.screenHeight = self.$window.height();
+        // Constrain the modal height to less than 900
+        maxModalHeight = Math.min( 0.9 * self.screenHeight, 900 );
+        modalHeaderHeight = self.$modalHeader.outerHeight() + self.$modalSubhead.outerHeight();
+        maxBodyHeight = maxModalHeight - modalHeaderHeight;
+
+        // Set it
+        self.$modalBody.css( 'maxHeight', maxBodyHeight );
+      }
+
+      return self;
+    },
+
+    onModalBodyScroll : function() {
+      var self = this;
+
+      if ( !self.isTicking ) {
+        self.isTicking = true;
+        self.lastScrollY = self.$modalBody.scrollTop();
+        requestAnimationFrame(function() {
+          self.updateStickyNav();
+        });
+      }
+    },
 
     onModalShow : function() {
+      var self = this;
 
     },
 
@@ -2902,12 +2980,51 @@ define(function(require){
       var self = this;
 
       self.initShuffle();
+
+      iQ.update();
+
+      // Update max height for modal body
+      self.onResize();
+
+      // Listen for scroll events on the modal body
+      self.$modalBody.on( 'scroll', $.proxy( self.onModalBodyScroll, self ) );
     },
 
     onModalClosed : function() {
       var self = this;
 
       self.shuffle.destroy();
+
+      self.$modalBody.off('scroll');
+
+      // Remove scrolled class if it exists
+      if ( self.$modalSubhead.hasClass('body-scrolled') ) {
+        self.$modalSubhead.removeClass('body-scrolled');
+      }
+
+      // Clear out the search field
+      self.$searchField.val( '' );
+    },
+
+    updateStickyNav : function() {
+      var self = this,
+          scrollY = self.lastScrollY,
+          theClass = 'body-scrolled';
+
+      // Scrolled at least two pixels on the modal body
+      if ( scrollY > 1 ) {
+        if ( !self.$modalSubhead.hasClass( theClass ) ) {
+          self.$modalSubhead.addClass( theClass );
+        }
+
+      } else {
+        if ( self.$modalSubhead.hasClass( theClass ) ) {
+          self.$modalSubhead.removeClass( theClass );
+        }
+
+      }
+
+      self.isTicking = false;
     }
 
   };
@@ -2918,7 +3035,10 @@ define(function(require){
 
   AccessoryFinder.settings = {
     isDesktop: false,
-    isMobile: false
+    isMobile: false,
+    isTicking: false,
+    itemSelector: '.compat-item',
+    $window: Settings.$window
   };
 
 

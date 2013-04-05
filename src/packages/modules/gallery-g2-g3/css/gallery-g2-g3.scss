@@ -912,34 +912,81 @@ $columnHeaderHeight: px-em(82);
 // ------------------
 
 .accessory-finder {
-  height: 100%;
   margin-top: auto;
-  text-align: center;
+  height: auto;
+  max-height: 90%;
 
   &.fade.in {
-    top: 0;
+    top: 5%;
   }
 
-  & > .ghost-center {
-    max-width: $fluidContainerWidthMax-px;
-    max-height: px-em(900);
+  .container {
+    max-height: 100%;
   }
 
   .modal-inner {
-    text-align: left;
+    overflow: hidden;
   }
 
   .modal-header {
-    padding: px-em(40) 0 px-em(34);
-  }
-  .modal-body {
-    padding: px-em(42) 0 px-em(40);
+    padding: px-em(36) 0 px-em(30);
+
+    #accessory-modal-title {
+      line-height: 1;
+      margin-bottom: 7px;
+    }
+
+    p {
+      margin: 0;
+    }
   }
 
   .modal-subhead {
+    position: relative;
+    z-index: 5;
     height: px-em(80);
     padding: px-em(15) 0;
     background: $gray80;
+    @include transition( box-shadow $transitionNormal $easeNormal );
+
+    &.body-scrolled {
+      @include box-shadow( 0 6px 10px -4px $stickyShadowColor );
+    }
+
+    // Reset styles from main gallery
+    .filter-container {
+      position: static;
+      max-width: none;
+      margin: auto;
+    }
+  }
+
+  .modal-body {
+    padding: px-em(42) 0 px-em(40);
+    // @include transition( box-shadow $transitionNormal $easeNormal );
+
+    // &.content-above::after {
+    //   @include box-shadow( inset 0 6px 10px -5px $stickyShadowColor );
+    // }
+  }
+
+  // Put the sorting above the products to handle the negative margin top
+  .compat-filters {
+    position: relative;
+    z-index: 2;
+  }
+
+  .product-count-wrap {
+    float: left;
+    margin-top: px-em(11);
+  }
+
+  .products {
+    position: relative;
+    z-index: 1;
+    margin-top: px-em(-50);
+    height: 400px;
+    overflow: hidden;
   }
 
   .search-form {
@@ -962,23 +1009,122 @@ $columnHeaderHeight: px-em(82);
       margin: 0;
       padding: 0 px-em(10, 15) 0 px-em(45, 15);
       @include borderBox();
+
+      .lt-ie9 & {
+        padding-top: 10px;
+      }
     }
   }
 
+  // Help popover
   .help-container {
     float: left;
+    margin-top: px-em(10);
     margin-left: px-em(20);
+    min-width: px-em(300);
+    text-align: left;
 
-    i {
+    .help-label {
+      padding-right: 0;
+      color: $gray40;
+    }
+
+    .no-touch & .help-label:hover {
+      color: $gray20;
+    }
+
+    i.fonticon-10-circle-q {
       margin-right: 4px;
     }
   }
 
   .modal-body {
-    overflow: auto;
+    // overflow: auto;
+
+  }
+}
+
+// Each compatibility item
+.compat-item {
+  position: relative;
+  margin-top: px-em(50);
+
+  .accessory-finder & {
+    margin-left: 0;
   }
 
+  .compat-item-inner {
+    width: 100%;
+    height: 100%;
+    @include transition();
+  }
 
+  .no-touch &:hover .compat-item-inner {
+    background: $gray80;
+    @include box-shadow(0 0 0 4px $gray80);
+  }
+
+  .product-img,
+  .product-content {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .product-img {
+    max-width: 28%;
+    background: $gray80;
+  }
+
+  .product-img .product-img-wrap {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  // non webkit browsers need this
+  .product-img img {
+    width: 100%;
+  }
+
+  // yep
+  .lt-ie9 & .product-img,
+  .lt-ie9 & .product-img .ghost-center,
+  .lt-ie9 & .product-img img {
+    width: px-em(80);
+    height: px-em(61);
+  }
+
+  .product-content {
+    padding-left: 1em;
+    margin-top: 0;
+    max-width: 72%;
+
+    .lt-ie9 & {
+      width: px-em(206);
+      height: px-em(79);
+    }
+    .lt-ie8 & {
+      width: px-em(190);
+    }
+  }
+
+  .product-content .product-model {
+    color: $gray20;
+  }
+
+  .product-content .product-name {
+    color: $gray40;
+  }
+
+  .product-content .product-total {
+    margin-bottom: 0;
+
+    .total {
+      color: $gray10;
+      padding-right: 4px;
+    }
+  }
 }
 
 
