@@ -96,6 +96,8 @@ define(function(require){
       self.$containment.on(_moveEvents, $.proxy(self.scrubbingThreshold, self));
 
       self.$el.trigger('sonyDraggable:dragStart');
+
+      self.$el.find('.handle').addClass('dragging');
     },
 
     // Logic for controlling the threshold before which *horizontal* scrubbing can occur on touch devices.
@@ -168,6 +170,8 @@ define(function(require){
       self.$el.trigger('sonyDraggable:dragEnd', {
         'acceleration': self.acceleration
       });
+
+      self.$el.find('.handle').removeClass('dragging');
     },
 
     // Smooths out different event data for desktop and touch users, returns a consistent pageX/Y.

@@ -83,6 +83,17 @@ define(function(require){
       // Set initial scrubber position to the middle of the viewer
       self.$scrubber.sonyDraggable('setPositions', {x: 50, y:50});
 
+      // If Dual Viewer has never been hovered over, pulse handle to hover state and back
+      self.$dualViewContainer.hover(function(){
+        if ( !self.$dualViewContainer.hasClass('hovered') ) {
+          self.$dualViewContainer.addClass('hovered');
+          self.$scrubber.find('.handle').addClass('dragging');
+          setTimeout(function(){
+            self.$scrubber.find('.handle').removeClass('dragging');
+          }, 200);
+        }
+      });
+
     },
 
     // We just need the images to be ready *enough* to provide dimensions.
@@ -106,16 +117,6 @@ define(function(require){
       }
     },
 
-    // Based on the current bounds, Reset the position of the scrubber via
-    // [SonyDraggable's](sony-draggable.html) *setBounds* method.
-    
-    'setPositions': function() {
-      var self = this,
-          bounds = self.getDragBounds();
-
-      self.$scrubber.sonyDraggable('setBounds', bounds);
-    },
-
     // As [SonyDraggable](sony-draggable.html) returns scrubbing changes, update the top
     // slide's width or height to match, and adjust the image container's width by that
     // percentage's inverse to maintain the desired positioning.
@@ -129,8 +130,8 @@ define(function(require){
         self.$topSlideImageContainer.css('width', 10000 / (e.position.left) + '%');
 
         // If scrubber comes close to edge, hide caption for hidden image
-        (e.position.left <= 20) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
-        (e.position.left <= 80) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
+        (e.position.left <= 25) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
+        (e.position.left <= 75) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
 
       } else if ( self.axis == 'y' ) {
 
@@ -138,8 +139,8 @@ define(function(require){
         self.$topSlideImageContainer.css('height', 10000 / (e.position.top) + '%');
 
         // If scrubber comes close to edge, hide caption for hidden image
-        (e.position.top <= 20) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
-        (e.position.top <= 80) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
+        (e.position.top <= 25) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
+        (e.position.top <= 75) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
 
       }
     }
