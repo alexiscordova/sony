@@ -6,8 +6,40 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
-  
+  .editorial.mediaright,
+  .editorial.medialeft{
+    .grid,
+    .grid > div,
+    .table-center-wrap{ 
+      min-height:450px;
+    }
+  }
 }
 @media (max-width: $phoneMax) {
-  
+  .editorial.mediaright,
+  .editorial.medialeft{
+    .grid,
+    .grid > div,
+    .table-center-wrap{ 
+      min-height:0px;
+    }
+    .table-center-wrap{
+      margin-top:0;
+    }
+    .box{
+      padding:20px 22px 15px 20px;
+    }
+  }
+  .editorial.full-inner{
+    .inner{
+      position:relative;
+    }
+    >.grid{
+      width:100%;
+    }
+    .box{
+      margin-top:0;
+      padding: 20px 22px;
+    }
+  }
 }
