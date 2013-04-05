@@ -81,7 +81,7 @@ mixin extras(extras)
 
 
 mixin textTout(textTout)
-  .text-tout.span6
+  div(class= textToutClasses)
     //- FPO IMAGE FOR NOW, THIS SHOULD BE CHANGED FROM A PATH TO A ICON CLASS AS ALL OTHERS ARE
     if (textTout.icon)
       - btmCopyClasses.push("with-icon")
@@ -90,10 +90,10 @@ mixin textTout(textTout)
     div(class= btmCopyClasses)
       | #{textTout.copy}
       if(textTout.link)
-        a(href= textTout.link)= textTout.linkLabel
+        a.no-wrap(href= textTout.link)= textTout.linkLabel
 
 mixin bottomBtn(btn)
-  .bottom-btn(class= bottomSpanClass)
+  .bottom-btn(class= bottomSpanClasses)
     a.btn.buttonLabel(href= btn.buttonLink)= btn.buttonLabel
 
 
@@ -142,6 +142,7 @@ if(isMeasurements)
 //- 100 = Features (treat as 2 col)
 //- 010 = Specs (treat as 2 col)
 
+
 //- Set the right grid span based on sectionCount
 if(sectionCount == 111)
   //- Three Columns
@@ -150,41 +151,44 @@ else
   //- Two Columns
   - centerSpanClasses.push("span6")
 
+//- - centerSpanClasses.push("m-grid-at-479")
+
 //- BOTTOM DATA VARS
 - bottom = data.bottom
 - bottomBtn = bottom.bottomBtn
 - textTout = bottom.textTout
 - isBottomBtn = bottomBtn.buttonLink != ""
 - isTextTout = textTout.copy != ""
-- bottomSpanClass = []
+- bottomSpanClasses = ["m-span6"]
+- textToutClasses = ["text-tout","span6","m-span6"]
 
 //- Add necessary class
 if((isTextTout) && (isBottomBtn))
-  - bottomSpanClass.push("span6")
+  - bottomSpanClasses.push("span6")
 
 //- START PRODUCT DETAILS
 section(class= productDetailsClasses)
-  .top.grid
+  .top.grid.no-grid-at-479.m-grid-at-767
     .title.l1= top.title
 
     if(top.desc.length > 0)
       .desc.p3= top.desc
 
-  .center.grid
+  .center.grid.no-grid-at-479.m-grid-at-767
     case sectionCount
       when 111
-        .features(class= centerSpanClasses)
+        .features.m-span3(class= centerSpanClasses)
           +featureList(features)
 
-        .specs(class= centerSpanClasses)
+        .specs.m-span3(class= centerSpanClasses)
           +definitionList(specs, false)
 
-        .last-column.has-measurements(class= centerSpanClasses)
+        .last-column.has-measurements.m-span6(class= centerSpanClasses)
           .measurements
             +measurementsList(measurements)
 
           if(isExtras)
-            .extras.with-measurements
+            .extras.with-measurements.mobile-two-col
               +extras(extras)
 
       when 101
@@ -271,7 +275,7 @@ section(class= productDetailsClasses)
             .extras
               +extras(extras)
   
-  .bottom.grid
+  .bottom.grid.m-grid-at-767
     - btmCopyClasses = ["copy","p3"]
     if(isTextTout)
       +textTout(textTout)

@@ -1,7 +1,147 @@
+
 @media (min-width: px-em(480px)) and (max-width: px-em(979px)) {
+	.pd-module{
+		border:1px solid green;
+
+		.top{
+
+			.desc{
+				@include content-columns(1);
+			} //. desc
+
+		} // .top
+
+
+			// 88888888888888888b.  .d88888b.     
+			// 888       888   Y88bd88P" "Y88b    
+			// 888       888    888888     888    
+			// 8888888   888   d88P888     888    
+			// 888       8888888P" 888     888    
+			// 888       888       888     888    
+			// 888       888       Y88b. .d88P    
+			// 888       888        "Y88888P"     
+		
+		.features,
+		.specs{
+
+			// &.span4{
+			// 	width:47.30769%;
+
+			// } // span4
+
+		}
+
+		.last-column{
+			display: table;
+
+			&.has-measurements{
+				padding:25px px-em(37px) 25px px-em(37px);
+			}
+
+			.measurements,
+			.extras{
+				display: table-cell;
+				vertical-align: top;
+			}
+
+			.measurements{
+				width: 75%;
+			}
+
+			.extras{
+				padding-left: 30px;
+
+				&.mobile-two-col{
+					padding-left:0;
+					display: block;
+				} // mobile-two-col
+
+			} // extras
+
+		} // last-column
+
+		.bottom{
+
+			.text-tout{
+				text-align: left;
+				display: table;
+				width: 60%;
+
+				.icon,
+				.copy{
+					vertical-align: middle;
+					display: table-cell;
+				}
+
+			} // end .text-tout
+
+			.bottom-btn{
+				margin:0;
+				width:38%;
+			} // .bottom-btn
+
+		} // bottom
+
+
+		// 88888888888888888b.  .d88888b.     
+		// 888       888   Y88bd88P" "Y88b    
+		// 888       888    888888     888    
+		// 8888888   888   d88P888     888    
+		// 888       8888888P" 888     888    
+		// 888       888       888     888    
+		// 888       888       Y88b. .d88P    
+		// 888       888        "Y88888P"     
+
+
+
+
+	} // pd-module
+
+
+
+
+
 } // end MQ
 
 
 /// 480px
 @media (max-width: px-em(479px)) {
+	.pd-module{
+		border:1px solid red;
+
+		.top{
+
+			.desc{
+				@include content-columns(1);
+			} //. desc
+
+		} // .top
+
+		.last-column{
+			
+			&.has-measurements{
+				padding:16px px-em(23px) 23px px-em(23px);
+			}
+
+			.measurements{
+				display:none;
+			}
+
+			.extras{
+				padding-left: 0;
+			}
+
+		} // last-column
+
+
+		.bottom{
+			.bottom-btn{
+				text-align:center;
+			}
+
+		}
+
+
+	} // pd-module
+
 } // end MQ
