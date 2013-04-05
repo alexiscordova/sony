@@ -1,4 +1,4 @@
-include ../../../common/html/jade-helpers.jade
+    include ../../../common/html/jade-helpers.jade
 
 - layout1 = [ "carousel", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
 - layout2 = [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "normal", "normal" ]
@@ -268,7 +268,7 @@ mixin compareGallery( submodules, gallery, type, labels )
   resetLabel = gallery.resetLabel || 'do things'
 
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
-    - console.log('compare gallery filters')
+
     +galleryFilters( gallery, true )
 
     .tone-bar
@@ -322,7 +322,6 @@ mixin compareGallery( submodules, gallery, type, labels )
                 !{locals.partial( module.type, e )}
 
     +zeroProductsMessage( gallery )
-    - console.log('done with compare gallery')
 
 
 
@@ -367,6 +366,7 @@ mixin accessoryFinder( submodules, finder )
         .modal-inner
           .modal-header.grid
             h4.t4#accessory-modal-title= finder.title
+
             p.p3= finder.subtitle
             button.box-close(data-dismiss="modal", aria-hidden="true")
               i.fonticon-10-x-skinny
@@ -384,7 +384,7 @@ mixin accessoryFinder( submodules, finder )
             .slimgrid.m-grid-at-767.products
               each module in submodules
                 d = locals.data(module.data)
-                if d.type == type && !d.promo
+                if d.type == type && !d.promo && d.imgTiny
                   - d.view = "compatibility"
                   e = { "locals" : locals, "data" : d }
                   !{locals.partial( module.type, e )}

@@ -1,0 +1,70 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+.editorial{
+  @include dttb;
+  
+  &.gray{
+    background: $gray80;
+  }
+  
+  position:relative;
+  
+  .left{
+    text-align:left;
+  }
+  .center{
+    text-align:center;
+  }
+  .right{
+    text-align:right;
+  }
+   
+  .inner{
+    height:100%;
+    position:absolute;
+    top:0;
+    right:0;
+    left:0;
+    .grid,
+    .grid > div,
+    .table-center-wrap{
+      height:100%;
+    }
+  }
+  
+  .box{
+    margin-top:-1%;
+    padding:56px 52px 50px 52px;
+  }
+ 
+}
+
+.editorial.textonly{
+
+}
+.editorial.full{
+  .image-module{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+}
+.editorial.mediaright,
+.editorial.medialeft{
+  
+}
+
+.editorial.tout{
+  .horizontal {
+    div{
+      float:left;
+    }
+  }
+  .image-module{
+    text-align:center;
+  }
+}
+@media (max-width: px-em(767)) {
+  
+}

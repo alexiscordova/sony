@@ -965,9 +965,14 @@ define(function(require){
         destroy: function() {
             var self = this;
 
-            self.$container.removeAttr('style').removeData('shuffle');
             self.$window.off('.shuffle');
-            self.$items.removeAttr('style').removeClass('concealed filtered shuffle-item');
+            self.$container
+                .removeClass('shuffle')
+                .removeAttr('style')
+                .removeData('shuffle');
+            self.$items
+                .removeAttr('style')
+                .removeClass('concealed filtered shuffle-item');
             self.destroyed = true;
         }
 

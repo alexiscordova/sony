@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 
   var jadeconfig = {
 
-    processes: gruntconfig.maxProcesses,
+    spawnProcesses: gruntconfig.maxProcesses,
 
     data:{
       partial: function(templatePath, dataObj){
