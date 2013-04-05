@@ -6,14 +6,16 @@
 @import "../../../common/css/_base/mixins";
 
 .edv {
-  padding:50px 0;
+  padding:70px 0;
 
-  article {margin-top:60px;}
+  article {padding:70px 0;}
 
   .edv-images {
+    @include user-select(none);
     position: relative;
-    height: 560px;
-    margin-bottom:23px;
+    height:100%;
+    margin-bottom:21px;
+    height:560px;
 
     .edv-image {
       position: absolute;
@@ -26,36 +28,42 @@
         left: 0;
         z-index:1;
       }
-
-      &.image-2 {right: 0;}
-
-      .edv-image-wrapper {
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        text-align: center;
-
-        img {
-          display: none;
-          position: relative;
+        .edv-image-wrapper {
+          position: absolute;
+          left: 0;
           width: 100%;
+          height: 100%;
+          background-position: top left;
+          background-repeat: no-repeat;
+          background-size: cover;
+          text-align: center;
+          background-color:$white;
+
+          img {
+            display: none;
+            position: relative;
+            width: 100%;
+          }
         }
+
+      &.image-2 {
+        right: 0;
+
+        .edv-image-wrapper {background-position:center;}
       }
     }
 
     figcaption {
       position: absolute;
-      bottom: -35px;
+      bottom: -33px;
       text-transform: uppercase;
-      padding:0 45px;
       color:$gray40;
+      display:inline-block;
+      width:240px;
     }
     figcaption + figure + figcaption {
       right:0;
+      text-align:right;
     }
 
     .scrubber {
@@ -70,66 +78,81 @@
       .handle {
         position: absolute;
         top: 50%;
-        margin-top:-32px;
+        margin-top:-31px;
         left: -31px;
-        width: 65px;
-        height: 65px;
+        width: 62px;
+        height: 62px;
         background:url('../../img/editorial-dual-viewer-e9/gray30.png');
         padding:8px;
         cursor:pointer;
         @include border-radius(100px);
       }
         .inner {
-          width:49px;
-          height:49px;
+          width:46px;
+          height:46px;
           background:$buttonOrange;
           display:block;
           text-align:center;
-          line-height:47px;
+          line-height:42px;
           font-size:0.9em;
           @include border-radius(100px);
         }
     }
   }
 
+  // Full-Width viewers
   &.full-width {
     article {text-align:center; margin-top:0;}
   }
 
+  // Vertical scrubber
   &.y {
     .edv-images {
-      margin-top:35px;
+      margin-top:33px;
 
       figcaption {
         width:100%;
         text-align:center;
-        top: -35px;
+        top: -26px;
         padding:0;
       }
       figcaption + figure + figcaption {
         top:auto;
-        bottom:-35px;
+        bottom:-33px;
       }
 
       .scrubber {
         margin-left:0;
         width: 100%;
-        height: 2px;
+        height: 1px;
 
         .handle {
           left: 50%;
-          margin-left:-32px;
-          margin-top:-33px;
+          margin-left:-31px;
+          margin-top:-32px;
+          @include rotate(90deg);
         }
       }
     }
   }
 
+  // Gray background 
   &.gray {
     background:$gray80;
  
     .scrubber {background:$white;}
+
+    .edv-images .edv-image .edv-image-wrapper {background-color:$gray80;}
   }
+
+  // For images that blend in with the background color
+  &.transparent-edges {
+    .scrubber {background:$gray60;}
+    .edv-images .edv-image .edv-image-wrapper {
+      background-size:contain;
+      background-position:center center;
+    }
+  } 
 
   &.scrubber-disabled .scrubber {display:none;}
 }
@@ -158,5 +181,76 @@
         }
       }
     }
+    &.y {
+      .edv-images {
+        .edv-image-wrapper {
+          top: auto;
+          width: 100%;
+          height: auto;
+
+          span {
+            display: inline-block;
+            height: auto;
+            width:100%;
+          }
+
+          * {
+            vertical-align: inherit;
+            text-align:center;
+          }
+
+          img {
+            width:100%;
+          }
+        }
+      }
+    }
+    &.full-bleed-edges.y {
+      .edv-images {
+        .edv-image-wrapper {
+          left: -200%;
+          top: auto;
+          width: 500%;
+          height: auto;
+          text-align: middle;
+          vertical-align: inherit;
+
+          span {
+            display: inline-block;
+            height: auto;
+            width:100%;
+          }
+
+          * {
+            vertical-align: inherit;
+            text-align:center;
+          }
+
+          img {
+            height:100%;
+            width:auto;
+            min-width:20%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.no-borderradius {
+  .edv {
+    .edv-images .scrubber .handle {
+      background:url('../../img/editorial-dual-viewer-e9/scrubber.png');
+
+      .inner {visibility:hidden;}
+    }
+    &.y .edv-images .scrubber .handle {background-position:0 -62px;}
+  }
+}
+
+// IE7
+.lt-ie8 {
+  .edv {
+    .edv-images .scrubber .handle {padding:0;}
   }
 }

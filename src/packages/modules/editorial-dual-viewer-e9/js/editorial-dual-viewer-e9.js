@@ -4,7 +4,7 @@
 // * **Class:** EditorialDualViewer
 // * **Version:** 0.2
 // * **Modified:** 03/25/2013
-// * **Author:** George Pantazis
+// * **Author:** George Pantazis & Steve Davis
 // * **Dependencies:** jQuery 1.7+, [SonyDraggable](sony-draggable.html)
 
 define(function(require){
@@ -80,7 +80,7 @@ define(function(require){
 
       }
 
-      // If tablet/desktop, set bounds to desktop mode
+      /*// If tablet/desktop, set bounds to desktop mode
       enquire.register("(min-width: 480px)", function() {
         self.$scrubber.sonyDraggable('setBounds', self.getDragBounds('desktop'));
       });
@@ -88,7 +88,7 @@ define(function(require){
       // If mobile, set bounds to mobile mode
       enquire.register("(max-width: 479px)", function() {
         self.$scrubber.sonyDraggable('setBounds', self.getDragBounds('mobile'));
-      });
+      });*/
 
     },
 
@@ -123,9 +123,9 @@ define(function(require){
       if ( self.axis == 'x' ) {
         
         // If mobile mode, leave a little more space for the larger draggable handle
-        if ( mode == "mobile" ) {
+        /*if ( mode == "mobile" ) {
           minBounds = self.$dualViewContainer.width() * 0.16;
-        }
+        }*/
 
         return {
           'x': {
@@ -141,9 +141,9 @@ define(function(require){
         var containerHeight = self.$dualViewContainer.height();
 
         // If mobile mode, leave a little more space for the larger draggable handle
-        if ( mode == "mobile" ) {
-          minBounds = self.$dualViewContainer.height() * 0.16;
-        }
+        /*if ( mode == "mobile" ) {
+          minBounds = self.$dualViewContainer.height() * 0.27;
+        }*/
 
         return {
           'y': {
@@ -176,10 +176,18 @@ define(function(require){
         self.$topSlide.css('width', (e.position.left) + '%');
         self.$topSlideImageContainer.css('width', 10000 / (e.position.left) + '%');
 
+        // If scrubber comes close to edge, hide caption for hidden image
+        (e.position.left <= 30) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
+        (e.position.left <= 70) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
+
       } else if ( self.axis == 'y' ) {
 
         self.$topSlide.css('height', (e.position.top) + '%');
         self.$topSlideImageContainer.css('height', 10000 / (e.position.top) + '%');
+
+        // If scrubber comes close to edge, hide caption for hidden image
+        (e.position.top <= 30) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
+        (e.position.top <= 70) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
 
       }
     }
