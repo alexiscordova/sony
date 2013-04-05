@@ -1,16 +1,13 @@
 include ../../../common/html/jade-helpers.jade
-+includeJavascriptModule('one-sony-tout-carousel-s2')
 
 if data.config.title
   .container.st-header
     .grid
       h2.l1 #{data.config.title}
 
-.one-sony-carousel.secondary-tout(data-mode = data.config.mode, data-module-name != data.config.module_name, data-module-id = data.config.module_id)
+.secondary-tout
   .st-container
-    .st-container-inner.container.sony-carousel-flex
+    .st-container-inner.container
       for slide in data.slides
         e = {"locals": locals, "content": slide}
         !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4.jade', e)}
-
-  div.st-dot-nav
