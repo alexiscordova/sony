@@ -373,9 +373,9 @@ define(function(require) {
             /* log('turning off bottom section and resetting loop'); */
             footer.addClass( 'hidden' );            
             rows = 'two';
-            self.downstepStacks( el );
+            self.downstepStacks( el ); 
             i=-1;
-          }
+          } 
 
           /* log('finished '+passes+' passes' ); */
           passes++;
