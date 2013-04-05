@@ -63,7 +63,7 @@ define(function(require){
           'unit': '%',
           'containment': self.$dualViewContainer,
           'drag': $.proxy(self.onDrag, self),
-          'bounds': self.getDragBounds('desktop')
+          'bounds': {'x': {'min': 0, 'max': 100}}
         });
 
       // Inititalize draggable scrubber for Y axis drag
@@ -75,20 +75,13 @@ define(function(require){
           'unit': '%',
           'containment': self.$dualViewContainer,
           'drag': $.proxy(self.onDrag, self),
-          'bounds': self.getDragBounds('desktop')
+          'bounds': {'y': {'min': 0, 'max': 100}}
         });
 
       }
 
-      /*// If tablet/desktop, set bounds to desktop mode
-      enquire.register("(min-width: 480px)", function() {
-        self.$scrubber.sonyDraggable('setBounds', self.getDragBounds('desktop'));
-      });
-
-      // If mobile, set bounds to mobile mode
-      enquire.register("(max-width: 479px)", function() {
-        self.$scrubber.sonyDraggable('setBounds', self.getDragBounds('mobile'));
-      });*/
+      // Set initial scrubber position to the middle of the viewer
+      self.$scrubber.sonyDraggable('setPositions', {x: 50, y:50});
 
     },
 
@@ -110,47 +103,6 @@ define(function(require){
         self._init();
       } else {
         setTimeout($.proxy(self.initTimeout, self), 250);
-      }
-    },
-
-    // Compute the dragging bounds based on the width of the container.
-    'getDragBounds': function(mode) {
-      var self = this,
-          minBounds = self.$dualViewContainer.width() * 0.075,
-          containerWidth = self.$dualViewContainer.width();
-
-      // Set drag bounds for X axis 
-      if ( self.axis == 'x' ) {
-        
-        // If mobile mode, leave a little more space for the larger draggable handle
-        /*if ( mode == "mobile" ) {
-          minBounds = self.$dualViewContainer.width() * 0.16;
-        }*/
-
-        return {
-          'x': {
-            'min': 100 * minBounds / containerWidth,
-            'max': 100 - 100 * minBounds / containerWidth
-          }
-        };
-
-      // Set drag bounds for Y axis 
-      } else if ( self.axis == 'y' ) {
-
-        minBounds = self.$dualViewContainer.height() * 0.09;
-        var containerHeight = self.$dualViewContainer.height();
-
-        // If mobile mode, leave a little more space for the larger draggable handle
-        /*if ( mode == "mobile" ) {
-          minBounds = self.$dualViewContainer.height() * 0.27;
-        }*/
-
-        return {
-          'y': {
-            'min': 100 * minBounds / containerHeight,
-            'max': 100 - 100 * minBounds / containerHeight
-          }
-        };
       }
     },
 
@@ -177,8 +129,8 @@ define(function(require){
         self.$topSlideImageContainer.css('width', 10000 / (e.position.left) + '%');
 
         // If scrubber comes close to edge, hide caption for hidden image
-        (e.position.left <= 30) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
-        (e.position.left <= 70) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
+        (e.position.left <= 20) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
+        (e.position.left <= 80) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
 
       } else if ( self.axis == 'y' ) {
 
@@ -186,8 +138,8 @@ define(function(require){
         self.$topSlideImageContainer.css('height', 10000 / (e.position.top) + '%');
 
         // If scrubber comes close to edge, hide caption for hidden image
-        (e.position.top <= 30) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
-        (e.position.top <= 70) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
+        (e.position.top <= 20) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
+        (e.position.top <= 80) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
 
       }
     }
