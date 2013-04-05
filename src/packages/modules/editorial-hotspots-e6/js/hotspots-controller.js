@@ -53,7 +53,13 @@ define(function(require) {
     // TRANSITION VARIABLES
     self.$transitionSpeed                = 500;
     self.$lastTimer                      = null;
-    
+    self.lastWidth                       = null;
+    self.direction                       = null;
+    self.variant1TopHeight               = 145;
+    self.variant2TopHeight               = 119;
+    self.variant1FloorHeight             = 100;
+    self.variant2FloorHeight             = 108;
+
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -76,7 +82,7 @@ define(function(require) {
       $(window).resize(function() {
         if(self.$lastOpen) {
           try {
-            self.reposition(self.$lastOpen[0]);
+            self.reposition(self.$lastOpen[0], true);
           } catch(e) {}
         }
       });
@@ -92,12 +98,13 @@ define(function(require) {
     },
     place: function( el ) {
       var self = this;
-      // this places the hotspot absolutely, but we need to track each of these locations so on resize
+      // this places the hotspot absolutely (currently by % fed from data-x,y attrib)
       var xAnchor = $( el ).data( "x" );
       var yAnchor = $( el ).data( "y" );
       $( el ).css( "left", xAnchor );
       $( el ).css( "top", yAnchor );
       
+      // lets add some defaults
       self.$hotspotData.push({
         el: el,
         xAnchor: xAnchor,
@@ -144,7 +151,7 @@ define(function(require) {
     * TODO: RE-INTRODUCE TOP OR BOTTOM NODES IF THEY ARE ON BY DEFAULT, IF THERE IS ROOM
     */
     
-    reposition: function(el) {
+    reposition: function(el, fromResize) {
       var self                = this,
           parentContainer     = el.parent(),
           parentLeft          = 0,
@@ -158,9 +165,7 @@ define(function(require) {
           overlayFooterHeight = overlay.find( '.footer' ).height(),
           hotspotPosition     = overlay.parent().position(),
           rows                = (overlayHeaderHeight>0) ? 'three' : 'two';
-      log(' ');
-      log('/* POSITIONING */');
-      log(' ');
+      
 /*
       log(parentContainer);
       log(parentContainer.height());
@@ -203,6 +208,28 @@ define(function(require) {
       log(overlay.position().left);
 */
 
+      // see if we're growing or shrinking
+      try {
+/*
+        log('parentRight '+parentRight);
+        log('self.lastWidth '+self.lastWidth);
+*/
+        if( parentRight > self.lastWidth ) {
+          self.direction = 'grew';
+        } else if( parentRight == self.lastWidth ) {
+          self.direction = 'same';
+        } else {
+          self.direction = 'shrank';
+        }
+        self.lastWidth = parentRight;
+      } catch(e) {}
+
+      // The script will move the window into it's 4 potential orientations, until it finds a place it fits.
+      // if the loop is completed and there are no matches, the script will turn off the top and footer nodes of
+      // the overlay and reiterate through the loop, breaking when the overlay is at a safe zone.
+      
+      // TODO:: Apply restraints to Editorial types [as spec'd from comps] 
+      
       for( var i=0; i<4 && ( true === collides || null === collides ); i++ ) { 
         // resample coordinates
         overlayHeight       = overlay.height(),
@@ -226,7 +253,7 @@ define(function(require) {
           self.clearPositionStyles(overlay);
           overlay.addClass( rows + '-stack-right-top-justified' );
           overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
-          log('::overlay hits container top::');
+          /* log('::overlay hits container top::'); */
         } else {
           collidesTop = false;
         }
@@ -236,7 +263,7 @@ define(function(require) {
           self.clearPositionStyles(overlay);
           overlay.addClass( rows + '-stack-left-top-justified' );
           overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
-          log('::overlay hits container right::');
+          /* log('::overlay hits container right::'); */
         } else {
           collidesRight = false;
         }
@@ -247,7 +274,7 @@ define(function(require) {
           self.clearPositionStyles(overlay);
           overlay.addClass( rows + '-stack-left-bottom-justified' );
           overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
-          log('::overlay hits container floor::');
+          /* log('::overlay hits container floor::'); */
         } else {
           collidesFloor = false;
         }
@@ -258,24 +285,60 @@ define(function(require) {
           self.clearPositionStyles(overlay);
           overlay.addClass( rows + '-stack-right-bottom-justified' );
           overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
-          log('::overlay hits container left::');
+          /* log('::overlay hits container left::'); */
         } else {
           collidesLeft = false;
         }
         
-        log(collidesTop , collidesRight , collidesFloor , collidesLeft);
+        //log(collidesTop , collidesRight , collidesFloor , collidesLeft);
         
         if( collidesTop || collidesRight || collidesFloor || collidesLeft ) {
+          
           collides = true;
+          
         } else {
+          
           collides = false;
           
-          if( overlay.find( '.top' ).hasClass( 'is-default-on' ) && overlay.find( '.top' ).hasClass( 'hidden' ) ) {
+          if( overlay.find( '.top' ).hasClass( 'is-default-on' ) && 
+              overlay.find( '.top' ).hasClass( 'hidden' ) &&
+              fromResize && 'grew' === self.direction ) {
             
+            var topHeight = null;
+            
+            if( overlay.parent().hasClass( 'variant1' )) {
+              topHeight = self.variant1TopHeight;
+            } else {
+              topHeight = self.variant2TopHeight;
+            }
+            
+            topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top ) - topHeight;
+            
+            if( topOverlayPosition > 0 ) {
+              // it fits!
+              overlay.find( '.top' ).removeClass( 'hidden' );
+              // make sure the orientation is correct. In some cases it needs to be adjusted
+              
+            }
           }
 
-          if( overlay.find( '.footer' ).hasClass( 'is-default-on' ) && overlay.find( '.footer' ).hasClass( 'hidden' ) ) {
+          if( overlay.find( '.footer' ).hasClass( 'is-default-on' ) && 
+              overlay.find( '.footer' ).hasClass( 'hidden' ) &&
+              fromResize && 'grew' === self.direction ) {
+       
+            var floorHeight = null;
+       
+            if( overlay.parent().hasClass( 'variant1' )) {
+              floorHeight = self.variant1FloorHeight;
+            } else {
+              floorHeight = self.variant2FloorHeight;
+            }
+
+            bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height() + floorHeight;
             
+            if( bottomOverlayPosition < parentFloor ) {
+              overlay.find( '.footer' ).removeClass( 'hidden' );
+            }
           }
           
         }
@@ -287,7 +350,7 @@ define(function(require) {
         log('leftOverlayPosition '+leftOverlayPosition);
         */
 
-        log('collides '+collides);   
+        /* log('collides '+collides); */   
         
         // if we're in the last iteration of the loop, and no position has been found,
         // we need to attempt to turn off the the top or bottom section to make room
@@ -314,7 +377,7 @@ define(function(require) {
             i=-1;
           }
 
-          log('finished '+passes+' passes' );
+          /* log('finished '+passes+' passes' ); */
           passes++;
           
           // two passes, and no dice; lets turn off top and bottom in an attempt to 
@@ -418,6 +481,11 @@ define(function(require) {
     reset: function( container ) {
       var self = this;
       self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
+    },
+    defaultPositions: function() {
+      for(var el in self.$els) {
+        
+      }
     },
     cleanTimer: function() {
       /*
