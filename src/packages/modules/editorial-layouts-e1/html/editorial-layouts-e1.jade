@@ -5,7 +5,12 @@ mixin gridstyle(extraclass)
   extraclass = extraclass || ""
   .grid.no-grid-at-767(class = extraclass)(class = data.style)
     block
-
+    
+mixin center
+  .table-center-wrap
+    .table-center
+      block
+      
 mixin col(layout, extras)
   layout = layout || data.layout
   if layout.text == "left"
@@ -33,20 +38,18 @@ mixin boxlayout(layout)
       .grid.no-grid-at-767
         - span = "span" + layout.columns[0]
         div(class = span)
-          .table-center-wrap
-            .table-center
-              +boxclass
-                block
+          +center
+            +boxclass
+              block
   else if layout.text == "right" || layout.text == "center"
     .container.inner(class = classes)
       .grid.no-grid-at-767
         - span = "span" + layout.columns[1]
         - offset =  "offset" + layout.columns[0]
         div(class = span)(class = offset)
-          .table-center-wrap
-            .table-center
-              +boxclass
-                block
+          +center
+            +boxclass
+              block
                 
 mixin toutcopy(copyobject, titleclass, subtitleclass, bodyclass)
   span.toutcopy
@@ -86,42 +89,48 @@ if data.variation
         +textonlylayout
           +copyblock
 
+  else if data.layout.media == "full-inner"
+    .container.submodule
+      +partial(data.submodules[0].type, data.submodules[0].data)
+    +boxlayout
+      +copyblock(data, "t3", "t7", "p3")
   else if data.layout.media == "full"
-    if data.layout.inner == "true"
-      .container.submodule
-        +partial(data.submodules[0].type, data.submodules[0].data)
-      +boxlayout
-        +copyblock(data, "t3", "t7", "p3")
-    else
-      .container
-        +gridstyle
-          +textonlylayout
-            +copyblock
-      .container.submodule
-        +partial(data.submodules[0].type, data.submodules[0].data)
+    .container
+      +gridstyle
+        +textonlylayout
+          +copyblock
+    .container.submodule
+      +partial(data.submodules[0].type, data.submodules[0].data)
 
   else if data.layout.media == "mediaright"
-    +gridstyle("table-center-wrap")
+    +gridstyle
       span = "span" + data.layout.columns[0]
-      .table-center.box(class = span)
-        +copyblock(data, "t3", "t7", "p3")
+      div(class = span)
+        +center
+          .box
+            +copyblock(data, "t3", "t7", "p3")
       span = "span" + data.layout.columns[1]
-      .table-center.media-element(class = span)
-        +partial(data.submodules[0].type, data.submodules[0].data)
+      .media-element(class = span)
+        +center
+          +partial(data.submodules[0].type, data.submodules[0].data)
 
   else if data.layout.media == "medialeft"
-    +gridstyle("table-center-wrap")
+    +gridstyle
       span = "span" + data.layout.columns[0]
-      .table-center.media-element(class = span)
-        +partial(data.submodules[0].type, data.submodules[0].data)
+      .media-element(class = span)
+        +center
+          +partial(data.submodules[0].type, data.submodules[0].data)
       span = "span" + data.layout.columns[1]
-      .table-center.box(class = span)
-        +copyblock(data, "t3", "t7", "p3")
+      div(class = span)
+        +center
+          .box
+            +copyblock(data, "t3", "t7", "p3")
 
   else if data.layout.media == "tout"
     columnoffset = data.layout.columnoffset || 0;
     offset = "offset" + columnoffset;
-    +gridstyle
+    ups = "m" + data.columns.length + "up"
+    +gridstyle(ups)
       if data.columns.length == 1
         e = {"locals":locals, "data":data.columns[0].image}
         if data.layout.text == "right"
@@ -129,12 +138,12 @@ if data.variation
           div(class = span)(class = offset)
             !{locals.partial('packages/modules/image/html/image.jade' , e)}
           span = "span"+ data.layout.columns[columnoffset +1]
-          div(class = span)
+          div(class = span)(class = "text"+data.layout.text)
             +toutcopy(data.columns[0], "t5", "", "p3")
 
         else
           span = "span"+ data.layout.columns[columnoffset]
-          div(class = span)(class = offset)
+          div(class = span)(class = offset)(class = "text"+data.layout.text)
             +toutcopy(data.columns[0], "t5", "", "p3")
           span = "span"+ data.layout.columns[columnoffset +1]
           div(class = span)
@@ -153,7 +162,8 @@ if data.variation
           else
             .horizontal(class = span)(class = offset)(class = data.layout.alignment)(class = "clearfix")
               !{locals.partial('packages/modules/image/html/image.jade' , e)}
-              +toutcopy(col, "t7", "", "p3")
+              +center
+                +toutcopy(col, "t7", "", "p3")
 
       else if data.columns.length == 3
         for col, i in data.columns
