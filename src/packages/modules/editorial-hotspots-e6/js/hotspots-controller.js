@@ -318,7 +318,7 @@ define(function(require) {
               // it fits!
               overlay.find( '.top' ).removeClass( 'hidden' );
               // make sure the orientation is correct. In some cases it needs to be adjusted
-              
+              self.threeToTwo(el);
             }
           }
 
@@ -394,6 +394,14 @@ define(function(require) {
         }
       } // END COLLISION DETECTION
 
+    },
+    threeToTwo: function(el) {
+      var classList =$(el).attr('class').split(/\s+/);
+      $.each( classList, function(index, item){
+          if (true/* DO SOME SEXY REGEXING */) {
+             //do something else
+          }
+      });
     },
     clearPositionStyles: function(el) {
       el.removeClass( 'three-stack-left-top-justified' );
