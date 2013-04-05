@@ -2,19 +2,12 @@
 //- single line mixin for partials
 //- +partial('example.html.jade', 'example/default.json')
 
-//- mixin partial(m, d)
-//-   e = {"locals":locals, "data":locals.data(d)}
-//-   !{locals.partial('packages/modules/' + m, e)}
-
 mixin partial(m, d)
-
   e = {"locals":locals, "data":locals.data(d)}
   !{locals.partial('packages/modules/' + m, e)}
 
 mixin includeJavascriptModule(moduleName)
-
   e = {"locals":locals}
-
   if ( !e.locals.javascriptModules )
     - e.locals.javascriptModules = []
   if ( e.locals.javascriptModules )
@@ -32,6 +25,9 @@ mixin iQImage( img, extraClasses, itemprop )
   img(class=classes, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes, alt=img.alt, itemprop=itemprop)
   noscript
     img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
+
+
+//-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps
 
 //- hgobject is an object with potential h# items and their text values
 //- for instance {"h2": "this is a h2", "h3": "this is a h3" }
