@@ -370,6 +370,10 @@ Reset the carousel to its natural position and order.</p>             </td>     
         <span class="keyword">return</span>;
       }
 
+      <span class="keyword">if</span> ( self.$paddleWrapper ) {
+        $wrapper = self.$paddleWrapper;
+      }
+
       self.paddlesInit = <span class="literal">true</span>;
 
       $wrapper.sonyPaddles();
@@ -508,7 +512,9 @@ Helpful if your carousel lets the user see more than a few slides at once.</p>  
 
 </pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Create paddles.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paddles: <span class="literal">false</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Create dot pagination, which is inserted after self.$el.</p>             </td>             <td class="code">               <div class="highlight"><pre>    pagination: <span class="literal">false</span>
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>If selector is specified, insert paddles into a matching parent of $el.</p>             </td>             <td class="code">               <div class="highlight"><pre>    $paddleWrapper: <span class="literal">undefined</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Create dot pagination, which is inserted after self.$el.</p>             </td>             <td class="code">               <div class="highlight"><pre>    pagination: <span class="literal">false</span>
   };
 
 });
