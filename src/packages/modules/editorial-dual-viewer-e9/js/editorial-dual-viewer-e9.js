@@ -63,7 +63,8 @@ define(function(require){
           'unit': '%',
           'containment': self.$dualViewContainer,
           'drag': $.proxy(self.onDrag, self),
-          'bounds': {'x': {'min': 0, 'max': 100}}
+          'bounds': {'x': {'min': 0, 'max': 100}},
+          'snapToBounds': 25
         });
 
       // Inititalize draggable scrubber for Y axis drag
@@ -75,7 +76,8 @@ define(function(require){
           'unit': '%',
           'containment': self.$dualViewContainer,
           'drag': $.proxy(self.onDrag, self),
-          'bounds': {'y': {'min': 0, 'max': 100}}
+          'bounds': {'y': {'min': 0, 'max': 100}},
+          'snapToBounds': 25
         });
 
       }
@@ -120,7 +122,7 @@ define(function(require){
     // As [SonyDraggable](sony-draggable.html) returns scrubbing changes, update the top
     // slide's width or height to match, and adjust the image container's width by that
     // percentage's inverse to maintain the desired positioning.
-    
+
     'onDrag': function(e) {
       var self = this;
 
