@@ -30,6 +30,7 @@ define(function(require){
     self.$el = $(element);
     self.$dualViewContainer = self.$el.find('.edv-images');
     self.$scrubber = self.$el.find('.scrubber');
+    self.$handle = self.$el.find('.handle');
     self.$bottomSlide = self.$el.find('.image-2');
     self.$topSlide = self.$el.find('.image-1');
     self.$topSlideImageContainer = self.$topSlide.find('.edv-image-wrapper');
@@ -87,11 +88,18 @@ define(function(require){
       self.$dualViewContainer.hover(function(){
         if ( !self.$dualViewContainer.hasClass('hovered') ) {
           self.$dualViewContainer.addClass('hovered');
-          self.$scrubber.find('.handle').addClass('dragging');
+          self.$handle.addClass('dragging');
           setTimeout(function(){
-            self.$scrubber.find('.handle').removeClass('dragging');
+            self.$handle.removeClass('dragging');
           }, 200);
         }
+      });
+
+      // Toggle "hoverOn" class on scrubber handle to change easing for hover transition
+      self.$handle.hover(function(){
+        self.$handle.addClass('hoverOn');
+      }, function(){
+        self.$handle.removeClass('hoverOn');
       });
 
     },
