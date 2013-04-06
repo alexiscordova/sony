@@ -1,5 +1,7 @@
 mixin hotspotCore(hotspotData, assets)
   size = hotspotData.size
+  .hspot-underlay.hidden
+  .hspot-global-details-overlay.hidden
   .hspot-outer(data-x=hotspotData.coords[0],data-y=hotspotData.coords[1])
     .hspot-core
       .hspot-indicator
@@ -7,56 +9,58 @@ mixin hotspotCore(hotspotData, assets)
     case size
       when "large"
         .overlay-base.variant1.hidden
-          if(hotspotData.image)
-            .top.eh-transparent.is-default-on
-                img.iq-img(class=hotspotData.image.classes)(alt=hotspotData.image.alt, data-src-desktop= hotspotData.image.srcDesktop, data-src-tablet= hotspotData.image.srcTablet, data-src-phone= hotspotData.image.srcPhone, data-src-desktop-highres= hotspotData.image.srcDesktopHighRes, data-src-tablet-highres= hotspotData.image.srcTabletHighRes, data-src-phone-highres= hotspotData.image.srcPhoneHighRes)
-          else
-            .top.eh-transparent.hidden            
-          .middle.eh-transparent
-            h5.t6 #{hotspotData.title}
-            p.p3 #{hotspotData.bodyCopy}
-            - imageLeft = assets.large.arrowLeft.image
-            - imageRight = assets.large.arrowRight.image
-            .arrow-left-top
-              img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
-            .arrow-left-bottom.hidden
-              img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
-            .arrow-right-top.hidden
-              img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
-            .arrow-right-bottom.hidden
-              img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
-          if(hotspotData.testimonial.copy)
-            .footer.eh-transparent.is-default-on
-              p.p3 #{hotspotData.testimonial.copy}
-              blockquote.l4 #{hotspotData.testimonial.credit}
-          else
-            .footer.eh-transparent.hidden
+          .overlay-inner
+            if(hotspotData.image)
+              .top.eh-transparent.is-default-on
+                  img.iq-img(class=hotspotData.image.classes)(alt=hotspotData.image.alt, data-src-desktop= hotspotData.image.srcDesktop, data-src-tablet= hotspotData.image.srcTablet, data-src-phone= hotspotData.image.srcPhone, data-src-desktop-highres= hotspotData.image.srcDesktopHighRes, data-src-tablet-highres= hotspotData.image.srcTabletHighRes, data-src-phone-highres= hotspotData.image.srcPhoneHighRes)
+            else
+              .top.eh-transparent.hidden            
+            .middle.eh-transparent
+              h5.t6 #{hotspotData.title}
+              p.p3 #{hotspotData.bodyCopy}
+              - imageLeft = assets.large.arrowLeft.image
+              - imageRight = assets.large.arrowRight.image
+              .arrow-left-top
+                img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
+              .arrow-left-bottom.hidden
+                img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
+              .arrow-right-top.hidden
+                img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
+              .arrow-right-bottom.hidden
+                img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
+            if(hotspotData.testimonial.copy)
+              .footer.eh-transparent.is-default-on
+                p.p3 #{hotspotData.testimonial.copy}
+                blockquote.l4 #{hotspotData.testimonial.credit}
+            else
+              .footer.eh-transparent.hidden
       when "small"
         .overlay-base.variant2.hidden
-          if(hotspotData.image)
-            .top.eh-transparent.is-default-on
-              img.iq-img(class=hotspotData.image.classes)(alt=hotspotData.image.alt, data-src-desktop= hotspotData.image.srcDesktop, data-src-tablet= hotspotData.image.srcTablet, data-src-phone= hotspotData.image.srcPhone, data-src-desktop-highres= hotspotData.image.srcDesktopHighRes, data-src-tablet-highres= hotspotData.image.srcTabletHighRes, data-src-phone-highres= hotspotData.image.srcPhoneHighRes)
-          else
-            .top.eh-transparent.hidden
-          .middle.eh-transparent
-            h5.t7 #{hotspotData.title}
-            p.p4 #{hotspotData.bodyCopy}
-            - imageLeft = assets.small.arrowLeft.image
-            - imageRight = assets.small.arrowRight.image
-            .arrow-left-top
-              img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
-            .arrow-left-bottom.hidden
-              img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
-            .arrow-right-top.hidden
-              img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
-            .arrow-right-bottom.hidden
-              img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
-          if(hotspotData.testimonial.copy) 
-            .footer.eh-transparent.is-default-on
-              p.p3 #{hotspotData.testimonial.copy}
-              blockquote.l4 #{hotspotData.testimonial.credit}
-          else
-            .footer.eh-transparent.hidden
+          .overlay-inner
+            if(hotspotData.image)
+              .top.eh-transparent.is-default-on
+                img.iq-img(class=hotspotData.image.classes)(alt=hotspotData.image.alt, data-src-desktop= hotspotData.image.srcDesktop, data-src-tablet= hotspotData.image.srcTablet, data-src-phone= hotspotData.image.srcPhone, data-src-desktop-highres= hotspotData.image.srcDesktopHighRes, data-src-tablet-highres= hotspotData.image.srcTabletHighRes, data-src-phone-highres= hotspotData.image.srcPhoneHighRes)
+            else
+              .top.eh-transparent.hidden
+            .middle.eh-transparent
+              h5.t7 #{hotspotData.title}
+              p.p4 #{hotspotData.bodyCopy}
+              - imageLeft = assets.small.arrowLeft.image
+              - imageRight = assets.small.arrowRight.image
+              .arrow-left-top
+                img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
+              .arrow-left-bottom.hidden
+                img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
+              .arrow-right-top.hidden
+                img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
+              .arrow-right-bottom.hidden
+                img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
+            if(hotspotData.testimonial.copy) 
+              .footer.eh-transparent.is-default-on
+                p.p3 #{hotspotData.testimonial.copy}
+                blockquote.l4 #{hotspotData.testimonial.credit}
+            else
+              .footer.eh-transparent.hidden
         
 
 type = data.type

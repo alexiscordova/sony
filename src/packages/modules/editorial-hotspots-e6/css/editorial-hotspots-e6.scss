@@ -14,13 +14,14 @@ $transitionSpeed: .5s;
   -o-transition:$transitionSpeed;
   -ms-transition:$transitionSpeed;
   -moz-transition:$transitionSpeed;
-  -webkit-transition:$transitionSpeed;
+  -webkit-transition:$transitionSpeed; 
   transition:$transitionSpeed;	
 }
 
 
 /*UTILS*/
 .ehs {
+  
   .info-jump-to-top {
     z-index: 99;
   }
@@ -227,6 +228,13 @@ $transitionSpeed: .5s;
 */
   z-index: 2;
   position: absolute;
+  .overlay-inner {
+/* DISABLED FOR NOW
+    -moz-box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px#888;
+    box-shadow: 0 0 5px #888;
+*/
+  }
   &.variant1 { 
     width: 280px;
     max-height: 454px;
@@ -280,7 +288,7 @@ $transitionSpeed: .5s;
     }
     .footer {
       background-color: #fff;
-      padding: 18px 40px 32px 30px;
+      padding: 18px 40px 7px 30px;
       .p3 {
         font-style: italic;
         color: $secondarySlateDark;

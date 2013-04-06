@@ -15,6 +15,7 @@ define(function(require) {
   var $ = require( 'jquery' ),
       iQ = require( 'iQ' ),
       bootstrap = require( 'bootstrap' ),
+      enquire = require('enquire'),
       Settings = require( 'require/sony-global-settings' ),
       Environment = require( 'require/sony-global-environment' ),
       Utilities = require( 'require/sony-global-utilities' );
@@ -59,7 +60,9 @@ define(function(require) {
     self.variant2TopHeight               = 119;
     self.variant1FloorHeight             = 100;
     self.variant2FloorHeight             = 108;
-
+    self.variant1Differential            = 145;
+    self.variant2Differential            = 120;
+    self.showOverlayCentered             = ( $(window).width() < 768 ) ? true : false;
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -86,6 +89,24 @@ define(function(require) {
           } catch(e) {}
         }
       });
+
+      // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO 
+      // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
+      enquire.register("(max-width: 767px)", function() {
+        log('setting shoOverlayCentered to true');        
+        self.showOverlayCentered = true;
+        try { 
+          self.reposition(self.$lastOpen[0]);
+        } catch(e) {}
+      }).listen();
+      
+      enquire.register("(min-width: 768px)", function() {
+        log('setting shoOverlayCentered to false');
+        self.showOverlayCentered = false;
+        try { 
+          self.reposition(self.$lastOpen[0]);
+        } catch(e) {}
+      }).listen();
 
       log('SONY : Editorial Hotspots : Initialized');
     },
@@ -152,39 +173,23 @@ define(function(require) {
     */
     
     reposition: function(el, fromResize) {
-      var self                = this,
-          parentContainer     = el.parent(),
-          parentLeft          = 0,
-          parentTop           = 0,
-          parentRight         = parentContainer.width(),
-          parentFloor         = parentContainer.height(),
-          overlay             = el.find( '.overlay-base' ),
-          overlayHeight       = overlay.height(),
-          overlayPosition     = overlay.position(),
-          overlayHeaderHeight = overlay.find( '.top' ).height(),
-          overlayFooterHeight = overlay.find( '.footer' ).height(),
-          hotspotPosition     = overlay.parent().position(),
-          rows                = (overlayHeaderHeight>0) ? 'three' : 'two';
       
-/*
-      log(parentContainer);
-      log(parentContainer.height());
-      log(parentContainer.width());
-      log('overlayHeight '+overlayHeight);
-      log('---');
-      log('overlayPosition ');
-      log('top '+overlayPosition.top);
-      log('left '+overlayPosition.left);
-      log('---');
-      log('overlayHeaderHeight ');
-      log(overlayHeaderHeight);
-      log('---');
-      log('hotspotPosition ');
-      log('top '+hotspotPosition.top);
-      log('left '+hotspotPosition.left);
-*/
-      
-      var collidesTop           = false,
+      var self                  = this,
+          parentContainer       = el.parent(),
+          parentLeft            = 0,
+          parentTop             = 0,
+          parentRight           = parentContainer.width(),
+          parentFloor           = parentContainer.height(),
+          overlay               = el.find( '.overlay-base' ),
+          overlayHeight         = overlay.height(),
+          overlayPosition       = overlay.position(),
+          overlayHeaderHeight   = overlay.find( '.top' ).height(),
+          overlayFooterHeight   = overlay.find( '.footer' ).height(),
+          overlayTop            = overlay.find( '.top' ),
+          overlayFooter         = overlay.find( '.footer' ),
+          hotspotPosition       = overlay.parent().position(),
+          rows                  = (overlayHeaderHeight>0) ? 'three' : 'two',  
+          collidesTop           = false,
           collidesRight         = false,
           collidesFloor         = false,
           collidesLeft          = false,
@@ -197,23 +202,23 @@ define(function(require) {
           top                   = null,
           footer                = null;
 
+      
+      // we need to put this element in the centered overlay, not free form next to it's hotspot button
+      if( true === self.showOverlayCentered ) {
+        log('need to reparen to overlay view');
+      } else {
+        log('unabaited repositioning');        
+      }
+
+
+
       /*
        * INITIAL CALCULATIONS TO SEE IF WE'RE COLLIDING AT THE DEFAULT POSITIONING (TOP RIGHT)
        * THIS SHOULD LOOP 4 TIMES. IF IT'S STILL COLLIDING WE HAVE TO FIGURE THAT OUT...heh...
        **/
-       
-/*
-      log('pre:');
-      log(overlay.position().top);
-      log(overlay.position().left);
-*/
 
       // see if we're growing or shrinking
       try {
-/*
-        log('parentRight '+parentRight);
-        log('self.lastWidth '+self.lastWidth);
-*/
         if( parentRight > self.lastWidth ) {
           self.direction = 'grew';
         } else if( parentRight == self.lastWidth ) {
@@ -234,8 +239,8 @@ define(function(require) {
         // resample coordinates
         overlayHeight       = overlay.height(),
         overlayPosition     = overlay.position(),
-        overlayHeaderHeight = overlay.find( '.top' ).height(),
-        overlayFooterHeight = overlay.find( '.footer' ).height(),
+        overlayHeaderHeight = overlayTop.height(),
+        overlayFooterHeight = overlayFooter.height(),
         hotspotPosition     = overlay.parent().position();
         
         // check if the hotspot's offset plus the negative margin of the overlay is at or less than "top:0" with resepct to it's container
@@ -277,7 +282,7 @@ define(function(require) {
           /* log('::overlay hits container floor::'); */
         } else {
           collidesFloor = false;
-        }
+        } 
         
 
         if( leftOverlayPosition <= 0 ) {
@@ -300,30 +305,33 @@ define(function(require) {
           
           collides = false;
           
-          if( overlay.find( '.top' ).hasClass( 'is-default-on' ) && 
-              overlay.find( '.top' ).hasClass( 'hidden' ) &&
+          // element has a default image, and due to shiting around, can be turned on if there is
+          // 1. room, and 2. the last resize was growing and not shrinking, implying there is more space now 
+          // to potentially turn on the top section.
+          if( overlayTop.hasClass( 'is-default-on' ) && 
+              overlayTop.hasClass( 'hidden' ) &&
               fromResize && 'grew' === self.direction ) {
             
             var topHeight = null;
             
             if( overlay.parent().hasClass( 'variant1' )) {
-              topHeight = self.variant1TopHeight;
+              topHeight = self.variant1TopHeight;/*  + self.variant1Differential; */
             } else {
-              topHeight = self.variant2TopHeight;
+              topHeight = self.variant2TopHeight;/*  + self.variant2Differential; */
             }
             
             topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top ) - topHeight;
             
             if( topOverlayPosition > 0 ) {
               // it fits!
-              overlay.find( '.top' ).removeClass( 'hidden' );
+              overlayTop.removeClass( 'hidden' );
               // make sure the orientation is correct. In some cases it needs to be adjusted
-              self.threeToTwo(el);
+              self.twoToThree(overlay);
             }
           }
 
-          if( overlay.find( '.footer' ).hasClass( 'is-default-on' ) && 
-              overlay.find( '.footer' ).hasClass( 'hidden' ) &&
+          if( overlayFooter.hasClass( 'is-default-on' ) && 
+              overlayFooter.hasClass( 'hidden' ) &&
               fromResize && 'grew' === self.direction ) {
        
             var floorHeight = null;
@@ -337,7 +345,7 @@ define(function(require) {
             bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height() + floorHeight;
             
             if( bottomOverlayPosition < parentFloor ) {
-              overlay.find( '.footer' ).removeClass( 'hidden' );
+              overlayFooter.removeClass( 'hidden' );
             }
           }
           
@@ -359,8 +367,8 @@ define(function(require) {
         
           /* log('Reposition did not work. '); */
           
-          top = overlay.find( '.top' );
-          footer = overlay.find( '.footer' );
+          top = overlayTop; // clean up redundant vars!!!!
+          footer = overlayFooter; // clean up redundant vars!!!!
           
           if( collidesTop && ( top.height() > 0 ) ) {
             /* log('turning off top section and restting loop'); */
@@ -395,15 +403,18 @@ define(function(require) {
       } // END COLLISION DETECTION
 
     },
-    threeToTwo: function(el) {
-      var classList =$(el).attr('class').split(/\s+/);
-      $.each( classList, function(index, item){
-          if (true/* DO SOME SEXY REGEXING */) {
-             //do something else
+    twoToThree: function( el ) {
+      var classList =$( el ).attr( 'class' ).split( /\s+/ );
+      $.each( classList, function( index, item ){
+          console.log(item);
+          if ( item.indexOf( 'two-' ) > -1 ) {
+             el.removeClass( item );
+             item = item.replace( 'two-', 'three-' );
+             el.addClass( item );
           }
       });
     },
-    clearPositionStyles: function(el) {
+    clearPositionStyles: function( el ) {
       el.removeClass( 'three-stack-left-top-justified' );
       el.removeClass( 'three-stack-left-bottom-justified' );
       el.removeClass( 'three-stack-right-top-justified' ); 
@@ -417,7 +428,7 @@ define(function(require) {
       el.find( '.arrow-left-bottom' ).addClass( 'hidden' );
       el.find( '.arrow-right-bottom' ).addClass( 'hidden' );
     },
-    downstepStacks: function(el) {
+    downstepStacks: function( el ) {
       log('swapping stack class');
       el = el.find( '.overlay-base' );
       log(el);
