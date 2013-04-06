@@ -69,18 +69,31 @@
     .scrubber {
       position: absolute;
       margin-left:-1px;
-      width: 1px;
+      width: 2px;
       min-height: 100%;
       bottom:-24px;
       background-color:$gray60;
       z-index: 3;
       color:$white;
+
+      &.dragging .handle,
+      .handle:hover {
+        padding:4px;
+
+        .inner {
+          width:54px;
+          height:54px;
+          background:$gray40;
+          margin:-27px 0 0 -27px;
+        }
+          i {margin:0 3px;}
+      }
     }
       .handle {
         position: absolute;
         top: 50%;
         margin-top:-31px;
-        left: -31px;
+        left: -30px;
         width: 62px;
         height: 62px;
         background:url('../../img/editorial-dual-viewer-e9/gray30.png');
@@ -124,19 +137,6 @@
     
   }
 
-  &.dragging,
-  .handle:hover {
-    padding:4px;
-
-    .inner {
-      width:54px;
-      height:54px;
-      background:$gray40;
-      margin:-27px 0 0 -27px;
-    }
-      i {margin:0 3px;}
-  }
-
   // Full-Width viewers
   &.full-width {
     article {text-align:center; margin-top:0;}
@@ -160,14 +160,14 @@
       .scrubber {
         margin-left:0;
         width: 100%;
-        height: 1px;
+        height: 2px;
         bottom: auto;
         min-height: 1px;
       }
         .handle {
           left: 50%;
           margin-left:-31px;
-          margin-top:-32px;
+          margin-top:-31px;
         }
           .icons {
             margin:-11px 0 0 -48px;
@@ -282,17 +282,16 @@
     .edv-images .scrubber .handle {
       background:url('../../img/editorial-dual-viewer-e9/scrubber.png');
 
-      &:hover,
-      &.dragging {background-position:-62px 0;}
-
       .inner {visibility:hidden;}
     }
+    .edv-images .scrubber .handle:hover,
+    .dragging .handle {background-position:-62px 0;}
+    
     &.y .edv-images .scrubber .handle {
       background-position:0 -62px;
-
-      &:hover,
-      &.dragging {background-position:-62px -62px;}
     }
+    &.y .edv-images .scrubber .handle:hover,
+    &.y .dragging .handle {background-position:-62px -62px;}
   }
 }
 
