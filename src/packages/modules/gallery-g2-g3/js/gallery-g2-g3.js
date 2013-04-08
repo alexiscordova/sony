@@ -2904,12 +2904,38 @@ define(function(require){
         itemSelector: self.itemSelector,
         speed: Settings.shuffleSpeed,
         easing: Settings.shuffleEasing,
-        columnWidth: Utilities.masonryColumns,
-        gutterWidth: Utilities.masonryGutters,
         showInitialTransition: false,
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
-        buffer: 8
+        buffer: 8,
+        columnWidth: function( containerWidth ) {
+          var column = containerWidth;
+
+          // 568px+
+          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 30em)') ) {
+            column = Settings.COLUMN_WIDTH_SLIM * containerWidth;
+          }
+
+          return column;
+        },
+        gutterWidth: function( containerWidth ) {
+          var gutter = 0,
+              is3Col = !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.1875em)'),
+              is2Col = is3Col ? false : Modernizr.mq('(min-width: 35.5em)'),
+              numCols = is3Col ? 3 : is2Col ? 2 : 1;
+
+          if ( is3Col || is2Col ) {
+            gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
+          }
+
+          if ( self.currentFinderCols !== numCols && numCols !== 1) {
+            self.swapShuffleItemClasses( numCols, this );
+          }
+
+          self.currentFinderCols = numCols;
+
+          return gutter;
+        }
       });
 
       // Save ref to shuffle
@@ -2922,6 +2948,23 @@ define(function(require){
       self.$grid.on( 'layout.shuffle', iQ.update );
 
       return self;
+    },
+
+    swapShuffleItemClasses : function( numCols, shuffle ) {
+      var self = this,
+          newClass = 'span6',
+          oldClass = 'span4';
+
+      if ( numCols === 3 ) {
+        newClass = 'span4';
+        oldClass = 'span6';
+      }
+
+      shuffle.$items.each(function() {
+        $(this)
+          .removeClass( oldClass )
+          .addClass( newClass );
+      });
     },
 
     getSorter : function() {

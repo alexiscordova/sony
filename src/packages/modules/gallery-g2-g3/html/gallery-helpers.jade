@@ -105,19 +105,15 @@ mixin filterSet( filterSet )
       +filterGroup( filterSet )
 
 
-mixin galleryFilters( gallery, isCompareGallery, noGridClasses )
+mixin galleryFilters( gallery, isCompareGallery )
   compareStr = isCompareGallery ? 'Browse' : 'Compare'
   sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
   productsStr = gallery.productsStr ? gallery.productsStr : 'Products'
   filterStr = 'Filter'
   compareBrowseLink = isCompareGallery ? gallery.browseLink : gallery.compareLink
   compareBrowseLink = compareBrowseLink ? compareBrowseLink : '#'
-  wrapperClass = 'filter-display-bar slide-toggle-parent'
-  gridClass = 'clearfix'
-  - if ( !noGridClasses ) {
-    - wrapperClass = 'container ' + wrapperClass
-    - gridClass = 'grid no-grid-at-767'
-  - }
+  wrapperClass = 'container filter-display-bar slide-toggle-parent'
+  gridClass = 'grid no-grid-at-767'
 
   div(class=wrapperClass)
     if gallery.sortSet
@@ -370,18 +366,26 @@ mixin accessoryFinder( submodules, finder )
             p.p3= finder.subtitle
             button.box-close(data-dismiss="modal", aria-hidden="true")
               i.fonticon-10-x-skinny
+
           .modal-subhead
-            .grid.filter-container
+            .grid.m-grid-at-767.filter-container
               .search-form.pull-left
                 i.fonticon-10-search.input-icon
                 label.visuallyhidden(for="accessory-finder-input")
                 input(class="p2", id="accessory-finder-input", type="search", placeholder=finder.placeholder)
               +helpPopover( finder.help, undefined, true )
-          .modal-body
-            .grid.compat-filters
-              +galleryFilters( finder, false, true )
 
-            .slimgrid.m-grid-at-767.products
+          .modal-body
+            .grid.compat-filters.filter-display-bar
+              //- Sort options
+              +sorter( finder.sortSet, finder.sortText )
+
+              //- Product Count
+              span.p3.ib.product-count-wrap
+                strong.text-dark.product-count= finder.total
+                | !{ finder.productsStr }
+
+            .slimgrid.no-grid-at-567.products
               each module in submodules
                 d = locals.data(module.data)
                 if d.type == type && !d.promo && d.imgTiny
