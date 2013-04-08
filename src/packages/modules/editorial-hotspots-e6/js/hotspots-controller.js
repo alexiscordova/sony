@@ -93,7 +93,6 @@ define(function(require) {
       // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO 
       // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
       enquire.register("(max-width: 767px)", function() {
-        log('setting shoOverlayCentered to true');        
         self.showOverlayCentered = true;
         try { 
           self.reposition(self.$lastOpen[0]);
@@ -101,7 +100,6 @@ define(function(require) {
       }).listen();
       
       enquire.register("(min-width: 768px)", function() {
-        log('setting shoOverlayCentered to false');
         self.showOverlayCentered = false;
         try { 
           self.reposition(self.$lastOpen[0]);
@@ -113,10 +111,12 @@ define(function(require) {
     
     bind: function( el ) {
       var self = this;
+      // hotspot clicks
       $($( el ).find( '.hspot-core' ) ).bind( 'click', function( event ) {
         self.click( event, self );
       });
     },
+    
     place: function( el ) {
       var self = this;
       // this places the hotspot absolutely (currently by % fed from data-x,y attrib)
@@ -133,9 +133,11 @@ define(function(require) {
         open: false
       });
     },
+    
     show: function( el ) {
       
     },
+    
     find: function( currentTarget ) {
       var self = this;
       self.$els.each( function( index, el ) {
@@ -147,6 +149,7 @@ define(function(require) {
         }
       });
     },
+    
     click: function( event, self ) {
       var container = $( event.currentTarget ).parent(),
           hotspot   = container.find( '.hspot-core, .hspot-core-on' ),
@@ -163,16 +166,59 @@ define(function(require) {
       }
       
     },
+
+    reanchor: function( el, toCenter ) {
+      var self          = this,
+          overlayBase   = $( '.hspot-global-details-overlay' ),
+          underlayBase  = $( '.hspot-underlay' );
+
+      if( toCenter ) {
+        
+        // tag last el as the one copied
+        el.addClass( 'lastMoved' );
+        
+        // find and hide the currently open overlay
+        el.find( '.overlay-base' ).addClass( 'hidden' );
+        
+        // show the opaque underlay to dim the background
+        if( self.$lastOpen ) {
+          underlayBase.removeClass( 'hidden' );
+        }
+
+        // copy HTML over to the overlay container
+        overlayBase.html( el.find( '.overlay-base' ).html() );
+
+        // turn on overlay container
+        overlayBase.find( '.top' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
+        overlayBase.find( '.middle' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
+        overlayBase.find( '.footer' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
+        overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
+
+        // bind close button for this instance
+        overlayBase.find( '.hspot-close' ).bind( 'click', function( event ) {
+          // save pointer for one more operation
+          var lastOpen = el;
+          // close overlay 
+          self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
+          self.reanchor( el, false );
+
+        });
+        
+        // finally show the overlay
+        overlayBase.removeClass( 'hidden' );
+      } else {
+        // untag last overlay
+        el.removeClass( 'lastMoved' );
+        // close underlay
+        underlayBase.addClass( 'hidden' );
+        // close mobile overlay
+        overlayBase.addClass( 'hidden' );
+        // reopen normal overlay
+        el.find( '.overlay-base' ).removeClass( 'hidden' );
+      }
+    },
     
-    
-   /*
-    * AN ISSUE WHERE THE BREAKPOINT TEXT IS SHRINKING NEEDS TO BE ADJUSTED. WHEN THE TEXT SHRINKS THE 
-    * TOPS ARE OFF, NEED TO INVESTIGATE
-    * 
-    * TODO: RE-INTRODUCE TOP OR BOTTOM NODES IF THEY ARE ON BY DEFAULT, IF THERE IS ROOM
-    */
-    
-    reposition: function(el, fromResize) {
+    reposition: function( el, fromResize ) {
       
       var self                  = this,
           parentContainer       = el.parent(),
@@ -205,204 +251,199 @@ define(function(require) {
       
       // we need to put this element in the centered overlay, not free form next to it's hotspot button
       if( true === self.showOverlayCentered ) {
+        
         log('need to reparen to overlay view');
+        self.reanchor( el, true );
+        
       } else {
-        log('unabaited repositioning');        
-      }
-
-
-
-      /*
-       * INITIAL CALCULATIONS TO SEE IF WE'RE COLLIDING AT THE DEFAULT POSITIONING (TOP RIGHT)
-       * THIS SHOULD LOOP 4 TIMES. IF IT'S STILL COLLIDING WE HAVE TO FIGURE THAT OUT...heh...
-       **/
-
-      // see if we're growing or shrinking
-      try {
-        if( parentRight > self.lastWidth ) {
-          self.direction = 'grew';
-        } else if( parentRight == self.lastWidth ) {
-          self.direction = 'same';
-        } else {
-          self.direction = 'shrank';
-        }
-        self.lastWidth = parentRight;
-      } catch(e) {}
-
-      // The script will move the window into it's 4 potential orientations, until it finds a place it fits.
-      // if the loop is completed and there are no matches, the script will turn off the top and footer nodes of
-      // the overlay and reiterate through the loop, breaking when the overlay is at a safe zone.
-      
-      // TODO:: Apply restraints to Editorial types [as spec'd from comps] 
-      
-      for( var i=0; i<4 && ( true === collides || null === collides ); i++ ) { 
-        // resample coordinates
-        overlayHeight       = overlay.height(),
-        overlayPosition     = overlay.position(),
-        overlayHeaderHeight = overlayTop.height(),
-        overlayFooterHeight = overlayFooter.height(),
-        hotspotPosition     = overlay.parent().position();
         
-        // check if the hotspot's offset plus the negative margin of the overlay is at or less than "top:0" with resepct to it's container
-        topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top );
-        // check if overlays' width plus position offset is overlapping the rightmost boundary of it's container
-        rightOverlayPosition = hotspotPosition.left + overlayPosition.left + overlay.width();
+        log('unabaited repositioning');
+        self.reanchor(el, false);
         
-        bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height();
-        
-        leftOverlayPosition = hotspotPosition.left + overlayPosition.left;
-                
-        if( topOverlayPosition <= 0 ) {
-          // it is colliding with the top of the parent container
-          collidesTop = true;
-          self.clearPositionStyles(overlay);
-          overlay.addClass( rows + '-stack-right-top-justified' );
-          overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
-          /* log('::overlay hits container top::'); */
-        } else {
-          collidesTop = false;
-        }
-        
-        if( rightOverlayPosition >= parentRight ) {
-          collidesRight = true;
-          self.clearPositionStyles(overlay);
-          overlay.addClass( rows + '-stack-left-top-justified' );
-          overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
-          /* log('::overlay hits container right::'); */
-        } else {
-          collidesRight = false;
-        }
-        
-        
-        if( bottomOverlayPosition >= parentFloor ) {
-          collidesFloor = true;
-          self.clearPositionStyles(overlay);
-          overlay.addClass( rows + '-stack-left-bottom-justified' );
-          overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
-          /* log('::overlay hits container floor::'); */
-        } else {
-          collidesFloor = false;
-        } 
-        
-
-        if( leftOverlayPosition <= 0 ) {
-          collidesLeft = true;
-          self.clearPositionStyles(overlay);
-          overlay.addClass( rows + '-stack-right-bottom-justified' );
-          overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
-          /* log('::overlay hits container left::'); */
-        } else {
-          collidesLeft = false;
-        }
-        
-        //log(collidesTop , collidesRight , collidesFloor , collidesLeft);
-        
-        if( collidesTop || collidesRight || collidesFloor || collidesLeft ) {
-          
-          collides = true;
-          
-        } else {
-          
-          collides = false;
-          
-          // element has a default image, and due to shiting around, can be turned on if there is
-          // 1. room, and 2. the last resize was growing and not shrinking, implying there is more space now 
-          // to potentially turn on the top section.
-          if( overlayTop.hasClass( 'is-default-on' ) && 
-              overlayTop.hasClass( 'hidden' ) &&
-              fromResize && 'grew' === self.direction ) {
-            
-            var topHeight = null;
-            
-            if( overlay.parent().hasClass( 'variant1' )) {
-              topHeight = self.variant1TopHeight;/*  + self.variant1Differential; */
-            } else {
-              topHeight = self.variant2TopHeight;/*  + self.variant2Differential; */
-            }
-            
-            topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top ) - topHeight;
-            
-            if( topOverlayPosition > 0 ) {
-              // it fits!
-              overlayTop.removeClass( 'hidden' );
-              // make sure the orientation is correct. In some cases it needs to be adjusted
-              self.twoToThree(overlay);
-            }
-          }
-
-          if( overlayFooter.hasClass( 'is-default-on' ) && 
-              overlayFooter.hasClass( 'hidden' ) &&
-              fromResize && 'grew' === self.direction ) {
-       
-            var floorHeight = null;
-       
-            if( overlay.parent().hasClass( 'variant1' )) {
-              floorHeight = self.variant1FloorHeight;
-            } else {
-              floorHeight = self.variant2FloorHeight;
-            }
-
-            bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height() + floorHeight;
-            
-            if( bottomOverlayPosition < parentFloor ) {
-              overlayFooter.removeClass( 'hidden' );
-            }
-          }
-          
-        }
-
         /*
-        log('rightOverlayPosition '+rightOverlayPosition);
-        log('topOverlayPosition '+topOverlayPosition);
-        log('bottomOverlayPosition '+bottomOverlayPosition);
-        log('leftOverlayPosition '+leftOverlayPosition);
-        */
-
-        /* log('collides '+collides); */   
-        
-        // if we're in the last iteration of the loop, and no position has been found,
-        // we need to attempt to turn off the the top or bottom section to make room
-        // since we're tracking collisions by side, we can easily do this prescriptively,
-        if( true === collides && i == 3 ) {
-        
-          /* log('Reposition did not work. '); */
-          
-          top = overlayTop; // clean up redundant vars!!!!
-          footer = overlayFooter; // clean up redundant vars!!!!
-          
-          if( collidesTop && ( top.height() > 0 ) ) {
-            /* log('turning off top section and restting loop'); */
-            top.addClass( 'hidden' );
-            rows = 'two';
-            self.downstepStacks( el );
-            i=-1;
+         * INITIAL CALCULATIONS TO SEE IF WE'RE COLLIDING AT THE DEFAULT POSITIONING (TOP RIGHT)
+         * THIS SHOULD LOOP 4 TIMES. IF IT'S STILL COLLIDING WE HAVE TO FIGURE THAT OUT...heh...
+         **/
+  
+        // see if we're growing or shrinking
+        try {
+          if( parentRight > self.lastWidth ) {
+            self.direction = 'grew';
+          } else if( parentRight == self.lastWidth ) {
+            self.direction = 'same';
+          } else {
+            self.direction = 'shrank';
           }
-          if( collidesFloor && ( footer.height() > 0 ) ) {
-            /* log('turning off bottom section and resetting loop'); */
-            footer.addClass( 'hidden' );            
-            rows = 'two';
-            self.downstepStacks( el ); 
-            i=-1;
+          self.lastWidth = parentRight;
+        } catch(e) {}
+  
+        // The script will move the window into it's 4 potential orientations, until it finds a place it fits.
+        // if the loop is completed and there are no matches, the script will turn off the top and footer nodes of
+        // the overlay and reiterate through the loop, breaking when the overlay is at a safe zone.
+        
+        // TODO:: Apply restraints to Editorial types [as spec'd from comps] 
+        
+        for( var i=0; i<4 && ( true === collides || null === collides ); i++ ) { 
+          // resample coordinates
+          overlayHeight       = overlay.height(),
+          overlayPosition     = overlay.position(),
+          overlayHeaderHeight = overlayTop.height(),
+          overlayFooterHeight = overlayFooter.height(),
+          hotspotPosition     = overlay.parent().position();
+          
+          // check if the hotspot's offset plus the negative margin of the overlay is at or less than "top:0" with resepct to it's container
+          topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top );
+          // check if overlays' width plus position offset is overlapping the rightmost boundary of it's container
+          rightOverlayPosition = hotspotPosition.left + overlayPosition.left + overlay.width();
+          
+          bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height();
+          
+          leftOverlayPosition = hotspotPosition.left + overlayPosition.left;
+                  
+          if( topOverlayPosition <= 0 ) {
+            // it is colliding with the top of the parent container
+            collidesTop = true;
+            self.clearPositionStyles(overlay);
+            overlay.addClass( rows + '-stack-right-top-justified' );
+            overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
+            /* log('::overlay hits container top::'); */
+          } else {
+            collidesTop = false;
+          }
+          
+          if( rightOverlayPosition >= parentRight ) {
+            collidesRight = true;
+            self.clearPositionStyles(overlay);
+            overlay.addClass( rows + '-stack-left-top-justified' );
+            overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
+            /* log('::overlay hits container right::'); */
+          } else {
+            collidesRight = false;
+          }
+          
+          
+          if( bottomOverlayPosition >= parentFloor ) {
+            collidesFloor = true;
+            self.clearPositionStyles(overlay);
+            overlay.addClass( rows + '-stack-left-bottom-justified' );
+            overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
+            /* log('::overlay hits container floor::'); */
+          } else {
+            collidesFloor = false;
           } 
-
-          /* log('finished '+passes+' passes' ); */
-          passes++;
           
-          // two passes, and no dice; lets turn off top and bottom in an attempt to 
-          // make room one last time
-          if(passes==1) {
-            top.addClass( 'hidden' );
-            footer.addClass( 'hidden' );
-            i=-1;
-          } else if(passes>1) {
-            i=99; // leave loop
+  
+          if( leftOverlayPosition <= 0 ) {
+            collidesLeft = true;
+            self.clearPositionStyles(overlay);
+            overlay.addClass( rows + '-stack-right-bottom-justified' );
+            overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
+            /* log('::overlay hits container left::'); */
+          } else {
+            collidesLeft = false;
           }
+          
+          //log(collidesTop , collidesRight , collidesFloor , collidesLeft);
+          
+          if( collidesTop || collidesRight || collidesFloor || collidesLeft ) {
+            
+            collides = true;
+            
+          } else {
+            
+            collides = false;
+            
+            // element has a default image, and due to shiting around, can be turned on if there is
+            // 1. room, and 2. the last resize was growing and not shrinking, implying there is more space now 
+            // to potentially turn on the top section.
+            if( overlayTop.hasClass( 'is-default-on' ) && 
+                overlayTop.hasClass( 'hidden' ) &&
+                fromResize && 'grew' === self.direction ) {
+              
+              var topHeight = null;
+              
+              if( overlay.parent().hasClass( 'variant1' )) {
+                topHeight = self.variant1TopHeight;/*  + self.variant1Differential; */
+              } else {
+                topHeight = self.variant2TopHeight;/*  + self.variant2Differential; */
+              }
+              
+              topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top ) - topHeight;
+              
+              if( topOverlayPosition > 0 ) {
+                // it fits!
+                overlayTop.removeClass( 'hidden' );
+                // make sure the orientation is correct. In some cases it needs to be adjusted
+                self.twoToThree(overlay);
+              }
+            }
+  
+            if( overlayFooter.hasClass( 'is-default-on' ) && 
+                overlayFooter.hasClass( 'hidden' ) &&
+                fromResize && 'grew' === self.direction ) {
+         
+              var floorHeight = null;
+         
+              if( overlay.parent().hasClass( 'variant1' )) {
+                floorHeight = self.variant1FloorHeight;
+              } else {
+                floorHeight = self.variant2FloorHeight;
+              }
+  
+              bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height() + floorHeight;
+              
+              if( bottomOverlayPosition < parentFloor ) {
+                overlayFooter.removeClass( 'hidden' );
+              }
+            }
+            
+          }
+          
+          // if we're in the last iteration of the loop, and no position has been found,
+          // we need to attempt to turn off the the top or bottom section to make room
+          // since we're tracking collisions by side, we can easily do this prescriptively,
+          if( true === collides && i == 3 ) {
+          
+            /* log('Reposition did not work. '); */
+            
+            top = overlayTop; // clean up redundant vars!!!!
+            footer = overlayFooter; // clean up redundant vars!!!!
+            
+            if( collidesTop && ( top.height() > 0 ) ) {
+              /* log('turning off top section and restting loop'); */
+              top.addClass( 'hidden' );
+              rows = 'two';
+              self.downstepStacks( el );
+              i=-1;
+            }
+            if( collidesFloor && ( footer.height() > 0 ) ) {
+              /* log('turning off bottom section and resetting loop'); */
+              footer.addClass( 'hidden' );            
+              rows = 'two';
+              self.downstepStacks( el ); 
+              i=-1;
+            } 
+  
+            /* log('finished '+passes+' passes' ); */
+            passes++;
+            
+            // two passes, and no dice; lets turn off top and bottom in an attempt to 
+            // make room one last time
+            if(passes==1) {
+              top.addClass( 'hidden' );
+              footer.addClass( 'hidden' );
+              i=-1;
+            } else if(passes>1) {
+              i=99; // leave loop
+            }
+  
+  
+          }
+        } // END COLLISION DETECTION
 
-
-        }
-      } // END COLLISION DETECTION
-
+      }
     },
+    
     twoToThree: function( el ) {
       var classList =$( el ).attr( 'class' ).split( /\s+/ );
       $.each( classList, function( index, item ){
@@ -414,6 +455,7 @@ define(function(require) {
           }
       });
     },
+    
     clearPositionStyles: function( el ) {
       el.removeClass( 'three-stack-left-top-justified' );
       el.removeClass( 'three-stack-left-bottom-justified' );
@@ -428,6 +470,7 @@ define(function(require) {
       el.find( '.arrow-left-bottom' ).addClass( 'hidden' );
       el.find( '.arrow-right-bottom' ).addClass( 'hidden' );
     },
+    
     downstepStacks: function( el ) {
       log('swapping stack class');
       el = el.find( '.overlay-base' );
@@ -445,6 +488,7 @@ define(function(require) {
         el.removeClass( 'three-stack-right-bottom-justified' ).addClass( 'two-stack-right-bottom-justified' );
       }
     },
+    
     close: function( container, hotspot, info ) {
         var self = this;
         // we are setting display:none when the trasition is complete, and managing the timer here
@@ -468,7 +512,16 @@ define(function(require) {
         
         // fire a timer that will set the display to none when the element is closed. 
         self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
+        
+        // set the open status to zilch
+        self.$lastOpen = null;
+        
+        // kill the underlay if we're in minified mode
+        if( true === self.showOverlayCentered ) {
+          $( '.hspot-underlay' ).addClass( 'hidden' );          
+        }
     },
+    
     open: function( container, hotspot, info ) {
         var self = this;
         
@@ -497,20 +550,19 @@ define(function(require) {
         info.find('.middle').addClass( 'eh-visible' );
         info.find('.footer').addClass( 'eh-visible' );
     },
+    
     reset: function( container ) {
       var self = this;
       self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
     },
+    
     defaultPositions: function() {
       for(var el in self.$els) {
         
       }
     },
+    
     cleanTimer: function() {
-      /*
-        BUG EXISTS WHEN YOU CLICK A DIFFERENT HOTSPOT. THE TIMEOUT FAILS TO SET 
-        DISPLAY TO NONE ON THE LAST OPEN/CLOSING WINDOW.
-      */
       var self = this;
       if( self.$lastTimer ) {
         clearTimeout( self.$lastTimer );
