@@ -349,7 +349,13 @@ define(function(require){
         return;
       }
 
-      var $dotnavWrapper = $('<div class="sony-dot-nav" />').insertAfter(self.$wrapper);
+      var $dotnavWrapper = $('<div class="sony-dot-nav" />');
+
+      if ( self.$dotNavWrapper ) {
+        $dotnavWrapper.appendTo(self.$dotNavWrapper);
+      } else {
+        $dotnavWrapper.insertAfter(self.$wrapper);
+      }
 
       self.$dotnav = $dotnavWrapper.sonyNavDots({
         'buttonCount': self.$slides.length
@@ -536,7 +542,10 @@ define(function(require){
     // Create paddles.
     paddles: false,
 
-    // If selector is specified, insert paddles into a matching parent of $el.
+    // If element is specified, insert pagination into that element instead of using the default position.
+    $dotNavWrapper: undefined,
+
+    // If element is specified, insert paddles into that element instead of using the default position.
     $paddleWrapper: undefined,
 
     // Create dot pagination, which is inserted after self.$el.
