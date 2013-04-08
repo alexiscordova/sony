@@ -162,14 +162,11 @@ define(function(require){
       self.showMeasurements();
       self.getMImageDimensions();
       self.setMeasurementDimensions();
-      
-    
     },
 
     renderDesktop: function() {
       var self = this;
 
-      
       self.resetMeasurements();
       
       // console.log( 'renderDesktop »' );
@@ -177,6 +174,8 @@ define(function(require){
 
     renderMobile: function() {
       var self = this;
+
+      self.resetMeasurements();
       // console.log( 'renderMobile »' );
     }
   };
