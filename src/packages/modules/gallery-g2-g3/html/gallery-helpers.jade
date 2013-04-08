@@ -375,7 +375,7 @@ mixin accessoryFinder( submodules, finder )
                 input(class="p2", id="accessory-finder-input", type="search", placeholder=finder.placeholder)
               +helpPopover( finder.help, undefined, true )
 
-          .modal-body
+          .modal-body.fade
             .grid.compat-filters.filter-display-bar
               //- Sort options
               +sorter( finder.sortSet, finder.sortText )

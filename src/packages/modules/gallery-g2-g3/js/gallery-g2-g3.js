@@ -2860,7 +2860,7 @@ define(function(require){
       var self = this;
 
       // Listen for modal events
-      self.$modal.on( 'show', $.proxy( self.onModalShow, self ) );
+      // self.$modal.on( 'show', $.proxy( self.onModalShow, self ) );
       self.$modal.on( 'shown', $.proxy( self.onModalShown, self ) );
       self.$modal.on( 'hidden', $.proxy( self.onModalClosed, self ) );
 
@@ -2896,8 +2896,8 @@ define(function(require){
     initShuffle : function() {
       var self = this;
 
-      self.$grid.on('loading.shuffle', $.proxy( self.onGalleryLoading, self ));
-      self.$grid.on('done.shuffle', $.proxy( self.onGalleryDoneLoading, self ));
+      // self.$grid.on( 'loading.shuffle', $.proxy( self.onShuffleLoading, self ) );
+      self.$grid.on( 'done.shuffle', $.proxy( self.onShuffleDoneLoading, self ) );
 
       // instantiate shuffle
       self.$grid.shuffle({
@@ -2977,6 +2977,24 @@ define(function(require){
     getSortObject : Gallery.prototype.getSortObject,
     sort : Gallery.prototype.sort,
 
+
+    // onShuffleLoading : function() {
+    //   var self = this;
+
+
+    // },
+
+    onShuffleDoneLoading : function() {
+      var self = this;
+
+      if ( !self.isFadedIn ) {
+        setTimeout(function() {
+          self.$modalBody.addClass('in');
+          self.isFadedIn = true;
+        }, 300);
+      }
+    },
+
     onResize : function( isInit ) {
       var self = this,
           maxModalHeight,
@@ -3014,10 +3032,10 @@ define(function(require){
       }
     },
 
-    onModalShow : function() {
-      var self = this;
+    // onModalShow : function() {
+    //   var self = this;
 
-    },
+    // },
 
     onModalShown : function() {
       var self = this;
@@ -3045,8 +3063,11 @@ define(function(require){
         self.$modalSubhead.removeClass('body-scrolled');
       }
 
+      self.$modalBody.removeClass('in');
+
       // Clear out the search field
       self.$searchField.val( '' );
+      self.isFadedIn = false;
     },
 
     updateStickyNav : function() {
@@ -3080,6 +3101,7 @@ define(function(require){
     isDesktop: false,
     isMobile: false,
     isTicking: false,
+    isFadedIn: false,
     itemSelector: '.compat-item',
     $window: Settings.$window
   };
