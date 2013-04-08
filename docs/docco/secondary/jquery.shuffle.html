@@ -883,9 +883,14 @@ The buffer value is very useful when the height is a percentage of the width</p>
         destroy: <span class="keyword">function</span>() {
             <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-            self.$container.removeAttr(<span class="string">'style'</span>).removeData(<span class="string">'shuffle'</span>);
             self.$window.off(<span class="string">'.shuffle'</span>);
-            self.$items.removeAttr(<span class="string">'style'</span>).removeClass(<span class="string">'concealed filtered shuffle-item'</span>);
+            self.$container
+                .removeClass(<span class="string">'shuffle'</span>)
+                .removeAttr(<span class="string">'style'</span>)
+                .removeData(<span class="string">'shuffle'</span>);
+            self.$items
+                .removeAttr(<span class="string">'style'</span>)
+                .removeClass(<span class="string">'concealed filtered shuffle-item'</span>);
             self.destroyed = <span class="literal">true</span>;
         }
 

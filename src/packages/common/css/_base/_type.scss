@@ -31,6 +31,28 @@ a:focus {
 }
 
 
+// Placing these above type styles so they don't override them
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  font-size: $font_13_16;
+  line-height: $baseLineHeight;
+}
+
 
 // --------------------------------------
 // New font styles
@@ -175,7 +197,7 @@ h2, h4 {
 // For most .lt classes, the only difference between the .lt3 and the .p3 classes is the margin-bottom.
 // So now instead of having a paragraph with the class .lt3, you can use the .p3 class and the .lt class.
 // So <div class="lt3"> becomes <div "class="p3 tl"> -- make sense?
-// This makes it more obvious that a .lt3 paragraph is really just a alightly altered (margin-bottom) .p3.
+// This makes it more obvious that a .lt3 paragraph is really just a slightly altered (margin-bottom) .p3.
 // The one exception is .lt-alt which has a few other differences.
 //
 // For now you can continue using .lt# classes if you want, but they will probably be removed in the future.
@@ -190,7 +212,7 @@ p, .p1, .p2, .p3, .p4, .p5 { color: $defaultParagraphColor; }
 .p1, .lt1 { // also affects .p1.lt
   @include px-em--font-size--line-height(18,26);
 }
-.p2, .lt2, p { // also affects .p2.lt
+.p2, .lt2, p, input.p2 { // also affects .p2.lt
   @include px-em--font-size--line-height(15,22);
 }
 .p3, .lt3, .lt3-alt { // also affects .p3.lt
@@ -407,28 +429,6 @@ p{ @extend .p2; }
   color:$grayDark;
 }
 
-
-
-select,
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input {
-  font-size: $font_13_16;
-  line-height: $baseLineHeight;
-}
 
 // Page header
 // -------------------------

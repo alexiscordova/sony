@@ -1,0 +1,181 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('editorial-layouts-e1')
+
+mixin gridstyle(extraclass)
+  extraclass = extraclass || ""
+  .grid.no-grid-at-767(class = extraclass)(class = data.style)
+    block
+    
+mixin center
+  .table-center-wrap
+    .table-center
+      block
+      
+mixin col(layout, extras)
+  layout = layout || data.layout
+  if layout.text == "left"
+    - span = "span" + layout.columns[0]
+    div(class = span)(class = extras)
+      block
+  else
+    - span = "span" + layout.columns[1]
+    - offset = "offset" + layout.columns[0]
+    div(class = span)(class = offset)(class = extras)
+      block
+
+mixin boxclass(layout)
+  layout = layout || data.layout
+  .box(class = layout.alignment)
+    block
+
+mixin boxlayout(layout)
+  layout = layout || data.layout
+  classes = data.style
+  if layout.mobilealign
+    classes = classes + " " + layout.mobilealign
+  if layout.text == "left"
+    .container.inner(class = classes)
+      .grid.no-grid-at-767
+        - span = "span" + layout.columns[0]
+        div(class = span)
+          +center
+            +boxclass
+              block
+  else if layout.text == "right" || layout.text == "center"
+    .container.inner(class = classes)
+      .grid.no-grid-at-767
+        - span = "span" + layout.columns[1]
+        - offset =  "offset" + layout.columns[0]
+        div(class = span)(class = offset)
+          +center
+            +boxclass
+              block
+                
+mixin toutcopy(copyobject, titleclass, subtitleclass, bodyclass)
+  span.toutcopy
+    +copyblock(copyobject, titleclass, subtitleclass, bodyclass)
+
+mixin copyblock(copyobject, titleclass, subtitleclass, bodyclass)
+  copyobject = copyobject || data
+  titleclass = titleclass || "t2"
+  subtitleclass = subtitleclass || "t6"
+  bodyclass = bodyclass || "p2"
+  if copyobject.title
+    h2(class = titleclass) !{copyobject.title}
+  if copyobject.subtitle
+    h3(class = subtitleclass) !{copyobject.subtitle}
+  if copyobject.body
+    p(class = bodyclass) !{copyobject.body}
+  if copyobject.link
+    a(class = copyobject.link.type, href= copyobject.link.url) !{copyobject.link.text}
+
+mixin textonlylayout(layout)
+  layout = layout || data.layout
+  if layout.text == "full"
+    .box.span12(class = layout.alignment)
+      block
+  else
+    extras = "box " + layout.alignment
+    +col(layout, extras)
+      block
+
+bg = ""
+if data.variation
+  bg = data.variation.background || ""
+.editorial.container.full-bleed-no-max(class = data.layout.media)(class = bg)
+  if data.layout.media == "textonly"
+    .container
+      +gridstyle
+        +textonlylayout
+          +copyblock
+
+  else if data.layout.media == "full-inner"
+    .container.submodule
+      +partial(data.submodules[0].type, data.submodules[0].data)
+    +boxlayout
+      +copyblock(data, "t3", "t7", "p3")
+  else if data.layout.media == "full"
+    .container
+      +gridstyle
+        +textonlylayout
+          +copyblock
+    .container.submodule
+      +partial(data.submodules[0].type, data.submodules[0].data)
+
+  else if data.layout.media == "mediaright"
+    .container
+      +gridstyle
+        span = "span" + data.layout.columns[0]
+        div(class = span)
+          +center
+            .box
+              +copyblock(data, "t3", "t7", "p3")
+        span = "span" + data.layout.columns[1]
+        .media-element(class = span)
+          +center
+            +partial(data.submodules[0].type, data.submodules[0].data)
+
+  else if data.layout.media == "medialeft"
+    .container
+      +gridstyle
+        span = "span" + data.layout.columns[0]
+        .media-element(class = span)
+          +center
+            +partial(data.submodules[0].type, data.submodules[0].data)
+        span = "span" + data.layout.columns[1]
+        div(class = span)
+          +center
+            .box
+              +copyblock(data, "t3", "t7", "p3")
+
+  else if data.layout.media == "tout"
+    .container
+      columnoffset = data.layout.columnoffset || 0;
+      offset = "offset" + columnoffset;
+      ups = "m" + data.columns.length + "up"
+      +gridstyle(ups)
+        if data.columns.length == 1
+          e = {"locals":locals, "data":data.columns[0].image}
+          if data.layout.text == "right"
+            span = "span"+ data.layout.columns[columnoffset]
+            div(class = span)(class = offset)
+              !{locals.partial('packages/modules/image/html/image.jade' , e)}
+            span = "span"+ data.layout.columns[columnoffset +1]
+            div(class = span)(class = "text"+data.layout.text)
+              +toutcopy(data.columns[0], "t5", "", "p3")
+  
+          else
+            span = "span"+ data.layout.columns[columnoffset]
+            div(class = span)(class = offset)(class = "text"+data.layout.text)
+              +toutcopy(data.columns[0], "t5", "", "p3")
+            span = "span"+ data.layout.columns[columnoffset +1]
+            div(class = span)
+              !{locals.partial('packages/modules/image/html/image.jade' , e)}
+  
+  
+        else if data.columns.length == 2
+          for col, i in data.columns
+            e = {"locals":locals, "data":col.image}
+            span = "span"+ data.layout.columns[i + columnoffset]
+            offset = i == 0 ? "offset"+columnoffset : ""
+            if data.layout.orientation == "vertical"
+              .vertical(class = span)(class = offset)(class = data.layout.alignment)
+                !{locals.partial('packages/modules/image/html/image.jade' , e)}
+                +toutcopy(col,"t5", "", "p3")
+            else
+              .horizontal(class = span)(class = offset)(class = data.layout.alignment)(class = "clearfix")
+                !{locals.partial('packages/modules/image/html/image.jade' , e)}
+                +center
+                  +toutcopy(col, "t7", "", "p3")
+  
+        else if data.columns.length == 3
+          for col, i in data.columns
+            e = {"locals":locals, "data":col.image}
+            span = "span"+ data.layout.columns[i]
+            div(class = span)(class = data.layout.alignment)
+              !{locals.partial('packages/modules/image/html/image.jade' , e)}
+              +toutcopy(col,"t5", "", "p3")
+
+
+
+

@@ -89,6 +89,7 @@ define(function(require){
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
       }
 
+      self.$el.addClass('dragging');
       self.isScrubbing = self.hasPassedThreshold = false;
       self.handleStartPosition = self.getPagePosition(e);
       self.setDimensions();
@@ -163,11 +164,21 @@ define(function(require){
 
       self.setAcceleration(e);
 
+      self.$el.removeClass('dragging');
       self.isScrubbing = self.hasPassedThreshold = false;
 
       self.$el.trigger('sonyDraggable:dragEnd', {
         'acceleration': self.acceleration
       });
+
+      if ( self.snapToBounds && self.bounds ) {
+        if ( self.axis.search('x') >= 0 ) {
+          self.animateToBounds('x');
+        }
+        if ( self.axis.search('y') >= 0 ) {
+          self.animateToBounds('y');
+        }
+      }
     },
 
     // Smooths out different event data for desktop and touch users, returns a consistent pageX/Y.
@@ -211,10 +222,48 @@ define(function(require){
       self.lastPagePosition = newPosition;
     },
 
+    // If self.snapToBounds is specified, handle the logic for animating the scrubbed element
+    // to the nearest bounds.
+
+    'animateToBounds': function(axis) {
+
+      var self = this,
+          currentPosition = self.handlePosition[axis],
+          pctScale = (self.unit === '%' ? ( axis ==='x' ? self.containmentWidth : self.containmentHeight ) : 1),
+          boundsDistance = self.snapToBounds  / 100 * pctScale,
+          minMax = [self.bounds[axis].min / 100 * pctScale, self.bounds[axis].max / 100 * pctScale],
+          currentDistances = [Math.abs(currentPosition - minMax[0]), Math.abs(currentPosition - minMax[1])],
+          closest = Math.min.apply(Math, currentDistances),
+          destination = minMax[currentDistances.indexOf(closest)],
+          newPosition;
+
+      if( currentDistances[0] > boundsDistance && currentDistances[1] > boundsDistance ) {
+        return;
+      }
+
+      newPosition = Math.floor( (2/3 * currentPosition + 1/3 * destination) );
+
+      if ( currentPosition !== newPosition ) {
+        self.handlePosition[axis] = newPosition;
+        self.setPositions();
+      } else {
+        self.handlePosition[axis] = destination;
+        self.setPositions();
+        return;
+      }
+
+      window.requestAnimationFrame(function(){
+        self.animateToBounds(axis);
+      });
+    },
+
     // Reposition the handle based on mouse movement, or may be called at init for initial placement.
     // Also broadcasts the new position via the self.drag() callback.
+    //
+    // Optionally, provide an override argument in the form of `{x: 0, y: 0}`
+    // to overwrite the scrubber's current position.
 
-    'setPositions': function(){
+    'setPositions': function(overridePosition){
 
       var self = this,
           newX = 0,
@@ -243,9 +292,14 @@ define(function(require){
         newY = self.bounds.y ? Utilities.constrain( newY, self.bounds.y.min, self.bounds.y.max ) : newY;
       }
 
-      // TODO: For CSS3, translate is relative to the width of the element itself. This works fine for carousels
-      // where the width is greater than or equal to the parent, but not for scrubbers, like in dual viewer.
-      // Need to create a conditional that inverts the math for latter.
+      if ( overridePosition ) {
+        if ( self.axis.search('x') >= 0 ) {
+          newX = overridePosition.x;
+        }
+        if ( self.axis.search('y') >= 0 ) {
+          newY = overridePosition.y;
+        }
+      }
 
       if ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed('transform'), 'translate(' + newX + self.unit + ',' + newY + self.unit + ')');
@@ -280,7 +334,8 @@ define(function(require){
       offsetCorrectionX = (self.$el.outerWidth(true) - self.$el.width()) / 2;
       offsetCorrectionY = (self.$el.outerHeight(true) - self.$el.height()) / 2;
 
-      offsetCorrectionX += self.$containment.position().left;
+      offsetCorrectionX += self.$containment.get(0).getBoundingClientRect().left;
+      offsetCorrectionY += self.$containment.get(0).getBoundingClientRect().top;
 
       // This exception is built specifically for carousels like the OSC (S2) module, which must
       // respect the grid even though they aren't really in it. Refer to S2 for usage example;
@@ -296,6 +351,7 @@ define(function(require){
       self.containmentHeight = $widthObject.height();
       self.scrubberLeft = self.$el.get(0).getBoundingClientRect().left - offsetCorrectionX;
       self.scrubberTop = self.$el.get(0).getBoundingClientRect().top - offsetCorrectionY;
+
     },
 
     // Allows other classes to reset the handle's position if needed, by calling:
@@ -333,18 +389,33 @@ define(function(require){
   // --------
 
   $.fn.sonyDraggable.defaults = {
+
     // Define the axes along which the handle may be dragged.
     'axis': 'xy',
+
     // 'px' or '%' based positioning for handle / callback coords.
     'unit': 'px',
+
+    // Motion that must be passed on touch before dragging will start. Helpful for
+    // preventing "touch-trapping" scenarios.
     'dragThreshold': undefined,
+
     // Initial position of handle.
     'handlePosition': {
       'x': 0,
       'y': 0
     },
+
+    // Set boundaries in the form of `{x:0, y:100}`, in self.unit measurements.
+    'bounds': undefined,
+
+    // If scrubber is released within this distance of a bounds (in self.unit measurements),
+    // Animates the scrubber to that bounds. Requires `bounds`.
+    'snapToBounds': undefined,
+
     // Use CSS3 Transforms and Transitions for dragging.
     'useCSS3': false,
+
     // Callback for drag motion, may be used to reposition other elements.
     'drag': function(){}
   };
