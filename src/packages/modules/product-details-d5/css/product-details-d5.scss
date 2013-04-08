@@ -324,19 +324,22 @@
 
 		.text-tout{
 			text-align: left;
+			position: relative;
 
 			.icon{
-				display: inline-block;
-				margin-right:26px;
-				max-width:11%;
+				position: absolute;
+				left: 0;
+				top: 0;
 			} // .icon
 
 			.copy{
+				max-width:78%;
+				margin-left:0;
 				display: inline-block;
 				padding-top:5px;
 		
 				&.with-icon{
-					width:84%;	
+					margin-left: px-em(90px);
 				} // .with-icon
 
 				a{
@@ -344,17 +347,16 @@
 				} // a
 	
 			} // copy
-
-
 		} // .text-tout
 
 		.bottom-btn{
-			text-align: right;
-			// text-align: left;
+			&.span6{
+				text-align: right;
+			} // span6
 
-			// &.span6{
-			// 	text-align: right;
-			// } // .span6
+			&.m-span6{
+				text-align: left;
+			}
 
 		} // .bottom-btn
 

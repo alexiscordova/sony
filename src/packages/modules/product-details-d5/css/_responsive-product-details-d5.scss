@@ -1,14 +1,12 @@
 
 @media (min-width: px-em(480px)) and (max-width: px-em(768px)) {
 	.pd-module{
-		outline:1px solid blue;
 
 		.top{
 
 			.desc{
 				@include content-columns(1);
 			} //. desc
-
 		} // .top
 
 
@@ -45,95 +43,86 @@
 				} // p3
 
 			} // extras
-
 		} // last-column
+		
+		.bottom{
+		
+			.bottom-btn{				
+				&.m-span6{
+					text-align: left;
+				} // m-span6
 
-			// 88888888888888888b.  .d88888b.     
-			// 888       888   Y88bd88P" "Y88b    
-			// 888       888    888888     888    
-			// 8888888   888   d88P888     888    
-			// 888       8888888P" 888     888    
-			// 888       888       888     888    
-			// 888       888       Y88b. .d88P    
-			// 888       888        "Y88888P"     
-
-		// .bottom{
-
-		// 	.text-tout{
-		// 		text-align: left;
-		// 		display: table;
-		// 		width: 60%;
-
-		// 		.icon,
-		// 		.copy{
-		// 			vertical-align: middle;
-		// 			display: table-cell;
-		// 		}
-
-		// 	} // end .text-tout
-
-		// 	.bottom-btn{
-		// 		margin:0;
-		// 		width:38%;
-		// 	} // .bottom-btn
-
-		// } // bottom
-
-
-		// 88888888888888888b.  .d88888b.     
-		// 888       888   Y88bd88P" "Y88b    
-		// 888       888    888888     888    
-		// 8888888   888   d88P888     888    
-		// 888       8888888P" 888     888    
-		// 888       888       888     888    
-		// 888       888       Y88b. .d88P    
-		// 888       888        "Y88888P"     
+			} // .bottom-btn
+		
+		} // bottom
 
 	} // pd-module
-
-
-
-
 
 } // end MQ
 
 
 /// 480px
-@media (max-width: px-em(479px)) {
+@media (max-width: px-em(567px)) {
 	.pd-module{
-		border:1px solid red;
 
 		.top{
 
 			.desc{
 				@include content-columns(1);
+				margin-bottom:0;
 			} //. desc
 
 		} // .top
 
-		// .last-column{
-			
-		// 	&.has-measurements{
-		// 		padding:16px px-em(23px) 23px px-em(23px);
-		// 	}
+		dl{
+			margin-bottom: 0;
+		}
 
-		// 	.measurements{
-		// 		display:none;
-		// 	}
+		.features{
+			padding-bottom:20px;
+		}
 
-		// 	.extras{
-		// 		padding-left: 0;
-		// 	}
+		.last-column{
+			padding:0;//10px 12px;	
+			&.has-measurements{
+				padding:10px 12px;	
+			} // has-measurements
 
-		// } // last-column
+			.specs{
+				padding:0;
+			} // specs
+
+			.features{
+				padding-top:0px;
+
+				li{
+					padding-bottom: 16px;
+					padding-top: 16px;
+					border-top:1px solid $gray70;
+				} // li
 
 
-		// .bottom{
-		// 	.bottom-btn{
-		// 		text-align:center;
-		// 	}
+			}
 
-		// }
+
+		} // last column
+
+		.extras{
+			margin-top: 0;
+			&.with-measurements{
+				margin-top: 0;
+			}
+		} // extras
+
+		.specs{
+			// padding-left:0;
+			padding-top:20px;
+		} // specs
+
+		.measurements{
+			display:none;
+		} // measurements
+
 
 
 	} // pd-module

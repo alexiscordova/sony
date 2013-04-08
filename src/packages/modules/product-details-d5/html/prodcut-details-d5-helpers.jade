@@ -60,6 +60,7 @@ mixin featureList(list)
             
 mixin definitionList( list, isHorizontal )
   - isHorizontal = isHorizontal || false
+  - clss = isHorizontal ? 'dl-horizontal' : null
   dl(class=clss)
     each li in list
       dt.l3: strong= li.title
@@ -75,19 +76,34 @@ mixin extras(extras)
         p.p3 !{extra.copy}        
 
 mixin bottomTout(textTout)
-  //- .text-tout(class= bottomToutClasses)
-  .text-tout(class= bottomElClasses)
+  div(class= btmToutClasses)
+   
     //- FPO IMAGE FOR NOW, THIS SHOULD BE CHANGED FROM A PATH TO A ICON CLASS AS ALL OTHERS ARE
     if (textTout.icon)
       - bottomCopyClasses.push("with-icon")
       .icon
-        img(src= textTout.icon)      
+        img(src= textTout.icon)
+
     div(class= bottomCopyClasses)
       | #{textTout.copy}
       if(textTout.link)
         a.no-wrap(href= textTout.link)= textTout.linkLabel
 
 mixin bottomButton(btn)
-  //- .bottom-btn(class= bottomBtnClasses)
-  .bottom-btn(class= bottomElClasses)
+  div(class= btmButtonClasses)
     a.btn.buttonLabel(href= btn.buttonLink)= btn.buttonLabel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
