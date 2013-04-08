@@ -38,11 +38,11 @@ define(function(require){
         var w = $(window).outerWidth();
         if(w > 980){
           //this makes the header grow 1px taller for every 20px over 980w.. 
-          $('.primary-tout.homepage .hero-image').css('height', Math.round(Math.min(770, 490 + ((w - 980) / 5))));
-          $('.primary-tout.default .hero-image').css('height', Math.round(Math.min(660, 560 + ((w - 980) / 5))));
+          $('.primary-tout.homepage .image-module').css('height', Math.round(Math.min(770, 490 + ((w - 980) / 5))));
+          $('.primary-tout.default .image-module').css('height', Math.round(Math.min(660, 560 + ((w - 980) / 5))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles 
-          $('.primary-tout.homepage .hero-image, .primary-tout.default .hero-image').css('height', "");
+          $('.primary-tout.homepage .image-module, .primary-tout.default .image-module').css('height', "");
         }
 
         // this each and find inner for layouts page
