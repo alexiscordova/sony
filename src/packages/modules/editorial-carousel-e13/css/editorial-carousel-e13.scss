@@ -105,7 +105,6 @@
     
     .gallery-item-inner {
 
-      
       position:relative;
 
       .headline-counter{
@@ -127,6 +126,77 @@
           margin:0 0 0 2px;
           text-transform:uppercase;
         } 
+      }
+
+      .wrapper-image{
+        position:relative;
+      }
+
+      .cover{
+
+        background-color:rgba(243,41,41,0.9);
+        bottom:0;
+        cursor:pointer;
+        left:0;
+        @include opacity(0);
+        @include transition(opacity $transitionFast $easeNormal);
+        padding:22% 29.797979798% 0 29.797979798%;
+        position:absolute;
+        right:0;
+        text-align:center;
+        top:26px;
+        z-index: 2;
+
+        .title{
+          color: $white;
+          display: block;
+          font-weight: bold;
+          margin:1px 0 0 0;
+          text-transform: uppercase;
+        }
+
+        .picto-play{
+          
+          display: block;
+          height:42%;
+          width: 100%;
+          position:relative;
+
+          .bg {
+            @include border-radius(100px);
+            @include transition(top $transitionFast $easeNormal, left $transitionFast $easeNormal, width $transitionFast $easeNormal, height $transitionFast $easeNormal);
+            background-color: #2f353d;
+            left:15%;
+            position:absolute;
+            top:15%;
+            height: 70%;
+            width: 70%;
+            z-index: 1;
+          }
+
+          .picto {
+            background:url('../../img/editorial-carousel-e13/demo/picto-play.png') center center no-repeat;
+            left:0;
+            position:absolute;
+            top:0;
+            height: 100%;
+            width: 100%;
+            z-index: 2;
+          }
+
+        }
+      }
+
+      .cover:hover{
+        @include opacity(100);
+
+        .bg {
+          left:0;
+          top:0;
+          height: 100%;
+          width: 100%;
+        }
+
       }
 
     }
