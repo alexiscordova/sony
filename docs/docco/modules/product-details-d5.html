@@ -145,8 +145,21 @@ define(<span class="keyword">function</span>(require){
       
     },
 
+    resetMeasurements : <span class="keyword">function</span>(){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.showMeasurements();
+      self.getMImageDimensions();
+      self.setMeasurementDimensions();
+      
+    
+    },
+
     renderDesktop: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      
+      self.resetMeasurements();
+      
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>console.log( 'renderDesktop »' );</p>             </td>             <td class="code">               <div class="highlight"><pre>    },
 
     renderMobile: <span class="keyword">function</span>() {
