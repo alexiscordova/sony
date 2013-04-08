@@ -69,35 +69,72 @@
     .scrubber {
       position: absolute;
       margin-left:-1px;
-      width: 1px;
-      height: 100%;
+      width: 2px;
+      min-height: 100%;
+      bottom:-24px;
       background-color:$gray60;
       z-index: 3;
       color:$white;
 
+      &.dragging .handle,
+      .handle:hover {
+        padding:4px;
+
+        .inner {
+          width:54px;
+          height:54px;
+          background:$gray40;
+          margin:-27px 0 0 -27px;
+        }
+          i {margin:0 3px;}
+      }
+    }
       .handle {
         position: absolute;
         top: 50%;
         margin-top:-31px;
-        left: -31px;
+        left: -30px;
         width: 62px;
         height: 62px;
         background:url('../../img/editorial-dual-viewer-e9/gray30.png');
         padding:8px;
         cursor:pointer;
         @include border-radius(100px);
+        @include transition(.05s);
+
+        &.hoverOn {
+          .inner,
+          i {@include transition(.25s ease-in);}
+        }
       }
         .inner {
+          position:absolute;
           width:46px;
           height:46px;
           background:$buttonOrange;
           display:block;
           text-align:center;
-          line-height:42px;
           font-size:0.9em;
+          top:50%;
+          left:50%;
+          margin:-23px 0 0 -23px;
           @include border-radius(100px);
+          @include transition(.25s ease-out);
         }
-    }
+          .icons {
+            position:absolute;
+            top:50%;
+            left:50%;
+            width:100px;
+            margin:-14px 0 0 -50px;
+          }
+            i {
+              display:inline-block;
+              margin:0;
+              -webkit-font-smoothing: antialiased;
+              @include transition(.25s ease-out);
+            }
+    
   }
 
   // Full-Width viewers
@@ -120,19 +157,22 @@
         top:auto;
         bottom:-33px;
       }
-
       .scrubber {
         margin-left:0;
         width: 100%;
-        height: 1px;
-
+        height: 2px;
+        bottom: auto;
+        min-height: 1px;
+      }
         .handle {
           left: 50%;
           margin-left:-31px;
-          margin-top:-32px;
-          @include rotate(90deg);
+          margin-top:-31px;
         }
-      }
+          .icons {
+            margin:-11px 0 0 -48px;
+            @include rotate(90deg);
+          }
     }
   }
 
@@ -195,7 +235,7 @@
           }
 
           * {
-            vertical-align: inherit;
+            vertical-align: auto;
             text-align:center;
           }
 
@@ -212,8 +252,8 @@
           top: auto;
           width: 500%;
           height: auto;
-          text-align: middle;
-          vertical-align: inherit;
+          text-align: center;
+          vertical-align: auto;
 
           span {
             display: inline-block;
@@ -244,7 +284,14 @@
 
       .inner {visibility:hidden;}
     }
-    &.y .edv-images .scrubber .handle {background-position:0 -62px;}
+    .edv-images .scrubber .handle:hover,
+    .dragging .handle {background-position:-62px 0;}
+    
+    &.y .edv-images .scrubber .handle {
+      background-position:0 -62px;
+    }
+    &.y .edv-images .scrubber .handle:hover,
+    &.y .dragging .handle {background-position:-62px -62px;}
   }
 }
 

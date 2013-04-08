@@ -22,7 +22,7 @@ define(function(require){
 
   var module = {
     'init': function() {
-      $('.sony-one-carousel').each(function(){
+      $('.one-sony-carousel').each(function(){
         new OneSonyCarousel(this);
       });
     }
@@ -33,9 +33,9 @@ define(function(require){
     var self = this;
 
     self.$el = $(element);
-    self.$container = self.$el.find('.soc-container');
-    self.$innerContainer = self.$container.find('.soc-container-inner');
-    self.$slides = self.$container.find('.soc-content');
+    self.$container = self.$el.find('.st-container');
+    self.$innerContainer = self.$container.find('.st-container-inner');
+    self.$slides = self.$container.find('.st-content');
 
     self.currentSlide = 0;
     self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
@@ -56,9 +56,9 @@ define(function(require){
       self.bindEvents();
 
       self.$innerContainer.sonyCarousel({
-        wrapper: '.soc-container',
-        slides: '.soc-content',
-        slideChildren: '.soc-item',
+        wrapper: '.st-container',
+        slides: '.st-content',
+        slideChildren: '.st-item',
         defaultLink: '.headline a',
         useCSS3: self.useCSS3,
         paddles: true,
@@ -66,10 +66,9 @@ define(function(require){
       });
 
       self.$cachedSlides = self.$slides.detach();
-      self.$cachedSlides.find('.soc-image').addClass('iq-img');
 
       self.$sliderWrapper = self.$slides.first().clone();
-      self.$sliderWrapper.find('.soc-item').remove();
+      self.$sliderWrapper.find('.st-item').remove();
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
 
@@ -95,10 +94,6 @@ define(function(require){
       var self = this;
 
       self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });
-
-      self.$el.find('.soc-image').on('iQ:imageLoaded', function(){
-        $(this).closest('.soc-item').addClass('on');
-      });
     },
 
     // Create or restore the default slide layout.

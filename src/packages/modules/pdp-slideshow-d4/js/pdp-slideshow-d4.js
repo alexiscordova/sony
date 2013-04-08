@@ -172,7 +172,7 @@ define(function(require){
           self.isMobileMode = self.isDesktopMode = false;
           self.isTabletMode = true;
           self.hideThumbNav();
-          self.toggleDotNav(true); //hide
+          self.toggleDotNav(false); //show
         });
 
         enquire.register("(max-width: 568px)", function() {

@@ -135,18 +135,25 @@ $maximumChildren: 20;
 
 .raa-expert-reviews {
   position: relative;
+  min-height: 236px;
   margin: 16px 0 40px;
   overflow: hidden;
+  background-color: $gray80;
 
   > div {
     position: relative;
     width: $maximumChildren * 100%;
   }
 
+  .sony-dot-nav {
+    position: absolute;
+    bottom: 16px;
+    width: 100%;
+  }
+
   .raa-expert-review {
     width: (100% / $maximumChildren);
     float: left;
-    background-color: $gray80;
     padding: 20px 24px;
 
     blockquote {

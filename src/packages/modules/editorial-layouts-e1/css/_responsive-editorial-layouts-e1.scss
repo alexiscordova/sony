@@ -6,8 +6,85 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
-  
+  .editorial.mediaright,
+  .editorial.medialeft{
+    .grid,
+    .grid > div,
+    .table-center-wrap{ 
+      min-height:450px;
+    }
+  }
 }
 @media (max-width: $phoneMax) {
-  
+  .editorial{
+    .box{
+      padding:0;
+    }
+  }
+  .editorial.textonly{
+    padding:20px 0;
+  }
+  .editorial.full{
+    padding:20px 0;
+    .box{
+      margin-bottom:15px;
+    }
+  }
+  .editorial.full-inner{
+    .inner{
+      position:relative;
+    }
+    >.grid{
+      width:100%;
+    }
+    .box{
+      margin-top:0;
+      padding: 20px 0;
+    }
+    .box.center{
+      padding: 20px 0;
+    }
+  }
+  .editorial.mediaright,
+  .editorial.medialeft{
+    .grid,
+    .grid > div,
+    .table-center-wrap{ 
+      min-height:0px;
+    }
+    .table-center-wrap{
+      margin-top:0;
+    }
+    .box{
+      padding:20px 22px 15px 20px;
+    }
+  }
+  .editorial.tout{
+    padding: 20px 0;
+    .m1up{
+      .textright{
+        padding-right:0px;
+      }
+      .textleft{
+        padding-left:0px;
+      }
+    }
+    .m2up{
+      .horizontal {
+        .image-module{
+          width: 122px;
+          height: 122px;
+        }
+      }
+      .vertical{
+        padding: 0;
+      }
+    }
+    .m3up{
+      >div{
+        padding: 0;
+      }
+    }
+  }
+
 }
