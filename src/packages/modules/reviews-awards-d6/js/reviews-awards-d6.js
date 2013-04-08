@@ -82,7 +82,8 @@ define(function(require){
         dragThreshold: 10,
         useCSS3: self.useCSS3,
         paddles: false,
-        pagination: true
+        pagination: true,
+        $dotNavWrapper: self.$el.find('.raa-expert-reviews')
       });
 
     },
