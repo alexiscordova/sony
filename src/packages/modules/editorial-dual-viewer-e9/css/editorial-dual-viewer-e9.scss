@@ -6,10 +6,6 @@
 @import "../../../common/css/_base/mixins";
 
 .edv {
-  padding:70px 0;
-
-  article {padding:70px 0;}
-
   .edv-images {
     @include user-select(none);
     position: relative;
@@ -126,7 +122,8 @@
             top:50%;
             left:50%;
             width:100px;
-            margin:-14px 0 0 -50px;
+            margin:-31px 0 0 -50px;
+            line-height:60px;
           }
             i {
               display:inline-block;
@@ -135,11 +132,6 @@
               @include transition(.25s ease-out);
             }
     
-  }
-
-  // Full-Width viewers
-  &.full-width {
-    article {text-align:center; margin-top:0;}
   }
 
   // Vertical scrubber
@@ -170,24 +162,14 @@
           margin-top:-31px;
         }
           .icons {
-            margin:-11px 0 0 -48px;
+            margin:-29px 0 0 -48px;
             @include rotate(90deg);
           }
     }
   }
 
-  // Gray background 
-  &.gray {
-    background:$gray80;
- 
-    .scrubber {background:$white;}
-
-    .edv-images .edv-image .edv-image-wrapper {background-color:$gray80;}
-  }
-
   // For images that blend in with the background color
   &.transparent-edges {
-    .scrubber {background:$gray60;}
     .edv-images .edv-image .edv-image-wrapper {
       background-size:contain;
       background-position:center center;
@@ -299,5 +281,12 @@
 .lt-ie8 {
   .edv {
     .edv-images .scrubber .handle {padding:0;}
+  }
+}
+
+// Gray background 
+.gray {
+  .edv .edv-images {
+    .edv-image .edv-image-wrapper {background-color:$gray80;}
   }
 }

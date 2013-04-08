@@ -90,9 +90,9 @@ define(function(require){
       self.$dualViewContainer.hover(function(){
         if ( !self.$dualViewContainer.hasClass('hovered') ) {
           self.$dualViewContainer.addClass('hovered');
-          self.$handle.addClass('dragging');
+          self.$scrubber.addClass('dragging');
           setTimeout(function(){
-            self.$handle.removeClass('dragging');
+            self.$scrubber.removeClass('dragging');
           }, 200);
         }
       });
