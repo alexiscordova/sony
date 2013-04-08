@@ -1,0 +1,93 @@
+mixin inchesString(inches)
+  - inches = "(" + inches + "\")"
+  p.inches= inches
+
+mixin cmString(cm)
+  p.centimeters
+    | #{cm}cm
+
+mixin measurementValues(value, dir, isThin)
+  - clss = [dir + "-measurement"]
+  
+  if ((!isThin) && (dir == "vertical"))
+    - clss.push('not-thin')
+  
+  div(class = clss) 
+    div.measurements-container
+      +cmString(value.cm)
+
+      if (value.inches)
+        +inchesString(value.inches)
+  
+mixin measurementsList(measurements)
+  for m in measurements
+    - isThin = m.thinImage
+    - cm = m.height.cm
+    - inches = m.width.inches
+
+    .measurement.p4
+      .wrapper
+        .img-wrapper
+          +iQImage(m.image, "pd-image")
+
+        if (cm)
+          +measurementValues(m.height, "vertical", isThin)  
+
+        //- put width in image wrapper for simple centering solution
+        if (inches)
+          +measurementValues(m.width, "horizontal", isThin)
+
+mixin featureList(list)
+  - listClasses = 'feature-list'
+  ul(class=listClasses)
+    each li in list
+      - copyClasses = ["copy", "ghost-center"]
+      //- at least copy required
+      if (li.copy)
+        li
+          .ghost-center-wrap
+            if (li.icon)
+              - iconClasses = ["icon", "ghost-center"]
+              - copyClasses.push("with-icon")
+              p(class= iconClasses)
+                i(class= li.icon)
+            
+            p(class= copyClasses)
+              | #{li.copy}
+              
+              if (li.link)
+                a.no-wrap(href=li.link)= li.linkLabel
+            
+mixin definitionList( list, isHorizontal )
+  - isHorizontal = isHorizontal || false
+  dl(class=clss)
+    each li in list
+      dt.l3: strong= li.title
+      if li.copy
+        dd.p3= li.copy
+
+mixin extras(extras)
+  for extra in extras
+    if(extra.copy)
+      .extra
+        p.l3
+          strong= extra.title
+        p.p3 !{extra.copy}        
+
+mixin bottomTout(textTout)
+  //- .text-tout(class= bottomToutClasses)
+  .text-tout(class= bottomElClasses)
+    //- FPO IMAGE FOR NOW, THIS SHOULD BE CHANGED FROM A PATH TO A ICON CLASS AS ALL OTHERS ARE
+    if (textTout.icon)
+      - bottomCopyClasses.push("with-icon")
+      .icon
+        img(src= textTout.icon)      
+    div(class= bottomCopyClasses)
+      | #{textTout.copy}
+      if(textTout.link)
+        a.no-wrap(href= textTout.link)= textTout.linkLabel
+
+mixin bottomButton(btn)
+  //- .bottom-btn(class= bottomBtnClasses)
+  .bottom-btn(class= bottomElClasses)
+    a.btn.buttonLabel(href= btn.buttonLink)= btn.buttonLabel

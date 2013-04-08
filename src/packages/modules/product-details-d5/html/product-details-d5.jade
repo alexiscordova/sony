@@ -1,181 +1,114 @@
 include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('product-details-d5')
 
-mixin inchesString(inches)
-  - inches = "(" + inches + "\")"
-  p.inches= inches
+include prodcut-details-d5-helpers.jade
 
-mixin cmString(cm)
-  p.centimeters
-    | #{cm}cm
-
-mixin measurementValues(value, dir, isThin)
-  - clss = [dir + "-measurement"]
-  
-  if ((!isThin) && (dir == "vertical"))
-    - clss.push('not-thin')
-  
-  div(class = clss) 
-    div.measurements-container
-      +cmString(value.cm)
-
-      if (value.inches)
-        +inchesString(value.inches)
-  
-mixin measurementsList(measurements)
-  for m in measurements
-    - isThin = m.thinImage
-    - cm = m.height.cm
-    - inches = m.width.inches
-
-    .measurement.p4
-      .wrapper
-        .img-wrapper
-          +iQImage(m.image, "pd-image")
-
-        if (cm)
-          +measurementValues(m.height, "vertical", isThin)  
-
-        //- put width in image wrapper for simple centering solution
-        if (inches)
-          +measurementValues(m.width, "horizontal", isThin)
-
-mixin featureList(list)
-  - listClasses = 'feature-list'
-
-  ul(class=listClasses)
-    each li in list
-      - copyClasses = ["copy", "ghost-center"]
-      //- at least copy required
-      if (li.copy)
-        li
-          .ghost-center-wrap
-            if (li.icon)
-              - iconClasses = ["icon", "ghost-center"]
-              - copyClasses.push("with-icon")
-              p(class= iconClasses)
-                i(class= li.icon)
-            
-            p(class= copyClasses)
-              | #{li.copy}
-              
-              if (li.link)
-                a.no-wrap(href=li.link)= li.linkLabel
-            
-mixin definitionList( list, isHorizontal )
-  - isHorizontal = isHorizontal || false
-  - clss = isHorizontal ? 'dl-horizontal' : null
-  dl(class=clss)
-    each li in list
-      dt.l3: strong= li.title
-      if li.copy
-        dd.p3= li.copy
-
-mixin extras(extras)
-  for extra in extras
-    if(extra.copy)
-      .extra
-        p.l3
-          strong= extra.title
-        p.p3 !{extra.copy}        
-
-
-mixin textTout(textTout)
-  div(class= textToutClasses)
-    //- FPO IMAGE FOR NOW, THIS SHOULD BE CHANGED FROM A PATH TO A ICON CLASS AS ALL OTHERS ARE
-    if (textTout.icon)
-      - btmCopyClasses.push("with-icon")
-      .icon
-        img(src= textTout.icon)      
-    div(class= btmCopyClasses)
-      | #{textTout.copy}
-      if(textTout.link)
-        a.no-wrap(href= textTout.link)= textTout.linkLabel
-
-mixin bottomBtn(btn)
-  .bottom-btn(class= bottomSpanClasses)
-    a.btn.buttonLabel(href= btn.buttonLink)= btn.buttonLabel
-
-
-//- CONTAINER
+//- PRODCUT DETAILS MODULE START 
 - productDetailsClasses = ["pd-module","container"]
-
-//- TOP DATA
-- top = data.top
-
-//- CENTER DATA
-- center = data.center
-- features = center.features
-- isFeatures = features.length > 0
-
-- specs = center.specs
-- isSpecs = specs.length > 0
-
-- measurements = center.measurements
-- isMeasurements = measurements.length > 0
-
-- extras = center.extras
-- isExtras = extras.length > 0
-
-//- Defaults
-- centerSpanClasses = []
-- lastCoumnClasses = []
-
-- sectionCount = 0 //- features/specs/measurements
-
-//- Check how many columns there are
-if(isFeatures) 
-  - sectionCount = sectionCount + 100 
-
-if(isSpecs)
-  - sectionCount = sectionCount + 10
-
-if(isMeasurements)
-  - sectionCount = sectionCount + 1
-
-
-//- KEY
-//- 111 = Features / Specs / Measurements
-//- 101 = Features / Measurements (2 col)
-//- 011 = Specs / Measurements (2 col)
-//- 110 = Features / Specs (2 col)
-//- 100 = Features (treat as 2 col)
-//- 010 = Specs (treat as 2 col)
-
-
-//- Set the right grid span based on sectionCount
-if(sectionCount == 111)
-  //- Three Columns
-  - centerSpanClasses.push("span4")
-else
-  //- Two Columns
-  - centerSpanClasses.push("span6")
-
-//- - centerSpanClasses.push("m-grid-at-479")
-
-//- BOTTOM DATA VARS
-- bottom = data.bottom
-- bottomBtn = bottom.bottomBtn
-- textTout = bottom.textTout
-- isBottomBtn = bottomBtn.buttonLink != ""
-- isTextTout = textTout.copy != ""
-- bottomSpanClasses = ["m-span6"]
-- textToutClasses = ["text-tout","span6","m-span6"]
-
-//- Add necessary class
-if((isTextTout) && (isBottomBtn))
-  - bottomSpanClasses.push("span6")
-
-//- START PRODUCT DETAILS
 section(class= productDetailsClasses)
-  .top.grid.no-grid-at-479.m-grid-at-767
-    .title.l1= top.title
 
-    if(top.desc.length > 0)
+  //- 88888888888  .d88888b.  8888888b.  
+  //-     888     d88P" "Y88b 888   Y88b 
+  //-     888     888     888 888    888 
+  //-     888     888     888 888   d88P 
+  //-     888     888     888 8888888P"  
+  //-     888     888     888 888        
+  //-     888     Y88b. .d88P 888        
+  //-     888      "Y88888P"  888        
+  
+  //- DATA 
+  - top = data.top
+  
+  //- LOGIC
+  - hasDesc = top.desc.length > 0
+
+  //- DISPLAY
+  .top.grid.m-grid-at-767
+    .title.l1= top.title
+    if(hasDesc)
       .desc.p3= top.desc
 
-  .center.grid.no-grid-at-479.m-grid-at-767
-    case sectionCount
+  //- TOP END
+
+  
+  //-  .d8888b.                    888                         
+  //- d88P  Y88b                   888                         
+  //- 888    888                   888                         
+  //- 888         .d88b.  88888b.  888888  .d88b.  888d888     
+  //- 888        d8P  Y8b 888 "88b 888    d8P  Y8b 888P"       
+  //- 888    888 88888888 888  888 888    88888888 888         
+  //- Y88b  d88P Y8b.     888  888 Y88b.  Y8b.     888         
+  //-  "Y8888P"   "Y8888  888  888  "Y888  "Y8888  888         
+                                                        
+
+  //- DATA
+  - center = data.center
+  - features = center.features
+  - specs = center.specs
+  - measurements = center.measurements
+  - extras = center.extras
+  - centerSpanClasses = []
+  //- - lastCoumnClasses = []
+  
+  //- LOGIC
+  - isFeatures = features.length > 0
+  - isSpecs = specs.length > 0
+  - isMeasurements = measurements.length > 0
+  - isExtras = extras.length > 0
+  - centerLayoutValue = 0  //- features [100] /specs [10] / measurements [1]
+
+  //- Calculate layout value based on sections present
+  //- Features?  
+  - centerLayoutValue = isFeatures ? centerLayoutValue + 100 : centerLayoutValue
+
+  //- Specs?
+  - centerLayoutValue = isSpecs ? centerLayoutValue + 10 : centerLayoutValue
+  
+  //- Measurements?
+  - centerLayoutValue = isMeasurements ? centerLayoutValue + 1 : centerLayoutValue
+
+  //- LAYOUT VALUES
+    //- 111 = Features | Specs | Measurements (3col)
+    //- 101 = Features | Measurements (2 col)
+    //- 011 = Specs | Measurements (2 col)
+    //- 110 = Features | Specs (2 col)
+    //- 100 = Features (2 col - because of split)
+    //- 010 = Specs (2 col - because of split)
+
+  //- Set the right grid span based on centerLayoutValue (111 is the only real 3col)
+  - centerSpanClasses = centerLayoutValue == 111 ? ["span4"] : ["span6"]
+
+  //- Split into 2-cols if just features
+  if (centerLayoutValue == 110)
+    
+    //- extras should be considered in colum split
+    - totalItems = features.length + extras.length
+    
+    //- slice array for first column
+    - col1Start = 0
+    - col1End = Math.round(totalItems/2) 
+    - col1Items = features.slice(col1Start, col1End)
+    
+    //- slice array for second column
+    - col2Start = col1End
+    - col2End = totalItems
+    - col2Items = features.slice(col2Start)
+
+  //- Split into 2-cols if just specs (same logic as features split)
+  if (centerLayoutValue == 10)
+    - totalItems = specs.length + extras.length
+    
+    - col1Start = 0
+    - col1End = Math.round(totalItems/2)
+    - col1Items = specs.slice(col1Start, col1End)
+    
+    - col2Start = col1End
+    - col2End = totalItems   
+    - col2Items = specs.slice(col2Start)
+
+  //- DISPLAY
+  .center.grid.m-grid-at-767
+    case centerLayoutValue
       when 111
         .features.m-span3(class= centerSpanClasses)
           +featureList(features)
@@ -188,14 +121,14 @@ section(class= productDetailsClasses)
             +measurementsList(measurements)
 
           if(isExtras)
-            .extras.with-measurements.mobile-two-col
+            .extras.with-measurements.absolute-pos
               +extras(extras)
 
       when 101
-        .features(class= centerSpanClasses)
+        .features.m-span3(class= centerSpanClasses)
           +featureList(features)
 
-        .last-column.has-measurements(class= centerSpanClasses)       
+        .last-column.has-measurements.m-span3(class= centerSpanClasses)       
           .measurements
             +measurementsList(measurements)
 
@@ -204,10 +137,10 @@ section(class= productDetailsClasses)
               +extras(extras) 
 
       when 11
-        .specs(class= centerSpanClasses)
+        .specs.m-span3(class= centerSpanClasses)
           +definitionList(specs, false)
 
-        .last-column.has-measurements(class= centerSpanClasses)       
+        .last-column.has-measurements.m-span3(class= centerSpanClasses)       
           .measurements
             +measurementsList(measurements)
 
@@ -216,10 +149,10 @@ section(class= productDetailsClasses)
               +extras(extras) 
       
       when 110
-        .features(class= centerSpanClasses)
+        .features.m-span3(class= centerSpanClasses)
           +featureList(features)
 
-        .last-column(class= centerSpanClasses)
+        .last-column.m-span3(class= centerSpanClasses)
           .specs
             +definitionList(specs, false)
 
@@ -228,22 +161,10 @@ section(class= productDetailsClasses)
               +extras(extras)
       
       when 100
-        //- SPLIT INTO TWO COLS
-        - totalItems = features.length + extras.length
-      
-        - col1Start = 0
-        - col1End = Math.round(totalItems/2) 
-        
-        - col2Start = col1End
-        - col2End = totalItems
-
-        - col1Items = features.slice(col1Start, col1End)
-        - col2Items = features.slice(col2Start)
-
-        .features(class= centerSpanClasses)
+        .features.m-span3(class= centerSpanClasses)
           +featureList(col1Items)
 
-        .last-column(class= centerSpanClasses)
+        .last-column.m-span3(class= centerSpanClasses)
           .features
             +featureList(col2Items)
           
@@ -252,36 +173,72 @@ section(class= productDetailsClasses)
               +extras(extras) 
 
       when 10
-        //- SPLIT INTO TWO COLS
-        - totalItems = specs.length + extras.length
-        
-        - col1Start = 0
-        - col1End = Math.round(totalItems/2)
-        
-        - col2Start = col1End
-        - col2End = totalItems
-
-        - col1Items = specs.slice(col1Start, col1End)
-        - col2Items = specs.slice(col2Start)
-
-        .specs(class= centerSpanClasses)
+        .specs.m-span3(class= centerSpanClasses)
           +definitionList(col1Items, false)
 
-        .last-column(class= centerSpanClasses)
+        .last-column.m-span3(class= centerSpanClasses)
           .specs
             +definitionList(col2Items, false)
           
           if(isExtras)
             .extras
               +extras(extras)
-  
-  .bottom.grid.m-grid-at-767
-    - btmCopyClasses = ["copy","p3"]
-    if(isTextTout)
-      +textTout(textTout)
-    
-    if(isBottomBtn)
-      +bottomBtn(bottomBtn)
-      
 
-//- END PRODUCT DETAILS
+  //- END CENTER
+
+  //- 888888b.            888    888                           
+  //- 888  "88b           888    888                           
+  //- 888  .88P           888    888                           
+  //- 8888888K.   .d88b.  888888 888888  .d88b.  88888b.d88b.  
+  //- 888  "Y88b d88""88b 888    888    d88""88b 888 "888 "88b 
+  //- 888    888 888  888 888    888    888  888 888  888  888 
+  //- 888   d88P Y88..88P Y88b.  Y88b.  Y88..88P 888  888  888 
+  //- 8888888P"   "Y88P"   "Y888  "Y888  "Y88P"  888  888  888
+
+  //- DATA
+  - bottom = data.bottom
+  - bottomBtn = bottom.bottomBtn
+  - textTout = bottom.textTout
+  - bottomLayoutValue = 0
+  - bottomElClasses = ["span6"]
+  - bottomToutClasses = ["span6"]
+  - bottomBtnClasses = []
+  - bottomCopyClasses = ["copy","p3"]
+
+  //- LOGIC
+  //- LAYOUT VALUES
+    //- 10 = Text Tout Only (1col)
+    //- 1 = Button Only (1col)
+    //- 11 = Text Tout | Button (2 col)
+
+  - isBottomBtn = bottomBtn.buttonLink != ""
+  - isTextTout = textTout.copy != ""
+
+  //- is text tout present?
+  if (isTextTout)
+    - bottomLayoutValue = bottomLayoutValue + 10
+
+  if (isBottomBtn)
+    - bottomLayoutValue = bottomLayoutValue + 1
+
+  if (bottomLayoutValue != 11)
+    //- - bottomBtnClasses.push("m-span6")
+    - bottomElClasses.push("m-span6")
+  else
+    //- - bottomBtnClasses.push("m-span3")
+    - bottomElClasses.push("m-span3")
+
+  //- DISPLAY
+  .bottom.grid.m-grid-at-767
+    case bottomLayoutValue
+      when 10       
+        +bottomTout(textTout)
+      when 1
+        +bottomButton(bottomBtn)
+      when 11
+        +bottomTout(textTout)
+        +bottomButton(bottomBtn)
+  
+  //- BOTTOM END
+
+//- PRODCUT DETAILS MODULE END
