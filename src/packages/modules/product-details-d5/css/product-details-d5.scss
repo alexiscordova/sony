@@ -5,6 +5,10 @@
 .pd-module{
 	padding:60px 0 90px 0;
 
+	.no-wrap{
+		white-space: nowrap;
+	}
+
 	// 88888888888  .d88888b.  8888888b.  
 	//     888     d88P" "Y88b 888   Y88b 
 	//     888     888     888 888    888 
@@ -72,15 +76,10 @@
 						
 			a{
 				font-size: 12px; // AKA bt3; need to set this because ghost-center removes it
-
-				&.no-wrap{
-					white-space: nowrap;
-				}
-
 			}
 
 	 		&.with-icon{
-				width:76%;
+				width:71%;
 				margin-left: px-em(26px);
 				display: inline-block;
 				//border:1px solid green;
@@ -142,8 +141,19 @@
 
 	} // .specs
                  
-                                                                             
+
+
+	// 888                        888           .d8888b.           888                                 
+	// 888                        888          d88P  Y88b          888                                 
+	// 888                        888          888    888          888                                 
+	// 888       8888b.  .d8888b  888888       888         .d88b.  888 
+	// 888          "88b 88K      888          888        d88""88b 888 
+	// 888      .d888888 "Y8888b. 888          888    888 888  888 888 
+	// 888      888  888      X88 Y88b.        Y88b  d88P Y88..88P 888 
+	// 88888888 "Y888888  88888P'  "Y888        "Y8888P"   "Y88P"  888 
+
 	.last-column{
+		padding:0;
 
 		&.has-measurements{
 			background-color:$gray80;
@@ -167,7 +177,15 @@
 			
 		} // horizontal-measurement
 
-	} // vertical-measurement
+		.extras{
+			padding:18px px-em(18px);
+
+			&.with-measurements{
+				padding:0;
+			}
+		} // extras
+
+	} // last-column
 
 
 	// 888b     d888                                                                                      888             
@@ -288,22 +306,7 @@
 	.extras{
 		clear:both;
 		background-color:$gray80;
-		//outline:1px solid green;
-
 		margin-top: 26px;
-		// padding:26px px-em(18px) 24px px-em(18px);
-		padding:18px px-em(18px);
-
-		&.with-measurements{
-			// margin-top:52px;	
-			padding:0;
-		}
-		
-		.extra{
-			//max-width: px-em(380px);
-			//outline:1px solid blue;
-		} //.extra
-
 	} // .extras
 
 	// 888888b.    .d88888b. 88888888888 88888888888  .d88888b.  888b     d888 
@@ -321,19 +324,22 @@
 
 		.text-tout{
 			text-align: left;
+			position: relative;
 
 			.icon{
-				display: inline-block;
-				margin-right:26px;
-				max-width:11%;
+				position: absolute;
+				left: 0;
+				top: 0;
 			} // .icon
 
 			.copy{
+				max-width:78%;
+				margin-left:0;
 				display: inline-block;
 				padding-top:5px;
 		
 				&.with-icon{
-					width:84%;	
+					margin-left: px-em(90px);
 				} // .with-icon
 
 				a{
@@ -341,16 +347,16 @@
 				} // a
 	
 			} // copy
-
-
 		} // .text-tout
 
 		.bottom-btn{
-			text-align: left;
-
 			&.span6{
 				text-align: right;
-			} // .span6
+			} // span6
+
+			&.m-span6{
+				text-align: left;
+			}
 
 		} // .bottom-btn
 
