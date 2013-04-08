@@ -83,9 +83,9 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>If Dual Viewer has never been hovered over, pulse handle to hover state and back</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$dualViewContainer.hover(<span class="keyword">function</span>(){
         <span class="keyword">if</span> ( !self.$dualViewContainer.hasClass(<span class="string">'hovered'</span>) ) {
           self.$dualViewContainer.addClass(<span class="string">'hovered'</span>);
-          self.$handle.addClass(<span class="string">'dragging'</span>);
+          self.$scrubber.addClass(<span class="string">'dragging'</span>);
           setTimeout(<span class="keyword">function</span>(){
-            self.$handle.removeClass(<span class="string">'dragging'</span>);
+            self.$scrubber.removeClass(<span class="string">'dragging'</span>);
           }, <span class="number">200</span>);
         }
       });
