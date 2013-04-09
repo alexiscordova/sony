@@ -513,7 +513,6 @@ define(function(require) {
     },
     
     downstepStacks: function( el ) {
-      log('swapping stack class');
       el = el.find( '.overlay-base' );
       log(el);
       if( el.hasClass( 'three-stack-left-top-justified' )) { 
@@ -551,9 +550,12 @@ define(function(require) {
         hotspot.removeClass( 'hspot-core-on' ).addClass( 'hspot-core' );
         
         // begin fade out
-        self.transition( info.find('.top'),     'off' );
+        self.transition( info.find('.overlay-inner'),  'off' );
+        /*
+self.transition( info.find('.top'),     'off' );
         self.transition( info.find('.middle'),  'off' );
         self.transition( info.find('.footer'),  'off' );
+*/
         
         // closure to allow script to set display:none when transition is complete
         var anon = function() {
@@ -597,9 +599,12 @@ define(function(require) {
         self.reposition( container );
         
         // fade in info window
-        info.find('.top').addClass( 'eh-visible' );
+        info.find( '.overlay-inner' ).addClass( 'eh-visible' );
+        /*
+info.find('.top').addClass( 'eh-visible' );
         info.find('.middle').addClass( 'eh-visible' );
         info.find('.footer').addClass( 'eh-visible' );
+*/
     },
     
     reset: function( container ) {

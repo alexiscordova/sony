@@ -52,11 +52,14 @@ $transitionSpeed: .5s;
     .overlay-inner {
       margin: 0px auto;
       width: 230px;
-      background: white;
-      
+      background-color: #fff;
       .overlay-close {
         position: relative;
         width: 230px;
+        -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+
         .top {
           background-color: #fff;
         }
@@ -304,15 +307,21 @@ $transitionSpeed: .5s;
   position: absolute;
   cursor: default;
   .overlay-inner {
+    height: 100%;
+    background-color: #fff;
+    -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+    -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+    box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
 /* DISABLED FOR NOW
     -moz-box-shadow: 0 0 5px #888;
-    -webkit-box-shadow: 0 0 5px#888;
+    -webkit-box-shadow: 0 0 5px #888;
     box-shadow: 0 0 5px #888;
 */
   }
   &.variant1 { 
+    /* background-color: #fff; */
     width: 280px;
-    max-height: 454px;
+    /* max-height: 454px; */
     /* default right justified, left top arrow showing */
     top: -159px;
     left: 63px;
@@ -363,7 +372,8 @@ $transitionSpeed: .5s;
     }
     .footer {
       background-color: #fff;
-      padding: 18px 40px 7px 30px;
+      padding: 18px 40px 0px 30px;
+      margin-bottom: 30px;
       .p3 {
         font-style: italic;
         color: $secondarySlateDark;
@@ -388,10 +398,11 @@ $transitionSpeed: .5s;
   }
   &.variant2 { 
     width: 230px;
-    max-height: 398px;
+    /* max-height: 398px; */
     /* default right-top justified */
     top: -124px;
     left: 60px;
+    /* background-color: #fff; */
     .top {
       background-color: #fff;
     }
@@ -438,7 +449,8 @@ $transitionSpeed: .5s;
     }
     .footer {
       background-color: #fff;
-      padding: 20px 30px 6px 20px;
+      padding: 20px 30px 0px 20px;
+      margin-bottom: 20px;
       p.p4 {
         font-style: italic;
         color: $secondarySlateDark;

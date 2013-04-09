@@ -7,20 +7,22 @@ mixin hotspotCore(hotspotData, assets)
     case size
       when "large"
         .overlay-base.variant1.hidden
-          .overlay-inner
+          .overlay-inner.eh-transparent
             .overlay-close
               .hspot-close.hidden
                 a(href="#")
                   img.iq-img(class=assets.closeBtn.classes)(alt=assets.closeBtn.alt, data-src-desktop= assets.closeBtn.srcDesktop, data-src-tablet= assets.closeBtn.srcTablet, data-src-phone= assets.closeBtn.srcPhone, data-src-desktop-highres= assets.closeBtn.srcDesktopHighRes, data-src-tablet-highres= assets.closeBtn.srcTabletHighRes, data-src-phone-highres= assets.closeBtn.srcPhoneHighRes)
 
               if(hotspotData.image)
-                .top.eh-transparent.is-default-on
+                .top.is-default-on
                   img.iq-img(class=hotspotData.image.classes)(alt=hotspotData.image.alt, data-src-desktop= hotspotData.image.srcDesktop, data-src-tablet= hotspotData.image.srcTablet, data-src-phone= hotspotData.image.srcPhone, data-src-desktop-highres= hotspotData.image.srcDesktopHighRes, data-src-tablet-highres= hotspotData.image.srcTabletHighRes, data-src-phone-highres= hotspotData.image.srcPhoneHighRes)
               else
-                .top.eh-transparent.hidden            
-              .middle.eh-transparent
+                .top.hidden          
+              .middle
                 h5.t6 #{hotspotData.title}
                 p.p3 #{hotspotData.bodyCopy}
+                if(hotspotData.link)
+                  a.lt3(href=hotspotData.link.url) #{hotspotData.link.copy}
                 - imageLeft = assets.large.arrowLeft.image
                 - imageRight = assets.large.arrowRight.image
                 .arrow-left-top
@@ -32,28 +34,30 @@ mixin hotspotCore(hotspotData, assets)
                 .arrow-right-bottom.hidden
                   img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
               if(hotspotData.testimonial.copy)
-                .footer.eh-transparent.is-default-on
+                .footer.is-default-on
                   p.p3 #{hotspotData.testimonial.copy}
                   blockquote.l4 #{hotspotData.testimonial.credit}
               else
-                .footer.eh-transparent.hidden
+                .footer.hidden
 
       when "small"
         .overlay-base.variant2.hidden
-          .overlay-inner
+          .overlay-inner.eh-transparent
             .overlay-close
               .hspot-close.hidden
                 a(href="#")
                   img.iq-img(class=assets.closeBtn.classes)(alt=assets.closeBtn.alt, data-src-desktop= assets.closeBtn.srcDesktop, data-src-tablet= assets.closeBtn.srcTablet, data-src-phone= assets.closeBtn.srcPhone, data-src-desktop-highres= assets.closeBtn.srcDesktopHighRes, data-src-tablet-highres= assets.closeBtn.srcTabletHighRes, data-src-phone-highres= assets.closeBtn.srcPhoneHighRes)
-
+ 
               if(hotspotData.image)
-                .top.eh-transparent.is-default-on
+                .top.is-default-on
                   img.iq-img(class=hotspotData.image.classes)(alt=hotspotData.image.alt, data-src-desktop= hotspotData.image.srcDesktop, data-src-tablet= hotspotData.image.srcTablet, data-src-phone= hotspotData.image.srcPhone, data-src-desktop-highres= hotspotData.image.srcDesktopHighRes, data-src-tablet-highres= hotspotData.image.srcTabletHighRes, data-src-phone-highres= hotspotData.image.srcPhoneHighRes)
               else
-                .top.eh-transparent.hidden
-              .middle.eh-transparent
+                .top.hidden
+              .middle
                 h5.t7 #{hotspotData.title}
                 p.p4 #{hotspotData.bodyCopy}
+                if(hotspotData.link)
+                  a.lt4(href=hotspotData.link.url) #{hotspotData.link.copy}
                 - imageLeft = assets.small.arrowLeft.image
                 - imageRight = assets.small.arrowRight.image
                 .arrow-left-top
@@ -65,11 +69,11 @@ mixin hotspotCore(hotspotData, assets)
                 .arrow-right-bottom.hidden
                   img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
               if(hotspotData.testimonial.copy) 
-                .footer.eh-transparent.is-default-on
+                .footer.is-default-on
                   p.p3 #{hotspotData.testimonial.copy}
                   blockquote.l4 #{hotspotData.testimonial.credit}
               else
-                .footer.eh-transparent.hidden
+                .footer.hidden
         
 
 type = data.type
