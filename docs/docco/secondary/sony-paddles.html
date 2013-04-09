@@ -108,7 +108,7 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">this</span>.paddleVisibility(which, <span class="literal">false</span>);
     },
 
-    <span class="string">'paddleVisibility'</span>: <span class="keyword">function</span>(which, visible){
+    <span class="string">'paddleVisibility'</span>: <span class="keyword">function</span>(which, visible) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -129,6 +129,13 @@ define(<span class="keyword">function</span>(require){
           self.$rightPaddle.hide().removeClass(<span class="string">'on'</span>);
         }
       }
+    },
+
+    destroy: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$nav.remove();
     }
   };
 
