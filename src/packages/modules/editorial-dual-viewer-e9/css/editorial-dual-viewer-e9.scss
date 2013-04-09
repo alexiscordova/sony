@@ -96,11 +96,11 @@
         padding:8px;
         cursor:pointer;
         @include border-radius(100px);
-        @include transition(.05s);
+        @include transition(.15s);
 
         &.hoverOn {
           .inner,
-          i {@include transition(.25s ease-in);}
+          i {@include transition(.15s ease-in);}
         }
       }
         .inner {
@@ -115,23 +115,22 @@
           left:50%;
           margin:-23px 0 0 -23px;
           @include border-radius(100px);
-          @include transition(.25s ease-out);
+          @include transition(.15s ease-out);
         }
           .icons {
             position:absolute;
             top:50%;
             left:50%;
             width:100px;
-            margin:-31px 0 0 -50px;
+            margin:-32px 0 0 -50px;
             line-height:60px;
           }
             i {
               display:inline-block;
               margin:0;
               -webkit-font-smoothing: antialiased;
-              @include transition(.25s ease-out);
-            }
-    
+              @include transition(.15s ease-out);
+            } 
   }
 
   // Vertical scrubber

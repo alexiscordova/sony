@@ -49,6 +49,10 @@
 // If you've replaced or manipulated the slides, tell SonyCarousel to cache them again.
 //
 //      $('#foo').sonyCarousel('resetSlides');
+//
+// If you need to destroy the carousel, run this method:
+//
+//      $('#foo').sonyCarousel('destroy');
 
 
 define(function(require){
@@ -63,13 +67,16 @@ define(function(require){
       Environment = require('require/sony-global-environment'),
       sonyDraggable = require('secondary/sony-draggable'),
       sonyPaddles = require('secondary/sony-paddles'),
-      sonyNavigationDots = require('secondary/sony-draggable');
+      sonyNavigationDots = require('secondary/sony-navigationdots');
+
+  var _id = 0;
 
   var SonyCarousel = function($element, options){
     var self = this;
 
     $.extend(self, {}, $.fn.sonyCarousel.defaults, options, $.fn.sonyCarousel.settings);
 
+    self.id = _id++;
     self.$el = $element;
     self.$wrapper = self.$el.parent(self.wrapper);
 
@@ -88,7 +95,7 @@ define(function(require){
       self.setupLinkClicks();
       self.setupDraggable();
 
-      Environment.on('global:resizeDebounced-200ms', function(){
+      Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function(){
         self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
       });
 
@@ -375,14 +382,10 @@ define(function(require){
     createPaddles: function() {
 
       var self = this,
-          $wrapper = self.$wrapper;
+          $wrapper = self.$paddleWrapper || self.$wrapper;
 
       if ( Modernizr.touch || self.paddlesInit ) {
         return;
-      }
-
-      if ( self.$paddleWrapper ) {
-        $wrapper = self.$paddleWrapper;
       }
 
       self.paddlesInit = true;
@@ -466,6 +469,40 @@ define(function(require){
       if ( self.pagination ) {
         self.createPagination();
       }
+    },
+
+    // Reset the style attribute for the properties we might have manipulated.
+    // Destroy the plugins we've initialized as part of the carousel.
+
+    destroy: function() {
+
+      var self = this,
+          $paddleWrapper = self.$paddleWrapper || self.$wrapper;
+
+      // Reset styles.
+      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '')
+          .css(Modernizr.prefixed('transitionDuration'), '' )
+          .css(Modernizr.prefixed('transform'), '')
+          .css('left', '');
+
+      // Unbind
+      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
+      self.$el.off('sonyDraggable:dragStart');
+      self.$el.off('sonyDraggable:dragEnd');
+
+      // Destroy all plugins.
+      self.$el.sonyDraggable('destroy');
+
+      if ( self.paddles ) {
+        $paddleWrapper.sonyPaddles('destroy');
+      }
+
+      if ( self.$dotnav ) {
+        self.$dotnav.sonyNavDots('destroy');
+      }
+
+      // Remove data from element, allowing for later reinit.
+      self.$el.removeData('sonyCarousel');
     }
   };
 
@@ -476,11 +513,11 @@ define(function(require){
     var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
       var self = $(this),
-        sonyCarousel = self.data('sonyCarousel');
+          sonyCarousel = self.data('sonyCarousel');
 
       if ( !sonyCarousel ) {
-          sonyCarousel = new SonyCarousel( self, options );
-          self.data( 'sonyCarousel', sonyCarousel );
+        sonyCarousel = new SonyCarousel( self, options );
+        self.data( 'sonyCarousel', sonyCarousel );
       }
 
       if ( typeof options === 'string' ) {
