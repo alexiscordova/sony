@@ -33,9 +33,10 @@ define(function(require){
       
       self.$el = $(element);
       self.collapsableTout = self.$el.find('.m2up, .m3up');
-      self.colspan = self.$el.find('.m3up').length >0 ? "span4" : "span6";
-      self.colspan = self.collapsableTout.find('.horizontal').length >0 ? "span6" : "span5";
+      self.colspan = self.$el.find('.m3up').length > 0 ? "span4" : self.collapsableTout.find('.horizontal').length > 0 ? "span6" : "span5";
       self.col = self.collapsableTout.find('>div');
+      self.hasOffset1 = self.col.hasClass('offset1');
+      
       self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
       
       self._init();
@@ -62,15 +63,19 @@ define(function(require){
         self.collapsableTout.addClass('grid');
         self.collapsableTout.attr("style", "");
         self.col.addClass(self.colspan);
+        if(self.hasOffset1){
+          self.col.first().addClass('offset1');
+        }
       },
       initMobile: function(){
         var self = this;
         
         self.collapsableTout.removeClass('grid');
         self.col.removeClass(self.colspan);
+        self.col.removeClass('offset1');
         self.collapsableTout.sonyCarousel({
           wrapper: '.editorial.tout .container',
-          slides: '.horizontal',
+          slides: '>div',
           useCSS3: true,
           paddles: false, 
           pagination: true

@@ -5,12 +5,6 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 
-//sub desktop
-@media (max-width: $tabletMax){
-  //--> 2 up turn to carousels
-  
-}
-
 //tablet only
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .editorial.mediaright,
@@ -80,11 +74,13 @@ $tabletMax: px-em(979);
     .m2up{
       width:220%;
       position:relative;
-      .horizontal {
+      >div{
         position:relative;
         float:left;
         width:45%;
         margin-right:5%;
+      }
+      .horizontal {
         .image-module{
           width: 122px;
           height: 122px;
@@ -95,7 +91,13 @@ $tabletMax: px-em(979);
       }
     }
     .m3up{
+      width:330%;
+      position:relative;
       >div{
+        float:left;
+        position:relative;
+        width:30%;
+        margin-right:3%;
         padding: 0;
       }
     }
