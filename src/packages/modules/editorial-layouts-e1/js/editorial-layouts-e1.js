@@ -13,6 +13,7 @@ define(function(require){
     'use strict';
 
     var $ = require('jquery'),
+        enquire = require('enquire'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         SonyCarousel = require('secondary/sony-carousel');
@@ -28,8 +29,9 @@ define(function(require){
     // Start module
     var Editorial = function(element, options){
       var self = this;
-      $.extend(self, {}, $.fn.editorial.defaults, options, $.fn.editorial.settings);
       
+      self.$el = $(element);
+      self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
       self.carouselEnabled = false;
 
       self._init();
@@ -38,47 +40,50 @@ define(function(require){
     Editorial.prototype = {
       constructor: Editorial,
 
-      _resize: function(){
-        var self = this,
-        windowWidth = Settings.$window.width();
-        
+      resize: function(){
+        var self = this;
 
-        //if mobile make 2up and 3up into carousels // if not un-make carousels 
-        if(windowWidth < 768 && !self.carouselEnabled){
-          $('.editorial.tout .m2up').removeClass('grid');
-          $('.editorial.tout .m2up .horizontal').removeClass('span6');
-          $('.editorial.tout .m2up').sonyCarousel({
-            wrapper: '.editorial.tout .container',
-            slides: '.horizontal',
-            useCSS3: true,
-            paddles: false, 
-            pagination: true
-          });
-          
-          self.carouselEnabled = true;
-        }else if(windowWidth >= 768 && this.carouselEnabled){
-          $('.editorial.tout .m2up').addClass('grid');
-          $('.editorial.tout .m2up').css("");
-          $('.editorial.tout .m2up .horizontal').addClass('span6');
-          // $('.editorial.tout .m2up').sonyCarousel(false);
-          self.carouselEnabled = false;
-        }
-      
         //fixes horizontal 2 up layout wraping
         var tc = $('.editorial.tout .m2up .horizontal .table-center-wrap');
         if(tc){
           tc.width(tc.parent().width() - tc.prev().width() - 81);
         }
-
+      },
       
+      initDesktop: function(){
+        $('.editorial.tout .m2up').addClass('grid');
+        $('.editorial.tout .m2up').css("");
+        $('.editorial.tout .m2up .horizontal').addClass('span6');
+      },
+      initMobile: function(){
+        $('.editorial.tout .m2up').removeClass('grid');
+        $('.editorial.tout .m2up .horizontal').removeClass('span6');
+        $('.editorial.tout .m2up').sonyCarousel({
+          wrapper: '.editorial.tout .container',
+          slides: '.horizontal',
+          useCSS3: true,
+          paddles: false, 
+          pagination: true
+        });
       },
       
 
       _init: function(){
         var self = this;
         
-        self._resize();
-        Environment.on('global:resizeDebounced', $.proxy(self._resize, self));
+        if ( !Settings.$html.hasClass('lt-ie10') ){
+          enquire.register("(min-width: 768px)", function() {
+            self.initDesktop();
+          });
+          enquire.register("(max-width: 767px)", function() {
+            self.initMobile();
+          });
+        } else {
+          self.initDesktop();
+        }
+        
+        self.resize();
+        Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         
         log('SONY : Editorial : Initialized');
       }
