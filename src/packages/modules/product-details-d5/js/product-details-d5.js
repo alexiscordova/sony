@@ -157,13 +157,25 @@ define(function(require){
       
     },
 
+    resetMeasurements : function(){
+      var self = this;
+      self.showMeasurements();
+      self.getMImageDimensions();
+      self.setMeasurementDimensions();
+    },
+
     renderDesktop: function() {
       var self = this;
+
+      self.resetMeasurements();
+      
       // console.log( 'renderDesktop »' );
     },
 
     renderMobile: function() {
       var self = this;
+
+      self.resetMeasurements();
       // console.log( 'renderMobile »' );
     }
   };
