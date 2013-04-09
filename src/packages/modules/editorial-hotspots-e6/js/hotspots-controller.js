@@ -259,8 +259,10 @@ define(function(require) {
           overlayBase.addClass( 'hidden' );
         }, 500 );
         
-        // reopen normal overlay
-        el.find( '.overlay-base' ).removeClass( 'hidden' ).find( '.overlay-inner' ).removeClass( 'eh-hidden' ).addClass( 'eh-visible' );
+        if( false === self.showOverlayCentered ) {
+          // reopen normal overlay
+          el.find( '.overlay-base' ).removeClass( 'hidden' ).find( '.overlay-inner' ).removeClass( 'eh-hidden' ).addClass( 'eh-visible' );
+        }
       }
     },
     
