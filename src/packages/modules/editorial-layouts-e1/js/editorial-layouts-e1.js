@@ -17,7 +17,8 @@ define(function(require){
         iQ = require('iQ'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        SonyCarousel = require('secondary/sony-carousel');
+        SonyCarousel = require('secondary/sony-carousel'),
+        EvenHeights = require('secondary/sony-evenheights');
 
     var module = {
       init: function() {
@@ -50,8 +51,15 @@ define(function(require){
 
         //fixes horizontal 2 up layout wraping
         var tc = $('.editorial.tout .m2up .horizontal .table-center-wrap');
-        if(tc){
+        if(tc.length > 0){
           tc.width(tc.parent().width() - tc.prev().width() - 81);
+        }
+        
+        //fixes heights of tout copy across 2up 3up
+        var heightGroup = self.col.find('.copy');
+        console.log(heightGroup);
+        if(heightGroup.length >0){
+          heightGroup.evenHeights();
         }
       },
       
