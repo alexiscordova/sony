@@ -48,13 +48,46 @@ $transitionSpeed: .5s;
     height: 100%;
     background: transparent;
     z-index: 6;
+    
     .overlay-inner {
       background: white;
-      width: 280px;
+      width: 276px;
       margin: 0px auto;
+      
       .overlay-close {
         position: relative;
         width: 276px;
+        .top {
+
+        }
+        .middle {
+          padding: 30px 40px 30px 30px;
+          border-bottom: 1px solid #e4e7eb;
+        }
+        .footer {
+          background-color: #fff;
+          padding: 18px 40px 7px 30px;
+          .p3 {
+            font-style: italic;
+            color: $secondarySlateDark;
+            margin-bottom: 5px;
+          }
+          blockquote.l4 {
+            color: $gray40;
+            position: relative;
+            margin-left: 24px;
+            &:before {
+              display: block;
+              content: "\201C";
+              font-size: 40px;
+              font-family: Georgia;
+              position: absolute;
+              left: -24px;
+              top: -13px;
+              color: $secondarySlateDark;
+            }
+          }
+        }
         .hspot-close {
           position: absolute;
           top: 0px;

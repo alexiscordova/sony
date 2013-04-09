@@ -54,6 +54,7 @@ define(function(require) {
     // TRANSITION VARIABLES
     self.$transitionSpeed                = 500;
     self.$lastTimer                      = null;
+    self.lastOverlayTimeout              = null;
     self.lastWidth                       = null;
     self.direction                       = null;
     self.variant1TopHeight               = 145;
@@ -63,6 +64,7 @@ define(function(require) {
     self.variant1Differential            = 145;
     self.variant2Differential            = 120;
     self.showOverlayCentered             = ( $(window).width() < 768 ) ? true : false;
+    
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -170,7 +172,7 @@ define(function(require) {
     reanchor: function( el, toCenter ) {
       var self          = this,
           overlayBase   = $( '.hspot-global-details-overlay' ),
-          underlayBase  = $( '.hspot-underlay' );
+          underlayBase  = $( '.hspot-underlay, .hspot-underlay-on' ); 
 
       if( toCenter ) {
         
@@ -182,7 +184,12 @@ define(function(require) {
         
         // show the opaque underlay to dim the background
         if( self.$lastOpen ) {
-          underlayBase.removeClass( 'hidden' );
+          if( self.lastOverlayTimeout ) {
+
+          }
+          clearTimeout( self.lastOverlayTimeout );
+          self.lastOverlayTimeout = null;
+          underlayBase.removeClass( 'hspot-underlay' ).addClass( 'hspot-underlay-on' ).removeClass( 'hidden' );
         }
 
         // copy HTML over to the overlay container
@@ -191,6 +198,10 @@ define(function(require) {
         // turn on overlay container
         overlayBase.find( '.top' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
         overlayBase.find( '.middle' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-left-top' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-left-bottom' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-right-top' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
         overlayBase.find( '.footer' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
         overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
 
@@ -205,14 +216,24 @@ define(function(require) {
         });
         
         // finally show the overlay
-        overlayBase.removeClass( 'hidden' );
+        overlayBase.removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
       } else {
         // untag last overlay
         el.removeClass( 'lastMoved' );
-        // close underlay
-        underlayBase.addClass( 'hidden' );
+        
+        if(!underlayBase.hasClass('hidden')) {
+          // close underlay
+          var anon = function() {
+            log('removing flag');
+            underlayBase.addClass( 'hidden' );
+          };
+          underlayBase.removeClass( 'hspot-underlay-on' ).addClass( 'hspot-underlay' );
+          self.lastOverlayTimeout = setTimeout( anon, 500 );
+        }
+
         // close mobile overlay
         overlayBase.addClass( 'hidden' );
+
         // reopen normal overlay
         el.find( '.overlay-base' ).removeClass( 'hidden' );
       }
@@ -518,6 +539,7 @@ define(function(require) {
         
         // kill the underlay if we're in minified mode
         if( true === self.showOverlayCentered ) {
+          log('clozilla');
           $( '.hspot-underlay' ).addClass( 'hidden' );          
         }
     },
