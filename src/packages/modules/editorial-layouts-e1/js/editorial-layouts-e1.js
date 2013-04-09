@@ -14,6 +14,7 @@ define(function(require){
 
     var $ = require('jquery'),
         enquire = require('enquire'),
+        iQ = require('iQ'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         SonyCarousel = require('secondary/sony-carousel');
@@ -31,9 +32,12 @@ define(function(require){
       var self = this;
       
       self.$el = $(element);
+      self.collapsableTout = self.$el.find('.m2up, .m3up');
+      self.colspan = self.$el.find('.m3up').length >0 ? "span4" : "span6";
+      self.colspan = self.collapsableTout.find('.horizontal').length >0 ? "span6" : "span5";
+      self.col = self.collapsableTout.find('>div');
       self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
-      self.carouselEnabled = false;
-
+      
       self._init();
     };
 
@@ -51,39 +55,52 @@ define(function(require){
       },
       
       initDesktop: function(){
-        $('.editorial.tout .m2up').addClass('grid');
-        $('.editorial.tout .m2up').css("");
-        $('.editorial.tout .m2up .horizontal').addClass('span6');
+        var self = this;      
+
+        self.collapsableTout.sonyCarousel('destroy');
+        self.collapsableTout.off(Settings.transEndEventName);
+        self.collapsableTout.addClass('grid');
+        self.collapsableTout.attr("style", "");
+        self.col.addClass(self.colspan);
       },
       initMobile: function(){
-        $('.editorial.tout .m2up').removeClass('grid');
-        $('.editorial.tout .m2up .horizontal').removeClass('span6');
-        $('.editorial.tout .m2up').sonyCarousel({
+        var self = this;
+        
+        self.collapsableTout.removeClass('grid');
+        self.col.removeClass(self.colspan);
+        self.collapsableTout.sonyCarousel({
           wrapper: '.editorial.tout .container',
           slides: '.horizontal',
           useCSS3: true,
           paddles: false, 
           pagination: true
         });
+        self.collapsableTout.on(Settings.transEndEventName, function(){
+          iQ.update(true);
+        });
       },
       
 
       _init: function(){
         var self = this;
-        
-        if ( !Settings.$html.hasClass('lt-ie10') ){
-          enquire.register("(min-width: 768px)", function() {
+       
+        //if its a 2 or 3up we want to start the carousel code
+        if(self.collapsableTout.length > 0){
+         
+          if ( !Settings.$html.hasClass('lt-ie10') ){
+            enquire.register("(min-width: 768px)", function() {
+              self.initDesktop();
+            });
+            enquire.register("(max-width: 767px)", function() {
+              self.initMobile();
+            });           
+          } else {
             self.initDesktop();
-          });
-          enquire.register("(max-width: 767px)", function() {
-            self.initMobile();
-          });
-        } else {
-          self.initDesktop();
+          }
+          
+          self.resize();
+          Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         }
-        
-        self.resize();
-        Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         
         log('SONY : Editorial : Initialized');
       }
