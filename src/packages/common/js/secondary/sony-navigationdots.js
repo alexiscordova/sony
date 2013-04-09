@@ -132,6 +132,13 @@ define(function(require){
 
       self.$buttons.removeClass('bullet-selected');
       self.$buttons.eq(self.activeButton).addClass('bullet-selected');
+    },
+
+    destroy: function() {
+
+      var self = this;
+
+      self.$navContainer.remove();
     }
   };
 

@@ -88,6 +88,10 @@
 
 @media (max-width: 1023px) {
 
+	.edv {
+		.edv-images {height:440px;}
+	}
+
 } // END max-width: 1023px
 
 
@@ -198,6 +202,10 @@
 // ------------------------------------------------
 @media (min-width: 480px) and (max-width: 567px) {
 
+	.edv {
+		.edv-images {height:320px;}
+	}
+
 } // END min-width 480px and max-width 567px
 
 
@@ -246,21 +254,43 @@
 @media (max-width: 479px) {
 	.edv {
 	  .edv-images {
-			.scrubber {
-				.handle {
-	        margin-top:-53px;
-	        left: -52px;
-	        width: 107px;
-	        height: 107px;
-	        padding:14px;
+	  	height:200px;
+
+	    .scrubber {
+	      .handle {
+	        margin-top:-27px;
+	        left: -27px;
+	        width: 54px;
+	        height: 54px;
 	      }
 	        .inner {
-	          width:79px;
-	          height:79px;
-	          line-height:73px;
-	          font-size:0.9em;
-	          font-size:1.4em;
+	          width:38px;
+	          height:38px;
+	          line-height:34px;
+	          margin:-19px 0 0 -19px;
 	        }
+	    	&.dragging .handle,
+			  .handle:hover {
+		      .inner {
+		        width:46px;
+		        height:46px;
+		        line-height:42px;
+		        margin:-23px 0 0 -23px;
+		      }
+		    }
+	    }
+	  }
+
+	  // Vertical scrubber
+	  &.y {
+	    .edv-images {
+	      .scrubber {
+	        .handle {
+	          margin-left:-27px;
+	          margin-top:-28px;
+	          left:50%;
+	        }
+	      }
 	    }
 	  }
 	}

@@ -284,13 +284,13 @@ else if data.view == 'compare'
 
     //- Sticky header
     .compare-sticky-header
-      button(class="box-close box-close-small js-remove-item", data-dismiss="modal", aria-hidden="true")
+      button(class="box-close box-close-small js-remove-item", aria-hidden="true")
         i.fonticon-10-x
       +iQImage( data.imgTiny )
       span.product-model.l3-light= data.model
 
     //- Close button
-    button(class="box-close box-close-small js-remove-item", data-dismiss="modal", aria-hidden="true")
+    button(class="box-close box-close-small js-remove-item")
       i.fonticon-10-x
 
     //- Image
@@ -678,9 +678,28 @@ else if data.view == 'summary'
     .modal-inner.transparent
       +shareMenu( data.socialButtons, data.shortLink, true )
 
+else if data.view == 'compatibility'
+  accessories = 'Accessories'
+  filterSet = JSON.stringify( data.filterSet )
+
+
+  a.span4.compat-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
+    .compat-item-inner
+      span.product-img
+        div(class='product-img-wrap ghost-center-wrap')
+          .ghost-center
+            +iQImage( data.imgTiny, undefined, 'image' )
+
+      span.product-content
+        .product-name-wrap
+          .product-model.p2(itemprop="model")= data.model
+          .product-name.p3(itemprop="name")= data.name
+          .product-total.p3
+            strong.total= data.totalAccessories
+            | !{ accessories }
 
 
 else
-  em oh noes, you don't have a view variable set :(
+  em oh noes, you don't have a known view variable set :(
 
 

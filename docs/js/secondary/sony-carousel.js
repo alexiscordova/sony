@@ -49,6 +49,10 @@
 // If you've replaced or manipulated the slides, tell SonyCarousel to cache them again.
 //
 //      $('#foo').sonyCarousel('resetSlides');
+//
+// If you need to destroy the carousel, run this method:
+//
+//      $('#foo').sonyCarousel('destroy');
 
 
 define(function(require){
@@ -63,7 +67,7 @@ define(function(require){
       Environment = require('require/sony-global-environment'),
       sonyDraggable = require('secondary/sony-draggable'),
       sonyPaddles = require('secondary/sony-paddles'),
-      sonyNavigationDots = require('secondary/sony-draggable');
+      sonyNavigationDots = require('secondary/sony-navigationdots');
 
   var SonyCarousel = function($element, options){
     var self = this;
@@ -349,7 +353,13 @@ define(function(require){
         return;
       }
 
-      var $dotnavWrapper = $('<div class="sony-dot-nav" />').insertAfter(self.$wrapper);
+      var $dotnavWrapper = $('<div class="sony-dot-nav" />');
+
+      if ( self.$dotNavWrapper ) {
+        $dotnavWrapper.appendTo(self.$dotNavWrapper);
+      } else {
+        $dotnavWrapper.insertAfter(self.$wrapper);
+      }
 
       self.$dotnav = $dotnavWrapper.sonyNavDots({
         'buttonCount': self.$slides.length
@@ -369,14 +379,10 @@ define(function(require){
     createPaddles: function() {
 
       var self = this,
-          $wrapper = self.$wrapper;
+          $wrapper = self.$paddleWrapper || self.$wrapper;
 
       if ( Modernizr.touch || self.paddlesInit ) {
         return;
-      }
-
-      if ( self.$paddleWrapper ) {
-        $wrapper = self.$paddleWrapper;
       }
 
       self.paddlesInit = true;
@@ -460,6 +466,32 @@ define(function(require){
       if ( self.pagination ) {
         self.createPagination();
       }
+    },
+
+    destroy: function() {
+
+      var self = this,
+          $paddleWrapper = self.$paddleWrapper || self.$wrapper;
+
+      // Reset styles.
+      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '');
+      self.$el.css(Modernizr.prefixed('transitionDuration'), '' );
+      self.$el.css(Modernizr.prefixed('transform'), '');
+      self.$el.css('left', '');
+
+      // Destroy all plugins.
+      self.$el.sonyDraggable('destroy');
+
+      if ( self.paddles ) {
+        $paddleWrapper.sonyPaddles('destroy');
+      }
+
+      if ( self.$dotnav ) {
+        self.$dotnav.sonyNavDots('destroy');
+      }
+
+      // Remove data from element, allowing for later reinit.
+      self.$el.removeData('sonyCarousel');
     }
   };
 
@@ -470,11 +502,11 @@ define(function(require){
     var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
       var self = $(this),
-        sonyCarousel = self.data('sonyCarousel');
+          sonyCarousel = self.data('sonyCarousel');
 
       if ( !sonyCarousel ) {
-          sonyCarousel = new SonyCarousel( self, options );
-          self.data( 'sonyCarousel', sonyCarousel );
+        sonyCarousel = new SonyCarousel( self, options );
+        self.data( 'sonyCarousel', sonyCarousel );
       }
 
       if ( typeof options === 'string' ) {
@@ -536,7 +568,10 @@ define(function(require){
     // Create paddles.
     paddles: false,
 
-    // If selector is specified, insert paddles into a matching parent of $el.
+    // If element is specified, insert pagination into that element instead of using the default position.
+    $dotNavWrapper: undefined,
+
+    // If element is specified, insert paddles into that element instead of using the default position.
     $paddleWrapper: undefined,
 
     // Create dot pagination, which is inserted after self.$el.

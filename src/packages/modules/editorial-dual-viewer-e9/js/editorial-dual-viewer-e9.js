@@ -4,7 +4,7 @@
 // * **Class:** EditorialDualViewer
 // * **Version:** 0.2
 // * **Modified:** 03/25/2013
-// * **Author:** George Pantazis
+// * **Author:** George Pantazis & Steve Davis
 // * **Dependencies:** jQuery 1.7+, [SonyDraggable](sony-draggable.html)
 
 define(function(require){
@@ -30,6 +30,7 @@ define(function(require){
     self.$el = $(element);
     self.$dualViewContainer = self.$el.find('.edv-images');
     self.$scrubber = self.$el.find('.scrubber');
+    self.$handle = self.$el.find('.handle');
     self.$bottomSlide = self.$el.find('.image-2');
     self.$topSlide = self.$el.find('.image-1');
     self.$topSlideImageContainer = self.$topSlide.find('.edv-image-wrapper');
@@ -63,7 +64,8 @@ define(function(require){
           'unit': '%',
           'containment': self.$dualViewContainer,
           'drag': $.proxy(self.onDrag, self),
-          'bounds': self.getDragBounds('desktop')
+          'bounds': {'x': {'min': 0, 'max': 100}},
+          'snapToBounds': 25
         });
 
       // Inititalize draggable scrubber for Y axis drag
@@ -75,19 +77,31 @@ define(function(require){
           'unit': '%',
           'containment': self.$dualViewContainer,
           'drag': $.proxy(self.onDrag, self),
-          'bounds': self.getDragBounds('desktop')
+          'bounds': {'y': {'min': 0, 'max': 100}},
+          'snapToBounds': 25
         });
 
       }
 
-      // If tablet/desktop, set bounds to desktop mode
-      enquire.register("(min-width: 480px)", function() {
-        self.$scrubber.sonyDraggable('setBounds', self.getDragBounds('desktop'));
+      // Set initial scrubber position to the middle of the viewer
+      self.$scrubber.sonyDraggable('setPositions', {x: 50, y:50});
+
+      // If Dual Viewer has never been hovered over, pulse handle to hover state and back
+      self.$dualViewContainer.hover(function(){
+        if ( !self.$dualViewContainer.hasClass('hovered') ) {
+          self.$dualViewContainer.addClass('hovered');
+          self.$scrubber.addClass('dragging');
+          setTimeout(function(){
+            self.$scrubber.removeClass('dragging');
+          }, 200);
+        }
       });
 
-      // If mobile, set bounds to mobile mode
-      enquire.register("(max-width: 479px)", function() {
-        self.$scrubber.sonyDraggable('setBounds', self.getDragBounds('mobile'));
+      // Toggle "hoverOn" class on scrubber handle to change easing for hover transition
+      self.$handle.hover(function(){
+        self.$handle.addClass('hoverOn');
+      }, function(){
+        self.$handle.removeClass('hoverOn');
       });
 
     },
@@ -113,61 +127,10 @@ define(function(require){
       }
     },
 
-    // Compute the dragging bounds based on the width of the container.
-    'getDragBounds': function(mode) {
-      var self = this,
-          minBounds = self.$dualViewContainer.width() * 0.075,
-          containerWidth = self.$dualViewContainer.width();
-
-      // Set drag bounds for X axis 
-      if ( self.axis == 'x' ) {
-        
-        // If mobile mode, leave a little more space for the larger draggable handle
-        if ( mode == "mobile" ) {
-          minBounds = self.$dualViewContainer.width() * 0.16;
-        }
-
-        return {
-          'x': {
-            'min': 100 * minBounds / containerWidth,
-            'max': 100 - 100 * minBounds / containerWidth
-          }
-        };
-
-      // Set drag bounds for Y axis 
-      } else if ( self.axis == 'y' ) {
-
-        minBounds = self.$dualViewContainer.height() * 0.09;
-        var containerHeight = self.$dualViewContainer.height();
-
-        // If mobile mode, leave a little more space for the larger draggable handle
-        if ( mode == "mobile" ) {
-          minBounds = self.$dualViewContainer.height() * 0.16;
-        }
-
-        return {
-          'y': {
-            'min': 100 * minBounds / containerHeight,
-            'max': 100 - 100 * minBounds / containerHeight
-          }
-        };
-      }
-    },
-
-    // Based on the current bounds, Reset the position of the scrubber via
-    // [SonyDraggable's](sony-draggable.html) *setBounds* method.
-    
-    'setPositions': function() {
-      var self = this,
-          bounds = self.getDragBounds();
-
-      self.$scrubber.sonyDraggable('setBounds', bounds);
-    },
-
     // As [SonyDraggable](sony-draggable.html) returns scrubbing changes, update the top
     // slide's width or height to match, and adjust the image container's width by that
     // percentage's inverse to maintain the desired positioning.
-    
+
     'onDrag': function(e) {
       var self = this;
 
@@ -176,10 +139,18 @@ define(function(require){
         self.$topSlide.css('width', (e.position.left) + '%');
         self.$topSlideImageContainer.css('width', 10000 / (e.position.left) + '%');
 
+        // If scrubber comes close to edge, hide caption for hidden image
+        (e.position.left <= 25) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
+        (e.position.left <= 75) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
+
       } else if ( self.axis == 'y' ) {
 
         self.$topSlide.css('height', (e.position.top) + '%');
         self.$topSlideImageContainer.css('height', 10000 / (e.position.top) + '%');
+
+        // If scrubber comes close to edge, hide caption for hidden image
+        (e.position.top <= 25) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
+        (e.position.top <= 75) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
 
       }
     }
