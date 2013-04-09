@@ -488,6 +488,31 @@ $galleryFourColMax: px-em(979px);
 //                                                                            Y8b d88P
 //                                                                             "Y88P"
 
+
+@media ( max-height: px-em( 550 ) ) {
+  .accessory-finder {
+    top: 0;
+    height: 90%;
+    margin-top: 2.5%;
+
+    .container,
+    .grid {
+      height: auto;
+    }
+
+    .modal-header {
+      max-height: none;
+    }
+
+    .modal-body {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    &.fade.in { top: 0; }
+  }
+}
+
 @media ( min-width: px-em(768px) ) and (max-width: px-em(979px) ) {
 
   .accessory-finder .filter-display-bar .product-count {
@@ -532,6 +557,33 @@ $galleryFourColMax: px-em(979px);
 @media ( max-width: px-em(567px) ) {
 
   .accessory-finder {
+    background: white;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    overflow-y: auto;
+
+    &.fade.in {
+      top: 0;
+    }
+
+    .modal-inner {
+      position: static;
+      overflow: visible;
+      @include box-shadow(none);
+    }
+
+    // turn this into full bleed
+    .modal-subhead {
+      left: -( (100 - $mobileContainerWidth480) / 2 );
+      width: 100 + ( (100 - $mobileContainerWidth480) );
+
+      // turn this into grid and container on the same element
+      .grid {
+        width: ((strip-units($mobileContainerWidth480) * strip-units($mobileGridWidth480)) + 0%) / 100;
+      }
+    }
 
     .sort-options {
       margin-bottom: px-em(20);
@@ -544,16 +596,26 @@ $galleryFourColMax: px-em(979px);
     .product-count-wrap {
       margin-top: 0;
     }
+
+    .search-form {
+      .input-icon {
+        left: px-em(6, 18);
+      }
+
+      #accessory-finder-input {
+        padding: 0 px-em(10, 15) 0 px-em(30, 15);
+      }
+    }
+
+    .box-close:not(.box-close-small) {
+      @include square( px-em(44) );
+    }
   }
 
   .compat-item {
     margin-top: px-em(20);
   }
 }
-
-
-
-
 
 
 
