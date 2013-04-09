@@ -1,71 +1,18 @@
 include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('editorial-dual-viewer-e9')
 
-mixin txtContent
-  h3 #{data.header.title}
-  h4.t7 #{data.header.subheader}
-  p #{data.header.description}
-  p
-    a(href = data.header.linkURL) #{data.header.linkText}
-
-mixin imgContent
-  - for (var i = 0; i < 2 && i < data.images.length; i++)
-    edvImage = data.images[i]
-    figure(class='image-'+(i+1)).edv-image
-      .edv-image-wrapper.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
-        span
-        img.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
-    figcaption.l3 #{edvImage.title}
-  .scrubber
-    span.handle
-      span.inner(title="Alternate between images.")
-        span.icons
-          i.fonticon-10-chevron-reverse
-          i.fonticon-10-chevron
-
 section(class=data.mode+' '+data.axis+' '+data.background+' '+data.edges).edv.full-bleed-no-max.m-full-bleed.container
-
-  case data.mode
-    when "text-left-4"
-      .grid.no-grid-at-479
-        article.span4
-          +txtContent
-        .edv-images.span8
-          +imgContent
-    when "text-left-5"
-      .grid.no-grid-at-479
-        article.span5
-          +txtContent
-        .edv-images.span7
-          +imgContent
-    when "text-left-6"
-      .grid.no-grid-at-479
-        article.span6
-          +txtContent
-        .edv-images.span6
-          +imgContent
-    when "text-right-4"
-      .grid.no-grid-at-479
-        .edv-images.span8
-          +imgContent
-        article.span4
-          +txtContent
-    when "text-right-5"
-      .grid.no-grid-at-479
-        .edv-images.span7
-          +imgContent
-        article.span5
-          +txtContent
-    when "text-right-6"
-      .grid.no-grid-at-479
-        .edv-images.span6
-          +imgContent
-        article.span6
-          +txtContent
-    default
-      .container
-        .container
-          article.container
-            +txtContent
-        .edv-images
-          +imgContent
+  .edv-images
+    - for (var i = 0; i < 2 && i < data.images.length; i++)
+        edvImage = data.images[i]
+        figure(class='image-'+(i+1)).edv-image
+          .edv-image-wrapper.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
+            span
+            img.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
+        figcaption.l3 #{edvImage.title}
+      .scrubber
+        span.handle
+          span.inner(title="Alternate between images.")
+            span.icons
+              i.fonticon-10-chevron-reverse
+              i.fonticon-10-chevron

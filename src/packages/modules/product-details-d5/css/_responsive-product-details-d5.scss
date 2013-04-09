@@ -83,7 +83,8 @@
 		}
 
 		.last-column{
-			padding:0;//10px 12px;	
+			padding:0;
+
 			&.has-measurements{
 				padding:10px 12px;	
 			} // has-measurements
@@ -101,19 +102,37 @@
 					border-top:1px solid $gray70;
 				} // li
 
-
 			} // features
+
+
+			.extras{			
+				&.absolute-pos{
+					width:100%;
+					position: relative;
+					left: 0;
+					top:0;
+				}
+
+			} // extras
+
 		} // last column
 
 		.extras{
+
 			margin-top: 0;
 			&.with-measurements{
 				margin-top: 0;
 			}
+			
+			&.absolute-pos{
+			
+				width:100%;
+				position: relative;
+			}
+
 		} // extras
 
 		.specs{
-			// padding-left:0;
 			padding-top:20px;
 		} // specs
 
@@ -121,9 +140,7 @@
 			display:none;
 		} // measurements
 
-
 		.bottom{
-
 			.text-tout{
 				text-align:center;
 				position: relative;
