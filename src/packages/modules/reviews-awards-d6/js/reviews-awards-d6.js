@@ -83,12 +83,12 @@ define(function(require){
         pagination: true
       });
 
-      self.$el.find('.raa-expert-reviews > div').sonyCarousel({
-        wrapper: '.raa-expert-reviews',
+      self.$el.find('.raa-expert-reviews .reviews > div').sonyCarousel({
+        wrapper: '.raa-expert-reviews .reviews',
         slides: '.raa-expert-review',
         useCSS3: self.useCSS3,
         pagination: true,
-        $dotNavWrapper: self.$el.find('.raa-expert-reviews')
+        $dotNavWrapper: self.$el.find('.raa-expert-reviews .reviews')
       });
     },
 
@@ -97,6 +97,36 @@ define(function(require){
       var self = this;
 
       self.reloadCached();
+
+      self.$mergedCarousel = self.$el.find('.raa-merged-carousel > div');
+      self.$mergedCarouselHeader = self.$el.find('.raa-merged-carousel h3');
+
+      self.$el.find('.raa-expert-review, .user-ratings, .raa-social-mention').each(function(){
+        self.$mergedCarousel.append($(this));
+      });
+
+      self.$mergedCarousel.append(self.$el.find('.raa-awards'));
+
+      self.$mergedCarousel.sonyCarousel({
+        wrapper: '.raa-merged-carousel',
+        slides: '.raa-expert-review, .user-ratings, .raa-social-mention, .raa-awards',
+        useCSS3: self.useCSS3,
+        pagination: true
+      });
+
+      self.setMobileHeader(0);
+
+      self.$mergedCarousel.on('SonyCarousel:gotoSlide', function(e, which) {
+        self.setMobileHeader(which);
+      });
+    },
+
+    setMobileHeader: function(which){
+
+        var self = this,
+            newHeader = self.$mergedCarousel.children().eq(which).data('header');
+
+        self.$mergedCarouselHeader.html(newHeader);
     }
   };
 
