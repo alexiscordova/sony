@@ -76,6 +76,11 @@ define(function(require) {
     init : function() {
       var self = this;
       
+      // inject the underlay node near the top of the dom tree
+      var underlayNode = $( '.hspot-underlay' ).get( 0 );
+      $( '.hspot-underlay' ).detach();
+      $( 'body' ).append( underlayNode );
+      
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
         // bind the click, place it based on the data-x and -y coordinates, and fade em in

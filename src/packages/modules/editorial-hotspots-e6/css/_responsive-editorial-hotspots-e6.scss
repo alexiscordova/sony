@@ -127,6 +127,42 @@ $transitionSpeed: .5s;
 $transitionSpeed: 0.5s;
 
 @media ( max-width: px-em(767px) ) {
+
+  body {
+    .hspot-underlay {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+      background: rgb(255, 255, 255) transparent;
+      background-color: rgba(255, 255, 255, 0);
+      z-index: 5;
+      -o-transition:$transitionSpeed;
+      -ms-transition:$transitionSpeed;
+      -moz-transition:$transitionSpeed;
+      -webkit-transition:$transitionSpeed; 
+      transition:$transitionSpeed;
+      opacity: 0;
+    }
+    .hspot-underlay-on {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+      background: rgb(255, 255, 255) transparent;
+      background-color: rgba(255, 255, 255, 0.3);
+      z-index: 5;
+      -o-transition:$transitionSpeed;
+      -ms-transition:$transitionSpeed;
+      -moz-transition:$transitionSpeed;
+      -webkit-transition:$transitionSpeed; 
+      transition:$transitionSpeed;	
+      opacity: 1;
+    }
+  }
+
   .ehs {
     .hspot-underlay {
       width: 100%;
