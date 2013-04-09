@@ -83,7 +83,8 @@ define(function(require){
   };
 
   var Gallery = function( $container, options ) {
-    var self = this;
+    var self = this,
+        debouncedResize;
 
     $.extend(self, $.fn.gallery.options, options, $.fn.gallery.settings);
 
@@ -140,8 +141,9 @@ define(function(require){
       self.initCompareGallery();
     }
 
-    self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
-    self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
+    debouncedResize = $.debounce( 325, $.proxy( self.onResize, self ) );
+    self.$window.on('orientationchange', debouncedResize );
+    self.$window.on('resize.gallery', debouncedResize );
 
     // Infinite scroll?
     if ( self.hasInfiniteScroll ) {
@@ -2055,8 +2057,6 @@ define(function(require){
         if ( !self.$stickyHeaders.hasClass( open ) ) {
           self.$stickyHeaders.addClass( open );
           self.$container.addClass('sticky-header-open');
-          self.$navContainer.addClass('container');
-          self.$navWrap.css('top', self.stickyNavHeight);
         }
         stickyTop = scrollTop - self.stickyOffset.top + self.stickyNavHeight;
         self.setStickyHeaderPos( stickyTop );
@@ -2065,13 +2065,8 @@ define(function(require){
         if ( self.showStickyHeaders && self.$stickyHeaders.hasClass( open ) ) {
           self.$container.removeClass('sticky-header-open');
           self.$stickyHeaders.removeClass( open );
-          self.$navContainer.removeClass('container');
-          self.$navWrap.css('top', 'auto');
         }
       }
-
-
-      // self.isTicking = false;
     },
 
     onScroll : function() {
@@ -2087,8 +2082,8 @@ define(function(require){
 
     onResize : function( isInit, force ) {
       var self = this,
-          windowWidth = !Settings.isLTIE9 ? 0 : self.$window.width(),
-          windowHeight = !Settings.isLTIE9 ? 0 : self.$window.height(),
+          windowWidth = !Settings.isLTIE9 ? null : self.$window.width(),
+          windowHeight = !Settings.isLTIE9 ? null : self.$window.height(),
           hasWindowChanged = !Settings.isLTIE9 || windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
       // Make sure isInit is not an event object
@@ -2097,6 +2092,10 @@ define(function(require){
       // Return if the window hasn't changed sizes or the gallery is disabled
       if ( !force && !isInit && (!self.enabled || !hasWindowChanged) ) {
         return;
+      }
+
+      if ( self.isCompareMode ) {
+        windowHeight = self.$window.height();
       }
 
       self.windowWidth = windowWidth;
@@ -2140,7 +2139,7 @@ define(function(require){
           self.$rangeControl.rangeControl('reset', undefined, false);
         }
 
-        // Setting the tone bar variable is deferred. Calling it here results in an error
+        // Setting the tone bar variable is deferred. Calling it here on init results in an error
         if ( self.isCompareMode && !isInit ) {
           self.setToneBarOffset();
         }
@@ -2767,10 +2766,9 @@ define(function(require){
     isInitialized: false,
     isFilteringInitialized: false,
     isCompareToolOpen: false,
-    isTouch: Settings.hasTouchEvents,
-    isiPhone: Settings.isIPhone,
+    isTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
     isTicking: false,
-    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE10 || Settings.isPS3 ),
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.hasPointerEvents || Settings.isLTIE10 || Settings.isPS3 ),
     lastScrollY: 0,
     sorted: false,
     currentFilterColor: null,
@@ -2799,7 +2797,7 @@ define(function(require){
       self.init();
       self.$container.data( 'accessoryFinder', self );
 
-      log('SONY : ProductSummary : Initialized');
+      log('SONY : AccessoryFinder : Initialized');
     }, 0);
   };
 
@@ -2860,9 +2858,13 @@ define(function(require){
       var self = this;
 
       // Listen for modal events
-      self.$modal.on( 'show', $.proxy( self.onModalShow, self ) );
       self.$modal.on( 'shown', $.proxy( self.onModalShown, self ) );
       self.$modal.on( 'hidden', $.proxy( self.onModalClosed, self ) );
+
+
+      if ( Settings.isLTIE9 ) {
+        self.$modalBody.removeClass( 'fade' );
+      }
 
       return self;
     },
@@ -2896,8 +2898,8 @@ define(function(require){
     initShuffle : function() {
       var self = this;
 
-      self.$grid.on('loading.shuffle', $.proxy( self.onGalleryLoading, self ));
-      self.$grid.on('done.shuffle', $.proxy( self.onGalleryDoneLoading, self ));
+      // self.$grid.on( 'loading.shuffle', $.proxy( self.onShuffleLoading, self ) );
+      self.$grid.on( 'done.shuffle', $.proxy( self.onShuffleDoneLoading, self ) );
 
       // instantiate shuffle
       self.$grid.shuffle({
@@ -2907,7 +2909,7 @@ define(function(require){
         showInitialTransition: false,
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
-        buffer: 8,
+        buffer: 20,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 
@@ -2967,36 +2969,87 @@ define(function(require){
       });
     },
 
+    getMaxBodyHeight : function() {
+      var self = this,
+          screenHeight,
+          maxModalHeight,
+          modalHeaderHeight,
+          maxBodyHeight;
+
+      screenHeight = self.$window.height();
+
+      // 90% of the available height
+      maxModalHeight = 0.9 * screenHeight;
+
+      // Lock it at 90% or 900px
+      maxModalHeight = Math.min( maxModalHeight, 900 );
+
+      // Get the combined height of the header and subheader
+      modalHeaderHeight = self.$modalHeader.outerHeight() + self.$modalSubhead.outerHeight();
+
+      // Get the max height of the body
+      maxBodyHeight = maxModalHeight - modalHeaderHeight;
+
+      // console.log('screenHeight: ' + screenHeight, ' maxModalHeight: ' + maxModalHeight, ' modalHeaderHeight: ' + modalHeaderHeight, ' maxBodyHeight: ' + maxBodyHeight);
+
+      return maxBodyHeight;
+    },
+
     getSorter : function() {
       return {
         context: this.shuffle,
         fn: this.shuffle.sort
       };
     },
+
     initSorting : Gallery.prototype.initSorting,
     getSortObject : Gallery.prototype.getSortObject,
     sort : Gallery.prototype.sort,
 
+    onShuffleDoneLoading : function() {
+      var self = this;
+
+      if ( !self.isFadedIn && !self.isLTIE9 ) {
+        setTimeout(function() {
+          self.$modalBody.addClass('in');
+          self.isFadedIn = true;
+        }, 0);
+      }
+    },
+
     onResize : function( isInit ) {
       var self = this,
-          maxModalHeight,
-          modalHeaderHeight,
-          maxBodyHeight;
+          screenHeight,
+          maxBodyHeight,
+          notMobile = Modernizr.mediaqueries ? Modernizr.mq('(min-width: 35.5em)') : true;
 
       // False for event objects
       isInit = isInit === true;
 
-
+      // console.log('resize');
       if ( !isInit ) {
         // Caculate how much room the modal body has
-        self.screenHeight = self.$window.height();
-        // Constrain the modal height to less than 900
-        maxModalHeight = Math.min( 0.9 * self.screenHeight, 900 );
-        modalHeaderHeight = self.$modalHeader.outerHeight() + self.$modalSubhead.outerHeight();
-        maxBodyHeight = maxModalHeight - modalHeaderHeight;
 
-        // Set it
-        self.$modalBody.css( 'maxHeight', maxBodyHeight );
+        setTimeout(function() {
+
+          if ( notMobile ) {
+            maxBodyHeight = self.getMaxBodyHeight();
+          } else {
+            maxBodyHeight = 'none';
+          }
+
+          if ( self.hasTouch ) {
+            screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+            $('#main').css({
+              height: screenHeight,
+              maxHeight: screenHeight,
+              overflow: 'hidden'
+            });
+          }
+
+          // Set it
+          self.$modalBody.css( 'maxHeight', maxBodyHeight );
+        }, 0);
       }
 
       return self;
@@ -3012,11 +3065,6 @@ define(function(require){
           self.updateStickyNav();
         });
       }
-    },
-
-    onModalShow : function() {
-      var self = this;
-
     },
 
     onModalShown : function() {
@@ -3040,13 +3088,24 @@ define(function(require){
 
       self.$modalBody.off('scroll');
 
+      if ( self.hasTouch ) {
+        $('#main').css({
+          height: '',
+          maxHeight: '',
+          overflow: ''
+        });
+      }
+
       // Remove scrolled class if it exists
       if ( self.$modalSubhead.hasClass('body-scrolled') ) {
         self.$modalSubhead.removeClass('body-scrolled');
       }
 
+      self.$modalBody.removeClass('in');
+
       // Clear out the search field
       self.$searchField.val( '' );
+      self.isFadedIn = false;
     },
 
     updateStickyNav : function() {
@@ -3077,9 +3136,11 @@ define(function(require){
   };
 
   AccessoryFinder.settings = {
-    isDesktop: false,
-    isMobile: false,
+    // isDesktop: false,
+    // isMobile: false,
     isTicking: false,
+    isFadedIn: false,
+    hasTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
     itemSelector: '.compat-item',
     $window: Settings.$window
   };

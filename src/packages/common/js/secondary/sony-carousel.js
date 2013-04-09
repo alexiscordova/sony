@@ -132,7 +132,7 @@ define(function(require){
       self.currentSlide = 0;
 
       if ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.450, 0.735, 0.445, 0.895)');
+        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3easingEquation);
       }
 
       self.$el.sonyDraggable({
@@ -414,9 +414,20 @@ define(function(require){
       });
     },
 
+    // Manually allow to set animation speed, e.g. different breakpoints
+    setAnimationSpeed: function(milliscnds){
+      var self = this;
+      self.animationSpeed = milliscnds || self.animationSpeed;
+    },
+
+    // Manually allow to set CSS transition speed, e.g. different breakpoints
+    setCSS3easingEquation: function(bezierStr){
+      var self = this;
+      self.CSS3easingEquation = bezierStr || self.CSS3easingEquation;
+    },
+
     // To prevent drags from being misinterpreted as clicks, we only redirect the user
     // if their interaction time and movements are below certain thresholds.
-
     setupLinkClicks: function() {
 
       var self = this,
@@ -562,6 +573,9 @@ define(function(require){
 
     // Speed of slide animation, in ms.
     animationSpeed: 450,
+
+    //default CSS3 easing equation
+    CSS3easingEquation: 'cubic-bezier(0.450, 0.735, 0.445, 0.895)',
 
     // Which direction the carousel moves in. Plugin currently only supports 'x'.
     axis: 'x',

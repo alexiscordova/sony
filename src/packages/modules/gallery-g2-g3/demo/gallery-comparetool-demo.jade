@@ -12,7 +12,10 @@ body
     if ( window.console && window.console.time ) {
       console.time('parsing');
     }
-  +partial('gallery-g2-g3/html/gallery-comparetool.jade', 'packages/modules/gallery-g2-g3/demo/data/gallery-comparetool.json')
+  #page-wrap-outer.page-wrap-outer
+    #page-wrap-inner.page-wrap-inner
+      #main(role='main')
+        +partial('gallery-g2-g3/html/gallery-comparetool.jade', 'packages/modules/gallery-g2-g3/demo/data/gallery-comparetool.json')
 
   include ../../../common/html/foot.jade
 </html>
