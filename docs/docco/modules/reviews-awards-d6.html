@@ -47,11 +47,13 @@ define(<span class="keyword">function</span>(require){
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      self.$cached = self.$el.clone();
+
       <span class="keyword">if</span> ( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
-        enquire.register(<span class="string">"(min-width: 480px)"</span>, <span class="keyword">function</span>() {
+        enquire.register(<span class="string">"(min-width: 568px)"</span>, <span class="keyword">function</span>() {
           self.renderDesktop();
         });
-        enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
+        enquire.register(<span class="string">"(max-width: 567px)"</span>, <span class="keyword">function</span>() {
           self.renderMobile();
         });
       } <span class="keyword">else</span> {
@@ -59,37 +61,42 @@ define(<span class="keyword">function</span>(require){
       }
     },
 
+    reloadCached: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $restored = self.$cached.clone();
+
+      self.$el.replaceWith($restored);
+      self.$el = $restored;
+    },
+
     renderDesktop: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      self.reloadCached();
+
       self.$el.find(<span class="string">'.carousel-slide'</span>).sonyCarousel({
         wrapper: <span class="string">'.raa-user-reviews-carousel'</span>,
         slides: <span class="string">'.user-ratings, .raa-social-mention'</span>,
-        axis: <span class="string">'x'</span>,
-        unit: <span class="string">'%'</span>,
-        dragThreshold: <span class="number">10</span>,
         useCSS3: self.useCSS3,
-        paddles: <span class="literal">false</span>,
         pagination: <span class="literal">true</span>
       });
 
       self.$el.find(<span class="string">'.raa-expert-reviews &gt; div'</span>).sonyCarousel({
         wrapper: <span class="string">'.raa-expert-reviews'</span>,
         slides: <span class="string">'.raa-expert-review'</span>,
-        axis: <span class="string">'x'</span>,
-        unit: <span class="string">'%'</span>,
-        dragThreshold: <span class="number">10</span>,
         useCSS3: self.useCSS3,
-        paddles: <span class="literal">false</span>,
         pagination: <span class="literal">true</span>,
         $dotNavWrapper: self.$el.find(<span class="string">'.raa-expert-reviews'</span>)
       });
-
     },
 
     renderMobile: <span class="keyword">function</span>() {
 
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.reloadCached();
     }
   };
 

@@ -31,9 +31,10 @@ define(function(require){
       Modernizr = require('modernizr'),
       Utilities = require('require/sony-global-utilities');
 
-  var _startEvents = 'mousedown.sonyDraggable touchstart.sonyDraggable',
-      _endEvents = 'mouseup.sonyDraggable touchend.sonyDraggable',
-      _moveEvents = 'mousemove.sonyDraggable touchmove.sonyDraggable';
+  var _id = 0,
+      _startEvents = function(id){ return 'mousedown.sonyDraggable-' + id + ' touchstart.sonyDraggable-' + id; },
+      _endEvents = function(id){ return 'mouseup.sonyDraggable-' + id + ' touchend.sonyDraggable-' + id; },
+      _moveEvents = function(id){ return 'mousemove.sonyDraggable-' + id + ' touchmove.sonyDraggable-' + id; };
 
   var SonyDraggable = function($element, options){
 
@@ -41,6 +42,7 @@ define(function(require){
 
     $.extend(self, {}, $.fn.sonyDraggable.defaults, options);
 
+    self.id = _id++;
     self.$win = $(window);
     self.$el = $element;
     self.$containment = $(self.containment);
@@ -56,11 +58,11 @@ define(function(require){
 
       var self = this;
 
-      self.$containment.on(_startEvents, $.proxy(self.onScrubStart, self));
-      self.$containment.on(_endEvents + ' click.sonyDraggable', $.proxy(self.onScrubEnd, self));
+      self.$containment.on(_startEvents(self.id), $.proxy(self.onScrubStart, self));
+      self.$containment.on(_endEvents(self.id) + ' click.sonyDraggable-' + self.id, $.proxy(self.onScrubEnd, self));
 
       if ( !Modernizr.touch ) {
-        self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
+        self.$win.on(_endEvents(self.id), $.proxy(self.onScrubEnd, self));
       }
 
       self.throttledSetAcceleration = $.throttle(500, $.proxy(self.setAcceleration, self));
@@ -94,7 +96,7 @@ define(function(require){
       self.handleStartPosition = self.getPagePosition(e);
       self.setDimensions();
 
-      self.$containment.on(_moveEvents, $.proxy(self.scrubbingThreshold, self));
+      self.$containment.on(_moveEvents(self.id), $.proxy(self.scrubbingThreshold, self));
 
       self.$el.trigger('sonyDraggable:dragStart');
     },
@@ -156,7 +158,7 @@ define(function(require){
 
       e.preventDefault();
 
-      self.$containment.off(_moveEvents);
+      self.$containment.off(_moveEvents(self.id));
 
       if ( !self.isScrubbing ) { return; }
 
@@ -364,8 +366,19 @@ define(function(require){
 
       self.bounds = newBounds;
       self.setPositions();
-    }
+    },
 
+    destroy: function() {
+
+      var self = this;
+
+      self.$containment.off(_startEvents(self.id), $.proxy(self.onScrubStart, self));
+      self.$containment.off(_endEvents(self.id) + ' click.sonyDraggable-' + self.id);
+
+      if ( !Modernizr.touch ) {
+        self.$win.off(_endEvents(self.id));
+      }
+    }
   };
 
   $.fn.sonyDraggable = function( options ) {
