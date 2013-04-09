@@ -64,7 +64,8 @@ define(function(require) {
     self.variant1Differential            = 145;
     self.variant2Differential            = 120;
     self.showOverlayCentered             = ( $(window).width() < 768 ) ? true : false;
-    
+    self.lastOverlayFadein               = null;
+    self.lastOverlayFadeout              = null;
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -174,36 +175,19 @@ define(function(require) {
           overlayBase   = $( '.hspot-global-details-overlay' ),
           underlayBase  = $( '.hspot-underlay, .hspot-underlay-on' ); 
 
+      // copy the overlay into the mobile, center overlay
       if( toCenter ) {
         
-        // tag last el as the one copied
+        // tag last el as the one copied, so we can turn it on when required
         el.addClass( 'lastMoved' );
         
-        // find and hide the currently open overlay
+        // find and hide the currently open overlay, just tagged as 'lastMoved'
         el.find( '.overlay-base' ).addClass( 'hidden' );
         
-        // show the opaque underlay to dim the background
-        if( self.$lastOpen ) {
-          if( self.lastOverlayTimeout ) {
-
-          }
-          clearTimeout( self.lastOverlayTimeout );
-          self.lastOverlayTimeout = null;
-          underlayBase.removeClass( 'hspot-underlay' ).addClass( 'hspot-underlay-on' ).removeClass( 'hidden' );
-        }
-
         // copy HTML over to the overlay container
         overlayBase.html( el.find( '.overlay-base' ).html() );
 
-        // turn on overlay container
-        overlayBase.find( '.top' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
-        overlayBase.find( '.middle' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
-        overlayBase.find( '.middle' ).find( '.arrow-left-top' ).addClass( 'hidden' );
-        overlayBase.find( '.middle' ).find( '.arrow-left-bottom' ).addClass( 'hidden' );
-        overlayBase.find( '.middle' ).find( '.arrow-right-top' ).addClass( 'hidden' );
-        overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
-        overlayBase.find( '.footer' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
-        overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
+
 
         // bind close button for this instance
         overlayBase.find( '.hspot-close' ).bind( 'click', function( event ) {
@@ -212,11 +196,50 @@ define(function(require) {
           // close overlay 
           self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
           self.reanchor( el, false );
-
         });
+
+        // show the opaque underlay to dim the background
+        if( self.$lastOpen ) {
+          clearTimeout( self.lastOverlayTimeout );
+          self.lastOverlayTimeout = null;
+          underlayBase.removeClass( 'hidden' );
+          underlayBase.removeClass( 'hspot-underlay' ).addClass( 'hspot-underlay-on' );
+        }
+        
+/*
+        // finally show the overlay
+        overlayBase.removeClass( 'hidden' );
+        overlayBase.removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+
+        // turn on overlay container
+        overlayBase.find( '.top' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        overlayBase.find( '.middle' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        overlayBase.find( '.middle' ).find( '.arrow-left-top' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-left-bottom' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-right-top' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
+        overlayBase.find( '.footer' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
+*/
+
+
+
+        // turn on overlay container
+        overlayBase.find( '.top' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        overlayBase.find( '.middle' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        overlayBase.find( '.middle' ).find( '.arrow-left-top' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-left-bottom' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-right-top' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
+        overlayBase.find( '.footer' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
         
         // finally show the overlay
-        overlayBase.removeClass( 'eh-transparent' ).addClass( 'eh-visible' ).removeClass( 'hidden' );
+        overlayBase.removeClass( 'hidden' );
+        self.lastOverlayFadein = setTimeout( function() {
+          overlayBase.removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        }, 10 );
+        
       } else {
         // untag last overlay
         el.removeClass( 'lastMoved' );
@@ -232,8 +255,11 @@ define(function(require) {
         }
 
         // close mobile overlay
-        overlayBase.addClass( 'hidden' );
-
+        overlayBase.removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
+        self.lastOverlayFadeout = setTimeout( function() {
+          overlayBase.addClass( 'hidden' );
+        }, 500 );
+        
         // reopen normal overlay
         el.find( '.overlay-base' ).removeClass( 'hidden' );
       }
@@ -273,12 +299,12 @@ define(function(require) {
       // we need to put this element in the centered overlay, not free form next to it's hotspot button
       if( true === self.showOverlayCentered ) {
         
-        log('need to reparen to overlay view');
+        /* log('need to reparen to overlay view'); */
         self.reanchor( el, true );
         
       } else {
         
-        log('unabaited repositioning');
+        /* log('unabaited repositioning'); */
         self.reanchor(el, false);
         
         /*
@@ -509,7 +535,16 @@ define(function(require) {
         el.removeClass( 'three-stack-right-bottom-justified' ).addClass( 'two-stack-right-bottom-justified' );
       }
     },
-    
+    transition: function( _el, direction ) {
+      switch(direction) {
+        case "on":
+          _el.removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        break;
+        case "off":
+          _el.removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
+        break;
+      }
+    },
     close: function( container, hotspot, info ) {
         var self = this;
         // we are setting display:none when the trasition is complete, and managing the timer here

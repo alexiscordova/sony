@@ -1,7 +1,5 @@
 mixin hotspotCore(hotspotData, assets)
   size = hotspotData.size
-  .hspot-underlay.hidden
-  .hspot-global-details-overlay.hidden
   .hspot-outer(data-x=hotspotData.coords[0],data-y=hotspotData.coords[1])
     .hspot-core
       .hspot-indicator
@@ -86,5 +84,7 @@ case type
             - image = data.hotspotContainerImage.image
             img.iq-img(class=image.classes)(alt=image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
             - assets = data.hotspots.assets
+            .hspot-underlay.hidden
+            .hspot-global-details-overlay.hidden.eh-transparent
             - for hotstpot in data.hotspots.items
               +hotspotCore(hotstpot, assets)
