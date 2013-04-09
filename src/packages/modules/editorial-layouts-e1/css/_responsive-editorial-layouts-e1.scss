@@ -5,6 +5,13 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 
+//sub desktop
+@media (max-width: $tabletMax){
+  //--> 2 up turn to carousels
+  
+}
+
+//tablet only
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .editorial.mediaright,
   .editorial.medialeft{
@@ -15,6 +22,7 @@ $tabletMax: px-em(979);
     }
   }
 }
+//phone only
 @media (max-width: $phoneMax) {
   .editorial{
     .box{
@@ -60,6 +68,10 @@ $tabletMax: px-em(979);
     }
   }
   .editorial.tout{
+    .container{
+      position:relative;
+      overflow:hidden;
+    }
     padding: 20px 0;
     .m1up{
       .textright{
@@ -70,7 +82,13 @@ $tabletMax: px-em(979);
       }
     }
     .m2up{
+      width:220%;
+      position:relative;
       .horizontal {
+        position:relative;
+        float:left;
+        width:45%;
+        margin-right:5%;
         .image-module{
           width: 122px;
           height: 122px;
