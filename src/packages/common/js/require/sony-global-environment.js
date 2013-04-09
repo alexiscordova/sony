@@ -143,7 +143,7 @@ define(function (require) {
 
         // If you aren't IE7/8, you may pass.
 
-        if ( !Settings.$html.hasClass('lt-ie9') ) {
+        if ( !Settings.isLTIE9 ) {
           return cb();
         }
 

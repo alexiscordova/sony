@@ -23,7 +23,11 @@ define(function(require) {
 
   var module = {
     init: function() {
-      new ProductSummary( $('.ps-module')[0] );
+      var $psModule = $('.ps-module');
+
+      if ( $psModule.length ) {
+        new ProductSummary( $psModule[0] );
+      }
     }
   };
 

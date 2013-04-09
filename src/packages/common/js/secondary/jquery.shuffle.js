@@ -148,7 +148,7 @@ define(function(require){
             // Get debounced versions of our resize methods
             afterResizeFunc = $.proxy( self._afterResize, self );
             debouncedAfterResize = self.throttle ? self.throttle( self.throttleTime, afterResizeFunc ) : afterResizeFunc;
-            self.$window.on('resize.shuffle', debouncedAfterResize);
+            self.$window.on('resize.' + self.unique, debouncedAfterResize);
 
             // If we need to hide layouts with a fade instead, we need another event on window resize
             // which is only fired the first time window resize is triggered
@@ -965,7 +965,7 @@ define(function(require){
         destroy: function() {
             var self = this;
 
-            self.$window.off('.shuffle');
+            self.$window.off('.' + self.unique);
             self.$container
                 .removeClass('shuffle')
                 .removeAttr('style')
