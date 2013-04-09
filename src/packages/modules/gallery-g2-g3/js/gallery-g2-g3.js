@@ -2057,8 +2057,6 @@ define(function(require){
         if ( !self.$stickyHeaders.hasClass( open ) ) {
           self.$stickyHeaders.addClass( open );
           self.$container.addClass('sticky-header-open');
-          self.$navContainer.addClass('container');
-          self.$navWrap.css('top', self.stickyNavHeight);
         }
         stickyTop = scrollTop - self.stickyOffset.top + self.stickyNavHeight;
         self.setStickyHeaderPos( stickyTop );
@@ -2067,13 +2065,8 @@ define(function(require){
         if ( self.showStickyHeaders && self.$stickyHeaders.hasClass( open ) ) {
           self.$container.removeClass('sticky-header-open');
           self.$stickyHeaders.removeClass( open );
-          self.$navContainer.removeClass('container');
-          self.$navWrap.css('top', 'auto');
         }
       }
-
-
-      // self.isTicking = false;
     },
 
     onScroll : function() {
@@ -2089,8 +2082,8 @@ define(function(require){
 
     onResize : function( isInit, force ) {
       var self = this,
-          windowWidth = !Settings.isLTIE9 ? 0 : self.$window.width(),
-          windowHeight = !Settings.isLTIE9 ? 0 : self.$window.height(),
+          windowWidth = !Settings.isLTIE9 ? null : self.$window.width(),
+          windowHeight = !Settings.isLTIE9 ? null : self.$window.height(),
           hasWindowChanged = !Settings.isLTIE9 || windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
       // Make sure isInit is not an event object
@@ -2099,6 +2092,10 @@ define(function(require){
       // Return if the window hasn't changed sizes or the gallery is disabled
       if ( !force && !isInit && (!self.enabled || !hasWindowChanged) ) {
         return;
+      }
+
+      if ( self.isCompareMode ) {
+        windowHeight = self.$window.height();
       }
 
       self.windowWidth = windowWidth;
@@ -2142,7 +2139,7 @@ define(function(require){
           self.$rangeControl.rangeControl('reset', undefined, false);
         }
 
-        // Setting the tone bar variable is deferred. Calling it here results in an error
+        // Setting the tone bar variable is deferred. Calling it here on init results in an error
         if ( self.isCompareMode && !isInit ) {
           self.setToneBarOffset();
         }
@@ -2861,9 +2858,7 @@ define(function(require){
       var self = this;
 
       // Listen for modal events
-      // self.$modal.on( 'show', $.proxy( self.onModalShow, self ) );
       self.$modal.on( 'shown', $.proxy( self.onModalShown, self ) );
-      // self.$modal.on( 'hide', $.proxy( self.onModalClose, self ) );
       self.$modal.on( 'hidden', $.proxy( self.onModalClosed, self ) );
 
 
@@ -3045,7 +3040,11 @@ define(function(require){
 
           if ( self.hasTouch ) {
             screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
-            $('#main').css( 'maxHeight', screenHeight );
+            $('#main').css({
+              height: screenHeight,
+              maxHeight: screenHeight,
+              overflow: 'hidden'
+            });
           }
 
           // Set it
@@ -3068,29 +3067,6 @@ define(function(require){
       }
     },
 
-    // onModalShow : function() {
-      // var self = this,
-      //     screenHeight;
-
-      // if ( !self.hasTouch ) {
-      //   return;
-      // }
-
-      // self.$modal.find('.modal-inner').on( Settings.MOVE_EV + '.modal', function( evt ) {
-      //   var $target = $( evt.target );
-      //   console.log( evt.target );
-
-      //   // If the target is `.modal-body`, or contained inside `.modal-body`, we want to prevent the
-      //   // event from bubbling up to the `body` and having its default prevented (scrolling)
-      //   if ( $target.is( self.$modalBody ) || self.$modalBody.find( $target ).length ) {
-      //     console.log('stopping propagation');
-      //     evt.stopPropagation();
-      //   }
-      // });
-
-      // Settings.$body.on( Settings.MOVE_EV + '.modal', false );
-    // },
-
     onModalShown : function() {
       var self = this;
 
@@ -3105,14 +3081,6 @@ define(function(require){
       self.$modalBody.on( 'scroll', $.proxy( self.onModalBodyScroll, self ) );
     },
 
-    // onModalClose : function() {
-      // var self = this;
-
-      // if ( !self.hasTouch ) {
-      //   return;
-      // }
-    // },
-
     onModalClosed : function() {
       var self = this;
 
@@ -3121,10 +3089,11 @@ define(function(require){
       self.$modalBody.off('scroll');
 
       if ( self.hasTouch ) {
-        $('#main').css( 'maxHeight', '' );
-      //   self.$modal.find('.modal-inner')
-      //     .add( Settings.$body )
-      //     .off( Settings.MOVE_EV + '.modal' );
+        $('#main').css({
+          height: '',
+          maxHeight: '',
+          overflow: ''
+        });
       }
 
       // Remove scrolled class if it exists

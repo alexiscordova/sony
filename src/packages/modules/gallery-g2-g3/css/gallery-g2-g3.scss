@@ -552,6 +552,7 @@ $gifHeight: 60px;
 // $fluidGridWidth1200
 .gallery-compare .products {
   width: $fluidGridWidth;
+  margin: auto;
   overflow: visible;
   border-right: .0625em solid $gray70;
   @include transition(box-shadow $transitionFast ease-in);
@@ -662,43 +663,6 @@ $compareBorder: .0625em solid $gray70;
   }
 }
 
-.compare-items-container {
-  // height: 100%;
-}
-
-// .compare-nav {
-//   position: absolute;
-//   z-index: 15;
-//   top: 330px;
-//   width: 100%;
-//   opacity: 0;
-//   @include transition();
-
-//   .no-opacity & {
-//     display: none;
-//   }
-
-//   // Hide nav buttons when the sticky nav is active
-//   &.sticky-nav-open .nav-prev,
-//   &.sticky-nav-open .nav-next {
-//     @include opacity(0);
-//   }
-
-//   .nav-prev,
-//   .nav-next {
-//     position: absolute;
-//     top: 0;
-//   }
-
-//   .nav-prev {
-//     left: 60px;
-//   }
-
-//   .nav-next {
-//     right: 60px;
-//   }
-// }
-
 // Compare Items
 // --------------------
 $stickyHeaderHeight: px-em(82);
@@ -788,7 +752,6 @@ $stickyHeaderHeight: px-em(82);
   // Sticky headers
   .compare-sticky-header {
     top: -2em;
-    // width: inherit;
     width: 100%;
     height: px-em(106);
     padding: 0;
@@ -843,44 +806,35 @@ $stickyHeaderHeight: px-em(82);
 }
 
 
-// Spec Nav
+// Nav
 // -------------------------
-.compare-nav-container {
+.compare-wrap {
   position: relative;
-}
 
-$columnHeaderHeight: px-em(82);
-.compare-nav {
-  position: absolute;
-  z-index: 16;
-  top: ($columnHeaderHeight - $navPaddleHeight) / 2;
-}
-
-.compare-nav-prev {
-  left: -.625em;
-}
-
-.compare-nav-next {
-  right: -.625em;
-}
-
-// Affix the nav paddles when the sticky headers are open
-.sticky-header-open {
-
-  .compare-nav-wrap {
-    position: fixed;
-    z-index: 15;
-    top: 72px; // Should be overriden by js
-    left: 0;
-    width: 100%;
+  .pagination-paddle {
+    top: px-em(100);
   }
 
-  .compare-nav-container {
-    // Turns into .container
+  // Sticky headers are disabled for IE < 10,
+  // this will still move the paddle position
+  .sticky-header-open & .pagination-paddle,
+  .lt-ie10 .sticky-nav.open ~ & .pagination-paddle {
+    position: fixed;
+    top: px-em(330);
+  }
 
-    .compare-nav {
-      top: ( $stickyHeaderHeight - $navPaddleHeight ) / 2;
-    }
+  .lt-ie9 & .pagination-next {
+    right: 0;
+  }
+  .lt-ie9 & .pagination-prev {
+    left: 0;
+  }
+
+  .lt-ie10 .sticky-nav.open ~ & .pagination-next {
+    right: 5%;
+  }
+  .lt-ie10 .sticky-nav.open ~ & .pagination-prev {
+    left: 5%;
   }
 }
 
