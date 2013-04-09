@@ -49,6 +49,10 @@
 // If you've replaced or manipulated the slides, tell SonyCarousel to cache them again.
 //
 //      $('#foo').sonyCarousel('resetSlides');
+//
+// If you need to destroy the carousel, run this method:
+//
+//      $('#foo').sonyCarousel('destroy');
 
 
 define(function(require){
@@ -375,14 +379,10 @@ define(function(require){
     createPaddles: function() {
 
       var self = this,
-          $wrapper = self.$wrapper;
+          $wrapper = self.$paddleWrapper || self.$wrapper;
 
       if ( Modernizr.touch || self.paddlesInit ) {
         return;
-      }
-
-      if ( self.$paddleWrapper ) {
-        $wrapper = self.$paddleWrapper;
       }
 
       self.paddlesInit = true;
@@ -466,6 +466,32 @@ define(function(require){
       if ( self.pagination ) {
         self.createPagination();
       }
+    },
+
+    destroy: function() {
+
+      var self = this,
+          $paddleWrapper = self.$paddleWrapper || self.$wrapper;
+
+      // Reset styles.
+      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '');
+      self.$el.css(Modernizr.prefixed('transitionDuration'), '' );
+      self.$el.css(Modernizr.prefixed('transform'), '');
+      self.$el.css('left', '');
+
+      // Destroy all plugins.
+      self.$el.sonyDraggable('destroy');
+
+      if ( self.paddles ) {
+        $paddleWrapper.sonyPaddles('destroy');
+      }
+
+      if ( self.$dotnav ) {
+        self.$dotnav.sonyNavDots('destroy');
+      }
+
+      // Remove data from element, allowing for later reinit.
+      self.$el.removeData('sonyCarousel');
     }
   };
 
@@ -476,11 +502,11 @@ define(function(require){
     var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
       var self = $(this),
-        sonyCarousel = self.data('sonyCarousel');
+          sonyCarousel = self.data('sonyCarousel');
 
       if ( !sonyCarousel ) {
-          sonyCarousel = new SonyCarousel( self, options );
-          self.data( 'sonyCarousel', sonyCarousel );
+        sonyCarousel = new SonyCarousel( self, options );
+        self.data( 'sonyCarousel', sonyCarousel );
       }
 
       if ( typeof options === 'string' ) {

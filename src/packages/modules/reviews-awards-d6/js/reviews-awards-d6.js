@@ -47,11 +47,13 @@ define(function(require){
 
       var self = this;
 
+      self.$cached = self.$el.clone();
+
       if ( !Settings.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 480px)", function() {
+        enquire.register("(min-width: 568px)", function() {
           self.renderDesktop();
         });
-        enquire.register("(max-width: 479px)", function() {
+        enquire.register("(max-width: 567px)", function() {
           self.renderMobile();
         });
       } else {
@@ -59,37 +61,42 @@ define(function(require){
       }
     },
 
+    reloadCached: function() {
+
+      var self = this,
+          $restored = self.$cached.clone();
+
+      self.$el.replaceWith($restored);
+      self.$el = $restored;
+    },
+
     renderDesktop: function() {
 
       var self = this;
 
+      self.reloadCached();
+
       self.$el.find('.carousel-slide').sonyCarousel({
         wrapper: '.raa-user-reviews-carousel',
         slides: '.user-ratings, .raa-social-mention',
-        axis: 'x',
-        unit: '%',
-        dragThreshold: 10,
         useCSS3: self.useCSS3,
-        paddles: false,
         pagination: true
       });
 
       self.$el.find('.raa-expert-reviews > div').sonyCarousel({
         wrapper: '.raa-expert-reviews',
         slides: '.raa-expert-review',
-        axis: 'x',
-        unit: '%',
-        dragThreshold: 10,
         useCSS3: self.useCSS3,
-        paddles: false,
         pagination: true,
         $dotNavWrapper: self.$el.find('.raa-expert-reviews')
       });
-
     },
 
     renderMobile: function() {
 
+      var self = this;
+
+      self.reloadCached();
     }
   };
 

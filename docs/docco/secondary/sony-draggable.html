@@ -32,9 +32,10 @@ define(<span class="keyword">function</span>(require){
       Modernizr = require(<span class="string">'modernizr'</span>),
       Utilities = require(<span class="string">'require/sony-global-utilities'</span>);
 
-  <span class="keyword">var</span> _startEvents = <span class="string">'mousedown.sonyDraggable touchstart.sonyDraggable'</span>,
-      _endEvents = <span class="string">'mouseup.sonyDraggable touchend.sonyDraggable'</span>,
-      _moveEvents = <span class="string">'mousemove.sonyDraggable touchmove.sonyDraggable'</span>;
+  <span class="keyword">var</span> _id = <span class="number">0</span>,
+      _startEvents = <span class="keyword">function</span>(id){ <span class="keyword">return</span> <span class="string">'mousedown.sonyDraggable-'</span> + id + <span class="string">' touchstart.sonyDraggable-'</span> + id; },
+      _endEvents = <span class="keyword">function</span>(id){ <span class="keyword">return</span> <span class="string">'mouseup.sonyDraggable-'</span> + id + <span class="string">' touchend.sonyDraggable-'</span> + id; },
+      _moveEvents = <span class="keyword">function</span>(id){ <span class="keyword">return</span> <span class="string">'mousemove.sonyDraggable-'</span> + id + <span class="string">' touchmove.sonyDraggable-'</span> + id; };
 
   <span class="keyword">var</span> SonyDraggable = <span class="keyword">function</span>($element, options){
 
@@ -42,6 +43,7 @@ define(<span class="keyword">function</span>(require){
 
     $.extend(self, {}, $.fn.sonyDraggable.defaults, options);
 
+    self.id = _id++;
     self.$win = $(window);
     self.$el = $element;
     self.$containment = $(self.containment);
@@ -57,11 +59,11 @@ define(<span class="keyword">function</span>(require){
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      self.$containment.on(_startEvents, $.proxy(self.onScrubStart, self));
-      self.$containment.on(_endEvents + <span class="string">' click.sonyDraggable'</span>, $.proxy(self.onScrubEnd, self));
+      self.$containment.on(_startEvents(self.id), $.proxy(self.onScrubStart, self));
+      self.$containment.on(_endEvents(self.id) + <span class="string">' click.sonyDraggable-'</span> + self.id, $.proxy(self.onScrubEnd, self));
 
       <span class="keyword">if</span> ( !Modernizr.touch ) {
-        self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
+        self.$win.on(_endEvents(self.id), $.proxy(self.onScrubEnd, self));
       }
 
       self.throttledSetAcceleration = $.throttle(<span class="number">500</span>, $.proxy(self.setAcceleration, self));
@@ -94,7 +96,7 @@ cache the new interaction's start position, then bind for movement onto onScrubb
       self.handleStartPosition = self.getPagePosition(e);
       self.setDimensions();
 
-      self.$containment.on(_moveEvents, $.proxy(self.scrubbingThreshold, self));
+      self.$containment.on(_moveEvents(self.id), $.proxy(self.scrubbingThreshold, self));
 
       self.$el.trigger(<span class="string">'sonyDraggable:dragStart'</span>);
     },
@@ -150,7 +152,7 @@ cache the new interaction's start position, then bind for movement onto onScrubb
 
       e.preventDefault();
 
-      self.$containment.off(_moveEvents);
+      self.$containment.off(_moveEvents(self.id));
 
       <span class="keyword">if</span> ( !self.isScrubbing ) { <span class="keyword">return</span>; }
 
@@ -350,8 +352,19 @@ respect the grid even though they aren't really in it. Refer to S2 for usage exa
 
       self.bounds = newBounds;
       self.setPositions();
-    }
+    },
 
+    destroy: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$containment.off(_startEvents(self.id), $.proxy(self.onScrubStart, self));
+      self.$containment.off(_endEvents(self.id) + <span class="string">' click.sonyDraggable-'</span> + self.id);
+
+      <span class="keyword">if</span> ( !Modernizr.touch ) {
+        self.$win.off(_endEvents(self.id));
+      }
+    }
   };
 
   $.fn.sonyDraggable = <span class="keyword">function</span>( options ) {
