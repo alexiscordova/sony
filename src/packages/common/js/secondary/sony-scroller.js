@@ -355,21 +355,22 @@ define(function(require){
     },
 
     _showHideNavs : function( currentPage, numPages ) {
-      var self = this;
+      var self = this,
+          theClass = 'hidden';
 
       if ( self.$navPrev && self.$navNext ) {
         // Hide show prev button depending on where we are
         if ( currentPage === 0 ) {
-          self.$navPrev.addClass('hide');
+          self.$navPrev.addClass( theClass );
         } else {
-          self.$navPrev.removeClass('hide');
+          self.$navPrev.removeClass( theClass );
         }
 
         // Hide show next button depending on where we are
         if ( currentPage === numPages ) {
-          self.$navNext.addClass('hide');
+          self.$navNext.addClass( theClass );
         } else {
-          self.$navNext.removeClass('hide');
+          self.$navNext.removeClass( theClass );
         }
       }
     },
