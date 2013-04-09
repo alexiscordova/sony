@@ -1,11 +1,14 @@
 include ../../../common/html/jade-helpers.jade
 
+e = {"locals":locals, "data":data.image}
+
 .module-li
   .container.full-bleed-no-max.module-li-bg
     div(data-src=data.images)
-    .container.full-bleed
-      .grid.no-grid-at-767
-        .module-margin
+    .container.full-bleed.hero-image
+      !{locals.partial('packages/modules/image/html/image.jade' , e)}
+      .container.inner
+        .grid.no-grid-at-767
           .span6
             .table-center
               .box
