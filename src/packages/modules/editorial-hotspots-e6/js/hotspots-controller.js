@@ -178,6 +178,8 @@ define(function(require) {
       // copy the overlay into the mobile, center overlay
       if( toCenter ) {
         
+        clearTimeout( self.lastOverlayFadein );
+        
         // tag last el as the one copied, so we can turn it on when required
         el.addClass( 'lastMoved' );
         
@@ -241,6 +243,9 @@ define(function(require) {
         }, 10 );
         
       } else {
+        // cleanup
+        clearTimeout( self.lastOverlayFadeout );
+        
         // untag last overlay
         el.removeClass( 'lastMoved' );
         
@@ -557,9 +562,9 @@ define(function(require) {
         hotspot.removeClass( 'hspot-core-on' ).addClass( 'hspot-core' );
         
         // begin fade out
-        info.find('.top').removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
-        info.find('.middle').removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
-        info.find('.footer').removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
+        self.transition( info.find('.top'),     'off' );
+        self.transition( info.find('.middle'),  'off' );
+        self.transition( info.find('.footer'),  'off' );
         
         // closure to allow script to set display:none when transition is complete
         var anon = function() {
