@@ -69,11 +69,14 @@ define(function(require){
       sonyPaddles = require('secondary/sony-paddles'),
       sonyNavigationDots = require('secondary/sony-navigationdots');
 
+  var _id = 0;
+
   var SonyCarousel = function($element, options){
     var self = this;
 
     $.extend(self, {}, $.fn.sonyCarousel.defaults, options, $.fn.sonyCarousel.settings);
 
+    self.id = _id++;
     self.$el = $element;
     self.$wrapper = self.$el.parent(self.wrapper);
 
@@ -92,7 +95,7 @@ define(function(require){
       self.setupLinkClicks();
       self.setupDraggable();
 
-      Environment.on('global:resizeDebounced-200ms', function(){
+      Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function(){
         self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
       });
 
@@ -468,16 +471,24 @@ define(function(require){
       }
     },
 
+    // Reset the style attribute for the properties we might have manipulated.
+    // Destroy the plugins we've initialized as part of the carousel.
+
     destroy: function() {
 
       var self = this,
           $paddleWrapper = self.$paddleWrapper || self.$wrapper;
 
       // Reset styles.
-      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '');
-      self.$el.css(Modernizr.prefixed('transitionDuration'), '' );
-      self.$el.css(Modernizr.prefixed('transform'), '');
-      self.$el.css('left', '');
+      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '')
+          .css(Modernizr.prefixed('transitionDuration'), '' )
+          .css(Modernizr.prefixed('transform'), '')
+          .css('left', '');
+
+      // Unbind
+      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
+      self.$el.off('sonyDraggable:dragStart');
+      self.$el.off('sonyDraggable:dragEnd');
 
       // Destroy all plugins.
       self.$el.sonyDraggable('destroy');
