@@ -49,9 +49,9 @@ define(function(require){
           $('.editorial.tout .m2up .horizontal').removeClass('span6');
           $('.editorial.tout .m2up').sonyCarousel({
             wrapper: '.editorial.tout .container',
-            slides: '.editorial.tout .m2up .horizontal',
+            slides: '.horizontal',
             useCSS3: true,
-            paddles: true, 
+            paddles: false, 
             pagination: true
           });
           

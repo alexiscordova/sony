@@ -63,7 +63,7 @@ define(function(require){
       Environment = require('require/sony-global-environment'),
       sonyDraggable = require('secondary/sony-draggable'),
       sonyPaddles = require('secondary/sony-paddles'),
-      sonyNavigationDots = require('secondary/sony-draggable');
+      sonyNavigationDots = require('secondary/sony-navigationdots');
 
   var SonyCarousel = function($element, options){
     var self = this;
