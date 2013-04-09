@@ -104,7 +104,7 @@ define(function(require){
       this.paddleVisibility(which, false);
     },
 
-    'paddleVisibility': function(which, visible){
+    'paddleVisibility': function(which, visible) {
 
       var self = this;
 
@@ -125,6 +125,13 @@ define(function(require){
           self.$rightPaddle.hide().removeClass('on');
         }
       }
+    },
+
+    destroy: function() {
+
+      var self = this;
+
+      self.$nav.remove();
     }
   };
 

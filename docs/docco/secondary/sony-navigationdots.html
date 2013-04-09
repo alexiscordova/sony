@@ -131,6 +131,13 @@ and broadcast the click to subscribers.</p>             </td>             <td cl
 
       self.$buttons.removeClass(<span class="string">'bullet-selected'</span>);
       self.$buttons.eq(self.activeButton).addClass(<span class="string">'bullet-selected'</span>);
+    },
+
+    destroy: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$navContainer.remove();
     }
   };
 
