@@ -63,7 +63,7 @@ define(function(require) {
     self.variant2FloorHeight             = 108;
     self.variant1Differential            = 145;
     self.variant2Differential            = 120;
-    self.showOverlayCentered             = ( $(window).width() < 768 ) ? true : false;
+    self.showOverlayCentered             = ( $( window ).width() < 768 ) ? true : false;
     self.lastOverlayFadein               = null;
     self.lastOverlayFadeout              = null;
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
@@ -208,24 +208,6 @@ define(function(require) {
           underlayBase.removeClass( 'hidden' );
           underlayBase.removeClass( 'hspot-underlay' ).addClass( 'hspot-underlay-on' );
         }
-        
-/*
-        // finally show the overlay
-        overlayBase.removeClass( 'hidden' );
-        overlayBase.removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-
-        // turn on overlay container
-        overlayBase.find( '.top' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-        overlayBase.find( '.middle' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-        overlayBase.find( '.middle' ).find( '.arrow-left-top' ).addClass( 'hidden' );
-        overlayBase.find( '.middle' ).find( '.arrow-left-bottom' ).addClass( 'hidden' );
-        overlayBase.find( '.middle' ).find( '.arrow-right-top' ).addClass( 'hidden' );
-        overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
-        overlayBase.find( '.footer' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-        overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
-*/
-
-
 
         // turn on overlay container
         overlayBase.find( '.top' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
@@ -300,7 +282,9 @@ define(function(require) {
           rightOverlayPosition  = null,
           passes                = 0,
           top                   = null,
-          footer                = null;
+          footer                = null,
+          verticalGutter        = 10,
+          horizontalGutter      = 45;
 
       
       // we need to put this element in the centered overlay, not free form next to it's hotspot button
@@ -354,7 +338,7 @@ define(function(require) {
           
           leftOverlayPosition = hotspotPosition.left + overlayPosition.left;
                   
-          if( topOverlayPosition <= 0 ) {
+          if( topOverlayPosition <= ( 0 + verticalGutter ) ) {
             // it is colliding with the top of the parent container
             collidesTop = true;
             self.clearPositionStyles(overlay);
@@ -365,7 +349,7 @@ define(function(require) {
             collidesTop = false;
           }
           
-          if( rightOverlayPosition >= parentRight ) {
+          if( rightOverlayPosition >= ( parentRight - horizontalGutter ) ) {
             collidesRight = true;
             self.clearPositionStyles(overlay);
             overlay.addClass( rows + '-stack-left-top-justified' );
@@ -376,7 +360,7 @@ define(function(require) {
           }
           
           
-          if( bottomOverlayPosition >= parentFloor ) {
+          if( bottomOverlayPosition >= ( parentFloor - verticalGutter ) ) {
             collidesFloor = true;
             self.clearPositionStyles(overlay);
             overlay.addClass( rows + '-stack-left-bottom-justified' );
@@ -387,7 +371,7 @@ define(function(require) {
           } 
           
   
-          if( leftOverlayPosition <= 0 ) {
+          if( leftOverlayPosition <= horizontalGutter ) {
             collidesLeft = true;
             self.clearPositionStyles(overlay);
             overlay.addClass( rows + '-stack-right-bottom-justified' );
@@ -396,8 +380,6 @@ define(function(require) {
           } else {
             collidesLeft = false;
           }
-          
-          //log(collidesTop , collidesRight , collidesFloor , collidesLeft);
           
           if( collidesTop || collidesRight || collidesFloor || collidesLeft ) {
             
@@ -422,7 +404,7 @@ define(function(require) {
                 topHeight = self.variant2TopHeight;/*  + self.variant2Differential; */
               }
               
-              topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top ) - topHeight;
+              topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top ) - topHeight + verticalGutter;
               
               if( topOverlayPosition > 0 ) {
                 // it fits!
@@ -444,7 +426,7 @@ define(function(require) {
                 floorHeight = self.variant2FloorHeight;
               }
   
-              bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height() + floorHeight;
+              bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height() + floorHeight - verticalGutter;
               
               if( bottomOverlayPosition < parentFloor ) {
                 overlayFooter.removeClass( 'hidden' );
