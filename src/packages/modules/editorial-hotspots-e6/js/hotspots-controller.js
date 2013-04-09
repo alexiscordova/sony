@@ -66,6 +66,7 @@ define(function(require) {
     self.showOverlayCentered             = ( $( window ).width() < 768 ) ? true : false;
     self.lastOverlayFadein               = null;
     self.lastOverlayFadeout              = null;
+    self.lastCenteredOverlay             = null;
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -183,6 +184,8 @@ define(function(require) {
       // copy the overlay into the mobile, center overlay
       if( toCenter ) {
         
+        log('being inefficient');
+        
         clearTimeout( self.lastOverlayFadein );
         clearTimeout( self.lastOverlayFadeout ); 
         
@@ -192,20 +195,22 @@ define(function(require) {
         // find and hide the currently open overlay, just tagged as 'lastMoved'
         el.find( '.overlay-base' ).addClass( 'hidden' );
         
-        // copy HTML over to the overlay container
-        overlayBase.html( el.find( '.overlay-base' ).html() );
-
-
-
-        // bind close button for this instance
-        overlayBase.find( '.hspot-close' ).bind( 'click', function( event ) {
-          // save pointer for one more operation
-          var lastOpen = el;
-          // close overlay 
-          self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
-          self.reanchor( el, false );
-        });
-
+        if( false === $( el ).is( self.lastCenteredOverlay ) ) {
+          // copy HTML over to the overlay container
+          overlayBase.html( el.find( '.overlay-base' ).html() );
+  
+          // bind close button for this instance
+          overlayBase.find( '.hspot-close' ).bind( 'click', function( event ) {
+            // save pointer for one more operation
+            var lastOpen = el;
+            // close overlay 
+            self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
+            self.reanchor( el, false );
+          });
+          
+          self.lastCenteredOverlay = el;
+        }
+        
         // show the opaque underlay to dim the background
         if( self.$lastOpen ) {
           clearTimeout( self.lastOverlayTimeout );
@@ -215,13 +220,13 @@ define(function(require) {
         }
 
         // turn on overlay container
-        overlayBase.find( '.top' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-        overlayBase.find( '.middle' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        overlayBase.find( '.top' ).removeClass( 'hidden' );
+        overlayBase.find( '.middle' ).removeClass( 'hidden' );
+        overlayBase.find( '.footer' ).removeClass( 'hidden' );
         overlayBase.find( '.middle' ).find( '.arrow-left-top' ).addClass( 'hidden' );
         overlayBase.find( '.middle' ).find( '.arrow-left-bottom' ).addClass( 'hidden' );
         overlayBase.find( '.middle' ).find( '.arrow-right-top' ).addClass( 'hidden' );
         overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
-        overlayBase.find( '.footer' ).removeClass( 'hidden' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
         overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
         
         // finally show the overlay
@@ -255,7 +260,7 @@ define(function(require) {
         }, 500 );
         
         // reopen normal overlay
-        el.find( '.overlay-base' ).removeClass( 'hidden' );
+        el.find( '.overlay-base' ).removeClass( 'hidden' ).find( '.overlay-inner' ).removeClass( 'eh-hidden' ).addClass( 'eh-visible' );
       }
     },
     
@@ -599,7 +604,12 @@ self.transition( info.find('.top'),     'off' );
         self.reposition( container );
         
         // fade in info window
-        info.find( '.overlay-inner' ).addClass( 'eh-visible' );
+        if( true === self.showOverlayCentered ) {
+          $( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
+        } else {
+          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
+        }
+        
         /*
 info.find('.top').addClass( 'eh-visible' );
         info.find('.middle').addClass( 'eh-visible' );
