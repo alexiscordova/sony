@@ -179,6 +179,7 @@ define(function(require) {
       if( toCenter ) {
         
         clearTimeout( self.lastOverlayFadein );
+        clearTimeout( self.lastOverlayFadeout ); 
         
         // tag last el as the one copied, so we can turn it on when required
         el.addClass( 'lastMoved' );
@@ -245,6 +246,7 @@ define(function(require) {
       } else {
         // cleanup
         clearTimeout( self.lastOverlayFadeout );
+        clearTimeout( self.lastOverlayFadein );
         
         // untag last overlay
         el.removeClass( 'lastMoved' );
