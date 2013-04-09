@@ -83,7 +83,8 @@ define(function(require){
   };
 
   var Gallery = function( $container, options ) {
-    var self = this;
+    var self = this,
+        debouncedResize;
 
     $.extend(self, $.fn.gallery.options, options, $.fn.gallery.settings);
 
@@ -140,8 +141,9 @@ define(function(require){
       self.initCompareGallery();
     }
 
-    self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
-    self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
+    debouncedResize = $.debounce( 325, $.proxy( self.onResize, self ) );
+    self.$window.on('orientationchange', debouncedResize );
+    self.$window.on('resize.gallery', debouncedResize );
 
     // Infinite scroll?
     if ( self.hasInfiniteScroll ) {
@@ -2798,7 +2800,7 @@ define(function(require){
       self.init();
       self.$container.data( 'accessoryFinder', self );
 
-      log('SONY : ProductSummary : Initialized');
+      log('SONY : AccessoryFinder : Initialized');
     }, 0);
   };
 
@@ -2859,9 +2861,11 @@ define(function(require){
       var self = this;
 
       // Listen for modal events
-      self.$modal.on( 'show', $.proxy( self.onModalShow, self ) );
+      // self.$modal.on( 'show', $.proxy( self.onModalShow, self ) );
       self.$modal.on( 'shown', $.proxy( self.onModalShown, self ) );
+      // self.$modal.on( 'hide', $.proxy( self.onModalClose, self ) );
       self.$modal.on( 'hidden', $.proxy( self.onModalClosed, self ) );
+
 
       if ( Settings.isLTIE9 ) {
         self.$modalBody.removeClass( 'fade' );
@@ -2991,7 +2995,7 @@ define(function(require){
       // Get the max height of the body
       maxBodyHeight = maxModalHeight - modalHeaderHeight;
 
-      console.log('screenHeight: ' + screenHeight, ' maxModalHeight: ' + maxModalHeight, ' modalHeaderHeight: ' + modalHeaderHeight, ' maxBodyHeight: ' + maxBodyHeight);
+      // console.log('screenHeight: ' + screenHeight, ' maxModalHeight: ' + maxModalHeight, ' modalHeaderHeight: ' + modalHeaderHeight, ' maxBodyHeight: ' + maxBodyHeight);
 
       return maxBodyHeight;
     },
@@ -3020,21 +3024,28 @@ define(function(require){
 
     onResize : function( isInit ) {
       var self = this,
+          screenHeight,
           maxBodyHeight,
           notMobile = Modernizr.mediaqueries ? Modernizr.mq('(min-width: 35.5em)') : true;
 
       // False for event objects
       isInit = isInit === true;
 
-      console.log('resize');
+      // console.log('resize');
       if ( !isInit ) {
         // Caculate how much room the modal body has
 
         setTimeout(function() {
+
           if ( notMobile ) {
             maxBodyHeight = self.getMaxBodyHeight();
           } else {
             maxBodyHeight = 'none';
+          }
+
+          if ( self.hasTouch ) {
+            screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+            $('#main').css( 'maxHeight', screenHeight );
           }
 
           // Set it
@@ -3057,8 +3068,9 @@ define(function(require){
       }
     },
 
-    onModalShow : function() {
-      // var self = this;
+    // onModalShow : function() {
+      // var self = this,
+      //     screenHeight;
 
       // if ( !self.hasTouch ) {
       //   return;
@@ -3066,19 +3078,18 @@ define(function(require){
 
       // self.$modal.find('.modal-inner').on( Settings.MOVE_EV + '.modal', function( evt ) {
       //   var $target = $( evt.target );
+      //   console.log( evt.target );
 
       //   // If the target is `.modal-body`, or contained inside `.modal-body`, we want to prevent the
       //   // event from bubbling up to the `body` and having its default prevented (scrolling)
       //   if ( $target.is( self.$modalBody ) || self.$modalBody.find( $target ).length ) {
+      //     console.log('stopping propagation');
       //     evt.stopPropagation();
       //   }
       // });
 
-      // Settings.$body.on( Settings.MOVE_EV + '.modal', function( evt ) {
-      //   evt.preventDefault();
-      //   evt.stopPropagation();
-      // });
-    },
+      // Settings.$body.on( Settings.MOVE_EV + '.modal', false );
+    // },
 
     onModalShown : function() {
       var self = this;
@@ -3094,6 +3105,14 @@ define(function(require){
       self.$modalBody.on( 'scroll', $.proxy( self.onModalBodyScroll, self ) );
     },
 
+    // onModalClose : function() {
+      // var self = this;
+
+      // if ( !self.hasTouch ) {
+      //   return;
+      // }
+    // },
+
     onModalClosed : function() {
       var self = this;
 
@@ -3101,11 +3120,12 @@ define(function(require){
 
       self.$modalBody.off('scroll');
 
-      // if ( self.hasTouch ) {
+      if ( self.hasTouch ) {
+        $('#main').css( 'maxHeight', '' );
       //   self.$modal.find('.modal-inner')
       //     .add( Settings.$body )
       //     .off( Settings.MOVE_EV + '.modal' );
-      // }
+      }
 
       // Remove scrolled class if it exists
       if ( self.$modalSubhead.hasClass('body-scrolled') ) {
@@ -3147,8 +3167,8 @@ define(function(require){
   };
 
   AccessoryFinder.settings = {
-    isDesktop: false,
-    isMobile: false,
+    // isDesktop: false,
+    // isMobile: false,
     isTicking: false,
     isFadedIn: false,
     hasTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
