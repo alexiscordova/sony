@@ -19,17 +19,20 @@ $tabletMax: px-em(979);
   .editorial.mediaright,
   .editorial.medialeft{
     .grid,
-    .grid > div,
-    .table-center-wrap{ 
-      min-height:450px;
+    .grid > div{
+      height:460px;
     }
   }
   .editorial.tout{
-    
     .m2up{
       .horizontal{
+        width:100%;
+        margin-left:0;
         .table-center-wrap{
           padding: 0 20px;
+        }
+        &:first-child{
+          margin-bottom:30px;
         }
       }
       .vertical{
@@ -90,9 +93,11 @@ $tabletMax: px-em(979);
   .editorial.mediaright,
   .editorial.medialeft{
     .grid,
-    .grid > div,
+    .grid > div{
+      height:auto;
+    }
     .table-center-wrap{ 
-      min-height:0px;
+      height:auto;
     }
     .grid{
       width:100%;
@@ -110,6 +115,7 @@ $tabletMax: px-em(979);
   .editorial.tout{
     .container{
       overflow:hidden;
+      padding-bottom:2px;
     }
     padding: 20px 0;
     .grid{
