@@ -83,6 +83,9 @@ define(function(require){
         self.$mergedCarousel.sonyCarousel('destroy');
       }
 
+      // Clear these variables up for garbage collection.
+      self.$userReviewCarousel = self.$expertReviewCarousel = self.$mergedCarousel = null;
+
       self.$el.replaceWith($restored);
       self.$el = $restored;
     },
@@ -140,10 +143,10 @@ define(function(require){
 
     setMobileHeader: function(which){
 
-        var self = this,
-            newHeader = self.$mergedCarousel.children().eq(which).data('header');
+      var self = this,
+          newHeader = self.$mergedCarousel.children().eq(which).data('header');
 
-        self.$mergedCarouselHeader.html(newHeader);
+      self.$mergedCarouselHeader.html(newHeader);
     }
   };
 
