@@ -30,15 +30,17 @@ define(<span class="keyword">function</span>(require){
 
   <span class="keyword">var</span> OneSonyCarousel = <span class="keyword">function</span>(element){
 
-    <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-    self.$el = $(element);
-    self.$container = self.$el.find(<span class="string">'.st-container'</span>);
-    self.$innerContainer = self.$container.find(<span class="string">'.st-container-inner'</span>);
-    self.$slides = self.$container.find(<span class="string">'.st-content'</span>);
-
-    self.currentSlide = <span class="number">0</span>;
-    self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
+    <span class="keyword">var</span> self              = <span class="keyword">this</span>;
+    
+    self.$el              = $(element);
+    self.$container       = self.$el.find(<span class="string">'.st-container'</span>);
+    self.$innerContainer  = self.$container.find(<span class="string">'.st-container-inner'</span>);
+    self.$slides          = self.$container.find(<span class="string">'.st-content'</span>);
+    self.desktopAnimSpeed = <span class="number">500</span>;
+    self.tabletAnimSpeed  = <span class="number">300</span>;
+    self.mobileAnimSpeed  = <span class="number">250</span>;
+    self.currentSlide     = <span class="number">0</span>;
+    self.useCSS3          = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
 
     self.init();
 
@@ -74,12 +76,15 @@ define(<span class="keyword">function</span>(require){
 
         enquire.register(<span class="string">"(min-width: 780px)"</span>, <span class="keyword">function</span>() {
           self.renderDesktop();
+          self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.desktopAnimSpeed );
         });
         enquire.register(<span class="string">"(min-width: 480px) and (max-width: 779px)"</span>, <span class="keyword">function</span>() {
           self.renderEvenColumns(<span class="number">6</span>);
+          self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.tabletAnimSpeed );
         });
         enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
           self.renderEvenColumns(<span class="number">12</span>);
+          self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.mobileAnimSpeed );
         });
 
       } <span class="keyword">else</span> {

@@ -23,7 +23,11 @@ define(<span class="keyword">function</span>(require) {
 
   <span class="keyword">var</span> module = {
     init: <span class="keyword">function</span>() {
-      <span class="keyword">new</span> ProductSummary( $(<span class="string">'.ps-module'</span>)[<span class="number">0</span>] );
+      <span class="keyword">var</span> $psModule = $(<span class="string">'.ps-module'</span>);
+
+      <span class="keyword">if</span> ( $psModule.length ) {
+        <span class="keyword">new</span> ProductSummary( $psModule[<span class="number">0</span>] );
+      }
     }
   };
 
