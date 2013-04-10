@@ -86,9 +86,6 @@ define(function(require){
 
         window.console.log(' new carousel... ');
 
-       
-
-
         self.setupEvents();
         self.setupSlides();
 
