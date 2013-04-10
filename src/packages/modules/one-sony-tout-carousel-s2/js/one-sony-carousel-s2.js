@@ -22,7 +22,7 @@ define(function(require){
 
   var module = {
     'init': function() {
-      $('.sony-one-carousel').each(function(){
+      $('.one-sony-carousel').each(function(){
         new OneSonyCarousel(this);
       });
     }
@@ -30,15 +30,17 @@ define(function(require){
 
   var OneSonyCarousel = function(element){
 
-    var self = this;
-
-    self.$el = $(element);
-    self.$container = self.$el.find('.soc-container');
-    self.$innerContainer = self.$container.find('.soc-container-inner');
-    self.$slides = self.$container.find('.soc-content');
-
-    self.currentSlide = 0;
-    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
+    var self              = this;
+    
+    self.$el              = $(element);
+    self.$container       = self.$el.find('.st-container');
+    self.$innerContainer  = self.$container.find('.st-container-inner');
+    self.$slides          = self.$container.find('.st-content');
+    self.desktopAnimSpeed = 500;
+    self.tabletAnimSpeed  = 300;
+    self.mobileAnimSpeed  = 250;
+    self.currentSlide     = 0;
+    self.useCSS3          = Modernizr.csstransforms && Modernizr.csstransitions;
 
     self.init();
 
@@ -56,34 +58,33 @@ define(function(require){
       self.bindEvents();
 
       self.$innerContainer.sonyCarousel({
-        wrapper: '.soc-container',
-        slides: '.soc-content',
-        slideChildren: '.soc-item',
+        wrapper: '.st-container',
+        slides: '.st-content',
+        slideChildren: '.st-item',
         defaultLink: '.headline a',
-        axis: 'x',
-        unit: '%',
-        dragThreshold: 10,
         useCSS3: self.useCSS3,
         paddles: true,
         pagination: true
       });
 
       self.$cachedSlides = self.$slides.detach();
-      self.$cachedSlides.find('.soc-image').addClass('iq-img');
 
       self.$sliderWrapper = self.$slides.first().clone();
-      self.$sliderWrapper.find('.soc-item').remove();
+      self.$sliderWrapper.find('.st-item').remove();
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
 
         enquire.register("(min-width: 780px)", function() {
           self.renderDesktop();
+          self.$innerContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
         });
         enquire.register("(min-width: 480px) and (max-width: 779px)", function() {
           self.renderEvenColumns(6);
+          self.$innerContainer.sonyCarousel( 'setAnimationSpeed' , self.tabletAnimSpeed );
         });
         enquire.register("(max-width: 479px)", function() {
           self.renderEvenColumns(12);
+          self.$innerContainer.sonyCarousel( 'setAnimationSpeed' , self.mobileAnimSpeed );
         });
 
       } else {
@@ -98,10 +99,6 @@ define(function(require){
       var self = this;
 
       self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });
-
-      self.$el.find('.soc-image').on('iQ:imageLoaded', function(){
-        $(this).closest('.soc-item').addClass('on');
-      });
     },
 
     // Create or restore the default slide layout.

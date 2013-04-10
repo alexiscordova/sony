@@ -4,10 +4,18 @@ doctype 5
 include ../../../common/html/ieconditionals.html
 
 head
+  title  Gallery Demo
   include ../../../common/html/head.jade
 
 body
-  +partial('gallery-g2-g3/html/gallery-g2-g3.jade', 'packages/modules/gallery-g2-g3/demo/data/gallery-g2-g3-cybershot.json', true)
+  script
+    if ( window.console && window.console.time ) {
+      console.time('parsing');
+    }
+  #page-wrap-outer.page-wrap-outer
+    #page-wrap-inner.page-wrap-inner
+      #main(role='main')
+        +partial('gallery-g2-g3/html/gallery-g2-g3.jade', 'packages/modules/gallery-g2-g3/demo/data/gallery-g2-g3-cybershot.json')
 
   include ../../../common/html/foot.jade
 </html>

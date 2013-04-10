@@ -1,3 +1,6 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('ux-marketing-convergence-e14')
+
 section.container.uxmc
 
   div.grid
@@ -10,9 +13,9 @@ section.container.uxmc
     div.base-product
       div.uxmc-overlay
         h3 #{data.baseProduct.title}
-      div.uxmc-image-wrapper.iq-img(data-src=data.baseProduct.imgSrc)
+      div.uxmc-image-wrapper.iq-img(data-src-desktop=data.baseProduct.imgSrcDesktop, data-src-tablet=data.baseProduct.imgSrcTablet, data-src-phone=data.baseProduct.imgSrcPhone, data-src-desktop-highres=data.baseProduct.imgSrcDesktopHighRes, data-src-tablet-highres=data.baseProduct.imgSrcTabletHighRes, data-src-phone-highres=data.baseProduct.imgSrcPhoneHighRes)
         span
-        img.iq-img(data-src=data.baseProduct.imgSrc)
+        img.iq-img(data-src-desktop=data.baseProduct.imgSrcDesktop, data-src-tablet=data.baseProduct.imgSrcTablet, data-src-phone=data.baseProduct.imgSrcPhone, data-src-desktop-highres=data.baseProduct.imgSrcDesktopHighRes, data-src-tablet-highres=data.baseProduct.imgSrcTabletHighRes, data-src-phone-highres=data.baseProduct.imgSrcPhoneHighRes)
 
     ul.partner-products
       for product in data.partnerProducts
@@ -20,9 +23,9 @@ section.container.uxmc
           div.uxmc-overlay
             p #{product.topLine}
             a.fonticon-10-chevron--after(href=product.link, title=product.altText) #{product.linkText}
-          div.uxmc-image-wrapper.iq-img(data-src=product.imgSrc)
+          div.uxmc-image-wrapper.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
             span
-            img.iq-img(data-src=product.imgSrc)
+            img.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
 
     div.progress-indicators
       div

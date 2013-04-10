@@ -207,13 +207,13 @@ define(function(require){
         $.each($elemsInPage , function(i) {
           var $el = $(this);
 
-          if(self.autoGutters){
+          if ( self.autoGutters ) {
             $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(true))) + 'px' );
-          }else{
-            if( i === 0 ){
-              $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + 'px' );
-            }else{
-              $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + (i * self.gutterWidth) + 'px' );
+          } else {
+            if ( i === 0 ) {
+              $el.css( 'left' , Math.floor( startX + (i * $el.outerWidth()) ) + 'px' );
+            } else {
+              $el.css( 'left' , Math.floor( startX + (i * $el.outerWidth()) ) + (i * self.gutterWidth) + 'px' );
             }
           }
 
@@ -226,7 +226,7 @@ define(function(require){
       }
 
       // Space elements out accordingly
-      for (i = 0 ; i < numPages; i++) {
+      for ( ; i < numPages; i++) {
         var startIndex = i * availToFit,
             endIndex = startIndex + availToFit - 1;
 
@@ -355,21 +355,22 @@ define(function(require){
     },
 
     _showHideNavs : function( currentPage, numPages ) {
-      var self = this;
+      var self = this,
+          theClass = 'hidden';
 
       if ( self.$navPrev && self.$navNext ) {
         // Hide show prev button depending on where we are
         if ( currentPage === 0 ) {
-          self.$navPrev.addClass('hide');
+          self.$navPrev.addClass( theClass );
         } else {
-          self.$navPrev.removeClass('hide');
+          self.$navPrev.removeClass( theClass );
         }
 
         // Hide show next button depending on where we are
         if ( currentPage === numPages ) {
-          self.$navNext.addClass('hide');
+          self.$navNext.addClass( theClass );
         } else {
-          self.$navNext.removeClass('hide');
+          self.$navNext.removeClass( theClass );
         }
       }
     },
@@ -440,7 +441,7 @@ define(function(require){
       }
 
       // Set it
-      self.$contentContainer.css('width' , contentWidth );
+      self.$contentContainer.css( 'width' , contentWidth );
 
       return self;
     },
@@ -449,7 +450,7 @@ define(function(require){
       var self = this,
           containerWidth = self.$el.width();
 
-      self.$elements.css('width', containerWidth);
+      self.$elements.css( 'width', containerWidth );
     },
 
     _fire : function( eventName, args ) {
@@ -598,8 +599,7 @@ define(function(require){
       onScrollEnd: null,
       lockDirection: true,
       onBeforeScrollStart: null,
-      onAnimationEnd: null,
-      gutterWidth:0
+      onAnimationEnd: null
     }
 
   };

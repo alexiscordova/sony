@@ -19,7 +19,7 @@
 //
 //      $('#foo').sonyPaddles();
 //
-// *Example - Show the left paddle, hide the right:*
+// *Example - Show the left paddle, hide the right (you can also pass `both`):*
 //
 //      $('#foo').sonyPaddles('showPaddle', 'left');
 //      $('#foo').sonyPaddles('hidePaddle', 'right');
@@ -104,18 +104,20 @@ define(function(require){
       this.paddleVisibility(which, false);
     },
 
-    'paddleVisibility': function(which, visible){
+    'paddleVisibility': function(which, visible) {
 
       var self = this;
 
-      if ( which === 'left' ) {
+      if ( which === 'left' || which === 'both' ) {
 
         if ( visible ) {
           self.$leftPaddle.show().addClass('on');
         } else {
           self.$leftPaddle.hide().removeClass('on');
         }
-      } else if ( which === 'right' ) {
+      }
+
+      if ( which === 'right' || which === 'both' ) {
 
         if ( visible ) {
           self.$rightPaddle.show().addClass('on');
@@ -123,6 +125,13 @@ define(function(require){
           self.$rightPaddle.hide().removeClass('on');
         }
       }
+    },
+
+    destroy: function() {
+
+      var self = this;
+
+      self.$nav.remove();
     }
   };
 

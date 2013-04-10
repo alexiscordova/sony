@@ -8,11 +8,15 @@
 
 /* toc container */
 #dw__toc {
-    position:absolute;
-    left:0;
-    top:0;
-    margin: 0;
-    width: $wiki_sidebarWidth;
+
+  // DISABLED
+  display:none;
+
+  position:absolute;
+  left:0;
+  top:25px;
+  margin: 0;
+  width:210px;
 }
 
 
@@ -20,42 +24,47 @@
 /*____________ toc header ____________*/
 
 .dokuwiki h3.toggle {
-    padding: .2em .5em;
-    font-weight: bold;
+  padding: .2em .5em;
+  font-weight: bold;
 }
 
 .dokuwiki .toggle strong {
-    float: right;
-    margin: 0 .2em;
+  float: right;
+  margin: 0 .2em;
 }
 [dir=rtl] .dokuwiki .toggle strong {
-    float: left;
+  float: left;
 }
 
 /*____________ toc list ____________*/
 
 #dw__toc > div {
-    padding: .2em .5em;
 }
 #dw__toc ul {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
+}
+#dw__toc > div > ul > li > .li > a{
+  color:$gray20;
+  display:inline-block;
+  font-size:14px;
+  margin-top:10px;
 }
 #dw__toc ul li {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    line-height: 1.1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1.1;
 }
 #dw__toc ul li div.li {
-    padding: .15em 0;
+  padding: .15em 0;
 }
 #dw__toc ul ul {
-    padding-left: 1em;
+  padding-left: 1em;
 }
 [dir=rtl] #dw__toc ul ul {
-    padding-left: 0;
-    padding-right: 1em;
+  padding-left: 0;
+  padding-right: 1em;
 }
 #dw__toc ul ul li {
 }
@@ -72,20 +81,42 @@
 ********************************************************************/
 
 .dokuwiki ul.idx {
-    padding-left: 0;
-}
-[dir=rtl] .dokuwiki ul.idx {
-    padding-right: 0;
+  padding-left: 0;
 }
 .dokuwiki ul.idx li {
-    list-style-image: url(../img/_wiki/bullet.png);
+  // list-style-image: url(../img/_wiki/bullet.png);
+  list-style: none;
+  i{
+    float:right;
+    font-size:10px;
+    position:relative;
+    top:4px;
+  }
 }
 .dokuwiki ul.idx li.open {
-    list-style-image: url(../img/_wiki/open.png);
+  // list-style-image: url(../img/_wiki/open.png);
+  i { 
+    @include rotate(90deg); 
+    @include transition(all $transitionFast linear);
+    @include transform-origin(47%, 53%, 0);
+    @include flickerfix;
+  }
 }
 .dokuwiki ul.idx li.closed {
-    list-style-image: url(../img/_wiki/closed.png);
+  // list-style-image: url(../img/_wiki/closed.png);
+  i{   
+    @include transition(all $transitionFast linear);
+    @include rotate(0deg);
+  }
 }
-[dir=rtl] .dokuwiki ul.idx li.closed {
-    list-style-image: url(../img/_wiki/closed-rtl.png);
+
+.dokuwiki ul.idx li a.idx_dir{
+  strong{
+    display:none; // hide the section name.
+  }
 }
+
+
+
+
+

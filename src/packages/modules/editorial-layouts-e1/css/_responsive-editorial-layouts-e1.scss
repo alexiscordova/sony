@@ -1,0 +1,140 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+
+//tablet only
+@media (min-width: $tabletMin) and (max-width:$tabletMax) {
+  .editorial.mediaright,
+  .editorial.medialeft{
+    .grid,
+    .grid > div,
+    .table-center-wrap{ 
+      min-height:450px;
+    }
+  }
+  .editorial.tout{
+    
+    .m2up{
+      .horizontal{
+        .table-center-wrap{
+          padding: 0 20px;
+        }
+      }
+      .vertical{
+        padding: 0 20px;
+      }
+      
+    }
+    .m3up{
+      >div{
+        padding: 0 20px;
+      }
+    }
+  }
+}
+//phone only
+@media (max-width: $phoneMax) {
+  .editorial{
+    .box{
+      padding:0;
+    }
+    .center{
+      text-align:left;
+    }
+    .right{
+      text-align:left;
+    }
+  }
+  .editorial.textonly{
+    padding:20px 0;
+  }
+  .editorial.full{
+    padding:20px 0;
+    .box{
+      margin-bottom:15px;
+    }
+  }
+  .editorial.full-inner{
+    .inner{
+      position:relative;
+      >.grid{
+        width:100%;
+      }
+    }
+    .box{
+      margin-top:0;
+      padding: 20px 22px;
+    }
+    .box.center{
+      padding: 20px 22px;
+    }
+  }
+  .editorial.mediaright,
+  .editorial.medialeft{
+    .grid,
+    .grid > div,
+    .table-center-wrap{ 
+      min-height:0px;
+    }
+    .table-center-wrap{
+      margin-top:0;
+    }
+    .box{
+      padding:20px 22px 15px 20px;
+    }
+  }
+  .editorial.tout{
+    padding: 20px 0;
+    .m1up{
+      .textright{
+        padding-right:0px;
+      }
+      .textleft{
+        padding-left:0px;
+      }
+      .offset1{
+        margin-bottom:30px;
+      }
+    }
+    .m2up{
+      width:220%;
+      position:relative;
+      >div{
+        position:relative;
+        float:left;
+        width:45%;
+        margin-right:5%;
+      }
+      .horizontal {
+        >div{
+          height: 122px;
+        }
+        .table-center-wrap{
+          padding: 0 20px;
+        }
+        .image-module{
+          width: 122px;
+          height: 122px;
+        }
+      }
+      .vertical{
+        padding: 0 30px;
+      }
+    }
+    .m3up{
+      width:330%;
+      position:relative;
+      >div{
+        float:left;
+        position:relative;
+        width:30%;
+        margin-right:3%;
+        padding: 0 30px;
+      }
+    }
+  }
+
+}

@@ -280,67 +280,77 @@ else if data.view == 'detailed'
 else if data.view == 'compare'
 
   filterSet = JSON.stringify( data.filterSet )
-  div.span4.compare-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product")
-    button(class="box-close box-close-small js-remove-item", data-dismiss="modal", aria-hidden="true")
+  div.span3.compare-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product")
+
+    //- Sticky header
+    .compare-sticky-header
+      button(class="box-close box-close-small js-remove-item", aria-hidden="true")
+        i.fonticon-10-x
+      +iQImage( data.imgTiny )
+      span.product-model.l3-light= data.model
+
+    //- Close button
+    button(class="box-close box-close-small js-remove-item")
       i.fonticon-10-x
+
+    //- Image
     .product-img.ghost-center-wrap
       .ghost-center
         +iQImage( data.img, 'image' )
       +heart()
 
+    //- Details
     .product-content
       .product-name-wrap
-        .product-name.p2
-          strong(itemprop="name")= data.name
-        .product-model.l3(itemprop="model")= data.model
+        p.product-name.t7(itemprop="name")= data.name
+        p.product-model.l3-light(itemprop="model")= data.model
       +productRating( data.rating.stars, data.rating.reviews, '' )
 
       .product-price
-        span.price-prefix.p3 Starting at &nbsp;
-        span.price.p2
-          strong(itemprop="price")= '$' + data.price + '&nbsp;'
-        span.msrp.p3 MSRP
+        span.price-prefix.p5 Starting at &nbsp;
+        span.price.t7(itemprop="price")= '$' + data.price
 
       if data.img.colors
         +colorSwatches( data.img.colors )
 
-      if data.details
-        each detail, i in data.details
-          highlightedClass = detail.isHighlighted ? ' highlighted' : ''
-          detailClass = 'detail' + highlightedClass
-          label = labels[i].label
-          prop = labels[i].slug
+      .detail-group
+        if data.details
+          each detail, i in data.details
+            highlightedClass = detail.isHighlighted ? ' highlighted' : ''
+            detailClass = 'detail' + highlightedClass
+            label = labels[i].label
+            prop = labels[i].slug
 
-          div(class=detailClass, itemprop=prop)
-            p.cell-label.l3
-              strong= label
-            if detail.value.check
-              | !{detail.value.text}
-            else if detail.value.box
-              p.t6-light.compare-box= detail.value.box
-              p.p3!= detail.value.lineOne
-              if detail.value.lineTwo
-                p.p3!= detail.value.lineTwo
-              if detail.value.lineThree
-                p.p3!= detail.value.lineThree
-            else if detail.value.lineOne
-              p.p3!= detail.value.lineOne
-              if detail.value.lineTwo
-                p.p3!= detail.value.lineTwo
-              if detail.value.lineThree
-                p.p3!= detail.value.lineThree
-            else if detail.value[0].description
-              ul.media-list
-                each value in detail.value
-                  li.media
-                    .pull-left
-                      mediaClass = 'media-object icon-bestfor-' + value.icon
-                      i(class=mediaClass)
-                    .media-body
-                      p.media-heading.p3!= value.label
-                      p.p3!= value.description
-            else
-              | !{detail.value}
+            div(class=detailClass, itemprop=prop)
+              p.cell-label.l3
+                strong= label
+              if detail.value.check
+                | !{detail.value.text}
+              else if detail.value.box
+                p.t6-light.compare-box= detail.value.box
+                p.p3!= detail.value.lineOne
+                if detail.value.lineTwo
+                  p.p3!= detail.value.lineTwo
+                if detail.value.lineThree
+                  p.p3!= detail.value.lineThree
+              else if detail.value.lineOne
+                p.p3!= detail.value.lineOne
+                if detail.value.lineTwo
+                  p.p3!= detail.value.lineTwo
+                if detail.value.lineThree
+                  p.p3!= detail.value.lineThree
+              else if detail.value[0].description
+                ul.media-list
+                  each value in detail.value
+                    li.media
+                      .media-body
+                        p.media-heading.t7
+                          mediaClass = value.icon
+                          i(class=mediaClass)
+                          span= value.label
+                        p.p3!= value.description
+              else
+                p.p3= detail.value
 
 
 else if data.view == 'specs'
@@ -405,7 +415,7 @@ else if data.view == 'specs'
           .spec-cell-inner.only-label
             p.cell-label.l3
               strong= labels[i]
-              
+
           - imgClass = spec.img.orientation && spec.img.orientation == 'portrait' ? 'vertical' : ''
           .text-center.dl-img.ghost-center-wrap(class=imgClass)
             .ghost-center.v-bottom
@@ -588,6 +598,7 @@ else if data.view == 'single-spec'
                     strong!= feature2.label
                   p.media-description.p3!= feature2.description
 
+
 else if data.view == 'suggested'
   a(class='gallery-item span6 suggested', href=data.href ? data.href : '#')
     .gallery-item-inner
@@ -614,13 +625,17 @@ else if data.view == 'blank'
 
 
 else if data.view == 'summary'
-  titleLabel = data.collectionLabel || 'Cybershot'
-  titleHref = data.collectionHref || '#'
-  sizes = (data.sizes || ['11.6', '14', '15.5', '17.3cm']).join(', ')
-  startingAtText = data.startingAtText || 'Staring at'
-  msrp = data.msrp || 'MSRP'
-  priceUnit = data.priceUnit || '$'
-  buyText = data.buyText || 'Buy Now'
+  titleLabel = data.collectionLabel ? data.collectionLabel : 'Cybershot'
+  titleHref = data.collectionHref ? data.collectionHref : '#'
+  sizes = data.sizes ? data.sizes : ['one', 'two', 'three', 'four']
+  startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
+  msrp = data.msrp ? data.msrp : 'MSRP'
+  priceUnit = data.priceUnit ? data.priceUnit : '$'
+  buyText = data.buyText ? data.buyText : 'Buy Now'
+  modelText = data.modelText ? data.modelText : 'Model Number:'
+  colorsText = data.colorsText ? data.colorsText : 'Colors:'
+
+  - sizes = sizes.join('<span class="spacer text-med-dark">|</span>')
 
   .container
     .grid.no-grid-at-767.js-even-cols
@@ -630,35 +645,37 @@ else if data.view == 'summary'
           .product-img.ghost-center
             +iQImage( data.imgSmall, '', 'image' )
 
-      .span5.product-details
+      .span6.product-details
         a.l2.link-color(href=titleHref)= titleLabel
         h2.t5.product-title(itemprop="name")= data.title
         +iQImage( data.imgSmall, 'm-product-img pull-right', 'image' )
-        .inline-details.clearfix
-          span.product-model.p5(itemprop="model")= data.model
-          span.spacer.text-med-dark.p5 |
-          span.p5= sizes
-          span.spacer.text-med-dark.p5 |
-          +colorSwatches( data.img.colors, true, true )
+        span.product-model.p5
+          span= modelText
+          span(itemprop="model")= data.model
+
         +productRating( data.rating.stars, data.rating.reviews )
 
-      .span5.price-content
+        .inline-details.clearfix
+          span.p5.product-sizes!= sizes
+          span.p5.colors-label= colorsText
+          +colorSwatches( data.img.colors, true, true )
 
-        .clearfix
-          .pull-right.buy-block
-            .text-right.pull-left.space-right.space-top
-              p.p4.price-prefix= startingAtText
-              span.p5.msrp= msrp
-              span.p1.price
-                strong.text-dark !{ priceUnit + data.price }
-            a.btn.btn-special.btn-large.pull-left(href=data.storeLink)= buyText
+      .span2.price-content
+        .text-right.pull-right.space-top
+          p.p4.price-prefix= startingAtText
+          span.p5.msrp= msrp
+          span.p1.price
+            strong.text-dark !{ priceUnit + data.price }
 
-        .text-right.relative.be-social
-          a.ib.space-right.js-favorite(href="#")
-            span.p3= data.favoriteText
+      .span2.price-content
+        a.btn.btn-large.btn-block(href=data.storeLink)= buyText
+
+        .relative.be-social
+          a.ib.js-favorite(href="#")
+            span.bt3= data.favoriteText
             +heart()
           a.ib.js-share.share-trigger(data-toggle="dropdown", href="#")
-            span.p3= data.shareText
+            span.bt3= data.shareText
             span.arrow-holder
               i.fonticon-10-arrowhead-down
           +shareMenu( data.socialButtons, data.shortLink )
@@ -668,8 +685,28 @@ else if data.view == 'summary'
       +shareMenu( data.socialButtons, data.shortLink, true )
 
 
+else if data.view == 'compatibility'
+  accessories = 'Accessories'
+  filterSet = JSON.stringify( data.filterSet )
+
+
+  a.span4.compat-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
+    .compat-item-inner
+      span.product-img
+        div(class='product-img-wrap ghost-center-wrap')
+          .ghost-center
+            +iQImage( data.imgTiny, undefined, 'image' )
+
+      span.product-content
+        .product-name-wrap
+          .product-model.p2(itemprop="model")= data.model
+          .product-name.p3(itemprop="name")= data.name
+          .product-total.p3
+            strong.total= data.totalAccessories
+            | !{ accessories }
+
 
 else
-  em oh noes, you don't have a view variable set :(
+  em oh noes, you don't have a known view variable set :(
 
 

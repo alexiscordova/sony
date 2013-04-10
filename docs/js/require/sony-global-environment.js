@@ -54,11 +54,18 @@ define(function (require) {
         }
 
       });
+
+      if ( Settings.isSonyTabletS ) {
+        Settings.$html.addClass('sonytablets');
+      }
+
       // Overwrite the Modernizr.mq function for IE < 10
       if ( Settings.isLTIE10 ) {
         Modernizr.mq = function() { return false; };
         Modernizr.mediaqueries = false;
       }
+
+
     },
 
     // Normalizes the console.log method.
@@ -136,7 +143,7 @@ define(function (require) {
 
         // If you aren't IE7/8, you may pass.
 
-        if ( !Settings.$html.hasClass('lt-ie9') ) {
+        if ( !Settings.isLTIE9 ) {
           return cb();
         }
 
@@ -202,9 +209,14 @@ define(function (require) {
     fixModernizrFalsePositives : function() {
 
       // The sony tablet s gets a false negative on generated content (pseudo elements)
-      if ( Settings.isSonyTabletS ) {
+      if ( !Modernizr.generatedcontent && Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = true;
-        Settings.$html.removeClass('no-generatedcontent').addClass('generatedcontent sonytablets');
+        Settings.$html.removeClass('no-generatedcontent').addClass('generatedcontent');
+      }
+
+      if ( Settings.isLTIE8 ) {
+        Modernizr.generatedcontent = false;
+        Settings.$html.removeClass('generatedcontent').addClass('no-generatedcontent');
       }
     }
 

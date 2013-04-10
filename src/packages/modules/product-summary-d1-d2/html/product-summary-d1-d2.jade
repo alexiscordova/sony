@@ -1,6 +1,7 @@
 include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('product-summary-d1-d2')
 
-.product-summary-module.product-summary
+.ps-module
 
   //- Here we're using a submodule because it has the mixins defined already in the file
   module = data.submodules[0]
@@ -44,11 +45,13 @@ include ../../../common/html/jade-helpers.jade
                 li(class=clss)
                   a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
 
-        .span5
-          a.btn.btn-special.pull-right(data-long-text=data.buyText, href=productData.storeLink)= data.buyTextShort
-          .text-right.pull-right.space-right.price-text
+        .span3#desktop-sticky-price
+          .text-right.price-text
             p.p4.price-prefix= data.startingAtText
             span.p5.msrp= data.msrp
             span.p1.price
               strong.text-dark !{ data.priceUnit + productData.price }
+
+        .span2
+          a.btn.btn-block.pull-right(data-long-text=data.buyText, href=productData.storeLink)= data.buyTextShort
 

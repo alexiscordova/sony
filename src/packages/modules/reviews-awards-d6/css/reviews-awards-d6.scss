@@ -6,6 +6,11 @@
 $maximumChildren: 20;
 
 .raa-content {
+
+  .raa-merged-carousel-wrapper {
+    display: none;
+  }
+
   > .grid {
     margin-top: -10px;
     padding-top: 26px;
@@ -134,8 +139,45 @@ $maximumChildren: 20;
 }
 
 .raa-expert-reviews {
+
+  .reviews {
+    position: relative;
+    min-height: 236px;
+    margin: 16px 0 40px;
+    overflow: hidden;
+    background-color: $gray80;
+
+    > div {
+      position: relative;
+      width: $maximumChildren * 100%;
+    }
+
+    .sony-dot-nav {
+      position: absolute;
+      bottom: 16px;
+      width: 100%;
+    }
+
+    .raa-expert-review {
+      width: (100% / $maximumChildren);
+      float: left;
+      padding: 20px 24px;
+
+      blockquote {
+        margin-top: 22px;
+
+        p {
+          margin-bottom: 12px;
+        }
+      }
+    }
+  }
+}
+
+.raa-merged-carousel {
+
   position: relative;
-  margin: 16px 0 40px;
+  min-height: 236px;
   overflow: hidden;
 
   > div {
@@ -143,19 +185,12 @@ $maximumChildren: 20;
     width: $maximumChildren * 100%;
   }
 
-  .raa-expert-review {
+  .user-ratings,
+  .raa-social-mention,
+  .raa-expert-review,
+  .raa-awards {
     width: (100% / $maximumChildren);
     float: left;
-    background-color: $gray80;
-    padding: 20px 24px;
-
-    blockquote {
-      margin-top: 22px;
-
-      p {
-        margin-bottom: 12px;
-      }
-    }
   }
 }
 
@@ -179,7 +214,8 @@ $maximumChildren: 20;
       }
     }
 
-    .no-expert-reviews.has-user-reviews & {
+    .no-expert-reviews.has-user-reviews &,
+    .raa-merged-carousel & {
       width: 100%;
       max-width: none;
       min-width: 200px;
@@ -201,6 +237,10 @@ $maximumChildren: 20;
       .has-expert-reviews.has-user-reviews & {
         margin: 16px 10px 0 0;
       }
+
+      .has-expert-reviews.has-user-reviews .raa-merged-carousel & {
+        margin: 0;
+      }
     }
 
     p {
@@ -219,6 +259,10 @@ $maximumChildren: 20;
 
       .has-expert-reviews.has-user-reviews & {
         display: none;
+      }
+
+      .has-expert-reviews.has-user-reviews .raa-merged-carousel & {
+        display: block;
       }
     }
   }

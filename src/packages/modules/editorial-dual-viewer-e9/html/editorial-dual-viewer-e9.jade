@@ -1,18 +1,18 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('editorial-dual-viewer-e9')
 
-section(class='mode-'+data.mode.toLowerCase()).edv.container
-
-  header
-    h2 #{data.header.title}
-    p #{data.header.description}
-    a(href = data.header.linkURL) Learn more
-
-  div.edv-images
+section(class=data.mode+' '+data.axis+' '+data.background+' '+data.edges).edv.full-bleed-no-max.m-full-bleed.container
+  .edv-images
     - for (var i = 0; i < 2 && i < data.images.length; i++)
-      edvImage = data.images[i]
-      figure(class='image-'+(i+1)).edv-image
-        div.edv-image-wrapper.iq-img(data-src=edvImage.src)
-          span
-          img.iq-img(data-src=edvImage.src)
-        figcaption #{edvImage.title}
-    div.edv-scrubber-container
-      a.edv-scrubber(href="#", title="Alternate between images.") Scrub
+        edvImage = data.images[i]
+        figure(class='image-'+(i+1)).edv-image
+          .edv-image-wrapper.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
+            span
+            img.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)
+        figcaption.l3 #{edvImage.title}
+      .scrubber
+        span.handle(title="Alternate between images.")
+          span.inner
+            span.icons
+              i.fonticon-10-chevron-reverse
+              i.fonticon-10-chevron

@@ -1,18 +1,18 @@
 
 //- single line mixin for partials
 //- +partial('example.html.jade', 'example/default.json')
-mixin partial(m, d, loadJS)
 
-  e = {locals:locals, data:data(d)}
-  moduleName = m.split('/')[0]
+mixin partial(m, d)
+  e = {"locals":locals, "data":locals.data(d)}
+  !{locals.partial('packages/modules/' + m, e)}
 
+mixin includeJavascriptModule(moduleName)
+  e = {"locals":locals}
   if ( !e.locals.javascriptModules )
     - e.locals.javascriptModules = []
-  if ( e.locals.javascriptModules && loadJS )
+  if ( e.locals.javascriptModules )
     if ( e.locals.javascriptModules.indexOf(moduleName) === -1 )
       - e.locals.javascriptModules.push(moduleName);
-
-  !{partial('packages/modules/' + m, e)}
 
 //- img - an object with at least: `src`, `alt`, `noscriptsrc`
 //- [extraClasses] - a string containing any extra classes to put on the img element
@@ -25,6 +25,9 @@ mixin iQImage( img, extraClasses, itemprop )
   img(class=classes, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes, alt=img.alt, itemprop=itemprop)
   noscript
     img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
+
+
+//-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps
 
 //- hgobject is an object with potential h# items and their text values
 //- for instance {"h2": "this is a h2", "h3": "this is a h3" }
@@ -40,7 +43,7 @@ mixin hgroup (hgobject, h1class, h2class, h3class, h4class, h5class, h6class)
   - h4class = h4class || ""
   - h5class = h5class || ""
   - h6class = h6class || ""
-  hgroup
+  .hgroup
     if hgobject.h1
       h1(class= h1class) !{hgobject.h1}
     if hgobject.h2

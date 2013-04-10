@@ -4,9 +4,9 @@
 //
 // * **Class:** ProductSummary
 // * **Version:** 0.1
-// * **Modified:** 03/15/2013
+// * **Modified:** 04/09/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.7+, Modernizr, Enquire
+// * **Dependencies:** jQuery 1.7+, Modernizr, Enquire, sony-stickynav, simplescroll
 
 define(function(require) {
 
@@ -23,7 +23,11 @@ define(function(require) {
 
   var module = {
     init: function() {
-      new ProductSummary( $('.product-summary-module')[0] );
+      var $psModule = $('.ps-module');
+
+      if ( $psModule.length ) {
+        new ProductSummary( $psModule[0] );
+      }
     }
   };
 
@@ -169,7 +173,7 @@ define(function(require) {
 
       if ( toDesktop ) {
         $msrp.insertBefore( $price );
-        self.$stickyNav.find('.btn').after( self.$stickyPriceText );
+        self.$stickyNav.find('#desktop-sticky-price').append( self.$stickyPriceText );
       } else {
         $msrp.insertAfter( $price );
         self.$stickyTitle.after( self.$stickyPriceText );

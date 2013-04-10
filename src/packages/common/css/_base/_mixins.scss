@@ -26,8 +26,8 @@ $default-transition-delay    : 0s;
   @return strip-units($pxLH) / strip-units($pxFont);
 }
 @mixin px-em--font-size--line-height($pxFont, $pxLH, $context:16) {
-	font-size: px-em($pxFont, $context);
-	line-height: px-line-height($pxLH, $pxFont);
+    font-size: px-em($pxFont, $context);
+    line-height: px-line-height($pxLH, $pxFont);
 }
 
 // this will reverse the context, mainly for fonticons, but maybe for something else as well.
@@ -37,13 +37,13 @@ $default-transition-delay    : 0s;
 }
 
 @mixin fonticon-text-px-to-em($px, $context:16) {
-	font-size: px-em($px, $context); // the size of the text
+    font-size: px-em($px, $context); // the size of the text
 
-	&[class*="fonticon-10-"]:before, // the size of the icon if the fonticon class is on the text container:
-	&[class*="fonticon-10-"][class*="--after"]:after, // the size of the icon if the fonticon class is on the text container:
-	[class*="fonticon-10-"]:before { // the size of the icon if the fonticon class is on a i or span insode of the text container:
-		font-size: px-em-reverse-size($px, $context);
-	}
+    &[class*="fonticon-10-"]:before, // the size of the icon if the fonticon class is on the text container:
+    &[class*="fonticon-10-"][class*="--after"]:after, // the size of the icon if the fonticon class is on the text container:
+    [class*="fonticon-10-"]:before { // the size of the icon if the fonticon class is on a i or span insode of the text container:
+        font-size: px-em-reverse-size($px, $context);
+    }
 }
 
 
@@ -83,43 +83,43 @@ $default-transition-delay    : 0s;
 // --------
 // For clearing floats like a boss h5bp.com/q
 @mixin clearfix {
-	*zoom: 1;
-	&:before,
-	&:after {
-		display: table;
-		content: "";
-		// Fixes Opera/contenteditable bug:
-		// http://nicolasgallagher.com/micro-clearfix-hack/#comment-36952
-		line-height: 0;
-	}
-	&:after {
-		clear: both;
-	}
+    *zoom: 1;
+    &:before,
+    &:after {
+        display: table;
+        content: "";
+        // Fixes Opera/contenteditable bug:
+        // http://nicolasgallagher.com/micro-clearfix-hack/#comment-36952
+        line-height: 0;
+    }
+    &:after {
+        clear: both;
+    }
 }
 
 // Webkit-style focus
 // ------------------
 @mixin tab-focus() {
-	// Default
-	outline: thin dotted #333;
-	// Webkit
-	outline: 5px auto -webkit-focus-ring-color;
-	outline-offset: -2px;
+    // Default
+    outline: thin dotted #333;
+    // Webkit
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
 }
 
 // Center-align a block level element
 // ----------------------------------
 @mixin center-block() {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 // IE7 inline-block
 // ----------------
 @mixin ie7-inline-block() {
-	*display: inline; /* IE7 inline-block hack */
-	*zoom: 1;
+    *display: inline; /* IE7 inline-block hack */
+    *zoom: 1;
 }
 
 // IE7 likes to collapse whitespace on either side of the inline-block elements.
@@ -129,47 +129,47 @@ $default-transition-delay    : 0s;
 // mean that space between those elements will be .6em (~2 space characters) in IE7,
 // instead of the 1 space in other browsers.
 @mixin ie7-restore-left-whitespace() {
-	*margin-left: .3em;
+    *margin-left: .3em;
 
-	&:first-child {
-	*margin-left: 0;
-	}
+    &:first-child {
+    *margin-left: 0;
+    }
 }
 
 @mixin ie7-restore-right-whitespace() {
-	*margin-right: .3em;
+    *margin-right: .3em;
 }
 
 // Sizing shortcuts
 // -------------------------
 @mixin size($height, $width) {
-	width: $width;
-	height: $height;
+    width: $width;
+    height: $height;
 }
 @mixin square($size) {
-	@include size($size, $size);
+    @include size($size, $size);
 }
 
 // Placeholder text
 // -------------------------
 @mixin placeholder($color: $placeholderText) {
-	&:-moz-placeholder {
-	color: $color;
-	}
-	&:-ms-input-placeholder {
-	color: $color;
-	}
-	&::-webkit-input-placeholder {
-	color: $color;
-	}
+    &:-moz-placeholder {
+    color: $color;
+    }
+    &:-ms-input-placeholder {
+    color: $color;
+    }
+    &::-webkit-input-placeholder {
+    color: $color;
+    }
 }
 
 // Text overflow
 // -------------------------
 // Requires inline-block or block for proper styling
 @mixin text-overflow($nowrap: true) {
-	overflow: hidden;
-	text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
     @if ( $nowrap ) {
         white-space: nowrap;
     }
@@ -179,11 +179,11 @@ $default-transition-delay    : 0s;
 // -------------------------
 // Source: https://github.com/h5bp/html5-boilerplate/commit/aa0396eae757
 @mixin hide-text {
-	font: 0/0 a;
-	color: transparent;
-	text-shadow: none;
-	background-color: transparent;
-	border: 0;
+    font: 0/0 a;
+    color: transparent;
+    text-shadow: none;
+    background-color: transparent;
+    border: 0;
 }
 
 // FONTS
@@ -191,68 +191,68 @@ $default-transition-delay    : 0s;
 
 
 @mixin font($fontFamily:$baseFontFamily, $fontWeight: normal, $fontStyle: normal){ // this is a utility mixin for use by the actual font mixins below. You shouldn't use it.
-		font-family: $fontFamily;
-		font-weight: $fontWeight;
-		font-style: $fontStyle;
-	}
+        font-family: $fontFamily;
+        font-weight: $fontWeight;
+        font-style: $fontStyle;
+    }
 
-	@mixin fontRegular(){ // SST W01 Roman
-		@include font($baseFontFamily);
-	}
-	@mixin fontItalic(){ // SST W01 Italic
-		@include font($baseFontFamilyItalic);
-	}
-	@mixin fontMedium(){ // SST W01 Medium
-		@include font($baseFontFamilyMedium);
-	}
-	@mixin fontMediumItalic(){ // SST W01 Medium Italic
-		@include font($baseFontFamilyMediumItalic);
-	}
-	@mixin fontLight(){ // SST W01 Light
-		@include font($baseFontFamilyLight);
-	}
-	@mixin fontLightItalic(){ // SST W01 Light Italic
-		@include font($baseFontFamilyLightItalic);
-	}
-	@mixin fontBold(){ // SST W01 Bold
-		@include font($baseFontFamilyBold);
-	}
-	@mixin fontBoldItalic(){ // SST W01 Bold Italic
-		@include font($baseFontFamilyBoldItalic);
-	}
+    @mixin fontRegular(){ // SST W01 Roman
+        @include font($baseFontFamily);
+    }
+    @mixin fontItalic(){ // SST W01 Italic
+        @include font($baseFontFamilyItalic);
+    }
+    @mixin fontMedium(){ // SST W01 Medium
+        @include font($baseFontFamilyMedium);
+    }
+    @mixin fontMediumItalic(){ // SST W01 Medium Italic
+        @include font($baseFontFamilyMediumItalic);
+    }
+    @mixin fontLight(){ // SST W01 Light
+        @include font($baseFontFamilyLight);
+    }
+    @mixin fontLightItalic(){ // SST W01 Light Italic
+        @include font($baseFontFamilyLightItalic);
+    }
+    @mixin fontBold(){ // SST W01 Bold
+        @include font($baseFontFamilyBold);
+    }
+    @mixin fontBoldItalic(){ // SST W01 Bold Italic
+        @include font($baseFontFamilyBoldItalic);
+    }
 
-	@mixin fontHeading(){ // SST W01 Roman
-		@include font($headingsFontFamily);
-	}
-	@mixin fontHeadingItalic(){ // SST W01 Italic
-		@include font($headingsFontFamilyItalic);
-	}
+    @mixin fontHeading(){ // SST W01 Roman
+        @include font($headingsFontFamily);
+    }
+    @mixin fontHeadingItalic(){ // SST W01 Italic
+        @include font($headingsFontFamilyItalic);
+    }
 
 
 
-	@mixin em-strong($font: Regular){
+    @mixin em-strong($font: Regular){
 
-		@if ($font == Light){
-			em { @include fontLightItalic; }
-			strong { @include fontRegular; }
-			em strong, strong em { @include fontItalic; }
-		} @else if ($font == Regular) {
-			em { @include fontItalic; }
-			strong { @include fontMedium; }
-			em strong, strong em { @include fontMediumItalic; }
-		} @else if ($font == Medium) {
-			em { @include fontMediumItalic; }
-			strong { @include fontBold; }
-			em strong, strong em { @include fontBoldItalic; }
-		}
-	}
+        @if ($font == Light){
+            em { @include fontLightItalic; }
+            strong { @include fontRegular; }
+            em strong, strong em { @include fontItalic; }
+        } @else if ($font == Regular) {
+            em { @include fontItalic; }
+            strong { @include fontMedium; }
+            em strong, strong em { @include fontMediumItalic; }
+        } @else if ($font == Medium) {
+            em { @include fontMediumItalic; }
+            strong { @include fontBold; }
+            em strong, strong em { @include fontBoldItalic; }
+        }
+    }
 
-	@mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
-		font-family: $monoFontFamily;
-		font-size:$size;
-		font-weight:$weight;
-		line-height:$lineHeight;
-	}
+    @mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
+        font-family: $monoFontFamily;
+        font-size:$size;
+        font-weight:$weight;
+        line-height:$lineHeight;
+    }
 
 
 
@@ -306,8 +306,8 @@ $default-transition-delay    : 0s;
   @include sprite(flagBig, $sprite_flagBig_Y, $name, $x, 22px, 15px);
 }
 @mixin sprite-flags-reg-and-big($name, $x) {
-	@include sprite-flag($name, $x);
-	@include sprite-flagBig($name, $x);
+    @include sprite-flag($name, $x);
+    @include sprite-flagBig($name, $x);
 }
 
 
@@ -321,7 +321,7 @@ $default-transition-delay    : 0s;
 //     background-position: $x $y;
 
 //     @if ( $w != false ) {
-//     	@include size($h, $w);
+//      @include size($h, $w);
 //     }
 
 //     @if ( $margin ) {
@@ -384,47 +384,47 @@ $default-transition-delay    : 0s;
 
 // Block level inputs
 @mixin input-block-level {
-	display: block;
-	width: 100%;
-	min-height: 30px;                // Make inputs at least the height of their button counterpart
-	@include box-sizing(border-box); // Makes inputs behave like true block-level elements
+    display: block;
+    width: 100%;
+    min-height: 30px;                // Make inputs at least the height of their button counterpart
+    @include box-sizing(border-box); // Makes inputs behave like true block-level elements
 }
 
 
 
 // Mixin for form field states
 // @mixin formFieldState($defaultTextColor: #555, $borderColor: #ccc, $backgroundColor: #f5f5f5) {
-// 	// Set the text color
-// 	> label,
-// 	.help-block,
-// 	.help-inline {
-// 		color: $defaultTextColor;
-// 	}
-// 	// Style inputs accordingly
-// 	.checkbox,
-// 	.radio,
-// 	input,
-// 	select,
-// 	textarea {
-// 	color: $defaultTextColor;
-// 	}
-// 	input,
-// 	select,
-// 	textarea {
-// 	border-color: $borderColor;
-// 	@include box-shadow(inset 0 1px 1px rgba(0,0,0,.075)); // Redeclare so transitions work
-// 	&:focus {
-// 		border-color: darken($borderColor, 10%);
-// 		@include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten($borderColor, 20%));
-// 	}
-// 	}
-// 	// Give a small background color for input-prepend/-append
-// 	.input-prepend .add-on,
-// 	.input-append .add-on {
-// 	color: $defaultTextColor;
-// 	background-color: $backgroundColor;
-// 	border-color: $defaultTextColor;
-// 	}
+//  // Set the text color
+//  > label,
+//  .help-block,
+//  .help-inline {
+//      color: $defaultTextColor;
+//  }
+//  // Style inputs accordingly
+//  .checkbox,
+//  .radio,
+//  input,
+//  select,
+//  textarea {
+//  color: $defaultTextColor;
+//  }
+//  input,
+//  select,
+//  textarea {
+//  border-color: $borderColor;
+//  @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075)); // Redeclare so transitions work
+//  &:focus {
+//      border-color: darken($borderColor, 10%);
+//      @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten($borderColor, 20%));
+//  }
+//  }
+//  // Give a small background color for input-prepend/-append
+//  .input-prepend .add-on,
+//  .input-append .add-on {
+//  color: $defaultTextColor;
+//  background-color: $backgroundColor;
+//  border-color: $defaultTextColor;
+//  }
 // }
 
 
@@ -434,39 +434,39 @@ $default-transition-delay    : 0s;
 
 // Border Radius
 @mixin border-radius($radius) {
-	border-radius: $radius;
+    border-radius: $radius;
 }
 
 // Single Corner Border Radius
 @mixin border-top-left-radius($radius) {
-	border-top-left-radius: $radius;
+    border-top-left-radius: $radius;
 }
 @mixin border-top-right-radius($radius) {
-	border-top-right-radius: $radius;
+    border-top-right-radius: $radius;
 }
 @mixin border-bottom-right-radius($radius) {
-	border-bottom-right-radius: $radius;
+    border-bottom-right-radius: $radius;
 }
 @mixin border-bottom-left-radius($radius) {
-	border-bottom-left-radius: $radius;
+    border-bottom-left-radius: $radius;
 }
 
 // Single Side Border Radius
 @mixin border-top-radius($radius) {
-	@include border-top-right-radius($radius);
-	@include border-top-left-radius($radius);
+    @include border-top-right-radius($radius);
+    @include border-top-left-radius($radius);
 }
 @mixin border-right-radius($radius) {
-	@include border-top-right-radius($radius);
-	@include border-bottom-right-radius($radius);
+    @include border-top-right-radius($radius);
+    @include border-bottom-right-radius($radius);
 }
 @mixin border-bottom-radius($radius) {
-	@include border-bottom-right-radius($radius);
-	@include border-bottom-left-radius($radius);
+    @include border-bottom-right-radius($radius);
+    @include border-bottom-left-radius($radius);
 }
 @mixin border-left-radius($radius) {
-	@include border-top-left-radius($radius);
-	@include border-bottom-left-radius($radius);
+    @include border-top-left-radius($radius);
+    @include border-bottom-left-radius($radius);
 }
 
 // Box shadows
@@ -474,65 +474,90 @@ $default-transition-delay    : 0s;
 // Firefox supports non prefixed as of 4.0
 // Webkit prefix for Safari 5.0, iOS 4.2-4.3, Android <= 3.0, Blackberry 7
 @mixin box-shadow($shadow1, $shadow2:null, $shadow3:null) {
-	@if ($shadow3!=null) {
+    @if ($shadow3!=null) {
     -webkit-box-shadow: $shadow1, $shadow2, $shadow3;
             box-shadow: $shadow1, $shadow2, $shadow3;
-	} @else if ($shadow2!=null){
+    } @else if ($shadow2!=null){
     -webkit-box-shadow: $shadow1, $shadow2;
             box-shadow: $shadow1, $shadow2;
-	} @else {
+    } @else {
     -webkit-box-shadow: $shadow1;
             box-shadow: $shadow1;
-	}
+    }
+}
+
+// Official syntax supported by IE10, FF16, Opera 12.1,
+// so we're only going to add the webkit prefix
+@mixin animation( $ani1:null, $ani2:null, $ani3:null ) {
+  @if ($ani3 != null) {
+    -webkit-animation: $ani1, $ani2, $ani3;
+            animation: $ani1, $ani2, $ani3;
+  }
+
+  @else if ($ani2 != null) {
+    -webkit-animation: $ani1, $ani2;
+            animation: $ani1, $ani2;
+  }
+
+  @else if ($ani1 != null) {
+    -webkit-animation: $ani1;
+            animation: $ani1;
+  }
+}
+
+@mixin animation-delay( $delay ) {
+    -webkit-animation-delay: $delay;
+            animation-delay: $delay;
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes $name { @content; }
+  @keyframes $name { @content; }
 }
 
 
-
-
-
-
 @mixin transition($transition1:null, $transition2:null, $transition3:null, $transition4:null, $transition5:null, $transition6:null, $transition7:null, $transition8:null) {
-	@if ($transition8!=null){
-		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
-		   // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
-			 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
-						transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
-	} @else if ($transition7!=null){
-		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
-			 // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
-				 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
-						transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
-	} @else if ($transition6!=null){
-		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
-			 // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
-				 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
-						transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
-	} @else if ($transition5!=null){
-		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
-			 // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
-				 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
-						transition: $transition1, $transition2, $transition3, $transition4, $transition5;
-	} @else if ($transition4!=null){
-		-webkit-transition: $transition1, $transition2, $transition3, $transition4;
-			 // -moz-transition: $transition1, $transition2, $transition3, $transition4;
-				 // -o-transition: $transition1, $transition2, $transition3, $transition4;
-						transition: $transition1, $transition2, $transition3, $transition4;
-	} @else if ($transition3!=null){
-		-webkit-transition: $transition1, $transition2, $transition3;
-			 // -moz-transition: $transition1, $transition2, $transition3;
-				 // -o-transition: $transition1, $transition2, $transition3;
-						transition: $transition1, $transition2, $transition3;
-	} @else if ($transition2!=null){
-		-webkit-transition: $transition1, $transition2;
-			 // -moz-transition: $transition1, $transition2;
-				 // -o-transition: $transition1, $transition2;
-						transition: $transition1, $transition2;
-	} @else if ( $transition1 != null ) {
-		-webkit-transition: $transition1;
-			 // -moz-transition: $transition1;
-				 // -o-transition: $transition1;
-						transition: $transition1;
-	} @else {
+    @if ($transition8!=null){
+        -webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
+           // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
+             // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
+                        transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
+    } @else if ($transition7!=null){
+        -webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
+             // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
+                 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
+                        transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
+    } @else if ($transition6!=null){
+        -webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
+             // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
+                 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
+                        transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
+    } @else if ($transition5!=null){
+        -webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
+             // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
+                 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
+                        transition: $transition1, $transition2, $transition3, $transition4, $transition5;
+    } @else if ($transition4!=null){
+        -webkit-transition: $transition1, $transition2, $transition3, $transition4;
+             // -moz-transition: $transition1, $transition2, $transition3, $transition4;
+                 // -o-transition: $transition1, $transition2, $transition3, $transition4;
+                        transition: $transition1, $transition2, $transition3, $transition4;
+    } @else if ($transition3!=null){
+        -webkit-transition: $transition1, $transition2, $transition3;
+             // -moz-transition: $transition1, $transition2, $transition3;
+                 // -o-transition: $transition1, $transition2, $transition3;
+                        transition: $transition1, $transition2, $transition3;
+    } @else if ($transition2!=null){
+        -webkit-transition: $transition1, $transition2;
+             // -moz-transition: $transition1, $transition2;
+                 // -o-transition: $transition1, $transition2;
+                        transition: $transition1, $transition2;
+    } @else if ( $transition1 != null ) {
+        -webkit-transition: $transition1;
+             // -moz-transition: $transition1;
+                 // -o-transition: $transition1;
+                        transition: $transition1;
+    } @else {
         // `all` is the default transition property, so it doesn't need to be specified
     -webkit-transition: $transitionNormal $easeNormal;
        // -moz-transition: $transitionNormal $easeNormal;
@@ -541,176 +566,176 @@ $default-transition-delay    : 0s;
   }
 }
 @mixin transition-property($transitionProp1, $transitionProp2:null, $transitionProp3:null, $transitionProp4:null, $transitionProp5:null, $transitionProp6:null, $transitionProp7:null, $transitionProp8:null) {
-	@if ($transitionProp8!=null){
-		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
-			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
-				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
-						transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
-	} @else if ($transitionProp7!=null){
-		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
-			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
-				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
-						transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
-	} @else if ($transitionProp6!=null){
-		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
-			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
-				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
-						transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
-	} @else if ($transitionProp5!=null){
-		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
-			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
-				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
-						transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
-	} @else if ($transitionProp4!=null){
-		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
-			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
-				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
-						transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
-	} @else if ($transitionProp3!=null){
-		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
-			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
-				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
-						transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
-	} @else if ($transitionProp2!=null){
-		-webkit-transition-property: $transitionProp1, $transitionProp2;
-			 // -moz-transition-property: $transitionProp1, $transitionProp2;
-				 // -o-transition-property: $transitionProp1, $transitionProp2;
-						transition-property: $transitionProp1, $transitionProp2;
-	} @else {
-		-webkit-transition-property: $transitionProp1;
-			 // -moz-transition-property: $transitionProp1;
-				 // -o-transition-property: $transitionProp1;
-						transition-property: $transitionProp1;
-	}
+    @if ($transitionProp8!=null){
+        -webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
+             // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
+                 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
+                        transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
+    } @else if ($transitionProp7!=null){
+        -webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
+             // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
+                 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
+                        transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
+    } @else if ($transitionProp6!=null){
+        -webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
+             // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
+                 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
+                        transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
+    } @else if ($transitionProp5!=null){
+        -webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
+             // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
+                 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
+                        transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
+    } @else if ($transitionProp4!=null){
+        -webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
+             // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
+                 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
+                        transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
+    } @else if ($transitionProp3!=null){
+        -webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
+             // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
+                 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
+                        transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
+    } @else if ($transitionProp2!=null){
+        -webkit-transition-property: $transitionProp1, $transitionProp2;
+             // -moz-transition-property: $transitionProp1, $transitionProp2;
+                 // -o-transition-property: $transitionProp1, $transitionProp2;
+                        transition-property: $transitionProp1, $transitionProp2;
+    } @else {
+        -webkit-transition-property: $transitionProp1;
+             // -moz-transition-property: $transitionProp1;
+                 // -o-transition-property: $transitionProp1;
+                        transition-property: $transitionProp1;
+    }
 }
 @mixin transition-duration($transitionDuration1, $transitionDuration2:null, $transitionDuration3:null, $transitionDuration4:null, $transitionDuration5:null, $transitionDuration6:null, $transitionDuration7:null, $transitionDuration8:null) {
-	@if ($transitionDuration8!=null){
-		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
-			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
-				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
-						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
-	} @else if ($transitionDuration7!=null){
-		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
-			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
-				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
-						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
-	} @else if ($transitionDuration6!=null){
-		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
-			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
-				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
-						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
-	} @else if ($transitionDuration5!=null){
-		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
-			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
-				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
-						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
-	} @else if ($transitionDuration4!=null){
-		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
-			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
-				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
-						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
-	} @else if ($transitionDuration3!=null){
-		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
-			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
-				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
-						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
-	} @else if ($transitionDuration2!=null){
-		-webkit-transition-duration: $transitionDuration1, $transitionDuration2;
-			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2;
-				 // -o-transition-duration: $transitionDuration1, $transitionDuration2;
-						transition-duration: $transitionDuration1, $transitionDuration2;
-	} @else {
-		-webkit-transition-duration: $transitionDuration1;
-			 // -moz-transition-duration: $transitionDuration1;
-				 // -o-transition-duration: $transitionDuration1;
-						transition-duration: $transitionDuration1;
-	}
+    @if ($transitionDuration8!=null){
+        -webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
+             // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
+                 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
+                        transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
+    } @else if ($transitionDuration7!=null){
+        -webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
+             // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
+                 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
+                        transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
+    } @else if ($transitionDuration6!=null){
+        -webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
+             // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
+                 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
+                        transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
+    } @else if ($transitionDuration5!=null){
+        -webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
+             // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
+                 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
+                        transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
+    } @else if ($transitionDuration4!=null){
+        -webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
+             // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
+                 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
+                        transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
+    } @else if ($transitionDuration3!=null){
+        -webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
+             // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
+                 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
+                        transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
+    } @else if ($transitionDuration2!=null){
+        -webkit-transition-duration: $transitionDuration1, $transitionDuration2;
+             // -moz-transition-duration: $transitionDuration1, $transitionDuration2;
+                 // -o-transition-duration: $transitionDuration1, $transitionDuration2;
+                        transition-duration: $transitionDuration1, $transitionDuration2;
+    } @else {
+        -webkit-transition-duration: $transitionDuration1;
+             // -moz-transition-duration: $transitionDuration1;
+                 // -o-transition-duration: $transitionDuration1;
+                        transition-duration: $transitionDuration1;
+    }
 }
 @mixin transition-delay($transitionDelay1, $transitionDelay2:null, $transitionDelay3:null, $transitionDelay4:null, $transitionDelay5:null, $transitionDelay6:null, $transitionDelay7:null, $transitionDelay8:null) {
-	@if ($transitionDelay8!=null){
-		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
-			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
-				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
-						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
-	} @else if ($transitionDelay7!=null){
-		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
-			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
-				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
-						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
-	} @else if ($transitionDelay6!=null){
-		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
-			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
-				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
-						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
-	} @else if ($transitionDelay5!=null){
-		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
-			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
-				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
-						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
-	} @else if ($transitionDelay4!=null){
-		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
-			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
-				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
-						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
-	} @else if ($transitionDelay3!=null){
-		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
-			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
-				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
-						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
-	} @else if ($transitionDelay2!=null){
-		-webkit-transition-delay: $transitionDelay1, $transitionDelay2;
-			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2;
-				 // -o-transition-delay: $transitionDelay1, $transitionDelay2;
-						transition-delay: $transitionDelay1, $transitionDelay2;
-	} @else {
-		-webkit-transition-delay: $transitionDelay1;
-			 // -moz-transition-delay: $transitionDelay1;
-				 // -o-transition-delay: $transitionDelay1;
-						transition-delay: $transitionDelay1;
-	}
+    @if ($transitionDelay8!=null){
+        -webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
+             // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
+                 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
+                        transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
+    } @else if ($transitionDelay7!=null){
+        -webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
+             // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
+                 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
+                        transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
+    } @else if ($transitionDelay6!=null){
+        -webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
+             // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
+                 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
+                        transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
+    } @else if ($transitionDelay5!=null){
+        -webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
+             // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
+                 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
+                        transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
+    } @else if ($transitionDelay4!=null){
+        -webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
+             // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
+                 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
+                        transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
+    } @else if ($transitionDelay3!=null){
+        -webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
+             // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
+                 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
+                        transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
+    } @else if ($transitionDelay2!=null){
+        -webkit-transition-delay: $transitionDelay1, $transitionDelay2;
+             // -moz-transition-delay: $transitionDelay1, $transitionDelay2;
+                 // -o-transition-delay: $transitionDelay1, $transitionDelay2;
+                        transition-delay: $transitionDelay1, $transitionDelay2;
+    } @else {
+        -webkit-transition-delay: $transitionDelay1;
+             // -moz-transition-delay: $transitionDelay1;
+                 // -o-transition-delay: $transitionDelay1;
+                        transition-delay: $transitionDelay1;
+    }
 }
 @mixin transition-timing-function($transitionTimingFunc1, $transitionTimingFunc2:null, $transitionTimingFunc3:null, $transitionTimingFunc4:null, $transitionTimingFunc5:null, $transitionTimingFunc6:null, $transitionTimingFunc7:null, $transitionTimingFunc8:null) {
-	@if ($transitionTimingFunc8!=null){
-		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
-			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
-				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
-						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
-	} @else if ($transitionTimingFunc7!=null){
-		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
-			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
-				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
-						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
-	} @else if ($transitionTimingFunc6!=null){
-		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
-			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
-				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
-						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
-	} @else if ($transitionTimingFunc5!=null){
-		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
-			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
-				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
-						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
-	} @else if ($transitionTimingFunc4!=null){
-		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
-			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
-				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
-						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
-	} @else if ($transitionTimingFunc3!=null){
-		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
-			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
-				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
-						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
-	} @else if ($transitionTimingFunc2!=null){
-		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
-			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
-				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
-						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
-	} @else {
-		-webkit-transition-timing-function: $transitionTimingFunc1;
-			 // -moz-transition-timing-function: $transitionTimingFunc1;
-				 // -o-transition-timing-function: $transitionTimingFunc1;
-						transition-timing-function: $transitionTimingFunc1;
-	}
+    @if ($transitionTimingFunc8!=null){
+        -webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
+             // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
+                 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
+                        transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
+    } @else if ($transitionTimingFunc7!=null){
+        -webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
+             // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
+                 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
+                        transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
+    } @else if ($transitionTimingFunc6!=null){
+        -webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
+             // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
+                 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
+                        transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
+    } @else if ($transitionTimingFunc5!=null){
+        -webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
+             // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
+                 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
+                        transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
+    } @else if ($transitionTimingFunc4!=null){
+        -webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
+             // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
+                 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
+                        transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
+    } @else if ($transitionTimingFunc3!=null){
+        -webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
+             // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
+                 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
+                        transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
+    } @else if ($transitionTimingFunc2!=null){
+        -webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
+             // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
+                 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
+                        transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
+    } @else {
+        -webkit-transition-timing-function: $transitionTimingFunc1;
+             // -moz-transition-timing-function: $transitionTimingFunc1;
+                 // -o-transition-timing-function: $transitionTimingFunc1;
+                        transition-timing-function: $transitionTimingFunc1;
+    }
 }
 
 
@@ -730,33 +755,33 @@ $default-transition-delay    : 0s;
 // transitions for specific components
 @mixin hideshow-navmenu-show($leftOrRight:left, $x: 0, $animateOpacity:true){
   @if ($leftOrRight == left){
-  	left:$x;
-  	right:auto;
+    left:$x;
+    right:auto;
   } @else {
-  	right:$x;
-  	left:auto;
+    right:$x;
+    left:auto;
   }
-	opacity:1;
+    opacity:1;
   @if ($animateOpacity) {
- 		@include transition(opacity $transitionFast linear 0s, $leftOrRight 0s linear 0s);
- 	} @else {
- 		@include transition(opacity 0s linear 0s, $leftOrRight 0s linear 0s);
- 	}
+        @include transition(opacity $transitionFast linear 0s, $leftOrRight 0s linear 0s);
+    } @else {
+        @include transition(opacity 0s linear 0s, $leftOrRight 0s linear 0s);
+    }
 }
 @mixin hideshow-navmenu-hide($leftOrRight:left, $animateOpacity:true){
   @if ($leftOrRight == left){
-  	left:-9999px;
-  	right:auto;
+    left:-9999px;
+    right:auto;
   } @else {
-  	right:9999px;
-  	left:auto;
+    right:9999px;
+    left:auto;
   }
-	opacity:0;
+    opacity:0;
   @if ($animateOpacity) {
-	  @include transition(opacity $transitionFaster linear 0s, $leftOrRight 0s linear $transitionFaster);
- 	} @else {
-	  @include transition(opacity 0s linear $navMenuRevealSpeed, $leftOrRight 0s linear $transitionFaster);
- 	}
+      @include transition(opacity $transitionFaster linear 0s, $leftOrRight 0s linear $transitionFaster);
+    } @else {
+      @include transition(opacity 0s linear $navMenuRevealSpeed, $leftOrRight 0s linear $transitionFaster);
+    }
 }
 
 @mixin fadeoutOnHover($child:""){
@@ -792,11 +817,11 @@ $default-transition-delay    : 0s;
 
 // Transformations
 @mixin rotate($degrees) {
-	-webkit-transform: rotate($degrees);
-	   // -moz-transform: rotate($degrees);
-			-ms-transform: rotate($degrees);
-		 // -o-transform: rotate($degrees);
-					transform: rotate($degrees);
+    -webkit-transform: rotate($degrees);
+       // -moz-transform: rotate($degrees);
+            -ms-transform: rotate($degrees);
+         // -o-transform: rotate($degrees);
+                    transform: rotate($degrees);
 }
 @mixin scale($ratio) {
     -webkit-transform: scale($ratio);
@@ -807,39 +832,39 @@ $default-transition-delay    : 0s;
 }
 
 @mixin scale3d($ratio) {
-	-webkit-transform: scale3d($ratio, $ratio, 1);
-	   // -moz-transform: scale3d($ratio, $ratio, 1);
-			-ms-transform: scale3d($ratio, $ratio, 1);
-		 // -o-transform: scale3d($ratio, $ratio, 1);
-					transform: scale3d($ratio, $ratio, 1);
+    -webkit-transform: scale3d($ratio, $ratio, 1);
+       // -moz-transform: scale3d($ratio, $ratio, 1);
+            -ms-transform: scale3d($ratio, $ratio, 1);
+         // -o-transform: scale3d($ratio, $ratio, 1);
+                    transform: scale3d($ratio, $ratio, 1);
 }
 
 @mixin translate($x, $y) {
-	-webkit-transform: translate($x, $y);
-		 // -moz-transform: translate($x, $y);
-			-ms-transform: translate($x, $y);
-			 // -o-transform: translate($x, $y);
-					transform: translate($x, $y);
+    -webkit-transform: translate($x, $y);
+         // -moz-transform: translate($x, $y);
+            -ms-transform: translate($x, $y);
+             // -o-transform: translate($x, $y);
+                    transform: translate($x, $y);
 }
 @mixin skew($x, $y) {
-	-webkit-transform: skew($x, $y);
-	   // -moz-transform: skew($x, $y);
-			-ms-transform: skewX($x) skewY($y); // See https://github.com/twitter/bootstrap/issues/4885
-		 // -o-transform: skew($x, $y);
-					transform: skew($x, $y);
+    -webkit-transform: skew($x, $y);
+       // -moz-transform: skew($x, $y);
+            -ms-transform: skewX($x) skewY($y); // See https://github.com/twitter/bootstrap/issues/4885
+         // -o-transform: skew($x, $y);
+                    transform: skew($x, $y);
 }
 @mixin translate3d($x, $y, $z) {
-	-webkit-transform: translate3d($x, $y, $z);
-	   // -moz-transform: translate3d($x, $y, $z);
-		 // -o-transform: translate3d($x, $y, $z);
-					transform: translate3d($x, $y, $z);
+    -webkit-transform: translate3d($x, $y, $z);
+       // -moz-transform: translate3d($x, $y, $z);
+         // -o-transform: translate3d($x, $y, $z);
+                    transform: translate3d($x, $y, $z);
 }
 @mixin transform-origin($x, $y:50%, $z:0) {
-	transform-origin:        $x $y $z;
-	-ms-transform-origin:    $x $y $z;
-	-webkit-transform-origin:$x $y $z;
-	-moz-transform-origin:   $x $y $z;
-	-o-transform-origin:     $x $y $z;
+    transform-origin:        $x $y $z;
+    -ms-transform-origin:    $x $y $z;
+    -webkit-transform-origin:$x $y $z;
+    -moz-transform-origin:   $x $y $z;
+    -o-transform-origin:     $x $y $z;
 }
 
 // Backface visibility
@@ -847,78 +872,78 @@ $default-transition-delay    : 0s;
 // Default value is 'hidden', but can be changed to 'visible'
 // See git pull https://github.com/dannykeane/bootstrap.git backface-visibility for examples
 @mixin backface-visibility($visibility:hidden){
-	-webkit-backface-visibility: $visibility;
-	   -moz-backface-visibility: $visibility;
-			backface-visibility: $visibility;
+    -webkit-backface-visibility: $visibility;
+       -moz-backface-visibility: $visibility;
+            backface-visibility: $visibility;
 }
 @mixin flickerfix{
-	@include backface-visibility(hidden);
+    @include backface-visibility(hidden);
 }
 
 // Background clipping
 // Heads up: FF 3.6 and under need "padding" instead of "padding-box"
 @mixin background-clip($clip) {
-	-webkit-background-clip: $clip;
-	   -moz-background-clip: $clip;
-			background-clip: $clip;
+    -webkit-background-clip: $clip;
+       -moz-background-clip: $clip;
+            background-clip: $clip;
 }
 
 // Background sizing
 @mixin background-size($size) {
-	-webkit-background-size: $size;
-	   -moz-background-size: $size;
-		 -o-background-size: $size;
-			background-size: $size;
+    -webkit-background-size: $size;
+       -moz-background-size: $size;
+         -o-background-size: $size;
+            background-size: $size;
 }
 
 
 // Box sizing
 @mixin box-sizing($boxmodel) {
-	-webkit-box-sizing: $boxmodel;
-	   -moz-box-sizing: $boxmodel;
-			box-sizing: $boxmodel;
+    -webkit-box-sizing: $boxmodel;
+       -moz-box-sizing: $boxmodel;
+            box-sizing: $boxmodel;
 }
 
 // User select
 // For selecting text on the page
 @mixin user-select($select) {
-	-webkit-user-select: $select;
-	   -moz-user-select: $select;
-		-ms-user-select: $select;
-		 -o-user-select: $select;
-			user-select: $select;
+    -webkit-user-select: $select;
+       -moz-user-select: $select;
+        -ms-user-select: $select;
+         -o-user-select: $select;
+            user-select: $select;
 }
 
 // Resize anything
 @mixin resizable($direction) {
-	resize: $direction; // Options: horizontal, vertical, both
-	overflow: auto; // Safari fix
+    resize: $direction; // Options: horizontal, vertical, both
+    overflow: auto; // Safari fix
 }
 
 // CSS3 Content Columns
 @mixin content-columns($columnCount, $columnGap: $gridGutterWidth) {
-	-webkit-column-count: $columnCount;
-	   -moz-column-count: $columnCount;
-			column-count: $columnCount;
-	-webkit-column-gap: $columnGap;
-	   -moz-column-gap: $columnGap;
-			column-gap: $columnGap;
+    -webkit-column-count: $columnCount;
+       -moz-column-count: $columnCount;
+            column-count: $columnCount;
+    -webkit-column-gap: $columnGap;
+       -moz-column-gap: $columnGap;
+            column-gap: $columnGap;
 }
 
 // Optional hyphenation
 @mixin hyphens($mode: auto) {
-	word-wrap: break-word;
-	-webkit-hyphens: $mode;
-	   -moz-hyphens: $mode;
-		-ms-hyphens: $mode;
-		 -o-hyphens: $mode;
-			hyphens: $mode;
+    word-wrap: break-word;
+    -webkit-hyphens: $mode;
+       -moz-hyphens: $mode;
+        -ms-hyphens: $mode;
+         -o-hyphens: $mode;
+            hyphens: $mode;
 }
 
 // Opacity
 @mixin opacity($opacity) {
-	opacity: $opacity / 100;
-	filter: alpha(opacity=$opacity);
+    opacity: $opacity / 100;
+    filter: alpha(opacity=$opacity);
 }
 
 
@@ -928,82 +953,82 @@ $default-transition-delay    : 0s;
 
 // Add an alphatransparency value to any background or border color (via Elyse Holladay)
 @mixin translucent-background($color: $white, $alpha: 1) {
-	background-color: hsla(hue($color), saturation($color), lightness($color), $alpha);
+    background-color: hsla(hue($color), saturation($color), lightness($color), $alpha);
 }
 
 @mixin translucent-border($color: $white, $alpha: 1) {
-	border-color: hsla(hue($color), saturation($color), lightness($color), $alpha);
-	@include background-clip(padding-box);
+    border-color: hsla(hue($color), saturation($color), lightness($color), $alpha);
+    @include background-clip(padding-box);
 }
 
 // Gradient Bar Colors for buttons and alerts
 @mixin gradientBar($primaryColor, $secondaryColor, $defaultTextColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
-	color: $defaultTextColor;
-	text-shadow: $textShadow;
-	@include gradient-vertical($primaryColor, $secondaryColor);
-	border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
-	border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fade-in(rgba(0,0,0,.1), 0.15);
+    color: $defaultTextColor;
+    text-shadow: $textShadow;
+    @include gradient-vertical($primaryColor, $secondaryColor);
+    border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
+    border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fade-in(rgba(0,0,0,.1), 0.15);
 }
 
 // Gradients
 @mixin gradient-horizontal($startColor: #555, $endColor: #333) {
-	background-color: $endColor;
-	background-image: -moz-linear-gradient(left, $startColor, $endColor); // FF 3.6+
-	background-image: -webkit-gradient(linear, 0 0, 100% 0, from($startColor), to($endColor)); // Safari 4+, Chrome 2+
-	background-image: -webkit-linear-gradient(left, $startColor, $endColor); // Safari 5.1+, Chrome 10+
-	background-image: -o-linear-gradient(left, $startColor, $endColor); // Opera 11.10
-	background-image: linear-gradient(to right, $startColor, $endColor); // Standard, IE10
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($startColor)}', endColorstr='#{ie-hex-str($endColor)}', GradientType=1); // IE9 and down
+    background-color: $endColor;
+    background-image: -moz-linear-gradient(left, $startColor, $endColor); // FF 3.6+
+    background-image: -webkit-gradient(linear, 0 0, 100% 0, from($startColor), to($endColor)); // Safari 4+, Chrome 2+
+    background-image: -webkit-linear-gradient(left, $startColor, $endColor); // Safari 5.1+, Chrome 10+
+    background-image: -o-linear-gradient(left, $startColor, $endColor); // Opera 11.10
+    background-image: linear-gradient(to right, $startColor, $endColor); // Standard, IE10
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($startColor)}', endColorstr='#{ie-hex-str($endColor)}', GradientType=1); // IE9 and down
 }
 @mixin gradient-vertical($startColor: #555, $endColor: #333) {
-	background-color: mix($startColor, $endColor, 62.5%);
-	background-image: -moz-linear-gradient(top, $startColor, $endColor); // FF 3.6+
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), to($endColor)); // Safari 4+, Chrome 2+
-	background-image: -webkit-linear-gradient(top, $startColor, $endColor); // Safari 5.1+, Chrome 10+
-	background-image: -o-linear-gradient(top, $startColor, $endColor); // Opera 11.10
-	background-image: linear-gradient(to bottom, $startColor, $endColor); // Standard, IE10
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($startColor)}', endColorstr='#{ie-hex-str($endColor)}', GradientType=0); // IE9 and down
+    background-color: mix($startColor, $endColor, 62.5%);
+    background-image: -moz-linear-gradient(top, $startColor, $endColor); // FF 3.6+
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), to($endColor)); // Safari 4+, Chrome 2+
+    background-image: -webkit-linear-gradient(top, $startColor, $endColor); // Safari 5.1+, Chrome 10+
+    background-image: -o-linear-gradient(top, $startColor, $endColor); // Opera 11.10
+    background-image: linear-gradient(to bottom, $startColor, $endColor); // Standard, IE10
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($startColor)}', endColorstr='#{ie-hex-str($endColor)}', GradientType=0); // IE9 and down
 }
 @mixin gradient-directional($startColor: #555, $endColor: #333, $deg: 45deg) {
-	background-color: $endColor;
-	background-repeat: repeat-x;
-	background-image: -moz-linear-gradient($deg, $startColor, $endColor); // FF 3.6+
-	background-image: -webkit-linear-gradient($deg, $startColor, $endColor); // Safari 5.1+, Chrome 10+
-	background-image: -o-linear-gradient($deg, $startColor, $endColor); // Opera 11.10
-	background-image: linear-gradient($deg, $startColor, $endColor); // Standard, IE10
+    background-color: $endColor;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient($deg, $startColor, $endColor); // FF 3.6+
+    background-image: -webkit-linear-gradient($deg, $startColor, $endColor); // Safari 5.1+, Chrome 10+
+    background-image: -o-linear-gradient($deg, $startColor, $endColor); // Opera 11.10
+    background-image: linear-gradient($deg, $startColor, $endColor); // Standard, IE10
 }
 @mixin gradient-vertical-three-colors($startColor: #00b3ee, $midColor: #7a43b6, $colorStop: 50%, $endColor: #c3325f) {
-	background-color: mix($midColor, $endColor, 80%);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), color-stop($colorStop, $midColor), to($endColor));
-	background-image: -webkit-linear-gradient($startColor, $midColor $colorStop, $endColor);
-	background-image: -moz-linear-gradient(top, $startColor, $midColor $colorStop, $endColor);
-	background-image: -o-linear-gradient($startColor, $midColor $colorStop, $endColor);
-	background-image: linear-gradient($startColor, $midColor $colorStop, $endColor);
-	background-repeat: no-repeat;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($startColor)}', endColorstr='#{ie-hex-str($endColor)}', GradientType=0); // IE9 and down, gets no color-stop at all for proper fallback
+    background-color: mix($midColor, $endColor, 80%);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), color-stop($colorStop, $midColor), to($endColor));
+    background-image: -webkit-linear-gradient($startColor, $midColor $colorStop, $endColor);
+    background-image: -moz-linear-gradient(top, $startColor, $midColor $colorStop, $endColor);
+    background-image: -o-linear-gradient($startColor, $midColor $colorStop, $endColor);
+    background-image: linear-gradient($startColor, $midColor $colorStop, $endColor);
+    background-repeat: no-repeat;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($startColor)}', endColorstr='#{ie-hex-str($endColor)}', GradientType=0); // IE9 and down, gets no color-stop at all for proper fallback
 }
 @mixin gradient-radial($innerColor: #555, $outerColor: #333)  {
-	background-color: $outerColor;
-	background-image: -webkit-gradient(radial, center center, 0, center center, 460, from($innerColor), to($outerColor));
-	background-image: -webkit-radial-gradient(circle, $innerColor, $outerColor);
-	background-image: -moz-radial-gradient(circle, $innerColor, $outerColor);
-	background-image: -o-radial-gradient(circle, $innerColor, $outerColor);
-	background-repeat: no-repeat;
+    background-color: $outerColor;
+    background-image: -webkit-gradient(radial, center center, 0, center center, 460, from($innerColor), to($outerColor));
+    background-image: -webkit-radial-gradient(circle, $innerColor, $outerColor);
+    background-image: -moz-radial-gradient(circle, $innerColor, $outerColor);
+    background-image: -o-radial-gradient(circle, $innerColor, $outerColor);
+    background-repeat: no-repeat;
 }
 @mixin gradient-striped($color: #555, $angle: 45deg) {
-	background-color: $color;
-	background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, rgba(255,255,255,.15)), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255,255,255,.15)), color-stop(.75, rgba(255,255,255,.15)), color-stop(.75, transparent), to(transparent));
-	background-image: -webkit-linear-gradient($angle, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
-	background-image: -moz-linear-gradient($angle, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
-	background-image: -o-linear-gradient($angle, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
-	background-image: linear-gradient($angle, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
+    background-color: $color;
+    background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, rgba(255,255,255,.15)), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255,255,255,.15)), color-stop(.75, rgba(255,255,255,.15)), color-stop(.75, transparent), to(transparent));
+    background-image: -webkit-linear-gradient($angle, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient($angle, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient($angle, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
+    background-image: linear-gradient($angle, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
 }
 
 // Reset filters for IE
 @mixin gradient-reset-filter() {
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 
 
@@ -1041,57 +1066,57 @@ $default-transition-delay    : 0s;
 
 // there is also a .el-hidden class in utilities that just includes the mixin.
 @mixin el-hidden ( $leftOrRight:left, $transition:true ) {
-	display:block;
-	position: absolute;
-	-webkit-backface-visibility: hidden; // flicker fix
+    display:block;
+    position: absolute;
+    -webkit-backface-visibility: hidden; // flicker fix
 
-	opacity: 0;
-	visibility: hidden;
+    opacity: 0;
+    visibility: hidden;
 
-	@if ($leftOrRight == left){
-		right:auto;
-		left: -9999px;
-	} @else {
-		right:-9999px;
-		left: auto;
-	}
+    @if ($leftOrRight == left){
+        right:auto;
+        left: -9999px;
+    } @else {
+        right:-9999px;
+        left: auto;
+    }
 
 
-	@if ( $transition != false ){
-		// if $transition is false, don't apply any transition.
-		@if ( $transition == true ){
-			// if $transition is true, apply the default transition.
-			@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
-		} @else {
-			// if $transition is anything other than true or false, use $transition as the transition.
-			@include transition( $transition );
-		}
-	}
+    @if ( $transition != false ){
+        // if $transition is false, don't apply any transition.
+        @if ( $transition == true ){
+            // if $transition is true, apply the default transition.
+            @include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
+        } @else {
+            // if $transition is anything other than true or false, use $transition as the transition.
+            @include transition( $transition );
+        }
+    }
 }
 
 // there is also a .el-shown class in utilities that just includes the mixin.
 @mixin el-shown ( $leftOrRight:left, $transition:true ) {
-	opacity: 1;
-	visibility: visible;
+    opacity: 1;
+    visibility: visible;
 
-	@if ($leftOrRight == left){
-		right:auto;
-		left: 0;
-	} @else {
-		right:0;
-		left: auto;
-	}
+    @if ($leftOrRight == left){
+        right:auto;
+        left: 0;
+    } @else {
+        right:0;
+        left: auto;
+    }
 
-	@if ( $transition != false ){
-		// if $transition is false, don't apply any transition.
-		@if ( $transition == true ){
-			// if $transition is true, apply the default transition.
-	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
-		} @else {
-			// if $transition is anything other than true or false, use $transition as the transition.
-			@include transition( $transition );
-		}
-	}
+    @if ( $transition != false ){
+        // if $transition is false, don't apply any transition.
+        @if ( $transition == true ){
+            // if $transition is true, apply the default transition.
+    @include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
+        } @else {
+            // if $transition is anything other than true or false, use $transition as the transition.
+            @include transition( $transition );
+        }
+    }
 }
 
 
@@ -1104,17 +1129,17 @@ $default-transition-delay    : 0s;
 // -------------------------
 // Dividers (basically an hr) within dropdowns and nav lists
 @mixin nav-divider($top: #e5e5e5, $bottom: $white) {
-	// IE7 needs a set width since we gave a height. Restricting just
-	// to IE7 to keep the 1px left/right space in other browsers.
-	// It is unclear where IE is getting the extra space that we need
-	// to negative-margin away, but so it goes.
-	*width: 100%;
-	height: 1px;
-	margin: ($baseLineHeight * 0.45) 1px; // 8px 1px
-	*margin: -5px 0 5px;
-	overflow: hidden;
-	background-color: $top;
-	border-bottom: 1px solid $bottom;
+    // IE7 needs a set width since we gave a height. Restricting just
+    // to IE7 to keep the 1px left/right space in other browsers.
+    // It is unclear where IE is getting the extra space that we need
+    // to negative-margin away, but so it goes.
+    *width: 100%;
+    height: 1px;
+    margin: ($baseLineHeight * 0.45) 1px; // 8px 1px
+    *margin: -5px 0 5px;
+    overflow: hidden;
+    background-color: $top;
+    border-bottom: 1px solid $bottom;
 }
 
 
@@ -1123,7 +1148,7 @@ $default-transition-delay    : 0s;
 // Vertically center elements in the navbar.
 // Example: an element has a height of 30px, so write out `.navbarVerticalAlign(30px);` to calculate the appropriate top margin.
 @mixin navbarVerticalAlign($elementHeight) {
-	margin-top: ($navbarHeight - $elementHeight) / 2;
+    margin-top: ($navbarHeight - $elementHeight) / 2;
 }
 
 
@@ -1144,21 +1169,21 @@ $default-transition-delay    : 0s;
 
 // Table columns
 @mixin tableColumns($columnSpan: 1) {
-	float: none; // undo default grid column styles
-	width: (($gridColumnWidth) * $columnSpan) + ($gridGutterWidth * ($columnSpan - 1)) - 16; // 16 is total padding on left and right of table cells
-	margin-left: 0; // undo default grid column styles
+    float: none; // undo default grid column styles
+    width: (($gridColumnWidth) * $columnSpan) + ($gridGutterWidth * ($columnSpan - 1)) - 16; // 16 is total padding on left and right of table cells
+    margin-left: 0; // undo default grid column styles
 }
 
 // Make a Grid
 // Use .makeRow and .makeColumn to assign semantic layouts grid system behavior
 @mixin makeRow() {
-	margin-left: $gridGutterWidth * -1;
-	@include clearfix();
+    margin-left: $gridGutterWidth * -1;
+    @include clearfix();
 }
 @mixin makeColumn($columns: 1, $offset: 0) {
-	float: left;
-	margin-left: ($gridColumnWidth * $offset) + ($gridGutterWidth * ($offset - 1)) + ($gridGutterWidth * 2);
-	width: ($gridColumnWidth * $columns) + ($gridGutterWidth * ($columns - 1));
+    float: left;
+    margin-left: ($gridColumnWidth * $offset) + ($gridGutterWidth * ($offset - 1)) + ($gridGutterWidth * 2);
+    width: ($gridColumnWidth * $columns) + ($gridGutterWidth * ($columns - 1));
 }
 
 
@@ -1168,18 +1193,18 @@ $default-transition-delay    : 0s;
 // ----------------------------------
 @mixin grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth, $numColumns: $gridColumns, $whichGrid: "", $mobileGridClass: "") {
 
-	$spanName: "span" !default;
-	@if ($whichGrid == "m"){ $spanName: "m-span"; }
+    $spanName: "span" !default;
+    @if ($whichGrid == "m"){ $spanName: "m-span"; }
 
-	@if ($whichGrid == "m"){
-	  #{$mobileGridClass}.grid.show-grid [class*="m-span"]{
-	    background:#556 !important;
-	  }
-	}
+    @if ($whichGrid == "m"){
+      #{$mobileGridClass}.grid.show-grid [class*="m-span"]{
+        background:#556 !important;
+      }
+    }
 
-	$gridName: "grid" !default;
-	@if ($whichGrid == "slim"){ $gridName: "slimgrid"; }
-	@else if ($whichGrid == "slim5"){ $gridName: "slimgrid5"; }
+    $gridName: "grid" !default;
+    @if ($whichGrid == "slim"){ $gridName: "slimgrid"; }
+    @else if ($whichGrid == "slim5"){ $gridName: "slimgrid5"; }
 
     @if ($whichGrid == "m"){
         #{$mobileGridClass}.grid,
@@ -1209,106 +1234,107 @@ $default-transition-delay    : 0s;
             @include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
         }
     } @else {
-    	.#{$gridName} {
-    		@include clearfix();
+        .#{$gridName},
+        .grid .#{$gridName} {
+            @include clearfix();
 
-    		[class*=#{$spanName}] {
-    			// @include input-block-level();
+            [class*=#{$spanName}] {
+                // @include input-block-level();
           display: block;
           width: auto;
-    			float: left;
-    			margin-left: $fluidGridGutterWidth;
-    			*margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
+                float: left;
+                margin-left: $fluidGridGutterWidth;
+                *margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
 
-    			&:first-child{
-    				margin-left: 0;
-    			}
-    			@if ($whichGrid == "m"){
-    				&.m-span-new-row{
-    					margin-left: 0;
-    				}
-    			}
-    		}
-    		// generate .spanX and .offsetX
-    		@include grid-fluid-span-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
-    		@include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
-    	}
+                &:first-child{
+                    margin-left: 0;
+                }
+                @if ($whichGrid == "m"){
+                    &.m-span-new-row{
+                        margin-left: 0;
+                    }
+                }
+            }
+            // generate .spanX and .offsetX
+            @include grid-fluid-span-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
+            @include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
+        }
     }
 }
 
 @mixin grid-fluid-span-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid) {
 
-	$spanName: "span" !default;
-	@if ($whichGrid == "m"){ $spanName: "m-span"; }
+    $spanName: "span" !default;
+    @if ($whichGrid == "m"){ $spanName: "m-span"; }
 
-	@while $gridColumns > 0 {
-		.#{$spanName}#{$gridColumns} { @include grid-fluid-span($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-		$gridColumns: $gridColumns - 1;
-	}
+    @while $gridColumns > 0 {
+        .#{$spanName}#{$gridColumns} { @include grid-fluid-span($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+        $gridColumns: $gridColumns - 1;
+    }
 
-	// TODO: THIS SHOULD WORK (CJM)
-	// .grid .#{$spanName}#{$gridColumns} {
-	// 	margin-left:0; // if you're using a full-width column (span12 in a 12-column grid) it should never have a left margin.
-	// }
+    // TODO: THIS SHOULD WORK (CJM)
+    // .grid .#{$spanName}#{$gridColumns} {
+    //  margin-left:0; // if you're using a full-width column (span12 in a 12-column grid) it should never have a left margin.
+    // }
 
 }
 
 @mixin grid-fluid-offset-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid) {
 
-	$offsetName: "offset" !default;
-	@if ($whichGrid == "m"){ $offsetName: "m-offset"; }
+    $offsetName: "offset" !default;
+    @if ($whichGrid == "m"){ $offsetName: "m-offset"; }
 
-	@while $gridColumns > 0 {
-		.#{$offsetName}#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-		.#{$offsetName}#{$gridColumns}:first-child { @include grid-fluid-offset-first-child($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+    @while $gridColumns > 0 {
+        .#{$offsetName}#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+        .#{$offsetName}#{$gridColumns}:first-child { @include grid-fluid-offset-first-child($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
 
-		@if ($whichGrid == "m"){
-			.#{$offsetName}#{$gridColumns}.m-span-new-row { @include grid-fluid-offset-first-child($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-		}
+        @if ($whichGrid == "m"){
+            .#{$offsetName}#{$gridColumns}.m-span-new-row { @include grid-fluid-offset-first-child($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+        }
 
-		$gridColumns: $gridColumns - 1;
-	}
+        $gridColumns: $gridColumns - 1;
+    }
 }
 // @mixin grid-fluid-offset-x-reset($gridColumns, $whichGrid, $mobileGridClass) {
 
-// 	$offsetName: "offset" !default;
-// 	@if ($whichGrid == "m"){ $offsetName: "m-offset"; }
+//  $offsetName: "offset" !default;
+//  @if ($whichGrid == "m"){ $offsetName: "m-offset"; }
 
-// 	$gridName: "grid" !default;
-// 	@if ($whichGrid == "slim"){ $gridName: "slimgrid"; }
-// 	@else if ($whichGrid == "slim5"){ $gridName: "grid5, .slimgrid5"; }
-// 	.#{$gridName} {
-// 		@while $gridColumns > 0 {
+//  $gridName: "grid" !default;
+//  @if ($whichGrid == "slim"){ $gridName: "slimgrid"; }
+//  @else if ($whichGrid == "slim5"){ $gridName: "grid5, .slimgrid5"; }
+//  .#{$gridName} {
+//      @while $gridColumns > 0 {
 
-// 			// this first one was disabled, I'm not sure why.
-// 			// .offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+//          // this first one was disabled, I'm not sure why.
+//          // .offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
 
-// 			// this second one was enabled but I overrode it (below) with a cross between the one above, and the custom $offsetName for mobile.
-// 			// .#{$offsetName}#{$gridColumns}:first-child {
-// 			// 	margin-left:0;
-// 			// }
-// 			.#{$offsetName}#{$gridColumns}:first-child { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+//          // this second one was enabled but I overrode it (below) with a cross between the one above, and the custom $offsetName for mobile.
+//          // .#{$offsetName}#{$gridColumns}:first-child {
+//          //  margin-left:0;
+//          // }
+//          .#{$offsetName}#{$gridColumns}:first-child { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
 
-// 			@if ($whichGrid == "m"){
-// 				.#{$offsetName}#{$gridColumns}.m-span-new-row { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-// 			}
+//          @if ($whichGrid == "m"){
+//              .#{$offsetName}#{$gridColumns}.m-span-new-row { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+//          }
 
-// 			$gridColumns: $gridColumns - 1;
-// 		}
-// 	}
+//          $gridColumns: $gridColumns - 1;
+//      }
+//  }
 // }
 
 @mixin grid-fluid-span($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
-	width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1));
-	*width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%);
+    width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1));
+    *width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%);
 }
 @mixin grid-fluid-offset($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
-	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth * 2);
-	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + ($fluidGridGutterWidth * 2) - (.5 / $gridWidth * 100px * 1%);
+    margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth * 2);
+    *margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + ($fluidGridGutterWidth * 2) - (.5 / $gridWidth * 100px * 1%);
 }
 @mixin grid-fluid-offset-first-child($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
-	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth);
-	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
+    margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth);
+    *margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
 }
 
 // full-bleed-padded is necessary when you need the element to be 100% wide (full-bleed) for background or borders,
@@ -1488,45 +1514,45 @@ $default-transition-delay    : 0s;
 // ----------------------------------
 @mixin grid-core($gridColumnWidth, $gridGutterWidth, $numColumns: $gridColumns) {
 
-	[class*="span"] {
-		float: left;
-		min-height: 1px; // prevent collapsing columns
-		margin-left: $gridGutterWidth;
-	}
+    [class*="span"] {
+        float: left;
+        min-height: 1px; // prevent collapsing columns
+        margin-left: $gridGutterWidth;
+    }
 
-	// Set the container width, and override it for fixed navbars in media queries
-	.container-px-width,
-	.navbar-static-top .container-px-width,
-	.navbar-fixed-top .container-px-width,
-	.navbar-fixed-bottom .container-px-width {
-		@include grid-core-span($numColumns, $gridColumnWidth, $gridGutterWidth);
-	}
+    // Set the container width, and override it for fixed navbars in media queries
+    .container-px-width,
+    .navbar-static-top .container-px-width,
+    .navbar-fixed-top .container-px-width,
+    .navbar-fixed-bottom .container-px-width {
+        @include grid-core-span($numColumns, $gridColumnWidth, $gridGutterWidth);
+    }
 
-	// generate .spanX and .offsetX
-	@include grid-core-span-x($numColumns, $gridColumnWidth, $gridGutterWidth);
-	@include grid-core-offset-x($numColumns, $gridColumnWidth, $gridGutterWidth);
+    // generate .spanX and .offsetX
+    @include grid-core-span-x($numColumns, $gridColumnWidth, $gridGutterWidth);
+    @include grid-core-offset-x($numColumns, $gridColumnWidth, $gridGutterWidth);
 }
 
 @mixin grid-core-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
-	@while $gridColumns > 0 {
-		.span#{$gridColumns} { @include grid-core-span($gridColumns, $gridColumnWidth, $gridGutterWidth)}
-		$gridColumns: $gridColumns - 1;
-	}
+    @while $gridColumns > 0 {
+        .span#{$gridColumns} { @include grid-core-span($gridColumns, $gridColumnWidth, $gridGutterWidth)}
+        $gridColumns: $gridColumns - 1;
+    }
 }
 
 @mixin grid-core-offset-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
-	@while $gridColumns > 0 {
-		.offset#{$gridColumns} { @include grid-core-offset($gridColumns, $gridColumnWidth, $gridGutterWidth); }
-		$gridColumns: $gridColumns - 1;
-	}
+    @while $gridColumns > 0 {
+        .offset#{$gridColumns} { @include grid-core-offset($gridColumns, $gridColumnWidth, $gridGutterWidth); }
+        $gridColumns: $gridColumns - 1;
+    }
 }
 
 @mixin grid-core-span($columns, $gridColumnWidth, $gridGutterWidth) {
-	width: ($gridColumnWidth * $columns) + ($gridGutterWidth * ($columns - 1));
+    width: ($gridColumnWidth * $columns) + ($gridGutterWidth * ($columns - 1));
 }
 
 @mixin grid-core-offset($columns, $gridColumnWidth, $gridGutterWidth) {
-	margin-left: ($gridColumnWidth * $columns) + ($gridGutterWidth * ($columns + 1));
+    margin-left: ($gridColumnWidth * $columns) + ($gridGutterWidth * ($columns + 1));
 }
 
 
@@ -1535,32 +1561,32 @@ $default-transition-delay    : 0s;
 // INPUT GRID - I believe the grid-input is just for fixed-width-grids.
 // ----------------------------------
 @mixin grid-input($gridColumnWidth, $gridGutterWidth) {
-	input,
-	textarea,
-	.uneditable-input {
-		margin-left: 0; // override margin-left from core grid system
-	}
+    input,
+    textarea,
+    .uneditable-input {
+        margin-left: 0; // override margin-left from core grid system
+    }
 
-	// Space grid-sized controls properly if multiple per line
-	.controls-row [class*="span"] + [class*="span"] {
-		margin-left: $gridGutterWidth;
-	}
+    // Space grid-sized controls properly if multiple per line
+    .controls-row [class*="span"] + [class*="span"] {
+        margin-left: $gridGutterWidth;
+    }
 
-	// generate .spanX
-	// @include grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth);
+    // generate .spanX
+    // @include grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth);
 }
 // @mixin grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
-// 	@while $gridColumns > 0 {
-// 		input.span#{$gridColumns},
-// 		textarea.span#{$gridColumns},
-// 		.uneditable-input.span#{$gridColumns} {
-// 			@include grid-input-span($gridColumns, $gridColumnWidth, $gridGutterWidth);
-// 		}
-// 		$gridColumns: $gridColumns - 1;
-// 	}
+//  @while $gridColumns > 0 {
+//      input.span#{$gridColumns},
+//      textarea.span#{$gridColumns},
+//      .uneditable-input.span#{$gridColumns} {
+//          @include grid-input-span($gridColumns, $gridColumnWidth, $gridGutterWidth);
+//      }
+//      $gridColumns: $gridColumns - 1;
+//  }
 // }
 // @mixin grid-input-span($columns, $gridColumnWidth, $gridGutterWidth) {
-// 	width: (($gridColumnWidth) * $columns) + ($gridGutterWidth * ($columns - 1)) - 14;
+//  width: (($gridColumnWidth) * $columns) + ($gridGutterWidth * ($columns - 1)) - 14;
 // }
 
 
@@ -1569,86 +1595,86 @@ $default-transition-delay    : 0s;
 
 
 @mixin lightGrayInset( $backgroundColor: $gray70 ) {
-	background: $backgroundColor;
-  	@include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
+    background: $backgroundColor;
+    @include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
 }
 
 
 // Custom (not from Bootstrap) --CJM
 // quickly set the width & height. If only 1 val is passed in, it sets both to the same
 @mixin wh($w,$h:null) {
-	width: $w;
-	@if ($h == null) {
-		height: $w;
-	} @else{
-		height: $h;
-	}
+    width: $w;
+    @if ($h == null) {
+        height: $w;
+    } @else{
+        height: $h;
+    }
 }
 // quickly set absolute position, and top/left parameters. If only 1 val is passed in, it sets both to the same
 @mixin xy($x, $y:null) {
-	position: absolute;
-	left: $x;
-	@if($y == null){
-		top: $x;
-	} @else{
-		top: $y;
-	}
+    position: absolute;
+    left: $x;
+    @if($y == null){
+        top: $x;
+    } @else{
+        top: $y;
+    }
 }
 // quickly set absolute position, and top/left parameters
 @mixin whxy($w,$h,$x,$y) {
-	position: absolute;
-	left: $x;
-	top: $y;
-	width: $w;
-	height: $h;
+    position: absolute;
+    left: $x;
+    top: $y;
+    width: $w;
+    height: $h;
 }
 
 @mixin squareCentered($width) {
-	display: block;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: $width;
-	height: $width;
-	margin: (-$width / 2) 0 0 (-$width / 2);
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: $width;
+    height: $width;
+    margin: (-$width / 2) 0 0 (-$width / 2);
 }
 @mixin circleCentered($dia) {
-	@include squareCentered($dia);
-	@include border-radius($dia / 2);
+    @include squareCentered($dia);
+    @include border-radius($dia / 2);
 }
 
 // set up an element to be centered horizontally & vertically within its parent, using negative margins
 @mixin center-hv($widthHeight, $height: null) {
-	position: absolute;
-	width: $widthHeight;
-	@if ($height == null) {
-		height: $widthHeight;
-	} @else {
-		height: $height;
-	}
-	margin: 0;
-	margin-left: -$widthHeight/2; // mixins don't understand when there's 2 zeros next to each other, as in: -5px 0px 0px -5px, so these need to be explicitly set.
-	@if ($height == null) {
-		margin-top: -$widthHeight/2;
-	} @else {
-		margin-top: -$height/2;
-	}
-	top: 50%;
-	left: 50%;
+    position: absolute;
+    width: $widthHeight;
+    @if ($height == null) {
+        height: $widthHeight;
+    } @else {
+        height: $height;
+    }
+    margin: 0;
+    margin-left: -$widthHeight/2; // mixins don't understand when there's 2 zeros next to each other, as in: -5px 0px 0px -5px, so these need to be explicitly set.
+    @if ($height == null) {
+        margin-top: -$widthHeight/2;
+    } @else {
+        margin-top: -$height/2;
+    }
+    top: 50%;
+    left: 50%;
 }
 
 @mixin pseudoEl-block($w: 50px, $h: 50px) {
-	content: '';
-	display: block;
-	position: absolute;
-	width: $w;
-	height: $h;
+    content: '';
+    display: block;
+    position: absolute;
+    width: $w;
+    height: $h;
 }
 @mixin pseudoEl-inline-block($w: 50px, $h: 50px) {
-	content: '';
-	display: inline-block;
-	width: $w;
-	height: $h;
+    content: '';
+    display: inline-block;
+    width: $w;
+    height: $h;
 }
 
 
@@ -1656,15 +1682,15 @@ $default-transition-delay    : 0s;
 // A ghost element used to vertically center something
 // http://css-tricks.com/centering-in-the-unknown/
 @mixin ghost( $child: 'ghost-center' ) {
-	font-size: 0;
+    font-size: 0;
 
-	&:before {
-		content: '';
-		display: inline-block;
-		vertical-align: middle;
-		width: 0;
-		height: 100%;
-	}
+    &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        width: 0;
+        height: 100%;
+    }
 
     .#{$child} {
       display: inline-block;
@@ -1691,14 +1717,14 @@ $default-transition-delay    : 0s;
 
 // deactivate the touch / hold
 @mixin noTouchHold{
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
 }
 
 @mixin borderBox{
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 @mixin debugAfter{
@@ -1797,42 +1823,36 @@ $default-transition-delay    : 0s;
   // Moved these styles into type.scss to be usable globally
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*    ________    _______  __ ________  __    ______   ____  ____ _  __    __  _______  ____  ________ 
-	   / ____/ /   / ____/ |/ //  _/ __ )/ /   / ____/  / __ )/ __ \ |/ /   /  |/  / __ \/ __ \/ ____/ / 
-	  / /_  / /   / __/  |   / / // __  / /   / __/    / __  / / / /   /   / /|_/ / / / / / / / __/ / /  
-	 / __/ / /___/ /___ /   |_/ // /_/ / /___/ /___   / /_/ / /_/ /   |   / /  / / /_/ / /_/ / /___/ /___
-	/_/   /_____/_____//_/|_/___/_____/_____/_____/  /_____/\____/_/|_|  /_/  /_/\____/_____/_____/_____/
-*/	                                                                                                     
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//     ________    _______  __ ________  __    ______   ____  ____ _  __    __  _______  ____  ________
+//    / ____/ /   / ____/ |/ //  _/ __ )/ /   / ____/  / __ )/ __ \ |/ /   /  |/  / __ \/ __ \/ ____/ /
+//   / /_  / /   / __/  |   / / // __  / /   / __/    / __  / / / /   /   / /|_/ / / / / / / / __/ / /
+//  / __/ / /___/ /___ /   |_/ // /_/ / /___/ /___   / /_/ / /_/ /   |   / /  / / /_/ / /_/ / /___/ /___
+// /_/   /_____/_____//_/|_/___/_____/_____/_____/  /_____/\____/_/|_|  /_/  /_/\____/_____/_____/_____/
 
-@mixin flex-ratio-box( $width, $height , $horizontal: true) {
-
-	$px: unquote("px");
-	$lt-ie: unquote("lt-ie10");
+@mixin flex-ratio-box( $width, $height, $horizontal: true ) {
+  $px: unquote("px");
 
   position: relative;
   height: 0;
   padding-bottom: ( ( $height / $width ) * 100 ) + unquote("%");
-  overflow:hidden;
-  
-  //IE Fallbacks
-   .#{ $lt-ie } & {
+  overflow: hidden;
+
+  // IE Fallbacks
+/*   .lt-ie10 & {
     width: $width + $px;
     height: $height + $px;
     padding-bottom: 0;
-  }
-  
+  } */
+
 }
 
-@mixin flex-ratio-box-content(){
+@mixin flex-ratio-box-content() {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  
 }
 
 

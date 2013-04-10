@@ -7,6 +7,8 @@
 @import "_base/navbar-simple";
 @import "_base/navs-simple";
 
+@import "_components/sony-carousel";
+
 // root dokuwiki styles
 @import "_wiki/lib/all";
 @import "_wiki/lib/feed";
@@ -36,6 +38,7 @@
 @import "_wiki/tpl/pagetools";
 @import "_wiki/tpl/print";
 @import "_wiki/tpl/structure";
+@import "_wiki/tpl/sidebar";
 
 
 
@@ -64,7 +67,7 @@ p,h1,h2,h3,h4,h5,h6 {
   letter-spacing:0;
 }
 
-p{ 
+p, ol {
   @include px-em--font-size--line-height(13,18);
   margin-bottom: 12px;
   color: #83838f;
@@ -84,7 +87,7 @@ h2{
   font-weight:bold;
 }
 h3{
-  @include px-em--font-size--line-height(16,20);
+  @include px-em--font-size--line-height(22,20);
   margin-top:30px;
   text-transform: none;
   font-weight:bold;
@@ -104,10 +107,55 @@ h5{
   font-weight:bold;
   margin-bottom: 12px;
 }
-
-#main {
-  width:1000px;
+ol {
+  list-style: decimal;
 }
+
+#main,
+.wikiNav > .container,
+#dokuwiki__header > .container,
+#dokuwiki__page_title > .container {
+  max-width:1200px;
+  min-width:1050px;
+
+  .primaryNav > ul{
+    margin:0;
+  }
+}
+
+#dokuwiki__header{
+  background:#FFFFDD;
+}
+
+
+#dokuwiki__page_title{
+  background:$linkColor;
+  padding:43px 0 55px;
+
+  h6{
+    font-family:arial, sans-serif;
+    text-transform:uppercase;
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:6px;
+
+  }
+  h1{
+    font-family:arial, sans-serif;
+    text-transform:capitalize;
+    font-size:38px;
+    font-weight:bold;
+    color:$white;
+    margin:0;
+  }
+}
+
+#dokuwiki__content,
+#sidebar{
+  margin-top: 40px;
+}
+
+
 
 .jumbotron {
   position: relative;
@@ -127,6 +175,64 @@ h5{
 
 
 
+.wrap_caption { font-size:11px; }
+
+.wrap_fontsize9 { font-size:9px; }
+.wrap_fontsize10{ font-size:10px; }
+.wrap_fontsize11{ font-size:11px; }
+.wrap_fontsize12{ font-size:12px; }
+.wrap_fontsize13{ font-size:13px; }
+.wrap_fontsize14{ font-size:14px; }
+.wrap_fontsize15{ font-size:15px; }
+.wrap_fontsize16{ font-size:16px; }
+.wrap_fontsize17{ font-size:17px; }
+.wrap_fontsize18{ font-size:18px; }
+.wrap_fontsize19{ font-size:19px; }
+.wrap_fontsize20{ font-size:20px; }
+.wrap_fontsize22{ font-size:22px; }
+.wrap_fontsize24{ font-size:24px; }
+.wrap_fontsize26{ font-size:26px; }
+.wrap_fontsize28{ font-size:28px; }
+.wrap_fontsize30{ font-size:30px; }
+.wrap_fontsize32{ font-size:32px; }
+.wrap_fontsize34{ font-size:34px; }
+.wrap_fontsize36{ font-size:36px; }
+.wrap_fontsize38{ font-size:38px; }
+.wrap_fontsize40{ font-size:40px; }
+// reset the paragraphs inside the custom fontsize divs.
+.wrap_caption p,
+.wrap_fontsize9 p,
+.wrap_fontsize10 p,
+.wrap_fontsize11 p,
+.wrap_fontsize12 p,
+.wrap_fontsize13 p,
+.wrap_fontsize14 p,
+.wrap_fontsize15 p,
+.wrap_fontsize16 p,
+.wrap_fontsize17 p,
+.wrap_fontsize18 p,
+.wrap_fontsize19 p,
+.wrap_fontsize20 p,
+.wrap_fontsize22 p,
+.wrap_fontsize24 p,
+.wrap_fontsize26 p,
+.wrap_fontsize28 p,
+.wrap_fontsize30 p,
+.wrap_fontsize32 p,
+.wrap_fontsize34 p,
+.wrap_fontsize36 p,
+.wrap_fontsize38 p,
+.wrap_fontsize40 p{
+  font-size:1em;
+}
+
+.wrap_indent2{ padding-left:2px; }
+.wrap_indent5{ padding-left:5px; }
+.wrap_indent10{ padding-left:10px; }
+.wrap_indent20{ padding-left:20px; }
+.wrap_indent30{ padding-left:30px; }
+.wrap_indent40{ padding-left:40px; }
+.wrap_indent50{ padding-left:50px; }
 
 
 /* Code in headings */
@@ -199,7 +305,7 @@ body > .simple-navbar .brand:hover {
 /* padding for in-page bookmarks and fixed navbar */
 section {
   padding-top:30px;
-  padding-bottom: 60px;  
+  padding-bottom: 60px;
   border-top:solid 1px #e4e4e6;
   @include clearfix;
 }
@@ -496,7 +602,7 @@ hr.soften {
 }
 .bs-docs-main-content:not(.span9){
   float:left;
-  width:76%;  
+  width:76%;
 };
 
 
@@ -695,10 +801,10 @@ h2 + .grid-px-width {
 .col-33{
   float:left;
   width:32%;
-  margin-right:2%; 
+  margin-right:2%;
   &:nth-child(3n+0){
     margin-right:0;
-  }   
+  }
 }
 @media (min-width: 1024px) {
   .col-50{
@@ -1273,7 +1379,7 @@ form.bs-docs-example {
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
-  }  
+  }
 }
 
 /* Tablet to desktop
@@ -1628,10 +1734,16 @@ form.bs-docs-example {
     padding:1px 0;
 
     .show-grid {
-      margin:2px auto;
+      margin: 2px auto;
+      padding: 2px;
       @include border-radius(0);
       background:rgba(255,234,0,0.4) !important;
       border:solid 1px rgba(255,234,0,0.6);
+
+      &.slimgrid{
+        background:      rgba(255,175,0,0.4) !important;
+        border:solid 1px rgba(255,175,0,0.6);        
+      }
     }
 
     .container,
@@ -1670,7 +1782,7 @@ form.bs-docs-example {
     //   }
     // }
   }
-  
+
 
 
   &.docs-page-structure-page-max{
@@ -1689,7 +1801,7 @@ form.bs-docs-example {
     }
 
     .container{
-      margin:1px auto;  
+      margin:1px auto;
       z-index:1;
     }
     .container.full-bleed{
@@ -1713,11 +1825,11 @@ form.bs-docs-example {
 
   &.grid-examples{
     .docs-page-structure-main{
-      background:lighten($blue,30%);
+      // background:lighten($blue,30%);
 
       .show-grid{
-        background:rgba(255,234,0,0.1) !important;
-        border:solid 1px rgba(255,234,0,0.7);
+        // background:rgba(255,234,0,0.1) !important;
+        // border:solid 1px rgba(255,234,0,0.7);
       }
     }
   }
@@ -1745,7 +1857,7 @@ form.bs-docs-example {
 
   #small-screens-section > p,
   #overview > .container > p{
-    max-width: 425px;    
+    max-width: 425px;
   }
   #small-screens-section > p:not(.p4) {
     font-size:0.8em;
