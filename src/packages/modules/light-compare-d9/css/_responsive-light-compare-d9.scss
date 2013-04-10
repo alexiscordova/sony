@@ -1,0 +1,35 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$desktopMin: px-em(980);
+
+@media (max-width:$phoneMax) {
+  .mobile-hd {
+    position: relative;
+    padding: 18px 0 40px 3.125%;
+    margin-bottom: 22px;
+    -webkit-box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.18);
+    -moz-box-shadow:    0px 3px 10px rgba(0, 0, 0, 0.18);
+    box-shadow:         0px 3px 10px rgba(0, 0, 0, 0.18);
+    .mobile-hd-txt {
+      float: left;
+    }
+    .modal-close {
+      position: absolute;
+      right: 0;
+      top: 11px;
+    }
+  }
+  .light-compare {
+    width: 100%;
+    background: $white;
+    .light-compare-hd {
+      width: 85%;
+      margin-bottom: 27px;
+    }
+  }
+
+}
