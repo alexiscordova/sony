@@ -93,7 +93,7 @@ define(function(require){
           self.$scrubber.addClass('dragging');
           setTimeout(function(){
             self.$scrubber.removeClass('dragging');
-          }, 150);
+          }, 100);
         }
       });
 

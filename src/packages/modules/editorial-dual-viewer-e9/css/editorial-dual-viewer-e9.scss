@@ -74,13 +74,9 @@
 
       &.dragging .handle,
       .handle:hover {
-        padding:4px;
-
         .inner {
-          width:54px;
-          height:54px;
+          @include scale(1.174);
           background:$gray40;
-          margin:-27px 0 0 -27px;
         }
           i {margin:0 3px;}
       }
@@ -93,14 +89,13 @@
         width: 62px;
         height: 62px;
         background:url('../../img/editorial-dual-viewer-e9/gray30.png');
-        padding:8px;
         cursor:pointer;
-        @include border-radius(100px);
-        @include transition(.15s);
+        @include border-radius(50%);
+        @include transition(.1s);
 
         &.hoverOn {
           .inner,
-          i {@include transition(.15s ease-in);}
+          i {@include transition(.1s ease-in);}
         }
       }
         .inner {
@@ -114,8 +109,8 @@
           top:50%;
           left:50%;
           margin:-23px 0 0 -23px;
-          @include border-radius(100px);
-          @include transition(.15s ease-out);
+          @include border-radius(50%);
+          @include transition(.1s ease-out);
         }
           .icons {
             position:absolute;
@@ -129,7 +124,7 @@
               display:inline-block;
               margin:0;
               -webkit-font-smoothing: antialiased;
-              @include transition(.15s ease-out);
+              @include transition(.1s ease-out);
             } 
   }
 

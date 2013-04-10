@@ -66,10 +66,14 @@ define(function(require){
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$pagination          = null;
 
+
+      self.desktopAnimSpeed     = 500;
+      self.tabletAnimSpeed      = 300;
+      self.mobileAnimSpeed      = 250;
+
       self.hasThumbs            = self.$thumbNav.length > 0;
       self.numSlides            = self.$slides.length;
       self.currentId            = 0;
-
 
       // Inits the module
       self.init();
@@ -82,6 +86,8 @@ define(function(require){
       // Initalize the module
       init : function( param ) {
         var self = this;
+
+        console.log('pdp-slideshow-d4.js init');
 
         if(!window.console){
           window.console = {};
@@ -134,7 +140,8 @@ define(function(require){
           useCSS3: self.useCSS3,
           paddles: true,
           pagination: true,
-          $paddleWrapper: self.$el
+          $paddleWrapper: self.$el,
+          CSS3easingEquation: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)'
         });
 
         self.$pagination = self.$el.find('.pagination-bullets');
@@ -152,7 +159,7 @@ define(function(require){
         self.currentId = currIndx;
         self.setCurrentActiveThumb();
 
-        iQ.update();
+        setTimeout( iQ.update , 250 );
       },
 
 
@@ -166,6 +173,7 @@ define(function(require){
           self.isDesktopMode = true;
           self.showThumbNav();
           self.toggleDotNav(true); //hide
+          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
         });
 
         enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
@@ -173,6 +181,7 @@ define(function(require){
           self.isTabletMode = true;
           self.hideThumbNav();
           self.toggleDotNav(false); //show
+          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.tabletAnimSpeed );
         });
 
         enquire.register("(max-width: 568px)", function() {
@@ -180,6 +189,7 @@ define(function(require){
           self.isMobileMode = true;
           self.hideThumbNav();
           self.toggleDotNav(false); //show
+          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.mobileAnimSpeed );
         });
 
       }
@@ -189,6 +199,7 @@ define(function(require){
           self.isDesktopMode = true;
           self.showThumbNav();
           self.toggleDotNav(true); //hide
+          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
           
         }
 
