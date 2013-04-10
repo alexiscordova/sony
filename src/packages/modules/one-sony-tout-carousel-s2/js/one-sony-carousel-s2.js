@@ -30,15 +30,17 @@ define(function(require){
 
   var OneSonyCarousel = function(element){
 
-    var self = this;
-
-    self.$el = $(element);
-    self.$container = self.$el.find('.st-container');
-    self.$innerContainer = self.$container.find('.st-container-inner');
-    self.$slides = self.$container.find('.st-content');
-
-    self.currentSlide = 0;
-    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
+    var self              = this;
+    
+    self.$el              = $(element);
+    self.$container       = self.$el.find('.st-container');
+    self.$innerContainer  = self.$container.find('.st-container-inner');
+    self.$slides          = self.$container.find('.st-content');
+    self.desktopAnimSpeed = 500;
+    self.tabletAnimSpeed  = 300;
+    self.mobileAnimSpeed  = 250;
+    self.currentSlide     = 0;
+    self.useCSS3          = Modernizr.csstransforms && Modernizr.csstransitions;
 
     self.init();
 
@@ -74,12 +76,15 @@ define(function(require){
 
         enquire.register("(min-width: 780px)", function() {
           self.renderDesktop();
+          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
         });
         enquire.register("(min-width: 480px) and (max-width: 779px)", function() {
           self.renderEvenColumns(6);
+          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.tabletAnimSpeed );
         });
         enquire.register("(max-width: 479px)", function() {
           self.renderEvenColumns(12);
+          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.mobileAnimSpeed );
         });
 
       } else {

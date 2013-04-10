@@ -55,19 +55,22 @@ mixin toutcopy(copyobject, titleclass, subtitleclass, bodyclass)
   span.toutcopy
     +copyblock(copyobject, titleclass, subtitleclass, bodyclass)
 
-mixin copyblock(copyobject, titleclass, subtitleclass, bodyclass)
+mixin copyblock(copyobject, titleclass, subtitleclass, bodyclass, linkclass)
   copyobject = copyobject || data
   titleclass = titleclass || "t2"
   subtitleclass = subtitleclass || "t6"
   bodyclass = bodyclass || "p2"
-  if copyobject.title
-    h2(class = titleclass) !{copyobject.title}
-  if copyobject.subtitle
-    h3(class = subtitleclass) !{copyobject.subtitle}
-  if copyobject.body
-    p(class = bodyclass) !{copyobject.body}
-  if copyobject.link
-    a(class = copyobject.link.type, href= copyobject.link.url) !{copyobject.link.text}
+  .copy
+    if copyobject.title
+      h2(class = titleclass) !{copyobject.title}
+    if copyobject.subtitle
+      h3(class = subtitleclass) !{copyobject.subtitle}
+    if copyobject.body
+      p(class = bodyclass) !{copyobject.body}
+  .link
+    if copyobject.link
+      linktextsize = copyobject.link.type == "text" ? "lt3" : ""
+      a(class = copyobject.link.type, href= copyobject.link.url)(class = linktextsize) !{copyobject.link.text}
 
 mixin textonlylayout(layout)
   layout = layout || data.layout
