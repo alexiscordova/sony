@@ -76,15 +76,15 @@ define(function(require){
 
         enquire.register("(min-width: 780px)", function() {
           self.renderDesktop();
-          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
+          self.$innerContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
         });
         enquire.register("(min-width: 480px) and (max-width: 779px)", function() {
           self.renderEvenColumns(6);
-          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.tabletAnimSpeed );
+          self.$innerContainer.sonyCarousel( 'setAnimationSpeed' , self.tabletAnimSpeed );
         });
         enquire.register("(max-width: 479px)", function() {
           self.renderEvenColumns(12);
-          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.mobileAnimSpeed );
+          self.$innerContainer.sonyCarousel( 'setAnimationSpeed' , self.mobileAnimSpeed );
         });
 
       } else {
