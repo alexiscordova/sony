@@ -31,31 +31,13 @@ define(function(require){
 
     init: function() {
       window.console && console.time && console.timeEnd('parsing');
-      if ( $('.gallery').length > 0 ) {
-        // Initialize galleries
-        $('.gallery').each(function() {
-          var $this = $(this);
-
-          // Stagger gallery initialization
-          setTimeout(function() {
-            var id = $this.attr('id').substring( 0, $this.attr('id').lastIndexOf('-') );
-            window.console && console.time && console.time( id );
-            $this.gallery( $this.data() );
-            window.console && console.timeEnd && console.timeEnd( id );
-          }, 0);
-        });
-
-        // Instantiate accessory finders
-        $('.af-module').each(function( i, el ) {
-          setTimeout(function() {
-            new AccessoryFinder( el );
-          }, 0);
-        });
+      if ( $('.gallery').length > 0 || $('.af-module').length > 0 ) {
 
         // Register for tab show(n) events here because not all tabs are galleries
         $('[data-tab]')
-          .on('show', module.onGalleryTabShow )
-          .on('shown', module.onGalleryTabShown );
+          .on( 'show', module.onGalleryTabShow )
+          .on( 'shown', module.onGalleryTabShown )
+          .on( 'alreadyshown', module.onGalleryTabAlreadyShown );
 
         // Initialize sticky tabs
         requestAnimationFrame(function() {
@@ -69,13 +51,6 @@ define(function(require){
 
           // Should be called after everything is initialized
           $(window).trigger('hashchange');
-
-          // Disable hidden galleries.
-          // Using a timeout here because the tab shown event is triggered at the end of the transition,
-          // which depends on how long the page takes to load (and if the browser has transitions)
-          setTimeout(function() {
-            $('.tab-pane:not(.active) .gallery').gallery('disable');
-          }, 500);
         }, 16);
 
       }
@@ -2789,7 +2764,6 @@ define(function(require){
 
     $.extend( self, AccessoryFinder.options, options, AccessoryFinder.settings );
 
-
     self.$container = $( element );
 
     // Defer initialization
@@ -3067,8 +3041,11 @@ define(function(require){
       }
     },
 
-    onModalShown : function() {
+    onModalShown : function( evt ) {
       var self = this;
+
+      // Stop event from bubbling up to the tabs
+      evt.stopPropagation();
 
       self.initShuffle();
 
@@ -3081,8 +3058,11 @@ define(function(require){
       self.$modalBody.on( 'scroll', $.proxy( self.onModalBodyScroll, self ) );
     },
 
-    onModalClosed : function() {
+    onModalClosed : function( evt ) {
       var self = this;
+
+      // Stop event from bubbling up to the tabs
+      evt.stopPropagation();
 
       self.shuffle.destroy();
 
@@ -3145,6 +3125,32 @@ define(function(require){
     $window: Settings.$window
   };
 
+  module.initializer = function( $pane ) {
+
+    // Initialize galleries
+    $pane.find('.gallery').each(function() {
+      var $this = $(this);
+
+      // Stagger gallery initialization
+      setTimeout(function() {
+        var id = $this.attr('id').substring( 0, $this.attr('id').lastIndexOf('-') );
+        window.console && console.time && console.time( id );
+        $this.gallery( $this.data() );
+        window.console && console.timeEnd && console.timeEnd( id );
+      }, 0);
+    });
+
+    // Instantiate accessory finders
+    $pane.find('.af-module').each(function( i, el ) {
+      setTimeout(function() {
+        new AccessoryFinder( el );
+      }, 0);
+    });
+  };
+
+  module.onGalleryTabAlreadyShown = function( evt ) {
+    module.initializer( $( this ) );
+  };
 
   // Event triggered when the previous tab/pane is about to be hidden
   module.onGalleryTabShow = function( evt ) {
@@ -3173,11 +3179,15 @@ define(function(require){
       var gallery = $(this).data('gallery');
 
       // If there are active filters, remove them.
-      if ( gallery.hasActiveFilters() ) {
-        gallery.removeActiveFilters();
+      if ( gallery && gallery.isInitialized ) {
+
+        if ( gallery.hasActiveFilters() ) {
+          gallery.removeActiveFilters();
+        }
+
+        gallery.disable();
       }
 
-      gallery.disable();
     });
 
     $prevPane = null;
@@ -3187,24 +3197,9 @@ define(function(require){
   // Event triggered when the next tab/pane is finished being shown
   module.onGalleryTabShown = function( evt ) {
     // Only continue if this is a tab shown event.
-    var $pane,
-        $galleries;
-
-    // Get the $pane variable from the evt
-    if ( evt ) {
-      $pane = evt.pane;
-      if ( evt.pane ) {
-        $pane = evt.pane;
-      } else if ( evt.originalEvent && evt.originalEvent.pane ) {
-        $pane = evt.originalEvent.pane;
-      } else {
-        $pane = false;
-      }
-    }
-
-    if ( !evt || !$pane ) {
-      return;
-    }
+    var $pane = $( this ),
+        $galleries,
+        needsInit = false;
 
     // Get all galleries in this tab pane
     $galleries = $pane.find('.gallery');
@@ -3214,21 +3209,42 @@ define(function(require){
 
     // Loop through each gallery in this tab pane to enable it and update the carousels
     $galleries.each(function() {
-      var gallery = $(this).data('gallery'),
-          $collapse = gallery.$container.find('[data-toggle="collapse"]');
+      var $gallery = $( this ),
+          gallery = $gallery.data('gallery'),
+          $collapse;
 
       // Enable all galleries in this tab
-      if ( gallery ) {
+      if ( gallery && gallery.isInitialized ) {
+        $collapse = gallery.$container.find('[data-toggle="collapse"]');
+
         requestAnimationFrame(function() {
           gallery.enable();
         });
+
+      // Gallery isn't initialized, lets create a new one
+      } else {
+        needsInit = true;
       }
 
       // Slide up the collapsable if it's visible. This CANNOT be done in the `show` event
-      if ( $collapse.length && !$collapse.hasClass('collapsed') ) {
+      if ( $collapse && $collapse.length && !$collapse.hasClass('collapsed') ) {
         $collapse.trigger('click');
       }
     });
+
+    if ( !needsInit && $pane.find('.af-module').length ) {
+      needsInit = true;
+    }
+
+    // Create galleries or accessory finders for this pane
+    if ( needsInit ) {
+      module.initializer( $pane );
+    }
+
+    // Galleries hide the loader themselves. Otherwise it needs to be hidden manually.
+    if ( !$galleries.length ) {
+      module.hideGalleryLoader();
+    }
 
     $galleries = null;
     $pane = null;
