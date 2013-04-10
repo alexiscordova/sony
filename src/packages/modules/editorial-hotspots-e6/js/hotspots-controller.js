@@ -558,11 +558,6 @@ define(function(require) {
         
         // begin fade out
         self.transition( info.find('.overlay-inner'),  'off' );
-        /*
-self.transition( info.find('.top'),     'off' );
-        self.transition( info.find('.middle'),  'off' );
-        self.transition( info.find('.footer'),  'off' );
-*/
         
         // closure to allow script to set display:none when transition is complete
         var anon = function() {
@@ -577,7 +572,6 @@ self.transition( info.find('.top'),     'off' );
         
         // kill the underlay if we're in minified mode
         if( true === self.showOverlayCentered ) {
-          log('clozilla');
           $( '.hspot-underlay' ).addClass( 'hidden' );          
         }
     },
