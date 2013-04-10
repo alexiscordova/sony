@@ -73,7 +73,7 @@
       color:$white;
 
       &.dragging .handle,
-      .handle:hover {
+      &.dragging2 .handle {
         .inner {
           @include scale(1.174);
           background:$gray40;
@@ -92,11 +92,6 @@
         cursor:pointer;
         @include border-radius(50%);
         @include transition(.1s);
-
-        &.hoverOn {
-          .inner,
-          i {@include transition(.1s ease-in);}
-        }
       }
         .inner {
           position:absolute;
@@ -260,14 +255,14 @@
 
       .inner {visibility:hidden;}
     }
-    .edv-images .scrubber .handle:hover,
-    .dragging .handle {background-position:-62px 0;}
+    .dragging .handle,
+    .dragging2 .handle {background-position:-62px 0;}
     
     &.y .edv-images .scrubber .handle {
       background-position:0 -62px;
     }
-    &.y .edv-images .scrubber .handle:hover,
-    &.y .dragging .handle {background-position:-62px -62px;}
+    &.y .dragging .handle,
+    &.y .dragging2 .handle {background-position:-62px -62px;}
   }
 }
 

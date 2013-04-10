@@ -159,7 +159,10 @@ cache the new interaction's start position, then bind for movement onto onScrubb
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Do a final check on acceleration before returning data in dragEnd.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       self.setAcceleration(e);
 
-      self.$el.removeClass(<span class="string">'dragging'</span>);
+      setTimeout(<span class="keyword">function</span>(){
+        self.$el.removeClass(<span class="string">'dragging dragging2'</span>);    
+      }, <span class="number">250</span>);
+      
       self.isScrubbing = self.hasPassedThreshold = <span class="literal">false</span>;
 
       self.$el.trigger(<span class="string">'sonyDraggable:dragEnd'</span>, {
