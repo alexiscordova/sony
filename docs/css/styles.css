@@ -4458,8 +4458,8 @@ button.close {
   top: 0;
   right: 0;
   display: block;
-  width: 2.6875em;
-  height: 2.5em;
+  width: 2.375em;
+  height: 2.125em;
   padding: 0;
   line-height: 1;
   background: #83838f;
@@ -4482,10 +4482,11 @@ button.close {
 .box-close-small {
   width: 1.375em;
   height: 1.375em;
-  top: 0;
+  line-height: 0.375em;
 }
-/* line 67, ../../src/packages/common/css/_base/_close.scss */
+/* line 66, ../../src/packages/common/css/_base/_close.scss */
 .box-close-small i {
+  font-size: 0.75em;
   vertical-align: bottom;
 }
 
@@ -6396,13 +6397,14 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   -webkit-transition: 0.3s ease-in;
   transition: 0.3s ease-in;
   cursor: pointer;
+  -webkit-font-smoothing: antialiased;
 }
-/* line 217, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 219, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle:hover {
   background-color: #2f353d;
   background-color: rgba(33, 37, 48, 0.8);
 }
-/* line 222, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 224, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle i {
   width: 15px;
   height: 15px;
@@ -6411,11 +6413,11 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   margin-left: auto;
   margin-right: auto;
 }
-/* line 229, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 231, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle.left {
   left: 10px;
 }
-/* line 233, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 235, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle.right {
   right: 10px;
 }
@@ -8470,17 +8472,18 @@ ul.jump-links li {
   margin: 0 0 0 1.4375em;
   padding: 0;
   float: left;
+  line-height: 1;
 }
-/* line 53, ../../src/packages/common/css/_shared/_all.scss */
+/* line 54, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links li:first-child {
   margin-left: 0;
 }
-/* line 57, ../../src/packages/common/css/_shared/_all.scss */
+/* line 61, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links a {
   display: block;
   margin-bottom: 0;
   padding-right: 6px;
-  padding-bottom: 10px;
+  padding-bottom: 13px;
   padding-left: 6px;
   line-height: 1;
   color: #2f353d;
@@ -8489,29 +8492,29 @@ ul.jump-links a {
   -webkit-transition: 0.15s ease-out;
   transition: 0.15s ease-out;
 }
-/* line 69, ../../src/packages/common/css/_shared/_all.scss */
+/* line 73, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch ul.jump-links li:hover a {
-  color: #5787f4;
+  color: #44506e;
 }
-/* line 74, ../../src/packages/common/css/_shared/_all.scss */
+/* line 78, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch ul.jump-links li:hover a,
 ul.jump-links .active a {
   -webkit-box-shadow: inset 0 -4px 0 #5887f5;
   box-shadow: inset 0 -4px 0 #5887f5;
 }
-/* line 79, ../../src/packages/common/css/_shared/_all.scss */
+/* line 83, ../../src/packages/common/css/_shared/_all.scss */
 .no-boxshadow ul.jump-links a, .sonytablets ul.jump-links a {
   -webkit-box-shadow: none;
   box-shadow: none;
-  padding-bottom: 6px;
+  padding-bottom: 9px;
   border-bottom: 4px solid transparent;
 }
-/* line 87, ../../src/packages/common/css/_shared/_all.scss */
+/* line 91, ../../src/packages/common/css/_shared/_all.scss */
 .no-boxshadow.no-touch ul.jump-links li:hover a, .no-boxshadow ul.jump-links .active a, .sonytablets ul.jump-links .active a {
   border-bottom-color: #5887f5;
 }
 
-/* line 93, ../../src/packages/common/css/_shared/_all.scss */
+/* line 97, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-nav {
   position: fixed;
   z-index: 200;
@@ -8531,7 +8534,7 @@ ul.jump-links .active a {
   -ms-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-/* line 112, ../../src/packages/common/css/_shared/_all.scss */
+/* line 116, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-nav.open {
   left: 0;
   -webkit-transform: translate(0, 0);
@@ -8542,22 +8545,22 @@ ul.jump-links .active a {
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 120, ../../src/packages/common/css/_shared/_all.scss */
+/* line 124, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-header-open .sticky-nav {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 124, ../../src/packages/common/css/_shared/_all.scss */
+/* line 128, ../../src/packages/common/css/_shared/_all.scss */
 .no-boxshadow .sticky-nav {
   border-bottom: 1px solid #e4e7eb;
 }
 
-/* line 135, ../../src/packages/common/css/_shared/_all.scss */
+/* line 139, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.detailed {
   margin: 3.125em 0 0;
 }
 
-/* line 154, ../../src/packages/common/css/_shared/_all.scss */
+/* line 158, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item {
   position: relative;
   display: block;
@@ -8565,25 +8568,25 @@ ul.jump-links .active a {
   overflow: hidden;
   background: white;
 }
-/* line 166, ../../src/packages/common/css/_shared/_all.scss */
+/* line 170, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item:focus .product-img, .no-touch .gallery-item .product-img:hover {
   background-color: #e8edf3;
 }
-/* line 170, ../../src/packages/common/css/_shared/_all.scss */
+/* line 174, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item:after {
   content: '';
   display: block;
   padding-top: 165.196%;
 }
-/* line 177, ../../src/packages/common/css/_shared/_all.scss */
+/* line 181, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item {
   height: 17.25em;
 }
-/* line 182, ../../src/packages/common/css/_shared/_all.scss */
+/* line 186, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item:after {
   padding-top: 169.396078%;
 }
-/* line 186, ../../src/packages/common/css/_shared/_all.scss */
+/* line 190, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .gallery-item-inner {
   position: absolute;
   top: 0;
@@ -8591,7 +8594,7 @@ ul.jump-links .active a {
   left: 0;
   right: 0;
 }
-/* line 196, ../../src/packages/common/css/_shared/_all.scss */
+/* line 200, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img {
   position: relative;
   width: 100%;
@@ -8601,17 +8604,17 @@ ul.jump-links .active a {
   -webkit-transition: background-color 0.15s ease-out;
   transition: background-color 0.15s ease-out;
 }
-/* line 204, ../../src/packages/common/css/_shared/_all.scss */
+/* line 208, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img:after {
   content: '';
   display: block;
   padding-top: 107.84314%;
 }
-/* line 210, ../../src/packages/common/css/_shared/_all.scss */
+/* line 214, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item .product-img {
   height: 11.3125em;
 }
-/* line 214, ../../src/packages/common/css/_shared/_all.scss */
+/* line 218, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img .product-img-wrap {
   position: absolute;
   top: 0;
@@ -8619,44 +8622,44 @@ ul.jump-links .active a {
   left: 0;
   right: 0;
 }
-/* line 222, ../../src/packages/common/css/_shared/_all.scss */
+/* line 226, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img img {
   display: block;
   max-height: 100%;
   max-width: 100%;
   margin: auto;
 }
-/* line 234, ../../src/packages/common/css/_shared/_all.scss */
+/* line 238, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.large {
   height: 35.625em;
 }
-/* line 237, ../../src/packages/common/css/_shared/_all.scss */
+/* line 241, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.large .product-img {
   height: 29.6875em;
 }
-/* line 242, ../../src/packages/common/css/_shared/_all.scss */
+/* line 246, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large:after {
   padding-top: 105.92705167173253%;
 }
-/* line 246, ../../src/packages/common/css/_shared/_all.scss */
+/* line 250, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .product-img:after {
   padding-top: 88.14589665653495%;
 }
-/* line 251, ../../src/packages/common/css/_shared/_all.scss */
+/* line 255, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie9 .gallery-item.large .js-item-carousel {
   width: 33.625em;
   height: 29.6875em;
 }
-/* line 257, ../../src/packages/common/css/_shared/_all.scss */
+/* line 261, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .slide {
   float: left;
   max-width: 100%;
 }
-/* line 265, ../../src/packages/common/css/_shared/_all.scss */
+/* line 269, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .pagination-bullets {
   bottom: 5.6390977%;
 }
-/* line 270, ../../src/packages/common/css/_shared/_all.scss */
+/* line 274, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-prev,
 .gallery-item.large .nav-paddle-next {
   position: absolute;
@@ -8664,39 +8667,39 @@ ul.jump-links .active a {
   top: 50%;
   margin-top: -1.625em;
 }
-/* line 277, ../../src/packages/common/css/_shared/_all.scss */
+/* line 281, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-prev {
   left: 3.75%;
 }
-/* line 281, ../../src/packages/common/css/_shared/_all.scss */
+/* line 285, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-next {
   right: 3.75%;
 }
-/* line 291, ../../src/packages/common/css/_shared/_all.scss */
+/* line 295, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.large:after {
   padding-top: 165.196%;
 }
-/* line 296, ../../src/packages/common/css/_shared/_all.scss */
+/* line 300, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.large .product-img:after {
   padding-top: 107.84314%;
 }
-/* line 301, ../../src/packages/common/css/_shared/_all.scss */
+/* line 305, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item.large:after {
   padding-top: 105.3%;
 }
-/* line 305, ../../src/packages/common/css/_shared/_all.scss */
+/* line 309, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item.large .product-img:after {
   padding-top: 87%;
 }
-/* line 313, ../../src/packages/common/css/_shared/_all.scss */
+/* line 317, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate:after {
   padding-top: 59.190255%;
 }
-/* line 317, ../../src/packages/common/css/_shared/_all.scss */
+/* line 321, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.plate:after {
   padding-top: 77.790255%;
 }
-/* line 321, ../../src/packages/common/css/_shared/_all.scss */
+/* line 325, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate .product-content {
   position: absolute;
   top: 0;
@@ -8705,16 +8708,16 @@ ul.jump-links .active a {
   height: 100%;
   text-align: left;
 }
-/* line 330, ../../src/packages/common/css/_shared/_all.scss */
+/* line 334, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate .product-img {
   height: 100%;
 }
-/* line 334, ../../src/packages/common/css/_shared/_all.scss */
+/* line 338, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate img {
   max-height: none;
   max-width: none;
 }
-/* line 339, ../../src/packages/common/css/_shared/_all.scss */
+/* line 343, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate div.iq-img {
   width: 100%;
   height: 100%;
@@ -8722,19 +8725,19 @@ ul.jump-links .active a {
   background-position: center center;
   background-size: cover;
 }
-/* line 351, ../../src/packages/common/css/_shared/_all.scss */
+/* line 355, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.promo {
   height: 17.25em;
 }
-/* line 354, ../../src/packages/common/css/_shared/_all.scss */
+/* line 358, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.promo .product-img {
   height: 11.3125em;
 }
-/* line 359, ../../src/packages/common/css/_shared/_all.scss */
+/* line 363, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo:after {
   padding-top: 78.19025522041764%;
 }
-/* line 364, ../../src/packages/common/css/_shared/_all.scss */
+/* line 368, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo div.iq-img {
   position: absolute;
   top: 0;
@@ -8745,7 +8748,7 @@ ul.jump-links .active a {
   background-position: center center;
   background-size: cover;
 }
-/* line 376, ../../src/packages/common/css/_shared/_all.scss */
+/* line 380, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .label {
   position: absolute;
   z-index: 10;
@@ -8754,7 +8757,7 @@ ul.jump-links .active a {
   margin: 0;
 }
 
-/* line 389, ../../src/packages/common/css/_shared/_all.scss */
+/* line 393, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-tooltip i {
   position: relative;
   top: -1px;
@@ -8762,13 +8765,13 @@ ul.jump-links .active a {
   padding-left: 2px;
 }
 
-/* line 402, ../../src/packages/common/css/_shared/_all.scss */
+/* line 406, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .color-swatches {
   position: absolute;
   right: .875em;
   bottom: .6875em;
 }
-/* line 408, ../../src/packages/common/css/_shared/_all.scss */
+/* line 412, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .favorite-holder {
   position: absolute;
   left: 0;
@@ -8786,22 +8789,22 @@ ul.jump-links .active a {
 .no-touch .gallery-item.promo .gallery-item-inner:hover .iq-img {
   opacity: 0.9;
 }
-/* line 433, ../../src/packages/common/css/_shared/_all.scss */
+/* line 437, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .gallery-item.promo .gallery-item-inner .promo-title i {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
-/* line 437, ../../src/packages/common/css/_shared/_all.scss */
+/* line 441, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .gallery-item.promo .gallery-item-inner:hover .promo-title i {
   -webkit-transform: translate(0.375em, 0);
   -ms-transform: translate(0.375em, 0);
   transform: translate(0.375em, 0);
 }
-/* line 441, ../../src/packages/common/css/_shared/_all.scss */
+/* line 445, ../../src/packages/common/css/_shared/_all.scss */
 .no-csstransforms .no-touch .gallery-item.promo .gallery-item-inner:hover .promo-title i {
   left: 6px;
 }
-/* line 447, ../../src/packages/common/css/_shared/_all.scss */
+/* line 451, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo .product-content {
   position: absolute;
   top: 0;
@@ -8810,7 +8813,7 @@ ul.jump-links .active a {
   height: 100%;
   text-align: left;
 }
-/* line 457, ../../src/packages/common/css/_shared/_all.scss */
+/* line 461, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo .product-img {
   position: absolute;
   top: 0;
@@ -8818,66 +8821,66 @@ ul.jump-links .active a {
   height: 100%;
   padding: 10.129032% 10.6060606% 10.967742%;
 }
-/* line 465, ../../src/packages/common/css/_shared/_all.scss */
+/* line 469, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo img {
   max-height: none;
   max-width: none;
 }
 
-/* line 471, ../../src/packages/common/css/_shared/_all.scss */
+/* line 475, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content {
   position: relative;
   height: 100%;
   text-align: left;
 }
-/* line 476, ../../src/packages/common/css/_shared/_all.scss */
+/* line 480, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title {
   margin: 0;
 }
-/* line 479, ../../src/packages/common/css/_shared/_all.scss */
+/* line 483, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title i {
   position: relative;
   top: -0.1875em;
   left: 0.125em;
 }
-/* line 487, ../../src/packages/common/css/_shared/_all.scss */
+/* line 491, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title .title,
 .gallery-item .promo-content .promo-title .emphasis {
   color: white;
 }
-/* line 491, ../../src/packages/common/css/_shared/_all.scss */
+/* line 495, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title .emphasis {
   color: #2f353d;
 }
-/* line 496, ../../src/packages/common/css/_shared/_all.scss */
+/* line 500, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .text-count {
   position: absolute;
   bottom: 0;
   margin: 0;
 }
-/* line 503, ../../src/packages/common/css/_shared/_all.scss */
+/* line 507, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .text-count span {
   color: white;
 }
 
-/* line 529, ../../src/packages/common/css/_shared/_all.scss */
+/* line 533, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-detailed .gallery-item:after {
   padding-top: 140%;
 }
-/* line 533, ../../src/packages/common/css/_shared/_all.scss */
+/* line 537, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-detailed .gallery-item {
   height: 25.375em;
 }
-/* line 536, ../../src/packages/common/css/_shared/_all.scss */
+/* line 540, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-detailed .gallery-item .product-img {
   height: 13.8125em;
 }
-/* line 541, ../../src/packages/common/css/_shared/_all.scss */
+/* line 545, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-detailed .product-img:after {
   padding-top: 76.05633802816901%;
 }
 
-/* line 569, ../../src/packages/common/css/_shared/_all.scss */
+/* line 573, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label strong {
   display: inline-block;
   max-width: 100%;
@@ -8885,17 +8888,17 @@ ul.jump-links .active a {
   text-overflow: ellipsis;
 }
 
-/* line 576, ../../src/packages/common/css/_shared/_all.scss */
+/* line 580, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap {
   position: relative;
   z-index: 5;
   height: 100%;
 }
-/* line 581, ../../src/packages/common/css/_shared/_all.scss */
+/* line 585, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie9 .detail-labels-wrap {
   margin-left: 0;
 }
-/* line 586, ../../src/packages/common/css/_shared/_all.scss */
+/* line 590, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap:before {
   content: '';
   position: absolute;
@@ -8908,7 +8911,7 @@ ul.jump-links .active a {
   -webkit-transition: box-shadow 0.15s ease-in;
   transition: box-shadow 0.15s ease-in;
 }
-/* line 600, ../../src/packages/common/css/_shared/_all.scss */
+/* line 604, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap.overflowing:before {
   -webkit-box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
   box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
@@ -8916,7 +8919,7 @@ ul.jump-links .active a {
   transition-timing-function: ease-out;
 }
 
-/* line 608, ../../src/packages/common/css/_shared/_all.scss */
+/* line 612, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrapping {
   -webkit-transform: translate(-0.625em, 0);
   -ms-transform: translate(-0.625em, 0);
@@ -8925,7 +8928,7 @@ ul.jump-links .active a {
   -webkit-transition: opacity 0.2s ease-out 0.1s, -webkit-transform 0.2s ease-out 0.1s;
   transition: opacity 0.2s ease-out 0.1s, transform 0.2s ease-out 0.1s;
 }
-/* line 614, ../../src/packages/common/css/_shared/_all.scss */
+/* line 618, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrapping.complete {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
@@ -8933,18 +8936,18 @@ ul.jump-links .active a {
   opacity: 1;
 }
 
-/* line 620, ../../src/packages/common/css/_shared/_all.scss */
+/* line 624, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label-group {
   position: absolute;
 }
 
-/* line 625, ../../src/packages/common/css/_shared/_all.scss */
+/* line 629, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
 }
 
-/* line 631, ../../src/packages/common/css/_shared/_all.scss */
+/* line 635, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail,
 .detail-labels-wrapping .product-count-wrap {
   position: relative;
@@ -8952,7 +8955,7 @@ ul.jump-links .active a {
   padding-bottom: 30px;
   margin-bottom: 0;
 }
-/* line 639, ../../src/packages/common/css/_shared/_all.scss */
+/* line 643, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail:after,
 .detail-labels-wrapping .product-count-wrap:after {
   content: '';
@@ -8964,7 +8967,7 @@ ul.jump-links .active a {
   background: #d2d2db;
 }
 
-/* line 652, ../../src/packages/common/css/_shared/_all.scss */
+/* line 656, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail-label:after,
 .detail-labels-wrapping .product-count-wrap:after {
   left: 0;
@@ -8972,7 +8975,7 @@ ul.jump-links .active a {
   background: #d2d2db;
 }
 
-/* line 661, ../../src/packages/common/css/_shared/_all.scss */
+/* line 665, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header {
   position: absolute;
   z-index: 10;
@@ -8985,16 +8988,16 @@ ul.jump-links .active a {
   -webkit-transition: top 0.2s ease-in, left 0s 0.2s;
   transition: top 0.2s ease-in, left 0s 0.2s;
 }
-/* line 673, ../../src/packages/common/css/_shared/_all.scss */
+/* line 677, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header:not(.sticky-count) {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
   box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
 }
-/* line 678, ../../src/packages/common/css/_shared/_all.scss */
+/* line 682, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-headers .compare-sticky-header {
   margin: 0;
 }
-/* line 683, ../../src/packages/common/css/_shared/_all.scss */
+/* line 687, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header.open {
   left: 0;
   top: 0;
@@ -9003,7 +9006,7 @@ ul.jump-links .active a {
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 692, ../../src/packages/common/css/_shared/_all.scss */
+/* line 696, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header.sticky-count:before {
   content: '';
   position: absolute;
@@ -9017,17 +9020,17 @@ ul.jump-links .active a {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
   box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
 }
-/* line 705, ../../src/packages/common/css/_shared/_all.scss */
+/* line 709, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header .media .pull-left {
   max-width: 90px;
   margin-right: 4px;
 }
-/* line 710, ../../src/packages/common/css/_shared/_all.scss */
+/* line 714, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header .product-name {
   color: #2f353d;
 }
 
-/* line 715, ../../src/packages/common/css/_shared/_all.scss */
+/* line 719, ../../src/packages/common/css/_shared/_all.scss */
 .compare-box {
   display: inline-block;
   padding: 11px 12px;
@@ -9036,41 +9039,41 @@ ul.jump-links .active a {
   background: #2f353d;
 }
 
-/* line 741, ../../src/packages/common/css/_shared/_all.scss */
+/* line 745, ../../src/packages/common/css/_shared/_all.scss */
 .spec-single,
 .spec-multi {
   margin-top: 4.375em;
 }
-/* line 744, ../../src/packages/common/css/_shared/_all.scss */
+/* line 748, ../../src/packages/common/css/_shared/_all.scss */
 .spec-single dt,
 .spec-multi dt {
   margin-bottom: 0;
 }
 
-/* line 749, ../../src/packages/common/css/_shared/_all.scss */
+/* line 753, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title-wrap {
   position: relative;
   margin-bottom: 1.25em;
 }
 
-/* line 754, ../../src/packages/common/css/_shared/_all.scss */
+/* line 758, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title {
   margin: 0;
   font-size: 2.25em;
 }
 
-/* line 759, ../../src/packages/common/css/_shared/_all.scss */
+/* line 763, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title-link {
   color: #4572ed;
 }
 
-/* line 766, ../../src/packages/common/css/_shared/_all.scss */
+/* line 770, ../../src/packages/common/css/_shared/_all.scss */
 .spec-sticky-nav .sticky-nav-title {
-  margin-top: 17px;
-  margin-bottom: 2px;
+  margin-top: 22px;
+  margin-bottom: 10px;
   line-height: .9;
 }
-/* line 772, ../../src/packages/common/css/_shared/_all.scss */
+/* line 776, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-header-open .spec-sticky-nav .sticky-nav-title:after {
   content: '';
   position: absolute;
@@ -9081,38 +9084,38 @@ ul.jump-links .active a {
   top: 100%;
 }
 
-/* line 800, ../../src/packages/common/css/_shared/_all.scss */
+/* line 804, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tiles-wrap {
   margin-top: 3.75em;
   margin-bottom: 9.375em;
 }
-/* line 804, ../../src/packages/common/css/_shared/_all.scss */
+/* line 808, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tiles-wrap .features-title {
   margin-bottom: 0;
   padding-bottom: 12px;
   border-bottom: 3px solid #e4e7eb;
 }
 
-/* line 811, ../../src/packages/common/css/_shared/_all.scss */
+/* line 815, ../../src/packages/common/css/_shared/_all.scss */
 .container .spec-tiles .spec-tile {
   margin-left: 0;
 }
 
-/* line 815, ../../src/packages/common/css/_shared/_all.scss */
+/* line 819, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile {
   margin-top: 1.5em;
   background: #f1f5f9;
 }
-/* line 819, ../../src/packages/common/css/_shared/_all.scss */
+/* line 823, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .tile-content {
   padding: 1.875em 2.5em 2.75em 1.875em;
 }
-/* line 824, ../../src/packages/common/css/_shared/_all.scss */
+/* line 828, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .tile-title {
   margin-top: 0;
 }
 
-/* line 830, ../../src/packages/common/css/_shared/_all.scss */
+/* line 834, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .iq-img {
   width: 100%;
   height: auto;

@@ -69,11 +69,14 @@ define(function(require){
       sonyPaddles = require('secondary/sony-paddles'),
       sonyNavigationDots = require('secondary/sony-navigationdots');
 
+  var _id = 0;
+
   var SonyCarousel = function($element, options){
     var self = this;
 
     $.extend(self, {}, $.fn.sonyCarousel.defaults, options, $.fn.sonyCarousel.settings);
 
+    self.id = _id++;
     self.$el = $element;
     self.$wrapper = self.$el.parent(self.wrapper);
 
@@ -92,7 +95,7 @@ define(function(require){
       self.setupLinkClicks();
       self.setupDraggable();
 
-      Environment.on('global:resizeDebounced-200ms', function(){
+      Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function(){
         self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
       });
 
@@ -129,7 +132,7 @@ define(function(require){
       self.currentSlide = 0;
 
       if ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.450, 0.735, 0.445, 0.895)');
+        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3easingEquation);
       }
 
       self.$el.sonyDraggable({
@@ -411,9 +414,22 @@ define(function(require){
       });
     },
 
+    // Manually allow to set animation speed, e.g. different breakpoints
+    setAnimationSpeed: function(milliscnds){
+      var self = this;
+      self.animationSpeed = milliscnds;
+
+      console.log( 'setting new animation speed ' , milliscnds);
+    },
+
+    // Manually allow to set CSS transition speed, e.g. different breakpoints
+    setCSS3easingEquation: function(bezierStr){
+      var self = this;
+      self.CSS3easingEquation = bezierStr || self.CSS3easingEquation;
+    },
+
     // To prevent drags from being misinterpreted as clicks, we only redirect the user
     // if their interaction time and movements are below certain thresholds.
-
     setupLinkClicks: function() {
 
       var self = this,
@@ -468,16 +484,24 @@ define(function(require){
       }
     },
 
+    // Reset the style attribute for the properties we might have manipulated.
+    // Destroy the plugins we've initialized as part of the carousel.
+
     destroy: function() {
 
       var self = this,
           $paddleWrapper = self.$paddleWrapper || self.$wrapper;
 
       // Reset styles.
-      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '');
-      self.$el.css(Modernizr.prefixed('transitionDuration'), '' );
-      self.$el.css(Modernizr.prefixed('transform'), '');
-      self.$el.css('left', '');
+      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '')
+          .css(Modernizr.prefixed('transitionDuration'), '' )
+          .css(Modernizr.prefixed('transform'), '')
+          .css('left', '');
+
+      // Unbind
+      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
+      self.$el.off('sonyDraggable:dragStart');
+      self.$el.off('sonyDraggable:dragEnd');
 
       // Destroy all plugins.
       self.$el.sonyDraggable('destroy');
@@ -550,7 +574,10 @@ define(function(require){
     cloneClass: 'sony-carousel-edge-clone',
 
     // Speed of slide animation, in ms.
-    animationSpeed: 450,
+    animationSpeed: 500,
+
+    //default CSS3 easing equation
+    CSS3easingEquation: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)',
 
     // Which direction the carousel moves in. Plugin currently only supports 'x'.
     axis: 'x',
