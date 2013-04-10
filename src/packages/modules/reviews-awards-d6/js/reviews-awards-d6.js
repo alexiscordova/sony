@@ -100,7 +100,8 @@ define(function(require){
         wrapper: '.raa-user-reviews-carousel',
         slides: '.user-ratings, .raa-social-mention',
         useCSS3: self.useCSS3,
-        pagination: true
+        pagination: true,
+        $dotNavWrapper: self.$el.find('.raa-user-reviews-carousel')
       });
 
       self.$expertReviewCarousel = self.$el.find('.raa-expert-reviews .reviews > div').sonyCarousel({
