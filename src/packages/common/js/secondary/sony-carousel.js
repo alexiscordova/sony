@@ -78,6 +78,7 @@ define(function(require){
 
     $.extend(self, {}, $.fn.sonyCarousel.defaults, options, $.fn.sonyCarousel.settings);
 
+    self.currentSlide = 0;
     self.id = _id++;
     self.$el = $element;
     self.$wrapper = self.$el.parent(self.wrapper);
@@ -95,7 +96,14 @@ define(function(require){
 
       self.resetSlides();
       self.setupLinkClicks();
-      self.setupDraggable();
+
+      if ( self.draggable ) {
+        self.setupDraggable();
+      }
+
+      if ( self.useCSS3 ) {
+        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3easingEquation);
+      }
 
       Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function(){
         self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
@@ -129,7 +137,19 @@ define(function(require){
 
     setupDraggable: function() {
 
-  
+      var self = this;
+
+      self.$el.sonyDraggable({
+        'axis': self.axis,
+        'unit': self.unit,
+        'dragThreshold': self.dragThreshold,
+        'containment': self.$wrapper,
+        'useCSS3': self.useCSS3,
+        'drag': iQ.update
+      });
+
+      self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
+      self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
     },
 
     // Stop animations that were ongoing when you started to drag.
@@ -543,6 +563,9 @@ define(function(require){
     // If a selector is specified, the matched anchor's href will be the default click for any point
     // in the slideChildren set.
     defaultLink: undefined,
+
+    // Should this be draggable? True for most carousels, so default on.
+    draggable: true,
 
     // Should this carousel seamlessly loop from end to end?
     looped: false,

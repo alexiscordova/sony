@@ -99,7 +99,8 @@ define(<span class="keyword">function</span>(require){
         wrapper: <span class="string">'.raa-user-reviews-carousel'</span>,
         slides: <span class="string">'.user-ratings, .raa-social-mention'</span>,
         useCSS3: self.useCSS3,
-        pagination: <span class="literal">true</span>
+        pagination: <span class="literal">true</span>,
+        $dotNavWrapper: self.$el.find(<span class="string">'.raa-user-reviews-carousel'</span>)
       });
 
       self.$expertReviewCarousel = self.$el.find(<span class="string">'.raa-expert-reviews .reviews &gt; div'</span>).sonyCarousel({

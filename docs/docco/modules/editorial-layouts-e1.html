@@ -53,7 +53,6 @@ define(<span class="keyword">function</span>(require){
         }
         
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
-        console.log(heightGroup);
         <span class="keyword">if</span>(heightGroup.length &gt;<span class="number">0</span>){
           heightGroup.evenHeights();
         }
@@ -109,7 +108,6 @@ define(<span class="keyword">function</span>(require){
           self.resize();
           Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.resize, self));
         }
-        
         log(<span class="string">'SONY : Editorial : Initialized'</span>);
       }
     };
