@@ -76,15 +76,15 @@ define(<span class="keyword">function</span>(require){
 
         enquire.register(<span class="string">"(min-width: 780px)"</span>, <span class="keyword">function</span>() {
           self.renderDesktop();
-          self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.desktopAnimSpeed );
+          self.$innerContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.desktopAnimSpeed );
         });
         enquire.register(<span class="string">"(min-width: 480px) and (max-width: 779px)"</span>, <span class="keyword">function</span>() {
           self.renderEvenColumns(<span class="number">6</span>);
-          self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.tabletAnimSpeed );
+          self.$innerContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.tabletAnimSpeed );
         });
         enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
           self.renderEvenColumns(<span class="number">12</span>);
-          self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.mobileAnimSpeed );
+          self.$innerContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.mobileAnimSpeed );
         });
 
       } <span class="keyword">else</span> {
