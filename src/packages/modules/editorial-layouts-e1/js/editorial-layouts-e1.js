@@ -57,7 +57,6 @@ define(function(require){
         
         //fixes heights of tout copy across 2up 3up
         var heightGroup = self.col.find('.copy');
-        console.log(heightGroup);
         if(heightGroup.length >0){
           heightGroup.evenHeights();
         }
@@ -114,7 +113,6 @@ define(function(require){
           self.resize();
           Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         }
-        
         log('SONY : Editorial : Initialized');
       }
     };
