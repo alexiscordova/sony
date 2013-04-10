@@ -2,9 +2,9 @@
 @import "../../../common/css/_base/mixins";
 
 $outerStroke: 8px;
-$innerDiameter: 71.428571428571%; /* 40px */
+$innerDiameter: 40px; /* 71.428571428571%; */ /* 40px */
 $centerRatio: (28.571428571429% / 2);
-$indicatorRatio: 35%; /* 14px / 40px = 35% */
+$indicatorRatio: 14px; /* 35%; */ /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
 $transitionSpeed: .5s;
@@ -105,8 +105,10 @@ $transitionSpeed: .5s;
           position: absolute;
           top: 0px;
           right: 0px;
+          /*
           width: 27px;
           height: 27px;
+          */
         }
       }
     }
@@ -246,6 +248,7 @@ $transitionSpeed: .5s;
     -moz-transition:$indicatorRotateSpeed;
     -webkit-transition:$indicatorRotateSpeed;
     transition:$indicatorRotateSpeed;
+    transition-property: none;
     z-index: 1;
     &:hover {
       background-color: $buttonOrangeHover;
@@ -277,6 +280,8 @@ $transitionSpeed: .5s;
     -moz-transition: $indicatorRotateSpeed;
     -webkit-transition: $indicatorRotateSpeed;
     transition: $indicatorRotateSpeed;
+    transition-property: none;
+    -ms-transform: scale(1, 1);    
     z-index: 1;
     &:hover {
       background-color: $gray30;
@@ -298,11 +303,6 @@ $transitionSpeed: .5s;
 /*DETAILS WINDOW*/
 
 .overlay-base {
-/* THIS IS WHACKED WITH THE NEW FADEOUT, HAVE TO APPLY TO INNER ELEMENT
-  -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-*/
   z-index: 2;
   position: absolute;
   cursor: default;
@@ -312,16 +312,9 @@ $transitionSpeed: .5s;
     -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
     -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
     box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
-/* DISABLED FOR NOW
-    -moz-box-shadow: 0 0 5px #888;
-    -webkit-box-shadow: 0 0 5px #888;
-    box-shadow: 0 0 5px #888;
-*/
   }
   &.variant1 { 
-    /* background-color: #fff; */
     width: 280px;
-    /* max-height: 454px; */
     /* default right justified, left top arrow showing */
     top: -159px;
     left: 63px;
@@ -362,7 +355,6 @@ $transitionSpeed: .5s;
       }
       .arrow-right-bottom {
         position: absolute;
-        /* bottom: 44px; */
         top: 152px;
         right: -10px;
         width: 10px;
@@ -402,7 +394,6 @@ $transitionSpeed: .5s;
     /* default right-top justified */
     top: -124px;
     left: 60px;
-    /* background-color: #fff; */
     .top {
       background-color: #fff;
     }
