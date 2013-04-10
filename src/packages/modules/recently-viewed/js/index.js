@@ -1,13 +1,13 @@
 
 define(function(require){
 
-  var RecentlyViewed = require('modules/recently-viewed/recently-viewed');
+  _recentlyViewed = require('modules/recently-viewed/recently-viewed');
 
   // Initialize Modules that don't require additional configuration.
-  RecentlyViewed.init();
+  _recentlyViewed.init();
 
   // Return up a level if desired.
   return {
-    RecentlyViewed: RecentlyViewed
+    RecentlyViewed: _recentlyViewed
   };
 });

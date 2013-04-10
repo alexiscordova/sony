@@ -1,0 +1,19 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('editorial-slideshows-e4')
+
+- desc = 'Here are some modules with unique data:'
+
+//- Mixin for slides
+mixin editorialSlide(data)
+  for slide in data.submodules
+    slideData = locals.data( slide.data )
+    .editorial-carousel-slide( class= slideData.variation, data-mode=slideData.mode )
+      +iQImage(slideData.productImg)
+
+//- Main section wrapper for slides
+section(class='editorial-slidshow-container a1')
+  div(class='editorial-slideshow container')
+    div(class='editorial-carousel-wrapper')
+      div(class='editorial-carousel')
+        +editorialSlide(data)
+

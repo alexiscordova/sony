@@ -1,9 +1,9 @@
 /*!
- *
- * Smooth Scrolling plugin
- * @author Glen Cheney
- * @date 03.02.13
- * @version 1.2
+ * Smooth Scrolling plugin (https://github.com/Vestride/simplescroll)
+ * @date 04.01.13
+ * @version 1.3
+ * Copyright (c) 2013 Glen Cheney
+ * Licensed under the MIT license.
  */
 define(function(require){
 
@@ -15,7 +15,7 @@ define(function(require){
     var self = this;
 
     $.extend( self, $.simplescroll.options, options );
-
+    self.$window = $(window);
     self._init( fn );
   };
 
@@ -23,11 +23,12 @@ define(function(require){
 
     _init : function( fn ) {
       var self = this,
-          selector = self.target.jquery ? '#' + self.target.attr('id') : self.target.replace(/.*(?=#[^\s]*$)/, ''), // strip for ie7
-          $target = self.target.jquery ? self.target : $(selector),
+          target = $.isFunction( self.target ) ? self.target() : self.target,
+          selector = target.jquery ? '#' + target.attr('id') : target.replace(/.*(?=#[^\s]*$)/, ''), // strip for ie7
+          $target = target.jquery ? target : $(selector),
           targetOffset = $target.length ? $target.offset().top - self.offset : 0,
           totalHeight = $(document).height(),
-          screenHeight = $(window).height();
+          screenHeight = self.$window.height();
 
       // Unable to find target
       if ( !$target.length ) {
@@ -66,7 +67,8 @@ define(function(require){
     },
 
     _showHash : function( hash, $target ) {
-      var fake;
+      var self = this,
+          fake;
 
       // the hash should already be cleaned up for ie7 here, we're just removing the `#`
       // to make it an id of a new element
@@ -80,13 +82,13 @@ define(function(require){
         fake = $( '<div/>' ).css({
           position: 'absolute',
           visibility: 'hidden',
-          top: $(window).scrollTop() + 'px'
+          top: self.$window.scrollTop() + 'px'
         })
         .attr( 'id', hash )
         // Get the DOM node from jQuery
         [0];
 
-        // Use native append over jQuery
+        // Use native append over jQuery (http://jsperf.com/native-appendchild-vs-jquery-append/4)
         document.body.appendChild( fake );
       }
 
@@ -117,7 +119,7 @@ define(function(require){
   // defined target (via a function) or the href attribute
   $.fn.simplescroll = function( options, fn ) {
     return this.each(function() {
-      $(this).on('click', function( evt ) {
+      $(this).on('click.simplescroll', function( evt ) {
         evt.preventDefault();
         var opts = $.extend({}, options);
 
@@ -137,12 +139,12 @@ define(function(require){
   };
 
   $.simplescroll.options = {
-    target: 'body',
-    speed: 400,
-    easing: $.easing.easeOutQuad ? 'easeOutQuad' : 'swing',
-    showHash: false,
-    callback: $.noop,
-    offset: 0
+    target: 'body', // can be a selector or jQuery object or a function that returns one of those
+    speed: 400, // duration of the animation
+    easing: $.easing.easeOutQuad ? 'easeOutQuad' : 'swing', // easing function to use. Defaults to easeOutQuad if it's available
+    showHash: false, // if showHash is true, and your target has an ID, this will add that id to the browser's hash
+    callback: $.noop, // called after the animation is finished. Default is an empty function
+    offset: 0 // distance from the target to scroll to. Positive numbers will result in the window being above your target, negative and it will be below
   };
 
 });

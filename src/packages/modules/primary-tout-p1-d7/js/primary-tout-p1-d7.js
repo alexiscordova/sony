@@ -1,7 +1,7 @@
 // Primary Tout Module
 // --------------------------------------------
 //
-// * **Class:** Editorial
+// * **Class:** PrimaryTout
 // * **Version:** 1.0
 // * **Modified:** 02/22/2013
 // * **Author:** Thisispete
@@ -17,43 +17,65 @@ define(function(require){
 
     var module = {
       init: function() {
-        if ( $('.editorial').length > 0 ) {
-          $('.editorial').editorial();
+        if ( $('.primary-tout').length > 0 ) {
+          $('.primary-tout').primaryTout();
         }
       }
     };
 
     // Start module
-    var Editorial = function(element, options){
+    var PrimaryTout = function(element, options){
       var self = this;
-      $.extend(self, {}, $.fn.editorial.defaults, options, $.fn.editorial.settings);
+      $.extend(self, {}, $.fn.primaryTout.defaults, options, $.fn.primaryTout.settings);
 
       self._init();
     };
 
-    Editorial.prototype = {
-      constructor: Editorial,
+    PrimaryTout.prototype = {
+      constructor: PrimaryTout,
+
+      _resize: function(){
+        var w = $(window).outerWidth();
+        if(w > 980){
+          //this makes the header grow 1px taller for every 20px over 980w.. 
+          $('.primary-tout.homepage .image-module').css('height', Math.round(Math.min(770, 490 + ((w - 980) / 5))));
+          $('.primary-tout.default .image-module').css('height', Math.round(Math.min(660, 560 + ((w - 980) / 5))));
+        }else{
+          //this removes the dynamic css so it will reset back to responsive styles 
+          $('.primary-tout.homepage .image-module, .primary-tout.default .image-module').css('height', "");
+        }
+
+        // this each and find inner for layouts page
+        $.each ($('.primary-tout.homepage .inner .table-center-wrap'), function(i,e){
+          var self = $(e);
+          var outer = self.closest('.primary-tout.homepage');
+          self.height(outer.height() - outer.find('.secondary').outerHeight());
+        });
+      },
 
       _init: function(){
-        log('SONY : Editorial : Initialized');
+        this._resize();
+        Environment.on('global:resizeDebounced', this._resize);
+
+        log('SONY : PrimaryTout : Initialized');
       }
     };
 
     // Plugin definition
-    $.fn.editorial = function( options ) {
+    $.fn.primaryTout = function( options ) {
       var args = Array.prototype.slice.call( arguments, 1 );
       return this.each(function() {
         var self = $(this),
-          editorial = self.data('editorial');
+          primaryTout = self.data('primaryTout');
 
         // If we don't have a stored moduleName, make a new one and save it
-        if ( !editorial ) {
-            editorial = new Editorial( self, options );
-            self.data( 'editorial', editorial );
+        if ( !primaryTout ) {
+            primaryTout = new PrimaryTout( self, options );
+            self.data( 'primaryTout', primaryTout );
         }
 
         if ( typeof options === 'string' ) {
-          editorial[ options ].apply( editorial, args );
+          primaryTout[ options ].apply( primaryTout, args );
         }
       });
     };

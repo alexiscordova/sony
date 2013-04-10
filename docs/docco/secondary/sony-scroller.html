@@ -185,13 +185,13 @@ self.momentum = false;</p>             </td>             <td class="code">      
         $.each($elemsInPage , <span class="keyword">function</span>(i) {
           <span class="keyword">var</span> $el = $(<span class="keyword">this</span>);
 
-          <span class="keyword">if</span>(self.autoGutters){
+          <span class="keyword">if</span> ( self.autoGutters ) {
             $el.css( <span class="string">'left'</span> , Math.floor(startX + (i * $el.outerWidth(<span class="literal">true</span>))) + <span class="string">'px'</span> );
-          }<span class="keyword">else</span>{
-            <span class="keyword">if</span>( i === <span class="number">0</span> ){
-              $el.css( <span class="string">'left'</span> , Math.floor(startX + (i * $el.outerWidth(<span class="literal">false</span>))) + <span class="string">'px'</span> );
-            }<span class="keyword">else</span>{
-              $el.css( <span class="string">'left'</span> , Math.floor(startX + (i * $el.outerWidth(<span class="literal">false</span>))) + (i * self.gutterWidth) + <span class="string">'px'</span> );
+          } <span class="keyword">else</span> {
+            <span class="keyword">if</span> ( i === <span class="number">0</span> ) {
+              $el.css( <span class="string">'left'</span> , Math.floor( startX + (i * $el.outerWidth()) ) + <span class="string">'px'</span> );
+            } <span class="keyword">else</span> {
+              $el.css( <span class="string">'left'</span> , Math.floor( startX + (i * $el.outerWidth()) ) + (i * self.gutterWidth) + <span class="string">'px'</span> );
             }
           }
 
@@ -202,7 +202,7 @@ self.momentum = false;</p>             </td>             <td class="code">      
         self._generatePagination( numPages );
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Space elements out accordingly</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> (i = <span class="number">0</span> ; i &lt; numPages; i++) {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Space elements out accordingly</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> ( ; i &lt; numPages; i++) {
         <span class="keyword">var</span> startIndex = i * availToFit,
             endIndex = startIndex + availToFit - <span class="number">1</span>;
 
@@ -322,19 +322,20 @@ We saved their function to this reference so we could have our own onScrollEnd</
     },
 
     _showHideNavs : <span class="keyword">function</span>( currentPage, numPages ) {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          theClass = <span class="string">'hidden'</span>;
 
       <span class="keyword">if</span> ( self.$navPrev &amp;&amp; self.$navNext ) {
 </pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Hide show prev button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( currentPage === <span class="number">0</span> ) {
-          self.$navPrev.addClass(<span class="string">'hide'</span>);
+          self.$navPrev.addClass( theClass );
         } <span class="keyword">else</span> {
-          self.$navPrev.removeClass(<span class="string">'hide'</span>);
+          self.$navPrev.removeClass( theClass );
         }
 
 </pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Hide show next button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( currentPage === numPages ) {
-          self.$navNext.addClass(<span class="string">'hide'</span>);
+          self.$navNext.addClass( theClass );
         } <span class="keyword">else</span> {
-          self.$navNext.removeClass(<span class="string">'hide'</span>);
+          self.$navNext.removeClass( theClass );
         }
       }
     },
@@ -395,7 +396,7 @@ We saved their function to this reference so we could have our own onAnimationEn
         contentWidth = numPages * containerWidth;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>Set it</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$contentContainer.css(<span class="string">'width'</span> , contentWidth );
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>Set it</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$contentContainer.css( <span class="string">'width'</span> , contentWidth );
 
       <span class="keyword">return</span> self;
     },
@@ -404,7 +405,7 @@ We saved their function to this reference so we could have our own onAnimationEn
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           containerWidth = self.$el.width();
 
-      self.$elements.css(<span class="string">'width'</span>, containerWidth);
+      self.$elements.css( <span class="string">'width'</span>, containerWidth );
     },
 
     _fire : <span class="keyword">function</span>( eventName, args ) {
@@ -543,8 +544,7 @@ We saved their function to this reference so we could have our own onAnimationEn
       onScrollEnd: <span class="literal">null</span>,
       lockDirection: <span class="literal">true</span>,
       onBeforeScrollStart: <span class="literal">null</span>,
-      onAnimationEnd: <span class="literal">null</span>,
-      gutterWidth:<span class="number">0</span>
+      onAnimationEnd: <span class="literal">null</span>
     }
 
   };

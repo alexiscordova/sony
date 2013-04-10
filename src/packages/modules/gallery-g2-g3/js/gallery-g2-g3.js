@@ -30,28 +30,17 @@ define(function(require){
   var module = {
 
     init: function() {
-
-      if ( $('.gallery').length > 0 ) {
-        // Initialize galleries
-        $('.gallery').each(function() {
-          var $this = $(this);
-
-          // Stagger gallery initialization
-          setTimeout(function() {
-            var id = $this.attr('id').substring( 0, $this.attr('id').lastIndexOf('-') );
-            window.console && console.time && console.time( id );
-            $this.gallery( $this.data() );
-            window.console && console.timeEnd && console.timeEnd( id );
-          }, 0);
-        });
+      window.console && console.time && console.timeEnd('parsing');
+      if ( $('.gallery').length > 0 || $('.af-module').length > 0 ) {
 
         // Register for tab show(n) events here because not all tabs are galleries
         $('[data-tab]')
-          .on('show', module.onGalleryTabShow )
-          .on('shown', module.onGalleryTabShown );
+          .on( 'show', module.onGalleryTabShow )
+          .on( 'shown', module.onGalleryTabShown )
+          .on( 'alreadyshown', module.onGalleryTabAlreadyShown );
 
         // Initialize sticky tabs
-        window.requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
           $('.tab-strip').stickyTabs();
         });
 
@@ -62,13 +51,6 @@ define(function(require){
 
           // Should be called after everything is initialized
           $(window).trigger('hashchange');
-
-          // Disable hidden galleries.
-          // Using a timeout here because the tab shown event is triggered at the end of the transition,
-          // which depends on how long the page takes to load (and if the browser has transitions)
-          setTimeout(function() {
-            $('.tab-pane:not(.active) .gallery').gallery('disable');
-          }, 500);
         }, 16);
 
       }
@@ -76,7 +58,8 @@ define(function(require){
   };
 
   var Gallery = function( $container, options ) {
-    var self = this;
+    var self = this,
+        debouncedResize;
 
     $.extend(self, $.fn.gallery.options, options, $.fn.gallery.settings);
 
@@ -104,7 +87,7 @@ define(function(require){
     self.isDetailedMode = self.mode === 'detailed';
     self.isCompareMode = self.mode === 'compare';
 
-    self.$compareBtn = self.$container.find('.js-compare-toggle');
+    // self.$compareBtn = self.$container.find('.js-compare-toggle');
     self.itemSelector = '.' + ( self.isCompareMode ? 'compare' : 'gallery' ) + '-item';
     self.$items = self.$grid.find( self.itemSelector );
 
@@ -133,8 +116,9 @@ define(function(require){
       self.initCompareGallery();
     }
 
-    self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
-    self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
+    debouncedResize = $.debounce( 325, $.proxy( self.onResize, self ) );
+    self.$window.on('orientationchange', debouncedResize );
+    self.$window.on('resize.gallery', debouncedResize );
 
     // Infinite scroll?
     if ( self.hasInfiniteScroll ) {
@@ -171,7 +155,7 @@ define(function(require){
     if ( self.hasFilters ) {
       // Defer it, then wait until a good time for the browser
       setTimeout(function() {
-        window.requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
           self.filter();
           self.isFilteringInitialized = true;
         });
@@ -213,12 +197,12 @@ define(function(require){
         self.$grid.infinitescroll('resume');
       }
 
-      self.$container.removeClass('disabled');
+      // Will create, update, or destroy carousels depending
+      // on the window size and their current state
+      self.fixCarousels();
 
-      if ( self.hasEnabledCarousels ) {
-        self.$carousels.scrollerModule('enable');
-        self.$carousels.scrollerModule('refresh');
-      }
+      // Removes visibility:hidden
+      self.$container.removeClass('disabled');
     },
 
     disable : function() {
@@ -638,7 +622,8 @@ define(function(require){
           filterType = '',
           filterName = '',
           filterValues = [],
-          filterValue = '';
+          filterValue = '',
+          i = 0;
 
       self.lastFilterGroup = null;
       self.secondLastFilterGroup = null;
@@ -664,7 +649,7 @@ define(function(require){
             // Get the filter values without a reference because we want to delete parts of the array
             // as its looped through
             filterValues = $.extend([], self.filters[ filterType ][ filterName ]);
-            for ( var i = 0; i < filterValues.length; i++ ) {
+            for ( ; i < filterValues.length; i++ ) {
               filterValue = filterValues[ i ];
               // Remove from internal data and UI
               self.deleteFilter( filterValue, filterName, filterType );
@@ -788,7 +773,6 @@ define(function(require){
         }
 
         self.initScroller();
-
 
         // We're done
         setTimeout(function() {
@@ -1031,6 +1015,8 @@ define(function(require){
       if ( ua.indexOf('firefox') > -1 || ua.indexOf('msie') > -1 ) {
         self.$sortSelect.parent().addClass('moz-ie');
       }
+
+      return self;
     },
 
     initInfscr : function() {
@@ -1224,15 +1210,15 @@ define(function(require){
 
       // Go through each possible carousel
       if ( !self.hasEnabledCarousels ) {
-        self.$carousels.each(function(i,e) {
-          var $carousel = $(e),
+        self.$carousels.each(function( i, e ) {
+          var $carousel = $( e ),
               $firstImage;
 
           // If this call is from the initial setup, we have to wait for the first image to load
           // to get its height.
           $firstImage = $carousel.find('img').first();
 
-          if ( $firstImage[0].naturalHeight > 0 ) {
+          if ( $firstImage.data('hasLoaded') ) {
             initializeScroller( $carousel );
           } else {
              $firstImage.on('imageLoaded', function() {
@@ -1254,13 +1240,28 @@ define(function(require){
     fixCarousels : function() {
       var self = this;
 
-      if ( self.hasCarousels ) {
-        // 980+
-        if ( Modernizr.mq('(min-width: 61.25em)') ) {
-          self.initCarousels();
+      if ( !self.hasCarousels ) {
+        return;
+      }
+
+      // 980+
+      if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
+
+        // Carousels are already enabled, we need to refresh them
+        if ( self.hasEnabledCarousels ) {
+          setTimeout(function() {
+            self.$carousels.scrollerModule('enable');
+            self.$carousels.scrollerModule('refresh');
+          }, 0);
+
+        // Carousels need to be created
         } else {
-          self.destroyCarousels();
+          self.initCarousels();
         }
+
+      // < 980
+      } else {
+        self.destroyCarousels();
       }
     },
 
@@ -1826,23 +1827,41 @@ define(function(require){
     },
 
     debouncedSetRowHeights : $.debounce( 600, function( isFromResize, isInit ) {
-      this
-        .setRowHeights( isFromResize )
-        .setItemContainerHeight();
+      var self = this,
+          itemHeight,
+          gridWidth;
 
-      if ( isFromResize && !isInit ) {
-        this.setTriggerPoint();
+      isFromResize = isFromResize === true;
+
+      // If this is not triggered from a window resize, we still need to update the offsets
+      // because the heights have changed.
+      if ( (isFromResize && !isInit) || !isFromResize ) {
+        // Gets css
+        self.setTriggerPoint();
       }
 
-      this.updateStickyNav();
+      // Gets and sets css
+      self.setRowHeights( isFromResize );
 
-      this.$stickyRightBar.css('left', this.$grid.width());
+      // Get new dimensions after the rows have been resized
+      itemHeight = self.$items.not('.hidden').first().height(),
+      gridWidth = self.$grid.width();
+
+      // Sets css
+      self.setItemContainerHeight( itemHeight, gridWidth );
+
+      // Sets css
+      self.updateStickyNav();
+
+      // Sets css
+      self.$stickyRightBar.css('left', gridWidth);
     }),
 
-    setRowHeights : function( isFromResize ) {
+    setRowHeights : function() {
       var self = this,
           $visibleItems = self.$items.filter('.filtered'),
-          $detailGroup = $visibleItems.find('.detail-group').first();
+          $detailGroup = $visibleItems.find('.detail-group').first(),
+          groups = [];
 
       // If there aren't any visible items left, exit
       if ( !$visibleItems.length ) {
@@ -1850,9 +1869,6 @@ define(function(require){
       } else if ( !self.scroller.enabled ) {
         self.scroller.enable();
       }
-
-      window.console && console.time && console.time('SET ROW HEIGHTS');
-      isFromResize = isFromResize === true;
 
       // Set detail rows to even heights
       self.$container.find('.detail-label').each(function(i) {
@@ -1862,25 +1878,24 @@ define(function(require){
             $cells = self.$items.find('.detail-group .detail:nth-child(' + (i + 1) + ')');
 
         // Loop through the cells (`.spec-item-cell`'s in the same 'row')
-        $cells.add($detailLabel).evenHeights();
+        $cells = $cells.add($detailLabel);
+        groups.push( $cells );
       });
 
-      // If this is not triggered from a window resize, we still need to update the offsets
-      // because the heights have changed.
-      if ( !isFromResize ) {
-        self.setTriggerPoint();
-      }
+      $.evenHeights( groups );
 
+      // Gets the offset of the first detail group to align the labels properly (gets and sets css)
       self.setDetailLabelOffset();
 
       // Refresh iScroll
       if ( self.iscroll ) {
-        self.iscroll.refresh();
+        setTimeout(function() {
+          self.iscroll.refresh();
+        }, 0);
       }
 
       $visibleItems = $detailGroup = null;
 
-      window.console && console.time && console.timeEnd('SET ROW HEIGHTS');
       return self;
     },
 
@@ -1948,31 +1963,32 @@ define(function(require){
       return self;
     },
 
-    setItemContainerHeight : function() {
+    setItemContainerHeight : function( itemHeight, gridWidth ) {
       var self = this,
-          height = self.$items.not('.hidden').first().height(),
+          height = itemHeight || self.$items.not('.hidden').first().height(),
           width, labelsWidth, scrollerWidth;
 
       // Get all dimensions before changing any - avoid reflows
       if ( !Modernizr.csstransforms ) {
-        width = Modernizr.csstransforms ? 0 : self.$grid.width();
-        labelsWidth = Modernizr.csstransforms ? 0 : self.$detailLabelsWrap.width();
+        width = gridWidth || self.$grid.width();
+        labelsWidth = self.$detailLabelsWrap.width();
         scrollerWidth = width - labelsWidth - 2;
       }
 
-      self.$compareItemsWrap.find('.compare-items-container').height( height );
-
       // The detail labels don't get a height because they're positioned absolutely
-      self.$detailLabelsWrap.height( height );
+      self
+        .$compareItemsWrap
+        .find('.compare-items-container')
+        .add( self.$detailLabelsWrap )
+        .css( 'height', height + 'px' );
 
       // Without transforms, iScroll uses absolute positioning and the container
       // gets a width/height of 0 with overflow:hidden
       if ( !Modernizr.csstransforms ) {
         self.$compareItemsWrap
-          .width( scrollerWidth )
-          .height( height );
-        self.$grid.height( height );
-
+          .css( 'width', scrollerWidth + 'px' )
+          .css( 'height', height + 'px' );
+        self.$grid.css( 'height', height + 'px' );
       }
 
       return self;
@@ -2016,8 +2032,6 @@ define(function(require){
         if ( !self.$stickyHeaders.hasClass( open ) ) {
           self.$stickyHeaders.addClass( open );
           self.$container.addClass('sticky-header-open');
-          self.$navContainer.addClass('container');
-          self.$navWrap.css('top', self.stickyNavHeight);
         }
         stickyTop = scrollTop - self.stickyOffset.top + self.stickyNavHeight;
         self.setStickyHeaderPos( stickyTop );
@@ -2026,13 +2040,8 @@ define(function(require){
         if ( self.showStickyHeaders && self.$stickyHeaders.hasClass( open ) ) {
           self.$container.removeClass('sticky-header-open');
           self.$stickyHeaders.removeClass( open );
-          self.$navContainer.removeClass('container');
-          self.$navWrap.css('top', 'auto');
         }
       }
-
-
-      self.isTicking = false;
     },
 
     onScroll : function() {
@@ -2048,8 +2057,8 @@ define(function(require){
 
     onResize : function( isInit, force ) {
       var self = this,
-          windowWidth = !Settings.isLTIE9 ? 0 : self.$window.width(),
-          windowHeight = !Settings.isLTIE9 ? 0 : self.$window.height(),
+          windowWidth = !Settings.isLTIE9 ? null : self.$window.width(),
+          windowHeight = !Settings.isLTIE9 ? null : self.$window.height(),
           hasWindowChanged = !Settings.isLTIE9 || windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
       // Make sure isInit is not an event object
@@ -2058,6 +2067,10 @@ define(function(require){
       // Return if the window hasn't changed sizes or the gallery is disabled
       if ( !force && !isInit && (!self.enabled || !hasWindowChanged) ) {
         return;
+      }
+
+      if ( self.isCompareMode ) {
+        windowHeight = self.$window.height();
       }
 
       self.windowWidth = windowWidth;
@@ -2080,7 +2093,7 @@ define(function(require){
         } else {
           // Let the browser choose the best time to do this becaues it causes a layout
           if ( !self.scroller || (self.scroller && self.scroller.enabled) ) {
-            window.requestAnimationFrame( evenTheHeights );
+            requestAnimationFrame( evenTheHeights );
           }
         }
 
@@ -2101,7 +2114,7 @@ define(function(require){
           self.$rangeControl.rangeControl('reset', undefined, false);
         }
 
-        // Setting the tone bar variable is deferred. Calling it here results in an error
+        // Setting the tone bar variable is deferred. Calling it here on init results in an error
         if ( self.isCompareMode && !isInit ) {
           self.setToneBarOffset();
         }
@@ -2120,7 +2133,7 @@ define(function(require){
       }
 
       // Let the browser choose the best time to do this becaues it causes a layout
-      window.requestAnimationFrame( evenTheHeights );
+      requestAnimationFrame( evenTheHeights );
 
       Utilities.forceWebkitRedraw();
 
@@ -2252,7 +2265,7 @@ define(function(require){
           isFadedIn = self.$container.hasClass('in');
 
       if ( isFadedIn ) {
-        window.requestAnimationFrame( module.hideGalleryLoader );
+        requestAnimationFrame( module.hideGalleryLoader );
 
       // Fade in the gallery if it isn't already
       } else {
@@ -2374,7 +2387,7 @@ define(function(require){
         if ( isEvent ) {
           $item.addClass('concealed').removeClass('filtered');
           // Putting this in a rAF because it can be deferred and also takes a while
-          window.requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
             self.setFilterStatuses();
           });
         }
@@ -2387,7 +2400,7 @@ define(function(require){
         clearTimeout( fadeTimeout );
 
         $item.one( Settings.transEndEventName, hideItem );
-        window.requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
           $item.addClass('no-width');
 
           widthTimeout = setTimeout(function() {
@@ -2412,7 +2425,7 @@ define(function(require){
 
       if ( Modernizr.csstransitions ) {
         $item.one( Settings.transEndEventName, noWidth );
-        window.requestAnimationFrame( fadeItemOut );
+        requestAnimationFrame( fadeItemOut );
 
       } else {
         hideItem();
@@ -2462,11 +2475,11 @@ define(function(require){
         if ( !self.scroller.enabled ) {
           self.scroller.enable();
           // rows need to be updated
-          window.requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
             self.debouncedSetRowHeights();
           });
         }
-        window.requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
           self.scroller.refresh();
 
           // Maybe they haven't scrolled horizontally to see other images
@@ -2728,10 +2741,9 @@ define(function(require){
     isInitialized: false,
     isFilteringInitialized: false,
     isCompareToolOpen: false,
-    isTouch: Settings.hasTouchEvents,
-    isiPhone: Settings.isIPhone,
+    isTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
     isTicking: false,
-    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE10 || Settings.isPS3 ),
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.hasPointerEvents || Settings.isLTIE10 || Settings.isPS3 ),
     lastScrollY: 0,
     sorted: false,
     currentFilterColor: null,
@@ -2747,10 +2759,404 @@ define(function(require){
   };
 
 
+  var AccessoryFinder = function( element, options ) {
+    var self = this;
+
+    $.extend( self, AccessoryFinder.options, options, AccessoryFinder.settings );
+
+    self.$container = $( element );
+
+    // Defer initialization
+    setTimeout(function() {
+      self.init();
+      self.$container.data( 'accessoryFinder', self );
+
+      log('SONY : AccessoryFinder : Initialized');
+    }, 0);
+  };
+
+  AccessoryFinder.prototype = {
+    constructor: AccessoryFinder,
+
+    init : function() {
+      var self = this;
+
+      // Modal pieces
+      self.$modal = self.$container.find('#accessory-finder-modal');
+      self.$modalBody = self.$modal.find('.modal-body');
+      self.$modalHeader = self.$modal.find('.modal-header');
+      self.$modalSubhead = self.$modal.find('.modal-subhead');
+
+      // Components
+      self.$grid = self.$container.find('.products');
+      self.$items = self.$grid.find( self.itemSelector );
+      self.$productCount = self.$container.find('.product-count');
+      self.$popoverTriggers = self.$container.find('.js-popover-trigger');
+      self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
+      self.$sortSelect = self.$container.find('.sort-options select');
+      self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
+      self.$searchField = self.$container.find('#accessory-finder-input');
+
+      // Initialize components
+      self
+        .onResize( true )
+        .initPopover()
+        .initModal()
+        .initSorting()
+        .initSearch();
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+    },
+
+    initPopover: function() {
+      var self = this,
+          $triggers = self.$popoverTriggers;
+
+      $triggers.each(function() {
+        var $trigger = $(this);
+
+        $trigger.popover({
+          placement: 'in bottom',
+          trigger: 'click',
+          content: function() {
+            return $(this).find('.js-popover-content').html();
+          }
+        });
+      });
+
+      return self;
+    },
+
+    initModal : function() {
+      var self = this;
+
+      // Listen for modal events
+      self.$modal.on( 'shown', $.proxy( self.onModalShown, self ) );
+      self.$modal.on( 'hidden', $.proxy( self.onModalClosed, self ) );
+
+
+      if ( Settings.isLTIE9 ) {
+        self.$modalBody.removeClass( 'fade' );
+      }
+
+      return self;
+    },
+
+    initSearch : function() {
+      var self = this,
+
+      keyup = function() {
+        // Value they've entered
+        var val = this.value.toLowerCase();
+
+        // Filter elements based on if their string exists in the product model or product name
+        self.shuffle.shuffle(function( $el ) {
+          var $searchable = $el.find('.product-model, .product-name'),
+              text = $.trim( $searchable.text() ).toLowerCase();
+
+          return text.indexOf(val) !== -1;
+        });
+
+        // Update the count
+        self.$productCount.text( self.shuffle.visibleItems );
+      },
+
+      debouncedKeyup = $.debounce( 50, keyup );
+
+      self.$searchField.on( 'keyup change', debouncedKeyup );
+
+      return self;
+    },
+
+    initShuffle : function() {
+      var self = this;
+
+      // self.$grid.on( 'loading.shuffle', $.proxy( self.onShuffleLoading, self ) );
+      self.$grid.on( 'done.shuffle', $.proxy( self.onShuffleDoneLoading, self ) );
+
+      // instantiate shuffle
+      self.$grid.shuffle({
+        itemSelector: self.itemSelector,
+        speed: Settings.shuffleSpeed,
+        easing: Settings.shuffleEasing,
+        showInitialTransition: false,
+        hideLayoutWithFade: true,
+        sequentialFadeDelay: 60,
+        buffer: 20,
+        columnWidth: function( containerWidth ) {
+          var column = containerWidth;
+
+          // 568px+
+          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 30em)') ) {
+            column = Settings.COLUMN_WIDTH_SLIM * containerWidth;
+          }
+
+          return column;
+        },
+        gutterWidth: function( containerWidth ) {
+          var gutter = 0,
+              is3Col = !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.1875em)'),
+              is2Col = is3Col ? false : Modernizr.mq('(min-width: 35.5em)'),
+              numCols = is3Col ? 3 : is2Col ? 2 : 1;
+
+          if ( is3Col || is2Col ) {
+            gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
+          }
+
+          if ( self.currentFinderCols !== numCols && numCols !== 1) {
+            self.swapShuffleItemClasses( numCols, this );
+          }
+
+          self.currentFinderCols = numCols;
+
+          return gutter;
+        }
+      });
+
+      // Save ref to shuffle
+      self.shuffle = self.$grid.data('shuffle');
+
+      // Relayout when images load
+      self.$grid.find('.iq-img').on('imageLoaded', $.debounce( 200, $.proxy( self.shuffle.layout, self.shuffle ) ) );
+
+      // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
+      self.$grid.on( 'layout.shuffle', iQ.update );
+
+      return self;
+    },
+
+    swapShuffleItemClasses : function( numCols, shuffle ) {
+      var self = this,
+          newClass = 'span6',
+          oldClass = 'span4';
+
+      if ( numCols === 3 ) {
+        newClass = 'span4';
+        oldClass = 'span6';
+      }
+
+      shuffle.$items.each(function() {
+        $(this)
+          .removeClass( oldClass )
+          .addClass( newClass );
+      });
+    },
+
+    getMaxBodyHeight : function() {
+      var self = this,
+          screenHeight,
+          maxModalHeight,
+          modalHeaderHeight,
+          maxBodyHeight;
+
+      screenHeight = self.$window.height();
+
+      // 90% of the available height
+      maxModalHeight = 0.9 * screenHeight;
+
+      // Lock it at 90% or 900px
+      maxModalHeight = Math.min( maxModalHeight, 900 );
+
+      // Get the combined height of the header and subheader
+      modalHeaderHeight = self.$modalHeader.outerHeight() + self.$modalSubhead.outerHeight();
+
+      // Get the max height of the body
+      maxBodyHeight = maxModalHeight - modalHeaderHeight;
+
+      // console.log('screenHeight: ' + screenHeight, ' maxModalHeight: ' + maxModalHeight, ' modalHeaderHeight: ' + modalHeaderHeight, ' maxBodyHeight: ' + maxBodyHeight);
+
+      return maxBodyHeight;
+    },
+
+    getSorter : function() {
+      return {
+        context: this.shuffle,
+        fn: this.shuffle.sort
+      };
+    },
+
+    initSorting : Gallery.prototype.initSorting,
+    getSortObject : Gallery.prototype.getSortObject,
+    sort : Gallery.prototype.sort,
+
+    onShuffleDoneLoading : function() {
+      var self = this;
+
+      if ( !self.isFadedIn && !self.isLTIE9 ) {
+        setTimeout(function() {
+          self.$modalBody.addClass('in');
+          self.isFadedIn = true;
+        }, 0);
+      }
+    },
+
+    onResize : function( isInit ) {
+      var self = this,
+          screenHeight,
+          maxBodyHeight,
+          notMobile = Modernizr.mediaqueries ? Modernizr.mq('(min-width: 35.5em)') : true;
+
+      // False for event objects
+      isInit = isInit === true;
+
+      // console.log('resize');
+      if ( !isInit ) {
+        // Caculate how much room the modal body has
+
+        setTimeout(function() {
+
+          if ( notMobile ) {
+            maxBodyHeight = self.getMaxBodyHeight();
+          } else {
+            maxBodyHeight = 'none';
+          }
+
+          if ( self.hasTouch ) {
+            screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+            $('#main').css({
+              height: screenHeight,
+              maxHeight: screenHeight,
+              overflow: 'hidden'
+            });
+          }
+
+          // Set it
+          self.$modalBody.css( 'maxHeight', maxBodyHeight );
+        }, 0);
+      }
+
+      return self;
+    },
+
+    onModalBodyScroll : function() {
+      var self = this;
+
+      if ( !self.isTicking ) {
+        self.isTicking = true;
+        self.lastScrollY = self.$modalBody.scrollTop();
+        requestAnimationFrame(function() {
+          self.updateStickyNav();
+        });
+      }
+    },
+
+    onModalShown : function( evt ) {
+      var self = this;
+
+      // Stop event from bubbling up to the tabs
+      evt.stopPropagation();
+
+      self.initShuffle();
+
+      iQ.update();
+
+      // Update max height for modal body
+      self.onResize();
+
+      // Listen for scroll events on the modal body
+      self.$modalBody.on( 'scroll', $.proxy( self.onModalBodyScroll, self ) );
+    },
+
+    onModalClosed : function( evt ) {
+      var self = this;
+
+      // Stop event from bubbling up to the tabs
+      evt.stopPropagation();
+
+      self.shuffle.destroy();
+
+      self.$modalBody.off('scroll');
+
+      if ( self.hasTouch ) {
+        $('#main').css({
+          height: '',
+          maxHeight: '',
+          overflow: ''
+        });
+      }
+
+      // Remove scrolled class if it exists
+      if ( self.$modalSubhead.hasClass('body-scrolled') ) {
+        self.$modalSubhead.removeClass('body-scrolled');
+      }
+
+      self.$modalBody.removeClass('in');
+
+      // Clear out the search field
+      self.$searchField.val( '' );
+      self.isFadedIn = false;
+    },
+
+    updateStickyNav : function() {
+      var self = this,
+          scrollY = self.lastScrollY,
+          theClass = 'body-scrolled';
+
+      // Scrolled at least two pixels on the modal body
+      if ( scrollY > 1 ) {
+        if ( !self.$modalSubhead.hasClass( theClass ) ) {
+          self.$modalSubhead.addClass( theClass );
+        }
+
+      } else {
+        if ( self.$modalSubhead.hasClass( theClass ) ) {
+          self.$modalSubhead.removeClass( theClass );
+        }
+
+      }
+
+      self.isTicking = false;
+    }
+
+  };
+
+  AccessoryFinder.options = {
+    abc : 'xyz'
+  };
+
+  AccessoryFinder.settings = {
+    // isDesktop: false,
+    // isMobile: false,
+    isTicking: false,
+    isFadedIn: false,
+    hasTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
+    itemSelector: '.compat-item',
+    $window: Settings.$window
+  };
+
+  module.initializer = function( $pane ) {
+
+    // Initialize galleries
+    $pane.find('.gallery').each(function() {
+      var $this = $(this);
+
+      // Stagger gallery initialization
+      setTimeout(function() {
+        var id = $this.attr('id').substring( 0, $this.attr('id').lastIndexOf('-') );
+        window.console && console.time && console.time( id );
+        $this.gallery( $this.data() );
+        window.console && console.timeEnd && console.timeEnd( id );
+      }, 0);
+    });
+
+    // Instantiate accessory finders
+    $pane.find('.af-module').each(function( i, el ) {
+      setTimeout(function() {
+        new AccessoryFinder( el );
+      }, 0);
+    });
+  };
+
+  module.onGalleryTabAlreadyShown = function( evt ) {
+    module.initializer( $( this ) );
+  };
+
   // Event triggered when the previous tab/pane is about to be hidden
   module.onGalleryTabShow = function( evt ) {
     var $prevPane;
 
+    // Get the previous pane jQuery object from the evt object
     if ( evt ) {
       $prevPane = evt.prevPane;
       if ( evt.prevPane ) {
@@ -2773,11 +3179,15 @@ define(function(require){
       var gallery = $(this).data('gallery');
 
       // If there are active filters, remove them.
-      if ( gallery.hasActiveFilters() ) {
-        gallery.removeActiveFilters();
+      if ( gallery && gallery.isInitialized ) {
+
+        if ( gallery.hasActiveFilters() ) {
+          gallery.removeActiveFilters();
+        }
+
+        gallery.disable();
       }
 
-      gallery.disable();
     });
 
     $prevPane = null;
@@ -2787,50 +3197,60 @@ define(function(require){
   // Event triggered when the next tab/pane is finished being shown
   module.onGalleryTabShown = function( evt ) {
     // Only continue if this is a tab shown event.
-    var $pane,
-        $galleries;
+    var $pane = $( this ),
+        $galleries,
+        needsInit = false;
 
-    if ( evt ) {
-      $pane = evt.pane;
-      if ( evt.pane ) {
-        $pane = evt.pane;
-      } else if ( evt.originalEvent && evt.originalEvent.pane ) {
-        $pane = evt.originalEvent.pane;
-      } else {
-        $pane = false;
-      }
-    }
-
-    if ( !evt || !$pane ) {
-      return;
-    }
-
+    // Get all galleries in this tab pane
     $galleries = $pane.find('.gallery');
 
     // Force redraw before fixing galleries
     Utilities.forceWebkitRedraw();
 
+    // Loop through each gallery in this tab pane to enable it and update the carousels
     $galleries.each(function() {
-      var gallery = $(this).data('gallery'),
-          $collapse = gallery.$container.find('[data-toggle="collapse"]');
+      var $gallery = $( this ),
+          gallery = $gallery.data('gallery'),
+          $collapse;
 
       // Enable all galleries in this tab
-      gallery.enable();
+      if ( gallery && gallery.isInitialized ) {
+        $collapse = gallery.$container.find('[data-toggle="collapse"]');
 
-      // Slide up the collapsable if it's visible
-      if ( $collapse.length && !$collapse.hasClass('collapsed') ) {
-        $collapse.click();
+        requestAnimationFrame(function() {
+          gallery.enable();
+        });
+
+      // Gallery isn't initialized, lets create a new one
+      } else {
+        needsInit = true;
       }
 
-      if ( gallery ) {
-        gallery.fixCarousels();
+      // Slide up the collapsable if it's visible. This CANNOT be done in the `show` event
+      if ( $collapse && $collapse.length && !$collapse.hasClass('collapsed') ) {
+        $collapse.trigger('click');
       }
     });
+
+    if ( !needsInit && $pane.find('.af-module').length ) {
+      needsInit = true;
+    }
+
+    // Create galleries or accessory finders for this pane
+    if ( needsInit ) {
+      module.initializer( $pane );
+    }
+
+    // Galleries hide the loader themselves. Otherwise it needs to be hidden manually.
+    if ( !$galleries.length ) {
+      module.hideGalleryLoader();
+    }
 
     $galleries = null;
     $pane = null;
   };
 
+  // Hides the loading gif
   module.hideGalleryLoader = function() {
     if ( !module.galleryLoaderHidden ) {
       $('.gallery-loader').addClass('hidden');
@@ -2838,6 +3258,7 @@ define(function(require){
     module.galleryLoaderHidden = true;
   };
 
+  // Shows the loading gif
   module.showGalleryLoader = function() {
     if ( module.galleryLoaderHidden ) {
       $('.gallery-loader').removeClass('hidden');

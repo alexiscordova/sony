@@ -95,7 +95,7 @@
 .p1, .lt1 {
   @include px-em--font-size--line-height(15,22);
 }
-.p2, .lt2, p {
+.p2, .lt2, p, input.p2 {
   @include px-em--font-size--line-height(13,20);
 }
 .p3, .lt3, .lt3-alt {
@@ -163,7 +163,8 @@ blockquote p{
   font-size: px-em(10);
 }
 
-.btn-square {
+.btn-square,
+.btn-block {
   padding-right: 0;
   padding-left: 0;
 }
@@ -190,8 +191,7 @@ blockquote p{
   height: $navPaddleHeight980;
 }
 
-.rp-nav .paddle,
-.nav-paddle-large {
+.rp-nav .paddle {
 
   i {
     margin-top: 28px;
@@ -209,8 +209,7 @@ blockquote p{
 
 @media ( min-width: px-em(480px) ) and ( max-width: px-em(979px) ) {
 
-  .rp-nav .paddle,
-  .nav-paddle-large {
+  .rp-nav .paddle {
     margin: -100px 0;
     width: 40px;
     height: 70px;

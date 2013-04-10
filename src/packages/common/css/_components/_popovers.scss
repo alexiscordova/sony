@@ -30,6 +30,11 @@
   &.left    { margin-right: 10px; }
   &.offsetright { margin-top: -7px; }
 
+
+  // Do something for browsers without box shadow to show depth
+  .no-boxshadow & {
+    border: 1px solid $gray40;
+  }
 }
 
 .popover-title {
@@ -114,19 +119,19 @@
   //   //   left: -1px;
   //   // }
   // }
-  // &.bottom .arrow {
-  //   top: -$popoverArrowWidth;
-  //   left: 50%;
-  //   margin-left: -$popoverArrowWidth;
-  //   border-width: 0 $popoverArrowWidth $popoverArrowWidth;
-  //   border-bottom-color: $popoverArrowColor;
-  //   // &:after {
-  //   //   border-width: 0 $popoverArrowOuterWidth $popoverArrowOuterWidth;
-  //   //   border-bottom-color: $popoverArrowOuterColor;
-  //   //   top: -1px;
-  //   //   left: -$popoverArrowOuterWidth;
-  //   // }
-  // }
+  &.bottom .arrow {
+    top: -$popoverArrowWidth;
+    left: 50%;
+    margin-left: -$popoverArrowWidth;
+    border-width: 0 $popoverArrowWidth $popoverArrowWidth;
+    border-bottom-color: $popoverArrowColor;
+    // &:after {
+    //   border-width: 0 $popoverArrowOuterWidth $popoverArrowOuterWidth;
+    //   border-bottom-color: $popoverArrowOuterColor;
+    //   top: -1px;
+    //   left: -$popoverArrowOuterWidth;
+    // }
+  }
   // &.left .arrow {
   //   top: 50%;
   //   right: -$popoverArrowWidth;

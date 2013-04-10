@@ -48,17 +48,21 @@ ul.jump-links {
     margin: 0 0 0 px-em(23px);
     padding: 0;
     float: left;
+    line-height: 1;
   }
 
   li:first-child {
     margin-left: 0;
   }
 
+  $totalHeight: 13px;
+  $highlightBarHeight: 4px;
+  $whitespaceHeight: $totalHeight - $highlightBarHeight;
   a {
     display: block;
     margin-bottom: 0;
     padding-right: 6px;
-    padding-bottom: 10px;
+    padding-bottom: $totalHeight;
     padding-left: 6px;
     line-height: 1; // we're not wrapping here
     color: $gray20;
@@ -67,19 +71,19 @@ ul.jump-links {
   }
 
   .no-touch & li:hover a {
-    color: $linkBlueActive;
+    color: $secondarySlateDark;
   }
 
   .no-touch & li:hover a,
   .active a {
-    @include box-shadow(inset 0 -4px 0 $btnBackground);
+    @include box-shadow(inset 0 -#{$highlightBarHeight} 0 $btnBackground);
   }
 
   .no-boxshadow & a,
   .sonytablets & a {
     @include box-shadow(none);
-    padding-bottom: 6px;
-    border-bottom: 4px solid transparent;
+    padding-bottom: $whitespaceHeight;
+    border-bottom: $highlightBarHeight solid transparent;
   }
 
   .no-boxshadow.no-touch & li:hover a,
@@ -245,6 +249,12 @@ $oneByOneImgPadding: 107.84313725490196%;
 
     .product-img:after {
       padding-top: 88.14589665653495%;
+    }
+
+    // IE8 gets 0 wrapper width
+    .lt-ie9 & .js-item-carousel {
+      width: px-em(538);
+      height: px-em(475);
     }
 
     // Carousels
@@ -758,8 +768,8 @@ $oneByOneImgPadding: 107.84313725490196%;
 .spec-sticky-nav {
 
   .sticky-nav-title {
-    margin-top: 17px;
-    margin-bottom: 2px;
+    margin-top: 22px;
+    margin-bottom: 10px;
     line-height: .9;
 
     // Add a border-right to the far right of the grid (over the sticky nav)
