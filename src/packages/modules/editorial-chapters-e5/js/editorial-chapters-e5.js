@@ -1,15 +1,15 @@
-// Editorial Chapters - E5
+// Editorial SlideShow - E4
 // ------------
 //
-// * **Module:** Editorial Chapters - E5
-// * **Version:** 1.0
-// * **Modified:** 04/10/2013
-// * **Author:** Steve Davis
+// * **Module:** Editorial Slideshow - E4
+// * **Version:** 1.0a
+// * **Modified:** 04/4/2013
+// * **Author:** Tyler Madison, George Pantazis
 // * **Dependencies:** jQuery 1.9.1+, Modernizr
 //
 // *Example Usage:*
 //
-//      $('.editorial-chapters').EditorialChapters();
+//      $('.editorial-slideshow').EditorialSlideshow();
 
 define(function(require){
 
@@ -26,15 +26,15 @@ define(function(require){
 
     var self = {
       'init': function() {
-        $('.editorial-slidshow-container').editorialChapters();
+        $('.editorial-slidshow-container').editorialSlideshow();
       }
     };
     
-    var EditorialChapters = function(element, options){
+    var EditorialSlideshow = function(element, options){
       var self = this;
        
       // Extend
-      $.extend( self, {}, $.fn.editorialChapters.defaults, options, $.fn.editorialChapters.settings );
+      $.extend( self, {}, $.fn.editorialSlideshow.defaults, options, $.fn.editorialSlideshow.settings );
       
       // Set base element
       self.$el = $( element );
@@ -72,8 +72,8 @@ define(function(require){
 
     };
 
-    EditorialChapters.prototype = {
-      constructor: EditorialChapters,
+    EditorialSlideshow.prototype = {
+      constructor: EditorialSlideshow,
 
       // Initalize the module
       init : function( param ) {
@@ -298,31 +298,31 @@ define(function(require){
     };
 
     // jQuery Plugin Definition
-    $.fn.editorialChapters = function( options ) {
+    $.fn.editorialSlideshow = function( options ) {
       var args = Array.prototype.slice.call( arguments, 1 );
       return this.each(function() {
         var self = $( this ),
-          editorialChapters = self.data( 'editorialChapters' );
+          editorialSlideshow = self.data( 'editorialSlideshow' );
 
         // If we don't have a stored moduleName, make a new one and save it.
-        if ( !editorialChapters ) {
-            editorialChapters = new EditorialChapters( self, options );
-            self.data( 'moduleName', editorialChapters );
+        if ( !editorialSlideshow ) {
+            editorialSlideshow = new EditorialSlideshow( self, options );
+            self.data( 'moduleName', editorialSlideshow );
         }
 
         if ( typeof options === 'string' ) {
-          editorialChapters[ options ].apply( editorialChapters, args );
+          editorialSlideshow[ options ].apply( editorialSlideshow, args );
         }
       });
     };
 
     // Defaults
     // --------
-    $.fn.editorialChapters.defaults = {};
+    $.fn.editorialSlideshow.defaults = {};
 
     // Non override-able settings
     // --------------------------
-    $.fn.editorialChapters.settings = {};
+    $.fn.editorialSlideshow.settings = {};
   
     return self;
  });
