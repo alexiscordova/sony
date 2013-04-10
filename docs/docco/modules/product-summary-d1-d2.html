@@ -4,9 +4,9 @@
 <ul>
 <li><strong>Class:</strong> ProductSummary</li>
 <li><strong>Version:</strong> 0.1</li>
-<li><strong>Modified:</strong> 03/15/2013</li>
+<li><strong>Modified:</strong> 04/09/2013</li>
 <li><strong>Author:</strong> Glen Cheney</li>
-<li><strong>Dependencies:</strong> jQuery 1.7+, Modernizr, Enquire</li>
+<li><strong>Dependencies:</strong> jQuery 1.7+, Modernizr, Enquire, sony-stickynav, simplescroll</li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
 define(<span class="keyword">function</span>(require) {
 
@@ -23,7 +23,11 @@ define(<span class="keyword">function</span>(require) {
 
   <span class="keyword">var</span> module = {
     init: <span class="keyword">function</span>() {
-      <span class="keyword">new</span> ProductSummary( $(<span class="string">'.ps-module'</span>)[<span class="number">0</span>] );
+      <span class="keyword">var</span> $psModule = $(<span class="string">'.ps-module'</span>);
+
+      <span class="keyword">if</span> ( $psModule.length ) {
+        <span class="keyword">new</span> ProductSummary( $psModule[<span class="number">0</span>] );
+      }
     }
   };
 
@@ -163,7 +167,7 @@ then the default browser action will deselect our selection</p>             </td
 
       <span class="keyword">if</span> ( toDesktop ) {
         $msrp.insertBefore( $price );
-        self.$stickyNav.find(<span class="string">'.btn'</span>).after( self.$stickyPriceText );
+        self.$stickyNav.find(<span class="string">'#desktop-sticky-price'</span>).append( self.$stickyPriceText );
       } <span class="keyword">else</span> {
         $msrp.insertAfter( $price );
         self.$stickyTitle.after( self.$stickyPriceText );

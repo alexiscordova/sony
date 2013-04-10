@@ -6,8 +6,7 @@
 <li><strong>Version:</strong> 0.1</li>
 <li><strong>Modified:</strong> 03/15/2013</li>
 <li><strong>Author:</strong> George Pantazis</li>
-<li><strong>Dependencies:</strong> jQuery 1.7+, Modernizr, Enquire, <a href="sony-draggable.html">SonyDraggable</a>,
-                <a href="sony-navigationdots.html">SonyNavDots</a></li>
+<li><strong>Dependencies:</strong> jQuery 1.7+, Modernizr, Enquire, <a href="sony-carousel.html">SonyCarousel</a>,</li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
 define(<span class="keyword">function</span>(require){
 
@@ -59,12 +58,30 @@ define(<span class="keyword">function</span>(require){
       } <span class="keyword">else</span> {
         self.renderDesktop();
       }
+
+      self.inititialized = <span class="literal">true</span>;
     },
 
     reloadCached: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $restored = self.$cached.clone();
+          $restored;
+
+      <span class="keyword">if</span> ( !self.inititialized ) {
+        <span class="keyword">return</span>;
+      }
+
+      $restored = self.$cached.clone();
+
+      <span class="keyword">if</span> ( self.$userReviewCarousel ) {
+        self.$userReviewCarousel.sonyCarousel(<span class="string">'destroy'</span>);
+      }
+      <span class="keyword">if</span> ( self.$expertReviewCarousel ) {
+        self.$expertReviewCarousel.sonyCarousel(<span class="string">'destroy'</span>);
+      }
+      <span class="keyword">if</span> ( self.$mergedCarousel ) {
+        self.$mergedCarousel.sonyCarousel(<span class="string">'destroy'</span>);
+      }
 
       self.$el.replaceWith($restored);
       self.$el = $restored;
@@ -76,19 +93,19 @@ define(<span class="keyword">function</span>(require){
 
       self.reloadCached();
 
-      self.$el.find(<span class="string">'.carousel-slide'</span>).sonyCarousel({
+      self.$userReviewCarousel = self.$el.find(<span class="string">'.carousel-slide'</span>).sonyCarousel({
         wrapper: <span class="string">'.raa-user-reviews-carousel'</span>,
         slides: <span class="string">'.user-ratings, .raa-social-mention'</span>,
         useCSS3: self.useCSS3,
         pagination: <span class="literal">true</span>
       });
 
-      self.$el.find(<span class="string">'.raa-expert-reviews &gt; div'</span>).sonyCarousel({
-        wrapper: <span class="string">'.raa-expert-reviews'</span>,
+      self.$expertReviewCarousel = self.$el.find(<span class="string">'.raa-expert-reviews .reviews &gt; div'</span>).sonyCarousel({
+        wrapper: <span class="string">'.raa-expert-reviews .reviews'</span>,
         slides: <span class="string">'.raa-expert-review'</span>,
         useCSS3: self.useCSS3,
         pagination: <span class="literal">true</span>,
-        $dotNavWrapper: self.$el.find(<span class="string">'.raa-expert-reviews'</span>)
+        $dotNavWrapper: self.$el.find(<span class="string">'.raa-expert-reviews .reviews'</span>)
       });
     },
 
@@ -97,6 +114,36 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.reloadCached();
+
+      self.$mergedCarousel = self.$el.find(<span class="string">'.raa-merged-carousel &gt; div'</span>);
+      self.$mergedCarouselHeader = self.$mergedCarousel.parent().find(<span class="string">'h3'</span>);
+
+      self.$el.find(<span class="string">'.raa-expert-review, .user-ratings, .raa-social-mention'</span>).each(<span class="keyword">function</span>(){
+        self.$mergedCarousel.append(<span class="keyword">this</span>);
+      });
+
+      self.$mergedCarousel.append(self.$el.find(<span class="string">'.raa-awards'</span>));
+
+      self.$mergedCarousel.sonyCarousel({
+        wrapper: <span class="string">'.raa-merged-carousel'</span>,
+        slides: <span class="string">'.raa-expert-review, .user-ratings, .raa-social-mention, .raa-awards'</span>,
+        useCSS3: self.useCSS3,
+        pagination: <span class="literal">true</span>
+      });
+
+      self.setMobileHeader(<span class="number">0</span>);
+
+      self.$mergedCarousel.on(<span class="string">'SonyCarousel:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
+        self.setMobileHeader(which);
+      });
+    },
+
+    setMobileHeader: <span class="keyword">function</span>(which){
+
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+            newHeader = self.$mergedCarousel.children().eq(which).data(<span class="string">'header'</span>);
+
+        self.$mergedCarouselHeader.html(newHeader);
     }
   };
 

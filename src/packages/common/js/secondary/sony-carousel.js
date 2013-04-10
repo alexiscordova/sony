@@ -50,10 +50,12 @@
 //
 //      $('#foo').sonyCarousel('resetSlides');
 //
-// If you need to destroy the carousel, run this method:
+// If you need to destroy the carousel, run the method below. You should be sure
+// to run destroy if you're wiping/reinitializing your carousels as part of resize
+// or something similar; otherwise you'll retain a ton of references in memory that
+// can't be garbage-collected.
 //
 //      $('#foo').sonyCarousel('destroy');
-
 
 define(function(require){
 
@@ -417,7 +419,9 @@ define(function(require){
     // Manually allow to set animation speed, e.g. different breakpoints
     setAnimationSpeed: function(milliscnds){
       var self = this;
-      self.animationSpeed = milliscnds || self.animationSpeed;
+      self.animationSpeed = milliscnds;
+
+      console.log( 'setting new animation speed ' , milliscnds);
     },
 
     // Manually allow to set CSS transition speed, e.g. different breakpoints
@@ -572,10 +576,10 @@ define(function(require){
     cloneClass: 'sony-carousel-edge-clone',
 
     // Speed of slide animation, in ms.
-    animationSpeed: 450,
+    animationSpeed: 500,
 
     //default CSS3 easing equation
-    CSS3easingEquation: 'cubic-bezier(0.450, 0.735, 0.445, 0.895)',
+    CSS3easingEquation: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)',
 
     // Which direction the carousel moves in. Plugin currently only supports 'x'.
     axis: 'x',
