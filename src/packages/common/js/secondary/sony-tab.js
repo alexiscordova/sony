@@ -179,8 +179,8 @@ define(function(require){
   * ============ */
 
   $(window).on('hashchange', function( evt ) {
-    var target = window.location.hash ? window.location.hash.substring(1) : $('[data-target]').first().attr('data-target'),
-        $target = $('[data-target="' + target + '"]'),
+    var target = window.location.hash ? window.location.hash.substring(1) : $('.tab[data-target]').first().attr('data-target'),
+        $target = $('.tab[data-target="' + target + '"]'),
         isAlreadyActive = $target.hasClass('active'),
         showHash = !!window.location.hash;
 
