@@ -7,170 +7,13 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
 
   header.jumbotron.subhead#overview
     div.container
-      h2.bs-docs-heading Scaffolding
-      p.p1
-        | The system is built on responsive 12-column grids, layouts, and components, with 2 primary left &amp; right margins.
-  div.container
-    p
-      | This page has been moved into the <a href="../../../sony-style-guide/doku.php?id=development:scaffolding" target="_blank">Style Guide</a>.
-    //- div.container#show-hidden-sections-btn-w(style='margin-bottom:-40px; display:none;')
+      h1.bs-docs-heading Scaffolding Container Example
+      
+  div.main.docs-scaffolding#docs-scaffolding
+    div.container#show-hidden-sections-btn-w(style='margin-bottom:-40px; display:none;')
       a.btn.btn-special(href='#',style='width:260px;') Show Hidden Sections
-    //- div#pre-small-screen
-      section#root-level-page-structure
-        div.container
-          h2.bs-docs-heading Root-level page structure
-          h3.bs-docs-heading Page structure overview
-          p
-            | The blue "#page-wrap-inner" section of the page is 100% wide with no margins or padding.
-          div.docs-page-structure-page.overall-page-demo
-            div.docs-page-structure-nav
-              pre.prettyprint.prettyprint-jade
-                span.tag nav
-            div.docs-page-structure-main
-              pre.prettyprint.prettyprint-jade #page-wrap-inner
-            div.docs-page-structure-footer
-              pre.prettyprint.prettyprint-jade
-                span.tag footer
-          h3.bs-docs-heading Page sections
-          p
-            | Directly inside of "#page-wrap-inner" are the major
-            code
-              | .container
-            | &nbsp;sections of the page, each its own 'row' of content. All "root-level" modules should be wrapped in one of these
-            code
-              | &lt;section class="container"&gt;
-            | .
-          p
-            | Each container has left &amp; right margins*, which may be different at each breakpoint. To remove the side margins, add
-            code
-              | .full-bleed
-            | &nbsp;to the
-            code
-              | .container
-            | .
-          p.p3
-            | *They're margins in theory, but not in css. margin-left and margin-right are actually auto, and the container has a set (percent) width, which is calculated, based on the size the margins should be.
-          div.docs-page-structure-page
-            div.docs-page-structure-nav
-              pre.prettyprint.prettyprint-jade
-                span.tag nav
-            div.docs-page-structure-main
-              section.container
-                pre.prettyprint.prettyprint-jade .container
-              section.container.full-bleed
-                pre.prettyprint.prettyprint-jade .container.full-bleed
-              section.container
-                pre.prettyprint.prettyprint-jade .container
-            div.docs-page-structure-footer
-              pre.prettyprint.prettyprint-jade
-                span.tag footer
-          h3.bs-docs-heading Max-width
-          p
-            | The
-            code
-              | .container
-            | &nbsp;sections have a max-width, so they won't expand past a certain width. If you need a container to be full bleed no matter how wide the browser window is (for instance for full-browser-width background), add
-            code
-              | .full-bleed-no-max
-            | &nbsp;to your
-            code
-              | .container
-          div.docs-page-structure-page.docs-page-structure-page-max
-            div.docs-page-structure-main
-              section.container
-                pre.prettyprint.prettyprint-jade .container
-              div.docs-docs-page-structure-maxWidth-outline
-              section.container.full-bleed
-                pre.prettyprint.prettyprint-jade .container.full-bleed
-              section.container.full-bleed.full-bleed-no-max
-                pre.prettyprint.prettyprint-jade .container.full-bleed-no-max
-              section.container
-                pre.prettyprint.prettyprint-jade .container
-          p.p4
-            | The red lines indicate the "max-width" setting.
-          h3.bs-docs-heading Nesting containers
-          p
-            | If you need a full-bleed for a background, but still need the regular margins for content, you can nest a
-            code
-              | .container
-            | &nbsp;section inside of a
-            code
-              | .full-bleed
-            | &nbsp;and/or
-            code
-              | .full-bleed-no-max
-            | &nbsp;section.
-          div.docs-page-structure-page.docs-page-structure-page-max(style='margin-bottom:10px;')
-            div.docs-page-structure-main
-              section.container
-                pre.prettyprint.prettyprint-jade .container
-              section.container.full-bleed.nesting-demo-parent
-                div.container
-                  pre.prettyprint.prettyprint-jade
-                    | .container.full-bleed
-                    |   .container
-              section.container.full-bleed.full-bleed-no-max.nesting-demo-parent
-                div.container.full-bleed.nesting-demo-parent
-                  div.container
-                    pre.prettyprint.prettyprint-jade
-                      | .container.full-bleed-no-max
-                      |   .container.full-bleed
-                      |     .container
-              div.docs-docs-page-structure-maxWidth-outline
-              section.container
-                pre.prettyprint.prettyprint-jade .container
-          h5.bs-docs-heading Same layout at 'normal' (no maxed out) width
-          div.docs-page-structure-page(style='margin-bottom:10px;')
-            div.docs-page-structure-main
-              section.container
-                pre.prettyprint.prettyprint-jade .container
-              section.container.full-bleed.nesting-demo-parent
-                div.container
-                  pre.prettyprint.prettyprint-jade
-                    | .container.full-bleed
-                    |   .container
-              section.container.full-bleed.full-bleed-no-max.nesting-demo-parent
-                div.container.full-bleed.nesting-demo-parent
-                  div.container
-                    pre.prettyprint.prettyprint-jade
-                      | .container.full-bleed-no-max
-                      |   .container.full-bleed
-                      |     .container
-              div.docs-docs-page-structure-maxWidth-outline
-              section.container
-                pre.prettyprint.prettyprint-jade .container
-          h3.bs-docs-heading Grid container &amp; margins
-          p
-            | To utilize the standard grid, add a
-            code
-              | .grid
-            | &nbsp;div inside of
-            code
-              | .container
-            | . The grid has its own margins, in addition to the
-            code
-              | .container
-            | &nbsp;margins.
-          div.docs-page-structure-page
-            div.docs-page-structure-main
-              section.container
-                pre.prettyprint.prettyprint-jade .container
-              section.container.nesting-demo-parent
-                div.grid.show-grid
-                  pre.prettyprint.prettyprint-jade.tall
-                    | .container
-                    |   .grid
-              section.container.full-bleed.nesting-demo-parent
-                div.container.nesting-demo-parent
-                  div.grid.show-grid
-                    pre.prettyprint.prettyprint-jade.tall
-                      | .container.full-bleed
-                      |   .container
-                      |     .grid
-              section.container
-                pre.prettyprint.prettyprint-jade .container
+    div#pre-small-screen
       section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
-        h3.bs-docs-heading Examples
         p
           | Resize your browser to see how the
           code
@@ -426,7 +269,7 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             |   .span1
             |   .span1
             |   .span1
-    //- section.container#small-screens-section(style='padding-bottom:20px; padding-top:50px; border-top:0;')
+    section.container#small-screens-section(style='padding-bottom:20px; padding-top:50px; border-top:0;')
       h2.bs-docs-heading#small-screen-grids Small Screen Grids
       p
         | There are 2 different options for grids below the 768 breakpoint:
@@ -600,7 +443,7 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
         code
           | .full-bleed
         | &nbsp;to add margins back for mobile.
-    //- section#responsive.container
+    section#responsive.container
       h2.bs-docs-heading Responsive design
       img(src='img/responsive-illustrations.png',alt='Responsive devices',style='float: right; margin: 0 0 20px 20px;')
       p
