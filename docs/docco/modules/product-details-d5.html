@@ -3,7 +3,7 @@
 <ul>
 <li><strong>Class:</strong> ProductDetails</li>
 <li><strong>Version:</strong> 0.1</li>
-<li><strong>Modified:</strong> 04/5/2013</li>
+<li><strong>Modified:</strong> 04/10/2013</li>
 <li><strong>Author:</strong> Telly Koosis</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+, Modernizr</li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -42,15 +42,15 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>DEFAULTS</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.mImageWidths = [];
     self.mImageHeights = [];
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>LISTEN</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>register listener for global debounce to call method <strong>after</strong> debounce begins</p>             </td>             <td class="code">               <div class="highlight"><pre>    Environment.on(self.debounceEvent, self.onResizeFunc);
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>LISTEN
+register listener for global debounce to call method <strong>after</strong> debounce begins</p>             </td>             <td class="code">               <div class="highlight"><pre>    Environment.on(self.debounceEvent, self.onResizeFunc);
 
     self.init();
 
     log(<span class="string">'SONY : ProductDetails : Initialized'</span>);
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <h2>Private methods</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h2>Private methods</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   ProductDetails.prototype = {
 
     constructor: ProductDetails,
@@ -62,52 +62,36 @@ define(<span class="keyword">function</span>(require){
 
       $images.on(<span class="string">'imageLoaded iQ:imageLoaded'</span>, <span class="keyword">function</span>(){
         $readyImages = $readyImages.add($(<span class="keyword">this</span>));
-       
         <span class="keyword">if</span> ($readyImages.length === $images.length) {
           self.onImagesLoaded();
         }
-
       });
 
       <span class="keyword">if</span> ($readyImages.length === $images.length) {
         self.onImagesLoaded();
       }
-
-      <span class="keyword">if</span> ( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
-        enquire.register(<span class="string">"(min-width: 480px)"</span>, <span class="keyword">function</span>() {
-          self.renderDesktop();
-        });
-        enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
-          self.renderMobile();
-        });
-
-      } <span class="keyword">else</span> {
-        self.renderDesktop();
-      }
     },
 
-    resizeFunc : <span class="keyword">function</span>(  ){
+    resizeFunc : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       console.log( <span class="string">'resizeFunc »'</span>);
       self.buildMeasurements();
-
     },
 
-    onImagesLoaded : <span class="keyword">function</span>(  ){
+    onImagesLoaded : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.showImages();
-      self.showMeasurements();
       self.buildMeasurements();
+      self.showMeasurements();
     },
 
-
-    buildMeasurements : <span class="keyword">function</span>(  ){
+    buildMeasurements : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.getMImageDimensions();
       self.setMeasurementDimensions();
     },
 
-    showImages : <span class="keyword">function</span>(  ){
+    showImages : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $images = self.$measurementImages;
 
@@ -116,29 +100,27 @@ define(<span class="keyword">function</span>(require){
       });
     },
 
-    showMeasurements : <span class="keyword">function</span>(  ){
+    showMeasurements : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $measurements = self.$measurements;
-
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>console.log( '$measurements »' , $measurements);    </p>             </td>             <td class="code">               <div class="highlight"><pre>      
+      
       $measurements.each(<span class="keyword">function</span>() {
         $(<span class="keyword">this</span>).addClass(<span class="string">'on'</span>);
       });  
-
     },
 
     getMImageDimensions : <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>console.log( '««« getImageWidths »»»' );</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $images = self.$measurementImages;
       
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>get the w/h of each image</p>             </td>             <td class="code">               <div class="highlight"><pre>      $images.each(<span class="keyword">function</span>(index, value) { 
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>get the w/h of each image</p>             </td>             <td class="code">               <div class="highlight"><pre>      $images.each(<span class="keyword">function</span>(index, value) { 
         self.mImageWidths[index] = $(<span class="keyword">this</span>).outerWidth();
         self.mImageHeights[index] = $(<span class="keyword">this</span>).outerHeight();
       });
     },
 
     setMeasurementDimensions : <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>console.group( '««« setMeasurementDimensions »»»' );</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $measurements = self.$vertMeasurements.add(self.$horzMeasurements);
       
         $measurements.each(<span class="keyword">function</span>(index) { 
@@ -147,8 +129,25 @@ define(<span class="keyword">function</span>(require){
               $mContainer = $(<span class="keyword">this</span>).find(<span class="string">".measurements-container"</span>),
               theWidth = dir === <span class="string">"v"</span> ? $mContainer.outerWidth(<span class="literal">true</span>) : self.mImageWidths[imgIndex],
               theHeight = dir === <span class="string">"v"</span> ? self.mImageHeights[imgIndex] : $mContainer.outerHeight(<span class="literal">true</span>),
-              theMarginTop = dir === <span class="string">"v"</span> ? -($mContainer.innerHeight() / <span class="number">2</span>) : <span class="number">0</span>,
-              theMarginLeft = dir === <span class="string">"v"</span> ? <span class="number">0</span> : -($mContainer.innerWidth() / <span class="number">2</span>);
+              top = <span class="number">50</span>,
+              theMarginTop, theMarginLeft;
+
+             <span class="keyword">if</span>(dir === <span class="string">"v"</span>) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>if the vertical measurement > image then split measurement height in half instead</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span>($mContainer.innerHeight() &gt; theHeight){
+                theMarginTop = <span class="number">0</span>;
+                top = <span class="number">0</span>;
+              }<span class="keyword">else</span>{
+                theMarginTop = -($mContainer.innerHeight() / <span class="number">2</span>);
+              }
+              
+              theMarginLeft = <span class="number">0</span>;
+              
+             } <span class="keyword">else</span> <span class="keyword">if</span> (dir === <span class="string">"h"</span>){
+                theMarginTop = <span class="number">0</span>;
+                top = <span class="number">0</span>;
+                theMarginLeft = -($mContainer.innerWidth() / <span class="number">2</span>);
+             }
 
             $(<span class="keyword">this</span>).css({
               <span class="string">"height"</span>:theHeight,
@@ -156,24 +155,12 @@ define(<span class="keyword">function</span>(require){
             });
 
             $mContainer.css({
+              <span class="string">"top"</span> : top + <span class="string">'%'</span>,
               <span class="string">"marginTop"</span> : theMarginTop,
               <span class="string">"marginLeft"</span> : theMarginLeft
             });
-
         });
-      
-    },
-
-    renderDesktop: <span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>console.log( 'renderDesktop »' );</p>             </td>             <td class="code">               <div class="highlight"><pre>    },
-
-    renderMobile: <span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>self.resetMeasurements();
-console.log( 'renderMobile »' );</p>             </td>             <td class="code">               <div class="highlight"><pre>    }
+    }
   };
 
   <span class="keyword">return</span> module;
