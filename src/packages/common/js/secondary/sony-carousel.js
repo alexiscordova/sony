@@ -102,7 +102,7 @@ define(function(require){
       }
 
       if ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3EasingEquation);
+        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3Easing);
       }
 
       Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function(){
@@ -431,13 +431,15 @@ define(function(require){
 
     // Update CSS3 Easing equation.
     //
-    //      $('#foo').sonyCarousel('setCSS3EasingEquation', 100);
+    //      $('#foo').sonyCarousel('setCSS3Easing', 'ease-in');
+    //      $('#foo').sonyCarousel('setCSS3Easing',
+    //          'cubic-bezier(0.000, 1.035, 0.400, 0.985)');
     //
-    setCSS3EasingEquation: function(bezierStr){
+    setCSS3Easing: function(bezierStr){
 
       var self = this;
 
-      self.CSS3EasingEquation = bezierStr;
+      self.CSS3Easing = bezierStr;
     },
 
     // To prevent drags from being misinterpreted as clicks, we only redirect the user
@@ -592,7 +594,7 @@ define(function(require){
     animationSpeed: 500,
 
     //default CSS3 easing equation
-    CSS3EasingEquation: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)',
+    CSS3Easing: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)',
 
     // Which direction the carousel moves in. Plugin currently only supports 'x'.
     axis: 'x',
