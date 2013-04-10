@@ -13,7 +13,12 @@ define(function(require){
     'use strict';
 
     var $ = require('jquery'),
-        Environment = require('require/sony-global-environment');
+        enquire = require('enquire'),
+        iQ = require('iQ'),
+        Settings = require('require/sony-global-settings'),
+        Environment = require('require/sony-global-environment'),
+        SonyCarousel = require('secondary/sony-carousel'),
+        EvenHeights = require('secondary/sony-evenheights');
 
     var module = {
       init: function() {
@@ -26,44 +31,89 @@ define(function(require){
     // Start module
     var Editorial = function(element, options){
       var self = this;
-      $.extend(self, {}, $.fn.editorial.defaults, options, $.fn.editorial.settings);
-
+      
+      self.$el = $(element);
+      self.collapsableTout = self.$el.find('.m2up, .m3up');
+      self.colspan = self.$el.find('.m3up').length > 0 ? "span4" : self.collapsableTout.find('.horizontal').length > 0 ? "span6" : "span5";
+      self.col = self.collapsableTout.find('>div');
+      self.hasOffset1 = self.col.hasClass('offset1');
+      
+      self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
+      
       self._init();
     };
 
     Editorial.prototype = {
       constructor: Editorial,
-      
-      _resize: function(){
-        
+
+      resize: function(){
+        var self = this;
+
         //fixes horizontal 2 up layout wraping
         var tc = $('.editorial.tout .m2up .horizontal .table-center-wrap');
-        if(tc){
+        if(tc.length > 0){
           tc.width(tc.parent().width() - tc.prev().width() - 81);
         }
         
-        //if mobile make 2up and 3up into carousels // if not un-make carousels 
-        
-        // var carouselEnabled = false;
-        // if(windowWidth < 768 && !carouselEnabled){
-          // $('.carousel-1 .sony-carousel').sonyCarousel({
-            // wrapper: '.sony-carousel-wrapper',
-            // slides: '.sony-carousel-slide',
-            // slideChildren: '.sony-carousel-slide-children',
-            // useCSS3: true,
-            // paddles: true,
-            // pagination: true
-          // });
-        // }else if(windowWidth >=768 && carouselEnabled){
-//           
-        // }
-//         
-        
+        //fixes heights of tout copy across 2up 3up
+        var heightGroup = self.col.find('.copy');
+        console.log(heightGroup);
+        if(heightGroup.length >0){
+          heightGroup.evenHeights();
+        }
       },
+      
+      initDesktop: function(){
+        var self = this;      
+
+        self.collapsableTout.sonyCarousel('destroy');
+        self.collapsableTout.off(Settings.transEndEventName);
+        self.collapsableTout.addClass('grid');
+        self.collapsableTout.attr("style", "");
+        self.col.addClass(self.colspan);
+        if(self.hasOffset1){
+          self.col.first().addClass('offset1');
+        }
+      },
+      initMobile: function(){
+        var self = this;
+        
+        self.collapsableTout.removeClass('grid');
+        self.col.removeClass(self.colspan);
+        self.col.removeClass('offset1');
+        self.collapsableTout.sonyCarousel({
+          wrapper: '.editorial.tout .container',
+          slides: '>div',
+          useCSS3: true,
+          paddles: false, 
+          pagination: true
+        });
+        self.collapsableTout.on(Settings.transEndEventName, function(){
+          iQ.update(true);
+        });
+      },
+      
 
       _init: function(){
-        this._resize();
-        Environment.on('global:resizeDebounced', this._resize);
+        var self = this;
+       
+        //if its a 2 or 3up we want to start the carousel code
+        if(self.collapsableTout.length > 0){
+         
+          if ( !Settings.$html.hasClass('lt-ie10') ){
+            enquire.register("(min-width: 768px)", function() {
+              self.initDesktop();
+            });
+            enquire.register("(max-width: 767px)", function() {
+              self.initMobile();
+            });           
+          } else {
+            self.initDesktop();
+          }
+          
+          self.resize();
+          Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
+        }
         
         log('SONY : Editorial : Initialized');
       }
