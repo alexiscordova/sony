@@ -7,6 +7,12 @@ section.raa-module
       h2.l1 #{data.config.title}
 
   .container.raa-content(class=(data.userReviews.count <= 0) ? "no-user-reviews" : "has-user-reviews")(class=(data.expertReviews) ? "has-expert-reviews" : "no-expert-reviews")
+
+    .grid.raa-merged-carousel-wrapper.no-grid-at-567
+      div.raa-merged-carousel.raa-user-reviews.raa-expert-reviews.span12
+        h3.l3
+        div
+
     .grid.no-grid-at-567
 
       userReviewColumns = 8;
@@ -21,7 +27,7 @@ section.raa-module
           .raa-user-reviews-carousel
              .carousel-slide
 
-              div.user-ratings
+              div.user-ratings(data-header="Users Say")
                 if data.userReviews && data.userReviews.count > 0
                   div.raa-overall
                     div.raa-stars
@@ -59,9 +65,9 @@ section.raa-module
 
               if data.userSocialMentions
                 for item in data.userSocialMentions
-                  div.raa-social-mention
+                  div.raa-social-mention(data-header="Users Say")
                     aside
-                      blockquote.bq4
+                      blockquote.bq2
                         p #{item.message}
                       div.p4.lt
                         a(href=item.profileLink)
@@ -69,23 +75,23 @@ section.raa-module
                           | #{item.name}
 
       if !userReviewTakeover
-        aside.span4
+        aside.span4.raa-expert-reviews
           if data.expertReviews
             h3.l3 Experts Say
-            div.raa-expert-reviews
+            div.reviews
               div
                 for item in data.expertReviews
-                  div.raa-expert-review
+                  div.raa-expert-review(data-header="Experts Say")
                     a(href=item.link)
                       img(src=item.logoImage, alt=item.reviewer)
-                    blockquote.bq4
+                    blockquote.bq4.bq3-at-567
                       p #{item.blurb}
                     div.p4.lt
                       a(href=item.link) Read Review
 
           if data.awards
             h3.l3 Awards
-            ul.raa-awards
+            ul.raa-awards(data-header="Awards")
               for item in data.awards
                 li
                   a(href=item.link)
@@ -96,7 +102,7 @@ section.raa-module
 
     if userReviewTakeover
       .grid.no-grid-at-567
-        aside.span12
+        aside.span12.raa-awards-wrapper
           if data.awards
             h3.l3 Awards
             ul.raa-awards

@@ -166,7 +166,10 @@ define(function(require){
 
       self.setAcceleration(e);
 
-      self.$el.removeClass('dragging');
+      setTimeout(function(){
+        self.$el.removeClass('dragging dragging2');    
+      }, 250);
+      
       self.isScrubbing = self.hasPassedThreshold = false;
 
       self.$el.trigger('sonyDraggable:dragEnd', {

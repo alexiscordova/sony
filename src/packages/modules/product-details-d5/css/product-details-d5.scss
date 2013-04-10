@@ -22,12 +22,12 @@
 
 		.title{
 			margin:0;
-			padding:0 0 26px 0;
+			padding:0 0 20px 0;
 			border-bottom: 4px solid $gray70;
 		} // title
 
 		.desc{
-			margin:40px 0 36px 0;
+			margin:30px 0 36px 0;
 			@include content-columns(2);
 		} //. desc
 
@@ -68,7 +68,6 @@
 		.copy,
 		.icon{
 			margin-bottom: 0px;
-			// vertical-align: middle;
 		} 
 
 		.copy{		
@@ -80,9 +79,8 @@
 
 	 		&.with-icon{
 				width:71%;
-				margin-left: px-em(26px);
+				margin-left: px-em(10px);
 				display: inline-block;
-				//border:1px solid green;
 			} // .with-icon
 
 		} // copy
@@ -91,7 +89,6 @@
 			text-align: center;
 			color:$gray20;
 			height: 45px;
-			width:16%;
 			display: inline-block;
 		} // icon
 
@@ -130,19 +127,25 @@
 	//            888                                 
 	.specs{
 		padding-top:40px;
+		padding-right:px-em(35px); 
 
-		.in-last-column{
-			padding-left: px-em(18px); 
+		dt{
+			&.l3{
+				margin-bottom:4px;
+			}
 		}
 
 		dd{
 			margin-left:0;
+			&.p3{
+				margin-bottom:16px;	
+			}
+
 		} // dd
+
 
 	} // .specs
                  
-
-
 	// 888                        888           .d8888b.           888                                 
 	// 888                        888          d88P  Y88b          888                                 
 	// 888                        888          888    888          888                                 
@@ -157,13 +160,8 @@
 
 		&.has-measurements{
 			background-color:$gray80;
-			padding:39px px-em(32px) 52px px-em(32px);
+			padding:39px 2% 52px 2%;
 		}
-
-		.specs{
-			padding-left: px-em(18px); 
-		} // .specs
-
 
 		// show only after images are loaded
 		.vertical-measurement,
@@ -201,16 +199,14 @@
 
 	.measurements{
 		display: inline-block;
-		//border:1px solid red;
-		// padding:39px px-em(32px) 52px px-em(32px);
+		overflow: hidden;
 
 		.measurement{
 		  margin-bottom:18px;
 		  margin-right: px-em(30px);
 		  float:left;
-
 		} // end .measurement
-		
+
 		.img-wrapper{
 			float:left;
 			position: relative;
@@ -221,6 +217,7 @@
 		}
 
 		.centimeters{
+			@include fontMedium;
 			color:$gray10;
 		}
 

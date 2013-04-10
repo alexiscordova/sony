@@ -1734,10 +1734,16 @@ form.bs-docs-example {
     padding:1px 0;
 
     .show-grid {
-      margin:2px auto;
+      margin: 2px auto;
+      padding: 2px;
       @include border-radius(0);
       background:rgba(255,234,0,0.4) !important;
       border:solid 1px rgba(255,234,0,0.6);
+
+      &.slimgrid{
+        background:      rgba(255,175,0,0.4) !important;
+        border:solid 1px rgba(255,175,0,0.6);        
+      }
     }
 
     .container,
@@ -1819,11 +1825,11 @@ form.bs-docs-example {
 
   &.grid-examples{
     .docs-page-structure-main{
-      background:lighten($blue,30%);
+      // background:lighten($blue,30%);
 
       .show-grid{
-        background:rgba(255,234,0,0.1) !important;
-        border:solid 1px rgba(255,234,0,0.7);
+        // background:rgba(255,234,0,0.1) !important;
+        // border:solid 1px rgba(255,234,0,0.7);
       }
     }
   }
