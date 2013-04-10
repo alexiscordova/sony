@@ -28,6 +28,7 @@ mixin measurementsList(measurements)
     .measurement.p4
       .wrapper
         .img-wrapper
+          //- .iq-img(data-src-desktop= m.image.srcDesktop, data-src-tablet= m.image.srcTablet, data-src-phone= m.image.srcPhone, data-src-desktop-highres= m.image.srcDesktopHighRes, data-src-tablet-highres= m.image.srcTabletHighRes, data-src-phone-highres= m.image.srcPhoneHighRes)
           +iQImage(m.image, "pd-image")
 
         if (cm)
@@ -42,6 +43,7 @@ mixin featureList(list)
   ul(class=listClasses)
     each li in list
       - copyClasses = ["copy", "ghost-center"]
+     
       //- at least copy required
       if (li.copy)
         li
@@ -58,7 +60,7 @@ mixin featureList(list)
               if (li.link)
                 a.no-wrap(href=li.link)= li.linkLabel
             
-mixin definitionList( list, isHorizontal )
+mixin specsList( list, isHorizontal )
   - isHorizontal = isHorizontal || false
   - clss = isHorizontal ? 'dl-horizontal' : null
   dl(class=clss)
