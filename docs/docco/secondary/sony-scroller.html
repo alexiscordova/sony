@@ -322,19 +322,20 @@ We saved their function to this reference so we could have our own onScrollEnd</
     },
 
     _showHideNavs : <span class="keyword">function</span>( currentPage, numPages ) {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          theClass = <span class="string">'hidden'</span>;
 
       <span class="keyword">if</span> ( self.$navPrev &amp;&amp; self.$navNext ) {
 </pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Hide show prev button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( currentPage === <span class="number">0</span> ) {
-          self.$navPrev.addClass(<span class="string">'hide'</span>);
+          self.$navPrev.addClass( theClass );
         } <span class="keyword">else</span> {
-          self.$navPrev.removeClass(<span class="string">'hide'</span>);
+          self.$navPrev.removeClass( theClass );
         }
 
 </pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Hide show next button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( currentPage === numPages ) {
-          self.$navNext.addClass(<span class="string">'hide'</span>);
+          self.$navNext.addClass( theClass );
         } <span class="keyword">else</span> {
-          self.$navNext.removeClass(<span class="string">'hide'</span>);
+          self.$navNext.removeClass( theClass );
         }
       }
     },

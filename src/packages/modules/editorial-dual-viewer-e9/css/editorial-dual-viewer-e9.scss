@@ -73,14 +73,10 @@
       color:$white;
 
       &.dragging .handle,
-      .handle:hover {
-        padding:4px;
-
+      &.dragging2 .handle {
         .inner {
-          width:54px;
-          height:54px;
+          @include scale(1.174);
           background:$gray40;
-          margin:-27px 0 0 -27px;
         }
           i {margin:0 3px;}
       }
@@ -93,15 +89,9 @@
         width: 62px;
         height: 62px;
         background:url('../../img/editorial-dual-viewer-e9/gray30.png');
-        padding:8px;
         cursor:pointer;
-        @include border-radius(100px);
-        @include transition(.05s);
-
-        &.hoverOn {
-          .inner,
-          i {@include transition(.25s ease-in);}
-        }
+        @include border-radius(50%);
+        @include transition(.1s);
       }
         .inner {
           position:absolute;
@@ -114,24 +104,23 @@
           top:50%;
           left:50%;
           margin:-23px 0 0 -23px;
-          @include border-radius(100px);
-          @include transition(.25s ease-out);
+          @include border-radius(50%);
+          @include transition(.1s ease-out);
         }
           .icons {
             position:absolute;
             top:50%;
             left:50%;
             width:100px;
-            margin:-31px 0 0 -50px;
+            margin:-32px 0 0 -50px;
             line-height:60px;
           }
             i {
               display:inline-block;
               margin:0;
               -webkit-font-smoothing: antialiased;
-              @include transition(.25s ease-out);
-            }
-    
+              @include transition(.1s ease-out);
+            } 
   }
 
   // Vertical scrubber
@@ -266,14 +255,14 @@
 
       .inner {visibility:hidden;}
     }
-    .edv-images .scrubber .handle:hover,
-    .dragging .handle {background-position:-62px 0;}
+    .dragging .handle,
+    .dragging2 .handle {background-position:-62px 0;}
     
     &.y .edv-images .scrubber .handle {
       background-position:0 -62px;
     }
-    &.y .edv-images .scrubber .handle:hover,
-    &.y .dragging .handle {background-position:-62px -62px;}
+    &.y .dragging .handle,
+    &.y .dragging2 .handle {background-position:-62px -62px;}
   }
 }
 
