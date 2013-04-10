@@ -50,10 +50,12 @@
 //
 //      $('#foo').sonyCarousel('resetSlides');
 //
-// If you need to destroy the carousel, run this method:
+// If you need to destroy the carousel, run the method below. You should be sure
+// to run destroy if you're wiping/reinitializing your carousels as part of resize
+// or something similar; otherwise you'll retain a ton of references in memory that
+// can't be garbage-collected.
 //
 //      $('#foo').sonyCarousel('destroy');
-
 
 define(function(require){
 
