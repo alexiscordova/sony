@@ -7,6 +7,12 @@ $maximumChildren: 20;
 
 .raa-content {
 
+  .carousel-slide,
+  .raa-expert-reviews > div,
+  .raa-merged-carousel {
+    -webkit-backface-visibility: hidden;
+  }
+
   .raa-merged-carousel-wrapper {
     display: none;
   }
@@ -29,6 +35,13 @@ $maximumChildren: 20;
     overflow: hidden;
     height: 420px;
     border-right: 1px solid $gray70;
+
+    .sony-dot-nav {
+      position: absolute;
+      bottom: 16px;
+      left: 0;
+      width: 100%;
+    }
   }
 
   &.span12 {
@@ -50,6 +63,7 @@ $maximumChildren: 20;
     .user-ratings,
     .raa-social-mention {
       width: (100% / $maximumChildren);
+      height: 332px;
       margin-top: 53px;
       float: left;
     }
@@ -59,6 +73,17 @@ $maximumChildren: 20;
   .raa-social-mention aside {
     width: 355px;
     margin: 0 auto;
+    text-align: center;
+
+    blockquote {
+      margin-bottom: 40px;
+    }
+
+    img {
+      width: 40px;
+      height: 40px;
+      margin: 0 10px 0 0;
+    }
   }
 
   .user-ratings {
@@ -174,26 +199,6 @@ $maximumChildren: 20;
   }
 }
 
-.raa-merged-carousel {
-
-  position: relative;
-  min-height: 236px;
-  overflow: hidden;
-
-  > div {
-    position: relative;
-    width: $maximumChildren * 100%;
-  }
-
-  .user-ratings,
-  .raa-social-mention,
-  .raa-expert-review,
-  .raa-awards {
-    width: (100% / $maximumChildren);
-    float: left;
-  }
-}
-
 .raa-awards {
   margin: 0;
 
@@ -267,3 +272,56 @@ $maximumChildren: 20;
     }
   }
 }
+
+.raa-merged-carousel {
+  position: relative;
+  overflow: hidden;
+
+  h3 {
+    margin-bottom: 18px;
+  }
+
+  > div {
+    position: relative;
+    width: $maximumChildren * 100%;
+
+    .no-user-reviews & {
+      height: 300px;
+      padding-top: 40px;
+      background-color: $gray80;
+    }
+  }
+
+  .user-ratings,
+  .raa-social-mention,
+  .raa-expert-review,
+  .raa-awards {
+    width: (100% / $maximumChildren);
+    height: 292px;
+    float: left;
+  }
+
+  .raa-expert-review {
+    width: (98% / $maximumChildren);
+    padding: 32px 24px;
+    margin: 0 1% / $maximumChildren;
+    background-color: $gray80;
+
+    blockquote {
+      margin: px-em(12px) 0 px-em(18px);
+    }
+  }
+
+  .raa-awards {
+    margin-top: 0;
+
+    li {
+      margin: 8px 0 4px;
+
+      .no-user-reviews & {
+        padding: 0 16px;
+      }
+    }
+  }
+}
+

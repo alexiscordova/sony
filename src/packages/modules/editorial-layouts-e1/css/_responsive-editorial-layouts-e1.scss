@@ -7,6 +7,15 @@ $tabletMax: px-em(979);
 
 //tablet only
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
+  .editorial.full-inner{
+    .box{
+      padding: 46px 42px 40px 42px;
+    }
+    .box.center{
+      padding: 70px 56px;
+    }
+  }
+  
   .editorial.mediaright,
   .editorial.medialeft{
     .grid,
@@ -38,8 +47,14 @@ $tabletMax: px-em(979);
 //phone only
 @media (max-width: $phoneMax) {
   .editorial{
+    .no-grid-at-767{
+      width:100%;
+    }
     .box{
-      padding:0;
+      padding:0 28px;
+      .link .btn{
+        margin-top:12px;
+      }
     }
     .center{
       text-align:left;
@@ -66,10 +81,10 @@ $tabletMax: px-em(979);
     }
     .box{
       margin-top:0;
-      padding: 20px 22px;
+      padding: 22px 28px 26px 28px;
     }
     .box.center{
-      padding: 20px 22px;
+      padding: 22px 28px 26px 28px;
     }
   }
   .editorial.mediaright,
@@ -79,21 +94,31 @@ $tabletMax: px-em(979);
     .table-center-wrap{ 
       min-height:0px;
     }
+    .grid{
+      width:100%;
+    }
     .table-center-wrap{
       margin-top:0;
     }
+    .image-module{
+      text-align:center;
+    }
     .box{
-      padding:20px 22px 15px 20px;
+      padding: 22px 28px 26px 28px;
     }
   }
   .editorial.tout{
+    .container{
+      overflow:hidden;
+    }
     padding: 20px 0;
+    .grid{
+      width:100%
+    }
     .m1up{
-      .textright{
-        padding-right:0px;
-      }
+      .textright,
       .textleft{
-        padding-left:0px;
+        padding:0 28px;
       }
       .offset1{
         margin-bottom:30px;
@@ -121,7 +146,7 @@ $tabletMax: px-em(979);
         }
       }
       .vertical{
-        padding: 0 30px;
+        padding: 0 28px;
       }
     }
     .m3up{
@@ -132,7 +157,7 @@ $tabletMax: px-em(979);
         position:relative;
         width:30%;
         margin-right:3%;
-        padding: 0 30px;
+        padding: 0 28px;
       }
     }
   }
