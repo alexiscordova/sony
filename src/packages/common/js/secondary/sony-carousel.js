@@ -129,25 +129,7 @@ define(function(require){
 
     setupDraggable: function() {
 
-      var self = this;
-
-      self.currentSlide = 0;
-
-      if ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3easingEquation);
-      }
-
-      self.$el.sonyDraggable({
-        'axis': self.axis,
-        'unit': self.unit,
-        'dragThreshold': self.dragThreshold,
-        'containment': self.$wrapper,
-        'useCSS3': self.useCSS3,
-        'drag': iQ.update
-      });
-
-      self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
-      self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
+  
     },
 
     // Stop animations that were ongoing when you started to drag.

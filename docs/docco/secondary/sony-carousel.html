@@ -134,25 +134,7 @@ define(<span class="keyword">function</span>(require){
 
     setupDraggable: <span class="keyword">function</span>() {
 
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-      self.currentSlide = <span class="number">0</span>;
-
-      <span class="keyword">if</span> ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed(<span class="string">'transitionTimingFunction'</span>), self.CSS3easingEquation);
-      }
-
-      self.$el.sonyDraggable({
-        <span class="string">'axis'</span>: self.axis,
-        <span class="string">'unit'</span>: self.unit,
-        <span class="string">'dragThreshold'</span>: self.dragThreshold,
-        <span class="string">'containment'</span>: self.$wrapper,
-        <span class="string">'useCSS3'</span>: self.useCSS3,
-        <span class="string">'drag'</span>: iQ.update
-      });
-
-      self.$el.on(<span class="string">'sonyDraggable:dragStart'</span>,  $.proxy(self.dragStart, self));
-      self.$el.on(<span class="string">'sonyDraggable:dragEnd'</span>,  $.proxy(self.dragEnd, self));
+  
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Stop animations that were ongoing when you started to drag.</p>             </td>             <td class="code">               <div class="highlight"><pre>

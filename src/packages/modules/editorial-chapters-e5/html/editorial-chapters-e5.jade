@@ -8,12 +8,11 @@ mixin editorialSlide(data)
   for slide in data.submodules
     slideData = locals.data( slide.data )
     .editorial-carousel-slide( class= slideData.variation, data-mode=slideData.mode )
-      +iQImage(slideData.productImg)
+      +partial(slide.type, slide.data)
 
 //- Main section wrapper for slides
-section(class='editorial-slidshow-container a1')
-  div(class='editorial-slideshow container')
+section(class='editorial-chapters-container a1')
+  div(class='editorial-chapters container')
     div(class='editorial-carousel-wrapper')
       div(class='editorial-carousel')
         +editorialSlide(data)
-

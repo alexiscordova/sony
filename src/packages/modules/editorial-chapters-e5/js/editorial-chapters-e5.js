@@ -9,7 +9,7 @@
 //
 // *Example Usage:*
 //
-//      $('.editorial-slideshow').EditorialSlideshow();
+//      $('.editorial-chapters').EditorialChapters();
 
 define(function(require){
 
@@ -26,15 +26,15 @@ define(function(require){
 
     var self = {
       'init': function() {
-        $('.editorial-slidshow-container').editorialSlideshow();
+        $('.editorial-chapters-container').editorialChapters();
       }
     };
     
-    var EditorialSlideshow = function(element, options){
+    var EditorialChapters = function(element, options){
       var self = this;
        
       // Extend
-      $.extend( self, {}, $.fn.editorialSlideshow.defaults, options, $.fn.editorialSlideshow.settings );
+      $.extend( self, {}, $.fn.editorialChapters.defaults, options, $.fn.editorialChapters.settings );
       
       // Set base element
       self.$el = $( element );
@@ -72,8 +72,8 @@ define(function(require){
 
     };
 
-    EditorialSlideshow.prototype = {
-      constructor: EditorialSlideshow,
+    EditorialChapters.prototype = {
+      constructor: EditorialChapters,
 
       // Initalize the module
       init : function( param ) {
@@ -86,29 +86,10 @@ define(function(require){
 
         window.console.log(' new carousel... ');
 
-       
-
-
         self.setupEvents();
         self.setupSlides();
-
         self.setupCarousel();
-
         self.$slideContainer.css( 'opacity' , 1 );
-
-         /*
-        self.setupCarousel();
-        self.setupBreakpoints();
-        
-        if(self.hasThumbs){
-          self.createThumbNav();
-        }
-
-        self.$slideContainer.css( 'opacity' , 1 );
-
-
-        // Listen for debounced resize event
-        Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );*/
 
       },
 
@@ -139,9 +120,9 @@ define(function(require){
           unit: '%',
           dragThreshold: 2,
           useCSS3: self.useCSS3,
-          paddles: true,
-          pagination: true/*,
-          $paddleWrapper: self.$el.find('.editorial-carousel-wrapper')*/
+          paddles: false,
+          pagination: true,
+          draggable: false
         });
 
         self.$pagination = self.$el.find('.pagination-bullets');
@@ -298,31 +279,31 @@ define(function(require){
     };
 
     // jQuery Plugin Definition
-    $.fn.editorialSlideshow = function( options ) {
+    $.fn.editorialChapters = function( options ) {
       var args = Array.prototype.slice.call( arguments, 1 );
       return this.each(function() {
         var self = $( this ),
-          editorialSlideshow = self.data( 'editorialSlideshow' );
+          editorialChapters = self.data( 'editorialChapters' );
 
         // If we don't have a stored moduleName, make a new one and save it.
-        if ( !editorialSlideshow ) {
-            editorialSlideshow = new EditorialSlideshow( self, options );
-            self.data( 'moduleName', editorialSlideshow );
+        if ( !editorialChapters ) {
+            editorialChapters = new EditorialChapters( self, options );
+            self.data( 'moduleName', editorialChapters );
         }
 
         if ( typeof options === 'string' ) {
-          editorialSlideshow[ options ].apply( editorialSlideshow, args );
+          editorialChapters[ options ].apply( editorialChapters, args );
         }
       });
     };
 
     // Defaults
     // --------
-    $.fn.editorialSlideshow.defaults = {};
+    $.fn.editorialChapters.defaults = {};
 
     // Non override-able settings
     // --------------------------
-    $.fn.editorialSlideshow.settings = {};
+    $.fn.editorialChapters.settings = {};
   
     return self;
  });
