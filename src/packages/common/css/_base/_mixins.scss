@@ -1234,7 +1234,8 @@ $default-transition-delay    : 0s;
             @include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
         }
     } @else {
-        .#{$gridName} {
+        .#{$gridName},
+        .grid .#{$gridName} {
             @include clearfix();
 
             [class*=#{$spanName}] {
