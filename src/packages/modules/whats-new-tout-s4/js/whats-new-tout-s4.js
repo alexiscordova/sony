@@ -13,7 +13,8 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr');
+      Modernizr = require('modernizr'),
+      SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
     'init': function() {
@@ -39,6 +40,12 @@ define(function(require){
 
     init: function() {
       var self = this;
+
+      self.$el.find('.whats-new-carousel').sonyCarousel({
+        wrapper: '.whats-new-carousel-wrapper',
+        slides: '.whats-new-carousel-slide',
+        useCSS3: true
+      });
     }
 
   };
