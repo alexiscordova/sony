@@ -5,9 +5,22 @@ include ../../../common/html/ieconditionals.html
 head
   include ../../../common/html/head.jade
 
-body
-
-  +partial('editorial-slideshows-e4/html/editorial-slideshows-e4.jade', 'packages/modules/editorial-slideshows-e4/demo/data/editorial-slideshows-e4-default.json')
-
+body 
+  h6 full left
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-slideshows-e4/demo/data/full-left-75-D-L-example1.json')
+  hr
+    
+  h6 mediaright span7
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-slideshows-e4/demo/data/mediaright-57-D-L-example1.json')
+  hr
+  
+  //- h6 medialeft span6
+  //- +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-slideshows-e4/demo/data//medialeft-66-D-L-example1.json')
+  //- hr
+  
+  //- h6 full inner span6
+  //- +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-slideshows-e4/demo/data/full-inner-left-66-DL-L-example1.json')
+  //- hr
+  
   include ../../../common/html/foot.jade
 </html>
