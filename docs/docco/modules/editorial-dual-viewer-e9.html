@@ -90,15 +90,22 @@ define(<span class="keyword">function</span>(require){
         }
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Toggle "hoverOn" class on scrubber handle to change easing for hover transition</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$handle.hover(<span class="keyword">function</span>(){
-        self.$handle.addClass(<span class="string">'hoverOn'</span>);
-      }, <span class="keyword">function</span>(){
-        self.$handle.removeClass(<span class="string">'hoverOn'</span>);
+      self.$handle.mouseenter(<span class="keyword">function</span>(){
+        self.$scrubber.addClass(<span class="string">'dragging2'</span>);
       });
+      
+      self.$handle.mouseleave(<span class="keyword">function</span>(){
+        <span class="keyword">if</span> ( !self.$scrubber.hasClass(<span class="string">'dragging'</span>) ) {
+          setTimeout(<span class="keyword">function</span>(){
+            self.$scrubber.removeClass(<span class="string">'dragging2'</span>);
+          }, <span class="number">250</span>);
+        }
+      });
+     
 
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>We just need the images to be ready <em>enough</em> to provide dimensions.
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>We just need the images to be ready <em>enough</em> to provide dimensions.
 Since the usual imagesLoaded plugin approach wasn't compatible with iQ,
 we just poll for a width until one is available.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'initTimeout'</span>: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -118,7 +125,7 @@ we just poll for a width until one is available.</p>             </td>          
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>As <a href="sony-draggable.html">SonyDraggable</a> returns scrubbing changes, update the top
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>As <a href="sony-draggable.html">SonyDraggable</a> returns scrubbing changes, update the top
 slide's width or height to match, and adjust the image container's width by that
 percentage's inverse to maintain the desired positioning.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'onDrag'</span>: <span class="keyword">function</span>(e) {
@@ -129,7 +136,7 @@ percentage's inverse to maintain the desired positioning.</p>             </td> 
         self.$topSlide.css(<span class="string">'width'</span>, (e.position.left) + <span class="string">'%'</span>);
         self.$topSlideImageContainer.css(<span class="string">'width'</span>, <span class="number">10000</span> / (e.position.left) + <span class="string">'%'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.left &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.left &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
         (e.position.left &lt;= <span class="number">75</span>) ? self.$bottomSlide.next().fadeIn(<span class="number">200</span>) : self.$bottomSlide.next().fadeOut(<span class="number">200</span>);
 
       } <span class="keyword">else</span> <span class="keyword">if</span> ( self.axis == <span class="string">'y'</span> ) {
@@ -137,7 +144,7 @@ percentage's inverse to maintain the desired positioning.</p>             </td> 
         self.$topSlide.css(<span class="string">'height'</span>, (e.position.top) + <span class="string">'%'</span>);
         self.$topSlideImageContainer.css(<span class="string">'height'</span>, <span class="number">10000</span> / (e.position.top) + <span class="string">'%'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.top &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.top &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
         (e.position.top &lt;= <span class="number">75</span>) ? self.$bottomSlide.next().fadeIn(<span class="number">200</span>) : self.$bottomSlide.next().fadeOut(<span class="number">200</span>);
 
       }

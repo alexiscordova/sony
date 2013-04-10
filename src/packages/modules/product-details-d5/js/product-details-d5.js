@@ -13,7 +13,8 @@ define(function(require){
 
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
-      Settings = require('require/sony-global-settings');
+      Settings = require('require/sony-global-settings'),
+      Environment = require('require/sony-global-environment');
 
   // Public methods
   // --------------
@@ -29,8 +30,10 @@ define(function(require){
 
     var self = this;
 
-    // FROM GLOBALS
+    // GENERAL
     self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
+    self.debounceEvent = 'global:resizeDebounced-200ms.pd-module';
+    self.onResizeFunc = $.proxy( self.resizeFunc, self );
 
     // CACHE
     self.$el = $(element);
@@ -43,6 +46,11 @@ define(function(require){
     // DEFAULTS
     self.mImageWidths = [];
     self.mImageHeights = [];
+
+    // LISTEN
+
+    // register listener for global debounce to call method **after** debounce begins
+    Environment.on(self.debounceEvent, self.onResizeFunc);
 
     self.init();
 
@@ -81,22 +89,34 @@ define(function(require){
         enquire.register("(max-width: 479px)", function() {
           self.renderMobile();
         });
+
       } else {
         self.renderDesktop();
       }
     },
 
+    resizeFunc : function(  ){
+      var self = this;
+      console.log( 'resizeFunc »');
+      self.buildMeasurements();
+
+    },
+
     onImagesLoaded : function(  ){
       var self = this;
-    
       self.showImages();
       self.showMeasurements();
+      self.buildMeasurements();
+    },
+
+
+    buildMeasurements : function(  ){
+      var self = this;
       self.getMImageDimensions();
       self.setMeasurementDimensions();
     },
 
     showImages : function(  ){
-      // console.log( '««« showImages »»»' );
       var self = this,
           $images = self.$measurementImages;
 
@@ -157,17 +177,8 @@ define(function(require){
       
     },
 
-    resetMeasurements : function(){
-      var self = this;
-      self.showMeasurements();
-      self.getMImageDimensions();
-      self.setMeasurementDimensions();
-    },
-
     renderDesktop: function() {
       var self = this;
-
-      self.resetMeasurements();
       
       // console.log( 'renderDesktop »' );
     },
@@ -175,7 +186,7 @@ define(function(require){
     renderMobile: function() {
       var self = this;
 
-      self.resetMeasurements();
+      // self.resetMeasurements();
       // console.log( 'renderMobile »' );
     }
   };
