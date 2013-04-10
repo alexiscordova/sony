@@ -3,7 +3,7 @@
 //
 // * **Class:** ProductDetails
 // * **Version:** 0.1
-// * **Modified:** 04/5/2013
+// * **Modified:** 04/10/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr
 
@@ -48,7 +48,6 @@ define(function(require){
     self.mImageHeights = [];
 
     // LISTEN
-
     // register listener for global debounce to call method **after** debounce begins
     Environment.on(self.debounceEvent, self.onResizeFunc);
 
@@ -71,52 +70,36 @@ define(function(require){
 
       $images.on('imageLoaded iQ:imageLoaded', function(){
         $readyImages = $readyImages.add($(this));
-       
         if ($readyImages.length === $images.length) {
           self.onImagesLoaded();
         }
-
       });
 
       if ($readyImages.length === $images.length) {
         self.onImagesLoaded();
       }
-
-      if ( !Settings.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 480px)", function() {
-          self.renderDesktop();
-        });
-        enquire.register("(max-width: 479px)", function() {
-          self.renderMobile();
-        });
-
-      } else {
-        self.renderDesktop();
-      }
     },
 
-    resizeFunc : function(  ){
+    resizeFunc : function(){
       var self = this;
       console.log( 'resizeFunc »');
       self.buildMeasurements();
-
     },
 
-    onImagesLoaded : function(  ){
+    onImagesLoaded : function(){
       var self = this;
       self.showImages();
-      self.showMeasurements();
       self.buildMeasurements();
+      self.showMeasurements();
     },
 
-
-    buildMeasurements : function(  ){
+    buildMeasurements : function(){
       var self = this;
       self.getMImageDimensions();
       self.setMeasurementDimensions();
     },
 
-    showImages : function(  ){
+    showImages : function(){
       var self = this,
           $images = self.$measurementImages;
 
@@ -125,20 +108,16 @@ define(function(require){
       });
     },
 
-    showMeasurements : function(  ){
+    showMeasurements : function(){
       var self = this,
           $measurements = self.$measurements;
-
-      //console.log( '$measurements »' , $measurements);    
       
       $measurements.each(function() {
         $(this).addClass('on');
       });  
-
     },
 
     getMImageDimensions : function(){
-      // console.log( '««« getImageWidths »»»' );
       var self = this,
           $images = self.$measurementImages;
       
@@ -150,7 +129,6 @@ define(function(require){
     },
 
     setMeasurementDimensions : function(){
-      // console.group( '««« setMeasurementDimensions »»»' );
       var self = this,
           $measurements = self.$vertMeasurements.add(self.$horzMeasurements);
       
@@ -160,8 +138,26 @@ define(function(require){
               $mContainer = $(this).find(".measurements-container"),
               theWidth = dir === "v" ? $mContainer.outerWidth(true) : self.mImageWidths[imgIndex],
               theHeight = dir === "v" ? self.mImageHeights[imgIndex] : $mContainer.outerHeight(true),
-              theMarginTop = dir === "v" ? -($mContainer.innerHeight() / 2) : 0,
-              theMarginLeft = dir === "v" ? 0 : -($mContainer.innerWidth() / 2);
+              top = 50,
+              theMarginTop, theMarginLeft;
+
+             if(dir === "v") {
+
+              // if the vertical measurement > image then split measurement height in half instead
+              if($mContainer.innerHeight() > theHeight){
+                theMarginTop = 0;
+                top = 0;
+              }else{
+                theMarginTop = -($mContainer.innerHeight() / 2);
+              }
+              
+              theMarginLeft = 0;
+              
+             } else if (dir === "h"){
+                theMarginTop = 0;
+                top = 0;
+                theMarginLeft = -($mContainer.innerWidth() / 2);
+             }
 
             $(this).css({
               "height":theHeight,
@@ -169,25 +165,11 @@ define(function(require){
             });
 
             $mContainer.css({
+              "top" : top + '%',
               "marginTop" : theMarginTop,
               "marginLeft" : theMarginLeft
             });
-
         });
-      
-    },
-
-    renderDesktop: function() {
-      var self = this;
-      
-      // console.log( 'renderDesktop »' );
-    },
-
-    renderMobile: function() {
-      var self = this;
-
-      // self.resetMeasurements();
-      // console.log( 'renderMobile »' );
     }
   };
 
