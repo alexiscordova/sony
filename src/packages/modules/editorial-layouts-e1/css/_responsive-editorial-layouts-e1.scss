@@ -15,12 +15,37 @@ $tabletMax: px-em(979);
       min-height:450px;
     }
   }
+  .editorial.tout{
+    
+    .m2up{
+      .horizontal{
+        .table-center-wrap{
+          padding: 0 20px;
+        }
+      }
+      .vertical{
+        padding: 0 20px;
+      }
+      
+    }
+    .m3up{
+      >div{
+        padding: 0 20px;
+      }
+    }
+  }
 }
 //phone only
 @media (max-width: $phoneMax) {
   .editorial{
     .box{
       padding:0;
+    }
+    .center{
+      text-align:left;
+    }
+    .right{
+      text-align:left;
     }
   }
   .editorial.textonly{
@@ -69,6 +94,9 @@ $tabletMax: px-em(979);
       }
       .textleft{
         padding-left:0px;
+      }
+      .offset1{
+        margin-bottom:30px;
       }
     }
     .m2up{
