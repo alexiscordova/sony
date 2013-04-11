@@ -3,10 +3,8 @@
 
 .EDITORIALSLIDESHOWS {}
 
-.editorial-slidshow-container {
-  //margin-top: 85px;
-
-  .editorial-slideshow {
+.editorial-chapters-container {
+  .editorial-chapters {
     position: relative;
     height: 560px;
     max-height: 560px;
@@ -50,6 +48,67 @@
       color: $linkBlue;
       display: block;
     }
-  }
 
+    .thumb-nav {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      margin-left:-510px;
+      max-width: 1020px;
+      text-align:center;
+      height: 72px;
+
+      li {
+        width:25%;
+        padding:10px;
+        height:68px;
+        display: inline-block;
+        background:$gray80;
+        color:$gray20;
+        cursor:pointer;
+        text-align:left;
+        line-height:16px;
+
+        &.active {
+          cursor:default;
+          border-top:4px solid $linkBlue;
+          height:72px;
+
+          div {@include opacity(100);}
+        }
+
+        .gray & {
+          background:$white;
+        }
+        .dark & {
+          background:$gray20;
+          color:$white;
+        }
+
+        .lt-ie8 & {
+          @include ie7-inline-block();
+        }
+      }
+        div {
+          @include opacity(50);
+          @include transition();
+          display:table;
+        }
+          img {
+            position:relative;
+            display:block;  
+            height:48px;
+            width:64px;
+            display:table-cell;
+            float:left;
+          }
+          span {
+            display:table-cell;
+            vertical-align:middle;
+            font-size:12px;
+            width:171px;
+            padding-left:10px;
+          }
+    }
+  }
 }
