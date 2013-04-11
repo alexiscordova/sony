@@ -47,13 +47,12 @@ define(<span class="keyword">function</span>(require){
       resize: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>fixes horizontal 2 up layout wraping</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> tc = $(<span class="string">'.editorial.tout .m2up .horizontal .table-center-wrap'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>fixes horizontal 2 up layout wraping</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> tc = $(<span class="string">'.editorial.tout .m2up .horizontal .table-center-wrap'</span>).parent();
         <span class="keyword">if</span>(tc.length &gt; <span class="number">0</span>){
-          tc.width(tc.parent().width() - tc.prev().width() - <span class="number">81</span>);
+          tc.css(<span class="string">'width'</span>, tc.parent().width() - tc.prev().width() -<span class="number">2</span>);
         }
         
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
-        console.log(heightGroup);
         <span class="keyword">if</span>(heightGroup.length &gt;<span class="number">0</span>){
           heightGroup.evenHeights();
         }
@@ -109,7 +108,6 @@ define(<span class="keyword">function</span>(require){
           self.resize();
           Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.resize, self));
         }
-        
         log(<span class="string">'SONY : Editorial : Initialized'</span>);
       }
     };

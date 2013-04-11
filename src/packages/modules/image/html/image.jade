@@ -1,7 +1,7 @@
 extraclass = data.classes || ""
 id = data.id || ""
 if data.heights 
-  string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+id+" {height: "+data.heights.phone+"}} "
+  string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 47.9em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.8999em) { #"+id+" {height: "+data.heights.phone+"}} "
   style(type = "text/css")
     #{string}
   

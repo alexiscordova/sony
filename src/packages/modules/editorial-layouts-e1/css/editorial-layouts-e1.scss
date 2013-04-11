@@ -21,6 +21,9 @@
   }
   .box{
     padding:0 52px;
+    .link .btn{
+      margin-top:18px;
+    }
   }
   .table-center-wrap,
   .table-center{
@@ -60,7 +63,7 @@
     padding:56px 52px 50px 52px;
   }
   .box.center{
-    padding: 70px 140px;
+    padding: 70px 100px;
   }
   .image-module{
     background-size: cover;
@@ -76,11 +79,13 @@
     padding:70px 52px 70px 52px;
   }
   .grid,
-  .grid > div,
-  .table-center-wrap{ 
-    min-height:560px;
-    height:100%;
+  .grid > div{
+    height:560px;
   }
+  .table-center-wrap{ 
+     height:100%;
+  }
+    
   .media-element > div{
     margin: 0 auto;
   }
@@ -102,6 +107,16 @@
   .m2up{
     .horizontal {
       background: $white;
+      -webkit-box-shadow: 0 1px 0 #d2d2db;
+      box-shadow: 0 1px 0 #d2d2db;
+      -webkit-transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
+      transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
+      &:hover{
+        -webkit-box-shadow: none;
+        box-shadow:none;
+        background: rgba(255,255,255,.8)
+      }
+      
       >div{
         height: 162px;
         float:left;
