@@ -112,7 +112,7 @@ define(function(require) {
         // Init sticky nav
         self.$stickyNav.stickyNav({
           $jumpLinks: self.$jumpLinks,
-          offset: 10,
+          offset: 0,
           offsetTarget: self.$el.find('.jump-links:not(.nav)')
         });
 

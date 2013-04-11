@@ -622,6 +622,10 @@
         , $parent
         , isActive
 
+      function next() {
+        $this.focus();
+      }
+
       if ($this.is('.disabled, :disabled')) return
 
       $parent = getParent($this)
@@ -631,8 +635,16 @@
       clearMenus()
 
       if (!isActive) {
-        $parent.toggleClass('open')
-        $this.focus()
+        $parent.addClass('open')
+
+        if ( $.support.transition ) {
+          $this.one( $.support.transition.end, next )
+          setTimeout(function() {
+            $parent.addClass('in')
+          }, 0)
+        } else {
+          next()
+        }
       }
 
       return false
@@ -696,7 +708,15 @@
     }
 
     if ( $parent.hasClass('open') ) {
-      $parent.removeClass('open');
+
+      if ( $.support.transition ) {
+        $parent.removeClass('in');
+        setTimeout(function() {
+          $parent.removeClass('open')
+        }, 150)
+      } else {
+        $parent.removeClass('open in')
+      }
 
     // If the parent dropdown doesn't have a class of open, exit early
     } else {
