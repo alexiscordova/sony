@@ -20,10 +20,111 @@ define(function(require){
 
   var CountryRegionSelection = {
     init: function() {
-      $('.scrollable').attr('id', 'scrollable');
-      var scroll = new IScrol('scrollable', {
-        onScrollMove: logEvent
+
+      var stickyHeader = StickyHeader.init();
+
+      window.enquire.register('(max-width: 767px)', {
+        match : function() {
+          stickyHeader.enable();
+
+        }
       });
+
+      window.enquire.register('(min-width: 767px) and (max-width: 1024px)', {
+        match : function() {
+          stickyHeader.disable();
+        }
+      });
+
+      window.enquire.register('(min-width: 1024px)', {
+        match : function() {
+          stickyHeader.enable();
+        }
+      }, true);
+    }
+  };
+
+
+  var StickyHeader = {
+    init: function() {
+      this.$fixedHeader = $('.continent-sticky-header').hide();
+      this.$headers = $('.continent');
+      this.offsets = [];
+      this.currentHeader = undefined;
+
+      this.$fixedHeader.css('left', $(this.$headers[0]).offset().left + 'px');
+
+      return this._getHeaderOffsets();
+    },
+
+    _getHeaderOffsets: function() {
+      var offsets = [];
+
+      this.$headers.each(function(index, header) {
+        var $header = $(header);
+        offsets.push($header.offset().top);
+      });
+
+      this.offsets = offsets;
+      this.lastScrollOffset = 0;
+
+      return this;
+    },
+
+    enable: function() {
+      $('.scrollable').attr('id', 'scrollable');
+      this.scroll = new IScroll('scrollable', {
+        onScrollMove: this.scrollHandler.bind(this),
+        onScrollEnd: this.scrollHandler.bind(this)
+      });
+
+      return this;
+    },
+
+    disable: function() {
+      this.$fixedHeader.hide();
+      return this;
+    },
+
+    scrollHandler: function() {
+      var offsetTarget = Math.abs(this.scroll.y); // iScroll.y is negative
+
+
+      if (Math.abs(this.lastScrollOffset - offsetTarget) < 26) {
+        this.lastScrollOffset = offsetTarget;
+        return;
+      }
+
+      this.updateFixedHeader(offsetTarget);
+    },
+
+    updateFixedHeader: function(targetOffset) {
+      var $header,
+          headerIndex = this._indexOfClosestHeader(targetOffset);
+
+      if (headerIndex != this.currentHeader) {
+        this.currentHeader = headerIndex;
+        $header = $(this.$headers[headerIndex]);
+        this.$fixedHeader.slideDown().text($header.text());
+      }
+    },
+
+    _indexOfClosestHeader: function (targetOffset) {
+      var headerIndex,
+          i = 0,
+          numHeaders = this.$headers.length,
+          offset,
+          closestOffset;
+
+      for (; i < numHeaders; i += 1) {
+        offset = this.offsets[i] - targetOffset;
+        if (offset < 0 && (offset > closestOffset || !closestOffset)) {
+          closestOffset = offset;
+          headerIndex = i;
+        }
+      }
+
+      return headerIndex;
     }
   };
 

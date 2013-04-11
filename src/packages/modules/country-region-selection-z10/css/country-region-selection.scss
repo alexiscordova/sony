@@ -3,14 +3,20 @@
 @import "country-region-selection-flags";
 
 .fixed {
-    top: 0;
-    position: fixed;
+  top: 0;
+  position: fixed;
+  z-index: 1000;
+  background-color: $gray80;
 }
 
 .matte {
     margin-top: 16px;
     margin-bottom: 69px;
     background-color: $gray80;
+}
+
+.continent-sticky-header {
+  position: relative;
 }
 
 .continent {
@@ -49,7 +55,7 @@
 
 .scrollable {
   position: absolute;
-  top: 50px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
