@@ -24,9 +24,10 @@ define(function(require) {
     'init': function() {
       log('init editorial');
       // detect if there are any hotspot containers present
-      $( '.hotspot-instance' ).each( function( el ) {
+      $( '.hotspot-instance' ).each( function( index, el ) {
         // for each container, initialize an instance
         log('hotspot container present');
+        log( el );
         $( this ).hotspotsController({});
       });
     }
@@ -82,9 +83,13 @@ define(function(require) {
       $( '.hspot-underlay' ).detach();
       $( 'body' ).append( underlayNode );
       
+      log('hotspots:');
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
         // bind the click, place it based on the data-x and -y coordinates, and fade em in
+        
+        log(el);
+        
         self.bind( el );
         self.place( el );
         self.show( el );
