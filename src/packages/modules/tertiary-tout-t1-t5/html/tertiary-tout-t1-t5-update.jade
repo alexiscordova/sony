@@ -181,65 +181,127 @@ mixin flickrContent(meta, images, btnLink, btnLabel)
     .bottom
       +socialButton( btnLink, btnLabel )
 
-//- START Tertiary Content Container
-section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
 
+
+
+section.tcc-module.container.full-bleed-no-max
   for header in data.header
     .tcc-header-wrapper.container
       .tcc-header.grid
         p.tcc-header-title.l1 #{header.title}
         p.tcc-header-link.lt3
           a(href="#{header.link}") #{header.linkText}
-  .loader
-    img(src="img/loader.gif")
 
-  - scrollerClassNames = ["tcc-scroller", "tcc-body-wrapper", "container", "tcc-full-bleed-at-979"]
-  - bodyClassNames = ["tcc-body","grid"]
+  //- .loader
+  //-   img(src="img/loader.gif")
 
-  section(class=scrollerClassNames)
-    div(class=bodyClassNames)
-      for module in data.contentBlocks
-        - contentType = module.type
-        - contentMode = module.mode
-        - contentBlocksClassNames = ["tcc-content-block","span4", contentType, contentMode]
 
-        div(class=contentBlocksClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode)
-          case contentType
-            when "article"
+  //- 3-UP
+  div#carousel-3up
+    div.tcc-carousel-wrapper
+      div.tcc-carousel
+        div.tcc-carousel-slide.container
+          .grid
+            .tcc-carousel-slide-children.span4
+              | child 1
+            .tcc-carousel-slide-children.span4
+              | child 2
+            .tcc-carousel-slide-children.span4
+              | child 3
 
-              //- if there is a title and a featured image
-              if(contentMode == "featured")
-                +articleFeatured(module)
+  //- 2-UP
+  //- div#carousel-2up
+  //-   div.tcc-carousel-wrapper
+  //-     div.tcc-carousel
+  //-       div.tcc-carousel-slide.container
+  //-         .grid
+  //-           .tcc-carousel-slide-children.span6
+  //-             | child 1
+  //-           .tcc-carousel-slide-children.span6
+  //-             | child 2
+  //-       div.tcc-carousel-slide.container
+  //-         .grid
+  //-           .tcc-carousel-slide-children.span6
+  //-             | child 3
+
+
+  //- 1-UP
+  //- div#carousel-1up
+  //-   div.tcc-carousel-wrapper
+  //-     div.tcc-carousel
+  //-       div.tcc-carousel-slide.container
+  //-         .grid
+  //-           .tcc-carousel-slide-children.span12
+  //-             | child 1
+  //-       div.tcc-carousel-slide.container
+  //-         .grid
+  //-           .tcc-carousel-slide-children.span12
+  //-             | child 2
+  //-       div.tcc-carousel-slide.container
+  //-         .grid
+  //-           .tcc-carousel-slide-children.span12
+  //-             | child 3
+
+
+//- START Tertiary Content Container
+//- section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
+
+//-   for header in data.header
+//-     .tcc-header-wrapper.container
+//-       .tcc-header.grid
+//-         p.tcc-header-title.l1 #{header.title}
+//-         p.tcc-header-link.lt3
+//-           a(href="#{header.link}") #{header.linkText}
+//-   .loader
+//-     img(src="img/loader.gif")
+
+//-   - scrollerClassNames = ["tcc-scroller", "tcc-body-wrapper", "container", "tcc-full-bleed-at-979"]
+//-   - bodyClassNames = ["tcc-body","grid"]
+
+//-   section(class=scrollerClassNames)
+//-     div(class=bodyClassNames)
+//-       for module in data.contentBlocks
+//-         - contentType = module.type
+//-         - contentMode = module.mode
+//-         - contentBlocksClassNames = ["tcc-content-block","span4", contentType, contentMode]
+
+//-         div(class=contentBlocksClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode)
+//-           case contentType
+//-             when "article"
+
+//-               //- if there is a title and a featured image
+//-               if(contentMode == "featured")
+//-                 +articleFeatured(module)
               
-              else
-                if(contentMode == "default")
-                  +articleDefault(module)
-                if(contentMode == "news") && (module.date)
-                  +articleNews(module)
-                if(contentMode == "event") && (module.attendanceCount)
-                  +articleEvent(module)
+//-               else
+//-                 if(contentMode == "default")
+//-                   +articleDefault(module)
+//-                 if(contentMode == "news") && (module.date)
+//-                   +articleNews(module)
+//-                 if(contentMode == "event") && (module.attendanceCount)
+//-                   +articleEvent(module)
 
-                +copyblock(module)
-            when "users-voice"
-              if (contentMode == "expert-quote")
-                +expertQuote(module)
+//-                 +copyblock(module)
+//-             when "users-voice"
+//-               if (contentMode == "expert-quote")
+//-                 +expertQuote(module)
 
-              if (contentMode == "user-quote")
-                +userQuote(module)
+//-               if (contentMode == "user-quote")
+//-                 +userQuote(module)
 
-              if (contentMode == "question")
-                +question(module)
+//-               if (contentMode == "question")
+//-                 +question(module)
 
-            when "sonys-voice"
-              .tcc-inner-container
-                .top
-                  +sonysVoiceTop("fonticon-15-" + contentMode, module.meta)
-                .center
-                  +sonysVoiceCenter(contentMode, module)
-                .bottom
-                  +sonysVoiceBottom(contentMode, module)
-            when "flickr"
-              mixin flickrContent(module.meta, module.images, module.socialBtnLink, "View Set on Flickr")
+//-             when "sonys-voice"
+//-               .tcc-inner-container
+//-                 .top
+//-                   +sonysVoiceTop("fonticon-15-" + contentMode, module.meta)
+//-                 .center
+//-                   +sonysVoiceCenter(contentMode, module)
+//-                 .bottom
+//-                   +sonysVoiceBottom(contentMode, module)
+//-             when "flickr"
+//-               mixin flickrContent(module.meta, module.images, module.socialBtnLink, "View Set on Flickr")
 
 //- END Tertiary Content Container
 
