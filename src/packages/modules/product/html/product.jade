@@ -141,11 +141,11 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
         a(href=social.link)
           span.social-icon(class="social-icon-" + social.id)
             i(class=social.icon)
-          span.social-label.p2= social.label
+          span.social-label.p3= social.label
     li.input-holder
       span.link-icon.ghost-center-wrap.js-no-close
         i.fonticon-10-link.ghost-center.js-no-close
-      input(type="text", value=shortLink)
+      input.p4(type="text", value=shortLink)
 
 
 
@@ -633,9 +633,6 @@ else if data.view == 'summary'
   priceUnit = data.priceUnit ? data.priceUnit : '$'
   buyText = data.buyText ? data.buyText : 'Buy Now'
   modelText = data.modelText ? data.modelText : 'Model Number:'
-  colorsText = data.colorsText ? data.colorsText : 'Colors:'
-
-  - sizes = sizes.join('<span class="spacer text-med-dark">|</span>')
 
   .container
     .grid.no-grid-at-767.js-even-cols
@@ -649,15 +646,17 @@ else if data.view == 'summary'
         a.l2.link-color(href=titleHref)= titleLabel
         h2.t5.product-title(itemprop="name")= data.title
         +iQImage( data.imgSmall, 'm-product-img pull-right', 'image' )
-        span.product-model.p5
+        p.product-model.p5
           span= modelText
           span(itemprop="model")= data.model
 
         +productRating( data.rating.stars, data.rating.reviews )
 
         .inline-details.clearfix
-          span.p5.product-sizes!= sizes
-          span.p5.colors-label= colorsText
+          p.p5.product-sizes
+            each size in sizes
+              span.product-size= size
+              span.spacer |
           +colorSwatches( data.img.colors, true, true )
 
       .span2.price-content
