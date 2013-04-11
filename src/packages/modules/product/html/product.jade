@@ -141,11 +141,11 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
         a(href=social.link)
           span.social-icon(class="social-icon-" + social.id)
             i(class=social.icon)
-          span.social-label.p2= social.label
+          span.social-label.p3= social.label
     li.input-holder
       span.link-icon.ghost-center-wrap.js-no-close
         i.fonticon-10-link.ghost-center.js-no-close
-      input(type="text", value=shortLink)
+      input.p4(type="text", value=shortLink)
 
 
 
@@ -625,13 +625,14 @@ else if data.view == 'blank'
 
 
 else if data.view == 'summary'
-  titleLabel = data.collectionLabel || 'Cybershot'
-  titleHref = data.collectionHref || '#'
-  sizes = (data.sizes || ['11.6', '14', '15.5', '17.3cm']).join(', ')
-  startingAtText = data.startingAtText || 'Staring at'
-  msrp = data.msrp || 'MSRP'
-  priceUnit = data.priceUnit || '$'
-  buyText = data.buyText || 'Buy Now'
+  titleLabel = data.collectionLabel ? data.collectionLabel : 'Cybershot'
+  titleHref = data.collectionHref ? data.collectionHref : '#'
+  sizes = data.sizes ? data.sizes : ['one', 'two', 'three', 'four']
+  startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
+  msrp = data.msrp ? data.msrp : 'MSRP'
+  priceUnit = data.priceUnit ? data.priceUnit : '$'
+  buyText = data.buyText ? data.buyText : 'Buy Now'
+  modelText = data.modelText ? data.modelText : 'Model Number:'
 
   .container
     .grid.no-grid-at-767.js-even-cols
@@ -641,35 +642,39 @@ else if data.view == 'summary'
           .product-img.ghost-center
             +iQImage( data.imgSmall, '', 'image' )
 
-      .span5.product-details
+      .span6.product-details
         a.l2.link-color(href=titleHref)= titleLabel
         h2.t5.product-title(itemprop="name")= data.title
         +iQImage( data.imgSmall, 'm-product-img pull-right', 'image' )
-        .inline-details.clearfix
-          span.product-model.p5(itemprop="model")= data.model
-          span.spacer.text-med-dark.p5 |
-          span.p5= sizes
-          span.spacer.text-med-dark.p5 |
-          +colorSwatches( data.img.colors, true, true )
+        p.product-model.p5
+          span= modelText
+          span(itemprop="model")= data.model
+
         +productRating( data.rating.stars, data.rating.reviews )
 
-      .span5.price-content
+        .inline-details.clearfix
+          p.p5.product-sizes
+            each size in sizes
+              span.product-size= size
+              span.spacer |
+          +colorSwatches( data.img.colors, true, true )
 
-        .clearfix
-          .pull-right.buy-block
-            .text-right.pull-left.space-right.space-top
-              p.p4.price-prefix= startingAtText
-              span.p5.msrp= msrp
-              span.p1.price
-                strong.text-dark !{ priceUnit + data.price }
-            a.btn.btn-special.btn-large.pull-left(href=data.storeLink)= buyText
+      .span2.price-content
+        .text-right.pull-right.space-top
+          p.p4.price-prefix= startingAtText
+          span.p5.msrp= msrp
+          span.p1.price
+            strong.text-dark !{ priceUnit + data.price }
 
-        .text-right.relative.be-social
-          a.ib.space-right.js-favorite(href="#")
-            span.p3= data.favoriteText
+      .span2.price-content
+        a.btn.btn-large.btn-block(href=data.storeLink)= buyText
+
+        .relative.be-social
+          a.ib.js-favorite(href="#")
+            span.bt3= data.favoriteText
             +heart()
           a.ib.js-share.share-trigger(data-toggle="dropdown", href="#")
-            span.p3= data.shareText
+            span.bt3= data.shareText
             span.arrow-holder
               i.fonticon-10-arrowhead-down
           +shareMenu( data.socialButtons, data.shortLink )
@@ -677,6 +682,7 @@ else if data.view == 'summary'
   #share-tool.share-tool.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
     .modal-inner.transparent
       +shareMenu( data.socialButtons, data.shortLink, true )
+
 
 else if data.view == 'compatibility'
   accessories = 'Accessories'

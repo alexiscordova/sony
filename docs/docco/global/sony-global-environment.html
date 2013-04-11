@@ -136,7 +136,7 @@ http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-interne
       cachedFunctions.IEResizeCheck = <span class="keyword">function</span>(cb) {
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If you aren't IE7/8, you may pass.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-        <span class="keyword">if</span> ( !Settings.$html.hasClass(<span class="string">'lt-ie9'</span>) ) {
+        <span class="keyword">if</span> ( !Settings.isLTIE9 ) {
           <span class="keyword">return</span> cb();
         }
 

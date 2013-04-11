@@ -98,6 +98,8 @@
   -webkit-background-clip: padding-box;
      -moz-background-clip: padding;
           background-clip: padding-box;
+  opacity: 0;
+  @include transition( opacity .15s );
 
   // Aligns the dropdown menu to right
   &.pull-right {
@@ -219,6 +221,10 @@
 
   & > .dropdown-menu {
     display: block;
+  }
+
+  &.in > .dropdown-menu {
+    opacity: 1;
   }
 
   .dropdown-toggle-alt {

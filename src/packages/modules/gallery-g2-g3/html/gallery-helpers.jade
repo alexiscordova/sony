@@ -138,7 +138,7 @@ mixin galleryFilters( gallery, isCompareGallery )
             | !{ compareStr }
 
         else if gallery.accessoryFinder
-          button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder
+          button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder-btn
             | !{ gallery.accessoryFinder.title }
             i.fonticon-10-sm-bold-plus
 
@@ -290,32 +290,32 @@ mixin compareGallery( submodules, gallery, type, labels )
             span= resetLabel
 
 
-    .container.compare-wrap
-      .compare-nav-wrap
-        nav.compare-nav-container
-          button.nav-paddle.compare-nav.compare-nav-prev
+    .relative
+      .container.compare-wrap
+        nav.compare-nav-container.pagination-paddles.show-paddles
+          button.pagination-paddle.pagination-prev.on.compare-nav.compare-nav-prev
             i.fonticon-10-chevron-reverse
-          button.nav-paddle.compare-nav.compare-nav-next
+          button.pagination-paddle.pagination-next.on.compare-nav.compare-nav-next
             i.fonticon-10-chevron
-      .products
-        .span2.detail-labels-wrap
-          .compare-sticky-header.sticky-count
-            .right-bar
-          .detail-labels-wrapping
-            .detail-label-group
-              each label in labels
-                .detail-label.detail
-                  p.l3
-                    strong= label.label
+        .products
+          .span2.detail-labels-wrap
+            .compare-sticky-header.sticky-count
+              .right-bar
+            .detail-labels-wrapping
+              .detail-label-group
+                each label in labels
+                  .detail-label.detail
+                    p.l3
+                      strong= label.label
 
-        .compare-items-wrap
-          .compare-items-container
-            each module in submodules
-              d = locals.data(module.data)
-              if d.type == type && !d.promo
-                - d.view = "compare"
-                e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
-                !{locals.partial( module.type, e )}
+          .compare-items-wrap
+            .compare-items-container
+              each module in submodules
+                d = locals.data(module.data)
+                if d.type == type && !d.promo
+                  - d.view = "compare"
+                  e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
+                  !{locals.partial( module.type, e )}
 
     +zeroProductsMessage( gallery )
 
@@ -353,7 +353,7 @@ mixin accessoryFinder( submodules, finder )
   .af-module
     .container
       .grid
-        button.btn.accessory-finder(data-toggle="modal", data-target="#accessory-finder-modal")
+        button.btn.accessory-finder-btn(data-toggle="modal", data-target="#accessory-finder-modal")
           | !{ buttonStr }
           i.fonticon-10-sm-bold-plus
 
@@ -372,10 +372,10 @@ mixin accessoryFinder( submodules, finder )
               .search-form.pull-left
                 i.fonticon-10-search.input-icon
                 label.visuallyhidden(for="accessory-finder-input")
-                input(class="p2", id="accessory-finder-input", type="search", placeholder=finder.placeholder)
+                input(class="p2", id="accessory-finder-input", type="text", placeholder=finder.placeholder)
               +helpPopover( finder.help, undefined, true )
 
-          .modal-body
+          .modal-body.fade
             .grid.compat-filters.filter-display-bar
               //- Sort options
               +sorter( finder.sortSet, finder.sortText )
