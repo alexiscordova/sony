@@ -711,10 +711,9 @@ define(function(require){
       self.$compareItemsWrap = self.$grid.find('.compare-items-wrap');
 
       // Navs
-      self.$navWrap = self.$container.find('.compare-nav-wrap');
-      self.$navContainer = self.$navWrap.find('.compare-nav-container');
-      self.$navNext = self.$navWrap.find('.compare-nav-next');
-      self.$navPrev = self.$navWrap.find('.compare-nav-prev');
+      self.$navContainer = self.$container.find('.compare-nav-container');
+      self.$navNext = self.$navContainer.find('.compare-nav-next');
+      self.$navPrev = self.$navContainer.find('.compare-nav-prev');
       self.$detailLabelsWrap = self.$grid.find('.detail-labels-wrap');
       self.$stickyHeaders = self.$grid.find('.compare-sticky-header');
       self.$stickyRightBar = self.$stickyHeaders.find('.right-bar');
