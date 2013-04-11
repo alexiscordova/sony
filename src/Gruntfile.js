@@ -28,6 +28,9 @@ module.exports = function(grunt) {
         return grunt.file.readJSON(path);
       },
       locals:{
+        getConfigFile:function(path){
+          return grunt.file.readJSON(path);
+        },
         getEnvironments:function(){
           return grunt.option('deploy') ? 'deploy' : 'debug'
         },

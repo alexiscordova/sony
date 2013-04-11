@@ -142,11 +142,10 @@ define(<span class="keyword">function</span>(require){
       $offsetTarget, triggerPoint;
 
       $offsetTarget = self.offsetTarget.jquery ? self.offsetTarget : $( self.offsetTarget );
-      triggerPoint = $.isNumeric( self.offsetTarget ) ? self.offsetTarget : $offsetTarget[<span class="number">0</span>].offsetTop;
+      triggerPoint = $.isNumeric( self.offsetTarget ) ? self.offsetTarget : $offsetTarget.offset().top;
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>jQuery offset().top is returning negative numbers...
-Get the trigger point for when the nav should <code>open</code></p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( triggerPoint &lt; <span class="number">100</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Get the trigger point for when the nav should <code>open</code></p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( triggerPoint &lt; <span class="number">100</span> ) {
         setTimeout(<span class="keyword">function</span>() {
           <span class="keyword">var</span> triggerPoint = $offsetTarget[<span class="number">0</span>].offsetTop;
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If we still don't have a high enough value, use the default</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( triggerPoint &lt; <span class="number">100</span> ) {

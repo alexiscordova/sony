@@ -1,0 +1,182 @@
+include ../../common/html/ieconditionals.html
+doctype 5
+
+include docs-head.html
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar", style="background: white url(img/breakpoints-bg-568-768.png) repeat-y 0 0;" )
+  include docs-nav.html
+
+  div#page-wrap-outer.page-wrap-outer
+    div#page-wrap-inner.page-wrap-inner.small-screen-grids-demo.limit-paragraph-widths
+
+      header.jumbotron.subhead#overview
+        div.container
+          h1.bs-docs-heading Small Screen Grids
+      
+      section.container(style='padding-bottom:0px; padding-top:0; border-top:0;')
+        h2.bs-docs-heading Small Screen Grids
+        p
+          | There are 2 different options for grids below the 768 breakpoint:&nbsp;
+          strong Mobile-Grid
+          | &nbsp;and&nbsp;
+          strong No-Grid
+          | . The small-screen grid will override the&nbsp;
+          code
+            | .grid
+          | ,&nbsp;
+          code
+            | .slimgrid
+          | &nbsp;or&nbsp;
+          code
+            | .slimgrid5
+          | &nbsp;classes, and should be used in addition to them.
+
+        h4.bs-docs-heading(style='padding-top:20px;') Mobile-Grid
+        p
+          | The mobile-grid utilizes&nbsp;
+          strong 6 fluid columns
+          | . To implement, add the appropriate m-grid class&nbsp;
+          strong in addition&nbsp;
+          | to your primary&nbsp;
+          code
+            | .grid
+          | &nbsp;class. Class options are&nbsp;
+          code
+            | .m-grid-at-767
+          | ,&nbsp;
+          code
+            | .m-grid-at-567
+          | ,&nbsp;
+          code
+            | .m-grid-at-479
+          | &nbsp;or&nbsp;
+          code
+            | .m-grid
+          | &nbsp;(same as&nbsp;
+          code
+            | .m-grid-at-767
+          | &nbsp;);
+          | &nbsp;and add the appropriate&nbsp;
+          code
+            | .m-span
+          | &nbsp;and (optionally)&nbsp;
+          code
+            | .m-offset
+          | &nbsp;class to each column - again, in addition to the primary&nbsp;
+          code
+            | .span
+          | &nbsp;class. The total mobile spans/offsets need to add up to 6.
+        p.p4
+          | Resize your browser to below 768px wide to see the mobile grid take effect.
+          br
+          | Hover over any of the columns to see the actual class names that affect it.
+        div.grid.m-grid-at-767.show-grid
+          div.span4.m-span1
+            | 4 m1
+          div.span4.m-span2
+            | 4 m2
+          div.span4.m-span2.m-offset1
+            | 4 m2/1
+        div.grid
+          pre.prettyprint.prettyprint-jade
+            | .grid.m-grid-at-767
+            |   .span4.m-span1
+            |   .span4.m-span2
+            |   .span4.m-span2.m-offset1
+        h4.bs-docs-heading No-Grid
+        p
+          | The
+          strong &nbsp;no-grid&nbsp;
+          | option collapses all grid spans into stacked rows, ignoring all&nbsp;
+          code
+            | .span
+          | s,&nbsp;
+          code
+            | .offset
+          | s,&nbsp;
+          code
+            | .m-span
+          | s and&nbsp;
+          code
+            | .m-offset
+          | s. To implement, add the appropriate no-grid class&nbsp;
+          strong in addition
+          | &nbsp;to your primary&nbsp;
+          code
+            | .grid
+          | &nbsp;class. The classes available are&nbsp;
+          code
+            | .no-grid-at-767
+          | ,&nbsp;
+          code
+            | .no-grid-at-567
+          | , and&nbsp;
+          code
+            | .no-grid-at-479
+          | .
+        div.grid.no-grid-at-767.show-grid
+          div.span4
+            | 4
+          div.span4
+            | 4
+          div.span4
+            | 4
+        div.grid
+          pre.prettyprint.prettyprint-jade
+            | .grid.no-grid-at-767
+            |   .span4
+            |   .span4
+            |   .span4
+        h4.bs-docs-heading Using both m-grid and no-grid
+        p
+          | You can use the mobile-grid for a range of breakpoints, and switch to the no-grid below a certain breakpoint. Simply add the appropriate
+          code
+            | .m-grid-at
+          | &nbsp;and&nbsp;
+          code
+            | .no-grid-at
+          | &nbsp;classes for the target breakpoints.
+        p.p4
+          | Resize your browser to below 768px wide, and then to below 568 wide, to see mobile-grid and no-grid each take effect at different breakpoints.
+        div.grid.m-grid-at-767.no-grid-at-567.show-grid
+          div.span4.m-span1
+            | 4 m1
+          div.span4.m-span2
+            | 4 m2
+          div.span4.m-span2.m-offset1
+            | 4 m2/1
+        div.grid
+          pre.prettyprint.prettyprint-jade
+            | .grid.m-grid-at-767.no-grid-at-567
+            |   .span4.m-span1
+            |   .span4.m-span2
+            |   .span4.m-span2.m-offset1
+        h4.bs-docs-heading Full-bleed on small screens
+        p
+          | By default, margins are applied to small screens the same as desktop. The&nbsp;
+          code
+            | .full-bleed
+          | &nbsp;(and&nbsp;
+          code
+            | .full-bleed-no-max
+          | &nbsp;) classes will affect all resolution sizes. To apply full-bleed below 768px, when not used on desktop, use&nbsp;
+          code
+            | .full-bleed-at-767
+          | ,&nbsp;
+          code
+            | .full-bleed-at-567
+          | ,&nbsp;
+          code
+            | .full-bleed-at-479
+          | , or&nbsp;
+          code
+            | .m-full-bleed
+          | &nbsp;(same as&nbsp;
+          code
+            | .full-bleed-at-767
+          | &nbsp;).
+        //- p
+          | Currently, there's no way to override a&nbsp;
+          code
+            | .full-bleed
+          | &nbsp;to add margins back for mobile.
+  include docs-foot.html

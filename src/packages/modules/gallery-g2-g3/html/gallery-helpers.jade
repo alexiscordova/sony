@@ -290,32 +290,32 @@ mixin compareGallery( submodules, gallery, type, labels )
             span= resetLabel
 
 
-    .container.compare-wrap
-      .compare-nav-wrap
+    .relative
+      .container.compare-wrap
         nav.compare-nav-container.pagination-paddles.show-paddles
           button.pagination-paddle.pagination-prev.on.compare-nav.compare-nav-prev
             i.fonticon-10-chevron-reverse
           button.pagination-paddle.pagination-next.on.compare-nav.compare-nav-next
             i.fonticon-10-chevron
-      .products
-        .span2.detail-labels-wrap
-          .compare-sticky-header.sticky-count
-            .right-bar
-          .detail-labels-wrapping
-            .detail-label-group
-              each label in labels
-                .detail-label.detail
-                  p.l3
-                    strong= label.label
+        .products
+          .span2.detail-labels-wrap
+            .compare-sticky-header.sticky-count
+              .right-bar
+            .detail-labels-wrapping
+              .detail-label-group
+                each label in labels
+                  .detail-label.detail
+                    p.l3
+                      strong= label.label
 
-        .compare-items-wrap
-          .compare-items-container
-            each module in submodules
-              d = locals.data(module.data)
-              if d.type == type && !d.promo
-                - d.view = "compare"
-                e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
-                !{locals.partial( module.type, e )}
+          .compare-items-wrap
+            .compare-items-container
+              each module in submodules
+                d = locals.data(module.data)
+                if d.type == type && !d.promo
+                  - d.view = "compare"
+                  e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
+                  !{locals.partial( module.type, e )}
 
     +zeroProductsMessage( gallery )
 
