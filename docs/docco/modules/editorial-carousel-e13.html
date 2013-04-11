@@ -57,6 +57,8 @@
       self.$containerProduct      = self.$el.parent().parent();
       self.$slimGrid              = self.$el.parent();
 
+      self.$pagination            = <span class="literal">null</span>;
+
       self.colWidth               = { <span class="string">'default'</span> : <span class="number">198</span>/<span class="number">846</span>, <span class="string">'980'</span> : <span class="number">198</span>/<span class="number">846</span>, <span class="string">'768'</span> : <span class="number">202</span>/<span class="number">650</span>, <span class="string">'mobile'</span> : <span class="number">265</span>/<span class="number">598</span> };
       self.gutterWidth            = { <span class="string">'default'</span> : <span class="number">18</span>/<span class="number">846</span>,  <span class="string">'980'</span> : <span class="number">18</span>/<span class="number">846</span>,  <span class="string">'768'</span> : <span class="number">22</span>/<span class="number">650</span> , <span class="string">'mobile'</span> : <span class="number">24</span>/<span class="number">598</span> };
       self.containerWidthPct      = (<span class="number">92.1875</span> / <span class="number">100</span>) * (<span class="number">91.80791</span> / <span class="number">100</span>);
@@ -200,9 +202,10 @@
         self = <span class="keyword">this</span>;
 
         self.$galleryItems.on( self.tapOrClick() , <span class="keyword">function</span>(e){
-          $item   = $(<span class="keyword">this</span>),
-          destination = $item.attr(<span class="string">'href'</span>),
-          point, distanceMoved;
+          $item   = $(<span class="keyword">this</span>);
+          destination = $item.attr(<span class="string">'href'</span>);
+          point;
+          distanceMoved;
 
           <span class="keyword">if</span> ( self.hasTouch ) {
             point = e.originalEvent.touches[<span class="number">0</span>];
@@ -344,20 +347,21 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           }).data(<span class="string">'scrollerModule'</span>);
 
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>self.$el.bind("update.sm", self._onScrollerModuleUpdate );</p>             </td>             <td class="code">               <div class="highlight"><pre>
+          self.$pagination = $(<span class="string">".nav-paddles"</span>);
+
           self.nbPages = Math.ceil( Math.round( self.$galleryItems.length * extraPct) / numColumns);
           self.scrollerModule._generatePagination( self.nbPages );
 
           self.$galleryItems.find(<span class="string">'.product-name'</span>).evenHeights();
 
-          self.$el.find(<span class="string">'.rp-overflow'</span>).on(<span class="string">"update.sm"</span>, <span class="keyword">function</span>(e){
-             self.scrollerModule._generatePagination( self.nbPages );
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
+          self.$el.find(<span class="string">'.rp-overflow'</span>).on(<span class="string">"update.sm"</span>, self._onScrollerModuleUpdate );
 
           self.$win.trigger(<span class="string">'resize.rp'</span>);
 
+          setTimeout(<span class="keyword">function</span>(){ self.$win.trigger(<span class="string">'resize.rp'</span>); }, <span class="number">1000</span>);
 </pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
         }, <span class="number">50</span>);
-
 
         self.$win.on(<span class="string">'resize.rp'</span>, $.debounce(<span class="number">50</span> , <span class="keyword">function</span>() {
 
@@ -423,8 +427,6 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           }
 
-          console.log(<span class="string">"containerWidth"</span>, containerWidth);
-
           self.nbPages = Math.ceil( Math.round( self.$galleryItems.length * extraPct) / numColumns);
 
           self.scrollerModule.setGutterWidth(gutterWidth);
@@ -434,7 +436,9 @@ if their interaction time and movements are below certain thresholds.</p>       
           <span class="keyword">if</span>( self.$galleryItems.length &lt;= numColumns)
           {
             marginLeftContainer = gutterWidth;
+            self.$pagination.hide();
           }
+
 
           self.$galleryItems.not($galleryItemsFirst).css({
             <span class="string">'width'</span>       : colWidth,
@@ -455,6 +459,8 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="string">'max-height'</span> : newContainerHeight,
             <span class="string">'min-height'</span> : newContainerHeight
 </pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>'min-width'  : 550 + 'px'</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
+
+          
 
 </pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
         }));
@@ -494,14 +500,26 @@ animObj.opacity = 1;</p>             </td>             <td class="code">        
 
       _onScrollerModuleUpdate: function(e){
         
-        self = this;
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>self = this;</p>             </td>             <td class="code">               <div class="highlight"><pre>
+        console.log(<span class="string">"_onScrollerModuleUpdate"</span>);
+
+        <span class="keyword">if</span>(!self.scrollerModule)
+        {
+          <span class="keyword">return</span> <span class="literal">false</span>;
+        }
+
         self.scrollerModule._generatePagination( self.nbPages );
+
+        <span class="keyword">if</span> ( ( !Modernizr.mediaqueries || self.mq(<span class="string">'(min-width: 981px)'</span>) || self.$html.hasClass(<span class="string">'lt-ie10'</span>) ) &amp;&amp;  self.$galleryItems.length &lt;= numColumns ) 
+        {
+          self.$galleryItems.css({position:<span class="string">"relative"</span>, left : <span class="number">0</span>, top : <span class="number">0</span>});
+        }
       }
 
 
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>E13 Editorial Carousel definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialCarouselE13 = <span class="keyword">function</span>(options) {
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>E13 Editorial Carousel definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialCarouselE13 = <span class="keyword">function</span>(options) {
       args = arguments;
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(){
         self = $(<span class="keyword">this</span>);
@@ -518,7 +536,7 @@ animObj.opacity = 1;</p>             </td>             <td class="code">        
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>defaults for the related products</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialCarouselE13.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>defaults for the related products</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialCarouselE13.defaults = {
       throttleTime: <span class="number">50</span>,
       autoScaleContainer: <span class="literal">true</span>,
       minSlideOffset: <span class="number">10</span>,

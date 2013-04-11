@@ -13,7 +13,8 @@ define(<span class="keyword">function</span>(require){
   <span class="string">'use strict'</span>;
 
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
-      Modernizr = require(<span class="string">'modernizr'</span>);
+      Modernizr = require(<span class="string">'modernizr'</span>),
+      SonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel;
 
   <span class="keyword">var</span> module = {
     <span class="string">'init'</span>: <span class="keyword">function</span>() {
@@ -39,6 +40,12 @@ define(<span class="keyword">function</span>(require){
 
     init: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$el.find(<span class="string">'.whats-new-carousel'</span>).sonyCarousel({
+        wrapper: <span class="string">'.whats-new-carousel-wrapper'</span>,
+        slides: <span class="string">'.whats-new-carousel-slide'</span>,
+        useCSS3: <span class="literal">true</span>
+      });
     }
 
   };

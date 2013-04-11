@@ -50,9 +50,9 @@ define(function(require){
         var self = this;
 
         //fixes horizontal 2 up layout wraping
-        var tc = $('.editorial.tout .m2up .horizontal .table-center-wrap');
+        var tc = $('.editorial.tout .m2up .horizontal .table-center-wrap').parent();
         if(tc.length > 0){
-          tc.width(tc.parent().width() - tc.prev().width() - 81);
+          tc.css('width', tc.parent().width() - tc.prev().width() -2);
         }
         
         //fixes heights of tout copy across 2up 3up
