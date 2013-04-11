@@ -81,11 +81,13 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>self.$compareBtn = self.$container.find('.js-compare-toggle');</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.itemSelector = <span class="string">'.'</span> + ( self.isCompareMode ? <span class="string">'compare'</span> : <span class="string">'gallery'</span> ) + <span class="string">'-item'</span>;
     self.$items = self.$grid.find( self.itemSelector );
+    self.$socialTiles = self.$items.filter( <span class="string">'.social'</span> );
 
 </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>What do we have here?</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.hasInfiniteScroll = self.$container.find(<span class="string">'div.navigation a'</span>).length &gt; <span class="number">0</span>;
     self.hasFilters = self.$filterOpts.length &gt; <span class="number">0</span>;
     self.hasSorting = self.$sortBtns.length &gt; <span class="number">0</span>;
     self.hasCarousels = self.$carousels.length &gt; <span class="number">0</span>;
+    self.hasSocialTiles = self.$socialTiles.length &gt; <span class="number">0</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Other vars</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.windowWidth = Settings.windowWidth;
     self.windowHeight = Settings.windowHeight;
@@ -940,7 +942,7 @@ Here is where we keep the origial type</p>             </td>             <td cla
 </pre></div>             </td>           </tr>                               <tr id="section-124">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-124">&#182;</a>               </div>               <p>debug: true,</p>             </td>             <td class="code">               <div class="highlight"><pre>        bufferPx: -<span class="number">100</span>, <span class="comment">// Load 100px after the navSelector has entered the viewport</span>
         navSelector: <span class="string">'div.navigation'</span>, <span class="comment">// selector for the paged navigation</span>
         nextSelector: <span class="string">'div.navigation a'</span>, <span class="comment">// selector for the NEXT link (to page 2)</span>
-        itemSelector: <span class="string">'.gallery-item'</span>, <span class="comment">// selector for all items you'll retrieve</span>
+        itemSelector: self.itemSelector, <span class="comment">// selector for all items you'll retrieve</span>
         loading: {
           selector: <span class="string">'.infscr-holder'</span>,
           msgText: <span class="string">'&lt;em&gt;Loading the next set of products...&lt;/em&gt;'</span>,
@@ -1916,6 +1918,12 @@ Change the filters column layout</p>             </td>             <td class="co
 
 </pre></div>             </td>           </tr>                               <tr id="section-219">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-219">&#182;</a>               </div>               <p>Let the browser choose the best time to do this becaues it causes a layout</p>             </td>             <td class="code">               <div class="highlight"><pre>      requestAnimationFrame( evenTheHeights );
 
+      <span class="keyword">if</span> ( self.hasSocialTiles ) {
+        requestAnimationFrame(<span class="keyword">function</span>() {
+          self.fitSocialTiles();
+        });
+      }
+
       Utilities.forceWebkitRedraw();
 
       self.fixCarousels();
@@ -1971,6 +1979,27 @@ Make filters a 2up with a span12 below</p>             </td>             <td cla
           self.hasSorterMoved = <span class="literal">false</span>;
         }
       }
+    },
+
+    fitSocialTiles : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $tiles = self.$socialTiles;
+
+      $tiles.each(<span class="keyword">function</span>() {
+        <span class="keyword">var</span> $tile = $( <span class="keyword">this</span> ),
+            $quote = $tile.find(<span class="string">'.quote'</span>),
+            needsToFit = Modernizr.mq( <span class="string">'( min-width: 61.1875em )'</span> ) || !Modernizr.mediaqueries,
+            margin = <span class="string">''</span>,
+            availableHeight, textHeight;
+
+        <span class="keyword">if</span> ( needsToFit ) {
+          availableHeight = $tile.find(<span class="string">'.product-img'</span>).outerHeight();
+          textHeight = $quote.outerHeight();
+          margin = ( ( availableHeight - textHeight ) / <span class="number">2</span> ) + <span class="string">'px'</span>;
+        }
+
+        $quote.css( <span class="string">'marginTop'</span>, margin );
+      });
     },
 
     getFavoriteContent : <span class="keyword">function</span>( $jsFavorite, isActive ) {
@@ -2304,7 +2333,7 @@ x button on a gallery item. We'll need to add the .concealed class</p>          
             gutter = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
             numColumns = <span class="number">5</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-254">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-254">&#182;</a>               </div>               <p>// Portrait Tablet ( 4 columns ) - masonry</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 48em)'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-254">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-254">&#182;</a>               </div>               <p>Portrait Tablet ( 4 columns ) - masonry</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 48em)'</span>) ) {
             numColumns = <span class="number">4</span>;
             gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
 
@@ -2334,16 +2363,17 @@ x button on a gallery item. We'll need to add the .concealed class</p>          
 
     setColumns : <span class="keyword">function</span>( numColumns ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          allSpans = <span class="string">'span1 span2 span3 span4 span6 m-span3'</span>,
+          span = <span class="string">'span'</span>,
+          mspan = <span class="string">'m-'</span> + span,
+          allSpans = [ span+<span class="number">1</span>, span+<span class="number">2</span>, span+<span class="number">3</span>, span+<span class="number">4</span>, span+<span class="number">6</span>, mspan+<span class="number">3</span>, mspan+<span class="number">6</span> ].join(<span class="string">' '</span>),
           shuffleDash = <span class="string">'shuffle-'</span>,
           grid = <span class="string">'slimgrid'</span>,
           grid5 = grid+<span class="number">5</span>,
           gridClasses = [ shuffleDash+<span class="number">2</span>, shuffleDash+<span class="number">3</span>, shuffleDash+<span class="number">4</span>, shuffleDash+<span class="number">5</span>, shuffleDash+<span class="number">6</span>, grid, grid5 ].join(<span class="string">' '</span>),
-          itemSelector = <span class="string">'.gallery-item'</span>,
-          span = <span class="string">'span'</span>,
-          mspan = <span class="string">'m-'</span> + span,
+          itemSelector = self.itemSelector,
           large = <span class="string">'.large'</span>,
           promo = <span class="string">'.promo'</span>,
+          social = <span class="string">'.social'</span>,
           normal = <span class="string">'.normal'</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-258">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-258">&#182;</a>               </div>               <p>Large desktop ( 6 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( numColumns === <span class="number">6</span> ) {
@@ -2361,7 +2391,7 @@ x button on a gallery item. We'll need to add the .concealed class</p>          
               .filter(large) <span class="comment">// Select large tiles</span>
               .addClass(span+<span class="number">6</span>) <span class="comment">// Make them 6/12 width</span>
               .end() <span class="comment">// Go back to all items</span>
-            .filter(promo) <span class="comment">// Select promo tiles</span>
+            .filter(promo + <span class="string">','</span> + social) <span class="comment">// Select promo tiles</span>
               .addClass(span+<span class="number">4</span>) <span class="comment">// Make them 4/12 width</span>
               .end() <span class="comment">// Go back to all items</span>
             .filter(normal) <span class="comment">// Select tiles not large nor promo</span>
@@ -2380,7 +2410,7 @@ x button on a gallery item. We'll need to add the .concealed class</p>          
             .filter(large) <span class="comment">// Select large tiles</span>
               .addClass(span+<span class="number">3</span>) <span class="comment">// Make them 3/5 width</span>
               .end() <span class="comment">// Go back to all items</span>
-            .filter(promo) <span class="comment">// Select promo tiles</span>
+            .filter(promo + <span class="string">','</span> + social) <span class="comment">// Select promo tiles</span>
               .addClass(span+<span class="number">2</span>) <span class="comment">// Make them 2/5 width</span>
               .end() <span class="comment">// Go back to all items</span>
             .filter(normal) <span class="comment">// Select tiles not large nor promo</span>
@@ -2397,7 +2427,7 @@ x button on a gallery item. We'll need to add the .concealed class</p>          
 
           self.$grid.children(itemSelector)
             .removeClass(allSpans) <span class="comment">// Remove current grid span</span>
-            .filter(promo) <span class="comment">// Select promo tiles</span>
+            .filter(promo + <span class="string">','</span> + social) <span class="comment">// Select promo tiles</span>
               .addClass(span+<span class="number">6</span>) <span class="comment">// Make them half width</span>
               .end() <span class="comment">// Go back to all items</span>
             .filter(large + <span class="string">','</span> + normal) <span class="comment">// Select tiles not promo</span>
@@ -2424,9 +2454,13 @@ x button on a gallery item. We'll need to add the .concealed class</p>          
             .removeClass(gridClasses)
             .addClass(shuffleDash+<span class="number">2</span> + <span class="string">' '</span> + grid);
 
-</pre></div>             </td>           </tr>                               <tr id="section-269">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-269">&#182;</a>               </div>               <p>Remove current grid span</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid.children(itemSelector)
-            .removeClass(allSpans)
-            .addClass(mspan+<span class="number">3</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-269">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-269">&#182;</a>               </div>               <p>Remove current grid span</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid.children( itemSelector )
+            .removeClass( allSpans )
+            .filter( social )
+              .addClass( mspan+<span class="number">6</span> )
+              .end()
+            .not( social )
+              .addClass( mspan+<span class="number">3</span> );
         }
       }
       <span class="keyword">return</span> self;
@@ -2846,6 +2880,7 @@ window.console &amp;&amp; console.time &amp;&amp; console.time( id );</p>       
 
   module.onGalleryTabAlreadyShown = <span class="keyword">function</span>( evt ) {
     module.initializer( $( <span class="keyword">this</span> ) );
+    setTimeout( iQ.update, <span class="number">0</span> );
   };
 
 </pre></div>             </td>           </tr>                               <tr id="section-310">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-310">&#182;</a>               </div>               <p>Event triggered when the previous tab/pane is about to be hidden</p>             </td>             <td class="code">               <div class="highlight"><pre>  module.onGalleryTabShow = <span class="keyword">function</span>( evt ) {
