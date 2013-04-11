@@ -1,0 +1,40 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('country-region-selection-z10')
+
+.fixed.js-sticky-header
+
+.country-region.scrollable
+  .contianer.full-bleed-no-max
+    .container
+      .grid
+        h3.t3= data.title
+
+    .container.full-bleed-no-max.matte
+      .container
+        .grid
+          ol.media-list.continents
+
+            - for (var i = 0; i < data.continents.length; i += 1) {
+              - var continent = data.continents[i];
+
+              li.t6.continent= continent.name
+              li
+                ol.media-list.countries
+
+                  - for (var j = 0; j < continent.countries.length; j += 1) {
+                    - var country = continent.countries[j];
+
+                    li
+                      a(href="#{country.url}")
+                        .media
+                          .media-img
+                            i(class="icon-flag icon-flag-#{country.icon}")
+                          .media-bd.country= country.name
+                  - }
+            - }
+
+    .container
+      .grid
+        .span12
+          p(class='t7')= data.cookies_blurb.heading
+          p= data.cookies_blurb.content
