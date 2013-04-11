@@ -93,16 +93,22 @@ define(function(require){
           self.$scrubber.addClass('dragging');
           setTimeout(function(){
             self.$scrubber.removeClass('dragging');
-          }, 150);
+          }, 100);
         }
       });
 
-      // Toggle "hoverOn" class on scrubber handle to change easing for hover transition
-      self.$handle.hover(function(){
-        self.$handle.addClass('hoverOn');
-      }, function(){
-        self.$handle.removeClass('hoverOn');
+      self.$handle.mouseenter(function(){
+        self.$scrubber.addClass('dragging2');
       });
+      
+      self.$handle.mouseleave(function(){
+        if ( !self.$scrubber.hasClass('dragging') ) {
+          setTimeout(function(){
+            self.$scrubber.removeClass('dragging2');
+          }, 250);
+        }
+      });
+     
 
     },
 

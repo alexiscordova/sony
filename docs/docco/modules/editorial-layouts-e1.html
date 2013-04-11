@@ -12,7 +12,12 @@ define(<span class="keyword">function</span>(require){
     <span class="string">'use strict'</span>;
 
     <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
-        Environment = require(<span class="string">'require/sony-global-environment'</span>);
+        enquire = require(<span class="string">'enquire'</span>),
+        iQ = require(<span class="string">'iQ'</span>),
+        Settings = require(<span class="string">'require/sony-global-settings'</span>),
+        Environment = require(<span class="string">'require/sony-global-environment'</span>),
+        SonyCarousel = require(<span class="string">'secondary/sony-carousel'</span>),
+        EvenHeights = require(<span class="string">'secondary/sony-evenheights'</span>);
 
     <span class="keyword">var</span> module = {
       init: <span class="keyword">function</span>() {
@@ -24,40 +29,86 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Start module</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> Editorial = <span class="keyword">function</span>(element, options){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      $.extend(self, {}, $.fn.editorial.defaults, options, $.fn.editorial.settings);
-
+      
+      self.$el = $(element);
+      self.collapsableTout = self.$el.find(<span class="string">'.m2up, .m3up'</span>);
+      self.colspan = self.$el.find(<span class="string">'.m3up'</span>).length &gt; <span class="number">0</span> ? <span class="string">"span4"</span> : self.collapsableTout.find(<span class="string">'.horizontal'</span>).length &gt; <span class="number">0</span> ? <span class="string">"span6"</span> : <span class="string">"span5"</span>;
+      self.col = self.collapsableTout.find(<span class="string">'&gt;div'</span>);
+      self.hasOffset1 = self.col.hasClass(<span class="string">'offset1'</span>);
+      
+      self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
+      
       self._init();
     };
 
     Editorial.prototype = {
       constructor: Editorial,
-      
-      _resize: <span class="keyword">function</span>(){
-        
+
+      resize: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>fixes horizontal 2 up layout wraping</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> tc = $(<span class="string">'.editorial.tout .m2up .horizontal .table-center-wrap'</span>);
-        <span class="keyword">if</span>(tc){
+        <span class="keyword">if</span>(tc.length &gt; <span class="number">0</span>){
           tc.width(tc.parent().width() - tc.prev().width() - <span class="number">81</span>);
         }
         
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>if mobile make 2up and 3up into carousels // if not un-make carousels </p>             </td>             <td class="code">               <div class="highlight"><pre>        
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>var carouselEnabled = false;
-if(windowWidth &lt; 768 &amp;&amp; !carouselEnabled){
-$('.carousel-1 .sony-carousel').sonyCarousel({
-wrapper: '.sony-carousel-wrapper',
-slides: '.sony-carousel-slide',
-slideChildren: '.sony-carousel-slide-children',
-useCSS3: true,
-paddles: true,
-pagination: true
-});
-}else if(windowWidth >=768 &amp;&amp; carouselEnabled){</p>
-
-<p>}</p>             </td>             <td class="code">               <div class="highlight"><pre>        
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
+        console.log(heightGroup);
+        <span class="keyword">if</span>(heightGroup.length &gt;<span class="number">0</span>){
+          heightGroup.evenHeights();
+        }
       },
+      
+      initDesktop: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;      
+
+        self.collapsableTout.sonyCarousel(<span class="string">'destroy'</span>);
+        self.collapsableTout.off(Settings.transEndEventName);
+        self.collapsableTout.addClass(<span class="string">'grid'</span>);
+        self.collapsableTout.attr(<span class="string">"style"</span>, <span class="string">""</span>);
+        self.col.addClass(self.colspan);
+        <span class="keyword">if</span>(self.hasOffset1){
+          self.col.first().addClass(<span class="string">'offset1'</span>);
+        }
+      },
+      initMobile: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        
+        self.collapsableTout.removeClass(<span class="string">'grid'</span>);
+        self.col.removeClass(self.colspan);
+        self.col.removeClass(<span class="string">'offset1'</span>);
+        self.collapsableTout.sonyCarousel({
+          wrapper: <span class="string">'.editorial.tout .container'</span>,
+          slides: <span class="string">'&gt;div'</span>,
+          useCSS3: <span class="literal">true</span>,
+          paddles: <span class="literal">false</span>, 
+          pagination: <span class="literal">true</span>
+        });
+        self.collapsableTout.on(Settings.transEndEventName, <span class="keyword">function</span>(){
+          iQ.update(<span class="literal">true</span>);
+        });
+      },
+      
 
       _init: <span class="keyword">function</span>(){
-        <span class="keyword">this</span>._resize();
-        Environment.on(<span class="string">'global:resizeDebounced'</span>, <span class="keyword">this</span>._resize);
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+       
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>if its a 2 or 3up we want to start the carousel code</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.collapsableTout.length &gt; <span class="number">0</span>){
+         
+          <span class="keyword">if</span> ( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
+            enquire.register(<span class="string">"(min-width: 768px)"</span>, <span class="keyword">function</span>() {
+              self.initDesktop();
+            });
+            enquire.register(<span class="string">"(max-width: 767px)"</span>, <span class="keyword">function</span>() {
+              self.initMobile();
+            });           
+          } <span class="keyword">else</span> {
+            self.initDesktop();
+          }
+          
+          self.resize();
+          Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.resize, self));
+        }
         
         log(<span class="string">'SONY : Editorial : Initialized'</span>);
       }

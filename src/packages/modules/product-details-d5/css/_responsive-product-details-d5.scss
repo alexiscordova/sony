@@ -1,14 +1,30 @@
 
+
+@media (min-width: px-em(769px)) and (max-width: px-em(1036px)) {
+	.pd-module{
+		//border:1px solid green;
+
+		.measurements{
+			.img-wrapper{
+				//border: 1px solid red;
+				width:60%;
+			} // img-wrapper
+
+		} //measurements
+
+  } // pd-module
+
+} //mq
+
+
+
 @media (min-width: px-em(480px)) and (max-width: px-em(768px)) {
 	.pd-module{
-
 		.top{
-
 			.desc{
 				@include content-columns(1);
 			} //. desc
 		} // .top
-
 
 		.last-column{
 			position: relative;
@@ -26,7 +42,7 @@
 
 				&.with-measurements{
 					padding:0;
-				}
+				} // with-measurements
 
 				&.absolute-pos{
 					margin-top:0;
@@ -34,7 +50,7 @@
 					position: absolute;
 					top:9%;
 					right:5%;					
-				}
+				} // absolute-pos
 
 				.p3{
 					// cosmetics
@@ -43,6 +59,7 @@
 				} // p3
 
 			} // extras
+
 		} // last-column
 		
 		.bottom{
@@ -61,7 +78,6 @@
 } // end MQ
 
 
-/// 480px
 @media (max-width: px-em(567px)) {
 	.pd-module{
 

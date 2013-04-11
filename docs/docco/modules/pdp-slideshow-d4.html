@@ -61,10 +61,14 @@ define(<span class="keyword">function</span>(require){
       self.$thumbNav            = self.$el.find(<span class="string">'.thumb-nav'</span>);
       self.$pagination          = <span class="literal">null</span>;
 
+
+      self.desktopAnimSpeed     = <span class="number">500</span>;
+      self.tabletAnimSpeed      = <span class="number">300</span>;
+      self.mobileAnimSpeed      = <span class="number">250</span>;
+
       self.hasThumbs            = self.$thumbNav.length &gt; <span class="number">0</span>;
       self.numSlides            = self.$slides.length;
       self.currentId            = <span class="number">0</span>;
-
 
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Inits the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
 
@@ -75,6 +79,8 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Initalize the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      init : <span class="keyword">function</span>( param ) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        console.log(<span class="string">'pdp-slideshow-d4.js init'</span>);
 
         <span class="keyword">if</span>(!window.console){
           window.console = {};
@@ -123,7 +129,8 @@ define(<span class="keyword">function</span>(require){
           useCSS3: self.useCSS3,
           paddles: <span class="literal">true</span>,
           pagination: <span class="literal">true</span>,
-          $paddleWrapper: self.$el
+          $paddleWrapper: self.$el,
+          CSS3easingEquation: <span class="string">'cubic-bezier(0.000, 1.035, 0.400, 0.985)'</span>
         });
 
         self.$pagination = self.$el.find(<span class="string">'.pagination-bullets'</span>);
@@ -140,7 +147,7 @@ define(<span class="keyword">function</span>(require){
         self.currentId = currIndx;
         self.setCurrentActiveThumb();
 
-        iQ.update();
+        setTimeout( iQ.update , <span class="number">250</span> );
       },
 
 
@@ -153,6 +160,7 @@ define(<span class="keyword">function</span>(require){
           self.isDesktopMode = <span class="literal">true</span>;
           self.showThumbNav();
           self.toggleDotNav(<span class="literal">true</span>); <span class="comment">//hide</span>
+          self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.desktopAnimSpeed );
         });
 
         enquire.register(<span class="string">"(min-width: 569px) and (max-width: 768px)"</span>, <span class="keyword">function</span>() {
@@ -160,6 +168,7 @@ define(<span class="keyword">function</span>(require){
           self.isTabletMode = <span class="literal">true</span>;
           self.hideThumbNav();
           self.toggleDotNav(<span class="literal">false</span>); <span class="comment">//show</span>
+          self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.tabletAnimSpeed );
         });
 
         enquire.register(<span class="string">"(max-width: 568px)"</span>, <span class="keyword">function</span>() {
@@ -167,6 +176,7 @@ define(<span class="keyword">function</span>(require){
           self.isMobileMode = <span class="literal">true</span>;
           self.hideThumbNav();
           self.toggleDotNav(<span class="literal">false</span>); <span class="comment">//show</span>
+          self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.mobileAnimSpeed );
         });
 
       }
@@ -176,6 +186,7 @@ define(<span class="keyword">function</span>(require){
           self.isDesktopMode = <span class="literal">true</span>;
           self.showThumbNav();
           self.toggleDotNav(<span class="literal">true</span>); <span class="comment">//hide</span>
+          self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.desktopAnimSpeed );
           
         }
 
