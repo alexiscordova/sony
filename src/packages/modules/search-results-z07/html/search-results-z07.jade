@@ -2,51 +2,53 @@ include ../../../common/html/jade-helpers.jade
 
 
 #page-wrapper-inner
+  .bar-tone
+    .container
+      .container
+        h2.l3 SEARCH RESULTS
+        form.search-form
+          label.search-label search
+          input.search
+          a.clear-search(href"#") i X
+          button.btn Search
   .container
-    .bar-tone
-      h2.l3 SEARCH RESULTS
-
-      form
-        label search
-        input.search
-
-        a.clear-search
-          i X
-        button.btn Search
-
-    .search-suggestions
-      span Did you mean?
-      ul.h-list
-        li 
-          a(href="#") NEX-60
-        li 
-          a(href="#") NEX 600
+    .container
+      .search-suggestions
+        span.p3.search-correction Did you mean?
+        ul.h-list.h-list-lg
+          li.lt3 
+            a(href="#") NEX-60
+          li.lt3 
+            a(href="#") NEX 600
     .grid
       .span8
         .featured-result
+          h3.p3
+            span 84 span Results
           .media
-            .img
-              Put image here
-            .bd
+            .img.img-lg
+              img(src="img/search-results-z07/feature-img.jpg")
+            .bd.feature-text
               h3.t5 Cameras
               p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed diam lectus, nec dictum erat dolor sit amet.
               ul.featured-list
-                li
+                li.lt4
                   a(href="#") Cyber-shot Cameras
-                li
+                li.lt4
                   a(href="#") NEX Cameras
-                li
+                li.lt4
                   a(href="#") DLSR Cameras
-                li
+              ul.featured-list
+                li.lt4
                   a(href="#") Camera Lenses
-                li
+                li.lt4
                   a(href="#") Camera Support
           ul.results-list
             li
               a(href="#")
                 .media
                   .img
-                    img here
+                    img(src="img/search-results-z07/list-img.jpg")
                   .bd
                     h4.lt3
                       a(href="#") Headline
@@ -55,7 +57,7 @@ include ../../../common/html/jade-helpers.jade
               a(href="#")
                 .media
                   .img
-                    img here
+                    img(src="img/search-results-z07/list-img.jpg")
                   .bd
                     h4.lt3
                       a(href="#") Headline
@@ -68,9 +70,9 @@ include ../../../common/html/jade-helpers.jade
                       a(href="#") Headline
                     p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
           button.bt2 + Load More
-      .span3
+      .span3.offset1
         .result-sidebar
-          .result-link-group
+          .results-link-group
             h3.l3 Narrow Your Results  
             ul
               li
