@@ -1,10 +1,10 @@
-// Editorial Chapters - E5
+// Editorial SlideShow - E4
 // ------------
 //
-// * **Module:** Editorial Chapters - E5
-// * **Version:** 1.0
-// * **Modified:** 04/10/2013
-// * **Author:** Steve Davis
+// * **Module:** Editorial Slideshow - E4
+// * **Version:** 1.0a
+// * **Modified:** 04/4/2013
+// * **Author:** Tyler Madison, George Pantazis
 // * **Dependencies:** jQuery 1.9.1+, Modernizr
 //
 // *Example Usage:*
@@ -26,7 +26,7 @@ define(function(require){
 
     var self = {
       'init': function() {
-        $('.editorial-slidshow-container').editorialChapters();
+        $('.editorial-chapters-container').editorialChapters();
       }
     };
     
@@ -59,17 +59,15 @@ define(function(require){
       self.$html                = $('html');
       self.$slides              = self.$el.find( '.editorial-carousel-slide' );
       self.$slideContainer      = self.$el.find( '.editorial-carousel' );
-      self.$thumbNav            = self.$el.find( '' );
+      self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$pagination          = null;
 
       self.hasThumbs            = self.$thumbNav.length > 0;
       self.numSlides            = self.$slides.length;
       self.currentId            = 0;
 
-
       // Inits the module
       self.init();
-
     };
 
     EditorialChapters.prototype = {
@@ -84,32 +82,13 @@ define(function(require){
           window.console.log = function(){};
         }
 
-        window.console.log(' new carousel... ');
-
-       
-
-
         self.setupEvents();
         self.setupSlides();
-
         self.setupCarousel();
-
-        self.$slideContainer.css( 'opacity' , 1 );
-
-         /*
-        self.setupCarousel();
-        self.setupBreakpoints();
-        
         if(self.hasThumbs){
           self.createThumbNav();
         }
-
         self.$slideContainer.css( 'opacity' , 1 );
-
-
-        // Listen for debounced resize event
-        Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );*/
-
       },
 
       // Handles global debounced resize event
@@ -117,12 +96,7 @@ define(function(require){
         var self = this,
         wW = self.$window.width();
         
-        if(wW > 1199){
-          self.$el.css('overflow' , 'hidden');
-        }else{
-          self.$el.css('overflow' , 'visible');
-        }
-
+        (wW > 1199) ? self.$el.css('overflow' , 'hidden') : self.$el.css('overflow' , 'visible');
       },
 
       // Main setup method for the carousel
@@ -133,18 +107,15 @@ define(function(require){
         self.$slideContainer.sonyCarousel({
           wrapper: '.editorial-carousel-wrapper',
           slides: '.editorial-carousel-slide',
-          looped: true,
-          jumping: true,
+          looped: false,
+          jumping: false,
           axis: 'x',
           unit: '%',
-          dragThreshold: 2,
           useCSS3: self.useCSS3,
-          paddles: true,
-          pagination: true/*,
-          $paddleWrapper: self.$el.find('.editorial-carousel-wrapper')*/
+          paddles: false,
+          pagination: false,
+          draggable: false
         });
-
-        self.$pagination = self.$el.find('.pagination-bullets');
 
         self.$slideContainer.on('SonyCarousel:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
 
@@ -168,65 +139,27 @@ define(function(require){
         var self = this;
         
         if( !self.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 769px)", function() {
-          self.isMobileMode = self.isTabletMode = false;
-          self.isDesktopMode = true;
-          self.showThumbNav();
-          self.toggleDotNav(true); //hide
-        });
+          enquire.register("(min-width: 769px)", function() {
+            self.isMobileMode = self.isTabletMode = false;
+            self.isDesktopMode = true;
+          });
 
-        enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
-          self.isMobileMode = self.isDesktopMode = false;
-          self.isTabletMode = true;
-          self.hideThumbNav();
-          self.toggleDotNav(true); //hide
-        });
+          enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
+            self.isMobileMode = self.isDesktopMode = false;
+            self.isTabletMode = true;
+          });
 
-        enquire.register("(max-width: 568px)", function() {
-          self.isDesktopMode = self.isTabletMode = false;
-          self.isMobileMode = true;
-          self.hideThumbNav();
-          self.toggleDotNav(false); //show
-        });
-
-      }
+          enquire.register("(max-width: 568px)", function() {
+            self.isDesktopMode = self.isTabletMode = false;
+            self.isMobileMode = true;
+          });
+        }
 
         if( self.$html.hasClass('lt-ie10') ){
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
-          self.showThumbNav();
-          self.toggleDotNav(true); //hide
-          
         }
 
-      },
-
-      // Toggles dot nav based on breakpoints
-      toggleDotNav: function(hide){
-        var self = this;
-
-        if(hide){
-          self.$pagination.hide();
-        }else{
-          self.$pagination.show();
-        }
-
-      },
-
-      // Toggles thumb nav based on breakpoints
-      hideThumbNav: function(){
-        var self = this;
-        if(self.$thumbNav.length > 0){
-          self.$thumbNav.hide();
-        }
-      },
-
-      // Toggles thumb nav based on breakpoints
-      showThumbNav: function(){
-        var self = this;
-        if(self.$thumbNav.length > 0){
-          self.$thumbNav.show();
-        }
       },
 
       // Sets up slides to correct width based on how many there are
@@ -235,9 +168,6 @@ define(function(require){
 
         self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
         self.$slides.width( 100 / (self.numSlides + 2) + '%' );
-
-        console.log( 'Setup slides: ' , 1 );
-
       },
       
       // Setup touch event types
@@ -259,7 +189,7 @@ define(function(require){
       // Bind events to the thumbnail navigation
       createThumbNav: function(){
         var self = this,
-        $anchors = self.$thumbNav.find('a');
+        $anchors = self.$thumbNav.find('li');
         
         $anchors.on( self.tapOrClick() , function(e){
           e.preventDefault();
@@ -269,29 +199,26 @@ define(function(require){
         $anchors.eq(0).addClass('active');
       },
 
-
       // Handles when a thumbnail is chosen
       onThumbSelected: function($el){
         var self = this,
-        $anchors = self.$thumbNav.find('a'),
-        selectedIndx =  $el.parent().index(),
+        $anchors = self.$thumbNav.find('li'),
+        selectedIndex =  $el.index(),
         animDirection = '';
 
-        self.currentId = selectedIndx;
+        self.currentId = selectedIndex;
 
         $anchors.removeClass('active');
         $el.addClass('active');
 
         self.$slideContainer.sonyCarousel( 'gotoSlide' , self.currentId );
-
       },
 
       // Sets the current active thumbnail
       setCurrentActiveThumb: function(){
-        var self = this,
-        $anchors = self.$thumbNav.find('a');
-        $anchors.removeClass('active');
-        $anchors.eq( self.currentId ).addClass('active');
+        var self = this;
+        self.$thumbNav.find('li').removeClass('active')
+          .eq( self.currentId ).addClass('active');
       }
 
       //end prototype object

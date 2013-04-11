@@ -4,88 +4,31 @@ include ../../../common/html/jade-helpers.jade
 .st-content.slimgrid
   .st-grid
     for item in content
-      - textStyle   = item.typeLayout
-      - alignment   = item.typeAlignment
-      l = item.objectSize
-      hTb = item.headline.linkText.replace(/[\s-]+$/,'').split(/[\s-]/).pop()
-      hTa = item.headline.linkText.split(hTb).shift()
 
-      if item.headline
-        - contentType = 'headline-only'
-        if item.counter
-          - contentType = 'headline-counter'
-        if item.eyebrow
-          - contentType = 'headline-eyebrow'
-        if item.bodycopy
-          - contentType = 'headline-copy'
-        if item.eyebrow && item.bodycopy
-          - contentType = 'headline-eyebrow-copy'
-        if item.bodycopy && item.counter
-          - contentType = 'headline-copy-counter'
+      if item.objectSize == 'span8'
+        - item.c = 'st-3up span8'
+        - item.s = 'content-8'
+      else if item.objectSize == 'span4'
+        - item.c = 'st-1up span4'
+        - item.s = 'content-4'
+      else if item.objectSize == 'span6'
+        - item.c = 'st-2up span6'
+        - item.s = 'content-6'
 
-      if l == 'span8'
-        - c = 'st-3up span8'
-        - s = 'content-8'
-      else if l == 'span4'
-        - c = 'st-1up span4'
-        - s = 'content-4'
-      else if l == 'span6'
-        - c = 'st-2up span6'
-        - s = 'content-6'
+      if item.whatsNewCarousel
+        .st-item(class=item.c)(class=item.s)
+          div.whats-new-carousel-wrapper
+            div.whats-new-carousel
+              for slide in item.whatsNewCarousel.slides
+                - slide.c = item.c
+                - slide.s = item.s
+                e = {"locals": locals, "item": slide}
+                div.whats-new-carousel-slide
+                  !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4-item.jade', e)}
 
-      if item.miniPromo
-        - mpc = 'has-mini-promo'
       else
-        - mpc = ''
+        e = {"locals": locals, "item": item}
+        .st-item(class=item.c)(class=item.s)
+          !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4-item.jade', e)}
 
-      if alignment == 'align-left-center' || alignment == 'align-right-center'
-        - gcwc = 'table-center-wrap'
-        - gcc = 'table-center'
-      else
-        - gcwc = ''
-        - gcc = ''
 
-      .st-item(class=c)(class=s)
-        article
-          .st-image(class=c, data-src-desktop=item.backgroundImgSrcDesktop, data-src-tablet=item.backgroundImgSrcTablet, data-src-phone=item.backgroundImgSrcPhone, data-src-desktop-highres=item.backgroundImgSrcDesktopHighRes, data-src-tablet-highres=item.backgroundImgSrcTabletHighRes, data-src-phone-highres=item.backgroundImgSrcPhoneHighRes)
-          .st-item-content(class=contentType)(class=textStyle)(class=alignment)(class=s)(class=mpc)(class=gcwc)
-            div(class=gcc)
-
-              if item.eyebrow
-                a.eyebrow(href=item.eyebrow.link)
-                  | #{item.eyebrow.title}0
-
-              if s == 'content-8'
-                h3.headline!= item.headline.title
-                  if item.headline.link
-                    a(href=item.headline.link)
-                      | !{' ' + hTa}
-                      span !{' ' + hTb}
-                        i.fonticon-10-chevron-sm
-              else
-                h4.headline!= item.headline.title
-                  if item.headline.link
-                    a(href=item.headline.link)
-                      | !{' ' + hTa}
-                      span !{' ' + hTb}
-                        i.fonticon-10-chevron-sm
-
-              if item.bodycopy
-                p.p3= item.bodycopy
-
-          if s == 'content-8' || s == 'content-6'
-            if contentType == 'headline-counter' || contentType == 'headline-copy-counter'
-              .counter(class=contentType)(class=textStyle)(class=alignment)(class=s)(class=mpc)
-                - counterText = item.counter.total + ' ' + item.counter.text
-                h3.l2= counterText
-
-        aside
-          if s == 'content-8'
-            if item.miniPromo
-              a.mini-promo(class=contentType)(class=textStyle)(class=alignment)(class=s)(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
-                div.mini-promo-image-container
-                  .play-button
-                    i.fonticon-10-video-play
-                  img(src=item.miniPromo.imgSrc)
-                div.mini-promo-caption.p4
-                  | !{item.miniPromo.caption}

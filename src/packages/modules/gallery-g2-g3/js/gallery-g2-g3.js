@@ -711,10 +711,9 @@ define(function(require){
       self.$compareItemsWrap = self.$grid.find('.compare-items-wrap');
 
       // Navs
-      self.$navWrap = self.$container.find('.compare-nav-wrap');
-      self.$navContainer = self.$navWrap.find('.compare-nav-container');
-      self.$navNext = self.$navWrap.find('.compare-nav-next');
-      self.$navPrev = self.$navWrap.find('.compare-nav-prev');
+      self.$navContainer = self.$container.find('.compare-nav-container');
+      self.$navNext = self.$navContainer.find('.compare-nav-next');
+      self.$navPrev = self.$navContainer.find('.compare-nav-prev');
       self.$detailLabelsWrap = self.$grid.find('.detail-labels-wrap');
       self.$stickyHeaders = self.$grid.find('.compare-sticky-header');
       self.$stickyRightBar = self.$stickyHeaders.find('.right-bar');
@@ -2995,18 +2994,18 @@ define(function(require){
       var self = this,
           screenHeight,
           maxBodyHeight,
-          notMobile = Modernizr.mediaqueries ? Modernizr.mq('(min-width: 35.5em)') : true;
+          isMobileSize = !( Modernizr.mediaqueries ? Modernizr.mq('(min-width: 35.5em)') : true );
 
       // False for event objects
       isInit = isInit === true;
 
       // console.log('resize');
-      if ( !isInit ) {
-        // Caculate how much room the modal body has
+      if ( !isInit && self.isModalOpen ) {
 
         setTimeout(function() {
 
-          if ( notMobile ) {
+          if ( !isMobileSize ) {
+            // Caculate how much room the modal body has
             maxBodyHeight = self.getMaxBodyHeight();
           } else {
             maxBodyHeight = 'none';
@@ -3044,6 +3043,8 @@ define(function(require){
     onModalShown : function( evt ) {
       var self = this;
 
+      self.isModalOpen = true;
+
       // Stop event from bubbling up to the tabs
       evt.stopPropagation();
 
@@ -3055,7 +3056,9 @@ define(function(require){
       self.onResize();
 
       // Listen for scroll events on the modal body
-      self.$modalBody.on( 'scroll', $.proxy( self.onModalBodyScroll, self ) );
+      if ( self.useScrollListener ) {
+        self.$modalBody.on( 'scroll', $.proxy( self.onModalBodyScroll, self ) );
+      }
     },
 
     onModalClosed : function( evt ) {
@@ -3066,7 +3069,9 @@ define(function(require){
 
       self.shuffle.destroy();
 
-      self.$modalBody.off('scroll');
+      if ( self.useScrollListener ) {
+        self.$modalBody.off('scroll');
+      }
 
       if ( self.hasTouch ) {
         $('#main').css({
@@ -3085,6 +3090,7 @@ define(function(require){
 
       // Clear out the search field
       self.$searchField.val( '' );
+      self.isModalOpen = false;
       self.isFadedIn = false;
     },
 
@@ -3111,16 +3117,14 @@ define(function(require){
 
   };
 
-  AccessoryFinder.options = {
-    abc : 'xyz'
-  };
+  AccessoryFinder.options = {};
 
   AccessoryFinder.settings = {
-    // isDesktop: false,
-    // isMobile: false,
     isTicking: false,
     isFadedIn: false,
+    isModalOpen: false,
     hasTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
+    useScrollListener: !( Settings.isSonyTabletS || Settings.isLTIE9 || Settings.isPS3 ),
     itemSelector: '.compat-item',
     $window: Settings.$window
   };
@@ -3133,10 +3137,10 @@ define(function(require){
 
       // Stagger gallery initialization
       setTimeout(function() {
-        var id = $this.attr('id').substring( 0, $this.attr('id').lastIndexOf('-') );
-        window.console && console.time && console.time( id );
+        // var id = $this.attr('id').substring( 0, $this.attr('id').lastIndexOf('-') );
+        // window.console && console.time && console.time( id );
         $this.gallery( $this.data() );
-        window.console && console.timeEnd && console.timeEnd( id );
+        // window.console && console.timeEnd && console.timeEnd( id );
       }, 0);
     });
 
