@@ -48,9 +48,11 @@ define(function(require){
   var StickyHeader = {
     init: function() {
       this.$fixedHeader = $('.continent-sticky-header').hide();
+      this.$fixedHeaderTitle = this.$fixedHeader.find('.continent-sticky-header-title');
       this.$headers = $('.continent');
       this.offsets = [];
       this.currentHeader = undefined;
+      this.headerIsVisible = false;
 
       this.$fixedHeader.css('left', $(this.$headers[0]).offset().left + 'px');
 
@@ -88,13 +90,6 @@ define(function(require){
 
     scrollHandler: function() {
       var offsetTarget = Math.abs(this.scroll.y); // iScroll.y is negative
-
-
-      if (Math.abs(this.lastScrollOffset - offsetTarget) < 26) {
-        this.lastScrollOffset = offsetTarget;
-        return;
-      }
-
       this.updateFixedHeader(offsetTarget);
     },
 
@@ -105,12 +100,24 @@ define(function(require){
       if (headerIndex != this.currentHeader) {
         this.currentHeader = headerIndex;
         $header = $(this.$headers[headerIndex]);
-        this.$fixedHeader.slideDown().text($header.text());
+        this.$fixedHeaderTitle.text($header.text());
+
+        if (!this.headerIsVisible) {
+          this.$fixedHeader.stop().show();
+          this.headerIsVisible = true;
+          console.log(headerIndex, this.headerIsVisible);
+        }
+      }
+      console.log(headerIndex, this.headerIsVisible);
+
+      if (headerIndex === -1 && this.headerIsVisible) {
+          this.$fixedHeader.stop().hide();
+          this.headerIsVisible = false;
       }
     },
 
     _indexOfClosestHeader: function (targetOffset) {
-      var headerIndex,
+      var headerIndex = -1,
           i = 0,
           numHeaders = this.$headers.length,
           offset,
