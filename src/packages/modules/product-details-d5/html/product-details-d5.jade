@@ -23,7 +23,7 @@ section(class= productDetailsClasses)
   - hasDesc = top.desc.length > 0
 
   //- DISPLAY
-  .top.grid.m-grid-at-767.no-grid-at-567
+  .top.grid.m-grid-at-979.no-grid-at-567
     .title.l1= top.title
     if(hasDesc)
       .desc.p3= top.desc
@@ -56,7 +56,7 @@ section(class= productDetailsClasses)
   - isMeasurements = measurements.length > 0
   - isExtras = extras.length > 0
   - centerLayoutValue = 0  //- features [100] /specs [10] / measurements [1]
-  - centerClasses = ["center","grid","m-grid-at-767","no-grid-at-567"]
+  - centerClasses = ["center","grid","m-grid-at-979","no-grid-at-567"]
 
   //- for 567 breakpoint, padding isn't needed if there's a description
   //- if (hasDesc)
@@ -239,7 +239,7 @@ section(class= productDetailsClasses)
       - btmButtonClasses.push("m-span2")
 
   //- DISPLAY
-  .bottom.grid.m-grid-at-767.no-grid-at-567
+  .bottom.grid.m-grid-at-979.no-grid-at-567
     case bottomLayoutValue
       when 10
         +bottomTout(textTout)
