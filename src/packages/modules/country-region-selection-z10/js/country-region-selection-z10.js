@@ -26,19 +26,21 @@ define(function(require){
       window.enquire.register('(max-width: 767px)', {
         match : function() {
           stickyHeader.enable();
-
+          console.log('mobile');
         }
       });
 
-      window.enquire.register('(min-width: 767px) and (max-width: 1024px)', {
+      window.enquire.register('(min-width: 767px) and (max-width: 988px)', {
         match : function() {
           stickyHeader.disable();
+          console.log('tablet');
         }
       });
 
       window.enquire.register('(min-width: 1024px)', {
         match : function() {
-          stickyHeader.enable();
+          stickyHeader.disable();
+          console.log('desktop');
         }
       }, true);
     }
@@ -53,6 +55,8 @@ define(function(require){
       this.offsets = [];
       this.currentHeader = undefined;
       this.headerIsVisible = false;
+
+      $('.scrollable').attr('id', 'scrollable');
 
       this.$fixedHeader.css('left', $(this.$headers[0]).offset().left + 'px');
 
@@ -74,17 +78,24 @@ define(function(require){
     },
 
     enable: function() {
-      $('.scrollable').attr('id', 'scrollable');
       this.scroll = new IScroll('scrollable', {
         onScrollMove: this.scrollHandler.bind(this),
         onScrollEnd: this.scrollHandler.bind(this)
       });
+
+      // Align fixed header with other headers
+      this.$fixedHeader.css('left', $(this.$headers[0]).offset().left + 'px');
 
       return this;
     },
 
     disable: function() {
       this.$fixedHeader.hide();
+
+      if (this.scroll) {
+        this.scroll.destroy();
+      }
+
       return this;
     },
 
@@ -105,10 +116,8 @@ define(function(require){
         if (!this.headerIsVisible) {
           this.$fixedHeader.stop().show();
           this.headerIsVisible = true;
-          console.log(headerIndex, this.headerIsVisible);
         }
       }
-      console.log(headerIndex, this.headerIsVisible);
 
       if (headerIndex === -1 && this.headerIsVisible) {
           this.$fixedHeader.stop().hide();
