@@ -104,7 +104,7 @@ html {
 
 /* line 119, ../../src/packages/common/css/_base/_reset.scss */
 a:focus {
-  outline: thin dotted #333;
+  outline: thin dotted #333333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -248,7 +248,7 @@ body {
 .img-polaroid {
   padding: 4px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -1961,7 +1961,7 @@ p, .p1, .p2, p, .p3, .p4, .p5 {
 }
 
 /* line 221, ../../src/packages/common/css/_base/_type.scss */
-.p4, .lt4 {
+.p4, .lt4, input.p4 {
   font-size: 0.75em;
   line-height: 1.5;
 }
@@ -2550,7 +2550,7 @@ select:focus,
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
-  outline: thin dotted #333;
+  outline: thin dotted #333333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -2932,7 +2932,7 @@ p .btn, td .btn {
 /* line 42, ../../src/packages/common/css/_base/_buttons.scss */
 .btn:focus {
   background: #6694ff;
-  outline: thin dotted #333;
+  outline: thin dotted #333333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -3042,7 +3042,7 @@ p .btn-special, td .btn-special {
 /* line 160, ../../src/packages/common/css/_base/_buttons.scss */
 .btn-square i {
   line-height: 0;
-  margin: -0.125em;
+  margin: -.125em;
 }
 
 /* line 168, ../../src/packages/common/css/_base/_buttons.scss */
@@ -3794,8 +3794,8 @@ input[type="submit"].btn.btn-mini {
 [class*=" swatch-"]:after {
   top: 50%;
   left: 50%;
-  margin-left: -0.5em;
-  margin-top: -0.5625em;
+  margin-left: -.5em;
+  margin-top: -.5625em;
   color: white;
 }
 /* line 78, ../../src/packages/common/css/_base/_swatches.scss */
@@ -4065,7 +4065,7 @@ input[type="submit"].btn.btn-mini {
   margin: 0;
   list-style: none;
   background-color: white;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   *border-right-width: 2px;
   *border-bottom-width: 2px;
@@ -4074,14 +4074,17 @@ input[type="submit"].btn.btn-mini {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  opacity: 0;
+  -webkit-transition: opacity 0.15s;
+  transition: opacity 0.15s;
 }
-/* line 103, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 105, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-hover-menu.pull-right,
 .dropdown-menu.pull-right {
   right: 0;
   left: auto;
 }
-/* line 109, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 111, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-hover-menu .divider,
 .dropdown-menu .divider {
   *width: 100%;
@@ -4092,13 +4095,13 @@ input[type="submit"].btn.btn-mini {
   background-color: #e5e5e5;
   border-bottom: 1px solid white;
 }
-/* line 114, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 116, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-hover-menu.bottom-up,
 .dropdown-menu.bottom-up {
   top: auto;
   bottom: 100%;
 }
-/* line 124, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 126, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-hover-menu a,
 .dropdown-menu a {
   display: block;
@@ -4110,7 +4113,7 @@ input[type="submit"].btn.btn-mini {
   white-space: nowrap;
 }
 
-/* line 135, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 137, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-menu-alt {
   z-index: 2;
   margin-top: -1px;
@@ -4121,11 +4124,11 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
 }
-/* line 144, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 146, ../../src/packages/common/css/_components/_dropdowns.scss */
 .no-boxshadow .dropdown-menu-alt {
   border-color: #e4e7eb;
 }
-/* line 149, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 151, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-menu-alt .divider {
   *width: 100%;
   height: 1px;
@@ -4135,7 +4138,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #e5e5e5;
   border-bottom: 1px solid white;
 }
-/* line 153, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 155, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-menu-alt a {
   font-size: 0.9375em;
   color: #83838f;
@@ -4144,7 +4147,7 @@ input[type="submit"].btn.btn-mini {
   padding: 10px 19px;
 }
 
-/* line 165, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 167, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:focus,
 .dropdown-submenu:hover > a {
@@ -4161,7 +4164,7 @@ input[type="submit"].btn.btn-mini {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4572ED', endColorstr='#FF2E60EB', GradientType=0);
 }
 
-/* line 174, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 176, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-menu-alt li > a:hover,
 .dropdown-menu-alt li > a:focus,
 .dropdown-submenu-alt:hover > a {
@@ -4171,7 +4174,7 @@ input[type="submit"].btn.btn-mini {
   filter: none;
 }
 
-/* line 184, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 186, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-menu .active > a,
 .dropdown-menu .active > a:hover {
   color: white;
@@ -4188,7 +4191,7 @@ input[type="submit"].btn.btn-mini {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4572ED', endColorstr='#FF2E60EB', GradientType=0);
 }
 
-/* line 192, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 194, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-menu-alt .active > a,
 .dropdown-menu-alt .active > a:hover {
   color: #83838f;
@@ -4197,41 +4200,45 @@ input[type="submit"].btn.btn-mini {
   filter: none;
 }
 
-/* line 203, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 205, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-menu .disabled > a,
 .dropdown-menu .disabled > a:hover {
   color: #bcbccc;
 }
 
-/* line 207, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 209, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-menu .disabled > a:hover {
   text-decoration: none;
   background-color: transparent;
   cursor: default;
 }
 
-/* line 215, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 217, ../../src/packages/common/css/_components/_dropdowns.scss */
 .open {
   *z-index: 1000;
 }
-/* line 220, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 222, ../../src/packages/common/css/_components/_dropdowns.scss */
 .open > .dropdown-menu {
   display: block;
 }
-/* line 224, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 226, ../../src/packages/common/css/_components/_dropdowns.scss */
+.open.in > .dropdown-menu {
+  opacity: 1;
+}
+/* line 230, ../../src/packages/common/css/_components/_dropdowns.scss */
 .open .dropdown-toggle-alt {
   z-index: 5;
   border-color: #cccccc #cccccc white;
   border-color: rgba(0, 0, 0, 0.12) rgba(0, 0, 0, 0.12) white;
 }
 
-/* line 233, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 239, ../../src/packages/common/css/_components/_dropdowns.scss */
 .pull-right > .dropdown-menu {
   right: 0;
   left: auto;
 }
 
-/* line 245, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 251, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropup .dropdown-menu,
 .navbar-fixed-bottom .dropdown .dropdown-menu {
   top: auto;
@@ -4239,12 +4246,12 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 1px;
 }
 
-/* line 254, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 260, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-submenu {
   position: relative;
 }
 
-/* line 257, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 263, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-submenu > .dropdown-menu {
   top: 0;
   left: 100%;
@@ -4252,12 +4259,12 @@ input[type="submit"].btn.btn-mini {
   margin-left: -1px;
 }
 
-/* line 263, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 269, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
 
-/* line 267, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 273, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-submenu > a:after {
   display: block;
   content: " ";
@@ -4272,23 +4279,23 @@ input[type="submit"].btn.btn-mini {
   margin-right: -10px;
 }
 
-/* line 280, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 286, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown-submenu:hover > a:after {
   border-left-color: white;
 }
 
-/* line 288, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 294, ../../src/packages/common/css/_components/_dropdowns.scss */
 .dropdown .dropdown-menu .nav-header {
   padding-left: 20px;
   padding-right: 20px;
 }
 
-/* line 295, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 301, ../../src/packages/common/css/_components/_dropdowns.scss */
 .typeahead {
   margin-top: 2px;
 }
 
-/* line 301, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 307, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu {
   margin-top: 1.125em;
   padding-top: 1.25em;
@@ -4297,30 +4304,30 @@ input[type="submit"].btn.btn-mini {
   width: auto;
   text-align: left;
 }
-/* line 310, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 316, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu:before {
   content: '';
   position: absolute;
-  top: -0.8125em;
+  top: -.8125em;
   right: 1.5em;
   width: 0;
   height: 0;
   border-bottom: 0.75em solid white;
-  border-left: .625em solid transparent;
-  border-right: .625em solid transparent;
+  border-left: 0.625em solid transparent;
+  border-right: 0.625em solid transparent;
 }
-/* line 322, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 328, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu a {
   padding-top: 1px;
   padding-bottom: 1px;
 }
-/* line 327, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 333, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu .input-holder {
   position: relative;
   margin-top: 9px;
   padding: 0 17px;
 }
-/* line 333, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 339, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu .input-holder input {
   display: block;
   margin: 0;
@@ -4332,11 +4339,11 @@ input[type="submit"].btn.btn-mini {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 349, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 355, ../../src/packages/common/css/_components/_dropdowns.scss */
 .lt-ie8 .share-menu .input-holder input {
   width: 167px;
 }
-/* line 354, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 360, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu .input-holder .link-icon {
   position: absolute;
   right: 23px;
@@ -4347,7 +4354,7 @@ input[type="submit"].btn.btn-mini {
   text-align: center;
   pointer-events: none;
 }
-/* line 366, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 372, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu .input-holder i {
   color: white;
   background: white;
@@ -4355,14 +4362,14 @@ input[type="submit"].btn.btn-mini {
   height: 16px;
 }
 
-/* line 374, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 380, ../../src/packages/common/css/_components/_dropdowns.scss */
 .social-label {
   display: inline-block;
   vertical-align: middle;
   margin: 0;
 }
 
-/* line 380, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 386, ../../src/packages/common/css/_components/_dropdowns.scss */
 .social-icon {
   display: inline-block;
   text-align: center;
@@ -4370,28 +4377,28 @@ input[type="submit"].btn.btn-mini {
   height: 2em;
   margin-right: 0.75em;
 }
-/* line 387, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 393, ../../src/packages/common/css/_components/_dropdowns.scss */
 .social-icon i {
   color: white;
   vertical-align: middle;
 }
 
-/* line 393, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 399, ../../src/packages/common/css/_components/_dropdowns.scss */
 .social-icon-facebook {
   background-color: #3b5b99;
 }
 
-/* line 397, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 403, ../../src/packages/common/css/_components/_dropdowns.scss */
 .social-icon-twitter {
   background-color: #00acee;
 }
 
-/* line 401, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 407, ../../src/packages/common/css/_components/_dropdowns.scss */
 .social-icon-gplus {
   background-color: #db4a39;
 }
 
-/* line 405, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 411, ../../src/packages/common/css/_components/_dropdowns.scss */
 .social-icon-pinterest {
   background-color: #cb2027;
 }
@@ -4987,7 +4994,7 @@ button.close {
 }
 /* line 424, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-main .navtray-list-main {
-  margin: 0 4.0% 1.0% 4.0%;
+  margin: 0 4% 1% 4%;
   overflow: hidden;
 }
 /* line 428, ../../src/packages/common/css/_components/_navbar.scss */
@@ -6595,7 +6602,7 @@ body.modal-open {
   margin-bottom: 0;
   text-align: right;
   background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
   border-radius: 0 0 6px 6px;
   -webkit-box-shadow: inset 0 1px 0 white;
   box-shadow: inset 0 1px 0 white;
@@ -6684,8 +6691,9 @@ body.modal-open {
   float: none;
   width: 12.6875em;
   border: 0;
+  opacity: 1;
 }
-/* line 236, ../../src/packages/common/css/_components/_modals.scss */
+/* line 237, ../../src/packages/common/css/_components/_modals.scss */
 .share-tool .share-menu:before {
   content: none;
 }
@@ -8553,7 +8561,7 @@ textarea,
   color: #d2d2db;
   vertical-align: baseline;
   font-size: .8125em;
-  padding: .6875em .875em;
+  padding: 0.6875em 0.875em;
 }
 /* line 23, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .favorite-holder:hover i, .no-touch a:hover > .favorite-holder i, .favorite-holder.active i {
@@ -8562,7 +8570,7 @@ textarea,
 
 /* line 42, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links {
-  margin-left: -0.375em;
+  margin-left: -.375em;
   margin-bottom: 0;
   *zoom: 1;
 }
@@ -8592,38 +8600,37 @@ ul.jump-links a {
   display: block;
   margin-bottom: 0;
   padding-right: 6px;
-  padding-bottom: 13px;
+  padding-bottom: 10px;
   padding-left: 6px;
-  line-height: 1;
   color: #2f353d;
   -webkit-box-shadow: inset 0 0 0 #5887f5;
   box-shadow: inset 0 0 0 #5887f5;
   -webkit-transition: 0.15s ease-out;
   transition: 0.15s ease-out;
 }
-/* line 73, ../../src/packages/common/css/_shared/_all.scss */
+/* line 72, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch ul.jump-links li:hover a {
   color: #44506e;
 }
-/* line 78, ../../src/packages/common/css/_shared/_all.scss */
+/* line 77, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch ul.jump-links li:hover a,
 ul.jump-links .active a {
   -webkit-box-shadow: inset 0 -4px 0 #5887f5;
   box-shadow: inset 0 -4px 0 #5887f5;
 }
-/* line 83, ../../src/packages/common/css/_shared/_all.scss */
+/* line 82, ../../src/packages/common/css/_shared/_all.scss */
 .no-boxshadow ul.jump-links a, .sonytablets ul.jump-links a {
   -webkit-box-shadow: none;
   box-shadow: none;
-  padding-bottom: 9px;
+  padding-bottom: 6px;
   border-bottom: 4px solid transparent;
 }
-/* line 91, ../../src/packages/common/css/_shared/_all.scss */
+/* line 90, ../../src/packages/common/css/_shared/_all.scss */
 .no-boxshadow.no-touch ul.jump-links li:hover a, .no-boxshadow ul.jump-links .active a, .sonytablets ul.jump-links .active a {
   border-bottom-color: #5887f5;
 }
 
-/* line 97, ../../src/packages/common/css/_shared/_all.scss */
+/* line 96, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-nav {
   position: fixed;
   z-index: 200;
@@ -8643,7 +8650,7 @@ ul.jump-links .active a {
   -ms-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-/* line 116, ../../src/packages/common/css/_shared/_all.scss */
+/* line 115, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-nav.open {
   left: 0;
   -webkit-transform: translate(0, 0);
@@ -8654,22 +8661,22 @@ ul.jump-links .active a {
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 124, ../../src/packages/common/css/_shared/_all.scss */
+/* line 123, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-header-open .sticky-nav {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 128, ../../src/packages/common/css/_shared/_all.scss */
+/* line 127, ../../src/packages/common/css/_shared/_all.scss */
 .no-boxshadow .sticky-nav {
   border-bottom: 1px solid #e4e7eb;
 }
 
-/* line 139, ../../src/packages/common/css/_shared/_all.scss */
+/* line 138, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.detailed {
   margin: 3.125em 0 0;
 }
 
-/* line 158, ../../src/packages/common/css/_shared/_all.scss */
+/* line 157, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item {
   position: relative;
   display: block;
@@ -8677,25 +8684,25 @@ ul.jump-links .active a {
   overflow: hidden;
   background: white;
 }
-/* line 170, ../../src/packages/common/css/_shared/_all.scss */
+/* line 169, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item:focus .product-img, .no-touch .gallery-item .product-img:hover {
   background-color: #e8edf3;
 }
-/* line 174, ../../src/packages/common/css/_shared/_all.scss */
+/* line 173, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item:after {
   content: '';
   display: block;
   padding-top: 165.196%;
 }
-/* line 181, ../../src/packages/common/css/_shared/_all.scss */
+/* line 180, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item {
   height: 17.25em;
 }
-/* line 186, ../../src/packages/common/css/_shared/_all.scss */
+/* line 185, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item:after {
   padding-top: 169.396078%;
 }
-/* line 190, ../../src/packages/common/css/_shared/_all.scss */
+/* line 189, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .gallery-item-inner {
   position: absolute;
   top: 0;
@@ -8703,7 +8710,7 @@ ul.jump-links .active a {
   left: 0;
   right: 0;
 }
-/* line 200, ../../src/packages/common/css/_shared/_all.scss */
+/* line 199, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img {
   position: relative;
   width: 100%;
@@ -8713,17 +8720,17 @@ ul.jump-links .active a {
   -webkit-transition: background-color 0.15s ease-out;
   transition: background-color 0.15s ease-out;
 }
-/* line 208, ../../src/packages/common/css/_shared/_all.scss */
+/* line 207, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img:after {
   content: '';
   display: block;
   padding-top: 107.84314%;
 }
-/* line 214, ../../src/packages/common/css/_shared/_all.scss */
+/* line 213, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item .product-img {
   height: 11.3125em;
 }
-/* line 218, ../../src/packages/common/css/_shared/_all.scss */
+/* line 217, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img .product-img-wrap {
   position: absolute;
   top: 0;
@@ -8731,44 +8738,44 @@ ul.jump-links .active a {
   left: 0;
   right: 0;
 }
-/* line 226, ../../src/packages/common/css/_shared/_all.scss */
+/* line 225, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .product-img img {
   display: block;
   max-height: 100%;
   max-width: 100%;
   margin: auto;
 }
-/* line 238, ../../src/packages/common/css/_shared/_all.scss */
+/* line 237, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.large {
   height: 35.625em;
 }
-/* line 241, ../../src/packages/common/css/_shared/_all.scss */
+/* line 240, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.large .product-img {
   height: 29.6875em;
 }
-/* line 246, ../../src/packages/common/css/_shared/_all.scss */
+/* line 245, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large:after {
   padding-top: 105.92705167173253%;
 }
-/* line 250, ../../src/packages/common/css/_shared/_all.scss */
+/* line 249, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .product-img:after {
   padding-top: 88.14589665653495%;
 }
-/* line 255, ../../src/packages/common/css/_shared/_all.scss */
+/* line 254, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie9 .gallery-item.large .js-item-carousel {
   width: 33.625em;
   height: 29.6875em;
 }
-/* line 261, ../../src/packages/common/css/_shared/_all.scss */
+/* line 260, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .slide {
   float: left;
   max-width: 100%;
 }
-/* line 269, ../../src/packages/common/css/_shared/_all.scss */
+/* line 268, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .pagination-bullets {
   bottom: 5.6390977%;
 }
-/* line 274, ../../src/packages/common/css/_shared/_all.scss */
+/* line 273, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-prev,
 .gallery-item.large .nav-paddle-next {
   position: absolute;
@@ -8776,39 +8783,39 @@ ul.jump-links .active a {
   top: 50%;
   margin-top: -1.625em;
 }
-/* line 281, ../../src/packages/common/css/_shared/_all.scss */
+/* line 280, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-prev {
   left: 3.75%;
 }
-/* line 285, ../../src/packages/common/css/_shared/_all.scss */
+/* line 284, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-next {
   right: 3.75%;
 }
-/* line 295, ../../src/packages/common/css/_shared/_all.scss */
+/* line 294, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.large:after {
   padding-top: 165.196%;
 }
-/* line 300, ../../src/packages/common/css/_shared/_all.scss */
+/* line 299, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.large .product-img:after {
   padding-top: 107.84314%;
 }
-/* line 305, ../../src/packages/common/css/_shared/_all.scss */
+/* line 304, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item.large:after {
   padding-top: 105.3%;
 }
-/* line 309, ../../src/packages/common/css/_shared/_all.scss */
+/* line 308, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item.large .product-img:after {
   padding-top: 87%;
 }
-/* line 317, ../../src/packages/common/css/_shared/_all.scss */
+/* line 316, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate:after {
   padding-top: 59.190255%;
 }
-/* line 321, ../../src/packages/common/css/_shared/_all.scss */
+/* line 320, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.plate:after {
   padding-top: 77.790255%;
 }
-/* line 325, ../../src/packages/common/css/_shared/_all.scss */
+/* line 324, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate .product-content {
   position: absolute;
   top: 0;
@@ -8817,16 +8824,16 @@ ul.jump-links .active a {
   height: 100%;
   text-align: left;
 }
-/* line 334, ../../src/packages/common/css/_shared/_all.scss */
+/* line 333, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate .product-img {
   height: 100%;
 }
-/* line 338, ../../src/packages/common/css/_shared/_all.scss */
+/* line 337, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate img {
   max-height: none;
   max-width: none;
 }
-/* line 343, ../../src/packages/common/css/_shared/_all.scss */
+/* line 342, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate div.iq-img {
   width: 100%;
   height: 100%;
@@ -8834,19 +8841,19 @@ ul.jump-links .active a {
   background-position: center center;
   background-size: cover;
 }
-/* line 355, ../../src/packages/common/css/_shared/_all.scss */
+/* line 354, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.promo {
   height: 17.25em;
 }
-/* line 358, ../../src/packages/common/css/_shared/_all.scss */
+/* line 357, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.promo .product-img {
   height: 11.3125em;
 }
-/* line 363, ../../src/packages/common/css/_shared/_all.scss */
+/* line 362, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo:after {
   padding-top: 78.19025522041764%;
 }
-/* line 368, ../../src/packages/common/css/_shared/_all.scss */
+/* line 367, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo div.iq-img {
   position: absolute;
   top: 0;
@@ -8857,7 +8864,7 @@ ul.jump-links .active a {
   background-position: center center;
   background-size: cover;
 }
-/* line 380, ../../src/packages/common/css/_shared/_all.scss */
+/* line 379, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .label {
   position: absolute;
   z-index: 10;
@@ -8866,7 +8873,7 @@ ul.jump-links .active a {
   margin: 0;
 }
 
-/* line 393, ../../src/packages/common/css/_shared/_all.scss */
+/* line 392, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-tooltip i {
   position: relative;
   top: -1px;
@@ -8874,13 +8881,13 @@ ul.jump-links .active a {
   padding-left: 2px;
 }
 
-/* line 406, ../../src/packages/common/css/_shared/_all.scss */
+/* line 405, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .color-swatches {
   position: absolute;
   right: .875em;
   bottom: .6875em;
 }
-/* line 412, ../../src/packages/common/css/_shared/_all.scss */
+/* line 411, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .favorite-holder {
   position: absolute;
   left: 0;
@@ -8898,22 +8905,22 @@ ul.jump-links .active a {
 .no-touch .gallery-item.promo .gallery-item-inner:hover .iq-img {
   opacity: 0.9;
 }
-/* line 437, ../../src/packages/common/css/_shared/_all.scss */
+/* line 436, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .gallery-item.promo .gallery-item-inner .promo-title i {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
-/* line 441, ../../src/packages/common/css/_shared/_all.scss */
+/* line 440, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .gallery-item.promo .gallery-item-inner:hover .promo-title i {
   -webkit-transform: translate(0.375em, 0);
   -ms-transform: translate(0.375em, 0);
   transform: translate(0.375em, 0);
 }
-/* line 445, ../../src/packages/common/css/_shared/_all.scss */
+/* line 444, ../../src/packages/common/css/_shared/_all.scss */
 .no-csstransforms .no-touch .gallery-item.promo .gallery-item-inner:hover .promo-title i {
   left: 6px;
 }
-/* line 451, ../../src/packages/common/css/_shared/_all.scss */
+/* line 450, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo .product-content {
   position: absolute;
   top: 0;
@@ -8922,74 +8929,74 @@ ul.jump-links .active a {
   height: 100%;
   text-align: left;
 }
-/* line 461, ../../src/packages/common/css/_shared/_all.scss */
+/* line 460, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo .product-img {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  padding: 10.129032% 10.6060606% 10.967742%;
+  padding: 10.12903% 10.60606% 10.96774%;
 }
-/* line 469, ../../src/packages/common/css/_shared/_all.scss */
+/* line 468, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo img {
   max-height: none;
   max-width: none;
 }
 
-/* line 475, ../../src/packages/common/css/_shared/_all.scss */
+/* line 474, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content {
   position: relative;
   height: 100%;
   text-align: left;
 }
-/* line 480, ../../src/packages/common/css/_shared/_all.scss */
+/* line 479, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title {
   margin: 0;
 }
-/* line 483, ../../src/packages/common/css/_shared/_all.scss */
+/* line 482, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title i {
   position: relative;
   top: -0.1875em;
   left: 0.125em;
 }
-/* line 491, ../../src/packages/common/css/_shared/_all.scss */
+/* line 490, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title .title,
 .gallery-item .promo-content .promo-title .emphasis {
   color: white;
 }
-/* line 495, ../../src/packages/common/css/_shared/_all.scss */
+/* line 494, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title .emphasis {
   color: #2f353d;
 }
-/* line 500, ../../src/packages/common/css/_shared/_all.scss */
+/* line 499, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .text-count {
   position: absolute;
   bottom: 0;
   margin: 0;
 }
-/* line 507, ../../src/packages/common/css/_shared/_all.scss */
+/* line 506, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .text-count span {
   color: white;
 }
 
-/* line 533, ../../src/packages/common/css/_shared/_all.scss */
+/* line 532, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-detailed .gallery-item:after {
   padding-top: 140%;
 }
-/* line 537, ../../src/packages/common/css/_shared/_all.scss */
+/* line 536, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-detailed .gallery-item {
   height: 25.375em;
 }
-/* line 540, ../../src/packages/common/css/_shared/_all.scss */
+/* line 539, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-detailed .gallery-item .product-img {
   height: 13.8125em;
 }
-/* line 545, ../../src/packages/common/css/_shared/_all.scss */
+/* line 544, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-detailed .product-img:after {
   padding-top: 76.05633802816901%;
 }
 
-/* line 573, ../../src/packages/common/css/_shared/_all.scss */
+/* line 572, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label strong {
   display: inline-block;
   max-width: 100%;
@@ -8997,17 +9004,17 @@ ul.jump-links .active a {
   text-overflow: ellipsis;
 }
 
-/* line 580, ../../src/packages/common/css/_shared/_all.scss */
+/* line 579, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap {
   position: relative;
   z-index: 5;
   height: 100%;
 }
-/* line 585, ../../src/packages/common/css/_shared/_all.scss */
+/* line 584, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie9 .detail-labels-wrap {
   margin-left: 0;
 }
-/* line 590, ../../src/packages/common/css/_shared/_all.scss */
+/* line 589, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap:before {
   content: '';
   position: absolute;
@@ -9020,7 +9027,7 @@ ul.jump-links .active a {
   -webkit-transition: box-shadow 0.15s ease-in;
   transition: box-shadow 0.15s ease-in;
 }
-/* line 604, ../../src/packages/common/css/_shared/_all.scss */
+/* line 603, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap.overflowing:before {
   -webkit-box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
   box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
@@ -9028,7 +9035,7 @@ ul.jump-links .active a {
   transition-timing-function: ease-out;
 }
 
-/* line 612, ../../src/packages/common/css/_shared/_all.scss */
+/* line 611, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrapping {
   -webkit-transform: translate(-0.625em, 0);
   -ms-transform: translate(-0.625em, 0);
@@ -9037,7 +9044,7 @@ ul.jump-links .active a {
   -webkit-transition: opacity 0.2s ease-out 0.1s, -webkit-transform 0.2s ease-out 0.1s;
   transition: opacity 0.2s ease-out 0.1s, transform 0.2s ease-out 0.1s;
 }
-/* line 618, ../../src/packages/common/css/_shared/_all.scss */
+/* line 617, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrapping.complete {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
@@ -9045,18 +9052,18 @@ ul.jump-links .active a {
   opacity: 1;
 }
 
-/* line 624, ../../src/packages/common/css/_shared/_all.scss */
+/* line 623, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label-group {
   position: absolute;
 }
 
-/* line 629, ../../src/packages/common/css/_shared/_all.scss */
+/* line 628, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
 }
 
-/* line 635, ../../src/packages/common/css/_shared/_all.scss */
+/* line 634, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail,
 .detail-labels-wrapping .product-count-wrap {
   position: relative;
@@ -9064,7 +9071,7 @@ ul.jump-links .active a {
   padding-bottom: 30px;
   margin-bottom: 0;
 }
-/* line 643, ../../src/packages/common/css/_shared/_all.scss */
+/* line 642, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail:after,
 .detail-labels-wrapping .product-count-wrap:after {
   content: '';
@@ -9076,7 +9083,7 @@ ul.jump-links .active a {
   background: #d2d2db;
 }
 
-/* line 656, ../../src/packages/common/css/_shared/_all.scss */
+/* line 655, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail-label:after,
 .detail-labels-wrapping .product-count-wrap:after {
   left: 0;
@@ -9084,7 +9091,7 @@ ul.jump-links .active a {
   background: #d2d2db;
 }
 
-/* line 665, ../../src/packages/common/css/_shared/_all.scss */
+/* line 664, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header {
   position: absolute;
   z-index: 10;
@@ -9097,16 +9104,16 @@ ul.jump-links .active a {
   -webkit-transition: top 0.2s ease-in, left 0s 0.2s;
   transition: top 0.2s ease-in, left 0s 0.2s;
 }
-/* line 677, ../../src/packages/common/css/_shared/_all.scss */
+/* line 676, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header:not(.sticky-count) {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
   box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
 }
-/* line 682, ../../src/packages/common/css/_shared/_all.scss */
+/* line 681, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-headers .compare-sticky-header {
   margin: 0;
 }
-/* line 687, ../../src/packages/common/css/_shared/_all.scss */
+/* line 686, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header.open {
   left: 0;
   top: 0;
@@ -9115,13 +9122,13 @@ ul.jump-links .active a {
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 696, ../../src/packages/common/css/_shared/_all.scss */
+/* line 695, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header.sticky-count:before {
   content: '';
   position: absolute;
   z-index: -1;
   top: 0;
-  right: -0.1875em;
+  right: -.1875em;
   width: 2000px;
   height: 100%;
   background: #f3f4f6;
@@ -9129,17 +9136,17 @@ ul.jump-links .active a {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
   box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
 }
-/* line 709, ../../src/packages/common/css/_shared/_all.scss */
+/* line 708, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header .media .pull-left {
   max-width: 90px;
   margin-right: 4px;
 }
-/* line 714, ../../src/packages/common/css/_shared/_all.scss */
+/* line 713, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header .product-name {
   color: #2f353d;
 }
 
-/* line 719, ../../src/packages/common/css/_shared/_all.scss */
+/* line 718, ../../src/packages/common/css/_shared/_all.scss */
 .compare-box {
   display: inline-block;
   padding: 11px 12px;
@@ -9148,41 +9155,41 @@ ul.jump-links .active a {
   background: #2f353d;
 }
 
-/* line 745, ../../src/packages/common/css/_shared/_all.scss */
+/* line 744, ../../src/packages/common/css/_shared/_all.scss */
 .spec-single,
 .spec-multi {
   margin-top: 4.375em;
 }
-/* line 748, ../../src/packages/common/css/_shared/_all.scss */
+/* line 747, ../../src/packages/common/css/_shared/_all.scss */
 .spec-single dt,
 .spec-multi dt {
   margin-bottom: 0;
 }
 
-/* line 753, ../../src/packages/common/css/_shared/_all.scss */
+/* line 752, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title-wrap {
   position: relative;
   margin-bottom: 1.25em;
 }
 
-/* line 758, ../../src/packages/common/css/_shared/_all.scss */
+/* line 757, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title {
   margin: 0;
   font-size: 2.25em;
 }
 
-/* line 763, ../../src/packages/common/css/_shared/_all.scss */
+/* line 762, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title-link {
   color: #4572ed;
 }
 
-/* line 770, ../../src/packages/common/css/_shared/_all.scss */
+/* line 769, ../../src/packages/common/css/_shared/_all.scss */
 .spec-sticky-nav .sticky-nav-title {
   margin-top: 22px;
   margin-bottom: 10px;
   line-height: .9;
 }
-/* line 776, ../../src/packages/common/css/_shared/_all.scss */
+/* line 775, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-header-open .spec-sticky-nav .sticky-nav-title:after {
   content: '';
   position: absolute;
@@ -9193,38 +9200,38 @@ ul.jump-links .active a {
   top: 100%;
 }
 
-/* line 804, ../../src/packages/common/css/_shared/_all.scss */
+/* line 803, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tiles-wrap {
   margin-top: 3.75em;
   margin-bottom: 9.375em;
 }
-/* line 808, ../../src/packages/common/css/_shared/_all.scss */
+/* line 807, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tiles-wrap .features-title {
   margin-bottom: 0;
   padding-bottom: 12px;
   border-bottom: 3px solid #e4e7eb;
 }
 
-/* line 815, ../../src/packages/common/css/_shared/_all.scss */
+/* line 814, ../../src/packages/common/css/_shared/_all.scss */
 .container .spec-tiles .spec-tile {
   margin-left: 0;
 }
 
-/* line 819, ../../src/packages/common/css/_shared/_all.scss */
+/* line 818, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile {
   margin-top: 1.5em;
   background: #f1f5f9;
 }
-/* line 823, ../../src/packages/common/css/_shared/_all.scss */
+/* line 822, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .tile-content {
   padding: 1.875em 2.5em 2.75em 1.875em;
 }
-/* line 828, ../../src/packages/common/css/_shared/_all.scss */
+/* line 827, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .tile-title {
   margin-top: 0;
 }
 
-/* line 834, ../../src/packages/common/css/_shared/_all.scss */
+/* line 833, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .iq-img {
   width: 100%;
   height: auto;
