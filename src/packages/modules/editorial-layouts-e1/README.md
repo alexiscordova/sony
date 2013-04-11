@@ -1,42 +1,39 @@
 ==Description==
-The Editorial module is a very flexible catch-all layout module. It is used to group headlines and text together with other modules.
+The Editorial module is a very flexible catch-all layout module. It is used to group titles text and links together with submodules or images.
 
 ==Configuration==
 
-
-
-
-
-
-//TODO: UPDATE THIS (copied from the primary tout)
-
 mode:
-* default P1, P2 - primary tout standard - Most basic mode with text in one block with the option for right or left positioning
-* homepage P1 - Specific to the homepage, slightly different layout with the h1 separate from the text block
-* product-intro-plate D3 - This has a video and or gallery button that loads in a submodule, mainly used on PDP's 
-* title-plate D7 - simple photo and text header that is shorter than the default p1 and generally used on gallery pages
+* full            - submodule is full width text is above
+* full inner      - submodule is full width text is overlayed 
+* medialeft       - submodule is on the left text is on the right
+* mediaright      - submodule is on the right text is on the left
+* textonly        - there's no submodule just text
+* tout            - consists of 1, 2, or 3 lockups of images and text (images are not treated the same as sub-modules in this case)
 
 layout: defines the main layout columns
-  * text - which column the text goes into (right | left | center)
-  * alignment - text alignment within the column (left | right | center)
-  * mobilealign - (top | bottom) some configs define the text locking to the top or bottom of the container in mobile
-  * columns - array of the column breakdown for 12 column grid in order from left to right ie: [5,7] span5 on left span7 on right -or- [1,10,1] span10 in the middle of the page 
+  * name          - used just to define the layout, optional, probably not needed
+  * text          - which column the text goes into (right | left | center | full) 
+  * alignment     - text alignment within the column (left | right | center)
+  * columns       - array of the column breakdown for 12 column grid in order from left to right ie: [5,7] span5 on left span7 on right -or- [1,10,1] span10 in the middle of the page 
+  * columnoffset  - used in touts for column layouts such as 1,3,7,1 or 1,5,5,1 where the first 1 column is skipped, should equal columns[0]
+  * orientation   - (horizontal | vertical) used for 2 up touts stacked vertically (image on top) or horizontally (image on left of text)
 
-theme: some configurations define an optional global theme color ie (themePurple | themeGreen) some text, buttons, and icons pick up this color
+variation         - could hold more variation options in the future for now its just background... 
+  background      - used to define backgorund of the whole module only option is "gray" or leave it undefined
 
 style: additional classes that define if it has a dark or light text box or if the text is dark or light, etc
 
-variation: optional variation parameters get picked up for certain modes
-  *example- headertext: (smaller | larger) - makes the header text a h2 or h1
+title: optional title text of the main text block
 
-image: defines the image src and attrubutes (see image module)
-
-eyebrow: optional text that comes before the h1 headline (often the product category or model)
-
-headline: optional h1 headline of the main text block
+subtitle: optional subtitle text of the main text block
 
 body: optional body text of the main text block
 
-links: supports 0 or more links of type button (btn) or text (txt) possibly more options for video or gallery icons
+link: optional link of type button (btn) or text (txt)
 
-submodules: supports 0 or more sub modules that load into itself (functionality pending not available on 'home-page' mode)
+submodules: full, full-inner, medialeft, and mediaright require exactly 1 sub modules that load into itself - not supported in tout or textonly mode
+  * type - path to jade template starting with the module directory (ie module-package-name/**/*.jade NOT packages/modules/module-package-name/**/*.jade)
+  * data - path to json file starting from the src directory (ie pages/data/*.json -OR- packages/modules/module-package-name/demo/data/*.json)
+
+columns : tout mode requires columns to define the image, title, body and link for each lockup (* touts don't support subtitle)
