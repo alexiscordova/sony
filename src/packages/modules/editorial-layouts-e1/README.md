@@ -1,7 +1,57 @@
 ==Description==
 The Editorial module is a very flexible catch-all layout module. It is used to group titles text and links together with submodules or images.
 
-==Configuration==
+
+=Naming=
+Because there are so many layout and content variations we've developed a naming convention for them as follows:
+
+**1 mode**
+* full       - submodule is full width text is above
+* full inner - submodule is full width text is overlayed 
+* medialeft  - submodule is on the left text is on the right
+* mediaright - submodule is on the right text is on the left
+* textonly   - there's no submodule just text
+* tout       - consists of 1, 2, or 3 lockups of images and text 
+
+**2 variation or layout**
+* 1up for touts with 1 text + image lockup
+* 2up-horizontal for touts with 2 text + image lockups in horizontal orientation
+* 2up-vertical for touts with 2 text + image lockups in vertical orientation
+* 3up for touts with 3 text + image lockups
+
+**3 Text placement within the grid layout**
+* left
+* right
+* center
+
+**4 Numerical division of colums** (must add up to 12)
+* 444 (4,4,4)
+* 66 (6,6)
+* 57 (5,7)
+* 75 ...
+* 48 ... 
+* 84 ...
+* 1101 (1, 10, 1)
+
+**5 Style and alignment of text**
+* D-x - first part is Dark Text
+* L-x - first part is Light Text
+* LD-x - first part is Light Text Dark Box
+* DL-x - first part is Dark Text Light Box
+* x-L - second part means Left Aligned
+* x-C - second part means Center Aligned
+
+**6 Unique name relating to media**
+
+==examples==
+* **tout-2up-vertical-D-C-example1** - 2 touts in vertical layouts with dark text centered
+* **full-inner-left-66-DL-L-example1** - full media element with text positioned inside on the left half in a Light box
+* **full-left-102-D-L-example1** - full meida element under a left aligned headline taking up 10 columns
+* **medialeft-75-D-L-photo1** - media on the left 7/12ths, text on the right 5/12ths
+* **textonly-full-D-C-lorem1** - no media, text is centered and spans the full container
+
+
+=Configuration=
 
 mode:
 * full            - submodule is full width text is above
