@@ -1,0 +1,12 @@
+
+.st-item(class=item.c)(class=item.s)
+  div.whats-new-carousel-wrapper
+    header.table-center-wrap
+      h3.table-center foo
+    div.whats-new-carousel
+      for slide in item.whatsNewCarousel.slides
+        - slide.c = item.c
+        - slide.s = item.s
+        e = {"locals": locals, "item": slide}
+        div.whats-new-carousel-slide
+          !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4-item.jade', e)}
