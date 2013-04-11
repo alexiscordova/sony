@@ -82,8 +82,7 @@ define(function(require) {
       var underlayNode = $( '.hspot-underlay' ).get( 0 );
       $( '.hspot-underlay' ).detach();
       $( 'body' ).append( underlayNode );
-      
-      log('hotspots:');
+
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
         // bind the click, place it based on the data-x and -y coordinates, and fade em in
@@ -186,24 +185,25 @@ define(function(require) {
           overlayBase   = $( '.hspot-global-details-overlay' ),
           underlayBase  = $( '.hspot-underlay, .hspot-underlay-on' ); 
 
+      log('overlayBase');
+      log(overlayBase);
+
       // copy the overlay into the mobile, center overlay
       if( toCenter ) {
-        
-        log('being inefficient');
         
         clearTimeout( self.lastOverlayFadein );
         clearTimeout( self.lastOverlayFadeout ); 
         
         // tag last el as the one copied, so we can turn it on when required
         el.addClass( 'lastMoved' );
-        
+
         // find and hide the currently open overlay, just tagged as 'lastMoved'
         el.find( '.overlay-base' ).addClass( 'hidden' );
-        
+
         if( false === $( el ).is( self.lastCenteredOverlay ) ) {
           // copy HTML over to the overlay container
           overlayBase.html( el.find( '.overlay-base' ).html() );
-  
+
           // bind close button for this instance
           overlayBase.find( '.hspot-close' ).bind( 'click', function( event ) {
             // save pointer for one more operation
@@ -212,7 +212,7 @@ define(function(require) {
             self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
             self.reanchor( el, false );
           });
-          
+
           self.lastCenteredOverlay = el;
         }
         

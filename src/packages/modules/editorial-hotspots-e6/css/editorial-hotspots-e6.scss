@@ -18,6 +18,10 @@ $transitionSpeed: .5s;
   transition:$transitionSpeed;	
 }
 
+/*PATCH TO FIX ZINDEX ISSUE ON FULL-WIDTH-INNER*/
+.editorial.full-inner .inner { 
+  z-index: 0;
+}
 
 /*UTILS*/
 .ehs {
@@ -63,7 +67,7 @@ $transitionSpeed: .5s;
         -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
         -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
         box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
-
+        margin-top: 27px;
         .top {
           background-color: #fff;
         }
@@ -238,6 +242,7 @@ $transitionSpeed: .5s;
   height: 56px;
   width: 56px;
   cursor: pointer;
+  z-index: 1;
   .hspot-core {
     margin: $centerRatio;
     height: $innerDiameter;
