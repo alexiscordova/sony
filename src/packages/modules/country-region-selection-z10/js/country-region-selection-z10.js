@@ -20,8 +20,8 @@ define(function(require){
 
   var CountryRegionSelection = {
     init: function() {
-
-      var stickyHeader = StickyHeader.init();
+      this.stickyHeader = StickyHeader.init();
+      this.fluidList = new FluidList(12, $('.continents'), $('.countryContainer'));
 
       window.enquire.register('(max-width: 767px)', {
         match : function() {
@@ -141,6 +141,24 @@ define(function(require){
       }
 
       return headerIndex;
+    }
+  };
+
+  function FluidList(numGridColumns, $list, $containers) {
+    return this.init(numGridColumns, $list, $containers);
+  }
+
+  FluidList.prototype = {
+    DATA_TAG_ATTR: "data-fluid-list",
+
+    init: function(numGridColumns, $list, $containers) {
+      this.$containers = $containers;
+      this.$list = $list;
+      this.numGridColumns = numGridColumns;
+
+      console.log(this.$containers, this.$list, this.numGridColumns);
+
+      return this;
     }
   };
 
