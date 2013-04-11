@@ -431,7 +431,9 @@ define(function(require){
 
     // Update CSS3 Easing equation.
     //
-    //      $('#foo').sonyCarousel('setCSS3Easing', 'cubic-bezier(0.000, 1.035, 0.400, 0.985)');
+    //      $('#foo').sonyCarousel('setCSS3Easing', 'ease-in');
+    //      $('#foo').sonyCarousel('setCSS3Easing',
+    //          'cubic-bezier(0.000, 1.035, 0.400, 0.985)');
     //
     setCSS3Easing: function(bezierStr){
 
