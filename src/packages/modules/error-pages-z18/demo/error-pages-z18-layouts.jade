@@ -8,7 +8,17 @@ head
 
 body
 
+  h6 404 Error
   +partial('error-pages-z18/html/error-pages-z18.jade', 'packages/modules/error-pages-z18/demo/data/error-pages-404.json')
+  hr
+
+  h6 500 Error
+  +partial('error-pages-z18/html/error-pages-z18.jade', 'packages/modules/error-pages-z18/demo/data/error-pages-500.json')
+  hr
+
+  h6 503 Error
+  +partial('error-pages-z18/html/error-pages-z18.jade', 'packages/modules/error-pages-z18/demo/data/error-pages-503.json')
+  hr
 
   include ../../../common/html/foot.jade
 </html>
