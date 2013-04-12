@@ -66,6 +66,9 @@ article
       if item.bodycopy
         p.p3= item.bodycopy
 
+  if item.flag
+    .l4.st-flag !{item.flag}
+
   if item.s == 'content-8' || item.s == 'content-6'
     if item.contentType == 'headline-counter' || item.contentType == 'headline-copy-counter'
       .counter(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class=item.mpc)

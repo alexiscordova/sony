@@ -41,18 +41,18 @@ define(function(require){
 
     self.$images.addClass('iq-img');
 
-    if ( !Settings.$html.hasClass('lt-ie10') ){
+    // if ( !Settings.$html.hasClass('lt-ie10') ){
 
-      enquire.register("(min-width: 780px)", function() {
-        self.renderDesktop();
-      });
-      enquire.register("(max-width: 779px)", function() {
-        self.renderEvenColumns(6);
-      });
+    //   enquire.register("(min-width: 780px)", function() {
+    //     self.renderDesktop();
+    //   });
+    //   enquire.register("(max-width: 779px)", function() {
+    //     self.renderEvenColumns(6);
+    //   });
 
-    } else {
-      self.renderDesktop();
-    }
+    // } else {
+    //   self.renderDesktop();
+    // }
   };
 
   SecondaryTouts.prototype = {
