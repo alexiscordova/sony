@@ -1,5 +1,8 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('unsupported-z19')
 
-#unsupported-browser-modal.modal.modal-unsupported.show.fade.in(tabindex="-1", role="dialog", aria-labelledby="unsupported-browser-label", aria-hidden="true")
+a.launch-modal(href="#") Launch Unsupported Browser Modal
+#unsupported-browser-modal.modal.modal-unsupported.hide.fade(tabindex="-1", role="dialog", aria-labelledby="unsupported-browser-label", aria-hidden="true")
   .container
     .modal-inner.grid
       .modal-header(data-reset-label="Reset")
