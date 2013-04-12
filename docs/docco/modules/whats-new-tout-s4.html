@@ -29,6 +29,7 @@ define(<span class="keyword">function</span>(require){
     <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
     self.$el = $(element);
+    self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
     self.init();
 
     log(<span class="string">'SONY : WhatsNewTout : Initialized'</span>);
@@ -44,7 +45,11 @@ define(<span class="keyword">function</span>(require){
       self.$el.find(<span class="string">'.whats-new-carousel'</span>).sonyCarousel({
         wrapper: <span class="string">'.whats-new-carousel-wrapper'</span>,
         slides: <span class="string">'.whats-new-carousel-slide'</span>,
-        useCSS3: <span class="literal">true</span>
+        useCSS3: self.useCSS3,
+        looped: <span class="literal">true</span>,
+        pagination: <span class="literal">true</span>,
+        paginationTheme: <span class="string">'light'</span>,
+        $dotNavWrapper: self.$el.find(<span class="string">'.wnc-pagination'</span>)
       });
     }
 

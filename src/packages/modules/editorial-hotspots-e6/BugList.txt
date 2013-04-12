@@ -1,0 +1,66 @@
+ALL
+---
+* Need to verify padding per the comp; there appears to be a little too much in the .middle node. Might have to tweak the margin bottom when a link is present vs not
+* Enquire throwing errors on older IE w.o breakpoint support
+* Certain corner placements of hotspots render the minified panel when there is enough room to render the bottom or top. Rarely but it happens.
+* Percentages should be massaged a little when in small view; a couple of pixels to reflect the original spot more accurately
+
+
+FF
+---
+* footer padding not being honored. Wrapper at 100% doesn't wrap around it's parent element.
+* + characters on the hotspots off by a pixel, when in minimal mode, off by a few pixels in different places. No identified reason, since they are each abs pos.
+
+
+SAF
+---
+* OK
+
+
+IE10
+---
+* hotspot animations are odd, they appear to draw from 0 width, 0 height
+* As with FF, footer padding not being honored. Wrapper at 100% doesn't wrap around it's parent element.
+
+CHROME
+---
+* OK
+
+
+IE9
+---
+* As with FF, footer padding not being honored. Wrapper at 100% doesn't wrap around it's parent element.
+
+
+IE8
+---
+* Hotspots are squares, not circles (expected), otherwise OK
+
+
+IE7
+---
+* Hotspots are abysmal, but function properly. Arrow indicators are off-kilter
+
+
+IPAD
+---
+* breakpoint 767 is intended to fire on ipad, need to check what resolution the view is rendering, otherwise it's rendering in desktop adaptive mode
+
+
+IPHONE
+---
+* Flicker when clicked in portrait mode (in simulator). This is happening because the page is short in the window; circumstantial, not a bug.
+
+
+ANDROID
+---
+* OK
+
+
+PS3
+---
+
+
+GOOGLE TV
+---
+

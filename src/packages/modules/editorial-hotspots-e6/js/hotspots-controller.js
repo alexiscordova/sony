@@ -12,26 +12,27 @@ define(function(require) {
   
   'use strict';
   
-  var $ = require('jquery'),
-      iQ = require('iQ'),
-      bootstrap = require('bootstrap'),
-      Settings = require('require/sony-global-settings'),
-      Environment = require('require/sony-global-environment'),
-      Utilities = require('require/sony-global-utilities');
+  var $ = require( 'jquery' ),
+      iQ = require( 'iQ' ),
+      bootstrap = require( 'bootstrap' ),
+      enquire = require('enquire'),
+      Settings = require( 'require/sony-global-settings' ),
+      Environment = require( 'require/sony-global-environment' ),
+      Utilities = require( 'require/sony-global-utilities' );
 
   var self = {
     'init': function() {
       log('init editorial');
       // detect if there are any hotspot containers present
-      $('.hspot-container').each(function(el) {
+      $( '.hotspot-instance' ).each( function( index, el ) {
         // for each container, initialize an instance
-        log('hotspot container present');
-        $(this).hotspotsController({});
+        log('hotspot container detected');
+        $( this ).hotspotsController({});
       });
     }
   };
   
-  var HotspotsController = function(element, options){
+  var HotspotsController = function( element, options ){
 
     var self = this;
     // SETUP DEFAULTS
@@ -42,44 +43,176 @@ define(function(require) {
     // container element holding the hotspots
     self.$container                     = $( element );
     // collection of hotspots we must initialize
-    self.$els                           = self.$container.find(".hspot-outer");
+    self.$els                           = self.$container.find( ".hspot-outer" );
     
     // COORDINATES AND HOTSPOT STATUS COLLECTION
     self.$hotspotData                    = [];
     
+    // LAST OPEN
+    self.$lastOpen                       = null;
+    
+    // TRANSITION VARIABLES
+    self.$transitionSpeed                = 500;
+    self.$lastTimer                      = null;
+    self.lastOverlayTimeout              = null;
+    self.lastWidth                       = null;
+    self.lastHeight                      = null;    
+    self.direction                       = null;
+    self.directionV                      = null;
+    self.variant1TopHeight               = 145;
+    self.variant2TopHeight               = 119;
+    self.variant1FloorHeight             = 100;
+    self.variant2FloorHeight             = 108;
+    self.variant1Differential            = 145;
+    self.variant2Differential            = 120;
+    self.showOverlayCentered             = ( $( window ).width() < 768 ) ? true : false;
+    self.lastOverlayFadein               = null;
+    self.lastOverlayFadeout              = null;
+    self.lastCenteredOverlay             = null;
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
-    $.extend(self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings);
+    $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
   };
 
   HotspotsController.prototype = {
     constructor: HotspotsController,
-
     init : function() {
       var self = this;
       
+/* GET ORIGINAL IMAGE RATIO METHOD
+      // from container, find the image module class, which contains the images original size we need to audit
+      var coreElement = self.$container.find( '.image-module' );
+      // detect if it's a div with a background or an image nested as a child node
+      var coreNodeType = coreElement[0].tagName;
+      // get path to image, and make a memory copy
+      log('coreNodeType');
+      log(coreNodeType);
+      // get height and width of orignal image (images should be at native ratio when @ 1200px screen size) and 
+      // store this for later use when the hotspots are resizing. The new % will have to be adjusted per resize to 
+      // match this original ratio, rather than the size of the container. The two loose horizontal sync because of 
+      // collapsing containers and the behavior of the browser image resizing
+*/
+      
+      // inject the underlay node near the top of the dom tree
+      var underlayNode = $( '.hspot-underlay' ).get( 0 );
+      $( '.hspot-underlay' ).detach();
+      $( 'body' ).append( underlayNode );
+
       // initialize hotspot(s)
-      $(self.$els).each(function(index, el) {
+      $( self.$els ).each(function( index, el ) {
         // bind the click, place it based on the data-x and -y coordinates, and fade em in
-        self.bind(el);
-        self.place(el);
-        self.show(el);
+        self.bind( el );
+        self.place( el );
+        self.show( el );
       });
+
+      // LISTEN FOR RESIZE
+      $(window).resize(function() {
+/*
+        var newWidth = self.$container.width();
+
+
+        if( self.showOverlayCentered ) {
+          self.slowHorizontalTracking = true;
+          $( self.$els ).each( function( index, el ) {
+            var left = $( el ).position().left;
+            log( 'cur Left' + left);
+            left = left + 0.05;
+            log( 'adjusted Left' + left);
+            $( el ).css( 'left', left +'px' );
+          });
+        } else {
+          self.slowHorizontalTracking = false;
+          $( self.$els ).each( function( index, el ) {
+            var variableHorizontal = $( el ).data( 'x' );
+            $( el ).css( 'left', variableHorizontal );
+          }); 
+        }
+*/
+
+/*
+        // if we're in tablet/mobile view we need to change/slow the horizontal tracking
+        if( self.showOverlayCentered ) {
+          self.slowHorizontalTracking = true;
+          $( self.$els ).each( function( index, el ) {
+            
+            var originalWidth = 1200;
+            var hotspotXPercentage = $( el ).data( 'x' ).replace( '%', '' );
+            var originalXCoordiatePX = ( hotspotXPercentage * originalWidth ) / 100;
+            var adjustedXCoordinatePX = ( newWidth * originalXCoordiatePX ) / 1200;
+            
+            $( el ).css( 'left', ( adjustedXCoordinatePX += 20.5 ) +'px' );
+          });
+        } else {
+          self.slowHorizontalTracking = false;
+          $( self.$els ).each( function( index, el ) {
+            var variableHorizontal = $( el ).data( 'x' );
+            $( el ).css( 'left', variableHorizontal );
+          });
+        }
+*/
+        
+/*
+        // if we're in tablet/mobile view we need to change/slow the horizontal tracking
+        if( self.showOverlayCentered ) {
+          self.slowHorizontalTracking = true;
+          $( self.$els ).each( function( index, el ) {
+            var fixedHorizontal = $( el ).position().left;
+            $( el ).css( 'left', fixedHorizontal+'px' );
+          });
+        } else {
+          self.slowHorizontalTracking = false;
+          $( self.$els ).each( function( index, el ) {
+            var variableHorizontal = $( el ).data( 'x' );
+            $( el ).css( 'left', variableHorizontal );
+          });
+        }
+*/
+        
+        if(self.$lastOpen) {
+          try {          
+            self.reposition(self.$lastOpen[0], true);
+          } catch(e) {}
+        }
+
+      });
+
+      // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO 
+      // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
+      enquire.register("(max-width: 767px)", function() {
+        self.showOverlayCentered = true;
+        try { 
+          self.reposition(self.$lastOpen[0]);
+        } catch(e) {}
+      }).listen();
+      
+      enquire.register("(min-width: 768px)", function() {
+        self.showOverlayCentered = false;
+        try { 
+          self.reposition(self.$lastOpen[0]);
+        } catch(e) {}
+      }).listen();
 
       log('SONY : Editorial Hotspots : Initialized');
     },
     
-    bind: function(el) {
+    bind: function( el ) {
       var self = this;
-      $(el).bind('click', self.click);
+      // hotspot clicks
+      $($( el ).find( '.hspot-core' ) ).bind( 'click', function( event ) {
+        self.click( event, self );
+      });
     },
-    place: function(el) {
+    
+    place: function( el ) {
       var self = this;
-      // this places the hotspot absolutely, but we need to track each of these locations so on resize
-      var xAnchor = $(el).data("x");
-      var yAnchor = $(el).data("y");
-      $(el).css("left",xAnchor);
-      $(el).css("top",yAnchor);
+      // this places the hotspot absolutely (currently by % fed from data-x,y attrib)
+      var xAnchor = $( el ).data( "x" );
+      var yAnchor = $( el ).data( "y" );
+      $( el ).css( "left", xAnchor );
+      $( el ).css( "top", yAnchor );
+      
+      // lets add some defaults
       self.$hotspotData.push({
         el: el,
         xAnchor: xAnchor,
@@ -87,32 +220,506 @@ define(function(require) {
         open: false
       });
     },
-    show: function(el) {
+    
+    show: function( el ) {
       
     },
-    find: function(currentTarget) {
+    
+    find: function( currentTarget ) {
       var self = this;
-      self.$els.each(function(index, el) {
+      self.$els.each( function( index, el ) {
         log('searching');
-        if($(el).is(currentTarget)) {
+        if( $( el ).is( currentTarget ) ) {
           return el;
         } else {
           log('no match');
         }
       });
     },
-    click: function(event) {
-      var self  = this,
-          me    = $(event.currentTarget).find('.hspot-core, .hspot-core-on');
-      if(me.data('state')=='open') {
-        me.data('state','closed');
-        me.removeClass('hspot-core-on').addClass('hspot-core');
-      } else {
-        me.data('state','open');        
-        me.removeClass('hspot-core').addClass('hspot-core-on');
-      }
-    }
     
+    click: function( event, self ) {
+      var container = $( event.currentTarget ).parent(),
+          hotspot   = container.find( '.hspot-core, .hspot-core-on' ),
+          info      = container.find( '.overlay-base' );
+      
+      if( container.data( 'state' ) == 'open' ) {
+        self.close( container, hotspot, info );
+      } else {
+        if( self.$lastOpen && !container.is( self.$lastOpen ) ) {
+          log('resetting:::::');
+          self.reset();
+        }
+         self.open( container, hotspot, info );
+      }
+      
+    },
+
+    reanchor: function( el, toCenter ) {
+      var self          = this,
+          overlayBase   = $( el ).parent().find( '.hspot-global-details-overlay' ),
+          underlayBase  = $( '.hspot-underlay, .hspot-underlay-on' ); 
+
+      // copy the overlay into the mobile, center overlay
+      if( toCenter ) {
+        
+        clearTimeout( self.lastOverlayFadein );
+        clearTimeout( self.lastOverlayFadeout ); 
+        
+        // tag last el as the one copied, so we can turn it on when required
+        el.addClass( 'lastMoved' );
+
+        // find and hide the currently open overlay, just tagged as 'lastMoved'
+        el.find( '.overlay-base' ).addClass( 'hidden' );
+
+        if( false === $( el ).is( self.lastCenteredOverlay ) ) {
+          // copy HTML over to the overlay container
+          overlayBase.html( el.find( '.overlay-base' ).html() );
+
+          // bind close button for this instance
+          overlayBase.find( '.hspot-close' ).bind( 'click', function( event ) {
+            event.preventDefault();
+            // save pointer for one more operation
+            var lastOpen = el;
+            // close overlay 
+            self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
+            self.reanchor( el, false );
+          });
+
+          self.lastCenteredOverlay = el;
+        }
+        
+        // show the opaque underlay to dim the background
+        if( self.$lastOpen ) {
+          clearTimeout( self.lastOverlayTimeout );
+          self.lastOverlayTimeout = null;
+          underlayBase.removeClass( 'hidden' );
+          underlayBase.removeClass( 'hspot-underlay' ).addClass( 'hspot-underlay-on' );
+        }
+
+        // turn on overlay container
+        overlayBase.find( '.top' ).removeClass( 'hidden' );
+        overlayBase.find( '.middle' ).removeClass( 'hidden' );
+        overlayBase.find( '.footer' ).removeClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-left-top' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-left-bottom' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-right-top' ).addClass( 'hidden' );
+        overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
+        overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
+        
+        // finally show the overlay
+        overlayBase.removeClass( 'hidden' );
+        self.lastOverlayFadein = setTimeout( function() {
+          overlayBase.removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        }, 10 );
+        
+      } else {
+        // cleanup
+        clearTimeout( self.lastOverlayFadeout );
+        clearTimeout( self.lastOverlayFadein );
+        
+        // untag last overlay
+        el.removeClass( 'lastMoved' );
+        
+        if(!underlayBase.hasClass('hidden')) {
+          // close underlay
+          var anon = function() {
+            log('removing flag');
+            underlayBase.addClass( 'hidden' );
+          };
+          underlayBase.removeClass( 'hspot-underlay-on' ).addClass( 'hspot-underlay' );
+          self.lastOverlayTimeout = setTimeout( anon, 500 );
+        }
+
+        // close mobile overlay
+        overlayBase.removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
+        self.lastOverlayFadeout = setTimeout( function() {
+          overlayBase.addClass( 'hidden' );
+        }, 500 );
+        
+        if( false === self.showOverlayCentered ) {
+          // reopen normal overlay
+          el.find( '.overlay-base' ).removeClass( 'hidden' ).find( '.overlay-inner' ).removeClass( 'eh-hidden' ).addClass( 'eh-visible' );
+        }
+      }
+    },
+    
+    reposition: function( el, fromResize ) {
+      
+      var self                  = this,
+          parentContainer       = el.parent(),
+          parentLeft            = 0,
+          parentTop             = 0,
+          parentRight           = parentContainer.width(),
+          parentFloor           = parentContainer.height(),
+          overlay               = el.find( '.overlay-base' ),
+          overlayHeight         = overlay.height(),
+          overlayPosition       = overlay.position(),
+          overlayHeaderHeight   = overlay.find( '.top' ).height(),
+          overlayFooterHeight   = overlay.find( '.footer' ).height(),
+          overlayTop            = overlay.find( '.top' ),
+          overlayFooter         = overlay.find( '.footer' ),
+          hotspotPosition       = overlay.parent().position(),
+          rows                  = (overlayHeaderHeight>0) ? 'three' : 'two',  
+          collidesTop           = false,
+          collidesRight         = false,
+          collidesFloor         = false,
+          collidesLeft          = false,
+          collides              = null, // assume there is a problem to start the loop, and break the loop
+          topOverlayPosition    = null,
+          leftOverlayPosition   = null,
+          bottomOverlayPosition = null,
+          rightOverlayPosition  = null,
+          passes                = 0,
+          top                   = null,
+          footer                = null,
+          verticalGutter        = 10,
+          horizontalGutter      = 45;
+
+      
+      // we need to put this element in the centered overlay, not free form next to it's hotspot button
+      if( true === self.showOverlayCentered ) {
+        
+        /* log('need to reparen to overlay view'); */
+        self.reanchor( el, true );
+        
+      } else {
+        
+        /* log('unabaited repositioning'); */
+        self.reanchor(el, false);
+        
+        /*
+         * INITIAL CALCULATIONS TO SEE IF WE'RE COLLIDING AT THE DEFAULT POSITIONING (TOP RIGHT)
+         * THIS SHOULD LOOP 4 TIMES. IF IT'S STILL COLLIDING WE HAVE TO FIGURE THAT OUT...heh...
+         **/
+  
+        // see if we're growing or shrinking
+        try { 
+          
+          if( parentRight > self.lastWidth ) {
+            self.direction = 'grew';
+          } else if( parentRight == self.lastWidth ) {
+            self.direction = 'same';
+          } else {
+            self.direction = 'shrank';
+          }
+          self.lastWidth  = parentRight;
+                    
+          if( parentFloor < self.lastHeight ) {
+            self.directionV = 'shrank';
+          } else if( parentFloor > self.lastHeight ) {
+            self.directionV = 'grew';            
+          } else {
+            self.directionV = 'same';
+          }
+          self.lastHeight = parentFloor;
+          
+        } catch(e) {
+          log(e);
+        }
+  
+        // The script will move the window into it's 4 potential orientations, until it finds a place it fits.
+        // if the loop is completed and there are no matches, the script will turn off the top and footer nodes of
+        // the overlay and reiterate through the loop, breaking when the overlay is at a safe zone.
+        
+        // TODO:: Apply restraints to Editorial types [as spec'd from comps] 
+        
+        for( var i=0; i<4 && ( true === collides || null === collides ); i++ ) { 
+          // resample coordinates
+          overlayHeight       = overlay.height(),
+          overlayPosition     = overlay.position(),
+          overlayHeaderHeight = overlayTop.height(),
+          overlayFooterHeight = overlayFooter.height(),
+          hotspotPosition     = overlay.parent().position();
+          
+          // check if the hotspot's offset plus the negative margin of the overlay is at or less than "top:0" with resepct to it's container
+          topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top );
+          // check if overlays' width plus position offset is overlapping the rightmost boundary of it's container
+          rightOverlayPosition = hotspotPosition.left + overlayPosition.left + overlay.width();
+          
+          bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height();
+          
+          leftOverlayPosition = hotspotPosition.left + overlayPosition.left;
+                  
+          if( topOverlayPosition <= ( 0 + verticalGutter ) ) {
+            // it is colliding with the top of the parent container
+            collidesTop = true;
+            self.clearPositionStyles(overlay);
+            overlay.addClass( rows + '-stack-right-top-justified' );
+            overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
+            /* log('::overlay hits container top::'); */
+          } else {
+            collidesTop = false;
+          }
+          
+          if( rightOverlayPosition >= ( parentRight - horizontalGutter ) ) {
+            collidesRight = true;
+            self.clearPositionStyles(overlay);
+            overlay.addClass( rows + '-stack-left-top-justified' );
+            overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
+            /* log('::overlay hits container right::'); */
+          } else {
+            collidesRight = false;
+          }
+          
+          
+          if( bottomOverlayPosition >= ( parentFloor - verticalGutter ) ) {
+            collidesFloor = true;
+            self.clearPositionStyles(overlay);
+            overlay.addClass( rows + '-stack-left-bottom-justified' );
+            overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
+            /* log('::overlay hits container floor::'); */
+          } else {
+            collidesFloor = false;
+          } 
+          
+  
+          if( leftOverlayPosition <= horizontalGutter ) {
+            collidesLeft = true;
+            self.clearPositionStyles(overlay);
+            overlay.addClass( rows + '-stack-right-bottom-justified' );
+            overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
+            /* log('::overlay hits container left::'); */
+          } else {
+            collidesLeft = false;
+          }
+          
+          if( collidesTop || collidesRight || collidesFloor || collidesLeft ) {
+            
+            collides = true;
+            
+          } else {
+            
+            collides = false;
+            
+            // element has a default image, and due to shifting around, can be turned on if there is
+            // 1. room, and 2. the last resize was growing and not shrinking, implying there is more space now 
+            // to potentially turn on the top section.
+            if( overlayTop.hasClass( 'is-default-on' ) && 
+                overlayTop.hasClass( 'hidden' ) &&
+                fromResize && 'grew' === self.direction ) {
+              
+              var topHeight = null;
+              
+              if( overlay.parent().hasClass( 'variant1' )) {
+                topHeight = self.variant1TopHeight;/*  + self.variant1Differential; */
+              } else {
+                topHeight = self.variant2TopHeight;/*  + self.variant2Differential; */
+              }
+              
+              topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top ) - topHeight + verticalGutter;
+              
+              if( topOverlayPosition > 0 ) {
+                // it fits!
+                overlayTop.removeClass( 'hidden' );
+                // make sure the orientation is correct. In some cases it needs to be adjusted
+                self.twoToThree(overlay);
+              }
+            }
+  
+            if( overlayFooter.hasClass( 'is-default-on' ) && 
+                overlayFooter.hasClass( 'hidden' ) &&
+                fromResize && 'grew' === self.direction ) {
+         
+              var floorHeight = null;
+         
+              if( overlay.parent().hasClass( 'variant1' )) {
+                floorHeight = self.variant1FloorHeight;
+              } else {
+                floorHeight = self.variant2FloorHeight;
+              }
+  
+              bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height() + floorHeight - verticalGutter;
+              
+              if( bottomOverlayPosition < parentFloor ) {
+                overlayFooter.removeClass( 'hidden' );
+              }
+            }
+            
+          }
+          
+          // if we're in the last iteration of the loop, and no position has been found,
+          // we need to attempt to turn off the the top or bottom section to make room
+          // since we're tracking collisions by side, we can easily do this prescriptively,
+          if( true === collides && i == 3 ) {
+          
+            /* log('Reposition did not work. '); */
+            
+            top = overlayTop; // clean up redundant vars!!!!
+            footer = overlayFooter; // clean up redundant vars!!!!
+            
+            if( collidesTop && ( top.height() > 0 ) ) {
+              /* log('turning off top section and restting loop'); */
+              top.addClass( 'hidden' );
+              rows = 'two';
+              self.downstepStacks( el );
+              i=-1;
+            }
+            if( collidesFloor && ( footer.height() > 0 ) ) {
+              /* log('turning off bottom section and resetting loop'); */
+              footer.addClass( 'hidden' );            
+              rows = 'two';
+              self.downstepStacks( el ); 
+              i=-1;
+            } 
+  
+            /* log('finished '+passes+' passes' ); */
+            passes++;
+            
+            // two passes, and no dice; lets turn off top and bottom in an attempt to 
+            // make room one last time
+            if(passes==1) {
+              top.addClass( 'hidden' );
+              footer.addClass( 'hidden' );
+              i=-1;
+            } else if(passes>1) {
+              i=99; // leave loop
+            }
+  
+  
+          }
+        } // END COLLISION DETECTION
+
+      }
+    },
+    
+    twoToThree: function( el ) {
+      var classList =$( el ).attr( 'class' ).split( /\s+/ );
+      $.each( classList, function( index, item ){
+          console.log(item);
+          if ( item.indexOf( 'two-' ) > -1 ) {
+             el.removeClass( item );
+             item = item.replace( 'two-', 'three-' );
+             el.addClass( item );
+          }
+      });
+    },
+    
+    clearPositionStyles: function( el ) {
+      el.removeClass( 'three-stack-left-top-justified' );
+      el.removeClass( 'three-stack-left-bottom-justified' );
+      el.removeClass( 'three-stack-right-top-justified' ); 
+      el.removeClass( 'three-stack-right-bottom-justified' );
+      el.removeClass( 'two-stack-left-top-justified' );
+      el.removeClass( 'two-stack-left-bottom-justified' );
+      el.removeClass( 'two-stack-right-top-justified' );
+      el.removeClass( 'two-stack-right-bottom-justified' );
+      el.find( '.arrow-left-top' ).addClass( 'hidden' );
+      el.find( '.arrow-right-top' ).addClass( 'hidden' );
+      el.find( '.arrow-left-bottom' ).addClass( 'hidden' );
+      el.find( '.arrow-right-bottom' ).addClass( 'hidden' );
+    },
+    
+    downstepStacks: function( el ) {
+      el = el.find( '.overlay-base' );
+      log(el);
+      if( el.hasClass( 'three-stack-left-top-justified' )) { 
+        el.removeClass( 'three-stack-left-top-justified' ).addClass( 'two-stack-left-top-justified' );
+      }
+      if(el.hasClass( 'three-stack-left-bottom-justified' )) { 
+        el.removeClass( 'three-stack-left-bottom-justified' ).addClass( 'two-stack-left-bottom-justified' );
+      }
+      if(el.hasClass( 'three-stack-right-top-justified' )) { 
+        el.removeClass( 'three-stack-right-top-justified' ).addClass( 'two-stack-right-top-justified' );
+      }
+      if(el.hasClass( 'three-stack-right-bottom-justified' )) { 
+        el.removeClass( 'three-stack-right-bottom-justified' ).addClass( 'two-stack-right-bottom-justified' );
+      }
+    },
+    transition: function( _el, direction ) {
+      switch(direction) {
+        case "on":
+          _el.removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        break;
+        case "off":
+          _el.removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
+        break;
+      }
+    },
+    close: function( container, hotspot, info ) {
+        var self = this;
+        // we are setting display:none when the trasition is complete, and managing the timer here
+        self.cleanTimer();
+        
+        // save last close state
+        container.data( 'state', 'closed' ).removeClass( 'info-jump-to-top' );
+        
+        // perform CSS transitions
+        hotspot.removeClass( 'hspot-core-on' ).addClass( 'hspot-core' );
+        
+        // begin fade out
+        self.transition( info.find('.overlay-inner'),  'off' );
+        
+        // closure to allow script to set display:none when transition is complete
+        var anon = function() {
+          info.addClass( 'hidden' );
+        };
+        
+        // fire a timer that will set the display to none when the element is closed. 
+        self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
+        
+        // set the open status to zilch
+        self.$lastOpen = null;
+        
+        // kill the underlay if we're in minified mode
+        if( true === self.showOverlayCentered ) {
+          $( '.hspot-underlay' ).addClass( 'hidden' );          
+        }
+    },
+    
+    open: function( container, hotspot, info ) {
+        var self = this;
+        
+        // we are setting display:none when the trasition is complete, and managing the timer here
+        if(self.$lastOpen && container.is(self.$lastOpen[0])) {
+          self.cleanTimer();
+        }
+        
+        // save last open state
+        self.$lastOpen = new Array( container, hotspot, info );
+        
+        // add data- info to this hotspot
+        container.data( 'state', 'open' ).addClass( 'info-jump-to-top' );
+        
+        // perform CSS transitions
+        hotspot.removeClass( 'hspot-core' ).addClass( 'hspot-core-on' );
+        
+        // we have to set display: block to allow DOM to calculate dimension
+        info.removeClass( 'hidden' );
+        
+        // reposition window per it's collision detection
+        self.reposition( container );
+        
+        // fade in info window
+        if( true === self.showOverlayCentered ) {
+          $( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
+        } else {
+          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
+        }
+        
+        /*
+info.find('.top').addClass( 'eh-visible' );
+        info.find('.middle').addClass( 'eh-visible' );
+        info.find('.footer').addClass( 'eh-visible' );
+*/
+    },
+    
+    reset: function( container ) {
+      var self = this;
+      self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
+    },
+    
+    defaultPositions: function() {
+      for(var el in self.$els) {
+        
+      }
+    },
+    
+    cleanTimer: function() {
+      var self = this;
+      if( self.$lastTimer ) {
+        clearTimeout( self.$lastTimer );
+      }      
+    } 
   };
   
   // Plugin definition

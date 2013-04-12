@@ -150,10 +150,9 @@ define(function(require){
       $offsetTarget, triggerPoint;
 
       $offsetTarget = self.offsetTarget.jquery ? self.offsetTarget : $( self.offsetTarget );
-      triggerPoint = $.isNumeric( self.offsetTarget ) ? self.offsetTarget : $offsetTarget[0].offsetTop;
+      triggerPoint = $.isNumeric( self.offsetTarget ) ? self.offsetTarget : $offsetTarget.offset().top;
 
 
-      // jQuery offset().top is returning negative numbers...
       // Get the trigger point for when the nav should `open`
       if ( triggerPoint < 100 ) {
         setTimeout(function() {

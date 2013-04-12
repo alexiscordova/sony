@@ -29,6 +29,7 @@ define(function(require){
 
     self.$el = $(element);
     self.$images = self.$el.find('.st-image');
+
     self.init();
 
     self.$images.on('iQ:imageLoaded', function(){
