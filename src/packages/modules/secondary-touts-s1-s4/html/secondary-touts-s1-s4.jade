@@ -5,14 +5,17 @@ include ../../../common/html/jade-helpers.jade
   for item in content
 
     if item.objectSize == 'span8'
-      - item.c = 'st-3up span8'
+      - item.c = 'span8'
       - item.s = 'content-8'
     else if item.objectSize == 'span4'
-      - item.c = 'st-1up span4'
+      - item.c = 'span4'
       - item.s = 'content-4'
     else if item.objectSize == 'span6'
-      - item.c = 'st-2up span6'
+      - item.c = 'span6'
       - item.s = 'content-6'
+    else if item.objectSize == 'span12'
+      - item.c = 'span12'
+      - item.s = 'content-12'
 
     if item.whatsNewCarousel
 

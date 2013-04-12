@@ -15,14 +15,17 @@ if item.headline
     - item.contentType = 'headline-copy-counter'
 
 if item.objectSize == 'span8'
-  - item.c = 'st-3up span8'
+  - item.c = 'span8'
   - item.s = 'content-8'
 else if item.objectSize == 'span4'
-  - item.c = 'st-1up span4'
+  - item.c = 'span4'
   - item.s = 'content-4'
 else if item.objectSize == 'span6'
-  - item.c = 'st-2up span6'
+  - item.c = 'span6'
   - item.s = 'content-6'
+else if item.objectSize == 'span12'
+  - item.c = 'span12'
+  - item.s = 'content-12'
 
 if item.miniPromo
   - item.mpc = 'has-mini-promo'
@@ -42,7 +45,7 @@ article
     div(class=item.gcc)
 
       if item.eyebrow
-        a.eyebrow(href=item.eyebrow.link)
+        a.eyebrow.l3(href=item.eyebrow.link)
           | #{item.eyebrow.title}
 
       if item.s == 'content-8'
