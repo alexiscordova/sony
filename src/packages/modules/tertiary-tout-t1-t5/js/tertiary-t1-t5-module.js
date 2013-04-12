@@ -35,6 +35,8 @@ define(function(require){
 
     self.$el = $(element);
     self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
+    self.$newGrid = $('<div/>').addClass('grid');
+    self.$newSlide = $('<div/>').addClass('tcc-carousel-slide container').html(self.$newGrid); 
 
     self.init();
 
@@ -87,7 +89,7 @@ define(function(require){
       }
    
       // Clear these variables up for garbage collection.
-      self.$tccCarousel = null;
+      self.$tccCarousel = $slide2 = null;
 
       self.$el.replaceWith($restored);
       self.$el = $restored;
@@ -99,27 +101,41 @@ define(function(require){
       console.log( 'renderDesktop »');
 
       self.reloadCached();
-
     },
 
     renderTablet : function(){
-      var self = this;
+      var self = this,
+          $slide2 = self.$newSlide.clone();
 
       console.log( 'renderTablet »');
 
-      // find the third content module
+      self.reloadCached();
+
+      console.log( 'slides »' , self.$el.find('.tcc-carousel-slide') );
       
+      // find the third content module
+      var $lastChild = self.$el.find('.tcc-carousel-slide-children').last();    
+      console.log( '$lastChild »', $lastChild);
 
       // take it out of the slide
+      // self.$el.remove($lastChild);
+
+      // put last child in its own slide
+      $slide2
+        .find(".grid")
+        .append($lastChild);
+
+      $('.tcc-carousel').append($slide2);
+
+      console.log( '$slide2 »', $slide2);
+      
+      // update all spans to span6
+      self.$el.find('.tcc-carousel-slide-children').removeClass("span4 span6 span12").addClass("span6");
        
-      // put it in its own slide
-      // div.tcc-carousel-slide.container
-      //  .grid
-      //     .tcc-carousel-slide-children.span6
-      //       | child 3
+      // swap three-up class with two-up on div#carousel
+      $(".tcc-carousel-wrapper").parent().attr("id","two-up");
 
-      // update all span from 12 to 6 per slide
-
+      // init the carousel
       self.$tccCarousel = self.$el.find('.tcc-carousel').sonyCarousel({
         wrapper: '.tcc-carousel-wrapper',
         slides: '.tcc-carousel-slide',
