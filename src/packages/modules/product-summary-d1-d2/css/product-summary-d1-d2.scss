@@ -45,7 +45,7 @@
 
   .product-title {
     margin-top: -2px;
-    margin-bottom: -4px;
+    margin-bottom: 0;
   }
 
   .product-model span:last-child {
@@ -53,15 +53,17 @@
   }
 
   .product-sizes {
-    padding-right: 10px;
+    padding-right: 2px;
   }
 
   .m-product-img {
     display: none;
+    max-width: 60%;
   }
 
   .spacer {
-    padding: 0 10px;
+    color: $gray50;
+    padding: 0 4px;
   }
 
   // Inline details (sizes | swatches)
@@ -76,7 +78,7 @@
   }
 
   .inline-details .color-swatches {
-    padding-left: 10px;
+    padding-left: 2px;
     margin-top: .1875em;
   }
 
@@ -126,28 +128,12 @@
       top: -(px-em(2));
       vertical-align: baseline;
       padding: 0 0 0 px-em(8, 16);
+      // margin-right: -(px-em( 4 ));
     }
   }
 
   .favorite-holder i {
     padding: 0 0 0 px-em(8, 13);
-  }
-
-  .be-social > a .bt3 {
-    color: $gray20;
-  }
-
-  .fonticon-10-favorite,
-  .fonticon-10-arrowhead-down {
-    color: $gray50;
-  }
-
-  .open .share-trigger > span,
-  .open .share-trigger > span i,
-  .no-touch & .price-content a:hover > span,
-  .no-touch & .price-content a:hover .fonticon-10-arrowhead-down,
-  .no-touch & .price-content a:hover .fonticon-10-favorite {
-    color: $secondarySlateDark;
   }
 
   .be-social {
@@ -160,6 +146,29 @@
 
   .share-trigger {
     margin-left: 1.25em;
+  }
+
+  .be-social > a .bt3 {
+    color: $gray20;
+  }
+
+  // be social links active/hover color
+  .open .share-trigger > span,
+  .no-touch & .price-content a:hover > span {
+    color: $linkColorHover;
+  }
+
+  // icon default color
+  .fonticon-10-favorite,
+  .fonticon-10-arrowhead-down {
+    color: $gray50;
+  }
+
+  // Icon active/hover
+  .open .share-trigger > span i,
+  .no-touch & .price-content a:hover .fonticon-10-arrowhead-down,
+  .no-touch & .price-content a:hover .fonticon-10-favorite {
+    color: $linkColorHover;
   }
 
 }

@@ -65,6 +65,10 @@ define(<span class="keyword">function</span>(require){
       self.$buttonTemplate = $(<span class="string">'&lt;div/&gt;'</span>).addClass(<span class="string">'pagination-bullet'</span>);
       self.$buttonIcon = $(<span class="string">'&lt;i/&gt;'</span>).addClass(<span class="string">'fonticon-10-dot'</span>);
 
+      <span class="keyword">if</span> ( self.theme === <span class="string">'light'</span> ) {
+        self.$el.addClass(<span class="string">'pagination-light'</span>);
+      }
+
       self.$buttonTemplate.append(self.$buttonIcon);
 
       self.reset(self);
@@ -161,7 +165,8 @@ and broadcast the click to subscribers.</p>             </td>             <td cl
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.sonyNavDots.defaults = {
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>How many buttons are in the navigation</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'buttonCount'</span>: <span class="number">0</span>,
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Which button should be active by default</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'activeButton'</span>: <span class="number">0</span>
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Which button should be active by default</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'activeButton'</span>: <span class="number">0</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Color theme, dark or light.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'theme'</span>: <span class="string">'dark'</span>
   };
 
 });

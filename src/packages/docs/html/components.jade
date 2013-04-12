@@ -319,6 +319,64 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
                 |   });
 
 
+
+
+
+        h3#headers Overflow-visible, grid-based, flexible carousels (OSC-style)
+        p This is an example of a carousel that, while the slides are floated, also lines the active
+          | slide up with the grid. With the `.sony-carousel` class, slides with the `.sony-carousel-slide`
+          | class that *also* have a class of `.grid` will inherit a common right margin, creating the
+          | desired effect. Slide children can therefore have the usual span and offsets as broken down
+          | in the scaffolding section of documentation.
+
+        .container
+          .grid
+            .span12
+              div.carousel-7
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide.grid
+                      div.sony-carousel-slide-children.t1.span6 Slide A1
+                      div.sony-carousel-slide-children.t1.span6 Slide A2
+                    div.sony-carousel-slide.grid
+                      div.sony-carousel-slide-children.t1.span6 Slide B1
+                      div.sony-carousel-slide-children.t1.span6 Slide B2
+                    div.sony-carousel-slide.grid
+                      div.sony-carousel-slide-children.t1.span6 Slide C1
+        .container
+          .grid
+            .span12
+              h5 Jade
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   div.carousel-7
+                |     div.sony-carousel-wrapper
+                |       div.sony-carousel
+                |         div.sony-carousel-slide.grid
+                |           div.sony-carousel-slide-children.t1.span6 Slide A1
+                |           div.sony-carousel-slide-children.t1.span6 Slide A2
+                |         div.sony-carousel-slide.grid
+                |           div.sony-carousel-slide-children.t1.span6 Slide B1
+                |           div.sony-carousel-slide-children.t1.span6 Slide B2
+                |         div.sony-carousel-slide.grid
+                |           div.sony-carousel-slide-children.t1.span6 Slide C1
+
+          .grid
+            .span12
+              h5 Javascript
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   $('.carousel-7 .sony-carousel').sonyCarousel({
+                |     wrapper: '.sony-carousel-wrapper',
+                |     slides: '.sony-carousel-slide',
+                |     slideChildren: '.sony-carousel-slide-children',
+                |     useCSS3: true,
+                |     pagination: true
+                |   });
+
+
   script(src="js/libs/require.js")
   script
     window.isDebugMode = true;
@@ -383,6 +441,16 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           slideChildren: '.sony-carousel-slide-children',
           useCSS3: true
         });
+
+        $('.carousel-7 .sony-carousel').sonyCarousel({
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          slideChildren: '.sony-carousel-slide-children',
+          useCSS3: true,
+          pagination: true
+        });
+
+
       });
     });
 

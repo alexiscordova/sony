@@ -36,6 +36,7 @@ define(<span class="keyword">function</span>(require) {
     <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
     self.isDesktop = <span class="literal">false</span>;
+    self.isTablet = <span class="literal">false</span>;
     self.isMobile = <span class="literal">false</span>;
 
     self.$el = $( element );
@@ -64,6 +65,9 @@ define(<span class="keyword">function</span>(require) {
       self.$stickyPriceText = self.$stickyNav.find(<span class="string">'.price-text'</span>);
       self.$modal = self.$el.find(<span class="string">'#share-tool'</span>);
 
+      self.$span1AtTablet = self.$el.find(<span class="string">'#span1-at-tablet'</span>);
+      self.$span3AtTablet = self.$el.find(<span class="string">'#span3-at-tablet'</span>);
+
       self.$favoriteBtn.on(<span class="string">'click'</span>, $.proxy( self._onFavorite, self ));
       self.$shareBtn.on(<span class="string">'click'</span>, $.proxy( self._onShare, self ));
 
@@ -82,6 +86,16 @@ define(<span class="keyword">function</span>(require) {
         enquire.register(<span class="string">'(min-width: 48em)'</span>, {
           match: <span class="keyword">function</span>() {
             self._setupDesktop();
+          }
+        })
+        .register(<span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span>, {
+          match: <span class="keyword">function</span>() {
+            self._setupTablet();
+          }
+        })
+        .register(<span class="string">'(min-width: 61.25em)'</span>, {
+          match: <span class="keyword">function</span>() {
+            self._teardownTablet();
           }
         })
         .register(<span class="string">'(max-width: 47.9375em)'</span>, {
@@ -108,7 +122,7 @@ then the default browser action will deselect our selection</p>             </td
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Init sticky nav</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$stickyNav.stickyNav({
           $jumpLinks: self.$jumpLinks,
-          offset: <span class="number">10</span>,
+          offset: <span class="number">0</span>,
           offsetTarget: self.$el.find(<span class="string">'.jump-links:not(.nav)'</span>)
         });
 
@@ -177,8 +191,7 @@ then the default browser action will deselect our selection</p>             </td
 
     _hideShareDialog : <span class="keyword">function</span>( toDesktop ) {
       <span class="keyword">var</span> $closer = toDesktop ? $(<span class="string">'.modal-backdrop'</span>) : Settings.$document;
-      $closer.click();
-
+      $closer.trigger(<span class="string">'click'</span>);
     },
 
     _setupDesktop : <span class="keyword">function</span>() {
@@ -193,6 +206,30 @@ then the default browser action will deselect our selection</p>             </td
       self._swapDomElements( <span class="literal">true</span> );
     },
 
+    _setupTablet : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.isTablet = <span class="literal">true</span>;
+
+      self.$span1AtTablet.removeClass( <span class="string">'span2'</span> ).addClass( <span class="string">'span1'</span> );
+      self.$span3AtTablet.removeClass( <span class="string">'span2'</span> ).addClass( <span class="string">'span3'</span> );
+    },
+
+    _teardownTablet : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+
+      <span class="keyword">if</span> ( self.isTablet ) {
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Spans need to be reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$span1AtTablet
+          .add( self.$span3AtTablet )
+            .removeClass(<span class="string">'span1 span3'</span>)
+            .addClass(<span class="string">'span2'</span>);
+      }
+
+      self.isTablet = <span class="literal">false</span>;
+
+    },
+
     _setupMobile : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           wasDesktop = self.isDesktop;
@@ -200,13 +237,14 @@ then the default browser action will deselect our selection</p>             </td
       self.isMobile = <span class="literal">true</span>;
       self.isDesktop = <span class="literal">false</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Hide dropdown or modal if it's active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._hideShareDialog( <span class="literal">false</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Hide dropdown or modal if it's active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._hideShareDialog( <span class="literal">false</span> );
 
       self._swapTexts( <span class="literal">false</span> );
       self._swapDomElements( <span class="literal">false</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If this was originally setup desktop, there will be heights set on the columns</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( wasDesktop ) {
-        self.$evenCols.css(<span class="string">'height'</span>, <span class="string">''</span>);
+      <span class="keyword">if</span> ( wasDesktop ) {
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If this was originally setup desktop, there will be heights set on the columns</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$evenCols.css(<span class="string">'height'</span>, <span class="string">''</span>);
+        self._teardownTablet();
       }
     }
   };

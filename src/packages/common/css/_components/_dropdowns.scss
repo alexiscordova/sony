@@ -98,6 +98,8 @@
   -webkit-background-clip: padding-box;
      -moz-background-clip: padding;
           background-clip: padding-box;
+  opacity: 0;
+  @include transition( opacity .15s );
 
   // Aligns the dropdown menu to right
   &.pull-right {
@@ -219,6 +221,10 @@
 
   & > .dropdown-menu {
     display: block;
+  }
+
+  &.in > .dropdown-menu {
+    opacity: 1;
   }
 
   .dropdown-toggle-alt {
@@ -369,40 +375,5 @@
     background: white;
     @include square(16px);
   }
-}
-
-.social-label {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0;
-}
-
-.social-icon {
-  display: inline-block;
-  text-align: center;
-  width: px-em(36);
-  height: px-em(32);
-  margin-right: px-em(12);
-
-  i {
-    color: $white;
-    vertical-align: middle;
-  }
-}
-
-.social-icon-facebook {
-  background-color: $facebookColor;
-}
-
-.social-icon-twitter {
-  background-color: $twitterColor;
-}
-
-.social-icon-gplus {
-  background-color: $gplusColor;
-}
-
-.social-icon-pinterest {
-  background-color: $pinterestColor;
 }
 

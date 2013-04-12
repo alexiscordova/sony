@@ -55,16 +55,14 @@ define(<span class="keyword">function</span>(require){
       self.$html                = $(<span class="string">'html'</span>);
       self.$slides              = self.$el.find( <span class="string">'.editorial-carousel-slide'</span> );
       self.$slideContainer      = self.$el.find( <span class="string">'.editorial-carousel'</span> );
-      self.$thumbNav            = self.$el.find( <span class="string">''</span> );
+      self.$thumbNav            = self.$el.find(<span class="string">'.thumb-nav'</span>);
       self.$pagination          = <span class="literal">null</span>;
 
       self.hasThumbs            = self.$thumbNav.length &gt; <span class="number">0</span>;
       self.numSlides            = self.$slides.length;
       self.currentId            = <span class="number">0</span>;
 
-
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Inits the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
-
     };
 
     EditorialChapters.prototype = {
@@ -78,25 +76,20 @@ define(<span class="keyword">function</span>(require){
           window.console.log = <span class="keyword">function</span>(){};
         }
 
-        window.console.log(<span class="string">' new carousel... '</span>);
-
         self.setupEvents();
         self.setupSlides();
         self.setupCarousel();
+        <span class="keyword">if</span>(self.hasThumbs){
+          self.createThumbNav();
+        }
         self.$slideContainer.css( <span class="string">'opacity'</span> , <span class="number">1</span> );
-
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Handles global debounced resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>      onDebouncedResize: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
         wW = self.$window.width();
         
-        <span class="keyword">if</span>(wW &gt; <span class="number">1199</span>){
-          self.$el.css(<span class="string">'overflow'</span> , <span class="string">'hidden'</span>);
-        }<span class="keyword">else</span>{
-          self.$el.css(<span class="string">'overflow'</span> , <span class="string">'visible'</span>);
-        }
-
+        (wW &gt; <span class="number">1199</span>) ? self.$el.css(<span class="string">'overflow'</span> , <span class="string">'hidden'</span>) : self.$el.css(<span class="string">'overflow'</span> , <span class="string">'visible'</span>);
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Main setup method for the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupCarousel: <span class="keyword">function</span>(){
@@ -105,18 +98,15 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Using Sony Carousel for this module</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slideContainer.sonyCarousel({
           wrapper: <span class="string">'.editorial-carousel-wrapper'</span>,
           slides: <span class="string">'.editorial-carousel-slide'</span>,
-          looped: <span class="literal">true</span>,
-          jumping: <span class="literal">true</span>,
+          looped: <span class="literal">false</span>,
+          jumping: <span class="literal">false</span>,
           axis: <span class="string">'x'</span>,
           unit: <span class="string">'%'</span>,
-          dragThreshold: <span class="number">2</span>,
           useCSS3: self.useCSS3,
           paddles: <span class="literal">false</span>,
-          pagination: <span class="literal">true</span>,
+          pagination: <span class="literal">false</span>,
           draggable: <span class="literal">false</span>
         });
-
-        self.$pagination = self.$el.find(<span class="string">'.pagination-bullets'</span>);
 
         self.$slideContainer.on(<span class="string">'SonyCarousel:gotoSlide'</span> , $.proxy( self.onSlideUpdate , self ) );
 
@@ -138,75 +128,37 @@ define(<span class="keyword">function</span>(require){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
         
         <span class="keyword">if</span>( !self.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
-        enquire.register(<span class="string">"(min-width: 769px)"</span>, <span class="keyword">function</span>() {
-          self.isMobileMode = self.isTabletMode = <span class="literal">false</span>;
-          self.isDesktopMode = <span class="literal">true</span>;
-          self.showThumbNav();
-          self.toggleDotNav(<span class="literal">true</span>); <span class="comment">//hide</span>
-        });
+          enquire.register(<span class="string">"(min-width: 769px)"</span>, <span class="keyword">function</span>() {
+            self.isMobileMode = self.isTabletMode = <span class="literal">false</span>;
+            self.isDesktopMode = <span class="literal">true</span>;
+          });
 
-        enquire.register(<span class="string">"(min-width: 569px) and (max-width: 768px)"</span>, <span class="keyword">function</span>() {
-          self.isMobileMode = self.isDesktopMode = <span class="literal">false</span>;
-          self.isTabletMode = <span class="literal">true</span>;
-          self.hideThumbNav();
-          self.toggleDotNav(<span class="literal">true</span>); <span class="comment">//hide</span>
-        });
+          enquire.register(<span class="string">"(min-width: 569px) and (max-width: 768px)"</span>, <span class="keyword">function</span>() {
+            self.isMobileMode = self.isDesktopMode = <span class="literal">false</span>;
+            self.isTabletMode = <span class="literal">true</span>;
+          });
 
-        enquire.register(<span class="string">"(max-width: 568px)"</span>, <span class="keyword">function</span>() {
-          self.isDesktopMode = self.isTabletMode = <span class="literal">false</span>;
-          self.isMobileMode = <span class="literal">true</span>;
-          self.hideThumbNav();
-          self.toggleDotNav(<span class="literal">false</span>); <span class="comment">//show</span>
-        });
-
-      }
+          enquire.register(<span class="string">"(max-width: 568px)"</span>, <span class="keyword">function</span>() {
+            self.isDesktopMode = self.isTabletMode = <span class="literal">false</span>;
+            self.isMobileMode = <span class="literal">true</span>;
+          });
+        }
 
         <span class="keyword">if</span>( self.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
           self.isMobileMode = self.isTabletMode = <span class="literal">false</span>;
           self.isDesktopMode = <span class="literal">true</span>;
-          self.showThumbNav();
-          self.toggleDotNav(<span class="literal">true</span>); <span class="comment">//hide</span>
-          
         }
 
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Toggles dot nav based on breakpoints</p>             </td>             <td class="code">               <div class="highlight"><pre>      toggleDotNav: <span class="keyword">function</span>(hide){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-        <span class="keyword">if</span>(hide){
-          self.$pagination.hide();
-        }<span class="keyword">else</span>{
-          self.$pagination.show();
-        }
-
-      },
-
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Toggles thumb nav based on breakpoints</p>             </td>             <td class="code">               <div class="highlight"><pre>      hideThumbNav: <span class="keyword">function</span>(){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
-        <span class="keyword">if</span>(self.$thumbNav.length &gt; <span class="number">0</span>){
-          self.$thumbNav.hide();
-        }
-      },
-
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Toggles thumb nav based on breakpoints</p>             </td>             <td class="code">               <div class="highlight"><pre>      showThumbNav: <span class="keyword">function</span>(){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
-        <span class="keyword">if</span>(self.$thumbNav.length &gt; <span class="number">0</span>){
-          self.$thumbNav.show();
-        }
-      },
-
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Sets up slides to correct width based on how many there are</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupSlides: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Sets up slides to correct width based on how many there are</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupSlides: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
         self.$slideContainer.width( <span class="number">100</span> * (self.numSlides + <span class="number">2</span>)+ <span class="string">'%'</span> );
         self.$slides.width( <span class="number">100</span> / (self.numSlides + <span class="number">2</span>) + <span class="string">'%'</span> );
-
-        console.log( <span class="string">'Setup slides: '</span> , <span class="number">1</span> );
-
       },
       
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Setup touch event types</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupEvents: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Setup touch event types</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupEvents: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
         
         <span class="keyword">if</span>( self.hasTouch ){
@@ -221,9 +173,9 @@ define(<span class="keyword">function</span>(require){
 
       },
       
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Bind events to the thumbnail navigation</p>             </td>             <td class="code">               <div class="highlight"><pre>      createThumbNav: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Bind events to the thumbnail navigation</p>             </td>             <td class="code">               <div class="highlight"><pre>      createThumbNav: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
-        $anchors = self.$thumbNav.find(<span class="string">'a'</span>);
+        $anchors = self.$thumbNav.find(<span class="string">'li'</span>);
         
         $anchors.on( self.tapOrClick() , <span class="keyword">function</span>(e){
           e.preventDefault();
@@ -233,38 +185,35 @@ define(<span class="keyword">function</span>(require){
         $anchors.eq(<span class="number">0</span>).addClass(<span class="string">'active'</span>);
       },
 
-
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>      onThumbSelected: <span class="keyword">function</span>($el){
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>      onThumbSelected: <span class="keyword">function</span>($el){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
-        $anchors = self.$thumbNav.find(<span class="string">'a'</span>),
-        selectedIndx =  $el.parent().index(),
+        $anchors = self.$thumbNav.find(<span class="string">'li'</span>),
+        selectedIndex =  $el.index(),
         animDirection = <span class="string">''</span>;
 
-        self.currentId = selectedIndx;
+        self.currentId = selectedIndex;
 
         $anchors.removeClass(<span class="string">'active'</span>);
         $el.addClass(<span class="string">'active'</span>);
 
         self.$slideContainer.sonyCarousel( <span class="string">'gotoSlide'</span> , self.currentId );
-
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>      setCurrentActiveThumb: <span class="keyword">function</span>(){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>,
-        $anchors = self.$thumbNav.find(<span class="string">'a'</span>);
-        $anchors.removeClass(<span class="string">'active'</span>);
-        $anchors.eq( self.currentId ).addClass(<span class="string">'active'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>      setCurrentActiveThumb: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        self.$thumbNav.find(<span class="string">'li'</span>).removeClass(<span class="string">'active'</span>)
+          .eq( self.currentId ).addClass(<span class="string">'active'</span>);
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>jQuery Plugin Definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>jQuery Plugin Definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters = <span class="keyword">function</span>( options ) {
       <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> self = $( <span class="keyword">this</span> ),
           editorialChapters = self.data( <span class="string">'editorialChapters'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !editorialChapters ) {
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !editorialChapters ) {
             editorialChapters = <span class="keyword">new</span> EditorialChapters( self, options );
             self.data( <span class="string">'moduleName'</span>, editorialChapters );
         }
@@ -275,9 +224,9 @@ define(<span class="keyword">function</span>(require){
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.defaults = {};
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.defaults = {};
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.settings = {};
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.settings = {};
   
     <span class="keyword">return</span> self;
  });
