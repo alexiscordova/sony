@@ -695,7 +695,7 @@ else if data.view == 'summary'
       .span6.product-details
         a.l2.link-color(href=titleHref)= titleLabel
         h2.t5.product-title(itemprop="name")= data.title
-        +iQImage( data.imgSmall, 'm-product-img pull-right', 'image' )
+        +iQImage( data.img, 'm-product-img pull-right', 'image' )
         p.product-model.p5
           span= modelText
           span(itemprop="model")= data.model
@@ -709,14 +709,14 @@ else if data.view == 'summary'
               span.spacer |
           +colorSwatches( data.img.colors, true, true )
 
-      .span2.price-content
+      .span2.price-content#span1-at-tablet
         .text-right.pull-right.space-top
           p.p4.price-prefix= startingAtText
           span.p5.msrp= msrp
           span.p1.price
             strong.text-dark !{ priceUnit + data.price }
 
-      .span2.price-content
+      .span2.price-content#span3-at-tablet
         a.btn.btn-large.btn-block(href=data.storeLink)= buyText
 
         .relative.be-social
