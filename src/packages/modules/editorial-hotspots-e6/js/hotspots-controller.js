@@ -86,9 +86,6 @@ define(function(require) {
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
         // bind the click, place it based on the data-x and -y coordinates, and fade em in
-        
-        log(el);
-        
         self.bind( el );
         self.place( el );
         self.show( el );
@@ -182,11 +179,8 @@ define(function(require) {
 
     reanchor: function( el, toCenter ) {
       var self          = this,
-          overlayBase   = $( '.hspot-global-details-overlay' ),
+          overlayBase   = $( el ).parent().find( '.hspot-global-details-overlay' ),
           underlayBase  = $( '.hspot-underlay, .hspot-underlay-on' ); 
-
-      log('overlayBase');
-      log(overlayBase);
 
       // copy the overlay into the mobile, center overlay
       if( toCenter ) {
@@ -206,6 +200,7 @@ define(function(require) {
 
           // bind close button for this instance
           overlayBase.find( '.hspot-close' ).bind( 'click', function( event ) {
+            event.preventDefault();
             // save pointer for one more operation
             var lastOpen = el;
             // close overlay 
