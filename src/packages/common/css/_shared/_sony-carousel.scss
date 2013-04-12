@@ -6,14 +6,20 @@
   overflow: hidden;
 }
 
+$maxChildren: 20;
+
 .sony-carousel {
   position: relative;
-  width: 2000%;
+  width: 100% * $maxChildren;
 
   .sony-carousel-slide {
     -webkit-transform: translateZ(0);
     float: left;
-    width: 5%;
+    width: 100% / $maxChildren;
     height: 100%;
+
+    &.grid {
+      margin-right: 3.5461% / $maxChildren;
+    }
   }
 }

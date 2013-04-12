@@ -9,5 +9,6 @@ if data.config.title
   .st-container
     .st-container-inner.container
       for slide in data.slides
-        e = {"locals": locals, "content": slide}
-        !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4.jade', e)}
+        .st-content.slimgrid.no-grid-at-479
+          e = {"locals": locals, "content": slide}
+          !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4.jade', e)}

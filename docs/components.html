@@ -150,6 +150,26 @@ the carousel will only move over enough to show the last child.</p><div class="c
     slides: '.sony-carousel-slide',
     slideChildren: '.sony-carousel-slide-children',
     useCSS3: true
+  });</pre></div></div></div><h3 id="headers">Overflow-visible, grid-based, flexible carousels (OSC-style)</h3><p>This is an example of a carousel that, while the slides are floated, also lines the active
+slide up with the grid. With the `.sony-carousel` class, slides with the `.sony-carousel-slide`
+class that *also* have a class of `.grid` will inherit a common right margin, creating the
+desired effect. Slide children can therefore have the usual span and offsets as broken down
+in the scaffolding section of documentation.</p><div class="container"><div class="grid"><div class="span12"><div class="carousel-7"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide grid"><div class="sony-carousel-slide-children t1 span6">Slide A1</div><div class="sony-carousel-slide-children t1 span6">Slide A2</div></div><div class="sony-carousel-slide grid"><div class="sony-carousel-slide-children t1 span6">Slide B1</div><div class="sony-carousel-slide-children t1 span6">Slide B2</div></div><div class="sony-carousel-slide grid"><div class="sony-carousel-slide-children t1 span6">Slide C1</div></div></div></div></div></div></div></div><div class="container"><div class="grid"><div class="span12"><h5>Jade</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  div.carousel-7
+    div.sony-carousel-wrapper
+      div.sony-carousel
+        div.sony-carousel-slide.grid
+          div.sony-carousel-slide-children.t1.span6 Slide A1
+          div.sony-carousel-slide-children.t1.span6 Slide A2
+        div.sony-carousel-slide.grid
+          div.sony-carousel-slide-children.t1.span6 Slide B1
+          div.sony-carousel-slide-children.t1.span6 Slide B2
+        div.sony-carousel-slide.grid
+          div.sony-carousel-slide-children.t1.span6 Slide C1</pre></div></div><div class="grid"><div class="span12"><h5>Javascript</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  $('.carousel-7 .sony-carousel').sonyCarousel({
+    wrapper: '.sony-carousel-wrapper',
+    slides: '.sony-carousel-slide',
+    slideChildren: '.sony-carousel-slide-children',
+    useCSS3: true,
+    pagination: true
   });</pre></div></div></div></section></div></div><script src="js/libs/require.js"></script><script>window.isDebugMode = true;</script><script>require(["js/common"], function () {
   require(["require/index", "secondary/index"], function(Global, Secondary){
   
@@ -210,6 +230,16 @@ the carousel will only move over enough to show the last child.</p><div class="c
       slideChildren: '.sony-carousel-slide-children',
       useCSS3: true
     });
+    
+    $('.carousel-7 .sony-carousel').sonyCarousel({
+      wrapper: '.sony-carousel-wrapper',
+      slides: '.sony-carousel-slide',
+      slideChildren: '.sony-carousel-slide-children',
+      useCSS3: true,
+      pagination: true
+    });
+    
+    
   });
 });
 </script>    <footer class="footer">
