@@ -21,14 +21,7 @@ define(function(require){
     $ = require('jquery');
     carousel = require('secondary/sony-carousel');
     iQ = require('iQ');
-    bootstrap = require('bootstrap'),
     Settings = require('require/sony-global-settings');
-    Environment = require('require/sony-global-environment');
-    scroller = require('secondary/sony-scroller');
-    evenHeights = require('secondary/sony-evenheights');
-    sonyPaddles = require('secondary/sony-paddles');
-    sonyNavDots = require('secondary/sony-navigationdots');
-    
 
     self = {
       'init': function() {
@@ -52,27 +45,36 @@ define(function(require){
       //var
       self.carousel               = null;
       self.breakPoint             = "1200";
-      self.colWidth               = { 'default' : 127/846, '1200' : 150/1020, '980' : 127/846, '768' : 140/650, 'mobile' : 220/598 };
-      self.gutterWidth            = { 'default' : 18/846,  '1200' : 24/1020,  '980' : 18/846,  '768' : 22/650 , 'mobile' : 24/598 };
+      self.colWidth               = { 'default' : 127/846, '1200' : 150/1020, '980' : 127/846, '768' : 140/627, 'mobile' : 220/464 };
+      self.gutterWidth            = { 'default' : 18/846,  '1200' : 24/1020,  '980' : 18/846,  '768' : 22/627 , 'mobile' : 24/464 };
       self.containerWidthPct      = (92.1875 / 100) * (91.80791 / 100);
 
+      self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
+      self.hasMediaQueries        = Modernizr.mediaqueries;
+      self.mq                     = Modernizr.mq;
+      self.isInit                 = false;
+
       //$
+      self.$doc                   = Settings.$document;
+      self.$win                   = Settings.$window;
+      self.$html                  = Settings.$html;
+
       self.$el                    = $(element);
       self.$carousel              = self.$el.find(".carousel");
       self.$slides                = self.$el.find(".sony-carousel-slide"); 
       self.$items                 = self.$el.find(".sony-carousel-slide-children");
       self.$slidesContainer       = self.$el.find('.sony-carousel');
+      self.$carouselWrapper       = self.$el.find('.sony-carousel-wrapper');
       self.$container             = self.$carousel.parent(); //parent of the slimgrid
+
+      /*
 
       //Debug mode for logging
       self.DEBUG                  = false;
 
       self.$galleryItems          = self.$el.find('.gallery-item');
 
-      self.$doc                   = Settings.$document;
-      self.$win                   = Settings.$window;
-      self.$html                  = Settings.$html;
-
+      
       self.$bulletNav             = $();
       self.$el                    = $(element);
       self.$galleryItems          = self.$el.find('.gallery-item');
@@ -99,9 +101,7 @@ define(function(require){
       self.tPref2                 = 'px, ';
       self.tPref3                 = 'px, 0px)';
 
-      self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
-      self.hasMediaQueries        = Modernizr.mediaqueries;
-      self.mq                     = Modernizr.mq;
+      
       self.oldIE                  = self.$html.hasClass('lt-ie8');
       self.isIE7orIE8             = self.$html.hasClass('lt-ie9');
       self.inited                 = false;
@@ -109,6 +109,7 @@ define(function(require){
       
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 567;
+      */
       
       //Startup
       self.init();
@@ -127,7 +128,7 @@ define(function(require){
 
         self.setupItemsSlides();
 
-        self.setupCarousel();
+        self.setupGlobalEvent();
 
         //self.animationInit();
 
@@ -173,11 +174,11 @@ define(function(require){
         } 
         else if ( self.mq('(min-width: 768px)') ) {
 
-          numColumns     = 5;
+          numColumns     = 4;
 
         }else {
 
-          numColumns     = 3;
+          numColumns     = 2;
 
         }
 
@@ -265,26 +266,40 @@ define(function(require){
         self.$slides = self.$el.find(".sony-carousel-slide"); 
         self.$items  = self.$el.find(".sony-carousel-slide-children");
 
+        if(!self.isInit)
+        {
+          self.$items.css({width:1});  //No scrollbar or scrollbar all the time, depending of the final page
+          self.isInit = true;
+        }
+
+      
         //updateItems
         self.udpateItems();
 
+        //(re)build
+        self.setupCarousel();
+
+        
 
       },
       udpateItems : function(){
-
-        console.log("udpateItems", self.breakPoint);
 
         self = this;
         containerWidth = Math.floor( self.$carousel.width() );
         gutterWidth    = self.gutterWidth['default'] * containerWidth;
         colWidth       = self.colWidth['default']    * containerWidth;
-        extraMarging   = 0;
+        extraMarging   = 1;
         slimGridW      = 0;
         margeSlimGrid  = 0;
         extraPct       = 1;
         heightContainer     = 55 + 17 + 30;
         marginLeftContainer = 0;
         numColumns     = 6;
+
+        console.log("udpateItems :: breakpoint > ", self.breakPoint);
+
+        //reset
+        self.$carouselWrapper.removeAttr('style');
 
         if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
         {
@@ -298,7 +313,7 @@ define(function(require){
 
           self.breakPoint = "1200";
 
-          self.$container.removeClass('full-bleed-no-max');
+          //self.$container.removeClass('full-bleed-no-max');
 
           gutterWidth    = Math.floor( self.gutterWidth['1200'] * containerWidth );
           colWidth       = Math.floor( self.colWidth['1200'] * containerWidth );
@@ -315,7 +330,7 @@ define(function(require){
 
           self.breakPoint = "980";
 
-          self.$container.removeClass('full-bleed-no-max');
+          //self.$container.removeClass('full-bleed-no-max');
 
           gutterWidth    = Math.floor( self.gutterWidth['default'] * containerWidth );
           colWidth       = Math.floor( self.colWidth['default'] * containerWidth ) ;
@@ -333,14 +348,25 @@ define(function(require){
 
           self.breakPoint = "769";
 
+          /*
+
           self.$container.addClass('full-bleed-no-max');
 
-          extraPct       = 1.1;
-          containerWidth = $(window).width() * self.containerWidthPct * extraPct; //110%
-          gutterWidth    = Math.floor( self.gutterWidth['768'] * $(window).width() * self.containerWidthPct);
-          colWidth       = Math.floor( self.colWidth['768']    * $(window).width() * self.containerWidthPct);
-          extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
-          numColumns     = 5;
+          //Width container : remove the slimgrid style
+          slimGridW = $(window).width() * self.containerWidthPct;
+          margeSlimGrid = ( $(window).width() - slimGridW ) / 2;
+          slimGridW += margeSlimGrid;
+          self.$carousel.css( { 'width' : slimGridW, 'margin' : '0 0 0 '+ margeSlimGrid +'px' } );
+          */
+
+          //extraPct       = 1.1;
+          //containerWidth = $(window).width() * self.containerWidthPct * extraPct; //110%
+          //gutterWidth    = Math.floor( self.gutterWidth['768'] * $(window).width() * self.containerWidthPct);
+          //colWidth       = Math.floor( self.colWidth['768']    * $(window).width() * self.containerWidthPct);
+          gutterWidth    = Math.floor( self.gutterWidth['768'] * containerWidth );
+          colWidth       = Math.floor( self.colWidth['768'] * containerWidth ) ;
+          //extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
+          numColumns     = 4;
 
         }else {
 
@@ -353,31 +379,82 @@ define(function(require){
 
           self.breakPoint = "mobile";
 
-          self.$container.addClass('full-bleed-no-max');
+          //self.$container.addClass('full-bleed-no-max');
 
-          extraPct       = 1.1525;
-          containerWidth = $(window).width() * self.containerWidthPct * extraPct; //110%
-          gutterWidth    = Math.floor( self.gutterWidth.mobile * $(window).width() * self.containerWidthPct);
-          colWidth       = Math.floor( self.colWidth.mobile    * $(window).width() * self.containerWidthPct);
-          extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
-          numColumns     = 3;
+          //extraPct       = 1.1525;
+          //containerWidth = $(window).width() * self.containerWidthPct * extraPct; //110%
+          //gutterWidth    = Math.floor( self.gutterWidth.mobile * $(window).width() * self.containerWidthPct);
+          //colWidth       = Math.floor( self.colWidth.mobile    * $(window).width() * self.containerWidthPct);
+          gutterWidth    = Math.floor( self.gutterWidth.mobile * containerWidth );
+          colWidth       = Math.floor( self.colWidth.mobile * containerWidth ) ;
+          //extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
+          numColumns     = 2;
 
         }
 
+        
+
         marginLeftContainer = gutterWidth;
 
+        //pctColWidth    = (colWidth / containerWidth) * 100;
+        //pctGutterWidth = (gutterWidth / containerWidth) * 100;
 
-        self.$items.not( self.$items.first() ).css({
+
+//.not( self.$items.first() )
+
+//console.log("before carousel w", Math.floor( self.$carousel.width() ));
+
+
+        
+        self.$items.css({
+          //'width'       : colWidth,
           'width'       : colWidth,
           'margin'      : 0,
-          'margin-left' : marginLeftContainer,
-          'margin-top'  : 0
+          'margin-left' : gutterWidth
         });
 
+        //height wrapper 
+        heightWrapper = 'auto';
+        if( self.breakPoint != "mobile" )
+        {
+          heightWrapper = self.$items.first().height();
+        }
+
+        self.$carouselWrapper.css({
+          'height'   : heightWrapper,
+          'overflow' : 'hidden'
+        });
+
+        /*
+        $.each( self.$slides.eq(0), function(i){
+
+            $(this).find(".sony-carousel-slide-children").css({
+              'width'  : colWidth,
+              'margin-left' : 0
+            });
+
+          });
+
+        */
+
+        //console.log("after carousel w", Math.floor( self.$carousel.width() ));
+
+        //last : fix
+        $.each( self.$slides.not( self.$slides.last() ).find(".sony-carousel-slide-children:first"), function(i){
+
+            $(this).css({
+              'width'  : colWidth,
+              'margin-left' : 0
+            });
+
+          });
+
+/*
         self.$items.first().css({
           'width'  : colWidth,
           'margin' : 0
         });
+*/
 
         //Fix
         containerWidth = Math.floor( self.$carousel.width() );
@@ -396,13 +473,15 @@ define(function(require){
 
           });
             
-
         }
+
 
       },
       setupCarousel : function(){
 
         self = this;
+
+        self.resetSlides();
 
         self.carousel = self.$slidesContainer.sonyCarousel({
           wrapper: '.sony-carousel-wrapper',
@@ -413,11 +492,41 @@ define(function(require){
           pagination: true
         });
 
+        iQ.update(true);
+
+        self.setupEvents();
+
+      },
+      setupGlobalEvent : function(){
+
+        //Resize
         self.$win.on('resize.rp', $.debounce(50 , function() {
 
           self.udpateItems();
 
+          iQ.update(true);
+
         }));
+
+      },
+      setupEvents : function(){
+
+        //Bind nav
+        self.$el.find(".pagination-paddles").off("click").on("click", function(e){
+          iQ.update(true);
+        });
+
+        self.$el.find(".sony-dot-nav").off("click").on("click", function(e){
+          iQ.update(true);
+        });
+
+      },
+      resetSlides : function(){
+
+        if(self.carousel)
+        {
+          self.$slidesContainer.sonyCarousel("resetSlides");
+        }
 
       },
       //Fixes a bug in IE when media queries aren't available

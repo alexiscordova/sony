@@ -1,10 +1,6 @@
 include ../../../common/html/jade-helpers.jade
 
-- layout1 = [ "carousel", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
-- layout2 = [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "normal", "normal" ]
-- layout3 = "normal"
-- layout4 = [ "large", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
-- layouts = { "layout1": layout1, "layout2" : layout2, "layout3" : layout3, "layout4": layout4 }
+- layouts = locals.getConfigFile("packages/modules/gallery-g2-g3/html/layouts.json")
 
 mixin loaderDiv()
   .relative.gallery-loader
@@ -412,7 +408,7 @@ mixin productStrips( submodules, strips, type )
             each module in submodules
               d = locals.data(module.data)
               if d.type == type && d.subtype == strip.subtype && count < 5
-                - d.layout = layout3
+                - d.layout = layouts.layout3
                 - d.view = "basic"
                 e = { "locals" : locals, "data" : d }
                 !{locals.partial( module.type, e )}

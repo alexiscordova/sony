@@ -8,7 +8,10 @@
   } // pd-module
 } //mq
 
-@media (min-width: px-em(480px)) and (max-width: px-em(767px)) {
+
+// TABLET
+//@media (min-width: px-em(480px)) and (max-width: px-em(767px)) {
+@media (min-width: px-em(568px)) and (max-width: px-em(979px)) {
 	.pd-module{
 		.top{
 			.desc{
@@ -20,38 +23,19 @@
 			position: relative;
 
 			&.has-measurements{
-				padding:25px px-em(35px) 31px px-em(35px);
+				// padding:24px 2.75% 32px;
 			} // has-measurements
 
 			&.m-span6{
 				margin-left:0;
 			}
 
-			.extras{
-				padding:10px px-em(10px) 12px px-em(10px);
-
-				&.with-measurements{
-					padding:0;
-				} // with-measurements
-
-				&.absolute-pos{
-					margin-top:0;
-					width:21%;
-					position: absolute;
-					top:9%;
-					right:5%;					
-				} // absolute-pos
-
-				.p3{
-					// cosmetics
-					max-height: 240px;
-					overflow: hidden;
-				} // p3
-
-			} // extras
+			.measurement{
+				margin-bottom: 0;
+			}
 
 		} // last-column
-		
+			
 		.bottom{	
 			.bottom-btn{				
 				&.m-span6{
@@ -63,11 +47,10 @@
 } // end MQ
 
 
+// PHONE
 @media (max-width: px-em(567px)) {
 	.pd-module{
-
 		.top{
-
 			.desc{
 				@include content-columns(1);
 				margin-bottom:0;
@@ -85,10 +68,6 @@
 		.last-column{
 			padding:0;
 
-			&.has-measurements{
-				padding:10px 12px;	
-			} // has-measurements
-
 			.specs{
 				padding:0;
 			} // specs
@@ -104,27 +83,13 @@
 
 			} // features
 
-
-			.extras{			
-				&.absolute-pos{
-					width:100%;
-					position: relative;
-					left: 0;
-					top:0;
-				}
-			} // extras
 		} // last column
 
 		.extras{
-
 			margin-top: 0;
+
 			&.with-measurements{
 				margin-top: 0;
-			}
-			
-			&.absolute-pos{
-				width:100%;
-				position: relative;
 			}
 
 		} // extras
