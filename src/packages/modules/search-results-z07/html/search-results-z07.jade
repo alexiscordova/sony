@@ -10,7 +10,7 @@ include ../../../common/html/jade-helpers.jade
           label.search-label search
           input.search
           a.clear-search(href"#") i X
-          button.btn Search
+          button.btn.hidden-phone Search
   .container
     .container
       .search-suggestions
@@ -20,13 +20,17 @@ include ../../../common/html/jade-helpers.jade
             a(href="#") NEX-60
           li.lt3 
             a(href="#") NEX 600
-    .grid
+    .grid.no-grid-at-767
       .span8
         .featured-result
           h3.p3
-            span 84 span Results
+            span 84 
+            | Results
+          form.visible-phone.select-narrow
+            select
+              option Narrow Results
           .media
-            .img.img-lg
+            .img.img-lg.no-float
               img(src="img/search-results-z07/feature-img.jpg")
             .bd.feature-text
               h3.t5 Cameras
@@ -38,7 +42,7 @@ include ../../../common/html/jade-helpers.jade
                   a(href="#") NEX Cameras
                 li.lt4
                   a(href="#") DLSR Cameras
-              ul.featured-list
+              ul.featured-list.featured-list-right
                 li.lt4
                   a(href="#") Camera Lenses
                 li.lt4
@@ -69,63 +73,64 @@ include ../../../common/html/jade-helpers.jade
                     h4.lt3
                       a(href="#") Headline
                     p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-          button.bt2 + Load More
-      .span3.offset1
+          button.bt2.search-more Load More
+      .span3.offset1.hidden-phone
         .result-sidebar
           .results-link-group
             h3.l3 Narrow Your Results  
             ul
-              li
+              li.lt3
                 a(href="#") Products
-              li
+              li.lt3
                 a(href="#") Acccessories
-              li
+              li.lt3
                 a(href="#") Support
           .results-link-group
             h3.l3 Recent Searches
             ul
-              li
+              li.lt3
                 a(href="#") cyber-shot
-              li
+              li.lt3
                 a(href="#") alpha-next
-              li
+              li.lt3
                 a(href="#") cameras
-              li
+              li.lt3
                 a(href="#") point and shoot
           .results-link-group
             h3.l3 Popular Searches
             ul
-              li
+              li.lt3
                 a(href="#") Laptops
-              li
+              li.lt3
                 a(href="#") VAIO
-              li
+              li.lt3
                 a(href="#") Headphones
-              li
+              li.lt3
                 a(href="#") PSP
-              li
+              li.lt3
                 a(href="#") Playstation
-              li
+              li.lt3
                 a(href="#") NEX
-    .related-searches
-      .grid
+  .related-searches
+    .container
+      .grid.no-grid-at-767
         .span3
           h3.l3 Related Searches
         .span3
           ul
-            li
+            li.lt3
               a(href="#") NEX-6 Support
-            li
+            li.lt3
               a(href="#") NEX-5n
         .span3
           ul
-            li
+            li.lt3
               a(href="#") NEX-6 Accessories
-            li
+            li.lt3
               a(href="#") NEX-6 Reviews
         .span3
           ul
-            li
+            li.lt3
               a(href="#") NEX-6 Lenses
               
 

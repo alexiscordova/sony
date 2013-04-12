@@ -44,10 +44,12 @@
 
 .bar-tone {
   background: $gray90;
-  padding: 30px 0 40px 0;
   margin-bottom: 20px;
-  height: 160px;
   .l3 {
+    margin-top: 30px;
+    margin-bottom: 16px;
+  }
+  .search-form {
     margin-bottom: 30px;
   }
   .search-label {
@@ -59,7 +61,7 @@
     height: 30px;
   }
   .search {
-    width: 83.87755%;
+    width: 82.87755%;
     padding: 2px;
     margin-right: 10px;
     background-color: transparent;
@@ -74,10 +76,13 @@
   .clear-search {
     display: inline-block;
     margin-right: 20px;
-    height: 13px;
-    width: 13px;
+    height: 34px;
+    width: 34px;
     background: url(../../img/search-results-z07/icon-erase.png) no-repeat 0 0;
     text-indent: -9999px;
+  }
+  .clear-search:hover {
+    background-image: url(../../img/search-results-z07/icon-erase-hover.png);
   }
 }
 
@@ -86,6 +91,11 @@
   float: left;
   margin-right: 35px;
   margin-bottom: 15px;
+}
+
+.bold-dark {
+  font-weight: bold;
+  color: $gray20;
 }
 
 .feature-text {
@@ -110,6 +120,34 @@
 .results-list > li {
   padding: 20px 20px 30px 20px;
   border-bottom: 1px solid #e7e9ed;
+  background: url(../../img/search-results-z07/icon-arrow-right-blue.png) no-repeat 98% 50%;
+  
+}
+
+.results-list > li:hover {
+  background-color: $gray80;
+}
+
+.results-list .bd {
+  width: 90%;
+}
+
+.search-more {
+  display: block;
+  margin: 40px auto 60px auto;
+  padding: 17px 41px 19px 47px;
+  border: none;
+  background: $gray70 url(../../img/search-results-z07/icon-plus.png) no-repeat 24px 48%;
+  color: $gray20;
+}
+
+.results-link-group ul {
+  margin-bottom: 60px;
+}
+
+.related-searches {
+  padding: 30px 0 70px 0;
+  background-color: $gray80;
 }
 
 
