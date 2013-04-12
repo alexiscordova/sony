@@ -32,12 +32,27 @@ define(function(require){
   var TertiaryTouts = function(element){
 
     var self = this;
-
     self.$el = $(element);
-    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
-    self.$newGrid = $('<div/>').addClass('grid');
-    self.$newSlide = $('<div/>').addClass('tcc-carousel-slide container').html(self.$newGrid); 
 
+    // GLOBAL
+    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
+
+    // CLASS NAMES
+    self.carouselWrapperClass = '.tcc-carousel-wrapper';
+    self.carouselClass = '.tcc-carousel';
+    self.slideClass = '.sony-carousel-slide';
+    self.slideChildClass = '.sony-carousel-slide-children';
+
+    // CACHE
+    self.$carouselWrapper = self.$el.find(self.carouselWrapperClass);
+    self.$carousel = self.$el.find(self.carouselClass);
+
+    // NEW DOM 
+    self.$newGrid = $('<div/>').addClass('grid');
+    self.$newContainer = $('<div/>').addClass("container").html(self.$newGrid); 
+    self.$newSlide = $('<div/>').addClass(self.slideClass.replace(".", "")).html(self.$newContainer); 
+
+    // go
     self.init();
 
     log('SONY : TertiaryTouts : Initialized');
@@ -89,102 +104,125 @@ define(function(require){
       }
    
       // Clear these variables up for garbage collection.
-      self.$tccCarousel = $slide2 = null;
+      self.$tccCarousel = self.$carouselWrapper = self.$carousel = null;
 
+      // restore to default (cached)
       self.$el.replaceWith($restored);
       self.$el = $restored;
+      
+      // reset 
+      self.$carouselWrapper = self.$el.find(self.carouselWrapperClass);
+      self.$carousel = self.$carouselWrapper.find(self.carouselClass);
     },
 
     renderDesktop: function() {
       var self = this;
-
-      console.log( 'renderDesktop »');
-
       self.reloadCached();
     },
 
     renderTablet : function(){
       var self = this,
-          $slide2 = self.$newSlide.clone();
+          $slide2 = self.$newSlide.clone(true),
+          $lastChild = null;
 
-      console.log( 'renderTablet »');
-
+      // reset to default
       self.reloadCached();
 
-      console.log( 'slides »' , self.$el.find('.tcc-carousel-slide') );
-      
-      // find the third content module
-      var $lastChild = self.$el.find('.tcc-carousel-slide-children').last();    
-      console.log( '$lastChild »', $lastChild);
+      // find the third content module in the default layout
+      $lastChild = self.$el.find(self.slideClass).find(".span4").last();
 
-      // take it out of the slide
-      // self.$el.remove($lastChild);
-
-      // put last child in its own slide
+      // add last child to new slide
       $slide2
         .find(".grid")
         .append($lastChild);
 
-      $('.tcc-carousel').append($slide2);
-
-      console.log( '$slide2 »', $slide2);
-      
-      // update all spans to span6
-      self.$el.find('.tcc-carousel-slide-children').removeClass("span4 span6 span12").addClass("span6");
-       
+      // add to carousel
+      self.$carousel.append($slide2);
+     
+      // update all spans to be span6
+      self.updateSpans("span6");
+            
       // swap three-up class with two-up on div#carousel
-      $(".tcc-carousel-wrapper").parent().attr("id","two-up");
+      self.updateId("two-up");
 
       // init the carousel
-      self.$tccCarousel = self.$el.find('.tcc-carousel').sonyCarousel({
-        wrapper: '.tcc-carousel-wrapper',
-        slides: '.tcc-carousel-slide',
-        useCSS3: self.useCSS3,
-        pagination: true,
-        $dotNavWrapper: self.$el.find('.tcc-carousel-wrapper')
+      self.$tccCarousel = self.$el.find(self.$carousel).sonyCarousel({
+        wrapper:        self.carouselWrapperClass,
+        slides:         self.slideClass,
+        useCSS3:        self.useCSS3,
+        pagination:     true,
+        paddles:        true,
+        $dotNavWrapper: self.$carouselWrapper
       });
 
-    
+      self.resetSlides();    
     },
 
     renderMobile: function() {
+      var self = this,
+          $slide2 = self.$newSlide.clone(true),
+          $slide3 = self.$newSlide.clone(true),
+          $secondChild, $lastChild;
 
-      var self = this;
-
-      console.log( 'renderMobile »');
-
+      // reset to default
       self.reloadCached();
 
-      // self.$mergedCarousel = self.$el.find('.raa-merged-carousel > div');
-      // self.$mergedCarouselHeader = self.$mergedCarousel.parent().find('h3');
+      // find 2nd content module
+      $secondChild = self.$el.find(self.slideClass).find(".span4:nth-last-child(2)");
 
-      // self.$el.find('.raa-expert-review, .user-ratings, .raa-social-mention').each(function(){
-      //   self.$mergedCarousel.append(this);
-      // });
+      // find the third content module in the default layout
+      $lastChild = self.$el.find(self.slideClass).find(".span4").last();
 
-      // self.$mergedCarousel.append(self.$el.find('.raa-awards'));
+      // add 2nd child to slide2
+      $slide2
+        .find(".grid")
+        .append($secondChild);
 
-      // self.$mergedCarousel.sonyCarousel({
-      //   wrapper: '.raa-merged-carousel',
-      //   slides: '.raa-expert-review, .user-ratings, .raa-social-mention, .raa-awards',
-      //   useCSS3: self.useCSS3,
-      //   pagination: true
-      // });
+      // last slide to slide3
+      $slide3
+        .find(".grid")
+        .append($lastChild);
 
-      // self.setMobileHeader(0);
+      // add to carousel
+      self.$carousel.append($slide2).append($slide3);
+     
+      // update all sony-carousel-slid > grid > spans to be span12
+      self.updateSpans("span12");
+            
+      // swap three-up class with two-up on div#carousel
+      self.updateId("one-up");
 
-      // self.$mergedCarousel.on('SonyCarousel:gotoSlide', function(e, which) {
-      //   self.setMobileHeader(which);
-      // });
+      // init the carousel
+      self.$tccCarousel = self.$el.find(self.$carousel).sonyCarousel({
+        wrapper:        self.carouselWrapperClass,
+        slides:         self.slideClass,
+        useCSS3:        self.useCSS3,
+        pagination:     true,
+        paddles:        true,
+        $dotNavWrapper: self.$carouselWrapper
+      });
+      
+      self.resetSlides();
     },
 
-    // setMobileHeader: function(which){
+    resetSlides : function(){
+      var self = this;
+      self.$tccCarousel.sonyCarousel('resetSlides');
+    },
 
-    //   var self = this,
-    //       newHeader = self.$mergedCarousel.children().eq(which).data('header');
+    updateId : function(newID){
+      var self = this;
+      self.$carouselWrapper.parent().attr("id",newID);
+    },
 
-    //   self.$mergedCarouselHeader.html(newHeader);
-    // }
+    updateSpans : function(updateClass){
+      var self = this;    
+      self.$el
+        .find(self.slideClass)
+        .find('.span4, .span6, .span12')
+        .removeClass('span4 span6 span12')
+        .addClass(updateClass);
+    }
   };
 
   return module;
