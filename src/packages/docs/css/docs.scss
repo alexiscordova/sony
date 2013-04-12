@@ -1484,11 +1484,6 @@ form.bs-docs-example {
     margin: 0 -20px;
   }
 
-  /* Space out the show-grid examples */
-  .show-grid [class*="span"] {
-    margin-bottom: 5px;
-  }
-
   /* Sidenav */
   .bs-docs-sidenav {
     width: auto;
@@ -1596,6 +1591,20 @@ form.bs-docs-example {
     float: none;
   }
 }
+
+
+/* Space out the show-grid examples */
+@media (max-width: 767px) {
+  .grid.no-grid-at-767.show-grid [class*="span"] {
+    margin-bottom: 5px;
+  }
+}
+@media (max-width: 567px) {
+  .grid.no-grid-at-567.show-grid [class*="span"] {
+    margin-bottom: 5px;
+  }
+}
+
 
 
 //
