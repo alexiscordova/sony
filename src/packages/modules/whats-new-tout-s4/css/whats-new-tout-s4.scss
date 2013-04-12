@@ -1,18 +1,48 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
 
-.one-sony-carousel {
+// For floated carousels, specify the maximum number of children.
+// Any beyond this count will go to the next line / be outside the overflow area.
+$maximumChildren: 10;
 
-  .st-content {
-    -webkit-transform: translateZ(0);
+.whats-new-tout {
 
-    @for $i from 2 to 40 {
-      &:nth-of-type(#{$i}) {
-        top: -100% * ($i - 1);
-        left: 94% * ($i - 1);
+  .whats-new-carousel-wrapper {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
 
-        @media( max-width: 75em ){
-          left: 94.7% * ($i - 1);
+    header {
+      width: 100%;
+      height: percentage(40 / 345);
+      padding: 0 16px;
+      background: $gray20;
+
+      h3 {
+        color: $white;
+      }
+
+      .sony-dot-nav {
+        margin: 0;
+
+        .pagination-bullets {
+          position: relative;
+          text-align: right;
         }
       }
+    }
+  }
+
+  .whats-new-carousel {
+    position: relative;
+    width: $maximumChildren * 100%;
+    height: percentage(305 / 345);
+
+    .whats-new-carousel-slide {
+      position: relative;
+      width: (100% / $maximumChildren);
+      height: 100%;
+      float: left;
     }
   }
 }

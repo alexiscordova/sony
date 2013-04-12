@@ -33,8 +33,8 @@ include ../../../common/html/jade-helpers.jade
 
   section.sticky-nav.ps-sticky-nav
     .container
-      .grid.no-grid-at-767
-        .span7
+      .grid.m-grid-at-767
+        .span7.m-span5
           .pull-left.product-img.space-right
             +iQImage( productData.imgSmall )
           .pull-left
@@ -52,6 +52,6 @@ include ../../../common/html/jade-helpers.jade
             span.p1.price
               strong.text-dark !{ data.priceUnit + productData.price }
 
-        .span2
+        .span2.m-span1.buy-btn
           a.btn.btn-block.pull-right(data-long-text=data.buyText, href=productData.storeLink)= data.buyTextShort
 

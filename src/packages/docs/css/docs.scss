@@ -956,6 +956,259 @@ form.bs-docs-example {
 }
 
 
+// .table-striped.responsive-utilities{
+//   th{
+//     padding:0 10px;
+//   }
+// }
+// 
+// I just want to style the table in the Responsive section of the Scaffolding page, and I don't want it to affect anything else.
+// This is just straight Bootstrap styles.
+#responsive{
+  table {
+    max-width: 100%;
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  .table {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .table th,
+  .table td {
+    padding: 8px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+  }
+  .table thead th {
+    vertical-align: bottom;
+  }
+  .table caption + thead tr:first-child th,
+  .table caption + thead tr:first-child td,
+  .table colgroup + thead tr:first-child th,
+  .table colgroup + thead tr:first-child td,
+  .table thead:first-child tr:first-child th,
+  .table thead:first-child tr:first-child td {
+    border-top: 0;
+  }
+  .table tbody + tbody {
+    border-top: 2px solid #dddddd;
+  }
+  .table .table {
+    background-color: #ffffff;
+  }
+  .table-condensed th,
+  .table-condensed td {
+    padding: 4px 5px;
+  }
+  .table-bordered {
+    border: 1px solid #dddddd;
+    border-collapse: separate;
+    *border-collapse: collapse;
+    border-left: 0;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+  }
+  .table-bordered th,
+  .table-bordered td {
+    border-left: 1px solid #dddddd;
+  }
+  .table-bordered caption + thead tr:first-child th,
+  .table-bordered caption + tbody tr:first-child th,
+  .table-bordered caption + tbody tr:first-child td,
+  .table-bordered colgroup + thead tr:first-child th,
+  .table-bordered colgroup + tbody tr:first-child th,
+  .table-bordered colgroup + tbody tr:first-child td,
+  .table-bordered thead:first-child tr:first-child th,
+  .table-bordered tbody:first-child tr:first-child th,
+  .table-bordered tbody:first-child tr:first-child td {
+    border-top: 0;
+  }
+  .table-bordered thead:first-child tr:first-child > th:first-child,
+  .table-bordered tbody:first-child tr:first-child > td:first-child,
+  .table-bordered tbody:first-child tr:first-child > th:first-child {
+    -webkit-border-top-left-radius: 4px;
+            border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+  }
+  .table-bordered thead:first-child tr:first-child > th:last-child,
+  .table-bordered tbody:first-child tr:first-child > td:last-child,
+  .table-bordered tbody:first-child tr:first-child > th:last-child {
+    -webkit-border-top-right-radius: 4px;
+            border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+  }
+  .table-bordered thead:last-child tr:last-child > th:first-child,
+  .table-bordered tbody:last-child tr:last-child > td:first-child,
+  .table-bordered tbody:last-child tr:last-child > th:first-child,
+  .table-bordered tfoot:last-child tr:last-child > td:first-child,
+  .table-bordered tfoot:last-child tr:last-child > th:first-child {
+    -webkit-border-bottom-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+  }
+  .table-bordered thead:last-child tr:last-child > th:last-child,
+  .table-bordered tbody:last-child tr:last-child > td:last-child,
+  .table-bordered tbody:last-child tr:last-child > th:last-child,
+  .table-bordered tfoot:last-child tr:last-child > td:last-child,
+  .table-bordered tfoot:last-child tr:last-child > th:last-child {
+    -webkit-border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+  }
+  .table-bordered tfoot + tbody:last-child tr:last-child td:first-child {
+    -webkit-border-bottom-left-radius: 0;
+            border-bottom-left-radius: 0;
+    -moz-border-radius-bottomleft: 0;
+  }
+  .table-bordered tfoot + tbody:last-child tr:last-child td:last-child {
+    -webkit-border-bottom-right-radius: 0;
+            border-bottom-right-radius: 0;
+    -moz-border-radius-bottomright: 0;
+  }
+  .table-bordered caption + thead tr:first-child th:first-child,
+  .table-bordered caption + tbody tr:first-child td:first-child,
+  .table-bordered colgroup + thead tr:first-child th:first-child,
+  .table-bordered colgroup + tbody tr:first-child td:first-child {
+    -webkit-border-top-left-radius: 4px;
+            border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+  }
+  .table-bordered caption + thead tr:first-child th:last-child,
+  .table-bordered caption + tbody tr:first-child td:last-child,
+  .table-bordered colgroup + thead tr:first-child th:last-child,
+  .table-bordered colgroup + tbody tr:first-child td:last-child {
+    -webkit-border-top-right-radius: 4px;
+            border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+  }
+  .table-striped tbody > tr:nth-child(odd) > td,
+  .table-striped tbody > tr:nth-child(odd) > th {
+    background-color: #f9f9f9;
+  }
+  .table-hover tbody tr:hover > td,
+  .table-hover tbody tr:hover > th {
+    background-color: #f5f5f5;
+  }
+  table td[class*="span"],
+  table th[class*="span"],
+  .row-fluid table td[class*="span"],
+  .row-fluid table th[class*="span"] {
+    display: table-cell;
+    float: none;
+    margin-left: 0;
+  }
+  .table td.span1,
+  .table th.span1 {
+    float: none;
+    width: 44px;
+    margin-left: 0;
+  }
+  .table td.span2,
+  .table th.span2 {
+    float: none;
+    width: 124px;
+    margin-left: 0;
+  }
+  .table td.span3,
+  .table th.span3 {
+    float: none;
+    width: 204px;
+    margin-left: 0;
+  }
+  .table td.span4,
+  .table th.span4 {
+    float: none;
+    width: 284px;
+    margin-left: 0;
+  }
+  .table td.span5,
+  .table th.span5 {
+    float: none;
+    width: 364px;
+    margin-left: 0;
+  }
+  .table td.span6,
+  .table th.span6 {
+    float: none;
+    width: 444px;
+    margin-left: 0;
+  }
+  .table td.span7,
+  .table th.span7 {
+    float: none;
+    width: 524px;
+    margin-left: 0;
+  }
+  .table td.span8,
+  .table th.span8 {
+    float: none;
+    width: 604px;
+    margin-left: 0;
+  }
+  .table td.span9,
+  .table th.span9 {
+    float: none;
+    width: 684px;
+    margin-left: 0;
+  }
+  .table td.span10,
+  .table th.span10 {
+    float: none;
+    width: 764px;
+    margin-left: 0;
+  }
+  .table td.span11,
+  .table th.span11 {
+    float: none;
+    width: 844px;
+    margin-left: 0;
+  }
+  .table td.span12,
+  .table th.span12 {
+    float: none;
+    width: 924px;
+    margin-left: 0;
+  }
+  .table tbody tr.success > td {
+    background-color: #dff0d8;
+  }
+  .table tbody tr.error > td {
+    background-color: #f2dede;
+  }
+  .table tbody tr.warning > td {
+    background-color: #fcf8e3;
+  }
+  .table tbody tr.info > td {
+    background-color: #d9edf7;
+  }
+  .table-hover tbody tr.success:hover > td {
+    background-color: #d0e9c6;
+  }
+  .table-hover tbody tr.error:hover > td {
+    background-color: #ebcccc;
+  }
+  .table-hover tbody tr.warning:hover > td {
+    background-color: #faf2cc;
+  }
+  .table-hover tbody tr.info:hover > td {
+    background-color: #c4e3f3;
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1009,7 +1262,6 @@ form.bs-docs-example {
   width: 25%;
   height: 43px;
   font-size: 14px;
-  font-weight: bold;
   line-height: 43px;
   color: #999;
   text-align: center;
@@ -1197,7 +1449,6 @@ form.bs-docs-example {
   .simple-nav-collapse .simple-nav > li > a,
   .simple-nav-collapse .dropdown-menu a {
     padding: 9px 15px;
-    font-weight: bold;
     // color: $simpleNavbarLinkColor;
     @include border-radius(3px);
   }
@@ -1484,11 +1735,6 @@ form.bs-docs-example {
     margin: 0 -20px;
   }
 
-  /* Space out the show-grid examples */
-  .show-grid [class*="span"] {
-    margin-bottom: 5px;
-  }
-
   /* Sidenav */
   .bs-docs-sidenav {
     width: auto;
@@ -1598,6 +1844,20 @@ form.bs-docs-example {
 }
 
 
+/* Space out the show-grid examples */
+@media (max-width: 767px) {
+  .grid.no-grid-at-767.show-grid [class*="span"] {
+    margin-bottom: 5px;
+  }
+}
+@media (max-width: 567px) {
+  .grid.no-grid-at-567.show-grid [class*="span"] {
+    margin-bottom: 5px;
+  }
+}
+
+
+
 //
 // Color swatches
 // --------------------------------------------------
@@ -1699,10 +1959,16 @@ form.bs-docs-example {
 
 
 
-.docs-page-structure-page:not(.full-size){
+.docs-page-structure-page:not(.full-size):not(.full-width){
   .docs-page-structure-main{
-    .container:not(.full-bleed-no-max){
+    .container{
+      max-width:426px;
+    }
+    .container.full-bleed{ 
       max-width:460px;
+    }
+    .container.full-bleed-no-max{
+      max-width:none;
     }
   }
 }
@@ -1731,7 +1997,9 @@ form.bs-docs-example {
 
   .docs-page-structure-main{
     background:$blue;
-    padding:1px 0;
+    // padding:1px;
+    padding: 0;
+    border: solid 1px #3dadfe;
 
     .show-grid {
       margin: 2px auto;
@@ -1757,70 +2025,83 @@ form.bs-docs-example {
       &:last-child{ margin-bottom:0; };
       @include box-shadow(inset 0 0 0 1px rgba(255,255,255,0.5) ); // white outline, without an actual outline screwing up our widths
 
-      .container{
-        margin:1px auto;
-      }
-
       &.nesting-demo-parent,
       &.full-bleed.nesting-demo-parent,
       &.full-bleed-no-max.nesting-demo-parent{
-        padding-top:1px;
-        padding-bottom:1px;
+        padding:0px 0;
         margin: 1px auto;
       }
     }
-    // .container.full-bleed.nesting-demo-parent{
-    //   padding-top:1px;
-    //   padding-bottom:1px;
-    //   margin: 1px auto;
-    // }
 
-    // .container.full-bleed-no-max.nesting-demo-parent{
-    //   .container.full-bleed{
-    //     padding-top:1px;
-    //     padding-bottom:1px;
-    //   }
-    // }
+    .container .container,
+    .container .container.full-bleed,
+    .container.full-bleed.full-bleed-no-max.nesting-demo-parent > .container.full-bleed.nesting-demo-parent,
+    .container.full-bleed-no-max.nesting-demo-parent > .container.full-bleed.nesting-demo-parent{
+      margin:2px auto;
+    }
+
+    > .container,
+    > .container.full-bleed,
+    > .container.full-bleed-no-max,
+    > .container.full-bleed.nesting-demo-parent{
+      &:first-child{ margin-top:0; };
+      &:last-child{ margin-bottom:0; };
+    }
   }
 
+  &.full-size .docs-page-structure-main{
+    padding:0 0 1px 0;
+  }
 
+  // adjustments for the margins/paddings on nested containers for the demo  
+  &:not(.docs-page-structure-page-max):not(.full-size){
+    .container.full-bleed.nesting-demo-parent .container:not(.full-bleed){
+      // width:93.7%; 
+    }
+    .container.full-bleed.nesting-demo-parent .container.full-bleed .container{
+      // width:94.6%;
+    }
+  }
 
+  .docs-docs-page-structure-maxWidth-outline{
+    position: absolute;
+    border-left: solid 1px rgba(200, 0, 0, 1);
+    border-right: solid 1px rgba(200, 0, 0, 1);
+    z-index: 5;
+    height: 100%;
+    left: 50%;
+    top:0;
+    width: 1404px;
+    margin-left: -702px;
+  }
   &.docs-page-structure-page-max{
-    width:600px;
-
+    &:not(.full-size){
+      width:600px;
+    }
     .docs-docs-page-structure-maxWidth-outline{
-      position: absolute;
-      border-left: solid 1px rgba(200, 0, 0, 1);
-      border-right: solid 1px rgba(200, 0, 0, 1);
-      z-index: 5;
-      width: 462px;
-      height: 100%;
-      margin-left: -231px;
-      left: 50%;
-      top:0;
+      width: 464px;
+      margin-left: -232px;
     }
+  }
 
-    .container{
-      margin:1px auto;
-      z-index:1;
-    }
-    .container.full-bleed{
-      margin:1px auto;
-      z-index:1;
-    }
-    .container.full-bleed-no-max{
-      margin:1px auto;
-      z-index:1;
-    }
+  .container{
+    z-index:1;
+    position:relative;
   }
 
 
 
 
 
-  &.full-size{
+
+  &.full-size,
+  &.full-width{
     width:100%;
-    padding:1px 0;
+    // padding:1px 0;
+
+    .docs-page-structure-main{
+      // padding:1px 0;
+    }
   }
 
   &.grid-examples{
@@ -1831,6 +2112,14 @@ form.bs-docs-example {
         // background:rgba(255,234,0,0.1) !important;
         // border:solid 1px rgba(255,234,0,0.7);
       }
+    }
+  }
+}
+
+@media (max-width: px-em(1404px)) {
+  .docs-page-structure-page:not(.docs-page-structure-page-max){
+    .docs-docs-page-structure-maxWidth-outline{
+      display:none;
     }
   }
 }
@@ -1855,20 +2144,18 @@ form.bs-docs-example {
 
 .limit-paragraph-widths{
 
-  #small-screens-section > p,
-  #overview > .container > p{
-    max-width: 425px;
+  p{
+    max-width: 400px;
   }
-  #small-screens-section > p:not(.p4) {
+  p:not(.p4) {
     font-size:0.8em;
   }
-  #small-screens-section > p.p4 {
+  p.p4 {
     font-size:0.7em;
   }
   .jumbotron{
-    padding-bottom:10px;
-    p{
-      font-size:24px !important;
+    h1{
+      font-size:40px!important;
     }
   }
 }

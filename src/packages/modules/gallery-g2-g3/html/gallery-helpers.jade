@@ -1,10 +1,6 @@
 include ../../../common/html/jade-helpers.jade
 
-- layout1 = [ "carousel", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
-- layout2 = [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "normal", "normal" ]
-- layout3 = "normal"
-- layout4 = [ "large", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
-- layouts = { "layout1": layout1, "layout2" : layout2, "layout3" : layout3, "layout4": layout4 }
+- layouts = locals.getConfigFile("packages/modules/gallery-g2-g3/html/layouts.json")
 
 mixin loaderDiv()
   .relative.gallery-loader
@@ -290,32 +286,32 @@ mixin compareGallery( submodules, gallery, type, labels )
             span= resetLabel
 
 
-    .container.compare-wrap
-      .compare-nav-wrap
+    .relative
+      .container.compare-wrap
         nav.compare-nav-container.pagination-paddles.show-paddles
           button.pagination-paddle.pagination-prev.on.compare-nav.compare-nav-prev
             i.fonticon-10-chevron-reverse
           button.pagination-paddle.pagination-next.on.compare-nav.compare-nav-next
             i.fonticon-10-chevron
-      .products
-        .span2.detail-labels-wrap
-          .compare-sticky-header.sticky-count
-            .right-bar
-          .detail-labels-wrapping
-            .detail-label-group
-              each label in labels
-                .detail-label.detail
-                  p.l3
-                    strong= label.label
+        .products
+          .span2.detail-labels-wrap
+            .compare-sticky-header.sticky-count
+              .right-bar
+            .detail-labels-wrapping
+              .detail-label-group
+                each label in labels
+                  .detail-label.detail
+                    p.l3
+                      strong= label.label
 
-        .compare-items-wrap
-          .compare-items-container
-            each module in submodules
-              d = locals.data(module.data)
-              if d.type == type && !d.promo
-                - d.view = "compare"
-                e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
-                !{locals.partial( module.type, e )}
+          .compare-items-wrap
+            .compare-items-container
+              each module in submodules
+                d = locals.data(module.data)
+                if d.type == type && !d.promo
+                  - d.view = "compare"
+                  e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
+                  !{locals.partial( module.type, e )}
 
     +zeroProductsMessage( gallery )
 
@@ -412,7 +408,7 @@ mixin productStrips( submodules, strips, type )
             each module in submodules
               d = locals.data(module.data)
               if d.type == type && d.subtype == strip.subtype && count < 5
-                - d.layout = layout3
+                - d.layout = layouts.layout3
                 - d.view = "basic"
                 e = { "locals" : locals, "data" : d }
                 !{locals.partial( module.type, e )}

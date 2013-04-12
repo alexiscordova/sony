@@ -50,6 +50,17 @@
 
 @media (max-width: px-em(979px)) {
 
+
+
+  @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid-at-979");
+  @include no-grid(".no-grid-at-979");
+
+  .container.full-bleed-at-979,
+  .grid.full-bleed-at-979{
+    width:auto;
+  }
+
+
 // --------------------------------------
 // TITLES (headers)
 // --------------------------------------
@@ -101,7 +112,7 @@
 .p3, .lt3, .lt3-alt {
   @include px-em--font-size--line-height(12,18);
 }
-.p4, .lt4 {
+.p4, .lt4, input.p4 {
   @include px-em--font-size--line-height(11,15);
 }
 .p5, .lt5 {
@@ -138,6 +149,7 @@ blockquote p{
   margin-bottom: 12px;
   &:first-child { text-indent:-4px; }
 }
+
 // .bq5 p{
 //   @include px-em--font-size--line-height(13,20);
 //   margin-bottom: 12px;

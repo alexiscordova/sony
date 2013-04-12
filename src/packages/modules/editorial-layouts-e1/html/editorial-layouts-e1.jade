@@ -33,7 +33,7 @@ mixin boxlayout(layout)
   classes = data.style
   if layout.mobilealign
     classes = classes + " " + layout.mobilealign
-  if layout.text == "left"
+  if layout.text == "left" || layout.text == "full"
     .container.inner(class = classes)
       .grid.no-grid-at-767
         - span = "span" + layout.columns[0]
@@ -69,7 +69,7 @@ mixin copyblock(copyobject, titleclass, subtitleclass, bodyclass, linkclass)
       p(class = bodyclass) !{copyobject.body}
   .link
     if copyobject.link
-      linktextsize = copyobject.link.type == "text" ? "lt3" : ""
+      linktextsize = copyobject.link.type == "txt" ? "lt3" : ""
       a(class = copyobject.link.type, href= copyobject.link.url)(class = linktextsize) !{copyobject.link.text}
 
 mixin textonlylayout(layout)
@@ -85,19 +85,19 @@ mixin textonlylayout(layout)
 bg = ""
 if data.variation
   bg = data.variation.background || ""
-.editorial.container.full-bleed-no-max(class = data.layout.media)(class = bg)
-  if data.layout.media == "textonly"
+.editorial.container.full-bleed-no-max(class = data.mode)(class = bg)
+  if data.mode == "textonly"
     .container
       +gridstyle
         +textonlylayout
           +copyblock
 
-  else if data.layout.media == "full-inner"
+  else if data.mode == "full-inner"
     .container.submodule
       +partial(data.submodules[0].type, data.submodules[0].data)
     +boxlayout
       +copyblock(data, "t3", "t7", "p3")
-  else if data.layout.media == "full"
+  else if data.mode == "full"
     .container
       +gridstyle
         +textonlylayout
@@ -105,7 +105,7 @@ if data.variation
     .container.submodule
       +partial(data.submodules[0].type, data.submodules[0].data)
 
-  else if data.layout.media == "mediaright"
+  else if data.mode == "mediaright"
     .container
       +gridstyle
         span = "span" + data.layout.columns[0]
@@ -118,7 +118,7 @@ if data.variation
           +center
             +partial(data.submodules[0].type, data.submodules[0].data)
 
-  else if data.layout.media == "medialeft"
+  else if data.mode == "medialeft"
     .container
       +gridstyle
         span = "span" + data.layout.columns[0]
@@ -131,7 +131,7 @@ if data.variation
             .box
               +copyblock(data, "t3", "t7", "p3")
 
-  else if data.layout.media == "tout"
+  else if data.mode == "tout"
     .container
       columnoffset = data.layout.columnoffset || 0;
       offset = "offset" + columnoffset;
@@ -145,12 +145,12 @@ if data.variation
               !{locals.partial('packages/modules/image/html/image.jade' , e)}
             span = "span"+ data.layout.columns[columnoffset +1]
             div(class = span)(class = "text"+data.layout.text)
-              +toutcopy(data.columns[0], "t5", "", "p3")
+              +toutcopy(data.columns[0], "t6", "", "p3")
   
           else
             span = "span"+ data.layout.columns[columnoffset]
             div(class = span)(class = offset)(class = "text"+data.layout.text)
-              +toutcopy(data.columns[0], "t5", "", "p3")
+              +toutcopy(data.columns[0], "t6", "", "p3")
             span = "span"+ data.layout.columns[columnoffset +1]
             div(class = span)
               !{locals.partial('packages/modules/image/html/image.jade' , e)}
@@ -164,12 +164,13 @@ if data.variation
             if data.layout.orientation == "vertical"
               .vertical(class = span)(class = offset)(class = data.layout.alignment)
                 !{locals.partial('packages/modules/image/html/image.jade' , e)}
-                +toutcopy(col,"t5", "", "p3")
+                +toutcopy(col,"t6", "", "p3")
             else
               .horizontal(class = span)(class = offset)(class = data.layout.alignment)(class = "clearfix")
                 !{locals.partial('packages/modules/image/html/image.jade' , e)}
-                +center
-                  +toutcopy(col, "t7", "", "p3 hidden-phone")
+                div
+                  +center
+                    +toutcopy(col, "t7", "", "p3 hidden-phone")
   
         else if data.columns.length == 3
           for col, i in data.columns
@@ -177,7 +178,7 @@ if data.variation
             span = "span"+ data.layout.columns[i]
             div(class = span)(class = data.layout.alignment)
               !{locals.partial('packages/modules/image/html/image.jade' , e)}
-              +toutcopy(col,"t5", "", "p3")
+              +toutcopy(col,"t6", "", "p3")
 
 
 

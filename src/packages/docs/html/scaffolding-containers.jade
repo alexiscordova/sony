@@ -5,14 +5,13 @@ include docs-head.html
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
   include docs-nav.html
 
-  header.jumbotron.subhead#overview
-    div.container
-      h1.bs-docs-heading Scaffolding Container Example
+  div#page-wrap-outer.page-wrap-outer
+    div#page-wrap-inner.page-wrap-inner
 
-  div.main.docs-scaffolding#docs-scaffolding
-    div.container#show-hidden-sections-btn-w(style='margin-bottom:-40px; display:none;')
-      a.btn.btn-special(href='#',style='width:260px;') Show Hidden Sections
-    div#pre-small-screen
+      header.jumbotron.subhead#overview
+        div.container
+          h1.bs-docs-heading Scaffolding Container Example
+
       section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
         p
           | Resize your browser to see how the&nbsp;
@@ -23,28 +22,29 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             | .grid
           | &nbsp;respond with the&nbsp;
           code
-            | .full-bleed
+            | .full&#8209;bleed
           | &nbsp;and&nbsp;
           code
-            | .full-bleed-no-max
+            | .full&#8209;bleed&#8209;no&#8209;max
           | &nbsp;classes.
         p
           small
             | Note: You need a display wider than 1400px to see any difference between&nbsp;
             code
-              | .full-bleed
+              | .full&#8209;bleed
             | &nbsp;and&nbsp;
             code
-              | full-bleed-no-max
+              | full&#8209;bleed&#8209;no&#8209;max
             | .
       div.docs-page-structure-page.full-size
         div.docs-page-structure-main
+          div.docs-docs-page-structure-maxWidth-outline
           section.container
             pre.prettyprint.prettyprint-jade .container
           section.container.full-bleed
-            pre.prettyprint.prettyprint-jade .container.full-bleed
+            pre.prettyprint.prettyprint-jade .container.full&#8209;bleed
           section.container.full-bleed-no-max
-            pre.prettyprint.prettyprint-jade .container.full-bleed-no-max
+            pre.prettyprint.prettyprint-jade .container.full&#8209;bleed&#8209;no&#8209;max
           section.container.nesting-demo-parent
             div.grid.show-grid
               pre.prettyprint.prettyprint-jade.tall
@@ -54,7 +54,7 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             div.container.nesting-demo-parent
               div.grid.show-grid
                 pre.prettyprint.prettyprint-jade.tall
-                  | .container.full-bleed
+                  | .container.full&#8209;bleed
                   |   .container
                   |     .grid
           section.container.full-bleed-no-max.nesting-demo-parent
@@ -67,4 +67,3 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
                     |     .container
                     |       .grid
   include docs-foot.html
-</html>
