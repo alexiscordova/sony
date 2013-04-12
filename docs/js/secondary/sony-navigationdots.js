@@ -62,6 +62,10 @@ define(function(require){
       self.$buttonTemplate = $('<div/>').addClass('pagination-bullet');
       self.$buttonIcon = $('<i/>').addClass('fonticon-10-dot');
 
+      if ( self.theme === 'light' ) {
+        self.$el.addClass('pagination-light');
+      }
+
       self.$buttonTemplate.append(self.$buttonIcon);
 
       self.reset(self);
@@ -166,7 +170,9 @@ define(function(require){
     // How many buttons are in the navigation
     'buttonCount': 0,
     // Which button should be active by default
-    'activeButton': 0
+    'activeButton': 0,
+    // Color theme, dark or light.
+    'theme': 'dark'
   };
 
 });
