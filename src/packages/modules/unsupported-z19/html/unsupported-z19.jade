@@ -1,31 +1,40 @@
-.unsupported
-  .unsupported-hd
-    span.t2= data.title
-  .unsupported-bd
-    span.p3= data.subtitle.desktop
-  .unsupported-bd-alt
-    span.p3= data.subtitle.mobile
-  .container.browser-list
 
-    - for (var i = 0; i < data.browser.length; i += 2) {
-        .grid
-          .span6
-            a.browser-link
-              .media
-                .media-img
-                  img(src=data.browser[i].img.srcDesktop)
-                .media-content
-                  .media-hd.p2= data.browser[i].label
-                  .media-bd.p3 Download the latest version
-          .span6
-            a.browser-link
-              .media
-                .media-img
-                  img(src=data.browser[i+1].img.srcDesktop)
-                .media-content
-                  .media-hd.p2= data.browser[i+1].label
-                  .media-bd.p3 Download the latest version
-    - }
+#unsupported-browser-modal.modal.modal-unsupported.show.fade.in(tabindex="-1", role="dialog", aria-labelledby="unsupported-browser-label", aria-hidden="true")
+  .container
+    .modal-inner.grid
+      .modal-header(data-reset-label="Reset")
+        button.box-close(data-dismiss="modal", aria-hidden="true")
+          i.fonticon-10-x-skinny
+      .modal-body
 
-  a.p3-bold.link-proceed Proceed with current browser for now
-  a.btn.btn-large Proceed with current browser for now
+        .unsupported
+          .unsupported-hd
+            span.t2= data.title
+          .unsupported-bd
+            span.p3= data.subtitle.desktop
+          .unsupported-bd-alt
+            span.p3= data.subtitle.mobile
+          .container.browser-list
+
+            - for (var i = 0; i < data.browser.length; i += 2) {
+              .grid
+                .span6
+                  a.browser-link
+                    .media
+                      .media-img
+                        img(src=data.browser[i].img.srcDesktop)
+                      .media-content
+                        .media-hd.p2= data.browser[i].label
+                        .media-bd.p3 Download the latest version
+                .span6
+                  a.browser-link
+                    .media
+                      .media-img
+                        img(src=data.browser[i+1].img.srcDesktop)
+                      .media-content
+                        .media-hd.p2= data.browser[i+1].label
+                        .media-bd.p3 Download the latest version
+            - }
+
+          a.p3-bold.link-proceed Proceed with current browser for now
+          a.btn.btn-large Proceed with current browser for now
