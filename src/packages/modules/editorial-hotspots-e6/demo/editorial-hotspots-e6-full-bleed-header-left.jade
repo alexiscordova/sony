@@ -9,7 +9,7 @@ mixin hotspotCore(hotspotData, assets)
         img(src=assets.indicator);
     case size
       when "large"
-        .overlay-base.variant1.hidden 
+        .overlay-base.variant1.hidden
           .overlay-inner.eh-transparent
             .overlay-close
               .hspot-close.hidden
@@ -78,100 +78,20 @@ mixin hotspotCore(hotspotData, assets)
               else
                 .footer.hidden
         
-- type = data.type
-- assets = data.hotspots.assets
-- image = data.hotspotContainerImage.image
-- extraclass = image.classes || ""
-- id = data.id || ""
 
+type = data.type
+
+section.ehs-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
 case type
-  when "full"
-    .ehs
-      .hotspot-instance
-        if data.heights 
-          string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+id+" {height: "+data.heights.phone+"}} "
-          style(type = "text/css")
-            #{string}
-          
-        if data.background == "true"
-          .image-module.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+  when "full-bleed-header-left"
+    .ehs.full-bleed-header-left.container
+      .grid
+        .span12
+          .hotspot-instance
+            - image = data.hotspotContainerImage.image
+            img.iq-img(class=image.classes)(alt=image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+            - assets = data.hotspots.assets
             .hspot-underlay.hidden
             .hspot-global-details-overlay.hidden.eh-transparent
             - for hotstpot in data.hotspots.items
               +hotspotCore(hotstpot, assets)
-
-        else
-          .image-module
-            img.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-              noscript
-                  img(src= image.noscriptsrc)
-          .hspot-underlay.hidden
-          .hspot-global-details-overlay.hidden.eh-transparent
-          - for hotstpot in data.hotspots.items
-            +hotspotCore(hotstpot, assets)
-            
-  when "mediaright"
-    .ehs
-      .hotspot-instance
-        if data.heights 
-          string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+id+" {height: "+data.heights.phone+"}} "
-          style(type = "text/css")
-            #{string}
-          
-        if data.background == "true"
-          .image-module.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-        else
-          .image-module
-            img.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-              noscript
-                  img(src= data.noscriptsrc)
-            .hspot-underlay.hidden
-            .hspot-global-details-overlay.hidden.eh-transparent
-            - for hotstpot in data.hotspots.items
-              +hotspotCore(hotstpot, assets)      
-      
-  when "medialeft"
-    .ehs
-      .hotspot-instance
-        if data.heights 
-          string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+id+" {height: "+data.heights.phone+"}} "
-          style(type = "text/css")
-            #{string}
-          
-        if data.background == "true"
-          .image-module.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-        else
-          .image-module
-            img.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-              noscript
-                  img(src= data.noscriptsrc)
-            .hspot-underlay.hidden
-            .hspot-global-details-overlay.hidden.eh-transparent
-            - for hotstpot in data.hotspots.items
-              +hotspotCore(hotstpot, assets)         
-      
-  when "full-inner"
-    .ehs
-      .hotspot-instance
-        if data.heights 
-          string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+id+" {height: "+data.heights.phone+"}} "
-          style(type = "text/css")
-            #{string}
-          
-        if data.background == "true"
-          .image-module.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-            .hspot-underlay.hidden
-            .hspot-global-details-overlay.hidden.eh-transparent
-            - for hotstpot in data.hotspots.items
-              +hotspotCore(hotstpot, assets)
-
-        else
-          .image-module
-            img.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-              noscript
-                  img(src= image.noscriptsrc)
-          .hspot-underlay.hidden
-          .hspot-global-details-overlay.hidden.eh-transparent
-          - for hotstpot in data.hotspots.items
-            +hotspotCore(hotstpot, assets)
-      
