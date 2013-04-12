@@ -45,7 +45,11 @@ define(function(require){
       self.$el.find('.whats-new-carousel').sonyCarousel({
         wrapper: '.whats-new-carousel-wrapper',
         slides: '.whats-new-carousel-slide',
-        useCSS3: self.useCSS3
+        useCSS3: self.useCSS3,
+        looped: true,
+        pagination: true,
+        paginationTheme: 'light',
+        $dotNavWrapper: self.$el.find('.wnc-pagination')
       });
     }
 
