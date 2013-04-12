@@ -369,7 +369,8 @@ define(function(require){
       }
 
       self.$dotnav = $dotnavWrapper.sonyNavDots({
-        'buttonCount': self.$slides.length
+        'buttonCount': self.$slides.length,
+        'theme': self.paginationTheme
       });
 
       self.$dotnav.on('SonyNavDots:clicked', function(e, which) {
@@ -619,7 +620,10 @@ define(function(require){
     $paddleWrapper: undefined,
 
     // Create dot pagination, which is inserted after self.$el.
-    pagination: false
+    pagination: false,
+
+    // Use `light` or `dark` bullets for pagination.
+    paginationTheme: 'dark'
   };
 
 });
