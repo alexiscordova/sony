@@ -102,6 +102,51 @@ mixin productRating( rating, reviews, reviewsText )
       | !{ suffix }
     meta(itemprop="ratingValue", content=rating)
 
+
+mixin priceBlock( product )
+  startingAtText = 'Starting at '
+  msrp = 'MSRP'
+
+  .product-content
+    .product-name-wrap
+      .product-name.p3
+        strong= data.name
+    .product-price
+      span.price-prefix.p5= startingAtText
+      span.price.p2
+        strong= '$' + data.price + '&nbsp;'
+      span.msrp.p5= msrp
+
+//- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
+
+mixin productQuote( quote )
+
+  - if ( !quote.url ) quote.url = false
+
+  medium = quote.medium
+  iconClass = ''
+  iconClasses = []
+
+  //- The facebook icon has two different sizes
+  case medium
+    when 'facebook'
+      iconClass = 'fonticon-15-facebook-sm'
+    default
+      iconClass = 'fonticon-15-' + medium
+
+  - iconClasses.push( iconClass, medium + '-color', 'ghost-center' )
+
+  figure.quote
+    blockquote.bq4(cite=quote.url)
+      p= quote.text
+    figcaption
+      span.social-icon.ghost-center-wrap
+        i(class=iconClasses)
+      span.author.p4= quote.screenname
+
+
+
+
 mixin basicGalleryItem( layout, priority, href )
   klass = '';
   if layout == 'large' || layout == 'carousel'
@@ -112,6 +157,8 @@ mixin basicGalleryItem( layout, priority, href )
     klass = 'span2 medium'
   else if layout == 'plate'
     klass = 'span2 plate'
+  else if layout == 'social'
+    klass = 'span2 social'
   else if layout == 'blank-normal'
     klass = 'span1 blank normal'
   else
@@ -139,7 +186,7 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
     each social in socialButtons
       li
         a(href=social.link)
-          span.social-icon(class="social-icon-" + social.id)
+          span.social-icon(class=social.id + '-background-color')
             i(class=social.icon)
           span.social-label.p3= social.label
     li.input-holder
@@ -192,9 +239,20 @@ if data.view == 'basic'
                 | &nbsp;
                 span.text.l3= data.count.text
             else if data.button
-              a(class='btn plate-btn lt4' , href=data.button.link)
+              a(class='btn plate-btn lt4', href=data.button.link)
                 strong= data.button.title
 
+      else if data.layout == 'social'
+        .product-img
+          .product-img-wrap
+            .img-wrap
+              +iQImage( data.imgSmall )
+            +productQuote( data.quote )
+
+          if data.img && data.img.colors
+            +colorSwatches( data.img.colors )
+          +heart()
+        +priceBlock( data )
 
       else
         .product-img
@@ -227,15 +285,7 @@ if data.view == 'basic'
 
           +heart()
 
-        .product-content
-          .product-name-wrap
-            .product-name.p3
-              strong= data.name
-          .product-price
-            span.price-prefix.p5 Starting at &nbsp;
-            span.price.p2
-              strong= '$' + data.price + '&nbsp;'
-            span.msrp.p5 MSRP
+        +priceBlock( data )
 
 
 else if data.view == 'detailed'

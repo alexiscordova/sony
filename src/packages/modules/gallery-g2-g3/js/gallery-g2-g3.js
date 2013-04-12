@@ -90,12 +90,14 @@ define(function(require){
     // self.$compareBtn = self.$container.find('.js-compare-toggle');
     self.itemSelector = '.' + ( self.isCompareMode ? 'compare' : 'gallery' ) + '-item';
     self.$items = self.$grid.find( self.itemSelector );
+    self.$socialTiles = self.$items.filter( '.social' );
 
     // What do we have here?
     self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
     self.hasFilters = self.$filterOpts.length > 0;
     self.hasSorting = self.$sortBtns.length > 0;
     self.hasCarousels = self.$carousels.length > 0;
+    self.hasSocialTiles = self.$socialTiles.length > 0;
 
     // Other vars
     self.windowWidth = Settings.windowWidth;
@@ -1063,7 +1065,7 @@ define(function(require){
         bufferPx: -100, // Load 100px after the navSelector has entered the viewport
         navSelector: 'div.navigation', // selector for the paged navigation
         nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
-        itemSelector: '.gallery-item', // selector for all items you'll retrieve
+        itemSelector: self.itemSelector, // selector for all items you'll retrieve
         loading: {
           selector: '.infscr-holder',
           msgText: '<em>Loading the next set of products...</em>',
@@ -2134,6 +2136,12 @@ define(function(require){
       // Let the browser choose the best time to do this becaues it causes a layout
       requestAnimationFrame( evenTheHeights );
 
+      if ( self.hasSocialTiles ) {
+        requestAnimationFrame(function() {
+          self.fitSocialTiles();
+        });
+      }
+
       Utilities.forceWebkitRedraw();
 
       self.fixCarousels();
@@ -2191,6 +2199,27 @@ define(function(require){
           self.hasSorterMoved = false;
         }
       }
+    },
+
+    fitSocialTiles : function() {
+      var self = this,
+          $tiles = self.$socialTiles;
+
+      $tiles.each(function() {
+        var $tile = $( this ),
+            $quote = $tile.find('.quote'),
+            needsToFit = Modernizr.mq( '( min-width: 61.1875em )' ) || !Modernizr.mediaqueries,
+            margin = '',
+            availableHeight, textHeight;
+
+        if ( needsToFit ) {
+          availableHeight = $tile.find('.product-img').outerHeight();
+          textHeight = $quote.outerHeight();
+          margin = ( ( availableHeight - textHeight ) / 2 ) + 'px';
+        }
+
+        $quote.css( 'marginTop', margin );
+      });
     },
 
     getFavoriteContent : function( $jsFavorite, isActive ) {
@@ -2556,7 +2585,7 @@ define(function(require){
             gutter = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
             numColumns = 5;
 
-          // // Portrait Tablet ( 4 columns ) - masonry
+          // Portrait Tablet ( 4 columns ) - masonry
           } else if ( Modernizr.mq('(min-width: 48em)') ) {
             numColumns = 4;
             gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
@@ -2590,16 +2619,17 @@ define(function(require){
 
     setColumns : function( numColumns ) {
       var self = this,
-          allSpans = 'span1 span2 span3 span4 span6 m-span3',
+          span = 'span',
+          mspan = 'm-' + span,
+          allSpans = [ span+1, span+2, span+3, span+4, span+6, mspan+3, mspan+6 ].join(' '),
           shuffleDash = 'shuffle-',
           grid = 'slimgrid',
           grid5 = grid+5,
           gridClasses = [ shuffleDash+2, shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6, grid, grid5 ].join(' '),
-          itemSelector = '.gallery-item',
-          span = 'span',
-          mspan = 'm-' + span,
+          itemSelector = self.itemSelector,
           large = '.large',
           promo = '.promo',
+          social = '.social',
           normal = '.normal';
 
       // Large desktop ( 6 columns )
@@ -2619,7 +2649,7 @@ define(function(require){
               .filter(large) // Select large tiles
               .addClass(span+6) // Make them 6/12 width
               .end() // Go back to all items
-            .filter(promo) // Select promo tiles
+            .filter(promo + ',' + social) // Select promo tiles
               .addClass(span+4) // Make them 4/12 width
               .end() // Go back to all items
             .filter(normal) // Select tiles not large nor promo
@@ -2640,7 +2670,7 @@ define(function(require){
             .filter(large) // Select large tiles
               .addClass(span+3) // Make them 3/5 width
               .end() // Go back to all items
-            .filter(promo) // Select promo tiles
+            .filter(promo + ',' + social) // Select promo tiles
               .addClass(span+2) // Make them 2/5 width
               .end() // Go back to all items
             .filter(normal) // Select tiles not large nor promo
@@ -2659,7 +2689,7 @@ define(function(require){
 
           self.$grid.children(itemSelector)
             .removeClass(allSpans) // Remove current grid span
-            .filter(promo) // Select promo tiles
+            .filter(promo + ',' + social) // Select promo tiles
               .addClass(span+6) // Make them half width
               .end() // Go back to all items
             .filter(large + ',' + normal) // Select tiles not promo
@@ -2692,9 +2722,13 @@ define(function(require){
             .addClass(shuffleDash+2 + ' ' + grid);
 
           // Remove current grid span
-          self.$grid.children(itemSelector)
-            .removeClass(allSpans)
-            .addClass(mspan+3);
+          self.$grid.children( itemSelector )
+            .removeClass( allSpans )
+            .filter( social )
+              .addClass( mspan+6 )
+              .end()
+            .not( social )
+              .addClass( mspan+3 );
         }
       }
       return self;
@@ -3154,6 +3188,7 @@ define(function(require){
 
   module.onGalleryTabAlreadyShown = function( evt ) {
     module.initializer( $( this ) );
+    setTimeout( iQ.update, 0 );
   };
 
   // Event triggered when the previous tab/pane is about to be hidden

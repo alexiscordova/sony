@@ -19,13 +19,19 @@ mixin includeJavascriptModule(moduleName)
 //- [extraClasses] - a string containing any extra classes to put on the img element
 //- [itemprop] - optional itemprop attibute (should be 'image' if used).
 mixin iQImage( img, extraClasses, itemprop )
-  - classes = 'iq-img'
-  - extraClasses = extraClasses || false
-  - itemprop = itemprop || false
-  - if ( extraClasses ) classes += ' ' + extraClasses
-  img(class=classes, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes, alt=img.alt, itemprop=itemprop)
-  noscript
-    img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
+
+  //- Stop the build process from breaking on undefined images
+  //- Hopefully you'll be able to find your broken image on the page!
+  if !img
+    p(style="color:red;") Missing Image Data!
+  else
+    - classes = 'iq-img'
+    - extraClasses = extraClasses || false
+    - itemprop = itemprop || false
+    - if ( extraClasses ) classes += ' ' + extraClasses
+    img(class=classes, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes, alt=img.alt, itemprop=itemprop)
+    noscript
+      img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
 
 
 //-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps

@@ -1,34 +1,25 @@
 include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('secondary-touts-s1-s4')
 
-.st-content.slimgrid
-  .st-grid
-    for item in content
+.st-grid
+  for item in content
 
-      if item.objectSize == 'span8'
-        - item.c = 'st-3up span8'
-        - item.s = 'content-8'
-      else if item.objectSize == 'span4'
-        - item.c = 'st-1up span4'
-        - item.s = 'content-4'
-      else if item.objectSize == 'span6'
-        - item.c = 'st-2up span6'
-        - item.s = 'content-6'
+    if item.objectSize == 'span8'
+      - item.c = 'st-3up span8'
+      - item.s = 'content-8'
+    else if item.objectSize == 'span4'
+      - item.c = 'st-1up span4'
+      - item.s = 'content-4'
+    else if item.objectSize == 'span6'
+      - item.c = 'st-2up span6'
+      - item.s = 'content-6'
 
-      if item.whatsNewCarousel
-        .st-item(class=item.c)(class=item.s)
-          div.whats-new-carousel-wrapper
-            div.whats-new-carousel
-              for slide in item.whatsNewCarousel.slides
-                - slide.c = item.c
-                - slide.s = item.s
-                e = {"locals": locals, "item": slide}
-                div.whats-new-carousel-slide
-                  !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4-item.jade', e)}
+    if item.whatsNewCarousel
 
-      else
-        e = {"locals": locals, "item": item}
-        .st-item(class=item.c)(class=item.s)
-          !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4-item.jade', e)}
+      e = {"locals": locals, "item": item}
+      !{locals.partial('packages/modules/whats-new-tout-s4/html/whats-new-tout-s4-carousel.jade', e)}
 
-
+    else
+      e = {"locals": locals, "item": item}
+      .st-item(class=item.c)(class=item.s)
+        !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4-item.jade', e)}
