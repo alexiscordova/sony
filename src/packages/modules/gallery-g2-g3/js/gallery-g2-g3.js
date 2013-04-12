@@ -51,6 +51,11 @@ define(function(require){
 
           // Should be called after everything is initialized
           $(window).trigger('hashchange');
+
+          // No tabs on the page, initialize the gallery manually
+          if ( !$('.tab-strip').length ) {
+            module.onGalleryTabAlreadyShown.call( $('#main')[0] );
+          }
         }, 16);
 
       }

@@ -1,0 +1,11 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('gallery-g2-g3')
+
+include gallery-helpers.jade
+
+
+.gallery-content(data-module-name=data.config.module_name, data-module-id=data.config.module_id)
+  .container
+    .grid
+      h1.t2= data.title
+  +favoritesGallery( data.submodules, data.favs )
