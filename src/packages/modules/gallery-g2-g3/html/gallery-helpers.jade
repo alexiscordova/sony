@@ -254,7 +254,7 @@ mixin favoritesGallery( submodules, gallery, type )
   gallery = gallery || data.productCards
 
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
-    //- +galleryFilters( gallery )
+    +galleryFilters( gallery )
 
     .container
       .products.slimgrid.no-grid-at-767
@@ -269,7 +269,7 @@ mixin favoritesGallery( submodules, gallery, type )
 
     if gallery.nextLink
       .navigation.invisible
-        a(href=gallery.nextLink) Camera Overflow
+        a(href=gallery.nextLink) Next set
       .infscr-holder.text-center
 
 mixin compareGallery( submodules, gallery, type, labels )

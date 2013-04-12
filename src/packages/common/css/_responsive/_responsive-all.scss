@@ -14,6 +14,13 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 // Gallery item media queries
 // -------------------------
+@media (min-width: px-em(1200px)) and (max-width: px-em(1378px) ) {
+
+  // Go from 18 to 16px font size for a small breakpoint so 4 lines fit nicely
+  .gallery-item.social blockquote p {
+    font-size: px-em( 16 );
+  }
+}
 @media (min-width: px-em(980px)) and (max-width: px-em(1100px) ) {
 
   .gallery-detailed .products {
@@ -26,6 +33,11 @@ $oneByOneImgPadding: 107.84313725490196%;
     &:after {
       padding-top: 150%;
     }
+  }
+
+  // Go from 18 to 15px font size for a small breakpoint so 4 lines fit nicely
+  .gallery-item.social blockquote p {
+    font-size: px-em( 15 );
   }
 }
 
@@ -262,13 +274,12 @@ $oneByOneImgPadding: 107.84313725490196%;
 // 568 - 767
 @media ( min-width: $galleryThreeColMin ) and ( max-width: $galleryThreeColMax ) {
 
-  .gallery-item.social .quote {
-    display: none;
+  .gallery-item.social:after {
+    padding-top: 80.1%;
   }
 
-  .gallery-item.social .img-wrap {
-    float: none;
-    max-width: none;
+  .gallery-item.social .product-img:after {
+    padding-top: 52%;
   }
 
 }
@@ -282,11 +293,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   }
 
   .gallery-item.social:after {
-    color: green;
-  }
-
-  .gallery-item.social .product-img:after {
-    color: blue;
+    padding-top: 90.5%;
   }
 }
 
