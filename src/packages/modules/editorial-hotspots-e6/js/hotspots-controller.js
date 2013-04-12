@@ -26,8 +26,7 @@ define(function(require) {
       // detect if there are any hotspot containers present
       $( '.hotspot-instance' ).each( function( index, el ) {
         // for each container, initialize an instance
-        log('hotspot container present');
-        log( el );
+        log('hotspot container detected');
         $( this ).hotspotsController({});
       });
     }
@@ -57,7 +56,9 @@ define(function(require) {
     self.$lastTimer                      = null;
     self.lastOverlayTimeout              = null;
     self.lastWidth                       = null;
+    self.lastHeight                      = null;    
     self.direction                       = null;
+    self.directionV                      = null;
     self.variant1TopHeight               = 145;
     self.variant2TopHeight               = 119;
     self.variant1FloorHeight             = 100;
@@ -78,6 +79,20 @@ define(function(require) {
     init : function() {
       var self = this;
       
+/* GET ORIGINAL IMAGE RATIO METHOD
+      // from container, find the image module class, which contains the images original size we need to audit
+      var coreElement = self.$container.find( '.image-module' );
+      // detect if it's a div with a background or an image nested as a child node
+      var coreNodeType = coreElement[0].tagName;
+      // get path to image, and make a memory copy
+      log('coreNodeType');
+      log(coreNodeType);
+      // get height and width of orignal image (images should be at native ratio when @ 1200px screen size) and 
+      // store this for later use when the hotspots are resizing. The new % will have to be adjusted per resize to 
+      // match this original ratio, rather than the size of the container. The two loose horizontal sync because of 
+      // collapsing containers and the behavior of the browser image resizing
+*/
+      
       // inject the underlay node near the top of the dom tree
       var underlayNode = $( '.hspot-underlay' ).get( 0 );
       $( '.hspot-underlay' ).detach();
@@ -93,11 +108,73 @@ define(function(require) {
 
       // LISTEN FOR RESIZE
       $(window).resize(function() {
+/*
+        var newWidth = self.$container.width();
+
+
+        if( self.showOverlayCentered ) {
+          self.slowHorizontalTracking = true;
+          $( self.$els ).each( function( index, el ) {
+            var left = $( el ).position().left;
+            log( 'cur Left' + left);
+            left = left + 0.05;
+            log( 'adjusted Left' + left);
+            $( el ).css( 'left', left +'px' );
+          });
+        } else {
+          self.slowHorizontalTracking = false;
+          $( self.$els ).each( function( index, el ) {
+            var variableHorizontal = $( el ).data( 'x' );
+            $( el ).css( 'left', variableHorizontal );
+          }); 
+        }
+*/
+
+/*
+        // if we're in tablet/mobile view we need to change/slow the horizontal tracking
+        if( self.showOverlayCentered ) {
+          self.slowHorizontalTracking = true;
+          $( self.$els ).each( function( index, el ) {
+            
+            var originalWidth = 1200;
+            var hotspotXPercentage = $( el ).data( 'x' ).replace( '%', '' );
+            var originalXCoordiatePX = ( hotspotXPercentage * originalWidth ) / 100;
+            var adjustedXCoordinatePX = ( newWidth * originalXCoordiatePX ) / 1200;
+            
+            $( el ).css( 'left', ( adjustedXCoordinatePX += 20.5 ) +'px' );
+          });
+        } else {
+          self.slowHorizontalTracking = false;
+          $( self.$els ).each( function( index, el ) {
+            var variableHorizontal = $( el ).data( 'x' );
+            $( el ).css( 'left', variableHorizontal );
+          });
+        }
+*/
+        
+/*
+        // if we're in tablet/mobile view we need to change/slow the horizontal tracking
+        if( self.showOverlayCentered ) {
+          self.slowHorizontalTracking = true;
+          $( self.$els ).each( function( index, el ) {
+            var fixedHorizontal = $( el ).position().left;
+            $( el ).css( 'left', fixedHorizontal+'px' );
+          });
+        } else {
+          self.slowHorizontalTracking = false;
+          $( self.$els ).each( function( index, el ) {
+            var variableHorizontal = $( el ).data( 'x' );
+            $( el ).css( 'left', variableHorizontal );
+          });
+        }
+*/
+        
         if(self.$lastOpen) {
-          try {
+          try {          
             self.reposition(self.$lastOpen[0], true);
           } catch(e) {}
         }
+
       });
 
       // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO 
@@ -316,7 +393,8 @@ define(function(require) {
          **/
   
         // see if we're growing or shrinking
-        try {
+        try { 
+          
           if( parentRight > self.lastWidth ) {
             self.direction = 'grew';
           } else if( parentRight == self.lastWidth ) {
@@ -324,8 +402,20 @@ define(function(require) {
           } else {
             self.direction = 'shrank';
           }
-          self.lastWidth = parentRight;
-        } catch(e) {}
+          self.lastWidth  = parentRight;
+                    
+          if( parentFloor < self.lastHeight ) {
+            self.directionV = 'shrank';
+          } else if( parentFloor > self.lastHeight ) {
+            self.directionV = 'grew';            
+          } else {
+            self.directionV = 'same';
+          }
+          self.lastHeight = parentFloor;
+          
+        } catch(e) {
+          log(e);
+        }
   
         // The script will move the window into it's 4 potential orientations, until it finds a place it fits.
         // if the loop is completed and there are no matches, the script will turn off the top and footer nodes of
@@ -401,7 +491,7 @@ define(function(require) {
             
             collides = false;
             
-            // element has a default image, and due to shiting around, can be turned on if there is
+            // element has a default image, and due to shifting around, can be turned on if there is
             // 1. room, and 2. the last resize was growing and not shrinking, implying there is more space now 
             // to potentially turn on the top section.
             if( overlayTop.hasClass( 'is-default-on' ) && 
