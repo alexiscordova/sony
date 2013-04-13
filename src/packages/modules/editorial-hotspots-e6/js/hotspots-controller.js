@@ -23,6 +23,21 @@ define(function(require) {
   var self = {
     'init': function() {
       log('init editorial');
+      var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
+      var breakpointReactor = function( e ) {
+        iQ.update();
+      };
+      
+      for( var i=0; i < breakpoints.length; i++ ) {
+        if( 0 === i ) {
+          log( "(max-width: " + breakpoints[ i ] + "px)" );
+          enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+        } else {
+          log( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)" );
+          enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+        }
+      }
+       
       // detect if there are any hotspot containers present
       $( '.hotspot-instance' ).each( function( index, el ) {
         // for each container, initialize an instance
@@ -69,6 +84,8 @@ define(function(require) {
     self.lastOverlayFadein               = null;
     self.lastOverlayFadeout              = null;
     self.lastCenteredOverlay             = null;
+    self.trackingMode                    = null;
+    
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -105,6 +122,22 @@ define(function(require) {
         self.place( el );
         self.show( el );
       });
+
+      // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO 
+      // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
+      enquire.register("(max-width: 767px)", function() {
+        self.showOverlayCentered = true;
+        try { 
+          self.reposition(self.$lastOpen[0]);
+        } catch(e) {}
+      }).listen();
+      
+      enquire.register("(min-width: 768px)", function() {
+        self.showOverlayCentered = false;
+        try { 
+          self.reposition(self.$lastOpen[0]);
+        } catch(e) {}
+      }).listen();
 
       // LISTEN FOR RESIZE
       $(window).resize(function() {
@@ -176,22 +209,6 @@ define(function(require) {
         }
 
       });
-
-      // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO 
-      // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
-      enquire.register("(max-width: 767px)", function() {
-        self.showOverlayCentered = true;
-        try { 
-          self.reposition(self.$lastOpen[0]);
-        } catch(e) {}
-      }).listen();
-      
-      enquire.register("(min-width: 768px)", function() {
-        self.showOverlayCentered = false;
-        try { 
-          self.reposition(self.$lastOpen[0]);
-        } catch(e) {}
-      }).listen();
 
       log('SONY : Editorial Hotspots : Initialized');
     },
