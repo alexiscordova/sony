@@ -48,6 +48,7 @@ define(function(require){
       self.colWidth               = { 'default' : 127/846, '1200' : 150/1020, '980' : 127/846, '768' : 140/627, 'mobile' : 220/464 };
       self.gutterWidth            = { 'default' : 18/846,  '1200' : 24/1020,  '980' : 18/846,  '768' : 22/627 , 'mobile' : 24/464 };
       self.containerWidthPct      = (92.1875 / 100) * (91.80791 / 100);
+      self.paddleHeight           = 52;
 
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
@@ -66,6 +67,8 @@ define(function(require){
       self.$slidesContainer       = self.$el.find('.sony-carousel');
       self.$carouselWrapper       = self.$el.find('.sony-carousel-wrapper');
       self.$container             = self.$carousel.parent(); //parent of the slimgrid
+      self.$paddles               = null; // has to be created and given to the sony-carousel
+      self.$paginationPaddles     = null;
 
       /*
 
@@ -126,7 +129,13 @@ define(function(require){
 
         self.setupBreakPoint();
 
+        self.createPaddles();
+
         self.setupItemsSlides();
+
+        self.setupCarousel();
+
+        self.setupEvents();
 
         self.setupGlobalEvent();
 
@@ -276,8 +285,11 @@ define(function(require){
         //updateItems
         self.udpateItems();
 
-        //(re)build
-        self.setupCarousel();
+        //resetSlides
+        self.resetSlides();
+
+        //update top paddles
+        self.topPaddles();
 
         
 
@@ -481,7 +493,7 @@ define(function(require){
 
         self = this;
 
-        self.resetSlides();
+        //self.resetSlides();
 
         self.carousel = self.$slidesContainer.sonyCarousel({
           wrapper: '.sony-carousel-wrapper',
@@ -489,12 +501,15 @@ define(function(require){
           slideChildren: '.sony-carousel-slide-children',
           useCSS3: true,
           paddles: true,
+          $paddleWrapper : self.$paddles,
           pagination: true
         });
 
-        iQ.update(true);
+        self.$paginationPaddles = $(".pagination-paddle");
 
-        self.setupEvents();
+        self.topPaddles();
+
+        iQ.update(true);
 
       },
       setupGlobalEvent : function(){
@@ -526,9 +541,33 @@ define(function(require){
         if(self.carousel)
         {
           self.$slidesContainer.sonyCarousel("resetSlides");
+
+          self.setupEvents();
         }
 
       },
+
+      /* Paddles */
+
+      createPaddles : function(){
+
+        self.$paddles = $('<div class="wrapper-pagination-paddles"></div>');
+        self.$carousel.append(self.$paddles);
+
+      },
+      topPaddles : function(){
+
+        console.log("self.$paginationPaddles", self.$el.height() , self.$carousel.height());
+        if (self.$paginationPaddles)
+        {
+          self.$paginationPaddles.css({
+            'top'    : ( ( self.$el.height() - self.$carousel.height() ) / 2 ) + ( self.$carousel.height()  / 2 ) - ( self.paddleHeight / 2 ),
+            'margin' : 0
+          });  
+        }
+        
+      },
+
       //Fixes a bug in IE when media queries aren't available
       mqFix: function(){
         self = this;
