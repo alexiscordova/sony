@@ -2908,7 +2908,7 @@ define(function(require){
 
         // Filter elements based on if their string exists in the product model or product name
         self.shuffle.shuffle(function( $el ) {
-          var $searchable = $el.find('.product-model, .product-name'),
+          var $searchable = $el.find('.product-model'),
               text = $.trim( $searchable.text() ).toLowerCase();
 
           return text.indexOf(val) !== -1;
