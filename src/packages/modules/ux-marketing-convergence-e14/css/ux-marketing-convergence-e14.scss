@@ -190,6 +190,13 @@
         cursor: pointer;
         font-size: 0.75em;
         text-align: center;
+        opacity:0.65;
+        @include transition(opacity $transitionFast $easeNormal);
+
+        &.active{
+          opacity:1;
+          @include transition(opacity $transitionFast $easeNormal);
+        }
       }
 
       input {
@@ -229,7 +236,6 @@
     .progress-indicators {
 
       .uxmc-dial-label {
-
         &.active {
           background: #fff;
           color: #000;

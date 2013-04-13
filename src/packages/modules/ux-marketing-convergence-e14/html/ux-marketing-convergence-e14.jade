@@ -4,7 +4,7 @@ include ../../../common/html/jade-helpers.jade
 section.container.uxmc
 
   div.grid
-    h2 #{data.header}
+    h2.l1 #{data.header}
 
   div.grid.uxmc-container(class=['mode-'+data.mode.toLowerCase()])
 
@@ -21,8 +21,8 @@ section.container.uxmc
       for product in data.partnerProducts
         li(class=['theme-'+product.theme.toLowerCase()])
           div.uxmc-overlay
-            p #{product.topLine}
-            a.fonticon-10-chevron--after(href=product.link, title=product.altText) #{product.linkText}
+            p.t5 #{product.topLine}
+            a.t5.fonticon-10-chevron--after(href=product.link, title=product.altText) #{product.linkText}
           div.uxmc-image-wrapper.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
             span
             img.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)

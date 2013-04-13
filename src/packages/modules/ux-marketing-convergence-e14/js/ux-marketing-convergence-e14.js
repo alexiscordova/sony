@@ -60,7 +60,7 @@ define(function(require){
       self.gotoNextPartnerProduct();
       self.resetPartnerCarouselInterval();
       self.animationLoop();
-      self.setupButtons();
+      self.setupButtons();   
       self.setupDials();
     },
 
