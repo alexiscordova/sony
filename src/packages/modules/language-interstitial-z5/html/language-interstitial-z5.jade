@@ -6,6 +6,7 @@ e = {"locals":locals, "data":data}
   .container.full-bleed-no-max.module-li-bg
     //- div(data-src=data.image.images)
     .container.full-bleed.hero-image
+      e = {"locals":locals, "data":data.image}
       !{locals.partial('packages/modules/image/html/image.jade' , e)}
       .container.inner
         .grid.no-grid-at-767
