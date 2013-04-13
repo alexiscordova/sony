@@ -3,87 +3,99 @@ doctype 5
 
 include docs-head.html
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
-  include docs-nav.html
+  //- include docs-nav.html
 
   div#page-wrap-outer.page-wrap-outer
     div#page-wrap-inner.page-wrap-inner.small-screen-grids-demo.limit-paragraph-widths
 
+      div.wikiNav.wikiDemoNav
+        div.container
+            div.grid
+              div#primaryNav.primaryNav
+                ul
+                  li.navLogo
+                    a(href='doku.php')
+                      span.sprite-32a-sony-logo-sm-short
+
       header.jumbotron.subhead#overview
         div.container
           div.grid
-            h1.bs-docs-heading Small Screen Grids
+            h6.bs-docs-heading Scaffolding
+            h1.bs-docs-heading Mobile Grids Demo
       
       section.container(style='padding-bottom:0px; padding-top:0; border-top:0;')
         div.grid
-          h2.bs-docs-heading Small Screen Grids
+          h2.bs-docs-heading Mobile Grids
           p
-            | There are 2 different options for grids below the 768 breakpoint:&nbsp;
+            | There are 2 different options for grids below the 768 breakpoint: 
             strong Mobile-Grid
-            | &nbsp;and&nbsp;
+            |  and 
             strong No-Grid
-            | . The small-screen grid will override the&nbsp;
+            | . The small-screen grid will override the 
             code
               | .grid
-            | ,&nbsp;
+            | , 
             code
               | .slimgrid
-            | &nbsp;or&nbsp;
+            |  or 
             code
               | .slimgrid5
             | &nbsp;classes, and should be used in addition to them.
 
           h4.bs-docs-heading(style='padding-top:20px;') Mobile-Grid
           p
-            | The mobile-grid utilizes&nbsp;
+            | The mobile-grid utilizes 
             strong 6 fluid columns
-            | . To implement, add the appropriate m-grid class&nbsp;
-            strong in addition&nbsp;
-            | to your primary&nbsp;
+            | . To implement, add the appropriate m&#8209;grid class 
+            strong in addition 
+            | to your primary 
             code
               | .grid
-            | &nbsp;class. Class options are&nbsp;
+            |  class. Class options are 
             code
               | .m&#8209;grid&#8209;at&#8209;979
-            | ,&nbsp;
+            | , 
             code
               | .m&#8209;grid&#8209;at&#8209;767
-            | ,&nbsp;
+            | , 
             code
               | .m&#8209;grid&#8209;at&#8209;567
-            | ,&nbsp;
+            | , 
             code
               | .m&#8209;grid&#8209;at&#8209;479
-            | &nbsp;or&nbsp;
+            |  or 
             code
-              | .m-grid
-            | &nbsp;(same as&nbsp;
+              | .m&#8209;grid
+            |  (same as 
             code
               | .m&#8209;grid&#8209;at&#8209;767
-            | &nbsp;);
-            | &nbsp;and add the appropriate&nbsp;
+            |  );
+            |  and add the appropriate 
             code
               | .m-span
-            | &nbsp;and (optionally)&nbsp;
+            |  and (optionally) 
             code
               | .m-offset
-            | &nbsp;class to each column - again, in addition to the primary&nbsp;
+            |  class to each column - again, in addition to the primary 
             code
               | .span
-            | &nbsp;class. The total mobile spans/offsets need to add up to 6.
+            |  class. The total mobile spans/offsets need to add up to 6.
           p.p4
             | Resize your browser to below 768px wide to see the mobile grid take effect.
             br
             | Hover over any of the columns to see the actual class names that affect it.
 
       div(style='padding-bottom:0px; padding-top:20px; border-top:0; background: white url(img/breakpoints-bg-768.png) no-repeat 0 0;')
-        section.container(style='padding-bottom:0px; padding-top:0px; border-top:0;')
-          div.grid.m-grid-at-767.show-grid
-            div.span4.m-span1
-              | 4 m1
-            div.span4.m-span2
-              | 4 m2
-            div.span4.m-span2.m-offset1
-              | 4 m2/1
+        div.docs-page-structure-page.full-width.grid-examples
+          div.docs-page-structure-main
+            section.container.nesting-demo-parent(style='padding-bottom:0px; padding-top:0px; border-top:0;')
+              div.grid.m-grid-at-767.show-grid
+                div.span4.m-span1
+                  | 4 m1
+                div.span4.m-span2
+                  | 4 m2
+                div.span4.m-span2.m-offset1
+                  | 4 m2/1
 
       section.container(style='padding-bottom:0px; padding-top:0; border-top:0;')
         div.grid
@@ -95,31 +107,31 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           h4.bs-docs-heading No-Grid
           p
             | The
-            strong &nbsp;no-grid&nbsp;
-            | option collapses all grid spans into stacked rows, ignoring all&nbsp;
+            strong  no-grid 
+            | option collapses all grid spans into stacked rows, ignoring all 
             code
               | .span
-            | s,&nbsp;
+            | s, 
             code
               | .offset
-            | s,&nbsp;
+            | s, 
             code
               | .m-span
-            | s and&nbsp;
+            | s and 
             code
               | .m-offset
-            | s. To implement, add the appropriate no-grid class&nbsp;
+            | s. To implement, add the appropriate no&#8209;grid class 
             strong in addition
-            | &nbsp;to your primary&nbsp;
+            |  to your primary 
             code
               | .grid
-            | &nbsp;class. The classes available are&nbsp;
+            |  class. The classes available are 
             code
               | .no&#8209;grid&#8209;at&#8209;979
-            | ,&nbsp;
+            | , 
             code
               | .no&#8209;grid&#8209;at&#8209;767
-            | ,&nbsp;
+            | , 
             code
               | .no&#8209;grid&#8209;at&#8209;567
             | , and&nbsp;
@@ -127,15 +139,17 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
               | .no&#8209;grid&#8209;at&#8209;479
             | .
       div(style='padding-bottom:0px; padding-top:20px; border-top:0; background: white url(img/breakpoints-bg-768.png) no-repeat 0 0;')
-        section.container(style='padding-bottom:0px; padding-top:0px; border-top:0;')
-          div.grid.no-grid-at-767.show-grid
-            div.span4
-              | 4
-            div.span4
-              | 4
-            div.span4
-              | 4
-          div.grid
+        div.docs-page-structure-page.full-width.grid-examples
+          div.docs-page-structure-main
+            section.container.nesting-demo-parent(style='padding-bottom:0px; padding-top:0px; border-top:0;')
+              div.grid.no-grid-at-767.show-grid
+                div.span4
+                  | 4
+                div.span4
+                  | 4
+                div.span4
+                  | 4
+              div.grid
       section.container(style='padding-bottom:0px; padding-top:0px; border-top:0;')
         div.grid
           pre.prettyprint.prettyprint-jade
@@ -143,27 +157,29 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             |   .span4
             |   .span4
             |   .span4
-          h4.bs-docs-heading Using both m-grid and no-grid
+          h4.bs-docs-heading Using both m&#8209;grid and no&#8209;grid
           p
-            | You can use the mobile-grid for a range of breakpoints, and switch to the no-grid below a certain breakpoint. Simply add the appropriate
+            | You can use the mobile-grid for a range of breakpoints, and switch to the no&#8209;grid below a certain breakpoint. Simply add the appropriate
             code
               | .m-grid-at
-            | &nbsp;and&nbsp;
+            |  and 
             code
               | .no-grid-at
-            | &nbsp;classes for the target breakpoints.
+            |  classes for the target breakpoints.
           p.p4
-            | Resize your browser to below 768px wide, and then to below 568 wide, to see mobile-grid and no-grid each take effect at different breakpoints.
-          
+            | Resize your browser to below 768px wide, and then to below 568 wide, to see mobile-grid and no&#8209;grid each take effect at different breakpoints.
+
       div(style='padding-bottom:0px; padding-top:20px; border-top:0; background: white url(img/breakpoints-bg-568-768.png) no-repeat 0 0;')
-        section.container(style='padding-bottom:0px; padding-top:0px; border-top:0;')
-          div.grid.m-grid-at-767.no-grid-at-567.show-grid
-            div.span4.m-span1
-              | 4 m1
-            div.span4.m-span2
-              | 4 m2
-            div.span4.m-span2.m-offset1
-              | 4 m2/1
+        div.docs-page-structure-page.full-width.grid-examples
+          div.docs-page-structure-main
+            section.container.nesting-demo-parent(style='padding-bottom:0px; padding-top:0px; border-top:0;')
+              div.grid.m-grid-at-767.no-grid-at-567.show-grid
+                div.span4.m-span1
+                  | 4 m1
+                div.span4.m-span2
+                  | 4 m2
+                div.span4.m-span2.m-offset1
+                  | 4 m2/1
       section.container(style='padding-bottom:0px; padding-top:0px; border-top:0;')
         div.grid
           pre.prettyprint.prettyprint-jade
@@ -176,25 +192,25 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             | By default, margins are applied to small screens the same as desktop. The&nbsp;
             code
               | .full&#8209;bleed
-            | &nbsp;(and&nbsp;
+            |  (and 
             code
               | .full&#8209;bleed&#8209;no&#8209;max
-            | ) classes will affect all resolution sizes. To apply full&#8209;bleed below 980px, use&nbsp;
+            | ) classes will affect all resolution sizes. To apply full&#8209;bleed only below 980px, use&nbsp;
             code
               | .full&#8209;bleed&#8209;at&#8209;979
-            | ,&nbsp;
+            | , 
             code
               | .full&#8209;bleed&#8209;at&#8209;767
-            | ,&nbsp;
+            | , 
             code
               | .full&#8209;bleed&#8209;at&#8209;567
-            | ,&nbsp;
+            | , 
             code
               | .full&#8209;bleed&#8209;at&#8209;479
-            | , or&nbsp;
+            | , or 
             code
               | .m-full&#8209;bleed
-            | &nbsp;(same as&nbsp;
+            |  (same as 
             code
               | .full&#8209;bleed&#8209;at&#8209;767
             | ).
@@ -203,4 +219,4 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           code
             | .full&#8209;bleed
           | &nbsp;to add margins back for mobile.
-  include docs-foot.html
+  include docs-foot-responsive.html
