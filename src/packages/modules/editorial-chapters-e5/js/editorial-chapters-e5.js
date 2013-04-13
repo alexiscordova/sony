@@ -52,8 +52,8 @@ define(function(require){
       self.$document            = $(document);
       self.$window              = $(window);
       self.$html                = $('html');
-      self.$slides              = self.$el.find( '.editorial-carousel-slide' );
-      self.$slideContainer      = self.$el.find( '.editorial-carousel' );
+      self.$slides              = self.$el.find('.editorial-carousel-slide');
+      self.$slideContainer      = self.$el.find('.editorial-carousel');
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$thumbLabels         = self.$thumbNav.find('span');
 
@@ -86,27 +86,10 @@ define(function(require){
         self.centerThumbText();
         self.$slideContainer.css( 'opacity' , 1 );
 
-        // Re-center thumb spans if window resizes, called 4 times/second during resize event
-        var delay = (function(){
-          var timer = 0;
-          return function(callback, ms){
-            clearTimeout (timer);
-            timer = setTimeout(callback, ms);
-          };
-        })();
-        $(window).resize(function(){
-          delay(function(){
-            self.centerThumbText();
-          }, 250);
+        // Re-center thumb spans if window resizes
+        Environment.on('global:resizeThrottled', function(){
+          self.centerThumbText();
         });
-      },
-
-      // Handles global debounced resize event
-      onDebouncedResize: function(){
-        var self = this,
-        wW = self.$window.width();
-        
-        (wW > 1199) ? self.$el.css('overflow' , 'hidden') : self.$el.css('overflow' , 'visible');
       },
 
       // Main setup method for the carousel
