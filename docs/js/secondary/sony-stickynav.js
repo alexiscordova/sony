@@ -41,6 +41,8 @@ define(function(require){
       var self = this,
           $body = Settings.$body;
 
+      self.hasJumpLinks = self.$jumpLinks && self.$jumpLinks.length > 0;
+
       self._setTriggerPoint( true );
 
       // Bind to window scroll and resize
@@ -48,15 +50,15 @@ define(function(require){
       Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
 
       // Setup links that scroll within the page
-      if ( self.$jumpLinks ) {
+      if ( self.hasJumpLinks ) {
         self._initJumpLinks();
       }
 
       // Scroll to the top of the window on mouseup/touchend/pointerup
       if ( self.scrollToTopOnClick ) {
         self.$el.on( Settings.END_EV, function(e) {
-          var tagName = e.target.tagName;
-          if ( tagName === 'A' || tagName === 'BUTTON' ) {
+          var nodeName = e.target.nodeName;
+          if ( nodeName === 'A' || nodeName === 'BUTTON' ) {
             return;
           }
           Utilities.scrollToTop();
@@ -66,11 +68,14 @@ define(function(require){
       setTimeout(function() {
         self._setOffset();
 
-        // Set up twitter bootstrap scroll spy
-        $body.scrollspy({
-          target: '.sticky-nav',
-          offset: self.targetOffset + 1
-        });
+        // Make sure there's something to “spy” on
+        if ( self.hasJumpLinks ) {
+          // Set up twitter bootstrap scroll spy
+          $body.scrollspy({
+            target: '.sticky-nav',
+            offset: self.targetOffset + 1
+          });
+        }
 
         self._onScroll();
       }, 100);
@@ -133,9 +138,11 @@ define(function(require){
         ._setOffset();
 
       // Update the positions for the scroll spy
-      Settings.$body
-        .scrollspy('refresh')
-        .scrollspy('process');
+      if ( this.hasJumpLinks ) {
+        Settings.$body
+          .scrollspy('refresh')
+          .scrollspy('process');
+      }
     },
 
     _setTriggerPoint : function( isInit ) {
@@ -143,10 +150,9 @@ define(function(require){
       $offsetTarget, triggerPoint;
 
       $offsetTarget = self.offsetTarget.jquery ? self.offsetTarget : $( self.offsetTarget );
-      triggerPoint = $.isNumeric( self.offsetTarget ) ? self.offsetTarget : $offsetTarget[0].offsetTop;
+      triggerPoint = $.isNumeric( self.offsetTarget ) ? self.offsetTarget : $offsetTarget.offset().top;
 
 
-      // jQuery offset().top is returning negative numbers...
       // Get the trigger point for when the nav should `open`
       if ( triggerPoint < 100 ) {
         setTimeout(function() {

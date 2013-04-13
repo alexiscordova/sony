@@ -98,6 +98,8 @@
   -webkit-background-clip: padding-box;
      -moz-background-clip: padding;
           background-clip: padding-box;
+  opacity: 0;
+  @include transition( opacity .15s );
 
   // Aligns the dropdown menu to right
   &.pull-right {
@@ -221,6 +223,10 @@
     display: block;
   }
 
+  &.in > .dropdown-menu {
+    opacity: 1;
+  }
+
   .dropdown-toggle-alt {
     z-index: 5;
     border-color: #ccc #ccc $white;
@@ -335,18 +341,19 @@
     margin: 0;
     padding-top: 0;
     padding-bottom: 0;
-    width: auto;
-    height: 33px;
-
-    // Input not extending 100%
-    .lt-ie10 & {
-      width: 167px;
-    }
+    width: 100%;
+    height: 37px;
+    @include borderBox();
 
     // IE8 not vertically aligning input text... but when I toggle some styles
     // then put them back, it works...
     .lt-ie9 & {
 
+    }
+
+    // Input not extending 100%
+    .lt-ie8 & {
+      width: 167px;
     }
   }
 
@@ -368,40 +375,5 @@
     background: white;
     @include square(16px);
   }
-}
-
-.social-label {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0;
-}
-
-.social-icon {
-  display: inline-block;
-  text-align: center;
-  width: px-em(36);
-  height: px-em(32);
-  margin-right: px-em(12);
-
-  i {
-    color: $white;
-    vertical-align: middle;
-  }
-}
-
-.social-icon-facebook {
-  background-color: $facebookColor;
-}
-
-.social-icon-twitter {
-  background-color: $twitterColor;
-}
-
-.social-icon-gplus {
-  background-color: $gplusColor;
-}
-
-.social-icon-pinterest {
-  background-color: $pinterestColor;
 }
 

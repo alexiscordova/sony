@@ -1,0 +1,42 @@
+//
+// Responsive: Chapters - E5
+// --------------------------------------------------
+
+// HIDES TEXT IN THUMB NAV FOR ANY CHAPTER MODULE UNDER 768 PIXELS IN ANY BROWSER WINDOW SIZE
+
+@media (max-width: 1468px) {
+
+  .span7 .editorial-chapters-container,
+  .span8 .editorial-chapters-container{
+    &.thumb-mode,
+    &.icon-mode {
+      .thumb-nav {
+        li {
+          width:auto;
+        }
+          img,
+          i {margin-right:0;}
+          span {display:none;}
+      }
+    } 
+  }
+
+} // END max-width: 1468px
+
+@media (max-width: 767px) {
+
+  .editorial-chapters-container {
+    &.thumb-mode,
+    &.icon-mode {
+      .thumb-nav {
+        li {
+          width:auto;
+        }
+          img,
+          i {margin-right:0;}
+          span {display:none;}
+      }
+    } 
+  }
+
+} // END max-width: 767px

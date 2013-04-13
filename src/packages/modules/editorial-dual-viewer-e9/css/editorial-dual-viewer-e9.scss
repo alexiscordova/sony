@@ -6,89 +6,165 @@
 @import "../../../common/css/_base/mixins";
 
 .edv {
-
-  header {
-
-  }
-
   .edv-images {
+    @include user-select(none);
     position: relative;
-    height: 380px;
+    height:100%;
+    margin-bottom:21px;
+    height:560px;
 
     .edv-image {
       position: absolute;
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: #000;
       overflow: hidden;
 
       &.image-1 {
         left: 0;
-
-        figcaption {
-          left: 0;
-          text-align: left;
-        }
+        z-index:1;
       }
+        .edv-image-wrapper {
+          position: absolute;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-position: top left;
+          background-repeat: no-repeat;
+          background-size: cover;
+          text-align: center;
+          background-color:$white;
+
+          img {
+            display: none;
+            position: relative;
+            width: 100%;
+          }
+        }
 
       &.image-2 {
         right: 0;
 
-        figcaption {
-          right: 0;
-          text-align: right;
-        }
+        .edv-image-wrapper {background-position:center;}
       }
+    }
 
-      .edv-image-wrapper {
+    figcaption {
+      position: absolute;
+      bottom: -33px;
+      text-transform: uppercase;
+      color:$gray40;
+      display:inline-block;
+      width:240px;
+    }
+    figcaption + figure + figcaption {
+      right:0;
+      text-align:right;
+    }
+
+    .scrubber {
+      position: absolute;
+      margin-left:-1px;
+      width: 2px;
+      min-height: 100%;
+      bottom:-24px;
+      background-color:$gray60;
+      z-index: 3;
+      color:$white;
+
+      &.dragging .handle,
+      &.dragging2 .handle {
+        .inner {
+          @include scale(1.1);
+          background:$gray40;
+        }
+          i {margin:0 3px;}
+      }
+    }
+      .handle {
         position: absolute;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        text-align: center;
-
-        img {
-          display: none;
-          position: relative;
-          width: 100%;
-        }
+        top: 50%;
+        margin-top:-43px;
+        left: -30px;
+        width: 62px;
+        height: 62px;
+        background:url('../../img/editorial-dual-viewer-e9/gray30.png');
+        cursor:pointer;
+        @include border-radius(50%);
+        @include transition(.1s);
       }
+        .inner {
+          position:absolute;
+          width:46px;
+          height:46px;
+          background:$buttonOrange;
+          display:block;
+          text-align:center;
+          font-size:0.9em;
+          top:50%;
+          left:50%;
+          margin:-23px 0 0 -23px;
+          @include border-radius(50%);
+          @include transition(.1s ease-out);
+        }
+          .icons {
+            position:absolute;
+            top:50%;
+            left:50%;
+            width:100px;
+            margin:-14px 0 0 -50px;
+          }
+            i {
+              display:inline-block;
+              margin:0;
+              -webkit-font-smoothing: antialiased;
+              @include transition(.1s ease-out);
+            } 
+  }
+
+  // Vertical scrubber
+  &.y {
+    .edv-images {
+      margin-top:33px;
 
       figcaption {
-        position: absolute;
-        bottom: 0;
-        min-width: 300px;
+        width:100%;
+        text-align:center;
+        top: -26px;
+        padding:0;
       }
-    }
-
-    .edv-scrubber-container {
-      position: absolute;
-      width: 10px;
-      height: 100%;
-      background-color: red;
-      z-index: 3;
-
-      .edv-scrubber {
-        position: absolute;
-        bottom: 50px;
-        left: -25px;
-        width: 50px;
-        height: 50px;
-        background-color: blue;
+      figcaption + figure + figcaption {
+        top:auto;
+        bottom:-33px;
       }
+      .scrubber {
+        margin-left:0;
+        width: 100%;
+        height: 2px;
+        bottom: auto;
+        min-height: 1px;
+      }
+        .handle {
+          left: 50%;
+          margin-left:-31px;
+          margin-top:-31px;
+        }
+          .icons {
+            margin:-12px 0 0 -48px;
+            @include rotate(90deg);
+          }
     }
   }
 
-  &.scrubber-disabled {
-
-    .edv-scrubber-container {
-      display: none;
+  // For images that blend in with the background color
+  &.transparent-edges {
+    .edv-images .edv-image .edv-image-wrapper {
+      background-size:contain;
+      background-position:center center;
     }
-  }
+  } 
+
+  &.scrubber-disabled .scrubber {display:none;}
 }
 
 .no-backgroundsize {
@@ -115,5 +191,90 @@
         }
       }
     }
+    &.y {
+      .edv-images {
+        .edv-image-wrapper {
+          top: auto;
+          width: 100%;
+          height: auto;
+
+          span {
+            display: inline-block;
+            height: auto;
+            width:100%;
+          }
+
+          * {
+            vertical-align: auto;
+            text-align:center;
+          }
+
+          img {
+            width:100%;
+          }
+        }
+      }
+    }
+    &.full-bleed-edges.y {
+      .edv-images {
+        .edv-image-wrapper {
+          left: -200%;
+          top: auto;
+          width: 500%;
+          height: auto;
+          text-align: center;
+          vertical-align: auto;
+
+          span {
+            display: inline-block;
+            height: auto;
+            width:100%;
+          }
+
+          * {
+            vertical-align: inherit;
+            text-align:center;
+          }
+
+          img {
+            height:100%;
+            width:auto;
+            min-width:20%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.no-borderradius {
+  .edv {
+    .edv-images .scrubber .handle {
+      background:url('../../img/editorial-dual-viewer-e9/scrubber.png');
+
+      .inner {visibility:hidden;}
+    }
+    .dragging .handle,
+    .dragging2 .handle {background-position:-62px 0;}
+    
+    &.y .edv-images .scrubber .handle {
+      background-position:0 -62px;
+    }
+    &.y .dragging .handle,
+    &.y .dragging2 .handle {background-position:-62px -62px;}
+  }
+}
+
+// IE7
+.lt-ie8 {
+  .edv {
+    .edv-images .scrubber .handle {padding:0;}
+  }
+}
+
+// Gray background 
+.gray {
+  .edv .edv-images {
+    .edv-image .edv-image-wrapper {background-color:$gray80;}
   }
 }

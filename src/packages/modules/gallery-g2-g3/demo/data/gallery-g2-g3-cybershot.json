@@ -56,7 +56,7 @@
         "name": "featured-cameras",
         "title": "Featured Cameras",
         "mode": "editorial",
-        "layout": "layout1",
+        "layout": "layout5",
         "callout": "See &amp; Compare All Cameras",
         "href" : "#"
     },
@@ -271,7 +271,6 @@
                 "label": "New Products",
                 "reverse": true
             }
-
         ],
         "labels": [
             {
@@ -331,25 +330,76 @@
                 "label": "GPS Tagging"
             }
         ],
+        "compareLink" : "gallery-comparetool-demo.html#cameras",
         "nextLink": "gallery-single2.html"
     },
-    "accessories": [
-        {
-            "title": "Cases, Covers &amp; Straps",
-            "callout": "See All 25 Cases, Covers &amp; Straps",
-            "subtype" : "casesCoversAndStraps"
+    "accessories": {
+        "accessoryFinder" : {
+            "title" : "Accessory Finder",
+            "subtitle" : "Select your model to find compatible accessories:",
+            "placeholder" : "Enter your Cyber-shot&reg; model number",
+            "help": {
+                "label" : "How do I find my model number?",
+                "title" : "You&rsquo;re looking nice today!",
+                "layout" : "text-only",
+                "text" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod"
+            },
+            "sortText" : "Sort By:",
+            "productsStr" : "Models",
+            "total" : 10,
+            "sortSet": [
+                {
+                    "name": "default",
+                    "label": "Featured"
+                },
+                {
+                    "name": "price",
+                    "label": "Price - high to low",
+                    "reverse": true
+                },
+                {
+                    "name": "price",
+                    "label": "Price - low to high"
+                },
+                {
+                    "name": "popularity",
+                    "label": "Popularity"
+                },
+                {
+                    "name": "rating",
+                    "label": "Rating",
+                    "reverse": true
+                },
+                {
+                    "name": "release-date",
+                    "label": "New Products",
+                    "reverse": true
+                }
+            ]
         },
-        {
-            "title": "Batteries &amp; Chargers",
-            "callout": "See All 18 Batteries &amp; Chargers",
-            "subtype" : "batteriesAndChargers"
+        "productStrips" : [
+            {
+                "title": "Cases, Covers &amp; Straps",
+                "callout": "See All 25 Cases, Covers &amp; Straps",
+                "subtype" : "casesCoversAndStraps"
+            },
+            {
+                "title": "Batteries &amp; Chargers",
+                "callout": "See All 18 Batteries &amp; Chargers",
+                "subtype" : "batteriesAndChargers"
 
-        },
-        {
-            "title": "Tripods &amp; Remotes",
-            "subtype" : "tripodsAndRemotes"
-        }
-    ],
+            },
+            {
+                "title": "Tripods &amp; Remotes",
+                "subtype" : "tripodsAndRemotes"
+            }
+        ]
+    },
+    "_lenstoutholderwhileusingsocialtile" : {
+        "_position" : "second (after rx100)",
+        "type": "packages/modules/product/html/product.jade",
+        "data": "packages/modules/product/demo/data/lens-tout.json"
+    },
     "submodules": [
         {
             "type": "packages/modules/product/html/product.jade",
@@ -357,7 +407,7 @@
         },
         {
             "type": "packages/modules/product/html/product.jade",
-            "data": "packages/modules/product/demo/data/lens-tout.json"
+            "data": "packages/modules/product/demo/data/hx10.json"
         },
         {
             "type": "packages/modules/product/html/product.jade",

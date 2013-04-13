@@ -7,6 +7,8 @@
 @import "_base/navbar-simple";
 @import "_base/navs-simple";
 
+@import "_components/sony-carousel";
+
 // root dokuwiki styles
 @import "_wiki/lib/all";
 @import "_wiki/lib/feed";
@@ -36,6 +38,7 @@
 @import "_wiki/tpl/pagetools";
 @import "_wiki/tpl/print";
 @import "_wiki/tpl/structure";
+@import "_wiki/tpl/sidebar";
 
 
 
@@ -64,7 +67,7 @@ p,h1,h2,h3,h4,h5,h6 {
   letter-spacing:0;
 }
 
-p{ 
+p, ol {
   @include px-em--font-size--line-height(13,18);
   margin-bottom: 12px;
   color: #83838f;
@@ -84,7 +87,7 @@ h2{
   font-weight:bold;
 }
 h3{
-  @include px-em--font-size--line-height(16,20);
+  @include px-em--font-size--line-height(22,20);
   margin-top:30px;
   text-transform: none;
   font-weight:bold;
@@ -104,29 +107,146 @@ h5{
   font-weight:bold;
   margin-bottom: 12px;
 }
-
-#main {
-  width:1000px;
+ol {
+  list-style: decimal;
 }
+
+#main,
+.wikiNav > .container,
+#dokuwiki__header > .container,
+#dokuwiki__page_title > .container {
+  max-width:1200px;
+  min-width:1050px;
+
+  .primaryNav > ul{
+    margin:0;
+  }
+}
+.wikiDemoNav.wikiNav .primaryNav ul li{
+  margin-top:12px;
+}
+
+#dokuwiki__header{
+  background:#FFFFDD;
+}
+
+
+#dokuwiki__page_title{
+  background:$linkColor;
+  padding:43px 0 55px;
+
+  h6{
+    font-family:arial, sans-serif;
+    text-transform:uppercase;
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:6px;
+
+  }
+  h1{
+    font-family:arial, sans-serif;
+    text-transform:capitalize;
+    font-size:38px;
+    font-weight:bold;
+    color:$white;
+    margin:0;
+  }
+}
+
+#dokuwiki__content,
+#sidebar{
+  margin-top: 40px;
+}
+
+
 
 .jumbotron {
   position: relative;
-  padding: 70px 0 40px;
+  padding: 43px 0 55px;
   background: $gray20; /* CJM */
   border:none !important;
   margin-bottom:30px;
+
+  h1{
+    text-transform: capitalize;
+    font-size: 38px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+  }
+  h6{
+    color:#999;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  p {
+    color:#bcbccc;
+  }
 }
-.jumbotron h1{
-  color:$white;
-  margin-bottom:17px;
+
+
+
+
+.wrap_caption { font-size:11px; }
+
+.wrap_fontsize9 { font-size:9px; }
+.wrap_fontsize10{ font-size:10px; }
+.wrap_fontsize11{ font-size:11px; }
+.wrap_fontsize12{ font-size:12px; }
+.wrap_fontsize13{ font-size:13px; }
+.wrap_fontsize14{ font-size:14px; }
+.wrap_fontsize15{ font-size:15px; }
+.wrap_fontsize16{ font-size:16px; }
+.wrap_fontsize17{ font-size:17px; }
+.wrap_fontsize18{ font-size:18px; }
+.wrap_fontsize19{ font-size:19px; }
+.wrap_fontsize20{ font-size:20px; }
+.wrap_fontsize22{ font-size:22px; }
+.wrap_fontsize24{ font-size:24px; }
+.wrap_fontsize26{ font-size:26px; }
+.wrap_fontsize28{ font-size:28px; }
+.wrap_fontsize30{ font-size:30px; }
+.wrap_fontsize32{ font-size:32px; }
+.wrap_fontsize34{ font-size:34px; }
+.wrap_fontsize36{ font-size:36px; }
+.wrap_fontsize38{ font-size:38px; }
+.wrap_fontsize40{ font-size:40px; }
+// reset the paragraphs inside the custom fontsize divs.
+.wrap_caption p,
+.wrap_fontsize9 p,
+.wrap_fontsize10 p,
+.wrap_fontsize11 p,
+.wrap_fontsize12 p,
+.wrap_fontsize13 p,
+.wrap_fontsize14 p,
+.wrap_fontsize15 p,
+.wrap_fontsize16 p,
+.wrap_fontsize17 p,
+.wrap_fontsize18 p,
+.wrap_fontsize19 p,
+.wrap_fontsize20 p,
+.wrap_fontsize22 p,
+.wrap_fontsize24 p,
+.wrap_fontsize26 p,
+.wrap_fontsize28 p,
+.wrap_fontsize30 p,
+.wrap_fontsize32 p,
+.wrap_fontsize34 p,
+.wrap_fontsize36 p,
+.wrap_fontsize38 p,
+.wrap_fontsize40 p{
+  font-size:1em;
 }
-.jumbotron p {
-  color:#bcbccc;
-}
 
-
-
-
+.wrap_indent2{ padding-left:2px; }
+.wrap_indent5{ padding-left:5px; }
+.wrap_indent10{ padding-left:10px; }
+.wrap_indent20{ padding-left:20px; }
+.wrap_indent30{ padding-left:30px; }
+.wrap_indent40{ padding-left:40px; }
+.wrap_indent50{ padding-left:50px; }
 
 
 /* Code in headings */
@@ -199,7 +319,7 @@ body > .simple-navbar .brand:hover {
 /* padding for in-page bookmarks and fixed navbar */
 section {
   padding-top:30px;
-  padding-bottom: 60px;  
+  padding-bottom: 60px;
   border-top:solid 1px #e4e4e6;
   @include clearfix;
 }
@@ -496,7 +616,7 @@ hr.soften {
 }
 .bs-docs-main-content:not(.span9){
   float:left;
-  width:76%;  
+  width:76%;
 };
 
 
@@ -648,8 +768,8 @@ h2 + .grid-px-width {
   padding:5px 0 5px 8px;
 }
 .the-icons li:hover {
-  background:black;
-  color:white;
+  // background:black;
+  // color:white;
 }
 .the-icons i {
   margin-right:4px;
@@ -695,10 +815,10 @@ h2 + .grid-px-width {
 .col-33{
   float:left;
   width:32%;
-  margin-right:2%; 
+  margin-right:2%;
   &:nth-child(3n+0){
     margin-right:0;
-  }   
+  }
 }
 @media (min-width: 1024px) {
   .col-50{
@@ -727,7 +847,7 @@ h2 + .grid-px-width {
   padding-top:50px;
 }
 .sub-section{
-  margin-top:100px;
+  // margin-top:100px;
 }
 .bs-docs-example {
   position: relative;
@@ -850,6 +970,259 @@ form.bs-docs-example {
 }
 
 
+// .table-striped.responsive-utilities{
+//   th{
+//     padding:0 10px;
+//   }
+// }
+// 
+// I just want to style the table in the Responsive section of the Scaffolding page, and I don't want it to affect anything else.
+// This is just straight Bootstrap styles.
+#responsive{
+  table {
+    max-width: 100%;
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  .table {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .table th,
+  .table td {
+    padding: 8px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+  }
+  .table thead th {
+    vertical-align: bottom;
+  }
+  .table caption + thead tr:first-child th,
+  .table caption + thead tr:first-child td,
+  .table colgroup + thead tr:first-child th,
+  .table colgroup + thead tr:first-child td,
+  .table thead:first-child tr:first-child th,
+  .table thead:first-child tr:first-child td {
+    border-top: 0;
+  }
+  .table tbody + tbody {
+    border-top: 2px solid #dddddd;
+  }
+  .table .table {
+    background-color: #ffffff;
+  }
+  .table-condensed th,
+  .table-condensed td {
+    padding: 4px 5px;
+  }
+  .table-bordered {
+    border: 1px solid #dddddd;
+    border-collapse: separate;
+    *border-collapse: collapse;
+    border-left: 0;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+  }
+  .table-bordered th,
+  .table-bordered td {
+    border-left: 1px solid #dddddd;
+  }
+  .table-bordered caption + thead tr:first-child th,
+  .table-bordered caption + tbody tr:first-child th,
+  .table-bordered caption + tbody tr:first-child td,
+  .table-bordered colgroup + thead tr:first-child th,
+  .table-bordered colgroup + tbody tr:first-child th,
+  .table-bordered colgroup + tbody tr:first-child td,
+  .table-bordered thead:first-child tr:first-child th,
+  .table-bordered tbody:first-child tr:first-child th,
+  .table-bordered tbody:first-child tr:first-child td {
+    border-top: 0;
+  }
+  .table-bordered thead:first-child tr:first-child > th:first-child,
+  .table-bordered tbody:first-child tr:first-child > td:first-child,
+  .table-bordered tbody:first-child tr:first-child > th:first-child {
+    -webkit-border-top-left-radius: 4px;
+            border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+  }
+  .table-bordered thead:first-child tr:first-child > th:last-child,
+  .table-bordered tbody:first-child tr:first-child > td:last-child,
+  .table-bordered tbody:first-child tr:first-child > th:last-child {
+    -webkit-border-top-right-radius: 4px;
+            border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+  }
+  .table-bordered thead:last-child tr:last-child > th:first-child,
+  .table-bordered tbody:last-child tr:last-child > td:first-child,
+  .table-bordered tbody:last-child tr:last-child > th:first-child,
+  .table-bordered tfoot:last-child tr:last-child > td:first-child,
+  .table-bordered tfoot:last-child tr:last-child > th:first-child {
+    -webkit-border-bottom-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+  }
+  .table-bordered thead:last-child tr:last-child > th:last-child,
+  .table-bordered tbody:last-child tr:last-child > td:last-child,
+  .table-bordered tbody:last-child tr:last-child > th:last-child,
+  .table-bordered tfoot:last-child tr:last-child > td:last-child,
+  .table-bordered tfoot:last-child tr:last-child > th:last-child {
+    -webkit-border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+  }
+  .table-bordered tfoot + tbody:last-child tr:last-child td:first-child {
+    -webkit-border-bottom-left-radius: 0;
+            border-bottom-left-radius: 0;
+    -moz-border-radius-bottomleft: 0;
+  }
+  .table-bordered tfoot + tbody:last-child tr:last-child td:last-child {
+    -webkit-border-bottom-right-radius: 0;
+            border-bottom-right-radius: 0;
+    -moz-border-radius-bottomright: 0;
+  }
+  .table-bordered caption + thead tr:first-child th:first-child,
+  .table-bordered caption + tbody tr:first-child td:first-child,
+  .table-bordered colgroup + thead tr:first-child th:first-child,
+  .table-bordered colgroup + tbody tr:first-child td:first-child {
+    -webkit-border-top-left-radius: 4px;
+            border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+  }
+  .table-bordered caption + thead tr:first-child th:last-child,
+  .table-bordered caption + tbody tr:first-child td:last-child,
+  .table-bordered colgroup + thead tr:first-child th:last-child,
+  .table-bordered colgroup + tbody tr:first-child td:last-child {
+    -webkit-border-top-right-radius: 4px;
+            border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+  }
+  .table-striped tbody > tr:nth-child(odd) > td,
+  .table-striped tbody > tr:nth-child(odd) > th {
+    background-color: #f9f9f9;
+  }
+  .table-hover tbody tr:hover > td,
+  .table-hover tbody tr:hover > th {
+    background-color: #f5f5f5;
+  }
+  table td[class*="span"],
+  table th[class*="span"],
+  .row-fluid table td[class*="span"],
+  .row-fluid table th[class*="span"] {
+    display: table-cell;
+    float: none;
+    margin-left: 0;
+  }
+  .table td.span1,
+  .table th.span1 {
+    float: none;
+    width: 44px;
+    margin-left: 0;
+  }
+  .table td.span2,
+  .table th.span2 {
+    float: none;
+    width: 124px;
+    margin-left: 0;
+  }
+  .table td.span3,
+  .table th.span3 {
+    float: none;
+    width: 204px;
+    margin-left: 0;
+  }
+  .table td.span4,
+  .table th.span4 {
+    float: none;
+    width: 284px;
+    margin-left: 0;
+  }
+  .table td.span5,
+  .table th.span5 {
+    float: none;
+    width: 364px;
+    margin-left: 0;
+  }
+  .table td.span6,
+  .table th.span6 {
+    float: none;
+    width: 444px;
+    margin-left: 0;
+  }
+  .table td.span7,
+  .table th.span7 {
+    float: none;
+    width: 524px;
+    margin-left: 0;
+  }
+  .table td.span8,
+  .table th.span8 {
+    float: none;
+    width: 604px;
+    margin-left: 0;
+  }
+  .table td.span9,
+  .table th.span9 {
+    float: none;
+    width: 684px;
+    margin-left: 0;
+  }
+  .table td.span10,
+  .table th.span10 {
+    float: none;
+    width: 764px;
+    margin-left: 0;
+  }
+  .table td.span11,
+  .table th.span11 {
+    float: none;
+    width: 844px;
+    margin-left: 0;
+  }
+  .table td.span12,
+  .table th.span12 {
+    float: none;
+    width: 924px;
+    margin-left: 0;
+  }
+  .table tbody tr.success > td {
+    background-color: #dff0d8;
+  }
+  .table tbody tr.error > td {
+    background-color: #f2dede;
+  }
+  .table tbody tr.warning > td {
+    background-color: #fcf8e3;
+  }
+  .table tbody tr.info > td {
+    background-color: #d9edf7;
+  }
+  .table-hover tbody tr.success:hover > td {
+    background-color: #d0e9c6;
+  }
+  .table-hover tbody tr.error:hover > td {
+    background-color: #ebcccc;
+  }
+  .table-hover tbody tr.warning:hover > td {
+    background-color: #faf2cc;
+  }
+  .table-hover tbody tr.info:hover > td {
+    background-color: #c4e3f3;
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -903,7 +1276,6 @@ form.bs-docs-example {
   width: 25%;
   height: 43px;
   font-size: 14px;
-  font-weight: bold;
   line-height: 43px;
   color: #999;
   text-align: center;
@@ -1091,7 +1463,6 @@ form.bs-docs-example {
   .simple-nav-collapse .simple-nav > li > a,
   .simple-nav-collapse .dropdown-menu a {
     padding: 9px 15px;
-    font-weight: bold;
     // color: $simpleNavbarLinkColor;
     @include border-radius(3px);
   }
@@ -1273,7 +1644,7 @@ form.bs-docs-example {
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
-  }  
+  }
 }
 
 /* Tablet to desktop
@@ -1320,7 +1691,7 @@ form.bs-docs-example {
 
   /* Widen masthead and social buttons to fill body padding */
   .jumbotron {
-    margin-top: -20px; /* Offset bottom margin on .simple-navbar */
+    // margin-top: -20px; /* Offset bottom margin on .simple-navbar */
   }
   /* Adjust sidenav width */
   .bs-docs-sidenav {
@@ -1359,13 +1730,13 @@ form.bs-docs-example {
 
   /* Widen masthead and social buttons to fill body padding */
   .jumbotron {
-    padding: 40px 20px;
-    margin-top:   -20px; /* Offset bottom margin on .simple-navbar */
-    margin-right: -20px;
-    margin-left:  -20px;
+    // padding: 40px 20px;
+    // margin-top:   -20px; /* Offset bottom margin on .simple-navbar */
+    // margin-right: -20px;
+    // margin-left:  -20px;
   }
   .masthead h1 {
-    font-size: 90px;
+    // font-size: 90px;
   }
   .masthead p,
   .masthead .btn {
@@ -1376,11 +1747,6 @@ form.bs-docs-example {
   }
   .bs-docs-social {
     margin: 0 -20px;
-  }
-
-  /* Space out the show-grid examples */
-  .show-grid [class*="span"] {
-    margin-bottom: 5px;
   }
 
   /* Sidenav */
@@ -1396,10 +1762,10 @@ form.bs-docs-example {
 
   /* Unfloat the back to top link in footer */
   .footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
+    // margin-left: -20px;
+    // margin-right: -20px;
+    // padding-left: 20px;
+    // padding-right: 20px;
   }
   .footer p {
     margin-bottom: 9px;
@@ -1446,7 +1812,7 @@ form.bs-docs-example {
   /* center align subhead text like the masthead */
   .subhead h1,
   .subhead p {
-    text-align: center;
+    // text-align: center;
   }
 
   /* Marketing on home */
@@ -1490,6 +1856,20 @@ form.bs-docs-example {
     float: none;
   }
 }
+
+
+/* Space out the show-grid examples */
+@media (max-width: 767px) {
+  .grid.no-grid-at-767.show-grid [class*="span"] {
+    margin-bottom: 5px;
+  }
+}
+@media (max-width: 567px) {
+  .grid.no-grid-at-567.show-grid [class*="span"] {
+    margin-bottom: 5px;
+  }
+}
+
 
 
 //
@@ -1536,8 +1916,10 @@ form.bs-docs-example {
 .docs-color-swatch--gray50{  background: $gray50;  }
 .docs-color-swatch--gray60{  background: $gray60;  }
 .docs-color-swatch--gray70{  background: $gray70;  }
+.docs-color-swatch--gray75{  background: $gray75;  }
 .docs-color-swatch--gray80{  background: $gray80;  }
 .docs-color-swatch--gray90{  background: $gray90;  }
+.docs-color-swatch--gray95{  background: $gray95;  }
 .docs-color-swatch--white {  background: $white;   }
 
 .docs-color-swatch--buttonBlue        {  background: $buttonBlue;        }
@@ -1559,15 +1941,15 @@ form.bs-docs-example {
 .docs-color-swatch--themeBlueLight          {  background: $themeBlueLight;          }
 .docs-color-swatch--themeBlueLightHover     {  background: $themeBlueLightHover;     }
 .docs-color-swatch--themeBlueLightActive    {  background: $themeBlueLightActive;    }
-.docs-color-swatch--themeGreen              {  background: $themeGreen;              }
-.docs-color-swatch--themeGreenHover         {  background: $themeGreenHover;         }
-.docs-color-swatch--themeGreenActive        {  background: $themeGreenActive;        }
-.docs-color-swatch--themeOrange             {  background: $themeOrange;             }
-.docs-color-swatch--themeOrangeHover        {  background: $themeOrangeHover;        }
-.docs-color-swatch--themeOrangeActive       {  background: $themeOrangeActive;       }
 .docs-color-swatch--themeBlueDark           {  background: $themeBlueDark;           }
 .docs-color-swatch--themeBlueDarkHover      {  background: $themeBlueDarkHover;      }
 .docs-color-swatch--themeBlueDarkActive     {  background: $themeBlueDarkActive;     }
+.docs-color-swatch--themeOrange             {  background: $themeOrange;             }
+.docs-color-swatch--themeOrangeHover        {  background: $themeOrangeHover;        }
+.docs-color-swatch--themeOrangeActive       {  background: $themeOrangeActive;       }
+.docs-color-swatch--themeGreen              {  background: $themeGreen;              }
+.docs-color-swatch--themeGreenHover         {  background: $themeGreenHover;         }
+.docs-color-swatch--themeGreenActive        {  background: $themeGreenActive;        }
 
 .docs-color-swatch--secondaryGold           {  background: $secondaryGold;           }
 .docs-color-swatch--secondarySage           {  background: $secondarySage;           }
@@ -1584,6 +1966,7 @@ form.bs-docs-example {
 .docs-color-swatch--youtubeColor            {  background: $youtubeColor;            }
 .docs-color-swatch--flickrblue              {  background: $flickrBlueColor;         }
 .docs-color-swatch--flickrpink              {  background: $flickrPinkColor;         }
+.docs-color-swatch--pinterestColor          {  background: $pinterestColor;         }
 
 
 
@@ -1593,10 +1976,16 @@ form.bs-docs-example {
 
 
 
-.docs-page-structure-page:not(.full-size){
+.docs-page-structure-page:not(.full-size):not(.full-width){
   .docs-page-structure-main{
-    .container:not(.full-bleed-no-max){
+    .container{
+      max-width:426px;
+    }
+    .container.full-bleed{ 
       max-width:460px;
+    }
+    .container.full-bleed-no-max{
+      max-width:none;
     }
   }
 }
@@ -1625,13 +2014,21 @@ form.bs-docs-example {
 
   .docs-page-structure-main{
     background:$blue;
-    padding:1px 0;
+    // padding:1px;
+    padding: 0;
+    border: solid 1px #3dadfe;
 
     .show-grid {
-      margin:2px auto;
+      margin: 2px auto;
+      padding: 2px;
       @include border-radius(0);
       background:rgba(255,234,0,0.4) !important;
       border:solid 1px rgba(255,234,0,0.6);
+
+      &.slimgrid{
+        background:      rgba(255,175,0,0.4) !important;
+        border:solid 1px rgba(255,175,0,0.6);        
+      }
     }
 
     .container,
@@ -1645,80 +2042,109 @@ form.bs-docs-example {
       &:last-child{ margin-bottom:0; };
       @include box-shadow(inset 0 0 0 1px rgba(255,255,255,0.5) ); // white outline, without an actual outline screwing up our widths
 
-      .container{
-        margin:1px auto;
-      }
-
       &.nesting-demo-parent,
       &.full-bleed.nesting-demo-parent,
       &.full-bleed-no-max.nesting-demo-parent{
-        padding-top:1px;
-        padding-bottom:1px;
+        padding:0px 0;
         margin: 1px auto;
       }
     }
-    // .container.full-bleed.nesting-demo-parent{
-    //   padding-top:1px;
-    //   padding-bottom:1px;
-    //   margin: 1px auto;
-    // }
+    .container.nesting-demo-10,
+    .container.full-bleed.nesting-demo-10{
+      padding:10px 0 !important;
+    }
+    .container.nesting-demo-5,
+    .container.full-bleed.nesting-demo-5{
+      padding:5px 0 !important;
+    }
 
-    // .container.full-bleed-no-max.nesting-demo-parent{
-    //   .container.full-bleed{
-    //     padding-top:1px;
-    //     padding-bottom:1px;
-    //   }
-    // }
+    .container .container,
+    .container .container.full-bleed,
+    .container.full-bleed.full-bleed-no-max.nesting-demo-parent > .container.full-bleed.nesting-demo-parent,
+    .container.full-bleed-no-max.nesting-demo-parent > .container.full-bleed.nesting-demo-parent{
+      margin:2px auto;
+    }
+
+    > .container,
+    > .container.full-bleed,
+    > .container.full-bleed-no-max,
+    > .container.full-bleed.nesting-demo-parent{
+      &:first-child{ margin-top:0; };
+      &:last-child{ margin-bottom:0; };
+    }
   }
-  
 
+  &.full-size .docs-page-structure-main{
+    padding:0 0 1px 0;
+  }
 
+  // adjustments for the margins/paddings on nested containers for the demo  
+  &:not(.docs-page-structure-page-max):not(.full-size){
+    .container.full-bleed.nesting-demo-parent .container:not(.full-bleed){
+      // width:93.7%; 
+    }
+    .container.full-bleed.nesting-demo-parent .container.full-bleed .container{
+      // width:94.6%;
+    }
+  }
+
+  .docs-docs-page-structure-maxWidth-outline{
+    position: absolute;
+    border-left: solid 1px rgba(200, 0, 0, 1);
+    border-right: solid 1px rgba(200, 0, 0, 1);
+    z-index: 5;
+    height: 100%;
+    left: 50%;
+    top:0;
+    width: 1404px;
+    margin-left: -702px;
+  }
   &.docs-page-structure-page-max{
-    width:600px;
-
+    &:not(.full-size){
+      width:600px;
+    }
     .docs-docs-page-structure-maxWidth-outline{
-      position: absolute;
-      border-left: solid 1px rgba(200, 0, 0, 1);
-      border-right: solid 1px rgba(200, 0, 0, 1);
-      z-index: 5;
-      width: 462px;
-      height: 100%;
-      margin-left: -231px;
-      left: 50%;
-      top:0;
+      width: 464px;
+      margin-left: -232px;
     }
+  }
 
-    .container{
-      margin:1px auto;  
-      z-index:1;
-    }
-    .container.full-bleed{
-      margin:1px auto;
-      z-index:1;
-    }
-    .container.full-bleed-no-max{
-      margin:1px auto;
-      z-index:1;
-    }
+  .container{
+    z-index:1;
+    position:relative;
   }
 
 
 
 
 
-  &.full-size{
+
+  &.full-size,
+  &.full-width{
     width:100%;
-    padding:1px 0;
+    // padding:1px 0;
+
+    .docs-page-structure-main{
+      // padding:1px 0;
+    }
   }
 
   &.grid-examples{
     .docs-page-structure-main{
-      background:lighten($blue,30%);
+      // background:lighten($blue,30%);
 
       .show-grid{
-        background:rgba(255,234,0,0.1) !important;
-        border:solid 1px rgba(255,234,0,0.7);
+        // background:rgba(255,234,0,0.1) !important;
+        // border:solid 1px rgba(255,234,0,0.7);
       }
+    }
+  }
+}
+
+@media (max-width: px-em(1404px)) {
+  .docs-page-structure-page:not(.docs-page-structure-page-max){
+    .docs-docs-page-structure-maxWidth-outline{
+      display:none;
     }
   }
 }
@@ -1743,20 +2169,18 @@ form.bs-docs-example {
 
 .limit-paragraph-widths{
 
-  #small-screens-section > p,
-  #overview > .container > p{
-    max-width: 425px;    
+  p{
+    max-width: 400px;
   }
-  #small-screens-section > p:not(.p4) {
+  p:not(.p4) {
     font-size:0.8em;
   }
-  #small-screens-section > p.p4 {
+  p.p4 {
     font-size:0.7em;
   }
   .jumbotron{
-    padding-bottom:10px;
-    p{
-      font-size:24px !important;
+    h1{
+      font-size:40px!important;
     }
   }
 }

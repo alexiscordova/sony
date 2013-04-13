@@ -49,7 +49,13 @@
 // If you've replaced or manipulated the slides, tell SonyCarousel to cache them again.
 //
 //      $('#foo').sonyCarousel('resetSlides');
-
+//
+// If you need to destroy the carousel, run the method below. You should be sure
+// to run destroy if you're wiping/reinitializing your carousels as part of resize
+// or something similar; otherwise you'll retain a ton of references in memory that
+// can't be garbage-collected.
+//
+//      $('#foo').sonyCarousel('destroy');
 
 define(function(require){
 
@@ -63,13 +69,17 @@ define(function(require){
       Environment = require('require/sony-global-environment'),
       sonyDraggable = require('secondary/sony-draggable'),
       sonyPaddles = require('secondary/sony-paddles'),
-      sonyNavigationDots = require('secondary/sony-draggable');
+      sonyNavigationDots = require('secondary/sony-navigationdots');
+
+  var _id = 0;
 
   var SonyCarousel = function($element, options){
     var self = this;
 
     $.extend(self, {}, $.fn.sonyCarousel.defaults, options, $.fn.sonyCarousel.settings);
 
+    self.currentSlide = 0;
+    self.id = _id++;
     self.$el = $element;
     self.$wrapper = self.$el.parent(self.wrapper);
 
@@ -86,9 +96,16 @@ define(function(require){
 
       self.resetSlides();
       self.setupLinkClicks();
-      self.setupDraggable();
 
-      Environment.on('global:resizeDebounced-200ms', function(){
+      if ( self.draggable ) {
+        self.setupDraggable();
+      }
+
+      if ( self.useCSS3 ) {
+        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3Easing);
+      }
+
+      Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function(){
         self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
       });
 
@@ -122,19 +139,13 @@ define(function(require){
 
       var self = this;
 
-      self.currentSlide = 0;
-
-      if ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.450, 0.735, 0.445, 0.895)');
-      }
-
       self.$el.sonyDraggable({
         'axis': self.axis,
         'unit': self.unit,
         'dragThreshold': self.dragThreshold,
         'containment': self.$wrapper,
         'useCSS3': self.useCSS3,
-        'drag': function(){ iQ.update(true); }
+        'drag': iQ.update
       });
 
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
@@ -313,7 +324,7 @@ define(function(require){
         repositionCb = Utilities.once(function(){
 
           if ( self.isJumped ) {
-            self.$allSlides.each(function(){
+            ( self.$allSlides || self.$slides ).each(function(){
               $(this).detach().appendTo(self.$el);
             });
           }
@@ -349,10 +360,17 @@ define(function(require){
         return;
       }
 
-      var $dotnavWrapper = $('<div class="sony-dot-nav" />').insertAfter(self.$wrapper);
+      var $dotnavWrapper = $('<div class="sony-dot-nav" />');
+
+      if ( self.$dotNavWrapper ) {
+        $dotnavWrapper.appendTo(self.$dotNavWrapper);
+      } else {
+        $dotnavWrapper.insertAfter(self.$wrapper);
+      }
 
       self.$dotnav = $dotnavWrapper.sonyNavDots({
-        'buttonCount': self.$slides.length
+        'buttonCount': self.$slides.length,
+        'theme': self.paginationTheme
       });
 
       self.$dotnav.on('SonyNavDots:clicked', function(e, which) {
@@ -369,7 +387,7 @@ define(function(require){
     createPaddles: function() {
 
       var self = this,
-          $wrapper = self.$wrapper;
+          $wrapper = self.$paddleWrapper || self.$wrapper;
 
       if ( Modernizr.touch || self.paddlesInit ) {
         return;
@@ -401,9 +419,32 @@ define(function(require){
       });
     },
 
+    // Update animation speed, in ms.
+    //
+    //      $('#foo').sonyCarousel('setAnimationSpeed', 100);
+    //
+    setAnimationSpeed: function(newSpeed){
+
+      var self = this;
+
+      self.animationSpeed = newSpeed;
+    },
+
+    // Update CSS3 Easing equation.
+    //
+    //      $('#foo').sonyCarousel('setCSS3Easing', 'ease-in');
+    //      $('#foo').sonyCarousel('setCSS3Easing',
+    //          'cubic-bezier(0.000, 1.035, 0.400, 0.985)');
+    //
+    setCSS3Easing: function(bezierStr){
+
+      var self = this;
+
+      self.CSS3Easing = bezierStr;
+    },
+
     // To prevent drags from being misinterpreted as clicks, we only redirect the user
     // if their interaction time and movements are below certain thresholds.
-
     setupLinkClicks: function() {
 
       var self = this,
@@ -456,6 +497,40 @@ define(function(require){
       if ( self.pagination ) {
         self.createPagination();
       }
+    },
+
+    // Reset the style attribute for the properties we might have manipulated.
+    // Destroy the plugins we've initialized as part of the carousel.
+
+    destroy: function() {
+
+      var self = this,
+          $paddleWrapper = self.$paddleWrapper || self.$wrapper;
+
+      // Reset styles.
+      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '')
+          .css(Modernizr.prefixed('transitionDuration'), '' )
+          .css(Modernizr.prefixed('transform'), '')
+          .css('left', '');
+
+      // Unbind
+      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
+      self.$el.off('sonyDraggable:dragStart');
+      self.$el.off('sonyDraggable:dragEnd');
+
+      // Destroy all plugins.
+      self.$el.sonyDraggable('destroy');
+
+      if ( self.paddles ) {
+        $paddleWrapper.sonyPaddles('destroy');
+      }
+
+      if ( self.$dotnav ) {
+        self.$dotnav.sonyNavDots('destroy');
+      }
+
+      // Remove data from element, allowing for later reinit.
+      self.$el.removeData('sonyCarousel');
     }
   };
 
@@ -466,11 +541,11 @@ define(function(require){
     var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
       var self = $(this),
-        sonyCarousel = self.data('sonyCarousel');
+          sonyCarousel = self.data('sonyCarousel');
 
       if ( !sonyCarousel ) {
-          sonyCarousel = new SonyCarousel( self, options );
-          self.data( 'sonyCarousel', sonyCarousel );
+        sonyCarousel = new SonyCarousel( self, options );
+        self.data( 'sonyCarousel', sonyCarousel );
       }
 
       if ( typeof options === 'string' ) {
@@ -500,6 +575,9 @@ define(function(require){
     // in the slideChildren set.
     defaultLink: undefined,
 
+    // Should this be draggable? True for most carousels, so default on.
+    draggable: true,
+
     // Should this carousel seamlessly loop from end to end?
     looped: false,
 
@@ -514,7 +592,10 @@ define(function(require){
     cloneClass: 'sony-carousel-edge-clone',
 
     // Speed of slide animation, in ms.
-    animationSpeed: 450,
+    animationSpeed: 500,
+
+    //default CSS3 easing equation
+    CSS3Easing: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)',
 
     // Which direction the carousel moves in. Plugin currently only supports 'x'.
     axis: 'x',
@@ -532,8 +613,17 @@ define(function(require){
     // Create paddles.
     paddles: false,
 
+    // If element is specified, insert pagination into that element instead of using the default position.
+    $dotNavWrapper: undefined,
+
+    // If element is specified, insert paddles into that element instead of using the default position.
+    $paddleWrapper: undefined,
+
     // Create dot pagination, which is inserted after self.$el.
-    pagination: false
+    pagination: false,
+
+    // Use `light` or `dark` bullets for pagination.
+    paginationTheme: 'dark'
   };
 
 });

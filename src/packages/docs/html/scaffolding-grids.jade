@@ -1,0 +1,192 @@
+include ../../common/html/ieconditionals.html
+doctype 5
+
+include docs-head.html
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
+  //- include docs-nav.html
+
+  div#page-wrap-outer.page-wrap-outer
+    div#page-wrap-inner.page-wrap-inner
+
+      div.wikiNav.wikiDemoNav
+        div.container
+            div.grid
+              div#primaryNav.primaryNav
+                ul
+                  li.navLogo
+                    a(href='doku.php')
+                      span.sprite-32a-sony-logo-sm-short
+
+      header.jumbotron.subhead#overview
+        div.container
+          div.grid
+            h6.bs-docs-heading Scaffolding
+            h1.bs-docs-heading Grids Demo
+          
+      section.container(style='padding-bottom:0px; padding-top:30px; border-top:0;')
+        div.grid
+          h3.bs-docs-heading Standard Grid example
+
+      div.docs-page-structure-page.full-size.grid-examples
+        div.docs-page-structure-main
+          section.container.nesting-demo-parent
+            div.grid.show-grid
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+                div.span1
+                  | 1
+            div.grid.show-grid
+              div.span2
+                | 2
+              div.span3
+                | 3
+              div.span3
+                | 3
+              div.span4
+                | 4
+            div.grid.show-grid
+              div.span6
+                | 6
+              div.span6
+                | 6
+            div.grid.show-grid
+                div.span12
+                  | 12
+      section.container(style='padding-bottom:0; padding-top:20px; border-top:0;')
+        div.grid
+          h3.bs-docs-heading Basic grid HTML
+
+      div.docs-page-structure-page.full-width.grid-examples
+        div.docs-page-structure-main
+          section.container.nesting-demo-parent
+            div.grid.show-grid
+              div.span4
+                | 4
+              div.span8
+                | 8
+
+      section.container(style='padding-bottom:0; padding-top:0; border-top:0;')
+        div.grid
+          pre.prettyprint.prettyprint-jade
+            | .container
+            |   .grid
+            |     .span4
+            |     .span8
+
+      section.container(style='padding-bottom:0; padding-top:0; border-top:0;')
+        div.grid
+          h3.bs-docs-heading Rows
+
+      div.docs-page-structure-page.full-width.grid-examples
+        div.docs-page-structure-main
+          section.container.nesting-demo-parent
+            div.grid.show-grid
+              div.span6
+                | 6
+              div.span6
+                | 6
+            div.grid.show-grid
+              div.span12
+                | 12
+        
+      section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
+        div.grid
+          pre.prettyprint.prettyprint-jade
+            | .grid
+            |   .span6
+            |   .span6
+            | .grid
+            |   .span12
+
+      section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
+        div.grid
+          h3.bs-docs-heading Offsetting columns
+
+      div.docs-page-structure-page.full-width.grid-examples
+        div.docs-page-structure-main
+          section.container.nesting-demo-parent
+            div.grid.show-grid
+              div.span3
+                | 3
+              div.span4.offset2
+                | 4/2
+              div.span3
+                | 3
+      section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
+        div.grid
+          pre.prettyprint.prettyprint-jade
+            | .grid
+            |   .span3
+            |   .span4.offset2
+            |   .span3
+
+      section.container(style='padding-bottom:20px; padding-top:50px; border-top:0;')
+        div.grid
+          h2.bs-docs-heading Slim Grid
+
+      div.docs-page-structure-page.full-width.grid-examples
+        div.docs-page-structure-main
+          section.container.nesting-demo-parent
+            div.slimgrid.show-grid
+              div.span3
+                | 3
+              div.span3
+                | 3
+              div.span3
+                | 3
+              div.span3
+                | 3
+      section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
+        div.grid
+          pre.prettyprint.prettyprint-jade
+            | .slimgrid
+            |   .span3
+            |   .span3
+            |   .span3
+            |   .span3
+        
+      section.container(style='padding-bottom:20px; padding-top:50px; border-top:0;')
+        div.grid
+          h3.bs-docs-heading 5 Column Slim Grid
+
+      div.docs-page-structure-page.full-width.grid-examples
+        div.docs-page-structure-main
+          section.container.nesting-demo-parent
+            div.slimgrid5.show-grid
+              div.span2
+                | 2
+              div.span1
+                | 1
+              div.span1
+                | 1
+              div.span1
+                | 1
+      section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
+        div.grid
+          pre.prettyprint.prettyprint-jade
+            | .slimgrid5
+            |   .span2
+            |   .span1
+            |   .span1
+            |   .span1
+  include docs-foot-responsive.html

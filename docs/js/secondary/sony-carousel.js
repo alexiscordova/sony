@@ -49,7 +49,13 @@
 // If you've replaced or manipulated the slides, tell SonyCarousel to cache them again.
 //
 //      $('#foo').sonyCarousel('resetSlides');
-
+//
+// If you need to destroy the carousel, run the method below. You should be sure
+// to run destroy if you're wiping/reinitializing your carousels as part of resize
+// or something similar; otherwise you'll retain a ton of references in memory that
+// can't be garbage-collected.
+//
+//      $('#foo').sonyCarousel('destroy');
 
 define(function(require){
 
@@ -63,16 +69,19 @@ define(function(require){
       Environment = require('require/sony-global-environment'),
       sonyDraggable = require('secondary/sony-draggable'),
       sonyPaddles = require('secondary/sony-paddles'),
-      sonyNavigationDots = require('secondary/sony-draggable');
+      sonyNavigationDots = require('secondary/sony-navigationdots');
+
+  var _id = 0;
 
   var SonyCarousel = function($element, options){
     var self = this;
 
     $.extend(self, {}, $.fn.sonyCarousel.defaults, options, $.fn.sonyCarousel.settings);
 
+    self.currentSlide = 0;
+    self.id = _id++;
     self.$el = $element;
     self.$wrapper = self.$el.parent(self.wrapper);
-    self.$slides = self.$el.find(self.slides);
 
     self.init();
   };
@@ -85,22 +94,18 @@ define(function(require){
 
       var self = this;
 
+      self.resetSlides();
       self.setupLinkClicks();
-      self.setupDraggable();
 
-      if ( self.looped ) {
-        self.setupLoopedCarousel();
+      if ( self.draggable ) {
+        self.setupDraggable();
       }
 
-      if ( self.paddles ) {
-        self.createPaddles();
+      if ( self.useCSS3 ) {
+        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3Easing);
       }
 
-      if ( self.pagination ) {
-        self.createPagination();
-      }
-
-      Environment.on('global:resizeDebounced-200ms', function(){
+      Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function(){
         self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
       });
 
@@ -118,11 +123,11 @@ define(function(require){
         var $frontSlide = self.$slides.eq(i).clone(true),
             $backSlide = self.$slides.eq(self.$slides.length - 1 - i).clone(true);
 
-        $frontSlide.addClass('sony-carousel-edge-clone');
-        $frontSlide.data('sonyCarouselGoto', i);
+        $frontSlide.addClass(self.cloneClass)
+            .data('sonyCarouselGoto', i);
 
-        $backSlide.addClass('sony-carousel-edge-clone');
-        $backSlide.data('sonyCarouselGoto', self.$slides.length - 1 - i);
+        $backSlide.addClass(self.cloneClass)
+            .data('sonyCarouselGoto', self.$slides.length - 1 - i);
 
         self.$el.append($frontSlide).prepend($backSlide);
 
@@ -134,19 +139,13 @@ define(function(require){
 
       var self = this;
 
-      self.currentSlide = 0;
-
-      if ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.450, 0.735, 0.445, 0.895)');
-      }
-
       self.$el.sonyDraggable({
         'axis': self.axis,
         'unit': self.unit,
         'dragThreshold': self.dragThreshold,
         'containment': self.$wrapper,
         'useCSS3': self.useCSS3,
-        'drag': function(){ iQ.update(true); }
+        'drag': iQ.update
       });
 
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
@@ -232,16 +231,15 @@ define(function(require){
       var self = this,
           $slideSet = self.$slides,
           speed = ( noAnim ? 0 : self.animationSpeed ),
-          $destinationSlide, destinationLeft, innerContainerWidth;
+          $destinationSlide, destinationLeft, destinationRedirect, innerContainerWidth, repositionCb, newPosition;
 
       // Logic for the natural ends of a carousel that has been looped
 
       if ( self.looped && ( which === -1 || which >= self.$slides.length )) {
+        $slideSet = self.$allSlides;
         if ( which === -1 ) {
-          $slideSet = self.$allSlides;
           $destinationSlide = $slideSet.eq(self.edgeSlides - 1);
         } else if ( which >= self.$slides.length ) {
-          $slideSet = self.$allSlides;
           $destinationSlide = $slideSet.eq(self.edgeSlides + self.$slides.length);
         }
       } else {
@@ -292,7 +290,7 @@ define(function(require){
 
       if ( self.useCSS3 ) {
 
-        var newPosition = destinationLeft / innerContainerWidth;
+        newPosition = destinationLeft / innerContainerWidth;
 
         // If you're on the last slide, only move over enough to show the last child.
         // Prevents excess whitespace on the right.
@@ -316,45 +314,31 @@ define(function(require){
         });
       }
 
-      // Reorder if you were jumping (see: `self.jumping`)
-      // TODO: The callback logic here should be extracted, I'm re-typing it for the looped case below.
+      // If you've taken the carousel out of its normal flow (either with `self.jumping` or `self.looped`)
+      // Reset the carousel to its natural position and order.
 
-      if ( self.isJumped && speed ) {
+      destinationRedirect = $destinationSlide.data('sonyCarouselGoto');
 
-        var jumpCb = Utilities.once(function(){
+      if ( ( self.isJumped && speed ) || typeof destinationRedirect !== 'undefined' ) {
 
-          self.$allSlides.each(function(){
-            $(this).detach().appendTo(self.$el);
-          });
+        repositionCb = Utilities.once(function(){
 
-          self.gotoSlide( which, true );
+          if ( self.isJumped ) {
+            ( self.$allSlides || self.$slides ).each(function(){
+              $(this).detach().appendTo(self.$el);
+            });
+          }
+
+          self.gotoSlide( self.isJumped ? which : destinationRedirect, true );
+
           iQ.update(true);
-
           self.isJumped = false;
         });
 
         if ( self.useCSS3 ) {
-          self.$el.on(Settings.transEndEventName, jumpCb);
+          self.$el.on(Settings.transEndEventName, repositionCb);
         } else {
-          setTimeout(jumpCb, speed);
-        }
-
-        return;
-      }
-
-      // If this is a cloned slide, jump to the "real" slide.
-
-      if ( typeof $destinationSlide.data('sonyCarouselGoto') !== 'undefined' ) {
-
-        var loopedCb = Utilities.once(function(){
-          self.gotoSlide( $destinationSlide.data('sonyCarouselGoto'), true );
-          iQ.update(true);
-        });
-
-        if ( self.useCSS3 ) {
-          self.$el.on(Settings.transEndEventName, loopedCb);
-        } else {
-          setTimeout(loopedCb, speed);
+          setTimeout(repositionCb, speed);
         }
 
         return;
@@ -378,67 +362,89 @@ define(function(require){
 
       var $dotnavWrapper = $('<div class="sony-dot-nav" />');
 
-      $dotnavWrapper.insertAfter(self.$wrapper);
+      if ( self.$dotNavWrapper ) {
+        $dotnavWrapper.appendTo(self.$dotNavWrapper);
+      } else {
+        $dotnavWrapper.insertAfter(self.$wrapper);
+      }
 
       self.$dotnav = $dotnavWrapper.sonyNavDots({
-        'buttonCount': self.$slides.length
+        'buttonCount': self.$slides.length,
+        'theme': self.paginationTheme
       });
 
       self.$dotnav.on('SonyNavDots:clicked', function(e, which) {
         self.gotoSlide(which);
       });
 
-      self.$wrapper.on('SonyCarousel:gotoSlide', function(e, which) {
+      self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
         self.$dotnav.sonyNavDots('reset', {
           'activeButton': which
         });
-
-        if( $('html').hasClass('lt-ie9') ){
-          var height = 0;
-          self.$dotnav.css('display' , 'none');
-          height = self.$dotnav.get(0).offsetHeight;
-          self.$dotnav.css('display' , 'block');
-        }
       });
     },
 
     createPaddles: function() {
 
       var self = this,
-          paddles = function(a,b){ self.$wrapper.sonyPaddles(a,b); };
+          $wrapper = self.$paddleWrapper || self.$wrapper;
 
-      if ( Modernizr.touch ) {
+      if ( Modernizr.touch || self.paddlesInit ) {
         return;
       }
 
-      paddles();
+      self.paddlesInit = true;
 
-      self.$wrapper.on('SonyCarousel:gotoSlide', function(e, which) {
+      $wrapper.sonyPaddles();
 
-        paddles('showPaddle', 'left');
-        paddles('showPaddle', 'right');
+      self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
+
+        $wrapper.sonyPaddles('showPaddle', 'both');
 
         if ( which === 0 && !self.looped ) {
-          paddles('hidePaddle', 'left');
+          $wrapper.sonyPaddles('hidePaddle', 'left');
         }
 
         if ( which === self.$slides.length - 1 && !self.looped ) {
-          paddles('hidePaddle', 'right');
+          $wrapper.sonyPaddles('hidePaddle', 'right');
         }
       });
 
-      self.$wrapper.on('sonyPaddles:clickLeft', function(){
+      $wrapper.on('sonyPaddles:clickLeft', function(){
         self.gotoSlide(self.currentSlide - 1);
       });
 
-      self.$wrapper.on('sonyPaddles:clickRight', function(){
+      $wrapper.on('sonyPaddles:clickRight', function(){
         self.gotoSlide(self.currentSlide + 1);
       });
     },
 
+    // Update animation speed, in ms.
+    //
+    //      $('#foo').sonyCarousel('setAnimationSpeed', 100);
+    //
+    setAnimationSpeed: function(newSpeed){
+
+      var self = this;
+
+      self.animationSpeed = newSpeed;
+    },
+
+    // Update CSS3 Easing equation.
+    //
+    //      $('#foo').sonyCarousel('setCSS3Easing', 'ease-in');
+    //      $('#foo').sonyCarousel('setCSS3Easing',
+    //          'cubic-bezier(0.000, 1.035, 0.400, 0.985)');
+    //
+    setCSS3Easing: function(bezierStr){
+
+      var self = this;
+
+      self.CSS3Easing = bezierStr;
+    },
+
     // To prevent drags from being misinterpreted as clicks, we only redirect the user
     // if their interaction time and movements are below certain thresholds.
-
     setupLinkClicks: function() {
 
       var self = this,
@@ -478,15 +484,53 @@ define(function(require){
 
       var self = this;
 
-      self.$slides = self.$el.find(self.slides).not('.sony-carousel-edge-clone');
-
-      if ( self.pagination ) {
-        self.createPagination();
-      }
+      self.$slides = self.$el.find(self.slides).not(self.cloneClass);
 
       if ( self.looped ) {
         self.setupLoopedCarousel();
       }
+
+      if ( self.paddles ) {
+        self.createPaddles();
+      }
+
+      if ( self.pagination ) {
+        self.createPagination();
+      }
+    },
+
+    // Reset the style attribute for the properties we might have manipulated.
+    // Destroy the plugins we've initialized as part of the carousel.
+
+    destroy: function() {
+
+      var self = this,
+          $paddleWrapper = self.$paddleWrapper || self.$wrapper;
+
+      // Reset styles.
+      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '')
+          .css(Modernizr.prefixed('transitionDuration'), '' )
+          .css(Modernizr.prefixed('transform'), '')
+          .css('left', '');
+
+      // Unbind
+      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
+      self.$el.off('sonyDraggable:dragStart');
+      self.$el.off('sonyDraggable:dragEnd');
+
+      // Destroy all plugins.
+      self.$el.sonyDraggable('destroy');
+
+      if ( self.paddles ) {
+        $paddleWrapper.sonyPaddles('destroy');
+      }
+
+      if ( self.$dotnav ) {
+        self.$dotnav.sonyNavDots('destroy');
+      }
+
+      // Remove data from element, allowing for later reinit.
+      self.$el.removeData('sonyCarousel');
     }
   };
 
@@ -497,11 +541,11 @@ define(function(require){
     var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
       var self = $(this),
-        sonyCarousel = self.data('sonyCarousel');
+          sonyCarousel = self.data('sonyCarousel');
 
       if ( !sonyCarousel ) {
-          sonyCarousel = new SonyCarousel( self, options );
-          self.data( 'sonyCarousel', sonyCarousel );
+        sonyCarousel = new SonyCarousel( self, options );
+        self.data( 'sonyCarousel', sonyCarousel );
       }
 
       if ( typeof options === 'string' ) {
@@ -531,6 +575,9 @@ define(function(require){
     // in the slideChildren set.
     defaultLink: undefined,
 
+    // Should this be draggable? True for most carousels, so default on.
+    draggable: true,
+
     // Should this carousel seamlessly loop from end to end?
     looped: false,
 
@@ -541,8 +588,14 @@ define(function(require){
     // Helpful if your carousel lets the user see more than a few slides at once.
     edgeSlides: 1,
 
+    // Default class for edgeSlides.
+    cloneClass: 'sony-carousel-edge-clone',
+
     // Speed of slide animation, in ms.
-    animationSpeed: 450,
+    animationSpeed: 500,
+
+    //default CSS3 easing equation
+    CSS3Easing: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)',
 
     // Which direction the carousel moves in. Plugin currently only supports 'x'.
     axis: 'x',
@@ -560,8 +613,17 @@ define(function(require){
     // Create paddles.
     paddles: false,
 
+    // If element is specified, insert pagination into that element instead of using the default position.
+    $dotNavWrapper: undefined,
+
+    // If element is specified, insert paddles into that element instead of using the default position.
+    $paddleWrapper: undefined,
+
     // Create dot pagination, which is inserted after self.$el.
-    pagination: false
+    pagination: false,
+
+    // Use `light` or `dark` bullets for pagination.
+    paginationTheme: 'dark'
   };
 
 });

@@ -124,6 +124,11 @@ $modalHeight: 550px;
     background-color: transparent;
     @include box-shadow(none);
   }
+
+  // Do something for browsers without box shadow to show depth
+  .no-boxshadow & {
+    border: 1px solid $gray40;
+  }
 }
 
 // Body (where all modal content resides)
@@ -167,14 +172,14 @@ $modalHeight: 550px;
 
   border: none;
 
-  &.native-scrolling {
-    overflow-x: hidden;
-    overflow-y: auto;
+  // &.native-scrolling {
+  //   overflow-x: hidden;
+  //   overflow-y: auto;
 
-    // html:not(.android) & .modal-body {
-    //   overflow: visible;
-    // }
-  }
+  //   // html:not(.android) & .modal-body {
+  //   //   overflow: visible;
+  //   // }
+  // }
 
   &.fade.in { top: 0; }
 
@@ -226,6 +231,7 @@ $modalHeight: 550px;
   float: none;
   width: px-em(203);
   border: 0;
+  opacity: 1;
 
   // Hide arrow
   &:before {

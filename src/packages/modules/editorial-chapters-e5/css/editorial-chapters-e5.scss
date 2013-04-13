@@ -1,0 +1,136 @@
+@import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../../../common/css/_base/mixins";
+
+.editorial-chapters-container {
+  .editorial-chapters {
+    position: relative;
+  }
+    .editorial-carousel-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+      .editorial-carousel {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        -webkit-backface-visibility: hidden;
+      }
+        .editorial-carousel-slide {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          float: left;
+          display: block;
+        }
+    .thumb-nav {
+      position:absolute;
+      bottom:30px;
+      margin-bottom:0;
+      text-align:center;
+      height:72px;
+      left:3.75%;
+
+      li {
+        padding:10px;
+        height:68px;
+        display: inline-block;
+        background:$gray80;
+        color:$gray40;
+        cursor:pointer;
+        text-align:left;
+        line-height:16px;
+        border:0;
+        width:25%;
+        vertical-align:bottom;
+
+        &.active,
+        &:hover {
+          border-top:4px solid $linkBlue;
+          height:72px;
+          color:$gray20;
+          @include transition();
+
+          img {@include opacity(100);}
+        }
+
+        .lt-ie8 & {
+          @include ie7-inline-block();
+        }
+      }
+          img {
+            position:relative;
+            display:block;  
+            height:48px;
+            min-width:64px;
+            float:left;
+            margin-right:10px;
+            @include transition();
+            @include opacity(90);
+          }
+          i {
+            font-size:20px;
+            margin-right:10px;
+            line-height:16px;
+            position:relative;
+            top:13px;
+            float:left;
+            margin-bottom:20px;
+          }
+          span {
+            font-size:12px;
+            position:relative;
+            top:-3px;
+          }
+    }
+    &.gray .thumb-nav li {
+      background:$white;
+    }
+    &.dark .thumb-nav li {
+      background:$gray20;
+      color:$white;
+      color:$gray50;
+
+      img {@include opacity(75);}
+
+      &.active,
+      &:hover {
+        color:$white;
+      }
+    }
+    &.top-nav .thumb-nav {
+      bottom:auto;
+      top:30px;
+
+      li {
+        vertical-align:top;
+
+        &.active,
+        &:hover {
+          border-top:0;
+          border-bottom:4px solid $linkBlue;
+        }
+      }
+    }
+    &.icon-mode .thumb-nav {
+      li {padding-left:20px; padding-right:20px;}
+        img {display:none;}
+    }
+}
+.span4 .editorial-chapters-container,
+.span5 .editorial-chapters-container,
+.span6 .editorial-chapters-container {
+  &.thumb-mode,
+  &.icon-mode {
+    .thumb-nav {
+      li {
+        width:auto;
+
+        img,
+        i {margin-right:0;}
+        span {display:none;}
+      }
+    }
+  } 
+}

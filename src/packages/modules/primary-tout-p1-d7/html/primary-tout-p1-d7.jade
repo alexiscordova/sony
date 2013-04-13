@@ -1,8 +1,11 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('primary-tout-p1-d7')
+
 mixin eyebrow(d)
   d = d || data
   if d.eyebrow
     if d.eyebrow.link
-      a.eyebrow(href= d.eyebrow.link) 
+      a.eyebrow(href= d.eyebrow.link)
         i.fonticon-10-chevron-reverse
         | !{locals.plusify(d.eyebrow.text)}
 
@@ -11,7 +14,7 @@ mixin eyebrow(d)
 
 mixin header(d)
   d = d || data
-  if d.variation 
+  if d.variation
     if d.variation.quote
       blockquote.bq1
         p!= d.quote
@@ -25,9 +28,9 @@ mixin header(d)
 mixin bodytext(d, extraclass)
   d = d || data
   extraclass = extraclass || ""
-  if d.body 
+  if d.body
     p.p3(class= extraclass)!= d.body
-    
+
 mixin links(d, extraclass)
   d = d || data
   extraclass = extraclass || ""
@@ -38,7 +41,7 @@ mixin links(d, extraclass)
           a(class= extraclass)(class= "btn", href= link.url)!= link.text
         when "video"
           a(class= extraclass)(href= link.url)
-            i.fonticon-15-circle-play 
+            i.fonticon-15-circle-play
             span!= link.text
         when "slider"
           a(class= extraclass)(href= link.url)
@@ -66,7 +69,6 @@ mixin boxlayout(layout)
             .table-center
               +boxclass
                 block
-
   else if layout.text == "right" || layout.text == "center"
     .container.inner(class= classes)
       .grid.no-grid-at-767
@@ -83,8 +85,9 @@ classes = data.mode
 if data.theme
   classes = classes + " " + data.theme
 .primary-tout.container.full-bleed-no-max(class= classes)
-  e = {"locals":locals, "data":data.image}
-  !{locals.partial('packages/modules/image/html/image.html.jade' , e)}
+  .container.full-bleed-no-max.hero-image
+    e = {"locals":locals, "data":data.image}
+    !{locals.partial('packages/modules/image/html/image.jade' , e)}
   if data.mode == "homepage"
     if data.variation.secondbox
       +boxlayout
@@ -129,4 +132,4 @@ if data.theme
 
 
 
-  
+

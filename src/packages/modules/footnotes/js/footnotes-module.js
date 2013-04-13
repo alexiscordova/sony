@@ -48,14 +48,11 @@ define(function(require){
 
       var self = this;
 
+      //On header click, slide toggle the footnotes list
       self.$el.on('click', 'h2', function(){
         self.$el.toggleClass('open')
           .find('.list').slideToggle(200);
       });
-
-    },
-
-    renderMobile: function() {
 
     }
   };

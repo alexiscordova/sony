@@ -1,0 +1,34 @@
+include ../../../common/html/jade-helpers.jade
+
+doctype 5
+include ../../../common/html/ieconditionals.html
+
+head
+  include ../../../common/html/head.jade
+
+body
+
+  .container
+    h2= 'S1-S4. Secondary Touts'
+
+  .container
+    .grid
+      h4 S2. One Sony Carousel
+
+  +partial("one-sony-tout-carousel-s2/html/one-sony-tout-carousel-s2.jade", "packages/modules/one-sony-tout-carousel-s2/demo/data/demo.json")
+
+  .container
+    .grid
+      h4 S4. What's New Tout
+
+  +partial("whats-new-tout-s4/html/whats-new-tout-s4-module.jade", "packages/modules/whats-new-tout-s4/demo/data/demo.json")
+
+  .container
+    .grid
+      h4 S2. Standard Secondary Tout
+
+  +partial("secondary-touts-s1-s4/html/secondary-tout-s3.jade", "packages/modules/secondary-touts-s1-s4/demo/data/demo.json")
+
+  include ../../../common/html/foot.jade
+</html>
+

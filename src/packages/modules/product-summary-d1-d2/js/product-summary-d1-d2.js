@@ -4,9 +4,9 @@
 //
 // * **Class:** ProductSummary
 // * **Version:** 0.1
-// * **Modified:** 03/15/2013
+// * **Modified:** 04/09/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.7+, Modernizr, Enquire
+// * **Dependencies:** jQuery 1.7+, Modernizr, Enquire, sony-stickynav, simplescroll
 
 define(function(require) {
 
@@ -23,7 +23,11 @@ define(function(require) {
 
   var module = {
     init: function() {
-      new ProductSummary( $('.product-summary-module')[0] );
+      var $psModule = $('.ps-module');
+
+      if ( $psModule.length ) {
+        new ProductSummary( $psModule[0] );
+      }
     }
   };
 
@@ -32,6 +36,7 @@ define(function(require) {
     var self = this;
 
     self.isDesktop = false;
+    self.isTablet = false;
     self.isMobile = false;
 
     self.$el = $( element );
@@ -60,6 +65,9 @@ define(function(require) {
       self.$stickyPriceText = self.$stickyNav.find('.price-text');
       self.$modal = self.$el.find('#share-tool');
 
+      self.$span1AtTablet = self.$el.find('#span1-at-tablet');
+      self.$span3AtTablet = self.$el.find('#span3-at-tablet');
+
       self.$favoriteBtn.on('click', $.proxy( self._onFavorite, self ));
       self.$shareBtn.on('click', $.proxy( self._onShare, self ));
 
@@ -79,6 +87,16 @@ define(function(require) {
         enquire.register('(min-width: 48em)', {
           match: function() {
             self._setupDesktop();
+          }
+        })
+        .register('(min-width: 48em) and (max-width: 61.1875em)', {
+          match: function() {
+            self._setupTablet();
+          }
+        })
+        .register('(min-width: 61.25em)', {
+          match: function() {
+            self._teardownTablet();
           }
         })
         .register('(max-width: 47.9375em)', {
@@ -108,7 +126,7 @@ define(function(require) {
         // Init sticky nav
         self.$stickyNav.stickyNav({
           $jumpLinks: self.$jumpLinks,
-          offset: 10,
+          offset: 0,
           offsetTarget: self.$el.find('.jump-links:not(.nav)')
         });
 
@@ -169,7 +187,7 @@ define(function(require) {
 
       if ( toDesktop ) {
         $msrp.insertBefore( $price );
-        self.$stickyNav.find('.btn').after( self.$stickyPriceText );
+        self.$stickyNav.find('#desktop-sticky-price').append( self.$stickyPriceText );
       } else {
         $msrp.insertAfter( $price );
         self.$stickyTitle.after( self.$stickyPriceText );
@@ -179,8 +197,7 @@ define(function(require) {
 
     _hideShareDialog : function( toDesktop ) {
       var $closer = toDesktop ? $('.modal-backdrop') : Settings.$document;
-      $closer.click();
-
+      $closer.trigger('click');
     },
 
     _setupDesktop : function() {
@@ -196,6 +213,31 @@ define(function(require) {
       self._swapDomElements( true );
     },
 
+    _setupTablet : function() {
+      var self = this;
+
+      self.isTablet = true;
+
+      self.$span1AtTablet.removeClass( 'span2' ).addClass( 'span1' );
+      self.$span3AtTablet.removeClass( 'span2' ).addClass( 'span3' );
+    },
+
+    _teardownTablet : function() {
+      var self = this;
+
+
+      if ( self.isTablet ) {
+        // Spans need to be reset
+        self.$span1AtTablet
+          .add( self.$span3AtTablet )
+            .removeClass('span1 span3')
+            .addClass('span2');
+      }
+
+      self.isTablet = false;
+
+    },
+
     _setupMobile : function() {
       var self = this,
           wasDesktop = self.isDesktop;
@@ -209,9 +251,10 @@ define(function(require) {
       self._swapTexts( false );
       self._swapDomElements( false );
 
-      // If this was originally setup desktop, there will be heights set on the columns
       if ( wasDesktop ) {
+        // If this was originally setup desktop, there will be heights set on the columns
         self.$evenCols.css('height', '');
+        self._teardownTablet();
       }
     }
   };

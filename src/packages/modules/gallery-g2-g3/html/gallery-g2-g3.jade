@@ -1,3 +1,6 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('gallery-g2-g3')
+
 include gallery-helpers.jade
 
 +galleryStickyTabs( data.tabs, data.config.module_name, data.config.module_id )
@@ -17,7 +20,9 @@ include gallery-helpers.jade
 
   if data.tabs[2]
     .tab-pane.fade(data-tab=data.tabs[2].slug)
-      +productStrips( data.submodules, data.accessories, 'accessory' )
+      if data.accessories.accessoryFinder
+        +accessoryFinder( data.submodules, data.accessories.accessoryFinder )
+      +productStrips( data.submodules, data.accessories.productStrips, 'accessory' )
 
   - for (i = 3; i < 10; i++) {
   if data.tabs[i]

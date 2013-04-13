@@ -76,14 +76,23 @@
 // Gallery
 // -------------------------
 
-.loading.gallery-loader {
-  position: relative;
+// 60x60 gif
+$gifWidth: 60px;
+$gifHeight: 60px;
+.gallery-loader .loading {
+  position: absolute;
+  z-index: 400;
+  width: 100%;
+  height: $gifHeight;
+  left: 0;
+  top: 200px;
 
   img {
     position: absolute;
     left: 50%;
-    margin-left: -30px; // 60x60 gif
-    top: 50px;
+    top: 50%;
+    margin-left: -$gifWidth / 2;
+    margin-top: -$gifHeight / 2;
   }
 }
 
@@ -193,15 +202,22 @@
 // Holdes Filter Results button, compare button, # products, and sorting dropdown
 .filter-display-bar {
   position: relative;
-  // z-index: 1;
-  z-index: 11;
+  z-index: 20;
 
   .btn {
     margin-bottom: 0;
   }
 
+  .product-count-wrap {
+    margin: 0;
+  }
+
+  .product-count {
+    padding-right: px-em(2, 13);
+  }
+
   .slide-toggle,
-  .accessory-finder {
+  .accessory-finder-btn {
     margin-left: 2.5em;
   }
 
@@ -219,6 +235,10 @@
   .btn + .btn {
     margin-left: .375em;
   }
+}
+
+.accessory-finder-btn {
+
 }
 
 .filter-options {
@@ -528,11 +548,34 @@
 //                                   888
 //                                   888
 
+// We want the width of the grid, but not the .span# sizes that come with it
+// $fluidGridWidth1200
+.gallery-compare .products {
+  width: $fluidGridWidth;
+  margin: auto;
+  overflow: visible;
+  border-right: .0625em solid $gray70;
+  @include transition(box-shadow $transitionFast ease-in);
 
-.tone-bar {
-  padding-top: 1.125em;
-  padding-bottom: 1.5625em;
+  &.overflowing {
+    @include box-shadow(inset -.125em 0 .1875em -.125em $transparentBlack);
+    @include transition-timing-function(ease-out);
+  }
+}
+
+// Tone bar
+// -------------------
+.gallery .tone-bar {
+  padding-top: px-em(19);
+  padding-bottom: px-em(25);
+  width: 100%;
   background: $gray80;
+
+  // Fix it, change padding
+  &.sticky-nav {
+    padding-top: px-em(20);
+    padding-bottom: px-em(14);
+  }
 
   .mini-swatch {
     vertical-align: middle;
@@ -540,13 +583,23 @@
 }
 
 .compare-gallery-title {
+  float: left;
   margin-right: 1em;
   margin-bottom: 0;
+  @include transition();
+}
+
+.gallery .tone-bar .legend {
+  float: left;
+  display: inline-block;
 }
 
 .compare-reset {
   display: block;
+  float: right;
   color: $gray20;
+  margin-top: 5px;
+  margin-bottom: 0;
 
   &.disabled {
     color: $gray50;
@@ -556,6 +609,35 @@
     position: relative;
     font-size: 16px; // don't get font size from the font
     margin-right: .4375em;
+  }
+}
+
+
+$compareBorder: .0625em solid $gray70;
+.gallery-compare {
+  overflow: hidden;
+
+  .detail-label-group,
+  .detail-group {
+    border-top: $compareBorder;
+  }
+
+  .detail-labels-wrap {
+    border-right: $compareBorder;
+
+    &:before {
+      width: 100%;
+      background-color: transparent;
+    }
+  }
+
+  .detail,
+  .detail-label {
+    border-bottom: $compareBorder;
+  }
+
+  .detail-label {
+    padding: 1.125em 1em 0 0;
   }
 }
 
@@ -573,60 +655,23 @@
   }
 }
 
-// Wrapper for the items in the compare tool. Sibling of the labels.
 .compare-items-wrap {
   position: relative;
-  height: 100%; // Get parent's height
-  overflow: visible !important; // override iscroll
 
-  // .lt-ie9 &,
-  // .sonytablets & {
-  //   overflow: hidden !important;
-  // }
+  .no-csstransforms & {
+    float: left;
+  }
 }
-
-.compare-items-container {
-  height: 100%;
-}
-
-// .compare-nav {
-//   position: absolute;
-//   z-index: 15;
-//   top: 330px;
-//   width: 100%;
-//   opacity: 0;
-//   @include transition();
-
-//   .no-opacity & {
-//     display: none;
-//   }
-
-//   // Hide nav buttons when the sticky nav is active
-//   &.sticky-nav-open .nav-prev,
-//   &.sticky-nav-open .nav-next {
-//     @include opacity(0);
-//   }
-
-//   .nav-prev,
-//   .nav-next {
-//     position: absolute;
-//     top: 0;
-//   }
-
-//   .nav-prev {
-//     left: 60px;
-//   }
-
-//   .nav-next {
-//     right: 60px;
-//   }
-// }
 
 // Compare Items
+// --------------------
+$stickyHeaderHeight: px-em(82);
 .compare-item {
   position: relative;
+  overflow: hidden;
   background: $white;
   color: $gray20;
+  border-right: .0625em solid $gray70;
   @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
 
   .gallery & {
@@ -641,12 +686,16 @@
     width: 0;
   }
 
-  .product-img {
-    text-align: center;
+  .favorite-holder {
+    font-size: 16px; // ghost-center-wrap set it to zero
+    position: absolute;
+    left: .125em;;
+    bottom: 0;
   }
 
-  .compare-sticky-header .product-name-wrap {
-    padding-right: 2.5em;
+  .product-img {
+    position: relative;
+    text-align: center;
   }
 
   .product-content .product-name-wrap,
@@ -654,15 +703,17 @@
   .product-price,
   .color-swatches {
     margin-bottom: 1.25em;
-    padding-right: 1.25em;
-    padding-left: 1.25em;
+    padding-right: 1.875em;
+    padding-left: .9375em;
   }
 
   .detail {
     color: $gray20;
-    min-height: 2.5em;
-    padding-right: 1.25em;
-    padding-left: 1.25em;
+    padding: 1.25em 1.875em 2.5em .9375em;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
 
     // Copy paste the .visuallyhidden class
     .cell-label {
@@ -679,6 +730,10 @@
 
   .detail.highlighted {
     background: $lemon;
+
+    .p3 {
+      color: $gray20;
+    }
   }
 
   .media p:not(.media-heading) {
@@ -693,47 +748,352 @@
   .product-model {
     margin-bottom: 0;
   }
+
+  // Sticky headers
+  .compare-sticky-header {
+    top: -2em;
+    width: 100%;
+    height: px-em(106);
+    padding: 0;
+    background: $white;
+    border-right: .0625em solid $gray70; // 1 pixel
+    text-align: center;
+
+    &.open {
+      top: 0;
+    }
+
+    img {
+      max-height: 80px;
+    }
+
+    .product-model {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+    }
+  }
 }
 
-// .takeover-sticky-header {
-//   position: absolute;
-//   z-index: 20;
-//   top: -6.25em;
-//   left: -999em;
-//   width: 100%;
-//   background: $white;
-//   @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
-
-//   .native-scrolling & {
-//     position: fixed;
-//   }
-
-//   .no-sticky-headers & {
-//     border-bottom: 1px solid $gray70;
-//   }
-
-//   &.open {
-//     left: 0;
-//     top: 0;
-//     @include transition-delay(0s);
-//     @include transition-timing-function(ease-out);
-//   }
-
-//   .sticky-nav-title {
-//     padding: 18px 0;
-//     margin-bottom: 0;
-//   }
-
-//   .box-close {
-//     top: 15px;
-//   }
-// }
+.gallery-compare {
 
 
-// .compare-item-remove {
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-// }
+  .sticky-count {
+    padding: 0;
+    width: 100%;
+    height: px-em(106);
+
+    // Gray bar on the left side of the container
+    &:before {
+      background: $white;
+      width: 3000px;
+      right: 1px;
+      @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
+    }
+
+    // Gray bar on the right side of the container
+    .right-bar {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 800%;
+      height: px-em(106);
+      width: 187em;
+      background: $white;
+      @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
+    }
+  }
+}
+
+
+// Nav
+// -------------------------
+.compare-wrap {
+
+  .pagination-paddle {
+    top: px-em(100);
+  }
+
+  // Sticky headers are disabled for IE < 10,
+  // this will still move the paddle position
+  .sticky-header-open & .pagination-paddle,
+  .lt-ie10 .sticky-nav.open ~ .relative & .pagination-paddle {
+    position: fixed;
+    top: px-em(330);
+  }
+
+  // .lt-ie9 & .pagination-next {
+  //   right: 0;
+  // }
+  // .lt-ie9 & .pagination-prev {
+  //   left: 0;
+  // }
+
+  // .lt-ie10 .sticky-nav.open ~ & .pagination-next {
+  //   right: 4%;
+  // }
+  // .lt-ie10 .sticky-nav.open ~ & .pagination-prev {
+  //   left: 4%;
+  // }
+}
+
+// Don't even bother with elements if we're not going to use them
+.no-sticky-headers {
+  .compare-sticky-header,
+  .sticky-count,
+  .right-bar {
+    display: none !important;
+  }
+}
+
+
+
+//        d8888                                                                              8888888888 d8b               888
+//       d88888                                                                              888        Y8P               888
+//      d88P888                                                                              888                          888
+//     d88P 888  .d8888b  .d8888b  .d88b.  .d8888b  .d8888b   .d88b.  888d888 888  888       8888888    888 88888b.   .d88888  .d88b.  888d888
+//    d88P  888 d88P"    d88P"    d8P  Y8b 88K      88K      d88""88b 888P"   888  888       888        888 888 "88b d88" 888 d8P  Y8b 888P"
+//   d88P   888 888      888      88888888 "Y8888b. "Y8888b. 888  888 888     888  888       888        888 888  888 888  888 88888888 888
+//  d8888888888 Y88b.    Y88b.    Y8b.          X88      X88 Y88..88P 888     Y88b 888       888        888 888  888 Y88b 888 Y8b.     888
+// d88P     888  "Y8888P  "Y8888P  "Y8888   88888P'  88888P'  "Y88P"  888      "Y88888       888        888 888  888  "Y88888  "Y8888  888
+//                                                                                 888
+//                                                                            Y8b d88P
+//                                                                             "Y88P"
+
+
+// Accessory Finder
+// ------------------
+
+.accessory-finder {
+  margin-top: auto;
+  height: auto;
+  max-height: 90%;
+
+  &.fade.in {
+    top: 5%;
+  }
+
+  // .container {
+  //   max-height: 100%;
+  // }
+
+  .modal-header {
+    padding: px-em(36) 0 px-em(30);
+
+    #accessory-modal-title {
+      line-height: 1;
+      margin-bottom: 7px;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .modal-subhead {
+    position: relative;
+    z-index: 5;
+    height: px-em(80);
+    padding: px-em(15) 0;
+    background: $gray80;
+    @include transition( box-shadow $transitionNormal $easeNormal );
+
+    &.body-scrolled {
+      @include box-shadow( 0 6px 10px -4px $stickyShadowColor );
+    }
+
+    // Reset styles from main gallery
+    .filter-container {
+      position: static;
+      max-width: none;
+      margin: auto;
+    }
+  }
+
+  .modal-body {
+    padding: px-em(42) 0 px-em( 40 - 18 );
+
+    .lt-ie9 & {
+      background: white;
+    }
+  }
+
+  // Put the sorting above the products to handle the negative margin top
+  .compat-filters {
+    position: relative;
+    z-index: 2;
+  }
+
+  .product-count-wrap {
+    float: left;
+    margin-top: px-em(11);
+  }
+
+  .products {
+    position: relative;
+    z-index: 1;
+    top: px-em(-18);
+    height: 400px;
+  }
+
+  .search-form {
+    position: relative;
+    width: 40%;
+
+    .input-icon {
+      position: absolute;
+      left: px-em(13, 18);
+      top: 50%;
+      margin-top: px-em(-9, 18);
+      color: $gray50;
+      font-size: px-em(18);
+    }
+
+    #accessory-finder-input {
+      width: 100%;
+      height: px-em(50, 15);
+      border: 0;
+      margin: 0;
+      padding: 0 px-em(10, 15) 0 px-em(45, 15);
+      @include borderBox();
+
+      .lt-ie9 & {
+        padding-top: 10px;
+      }
+    }
+  }
+
+  // Help popover
+  .help-container {
+    float: left;
+    margin-top: px-em(10);
+    margin-left: px-em(20);
+    min-width: px-em(300);
+    text-align: left;
+
+    .help-label {
+      padding-right: 0;
+      color: $gray40;
+    }
+
+    .no-touch & .help-label:hover {
+      color: $gray20;
+    }
+
+    i.fonticon-10-circle-q {
+      margin-right: 4px;
+    }
+  }
+}
+
+// Each compatibility item
+.compat-item {
+  position: relative;
+  margin-top: px-em(50);
+
+  .accessory-finder & {
+    margin-left: 0;
+  }
+
+  .compat-item-inner {
+    width: 100%;
+    height: 100%;
+    @include transition();
+  }
+
+  .no-touch &:hover .compat-item-inner {
+    background: $gray80;
+    @include box-shadow(0 0 0 4px $gray80);
+  }
+
+  .product-img,
+  .product-content {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .product-img {
+    max-width: 28%;
+    background: $gray80;
+  }
+
+  .product-img .product-img-wrap {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  // non webkit browsers need this
+  .product-img img {
+    width: 100%;
+  }
+
+  .product-content {
+    padding-left: px-em(16);
+    margin-top: 0;
+    max-width: 72%;
+  }
+
+  .lt-ie9 & .product-content {
+    width: px-em(204);
+    height: px-em(79);
+  }
+  .lt-ie8 & .product-content {
+    width: px-em(188);
+  }
+
+  // yep
+  .lt-ie9 & .product-img,
+  .lt-ie9 & .product-img .ghost-center,
+  .lt-ie9 & .product-img img {
+    width: px-em(80);
+    height: px-em(61);
+  }
+
+  .product-content .product-model {
+    color: $gray20;
+  }
+
+  .product-content .product-name {
+    color: $gray40;
+  }
+
+  .product-content .product-total {
+    margin-bottom: 0;
+
+    .total {
+      color: $gray10;
+      padding-right: 4px;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
