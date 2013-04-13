@@ -115,6 +115,23 @@ define(function(require) {
       $( '.hspot-underlay' ).detach();
       $( 'body' ).append( underlayNode );
 
+      // detect what type of tracking we need to bind the instance to
+      var moduleHandle = self.$container.find( '.image-module' );
+      if( moduleHandle.hasClass( 'track-by-background' ) ) {
+        self.trackingMode = 'background';
+        self.trackingAsset = moduleHandle.children( '.iq-img' );
+      } else {
+        self.trackingMode = 'asset';
+        self.trackingAsset = $( moduleHandle.children( '.iq-img' )[0] );
+      }
+      
+      var triggerInitialPosition = function() {
+        log( 'triggering resize' );
+        $( window ).trigger( 'resize' );
+      };      
+      
+      self.trackingAsset.on('iQ:imageLoaded', triggerInitialPosition);
+      
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
         // bind the click, place it based on the data-x and -y coordinates, and fade em in
@@ -122,6 +139,7 @@ define(function(require) {
         self.place( el );
         self.show( el );
       });
+
 
       // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO 
       // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
@@ -139,8 +157,13 @@ define(function(require) {
         } catch(e) {}
       }).listen();
 
+      setTimeout(triggerInitialPosition, 1000);
+      
       // LISTEN FOR RESIZE
       $(window).resize(function() {
+
+        log('resize');
+
 /*
         var newWidth = self.$container.width();
 
@@ -201,10 +224,36 @@ define(function(require) {
           });
         }
 */
-        
+      if( 'asset' === self.trackingMode ) {
+          self.$els.each( function( index, el) {
+            var offsetX     = self.trackingAsset.position().left,
+                offsetY     = self.trackingAsset.position().top,
+                percX       = $( el ).data( "x" ).replace( '%', '' ),
+                percY       = $( el ).data( "y" ).replace( '%', '' ),
+                assetW      = self.trackingAsset.width(),
+                assetH      = self.trackingAsset.height(),
+                adjustedX   = null,
+                adjustedY   = null,
+                widthOffset = 0;
+             
+                if( $( window ).width() < 768 ) {
+                  widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
+                }
+             
+                // get x coordinate
+                adjustedX = ( percX * assetW ) / 100 + widthOffset;
+                adjustedY = ( percY * assetH ) / 100;
+             
+                $( el ).css( "left", adjustedX );
+                $( el ).css( "top", adjustedY );          
+            
+          });
+        }
         if(self.$lastOpen) {
           try {          
+
             self.reposition(self.$lastOpen[0], true);
+            
           } catch(e) {}
         }
 
@@ -222,20 +271,49 @@ define(function(require) {
     },
     
     place: function( el ) {
+    
       var self = this;
-      // this places the hotspot absolutely (currently by % fed from data-x,y attrib)
-      var xAnchor = $( el ).data( "x" );
-      var yAnchor = $( el ).data( "y" );
-      $( el ).css( "left", xAnchor );
-      $( el ).css( "top", yAnchor );
-      
-      // lets add some defaults
-      self.$hotspotData.push({
-        el: el,
-        xAnchor: xAnchor,
-        yAnchor: yAnchor,
-        open: false
-      });
+      if( 'background' === self.trackingMode ) {
+
+        // this places the hotspot absolutely (currently by % fed from data-x,y attrib)
+        var xAnchor = $( el ).data( "x" );
+        var yAnchor = $( el ).data( "y" );
+        $( el ).css( "left", xAnchor );
+        $( el ).css( "top", yAnchor );
+
+        // lets add some defaults
+        self.$hotspotData.push({
+          el: el,
+          xAnchor: xAnchor,
+          yAnchor: yAnchor,
+          open: false
+        });
+        
+      } else {
+        
+        var offsetX     = self.trackingAsset.position().left,
+            offsetY     = self.trackingAsset.position().top,
+            percX       = $( el ).data( "x" ).replace( '%', '' ),
+            percY       = $( el ).data( "y" ).replace( '%', '' ),
+            assetW      = self.trackingAsset.width(),
+            assetH      = self.trackingAsset.height(),
+            adjustedX   = null,
+            adjustedY   = null,
+            widthOffset = 0;
+         
+            if( $( window ).width() < 768 ) {
+              widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
+            }
+         
+            // get x coordinate
+            adjustedX = ( percX * assetW ) / 100 + widthOffset;
+            adjustedY = ( percY * assetH ) / 100;
+         
+            $( el ).css( "left", adjustedX );
+            $( el ).css( "top", adjustedY );  
+        
+      }
+
     },
     
     show: function( el ) {
@@ -340,7 +418,6 @@ define(function(require) {
         if(!underlayBase.hasClass('hidden')) {
           // close underlay
           var anon = function() {
-            log('removing flag');
             underlayBase.addClass( 'hidden' );
           };
           underlayBase.removeClass( 'hspot-underlay-on' ).addClass( 'hspot-underlay' );
