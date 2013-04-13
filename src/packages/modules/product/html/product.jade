@@ -297,7 +297,7 @@ else if data.view == 'detailed'
       .product-img
         if data.label
           span.label.label-success= data.label
-        - hasExtraColors = data.img.colors && data.img.colors.length > 1
+        - hasExtraColors = data.img && data.img.colors && data.img.colors.length > 1
         - classes = 'product-img-wrap ghost-center-wrap js-product-imgs'
         - if ( !hasExtraColors ) classes += ' no-swatches'
         div(class=classes)

@@ -258,12 +258,12 @@ mixin favoritesGallery( submodules, gallery, type )
 
     .container
       .products.slimgrid.no-grid-at-767
-        each module in submodules
-          d = locals.data(module.data)
-          if !d.promo
+        each favorite in gallery.favorites
+          d = locals.data(favorite.data)
+          if d.isFavorited && !d.promo
             - d.view = "detailed"
             e = { "locals" : locals, "data" : d }
-            !{locals.partial( module.type, e )}
+            !{locals.partial( favorite.type, e )}
 
     +zeroProductsMessage( gallery )
 
