@@ -60,6 +60,7 @@ define(function(require){
       self.$slides              = self.$el.find( '.editorial-carousel-slide' );
       self.$slideContainer      = self.$el.find( '.editorial-carousel' );
       self.$thumbNav            = self.$el.find('.thumb-nav');
+      self.$thumbLabels         = self.$thumbNav.find('span');
       self.$pagination          = null;
 
       self.hasThumbs            = self.$thumbNav.length > 0;
@@ -90,12 +91,18 @@ define(function(require){
         }
         self.centerThumbText();
         self.$slideContainer.css( 'opacity' , 1 );
+
+        $(window).resize(function(){
+          self.centerThumbText();
+        });
       },
 
       // Handles global debounced resize event
       onDebouncedResize: function(){
         var self = this,
         wW = self.$window.width();
+
+        self.centerThumbText();
         
         (wW > 1199) ? self.$el.css('overflow' , 'hidden') : self.$el.css('overflow' , 'visible');
       },
@@ -194,18 +201,22 @@ define(function(require){
 
       // Vertically center thumb text based on height
       centerThumbText: function(){
-        var self = this,
-          $spans = self.$thumbNav.find('span');
+        var self = this;
 
-        $spans.each(function(){
-          var $span = $(this),
-            height = $span.height();
+        // Loop through each label, detect height, and offset top as needed
+        self.$thumbLabels.each(function(){
+          var $span = $(this);
 
-         
-          if (height < 32) {
-            $span.css('top', '14px');
-          } else if (height >= 32 && height < 48) {
-            $span.css('top', '6px');
+          $span.text( $span.text().substring(0,40) ); //temporary truncation for testing purposes, take out for production
+
+          var height = $span.height();
+
+          if (height <= 31) {
+            $span.removeClass().addClass('oneLine');
+          } else if (height >= 32 && height <= 47) {
+            $span.removeClass().addClass('twoLine');
+          } else if (height >= 48) {
+            $span.removeClass();
           }
         });
       }
