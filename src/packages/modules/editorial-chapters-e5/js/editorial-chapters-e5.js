@@ -21,7 +21,6 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        enquire = require('enquire'),
         sonyCarousel = require('secondary/index').sonyCarousel;
 
     var self = {
@@ -47,10 +46,6 @@ define(function(require){
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
-
-      self.isDesktopMode        = true; //true by default
-      self.isTabletMode         = false;
-      self.isMobileMode         = false;
       
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
@@ -61,7 +56,6 @@ define(function(require){
       self.$slideContainer      = self.$el.find( '.editorial-carousel' );
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$thumbLabels         = self.$thumbNav.find('span');
-      self.$pagination          = null;
 
       self.hasThumbs            = self.$thumbNav.length > 0;
       self.numSlides            = self.$slides.length;
@@ -92,8 +86,18 @@ define(function(require){
         self.centerThumbText();
         self.$slideContainer.css( 'opacity' , 1 );
 
+        // Re-center thumb spans if window resizes, called 4 times/second during resize event
+        var delay = (function(){
+          var timer = 0;
+          return function(callback, ms){
+            clearTimeout (timer);
+            timer = setTimeout(callback, ms);
+          };
+        })();
         $(window).resize(function(){
-          self.centerThumbText();
+          delay(function(){
+            self.centerThumbText();
+          }, 250);
         });
       },
 
@@ -101,8 +105,6 @@ define(function(require){
       onDebouncedResize: function(){
         var self = this,
         wW = self.$window.width();
-
-        self.centerThumbText();
         
         (wW > 1199) ? self.$el.css('overflow' , 'hidden') : self.$el.css('overflow' , 'visible');
       },
