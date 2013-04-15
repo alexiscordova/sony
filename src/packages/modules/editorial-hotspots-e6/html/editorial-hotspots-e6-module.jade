@@ -94,7 +94,7 @@ mixin hotspotCore(hotspotData, assets)
     if data.background == "true"
       .image-module.track-by-background.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
         .hspot-underlay.hidden
-          .hspot-global-details-main
+          .hspot-global-details-main.hidden
         .hspot-global-details-overlay.hidden.eh-transparent
         - for hotstpot in data.hotspots.items
           +hotspotCore(hotstpot, assets)
@@ -105,7 +105,7 @@ mixin hotspotCore(hotspotData, assets)
           noscript
               img(src= image.noscriptsrc)
       .hspot-underlay.hidden
-        .hspot-global-details-main
+        .hspot-global-details-main.hidden
       .hspot-global-details-overlay.hidden.eh-transparent
       - for hotstpot in data.hotspots.items
         +hotspotCore(hotstpot, assets)

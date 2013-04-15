@@ -22,6 +22,17 @@ $transitionSpeed: .5s;
 .editorial.full-inner .inner { 
   z-index: 0;
 }
+
+.eh-transparent {
+  @include ehsTransition();
+  opacity: 0;
+}
+
+.eh-visible {
+  @include ehsTransition();
+  opacity: 1;
+}
+
 /*GLOBAL OVERLAY*/
 .hspot-global-details-main {
     .overlay-inner {
@@ -99,16 +110,6 @@ $transitionSpeed: .5s;
   
   .info-jump-to-top {
     z-index: 4;
-  }
-  
-  .eh-transparent {
-    @include ehsTransition();
-    opacity: 0;
-  }
-  
-  .eh-visible {
-    @include ehsTransition();
-    opacity: 1;
   }
   
   .overlay-close {

@@ -340,7 +340,6 @@ define(function(require) {
         }
          self.open( container, hotspot, info );
       }
-      
     },
 
     reanchor: function( el, toCenter ) {
@@ -387,44 +386,48 @@ define(function(require) {
         }
 
         // turn on overlay container
+        /*
         overlayBase.find( '.top' ).removeClass( 'hidden' );
         overlayBase.find( '.middle' ).removeClass( 'hidden' );
         overlayBase.find( '.footer' ).removeClass( 'hidden' );
+        */
         overlayBase.find( '.middle' ).find( '.arrow-left-top' ).addClass( 'hidden' );
         overlayBase.find( '.middle' ).find( '.arrow-left-bottom' ).addClass( 'hidden' );
         overlayBase.find( '.middle' ).find( '.arrow-right-top' ).addClass( 'hidden' );
         overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
         overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
         
-        // finally show the overlay
-        overlayBase.removeClass( 'hidden' );
-        self.lastOverlayFadein = setTimeout( function() {
-          overlayBase.removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-        }, 10 );
+        setTimeout( function() {
+          // finally show the overlay
+          overlayBase.removeClass( 'hidden' );
+          self.lastOverlayFadein = setTimeout( function() {
+            overlayBase.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+          }, 10 );
+        }, 200);
         
       } else {
         // cleanup
         clearTimeout( self.lastOverlayFadeout );
         clearTimeout( self.lastOverlayFadein );
-        
+
         // untag last overlay
         el.removeClass( 'lastMoved' );
-        
-        if(!underlayBase.hasClass('hidden')) {
-          // close underlay
-          var anon = function() {
-            underlayBase.addClass( 'hidden' );
-          };
-          underlayBase.removeClass( 'hspot-underlay-on' ).addClass( 'hspot-underlay' );
-          self.lastOverlayTimeout = setTimeout( anon, 500 );
-        }
+
 
         // close mobile overlay
-        overlayBase.removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
+        overlayBase.find( '.overlay-inner' ).removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
         self.lastOverlayFadeout = setTimeout( function() {
           overlayBase.addClass( 'hidden' );
+          if( !underlayBase.hasClass( 'hidden' ) ) {
+            // close underlay
+            var anon = function() {
+              underlayBase.addClass( 'hidden' );
+            };
+            underlayBase.removeClass( 'hspot-underlay-on' ).addClass( 'hspot-underlay' );
+            self.lastOverlayTimeout = setTimeout( anon, 500 );
+          }
         }, 500 );
-        
+
         if( false === self.showOverlayCentered ) {
           // reopen normal overlay
           el.find( '.overlay-base' ).removeClass( 'hidden' ).find( '.overlay-inner' ).removeClass( 'eh-hidden' ).addClass( 'eh-visible' );
@@ -786,10 +789,10 @@ define(function(require) {
         }
         
         /*
-info.find('.top').addClass( 'eh-visible' );
-        info.find('.middle').addClass( 'eh-visible' );
-        info.find('.footer').addClass( 'eh-visible' );
-*/
+          info.find('.top').addClass( 'eh-visible' );
+          info.find('.middle').addClass( 'eh-visible' );
+          info.find('.footer').addClass( 'eh-visible' );
+        */
     },
     
     reset: function( container ) {
