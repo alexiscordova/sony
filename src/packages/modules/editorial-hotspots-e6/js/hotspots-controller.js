@@ -386,11 +386,9 @@ define(function(require) {
         }
 
         // turn on overlay container
-        /*
         overlayBase.find( '.top' ).removeClass( 'hidden' );
         overlayBase.find( '.middle' ).removeClass( 'hidden' );
         overlayBase.find( '.footer' ).removeClass( 'hidden' );
-        */
         overlayBase.find( '.middle' ).find( '.arrow-left-top' ).addClass( 'hidden' );
         overlayBase.find( '.middle' ).find( '.arrow-left-bottom' ).addClass( 'hidden' );
         overlayBase.find( '.middle' ).find( '.arrow-right-top' ).addClass( 'hidden' );
@@ -788,11 +786,12 @@ define(function(require) {
           info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
         }
         
-        /*
-          info.find('.top').addClass( 'eh-visible' );
-          info.find('.middle').addClass( 'eh-visible' );
-          info.find('.footer').addClass( 'eh-visible' );
-        */
+/*
+        info.find('.top').addClass( 'eh-visible' );
+        info.find('.middle').addClass( 'eh-visible' );
+        info.find('.footer').addClass( 'eh-visible' );
+*/
+       
     },
     
     reset: function( container ) {
