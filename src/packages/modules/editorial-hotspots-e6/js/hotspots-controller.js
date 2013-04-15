@@ -22,7 +22,7 @@ define(function(require) {
 
   var self = {
     'init': function() {
-      log('init editorial');
+      /* log('init editorial'); */
       var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
       var breakpointReactor = function( e ) {
         iQ.update();
@@ -30,10 +30,10 @@ define(function(require) {
       
       for( var i=0; i < breakpoints.length; i++ ) {
         if( 0 === i ) {
-          log( "(max-width: " + breakpoints[ i ] + "px)" );
+          /* log( "(max-width: " + breakpoints[ i ] + "px)" ); */
           enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
         } else {
-          log( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)" );
+          /* log( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)" ); */
           enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
         }
       }
@@ -41,7 +41,7 @@ define(function(require) {
       // detect if there are any hotspot containers present
       $( '.hotspot-instance' ).each( function( index, el ) {
         // for each container, initialize an instance
-        log('hotspot container detected');
+        /* log('hotspot container detected'); */
         $( this ).hotspotsController({});
       });
     }
@@ -128,7 +128,7 @@ define(function(require) {
       }
       
       var triggerInitialPosition = function() {
-        log( 'show' );
+        /* log( 'show' ); */
         self.follow();
         self.show();
       };
@@ -675,7 +675,7 @@ define(function(require) {
     twoToThree: function( el ) {
       var classList =$( el ).attr( 'class' ).split( /\s+/ );
       $.each( classList, function( index, item ){
-          console.log(item);
+          /* console.log(item); */
           if ( item.indexOf( 'two-' ) > -1 ) {
              el.removeClass( item );
              item = item.replace( 'two-', 'three-' );
@@ -701,7 +701,7 @@ define(function(require) {
     
     downstepStacks: function( el ) {
       el = el.find( '.overlay-base' );
-      log(el);
+      /* log(el); */
       if( el.hasClass( 'three-stack-left-top-justified' )) { 
         el.removeClass( 'three-stack-left-top-justified' ).addClass( 'two-stack-left-top-justified' );
       }
