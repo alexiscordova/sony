@@ -133,7 +133,10 @@ define(function(require) {
         self.show();
       };
       
-      //self.trackingAsset.on('iQ:imageLoaded', triggerInitialPosition);
+      self.trackingAsset.on('iQ:imageLoaded', triggerInitialPosition);
+      self.trackingAsset.on('resize',function(e){
+        log( 'resized!!!!' );
+      });
       
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
@@ -342,7 +345,8 @@ define(function(require) {
 
     reanchor: function( el, toCenter ) {
       var self          = this,
-          overlayBase   = $( el ).parent().find( '.hspot-global-details-overlay' ),
+          //overlayBase   = $( el ).parent().find( '.hspot-global-details-overlay' ),
+          overlayBase   = $( document ).find( '.hspot-global-details-main' ),
           underlayBase  = $( '.hspot-underlay, .hspot-underlay-on' ); 
 
       // copy the overlay into the mobile, center overlay
