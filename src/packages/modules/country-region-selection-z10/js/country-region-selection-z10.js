@@ -20,12 +20,13 @@ define(function(require){
 
   var CountryRegionSelection = {
     init: function() {
-      this.stickyHeader = StickyHeader.init();
-      this.fluidList = new FluidList(12, $('.continents'), $('.countryContainer'));
+      var stickyHeader = this.stickyHeader = StickyHeader.init();
+      var fluidList = new FluidList(12, $('.countries').first());
 
       window.enquire.register('(max-width: 767px)', {
         match : function() {
           stickyHeader.enable();
+          fluidList.reset();
           console.log('mobile');
         }
       });
@@ -33,6 +34,7 @@ define(function(require){
       window.enquire.register('(min-width: 767px) and (max-width: 988px)', {
         match : function() {
           stickyHeader.disable();
+          fluidList.update('tablet');
           console.log('tablet');
         }
       });
@@ -40,12 +42,12 @@ define(function(require){
       window.enquire.register('(min-width: 1024px)', {
         match : function() {
           stickyHeader.disable();
+          fluidList.update('desktop');
           console.log('desktop');
         }
       }, true);
     }
   };
-
 
   var StickyHeader = {
     init: function() {
@@ -144,20 +146,116 @@ define(function(require){
     }
   };
 
-  function FluidList(numGridColumns, $list, $containers) {
-    return this.init(numGridColumns, $list, $containers);
+  function FluidList(numGridColumns, $list) {
+    return this.init(numGridColumns, $list);
   }
 
   FluidList.prototype = {
-    DATA_TAG_ATTR: "data-fluid-list",
+    MEDIA_TAG_ATTR: "data-fluid-list",
+    CONTAINERS_REL_ATTR: "data-fluid-list-containers",
 
-    init: function(numGridColumns, $list, $containers) {
-      this.$containers = $containers;
+    init: function(numGridColumns, $list) {
       this.$list = $list;
       this.numGridColumns = numGridColumns;
+      this.items = this._getItemsInList();
+      this.$containers = this._getContainers();
+      this.containersMap = this._getContainersMap();
 
-      console.log(this.$containers, this.$list, this.numGridColumns);
+      return this;
+    },
 
+    _getItemsInList: function() {
+      var items = [];
+
+      this.$list.find('li').each(function(index, element) {
+        var $item = $(element);
+        items.push($item);
+      });
+
+      return items;
+    },
+
+    _getContainers: function() {
+      var listContainerRel = this.$list.attr(this.CONTAINERS_REL_ATTR);
+      return $("[rel=" + listContainerRel + "]");
+    },
+
+    _getContainersMap: function() {
+      var tagAttr = this.MEDIA_TAG_ATTR,
+          $list = this.$list,
+          containersMap = {};
+
+      this.$containers.each(function(index, element) {
+        var $container = $(element),
+            tags = $container.attr(tagAttr).split(','),
+            tag,
+            $containerList = $list.clone().removeClass().empty();
+
+        for( var i = 0; i < tags.length; i += 1 ) {
+          tag = tags[i];
+          if (!containersMap[tag]) {
+            containersMap[tag] = [];
+          }
+
+          $container.append($containerList);
+          containersMap[tag].push({
+            $container: $container,
+            $list: $containerList
+          });
+        }
+      });
+
+      return containersMap;
+    },
+
+    _getContainersForTag: function(tag) {
+        return this.containersMap[tag];
+    },
+
+    update: function(tag) {
+      var containers = this._getContainersForTag(tag),
+          containerWidth = this.numGridColumns / containers.length,
+          itemsPerContainer = Math.ceil(this.items.length / containers.length),
+          spanClass = 'span' + containerWidth,
+          container,
+          i = 0,
+          j = 0,
+          max = 0;
+
+      this._resetContainers();
+
+      for (i = 0; i < containers.length; i += 1) {
+        container = containers[i];
+        container.$container.addClass(spanClass);
+
+        j = i * itemsPerContainer;
+        max = j + itemsPerContainer;
+
+        for (; j < max; j += 1) {
+          if (j < this.items.length) {
+            containers[i].$list.append(this.items[j]);
+          }
+        }
+      }
+    },
+
+    reset: function() {
+      return this._resetItems()._resetContainers();
+    },
+
+    _resetItems: function() {
+      var i = 0,
+          numItems = this.items.length;
+
+      for( ; i < numItems; i += 1) {
+        this.items[i].appendTo(this.$list);
+      }
+
+      return this;
+    },
+
+    _resetContainers: function() {
+      this.$containers.removeClass();
       return this;
     }
   };
