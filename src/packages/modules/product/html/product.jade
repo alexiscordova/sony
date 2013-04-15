@@ -757,6 +757,23 @@ else if data.view == 'compatibility'
             | !{ accessories }
 
 
+else if data.view = 'recommended'
+  startingAtText = 'Starting at'
+  msrp = 'MSRP'
+
+  .pull-left.js-even-cols
+    +iQImage( data.imgSmall, 'media-object' )
+  .media-body.ghost-center-wrap.js-even-cols
+    .ghost-center
+      h4.p3.media-heading= data.name
+      p.p5.price-prefix= startingAtText
+      p
+        span.p3.price
+          strong= '$' + data.price + '&nbsp;'
+        span.l4-light.msrp= msrp
+        +heart()
+
+
 else
   em oh noes, you don't have a known view variable set :(
 

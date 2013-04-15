@@ -86,6 +86,7 @@ define(function(require){
     self.$gridProductNames = self.$grid.find('.product-name-wrap');
     self.$carousels = self.$grid.find('.js-item-carousel');
     self.$zeroMessage = self.$container.find('.zero-products-message');
+    self.$recommendedTile = self.$grid.find('.recommended-tile');
 
     // Modes
     self.isEditorialMode = self.mode === 'editorial';
@@ -101,6 +102,7 @@ define(function(require){
     self.hasFilters = self.$filterOpts.length > 0;
     self.hasSorting = self.$sortBtns.length > 0;
     self.hasCarousels = self.$carousels.length > 0;
+    self.hasRecommendedTile = self.$recommendedTile.length > 0;
 
     // Other vars
     self.windowWidth = Settings.windowWidth;
@@ -882,6 +884,14 @@ define(function(require){
           self.$grid.infinitescroll('updateNavLocation');
         }
       });
+
+      if ( self.hasRecommendedTile ) {
+        self.$recommendedTile.find('.iq-img').on('imageLoaded', function() {
+          var groups = [ self.$gridProductNames ];
+          groups = groups.concat(  self.getRecommendedTileGroups() );
+          $.evenHeights( groups );
+        });
+      }
 
       // Sort elements by data-priority attribute
       self.sortByPriority();
@@ -1700,7 +1710,12 @@ define(function(require){
           reverse: reverse,
           by: function( $el ) {
             // e.g. filterSet.price
-            return $el.data('filterSet')[ filterName ];
+            var filterSet = $el.data( 'filterSet' );
+            return filterSet ?
+              filterSet[ filterName ] :
+              reverse ?
+                'sortFirst' :
+                'sortLast';
           }
         };
 
@@ -1718,6 +1733,18 @@ define(function(require){
       }
 
       return sortObj;
+    },
+
+    getRecommendedTileGroups : function() {
+      var self = this,
+          groups = [],
+          $medias = self.$recommendedTile.find('.media');
+
+      $medias.each(function() {
+        groups.push( $( this ).find( '.js-even-cols' ) );
+      });
+
+      return groups;
     },
 
     // Get the function and context for how we want to sort items
@@ -2082,7 +2109,16 @@ define(function(require){
 
       // Make all product name heights even
       function evenTheHeights() {
-        self.$gridProductNames.evenHeights();
+        // Only the product names need to be the same height
+        if ( !self.hasRecommendedTile ) {
+          self.$gridProductNames.evenHeights();
+
+        // The
+        } else {
+          var groups = [ self.$gridProductNames ];
+          groups = groups.concat( self.getRecommendedTileGroups() );
+          $.evenHeights( groups );
+        }
       }
 
       // Don't change columns for detail galleries
@@ -2999,7 +3035,7 @@ define(function(require){
       });
     },
 
-    getMaxBodyHeight : function() {
+    getMaxModalHeights : function() {
       var self = this,
           screenHeight,
           maxModalHeight,
@@ -3022,7 +3058,10 @@ define(function(require){
 
       // console.log('screenHeight: ' + screenHeight, ' maxModalHeight: ' + maxModalHeight, ' modalHeaderHeight: ' + modalHeaderHeight, ' maxBodyHeight: ' + maxBodyHeight);
 
-      return maxBodyHeight;
+      return {
+        maxModalHeight: maxModalHeight,
+        maxBodyHeight: maxBodyHeight
+      };
     },
 
     getSorter : function() {
@@ -3051,6 +3090,7 @@ define(function(require){
       var self = this,
           screenHeight,
           maxBodyHeight,
+          modalMaxes = {},
           isMobileSize = !( Modernizr.mediaqueries ? Modernizr.mq('(min-width: 35.5em)') : true );
 
       // False for event objects
@@ -3063,7 +3103,8 @@ define(function(require){
 
           if ( !isMobileSize ) {
             // Caculate how much room the modal body has
-            maxBodyHeight = self.getMaxBodyHeight();
+            modalMaxes = self.getMaxModalHeights();
+            maxBodyHeight = modalMaxes.maxBodyHeight;
           } else {
             maxBodyHeight = 'none';
           }
@@ -3079,6 +3120,12 @@ define(function(require){
 
           // Set it
           self.$modalBody.css( 'maxHeight', maxBodyHeight );
+
+          if ( !isMobileSize ) {
+            self.$modal.css( 'height', modalMaxes.maxModalHeight );
+          } else {
+            self.$modal.css( 'height', '' );
+          }
         }, 0);
       }
 
@@ -3142,6 +3189,8 @@ define(function(require){
       if ( self.$modalSubhead.hasClass('body-scrolled') ) {
         self.$modalSubhead.removeClass('body-scrolled');
       }
+
+      self.$modal.css( 'height', '' );
 
       self.$modalBody.removeClass('in');
 

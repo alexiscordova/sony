@@ -264,6 +264,7 @@ mixin favoritesGallery( submodules, gallery, type )
             - d.view = "detailed"
             e = { "locals" : locals, "data" : d }
             !{locals.partial( favorite.type, e )}
+        +recommendedTile( gallery.recommended )
 
     +zeroProductsMessage( gallery )
 
@@ -436,5 +437,20 @@ mixin productStrips( submodules, strips, type )
                 e = { "locals" : locals, "data" : d }
                 !{locals.partial( module.type, e )}
                 - count += 1
+
+
+mixin recommendedTile( recommended )
+  div.span4.detailed.gallery-item.recommended-tile
+    .l3.recommended-title= recommended.title
+    ul.media-list
+      each product in recommended.products
+        li.media
+          d = locals.data( product.data )
+          - d.view = "recommended"
+          e = { "locals" : locals, "data" : d }
+          !{ locals.partial( product.type, e ) }
+
+
+
 
 
