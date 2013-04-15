@@ -18,34 +18,74 @@ define(function(require){
       sonyIScroll = require('plugins/sony-iscroll'),
       enquire = require('enquire');
 
+  var COLUMNS_IN_GRID = 12;
+
   var CountryRegionSelection = {
     init: function() {
-      var stickyHeader = this.stickyHeader = StickyHeader.init();
-      var fluidList = new FluidList(12, $('.countries').first());
+      this.stickyHeader = this.stickyHeader = StickyHeader.init();
+      this.$countryLists = $('.countries > ol');
+      this.fluidLists = this.getFluidLists();
 
+      return this.bind();
+    },
+
+    bind : function() {
       window.enquire.register('(max-width: 767px)', {
-        match : function() {
-          stickyHeader.enable();
-          fluidList.reset();
-          console.log('mobile');
-        }
+        match : $.proxy(this.toMobile, this)
       });
 
       window.enquire.register('(min-width: 767px) and (max-width: 988px)', {
-        match : function() {
-          stickyHeader.disable();
-          fluidList.update('tablet');
-          console.log('tablet');
-        }
+        match : $.proxy(this.toTablet, this)
       });
 
       window.enquire.register('(min-width: 1024px)', {
-        match : function() {
-          stickyHeader.disable();
-          fluidList.update('desktop');
-          console.log('desktop');
-        }
+        match : $.proxy(this.toDesktop, this)
       }, true);
+
+      return this;
+    },
+
+    getFluidLists : function() {
+      var lists = [];
+
+      this.$countryLists.each(function(index, list) {
+        lists.push(new FluidList(COLUMNS_IN_GRID, $(list)));
+      });
+
+      return lists;
+    },
+
+    resetFluidLists : function() {
+      var i = 0,
+          numLists = this.fluidLists.length;
+
+      for ( ; i < numLists; i += 1) {
+        this.fluidLists[i].reset();
+      }
+    },
+
+    updateFluidLists : function(tag) {
+      var i = 0,
+          numLists = this.fluidLists.length;
+
+      for ( ; i < numLists; i += 1) {
+        this.fluidLists[i].update(tag);
+      }
+    },
+
+    toMobile : function() {
+      this.stickyHeader.enable();
+      this.resetFluidLists();
+    },
+
+    toTablet : function() {
+      this.stickyHeader.disable();
+      this.updateFluidLists('tablet');
+    },
+
+    toDesktop : function() {
+      this.stickyHeader.disable();
+      this.updateFluidLists('desktop');
     }
   };
 
@@ -189,7 +229,7 @@ define(function(require){
         var $container = $(element),
             tags = $container.attr(tagAttr).split(','),
             tag,
-            $containerList = $list.clone().removeClass().empty();
+            $containerList = $list.clone().empty();
 
         for( var i = 0; i < tags.length; i += 1 ) {
           tag = tags[i];
