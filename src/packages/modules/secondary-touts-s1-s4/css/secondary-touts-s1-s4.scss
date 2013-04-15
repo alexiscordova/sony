@@ -35,8 +35,12 @@
     width: px-em($baseWidth);
 
     //tablets
-    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+    @media( min-width:px-em(600) ) and ( max-width:px-em(768px) ){
       width: px-em(220px);
+    }
+
+    @media( min-width:px-em(481px) ) and ( max-width:px-em(599) ){
+      width: px-em(190px);
     }
 
     //phones
@@ -729,7 +733,8 @@
         &.content-4 {
           left: 7.1%;
 
-          &.light-text-dark-panel {
+          &.light-text-dark-panel,
+          &.dark-text-light-panel {
             left: 0;
           }
 
@@ -819,6 +824,42 @@
           top: 8%;
           max-width: 15.55em;
           width: 73.8461538%;
+        }
+      }
+
+      //aCB
+      &.align-center-bottom {
+        bottom: 40px;
+        width: 100%;
+        text-align: center;
+
+        > div {
+          width: 240px;
+          margin: 0 auto;
+        }
+
+        h4 {
+          margin-bottom: 0;
+        }
+
+        &.content-12 {
+
+          > div {
+            width: 320px;
+          }
+        }
+
+        &.content-8 {
+
+          > div {
+            width: 320px;
+          }
+        }
+
+        &.content-6 {
+        }
+
+        &.content-4 {
         }
       }
 

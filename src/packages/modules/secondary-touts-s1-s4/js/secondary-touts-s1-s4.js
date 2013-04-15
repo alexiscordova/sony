@@ -33,6 +33,9 @@ define(function(require){
     self.$images = self.$el.find('.st-image');
     self.$items = self.$el.find('.st-item');
 
+    self.spanClasses = 'span12 span8 span6 span4';
+    self.contentWidthClasses = 'content-12 content-8 content-6 content-4';
+
     self.init();
 
     self.$images.on('iQ:imageLoaded', function(){
@@ -41,18 +44,18 @@ define(function(require){
 
     self.$images.addClass('iq-img');
 
-    // if ( !Settings.$html.hasClass('lt-ie10') ){
+    if ( !Settings.$html.hasClass('lt-ie10') ){
 
-    //   enquire.register("(min-width: 780px)", function() {
-    //     self.renderDesktop();
-    //   });
-    //   enquire.register("(max-width: 779px)", function() {
-    //     self.renderEvenColumns(6);
-    //   });
+      enquire.register("(min-width: 768px)", function() {
+        self.renderDesktop();
+      });
+      enquire.register("(max-width: 767px)", function() {
+        self.renderEvenColumns(6);
+      });
 
-    // } else {
-    //   self.renderDesktop();
-    // }
+    } else {
+      self.renderDesktop();
+    }
   };
 
   SecondaryTouts.prototype = {
@@ -64,11 +67,13 @@ define(function(require){
 
       self.$items.each(function(){
 
-        var matchedClasses = this.className.split(' ').filter(function(a){
-          return a.search('span') === 0;
-        });
+        var $this = $(this),
+            matchedClasses = this.className.split(' ').filter(function(a){
+              return a.search('span') === 0;
+            });
 
-        $(this).data('originalWidth', matchedClasses[0]);
+        $this.data('contentWidthContainers', $this.find('.content-12, .content-8, .content-6, .content-4'));
+        $this.data('originalWidth', matchedClasses[0].split('span')[1]);
       });
     },
 
@@ -80,9 +85,20 @@ define(function(require){
 
       self.$items.each(function(){
 
-        var $this = $(this);
+        var $this = $(this),
+            originalWidth = $this.data('originalWidth'),
+            $headline = $this.find('h4');
 
-        $this.removeClass('span12 span8 span6 span4').addClass($this.data('originalWidth'));
+        $this.removeClass(self.spanClasses).addClass('span' + originalWidth);
+
+        if ( originalWidth === '12' || originalWidth === '8' ) {
+          $headline.removeClass('t4').addClass('t3');
+        }
+
+        $this.data('contentWidthContainers')
+             .add($this)
+             .removeClass(self.contentWidthClasses)
+             .addClass('content-' + originalWidth);
       });
     },
 
@@ -92,13 +108,21 @@ define(function(require){
 
       self.$items.each(function(){
 
-        var $this = $(this);
+        var $this = $(this),
+            $headline = $this.find('h4');
 
-        if ( $this.data('originalWidth') === 'span12' ) {
+        if ( $this.data('originalWidth') === '12' ) {
           return;
         }
 
-        $this.removeClass('span12 span8 span6 span4').addClass('span' + colPerItem);
+        $this.removeClass(self.spanClasses).addClass('span' + colPerItem);
+
+        $this.data('contentWidthContainers')
+             .add($this)
+             .removeClass(self.contentWidthClasses)
+             .addClass('content-' + colPerItem);
+
+        $headline.removeClass('t3').addClass('t4');
       });
     }
   };
