@@ -5,26 +5,74 @@
 // HIDES TEXT IN THUMB NAV FOR ANY CHAPTER MODULE UNDER 768 PIXELS IN ANY BROWSER WINDOW SIZE
 
 @mixin compact-thumb-nav {
-  &.thumb-mode,
-  &.icon-mode {
+  &.thumb-mode {
     .thumb-nav {
+      height:84px;
+
       li {
         width:auto;
+        padding:8px;
+        height:84px;
+
+        &.active,
+        &:hover {
+          height:88px;
+          margin-top:-4px;
+        }
       }
-        img,
-        i {margin-right:0;}
-        span {display:none;}
+        img {
+          width:90px;
+          height:68px;
+          margin-right:0;
+        }
+        i, span {display:none;}
     }
   }
   &.icon-mode {
-    li {
-      height:60px;
+    .thumb-nav {
+      height:50px;
 
-      &.active,
-      &:hover {height:64px;}
+      li {
+        width:auto;
+        height:50px;
+        padding-left:15px;
+        padding-right:15px;
+
+        &.active,
+        &:hover {height:54px;}
+      }
+        img, span {display:none;}
+        i {
+          top:4px;
+          margin-right:0;
+        }
     }
-      i {top:9px;}
-  }  
+  } 
+  &.text-mode {
+    .thumb-nav {
+      height:44px;
+
+      li {
+        line-height:14px;
+        padding:15px;
+        height:44px;
+
+        &.active,
+        &:hover {
+          height:48px;
+          margin-top:-4px;
+        }
+      }
+        img, i {display:none;}
+        span {
+          height:14px;
+          display:block;
+          overflow:hidden;
+        }
+        .oneLine,
+        .twoLine {top:0;}
+    }
+  }
 }
 
 @media (max-width: 1468px) {
@@ -40,6 +88,22 @@
 
   .editorial-chapters-container {
     @include compact-thumb-nav;
+  }
+
+  .container > .editorial-chapters-container,
+  .span12 > .editorial-chapters-container {
+    .thumb-nav {
+      bottom:0;
+      width:100%;
+      left:0;
+    }
+    &.top-nav .thumb-nav {
+      bottom:auto;
+      top:0;
+    }
+    &.white .thumb-nav {background:$gray80;}
+    &.gray .thumb-nav {background:$white;}
+    &.dark .thumb-nav {background:$gray20;}
   }
 
 } // END max-width: 767px
