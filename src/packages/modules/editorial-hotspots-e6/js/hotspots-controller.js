@@ -22,11 +22,26 @@ define(function(require) {
 
   var self = {
     'init': function() {
-      log('init editorial');
+      /* log('init editorial'); */
+      var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
+      var breakpointReactor = function( e ) {
+        iQ.update();
+      };
+      
+      for( var i=0; i < breakpoints.length; i++ ) {
+        if( 0 === i ) {
+          /* log( "(max-width: " + breakpoints[ i ] + "px)" ); */
+          enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+        } else {
+          /* log( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)" ); */
+          enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+        }
+      }
+       
       // detect if there are any hotspot containers present
       $( '.hotspot-instance' ).each( function( index, el ) {
         // for each container, initialize an instance
-        log('hotspot container detected');
+        /* log('hotspot container detected'); */
         $( this ).hotspotsController({});
       });
     }
@@ -69,6 +84,9 @@ define(function(require) {
     self.lastOverlayFadein               = null;
     self.lastOverlayFadeout              = null;
     self.lastCenteredOverlay             = null;
+    self.trackingMode                    = null;
+    self.trackingState                   = 'off';
+    
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -78,6 +96,7 @@ define(function(require) {
     constructor: HotspotsController,
     init : function() {
       var self = this;
+      
       
 /* GET ORIGINAL IMAGE RATIO METHOD
       // from container, find the image module class, which contains the images original size we need to audit
@@ -98,84 +117,35 @@ define(function(require) {
       $( '.hspot-underlay' ).detach();
       $( 'body' ).append( underlayNode );
 
+      // detect what type of tracking we need to bind the instance to
+      var moduleHandle = self.$container.find( '.image-module' );
+      if( moduleHandle.hasClass( 'track-by-background' ) ) {
+        self.trackingMode = 'background';
+        self.trackingAsset = moduleHandle.children( '.iq-img' );
+      } else {
+        self.trackingMode = 'asset';
+        self.trackingAsset = $( moduleHandle.children( '.iq-img' )[0] );
+      }
+      
+      var triggerInitialPosition = function() {
+        /* log( 'show' ); */
+        self.follow();
+        self.show();
+      };
+      
+      self.trackingAsset.on('iQ:imageLoaded', triggerInitialPosition);
+      self.trackingAsset.on('resize',function(e){
+        log( 'resized!!!!' );
+      });
+      
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
         // bind the click, place it based on the data-x and -y coordinates, and fade em in
+        // lets hide everything first
         self.bind( el );
         self.place( el );
-        self.show( el );
       });
 
-      // LISTEN FOR RESIZE
-      $(window).resize(function() {
-/*
-        var newWidth = self.$container.width();
-
-
-        if( self.showOverlayCentered ) {
-          self.slowHorizontalTracking = true;
-          $( self.$els ).each( function( index, el ) {
-            var left = $( el ).position().left;
-            log( 'cur Left' + left);
-            left = left + 0.05;
-            log( 'adjusted Left' + left);
-            $( el ).css( 'left', left +'px' );
-          });
-        } else {
-          self.slowHorizontalTracking = false;
-          $( self.$els ).each( function( index, el ) {
-            var variableHorizontal = $( el ).data( 'x' );
-            $( el ).css( 'left', variableHorizontal );
-          }); 
-        }
-*/
-
-/*
-        // if we're in tablet/mobile view we need to change/slow the horizontal tracking
-        if( self.showOverlayCentered ) {
-          self.slowHorizontalTracking = true;
-          $( self.$els ).each( function( index, el ) {
-            
-            var originalWidth = 1200;
-            var hotspotXPercentage = $( el ).data( 'x' ).replace( '%', '' );
-            var originalXCoordiatePX = ( hotspotXPercentage * originalWidth ) / 100;
-            var adjustedXCoordinatePX = ( newWidth * originalXCoordiatePX ) / 1200;
-            
-            $( el ).css( 'left', ( adjustedXCoordinatePX += 20.5 ) +'px' );
-          });
-        } else {
-          self.slowHorizontalTracking = false;
-          $( self.$els ).each( function( index, el ) {
-            var variableHorizontal = $( el ).data( 'x' );
-            $( el ).css( 'left', variableHorizontal );
-          });
-        }
-*/
-        
-/*
-        // if we're in tablet/mobile view we need to change/slow the horizontal tracking
-        if( self.showOverlayCentered ) {
-          self.slowHorizontalTracking = true;
-          $( self.$els ).each( function( index, el ) {
-            var fixedHorizontal = $( el ).position().left;
-            $( el ).css( 'left', fixedHorizontal+'px' );
-          });
-        } else {
-          self.slowHorizontalTracking = false;
-          $( self.$els ).each( function( index, el ) {
-            var variableHorizontal = $( el ).data( 'x' );
-            $( el ).css( 'left', variableHorizontal );
-          });
-        }
-*/
-        
-        if(self.$lastOpen) {
-          try {          
-            self.reposition(self.$lastOpen[0], true);
-          } catch(e) {}
-        }
-
-      });
 
       // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO 
       // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
@@ -193,7 +163,111 @@ define(function(require) {
         } catch(e) {}
       }).listen();
 
+      setTimeout(triggerInitialPosition, 500);
+      
+    
+      $( window ).scroll( function ( e ) {
+        //log( 'self.trackingAsset.height()' );
+        //log( self.trackingAsset.height() );
+        //if( self.trackingAsset.height() < 50 ) {
+          //log('now loading from scroll');
+          self.trackingState = 'fadein';
+          self.follow();
+        //}
+      });
+      
+      // LISTEN FOR RESIZE
+      $( window ).resize( function() {
+        
+        self.follow();
+      
+        if( self.$lastOpen ) {
+          try {          
+            self.reposition( self.$lastOpen[0], true );
+          } catch(e) {}
+        }
+
+      });
+
       log('SONY : Editorial Hotspots : Initialized');
+    },
+    
+    isElementInViewport: function ( el ) {
+    
+    
+      // get hotspots actual scroll offset and position to window scope!!!
+      // curX + parentX + scrollOffsetX
+    
+    // this will optimize the bajesus out of the function once it is working.
+    // it should only be calculating vectors if an object is on screen, otherwise its a 
+    // waste of cycles
+      var rect    = {};
+      rect.top    = $( el ).position().top;
+      rect.left   = $( el ).position().left;
+      rect.bottom = $( el ).position().top + $( el ).height();
+      rect.right  = $( el ).position().left + $( el ).width();
+      return (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <= $( window ).height() &&
+          rect.right <= $( window ).width()
+          );
+    },
+    
+    follow: function( el ) {
+      var self       = this,
+          inViewport = null;
+          
+      if( true /* self.isElementInViewport( self.trackingAsset ) */ ) {
+        if( el ) {
+          var offsetX     = self.trackingAsset.position().left,
+              offsetY     = self.trackingAsset.position().top,
+              percX       = $( el ).data( "x" ).replace( '%', '' ),
+              percY       = $( el ).data( "y" ).replace( '%', '' ),
+              assetW      = self.trackingAsset.width(),
+              assetH      = self.trackingAsset.height(),
+              adjustedX   = null,
+              adjustedY   = null,
+              widthOffset = 0;
+           
+              if( $( window ).width() < 768 ) {
+                widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
+              }
+           
+              // get x coordinate
+              adjustedX = ( percX * assetW ) / 100 + widthOffset;
+              adjustedY = ( percY * assetH ) / 100;
+           
+              $( el ).css( "left", adjustedX );
+              $( el ).css( "top", adjustedY );        
+        } else {
+          if( 'asset' === self.trackingMode ) {
+            self.$els.each( function( index, el) {
+              var offsetX     = self.trackingAsset.position().left,
+                  offsetY     = self.trackingAsset.position().top,
+                  percX       = $( el ).data( "x" ).replace( '%', '' ),
+                  percY       = $( el ).data( "y" ).replace( '%', '' ),
+                  assetW      = self.trackingAsset.width(),
+                  assetH      = self.trackingAsset.height(),
+                  adjustedX   = null,
+                  adjustedY   = null,
+                  widthOffset = 0;
+               
+                  if( $( window ).width() < 768 ) {
+                    widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
+                  }
+               
+                  // get x coordinate
+                  adjustedX = ( percX * assetW ) / 100 + widthOffset;
+                  adjustedY = ( percY * assetH ) / 100;
+               
+                  $( el ).css( "left", adjustedX );
+                  $( el ).css( "top", adjustedY );          
+              
+            });
+          }
+        }
+      }
     },
     
     bind: function( el ) {
@@ -205,24 +279,39 @@ define(function(require) {
     },
     
     place: function( el ) {
+    
       var self = this;
-      // this places the hotspot absolutely (currently by % fed from data-x,y attrib)
-      var xAnchor = $( el ).data( "x" );
-      var yAnchor = $( el ).data( "y" );
-      $( el ).css( "left", xAnchor );
-      $( el ).css( "top", yAnchor );
-      
-      // lets add some defaults
-      self.$hotspotData.push({
-        el: el,
-        xAnchor: xAnchor,
-        yAnchor: yAnchor,
-        open: false
-      });
+      if( 'background' === self.trackingMode ) {
+
+        // this places the hotspot absolutely (currently by % fed from data-x,y attrib)
+        var xAnchor = $( el ).data( "x" );
+        var yAnchor = $( el ).data( "y" );
+        $( el ).css( "left", xAnchor );
+        $( el ).css( "top", yAnchor );
+
+        // lets add some defaults
+        self.$hotspotData.push({
+          el: el,
+          xAnchor: xAnchor,
+          yAnchor: yAnchor,
+          open: false
+        });
+        
+      } else {
+        
+        self.follow( el );
+        
+      }
+
     },
     
     show: function( el ) {
-      
+      var self = this;
+        $( self.$els ).each(function( index, el ) {
+          if( $( el ).hasClass( 'hidden' ) ) {
+            $( el ).removeClass( 'hidden' ).fadeIn( 500 );
+          }
+        });
     },
     
     find: function( currentTarget ) {
@@ -251,12 +340,12 @@ define(function(require) {
         }
          self.open( container, hotspot, info );
       }
-      
     },
 
     reanchor: function( el, toCenter ) {
       var self          = this,
-          overlayBase   = $( el ).parent().find( '.hspot-global-details-overlay' ),
+          //overlayBase   = $( el ).parent().find( '.hspot-global-details-overlay' ),
+          overlayBase   = $( document ).find( '.hspot-global-details-main' ),
           underlayBase  = $( '.hspot-underlay, .hspot-underlay-on' ); 
 
       // copy the overlay into the mobile, center overlay
@@ -306,36 +395,37 @@ define(function(require) {
         overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
         overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
         
-        // finally show the overlay
-        overlayBase.removeClass( 'hidden' );
-        self.lastOverlayFadein = setTimeout( function() {
-          overlayBase.removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-        }, 10 );
+        setTimeout( function() {
+          // finally show the overlay
+          overlayBase.removeClass( 'hidden' );
+          self.lastOverlayFadein = setTimeout( function() {
+            overlayBase.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+          }, 10 );
+        }, 200);
         
       } else {
         // cleanup
         clearTimeout( self.lastOverlayFadeout );
         clearTimeout( self.lastOverlayFadein );
-        
+
         // untag last overlay
         el.removeClass( 'lastMoved' );
-        
-        if(!underlayBase.hasClass('hidden')) {
-          // close underlay
-          var anon = function() {
-            log('removing flag');
-            underlayBase.addClass( 'hidden' );
-          };
-          underlayBase.removeClass( 'hspot-underlay-on' ).addClass( 'hspot-underlay' );
-          self.lastOverlayTimeout = setTimeout( anon, 500 );
-        }
+
 
         // close mobile overlay
-        overlayBase.removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
+        overlayBase.find( '.overlay-inner' ).removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
         self.lastOverlayFadeout = setTimeout( function() {
           overlayBase.addClass( 'hidden' );
+          if( !underlayBase.hasClass( 'hidden' ) ) {
+            // close underlay
+            var anon = function() {
+              underlayBase.addClass( 'hidden' );
+            };
+            underlayBase.removeClass( 'hspot-underlay-on' ).addClass( 'hspot-underlay' );
+            self.lastOverlayTimeout = setTimeout( anon, 500 );
+          }
         }, 500 );
-        
+
         if( false === self.showOverlayCentered ) {
           // reopen normal overlay
           el.find( '.overlay-base' ).removeClass( 'hidden' ).find( '.overlay-inner' ).removeClass( 'eh-hidden' ).addClass( 'eh-visible' );
@@ -585,7 +675,7 @@ define(function(require) {
     twoToThree: function( el ) {
       var classList =$( el ).attr( 'class' ).split( /\s+/ );
       $.each( classList, function( index, item ){
-          console.log(item);
+          /* console.log(item); */
           if ( item.indexOf( 'two-' ) > -1 ) {
              el.removeClass( item );
              item = item.replace( 'two-', 'three-' );
@@ -611,7 +701,7 @@ define(function(require) {
     
     downstepStacks: function( el ) {
       el = el.find( '.overlay-base' );
-      log(el);
+      /* log(el); */
       if( el.hasClass( 'three-stack-left-top-justified' )) { 
         el.removeClass( 'three-stack-left-top-justified' ).addClass( 'two-stack-left-top-justified' );
       }
@@ -696,11 +786,12 @@ define(function(require) {
           info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
         }
         
-        /*
-info.find('.top').addClass( 'eh-visible' );
+/*
+        info.find('.top').addClass( 'eh-visible' );
         info.find('.middle').addClass( 'eh-visible' );
         info.find('.footer').addClass( 'eh-visible' );
 */
+       
     },
     
     reset: function( container ) {
