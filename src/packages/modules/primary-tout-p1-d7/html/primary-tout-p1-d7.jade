@@ -22,6 +22,8 @@ mixin header(d)
     else
       if d.variation.headertext == "larger"
         h1!= d.headline
+      else if d.variation.headertext == "smaller"
+        h1.t3!= d.headline
       else
         h1.t2!= d.headline
 
@@ -58,8 +60,14 @@ mixin boxclass(layout)
 mixin boxlayout(layout)
   layout = layout || data.layout
   classes = data.style
-  if layout.mobilealign
-    classes = classes + " " + layout.mobilealign
+  if data.variation && data.mode == "default" 
+    if data.variation.headertext !== "larger"
+      classes = classes + " force-mobile-bg"
+  if data.variation
+    if data.variation.mobilealign
+      classes = classes + " " + data.variation.mobilealign
+    else
+      classes = classes + " bottom"
   if layout.text == "left"
     .container.inner(class= classes)
       .grid.no-grid-at-767
