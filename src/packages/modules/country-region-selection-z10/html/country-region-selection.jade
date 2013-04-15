@@ -14,11 +14,6 @@ include ../../../common/html/jade-helpers.jade
       .container
         .grid
 
-          div.countryContainer(data-fluid-list="tablet,desktop")
-          div.countryContainer(data-fluid-list="tablet,desktop")
-          div.countryContainer(data-fluid-list="tablet,desktop")
-          div.countryContainer(data-fluid-list="desktop")
-
           ol.media-list.continents
 
             - for (var i = 0; i < data.continents.length; i += 1) {
@@ -26,7 +21,13 @@ include ../../../common/html/jade-helpers.jade
 
               li.t6.continent= continent.name
               li
-                ol.media-list.countries
+
+                div.fluid-list(data-fluid-list="desktop,tablet", rel="#{continent.name}")
+                div.fluid-list(data-fluid-list="desktop,tablet", rel="#{continent.name}")
+                div.fluid-list(data-fluid-list="desktop,tablet", rel="#{continent.name}")
+                div.fluid-list(data-fluid-list="desktop", rel="#{continent.name}")
+
+                ol.media-list.countries(data-fluid-list-containers="#{continent.name}")
 
                   - for (var j = 0; j < continent.countries.length; j += 1) {
                     - var country = continent.countries[j];
