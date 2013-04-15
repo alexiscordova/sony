@@ -19,6 +19,7 @@ define(function(require){
       enquire = require('enquire');
 
   var COLUMNS_IN_GRID = 12;
+  var MIN_COUNTRIES_PER_COLUMN = 5;
 
   var CountryRegionSelection = {
     init: function() {
@@ -49,7 +50,7 @@ define(function(require){
       var lists = [];
 
       this.$countryLists.each(function(index, list) {
-        lists.push(new FluidList(COLUMNS_IN_GRID, $(list)));
+        lists.push(new FluidList(COLUMNS_IN_GRID, $(list), MIN_COUNTRIES_PER_COLUMN));
       });
 
       return lists;
@@ -186,20 +187,21 @@ define(function(require){
     }
   };
 
-  function FluidList(numGridColumns, $list) {
-    return this.init(numGridColumns, $list);
+  function FluidList(numGridColumns, $list, minItemsPerContainer) {
+    return this.init(numGridColumns, $list, minItemsPerContainer);
   }
 
   FluidList.prototype = {
     MEDIA_TAG_ATTR: "data-fluid-list",
     CONTAINERS_REL_ATTR: "data-fluid-list-containers",
 
-    init: function(numGridColumns, $list) {
+    init: function(numGridColumns, $list, minItemsPerContainer) {
       this.$list = $list;
       this.numGridColumns = numGridColumns;
       this.items = this._getItemsInList();
       this.$containers = this._getContainers();
       this.containersMap = this._getContainersMap();
+      this.minItemsPerContainer = minItemsPerContainer || 0;
 
       return this;
     },
@@ -261,6 +263,10 @@ define(function(require){
           i = 0,
           j = 0,
           max = 0;
+
+      if (this.minItemsPerContainer && itemsPerContainer < this.minItemsPerContainer) {
+        itemsPerContainer = this.minItemsPerContainer;
+      }
 
       this._resetContainers();
 
