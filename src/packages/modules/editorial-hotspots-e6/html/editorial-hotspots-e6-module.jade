@@ -3,7 +3,7 @@ include ../../../common/html/jade-helpers.jade
 
 mixin hotspotCore(hotspotData, assets)
   size = hotspotData.size
-  .hspot-outer(data-x=hotspotData.coords[0],data-y=hotspotData.coords[1])
+  .hspot-outer(data-x=hotspotData.coords[0],data-y=hotspotData.coords[1],style="display:none;").hidden
     .hspot-core
       .hspot-indicator
         img(src=assets.indicator);
