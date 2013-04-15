@@ -49,6 +49,7 @@
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
       self.isInit                 = <span class="literal">false</span>;
+      self.isOSCStyle             = <span class="literal">false</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>$</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$doc                   = Settings.$document;
       self.$win                   = Settings.$window;
@@ -124,8 +125,6 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
 
         self.setupCarousel();
 
-        self.setupEvents();
-
         self.setupGlobalEvent();
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>self.animationInit();</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -155,19 +154,26 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
 
         if ( Modernizr.mediaqueries &amp;&amp; self.mq('(min-width: 1200px)') &amp;&amp; ! self.$html.hasClass('lt-ie10') )
         {
+          self.isOSCStyle = false;
           numColumns     = 6;
         }
-        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) 
+        {
 
+          self.isOSCStyle = false;
           numColumns     = 6;
 
         } 
-        else if ( self.mq('(min-width: 768px)') ) {
+        else if ( self.mq('(min-width: 768px)') ) 
+        {
 
+          self.isOSCStyle = true;
           numColumns     = 4;
 
-        }else {
+        }else 
+        {
 
+          self.isOSCStyle = true;
           numColumns     = 2;
 
         }
@@ -199,8 +205,9 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
         }
 
       },
-      setupItemsSlides : function(){
+      setupItemsSlides : function(oscStyle){
 
+        oscS = oscStyle || self.isOSCStyle;
         nbItemsPerSlides = self.getNbSlides();
 
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Extract items</p>             </td>             <td class="code">               <div class="highlight"><pre>        aSlides = [];
@@ -258,13 +265,16 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
           self.isInit = <span class="literal">true</span>;
         }
 
-      
 </pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>updateItems</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.udpateItems();
 
 </pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>resetSlides</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.resetSlides();
 
 </pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>update top paddles</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.topPaddles();
 
+        <span class="keyword">if</span>( oscS != self.isOSCStyle )
+        {
+          self.createCarousel();
+        }
         
 
       },
@@ -289,13 +299,16 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
         <span class="keyword">if</span> ( Modernizr.mediaqueries &amp;&amp; self.mq(<span class="string">'(min-width: 1200px)'</span>) &amp;&amp; ! self.$html.hasClass(<span class="string">'lt-ie10'</span>) )
         {
 
+          self.$slides.removeClass(<span class="string">"grid"</span>);
+          
           <span class="keyword">if</span>(self.breakPoint != <span class="string">"1200"</span>)
           {
             self.breakPoint = <span class="string">"1200"</span>;
-            self.setupItemsSlides();
+            self.setupItemsSlides(<span class="literal">false</span>);
             <span class="keyword">return</span> <span class="literal">false</span>;
           }
 
+          self.isOSCStyle = <span class="literal">false</span>;
           self.breakPoint = <span class="string">"1200"</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>self.$container.removeClass('full-bleed-no-max');</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -305,13 +318,16 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
         }
         <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || self.mq(<span class="string">'(min-width: 981px)'</span>) || self.$html.hasClass(<span class="string">'lt-ie10'</span>) ) {
 
+          self.$slides.removeClass(<span class="string">"grid"</span>);
+
           <span class="keyword">if</span>(self.breakPoint != <span class="string">"980"</span>)
           {
             self.breakPoint = <span class="string">"980"</span>;
-            self.setupItemsSlides();
+            self.setupItemsSlides(<span class="literal">false</span>);
             <span class="keyword">return</span> <span class="literal">false</span>;
           }
 
+          self.isOSCStyle = <span class="literal">false</span>;
           self.breakPoint = <span class="string">"980"</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>self.$container.removeClass('full-bleed-no-max');</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -322,15 +338,19 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
         } 
         <span class="keyword">else</span> <span class="keyword">if</span> ( self.mq(<span class="string">'(min-width: 768px)'</span>) ) {
 
+          self.$slides.addClass(<span class="string">"grid"</span>);
+
           <span class="keyword">if</span>(self.breakPoint != <span class="string">"769"</span>)
           {
             self.breakPoint = <span class="string">"769"</span>;
-            self.setupItemsSlides();
+            self.setupItemsSlides(<span class="literal">true</span>);
             <span class="keyword">return</span> <span class="literal">false</span>;
           }
 
+          self.isOSCStyle = <span class="literal">true</span>;
           self.breakPoint = <span class="string">"769"</span>;
 
+         
           <span class="comment">/*
 
           self.$container.addClass('full-bleed-no-max');
@@ -350,13 +370,16 @@ colWidth       = Math.floor( self.colWidth['768']    * $(window).width() * self.
 
         }<span class="keyword">else</span> {
 
+           self.$slides.addClass(<span class="string">"grid"</span>);
+
           <span class="keyword">if</span>(self.breakPoint != <span class="string">"mobile"</span>)
           {
             self.breakPoint = <span class="string">"mobile"</span>;
-            self.setupItemsSlides();
+            self.setupItemsSlides(<span class="literal">true</span>);
             <span class="keyword">return</span> <span class="literal">false</span>;
           }
 
+          self.isOSCStyle = <span class="literal">true</span>;
           self.breakPoint = <span class="string">"mobile"</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>self.$container.addClass('full-bleed-no-max');</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -450,7 +473,20 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
 
         self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>self.resetSlides();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>self.resetSlides();</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.createCarousel();
+        
+
+        iQ.update(<span class="literal">true</span>);
+
+      },
+      createCarousel : <span class="keyword">function</span>(){
+
+        <span class="keyword">if</span>( self.carousel ){
+          self.$slidesContainer.sonyCarousel(<span class="string">"destroy"</span>);
+
+          self.$el.find(<span class="string">".sony-dot-nav"</span>).remove();
+        }
+
         self.carousel = self.$slidesContainer.sonyCarousel({
           wrapper: <span class="string">'.sony-carousel-wrapper'</span>,
           slides: <span class="string">'.sony-carousel-slide'</span>,
@@ -465,7 +501,7 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
 
         self.topPaddles();
 
-        iQ.update(<span class="literal">true</span>);
+        self.setupEvents();
 
       },
       setupGlobalEvent : <span class="keyword">function</span>(){
@@ -511,7 +547,6 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
       },
       topPaddles : <span class="keyword">function</span>(){
 
-        console.log(<span class="string">"self.$paginationPaddles"</span>, self.$el.height() , self.$carousel.height());
         <span class="keyword">if</span> (self.$paginationPaddles)
         {
           self.$paginationPaddles.css({
