@@ -68,7 +68,7 @@ define(function(require){
       self.$items                 = self.$el.find(".sony-carousel-slide-children");
       self.$slidesContainer       = self.$el.find('.sony-carousel');
       self.$carouselWrapper       = self.$el.find('.sony-carousel-wrapper');
-      self.$container             = self.$carousel.parent(); //parent of the slimgrid
+      self.$container             = self.$carousel.parent(); //parent of the slimgrid, rv-carousel
       self.$paddles               = null; // has to be created and given to the sony-carousel
       self.$paginationPaddles     = null;
 
@@ -430,7 +430,7 @@ define(function(require){
 
           self.$carouselWrapper.addClass("o-visible");
           self.$slides.removeClass("no-osc");
-          
+
           self.classgrid = "span6";
           self.isOSCStyle = true;
           self.breakPoint = "mobile";
@@ -589,6 +589,14 @@ define(function(require){
           iQ.update(true);
 
         }));
+
+        self.$container.on("mouseenter", function(e){
+          self.$el.find(".pagination-paddles").addClass("show-paddles");
+        });
+
+        self.$container.on("mouseleave", function(e){
+          self.$el.find(".pagination-paddles").removeClass("show-paddles");
+        });
 
       },
       setupEvents : function(){
