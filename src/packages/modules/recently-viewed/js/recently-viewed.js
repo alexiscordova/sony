@@ -54,6 +54,7 @@ define(function(require){
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
       self.isInit                 = false;
+      self.isOSCStyle             = false;
 
       //$
       self.$doc                   = Settings.$document;
@@ -135,8 +136,6 @@ define(function(require){
 
         self.setupCarousel();
 
-        self.setupEvents();
-
         self.setupGlobalEvent();
 
         //self.animationInit();
@@ -174,19 +173,26 @@ define(function(require){
 
         if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
         {
+          self.isOSCStyle = false;
           numColumns     = 6;
         }
-        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) 
+        {
 
+          self.isOSCStyle = false;
           numColumns     = 6;
 
         } 
-        else if ( self.mq('(min-width: 768px)') ) {
+        else if ( self.mq('(min-width: 768px)') ) 
+        {
 
+          self.isOSCStyle = true;
           numColumns     = 4;
 
-        }else {
+        }else 
+        {
 
+          self.isOSCStyle = true;
           numColumns     = 2;
 
         }
@@ -218,9 +224,11 @@ define(function(require){
         }
 
       },
-      setupItemsSlides : function(){
+      setupItemsSlides : function(oscStyle){
 
+       
         nbItemsPerSlides = self.getNbSlides();
+        oscS = oscStyle || self.isOSCStyle;
 
         //Extract items
         aSlides = [];
@@ -281,7 +289,6 @@ define(function(require){
           self.isInit = true;
         }
 
-      
         //updateItems
         self.udpateItems();
 
@@ -291,6 +298,10 @@ define(function(require){
         //update top paddles
         self.topPaddles();
 
+        if( oscS != self.isOSCStyle ) //because if the OSC style
+        {
+          self.createCarousel();
+        }
         
 
       },
@@ -316,13 +327,16 @@ define(function(require){
         if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
         {
 
+          self.$slides.removeClass("grid");
+          
           if(self.breakPoint != "1200")
           {
             self.breakPoint = "1200";
-            self.setupItemsSlides();
+            self.setupItemsSlides(false);
             return false;
           }
 
+          self.isOSCStyle = false;
           self.breakPoint = "1200";
 
           //self.$container.removeClass('full-bleed-no-max');
@@ -333,13 +347,16 @@ define(function(require){
         }
         else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
 
+          self.$slides.removeClass("grid");
+
           if(self.breakPoint != "980")
           {
             self.breakPoint = "980";
-            self.setupItemsSlides();
+            self.setupItemsSlides(false);
             return false;
           }
 
+          self.isOSCStyle = false;
           self.breakPoint = "980";
 
           //self.$container.removeClass('full-bleed-no-max');
@@ -351,15 +368,19 @@ define(function(require){
         } 
         else if ( self.mq('(min-width: 768px)') ) {
 
+          self.$slides.addClass("grid");
+
           if(self.breakPoint != "769")
           {
             self.breakPoint = "769";
-            self.setupItemsSlides();
+            self.setupItemsSlides(true);
             return false;
           }
 
+          self.isOSCStyle = true;
           self.breakPoint = "769";
 
+         
           /*
 
           self.$container.addClass('full-bleed-no-max');
@@ -382,13 +403,16 @@ define(function(require){
 
         }else {
 
+           self.$slides.addClass("grid");
+
           if(self.breakPoint != "mobile")
           {
             self.breakPoint = "mobile";
-            self.setupItemsSlides();
+            self.setupItemsSlides(true);
             return false;
           }
 
+          self.isOSCStyle = true;
           self.breakPoint = "mobile";
 
           //self.$container.addClass('full-bleed-no-max');
@@ -494,6 +518,20 @@ define(function(require){
         self = this;
 
         //self.resetSlides();
+        self.createCarousel();
+        
+
+        iQ.update(true);
+
+      },
+      createCarousel : function(){
+
+        if( self.carousel ){
+
+          self.$slidesContainer.sonyCarousel("destroy");
+
+          self.$el.find(".sony-dot-nav").remove();
+        }
 
         self.carousel = self.$slidesContainer.sonyCarousel({
           wrapper: '.sony-carousel-wrapper',
@@ -509,7 +547,7 @@ define(function(require){
 
         self.topPaddles();
 
-        iQ.update(true);
+        self.setupEvents();
 
       },
       setupGlobalEvent : function(){
@@ -557,7 +595,6 @@ define(function(require){
       },
       topPaddles : function(){
 
-        console.log("self.$paginationPaddles", self.$el.height() , self.$carousel.height());
         if (self.$paginationPaddles)
         {
           self.$paginationPaddles.css({

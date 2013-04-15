@@ -43,11 +43,13 @@
       self.colWidth               = { <span class="string">'default'</span> : <span class="number">127</span>/<span class="number">846</span>, <span class="string">'1200'</span> : <span class="number">150</span>/<span class="number">1020</span>, <span class="string">'980'</span> : <span class="number">127</span>/<span class="number">846</span>, <span class="string">'768'</span> : <span class="number">140</span>/<span class="number">627</span>, <span class="string">'mobile'</span> : <span class="number">220</span>/<span class="number">464</span> };
       self.gutterWidth            = { <span class="string">'default'</span> : <span class="number">18</span>/<span class="number">846</span>,  <span class="string">'1200'</span> : <span class="number">24</span>/<span class="number">1020</span>,  <span class="string">'980'</span> : <span class="number">18</span>/<span class="number">846</span>,  <span class="string">'768'</span> : <span class="number">22</span>/<span class="number">627</span> , <span class="string">'mobile'</span> : <span class="number">24</span>/<span class="number">464</span> };
       self.containerWidthPct      = (<span class="number">92.1875</span> / <span class="number">100</span>) * (<span class="number">91.80791</span> / <span class="number">100</span>);
+      self.paddleHeight           = <span class="number">52</span>;
 
       self.useCSS3Transitions     = Modernizr.csstransitions; <span class="comment">//Detect if we can use CSS3 transitions</span>
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
       self.isInit                 = <span class="literal">false</span>;
+      self.isOSCStyle             = <span class="literal">false</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>$</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$doc                   = Settings.$document;
       self.$win                   = Settings.$window;
@@ -60,6 +62,8 @@
       self.$slidesContainer       = self.$el.find(<span class="string">'.sony-carousel'</span>);
       self.$carouselWrapper       = self.$el.find(<span class="string">'.sony-carousel-wrapper'</span>);
       self.$container             = self.$carousel.parent(); <span class="comment">//parent of the slimgrid</span>
+      self.$paddles               = <span class="literal">null</span>; <span class="comment">// has to be created and given to the sony-carousel</span>
+      self.$paginationPaddles     = <span class="literal">null</span>;
 
       <span class="comment">/*
 
@@ -115,7 +119,11 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
 
         self.setupBreakPoint();
 
+        self.createPaddles();
+
         self.setupItemsSlides();
+
+        self.setupCarousel();
 
         self.setupGlobalEvent();
 
@@ -146,19 +154,26 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
 
         if ( Modernizr.mediaqueries &amp;&amp; self.mq('(min-width: 1200px)') &amp;&amp; ! self.$html.hasClass('lt-ie10') )
         {
+          self.isOSCStyle = false;
           numColumns     = 6;
         }
-        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) 
+        {
 
+          self.isOSCStyle = false;
           numColumns     = 6;
 
         } 
-        else if ( self.mq('(min-width: 768px)') ) {
+        else if ( self.mq('(min-width: 768px)') ) 
+        {
 
+          self.isOSCStyle = true;
           numColumns     = 4;
 
-        }else {
+        }else 
+        {
 
+          self.isOSCStyle = true;
           numColumns     = 2;
 
         }
@@ -190,8 +205,9 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
         }
 
       },
-      setupItemsSlides : function(){
+      setupItemsSlides : function(oscStyle){
 
+        oscS = oscStyle || self.isOSCStyle;
         nbItemsPerSlides = self.getNbSlides();
 
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Extract items</p>             </td>             <td class="code">               <div class="highlight"><pre>        aSlides = [];
@@ -249,11 +265,16 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
           self.isInit = <span class="literal">true</span>;
         }
 
-      
 </pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>updateItems</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.udpateItems();
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>(re)build</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setupCarousel();
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>resetSlides</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.resetSlides();
 
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>update top paddles</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.topPaddles();
+
+        <span class="keyword">if</span>( oscS != self.isOSCStyle )
+        {
+          self.createCarousel();
+        }
         
 
       },
@@ -273,37 +294,43 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
 
         console.log(<span class="string">"udpateItems :: breakpoint &gt; "</span>, self.breakPoint);
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$carouselWrapper.removeAttr(<span class="string">'style'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$carouselWrapper.removeAttr(<span class="string">'style'</span>);
 
         <span class="keyword">if</span> ( Modernizr.mediaqueries &amp;&amp; self.mq(<span class="string">'(min-width: 1200px)'</span>) &amp;&amp; ! self.$html.hasClass(<span class="string">'lt-ie10'</span>) )
         {
 
+          self.$slides.removeClass(<span class="string">"grid"</span>);
+          
           <span class="keyword">if</span>(self.breakPoint != <span class="string">"1200"</span>)
           {
             self.breakPoint = <span class="string">"1200"</span>;
-            self.setupItemsSlides();
+            self.setupItemsSlides(<span class="literal">false</span>);
             <span class="keyword">return</span> <span class="literal">false</span>;
           }
 
+          self.isOSCStyle = <span class="literal">false</span>;
           self.breakPoint = <span class="string">"1200"</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>self.$container.removeClass('full-bleed-no-max');</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>self.$container.removeClass('full-bleed-no-max');</p>             </td>             <td class="code">               <div class="highlight"><pre>
           gutterWidth    = Math.floor( self.gutterWidth[<span class="string">'1200'</span>] * containerWidth );
           colWidth       = Math.floor( self.colWidth[<span class="string">'1200'</span>] * containerWidth );
           numColumns     = <span class="number">6</span>;
         }
         <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || self.mq(<span class="string">'(min-width: 981px)'</span>) || self.$html.hasClass(<span class="string">'lt-ie10'</span>) ) {
 
+          self.$slides.removeClass(<span class="string">"grid"</span>);
+
           <span class="keyword">if</span>(self.breakPoint != <span class="string">"980"</span>)
           {
             self.breakPoint = <span class="string">"980"</span>;
-            self.setupItemsSlides();
+            self.setupItemsSlides(<span class="literal">false</span>);
             <span class="keyword">return</span> <span class="literal">false</span>;
           }
 
+          self.isOSCStyle = <span class="literal">false</span>;
           self.breakPoint = <span class="string">"980"</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>self.$container.removeClass('full-bleed-no-max');</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>self.$container.removeClass('full-bleed-no-max');</p>             </td>             <td class="code">               <div class="highlight"><pre>
           gutterWidth    = Math.floor( self.gutterWidth[<span class="string">'default'</span>] * containerWidth );
           colWidth       = Math.floor( self.colWidth[<span class="string">'default'</span>] * containerWidth ) ;
           numColumns     = <span class="number">6</span>;
@@ -311,50 +338,57 @@ self.variation              = self.$el.data('variation').split('-')[2]; //Determ
         } 
         <span class="keyword">else</span> <span class="keyword">if</span> ( self.mq(<span class="string">'(min-width: 768px)'</span>) ) {
 
+          self.$slides.addClass(<span class="string">"grid"</span>);
+
           <span class="keyword">if</span>(self.breakPoint != <span class="string">"769"</span>)
           {
             self.breakPoint = <span class="string">"769"</span>;
-            self.setupItemsSlides();
+            self.setupItemsSlides(<span class="literal">true</span>);
             <span class="keyword">return</span> <span class="literal">false</span>;
           }
 
+          self.isOSCStyle = <span class="literal">true</span>;
           self.breakPoint = <span class="string">"769"</span>;
 
+         
           <span class="comment">/*
 
           self.$container.addClass('full-bleed-no-max');
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Width container : remove the slimgrid style</p>             </td>             <td class="code">               <div class="highlight"><pre>          slimGridW = $(window).width() * self.containerWidthPct;
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Width container : remove the slimgrid style</p>             </td>             <td class="code">               <div class="highlight"><pre>          slimGridW = $(window).width() * self.containerWidthPct;
           margeSlimGrid = ( $(window).width() - slimGridW ) / 2;
           slimGridW += margeSlimGrid;
           self.$carousel.css( { 'width' : slimGridW, 'margin' : '0 0 0 '+ margeSlimGrid +'px' } );
           */
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>extraPct       = 1.1;
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>extraPct       = 1.1;
 containerWidth = $(window).width() * self.containerWidthPct * extraPct; //110%
 gutterWidth    = Math.floor( self.gutterWidth['768'] * $(window).width() * self.containerWidthPct);
 colWidth       = Math.floor( self.colWidth['768']    * $(window).width() * self.containerWidthPct);</p>             </td>             <td class="code">               <div class="highlight"><pre>          gutterWidth    = Math.floor( self.gutterWidth[<span class="string">'768'</span>] * containerWidth );
           colWidth       = Math.floor( self.colWidth[<span class="string">'768'</span>] * containerWidth ) ;
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;</p>             </td>             <td class="code">               <div class="highlight"><pre>          numColumns     = <span class="number">4</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;</p>             </td>             <td class="code">               <div class="highlight"><pre>          numColumns     = <span class="number">4</span>;
 
         }<span class="keyword">else</span> {
+
+           self.$slides.addClass(<span class="string">"grid"</span>);
 
           <span class="keyword">if</span>(self.breakPoint != <span class="string">"mobile"</span>)
           {
             self.breakPoint = <span class="string">"mobile"</span>;
-            self.setupItemsSlides();
+            self.setupItemsSlides(<span class="literal">true</span>);
             <span class="keyword">return</span> <span class="literal">false</span>;
           }
 
+          self.isOSCStyle = <span class="literal">true</span>;
           self.breakPoint = <span class="string">"mobile"</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>self.$container.addClass('full-bleed-no-max');</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>extraPct       = 1.1525;
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>self.$container.addClass('full-bleed-no-max');</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>extraPct       = 1.1525;
 containerWidth = $(window).width() * self.containerWidthPct * extraPct; //110%
 gutterWidth    = Math.floor( self.gutterWidth.mobile * $(window).width() * self.containerWidthPct);
 colWidth       = Math.floor( self.colWidth.mobile    * $(window).width() * self.containerWidthPct);</p>             </td>             <td class="code">               <div class="highlight"><pre>          gutterWidth    = Math.floor( self.gutterWidth.mobile * containerWidth );
           colWidth       = Math.floor( self.colWidth.mobile * containerWidth ) ;
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;</p>             </td>             <td class="code">               <div class="highlight"><pre>          numColumns     = <span class="number">2</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;</p>             </td>             <td class="code">               <div class="highlight"><pre>          numColumns     = <span class="number">2</span>;
 
         }
 
@@ -362,20 +396,20 @@ colWidth       = Math.floor( self.colWidth.mobile    * $(window).width() * self.
 
         marginLeftContainer = gutterWidth;
 
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>pctColWidth    = (colWidth / containerWidth) * 100;
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>pctColWidth    = (colWidth / containerWidth) * 100;
 pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>             <td class="code">               <div class="highlight"><pre>
 
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>.not( self.$items.first() )</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>console.log("before carousel w", Math.floor( self.$carousel.width() ));</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>.not( self.$items.first() )</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>console.log("before carousel w", Math.floor( self.$carousel.width() ));</p>             </td>             <td class="code">               <div class="highlight"><pre>
 
         
         self.$items.css({
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>'width'       : colWidth,</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="string">'width'</span>       : colWidth,
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>'width'       : colWidth,</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="string">'width'</span>       : colWidth,
           <span class="string">'margin'</span>      : <span class="number">0</span>,
           <span class="string">'margin-left'</span> : gutterWidth
         });
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>height wrapper </p>             </td>             <td class="code">               <div class="highlight"><pre>        heightWrapper = <span class="string">'auto'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>height wrapper </p>             </td>             <td class="code">               <div class="highlight"><pre>        heightWrapper = <span class="string">'auto'</span>;
         <span class="keyword">if</span>( self.breakPoint != <span class="string">"mobile"</span> )
         {
           heightWrapper = self.$items.first().height();
@@ -398,8 +432,8 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
 
         */</span>
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>console.log("after carousel w", Math.floor( self.$carousel.width() ));</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>last : fix</p>             </td>             <td class="code">               <div class="highlight"><pre>        $.each( self.$slides.not( self.$slides.last() ).find(<span class="string">".sony-carousel-slide-children:first"</span>), <span class="keyword">function</span>(i){
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>console.log("after carousel w", Math.floor( self.$carousel.width() ));</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>last : fix</p>             </td>             <td class="code">               <div class="highlight"><pre>        $.each( self.$slides.not( self.$slides.last() ).find(<span class="string">".sony-carousel-slide-children:first"</span>), <span class="keyword">function</span>(i){
 
             $(<span class="keyword">this</span>).css({
               <span class="string">'width'</span>  : colWidth,
@@ -415,7 +449,7 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
         });
 */</span>
 
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>Fix</p>             </td>             <td class="code">               <div class="highlight"><pre>        containerWidth = Math.floor( self.$carousel.width() );
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Fix</p>             </td>             <td class="code">               <div class="highlight"><pre>        containerWidth = Math.floor( self.$carousel.width() );
 
         <span class="keyword">if</span>( numColumns * colWidth + ( (numColumns - <span class="number">1</span>) * gutterWidth ) &gt;= containerWidth)
         {
@@ -439,7 +473,19 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
 
         self = <span class="keyword">this</span>;
 
-        self.resetSlides();
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>self.resetSlides();</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.createCarousel();
+        
+
+        iQ.update(<span class="literal">true</span>);
+
+      },
+      createCarousel : <span class="keyword">function</span>(){
+
+        <span class="keyword">if</span>( self.carousel ){
+          self.$slidesContainer.sonyCarousel(<span class="string">"destroy"</span>);
+
+          self.$el.find(<span class="string">".sony-dot-nav"</span>).remove();
+        }
 
         self.carousel = self.$slidesContainer.sonyCarousel({
           wrapper: <span class="string">'.sony-carousel-wrapper'</span>,
@@ -447,17 +493,20 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
           slideChildren: <span class="string">'.sony-carousel-slide-children'</span>,
           useCSS3: <span class="literal">true</span>,
           paddles: <span class="literal">true</span>,
+          $paddleWrapper : self.$paddles,
           pagination: <span class="literal">true</span>
         });
 
-        iQ.update(<span class="literal">true</span>);
+        self.$paginationPaddles = $(<span class="string">".pagination-paddle"</span>);
+
+        self.topPaddles();
 
         self.setupEvents();
 
       },
       setupGlobalEvent : <span class="keyword">function</span>(){
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$win.on(<span class="string">'resize.rp'</span>, $.debounce(<span class="number">50</span> , <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>Resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$win.on(<span class="string">'resize.rp'</span>, $.debounce(<span class="number">50</span> , <span class="keyword">function</span>() {
 
           self.udpateItems();
 
@@ -468,7 +517,7 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
       },
       setupEvents : <span class="keyword">function</span>(){
 
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Bind nav</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$el.find(<span class="string">".pagination-paddles"</span>).off(<span class="string">"click"</span>).on(<span class="string">"click"</span>, <span class="keyword">function</span>(e){
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>Bind nav</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$el.find(<span class="string">".pagination-paddles"</span>).off(<span class="string">"click"</span>).on(<span class="string">"click"</span>, <span class="keyword">function</span>(e){
           iQ.update(<span class="literal">true</span>);
         });
 
@@ -482,10 +531,33 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
         <span class="keyword">if</span>(self.carousel)
         {
           self.$slidesContainer.sonyCarousel(<span class="string">"resetSlides"</span>);
+
+          self.setupEvents();
         }
 
       },
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>Fixes a bug in IE when media queries aren't available</p>             </td>             <td class="code">               <div class="highlight"><pre>      mqFix: <span class="keyword">function</span>(){
+
+      <span class="comment">/* Paddles */</span>
+
+      createPaddles : <span class="keyword">function</span>(){
+
+        self.$paddles = $(<span class="string">'&lt;div class="wrapper-pagination-paddles"&gt;&lt;/div&gt;'</span>);
+        self.$carousel.append(self.$paddles);
+
+      },
+      topPaddles : <span class="keyword">function</span>(){
+
+        <span class="keyword">if</span> (self.$paginationPaddles)
+        {
+          self.$paginationPaddles.css({
+            <span class="string">'top'</span>    : ( ( self.$el.height() - self.$carousel.height() ) / <span class="number">2</span> ) + ( self.$carousel.height()  / <span class="number">2</span> ) - ( self.paddleHeight / <span class="number">2</span> ),
+            <span class="string">'margin'</span> : <span class="number">0</span>
+          });  
+        }
+        
+      },
+
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Fixes a bug in IE when media queries aren't available</p>             </td>             <td class="code">               <div class="highlight"><pre>      mqFix: <span class="keyword">function</span>(){
         self = <span class="keyword">this</span>;
         
         <span class="keyword">if</span>( !self.hasMediaQueries &amp;&amp; self.isIE7orIE8 || self.oldIE){
@@ -504,7 +576,7 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
 
         <span class="keyword">if</span>(self.useCSS3Transitions) {
       
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>some constants for CSS3</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.TP     = <span class="string">'transitionProperty'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>some constants for CSS3</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.TP     = <span class="string">'transitionProperty'</span>;
           self.TD     = <span class="string">'transitionDuration'</span>;
           self.TTF    = <span class="string">'transitionTimingFunction'</span>;
           self.yProp  = self.xProp = self.prefixed ( <span class="string">'transform'</span> );
@@ -530,7 +602,7 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
       setupEasing: <span class="keyword">function</span>(){
         self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Define easing equations</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.css3Easing = {
+</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>Define easing equations</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.css3Easing = {
             easeOutSine     : <span class="string">'cubic-bezier(0.390, 0.575, 0.565, 1.000)'</span>,
             easeInOutSine   : <span class="string">'cubic-bezier(0.445, 0.050, 0.550, 0.950)'</span>,
             easeOutBack     : <span class="string">'cubic-bezier(0.595, -0.160, 0.255, 1.140)'</span>,
@@ -558,7 +630,7 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
         }
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Store gallery items orginal parent slide for teardown and rebuild</p>             </td>             <td class="code">               <div class="highlight"><pre>      storeGalleryItemParentSlides: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>Store gallery items orginal parent slide for teardown and rebuild</p>             </td>             <td class="code">               <div class="highlight"><pre>      storeGalleryItemParentSlides: <span class="keyword">function</span>(){
         self = <span class="keyword">this</span>;
 
         self.$galleryItems.each(<span class="keyword">function</span>(){
@@ -567,7 +639,7 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
         });
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>Set up outbound links to not interfere with dragging between slides</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupLinkClicks: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>Set up outbound links to not interfere with dragging between slides</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupLinkClicks: <span class="keyword">function</span>(){
 
         self = <span class="keyword">this</span>;
 
@@ -582,7 +654,7 @@ pctGutterWidth = (gutterWidth / containerWidth) * 100;</p>             </td>    
             point = e;
           }
 
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>To prevent drags from being misinterpreted as clicks, we only redirect the user
+</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>To prevent drags from being misinterpreted as clicks, we only redirect the user
 if their interaction time and movements are below certain thresholds.</p>             </td>             <td class="code">               <div class="highlight"><pre>
           <span class="keyword">if</span> ( self.startInteractionTime &amp;&amp; self.startInteractionPointX ) {
 
@@ -613,23 +685,23 @@ if their interaction time and movements are below certain thresholds.</p>       
         marginLeftContainer = <span class="number">0</span>;
         numColumns     = <span class="number">6</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slimGrid.removeAttr(<span class="string">'style'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slimGrid.removeAttr(<span class="string">'style'</span>);
 
         <span class="keyword">if</span> ( Modernizr.mediaqueries &amp;&amp; self.mq(<span class="string">'(min-width: 1200px)'</span>) &amp;&amp; ! self.$html.hasClass(<span class="string">'lt-ie10'</span>) )
         {
 
           self.$containerProduct.removeClass(<span class="string">'full-bleed-no-max'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>gutterWidth    = Settings.GUTTER<em>WIDTH</em>320 * containerWidth;</p>             </td>             <td class="code">               <div class="highlight"><pre>          gutterWidth    = self.gutterWidth[<span class="string">'1200'</span>] * containerWidth;
-</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>colWidth       = ( Settings.COLUMN<em>WIDTH</em>320 * ( containerWidth ) );</p>             </td>             <td class="code">               <div class="highlight"><pre>          colWidth       = self.colWidth[<span class="string">'1200'</span>] * containerWidth;
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>gutterWidth    = Settings.GUTTER<em>WIDTH</em>320 * containerWidth;</p>             </td>             <td class="code">               <div class="highlight"><pre>          gutterWidth    = self.gutterWidth[<span class="string">'1200'</span>] * containerWidth;
+</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>colWidth       = ( Settings.COLUMN<em>WIDTH</em>320 * ( containerWidth ) );</p>             </td>             <td class="code">               <div class="highlight"><pre>          colWidth       = self.colWidth[<span class="string">'1200'</span>] * containerWidth;
           numColumns     = <span class="number">6</span>;
         }
         <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || self.mq(<span class="string">'(min-width: 981px)'</span>) || self.$html.hasClass(<span class="string">'lt-ie10'</span>) ) {
 
           self.$containerProduct.removeClass(<span class="string">'full-bleed-no-max'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>gutterWidth    = Settings.GUTTER<em>WIDTH</em>320 * containerWidth;</p>             </td>             <td class="code">               <div class="highlight"><pre>          gutterWidth    = self.gutterWidth[<span class="string">'default'</span>] * containerWidth;
-</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>colWidth       = ( Settings.COLUMN<em>WIDTH</em>320 * ( containerWidth ) );</p>             </td>             <td class="code">               <div class="highlight"><pre>          colWidth       = self.colWidth[<span class="string">'default'</span>] * containerWidth  ;
+</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>gutterWidth    = Settings.GUTTER<em>WIDTH</em>320 * containerWidth;</p>             </td>             <td class="code">               <div class="highlight"><pre>          gutterWidth    = self.gutterWidth[<span class="string">'default'</span>] * containerWidth;
+</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>colWidth       = ( Settings.COLUMN<em>WIDTH</em>320 * ( containerWidth ) );</p>             </td>             <td class="code">               <div class="highlight"><pre>          colWidth       = self.colWidth[<span class="string">'default'</span>] * containerWidth  ;
           numColumns     = <span class="number">6</span>;
 
         } 
@@ -637,13 +709,13 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           self.$containerProduct.addClass(<span class="string">'full-bleed-no-max'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>          slimGridW = $(window).width() * self.containerWidthPct;
+</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>          slimGridW = $(window).width() * self.containerWidthPct;
           margeSlimGrid = ( $(window).width() - slimGridW ) / <span class="number">2</span>;
           slimGridW += margeSlimGrid;
           self.$slimGrid.css( { <span class="string">'width'</span> : slimGridW, <span class="string">'margin'</span> : <span class="string">'0 0 0 '</span>+ margeSlimGrid +<span class="string">'px'</span> } );
 
           extraPct       = <span class="number">1.1</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>containerWidth = self.$el.width() * extraPct;</p>             </td>             <td class="code">               <div class="highlight"><pre>          containerWidth = $(window).width() * self.containerWidthPct * extraPct; <span class="comment">//110%</span>
+</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>containerWidth = self.$el.width() * extraPct;</p>             </td>             <td class="code">               <div class="highlight"><pre>          containerWidth = $(window).width() * self.containerWidthPct * extraPct; <span class="comment">//110%</span>
           gutterWidth    = self.gutterWidth[<span class="string">'768'</span>] * $(window).width() * self.containerWidthPct;
           colWidth       = self.colWidth[<span class="string">'768'</span>]    * $(window).width() * self.containerWidthPct;
           extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
@@ -653,13 +725,13 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           self.$containerProduct.addClass(<span class="string">'full-bleed-no-max'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>          slimGridW      = $(window).width() * self.containerWidthPct;
+</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>          slimGridW      = $(window).width() * self.containerWidthPct;
           margeSlimGrid  = ( $(window).width() - slimGridW ) / <span class="number">2</span>;
           slimGridW += margeSlimGrid;
           self.$slimGrid.css( { <span class="string">'width'</span> : slimGridW, <span class="string">'margin'</span> : <span class="string">'0 0 0 '</span>+ margeSlimGrid +<span class="string">'px'</span> } );
 
           extraPct       = <span class="number">1.1525</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>containerWidth = self.$el.width() * extraPct;</p>             </td>             <td class="code">               <div class="highlight"><pre>          containerWidth = $(window).width() * self.containerWidthPct * extraPct; <span class="comment">//110%</span>
+</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>containerWidth = self.$el.width() * extraPct;</p>             </td>             <td class="code">               <div class="highlight"><pre>          containerWidth = $(window).width() * self.containerWidthPct * extraPct; <span class="comment">//110%</span>
           gutterWidth    = self.gutterWidth.mobile * $(window).width() * self.containerWidthPct;
           colWidth       = self.colWidth.mobile    * $(window).width() * self.containerWidthPct;
           extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
@@ -667,7 +739,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>clear out the position style on the gallery items</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$galleryItems.removeAttr(<span class="string">'style'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>clear out the position style on the gallery items</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$galleryItems.removeAttr(<span class="string">'style'</span>);
 
         $galleryItemsFirst = self.$galleryItems.first();
 
@@ -695,9 +767,9 @@ if their interaction time and movements are below certain thresholds.</p>       
         })
         */</span>
 
-</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>Animation Init</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.animationInit();
+</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>Animation Init</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.animationInit();
 
-</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>Create the sony-scroller instance</p>             </td>             <td class="code">               <div class="highlight"><pre>        
+</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>Create the sony-scroller instance</p>             </td>             <td class="code">               <div class="highlight"><pre>        
         setTimeout(<span class="keyword">function</span>(){
 
           <span class="keyword">if</span>(self.scrollerModule !== <span class="literal">null</span>){
@@ -732,11 +804,11 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           self.$el.find(<span class="string">'.rp-overflow'</span>).on(<span class="string">"update.sm"</span>, <span class="keyword">function</span>(e){
              self.scrollerModule._generatePagination( self.nbPages );
-</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
+</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
 
           self.$win.trigger(<span class="string">'resize.rp'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
         }, <span class="number">50</span>);
 
 
@@ -753,7 +825,7 @@ if their interaction time and movements are below certain thresholds.</p>       
           marginLeftContainer  = <span class="number">0</span>;
           numColumns         = <span class="number">6</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$slimGrid.removeAttr(<span class="string">'style'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$slimGrid.removeAttr(<span class="string">'style'</span>);
 
           <span class="keyword">if</span> ( Modernizr.mediaqueries &amp;&amp; self.mq(<span class="string">'(min-width: 1200px)'</span>) &amp;&amp; ! self.$html.hasClass(<span class="string">'lt-ie10'</span>) )
           {
@@ -780,9 +852,9 @@ if their interaction time and movements are below certain thresholds.</p>       
 
             self.$containerProduct.addClass(<span class="string">'full-bleed-no-max'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>heightContainer</p>             </td>             <td class="code">               <div class="highlight"><pre>            heightContainer = <span class="number">40</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>heightContainer</p>             </td>             <td class="code">               <div class="highlight"><pre>            heightContainer = <span class="number">40</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>            slimGridW = $(window).width() * self.containerWidthPct;
+</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>            slimGridW = $(window).width() * self.containerWidthPct;
             margeSlimGrid = ( $(window).width() - slimGridW ) / <span class="number">2</span>;
             slimGridW += margeSlimGrid;
             self.$slimGrid.css( { <span class="string">'width'</span> : slimGridW, <span class="string">'margin'</span> : <span class="string">'0 0 0 '</span>+ margeSlimGrid +<span class="string">'px'</span> } );
@@ -798,9 +870,9 @@ if their interaction time and movements are below certain thresholds.</p>       
 
             self.$containerProduct.addClass(<span class="string">'full-bleed-no-max'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>heightContainer</p>             </td>             <td class="code">               <div class="highlight"><pre>            heightContainer = <span class="number">40</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>heightContainer</p>             </td>             <td class="code">               <div class="highlight"><pre>            heightContainer = <span class="number">40</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>            slimGridW = $(window).width() * self.containerWidthPct;
+</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>SlimGrid</p>             </td>             <td class="code">               <div class="highlight"><pre>            slimGridW = $(window).width() * self.containerWidthPct;
             margeSlimGrid = ( $(window).width() - slimGridW ) / <span class="number">2</span>;
             slimGridW += margeSlimGrid;
             self.$slimGrid.css( { <span class="string">'width'</span> : slimGridW, <span class="string">'margin'</span> : <span class="string">'0 0 0 '</span>+ margeSlimGrid +<span class="string">'px'</span> } );
@@ -843,9 +915,9 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="string">'height'</span>     : newContainerHeight,
             <span class="string">'max-height'</span> : newContainerHeight,
             <span class="string">'min-height'</span> : newContainerHeight
-</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>'min-width'  : 550 + 'px'</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
+</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>'min-width'  : 550 + 'px'</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
 
-</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>
         }));
 
         self.$win.trigger(<span class="string">'resize.rp'</span>);
@@ -858,8 +930,8 @@ if their interaction time and movements are below certain thresholds.</p>       
 
         self.$container             = self.$carousel.parent();
 
-</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>if( !self.useCSS3Transitions ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>jquery fallback</p>             </td>             <td class="code">               <div class="highlight"><pre>          animObj.opacity = <span class="number">1</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>if( !self.useCSS3Transitions ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>jquery fallback</p>             </td>             <td class="code">               <div class="highlight"><pre>          animObj.opacity = <span class="number">1</span>;
           self.$container.removeClass(<span class="string">"hide"</span>).animate(animObj, <span class="number">700</span>);
 
         <span class="comment">/*}else {
@@ -867,9 +939,9 @@ if their interaction time and movements are below certain thresholds.</p>       
           animObj[ self.prefixed( self.TD ) ] = 700 + 'ms';
           animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.easeOutBack;
           console.log("animObj", animObj);
-</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>animObj.display = 'block';
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>animObj.display = 'block';
 animObj.opacity = 1;</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$container.css( animObj );
-</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>self.$container.removeClass("hide").addClass("in");</p>             </td>             <td class="code">               <div class="highlight"><pre>        }
+</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>self.$container.removeClass("hide").addClass("in");</p>             </td>             <td class="code">               <div class="highlight"><pre>        }
         */
         
       },
@@ -892,7 +964,7 @@ animObj.opacity = 1;</p>             </td>             <td class="code">        
 
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>Recently Viewed definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.recentlyViewed = <span class="keyword">function</span>(options) {
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>Recently Viewed definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.recentlyViewed = <span class="keyword">function</span>(options) {
       args = arguments;
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(){
         self = $(<span class="keyword">this</span>);
@@ -909,7 +981,7 @@ animObj.opacity = 1;</p>             </td>             <td class="code">        
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>defaults for the related products</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.recentlyViewed.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>defaults for the related products</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.recentlyViewed.defaults = {
       throttleTime: <span class="number">50</span>,
       autoScaleContainer: <span class="literal">true</span>,
       minSlideOffset: <span class="number">10</span>,
