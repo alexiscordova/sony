@@ -1,16 +1,19 @@
 include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('editorial-chapters-e5')
 
-section.editorial-chapters-container( class=data.config.shade+' '+data.config.mode )
+section.editorial-chapters-container( class=data.config.shade+' '+data.config.mode+' '+data.config.layout+' '+data.config.nav )
   div(class='editorial-chapters')
     div(class='editorial-carousel-wrapper')
       div(class='editorial-carousel')
         for slide in data.submodules
           .editorial-carousel-slide
             +partial(slide.type, slide.data)
-    ul.thumb-nav
+    ul.thumb-nav.container
       for slide in data.submodules
         li
-          div
+          if slide.thumb
             +iQImage(slide.thumb)
+          if slide.icon
+            i(class=slide.icon)
+          if slide.label
             span= slide.label

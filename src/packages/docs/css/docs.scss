@@ -122,6 +122,9 @@ ol {
     margin:0;
   }
 }
+.wikiDemoNav.wikiNav .primaryNav ul li{
+  margin-top:12px;
+}
 
 #dokuwiki__header{
   background:#FFFFDD;
@@ -159,17 +162,28 @@ ol {
 
 .jumbotron {
   position: relative;
-  padding: 70px 0 40px;
+  padding: 43px 0 55px;
   background: $gray20; /* CJM */
   border:none !important;
   margin-bottom:30px;
-}
-.jumbotron h1{
-  color:$white;
-  margin-bottom:17px;
-}
-.jumbotron p {
-  color:#bcbccc;
+
+  h1{
+    text-transform: capitalize;
+    font-size: 38px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+  }
+  h6{
+    color:#999;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  p {
+    color:#bcbccc;
+  }
 }
 
 
@@ -1677,7 +1691,7 @@ form.bs-docs-example {
 
   /* Widen masthead and social buttons to fill body padding */
   .jumbotron {
-    margin-top: -20px; /* Offset bottom margin on .simple-navbar */
+    // margin-top: -20px; /* Offset bottom margin on .simple-navbar */
   }
   /* Adjust sidenav width */
   .bs-docs-sidenav {
@@ -1716,13 +1730,13 @@ form.bs-docs-example {
 
   /* Widen masthead and social buttons to fill body padding */
   .jumbotron {
-    padding: 40px 20px;
-    margin-top:   -20px; /* Offset bottom margin on .simple-navbar */
-    margin-right: -20px;
-    margin-left:  -20px;
+    // padding: 40px 20px;
+    // margin-top:   -20px; /* Offset bottom margin on .simple-navbar */
+    // margin-right: -20px;
+    // margin-left:  -20px;
   }
   .masthead h1 {
-    font-size: 90px;
+    // font-size: 90px;
   }
   .masthead p,
   .masthead .btn {
@@ -1748,10 +1762,10 @@ form.bs-docs-example {
 
   /* Unfloat the back to top link in footer */
   .footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
+    // margin-left: -20px;
+    // margin-right: -20px;
+    // padding-left: 20px;
+    // padding-right: 20px;
   }
   .footer p {
     margin-bottom: 9px;
@@ -1798,7 +1812,7 @@ form.bs-docs-example {
   /* center align subhead text like the masthead */
   .subhead h1,
   .subhead p {
-    text-align: center;
+    // text-align: center;
   }
 
   /* Marketing on home */
@@ -1902,8 +1916,10 @@ form.bs-docs-example {
 .docs-color-swatch--gray50{  background: $gray50;  }
 .docs-color-swatch--gray60{  background: $gray60;  }
 .docs-color-swatch--gray70{  background: $gray70;  }
+.docs-color-swatch--gray75{  background: $gray75;  }
 .docs-color-swatch--gray80{  background: $gray80;  }
 .docs-color-swatch--gray90{  background: $gray90;  }
+.docs-color-swatch--gray95{  background: $gray95;  }
 .docs-color-swatch--white {  background: $white;   }
 
 .docs-color-swatch--buttonBlue        {  background: $buttonBlue;        }
@@ -1925,15 +1941,15 @@ form.bs-docs-example {
 .docs-color-swatch--themeBlueLight          {  background: $themeBlueLight;          }
 .docs-color-swatch--themeBlueLightHover     {  background: $themeBlueLightHover;     }
 .docs-color-swatch--themeBlueLightActive    {  background: $themeBlueLightActive;    }
-.docs-color-swatch--themeGreen              {  background: $themeGreen;              }
-.docs-color-swatch--themeGreenHover         {  background: $themeGreenHover;         }
-.docs-color-swatch--themeGreenActive        {  background: $themeGreenActive;        }
-.docs-color-swatch--themeOrange             {  background: $themeOrange;             }
-.docs-color-swatch--themeOrangeHover        {  background: $themeOrangeHover;        }
-.docs-color-swatch--themeOrangeActive       {  background: $themeOrangeActive;       }
 .docs-color-swatch--themeBlueDark           {  background: $themeBlueDark;           }
 .docs-color-swatch--themeBlueDarkHover      {  background: $themeBlueDarkHover;      }
 .docs-color-swatch--themeBlueDarkActive     {  background: $themeBlueDarkActive;     }
+.docs-color-swatch--themeOrange             {  background: $themeOrange;             }
+.docs-color-swatch--themeOrangeHover        {  background: $themeOrangeHover;        }
+.docs-color-swatch--themeOrangeActive       {  background: $themeOrangeActive;       }
+.docs-color-swatch--themeGreen              {  background: $themeGreen;              }
+.docs-color-swatch--themeGreenHover         {  background: $themeGreenHover;         }
+.docs-color-swatch--themeGreenActive        {  background: $themeGreenActive;        }
 
 .docs-color-swatch--secondaryGold           {  background: $secondaryGold;           }
 .docs-color-swatch--secondarySage           {  background: $secondarySage;           }
@@ -1950,6 +1966,7 @@ form.bs-docs-example {
 .docs-color-swatch--youtubeColor            {  background: $youtubeColor;            }
 .docs-color-swatch--flickrblue              {  background: $flickrBlueColor;         }
 .docs-color-swatch--flickrpink              {  background: $flickrPinkColor;         }
+.docs-color-swatch--pinterestColor          {  background: $pinterestColor;         }
 
 
 
@@ -2031,6 +2048,14 @@ form.bs-docs-example {
         padding:0px 0;
         margin: 1px auto;
       }
+    }
+    .container.nesting-demo-10,
+    .container.full-bleed.nesting-demo-10{
+      padding:10px 0 !important;
+    }
+    .container.nesting-demo-5,
+    .container.full-bleed.nesting-demo-5{
+      padding:5px 0 !important;
     }
 
     .container .container,

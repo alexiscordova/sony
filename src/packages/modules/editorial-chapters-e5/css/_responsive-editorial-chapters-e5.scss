@@ -1,18 +1,45 @@
-@media (min-width: px-em(1400)) {
+//
+// Responsive: Chapters - E5
+// --------------------------------------------------
 
-  .editorial-slideshow-container .pagination-paddles {
+// HIDES TEXT IN THUMB NAV FOR ANY CHAPTER MODULE UNDER 768 PIXELS IN ANY BROWSER WINDOW SIZE
 
-    button {
-
-      &.pagination-next {
-        right: 50%;
-        margin-right: -624px;
+@mixin compact-thumb-nav {
+  &.thumb-mode,
+  &.icon-mode {
+    .thumb-nav {
+      li {
+        width:auto;
       }
-
-      &.pagination-prev {
-        left: 50%;
-        margin-left: -624px;
-      }
+        img,
+        i {margin-right:0;}
+        span {display:none;}
     }
   }
+  &.icon-mode {
+    li {
+      height:60px;
+
+      &.active,
+      &:hover {height:64px;}
+    }
+      i {top:9px;}
+  }  
 }
+
+@media (max-width: 1468px) {
+
+  .span7 .editorial-chapters-container,
+  .span8 .editorial-chapters-container{
+    @include compact-thumb-nav;
+  }
+
+} // END max-width: 1468px
+
+@media (max-width: 767px) {
+
+  .editorial-chapters-container {
+    @include compact-thumb-nav;
+  }
+
+} // END max-width: 767px

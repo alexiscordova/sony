@@ -556,12 +556,16 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .img-wrap {
     float: left;
+    height: 100%;
   }
 
   .quote {
     float: right;
+    height: 100%;
+    height: -webkit-calc( 100% - 18px );
+    height: calc( 100% - 18px );
     // Why is this relative to the whole .gallery-item???
-    margin-top: 12%;
+    // margin-top: 12%;
     padding-right: 5%;
     text-align: left;
   }
@@ -572,7 +576,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .social-icon {
     @include square( 30px );
-    vertical-align: top;
+    vertical-align: middle;
     margin-right: 10px;
     border-radius: 50%;
     background-color: white;
@@ -589,6 +593,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   }
 
   blockquote p {
+    color: $gray20;
     margin-bottom: 0;
   }
 }
