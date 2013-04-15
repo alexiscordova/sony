@@ -1,7 +1,7 @@
 include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('country-region-selection-z10')
 
-.container.continent-sticky-header
+.country-region.container.continent-sticky-header
   .continent-sticky-header-title.t6
 
 .country-region.scrollable
@@ -43,6 +43,6 @@ include ../../../common/html/jade-helpers.jade
 
     .container
       .grid
-        .span12
-          p(class='t6')= data.cookies_blurb.heading
-          p= data.cookies_blurb.content
+        .span12.info
+          p.info-hd= data.cookies_blurb.heading
+          p.info-bd= data.cookies_blurb.content
