@@ -216,7 +216,7 @@ define(function(require){
           "top": newTop
         }, {
           'duration': self.transitionTime,
-          'easing' : 'easeInOutQuart',
+          // 'easing' : 'easeInOutQuart',
           'complete': function() {
             self.isAnimating = false;
           }
