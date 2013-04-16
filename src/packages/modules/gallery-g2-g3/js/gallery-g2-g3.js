@@ -2268,9 +2268,22 @@ define(function(require){
 
       if ( Modernizr.mq('(max-width: 47.9375em)') ) {
         if ( !self.hasSorterMoved ) {
-          var $sorter = self.$sortOpts.detach();
-          $sorter.insertAfter( self.$container.find('.slide-toggle-target') );
-          $sorter.wrap('<div id="sort-options-holder" class="container"><div class="grid"></div></div>');
+          var $sorter = self.$sortOpts.detach(),
+              $container = $('<div/>', { 'class' : 'container', id: 'sort-options-holder' } ),
+              $grid = $('<div/>', { 'class' : 'grid' } );
+
+          $grid.append( $sorter );
+          $container.append( $grid );
+
+          // Append it before the active filters and after the collapseable
+          if ( self.hasFilters ) {
+            $container.insertAfter( self.$container.find( '.slide-toggle-target' ) );
+
+          // `.slide-toggle-target` doesn't exist, append it before the products
+          } else {
+            $container.insertBefore( self.$grid.parent() );
+          }
+
           self.hasSorterMoved = true;
         }
       } else {
@@ -2292,6 +2305,8 @@ define(function(require){
     handleFavorite : function( $jsFavorite, isAdded ) {
       var self = this,
           favs = [];
+
+      console.log( $jsFavorite, isAdded );
 
       // Save data
       if ( isAdded ) {

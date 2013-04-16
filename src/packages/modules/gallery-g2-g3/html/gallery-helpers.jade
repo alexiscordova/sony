@@ -249,29 +249,38 @@ mixin detailedGallery( submodules, gallery, type )
         a(href=gallery.nextLink) Camera Overflow
       .infscr-holder.text-center
 
-mixin favoritesGallery( submodules, gallery, type )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.productCards
+mixin favoritesGallery( gallery )
 
-  section.gallery.fade.gallery-favorites(id=gallery.name + '-gallery', data-mode=gallery.mode)
-    +galleryFilters( gallery )
+  if gallery.favorites && gallery.favorites.length > 0
+    section.gallery.fade.gallery-favorites(id=gallery.name + '-gallery', data-mode=gallery.mode)
+      +galleryFilters( gallery )
 
-    .container
-      .products.slimgrid.no-grid-at-767
-        each favorite in gallery.favorites
-          d = locals.data(favorite.data)
-          if d.isFavorited && !d.promo
-            - d.view = "detailed"
-            e = { "locals" : locals, "data" : d }
-            !{locals.partial( favorite.type, e )}
-        +recommendedTile( gallery.recommended )
+      .container
+        .products.slimgrid.no-grid-at-767
+          each favorite in gallery.favorites
+            d = locals.data(favorite.data)
+            if d.isFavorited && !d.promo
+              - d.view = "detailed"
+              e = { "locals" : locals, "data" : d }
+              !{locals.partial( favorite.type, e )}
+          +recommendedTile( gallery.recommended )
 
-    +zeroProductsMessage( gallery )
+      +zeroProductsMessage( gallery )
 
-    if gallery.nextLink
-      .navigation.invisible
-        a(href=gallery.nextLink) Next set
-      .infscr-holder.text-center
+      if gallery.nextLink
+        .navigation.invisible
+          a(href=gallery.nextLink) Next set
+        .infscr-holder.text-center
+  else
+    section.container.no-favs
+      .grid.text-center
+        h1.t4
+          strong= gallery.nofavs.title
+        p.ilikeyou
+          i.fonticon-10-favorite
+        p.p3= gallery.nofavs.message
+
+
 
 mixin compareGallery( submodules, gallery, type, labels )
   submodules = submodules || data.submodules
