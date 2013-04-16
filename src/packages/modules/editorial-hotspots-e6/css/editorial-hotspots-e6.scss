@@ -23,6 +23,84 @@ $transitionSpeed: .5s;
   z-index: 0;
 }
 
+.eh-transparent {
+  @include ehsTransition();
+  opacity: 0;
+}
+
+.eh-visible {
+  @include ehsTransition();
+  opacity: 1;
+}
+
+/*GLOBAL OVERLAY*/
+.hspot-global-details-main {
+    .overlay-inner {
+      margin: 0px auto;
+      width: 230px;
+      background-color: #fff;
+      .overlay-close {
+        position: relative;
+        width: 230px;
+        -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        margin-top: 1em;
+        .top {
+          background-color: #fff;
+        }
+        .middle {
+          background-color: #fff;
+          padding: 20px 30px 23px 20px;
+          border-bottom: 1px solid #e4e7eb;
+          position: relative;
+          .p4, .p3 {
+            @include px-em--font-size--line-height(12,18);
+            margin-bottom: 4px;
+            &.cHBI {
+              margin-bottom: 0;
+            }
+          }
+        }
+        .footer {
+          background-color: #fff;
+          padding: 20px 30px 20px 20px;
+          p.p4, p.p3 {
+            @include px-em--font-size--line-height(12,18);
+            font-style: italic;
+            color: $secondarySlateDark;
+            margin-bottom: 9px;
+          }
+          blockquote.l4, blockquote.l3 {
+            color: $gray40;
+            position: relative;
+            margin-left: 24px;
+            @include px-em--font-size--line-height(10,16);
+            &:before {
+              display: block;
+              content: "\201C";
+              font-size: 40px;
+              font-family: Georgia;
+              position: absolute;
+              left: -24px;
+              top: -13px;
+              color: $secondarySlateDark;
+            }
+          }
+        }
+        .hspot-close {
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          /*
+          width: 27px;
+          height: 27px;
+          */
+        }
+      }
+    }
+}
+
 /*UTILS*/
 .ehs {
   
@@ -32,16 +110,6 @@ $transitionSpeed: .5s;
   
   .info-jump-to-top {
     z-index: 4;
-  }
-  
-  .eh-transparent {
-    @include ehsTransition();
-    opacity: 0;
-  }
-  
-  .eh-visible {
-    @include ehsTransition();
-    opacity: 1;
   }
   
   .overlay-close {
@@ -243,6 +311,7 @@ $transitionSpeed: .5s;
   width: 56px;
   cursor: pointer;
   z-index: 1;
+  text-align: left;
   .hspot-core {
     margin: $centerRatio;
     height: $innerDiameter;

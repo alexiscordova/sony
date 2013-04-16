@@ -6,29 +6,41 @@ head
   include ../../../common/html/head.jade
 
 body
-  .container
-    +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/editorial-chapters-e5-white.json')
-
-  .container.gray
-    +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/editorial-chapters-e5-gray.json')
-
-  .container.dark
-    +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/editorial-chapters-e5-dark.json')
-
-  .grid.no-grid-at-767
-    .span5 text goes here
-    .span7
+  h3 Full Width - Navigation Below &amp; Overlayed - White - Thumbs
+  .container.full-bleed-no-max
+    .container
       +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/editorial-chapters-e5-white.json')
 
-  .grid.no-grid-at-767
-    .span6 text goes here
-    .span6
+  h3 Full Width - Navigation Above &amp; Offset - Gray - Icons
+  .container.full-bleed-no-max.gray
+    .container
       +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/editorial-chapters-e5-gray.json')
 
-  .grid.no-grid-at-767
-    .span7 text goes here
-    .span5
+  h3 Full Width - Navigation Below &amp; Overlayed - Dark - Text
+  .container.full-bleed-no-max.dark
+    .container
       +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/editorial-chapters-e5-dark.json')
+
+  h3 Span7 - Navigation Below &amp; Overlayed - White - Thumbs
+  .container.full-bleed-no-max
+    .grid.no-grid-at-767
+      .span5
+      .span7
+        +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/editorial-chapters-e5-white.json')
+
+  h3 Span6 - Navigation Above &amp; Offset - Gray - Icons
+  .container.full-bleed-no-max.gray
+    .grid.no-grid-at-767
+      .span6
+      .span6
+        +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/editorial-chapters-e5-gray.json')
+
+  h3 Span5 - Navigation Below &amp; Overlayed - Dark - Text
+  .container.full-bleed-no-max.dark
+    .grid.no-grid-at-767
+      .span7
+      .span5
+        +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/editorial-chapters-e5-dark.json')
 
   include ../../../common/html/foot.jade
 </html>
