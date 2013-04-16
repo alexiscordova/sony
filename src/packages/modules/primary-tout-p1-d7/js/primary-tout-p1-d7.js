@@ -29,6 +29,7 @@ define(function(require){
     // Start module
     var PrimaryTout = function(element, options){
       var self = this;
+      self.$el = $(element);
       $.extend(self, {}, $.fn.primaryTout.defaults, options, $.fn.primaryTout.settings);
 
       self._init();
@@ -46,7 +47,7 @@ define(function(require){
           $('.primary-tout.default .image-module').css('height', Math.round(Math.min(660, 560 + ((w - 980) / 5))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles
-          $('.primary-tout.homepage .image-module, .primary-tout.default .image-module').css('height', '');
+          $('.primary-tout .image-module').css('height', '');
         }
 
         //centers homepage primary box vertically above secondary box
@@ -63,6 +64,20 @@ define(function(require){
         if($(".primary-tout.homepage, .primary-tout.default").length > 0){
           self.resize();
           Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
+        }
+
+        var vbutton = self.$el.find(".inner .box a.video");
+        console.log(vbutton);
+        if(vbutton.length > 0){
+          vbutton.bind('click', function(){
+            self.$el.find('.hero-image').toggleClass('hidden');
+            self.$el.find('.submodule').toggleClass('hidden');
+            //play video?
+          });
+          self.$el.find('.submodule .box-close').bind('click', function(){
+            self.$el.find('.hero-image').toggleClass('hidden');
+            self.$el.find('.submodule').toggleClass('hidden');
+          });
         }
 
 

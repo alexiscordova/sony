@@ -45,11 +45,11 @@ mixin links(d, extraclass)
         when "btn"
           a(class= extraclass)(class= "btn", href= link.url)!= link.text
         when "video"
-          a(class = "btn btn-special")(class= extraclass)(href= link.url)
+          a(class = "video btn btn-special")(class= extraclass)(href= link.url)
             i.fonticon-15-circle-play
             span!= link.text
         when "gallery"
-          a(class = "btn")(class= extraclass)(href= link.url)
+          a(class = "gallery btn")(class= extraclass)(href= link.url)
             i.fonticon-15-popup
             span!= link.text
         when "text"
@@ -93,8 +93,10 @@ mixin boxlayout(layout, style)
     e = {"locals":locals, "data":data.image}
     !{locals.partial('packages/modules/image/html/image.jade' , e)}
 
-  if(data.submodules.length > 0)
+  if data.submodules.length > 0
     .container.full-bleed-no-max.submodule.hidden
+      button(class= "box-close box-close-small")
+        i(class="fonticon-10-x")
       +partial(data.submodules[0].type, data.submodules[0].data)
 
   if data.mode == "homepage"
