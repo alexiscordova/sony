@@ -261,11 +261,12 @@ mixin favoritesGallery( gallery )
             d = locals.data(favorite.data)
             if d.isFavorited && !d.promo
               - d.view = "detailed"
+              - d.includeType = true
               e = { "locals" : locals, "data" : d }
               !{locals.partial( favorite.type, e )}
           +recommendedTile( gallery.recommended )
 
-      +zeroProductsMessage( gallery )
+      //- +zeroProductsMessage( gallery )
 
       if gallery.nextLink
         .navigation.invisible
