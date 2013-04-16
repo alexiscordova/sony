@@ -1,0 +1,18 @@
+include ../../../common/html/jade-helpers.jade
+
+
+.mobile-hd.visible-phone
+  h1.t5.mobile-hd-txt= data.title
+  .modal-close
+    img(src="img/light-compare-d9/modal-close.png")
+.container
+  .container
+    .light-compare
+      .modal-close.hidden-phone
+        img(src="img/light-compare-d9/modal-close.png")
+      .light-compare-hd
+        h1.t3= data.subtitle
+        p.p2= data.tagline
+      e = {"locals":locals, "data":data.image}
+      !{locals.partial('packages/modules/image/html/image.jade' , e)}
+
