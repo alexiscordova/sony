@@ -21,7 +21,6 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        enquire = require('enquire'),
         sonyCarousel = require('secondary/index').sonyCarousel;
 
     var self = {
@@ -47,20 +46,16 @@ define(function(require){
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
-
-      self.isDesktopMode        = true; //true by default
-      self.isTabletMode         = false;
-      self.isMobileMode         = false;
       
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
       self.$document            = $(document);
       self.$window              = $(window);
       self.$html                = $('html');
-      self.$slides              = self.$el.find( '.editorial-carousel-slide' );
-      self.$slideContainer      = self.$el.find( '.editorial-carousel' );
+      self.$slides              = self.$el.find('.editorial-carousel-slide');
+      self.$slideContainer      = self.$el.find('.editorial-carousel');
       self.$thumbNav            = self.$el.find('.thumb-nav');
-      self.$pagination          = null;
+      self.$thumbLabels         = self.$thumbNav.find('span');
 
       self.hasThumbs            = self.$thumbNav.length > 0;
       self.numSlides            = self.$slides.length;
@@ -88,15 +83,13 @@ define(function(require){
         if(self.hasThumbs){
           self.createThumbNav();
         }
+        self.centerThumbText();
         self.$slideContainer.css( 'opacity' , 1 );
-      },
 
-      // Handles global debounced resize event
-      onDebouncedResize: function(){
-        var self = this,
-        wW = self.$window.width();
-        
-        (wW > 1199) ? self.$el.css('overflow' , 'hidden') : self.$el.css('overflow' , 'visible');
+        // Re-center thumb spans if window resizes
+        Environment.on('global:resizeThrottled', function(){
+          self.centerThumbText();
+        });
       },
 
       // Main setup method for the carousel
@@ -133,35 +126,6 @@ define(function(require){
         iQ.update();
       },
 
-
-      // Registers with Enquire JS for breakpoint firing
-      setupBreakpoints: function(){
-        var self = this;
-        
-        if( !self.$html.hasClass('lt-ie10') ){
-          enquire.register("(min-width: 769px)", function() {
-            self.isMobileMode = self.isTabletMode = false;
-            self.isDesktopMode = true;
-          });
-
-          enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
-            self.isMobileMode = self.isDesktopMode = false;
-            self.isTabletMode = true;
-          });
-
-          enquire.register("(max-width: 568px)", function() {
-            self.isDesktopMode = self.isTabletMode = false;
-            self.isMobileMode = true;
-          });
-        }
-
-        if( self.$html.hasClass('lt-ie10') ){
-          self.isMobileMode = self.isTabletMode = false;
-          self.isDesktopMode = true;
-        }
-
-      },
-
       // Sets up slides to correct width based on how many there are
       setupSlides: function(){
         var self = this;
@@ -183,7 +147,6 @@ define(function(require){
         self.tapOrClick = function(){
           return self.hasTouch ? self.upEvent : self.clickEvent;
         };
-
       },
       
       // Bind events to the thumbnail navigation
@@ -219,6 +182,28 @@ define(function(require){
         var self = this;
         self.$thumbNav.find('li').removeClass('active')
           .eq( self.currentId ).addClass('active');
+      },
+
+      // Vertically center thumb text based on height
+      centerThumbText: function(){
+        var self = this;
+
+        // Loop through each label, detect height, and offset top as needed
+        self.$thumbLabels.each(function(){
+          var $span = $(this);
+
+          $span.text( $span.text().substring(0,40) ); //temporary truncation for testing purposes, take out for production
+
+          var height = $span.height();
+
+          if (height <= 31) {
+            $span.removeClass().addClass('oneLine');
+          } else if (height >= 32 && height <= 47) {
+            $span.removeClass().addClass('twoLine');
+          } else if (height >= 48) {
+            $span.removeClass();
+          }
+        });
       }
 
       //end prototype object

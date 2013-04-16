@@ -1,18 +1,109 @@
-@media (min-width: px-em(1400)) {
+//
+// Responsive: Chapters - E5
+// --------------------------------------------------
 
-  .editorial-slideshow-container .pagination-paddles {
+// HIDES TEXT IN THUMB NAV FOR ANY CHAPTER MODULE UNDER 768 PIXELS IN ANY BROWSER WINDOW SIZE
 
-    button {
+@mixin compact-thumb-nav {
+  &.thumb-mode {
+    .thumb-nav {
+      height:84px;
 
-      &.pagination-next {
-        right: 50%;
-        margin-right: -624px;
+      li {
+        width:auto;
+        padding:8px;
+        height:84px;
+
+        &.active,
+        &:hover {
+          height:88px;
+          margin-top:-4px;
+        }
       }
+        img {
+          width:90px;
+          height:68px;
+          margin-right:0;
+        }
+        i, span {display:none;}
+    }
+  }
+  &.icon-mode {
+    .thumb-nav {
+      height:50px;
 
-      &.pagination-prev {
-        left: 50%;
-        margin-left: -624px;
+      li {
+        width:auto;
+        height:50px;
+        padding-left:15px;
+        padding-right:15px;
+
+        &.active,
+        &:hover {height:54px;}
       }
+        img, span {display:none;}
+        i {
+          top:4px;
+          margin-right:0;
+        }
+    }
+  } 
+  &.text-mode {
+    .thumb-nav {
+      height:44px;
+
+      li {
+        line-height:14px;
+        padding:15px;
+        height:44px;
+
+        &.active,
+        &:hover {
+          height:48px;
+          margin-top:-4px;
+        }
+      }
+        img, i {display:none;}
+        span {
+          height:14px;
+          display:block;
+          overflow:hidden;
+        }
+        .oneLine,
+        .twoLine {top:0;}
     }
   }
 }
+
+@media (max-width: 1468px) {
+
+  .span7 .editorial-chapters-container,
+  .span8 .editorial-chapters-container{
+    @include compact-thumb-nav;
+  }
+
+} // END max-width: 1468px
+
+@media (max-width: 767px) {
+
+  .editorial-chapters-container {
+    @include compact-thumb-nav;
+  }
+
+  .container > .editorial-chapters-container,
+  .span12 > .editorial-chapters-container {
+    .thumb-nav {
+      bottom:0;
+      width:100%;
+      left:0;
+    }
+    &.top-nav .thumb-nav {
+      bottom:auto;
+      top:0;
+    }
+    &.white .thumb-nav {background:$gray80;}
+    &.gray .thumb-nav {background:$white;}
+    &.dark .thumb-nav {background:$gray20;}
+  }
+
+} // END max-width: 767px

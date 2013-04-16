@@ -35,8 +35,12 @@
     width: px-em($baseWidth);
 
     //tablets
-    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+    @media( min-width:px-em(600) ) and ( max-width:px-em(768px) ){
       width: px-em(220px);
+    }
+
+    @media( min-width:px-em(481px) ) and ( max-width:px-em(599) ){
+      width: px-em(190px);
     }
 
     //phones
@@ -58,29 +62,8 @@
   .st-container {
     position: relative;
     width: 100%;
-    height: 490px;
     overflow: hidden;
     -webkit-tap-highlight-color:rgba(0,0,0,0);
-
-    // small desktop
-    @media( min-width:px-em(1025px) ) and ( max-width:px-em(1200px) ){
-      height: 430px;
-    }
-
-    //tablets
-    @media( min-width:px-em(561px) ) and ( max-width:px-em(1024px) ){
-      height: 372px;
-    }
-
-    //tablets
-    @media( min-width:px-em(481px) ) and ( max-width:px-em(560px) ){
-      height: 347px;
-    }
-
-    //phones
-    @media( max-width: px-em(480px) ){
-      height: 317px;
-    }
   }
 
   .st-container-inner {
@@ -90,52 +73,6 @@
     height: 100%;
     display: block;
     -webkit-tap-highlight-color:rgba(0,0,0,0);
-  }
-
-
-  .st-nav {
-
-    &.st-bullets {
-      position: absolute;
-      z-index: 35;
-      left: 0;
-      bottom: -30px;
-      width: 100%;
-      height: auto;
-      margin: 0 auto;
-      text-align: center;
-      line-height: 18px;
-      overflow: hidden;
-
-      @media (max-width:479px) {
-        bottom: -20px;
-      }
-    }
-
-    .st-bullet {
-      width: 10px;
-      height: 10px;
-      display: inline-block;
-      *display: inline;
-      *zoom: 1;
-      margin: 5px 0 0 6px;
-      border-radius: 5px;
-      background: #bdbccc;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-
-      @media (max-width:479px) {
-        width: 7px;
-        height: 7px;
-        margin: 0 0 0 3px;
-        border-radius: 4px;
-      }
-    }
-
-    .st-bullet.st-nav-selected  {
-      background-color: #2e3339;
-    }
   }
 
   .st-content {
@@ -182,8 +119,7 @@
     @include transition(opacity $transitionFast ease-in);
     position: relative;
     display: block;
-    height: 100%;
-    cursor: pointer;
+    height: 350px;
     opacity: 0;
 
     &.on {
@@ -194,6 +130,16 @@
       position: absolute;
       width: 100%;
       height: 100%;
+      cursor: pointer;
+    }
+
+    .st-flag {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 4px 10px;
+      background-color: $secondarySage;
+      color: $white;
     }
 
     .st-image {
@@ -397,6 +343,7 @@
       */
 
 
+      &.content-12,
       &.content-8,
       &.content-6,
       &.content-4 {
@@ -423,12 +370,6 @@
               left: 0;
             }
           }
-        }
-
-        .eyebrow {
-          font-family: $baseFontFamilyMedium;
-          font-size: $font_11_16;
-          text-transform: uppercase;
         }
 
         @media/* (min-width:px-em(481px)) and  */(max-width:px-em(768px)){
@@ -748,6 +689,25 @@
           color: $gray40;
         }
       }
+      //tD
+      &.extra-dark-text-trans-panel {
+
+        .headline {
+          color: $gray20;
+
+          a {
+            color: $gray20;
+          }
+        }
+
+        p {
+          color: $gray20;
+        }
+
+        .eyebrow {
+          color: $gray20;
+        }
+      }
       //tBW
       &.black-white-text {
         .headline {
@@ -790,8 +750,13 @@
 
       &[class*="align-left-"] {
 
-        &.content-8 {
-          left: 6.2%;
+        &.content-4 {
+          left: 7.1%;
+
+          &.light-text-dark-panel,
+          &.dark-text-light-panel {
+            left: 0;
+          }
 
           //phones
           @media( max-width: px-em(480px) ){
@@ -801,6 +766,24 @@
 
         &.content-6 {
           left: 7.1%;
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+        }
+
+        &.content-8 {
+          left: 6.2%;
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+        }
+
+        &.content-12 {
+          left: 4.2%;
 
           //phones
           @media( max-width: px-em(480px) ){
@@ -864,12 +847,56 @@
         }
       }
 
+      //aCB
+      &.align-center-bottom {
+        bottom: 40px;
+        width: 100%;
+        text-align: center;
+
+        > div {
+          width: 240px;
+          max-width: 90%;
+          margin: 0 auto;
+        }
+
+        .eyebrow {
+          display: block;
+          margin: 0;
+        }
+
+        h4 {
+          margin: 0 auto;
+        }
+
+        &.content-12 {
+
+          > div {
+            width: 400px;
+          }
+        }
+
+        &.content-8 {
+
+          > div {
+            width: 400px;
+          }
+        }
+
+        &.content-6 {
+        }
+
+        &.content-4 {
+        }
+      }
+
       //aLC
       &.align-left-center,
       &.align-right-center {
 
+        &.content-4,
         &.content-6,
-        &.content-8 {
+        &.content-8,
+        &.content-12 {
           top: auto;
           height: 95%;
 
@@ -967,21 +994,7 @@
           }
         }
       }
-
-      /*
-            ____
-           / __ \_________  ____ ___  ____
-          / /_/ / ___/ __ \/ __ `__ \/ __ \
-         / ____/ /  / /_/ / / / / / / /_/ /
-        /_/   /_/   \____/_/ /_/ /_/\____/
-
-      */
-      &.promo {
-
-      }
-    //end st-item-content
     }
-
 
     &.darkLightText {
       h2,
@@ -997,19 +1010,10 @@
         }
       }
 
-       @media (min-width: 769px) and (max-width: 981px) {
+      @media (min-width: 769px) and (max-width: 981px) {
         h4 {
           font-size: $font_22_16;
         }
-       }
-
-
-
-    }
-
-    @media (max-width: 480px) {
-      &.span12 {
-        height: 317px;
       }
     }
 
@@ -1024,11 +1028,8 @@
 
     }
 
-
     &.darkLightText footer {
-
       background-color: #2f353d;
-
     }
 
   }
@@ -1052,78 +1053,3 @@
     height: 100%;
   }
 }
-
-
-
-
-/*
-      ____  ___    ____  ____  __    ______   _   _____ _    __
-     / __ \/   |  / __ \/ __ \/ /   / ____/  / | / /   | |  / /
-    / /_/ / /| | / / / / / / / /   / __/    /  |/ / /| | | / /
-   / ____/ ___ |/ /_/ / /_/ / /___/ /___   / /|  / ___ | |/ /
-  /_/   /_/  |_/_____/_____/_____/_____/  /_/ |_/_/  |_|___/
-                                                              */
-
-.PADDLENAV{}
-  .st-nav {
-
-    .paddle {
-      width: 50px;
-      height: 86px;
-      display: block;
-      color: $white;
-      background: $gray10;
-      background: rgba($gray10, 0.4);
-      border-radius: 2px;
-      background-repeat: no-repeat;
-      position: absolute;
-      top: 50%;
-      margin: -43px 0;
-      cursor: pointer;
-      font-size:1.4em;
-      @include transition(all $transitionSlow ease-in);
-
-      &:hover {
-        background: $gray10;
-        background: rgba($gray10, 0.8);
-      }
-
-      i {
-        width: 15px;
-        height: 22px;
-        margin-top: 33px;
-        @include center-block();
-
-        @media (max-width:(px-em(979px))){
-          margin-top: 28px;
-        }
-      }
-
-      &.left {
-        left: 10px;
-        right: auto;
-        -moz-transform: scaleX(-1);
-        -o-transform: scaleX(-1);
-        -webkit-transform: scaleX(-1);
-        transform: scaleX(-1);
-        filter: FlipH;
-        -ms-filter: "FlipH";
-      }
-
-      &.right {
-        left: auto;
-        right: 10px;
-      }
-
-      @media (min-width: px-em(481px)) and (max-width:(px-em(979px))){
-        width: 40px;
-        height: 70px;
-        font-size: 1.0em;
-      }
-
-      @media (max-width:(px-em(480px))){
-        display: none;
-      }
-
-    }
-  }

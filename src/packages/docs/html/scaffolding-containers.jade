@@ -3,39 +3,51 @@ doctype 5
 
 include docs-head.html
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
-  include docs-nav.html
+  //- include docs-nav.html
 
   div#page-wrap-outer.page-wrap-outer
     div#page-wrap-inner.page-wrap-inner
 
+      div.wikiNav.wikiDemoNav
+        div.container
+            div.grid
+              div#primaryNav.primaryNav
+                ul
+                  li.navLogo
+                    a(href='doku.php')
+                      span.sprite-32a-sony-logo-sm-short
+
       header.jumbotron.subhead#overview
         div.container
-          h1.bs-docs-heading Scaffolding Container Example
+          div.grid
+            h6.bs-docs-heading Scaffolding
+            h1.bs-docs-heading Containers Demo
 
       section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
-        p
-          | Resize your browser to see how the&nbsp;
-          code
-            | .container
-          | &nbsp;and&nbsp;
-          code
-            | .grid
-          | &nbsp;respond with the&nbsp;
-          code
-            | .full-bleed
-          | &nbsp;and&nbsp;
-          code
-            | .full-bleed-no-max
-          | &nbsp;classes.
-        p
-          small
-            | Note: You need a display wider than 1400px to see any difference between&nbsp;
+        div.grid          
+          p
+            | Resize your browser to see how the&nbsp;
             code
-              | .full-bleed
+              | .container
             | &nbsp;and&nbsp;
             code
-              | full-bleed-no-max
-            | .
+              | .grid
+            | &nbsp;respond with the&nbsp;
+            code
+              | .full&#8209;bleed
+            | &nbsp;and&nbsp;
+            code
+              | .full&#8209;bleed&#8209;no&#8209;max
+            | &nbsp;classes.
+          p
+            small
+              | Note: You need a display wider than 1400px to see any difference between&nbsp;
+              code
+                | .full&#8209;bleed
+              | &nbsp;and&nbsp;
+              code
+                | full&#8209;bleed&#8209;no&#8209;max
+              | .
       div.docs-page-structure-page.full-size
         div.docs-page-structure-main
           div.docs-docs-page-structure-maxWidth-outline
@@ -66,4 +78,4 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
                     |   .container.full-bleed
                     |     .container
                     |       .grid
-  include docs-foot.html
+  include docs-foot-responsive.html

@@ -51,6 +51,11 @@ define(function(require){
 
           // Should be called after everything is initialized
           $(window).trigger('hashchange');
+
+          // No tabs on the page, initialize the gallery manually
+          if ( !$('.tab-strip').length ) {
+            module.onGalleryTabAlreadyShown.call( $('#main')[0] );
+          }
         }, 16);
 
       }
@@ -1063,7 +1068,7 @@ define(function(require){
         bufferPx: -100, // Load 100px after the navSelector has entered the viewport
         navSelector: 'div.navigation', // selector for the paged navigation
         nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
-        itemSelector: '.gallery-item', // selector for all items you'll retrieve
+        itemSelector: self.itemSelector, // selector for all items you'll retrieve
         loading: {
           selector: '.infscr-holder',
           msgText: '<em>Loading the next set of products...</em>',
@@ -2199,6 +2204,48 @@ define(function(require){
             $jsFavorite.data('defaultTitle');
     },
 
+    // possibly https://github.com/ScottHamper/Cookies ?
+    handleFavorite : function( $jsFavorite, isAdded ) {
+      var self = this,
+          favs = [];
+
+      // Save data
+      if ( isAdded ) {
+
+        // Save to account with ajax?
+        if ( Settings.isLoggedIn ) {
+          $.getJSON( 'path/to/server', { add: true } );
+
+        // Store in cookie
+        } else {
+
+          if ( !window.JSON ) {
+            return;
+          }
+
+          // favs = JSON.parse( Cookies.get( 'favorites' ) );
+          // favs.push( $jsFavorite.attr('id') );
+          // favs = JSON.stringify( favs );
+          // Cookies.set( 'favorites', favs );
+        }
+
+      // Remove data
+      } else {
+
+        if ( Settings.isLoggedIn ) {
+          $.getJSON( 'path/to/server', { add: false } );
+
+        // Remove from stored cookie
+        } else {
+
+          if ( !window.JSON ) {
+            return;
+          }
+        }
+
+      }
+    },
+
     onFavorite : function( evt ) {
       var self = this,
           $jsFavorite = $(evt.delegateTarget),
@@ -2214,10 +2261,11 @@ define(function(require){
           .tooltip('show');
       }
 
-
       // Stop event from bubbling to <a> tag
       evt.preventDefault();
       evt.stopPropagation();
+
+      self.handleFavorite( $jsFavorite, isAdding );
     },
 
     onFiltersHide : function( evt ) {
@@ -2556,7 +2604,7 @@ define(function(require){
             gutter = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
             numColumns = 5;
 
-          // // Portrait Tablet ( 4 columns ) - masonry
+          // Portrait Tablet ( 4 columns ) - masonry
           } else if ( Modernizr.mq('(min-width: 48em)') ) {
             numColumns = 4;
             gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
@@ -2590,16 +2638,17 @@ define(function(require){
 
     setColumns : function( numColumns ) {
       var self = this,
-          allSpans = 'span1 span2 span3 span4 span6 m-span3',
+          span = 'span',
+          mspan = 'm-' + span,
+          allSpans = [ span+1, span+2, span+3, span+4, span+6, mspan+3, mspan+6 ].join(' '),
           shuffleDash = 'shuffle-',
           grid = 'slimgrid',
           grid5 = grid+5,
           gridClasses = [ shuffleDash+2, shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6, grid, grid5 ].join(' '),
-          itemSelector = '.gallery-item',
-          span = 'span',
-          mspan = 'm-' + span,
+          itemSelector = self.itemSelector,
           large = '.large',
           promo = '.promo',
+          social = '.social',
           normal = '.normal';
 
       // Large desktop ( 6 columns )
@@ -2619,7 +2668,7 @@ define(function(require){
               .filter(large) // Select large tiles
               .addClass(span+6) // Make them 6/12 width
               .end() // Go back to all items
-            .filter(promo) // Select promo tiles
+            .filter(promo + ',' + social) // Select promo tiles
               .addClass(span+4) // Make them 4/12 width
               .end() // Go back to all items
             .filter(normal) // Select tiles not large nor promo
@@ -2640,7 +2689,7 @@ define(function(require){
             .filter(large) // Select large tiles
               .addClass(span+3) // Make them 3/5 width
               .end() // Go back to all items
-            .filter(promo) // Select promo tiles
+            .filter(promo + ',' + social) // Select promo tiles
               .addClass(span+2) // Make them 2/5 width
               .end() // Go back to all items
             .filter(normal) // Select tiles not large nor promo
@@ -2659,7 +2708,7 @@ define(function(require){
 
           self.$grid.children(itemSelector)
             .removeClass(allSpans) // Remove current grid span
-            .filter(promo) // Select promo tiles
+            .filter(promo + ',' + social) // Select promo tiles
               .addClass(span+6) // Make them half width
               .end() // Go back to all items
             .filter(large + ',' + normal) // Select tiles not promo
@@ -2678,7 +2727,11 @@ define(function(require){
           // Remove current grid span
           self.$grid.children(itemSelector)
             .removeClass(allSpans)
-            .addClass(span+4);
+            .filter( social )
+              .addClass( span+8 )
+              .end()
+            .not( social )
+              .addClass( span+4 );
         }
 
 
@@ -2692,9 +2745,13 @@ define(function(require){
             .addClass(shuffleDash+2 + ' ' + grid);
 
           // Remove current grid span
-          self.$grid.children(itemSelector)
-            .removeClass(allSpans)
-            .addClass(mspan+3);
+          self.$grid.children( itemSelector )
+            .removeClass( allSpans )
+            .filter( social )
+              .addClass( mspan+6 )
+              .end()
+            .not( social )
+              .addClass( mspan+3 );
         }
       }
       return self;
@@ -2851,7 +2908,7 @@ define(function(require){
 
         // Filter elements based on if their string exists in the product model or product name
         self.shuffle.shuffle(function( $el ) {
-          var $searchable = $el.find('.product-model, .product-name'),
+          var $searchable = $el.find('.product-model'),
               text = $.trim( $searchable.text() ).toLowerCase();
 
           return text.indexOf(val) !== -1;
@@ -3154,6 +3211,7 @@ define(function(require){
 
   module.onGalleryTabAlreadyShown = function( evt ) {
     module.initializer( $( this ) );
+    setTimeout( iQ.update, 0 );
   };
 
   // Event triggered when the previous tab/pane is about to be hidden
