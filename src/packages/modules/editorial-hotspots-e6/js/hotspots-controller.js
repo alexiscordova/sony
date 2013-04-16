@@ -681,7 +681,7 @@ define(function(require) {
               footer.addClass( 'hidden' );
               log( 'performing second pass' );              
               i=-1;
-            } else if(passes>1) {
+            } else if( passes > 1 ) { 
             
               log( 'forcing second best default positioning' );
               // test if overlay is hitting the right side of the screen
