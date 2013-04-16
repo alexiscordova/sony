@@ -32,7 +32,7 @@ mixin bodytext(d, extraclass)
   extraclass = extraclass || ""
   if d.variation
     if d.variation.headertext == "larger"
-      extraclasses = extraclasses + "hidden-mobile"
+      extraclass = extraclass + " hidden-phone"
   if d.body
     p.p3(class= extraclass)!= d.body
 
