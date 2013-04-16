@@ -13,6 +13,9 @@ define(function(require){
     'use strict';
 
     var $ = require('jquery'),
+        // enquire = require('enquire'),
+        // iQ = require('iQ'),
+        // Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment');
 
     var module = {
@@ -34,7 +37,8 @@ define(function(require){
     PrimaryTout.prototype = {
       constructor: PrimaryTout,
 
-      _resize: function(){
+      resize: function(){
+
         var w = $(window).outerWidth();
         if(w > 980){
           //this makes the header grow 1px taller for every 20px over 980w..
@@ -45,7 +49,7 @@ define(function(require){
           $('.primary-tout.homepage .image-module, .primary-tout.default .image-module').css('height', '');
         }
 
-        // this each and find inner for layouts page
+        //centers homepage primary box vertically above secondary box
         $.each ($('.primary-tout.homepage .inner .table-center-wrap'), function(i,e){
           var self = $(e);
           var outer = self.closest('.primary-tout.homepage');
@@ -54,8 +58,13 @@ define(function(require){
       },
 
       _init: function(){
-        this._resize();
-        Environment.on('global:resizeDebounced', this._resize);
+        var self = this;
+
+        if($(".primary-tout.homepage, .primary-tout.default").length > 0){
+          self.resize();
+          Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
+        }
+
 
         log('SONY : PrimaryTout : Initialized');
       }
