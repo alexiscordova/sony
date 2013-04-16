@@ -75,7 +75,10 @@ define(<span class="keyword">function</span>(require) {
     self.lastOverlayFadeout              = <span class="literal">null</span>;
     self.lastCenteredOverlay             = <span class="literal">null</span>;
     self.trackingMode                    = <span class="literal">null</span>;
-    self.trackingState                   = <span class="string">'off'</span>;
+    self.trackingState                   = <span class="string">'off'</span>,
+    self.trackOpacity                    = <span class="literal">null</span>,
+    self.trackOpacityTimer               = <span class="literal">null</span>;
+    self.canShowHotspots                 = <span class="literal">false</span>;
     
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>EXTEND THIS OBJECT TO BE A JQUERY PLUGIN</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -105,10 +108,29 @@ collapsing containers and the behavior of the browser image resizing</p>        
       <span class="keyword">if</span>( moduleHandle.hasClass( <span class="string">'track-by-background'</span> ) ) {
         self.trackingMode = <span class="string">'background'</span>;
         self.trackingAsset = moduleHandle.children( <span class="string">'.iq-img'</span> );
+        self.canShowHotspots = <span class="literal">true</span>;
       } <span class="keyword">else</span> {
         self.trackingMode = <span class="string">'asset'</span>;
         self.trackingAsset = $( moduleHandle.children( <span class="string">'.iq-img'</span> )[<span class="number">0</span>] );
       }
+      
+      self.trackOpacity = <span class="keyword">function</span>() {
+        <span class="keyword">switch</span>( self.trackingAsset.css( <span class="string">'opacity'</span> ) ) {
+          <span class="keyword">case</span> <span class="literal">undefined</span>:
+          <span class="keyword">case</span> <span class="string">"undefined"</span>:
+            log( <span class="string">'undefined'</span> );
+            clearInterval( self.trackOpacityTimer );
+          <span class="keyword">break</span>;
+          <span class="keyword">case</span> <span class="string">"1"</span>:
+            log( <span class="string">'clearing'</span> );
+            clearInterval( self.trackOpacityTimer );
+            self.canShowHotspots = <span class="literal">true</span>;
+            triggerInitialPosition();  
+          <span class="keyword">break</span>;
+        }
+      };
+      
+      self.trackOpacityTimer = setInterval( self.trackOpacity, <span class="number">50</span> );
       
       <span class="keyword">var</span> triggerInitialPosition = <span class="keyword">function</span>() {
         <span class="comment">/* log( 'show' ); */</span>
@@ -117,9 +139,6 @@ collapsing containers and the behavior of the browser image resizing</p>        
       };
       
       self.trackingAsset.on(<span class="string">'iQ:imageLoaded'</span>, triggerInitialPosition);
-      self.trackingAsset.on(<span class="string">'resize'</span>,<span class="keyword">function</span>(e){
-        log( <span class="string">'resized!!!!'</span> );
-      });
       
 </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>initialize hotspot(s)</p>             </td>             <td class="code">               <div class="highlight"><pre>      $( self.$els ).each(<span class="keyword">function</span>( index, el ) {
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>bind the click, place it based on the data-x and -y coordinates, and fade em in
@@ -143,8 +162,7 @@ REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE</p>             </td>       
         } <span class="keyword">catch</span>(e) {}
       }).listen();
 
-      setTimeout(triggerInitialPosition, <span class="number">500</span>);
-      
+      setTimeout(triggerInitialPosition, <span class="number">500</span>);      
     
       $( window ).scroll( <span class="function"><span class="keyword">function</span> <span class="params">( e )</span> {</span>
 </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>log( 'self.trackingAsset.height()' );
@@ -277,11 +295,15 @@ waste of cycles</p>             </td>             <td class="code">             
     
     show: <span class="keyword">function</span>( el ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      log( <span class="string">'can show hotspots?'</span> );
+      log( self.canShowHotspots );
+      <span class="keyword">if</span>( <span class="literal">true</span> === self.canShowHotspots ) {
         $( self.$els ).each(<span class="keyword">function</span>( index, el ) {
           <span class="keyword">if</span>( $( el ).hasClass( <span class="string">'hidden'</span> ) ) {
             $( el ).removeClass( <span class="string">'hidden'</span> ).fadeIn( <span class="number">500</span> );
           }
         });
+      }
     },
     
     find: <span class="keyword">function</span>( currentTarget ) {
@@ -619,7 +641,7 @@ make room one last time</p>             </td>             <td class="code">     
               footer.addClass( <span class="string">'hidden'</span> );
               log( <span class="string">'performing second pass'</span> );              
               i=-<span class="number">1</span>;
-            } <span class="keyword">else</span> <span class="keyword">if</span>(passes&gt;<span class="number">1</span>) {
+            } <span class="keyword">else</span> <span class="keyword">if</span>( passes &gt; <span class="number">1</span> ) { 
             
               log( <span class="string">'forcing second best default positioning'</span> );
 </pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>test if overlay is hitting the right side of the screen</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">var</span> outerRight    = $( window ).width();
@@ -640,7 +662,7 @@ make room one last time</p>             </td>             <td class="code">     
               
               <span class="keyword">if</span>( top.hasClass( <span class="string">'hidden'</span> ) ) {
                 self.downstepStacks( el );
-              }
+              } 
               
               i=<span class="number">99</span>;
             }
