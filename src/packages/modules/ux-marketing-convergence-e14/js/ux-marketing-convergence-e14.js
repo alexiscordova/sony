@@ -88,7 +88,6 @@ define(function(require){
 
   
     handleResize : function(){
-      console.log( 'resized »');
       var self = this;
       self.resetPartnerCarouselInterval();
       self.gotoPartnerProduct( self.currentPartnerProduct ); // preserve state
@@ -208,7 +207,7 @@ define(function(require){
           }
         }
 
-        console.log( 'newTop »' , newTop);
+        // console.log( 'newTop »' , newTop);
 
         self.$reloadButton.css('color', $newSlide.css('backgroundColor'));
 
