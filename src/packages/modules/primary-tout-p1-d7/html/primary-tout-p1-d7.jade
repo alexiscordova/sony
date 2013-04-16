@@ -30,6 +30,9 @@ mixin header(d)
 mixin bodytext(d, extraclass)
   d = d || data
   extraclass = extraclass || ""
+  if d.variation
+    if d.variation.headertext == "larger"
+      extraclasses = extraclasses + "hidden-mobile"
   if d.body
     p.p3(class= extraclass)!= d.body
 
@@ -42,11 +45,11 @@ mixin links(d, extraclass)
         when "btn"
           a(class= extraclass)(class= "btn", href= link.url)!= link.text
         when "video"
-          a(class= extraclass)(href= link.url)
+          a(class = "btn btn-special")(class= extraclass)(href= link.url)
             i.fonticon-15-circle-play
             span!= link.text
-        when "slider"
-          a(class= extraclass)(href= link.url)
+        when "gallery"
+          a(class = "btn")(class= extraclass)(href= link.url)
             i.fonticon-15-popup
             span!= link.text
         when "text"
