@@ -85,7 +85,9 @@ define(function(require) {
     self.lastOverlayFadeout              = null;
     self.lastCenteredOverlay             = null;
     self.trackingMode                    = null;
-    self.trackingState                   = 'off';
+    self.trackingState                   = 'off',
+    self.trackOpacity                    = null,
+    self.trackOpacityTimer               = null;
     
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
@@ -126,6 +128,23 @@ define(function(require) {
         self.trackingMode = 'asset';
         self.trackingAsset = $( moduleHandle.children( '.iq-img' )[0] );
       }
+      
+      self.trackOpacity = function() {
+        switch( self.trackingAsset.css( 'opacity' ) ) {
+          case undefined:
+          case "undefined":
+            log( 'undefined' );
+            clearInterval( self.trackOpacityTimer );
+          break;
+          case "1":
+            log( 'clearing' );
+            clearInterval( self.trackOpacityTimer );
+            triggerInitialPosition();  
+          break;
+        }
+      };
+      
+      self.trackOpacityTimer = setInterval( self.trackOpacity, 50 );
       
       var triggerInitialPosition = function() {
         /* log( 'show' ); */
