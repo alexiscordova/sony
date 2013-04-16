@@ -11,8 +11,8 @@ include ../../../common/html/jade-helpers.jade
 nav#universal-nav.u-nav-wrapper(role='navigation')
   div.u-nav
     div.u-nav-head
-      a#u-nav-close-btn.u-nav-close-btn(href="#")
-        | !{data.close_btn_label}
+      a#u-nav-close-btn.u-nav-close-btn(href="#", style="background-image:url(" + data.close_btn.img_src + ")")
+        | !{data.close_btn.label}
       h5.l1
         | !{data.title}
       a#u-nav-all-sites-link.u-nav-all-sites-link(href=data.all_sites_link.link)

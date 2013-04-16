@@ -31,7 +31,77 @@ body,html{
 }
 
 
-// Resets for standalone version
+// Resets for standalone version - Mimics resets
+#JUST-FOR-REFERENCE{
+
+	/* This is a combination of Eric Meyers reset, and Nicolas Gallagher's normalize */
+
+	/* http://meyerweb.com/eric/tools/css/reset/ 
+	   v2.0 | 20110126
+	   License: none (public domain)
+	*/
+
+	div, span,
+	h1, h2, h3, h4, h5, h6, p,
+	a, big, em, img,
+	strong, sub, sup,
+	b, u, i,
+	dl, dt, dd, ol, ul, li, 
+	article, aside, details, figcaption, figure, 
+	footer, header, hgroup, menu, nav, section {
+	  margin: 0;
+	  padding: 0;
+	  border: 0;
+	  font-size: 100%;
+	  font: inherit;
+	  vertical-align: baseline;
+	  @include borderBox;
+	}
+	/* HTML5 display-role reset for older browsers */
+	article, aside, details, figcaption, figure, 
+	footer, header, hgroup, menu, nav, section {
+	  display: block;
+	}
+	ol, ul {
+	  list-style: none;
+	}
+	b, i, strong, em, cite {
+	  font-weight:normal;
+	  font-style:normal;
+	}
+
+	// Reset
+	// Adapted from http://github.com/necolas/normalize.css
+	// --------------------------------------------------
+	html {
+	  -webkit-text-size-adjust: 100%;
+	      -ms-text-size-adjust: 100%;
+	}
+	// Focus states
+	a:focus {
+	  @include tab-focus();
+	}
+	// Hover & Active
+	a:hover,
+	a:active {
+	  outline: 0;
+	}
+	img {
+	  /* Responsive images (ensure images don't scale beyond their parents) */
+	  max-width: 100%; /* Part 1: Set a maxium relative to the parent */
+	  width: auto\9; /* IE7-8 need help adjusting responsive images */
+	  height: auto; /* Part 2: Scale the height according to the width, otherwise you get stretching */
+
+	  vertical-align: middle;
+	  -ms-interpolation-mode: bicubic;
+	}
+}
+
+
+
+
+
+
 .u-nav-wrapper{
 	font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: normal;
@@ -74,10 +144,18 @@ body,html{
 .u-nav-wrapper{
   background: rgb(243,244,246); // $gray90;
 
-  .u-nav-close-btn{
+	.u-nav-close-btn{
+		font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: normal;
+		font-style: normal;
+		padding:10px 30px 10px 10px;
+		color:#fff;
+		background-color:rgb(146,149,153);
+		background-repeat:no-repeat;
+		background-position:90% 50%;
+
   	float:right;
-  	background:rgb(144,149,155);
-  }
+	}
 
 }
 
