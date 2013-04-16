@@ -1267,9 +1267,22 @@ define(function(require){
         }
       });
 
+      // Update the heights when images load in
       self.$recommendedTile.find('.iq-img').on( 'imageLoaded', debouncedHeights );
 
+      // Save this
       self.$recommendedTitleBar = self.$recommendedTile.find( '.recommended-title' );
+
+      // Show alert if the user is not logged in
+      if ( !Settings.isLoggedIn ) {
+        setTimeout(function() {
+          $('.alert').removeClass('collapsed');
+        }, 200);
+
+      // Otherwise we don't need this. This could also be done serverside...
+      } else {
+        $('.alert').remove();
+      }
     },
 
     initCarousels : function() {

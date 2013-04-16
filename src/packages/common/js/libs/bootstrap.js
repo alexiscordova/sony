@@ -78,76 +78,86 @@
  * ========================================================== */
 
 
-// !function ($) {
+!function ($) {
 
-//   "use strict"; // jshint ;_;
-
-
-//  /* ALERT CLASS DEFINITION
-//   * ====================== */
-
-//   var dismiss = '[data-dismiss="alert"]'
-//     , Alert = function (el) {
-//         $(el).on('click', dismiss, this.close)
-//       }
-
-//   Alert.prototype.close = function (e) {
-//     var $this = $(this)
-//       , selector = $this.attr('data-target')
-//       , $parent
-
-//     if (!selector) {
-//       selector = $this.attr('href')
-//       selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
-//     }
-
-//     $parent = $(selector)
-
-//     e && e.preventDefault()
-
-//     $parent.length || ($parent = $this.hasClass('alert') ? $this : $this.parent())
-
-//     $parent.trigger(e = $.Event('close'))
-
-//     if (e.isDefaultPrevented()) return
-
-//     $parent.removeClass('in')
-
-//     function removeElement() {
-//       $parent
-//         .trigger('closed')
-//         .remove()
-//     }
-
-//     $.support.transition && $parent.hasClass('fade') ?
-//       $parent.on($.support.transition.end, removeElement) :
-//       removeElement()
-//   }
+  "use strict"; // jshint ;_;
 
 
-//  /* ALERT PLUGIN DEFINITION
-//   * ======================= */
+ /* ALERT CLASS DEFINITION
+  * ====================== */
 
-//   $.fn.alert = function (option) {
-//     return this.each(function () {
-//       var $this = $(this)
-//         , data = $this.data('alert')
-//       if (!data) $this.data('alert', (data = new Alert(this)))
-//       if (typeof option == 'string') data[option].call($this)
-//     })
-//   }
+  var dismiss = '[data-dismiss="alert"]'
+    , Alert = function (el) {
+        $(el).on('click', dismiss, this.close)
+      }
 
-//   $.fn.alert.Constructor = Alert
+  // Use the `data-target` attribute with an id: `data-target="#signin-alert"`
+  function getParent( $close ) {
+    var selector = $close.attr('data-target')
+    //   , $parent
+
+    // if (!selector) {
+    //   selector = $close.attr('href')
+    //   selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
+    // }
+
+    // $parent = $(selector)
+
+    // if ( !$parent.length ) {
+    //   $parent = $close.hasClass('alert') ? $close : $close.closest('.alert')
+    // }
+
+    return $( selector )
+  };
+
+  Alert.prototype.close = function (e) {
+    var $this = $(this)
+      , $parent = getParent( $this )
+
+    e && e.preventDefault()
+
+    $parent.trigger(e = $.Event('close'))
+
+    if (e.isDefaultPrevented()) return
+
+    // $parent.removeClass('in')
+    $parent.addClass('collapsed')
+
+    function removeElement() {
+      $parent
+        .trigger('closed')
+        .remove()
+    }
+
+    $.support.transition ?
+      $parent.on($.support.transition.end, removeElement) :
+      removeElement()
+  }
 
 
-//  /* ALERT DATA-API
-//   * ============== */
+ /* ALERT PLUGIN DEFINITION
+  * ======================= */
 
-//   $(function () {
-//     $('body').on('click.alert.data-api', dismiss, Alert.prototype.close)
-//   })
+  $.fn.alert = function (option) {
+    return this.each(function () {
+      var $this = $(this)
+        , data = $this.data('alert')
+      if (!data) $this.data('alert', (data = new Alert(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
 
-// }(window.jQuery);
+  $.fn.alert.Constructor = Alert
+
+
+ /* ALERT DATA-API
+  * ============== */
+
+  $(function () {
+    $('body').on('click.alert.data-api', dismiss, Alert.prototype.close)
+  })
+
+}(window.jQuery);
 /* ============================================================
  * bootstrap-button.js v2.1.1
  * http://twitter.github.com/bootstrap/javascript.html#buttons
