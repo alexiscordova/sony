@@ -4,9 +4,10 @@
 //
 // * **Class:** MarketingConvergenceModule
 // * **Version:** 0.2
-// * **Modified:** 03/25/2013
-// * **Author:** George Pantazis
+// * **Modified:** 04/15/2013
+// * **Author:** George Pantazis, Telly Koosis
 // * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html)
+
 
 define(function(require){
 
@@ -14,6 +15,9 @@ define(function(require){
 
   var $ = require('jquery'),
       iQ = require('iQ'),
+      Settings = require('require/sony-global-settings'),
+      Environment = require('require/sony-global-environment'),
+      Modernizr = require('modernizr'),
       SimpleKnob = require('secondary/jquery.simpleknob');
 
   var module = {
@@ -32,12 +36,19 @@ define(function(require){
 
     self.$html = $(document.documentElement);
     self.$el = $(element);
+
+    self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
+    self.onResizeFunc = $.proxy(self.handleResize, self);
+
     self.$reloadButton = self.$el.find('.btn-reload');
     self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
     self.$dials = self.$dialWrappers.find('.uxmc-dial');
     self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
     self.$partnerCarousel = self.$el.find('.partner-products');
     self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
+
+    // LISTEN
+    Environment.on(self.debounceEvent, self.onResizeFunc);
 
     self.init();
 
@@ -52,17 +63,36 @@ define(function(require){
 
       var self = this;
 
-      // Detaches slides from DOM, stores them in the plugin's memory.
-
       self.currentPartnerProduct = -1;
-      self.$partnerCarouselSlides.detach();
 
       self.gotoNextPartnerProduct();
       self.resetPartnerCarouselInterval();
       self.animationLoop();
-      self.setupButtons();
+      self.setupButtons();   
       self.setupDials();
+      self.setupSlideLinks();
+
     },
+
+    // enable entire slide as link without reworking markup
+    // assumes mark-up particular markup
+    setupSlideLinks : function(){
+      var self = this;
+
+      self.$partnerCarouselSlides.bind("click",function(){
+          var loc = $(this).find(".uxmc-link").attr("href"); // link location
+          window.location = loc;
+      });
+
+    },
+
+  
+    handleResize : function(){
+      var self = this;
+      self.resetPartnerCarouselInterval();
+      self.gotoPartnerProduct( self.currentPartnerProduct ); // preserve state
+    },
+
 
     'setupButtons': function() {
 
@@ -139,7 +169,7 @@ define(function(require){
       var self = this;
 
       if ( self.currentPartnerProduct === self.$partnerCarouselSlides.length - 1 ) {
-        self.gotoPartnerProduct(0);
+         self.gotoPartnerProduct(0);
       } else {
         self.gotoPartnerProduct(self.currentPartnerProduct + 1);
       }
@@ -151,34 +181,47 @@ define(function(require){
     'gotoPartnerProduct': function(which) {
 
       var self = this,
-          $currentSlide = self.$partnerCarousel.children(),
-          $newSlide;
+          isZero = (which === 0),
+          $newSlide, newTop;
 
       if ( self.isAnimating ) { return; }
 
       self.currentPartnerProduct = which;
+      $newSlide = self.$partnerCarouselSlides.eq(which);
 
-      $newSlide = self.$partnerCarouselSlides
-        .eq(which)
-        .clone()
-        .appendTo(self.$partnerCarousel);
-
-      self.$reloadButton.css('color', $newSlide.css('backgroundColor'));
-
+      // animated only if there's more than one slide
       if ( self.$partnerCarousel.children().length > 1 ) {
 
         self.isAnimating = true;
 
-        self.$partnerCarousel.children().animate({
-          'top': '-100%'
+        // if we're in mobile, position will be 1/2 
+        // since slides are stacked instead of side by side (in desktop)
+        if (isZero){
+          newTop = (0) + "%";
+        }else{
+          if(Modernizr.mediaqueries && Modernizr.mq('(max-width: 767px)')){
+            newTop = (-(which * 100) / 2) + "%";
+          }else{
+            // assumes desktop
+            newTop = (-(which * 100)) + "%";
+          }
+        }
+
+        // console.log( 'newTop »' , newTop);
+
+        self.$reloadButton.css('color', $newSlide.css('backgroundColor'));
+
+        // animate the container ul
+        self.$partnerCarousel.animate({
+          "top": newTop
         }, {
           'duration': self.transitionTime,
+          // 'easing' : 'easeInOutQuart',
           'complete': function() {
-            $currentSlide.remove();
-            $newSlide.css('top', '');
             self.isAnimating = false;
           }
         });
+
       }
 
       iQ.update();

@@ -86,9 +86,6 @@ define(function(require){
 
         window.console.log(' new carousel... ');
 
-       
-
-
         self.setupEvents();
         self.setupSlides();
 
@@ -206,9 +203,9 @@ define(function(require){
         var self = this;
 
         if(hide){
-          self.$pagination.hide();
+          self.$pagination.css('opacity' , 0);
         }else{
-          self.$pagination.show();
+          self.$pagination.css('opacity' , 1);
         }
 
       },

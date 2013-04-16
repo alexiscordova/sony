@@ -1,0 +1,104 @@
+- item.hTb = item.headline ? item.headline.linkText.replace(/[\s-]+$/,'').split(/[\s-]/).pop() : ''
+- item.hTa = item.headline ? item.headline.linkText.split(item.hTb).shift() : ''
+
+if item.headline
+  - item.contentType = 'headline-only'
+  if item.counter
+    - item.contentType = 'headline-counter'
+  if item.eyebrow
+    - item.contentType = 'headline-eyebrow'
+  if item.bodycopy
+    - item.contentType = 'headline-copy'
+  if item.eyebrow && item.bodycopy
+    - item.contentType = 'headline-eyebrow-copy'
+  if item.bodycopy && item.counter
+    - item.contentType = 'headline-copy-counter'
+
+if item.isWhatsNewCarousel
+  - item.contentType = 'headline-eyebrow'
+  - item.typeAlignment = 'align-center-bottom'
+
+if item.objectSize == 'span8'
+  - item.c = 'span8'
+  - item.s = 'content-8'
+else if item.objectSize == 'span4'
+  - item.c = 'span4'
+  - item.s = 'content-4'
+else if item.objectSize == 'span6'
+  - item.c = 'span6'
+  - item.s = 'content-6'
+else if item.objectSize == 'span12'
+  - item.c = 'span12'
+  - item.s = 'content-12'
+
+if item.miniPromo
+  - item.mpc = 'has-mini-promo'
+else
+  - item.mpc = ''
+
+if item.typeAlignment == 'align-left-center' || item.typeAlignment == 'align-right-center'
+  - item.gcwc = 'table-center-wrap'
+  - item.gcc = 'table-center'
+else
+  - item.gcwc = ''
+  - item.gcc = ''
+
+article
+  .st-image(class=item.c, data-src-desktop=item.backgroundImgSrcDesktop, data-src-tablet=item.backgroundImgSrcTablet, data-src-phone=item.backgroundImgSrcPhone, data-src-desktop-highres=item.backgroundImgSrcDesktopHighRes, data-src-tablet-highres=item.backgroundImgSrcTabletHighRes, data-src-phone-highres=item.backgroundImgSrcPhoneHighRes)
+  .st-item-content(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class=item.mpc)(class=item.gcwc)
+    div(class=item.gcc)
+
+      if item.eyebrow
+        a.eyebrow.l3(href=item.eyebrow.link)
+          | #{item.eyebrow.title}
+
+      if (item.s == 'content-8' || item.s == 'content-12') && item.typeAlignment != 'align-center-bottom'
+        h4.t3.headline!= item.headline ? item.headline.title : ''
+          if item.headline && item.headline.link
+            a(href=item.headline.link)
+              | !{' ' + item.hTa}
+              span !{' ' + item.hTb}
+                i.fonticon-10-chevron-sm
+      else
+        h4.t4.headline!= item.headline.title
+          if item.headline && item.headline.link
+            a(href=item.headline.link)
+              | !{' ' + item.hTa}
+              span !{' ' + item.hTb}
+                i.fonticon-10-chevron-sm
+
+      if item.bodycopy
+        p.p3= item.bodycopy
+
+  if item.flag
+    .l4.st-flag !{item.flag}
+
+  if item.social
+    if item.social.likes > 1000000
+      - likeCount = Math.round(item.social.likes / 1000000 * 10) / 10 + 'M'
+    else if item.social.likes > 1000
+      - likeCount = Math.round(item.social.likes / 1000 * 10) / 10 + 'K'
+    else
+      - likeCount = item.social.likes
+
+    .st-social-count.table-center-wrap
+      .table-center
+        span.t4 !{likeCount}
+        span.l3 people like this
+
+  if item.s == 'content-8' || item.s == 'content-6'
+    if item.contentType == 'headline-counter' || item.contentType == 'headline-copy-counter'
+      .counter(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class=item.mpc)
+        - counterText = item.counter.total + ' ' + item.counter.text
+        h3.l2= counterText
+
+aside
+  if item.s == 'content-8'
+    if item.miniPromo
+      a.mini-promo(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
+        div.mini-promo-image-container
+          .play-button
+            i.fonticon-10-video-play
+          img(src=item.miniPromo.imgSrc)
+        div.mini-promo-caption.p4
+          | !{item.miniPromo.caption}

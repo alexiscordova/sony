@@ -68,7 +68,6 @@
 		.copy,
 		.icon{
 			margin-bottom: 0px;
-			// vertical-align: middle;
 		} 
 
 		.copy{		
@@ -82,7 +81,6 @@
 				width:71%;
 				margin-left: px-em(10px);
 				display: inline-block;
-				//border:1px solid green;
 			} // .with-icon
 
 		} // copy
@@ -162,7 +160,7 @@
 
 		&.has-measurements{
 			background-color:$gray80;
-			padding:39px 2% 52px 2%; //px-em(32px)
+			padding:24px 2.75% 32px;
 		}
 
 		// show only after images are loaded
@@ -176,14 +174,6 @@
 		  } // on
 			
 		} // horizontal-measurement
-
-		.extras{
-			padding:18px px-em(18px);
-
-			&.with-measurements{
-				padding:0;
-			}
-		} // extras
 
 	} // last-column
 
@@ -288,6 +278,7 @@
    				width:100%;
    				height:100%;
    				z-index:1;
+
 				} // :after
 
 		} // .horizontal-measurement
@@ -306,7 +297,20 @@
 		clear:both;
 		background-color:$gray80;
 		margin-top: 26px;
-	} // .extras
+		padding:24px 6.25% 32px;
+		
+		&.with-measurements{
+			padding:0;
+		} // with-measurements
+
+		.extra{
+			.p3{
+				margin-bottom:0;
+			} // p3
+		} // extra
+
+	} // extras
+
 
 	// 888888b.    .d88888b. 88888888888 88888888888  .d88888b.  888b     d888 
 	// 888  "88b  d88P" "Y88b    888         888     d88P" "Y88b 8888b   d8888 

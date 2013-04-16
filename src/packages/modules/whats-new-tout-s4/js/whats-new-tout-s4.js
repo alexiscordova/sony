@@ -13,7 +13,8 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr');
+      Modernizr = require('modernizr'),
+      SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
     'init': function() {
@@ -28,6 +29,7 @@ define(function(require){
     var self = this;
 
     self.$el = $(element);
+    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
     self.init();
 
     log('SONY : WhatsNewTout : Initialized');
@@ -39,6 +41,16 @@ define(function(require){
 
     init: function() {
       var self = this;
+
+      self.$el.find('.whats-new-carousel').sonyCarousel({
+        wrapper: '.whats-new-carousel-wrapper',
+        slides: '.whats-new-carousel-slide',
+        useCSS3: self.useCSS3,
+        looped: true,
+        pagination: true,
+        paginationTheme: 'light',
+        $dotNavWrapper: self.$el.find('.wnc-pagination')
+      });
     }
 
   };

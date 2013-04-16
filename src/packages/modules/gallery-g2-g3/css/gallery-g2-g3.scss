@@ -100,6 +100,10 @@ $gifHeight: 60px;
   margin-top: 1.5em;
   padding-bottom: 4.375em;
   overflow: visible;
+
+  .gallery-title {
+    margin-top: px-em( 50 );
+  }
 }
 
 .gallery.disabled {
@@ -809,7 +813,6 @@ $stickyHeaderHeight: px-em(82);
 // Nav
 // -------------------------
 .compare-wrap {
-  position: relative;
 
   .pagination-paddle {
     top: px-em(100);
@@ -818,17 +821,17 @@ $stickyHeaderHeight: px-em(82);
   // Sticky headers are disabled for IE < 10,
   // this will still move the paddle position
   .sticky-header-open & .pagination-paddle,
-  .lt-ie10 .sticky-nav.open ~ & .pagination-paddle {
+  .lt-ie10 .sticky-nav.open ~ .relative & .pagination-paddle {
     position: fixed;
     top: px-em(330);
   }
 
-  .pagination-next {
-    right: 0;
-  }
-  .pagination-prev {
-    left: 0;
-  }
+  // .lt-ie9 & .pagination-next {
+  //   right: 0;
+  // }
+  // .lt-ie9 & .pagination-prev {
+  //   left: 0;
+  // }
 
   // .lt-ie10 .sticky-nav.open ~ & .pagination-next {
   //   right: 4%;
@@ -874,9 +877,9 @@ $stickyHeaderHeight: px-em(82);
     top: 5%;
   }
 
-  .container {
-    max-height: 100%;
-  }
+  // .container {
+  //   max-height: 100%;
+  // }
 
   .modal-header {
     padding: px-em(36) 0 px-em(30);

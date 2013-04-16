@@ -2,135 +2,411 @@
 @import "../../../common/css/_base/mixins";
 
 $outerStroke: 8px;
-$innerDiameter: 71.428571428571%; /* 40px */
+$innerDiameter: 40px; /* 71.428571428571%; */ /* 40px */
 $centerRatio: (28.571428571429% / 2);
-$indicatorRatio: 35%; /* 14px / 40px = 35% */
+$indicatorRatio: 14px; /* 35%; */ /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
 $transitionSpeed: .5s;
 
+/*MIXINZ*/
+@mixin ehsTransition() {
+  -o-transition:$transitionSpeed;
+  -ms-transition:$transitionSpeed;
+  -moz-transition:$transitionSpeed;
+  -webkit-transition:$transitionSpeed; 
+  transition:$transitionSpeed;	
+}
+
+/*PATCH TO FIX ZINDEX ISSUE ON FULL-WIDTH-INNER*/
+.editorial.full-inner .inner { 
+  z-index: 0;
+}
+
+.eh-transparent {
+  @include ehsTransition();
+  opacity: 0;
+}
+
+.eh-visible {
+  @include ehsTransition();
+  opacity: 1;
+}
+
+/*GLOBAL OVERLAY*/
+.hspot-global-details-main {
+    .overlay-inner {
+      margin: 0px auto;
+      width: 230px;
+      background-color: #fff;
+      .overlay-close {
+        position: relative;
+        width: 230px;
+        -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        margin-top: 1em;
+        .top {
+          background-color: #fff;
+        }
+        .middle {
+          background-color: #fff;
+          padding: 20px 30px 23px 20px;
+          border-bottom: 1px solid #e4e7eb;
+          position: relative;
+          .p4, .p3 {
+            @include px-em--font-size--line-height(12,18);
+            margin-bottom: 4px;
+            &.cHBI {
+              margin-bottom: 0;
+            }
+          }
+        }
+        .footer {
+          background-color: #fff;
+          padding: 20px 30px 20px 20px;
+          p.p4, p.p3 {
+            @include px-em--font-size--line-height(12,18);
+            font-style: italic;
+            color: $secondarySlateDark;
+            margin-bottom: 9px;
+          }
+          blockquote.l4, blockquote.l3 {
+            color: $gray40;
+            position: relative;
+            margin-left: 24px;
+            @include px-em--font-size--line-height(10,16);
+            &:before {
+              display: block;
+              content: "\201C";
+              font-size: 40px;
+              font-family: Georgia;
+              position: absolute;
+              left: -24px;
+              top: -13px;
+              color: $secondarySlateDark;
+            }
+          }
+        }
+        .hspot-close {
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          /*
+          width: 27px;
+          height: 27px;
+          */
+        }
+      }
+    }
+}
+
+/*UTILS*/
+.ehs {
+  
+  .hotspot-instance {
+    position: relative;
+  }
+  
+  .info-jump-to-top {
+    z-index: 4;
+  }
+  
+  .overlay-close {
+    position: relative;
+  }
+  
+  .hspot-global-details-overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 6;
+
+    .overlay-inner {
+      margin: 0px auto;
+      width: 230px;
+      background-color: #fff;
+      .overlay-close {
+        position: relative;
+        width: 230px;
+        -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        margin-top: 27px;
+        .top {
+          background-color: #fff;
+        }
+        .middle {
+          background-color: #fff;
+          padding: 20px 30px 23px 20px;
+          border-bottom: 1px solid #e4e7eb;
+          position: relative;
+          .p4, .p3 {
+            @include px-em--font-size--line-height(12,18);
+            margin-bottom: 4px;
+            &.cHBI {
+              margin-bottom: 0;
+            }
+          }
+        }
+        .footer {
+          background-color: #fff;
+          padding: 20px 30px 20px 20px;
+          p.p4, p.p3 {
+            @include px-em--font-size--line-height(12,18);
+            font-style: italic;
+            color: $secondarySlateDark;
+            margin-bottom: 9px;
+          }
+          blockquote.l4, blockquote.l3 {
+            color: $gray40;
+            position: relative;
+            margin-left: 24px;
+            @include px-em--font-size--line-height(10,16);
+            &:before {
+              display: block;
+              content: "\201C";
+              font-size: 40px;
+              font-family: Georgia;
+              position: absolute;
+              left: -24px;
+              top: -13px;
+              color: $secondarySlateDark;
+            }
+          }
+        }
+        .hspot-close {
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          /*
+          width: 27px;
+          height: 27px;
+          */
+        }
+      }
+    }
+  }
+  
+  .variant1 {
+    -o-transition:0s;
+    -ms-transition:0s;
+    -moz-transition:0s;
+    -webkit-transition:0s;
+    transition:0s;
+    &.three-stack-right-top-justified {
+      top: -159px;
+      left: 63px;
+    }
+      
+    &.three-stack-left-top-justified {
+      top: -159px;
+      left: -288px;
+    }
+    
+    &.three-stack-right-bottom-justified {
+      top: -284px;
+      left: 63px;
+    }
+      
+    &.three-stack-left-bottom-justified {
+      left: -288px;
+      top: -284px;
+    }
+    
+    &.two-stack-right-top-justified {
+      top: -14px;
+      left: 63px;
+    }
+      
+    &.two-stack-left-top-justified {
+      top: -14px;
+      left: -288px;
+    }
+    
+    &.two-stack-right-bottom-justified {
+      top: -139px;
+      left: 63px;
+    }
+      
+    &.two-stack-left-bottom-justified {
+      top: -139px;
+      left: -288px;        
+    }
+  }
+  
+  .variant2 {
+    -o-transition:0s;
+    -ms-transition:0s;
+    -moz-transition:0s;
+    -webkit-transition:0s;
+    transition:0s;
+    &.three-stack-right-top-justified {
+      top: -124px;
+      left: 60px;
+    }
+      
+    &.three-stack-left-top-justified {
+      top: -124px;
+      left: -235px;
+    }
+    
+    &.three-stack-right-bottom-justified {
+      top: -239px;
+      left: 60px;
+    }
+      
+    &.three-stack-left-bottom-justified {
+      top: -239px;
+      left: -235px;
+    }
+
+    &.two-stack-right-top-justified {
+      top: -4px;
+      left: 60px;
+    }
+      
+    &.two-stack-left-top-justified {
+      top: -4px;
+      left: -235px;        
+    }
+    
+    &.two-stack-right-bottom-justified {
+      top: -119px;
+      left: 60px;        
+    }
+      
+    &.two-stack-left-bottom-justified {
+      top: -119px;
+      left: -235px;        
+    }
+  }
+
+
+
+}
+/*CONTAINER DEFINITIONS*/
 
 .ehs {
   /* FULL-WIDTH-HEADER-LEFT */
   &.full-bleed-header-left{
-    .hotspot-outer {
-      
+    .hotspot-instance {
+      position: relative;
     }
   }
 }
 
 
 
-/*EXAMPLE CONTAINER*/
+/*HOTSPOT DEFINITION*/
 
-.hotspot-container-example {
-  width: 600px;
-  height: 400px;
-  border: 1px solid #888;
-  position: relative;
-}
-
-/*HOTSPOT*/
-
-.editorial-hs-wrapper {
-  .hspot-outer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 56px;
-    width: 56px;
-    cursor: pointer;
-    .hspot-core {
-      margin: $centerRatio;
-      height: $innerDiameter;
-      width: $innerDiameter;
-      border-radius: 50%;
-      border: 0;
-      background-color: $buttonOrange;
-      -moz-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-      -webkit-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-      box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-      -o-transition:$indicatorRotateSpeed;
-      -ms-transition:$indicatorRotateSpeed;
-      -moz-transition:$indicatorRotateSpeed;
-      -webkit-transition:$indicatorRotateSpeed;
-      transition:$indicatorRotateSpeed;
-      &:hover {
-        background-color: $buttonOrangeHover;
-      }
-      .hspot-indicator {
-        padding: 12.5% 0 0 33.5%;
-        img {
-          -o-transition:$indicatorRotateSpeed;
-          -ms-transition:$indicatorRotateSpeed;
-          -moz-transition:$indicatorRotateSpeed;
-          -webkit-transition:$indicatorRotateSpeed;
-          transition:$indicatorRotateSpeed;
-          @include rotate(0deg);
-        }
+.hspot-outer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 56px;
+  width: 56px;
+  cursor: pointer;
+  z-index: 1;
+  text-align: left;
+  .hspot-core {
+    margin: $centerRatio;
+    height: $innerDiameter;
+    width: $innerDiameter;
+    border-radius: 50%;
+    border: 0;
+    background-color: $buttonOrange;
+    -moz-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+    -webkit-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+    box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+    -o-transition:$indicatorRotateSpeed;
+    -ms-transition:$indicatorRotateSpeed;
+    -moz-transition:$indicatorRotateSpeed;
+    -webkit-transition:$indicatorRotateSpeed;
+    transition:$indicatorRotateSpeed;
+    transition-property: none;
+    z-index: 1;
+    &:hover {
+      background-color: $buttonOrangeHover;
+    }
+    .hspot-indicator {
+      padding: 12.5% 0 0 33.5%;
+      img {
+        -o-transition:$indicatorRotateSpeed;
+        -ms-transition:$indicatorRotateSpeed;
+        -moz-transition:$indicatorRotateSpeed;
+        -webkit-transition:$indicatorRotateSpeed;
+        transition:$indicatorRotateSpeed;
+        @include rotate(0deg);
       }
     }
-    .hspot-core-on {
-      margin: $centerRatio;
-      height: $innerDiameter;
-      width: $innerDiameter;
-      border-radius: 50%;
-      border: 0;
-      background-color: $gray40;
-      -moz-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-      -webkit-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-      box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-      -o-transition: $indicatorRotateSpeed;
-      -ms-transition: $indicatorRotateSpeed;
-      -moz-transition: $indicatorRotateSpeed;
-      -webkit-transition: $indicatorRotateSpeed;
-      transition: $indicatorRotateSpeed;
-      &:hover {
-        background-color: $gray30;
-      }
-      .hspot-indicator {
-        padding: 12.5% 0 0 33.5%;
-        img {
-          -o-transition: $indicatorRotateSpeed;
-          -ms-transition: $indicatorRotateSpeed;
-          -moz-transition: $indicatorRotateSpeed;
-          -webkit-transition: $indicatorRotateSpeed;
-          transition: $indicatorRotateSpeed;
-          @include rotate(45deg);
-        }
+  }
+  .hspot-core-on {
+    margin: $centerRatio;
+    height: $innerDiameter;
+    width: $innerDiameter;
+    border-radius: 50%;
+    border: 0;
+    background-color: $gray40;
+    -moz-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+    -webkit-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+    box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
+    -o-transition: $indicatorRotateSpeed;
+    -ms-transition: $indicatorRotateSpeed;
+    -moz-transition: $indicatorRotateSpeed;
+    -webkit-transition: $indicatorRotateSpeed;
+    transition: $indicatorRotateSpeed;
+    transition-property: none;
+    -ms-transform: scale(1, 1);    
+    z-index: 1;
+    &:hover {
+      background-color: $gray30;
+    }
+    .hspot-indicator {
+      padding: 12.5% 0 0 33.5%;
+      img {
+        -o-transition: $indicatorRotateSpeed;
+        -ms-transition: $indicatorRotateSpeed;
+        -moz-transition: $indicatorRotateSpeed;
+        -webkit-transition: $indicatorRotateSpeed;
+        transition: $indicatorRotateSpeed;
+        @include rotate(45deg);
       }
     }
   }
 }
 
-/*DETAILS WINDOW EXAMPLE CONTAINER*/
-.overlay-container-example {
-  width: 1112px;  
-  height: 560px;
-  background-image: url('../../img/editorial-hotspots-e6/editorial-hotspots-bg-fpo.jpg');
-  padding-top: 65px;
-  .overlay-base {
-    margin: 0px auto;
-  }
-}
 /*DETAILS WINDOW*/
 
 .overlay-base {
-  background-color: #fff;
-  -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  z-index: 2;
+  position: absolute;
+  cursor: default;
+  .overlay-inner {
+    height: 100%;
+    background-color: #fff;
+    -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+    -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+    box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+  }
   &.variant1 { 
     width: 280px;
-    max-height: 454px;
+    /* default right justified, left top arrow showing */
+    top: -159px;
+    left: 63px;
     .top {
-      
+      background-color: #fff;
     }
     .middle {
+      background-color: #fff;
       padding: 30px 40px 29px 30px;
       border-bottom: 1px solid #e4e7eb;
       position: relative;
       .p3 {
+        margin-bottom: 7px;
         &.cHBC {
           margin-bottom: 0;
         }
@@ -151,14 +427,15 @@ $transitionSpeed: .5s;
       }
       .arrow-left-bottom {
         position: absolute;
-        bottom: 44px;
+        /* bottom: 44px; */
+        top: 152px;
         left: -10px;
         width: 10px;
         height: 22px;
       }
       .arrow-right-bottom {
         position: absolute;
-        bottom: 44px;
+        top: 152px;
         right: -10px;
         width: 10px;
         height: 22px;
@@ -166,11 +443,13 @@ $transitionSpeed: .5s;
       
     }
     .footer {
-      padding: 18px 40px 32px 30px;
+      background-color: #fff;
+      padding: 18px 40px 0px 30px;
+      height: 107px;
       .p3 {
         font-style: italic;
         color: $secondarySlateDark;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
       }
       blockquote.l4 {
         color: $gray40;
@@ -191,13 +470,20 @@ $transitionSpeed: .5s;
   }
   &.variant2 { 
     width: 230px;
-    max-height: 398px;
-    .top {}
+    /* max-height: 398px; */
+    /* default right-top justified */
+    top: -124px;
+    left: 60px;
+    .top {
+      background-color: #fff;
+    }
     .middle {
-      padding: 20px 30px 23px 20px;
+      background-color: #fff;
+      padding: 20px 29px 23px 20px;
       border-bottom: 1px solid #e4e7eb;
       position: relative;
       .p4 {
+        margin-bottom: 4px;
         &.cHBI {
           margin-bottom: 0;
         }
@@ -218,21 +504,25 @@ $transitionSpeed: .5s;
       }
       .arrow-left-bottom {
         position: absolute;
-        bottom: 36px;
+        /* bottom: 36px; */
+        top: 132px;
         left: -8px;
         width: 8px;
         height: 18px;
       }
       .arrow-right-bottom {
         position: absolute;
-        bottom: 36px;
+        /* bottom: 36px; */
+        top: 132px;
         right: -8px;
         width: 8px;
         height: 18px;
       }
     }
     .footer {
-      padding: 20px 30px 30px 20px;
+      background-color: #fff;
+      padding: 20px 30px 0px 20px;
+      height: 100px;
       p.p4 {
         font-style: italic;
         color: $secondarySlateDark;
@@ -258,6 +548,34 @@ $transitionSpeed: .5s;
 }  
 
 
+
+
+
+
+
+
+/********* DEMO STUFFS **************/
+
+/*DETAILS WINDOW EXAMPLE CONTAINER*/
+.overlay-container-example {
+  width: 1112px;  
+  height: 560px;
+  background-image: url('../../img/editorial-hotspots-e6/editorial-hotspots-bg-fpo.jpg');
+  padding-top: 65px;
+  .overlay-base {
+    margin: 0px auto;
+  }
+}
+
+
+/*EXAMPLE CONTAINER*/
+
+.hotspot-container-example {
+  width: 600px;
+  height: 400px;
+  border: 1px solid #888;
+  position: relative;
+}
 
 
 

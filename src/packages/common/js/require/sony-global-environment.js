@@ -228,7 +228,7 @@ define(function (require) {
 
 });
 
-// Need to find a better place for this to live.
+// Need to find a better place for these to live.
 
 if (!Array.prototype.indexOf) {
   Array.prototype.indexOf = function(elt /*, from*/) {
@@ -246,5 +246,24 @@ if (!Array.prototype.indexOf) {
       }
     }
     return -1;
+  };
+}
+
+if (!Array.prototype.filter) {
+  Array.prototype.filter = function(a, //a function to test each value of the array against. Truthy values will be put into the new array and falsy values will be excluded from the new array
+    b, // placeholder
+    c, // placeholder
+    d, // placeholder
+    e // placeholder
+  ) {
+      c = this; // cache the array
+      d = []; // array to hold the new values which match the expression
+      for (e in c) {
+        ~~e + '' == e && e >= 0 && // coerce the array position and if valid,
+        a.call(b, c[e], +e, c) && // pass the current value into the expression and if truthy,
+        d.push(c[e]); // add it to the new array
+      }
+
+      return d; // give back the new array
   };
 }

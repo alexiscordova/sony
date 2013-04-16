@@ -13,7 +13,9 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
-      iQ = require('iQ');
+      iQ = require('iQ'),
+      enquire = require('enquire'),
+      Settings = require('require/sony-global-settings');
 
   var module = {
     'init': function() {
@@ -29,6 +31,11 @@ define(function(require){
 
     self.$el = $(element);
     self.$images = self.$el.find('.st-image');
+    self.$items = self.$el.find('.st-item');
+
+    self.spanClasses = 'span12 span8 span6 span4';
+    self.contentWidthClasses = 'content-12 content-8 content-6 content-4';
+
     self.init();
 
     self.$images.on('iQ:imageLoaded', function(){
@@ -36,6 +43,21 @@ define(function(require){
     });
 
     self.$images.addClass('iq-img');
+
+    // If this is a no-grid at 767, the JS manipulation below is not necessary.
+
+    if ( !self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){
+
+      enquire.register("(min-width: 768px)", function() {
+        self.renderDesktop();
+      });
+      enquire.register("(max-width: 767px)", function() {
+        self.renderEvenColumns(6);
+      });
+
+    } else {
+      self.renderDesktop();
+    }
   };
 
   SecondaryTouts.prototype = {
@@ -44,8 +66,59 @@ define(function(require){
 
     init: function() {
       var self = this;
-    }
 
+      self.$items.each(function(){
+
+        var $this = $(this),
+            matchedClasses = this.className.split(' ').filter(function(a){
+              return a.search('span') === 0;
+            });
+
+        $this.data('contentWidthContainers', $this.find('.content-12, .content-8, .content-6, .content-4'));
+        $this.data('originalWidth', matchedClasses[0].split('span')[1]);
+      });
+    },
+
+    // Create or restore the default slide layout.
+
+    renderDesktop: function(which) {
+
+      var self = this;
+
+      self.$items.each(function(){
+
+        var $this = $(this),
+            originalWidth = $this.data('originalWidth');
+
+        $this.removeClass(self.spanClasses).addClass('span' + originalWidth);
+
+        $this.data('contentWidthContainers')
+             .add($this)
+             .removeClass(self.contentWidthClasses)
+             .addClass('content-' + originalWidth);
+      });
+    },
+
+    renderEvenColumns: function(colPerItem) {
+
+      var self = this;
+
+      self.$items.each(function(){
+
+        var $this = $(this);
+
+        if ( $this.data('originalWidth') === '12' ) {
+          return;
+        }
+
+        $this.removeClass(self.spanClasses).addClass('span' + colPerItem);
+
+        $this.data('contentWidthContainers')
+             .add($this)
+             .removeClass(self.contentWidthClasses)
+             .addClass('content-' + colPerItem);
+      });
+    }
   };
 
   return module;

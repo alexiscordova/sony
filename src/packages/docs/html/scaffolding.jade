@@ -7,13 +7,37 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
 
   header.jumbotron.subhead#overview
     div.container
-      h2.bs-docs-heading Scaffolding
+      h1.bs-docs-heading Scaffolding
       p.p1
-        | The system is built on responsive 12-column grids, layouts, and components, with 2 primary left &amp; right margins.
-  div.main.docs-scaffolding#docs-scaffolding
-    div.container#show-hidden-sections-btn-w(style='margin-bottom:-40px; display:none;')
+        | Basic page containers, margins and grids
+  div.container
+    p.p1
+      | The system is built on responsive 12-column grids, layouts, and components.
+
+    p
+      | For details on how the containers and grids are implemented, see the <a href="../../../sony-style-guide/doku.php?id=development:scaffolding">Scaffolding</a> section of the Style Guide.
+    section
+      h2
+        | Page containers & margins
+      p
+        <h4 class="bs-docs-heading">View the <a href="../../../sonyglobal/development/docs/scaffolding-containers.html">Responsive Containers Demo</a> for an example of the <code>.container</code> and <code>.grid</code> code in use.</h4>
+
+    section
+      h2
+        | Desktop Grids
+      p
+        <h4 class="bs-docs-heading">View the <a href="../../../sonyglobal/development/docs/scaffolding-grids.html">Responsive Grid Demo</a> to see the grid code in use.</h4>
+    
+    section
+      h2
+        | Mobile Grids
+      p
+        <h4 class="bs-docs-heading">View the <a href="../../../sonyglobal/development/docs/scaffolding-mobile-grids.html">Mobile Grids Responsive Demo</a> where you can resize your browser to see the effects of the mobile grids on small screen sizes.</h4>
+    
+
+    //- div.container#show-hidden-sections-btn-w(style='margin-bottom:-40px; display:none;')
       a.btn.btn-special(href='#',style='width:260px;') Show Hidden Sections
-    div#pre-small-screen
+    //- div#pre-small-screen
       section#root-level-page-structure
         div.container
           h2.bs-docs-heading Root-level page structure
@@ -424,7 +448,7 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             |   .span1
             |   .span1
             |   .span1
-    section.container#small-screens-section(style='padding-bottom:20px; padding-top:50px; border-top:0;')
+    //- section.container#small-screens-section(style='padding-bottom:20px; padding-top:50px; border-top:0;')
       h2.bs-docs-heading#small-screen-grids Small Screen Grids
       p
         | There are 2 different options for grids below the 768 breakpoint:
@@ -598,7 +622,7 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
         code
           | .full-bleed
         | &nbsp;to add margins back for mobile.
-    section#responsive.container
+    //- section#responsive.container
       h2.bs-docs-heading Responsive design
       img(src='img/responsive-illustrations.png',alt='Responsive devices',style='float: right; margin: 0 0 20px 20px;')
       p

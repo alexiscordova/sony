@@ -62,6 +62,8 @@ define(function(require){
       self.$containerProduct      = self.$el.parent().parent();
       self.$slimGrid              = self.$el.parent();
 
+      self.$pagination            = null;
+
       self.colWidth               = { 'default' : 198/846, '980' : 198/846, '768' : 202/650, 'mobile' : 265/598 };
       self.gutterWidth            = { 'default' : 18/846,  '980' : 18/846,  '768' : 22/650 , 'mobile' : 24/598 };
       self.containerWidthPct      = (92.1875 / 100) * (91.80791 / 100);
@@ -220,9 +222,10 @@ define(function(require){
         self = this;
 
         self.$galleryItems.on( self.tapOrClick() , function(e){
-          $item   = $(this),
-          destination = $item.attr('href'),
-          point, distanceMoved;
+          $item   = $(this);
+          destination = $item.attr('href');
+          point;
+          distanceMoved;
 
           if ( self.hasTouch ) {
             point = e.originalEvent.touches[0];
@@ -375,22 +378,23 @@ define(function(require){
 
           }).data('scrollerModule');
 
+          //self.$el.bind("update.sm", self._onScrollerModuleUpdate );
+
+          self.$pagination = $(".nav-paddles");
+
           self.nbPages = Math.ceil( Math.round( self.$galleryItems.length * extraPct) / numColumns);
           self.scrollerModule._generatePagination( self.nbPages );
 
           self.$galleryItems.find('.product-name').evenHeights();
 
-          self.$el.find('.rp-overflow').on("update.sm", function(e){
-             self.scrollerModule._generatePagination( self.nbPages );
-             //window.iQ.update();
-          });
+          self.$el.find('.rp-overflow').on("update.sm", self._onScrollerModuleUpdate );
 
           self.$win.trigger('resize.rp');
 
+          setTimeout(function(){ self.$win.trigger('resize.rp'); }, 1000);
           //window.iQ.update();
 
         }, 50);
-
 
         self.$win.on('resize.rp', $.debounce(50 , function() {
 
@@ -461,8 +465,6 @@ define(function(require){
 
           }
 
-          console.log("containerWidth", containerWidth);
-
           self.nbPages = Math.ceil( Math.round( self.$galleryItems.length * extraPct) / numColumns);
 
           self.scrollerModule.setGutterWidth(gutterWidth);
@@ -472,7 +474,9 @@ define(function(require){
           if( self.$galleryItems.length <= numColumns)
           {
             marginLeftContainer = gutterWidth;
+            self.$pagination.hide();
           }
+
 
           self.$galleryItems.not($galleryItemsFirst).css({
             'width'       : colWidth,
@@ -494,6 +498,8 @@ define(function(require){
             'min-height' : newContainerHeight
             //'min-width'  : 550 + 'px'
           });
+
+          
 
           //window.iQ.update();
 
@@ -538,8 +544,21 @@ define(function(require){
 
       _onScrollerModuleUpdate: function(e){
         
-        self = this;
+        //self = this;
+
+        console.log("_onScrollerModuleUpdate");
+
+        if(!self.scrollerModule)
+        {
+          return false;
+        }
+
         self.scrollerModule._generatePagination( self.nbPages );
+
+        if ( ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) &&  self.$galleryItems.length <= numColumns ) 
+        {
+          self.$galleryItems.css({position:"relative", left : 0, top : 0});
+        }
       }
 
 

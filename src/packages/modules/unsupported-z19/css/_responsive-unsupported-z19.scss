@@ -1,0 +1,55 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$desktopMin: px-em(980);
+
+@media (min-width: $tabletMin) and (max-width:$tabletMax) {
+    .unsupported {
+        .media-content {
+            font-size: 90%;
+        }
+    }
+}
+
+@media (max-width: $phoneMax) {
+    .unsupported {
+        width: auto;
+        .link-proceed {
+            display: none;
+        }
+        .btn {
+            display: inline-block;
+        }
+        .unsupported-bd {
+            display: none;
+        }
+        .unsupported-bd-alt {
+            display: block;
+        }
+        .browser-list {
+            display: none;
+        }
+    }
+
+    .modal-unsupported {
+        top: 0;
+        height: 100%;
+        &.fade.in{
+            top: 0;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            .grid {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .box-close {
+            display: none;
+        }
+    }
+}

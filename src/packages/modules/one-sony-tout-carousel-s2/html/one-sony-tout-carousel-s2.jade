@@ -10,7 +10,6 @@ if data.config.title
   .st-container
     .st-container-inner.container.sony-carousel-flex
       for slide in data.slides
-        e = {"locals": locals, "content": slide}
-        !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4.jade', e)}
-
-  div.st-dot-nav
+        .st-content.slimgrid
+          e = {"locals": locals, "content": slide}
+          !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4.jade', e)}

@@ -235,7 +235,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 }
 
 
-
+// 568 - 979
 @media ( min-width: px-em(568px) ) and ( max-width: px-em(979px) ) {
 
   // Feature Tiles
@@ -259,6 +259,19 @@ $oneByOneImgPadding: 107.84313725490196%;
 }
 
 
+// 568 - 767
+@media ( min-width: $galleryThreeColMin ) and ( max-width: $galleryThreeColMax ) {
+
+  .gallery-item.social:after {
+    padding-top: 80.1%;
+  }
+
+  .gallery-item.social .product-img:after {
+    padding-top: 52%;
+  }
+
+}
+
 // 568 - 640
 @media ( min-width: $galleryThreeColMin ) and ( max-width: 40em ) {
 
@@ -266,12 +279,36 @@ $oneByOneImgPadding: 107.84313725490196%;
   .gallery-item.basic:after {
     padding-top: 187%;
   }
+
+  .gallery-item.social:after {
+    padding-top: 90.5%;
+  }
 }
 
 
 // <= 567
 @media ( max-width: px-em(567px) ) {
 
+
+  .gallery-item.social:after {
+    padding-top: 78.9%;
+  }
+
+  .gallery-item.social .product-img:after {
+    padding-top: 51.5%;
+  }
+
+  .gallery-item.social {
+
+    figcaption {
+      margin-top: px-em( 3 );
+    }
+
+    .social-icon {
+      @include square( 24px );
+      margin-right: 8px;
+    }
+  }
 
   // Media queries for both single and mutliple spec pages
   .spec-multi,
@@ -327,6 +364,14 @@ $oneByOneImgPadding: 107.84313725490196%;
   // Make gallery items taller
   .gallery-item.basic:after {
     padding-top: 190%;
+  }
+
+  .gallery-item.social:after {
+    padding-top: 90.9%;
+  }
+
+  .gallery-item.social .product-img:after {
+    padding-top: 51.6%;
   }
 }
 
