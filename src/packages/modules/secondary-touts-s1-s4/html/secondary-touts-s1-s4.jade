@@ -2,6 +2,7 @@ include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('secondary-touts-s1-s4')
 
 .st-grid
+
   for item in content
 
     if item.objectSize == 'span8'
@@ -17,8 +18,10 @@ include ../../../common/html/jade-helpers.jade
       - item.c = 'span12'
       - item.s = 'content-12'
 
-    if item.whatsNewCarousel
+    if content.largeTout
+      - item.largeTout = true
 
+    if item.whatsNewCarousel
       e = {"locals": locals, "item": item}
       !{locals.partial('packages/modules/whats-new-tout-s4/html/whats-new-tout-s4-carousel.jade', e)}
 
