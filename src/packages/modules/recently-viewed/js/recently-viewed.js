@@ -48,7 +48,7 @@ define(function(require){
       self.colWidth               = { 'default' : 127/846, '1200' : 150/1020, '980' : 127/846, '768' : 140/627, 'mobile' : 220/464 };
       self.gutterWidth            = { 'default' : 18/846,  '1200' : 24/1020,  '980' : 18/846,  '768' : 22/627 , 'mobile' : 24/464 };
       self.containerWidthPct      = (92.1875 / 100) * (91.80791 / 100);
-      self.paddleHeight           = 52;
+      self.paddleHeight           = 43;
       self.classgrid              = "span2";
       self.wWindow                = $(window).width();
 
@@ -64,6 +64,8 @@ define(function(require){
       self.$html                  = Settings.$html;
 
       self.$el                    = $(element);
+      self.$RVtitle               = self.$el.find(".rv-title");
+      self.$RVcarousel            = self.$el.find(".rv-carousel");
       self.$carousel              = self.$el.find(".carousel");
       self.$slides                = self.$el.find(".sony-carousel-slide"); 
       self.$items                 = self.$el.find(".sony-carousel-slide-children");
@@ -644,8 +646,9 @@ define(function(require){
 
         if (self.$paginationPaddles)
         {
+          heightRVCarousel = self.$RVtitle.height() +  parseInt(self.$RVcarousel.css("marginTop"), 10) + ( ( self.$items.find(".product-img").first().height() / 2) - ( self.paddleHeight / 2 ) );
           self.$paginationPaddles.css({
-            'top'    : ( ( self.$el.height() - self.$carousel.height() ) / 2 ) + ( self.$carousel.height()  / 2 ) - ( self.paddleHeight / 2 ),
+            'top'    : heightRVCarousel,
             'margin' : 0
           });  
         }

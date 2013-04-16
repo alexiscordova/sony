@@ -47,6 +47,8 @@ Each module will include this document, which contains an ordered list of the fi
 
 * defer.min.js
 	*../../../../build/deploy/js/defer.min.js
+* spec-multi-z2.js
+    *../../../js/bundle/defer/spec-multi-z2.js
 	
 == Related Source ==
 
