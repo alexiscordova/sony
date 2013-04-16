@@ -85,7 +85,10 @@ define(function(require) {
     self.lastOverlayFadeout              = null;
     self.lastCenteredOverlay             = null;
     self.trackingMode                    = null;
-    self.trackingState                   = 'off';
+    self.trackingState                   = 'off',
+    self.trackOpacity                    = null,
+    self.trackOpacityTimer               = null;
+    self.canShowHotspots                 = false;
     
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
@@ -122,10 +125,29 @@ define(function(require) {
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
         self.trackingMode = 'background';
         self.trackingAsset = moduleHandle.children( '.iq-img' );
+        self.canShowHotspots = true;
       } else {
         self.trackingMode = 'asset';
         self.trackingAsset = $( moduleHandle.children( '.iq-img' )[0] );
       }
+      
+      self.trackOpacity = function() {
+        switch( self.trackingAsset.css( 'opacity' ) ) {
+          case undefined:
+          case "undefined":
+            log( 'undefined' );
+            clearInterval( self.trackOpacityTimer );
+          break;
+          case "1":
+            log( 'clearing' );
+            clearInterval( self.trackOpacityTimer );
+            self.canShowHotspots = true;
+            triggerInitialPosition();  
+          break;
+        }
+      };
+      
+      self.trackOpacityTimer = setInterval( self.trackOpacity, 50 );
       
       var triggerInitialPosition = function() {
         /* log( 'show' ); */
@@ -134,9 +156,6 @@ define(function(require) {
       };
       
       self.trackingAsset.on('iQ:imageLoaded', triggerInitialPosition);
-      self.trackingAsset.on('resize',function(e){
-        log( 'resized!!!!' );
-      });
       
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
@@ -163,8 +182,7 @@ define(function(require) {
         } catch(e) {}
       }).listen();
 
-      setTimeout(triggerInitialPosition, 500);
-      
+      setTimeout(triggerInitialPosition, 500);      
     
       $( window ).scroll( function ( e ) {
         //log( 'self.trackingAsset.height()' );
@@ -307,11 +325,15 @@ define(function(require) {
     
     show: function( el ) {
       var self = this;
+      log( 'can show hotspots?' );
+      log( self.canShowHotspots );
+      if( true === self.canShowHotspots ) {
         $( self.$els ).each(function( index, el ) {
           if( $( el ).hasClass( 'hidden' ) ) {
             $( el ).removeClass( 'hidden' ).fadeIn( 500 );
           }
         });
+      }
     },
     
     find: function( currentTarget ) {
@@ -432,15 +454,42 @@ define(function(require) {
         }
       }
     },
-    
+    moveTo: function( overlay, position, rows ) {
+      var self = this;
+      self.clearPositionStyles(overlay);
+      switch( position ) {
+        case 'right-top':
+          overlay.addClass( rows + '-stack-right-top-justified' );
+          overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
+          log('::overlay hits container top::');
+        break;
+        case 'right-bottom':
+          overlay.addClass( rows + '-stack-right-bottom-justified' );
+          overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
+          log('::overlay hits container left::');
+        break;
+        case 'left-top':
+          overlay.addClass( rows + '-stack-left-top-justified' );
+          overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
+          log('::overlay hits container right::');
+        break;
+        case 'left-bottom':
+          overlay.addClass( rows + '-stack-left-bottom-justified' );
+          overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
+          log('::overlay hits container floor::');
+        break;
+      }
+    },
     reposition: function( el, fromResize ) {
       
       var self                  = this,
-          parentContainer       = el.parent(),
+          parentContainer       = ( 'asset' === self.trackingMode ) ? el.parent().parent().parent() : el.parent(),
           parentLeft            = 0,
           parentTop             = 0,
           parentRight           = parentContainer.width(),
           parentFloor           = parentContainer.height(),
+          parentMidwayWidth     = parentRight / 2,
+          parentMidwayHeight    = parentFloor / 2,
           overlay               = el.find( '.overlay-base' ),
           overlayHeight         = overlay.height(),
           overlayPosition       = overlay.position(),
@@ -448,7 +497,8 @@ define(function(require) {
           overlayFooterHeight   = overlay.find( '.footer' ).height(),
           overlayTop            = overlay.find( '.top' ),
           overlayFooter         = overlay.find( '.footer' ),
-          hotspotPosition       = overlay.parent().position(),
+          hotspot               = overlay.parent(),
+          hotspotPosition       = hotspot.position(),
           rows                  = (overlayHeaderHeight>0) ? 'three' : 'two',  
           collidesTop           = false,
           collidesRight         = false,
@@ -512,7 +562,7 @@ define(function(require) {
         // the overlay and reiterate through the loop, breaking when the overlay is at a safe zone.
         
         // TODO:: Apply restraints to Editorial types [as spec'd from comps] 
-        
+                
         for( var i=0; i<4 && ( true === collides || null === collides ); i++ ) { 
           // resample coordinates
           overlayHeight       = overlay.height(),
@@ -533,42 +583,33 @@ define(function(require) {
           if( topOverlayPosition <= ( 0 + verticalGutter ) ) {
             // it is colliding with the top of the parent container
             collidesTop = true;
-            self.clearPositionStyles(overlay);
-            overlay.addClass( rows + '-stack-right-top-justified' );
-            overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
-            /* log('::overlay hits container top::'); */
+            self.moveTo( overlay, 'right-top', rows );
           } else {
             collidesTop = false;
           }
           
           if( rightOverlayPosition >= ( parentRight - horizontalGutter ) ) {
+            // its colliding with the right side
             collidesRight = true;
-            self.clearPositionStyles(overlay);
-            overlay.addClass( rows + '-stack-left-top-justified' );
-            overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
-            /* log('::overlay hits container right::'); */
+            self.moveTo( overlay, 'left-top', rows );
           } else {
             collidesRight = false;
           }
           
           
           if( bottomOverlayPosition >= ( parentFloor - verticalGutter ) ) {
+            //  it's colliding with bottom
             collidesFloor = true;
-            self.clearPositionStyles(overlay);
-            overlay.addClass( rows + '-stack-left-bottom-justified' );
-            overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
-            /* log('::overlay hits container floor::'); */
+            self.moveTo( overlay, 'left-bottom', rows );
           } else {
             collidesFloor = false;
           } 
           
   
           if( leftOverlayPosition <= horizontalGutter ) {
+            // it's colliding with left side
             collidesLeft = true;
-            self.clearPositionStyles(overlay);
-            overlay.addClass( rows + '-stack-right-bottom-justified' );
-            overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
-            /* log('::overlay hits container left::'); */
+            self.moveTo( overlay, 'right-bottom', rows );
           } else {
             collidesLeft = false;
           }
@@ -632,7 +673,7 @@ define(function(require) {
           // since we're tracking collisions by side, we can easily do this prescriptively,
           if( true === collides && i == 3 ) {
           
-            /* log('Reposition did not work. '); */
+            log('Reposition did not work. ');
             
             top = overlayTop; // clean up redundant vars!!!!
             footer = overlayFooter; // clean up redundant vars!!!!
@@ -660,15 +701,36 @@ define(function(require) {
             if(passes==1) {
               top.addClass( 'hidden' );
               footer.addClass( 'hidden' );
+              log( 'performing second pass' );              
               i=-1;
-            } else if(passes>1) {
-              i=99; // leave loop
+            } else if( passes > 1 ) { 
+            
+              log( 'forcing second best default positioning' );
+              // test if overlay is hitting the right side of the screen
+              var outerRight    = $( window ).width();
+              var windowLeft    = overlay.offset().left;
+              var windowRight   = windowLeft + overlay.width();
+              
+              log(outerRight);
+              log(windowLeft);
+              log(windowRight);
+                            
+              if( outerRight <= ( windowRight - 10 ) ) {
+                log( 'moving away from right wall' );
+                self.moveTo( overlay, 'left-top', rows );
+              } else if( 0 + 10 >= windowLeft ) {
+                log( 'moving away from left wall' );
+                self.moveTo( overlay, 'right-top', rows );
+              }
+              
+              if( top.hasClass( 'hidden' ) ) {
+                self.downstepStacks( el );
+              } 
+              
+              i=99;
             }
-  
-  
           }
         } // END COLLISION DETECTION
-
       }
     },
     

@@ -22,12 +22,17 @@ mixin header(d)
     else
       if d.variation.headertext == "larger"
         h1!= d.headline
+      else if d.variation.headertext == "smaller"
+        h1.t3!= d.headline
       else
         h1.t2!= d.headline
 
 mixin bodytext(d, extraclass)
   d = d || data
   extraclass = extraclass || ""
+  if d.variation
+    if d.variation.headertext == "larger"
+      extraclass = extraclass + " hidden-phone"
   if d.body
     p.p3(class= extraclass)!= d.body
 
@@ -40,11 +45,11 @@ mixin links(d, extraclass)
         when "btn"
           a(class= extraclass)(class= "btn", href= link.url)!= link.text
         when "video"
-          a(class= extraclass)(href= link.url)
+          a(class = "btn btn-special")(class= extraclass)(href= link.url)
             i.fonticon-15-circle-play
             span!= link.text
-        when "slider"
-          a(class= extraclass)(href= link.url)
+        when "gallery"
+          a(class = "btn")(class= extraclass)(href= link.url)
             i.fonticon-15-popup
             span!= link.text
         when "text"
@@ -58,8 +63,14 @@ mixin boxclass(layout)
 mixin boxlayout(layout)
   layout = layout || data.layout
   classes = data.style
-  if layout.mobilealign
-    classes = classes + " " + layout.mobilealign
+  if data.variation && data.mode == "default" 
+    if data.variation.headertext !== "larger"
+      classes = classes + " force-mobile-bg"
+  if data.variation
+    if data.variation.mobilealign
+      classes = classes + " " + data.variation.mobilealign
+    else
+      classes = classes + " bottom"
   if layout.text == "left"
     .container.inner(class= classes)
       .grid.no-grid-at-767

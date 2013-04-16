@@ -1,26 +1,27 @@
 
-.one-sony-carousel {
-
-  .st-content {
-    -webkit-transform: translateZ(0);
-
-    @for $i from 2 to 40 {
-      &:nth-of-type(#{$i}) {
-        top: -100% * ($i - 1);
-        left: 94% * ($i - 1);
-
-        @media( max-width: 75em ){
-          left: 94.7% * ($i - 1);
-        }
-      }
-    }
-  }
+.one-sony-carousel.secondary-tout {
 
   .st-container {
     height: 490px;
 
-    .st-item {
-      height: 100%;
+    .st-content {
+      -webkit-transform: translateZ(0);
+
+      @for $i from 2 to 40 {
+        &:nth-of-type(#{$i}) {
+          top: -100% * ($i - 1);
+          left: 94% * ($i - 1);
+
+          @media( max-width: 75em ){
+            left: 94.7% * ($i - 1);
+          }
+        }
+      }
+
+      .st-item {
+        height: 100%;
+        margin-bottom: 0;
+      }
     }
   }
 }

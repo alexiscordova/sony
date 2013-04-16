@@ -22,8 +22,30 @@
 
 .secondary-tout {
 
-  .st-item {
-    height: 300px;
+  .st-container {
+
+    .st-content {
+
+      .st-item {
+        height: 300px;
+
+        //aCB
+        .st-item-content.align-center-bottom {
+          bottom: 30px;
+
+          > div {
+            width: 90%;
+          }
+        }
+      }
+
+      &.no-grid-at-767 {
+
+        .st-item {
+          margin-bottom: 20px;
+        }
+      }
+    }
   }
 }
 
@@ -49,8 +71,33 @@
 
 .secondary-tout {
 
-  .st-item {
-    height: 220px;
+  .st-container {
+
+    .st-content {
+
+      .st-item {
+        height: 220px;
+
+        .st-item-content {
+          left: 6%;
+
+          &.align-center-bottom  {
+            left: 0;
+
+            h4 {
+              font-size: $font_18_16;
+            }
+          }
+        }
+      }
+
+      &.no-grid-at-479 {
+
+        .st-item {
+          margin-bottom: 20px;
+        }
+      }
+    }
   }
 }
 
