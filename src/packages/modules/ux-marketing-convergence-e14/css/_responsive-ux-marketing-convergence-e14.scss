@@ -14,25 +14,28 @@
 //                                 888                                                                   888               
 //                                 888                                                                   888           
 @media (min-width: 568px) and (max-width: 767px) {
+  $slideHeightTablet: 260px;
   body {
      .uxmc-container {
        position: relative;
-       // height: px-em(520px);
-       height: 520px;
+       height: $slideHeightTablet*2;
        background-color: #ccc;
        overflow: hidden;
 
        .base-product {
          float: none;
          width: 100%;
-         height: 260px;
+         height: $slideHeightTablet;
        }
 
        .partner-products {
          float: none;
          width: 100%;
-         height:260px;
-         // height: px-em(260px);
+         height:$slideHeightTablet;
+         
+         li{
+           height:$slideHeightTablet;
+         }
        }
 
        .uxmc-overlay {
@@ -40,22 +43,13 @@
          font-size: px-em(15px);
        }
 
-       .btn-reload-container{
-          padding: px-em(5px);
-          //margin: px-em(-40px/2) 0 0 px-em(-40px/2);
-          margin:-1.35em 0 0 -1.35em;
-       } // btn-reload-container
-
-
        .btn-reload {
          font-size: px-em(40px); 
-         // top: 50%;
        }
 
        .progress-indicators {
           @include scale(0.7);
-          height:260px;
-          // height: px-em(260px);
+          height:$slideHeightTablet;
        }
      }
    }
@@ -77,28 +71,29 @@
 //                                 888
 //                                 888
 
-@media (max-width: 567px) {
+@media (max-width: px-em(567px)) {
+  $slideHeightPhone:220px;
   body {
     .uxmc-container {
       position: relative;
-      height: 440px;
-      // height: px-em(440px);
+      height: $slideHeightPhone*2;
       background-color: #ccc;
       overflow: hidden;
 
       .base-product {
         float: none;
         width: 100%;
-        // height: 182px;
-        // height: px-em(220px);
-        height: 220px;
+        height: $slideHeightPhone;
       }
 
       .partner-products {
         float: none;
         width: 100%;
-        // height: px-em(220px);
-        height: 220px;
+        height: $slideHeightPhone;
+        
+        li{
+          height:$slideHeightPhone;
+        }
       }
 
       .uxmc-overlay {
@@ -106,22 +101,13 @@
         font-size: px-em(15px);
       }
 
-       .btn-reload-container{
-         padding: px-em(5px);
-         // margin: px-em(-40px/2) 0 0 px-em(-40px/2);
-         margin:-1.35em 0 0 -1.35em;
-       } // btn-reload-container
-
-
        .btn-reload {
          font-size: px-em(40px); 
-         // top: 50%;
        }
 
       .progress-indicators {
         @include scale(0.7);
-        // height: px-em(220px);
-        height: 220px;
+        height: $slideHeightPhone;
       }
     }
   }
