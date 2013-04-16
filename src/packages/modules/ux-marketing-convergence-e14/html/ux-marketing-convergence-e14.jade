@@ -8,7 +8,8 @@ section.container.uxmc
 
   div.grid.uxmc-container(class=['mode-'+data.mode.toLowerCase()])
 
-    a.fonticon-10-sm-bold-plus.btn-reload(title='Load another product to go with your ' + data.baseProduct.title, href='#')
+    div.btn-reload-container
+      a.fonticon-30-plus.btn-reload(title='Load another product to go with your ' + data.baseProduct.title, href='#')
 
     div.base-product
       div.uxmc-overlay
@@ -17,12 +18,13 @@ section.container.uxmc
         span
         img.iq-img(data-src-desktop=data.baseProduct.imgSrcDesktop, data-src-tablet=data.baseProduct.imgSrcTablet, data-src-phone=data.baseProduct.imgSrcPhone, data-src-desktop-highres=data.baseProduct.imgSrcDesktopHighRes, data-src-tablet-highres=data.baseProduct.imgSrcTabletHighRes, data-src-phone-highres=data.baseProduct.imgSrcPhoneHighRes)
 
+    //- div.products-container
     ul.partner-products
       for product in data.partnerProducts
         li(class=['theme-'+product.theme.toLowerCase()])
           div.uxmc-overlay
             p.t5 #{product.topLine}
-            a.t5.fonticon-10-chevron--after(href=product.link, title=product.altText) #{product.linkText}
+            a.t5.fonticon-10-chevron--after.uxmc-link(href=product.link, title=product.altText) #{product.linkText}
           div.uxmc-image-wrapper.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
             span
             img.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
