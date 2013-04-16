@@ -44,7 +44,9 @@ define(function(require){
 
     self.$images.addClass('iq-img');
 
-    if ( !Settings.$html.hasClass('lt-ie10') ){
+    // If this is a no-grid at 767, the JS manipulation below is not necessary.
+
+    if ( !self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){
 
       enquire.register("(min-width: 768px)", function() {
         self.renderDesktop();
@@ -86,14 +88,9 @@ define(function(require){
       self.$items.each(function(){
 
         var $this = $(this),
-            originalWidth = $this.data('originalWidth'),
-            $headline = $this.find('h4');
+            originalWidth = $this.data('originalWidth');
 
         $this.removeClass(self.spanClasses).addClass('span' + originalWidth);
-
-        if ( originalWidth === '12' || originalWidth === '8' ) {
-          $headline.removeClass('t4').addClass('t3');
-        }
 
         $this.data('contentWidthContainers')
              .add($this)
@@ -108,8 +105,7 @@ define(function(require){
 
       self.$items.each(function(){
 
-        var $this = $(this),
-            $headline = $this.find('h4');
+        var $this = $(this);
 
         if ( $this.data('originalWidth') === '12' ) {
           return;
@@ -121,8 +117,6 @@ define(function(require){
              .add($this)
              .removeClass(self.contentWidthClasses)
              .addClass('content-' + colPerItem);
-
-        $headline.removeClass('t3').addClass('t4');
       });
     }
   };

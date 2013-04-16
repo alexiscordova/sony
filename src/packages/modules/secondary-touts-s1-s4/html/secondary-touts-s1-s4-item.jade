@@ -52,7 +52,7 @@ article
         a.eyebrow.l3(href=item.eyebrow.link)
           | #{item.eyebrow.title}
 
-      if item.s == 'content-8' || item.s == 'content-12'
+      if (item.s == 'content-8' || item.s == 'content-12') && item.typeAlignment != 'align-center-bottom'
         h4.t3.headline!= item.headline ? item.headline.title : ''
           if item.headline && item.headline.link
             a(href=item.headline.link)
