@@ -50,6 +50,7 @@ define(function(require){
       self.containerWidthPct      = (92.1875 / 100) * (91.80791 / 100);
       self.paddleHeight           = 52;
       self.classgrid              = "span2";
+      self.wWindow                = $(window).width();
 
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
@@ -68,7 +69,7 @@ define(function(require){
       self.$items                 = self.$el.find(".sony-carousel-slide-children");
       self.$slidesContainer       = self.$el.find('.sony-carousel');
       self.$carouselWrapper       = self.$el.find('.sony-carousel-wrapper');
-      self.$container             = self.$carousel.parent(); //parent of the slimgrid, rv-carousel
+      self.$container             = self.$carousel.parent(); //parent of the .carousel, span12
       self.$paddles               = null; // has to be created and given to the sony-carousel
       self.$paginationPaddles     = null;
 
@@ -180,13 +181,12 @@ define(function(require){
         }
         else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) 
         {
-
           self.isOSCStyle = false;
           self.classgrid = "span2";
           numColumns     = 6;
 
         } 
-        else if ( self.mq('(min-width: 768px)') ) 
+        else if ( self.mq('(min-width: 770px)') ) 
         {
 
           self.isOSCStyle = true;
@@ -202,6 +202,8 @@ define(function(require){
 
         }
 
+        self.wWindow = $(window).width();
+
         return numColumns;
 
       },
@@ -213,12 +215,13 @@ define(function(require){
         {
           self.breakPoint     = "1200";
         }
-        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) 
+        {
 
           self.breakPoint     = "980";
 
         } 
-        else if ( self.mq('(min-width: 768px)') ) {
+        else if ( self.mq('(min-width: 770px)') ) {
 
           self.breakPoint     = "769";
 
@@ -282,12 +285,11 @@ define(function(require){
 
         } 
 
-        //reset
+        //reset + append
         self.$slidesContainer.empty().append(htmlSlide);
 
         self.$slides = self.$el.find(".sony-carousel-slide"); 
         self.$items  = self.$el.find(".sony-carousel-slide-children");
-
 
         if(!self.isInit)
         {
@@ -325,13 +327,14 @@ define(function(require){
         marginLeftContainer = 0;
         numColumns     = 6;
 
+
         //reset
         self.$carouselWrapper.removeAttr('style');
 
         if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
         {
 
-          self.$slides.removeClass("grid");
+          self.$slides.removeClass("slimgrid");
           
           if(self.breakPoint != "1200")
           {
@@ -340,7 +343,7 @@ define(function(require){
             return false;
           }
 
-          self.$carouselWrapper.removeClass("o-visible");
+          self.$carousel.removeClass("o-visible");
           self.$slides.addClass("no-osc");
 
           self.classgrid = "span2";
@@ -355,7 +358,7 @@ define(function(require){
         }
         else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
 
-          self.$slides.removeClass("grid");
+          self.$slides.removeClass("slimgrid");
 
           if(self.breakPoint != "980")
           {
@@ -364,7 +367,7 @@ define(function(require){
             return false;
           }
 
-          self.$carouselWrapper.removeClass("o-visible");
+          self.$carousel.removeClass("o-visible");
           self.$slides.addClass("no-osc");
 
           self.classgrid = "span2";
@@ -378,9 +381,9 @@ define(function(require){
           numColumns     = 6;
 
         } 
-        else if ( self.mq('(min-width: 768px)') ) {
+        else if ( self.mq('(min-width: 770px)') ) {
 
-          self.$slides.addClass("grid");
+          self.$slides.addClass("slimgrid");
 
           if(self.breakPoint != "769")
           {
@@ -389,7 +392,7 @@ define(function(require){
             return false;
           }
 
-          self.$carouselWrapper.addClass("o-visible");
+          self.$carousel.addClass("o-visible");
           self.$slides.removeClass("no-osc");
 
           self.classgrid = "span3";
@@ -419,7 +422,7 @@ define(function(require){
 
         }else {
 
-           self.$slides.addClass("grid");
+           self.$slides.addClass("slimgrid");
 
           if(self.breakPoint != "mobile")
           {
@@ -428,7 +431,7 @@ define(function(require){
             return false;
           }
 
-          self.$carouselWrapper.addClass("o-visible");
+          self.$carousel.addClass("o-visible");
           self.$slides.removeClass("no-osc");
 
           self.classgrid = "span6";
@@ -450,7 +453,7 @@ define(function(require){
 
         
 
-        marginLeftContainer = gutterWidth;
+        // /marginLeftContainer = gutterWidth;
 
         //pctColWidth    = (colWidth / containerWidth) * 100;
         //pctGutterWidth = (gutterWidth / containerWidth) * 100;
@@ -470,16 +473,21 @@ define(function(require){
         });
       */
 
+
         self.$items.addClass(self.classgrid);
 
+
         //height wrapper 
+        /*
         heightWrapper = 'auto';
         if( self.breakPoint != "mobile" )
         {
           heightWrapper = self.$items.first().height();
         }
 
-        /*
+
+
+        
         self.$carouselWrapper.css({
           'height'   : heightWrapper,
           'overflow' : 'hidden'
@@ -580,6 +588,8 @@ define(function(require){
 
       },
       setupGlobalEvent : function(){
+
+        self = this;
 
         //Resize
         self.$win.on('resize.rp', $.debounce(50 , function() {
@@ -801,7 +811,7 @@ define(function(require){
           numColumns     = 6;
 
         } 
-        else if ( self.mq('(min-width: 768px)') ) {
+        else if ( self.mq('(min-width: 770px)') ) {
 
           self.$containerProduct.addClass('full-bleed-no-max');
 
@@ -953,7 +963,7 @@ define(function(require){
             colWidth       = self.colWidth['default'] * containerWidth;
             numColumns     = 6;
 
-          }else if ( self.mq('(min-width: 768px)') ) 
+          }else if ( self.mq('(min-width: 770px)') ) 
           {
 
             self.$containerProduct.addClass('full-bleed-no-max');
