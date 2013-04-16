@@ -73,30 +73,38 @@ $desktopMin: px-em(980);
       width:100%;
     } 
     .top{
-      padding-top:4%;
+      padding-top:45px;
       .table-center{
         vertical-align:top;
       }
     }
     .bottom{
-      padding-bottom:4%;
+      padding-bottom:45px;
       .table-center{
         vertical-align:bottom;
       }
     }
     .inner{
+      &.light-text-trans-box,
+      &.dark-text-trans-box{
+        .box{
+          padding:0 9px;
+        }
+      }
+      
       &.light-text-trans-box.force-mobile-bg .box{
         background:$titleBlack;
+        padding:16px 22px 20px 22px;
       }
       &.dark-text-trans-box.force-mobile-bg .box{
         background:$titleWhite;
+        padding:16px 22px 20px 22px;
       }
       .box{
         .t2{
           font-size: 1.5em;
           line-height: 1.16667;          
         }
-        padding: 0;
         margin-top:0;
         padding:16px 22px 20px 22px;
         .btn{
