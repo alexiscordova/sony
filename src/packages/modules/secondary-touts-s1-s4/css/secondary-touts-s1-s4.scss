@@ -35,8 +35,12 @@
     width: px-em($baseWidth);
 
     //tablets
-    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+    @media( min-width:px-em(600) ) and ( max-width:px-em(768px) ){
       width: px-em(220px);
+    }
+
+    @media( min-width:px-em(481px) ) and ( max-width:px-em(599) ){
+      width: px-em(190px);
     }
 
     //phones
@@ -127,6 +131,15 @@
       width: 100%;
       height: 100%;
       cursor: pointer;
+    }
+
+    .st-flag {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 4px 10px;
+      background-color: $secondarySage;
+      color: $white;
     }
 
     .st-image {
@@ -356,12 +369,6 @@
               left: 0;
             }
           }
-        }
-
-        .eyebrow {
-          font-family: $baseFontFamilyMedium;
-          font-size: $font_11_16;
-          text-transform: uppercase;
         }
 
         @media/* (min-width:px-em(481px)) and  */(max-width:px-em(768px)){
@@ -723,8 +730,13 @@
 
       &[class*="align-left-"] {
 
-        &.content-8 {
-          left: 6.2%;
+        &.content-4 {
+          left: 7.1%;
+
+          &.light-text-dark-panel,
+          &.dark-text-light-panel {
+            left: 0;
+          }
 
           //phones
           @media( max-width: px-em(480px) ){
@@ -734,6 +746,24 @@
 
         &.content-6 {
           left: 7.1%;
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+        }
+
+        &.content-8 {
+          left: 6.2%;
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+        }
+
+        &.content-12 {
+          left: 4.2%;
 
           //phones
           @media( max-width: px-em(480px) ){
@@ -797,12 +827,51 @@
         }
       }
 
+      //aCB
+      &.align-center-bottom {
+        bottom: 40px;
+        width: 100%;
+        text-align: center;
+
+        > div {
+          width: 240px;
+          max-width: 95%;
+          margin: 0 auto;
+        }
+
+        h4 {
+          margin-bottom: 0;
+        }
+
+        &.content-12 {
+
+          > div {
+            width: 400px;
+          }
+        }
+
+        &.content-8 {
+
+          > div {
+            width: 400px;
+          }
+        }
+
+        &.content-6 {
+        }
+
+        &.content-4 {
+        }
+      }
+
       //aLC
       &.align-left-center,
       &.align-right-center {
 
+        &.content-4,
         &.content-6,
-        &.content-8 {
+        &.content-8,
+        &.content-12 {
           top: auto;
           height: 95%;
 
@@ -920,12 +989,6 @@
         h4 {
           font-size: $font_22_16;
         }
-      }
-    }
-
-    @media (max-width: 480px) {
-      &.span12 {
-        height: 317px;
       }
     }
 

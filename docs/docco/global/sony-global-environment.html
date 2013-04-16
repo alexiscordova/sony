@@ -220,7 +220,7 @@ window.resize.</li>
 
 });
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Need to find a better place for this to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Need to find a better place for these to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
 <span class="keyword">if</span> (!Array.prototype.indexOf) {
   Array.prototype.indexOf = <span class="keyword">function</span>(elt <span class="comment">/*, from*/</span>) {
 
@@ -239,4 +239,24 @@ window.resize.</li>
     <span class="keyword">return</span> -<span class="number">1</span>;
   };
 }
+
+<span class="keyword">if</span> (!Array.prototype.filter) {
+  Array.prototype.filter = <span class="keyword">function</span>(a, <span class="comment">//a function to test each value of the array against. Truthy values will be put into the new array and falsy values will be excluded from the new array</span>
+    b, <span class="comment">// placeholder</span>
+    c, <span class="comment">// placeholder</span>
+    d, <span class="comment">// placeholder</span>
+    e <span class="comment">// placeholder</span>
+  ) {
+      c = <span class="keyword">this</span>; <span class="comment">// cache the array</span>
+      d = []; <span class="comment">// array to hold the new values which match the expression</span>
+      <span class="keyword">for</span> (e <span class="keyword">in</span> c) {
+        ~~e + <span class="string">''</span> == e &amp;&amp; e &gt;= <span class="number">0</span> &amp;&amp; <span class="comment">// coerce the array position and if valid,</span>
+        a.call(b, c[e], +e, c) &amp;&amp; <span class="comment">// pass the current value into the expression and if truthy,</span>
+        d.push(c[e]); <span class="comment">// add it to the new array</span>
+      }
+
+      <span class="keyword">return</span> d; <span class="comment">// give back the new array</span>
+  };
+}
+
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
