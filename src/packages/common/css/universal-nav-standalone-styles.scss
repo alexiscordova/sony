@@ -1,0 +1,101 @@
+//
+// Universal Nav - The output CSS will be used for stand-alone versions, NOT the scss.
+// This way we can still use global variables & mixins in here.
+// --------------------------------------------------
+
+// Core variables and mixins
+@import "_base/variables";
+@import "_base/mixins";
+
+//
+// Universal Nav - The output CSS will be used for stand-alone versions, NOT the scss.
+// This way we can still use global variables & mixins in here.
+// --------------------------------------------------
+
+// resets for standalone version. These are already compiled into the Sony Global Web Transform 2013 project, but are needed elsewhere.
+
+// These are needed on any site that includes the Universal Nav. 
+// They don't have to have the same classnames, but for the Universal Nav to work, 
+// there needs to be an outer container with overflow:hidden & an inner container with position:relative to slide the site.
+body,html{
+	padding:0;
+	margin:0;
+}
+.page-wrap-outer {
+	width: 100%;
+	overflow: hidden;
+}
+.page-wrap-inner {
+  width: 100%;
+  position: relative;
+}
+
+
+// Resets for standalone version
+.u-nav-wrapper{
+	font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: normal;
+	font-style: normal;
+	line-height: 1.65;
+	font-color: rgb(47,53,61); // $gray20;
+	a {
+		color: #4572ed;
+		text-decoration: none;
+	}
+	div{
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		vertical-align: baseline;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	.l1 {
+		font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: normal;
+		font-style: normal;
+		text-rendering: optimizeLegibility;
+		text-transform: uppercase;
+		color: #2f353d;
+		font-size: 1.375em;
+		line-height: 1.36364;
+		letter-spacing: 0.05em;
+		margin-bottom: 24px;
+		margin-top: 40px;
+	}
+}
+
+
+
+
+// universal-nav-specific classes. These are needed by all versions of the Universal Nav
+.u-nav-wrapper{
+  background: rgb(243,244,246); // $gray90;
+
+  .u-nav-close-btn{
+  	float:right;
+  	background:rgb(144,149,155);
+  }
+
+}
+
+
+// .no-touch .sony-one-carousel .soc-item article .soc-image {
+//   -webkit-transition: opacity 0.15s;
+//   transition: opacity 0.15s;
+//   -webkit-transform: scale3d(1, 1, 1);
+//   opacity: 1;
+// }
+// .no-touch .sony-one-carousel .soc-item article:hover .soc-image {
+//   opacity: 0.9;
+// }
+
+
+
+
+
+
+
+

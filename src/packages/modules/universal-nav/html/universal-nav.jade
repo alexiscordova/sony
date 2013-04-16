@@ -1,0 +1,46 @@
+include ../../../common/html/jade-helpers.jade
+
+//- - var search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
+
+//- if typeof minimal !== 'undefined' && minimal === true
+//-   - minimal_class = "nav-wrapper-minimal"
+//- else 
+//-   - minimal = false
+//-   - minimal_class = ""
+
+nav#universal-nav.u-nav-wrapper(role='navigation')
+  div.u-nav
+    div.u-nav-head
+      a#u-nav-close-btn.u-nav-close-btn(href="#")
+        | !{data.close_btn_label}
+      h5.l1
+        | !{data.title}
+      a#u-nav-all-sites-link.u-nav-all-sites-link(href=data.all_sites_link.link)
+        | !{data.all_sites_link.label}
+
+    //- the row of image-heavy links
+    div.u-nav-primary
+
+      //- each column
+      - each col, i in data.primary_columns
+        if col.double_wide === "true"
+          - col_class = "span8.u-nav-primary-col-double-wide"
+        else
+          - col_class = "span4"
+        div.u-nav-primary-col(class=col_class)
+          //- For each feature per column - either 1 or 2. If there's only 1 double-tall, only 1 will be rendered so we're all good.
+          - each feature, j in col.features
+            if feature.double_tall === "true"
+              - feature_class = "u-nav-primary-col.u-nav-primary-col-double-tall"
+            else 
+              - feature_class = "u-nav-primary-col"
+            div.u-nav-primary-row(class=feature_class)
+              a(href=feature.link)
+                img(src=feature.img.src, alt=feature.alt)
+                | !{feature.label}
+
+          //- if col.length > 1
+
+          //- else 
+          //-   a.tl(href=col.link)= col.label
+
