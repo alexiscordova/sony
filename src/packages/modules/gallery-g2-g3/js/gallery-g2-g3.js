@@ -369,6 +369,50 @@ define(function(require){
       $items = $filtered = $concealed = null;
     },
 
+    filterByType : function( evt ) {
+      var self = this,
+          $target = $(evt.target),
+          isSelect = $target.is('select'),
+          filterName,
+          index,
+          method;
+
+      // Get variables based on what kind of component we're working with
+      if ( isSelect ) {
+        filterName = $target.val();
+      } else {
+        // Prevent anchor tags from default actions
+        evt.preventDefault();
+
+        // Value is stored in a data attribute
+        filterName = $target.data( 'value' );
+
+        // Set the button text (`select` does this for us, but not dropdowns)
+        self.$dropdownToggleText.text( $target.text() );
+      }
+
+      // Returns either `all` or a function which can filter the elements
+      method = (function( type ) {
+        if ( type === 'default' ) {
+          return 'all';
+        }
+
+        return function( $el ) {
+          var data = $el.data();
+
+          // Make sure the recommended tile is always there
+          if ( data.recommended || data.type === type ) {
+            return true;
+          }
+
+          return false;
+        };
+      }( filterName ));
+
+      // Call shuffle
+      self.shuffle.shuffle( method );
+    },
+
     // From the element's data-* attributes, test to see if it passes
     itemPassesFilters : function( data ) {
       var self = this,
@@ -1009,20 +1053,36 @@ define(function(require){
     },
 
     initSorting : function() {
-      var self = this;
+      var self = this,
+          count = self.$items.length,
+          method;
 
       // Show first dropdown as active
       self.$sortBtns.first().parent().addClass('active');
       self.currentSort = 0;
 
+      // Sort by default
+      if ( !self.hasRecommendedTile ) {
+        method = $.proxy( self.sort, self );
+
+      // The sorting is actually filtering by product type
+      } else {
+        method = $.proxy( self.filterByType, self );
+      }
+
       // Set up sorting ---- dropdowm
-      self.$sortBtns.on('click',  $.proxy( self.sort, self ));
+      self.$sortBtns.on( 'click', method );
 
       // Set up sorting ---- select menu
-      self.$sortSelect.on('change', $.proxy( self.sort, self ));
+      self.$sortSelect.on( 'change', method );
 
       if ( !self.hasFilters ) {
-        self.$productCount.text( self.$items.length );
+
+        // The recommended gallery tile is actually a gallery item
+        if ( self.hasRecommendedTile ) {
+          count -= 1;
+        }
+        self.$productCount.text( count );
       }
 
       // Firefox's and IE's <select> menu is hard to style...
@@ -1710,6 +1770,7 @@ define(function(require){
         filterName = $target.val();
         index = evt.target.selectedIndex;
         reverse = evt.target[ index ].getAttribute('data-reverse');
+        // Default reverse to false
         reverse = reverse === 'true' ? true : false;
       } else {
         data = $target.data();
@@ -2302,11 +2363,9 @@ define(function(require){
     },
 
     // possibly https://github.com/ScottHamper/Cookies ?
-    handleFavorite : function( $jsFavorite, isAdded ) {
+    handleFavorite : function( $galleryItem, isAdded ) {
       var self = this,
           favs = [];
-
-      console.log( $jsFavorite, isAdded );
 
       // Save data
       if ( isAdded ) {
@@ -2318,13 +2377,18 @@ define(function(require){
         // Store in cookie
         } else {
 
+          // If we can't parse JSON ( IE7 ), don't bother with favorites when not logged in
           if ( !window.JSON ) {
             return;
           }
 
+          // Get the cookies (string) and convert it to an array
           // favs = JSON.parse( Cookies.get( 'favorites' ) );
-          // favs.push( $jsFavorite.attr('id') );
+          // Add this one to it
+          // favs.push( $galleryItem.attr('data-id') );
+          // Make it a string again
           // favs = JSON.stringify( favs );
+          // Save it
           // Cookies.set( 'favorites', favs );
         }
 
@@ -2337,6 +2401,7 @@ define(function(require){
         // Remove from stored cookie
         } else {
 
+          // If we can't parse JSON ( IE7 ), don't bother with favorites when not logged in
           if ( !window.JSON ) {
             return;
           }
@@ -2364,7 +2429,8 @@ define(function(require){
       evt.preventDefault();
       evt.stopPropagation();
 
-      self.handleFavorite( $jsFavorite, isAdding );
+      // Pass off the gallery item and a boolean indicating that favorited state
+      self.handleFavorite( $jsFavorite.closest( self.itemSelector ), isAdding );
     },
 
     onFiltersHide : function( evt ) {

@@ -53,7 +53,7 @@ mixin filterGroup( filterSet )
       | !{ mediaObject }
 
 mixin helpPopover( help, pullRight, circleOnLeft )
-  pullRight = pullRight || false
+  pullRight = pullRight ? pullRight : false
   classes = 'help-container js-popover-trigger'
   - if ( pullRight ) classes += ' pull-right'
   div(class=classes, data-original-title=help.title)
@@ -181,14 +181,15 @@ mixin sorter( sortSet, text )
       ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
         each sort in sortSet
           //- Jade will interpret attr=true as attr=attr. We need to make it a string
-          - reverse = sort.reverse === true ? 'true' : 'false'
+          //- If sort is false, or not present, we don't need to add the attribute
+          - reverse = sort.reverse ? 'true' : false
           li
             a(data-value=sort.name, data-reverse=reverse, tabindex="-1", href="#")= sort.label
     .native-dropdown
       i.fonticon-10-arrowheads-elevator.absolutely
       select#select-sort-by.select-small
         each sort in sortSet
-          - reverse = sort.reverse === true ? 'true' : 'false'
+          - reverse = sort.reverse ? 'true' : false
           option(value=sort.name, data-reverse=reverse)= sort.label
 
 
@@ -203,9 +204,9 @@ mixin zeroProductsMessage( gallery )
 
 
 mixin featuredGallery( submodules, gallery, type )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.featured
-  type = type || 'product'
+  submodules = submodules ? submodules : data.submodules
+  gallery = gallery ? gallery : data.featured
+  type = type ? type : 'product'
   i = 0
 
   section.gallery.fade.container((id=gallery.name + '-gallery', data-mode=gallery.mode)
@@ -226,9 +227,9 @@ mixin featuredGallery( submodules, gallery, type )
 
 
 mixin detailedGallery( submodules, gallery, type )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.productCards
-  type = type || 'product'
+  submodules = submodules ? submodules : data.submodules
+  gallery = gallery ? gallery : data.productCards
+  type = type ? type : 'product'
 
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
     +galleryFilters( gallery )
@@ -284,14 +285,14 @@ mixin favoritesGallery( gallery )
 
 
 mixin compareGallery( submodules, gallery, type, labels )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.productCards
-  type = type || 'product'
-  labels = labels || gallery.labels
+  submodules = submodules ? submodules : data.submodules
+  gallery = gallery ? gallery : data.productCards
+  type = type ? type : 'product'
+  labels = labels ? labels : gallery.labels
 
-  label = gallery.galleryName || 'Compare Things'
-  legend = gallery.legend || 'this is defined in gallery.legend'
-  resetLabel = gallery.resetLabel || 'do things'
+  label = gallery.galleryName ? gallery.galleryName : 'Compare Things'
+  legend = gallery.legend ? gallery.legend : 'this is defined in gallery.legend'
+  resetLabel = gallery.resetLabel ? gallery.resetLabel : 'do things'
 
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
 
@@ -374,11 +375,11 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
           button.nav-paddle.tab-nav.tab-nav-next.hide
             i.fonticon-10-chevron
 
-mixin accessoryFinder( submodules, finder )
+mixin accessoryFinder( submodules, finder, type )
   submodules = submodules ? submodules : data.submodules
   finder = finder ? finder : data.accessories.accessoryFinder
   buttonStr = 'Accessory Finder'
-  type = type || 'product'
+  type = type ? type : 'camera'
 
   .af-module
     .container
@@ -426,8 +427,8 @@ mixin accessoryFinder( submodules, finder )
 
 
 mixin productStrips( submodules, strips, type )
-  submodules = submodules || data.submodules
-  type = type || 'accessory'
+  submodules = submodules ? submodules : data.submodules
+  type = type ? type : 'accessory'
 
   section
     .container
@@ -450,7 +451,7 @@ mixin productStrips( submodules, strips, type )
 
 
 mixin recommendedTile( recommended )
-  div.span4.detailed.gallery-item.recommended-tile
+  div.span4.detailed.gallery-item.recommended-tile(data-recommended="true")
     h3.l3.recommended-title= recommended.title
     .wrap
       ul.media-list

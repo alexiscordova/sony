@@ -20,7 +20,7 @@ include ../../../common/html/jade-helpers.jade
 //-   <dd>definition</dd>
 //- </dl>
 mixin definitionList( list, isHorizontal )
-  - isHorizontal = isHorizontal || false
+  - isHorizontal = isHorizontal ? isHorizontal : false
   - clss = isHorizontal ? 'dl-horizontal' : null
   dl(class=clss)
     each li in list
@@ -35,7 +35,7 @@ mixin definitionList( list, isHorizontal )
 //- A simple unstyled ul
 mixin specList( list, extraClasses )
   - classes = 'unstyled spec-list'
-  - extraClasses = extraClasses || false
+  - extraClasses = extraClasses ? extraClasses : false
   - if ( extraClasses ) classes += ' ' + extraClasses
   ul(class=classes)
     each li in list
@@ -294,7 +294,7 @@ else if data.view == 'detailed'
   filterSet = JSON.stringify( data.filterSet )
   type = data.includeType ? data.type : false
 
-  a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
+  a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, data-type=type, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
     .gallery-item-inner
       .product-img
         if data.label
