@@ -73,6 +73,19 @@ article
   if item.flag
     .l4.st-flag !{item.flag}
 
+  if item.social
+    if item.social.likes > 1000000
+      - likeCount = Math.round(item.social.likes / 1000000 * 10) / 10 + 'M'
+    else if item.social.likes > 1000
+      - likeCount = Math.round(item.social.likes / 1000 * 10) / 10 + 'K'
+    else
+      - likeCount = item.social.likes
+
+    .st-social-count.table-center-wrap
+      .table-center
+        span.t4 !{likeCount}
+        span.l3 people like this
+
   if item.s == 'content-8' || item.s == 'content-6'
     if item.contentType == 'headline-counter' || item.contentType == 'headline-copy-counter'
       .counter(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class=item.mpc)
