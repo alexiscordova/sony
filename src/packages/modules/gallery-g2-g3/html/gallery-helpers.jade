@@ -249,6 +249,29 @@ mixin detailedGallery( submodules, gallery, type )
         a(href=gallery.nextLink) Camera Overflow
       .infscr-holder.text-center
 
+mixin favoritesGallery( submodules, gallery, type )
+  submodules = submodules || data.submodules
+  gallery = gallery || data.productCards
+
+  section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
+    +galleryFilters( gallery )
+
+    .container
+      .products.slimgrid.no-grid-at-767
+        each module in submodules
+          d = locals.data(module.data)
+          if !d.promo
+            - d.view = "detailed"
+            e = { "locals" : locals, "data" : d }
+            !{locals.partial( module.type, e )}
+
+    +zeroProductsMessage( gallery )
+
+    if gallery.nextLink
+      .navigation.invisible
+        a(href=gallery.nextLink) Next set
+      .infscr-holder.text-center
+
 mixin compareGallery( submodules, gallery, type, labels )
   submodules = submodules || data.submodules
   gallery = gallery || data.productCards
