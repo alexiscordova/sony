@@ -20,25 +20,23 @@ include docs-head.html
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
     include docs-nav.html
 
-    .jumbotron.subhead
-      .container-px-width
-        h2.bs-docs-heading Module Demos
-
+  header.jumbotron.subhead#overview
+    div.container
+      h1 Module Demos
+      p Individual Module Demos.
     
-    .container-px-width
+  div.container
         ul
             +demos()
-            strong Generated :
+
             +demosGenerated()
             
-  .jumbotron.subhead
-    .container-px-width
-      h2.bs-docs-heading Module Layouts
-
+    div.container
+      h2 Module Layouts
   
-  .container-px-width
-    ul
-      +layouts()
+  div.container
+        ul
+            +layouts()
 
   include docs-foot.html
 </html>
