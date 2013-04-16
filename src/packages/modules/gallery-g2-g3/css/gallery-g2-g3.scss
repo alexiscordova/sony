@@ -126,6 +126,10 @@ $gifHeight: 60px;
   overflow: hidden;
 }
 
+.gallery-favorites .products {
+  overflow: visible;
+}
+
 // filter: alpha(0) not working on elements inside shuffle...
 .lt-ie9 .gallery.fade {
   position: relative;
@@ -149,6 +153,7 @@ $gifHeight: 60px;
   margin-left: 0;
 }
 
+// Recommended Tile
 .gallery-item.recommended-tile {
 
   &:after {
@@ -166,6 +171,7 @@ $gifHeight: 60px;
 
     .pull-left {
       margin-right: px-em( 8 );
+      max-width: 34%;
     }
   }
 
@@ -182,13 +188,14 @@ $gifHeight: 60px;
     background: $gray20;
   }
 
-  .media-body {
+  .ghost-center {
     position: relative;
-    padding-right: 24px;
+    width: 100%;
+    padding-right: 7.6%;
 
-    .ghost-center {
-      position: relative;
-      width: 100%;
+    // no box sizing for ie7
+    .lt-ie8 & {
+      width: 92.4%;
     }
   }
 
@@ -1137,25 +1144,6 @@ $stickyHeaderHeight: px-em(82);
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

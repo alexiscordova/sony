@@ -1,10 +1,10 @@
-/*global define, Modernizr, log*/
+/*global log*/
 
 // ------------ Sony Gallery ------------
 // Module: Gallery
 // Version: 1.0
-// Modified: 03/02/2013
-// Dependencies: jQuery 1.7+, Modernizr
+// Modified: 04/15/2013
+// Dependencies: jQuery, bootstrap, Sony (Settings|Environment|Utilities), shuffle, scroller, evenheights, tabs, stickytabs, stickynav, simplescroll, rangecontrol
 // Author: Glen Cheney
 // --------------------------------------
 
@@ -107,6 +107,29 @@ define(function(require){
     // Other vars
     self.windowWidth = Settings.windowWidth;
     self.windowHeight = Settings.windowHeight;
+    if ( Modernizr.csstransforms ) {
+      self.prop = 'transform';
+      var translate = 'translate';
+
+      // 3d transforms will create a new layer for each of the sticky headers
+      if ( Modernizr.csstransforms3d ) {
+        self.yPrefix = translate + '3d(0,';
+        self.ySuffix = 'px,0)';
+        self.xPrefix = translate + '3d(';
+        self.xSuffix = 'px,0,0)';
+      } else {
+        self.yPrefix = translate + '(0,';
+        self.ySuffix = 'px)';
+        self.xPrefix = translate + '(';
+        self.xSuffix = ',0)';
+      }
+    } else {
+      self.prop = 'top';
+      self.yPrefix = '';
+      self.ySuffix = 'px';
+      self.xPrefix = '';
+      self.xSuffix = 'px';
+    }
 
     self.setColumnMode();
 
@@ -167,6 +190,10 @@ define(function(require){
           self.isFilteringInitialized = true;
         });
       }, 400);
+    }
+
+    if ( self.hasRecommendedTile ) {
+      setTimeout( $.proxy( self.initRecommendedTile, self ), 200 );
     }
 
     // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
@@ -725,24 +752,6 @@ define(function(require){
       self.$stickyHeaders = self.$grid.find('.compare-sticky-header');
       self.$stickyRightBar = self.$stickyHeaders.find('.right-bar');
 
-      // Get the properties/values we're animating for the sticky navs
-      if ( Modernizr.csstransforms ) {
-        self.prop = 'transform';
-
-        // 3d transforms will create a new layer for each of the sticky headers
-        if ( Modernizr.csstransforms3d ) {
-          self.prefix = 'translate3d(0,';
-          self.suffix = 'px,0)';
-        } else {
-          self.prefix = 'translate(0,';
-          self.suffix = 'px)';
-        }
-      } else {
-        self.prop = 'top';
-        self.prefix = '';
-        self.suffix = 'px';
-      }
-
       // Adding events can be deferred
       setTimeout(function() {
 
@@ -884,14 +893,6 @@ define(function(require){
           self.$grid.infinitescroll('updateNavLocation');
         }
       });
-
-      if ( self.hasRecommendedTile ) {
-        self.$recommendedTile.find('.iq-img').on('imageLoaded', function() {
-          var groups = [ self.$gridProductNames ];
-          groups = groups.concat(  self.getRecommendedTileGroups() );
-          $.evenHeights( groups );
-        });
-      }
 
       // Sort elements by data-priority attribute
       self.sortByPriority();
@@ -1194,6 +1195,21 @@ define(function(require){
 
       // Update our favorites
       self.$favorites = self.$grid.find('.js-favorite');
+    },
+
+    initRecommendedTile : function() {
+      var self = this,
+      debouncedHeights = $.debounce( 190, function() {
+        if ( Modernizr.mq('(min-width: 48em)') ) {
+          var groups = [ self.$gridProductNames ];
+          groups = groups.concat(  self.getRecommendedTileGroups() );
+          $.evenHeights( groups );
+        }
+      });
+
+      self.$recommendedTile.find('.iq-img').on( 'imageLoaded', debouncedHeights );
+
+      self.$recommendedTitleBar = self.$recommendedTile.find( '.recommended-title' );
     },
 
     initCarousels : function() {
@@ -1735,18 +1751,6 @@ define(function(require){
       return sortObj;
     },
 
-    getRecommendedTileGroups : function() {
-      var self = this,
-          groups = [],
-          $medias = self.$recommendedTile.find('.media');
-
-      $medias.each(function() {
-        groups.push( $( this ).find( '.js-even-cols' ) );
-      });
-
-      return groups;
-    },
-
     // Get the function and context for how we want to sort items
     // in the gallery.
     getSorter : function() {
@@ -2117,6 +2121,7 @@ define(function(require){
         } else {
           var groups = [ self.$gridProductNames ];
           groups = groups.concat( self.getRecommendedTileGroups() );
+          self.$recommendedTile.find('.media-heading').css( 'height', '' );
           $.evenHeights( groups );
         }
       }
@@ -2129,11 +2134,54 @@ define(function(require){
         if ( Modernizr.mq('(max-width: 47.9375em)') ) {
           self.$gridProductNames.css('height', '');
 
+          if ( self.hasRecommendedTile ) {
+            self.$recommendedTile.find('.media')
+              .find('.js-even-cols')
+                .css( 'height', '' )
+                .end()
+              .find('.media-heading')
+                .evenHeights();
+
+            // If there currently isn't a scroller instance, create one
+            if ( !self.scroller ) {
+              self.maxRecommendedTitleBarOffset = Math.ceil((self.$container.width() - self.$grid.width()) / 2) * -1;
+              self.scroller = self.$recommendedTile.find('.wrap').scrollerModule({
+                iscrollProps: {
+                  isOverflowHidden: false,
+                  hideScrollbar: true,
+                  fadeScrollbar: true,
+                  onScrollStart: function() {
+                    self.recommendedTileScrolled( this );
+                  },
+                  onScrollMove: function() {
+                    self.recommendedTileScrolled( this );
+                  },
+                  onScrollEnd: function() {
+                    self.recommendedTileScrolled( this );
+                  },
+                  onAnimate: function() {
+                    self.recommendedTileScrolled( this );
+                  },
+                  onAnimationEnd: function( iscroll ) {
+                    self.recommendedTileScrolled( iscroll );
+                    iQ.update();
+                  }
+                }
+              }).data( 'scrollerModule' );
+            }
+          }
+
         // Make all product name heights even
         } else {
           // Let the browser choose the best time to do this becaues it causes a layout
           if ( !self.scroller || (self.scroller && self.scroller.enabled) ) {
             requestAnimationFrame( evenTheHeights );
+          }
+
+          // If there currently is a scroller instance, destroy it
+          if ( self.hasRecommendedTile && self.scroller ) {
+            self.scroller.destroy();
+            self.scroller = null;
           }
         }
 
@@ -2578,7 +2626,11 @@ define(function(require){
     },
 
     getY : function( y ) {
-      return [ this.prefix, y, this.suffix ].join('');
+      return [ this.yPrefix, y, this.ySuffix ].join('');
+    },
+
+    getX : function( x ) {
+      return [ this.xPrefix, x, this.xSuffix ].join('');
     },
 
     setToneBarOffset : function() {
@@ -2791,6 +2843,32 @@ define(function(require){
         }
       }
       return self;
+    },
+
+    recommendedTileScrolled : function( iscroll ) {
+      var self = this,
+          $bar = self.$recommendedTitleBar,
+          x = iscroll.x,
+          max = self.maxRecommendedTitleBarOffset,
+          offset = Math.max( x, 0 );
+
+      offset = Math.max( x, max );
+
+      console.assert( x !== undefined );
+
+      $bar.css( self.prop, self.getX( offset ) );
+    },
+
+    getRecommendedTileGroups : function() {
+      var self = this,
+          groups = [],
+          $medias = self.$recommendedTile.find('.media');
+
+      $medias.each(function() {
+        groups.push( $( this ).find( '.js-even-cols' ) );
+      });
+
+      return groups;
     }
 
   };
@@ -2843,11 +2921,8 @@ define(function(require){
     lastFilterStatuses: null,
     secondLastFilterGroup: null,
     secondLastFilterStatuses: null,
-    loadingGif: Settings.loaderPath,
-    prop: Modernizr.csstransforms ? 'transform' : 'top',
-    valStart : Modernizr.csstransforms ? 'translate(0,' : '',
-    valEnd : Modernizr.csstransforms ? 'px)' : 'px',
-    translateZ : Modernizr.csstransforms3d ? ' translateZ(0)' : ''
+    maxRecommendedTitleBarOffset: 0,
+    loadingGif: Settings.loaderPath
   };
 
 
@@ -2942,7 +3017,7 @@ define(function(require){
         // Value they've entered
         var val = this.value.toLowerCase();
 
-        // Filter elements based on if their string exists in the product model or product name
+        // Filter elements based on if their string exists in the product model
         self.shuffle.shuffle(function( $el ) {
           var $searchable = $el.find('.product-model'),
               text = $.trim( $searchable.text() ).toLowerCase();
@@ -3220,7 +3295,6 @@ define(function(require){
 
       self.isTicking = false;
     }
-
   };
 
   AccessoryFinder.options = {};
@@ -3378,5 +3452,4 @@ define(function(require){
   };
 
   return module;
-
 });

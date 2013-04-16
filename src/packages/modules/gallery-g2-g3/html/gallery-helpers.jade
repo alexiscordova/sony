@@ -253,7 +253,7 @@ mixin favoritesGallery( submodules, gallery, type )
   submodules = submodules || data.submodules
   gallery = gallery || data.productCards
 
-  section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
+  section.gallery.fade.gallery-favorites(id=gallery.name + '-gallery', data-mode=gallery.mode)
     +galleryFilters( gallery )
 
     .container
@@ -441,14 +441,15 @@ mixin productStrips( submodules, strips, type )
 
 mixin recommendedTile( recommended )
   div.span4.detailed.gallery-item.recommended-tile
-    .l3.recommended-title= recommended.title
-    ul.media-list
-      each product in recommended.products
-        li.media
-          d = locals.data( product.data )
-          - d.view = "recommended"
-          e = { "locals" : locals, "data" : d }
-          !{ locals.partial( product.type, e ) }
+    h3.l3.recommended-title= recommended.title
+    .wrap
+      ul.media-list
+        each product in recommended.products
+          li.media
+            d = locals.data( product.data )
+            - d.view = "recommended"
+            e = { "locals" : locals, "data" : d }
+            !{ locals.partial( product.type, e ) }
 
 
 
