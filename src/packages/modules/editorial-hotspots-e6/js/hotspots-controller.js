@@ -703,7 +703,7 @@ define(function(require) {
               
               if( top.hasClass( 'hidden' ) ) {
                 self.downstepStacks( el );
-              }
+              } 
               
               i=99;
             }
