@@ -1,0 +1,98 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$desktopMin: px-em(980);
+
+@media (min-width: $tabletMin) and (max-width:$tabletMax) {
+
+    .products-section-main {
+        width: 68%;
+        float: left;
+        .products-list-main {
+            .products-li {
+                width: 45%;
+                margin-right: 5%;
+            }
+            .products-li-link {
+                display: block;
+                text-align: center;
+                height: 220px;
+                padding-top: 50px;
+            }
+        }
+    }
+
+    .products-section-secondary {
+        padding: 40px 35px;
+        width: 32%;
+        .l2 {
+            margin-bottom: 18px;
+        }
+    }
+}
+
+@media (max-width: $phoneMax) {
+
+    .title-plate {
+        .p3 {
+            display: none;
+        }
+    }
+    .products-w {
+        border: none;
+        .products-hdg {
+            margin: 40px 0 17px 20px;
+        }
+    }
+    .products-section-main {
+        width: 100%;
+        padding: 0 3%;
+
+        .products-list-main {
+            .products-li {
+                width: 100%;
+                border-bottom: 1px solid $gray70;
+                position: relative;
+            }
+            .products-li-link {
+                height: auto;
+                img {
+                    max-height: 40px;
+                }
+            }
+        }
+        .products-list-main {
+            .tl {
+                padding: 15px 0;
+                overflow: hidden;
+                :after {
+                    font-family: 'Sony-Icons';
+                    content: "\e013";
+                    display: inline-block;
+                    font-size: 1.6em;
+                    position: absolute;
+                    line-height: 1em;
+                    top: 30px;
+                    right: 12px;
+                    color: $linkBlueActive;
+                }
+            }
+            .product-img-w {
+                width: 84px;
+                float: left;
+                margin: 0 12px;
+            }
+            .nav-label {
+                float: left;
+            }
+        }
+    }
+    .products-section-secondary {
+        width: 94%;
+        margin: 0 3%;
+        padding: 25px 20px;
+    }
+}
