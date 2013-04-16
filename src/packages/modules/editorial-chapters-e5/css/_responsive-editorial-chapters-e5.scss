@@ -7,24 +7,20 @@
 @mixin compact-thumb-nav {
   &.thumb-mode {
     .thumb-nav {
-      height:84px;
+      height:64px;
 
       li {
         width:auto;
         padding:8px;
-        height:84px;
+        height:64px;
 
         &.active,
         &:hover {
-          height:88px;
+          height:68px;
           margin-top:-4px;
         }
       }
-        img {
-          width:90px;
-          height:68px;
-          margin-right:0;
-        }
+        img {margin-right:0;}
         i, span {display:none;}
     }
   }
@@ -88,6 +84,9 @@
 
   .editorial-chapters-container {
     @include compact-thumb-nav;
+
+    &.top-nav.overlay-nav .thumb-nav {top:20px;}
+    &.bottom-nav.overlay-nav .thumb-nav {bottom:20px;}
   }
 
   .container > .editorial-chapters-container,
