@@ -57,8 +57,6 @@ define(function(require){
         }
 
         self.$el.find('.grid, .grid > div').css('height', minh);
-
-        console.log(self.$el.find('.grid').css('min-height').replace(/[^-\d\.]/g, ''));
       },
 
       resizetouts: function(){
