@@ -1,9 +1,6 @@
 @import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../../../common/css/_base/mixins";
 
-.gray {background:$gray80;} //remove these for production
-.dark {background:$gray10;} //remove these for production
-
 .editorial-chapters-container {
   .editorial-chapters {
     position: relative;
@@ -32,14 +29,14 @@
       bottom:30px;
       margin-bottom:0;
       text-align:center;
-      height:72px;
+      height:68px;
       left:3.75%;
 
       li {
         padding:10px;
         height:68px;
         display: inline-block;
-        background:$gray80;
+        background:$white;
         color:$gray40;
         cursor:pointer;
         text-align:left;
@@ -91,7 +88,7 @@
           }
     }
     &.gray .thumb-nav li {
-      background:$white;
+      background:$gray80;
     }
     &.dark .thumb-nav li {
       background:$gray20;
@@ -117,7 +114,6 @@
           &:hover {
             border-top:0;
             border-bottom:4px solid $linkBlue;
-            height:76px;
           }
         }
       }
