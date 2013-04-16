@@ -49,6 +49,7 @@ define(function(require){
       self.gutterWidth            = { 'default' : 18/846,  '1200' : 24/1020,  '980' : 18/846,  '768' : 22/627 , 'mobile' : 24/464 };
       self.containerWidthPct      = (92.1875 / 100) * (91.80791 / 100);
       self.paddleHeight           = 52;
+      self.classgrid              = "span2";
 
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
@@ -67,7 +68,7 @@ define(function(require){
       self.$items                 = self.$el.find(".sony-carousel-slide-children");
       self.$slidesContainer       = self.$el.find('.sony-carousel');
       self.$carouselWrapper       = self.$el.find('.sony-carousel-wrapper');
-      self.$container             = self.$carousel.parent(); //parent of the slimgrid
+      self.$container             = self.$carousel.parent(); //parent of the slimgrid, rv-carousel
       self.$paddles               = null; // has to be created and given to the sony-carousel
       self.$paginationPaddles     = null;
 
@@ -174,12 +175,14 @@ define(function(require){
         if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
         {
           self.isOSCStyle = false;
+          self.classgrid = "span2";
           numColumns     = 6;
         }
         else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) 
         {
 
           self.isOSCStyle = false;
+          self.classgrid = "span2";
           numColumns     = 6;
 
         } 
@@ -187,12 +190,14 @@ define(function(require){
         {
 
           self.isOSCStyle = true;
+          self.classgrid = "span3";
           numColumns     = 4;
 
         }else 
         {
 
           self.isOSCStyle = true;
+          self.classgrid = "span6";
           numColumns     = 2;
 
         }
@@ -283,9 +288,10 @@ define(function(require){
         self.$slides = self.$el.find(".sony-carousel-slide"); 
         self.$items  = self.$el.find(".sony-carousel-slide-children");
 
+
         if(!self.isInit)
         {
-          self.$items.css({width:1});  //No scrollbar or scrollbar all the time, depending of the final page
+          //self.$items.css({width:1});  //No scrollbar or scrollbar all the time, depending of the final page
           self.isInit = true;
         }
 
@@ -319,8 +325,6 @@ define(function(require){
         marginLeftContainer = 0;
         numColumns     = 6;
 
-        console.log("udpateItems :: breakpoint > ", self.breakPoint);
-
         //reset
         self.$carouselWrapper.removeAttr('style');
 
@@ -336,6 +340,10 @@ define(function(require){
             return false;
           }
 
+          self.$carouselWrapper.removeClass("o-visible");
+          self.$slides.addClass("no-osc");
+
+          self.classgrid = "span2";
           self.isOSCStyle = false;
           self.breakPoint = "1200";
 
@@ -356,6 +364,10 @@ define(function(require){
             return false;
           }
 
+          self.$carouselWrapper.removeClass("o-visible");
+          self.$slides.addClass("no-osc");
+
+          self.classgrid = "span2";
           self.isOSCStyle = false;
           self.breakPoint = "980";
 
@@ -377,6 +389,10 @@ define(function(require){
             return false;
           }
 
+          self.$carouselWrapper.addClass("o-visible");
+          self.$slides.removeClass("no-osc");
+
+          self.classgrid = "span3";
           self.isOSCStyle = true;
           self.breakPoint = "769";
 
@@ -412,6 +428,10 @@ define(function(require){
             return false;
           }
 
+          self.$carouselWrapper.addClass("o-visible");
+          self.$slides.removeClass("no-osc");
+
+          self.classgrid = "span6";
           self.isOSCStyle = true;
           self.breakPoint = "mobile";
 
@@ -441,13 +461,16 @@ define(function(require){
 //console.log("before carousel w", Math.floor( self.$carousel.width() ));
 
 
-        
+        /*
         self.$items.css({
           //'width'       : colWidth,
           'width'       : colWidth,
           'margin'      : 0,
           'margin-left' : gutterWidth
         });
+      */
+
+        self.$items.addClass(self.classgrid);
 
         //height wrapper 
         heightWrapper = 'auto';
@@ -456,10 +479,12 @@ define(function(require){
           heightWrapper = self.$items.first().height();
         }
 
+        /*
         self.$carouselWrapper.css({
           'height'   : heightWrapper,
           'overflow' : 'hidden'
         });
+        */
 
         /*
         $.each( self.$slides.eq(0), function(i){
@@ -476,6 +501,7 @@ define(function(require){
         //console.log("after carousel w", Math.floor( self.$carousel.width() ));
 
         //last : fix
+        /*
         $.each( self.$slides.not( self.$slides.last() ).find(".sony-carousel-slide-children:first"), function(i){
 
             $(this).css({
@@ -484,6 +510,7 @@ define(function(require){
             });
 
           });
+*/
 
 /*
         self.$items.first().css({
@@ -493,6 +520,7 @@ define(function(require){
 */
 
         //Fix
+        /*
         containerWidth = Math.floor( self.$carousel.width() );
 
         if( numColumns * colWidth + ( (numColumns - 1) * gutterWidth ) >= containerWidth)
@@ -510,6 +538,7 @@ define(function(require){
           });
             
         }
+        */
 
 
       },
@@ -560,6 +589,14 @@ define(function(require){
           iQ.update(true);
 
         }));
+
+        self.$container.on("mouseenter", function(e){
+          self.$el.find(".pagination-paddles").addClass("show-paddles");
+        });
+
+        self.$container.on("mouseleave", function(e){
+          self.$el.find(".pagination-paddles").removeClass("show-paddles");
+        });
 
       },
       setupEvents : function(){
