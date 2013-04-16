@@ -136,13 +136,14 @@ mixin productQuote( quote )
 
   - iconClasses.push( iconClass, medium + '-color', 'ghost-center' )
 
-  figure.quote
-    blockquote.bq4(cite=quote.url)
-      p= quote.text
-    figcaption
-      span.social-icon.ghost-center-wrap
-        i(class=iconClasses)
-      span.author.p4= quote.screenname
+  .quote.ghost-center-wrap
+    figure.ghost-center
+      blockquote.bq6(cite=quote.url)
+        p= quote.text
+      figcaption
+        span.social-icon.ghost-center-wrap
+          i(class=iconClasses)
+        span.author.p4= quote.screenname
 
 
 
@@ -245,8 +246,9 @@ if data.view == 'basic'
       else if data.layout == 'social'
         .product-img
           .product-img-wrap
-            .img-wrap
-              +iQImage( data.imgSmall )
+            .img-wrap.ghost-center-wrap
+              .ghost-center
+                +iQImage( data.imgSmall )
             +productQuote( data.quote )
 
           if data.img && data.img.colors

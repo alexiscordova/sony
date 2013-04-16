@@ -51,6 +51,11 @@ define(function(require){
 
           // Should be called after everything is initialized
           $(window).trigger('hashchange');
+
+          // No tabs on the page, initialize the gallery manually
+          if ( !$('.tab-strip').length ) {
+            module.onGalleryTabAlreadyShown.call( $('#main')[0] );
+          }
         }, 16);
 
       }
@@ -90,14 +95,12 @@ define(function(require){
     // self.$compareBtn = self.$container.find('.js-compare-toggle');
     self.itemSelector = '.' + ( self.isCompareMode ? 'compare' : 'gallery' ) + '-item';
     self.$items = self.$grid.find( self.itemSelector );
-    self.$socialTiles = self.$items.filter( '.social' );
 
     // What do we have here?
     self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
     self.hasFilters = self.$filterOpts.length > 0;
     self.hasSorting = self.$sortBtns.length > 0;
     self.hasCarousels = self.$carousels.length > 0;
-    self.hasSocialTiles = self.$socialTiles.length > 0;
 
     // Other vars
     self.windowWidth = Settings.windowWidth;
@@ -2136,12 +2139,6 @@ define(function(require){
       // Let the browser choose the best time to do this becaues it causes a layout
       requestAnimationFrame( evenTheHeights );
 
-      if ( self.hasSocialTiles ) {
-        requestAnimationFrame(function() {
-          self.fitSocialTiles();
-        });
-      }
-
       Utilities.forceWebkitRedraw();
 
       self.fixCarousels();
@@ -2201,31 +2198,52 @@ define(function(require){
       }
     },
 
-    fitSocialTiles : function() {
-      var self = this,
-          $tiles = self.$socialTiles;
-
-      $tiles.each(function() {
-        var $tile = $( this ),
-            $quote = $tile.find('.quote'),
-            needsToFit = Modernizr.mq( '( min-width: 61.1875em )' ) || !Modernizr.mediaqueries,
-            margin = '',
-            availableHeight, textHeight;
-
-        if ( needsToFit ) {
-          availableHeight = $tile.find('.product-img').outerHeight();
-          textHeight = $quote.outerHeight();
-          margin = ( ( availableHeight - textHeight ) / 2 ) + 'px';
-        }
-
-        $quote.css( 'marginTop', margin );
-      });
-    },
-
     getFavoriteContent : function( $jsFavorite, isActive ) {
       return isActive ?
             $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' :
             $jsFavorite.data('defaultTitle');
+    },
+
+    // possibly https://github.com/ScottHamper/Cookies ?
+    handleFavorite : function( $jsFavorite, isAdded ) {
+      var self = this,
+          favs = [];
+
+      // Save data
+      if ( isAdded ) {
+
+        // Save to account with ajax?
+        if ( Settings.isLoggedIn ) {
+          $.getJSON( 'path/to/server', { add: true } );
+
+        // Store in cookie
+        } else {
+
+          if ( !window.JSON ) {
+            return;
+          }
+
+          // favs = JSON.parse( Cookies.get( 'favorites' ) );
+          // favs.push( $jsFavorite.attr('id') );
+          // favs = JSON.stringify( favs );
+          // Cookies.set( 'favorites', favs );
+        }
+
+      // Remove data
+      } else {
+
+        if ( Settings.isLoggedIn ) {
+          $.getJSON( 'path/to/server', { add: false } );
+
+        // Remove from stored cookie
+        } else {
+
+          if ( !window.JSON ) {
+            return;
+          }
+        }
+
+      }
     },
 
     onFavorite : function( evt ) {
@@ -2243,10 +2261,11 @@ define(function(require){
           .tooltip('show');
       }
 
-
       // Stop event from bubbling to <a> tag
       evt.preventDefault();
       evt.stopPropagation();
+
+      self.handleFavorite( $jsFavorite, isAdding );
     },
 
     onFiltersHide : function( evt ) {
@@ -2708,7 +2727,11 @@ define(function(require){
           // Remove current grid span
           self.$grid.children(itemSelector)
             .removeClass(allSpans)
-            .addClass(span+4);
+            .filter( social )
+              .addClass( span+8 )
+              .end()
+            .not( social )
+              .addClass( span+4 );
         }
 
 
@@ -2885,7 +2908,7 @@ define(function(require){
 
         // Filter elements based on if their string exists in the product model or product name
         self.shuffle.shuffle(function( $el ) {
-          var $searchable = $el.find('.product-model, .product-name'),
+          var $searchable = $el.find('.product-model'),
               text = $.trim( $searchable.text() ).toLowerCase();
 
           return text.indexOf(val) !== -1;
