@@ -6,13 +6,24 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
 
-@media (max-width:$phoneMax) {
-  
-}
 
 @media (max-width:$tabletMax) {
   .entertainment {
     padding: 61px 0 115px 0;
+  }
+  
+  .entertainment-header {
+    width: 100%;
+    margin-bottom: 26px;
+  }
+  
+  .tablet-img {
+    margin-bottom: 30px;
+  }
+  
+  .entertainment-benefits {
+    overflow: hidden;
+    margin-bottom: 40px;
   }
   
   .entertainment-benefits > li {
@@ -28,17 +39,76 @@ $desktopMin: px-em(980);
   .entertainment-media .no-float {
     float: none;
     margin-bottom: 15px;
+    margin-right: 0;
   }
   
-  .btn-holder {
+  .entertainment .btn-holder {
     width: 100%;
   }
   
-  .btn {
+  .entertainment .btn-holder .btn {
     margin: 0 auto;
+    display: block;
   }
   
   .tablet-full-width {
     width: 100%;
   }
 }
+
+@media (max-width:$phoneMax) {
+  .entertainment {
+    padding: 36px 0 58px 0;
+  }
+  
+  .logo-container {
+    margin-bottom: 7px;
+  }
+  
+  .entertainment-hd h1 {
+    margin-bottom: 21px;
+  }
+  
+  .mobile-img {
+    margin-bottom: 19px;
+  }
+  
+  .entertainment-hd {
+    margin-bottom: 23px;
+  }
+  
+  .entertainment-benefits {
+    margin-bottom: 13px;
+  }
+  
+  .entertainment-media {
+    margin-bottom: 11px;
+  }
+  
+  .entertainment-media .no-float {
+    float: left;
+    margin-right: 11px;
+    margin-bottom: 0;
+  }
+  
+  .entertainment-benefits > li {
+    float: none;
+    margin-left: 0;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .entertainment-benefits > li + li {
+    margin-left: 0;
+  }
+  
+  .entertainment-benefits .bd {
+    padding-top: 24px;
+  }
+  
+  .entertainment .btn-holder .btn {
+    margin: 0;
+  }
+  
+}
+
