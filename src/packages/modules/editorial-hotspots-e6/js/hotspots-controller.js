@@ -88,6 +88,7 @@ define(function(require) {
     self.trackingState                   = 'off',
     self.trackOpacity                    = null,
     self.trackOpacityTimer               = null;
+    self.canShowHotspots                 = false;
     
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
@@ -124,6 +125,7 @@ define(function(require) {
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
         self.trackingMode = 'background';
         self.trackingAsset = moduleHandle.children( '.iq-img' );
+        self.canShowHotspots = true;
       } else {
         self.trackingMode = 'asset';
         self.trackingAsset = $( moduleHandle.children( '.iq-img' )[0] );
@@ -139,6 +141,7 @@ define(function(require) {
           case "1":
             log( 'clearing' );
             clearInterval( self.trackOpacityTimer );
+            self.canShowHotspots = true;
             triggerInitialPosition();  
           break;
         }
@@ -153,9 +156,6 @@ define(function(require) {
       };
       
       self.trackingAsset.on('iQ:imageLoaded', triggerInitialPosition);
-      self.trackingAsset.on('resize',function(e){
-        log( 'resized!!!!' );
-      });
       
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
@@ -182,8 +182,7 @@ define(function(require) {
         } catch(e) {}
       }).listen();
 
-      setTimeout(triggerInitialPosition, 500);
-      
+      setTimeout(triggerInitialPosition, 500);      
     
       $( window ).scroll( function ( e ) {
         //log( 'self.trackingAsset.height()' );
@@ -326,11 +325,15 @@ define(function(require) {
     
     show: function( el ) {
       var self = this;
+      log( 'can show hotspots?' );
+      log( self.canShowHotspots );
+      if( true === self.canShowHotspots ) {
         $( self.$els ).each(function( index, el ) {
           if( $( el ).hasClass( 'hidden' ) ) {
             $( el ).removeClass( 'hidden' ).fadeIn( 500 );
           }
         });
+      }
     },
     
     find: function( currentTarget ) {
