@@ -1,45 +1,36 @@
 include ../../../common/html/jade-helpers.jade
 
+mixin benefitList(benefit)
+  .entertainment-media
+    .img.no-float
+      span.icon-holder
+        i(class= benefit.iconclass)
+    .bd
+      h2.t6= benefit.title
+      p.p3.hidden-phone= benefit.body
+
 #page-inner
   .container.container-full-bleed.entertainment
     .container
       .logo-container
-        img(src="img/entertainment-e15/logo-video-unlimited.png")
+        img(src= data.logo)
       .entertainment-header
-        h1.t1 Instant access to endless entertainment
+        h1.t1= data.header
         .mobile-img.visible-phone
-          img(src="img/entertainment-e15/entertainment-mobile.jpg")
-        p.p2 Get instant access to the latest movies and TV shows, plus the classics, with Video Unlimited. Watch as much as you want and pay as you go.
+          img(src= data.img.mobile)
+        p.p2= data.subhead
     .grid.no-grid-at-979
       .span7
         .tablet-img.visible-tablet
-          img(src="img/entertainment-e15/entertainment-tablet.jpg")
+          img(src= data.img.tablet)
         ul.entertainment-benefits
           li.entertainment-benefit-one
-            .entertainment-media
-              .img.no-float
-                span.icon-holder
-                  i.fonticon-30-cd
-              .bd
-                h2.t6 No Monthly Fees
-                p.p3.hidden-phone Forget about monthly subscriptions, late fees, or hidden costs. Pay only for what you want to watch.
+            +benefitList(data.benefits.fees)
           li.entertainment-benefit-two
-            .entertainment-media
-              .img.no-float
-                span.icon-holder
-                  i.fonticon-30-cd
-              .bd
-                h2.t6 Stream From the Cloud
-                p.p3.hidden-phone Find what you want in a flash, including new releases. Video Unlimited brings movies from the cloud to you.
+            +benefitList(data.benefits.stream)
           li.entertainment-benefit-three
-            .entertainment-media
-              .img.no-float
-                span.icon-holder
-                  i.fonticon-30-cd
-              .bd
-                h2.t6 Get Movies to Go
-                p.p3.hidden-phone Stay entertained wherever you are with the Video Unlimited app on your Sony Tablet or Xperia smartphone.
+            +benefitList(data.benefits.moviestogo)
         .btn-holder
-          button.btn Learn About Video Unlimited
+          button.btn= data.learn
       .span5
-        img.visible-desktop(src="img/entertainment-e15/entertainment-desktop.jpg")
+        img.visible-desktop(src= data.img.desktop)
