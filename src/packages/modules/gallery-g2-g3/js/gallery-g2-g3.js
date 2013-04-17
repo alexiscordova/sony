@@ -3158,7 +3158,7 @@ define(function(require){
         });
 
         // Update the count
-        self.$productCount.text( self.shuffle.visibleItems );
+        self.updateProductCount();
       },
 
       debouncedKeyup = $.debounce( 50, keyup );
@@ -3406,6 +3406,8 @@ define(function(require){
       self.isModalOpen = false;
       self.isFadedIn = false;
     },
+
+    updateProductCount : Gallery.prototype.updateProductCount,
 
     updateStickyNav : function() {
       var self = this,
