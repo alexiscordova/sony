@@ -176,6 +176,21 @@ define(function (require) {
         func = null;
         return memo;
       };
+    },
+
+    // When you click inside the input, the text will be selected
+    autoSelectInputOnFocus: function( $input ) {
+      $input.on('focus', function() {
+        var input = this;
+
+        // We use a timeout here because .select() will select everything,
+        // then the default browser action will deselect our selection
+        setTimeout(function() {
+          input.select();
+        }, 0);
+      });
+
+      $input = null;
     }
   };
 
