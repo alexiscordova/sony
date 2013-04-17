@@ -69,12 +69,15 @@ define(function(require){
       self.currentPartnerProduct = -1;
       
       self.setBreakpoint();
-      self.gotoNextPartnerProduct();
+      self.setupSlideLinks();
       self.resetPartnerCarouselInterval();
+      self.gotoNextPartnerProduct();
       self.animationLoop();
       self.setupButtons();   
       self.setupDials();
-      self.setupSlideLinks();
+
+      //one off
+      // self.gotoPartnerProduct(0);
     },
 
     // enable entire slide as link without reworking markup
@@ -118,6 +121,7 @@ define(function(require){
 
         e.preventDefault();
 
+        self.fadeOutContent();
         self.gotoNextPartnerProduct();
         self.resetPartnerCarouselInterval();
       });
@@ -147,6 +151,7 @@ define(function(require){
         if ( position === self.currentPartnerProduct ) {
           self.resetDials();
         } else {
+          self.fadeOutContent();
           self.gotoPartnerProduct(position);
         }
 
@@ -174,6 +179,10 @@ define(function(require){
       }
 
       self.partnerCarouselInterval = setInterval(function(){
+        // fade out content slide
+        self.fadeOutContent();
+
+        // go to next
         self.gotoNextPartnerProduct();
       }, self.rotationSpeed);
     },
@@ -226,7 +235,8 @@ define(function(require){
           'easing' : Settings.$easing.easeOutQuart,
           'complete': function() {
             self.isAnimating = false;
-            self.swapContent(which);
+            // self.swapContent(which);
+            self.fadeInContent(which);
           }
         });
       }
@@ -235,18 +245,25 @@ define(function(require){
       self.resetDials();
     },
 
-    swapContent : function(which){
+    fadeOutContent : function(){
       var self = this;
-
-      // hide all slides
-      // then show active one
       self.$partnerCarouselSlides
-        .removeClass("active")
-        .removeAttr("class")
-        .eq(which)
-        .addClass("active");
+      .removeClass("active")
+      .removeAttr("class");
     },
 
+    fadeInContent : function(which){
+      var self = this;
+      self.$partnerCarouselSlides
+        .eq(which)
+        .addClass("active");   
+    },
+
+    // swapContent : function(which){
+    //   var self = this;
+    //   self.fadeOutContent();
+    //   self.fadeInContent();
+    // },
 
     calcuateNewTop : function(which){
       var self = this,
@@ -314,10 +331,12 @@ define(function(require){
   module.defaults = {
 
     // Timeout between slide rotation.
-    'rotationSpeed': 7500,
+    //'rotationSpeed': 7500,
+    'rotationSpeed': 5000,
 
     // Duration of slide transition.
-    'transitionTime': 1000
+    //'transitionTime': 1000
+    'transitionTime': 750
   };
 
   return module;
