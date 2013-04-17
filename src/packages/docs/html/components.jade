@@ -53,7 +53,7 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           |         div.sony-carousel-slide
           |           div.sony-carousel-slide-children
           |           div.sony-carousel-slide-children
-          |         div.carousel-slide
+          |         div.sony-carousel-slide
           |           div.sony-carousel-slide-children
           |           div.sony-carousel-slide-children
 
@@ -377,6 +377,127 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
                 |   });
 
 
+
+
+
+
+        h3#headers Vertical Carousels
+
+        .container
+          .grid
+            .span12
+              div.carousel-8.sony-carousel-vertical
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide A1
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide B1
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide C1
+        .container
+          .grid
+            .span12
+              h5 Jade
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   div.carousel-8.sony-carousel-vertical
+                |     div.sony-carousel-wrapper
+                |       div.sony-carousel
+                |         div.sony-carousel-slide
+                |           div.sony-carousel-slide-children.t1 Slide A1
+                |         div.sony-carousel-slide
+                |           div.sony-carousel-slide-children.t1 Slide B1
+                |         div.sony-carousel-slide
+                |           div.sony-carousel-slide-children.t1 Slide C1
+
+          .grid
+            .span12
+              h5 Javascript
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   $('.carousel-8 .sony-carousel').sonyCarousel({
+                |     direction: 'vertical',
+                |     wrapper: '.sony-carousel-wrapper',
+                |     slides: '.sony-carousel-slide',
+                |     slideChildren: '.sony-carousel-slide-children',
+                |     useCSS3: true
+                |   });
+
+
+
+
+
+  .container
+    .grid
+      h3#headers Overflow-visible, grid-based, spaced-slide carousels (RP-style)
+      p This variant of the carousel is loosely based on the Related Products, where each
+        | slide takes up 100% of the screen and animates in directly from the edge.
+        | Note that, as a result, it is incompatible with the `slideChildren` property;
+        | slideChildren only works where overflow is hiding the mispositioned slides or otherwise,
+        | like OSC-style carousels, spacing between the slides is seamless.
+
+  div.carousel-9
+    div.sony-carousel-wrapper
+      div.sony-carousel
+        div.sony-carousel-slide
+          .container
+            .slimgrid
+              div.sony-carousel-slide-children.t1.span6 Slide A1
+              div.sony-carousel-slide-children.t1.span6 Slide A2
+        div.sony-carousel-slide
+          .container
+            .slimgrid
+              div.sony-carousel-slide-children.t1.span6 Slide B1
+              div.sony-carousel-slide-children.t1.span6 Slide B2
+        div.sony-carousel-slide
+          .container
+            .slimgrid
+              div.sony-carousel-slide-children.t1.span6 Slide C1
+              div.sony-carousel-slide-children.t1.span6 Slide C2
+
+  .container
+    .grid
+      .span12
+        h5 Jade
+    .grid
+      .span12
+        pre.prettyprint.prettyprint-jade
+          |   div.carousel-9
+          |     div.sony-carousel-wrapper
+          |       div.sony-carousel
+          |         div.sony-carousel-slide
+          |           .container
+          |             .slimgrid
+          |               div.sony-carousel-slide-children.t1.span6 Slide A1
+          |               div.sony-carousel-slide-children.t1.span6 Slide A2
+          |         div.sony-carousel-slide
+          |           .container
+          |             .slimgrid
+          |               div.sony-carousel-slide-children.t1.span6 Slide B1
+          |               div.sony-carousel-slide-children.t1.span6 Slide B2
+          |         div.sony-carousel-slide
+          |           .container
+          |             .slimgrid
+          |               div.sony-carousel-slide-children.t1.span6 Slide C1
+          |               div.sony-carousel-slide-children.t1.span6 Slide C2
+
+    .grid
+      .span12
+        h5 Javascript
+    .grid
+      .span12
+        pre.prettyprint.prettyprint-jade
+          |   $('.carousel-9 .sony-carousel').sonyCarousel({
+          |     wrapper: '.sony-carousel-wrapper',
+          |     slides: '.sony-carousel-slide',
+          |     useCSS3: true,
+          |     pagination: true
+          |   });
+
+
   script(src="js/libs/require.js")
   script
     window.isDebugMode = true;
@@ -450,6 +571,20 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           pagination: true
         });
 
+        $('.carousel-8 .sony-carousel').sonyCarousel({
+          direction: 'vertical',
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          slideChildren: '.sony-carousel-slide-children',
+          useCSS3: true
+        });
+
+        $('.carousel-9 .sony-carousel').sonyCarousel({
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          useCSS3: true,
+          pagination: true
+        });
 
       });
     });
