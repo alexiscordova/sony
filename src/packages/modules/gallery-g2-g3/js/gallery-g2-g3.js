@@ -68,68 +68,8 @@ define(function(require){
 
     $.extend(self, $.fn.gallery.options, options, $.fn.gallery.settings);
 
-    // jQuery objects
-    self.$container = $container;
-    self.$window = Settings.$window;
-    self.id = self.$container[0].id;
-    self.$grid = self.$container.find('.products');
-    self.$filterOpts = self.$container.find('.filter-options');
-    self.$sortOpts = self.$container.find('.sort-options');
-    self.$filterColumns = self.$filterOpts.find('.grid').children();
-    self.$sortSelect = self.$container.find('.sort-options select');
-    self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
-    self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
-    self.$productCount = self.$container.find('.product-count');
-    self.$activeFilters = self.$container.find('.active-filters');
-    self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
-    self.$favorites = self.$grid.find('.js-favorite');
-    self.$gridProductNames = self.$grid.find('.product-name-wrap');
-    self.$carousels = self.$grid.find('.js-item-carousel');
-    self.$zeroMessage = self.$container.find('.zero-products-message');
-    self.$recommendedTile = self.$grid.find('.recommended-tile');
-
-    // Modes
-    self.isEditorialMode = self.mode === 'editorial';
-    self.isDetailedMode = self.mode === 'detailed';
-    self.isCompareMode = self.mode === 'compare';
-
-    // self.$compareBtn = self.$container.find('.js-compare-toggle');
-    self.itemSelector = '.' + ( self.isCompareMode ? 'compare' : 'gallery' ) + '-item';
-    self.$items = self.$grid.find( self.itemSelector );
-
-    // What do we have here?
-    self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
-    self.hasFilters = self.$filterOpts.length > 0;
-    self.hasSorting = self.$sortBtns.length > 0;
-    self.hasCarousels = self.$carousels.length > 0;
-    self.hasRecommendedTile = self.$recommendedTile.length > 0;
-
-    // Other vars
-    self.windowWidth = Settings.windowWidth;
-    self.windowHeight = Settings.windowHeight;
-    if ( Modernizr.csstransforms ) {
-      self.prop = 'transform';
-      var translate = 'translate';
-
-      // 3d transforms will create a new layer for each of the sticky headers
-      if ( Modernizr.csstransforms3d ) {
-        self.yPrefix = translate + '3d(0,';
-        self.ySuffix = 'px,0)';
-        self.xPrefix = translate + '3d(';
-        self.xSuffix = 'px,0,0)';
-      } else {
-        self.yPrefix = translate + '(0,';
-        self.ySuffix = 'px)';
-        self.xPrefix = translate + '(';
-        self.xSuffix = ',0)';
-      }
-    } else {
-      self.prop = 'top';
-      self.yPrefix = '';
-      self.ySuffix = 'px';
-      self.xPrefix = '';
-      self.xSuffix = 'px';
-    }
+    // Set all the variables that will be used
+    self.setVars( $container );
 
     self.setColumnMode();
 
@@ -139,6 +79,7 @@ define(function(require){
       self.shuffleGutters();
     }
 
+    // Compare mode doesn't utilize shuffle
     if ( self.isEditorialMode || self.isDetailedMode ) {
       self.initShuffle();
     } else {
@@ -146,6 +87,7 @@ define(function(require){
       self.initCompareGallery();
     }
 
+    // Listen for window events (debounced)
     debouncedResize = $.debounce( 325, $.proxy( self.onResize, self ) );
     self.$window.on('orientationchange', debouncedResize );
     self.$window.on('resize.gallery', debouncedResize );
@@ -192,6 +134,7 @@ define(function(require){
       }, 400);
     }
 
+    // Initialize favorites gallery extras
     if ( self.hasRecommendedTile ) {
       setTimeout( $.proxy( self.initRecommendedTile, self ), 200 );
     }
@@ -200,7 +143,6 @@ define(function(require){
     setTimeout( $.proxy( self.loadSwatchImages, self ) , 2000);
 
     log('SONY : Gallery : Initialized');
-
   };
 
   Gallery.prototype = {
@@ -267,6 +209,72 @@ define(function(require){
       self.enabled = false;
     },
 
+    setVars : function( $container ) {
+      var self = this;
+
+      // jQuery objects
+      self.$container = $container;
+      self.$window = Settings.$window;
+      self.id = self.$container[0].id;
+      self.$grid = self.$container.find('.products');
+      self.$filterOpts = self.$container.find('.filter-options');
+      self.$sortOpts = self.$container.find('.sort-options');
+      self.$filterColumns = self.$filterOpts.find('.grid').children();
+      self.$sortSelect = self.$container.find('.sort-options select');
+      self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
+      self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
+      self.$productCount = self.$container.find('.product-count');
+      self.$activeFilters = self.$container.find('.active-filters');
+      self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
+      self.$favorites = self.$grid.find('.js-favorite');
+      self.$gridProductNames = self.$grid.find('.product-name-wrap');
+      self.$carousels = self.$grid.find('.js-item-carousel');
+      self.$zeroMessage = self.$container.find('.zero-products-message');
+      self.$recommendedTile = self.$grid.find('.recommended-tile');
+
+      // Modes
+      self.isEditorialMode = self.mode === 'editorial';
+      self.isDetailedMode = self.mode === 'detailed';
+      self.isCompareMode = self.mode === 'compare';
+
+      self.itemSelector = '.' + ( self.isCompareMode ? 'compare' : 'gallery' ) + '-item';
+      self.$items = self.$grid.find( self.itemSelector );
+
+      // What do we have here?
+      self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
+      self.hasFilters = self.$filterOpts.length > 0;
+      self.hasSorting = self.$sortBtns.length > 0;
+      self.hasCarousels = self.$carousels.length > 0;
+      self.hasRecommendedTile = self.$recommendedTile.length > 0;
+
+      // Other vars
+      self.windowWidth = Settings.windowWidth;
+      self.windowHeight = Settings.windowHeight;
+      if ( Modernizr.csstransforms ) {
+        self.prop = 'transform';
+        var translate = 'translate';
+
+        // 3d transforms will create a new layer for each of the sticky headers
+        if ( Modernizr.csstransforms3d ) {
+          self.yPrefix = translate + '3d(0,';
+          self.ySuffix = 'px,0)';
+          self.xPrefix = translate + '3d(';
+          self.xSuffix = 'px,0,0)';
+        } else {
+          self.yPrefix = translate + '(0,';
+          self.ySuffix = 'px)';
+          self.xPrefix = translate + '(';
+          self.xSuffix = ',0)';
+        }
+      } else {
+        self.prop = 'top';
+        self.yPrefix = '';
+        self.ySuffix = 'px';
+        self.xPrefix = '';
+        self.xSuffix = 'px';
+      }
+    },
+
     filter : function() {
       var self = this,
           context,
@@ -301,6 +309,7 @@ define(function(require){
         .toggleZeroMessage();
     },
 
+    // Used by the compare tool, this function replicates the `filter` function from shuffle
     manualFilter : function( fn ) {
       var self = this,
           deferreds = [],
@@ -369,6 +378,9 @@ define(function(require){
       $items = $filtered = $concealed = null;
     },
 
+    // Used by the favorites gallery dropdown/select menus
+    // It filters by type of product, either `data-value` for the dropdown links,
+    // or the `value` attribute from `<option>` in the `<select>`
     filterByType : function( evt ) {
       var self = this,
           $target = $(evt.target),
@@ -415,6 +427,8 @@ define(function(require){
       self.updateProductCount();
     },
 
+    // Updates the count displayed at the top left, above the products.
+    // It does NOT account for 2 products -> 1 product
     updateProductCount : function() {
       var self = this,
           count = self.shuffle ? self.shuffle.visibleItems : self.$items.length;
@@ -458,6 +472,7 @@ define(function(require){
       return true;
     },
 
+    // Tests the data to see if there are any active filters. Returns a boolean
     hasActiveFilters : function() {
       var self = this,
           hasActive = false,
