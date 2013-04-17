@@ -47,6 +47,8 @@
         position:relative;
         box-sizing:content-box;
 
+        & + li {margin-left:-1px;}
+
         &.active,
         &:hover {
           border-top:4px solid $linkBlue;
@@ -60,6 +62,8 @@
           @include ie7-inline-block();
         }
       }
+      &.chapters3 li {width:33.33%}
+      &.chapters2 li {width:50%;}
           img {
             position:relative;
             display:block;  
@@ -123,7 +127,7 @@
     }
     &.icon-mode .thumb-nav {
         img {display:none;}
-        i {margin-left:20px;}
+        i {margin-left:24px; margin-right:10px;}
         span {margin-right:20px;}
     }
     &.offset-nav {
@@ -142,6 +146,10 @@
       &.white .thumb-nav {background:$gray80;}
       &.gray .thumb-nav {background:$white;}
       &.dark .thumb-nav {background:$gray20;}
+    }
+    &.text-mode .thumb-nav {
+      img, i {display:none;}
+      span {margin:0 24px;}
     }
 }
 .span4,
@@ -179,7 +187,6 @@
           padding:15px 0;
           height:14px;
         }
-          img, i {display:none;}
           span {
             height:14px;
             display:block;

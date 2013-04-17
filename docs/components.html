@@ -99,7 +99,7 @@ on both ends of the carousel without breaking the layout.</li></ol><p>More detai
         div.sony-carousel-slide
           div.sony-carousel-slide-children
           div.sony-carousel-slide-children
-        div.carousel-slide
+        div.sony-carousel-slide
           div.sony-carousel-slide-children
           div.sony-carousel-slide-children</pre><h3 id="headers">Basic</h3><p>The basic SonyCarousel implementation, with paddles and navigation.</p><div class="container"><div class="grid"><div class="span12"><h4>Basic 12 Column</h4></div></div><div class="grid"><div class="span12"><div class="carousel-1"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide A</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide B</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide C</div></div></div></div></div></div></div></div><div class="container"><div class="grid"><div class="span12"><h4>Basic 6 Column</h4></div></div><div class="grid"><div class="span6"><div class="carousel-1"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide A</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide B</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide C</div></div></div></div></div></div><div class="span6"><div class="carousel-1"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide A</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide B</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide C</div></div></div></div></div></div></div><div class="grid"><div class="span12"><h5>Code</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  $('.carousel-1 .sony-carousel').sonyCarousel({
     wrapper: '.sony-carousel-wrapper',
@@ -167,6 +167,21 @@ in the scaffolding section of documentation.</p><div class="container"><div clas
     slideChildren: '.sony-carousel-slide-children',
     useCSS3: true,
     pagination: true
+  });</pre></div></div></div><h3 id="headers">Vertical Carousels</h3><div class="container"><div class="grid"><div class="span12"><div class="carousel-8 sony-carousel-vertical"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide A1</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide B1</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide C1</div></div></div></div></div></div></div></div><div class="container"><div class="grid"><div class="span12"><h5>Jade</h5></div></div><div class="grid"><div class="span12">  pre.prettyprint.prettyprint-jade
+  div.carousel-8.sony-carousel-vertical
+    div.sony-carousel-wrapper
+      div.sony-carousel
+        div.sony-carousel-slide
+          div.sony-carousel-slide-children.t1 Slide A1
+        div.sony-carousel-slide
+          div.sony-carousel-slide-children.t1 Slide B1
+        div.sony-carousel-slide
+          div.sony-carousel-slide-children.t1 Slide C1</div></div><div class="grid"><div class="span12"><h5>Javascript</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  $('.carousel-8 .sony-carousel').sonyCarousel({
+    direction: 'vertical',
+    wrapper: '.sony-carousel-wrapper',
+    slides: '.sony-carousel-slide',
+    slideChildren: '.sony-carousel-slide-children',
+    useCSS3: true
   });</pre></div></div></div></section></div></div><script src="js/libs/require.js"></script><script>window.isDebugMode = true;</script><script>require(["js/common"], function () {
   require(["require/index", "secondary/index"], function(Global, Secondary){
   
@@ -236,6 +251,13 @@ in the scaffolding section of documentation.</p><div class="container"><div clas
       pagination: true
     });
     
+    $('.carousel-8 .sony-carousel').sonyCarousel({
+      direction: 'vertical',
+      wrapper: '.sony-carousel-wrapper',
+      slides: '.sony-carousel-slide',
+      slideChildren: '.sony-carousel-slide-children',
+      useCSS3: true
+    });
     
   });
 });

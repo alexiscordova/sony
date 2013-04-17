@@ -12,6 +12,11 @@ $maxChildren: 20;
   position: relative;
   width: 100% * $maxChildren;
 
+  .sony-carousel-vertical & {
+    width: auto;
+    height: 100%;
+  }
+
   .sony-carousel-slide {
     -webkit-transform: translateZ(0);
     float: left;
@@ -20,6 +25,11 @@ $maxChildren: 20;
 
     &.slimgrid {
       margin-right: 2.4% / $maxChildren;
+    }
+
+    .sony-carousel-vertical & {
+      float: none;
+      width: auto;
     }
   }
 }
