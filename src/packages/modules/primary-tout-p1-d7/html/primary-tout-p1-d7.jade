@@ -22,12 +22,17 @@ mixin header(d)
     else
       if d.variation.headertext == "larger"
         h1!= d.headline
+      else if d.variation.headertext == "smaller"
+        h1.t3!= d.headline
       else
         h1.t2!= d.headline
 
 mixin bodytext(d, extraclass)
   d = d || data
   extraclass = extraclass || ""
+  if d.variation
+    if d.variation.headertext == "larger"
+      extraclass = extraclass + " hidden-phone"
   if d.body
     p.p3(class= extraclass)!= d.body
 
@@ -40,11 +45,11 @@ mixin links(d, extraclass)
         when "btn"
           a(class= extraclass)(class= "btn", href= link.url)!= link.text
         when "video"
-          a(class= extraclass)(href= link.url)
+          a(class = "video btn btn-special")(class= extraclass)(href= link.url)
             i.fonticon-15-circle-play
             span!= link.text
-        when "slider"
-          a(class= extraclass)(href= link.url)
+        when "gallery"
+          a(class = "gallery btn")(class= extraclass)(href= link.url)
             i.fonticon-15-popup
             span!= link.text
         when "text"
@@ -55,11 +60,14 @@ mixin boxclass(layout)
   .box(class = layout.alignment)
     block
 
-mixin boxlayout(layout)
+mixin boxlayout(layout, style)
   layout = layout || data.layout
-  classes = data.style
-  if layout.mobilealign
-    classes = classes + " " + layout.mobilealign
+  classes = style || data.style || layout.text == "full"
+  if data.variation
+    if data.variation.mobilealign
+      classes = classes + " " + data.variation.mobilealign
+    else
+      classes = classes + " bottom"
   if layout.text == "left"
     .container.inner(class= classes)
       .grid.no-grid-at-767
@@ -80,14 +88,17 @@ mixin boxlayout(layout)
               +boxclass
                 block
 
-
-classes = data.mode
-if data.theme
-  classes = classes + " " + data.theme
-.primary-tout.container.full-bleed-no-max(class= classes)
+.primary-tout.container.full-bleed-no-max(class= data.mode)(class= data.theme)
   .container.full-bleed-no-max.hero-image
     e = {"locals":locals, "data":data.image}
     !{locals.partial('packages/modules/image/html/image.jade' , e)}
+
+  if data.submodules.length > 0
+    .container.full-bleed-no-max.submodule.hidden
+      button(class= "box-close box-close-small")
+        i(class="fonticon-10-x")
+      +partial(data.submodules[0].type, data.submodules[0].data)
+
   if data.mode == "homepage"
     if data.variation.secondbox
       +boxlayout
@@ -109,7 +120,11 @@ if data.theme
         +bodytext(data, "hidden-phone")
         +links
   else if data.mode == "default"
-    +boxlayout
+    style = data.style || ""
+    if data.variation
+      if data.variation.headertext !== "larger"
+        style = style + " force-mobile-bg"
+    +boxlayout(data.layout, style)
       +eyebrow
       +header
       +bodytext

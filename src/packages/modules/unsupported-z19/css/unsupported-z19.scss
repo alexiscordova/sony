@@ -1,0 +1,79 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+.modal-unsupported {
+  .modal-header {
+    padding: 1em 2.5em 0;
+  }
+}
+
+.unsupported {
+  text-align: center;
+  .media {
+    text-align: left;
+  }
+  .media-img {
+    float: left;
+    width: 20%;
+    max-width: 60px;
+    img {
+      width: 100%;
+    }
+  }
+
+  .media-content {
+    float: left;
+  }
+  .media-content {
+    padding-left: 10%;
+  }
+  .media-hd {
+    color: $gray20;
+    padding: 8px 0 6px;
+    margin: 0;
+  }
+  .media-bd {
+    color: $gray40;
+  }
+  .browser-list {
+    margin-bottom: 10px;
+    .span6 {
+      width: 50%;
+      margin: 0;
+      padding: 0 10px;
+    }
+  }
+  .browser-link {
+    margin-bottom: 20px;
+    display: block;
+    background: $gray80;
+    padding: 18px 25px;
+    cursor: pointer;
+  }
+  .unsupported-bd {
+    width: 430px;
+    margin: 20px auto 50px;
+  }
+  .unsupported-bd-alt {
+    display: none;
+    max-width: 400px;
+    padding: 0 20px;
+    margin: 25px auto 50px;
+  }
+  .browser-link:hover {
+    background: $gray75;
+  }
+  .btn {
+    display: none;
+  }
+  .lt-ie10 & .container {
+    width: auto;
+  }
+  .link-proceed {
+    display: inline-block;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+}
+
+

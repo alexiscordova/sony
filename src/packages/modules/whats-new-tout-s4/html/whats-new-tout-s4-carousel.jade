@@ -8,6 +8,7 @@
       for slide in item.whatsNewCarousel.slides
         - slide.c = item.c
         - slide.s = item.s
+        - slide.isWhatsNewCarousel = true
         e = {"locals": locals, "item": slide}
         div.whats-new-carousel-slide
           !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4-item.jade', e)}

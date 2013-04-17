@@ -2,22 +2,11 @@
 @import "../../../common/css/_base/mixins";
 
 
-.js {
-
-  .recently-viewed {
-
-    .rp-overflow {
-      overflow:hidden;
-    }
-
-  }
-
-}
-
 
 .recently-viewed {
 
   position:relative;
+  overflow: hidden;
 
   h6 {
     margin-top:50px;
@@ -39,29 +28,43 @@
     margin-bottom:40px; /* 30px + 10px (bullet height) */
   }
 
+  .sony-carousel-slide {
+    margin-right: 0.10731%;
+  }
+
   .sony-carousel-wrapper {
 
     height:auto;
-    
 
-    .sony-carousel-slide-children{
-      float: left;
-      width: 33.33%;
+  }
+
+  .o-visible {
+
+    .sony-carousel-wrapper{
+      overflow: visible;  
     }
 
+    .pagination-paddles {
+      display:none;
+    }
+
+    .sony-dot-nav{
+      display:none;
+    }
+    
   }
 
   .pagination-paddles {
 
       .pagination-paddle {
 
-        height:52px;
+        height:43px;
         margin-top:-45px; /* -26 - 19(product content width / 2) */
         margin-left:0;
         margin-right:0;
         position: absolute;
         top: 50%;
-        width:34px;
+        width:28px;
 
         background-color:rgba($gray10, 0.2);
 
@@ -73,10 +76,6 @@
       .pagination-prev { left: 0%; }
       
     }
-
-  
-
-  
 
   .color-swatches {
     display: none;
@@ -134,7 +133,7 @@
       padding-top: 86.843137%;
     }
 
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 768px) {
 
       .product-img:after {
         padding-top: 0;
@@ -161,6 +160,7 @@
     margin-top:55px;
   }
 
+
   @media screen and (max-width: 979px) {
 
     h6 {
@@ -180,21 +180,6 @@
     }
 
   }
-
-  @media screen and (max-width: 767px) {
-
-
-  }
-
-  
-
-  /*
-  .full-bleed-no-max {
-    .slimgrid {
-      width:100%;
-    }
-  }
-  */
 
 
 }

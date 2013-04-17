@@ -1,0 +1,48 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('country-region-selection-z10')
+
+.country-region.container.continent-sticky-header
+  .continent-sticky-header-title.t6
+
+.country-region.scrollable
+  .container.full-bleed-no-max
+    .container
+      .grid
+        h3.t3= data.title
+
+    .container.full-bleed-no-max.matte
+      .container
+        .grid
+
+          ol.media-list.continents
+
+            - for (var i = 0; i < data.continents.length; i += 1) {
+              - var continent = data.continents[i];
+
+              li.t6.continent= continent.name
+              li.countries
+
+                div.fluid-list(data-fluid-list="desktop,tablet", rel="countryList-#{i}")
+                div.fluid-list(data-fluid-list="desktop,tablet", rel="countryList-#{i}")
+                div.fluid-list(data-fluid-list="desktop,tablet", rel="countryList-#{i}")
+                div.fluid-list(data-fluid-list="desktop", rel="countryList-#{i}")
+
+                ol.media-list(data-fluid-list-containers="countryList-#{i}")
+
+                  - for (var j = 0; j < continent.countries.length; j += 1) {
+                    - var country = continent.countries[j];
+
+                    li
+                      a(href="#{country.url}")
+                        .media
+                          .media-img
+                            i(class="icon-flag icon-flag-#{country.icon}")
+                          .media-bd.country= country.name
+                  - }
+            - }
+
+    .container
+      .grid
+        .span12.info
+          p.info-hd= data.cookies_blurb.heading
+          p.info-bd= data.cookies_blurb.content
