@@ -377,6 +377,58 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
                 |   });
 
 
+
+
+
+
+        h3#headers Vertical Carousels
+
+        .container
+          .grid
+            .span12
+              div.carousel-8.sony-carousel-vertical
+                div.sony-carousel-wrapper
+                  div.sony-carousel
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide A1
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide B1
+                    div.sony-carousel-slide
+                      div.sony-carousel-slide-children.t1 Slide C1
+        .container
+          .grid
+            .span12
+              h5 Jade
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   div.carousel-7
+                |     div.sony-carousel-wrapper
+                |       div.sony-carousel
+                |         div.sony-carousel-slide
+                |           div.sony-carousel-slide-children.t1.span6 Slide A1
+                |           div.sony-carousel-slide-children.t1.span6 Slide A2
+                |         div.sony-carousel-slide.slimgrid
+                |           div.sony-carousel-slide-children.t1.span6 Slide B1
+                |           div.sony-carousel-slide-children.t1.span6 Slide B2
+                |         div.sony-carousel-slide.slimgrid
+                |           div.sony-carousel-slide-children.t1.span6 Slide C1
+
+          .grid
+            .span12
+              h5 Javascript
+          .grid
+            .span12
+              pre.prettyprint.prettyprint-jade
+                |   $('.carousel-8 .sony-carousel').sonyCarousel({
+                |     direction: 'vertical',
+                |     wrapper: '.sony-carousel-wrapper',
+                |     slides: '.sony-carousel-slide',
+                |     slideChildren: '.sony-carousel-slide-children',
+                |     useCSS3: true
+                |   });
+
+
   script(src="js/libs/require.js")
   script
     window.isDebugMode = true;
@@ -450,6 +502,13 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           pagination: true
         });
 
+        $('.carousel-8 .sony-carousel').sonyCarousel({
+          direction: 'vertical',
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          slideChildren: '.sony-carousel-slide-children',
+          useCSS3: true
+        });
 
       });
     });
