@@ -3,6 +3,34 @@
 
 @mixin onesonyTypeBlockWidths($baseWidth: 400px) {
 
+  &.content-12 {
+
+    max-width: px-em($baseWidth);
+    width: percentage($baseWidth / 766px);
+    min-width: px-em(295px/400px * $baseWidth);
+
+    @media(min-width:px-em(981px)){
+      min-width: px-em(361px/400px * $baseWidth);
+    }
+
+    //tablets
+    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+      max-width: percentage(288px / 463px);
+      width: percentage(288px / 463px);
+      min-width: percentage(400px / 3532px);
+    }
+
+    //phones
+    @media( max-width: px-em(480px) ){
+      h1, h2, h3, h4, h5, h6 {
+        max-width: percentage(400px / 533px);
+      }
+      max-width: percentage(400px / 463px);
+      width: percentage(400px / 463px);
+      min-width: percentage(400px / 3532px);
+    }
+  }
+
   &.content-8 {
 
     max-width: px-em($baseWidth);
@@ -32,20 +60,30 @@
   }
 
   &.content-6 {
-    width: px-em($baseWidth);
 
-    //tablets
-    @media( min-width:px-em(600) ) and ( max-width:px-em(768px) ){
-      width: px-em(220px);
+    max-width: px-em($baseWidth);
+    width: percentage($baseWidth / 766px);
+    min-width: px-em(295px/400px * $baseWidth);
+
+    @media(min-width:px-em(981px)){
+      min-width: px-em(361px/400px * $baseWidth);
     }
 
-    @media( min-width:px-em(481px) ) and ( max-width:px-em(599) ){
-      width: px-em(190px);
+    //tablets
+    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+      max-width: 80%;
+      width: 80%;
+      min-width: 30%;
     }
 
     //phones
     @media( max-width: px-em(480px) ){
-      width: px-em(225px);
+      h1, h2, h3, h4, h5, h6 {
+        max-width: percentage(400px / 533px);
+      }
+      max-width: 80%;
+      width: 80%;
+      min-width: 30%;
     }
   }
 }
@@ -119,7 +157,7 @@
     @include transition(opacity $transitionFast ease-in);
     position: relative;
     display: block;
-    height: 350px;
+    height: 360px;
     opacity: 0;
 
     &.on {
@@ -188,6 +226,7 @@
       }
     }
 
+    &.content-12,
     &.content-8,
     &.content-6 {
       .counter,
@@ -197,6 +236,7 @@
 
         &[class*="align-left-"] {
 
+          &.content-12,
           &.content-8 {
             left: 6.2%;
           }
@@ -392,20 +432,6 @@
             }
           }
         }
-
-        @media/* (min-width:px-em(481px)) and  */(max-width:px-em(768px)){
-
-          h1,
-          h2,
-          h3,
-          h4,
-          h5,
-          h6 {
-            font-size:$font_22_16;
-          }
-
-
-        }
       }
 
 
@@ -435,6 +461,7 @@
       }
 
       &.headline-counter {
+        &.content-12,
         &.content-8 {
           .headline {
             margin-top: 0;
@@ -498,6 +525,7 @@
       }
 
       &.headline-copy-counter {
+        &.content-12,
         &.content-8 {
           .headline {
             margin-top:0px;
@@ -760,6 +788,10 @@
       &[class*="align-left-"],
       &[class*="align-right-"] {
 
+        &.content-12 {
+          @include onesonyTypeBlockWidths(400px);
+        }
+
         &.content-8 {
           @include onesonyTypeBlockWidths(400px);
         }
@@ -851,6 +883,7 @@
       //aLT
       &.align-left-top {
 
+        &.content-12,
         &.content-8 {
           top: 11%;
         }
@@ -955,6 +988,7 @@
       //aLB
       &.align-left-bottom {
 
+        &.content-12,
         &.content-8,
         &.content-6 {
           top: auto;
@@ -986,6 +1020,7 @@
       &.align-right-bottom {
         top: auto;
 
+        &.content-12,
         &.content-8 {
           top: auto;
           bottom: 8%;

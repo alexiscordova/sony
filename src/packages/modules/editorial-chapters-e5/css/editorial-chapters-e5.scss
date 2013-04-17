@@ -1,9 +1,6 @@
 @import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../../../common/css/_base/mixins";
 
-.gray {background:$gray80;} //remove these for production
-.dark {background:$gray10;} //remove these for production
-
 .editorial-chapters-container {
   .editorial-chapters {
     position: relative;
@@ -36,10 +33,10 @@
       left:3.75%;
 
       li {
-        padding:10px;
-        height:68px;
+        padding:10px 0;
+        height:48px;
         display: inline-block;
-        background:$gray80;
+        background:$white;
         color:$gray40;
         cursor:pointer;
         text-align:left;
@@ -47,11 +44,14 @@
         border:0;
         width:25%;
         vertical-align:bottom;
+        position:relative;
+        box-sizing:content-box;
+
+        & + li {margin-left:-1px;}
 
         &.active,
         &:hover {
           border-top:4px solid $linkBlue;
-          height:72px;
           color:$gray20;
           @include transition();
 
@@ -62,13 +62,15 @@
           @include ie7-inline-block();
         }
       }
+      &.chapters3 li {width:33.33%}
+      &.chapters2 li {width:50%;}
           img {
             position:relative;
             display:block;  
             height:48px;
             min-width:64px;
             float:left;
-            margin-right:10px;
+            margin:0 10px;
             @include transition();
             @include opacity(90);
           }
@@ -91,7 +93,7 @@
           }
     }
     &.gray .thumb-nav li {
-      background:$white;
+      background:$gray80;
     }
     &.dark .thumb-nav li {
       background:$gray20;
@@ -111,20 +113,22 @@
         top:30px;
 
         li {
-          vertical-align:top;
-
+          vertical-align: top;
           &.active,
           &:hover {
             border-top:0;
             border-bottom:4px solid $linkBlue;
-            height:76px;
           }
         }
       }
     }
+    &.thumb-mode .thumb-nav {
+      i {display:none;}
+    }
     &.icon-mode .thumb-nav {
-      li {padding-left:20px; padding-right:20px;}
         img {display:none;}
+        i {margin-left:24px; margin-right:10px;}
+        span {margin-right:20px;}
     }
     &.offset-nav {
       .thumb-nav {
@@ -143,72 +147,55 @@
       &.gray .thumb-nav {background:$white;}
       &.dark .thumb-nav {background:$gray20;}
     }
+    &.text-mode .thumb-nav {
+      img, i {display:none;}
+      span {margin:0 24px;}
+    }
 }
-.span4 .editorial-chapters-container,
-.span5 .editorial-chapters-container,
-.span6 .editorial-chapters-container {
-  &.thumb-mode {
-    .thumb-nav {
-      height:84px;
-
-      li {
-        width:auto;
-        padding:8px;
-        height:84px;
-
-        &.active,
-        &:hover {
-          height:88px;
-          margin-top:-4px;
+.span4,
+.span5,
+.span6 {
+  .editorial-chapters-container {
+    &.thumb-mode {
+      .thumb-nav {
+        li {
+          width:auto;
+          padding:8px 0;
+          height:66px;
         }
+          img {margin:0 8px;}
+          i, span {display:none;}
       }
-        img {margin-right:0;}
-        i, span {display:none;}
     }
-  }
-  &.icon-mode {
-    .thumb-nav {
-      height:50px;
-
-      li {
-        width:auto;
-        height:50px;
-        padding-left:15px;
-        padding-right:15px;
-
-        &.active,
-        &:hover {height:54px;}
-      }
-        img, span {display:none;}
-        i {
-          top:4px;
-          margin-right:0;
+    &.icon-mode {
+      .thumb-nav {
+        li {
+          width:auto;
+          height:30px;
         }
-    }
-  } 
-  &.text-mode {
-    .thumb-nav {
-      height:44px;
-
-      li {
-        line-height:14px;
-        padding:15px;
-        height:44px;
-
-        &.active,
-        &:hover {
-          height:48px;
-          margin-top:-4px;
-        }
+          img, span {display:none;}
+          i {
+            top:4px;
+            margin:0 15px;
+          }
       }
-        img, i {display:none;}
-        span {
+    } 
+    &.text-mode {
+      .thumb-nav {
+        li {
+          line-height:14px;
+          padding:15px 0;
           height:14px;
-          display:block;
-          overflow:hidden;
         }
-        .oneLine,
-        .twoLine {top:0;}
+          span {
+            height:14px;
+            display:block;
+            overflow:hidden;
+            margin:0 15px;
+          }
+          .oneLine,
+          .twoLine {top:0;}
+      }
     }
   }
 }
