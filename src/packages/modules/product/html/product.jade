@@ -20,7 +20,7 @@ include ../../../common/html/jade-helpers.jade
 //-   <dd>definition</dd>
 //- </dl>
 mixin definitionList( list, isHorizontal )
-  - isHorizontal = isHorizontal || false
+  - isHorizontal = isHorizontal ? isHorizontal : false
   - clss = isHorizontal ? 'dl-horizontal' : null
   dl(class=clss)
     each li in list
@@ -35,7 +35,7 @@ mixin definitionList( list, isHorizontal )
 //- A simple unstyled ul
 mixin specList( list, extraClasses )
   - classes = 'unstyled spec-list'
-  - extraClasses = extraClasses || false
+  - extraClasses = extraClasses ? extraClasses : false
   - if ( extraClasses ) classes += ' ' + extraClasses
   ul(class=classes)
     each li in list
@@ -176,27 +176,6 @@ mixin basicGalleryItem( layout, priority, href )
       block
 
 
-mixin shareMenu( socialButtons, shortLink, addCloseButton )
-  //- Default to false
-  addCloseButton = addCloseButton === true
-
-  ul.dropdown-menu.dropdown-menu-alt.share-menu.pull-right(role="menu")
-    if addCloseButton
-      button.box-close.box-close-small(data-dismiss="modal", aria-hidden="true")
-        i.fonticon-10-x
-    each social in socialButtons
-      li
-        a(href=social.link)
-          span.social-icon(class=social.id + '-background-color')
-            i(class=social.icon)
-          span.social-label.p3= social.label
-    li.input-holder
-      span.link-icon.ghost-center-wrap.js-no-close
-        i.fonticon-10-link.ghost-center.js-no-close
-      input.p4(type="text", value=shortLink)
-
-
-
 if data.view == 'basic'
   +basicGalleryItem( data.layout, data.priority, data.href )
     .gallery-item-inner
@@ -292,12 +271,14 @@ if data.view == 'basic'
 
 else if data.view == 'detailed'
   filterSet = JSON.stringify( data.filterSet )
-  a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
+  type = data.includeType ? data.type : false
+
+  a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, data-type=type, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
     .gallery-item-inner
       .product-img
         if data.label
           span.label.label-success= data.label
-        - hasExtraColors = data.img.colors && data.img.colors.length > 1
+        - hasExtraColors = data.img && data.img.colors && data.img.colors.length > 1
         - classes = 'product-img-wrap ghost-center-wrap js-product-imgs'
         - if ( !hasExtraColors ) classes += ' no-swatches'
         div(class=classes)
@@ -755,6 +736,23 @@ else if data.view == 'compatibility'
           .product-total.p3
             strong.total= data.totalAccessories
             | !{ accessories }
+
+
+else if data.view = 'recommended'
+  startingAtText = 'Starting at'
+  msrp = 'MSRP'
+
+  .pull-left.js-even-cols
+    +iQImage( data.imgSmall, 'media-object' )
+  .media-body.ghost-center-wrap.js-even-cols
+    .ghost-center
+      h4.p3.media-heading= data.name
+      p.p5.price-prefix= startingAtText
+      p
+        span.p3.price
+          strong= '$' + data.price + '&nbsp;'
+        span.l4-light.msrp= msrp
+        +heart()
 
 
 else

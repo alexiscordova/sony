@@ -50,6 +50,14 @@ define(function(require){
                     return 0;
                 }
 
+                if ( valA === 'sortFirst' || valB === 'sortLast' ) {
+                    return -1;
+                }
+
+                if ( valA === 'sortLast' || valB === 'sortFirst' ) {
+                    return 1;
+                }
+
                 return (valA < valB) ? -1 :
                     (valA > valB) ? 1 : 0;
             });
