@@ -411,6 +411,20 @@ define(function(require){
 
       // Call shuffle
       self.shuffle.shuffle( method );
+
+      self.updateProductCount();
+    },
+
+    updateProductCount : function() {
+      var self = this,
+          count = self.shuffle ? self.shuffle.visibleItems : self.$items.length;
+
+      // The recommended gallery tile is actually a gallery item
+      if ( self.hasRecommendedTile ) {
+        count -= 1;
+      }
+
+      self.$productCount.text( count );
     },
 
     // From the element's data-* attributes, test to see if it passes
@@ -1054,7 +1068,6 @@ define(function(require){
 
     initSorting : function() {
       var self = this,
-          count = self.$items.length,
           method;
 
       // Show first dropdown as active
@@ -1077,12 +1090,7 @@ define(function(require){
       self.$sortSelect.on( 'change', method );
 
       if ( !self.hasFilters ) {
-
-        // The recommended gallery tile is actually a gallery item
-        if ( self.hasRecommendedTile ) {
-          count -= 1;
-        }
-        self.$productCount.text( count );
+        self.updateProductCount();
       }
 
       // Firefox's and IE's <select> menu is hard to style...
@@ -1110,7 +1118,7 @@ define(function(require){
           self.shuffle.sequentialFadeDelay = 60;
 
           // Show new product count
-          self.$productCount.text( self.$grid.data('shuffle').visibleItems );
+          self.updateProductCount();
 
           // Initialize swatches and tooltips for ajax content
           self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
@@ -1273,6 +1281,8 @@ define(function(require){
       // Save this
       self.$recommendedTitleBar = self.$recommendedTile.find( '.recommended-title' );
 
+      // Highjacking the rest of this function because only favorited galleries have a recommended tile
+
       // Show alert if the user is not logged in
       if ( !Settings.isLoggedIn ) {
         setTimeout(function() {
@@ -1283,6 +1293,8 @@ define(function(require){
       } else {
         $('.alert').remove();
       }
+
+      Utilities.autoSelectInputOnFocus( self.$container.find( '.share-options input' ) );
     },
 
     initCarousels : function() {
@@ -1471,7 +1483,7 @@ define(function(require){
       self.secondLastFilterGroup = lastFilterGroup;
 
       // Update product count
-      self.$productCount.text( $visible.length );
+      self.updateProductCount();
 
       // Release for IE
       $visible = null;
@@ -2338,13 +2350,17 @@ define(function(require){
     },
 
     moveSorter : function() {
-      var self = this;
+      var self = this,
+          $sorter,
+          $container,
+          $grid,
+          $shares;
 
       if ( Modernizr.mq('(max-width: 47.9375em)') ) {
         if ( !self.hasSorterMoved ) {
-          var $sorter = self.$sortOpts.detach(),
-              $container = $('<div/>', { 'class' : 'container', id: 'sort-options-holder' } ),
-              $grid = $('<div/>', { 'class' : 'grid' } );
+          $sorter = self.$sortOpts.detach();
+          $container = $('<div/>', { 'class' : 'container', id: 'sort-options-holder' } );
+          $grid = $('<div/>', { 'class' : 'grid' } );
 
           $grid.append( $sorter );
           $container.append( $grid );
@@ -2362,7 +2378,14 @@ define(function(require){
         }
       } else {
         if ( self.hasSorterMoved ) {
-          self.$sortOpts.detach().appendTo( self.$container.find('.slide-toggle-parent .grid') );
+          $sorter = self.$sortOpts.detach();
+          $shares = self.$container.find( '.share-options' );
+
+          if ( $shares.length ) {
+            $sorter.insertAfter( $shares );
+          } else {
+            $sorter.appendTo( self.$container.find('.slide-toggle-parent .grid') );
+          }
           self.$container.find('#sort-options-holder').remove();
           self.hasSorterMoved = false;
         }

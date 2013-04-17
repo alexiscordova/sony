@@ -180,6 +180,40 @@ $gifHeight: 60px;
   }
 }
 
+.gallery-favorites {
+
+  .share-options {
+    position: relative;
+    margin-top: px-em( 6 );
+
+    .spacer {
+      display: inline-block;
+      margin-right: px-em( 10 );
+      margin-left: px-em( 6 );
+      color: $gray50;
+    }
+
+    i.fonticon-10-sm-bold-plus {
+      padding-left: 5px;
+      color: $gray50;
+    }
+
+    &:hover i.fonticon-10-sm-bold-plus {
+      color: $gray20;
+    }
+  }
+
+  .options-wrap .sort-options,
+  .options-wrap .share-options,
+  .share-trigger {
+    display: inline-block;
+  }
+
+  .options-wrap .sort-options {
+    float: none;
+  }
+}
+
 // Recommended Tile
 // -------------------------
 .gallery-item.recommended-tile {
@@ -308,6 +342,7 @@ $gifHeight: 60px;
 
   .btn {
     margin-bottom: 0;
+    // float: left;
   }
 
   .product-count-wrap {
@@ -540,6 +575,7 @@ $gifHeight: 60px;
   display: inline-block;
   vertical-align: baseline;
   padding-right: 8px; // has a font-size set on it
+  margin: 0;
 }
 
 // Setting a min height on this will push the trigger point for infinite scroll down
