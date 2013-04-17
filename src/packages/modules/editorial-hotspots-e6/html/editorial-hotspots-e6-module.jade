@@ -6,7 +6,8 @@ mixin hotspotCore(hotspotData, assets)
   .hspot-outer(data-x=hotspotData.coords[0],data-y=hotspotData.coords[1],style="display:none;").hidden
     .hspot-core
       .hspot-indicator
-        img(src=assets.indicator);
+        //-img(src=assets.indicator);
+        i.fonticon-10-plus-skinny(aria-hidden="true")
     case size
       when "large"
         .overlay-base.variant1.hidden 
