@@ -16,7 +16,7 @@ $maximumChildren: 10;
       width: 100%;
       height: percentage(40 / 345);
       padding: 0 16px;
-      background: $gray20;
+      background-color: $gray20;
 
       h3 {
         color: $white;
@@ -27,6 +27,7 @@ $maximumChildren: 10;
 
         .pagination-bullets {
           position: relative;
+          top: -3px;
           text-align: right;
         }
       }
@@ -36,13 +37,43 @@ $maximumChildren: 10;
   .whats-new-carousel {
     position: relative;
     width: $maximumChildren * 100%;
-    height: percentage(305 / 345);
+    height: percentage(305 / 345 + 0.01);
 
     .whats-new-carousel-slide {
       position: relative;
       width: (100% / $maximumChildren);
       height: 100%;
       float: left;
+
+      .st-image {
+        background-color: $gray80;
+        background-position: center top;
+      }
+    }
+  }
+}
+
+.whats-new-carousel {
+
+  .whats-new-carousel-slide {
+
+    .st-image {
+
+      .span4 & {
+        background-size: auto 63%;
+        background-position: center top;
+      }
+
+      .span6 & {
+        background-size: auto 75%;
+        background-position: center -12px;
+      }
+
+      .span8 &,
+      .span12 & {
+        background-size: auto 89%;
+        background-position: center -24px;
+      }
     }
   }
 }
