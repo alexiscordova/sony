@@ -6,15 +6,10 @@ if data.config.title
     .grid
       h2.l1 #{data.config.title}
 
-if data.slides[0].length == 3
-  - noGridClass = "no-grid-at-767"
-else
-  - noGridClass = "no-grid-at-479"
-
 .whats-new-tout.secondary-tout
   .st-container
     .st-container-inner.container
       for slide in data.slides
-        .st-content.slimgrid(class=noGridClass)
+        .st-content.slimgrid.no-grid-at-767
           e = {"locals":locals, "content": slide}
           !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4.jade', e)}
