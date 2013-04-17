@@ -1224,9 +1224,13 @@
 
   , setContent: function () {
       var $tip = this.tip()
+        , $inner = $tip.find('.tooltip-inner')
         , title = this.getTitle()
 
-      $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
+      if ( this.options.html ) {
+        $inner.empty();
+      }
+      $inner[ this.options.html ? 'html' : 'text' ]( title )
       $tip.removeClass('fade in top bottom left right offsettop offsetright')
     }
 
@@ -1239,17 +1243,22 @@
       function removeWithAnimation() {
         that.removeTipTimeout = setTimeout(function () {
           $tip.off($.support.transition.end).remove()
+          $tip = null
         }, 500)
 
         $tip.one($.support.transition.end, function () {
           clearTimeout(that.removeTipTimeout)
           $tip.remove()
+          $tip = null
         })
       }
 
-      $.support.transition && this.$tip.hasClass('fade') ?
-        removeWithAnimation() :
+      if ( $.support.transition && this.$tip.hasClass('fade') ) {
+        removeWithAnimation()
+      } else {
         $tip.remove()
+        $tip = null
+      }
 
       return this
     }
