@@ -1124,6 +1124,7 @@
   , enter: function (e) {
       var self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
+      clearTimeout( this.removeTipTimeout )
       if (!self.options.delay || !self.options.delay.show) return self.show()
 
       clearTimeout(this.timeout)
@@ -1236,12 +1237,12 @@
       $tip.removeClass('in')
 
       function removeWithAnimation() {
-        var timeout = setTimeout(function () {
+        that.removeTipTimeout = setTimeout(function () {
           $tip.off($.support.transition.end).remove()
         }, 500)
 
         $tip.one($.support.transition.end, function () {
-          clearTimeout(timeout)
+          clearTimeout(that.removeTipTimeout)
           $tip.remove()
         })
       }
