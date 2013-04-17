@@ -1,6 +1,6 @@
 This is the static manifest file for the Gallery, to be included in the Sony Global.
 
-The gallery has two different modes: "Editorial" is a curated, masonic grid of products. "Detailed" is a more detailed grid layout that can be filtered and sorted, use infinite scrolling and/or use the compare tool.
+The gallery has three different modes: "Editorial" is a curated, masonic grid of products. "Detailed" is a more detailed grid layout that can be filtered and sorted, use infinite scrolling. The third is "compare", in which the products are displayed in large columns inside a carousel with sticky headers, filtering, sorting, and more.
 
 
 
@@ -197,3 +197,16 @@ For a product to be in a featured gallery, it must have a property in its JSON c
 For a product to show up in the detailed gallery, its `type` must match the given `type` parameter in `detailedGallery()` mixin. Also, it will be skipped if it has `promo: true`.
 
 For a product to show up in the product strip tab, its `type` must match the given `type` parameter in `productStrips()` mixin, its `subtype` property must also match the `subtype` in the json data file. Up to 5 products will be displayed in the strip, after that, they don't get generated.
+
+
+## Accessory Finder
+
+
+## Recommended Tile
+
+
+## Favorites
+
+
+## Lastly
+I am sorry you just inherited > 3000 lines of javascript, > 2800 lines of scss, and 1500 lines of jade for a single module. Can you say feature creep?

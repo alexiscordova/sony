@@ -23,7 +23,7 @@ mixin iQImage( img, extraClasses, itemprop )
   //- Stop the build process from breaking on undefined images
   //- Hopefully you'll be able to find your broken image on the page!
   if !img
-    p(style="color:red;") Missing Image Data!
+    p.l3(style="color:red;") Missing image data!
   else
     - classes = 'iq-img'
     - extraClasses = extraClasses || false
@@ -35,6 +35,7 @@ mixin iQImage( img, extraClasses, itemprop )
 
 
 //-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps
+//- +1 to dump it - gc
 
 //- hgobject is an object with potential h# items and their text values
 //- for instance {"h2": "this is a h2", "h3": "this is a h3" }
@@ -63,3 +64,25 @@ mixin hgroup (hgobject, h1class, h2class, h3class, h4class, h5class, h6class)
       h5(class= h5class) !{hgobject.h5}
     if hgobject.h6
       h6(class= h6class) !{hgobject.h6}
+
+
+//- To be used with bootstrap's dropdown
+mixin shareMenu( socialButtons, shortLink, addCloseButton )
+  //- Default to false
+  addCloseButton = addCloseButton === true
+
+  ul.dropdown-menu.dropdown-menu-alt.share-menu.pull-right(role="menu")
+    if addCloseButton
+      button.box-close.box-close-small(data-dismiss="modal", aria-hidden="true")
+        i.fonticon-10-x
+    each social in socialButtons
+      li
+        a(href=social.link)
+          span.social-icon(class=social.id + '-background-color')
+            i(class=social.icon)
+          span.social-label.p3= social.label
+    li.input-holder
+      span.link-icon.ghost-center-wrap.js-no-close
+        i.fonticon-10-link.ghost-center.js-no-close
+      input.p4(type="text", value=shortLink)
+
