@@ -44,15 +44,13 @@ define(function(require){
 
     self.$images.addClass('iq-img');
 
-    // If this is a no-grid at 767, the JS manipulation below is not necessary.
-
-    if ( !self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){
+    if ( self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){
 
       enquire.register("(min-width: 768px)", function() {
         self.renderDesktop();
       });
       enquire.register("(max-width: 767px)", function() {
-        self.renderEvenColumns(6);
+        self.renderEvenColumns(12);
       });
 
     } else {

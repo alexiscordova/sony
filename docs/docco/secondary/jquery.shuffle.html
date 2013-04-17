@@ -46,6 +46,14 @@ If we don't have opts.by, default to DOM order</p>             </td>            
                     <span class="keyword">return</span> <span class="number">0</span>;
                 }
 
+                <span class="keyword">if</span> ( valA === <span class="string">'sortFirst'</span> || valB === <span class="string">'sortLast'</span> ) {
+                    <span class="keyword">return</span> -<span class="number">1</span>;
+                }
+
+                <span class="keyword">if</span> ( valA === <span class="string">'sortLast'</span> || valB === <span class="string">'sortFirst'</span> ) {
+                    <span class="keyword">return</span> <span class="number">1</span>;
+                }
+
                 <span class="keyword">return</span> (valA &lt; valB) ? -<span class="number">1</span> :
                     (valA &gt; valB) ? <span class="number">1</span> : <span class="number">0</span>;
             });

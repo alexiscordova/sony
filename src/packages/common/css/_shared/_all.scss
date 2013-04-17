@@ -181,6 +181,15 @@ $oneByOneImgPadding: 107.84313725490196%;
     height: 17.25em; // 276
   }
 
+  .lt-ie9 &.concealed {
+    height: 0;
+    min-height: 0;
+
+    &:after {
+      content: none;
+    }
+  }
+
   // Make them a bit bigger
   .shuffle-6 &:after {
     padding-top: 169.396078%;
@@ -561,13 +570,17 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .quote {
     float: right;
+    width: 50%;
     height: 100%;
     height: -webkit-calc( 100% - 18px );
     height: calc( 100% - 18px );
-    // Why is this relative to the whole .gallery-item???
-    // margin-top: 12%;
     padding-right: 5%;
     text-align: left;
+
+    .lt-ie8 & {
+      width: 45%;
+      margin-top: 30px;
+    }
   }
 
   figcaption {

@@ -5,9 +5,6 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-
-
-
 // -----------------------------------------
 // DEFAULT: 980px - 1199px;
 // -----------------------------------------
@@ -25,6 +22,8 @@
 // -----------------------------------------
 // END 980px-1199px Default
 
+ $slideHeightDesktop:340px;
+
 .uxmc {
   margin-bottom: 2em;
 
@@ -37,8 +36,7 @@
 
 .uxmc-container {
   position: relative;
-  // height: px-em(340px);
-  height: 340px;
+  height:$slideHeightDesktop;
   background-color: #ccc;
   overflow: hidden;
 
@@ -99,8 +97,7 @@
     z-index: 2;
     float: left;
     width: 50%;
-    // height: px-em(340px);
-    height: 340px;
+    height: $slideHeightDesktop;
 
     div.iq-img {
       background-size: cover;
@@ -112,32 +109,34 @@
   }
 
   .partner-products {
+    background-color:transparent;
     position: relative;
-    z-index: 1;
+    z-index: 2;
     float: right;
     margin: 0;
     width: 50%;
-    // height: px-em(340px);
-    height: 340px;
+    height: $slideHeightDesktop;
 
     .lt-ie8 & {
       width: 49.5%;
     }
 
     li {
+      background-color:transparent;
       cursor:pointer;
-      position: relative;
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
+      height: $slideHeightDesktop;
+      z-index: 2;
+      opacity:0;
+      @include transition(opacity .15s $easeOutNav);
 
-      &.theme-watch { background-color: $themeRed; }
-      &.theme-listen { background-color: $themePurple; }
-      &.theme-play { background-color: $themeBlueLight; }
-      &.theme-discover { background-color: $themeGreen; }
-      &.theme-create { background-color: $themeOrange; }
-      &.theme-connect { background-color: $themeBlueDark; }
+      &.active{
+        @include transition(opacity 1s $easeOutNav);
+        opacity: 1;
+      }
 
       div.iq-img {
         left: 10%;
@@ -152,17 +151,44 @@
     }
   }
 
+  .partner-products-backgrounds {
+    position: absolute;
+    top:0;
+    right:0;
+    z-index: 1;
+    margin: 0;
+    width: 50%;
+    height: $slideHeightDesktop;
+
+    .lt-ie8 & {
+      width: 49.5%;
+    }
+
+    li {
+      cursor:pointer;
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: $slideHeightDesktop;
+
+      &.theme-watch { background-color: $themeRed; }
+      &.theme-listen { background-color: $themePurple; }
+      &.theme-play { background-color: $themeBlueLight; }
+      &.theme-discover { background-color: $themeGreen; }
+      &.theme-create { background-color: $themeOrange; }
+      &.theme-connect { background-color: $themeBlueDark; }
+    }
+  }
+
+
   .btn-reload-container{
-    // border:1px solid red;
     position: absolute;
     left: 50%;
     top: 50%;
     z-index: 3;
-    // margin: -0.5em 0 0 -0.5em;
     margin: px-em(-64px/2) 0 0 px-em(-64px/2);
-    padding: px-em(7px);
-    // width: 1em;
-    // height: 1em;
+    padding: 10px px-em(7px) 2px; 
     background-color: #fff;
     overflow: hidden;
     text-align: center;
@@ -180,32 +206,12 @@
   } // btn-reload-container
 
   .btn-reload {
-    // border:1px solid blue;
-    // position: absolute;
-    // left: 50%;
-    // top: 50%;
-    // z-index: 3;
-    // margin: -0.5em 0 0 -0.5em;
-    // padding: px-em(5px);
     margin:0;
     padding:0;
     width: 1em;
     height: 1em;
-    // overflow: hidden;
     background-color: #fff;
     color: #ccc;
-    // font-size: 4.5em;
-    // text-align: center;
-
-    // .lt-ie8 & {
-    //   display: none;
-    // }
-
-    // &:before {
-    //   position: relative;
-    //   top: -0.03em;
-    //   left: 0.02em;
-    // }
 
     &.theme-watch { color: $themeRed; }
     &.theme-listen { color: $themePurple; }
