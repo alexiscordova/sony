@@ -4,7 +4,7 @@
 //
 // * **Class:** MarketingConvergenceModule
 // * **Version:** 0.2
-// * **Modified:** 04/16/2013
+// * **Modified:** 04/17/2013
 // * **Author:** George Pantazis, Telly Koosis
 // * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html)
 
@@ -47,8 +47,8 @@ define(function(require){
     self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
     self.$partnerCarousel = self.$el.find('.partner-products');
     self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
-    self.$partnerCarouselBackgrounds = self.$el.find('.partner-products-backgrounds'); // new idea
-    self.$partnerCarouselBgSlides = self.$partnerCarouselBackgrounds.find('li'); // new idea
+    self.$partnerCarouselBackgrounds = self.$el.find('.partner-products-backgrounds'); 
+    self.$partnerCarouselBgSlides = self.$partnerCarouselBackgrounds.find('li'); 
 
     // LISTEN
     Environment.on(self.debounceEvent, self.onResizeFunc);
@@ -81,8 +81,7 @@ define(function(require){
     // assumes mark-up particular markup
     setupSlideLinks : function(){
       var self = this;
-      self.$partnerCarouselBgSlides.bind("click",function(){ // new idea
-      // self.$partnerCarouselSlides.bind("click",function(){
+      self.$partnerCarouselBgSlides.bind("click",function(){
           var loc = $(this).find(".uxmc-link").attr("href"); // link location
           window.location = loc;
       });
@@ -184,8 +183,7 @@ define(function(require){
 
       var self = this;
 
-      // if ( self.currentPartnerProduct === self.$partnerCarouselSlides.length - 1 ) {
-      if ( self.currentPartnerProduct === self.$partnerCarouselBgSlides.length - 1 ) { // new idea
+      if ( self.currentPartnerProduct === self.$partnerCarouselBgSlides.length - 1 ) {
          self.gotoPartnerProduct(0);
       } else {
         self.gotoPartnerProduct(self.currentPartnerProduct + 1);
@@ -209,12 +207,10 @@ define(function(require){
       }
 
       self.currentPartnerProduct = which;
-      // $newSlide = self.$partnerCarouselSlides.eq(which);
-      $newSlide = self.$partnerCarouselBgSlides.eq(which); // new idea
+      $newSlide = self.$partnerCarouselBgSlides.eq(which);
 
       // animated only if there's more than one slide
-      // if ( self.$partnerCarousel.children().length > 1 ) {
-      if ( self.$partnerCarouselBackgrounds.children().length > 1 ) { // new idea
+      if ( self.$partnerCarouselBackgrounds.children().length > 1 ) {
 
         self.isAnimating = true;
 
@@ -223,8 +219,7 @@ define(function(require){
         self.$reloadButton.css('color', $newSlide.css('backgroundColor'));
 
         // animate the container ul
-        // self.$partnerCarousel.animate({
-        self.$partnerCarouselBackgrounds.animate({ // new idea
+        self.$partnerCarouselBackgrounds.animate({ 
           "top": newTop
         },{
           'duration': transitionTime,
@@ -256,14 +251,9 @@ define(function(require){
     calcuateNewTop : function(which){
       var self = this,
           slideHeight = 0,
-          index = which;
+          newTop = null,
+          isZero = (which === 0);
 
-      console.log( 'which »' , which);
-      console.log( 'self.atBreakpoint »' , self.atBreakpoint);
-
-      // if the first slide and desktop it's 0 
-      // otherwise it's the slide height (stacked)
-      // so prevent it from multiplying by zero
       switch (self.atBreakpoint) {
          case "tablet":
             slideHeight = 260;
@@ -276,15 +266,14 @@ define(function(require){
             break;
       }
 
-      if(which <= 0) {
-        if(self.atBreakpoint != "desktop"){
-          index = 1; // since non-desktop elements are stacked
-        }
+      if(self.atBreakpoint === "desktop"){
+        newTop = -(which*slideHeight) + "px";
+      }else{
+        // becuase elements are stacked
+        newTop = (slideHeight-(which*slideHeight)) + "px";
       }
 
-      console.log( 'newTop »' , -(index*slideHeight) + "px");
-
-      return -(index*slideHeight) + "px";
+      return newTop;
     },
 
     // Update the current progress indicator dial, reset others to zero, and timestamp the event.
