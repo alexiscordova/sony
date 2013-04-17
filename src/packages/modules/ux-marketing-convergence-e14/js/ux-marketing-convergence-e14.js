@@ -47,6 +47,8 @@ define(function(require){
     self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
     self.$partnerCarousel = self.$el.find('.partner-products');
     self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
+    self.$partnerCarouselBackgrounds = self.$el.find('.partner-products-backgrounds'); // new idea
+    self.$partnerCarouselBgSlides = self.$partnerCarouselBackgrounds.find('li'); // new idea
 
     // LISTEN
     Environment.on(self.debounceEvent, self.onResizeFunc);
@@ -79,7 +81,8 @@ define(function(require){
     // assumes mark-up particular markup
     setupSlideLinks : function(){
       var self = this;
-      self.$partnerCarouselSlides.bind("click",function(){
+      self.$partnerCarouselBgSlides.bind("click",function(){ // new idea
+      // self.$partnerCarouselSlides.bind("click",function(){
           var loc = $(this).find(".uxmc-link").attr("href"); // link location
           window.location = loc;
       });
@@ -181,7 +184,8 @@ define(function(require){
 
       var self = this;
 
-      if ( self.currentPartnerProduct === self.$partnerCarouselSlides.length - 1 ) {
+      // if ( self.currentPartnerProduct === self.$partnerCarouselSlides.length - 1 ) {
+      if ( self.currentPartnerProduct === self.$partnerCarouselBgSlides.length - 1 ) { // new idea
          self.gotoPartnerProduct(0);
       } else {
         self.gotoPartnerProduct(self.currentPartnerProduct + 1);
@@ -193,7 +197,6 @@ define(function(require){
     'gotoPartnerProduct': function(which) {
 
       var self = this,
-          isZero = (which === 0),
           transitionTime = self.transitionTime,
           $newSlide, newTop;
 
@@ -206,38 +209,61 @@ define(function(require){
       }
 
       self.currentPartnerProduct = which;
-      $newSlide = self.$partnerCarouselSlides.eq(which);
+      // $newSlide = self.$partnerCarouselSlides.eq(which);
+      $newSlide = self.$partnerCarouselBgSlides.eq(which); // new idea
 
       // animated only if there's more than one slide
-      if ( self.$partnerCarousel.children().length > 1 ) {
+      // if ( self.$partnerCarousel.children().length > 1 ) {
+      if ( self.$partnerCarouselBackgrounds.children().length > 1 ) { // new idea
 
         self.isAnimating = true;
-       
-        newTop = isZero ? "0px" : self.calcuateNewTop(which);
+
+        newTop = self.calcuateNewTop(which);
 
         self.$reloadButton.css('color', $newSlide.css('backgroundColor'));
 
         // animate the container ul
-        self.$partnerCarousel.animate({
+        // self.$partnerCarousel.animate({
+        self.$partnerCarouselBackgrounds.animate({ // new idea
           "top": newTop
-        }, {
+        },{
           'duration': transitionTime,
           'easing' : Settings.$easing.easeOutQuart,
           'complete': function() {
             self.isAnimating = false;
+            self.swapContent(which);
           }
         });
-
       }
 
       iQ.update();
       self.resetDials();
     },
 
+    swapContent : function(which){
+      var self = this;
+
+      // hide all slides
+      // then show active one
+      self.$partnerCarouselSlides
+        .removeClass("active")
+        .removeAttr("class")
+        .eq(which)
+        .addClass("active");
+    },
+
+
     calcuateNewTop : function(which){
       var self = this,
-          slideHeight = 0;
+          slideHeight = 0,
+          index = which;
 
+      console.log( 'which »' , which);
+      console.log( 'self.atBreakpoint »' , self.atBreakpoint);
+
+      // if the first slide and desktop it's 0 
+      // otherwise it's the slide height (stacked)
+      // so prevent it from multiplying by zero
       switch (self.atBreakpoint) {
          case "tablet":
             slideHeight = 260;
@@ -247,9 +273,18 @@ define(function(require){
             break;
          default:
             slideHeight = 340; // assumes desktop
+            break;
       }
 
-      return -(which*slideHeight) + "px";
+      if(which <= 0) {
+        if(self.atBreakpoint != "desktop"){
+          index = 1; // since non-desktop elements are stacked
+        }
+      }
+
+      console.log( 'newTop »' , -(index*slideHeight) + "px");
+
+      return -(index*slideHeight) + "px";
     },
 
     // Update the current progress indicator dial, reset others to zero, and timestamp the event.

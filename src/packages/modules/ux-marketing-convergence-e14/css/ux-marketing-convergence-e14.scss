@@ -108,10 +108,56 @@
     }
   }
 
+  
+  // new idea
   .partner-products {
+    background-color:transparent;
     position: relative;
-    z-index: 1;
+    z-index: 2;
     float: right;
+    margin: 0;
+    width: 50%;
+    height: $slideHeightDesktop;
+
+    .lt-ie8 & {
+      width: 49.5%;
+    }
+
+    li {
+      background-color:transparent;
+      cursor:pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: $slideHeightDesktop;
+      z-index: 2;
+      opacity:0;
+      @include transition(opacity .15s $easeOutNav);
+
+      &.active{
+        @include transition(opacity 1s $easeOutNav);
+        opacity: 1;
+      }
+
+      div.iq-img {
+        left: 10%;
+        width: 80%;
+        background-size: contain;
+      }
+
+      img.iq-img {
+        height: 100%;
+        width: auto;
+      }
+    }
+  }
+
+  .partner-products-backgrounds {
+    position: absolute;
+    top:0;
+    right:0;
+    z-index: 1;
     margin: 0;
     width: 50%;
     height: $slideHeightDesktop;
@@ -134,19 +180,56 @@
       &.theme-discover { background-color: $themeGreen; }
       &.theme-create { background-color: $themeOrange; }
       &.theme-connect { background-color: $themeBlueDark; }
-
-      div.iq-img {
-        left: 10%;
-        width: 80%;
-        background-size: contain;
-      }
-
-      img.iq-img {
-        height: 100%;
-        width: auto;
-      }
     }
   }
+
+
+
+
+
+  // new idea
+
+  // backup from new idea
+  // .partner-products {
+  //   position: relative;
+  //   z-index: 1;
+  //   float: right;
+  //   margin: 0;
+  //   width: 50%;
+  //   height: $slideHeightDesktop;
+
+  //   .lt-ie8 & {
+  //     width: 49.5%;
+  //   }
+
+  //   li {
+  //     cursor:pointer;
+  //     position: relative;
+  //     top: 0;
+  //     left: 0;
+  //     width: 100%;
+  //     height: $slideHeightDesktop;
+
+  //     &.theme-watch { background-color: $themeRed; }
+  //     &.theme-listen { background-color: $themePurple; }
+  //     &.theme-play { background-color: $themeBlueLight; }
+  //     &.theme-discover { background-color: $themeGreen; }
+  //     &.theme-create { background-color: $themeOrange; }
+  //     &.theme-connect { background-color: $themeBlueDark; }
+
+  //     div.iq-img {
+  //       left: 10%;
+  //       width: 80%;
+  //       background-size: contain;
+  //     }
+
+  //     img.iq-img {
+  //       height: 100%;
+  //       width: auto;
+  //     }
+  //   }
+  // }
+  // backup from new idea
 
   .btn-reload-container{
     position: absolute;
