@@ -534,9 +534,14 @@ module.exports = function(grunt) {
       mod = path.split('/')[2];
       arr.push({expand:true, cwd:path, src:['*.jade'], dest:'../build/'+ env, ext:'.html', flatten:true})
     });
+    grunt.config('htmlStartStamp', new Date());
+    grunt.registerTask('htmlCompleteTime', function(m){
+      console.log('Completed in ' + ((new Date()) - grunt.config('htmlStartStamp')) / 1000 + ' seconds.');
+    });
     grunt.config('jade.build_'+env+'.files', arr);
     grunt.task.run('jade:build_'+env);
-
+    grunt.task.run('htmlCompleteTime');
+    
   });
 
   grunt.registerTask('js', 'lint js/*.js files then minify and copy', function(module){
