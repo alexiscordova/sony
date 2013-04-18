@@ -314,6 +314,7 @@ $transitionSpeed: .5s;
 
 /*HOTSPOT DEFINITION*/
 .ehs {
+  /*LARGE HOTSPOTS*/
   .hspot-outer {
     position: absolute;
     top: 0;
@@ -367,6 +368,7 @@ $transitionSpeed: .5s;
         }
       }
     }
+    
     .hspot-core-on {
       position:absolute;
       width:46px;
@@ -406,6 +408,106 @@ $transitionSpeed: .5s;
       }
     }
   }
+  
+  /*SMALL HOTSPOTS*/
+  .hspot-outer.hspot-small {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: -20px;
+    left: -15px;
+    width: 46px;
+    height: 46px;
+    background: url('../../img/editorial-dual-viewer-e9/gray30.png');
+    cursor: pointer;
+    z-index: 1;
+    color: #fff;
+    @include border-radius(50%);
+    @include transition(.1s);
+    
+    .hspot-core {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background: $buttonOrange;
+      display: block;
+      text-align: center;
+      font-size: 0.9em;
+      top: 50%;
+      left: 50%;
+      margin: -16px 0 0 -16px;
+      @include border-radius(50%);
+      @include transition(.1s ease-out);
+      z-index: 1;
+      
+      .icons {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        margin: -14px 0 0 -50px;
+        
+        i {
+          display: inline-block;
+          margin: 0;
+          -webkit-font-smoothing: antialiased;
+          @include rotate(0deg);
+          @include transition(.1s ease-out);
+        }
+      }
+      &.hspot-hover-on {
+        @include scale(1.1);
+        background: $buttonOrangeHover;
+        
+        i {
+          margin:0 3px;
+        }
+      }
+    }
+    
+    .hspot-core-on {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background:$gray30;
+      display:block;
+      text-align:center;
+      font-size:0.9em;
+      top:50%;
+      left:50%;
+      margin: -16px 0 0 -16px;
+      @include border-radius(50%);
+      @include transition(.1s ease-out);
+      z-index: 1;
+      
+      .icons {
+        position:absolute;
+        top:50%;
+        left:50%;
+        width:100px;
+        margin: -14.5px 0 0 -49.5px;
+        
+        i {
+          display:inline-block;
+          margin:0;
+          -webkit-font-smoothing: antialiased;
+          @include rotate(45deg);
+          @include transition(.1s ease-out);
+        }
+      }
+      &.hspot-hover-on {
+        @include scale(1.1);
+        background:$gray40;
+        
+        i {
+          margin:0 3px;
+        }
+      }
+    }
+  }
+
+  
+  
 }
 
 /*
