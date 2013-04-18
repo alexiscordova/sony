@@ -55,7 +55,7 @@ define(function(require){
         }else{
           minh = Math.max(self.$el.find('.grid').css('min-height').replace(/[^-\d\.]/g, ''), self.$el.find('.media-element .table-center').children().first().height())+"px";
         }
-
+        
         self.$el.find('.grid, .grid > div').css('height', minh);
       },
 
@@ -94,7 +94,7 @@ define(function(require){
         self.col.removeClass(self.colspan);
         self.col.removeClass('offset1');
         self.collapsableTout.sonyCarousel({
-          wrapper: '.editorial.tout .container',
+          wrapper: '.editorial.tout .container, .editorial.full-tout .container',
           slides: '>div',
           useCSS3: true,
           paddles: false,
