@@ -280,20 +280,41 @@ define(function(require) {
                   adjustedY = ( percY * assetH ) / 100;
                
                   $( el ).css( "left", adjustedX );
-                  $( el ).css( "top", adjustedY );          
-              
+                  $( el ).css( "top", adjustedY );
             });
           }
         }
       }
     },
     
+    hover: function( el, self, flag ) {
+      log( 'hover' );
+      log( $( el ) );
+      switch(flag) {
+        case true:
+          $( el ).find( '.hspot-core, .hspot-core-on' ).removeClass( 'hspot-hover-off' ).addClass( 'hspot-hover-on' );
+        break;
+        case false:
+          $( el ).find( '.hspot-core, .hspot-core-on' ).removeClass( 'hspot-hover-on' ).addClass( 'hspot-hover-off' );
+        break;
+      }
+    },
+    
     bind: function( el ) {
       var self = this;
       // hotspot clicks
-      $($( el ).find( '.hspot-core' ) ).bind( 'click', function( event ) {
+      $( $( el ).find( '.hspot-core' ) ).bind( 'click', function( event ) {
         self.click( event, self );
       });
+      
+      $( $( el ).find( '.hspot-core' ) ).bind( 'mouseover', function( event ) {
+        self.hover( el, self, true );
+      });
+      
+      $( $( el ).find( '.hspot-core' ) ).bind( 'mouseout', function( event ) {
+        self.hover( el, self, false );
+      });
+      
     },
     
     place: function( el ) {

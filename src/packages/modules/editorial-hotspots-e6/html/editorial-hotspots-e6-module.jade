@@ -1,13 +1,17 @@
 include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('editorial-hotspots-e6')
 
-mixin hotspotCore(hotspotData, assets)
+mixin hotspotCore(hotspotData, assets, useSmall)
   size = hotspotData.size
-  .hspot-outer(data-x=hotspotData.coords[0],data-y=hotspotData.coords[1],style="display:none;").hidden
-    .hspot-core
-      .hspot-indicator
-        //-img(src=assets.indicator);
-        i.fonticon-10-plus-skinny(aria-hidden="true")
+  if useSmall
+    smallClass = "hspot-small"
+  else
+    smallClass = ""
+  span.hspot-outer(class=smallClass, data-x=hotspotData.coords[0], data-y=hotspotData.coords[1], style="display:none;").hidden
+    span.hspot-core
+      span.hspot-indicator
+        span.icons
+          i.fonticon-10-plus-skinny(aria-hidden="true")
     case size
       when "large"
         .overlay-base.variant1.hidden 
@@ -98,7 +102,7 @@ mixin hotspotCore(hotspotData, assets)
           .hspot-global-details-main.hidden
         .hspot-global-details-overlay.hidden.eh-transparent
         - for hotstpot in data.hotspots.items
-          +hotspotCore(hotstpot, assets)
+          +hotspotCore(hotstpot, assets, false)
 
     else
       .image-module.track-by-asset
@@ -109,5 +113,5 @@ mixin hotspotCore(hotspotData, assets)
         .hspot-global-details-main.hidden
       .hspot-global-details-overlay.hidden.eh-transparent
       - for hotstpot in data.hotspots.items
-        +hotspotCore(hotstpot, assets)
+        +hotspotCore(hotstpot, assets, true)
       

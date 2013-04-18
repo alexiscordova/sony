@@ -46,17 +46,21 @@ $transitionSpeed: .5s;
         -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
         box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
         margin-top: 1em;
+        
         .top {
           background-color: #fff;
         }
+        
         .middle {
           background-color: #fff;
           padding: 20px 30px 23px 20px;
           border-bottom: 1px solid #e4e7eb;
           position: relative;
+          
           .p4, .p3 {
             @include px-em--font-size--line-height(12,18);
             margin-bottom: 4px;
+            
             &.cHBI {
               margin-bottom: 0;
             }
@@ -65,17 +69,20 @@ $transitionSpeed: .5s;
         .footer {
           background-color: #fff;
           padding: 20px 30px 20px 20px;
+          
           p.p4, p.p3 {
             @include px-em--font-size--line-height(12,18);
             font-style: italic;
             color: $secondarySlateDark;
             margin-bottom: 9px;
           }
+          
           blockquote.l4, blockquote.l3 {
             color: $gray40;
             position: relative;
             margin-left: 24px;
             @include px-em--font-size--line-height(10,16);
+            
             &:before {
               display: block;
               content: "\201C";
@@ -92,10 +99,6 @@ $transitionSpeed: .5s;
           position: absolute;
           top: 0px;
           right: 0px;
-          /*
-          width: 27px;
-          height: 27px;
-          */
         }
       }
     }
@@ -129,6 +132,7 @@ $transitionSpeed: .5s;
       margin: 0px auto;
       width: 230px;
       background-color: #fff;
+      
       .overlay-close {
         position: relative;
         width: 230px;
@@ -136,17 +140,21 @@ $transitionSpeed: .5s;
         -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
         box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
         margin-top: 27px;
+        
         .top {
           background-color: #fff;
         }
+        
         .middle {
           background-color: #fff;
           padding: 20px 30px 23px 20px;
           border-bottom: 1px solid #e4e7eb;
           position: relative;
+          
           .p4, .p3 {
             @include px-em--font-size--line-height(12,18);
             margin-bottom: 4px;
+            
             &.cHBI {
               margin-bottom: 0;
             }
@@ -155,17 +163,20 @@ $transitionSpeed: .5s;
         .footer {
           background-color: #fff;
           padding: 20px 30px 20px 20px;
+          
           p.p4, p.p3 {
             @include px-em--font-size--line-height(12,18);
             font-style: italic;
             color: $secondarySlateDark;
             margin-bottom: 9px;
           }
+          
           blockquote.l4, blockquote.l3 {
             color: $gray40;
             position: relative;
             margin-left: 24px;
             @include px-em--font-size--line-height(10,16);
+            
             &:before {
               display: block;
               content: "\201C";
@@ -302,7 +313,102 @@ $transitionSpeed: .5s;
 
 
 /*HOTSPOT DEFINITION*/
+.ehs {
+  .hspot-outer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top:-43px;
+    left: -30px;
+    width: 62px;
+    height: 62px;
+    background:url('../../img/editorial-dual-viewer-e9/gray30.png');
+    cursor:pointer;
+    z-index: 1;
+    color: #fff;
+    @include border-radius(50%);
+    @include transition(.1s);
+    
+    .hspot-core {
+      position:absolute;
+      width:46px;
+      height:46px;
+      background:$buttonOrange;
+      display:block;
+      text-align:center;
+      font-size:0.9em;
+      top:50%;
+      left:50%;
+      margin:-23px 0 0 -23px;
+      @include border-radius(50%);
+      @include transition(.1s ease-out);
+      z-index: 1;
+      
+      .icons {
+        position:absolute;
+        top:50%;
+        left:50%;
+        width:100px;
+        margin:-14px 0 0 -50px;
+        
+        i {
+          display:inline-block;
+          margin:0;
+          -webkit-font-smoothing: antialiased;
+          @include rotate(0deg);
+          @include transition(.1s ease-out);
+        }
+      }
+      &.hspot-hover-on {
+        @include scale(1.1);
+        background:$buttonOrangeHover;
+        i {
+          margin:0 3px;
+        }
+      }
+    }
+    .hspot-core-on {
+      position:absolute;
+      width:46px;
+      height:46px;
+      background:$gray30;
+      display:block;
+      text-align:center;
+      font-size:0.9em;
+      top:50%;
+      left:50%;
+      margin:-23px 0 0 -23px;
+      @include border-radius(50%);
+      @include transition(.1s ease-out);
+      z-index: 1;
+      
+      .icons {
+        position:absolute;
+        top:50%;
+        left:50%;
+        width:100px;
+        margin:-14px 0 0 -50px;
+        
+        i {
+          display:inline-block;
+          margin:0;
+          -webkit-font-smoothing: antialiased;
+          @include rotate(45deg);
+          @include transition(.1s ease-out);
+        }
+      }
+      &.hspot-hover-on {
+        @include scale(1.1);
+        background:$gray40;
+        i {
+          margin:0 3px;
+        }
+      }
+    }
+  }
+}
 
+/*
 .hspot-outer {
   position: absolute;
   top: 0;
@@ -330,7 +436,11 @@ $transitionSpeed: .5s;
     transition:$indicatorRotateSpeed;
     transition-property: none;
     z-index: 1;
-    &:hover {
+
+    &.hspot-hover-off {
+      background-color: $buttonOrange;
+    }  
+    &.hspot-hover-on {
       background-color: $buttonOrangeHover;
     }
     .hspot-indicator {
@@ -345,6 +455,7 @@ $transitionSpeed: .5s;
       }
     }
   }
+
   .hspot-core-on {
     margin: $centerRatio;
     height: $innerDiameter;
@@ -361,9 +472,13 @@ $transitionSpeed: .5s;
     -webkit-transition: $indicatorRotateSpeed;
     transition: $indicatorRotateSpeed;
     transition-property: none;
-    -ms-transform: scale(1, 1);    
+    -ms-transform: scale(1, 1);
     z-index: 1;
-    &:hover {
+    
+    &.hspot-hover-off {
+      background-color: $gray40;
+    }
+    &.hspot-hover-on {
       background-color: $gray30;
     }
     .hspot-indicator {
@@ -379,6 +494,7 @@ $transitionSpeed: .5s;
     }
   }
 }
+*/
 
 /*DETAILS WINDOW*/
 
@@ -386,6 +502,7 @@ $transitionSpeed: .5s;
   z-index: 2;
   position: absolute;
   cursor: default;
+  
   .overlay-inner {
     height: 100%;
     background-color: #fff;
@@ -547,6 +664,31 @@ $transitionSpeed: .5s;
     }
   }
 }  
+
+/** IE **/
+
+.no-borderradius {
+  .ehs {
+    .hspot-instance .hspot-outer {
+      background:url('../../img/editorial-hotspots-e6/hotspot-indicator.png');
+
+      .hspot-core {visibility:hidden;}
+      .hspot-hover-on {
+        background-position:-62px 0;
+      }
+    }
+  }
+}
+
+// IE7
+.lt-ie8 {
+  .ehs {
+    .hspot-instance .hspot-outer {padding:0;}
+  }
+}
+
+
+
 
 /********* DEMO STUFFS **************/
 
