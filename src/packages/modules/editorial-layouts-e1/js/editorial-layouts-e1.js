@@ -94,7 +94,7 @@ define(function(require){
         self.col.removeClass(self.colspan);
         self.col.removeClass('offset1');
         self.collapsableTout.sonyCarousel({
-          wrapper: '.editorial.tout .container',
+          wrapper: '.editorial.tout .container, .editorial.full-tout .container',
           slides: '>div',
           useCSS3: true,
           paddles: false,
