@@ -61,6 +61,12 @@ or something similar; otherwise you'll retain a ton of references in memory that
 can't be garbage-collected.</p>
 
 <pre><code> $('#foo').sonyCarousel('destroy');
+</code></pre>
+
+<p>If you need to execute code at the end of an animation sequence, bind to the
+<code>SonyCarousel:AnimationComplete</code> event.</p>
+
+<pre><code> $('#foo').on('SonyCarousel:AnimationComplete', function(){...});
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
 define(<span class="keyword">function</span>(require){
 
@@ -102,6 +108,12 @@ define(<span class="keyword">function</span>(require){
       self.resetSlides();
       self.setupLinkClicks();
 
+      <span class="keyword">if</span> ( self.direction === <span class="string">'vertical'</span> ) {
+        self.posAttr = <span class="string">'top'</span>;
+      } <span class="keyword">else</span> {
+        self.posAttr = <span class="string">'left'</span>;
+      }
+
       <span class="keyword">if</span> ( self.draggable ) {
         self.setupDraggable();
       }
@@ -142,10 +154,15 @@ define(<span class="keyword">function</span>(require){
 
     setupDraggable: <span class="keyword">function</span>() {
 
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          axis = <span class="string">'x'</span>;
+
+      <span class="keyword">if</span> ( self.direction === <span class="string">'vertical'</span> ) {
+        axis = <span class="string">'y'</span>;
+      }
 
       self.$el.sonyDraggable({
-        <span class="string">'axis'</span>: self.axis,
+        <span class="string">'axis'</span>: axis,
         <span class="string">'unit'</span>: self.unit,
         <span class="string">'dragThreshold'</span>: self.dragThreshold,
         <span class="string">'containment'</span>: self.$wrapper,
@@ -195,12 +212,12 @@ reset position to the nearest one.</p>             </td>             <td class="
     getPositions: <span class="keyword">function</span>($slideSet) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          leftBounds = self.$wrapper.get(<span class="number">0</span>).getBoundingClientRect().left,
+          bounds = self.$wrapper.get(<span class="number">0</span>).getBoundingClientRect()[self.posAttr],
           positions = [],
           destination;
 
       $slideSet.each(<span class="keyword">function</span>(a){
-        positions.push(<span class="keyword">this</span>.getBoundingClientRect().left - leftBounds);
+        positions.push(<span class="keyword">this</span>.getBoundingClientRect()[self.posAttr] - bounds);
       });
 
       <span class="keyword">return</span> positions;
@@ -210,7 +227,6 @@ reset position to the nearest one.</p>             </td>             <td class="
     gotoNearestSlide: <span class="keyword">function</span>(e, data) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          leftBounds = self.$wrapper.get(<span class="number">0</span>).getBoundingClientRect().left,
           $slideSet = self.$allSlides || self.$slides,
           destination, positions;
 
@@ -232,7 +248,7 @@ TODO: This is getting to be confusing. Should split it into a few methods for re
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $slideSet = self.$slides,
           speed = ( noAnim ? <span class="number">0</span> : self.animationSpeed ),
-          $destinationSlide, destinationLeft, destinationRedirect, innerContainerWidth, repositionCb, newPosition;
+          $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
 
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Logic for the natural ends of a carousel that has been looped</p>             </td>             <td class="code">               <div class="highlight"><pre>
       <span class="keyword">if</span> ( self.looped &amp;&amp; ( which === -<span class="number">1</span> || which &gt;= self.$slides.length )) {
@@ -274,40 +290,74 @@ TODO: This is getting to be confusing. Should split it into a few methods for re
 
       <span class="keyword">if</span> ( $destinationSlide.length === <span class="number">0</span> ) { <span class="keyword">return</span>; }
 
-      destinationLeft = $destinationSlide.position().left;
-      innerContainerWidth = self.$el.width();
+      destinationPosition = $destinationSlide.position()[self.posAttr];
+
+      <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
+        innerContainerMeasurement = self.$el.width();
+      } <span class="keyword">else</span> {
+        innerContainerMeasurement = self.$el.height();
+      }
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>This exception is built specifically for carousels like the OSC (S2) module, which must
 respect the grid even though they aren't really in it. Refer to S2 for usage example;
 <code>sony-carousel-flex</code> is the required trigger class for that layout stategy.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       <span class="keyword">if</span> ( !Modernizr.jsautomargins ) {
         <span class="keyword">if</span> ( self.$el.hasClass(<span class="string">'sony-carousel-flex'</span>) ) {
-          destinationLeft -= ( innerContainerWidth -  $destinationSlide.width() ) / <span class="number">2</span>;
+
+          <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
+            destinationPosition -= ( innerContainerMeasurement -  $destinationSlide.width() ) / <span class="number">2</span>;
+          } <span class="keyword">else</span> {
+            destinationPosition -= ( innerContainerMeasurement -  $destinationSlide.height() ) / <span class="number">2</span>;
+          }
         }
       }
 
       <span class="keyword">if</span> ( self.useCSS3 ) {
 
-        newPosition = destinationLeft / innerContainerWidth;
+        newPosition = destinationPosition / innerContainerMeasurement;
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>If you're on the last slide, only move over enough to show the last child.
 Prevents excess whitespace on the right.</p>             </td>             <td class="code">               <div class="highlight"><pre>
         <span class="keyword">if</span> ( self.slideChildren &amp;&amp; which === $slideSet.length - <span class="number">1</span> ) {
-          <span class="keyword">var</span> childrenWidth = <span class="number">0</span>;
-          $destinationSlide.find(self.slideChildren).each(<span class="keyword">function</span>(){ childrenWidth += $(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>); });
-          newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;
+          <span class="keyword">var</span> childrenSumMeasurement = <span class="number">0</span>;
+
+          <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
+            $destinationSlide.find(self.slideChildren).each(<span class="keyword">function</span>(){ childrenSumMeasurement += $(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>); });
+            newPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
+          }
+
         }
 
+        self.$el.on(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>, <span class="keyword">function</span>(){
+          iQ.update(<span class="literal">true</span>);
+          self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
+          self.$el.off(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
+        });
+
         self.$el.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), speed + <span class="string">'ms'</span> );
-        self.$el.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + (-<span class="number">100</span> * newPosition + <span class="string">'%'</span>) + <span class="string">',0)'</span>);
+
+        <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
+          self.$el.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + (-<span class="number">100</span> * newPosition + <span class="string">'%'</span>) + <span class="string">', 0)'</span>);
+        } <span class="keyword">else</span> {
+          self.$el.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate(0, '</span> + (-<span class="number">100</span> * newPosition + <span class="string">'%'</span>) + <span class="string">')'</span>);
+        }
 
       } <span class="keyword">else</span> {
 
-        self.$el.animate({
-          <span class="string">'left'</span>: -<span class="number">100</span> * destinationLeft / self.$wrapper.width() + <span class="string">'%'</span>
-        }, {
+        <span class="keyword">var</span> props = {};
+
+        <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
+          props[self.posAttr] = -<span class="number">100</span> * destinationPosition / self.$wrapper.width() + <span class="string">'%'</span>;
+        } <span class="keyword">else</span> {
+          props[self.posAttr] = -<span class="number">100</span> * destinationPosition / self.$wrapper.height() + <span class="string">'%'</span>;
+        }
+
+        self.$el.animate(props, {
           <span class="string">'duration'</span>: speed,
-          <span class="string">'complete'</span>: <span class="keyword">function</span>(){ iQ.update(<span class="literal">true</span>); }
+          <span class="string">'complete'</span>: <span class="keyword">function</span>(){
+            iQ.update(<span class="literal">true</span>);
+            self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
+          }
         });
       }
 
@@ -502,7 +552,7 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Reset styles.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.css(Modernizr.prefixed(<span class="string">'transitionTimingFunction'</span>), <span class="string">''</span>)
           .css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">''</span> )
           .css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">''</span>)
-          .css(<span class="string">'left'</span>, <span class="string">''</span>);
+          .css(self.posAttr, <span class="string">''</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id);
       self.$el.off(<span class="string">'sonyDraggable:dragStart'</span>);
@@ -542,6 +592,8 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
 
 </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.sonyCarousel.defaults = {
+
+    direction: <span class="string">'horizontal'</span>,
 
 </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p><strong>Required</strong>: Selector for the <code>overflow:hidden;</code> element that wraps the draggable object.
 Accessed by .parent() method.</p>             </td>             <td class="code">               <div class="highlight"><pre>    wrapper: <span class="literal">undefined</span>,

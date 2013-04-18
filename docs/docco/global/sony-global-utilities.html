@@ -166,6 +166,19 @@ Care of <a href="http://underscorejs.org/underscore.js">Underscore</a>.</p>     
         func = <span class="literal">null</span>;
         <span class="keyword">return</span> memo;
       };
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>When you click inside the input, the text will be selected</p>             </td>             <td class="code">               <div class="highlight"><pre>    autoSelectInputOnFocus: <span class="keyword">function</span>( $input ) {
+      $input.on(<span class="string">'focus'</span>, <span class="keyword">function</span>() {
+        <span class="keyword">var</span> input = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>We use a timeout here because .select() will select everything,
+then the default browser action will deselect our selection</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>() {
+          input.select();
+        }, <span class="number">0</span>);
+      });
+
+      $input = <span class="literal">null</span>;
     }
   };
 

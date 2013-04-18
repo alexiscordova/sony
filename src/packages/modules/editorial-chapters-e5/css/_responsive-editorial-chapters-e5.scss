@@ -7,26 +7,29 @@
 @mixin compact-thumb-nav {
   &.thumb-mode {
     .thumb-nav {
-      height:84px;
+      height:58px;
 
       li {
         width:auto;
-        padding:8px;
-        height:84px;
+        padding:8px 0;
+        height:42px;
 
         &.active,
         &:hover {
-          height:88px;
           margin-top:-4px;
         }
       }
         img {
-          width:90px;
-          height:68px;
-          margin-right:0;
+          width:55px;
+          height:42px;
+          margin:0 5px;
         }
         i, span {display:none;}
     }
+  }
+  &.top-nav.thumb-mode li {
+    &.active,
+    &:hover {margin-top:0;}
   }
   &.icon-mode {
     .thumb-nav {
@@ -34,17 +37,15 @@
 
       li {
         width:auto;
-        height:50px;
-        padding-left:15px;
-        padding-right:15px;
+        height:30px;
 
         &.active,
-        &:hover {height:54px;}
+        &:hover {margin-top:-4px;}
       }
         img, span {display:none;}
         i {
           top:4px;
-          margin-right:0;
+          margin:0 15px;
         }
     }
   } 
@@ -54,20 +55,16 @@
 
       li {
         line-height:14px;
-        padding:15px;
-        height:44px;
-
-        &.active,
-        &:hover {
-          height:48px;
-          margin-top:-4px;
-        }
+        padding:15px 0;
+        height:14px;
+        width:auto;
       }
         img, i {display:none;}
         span {
           height:14px;
           display:block;
           overflow:hidden;
+          margin:0 15px;
         }
         .oneLine,
         .twoLine {top:0;}
@@ -75,35 +72,47 @@
   }
 }
 
-@media (max-width: 1468px) {
+// Set mobile view for any container under 768 pixels
+.span4,
+.span5,
+.span6,
+.span7 {
+  .editorial-chapters-container{
+    @include compact-thumb-nav;
+  }
+}
 
-  .span7 .editorial-chapters-container,
+@media (max-width: 1379px) {
   .span8 .editorial-chapters-container{
     @include compact-thumb-nav;
   }
-
-} // END max-width: 1468px
+}
 
 @media (max-width: 767px) {
 
   .editorial-chapters-container {
     @include compact-thumb-nav;
+
+    &.top-nav.overlay-nav .thumb-nav {top:20px;}
+    &.bottom-nav.overlay-nav .thumb-nav {bottom:20px;}
   }
 
-  .container > .editorial-chapters-container,
-  .span12 > .editorial-chapters-container {
-    .thumb-nav {
-      bottom:0;
-      width:100%;
-      left:0;
+  .container,
+  .span12 {
+    & > .editorial-chapters-container {
+      .thumb-nav {
+        bottom:0 !important;
+        width:100%;
+        left:0;
+      }
+      &.dark .thumb-nav {background:$gray20;}
+      &.gray .thumb-nav {background:$gray80;}
+      &.white .thumb-nav {background:$white;}
+      &.top-nav .thumb-nav {
+        bottom:auto;
+        top:0;
+      }
     }
-    &.top-nav .thumb-nav {
-      bottom:auto;
-      top:0;
-    }
-    &.white .thumb-nav {background:$gray80;}
-    &.gray .thumb-nav {background:$white;}
-    &.dark .thumb-nav {background:$gray20;}
   }
 
 } // END max-width: 767px

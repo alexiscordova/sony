@@ -18,6 +18,7 @@ define(function(require) {
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
+      Utilities = require('require/sony-global-utilities'),
       sonyStickyNav = require('secondary/index').sonyStickyNav,
       jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
@@ -113,15 +114,7 @@ define(function(require) {
 
       // Setup that can be deferred
       setTimeout(function() {
-        self.$shareLink.on('focus', function() {
-          var input = this;
-
-          // We use a timeout here because .select() will select everything,
-          // then the default browser action will deselect our selection
-          setTimeout(function() {
-            input.select();
-          }, 0);
-        });
+        Utilities.autoSelectInputOnFocus( self.$shareLink );
 
         // Init sticky nav
         self.$stickyNav.stickyNav({

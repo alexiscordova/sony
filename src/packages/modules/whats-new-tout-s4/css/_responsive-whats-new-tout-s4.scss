@@ -25,12 +25,27 @@
   .whats-new-carousel-wrapper {
 
     header {
-      height: percentage(50 / 296);
+      height: percentage(38 / 296);
     }
   }
 
   .whats-new-carousel {
-    height: percentage((296 - 50) / 296);
+    height: percentage((296 - 38) / 296 + 0.01);
+  }
+}
+
+.whats-new-carousel {
+
+  .whats-new-carousel-slide {
+
+    .st-image {
+
+      .span4 &,
+      .span12 & {
+        background-size: auto 85%;
+        background-position: center -24px;
+      }
+    }
   }
 }
 
@@ -64,7 +79,24 @@
   }
 
   .whats-new-carousel {
-    height: percentage((220 - 39) / 220);
+    height: percentage((220 - 39) / 220 + 0.01);
+  }
+}
+
+.whats-new-carousel {
+
+  .whats-new-carousel-slide {
+
+    .st-image {
+
+      .span4 &,
+      .span6 &,
+      .span8 &,
+      .span12 & {
+        background-size: auto 82%;
+        background-position: center -14px;
+      }
+    }
   }
 }
 

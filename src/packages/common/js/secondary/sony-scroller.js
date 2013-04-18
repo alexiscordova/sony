@@ -45,8 +45,8 @@ define(function(require){
       var self = this,
           resizeFunc = $.debounce( self.throttleTime, $.proxy( self._onResize, self ) );
 
-      self.$contentContainer = self.$el.find(self.contentSelector);
-      self.$elements = self.$el.find(self.itemElementSelector);
+      self.$contentContainer = self.contentSelector ? self.$el.find( self.contentSelector ) : self.$el.children().first();
+      self.$elements = self.itemElementSelector ? self.$el.find( self.itemElementSelector ) : self.$contentContainer.children();
       self.$sampleElement = self.$elements.eq(0);
 
       self.windowWidth = Settings.windowWidth;
@@ -342,7 +342,7 @@ define(function(require){
       self._update();
     },
 
-    _onScrollEnd : function() {
+    _onScrollEnd : function( iscroll ) {
       var self = this;
 
       self._fire('scrolled');
@@ -350,7 +350,7 @@ define(function(require){
       // If they've defined a callback as well, call it
       // We saved their function to this reference so we could have our own onScrollEnd
       if ( self.onScrollEnd ) {
-        self.onScrollEnd();
+        self.onScrollEnd.call( iscroll, iscroll );
       }
     },
 
@@ -389,7 +389,7 @@ define(function(require){
       // If they've defined a callback as well, call it
       // Original function is saved as reference (self.onBeforeScrollStart) so we could have a custom onBeforeScrollStart
       if ( self.onBeforeScrollStart ) {
-        self.onBeforeScrollStart( iscroll );
+        self.onBeforeScrollStart.call( iscroll, iscroll );
       }
     },
 
@@ -569,8 +569,8 @@ define(function(require){
   // Defaults
   $.fn.scrollerModule.defaults = {
     mode: 'free', // if mode == 'paginate', the items in the container will be paginated
-    contentSelector: '.content', // parent of items in scroller
-    itemElementSelector: '.block', // items in scroller
+    contentSelector: undefined, // parent of items in scroller
+    itemElementSelector: undefined, // items in scroller
     lastPageCenter: false, // option to center last page elements
     extraSpacing: 0, // per page
     extraMarging: 0, // per page

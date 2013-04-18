@@ -15,14 +15,14 @@ $tabletMax: px-em(979);
       padding: 70px 56px;
     }
   }
-  
+
   .editorial.mediaright,
   .editorial.medialeft{
-    .grid,
-    .grid > div{
-      height:460px;
+    .grid{
+      min-height:460px;
     }
   }
+  .editorial.full-tout,
   .editorial.tout{
     .m2up{
       .horizontal{
@@ -38,7 +38,7 @@ $tabletMax: px-em(979);
       .vertical{
         padding: 0 20px;
       }
-      
+
     }
     .m3up{
       >div{
@@ -92,11 +92,10 @@ $tabletMax: px-em(979);
   }
   .editorial.mediaright,
   .editorial.medialeft{
-    .grid,
-    .grid > div{
-      height:auto;
+    .grid{
+      min-height:0px;
     }
-    .table-center-wrap{ 
+    .table-center-wrap{
       height:auto;
     }
     .grid{
@@ -112,6 +111,7 @@ $tabletMax: px-em(979);
       padding: 22px 28px 26px 28px;
     }
   }
+  .editorial.full-tout,
   .editorial.tout{
     .container{
       overflow:hidden;
