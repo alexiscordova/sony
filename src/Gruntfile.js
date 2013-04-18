@@ -6,9 +6,20 @@ module.exports = function(grunt) {
     gruntconfig = grunt.file.readJSON('.gruntconfig');
   }
 
+  //cachable jade values
+  var c = {
+    modulecss: grunt.file.expand('packages/modules/**/css/*.scss').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/^_responsive/)}),
+    polyfills: grunt.file.expand('packages/common/js/libs/polyfill/*.js').map(function(a){return a.split('/').pop()}),
+    polyfillsie7: grunt.file.expand('packages/common/js/libs/polyfill-lte-ie7/*.js').map(function(a){return a.split('/').pop()}),
+    plugins: grunt.file.expand('packages/common/js/plugins/*.js').map(function(a){return a.split('/').pop()}),
+    secondary: grunt.file.expand('packages/common/js/secondary/*.js').map(function(a){return a.split('/').pop()}),
+    defer: grunt.file.expand('packages/modules/**/js/*.js').map(function(a){return a.split('/').pop()})
+  };
+
   var jadeconfig = {
 
     spawnProcesses: gruntconfig.maxProcesses,
+    compileDebug: false,
 
     data:{
       partial: function(templatePath, dataObj){
@@ -38,22 +49,22 @@ module.exports = function(grunt) {
           return str.replace(/\[\+\]/g , '<i class="fonticon-30-plus"></i>');
         },
         modulescss:function(){
-          return grunt.file.expand('packages/modules/**/css/*.scss').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/^_responsive/)});
+          return c.modulecss;
         },
         polyfills:function(){
-          return grunt.file.expand('packages/common/js/libs/polyfill/*.js').map(function(a){return a.split('/').pop()});
+          return c.polyfills;
         },
         polyfillsie7:function(){
-          return grunt.file.expand('packages/common/js/libs/polyfill-lte-ie7/*.js').map(function(a){return a.split('/').pop()});
+          return c.polyfillsie7;
         },
         plugins:function(){
-          return grunt.file.expand('packages/common/js/plugins/*.js').map(function(a){return a.split('/').pop()});
+          return c.plugins;
         },
         secondary:function(){
-          return grunt.file.expand('packages/common/js/secondary/*.js').map(function(a){return a.split('/').pop()});
+          return c.secondary;
         },
         defer:function(){
-          return grunt.file.expand('packages/modules/**/js/*.js').map(function(a){return a.split('/').pop()});
+          return c.defer;
         },
         doccoModules:function(){
           return grunt.file.expand('../docs/docco/modules/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
@@ -523,9 +534,14 @@ module.exports = function(grunt) {
       mod = path.split('/')[2];
       arr.push({expand:true, cwd:path, src:['*.jade'], dest:'../build/'+ env, ext:'.html', flatten:true})
     });
+    grunt.config('htmlStartStamp', new Date());
+    grunt.registerTask('htmlCompleteTime', function(m){
+      console.log('Completed in ' + ((new Date()) - grunt.config('htmlStartStamp')) / 1000 + ' seconds.');
+    });
     grunt.config('jade.build_'+env+'.files', arr);
     grunt.task.run('jade:build_'+env);
-
+    grunt.task.run('htmlCompleteTime');
+    
   });
 
   grunt.registerTask('js', 'lint js/*.js files then minify and copy', function(module){

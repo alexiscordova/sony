@@ -43,6 +43,13 @@ else
   - item.gcwc = ''
   - item.gcc = ''
 
+if item.largeTout
+  - largeHeaderType = 't3'
+  - smallHeaderType = 't4'
+else
+  - largeHeaderType = 't4'
+  - smallHeaderType = 't5-light'
+
 article
   .st-image(class=item.c, data-src-desktop=item.backgroundImgSrcDesktop, data-src-tablet=item.backgroundImgSrcTablet, data-src-phone=item.backgroundImgSrcPhone, data-src-desktop-highres=item.backgroundImgSrcDesktopHighRes, data-src-tablet-highres=item.backgroundImgSrcTabletHighRes, data-src-phone-highres=item.backgroundImgSrcPhoneHighRes)
   .st-item-content(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class=item.mpc)(class=item.gcwc)
@@ -53,14 +60,14 @@ article
           | #{item.eyebrow.title}
 
       if (item.s == 'content-8' || item.s == 'content-12') && item.typeAlignment != 'align-center-bottom'
-        h4.t3.headline!= item.headline ? item.headline.title : ''
+        h4.headline(class=largeHeaderType)!= item.headline ? item.headline.title : ''
           if item.headline && item.headline.link
             a(href=item.headline.link)
               | !{' ' + item.hTa}
               span !{' ' + item.hTb}
                 i.fonticon-10-chevron-sm
       else
-        h4.t4.headline!= item.headline.title
+        h4.headline(class=smallHeaderType)!= item.headline.title
           if item.headline && item.headline.link
             a(href=item.headline.link)
               | !{' ' + item.hTa}
@@ -72,6 +79,19 @@ article
 
   if item.flag
     .l4.st-flag !{item.flag}
+
+  if item.social
+    if item.social.likes > 1000000
+      - likeCount = Math.round(item.social.likes / 1000000 * 10) / 10 + 'M'
+    else if item.social.likes > 1000
+      - likeCount = Math.round(item.social.likes / 1000 * 10) / 10 + 'K'
+    else
+      - likeCount = item.social.likes
+
+    .st-social-count.table-center-wrap
+      .table-center
+        span.t4 !{likeCount}
+        span.l3 people like this
 
   if item.s == 'content-8' || item.s == 'content-6'
     if item.contentType == 'headline-counter' || item.contentType == 'headline-copy-counter'

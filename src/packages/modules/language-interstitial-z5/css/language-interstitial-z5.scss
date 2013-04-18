@@ -1,13 +1,11 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-.module-li {
+.language-interstitial {
   .module-li-bg {
     background-color: #4a5676;
   }
-  .hero-image {
-    height: 300px;
-  }
+  
   .image-module{
     height:300px;
     background-size: cover;
@@ -15,34 +13,45 @@
     background-position: center center;
   }
   .inner {
-    height: 100%;
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
+    height: 300px;
   }
+  .display-table {
+    display: table;
+  }
+  .display-table-cell {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  
   .box {
     margin: 48px 0 47px 0;
+    height: 205px;
+    width: 100%;
     h1 {
       color: $white;
       margin-bottom: 26px;
     }
   }
-}
-
-.btn-holder {
-  .btn {
-    margin-right: 20px;
+  .btn-holder {
+    .btn {
+      margin-right: 20px;
+    }
   }
-}
-
-.module-li-main {
-  padding: 60px 0 70px 0;
-  p {
-    color: $gray40;
-  }
-  .module-text-box {
-    width: 478px;
+  .module-li-main {
+    padding: 60px 0 70px 0;
+    p {
+      color: $gray40;
+    }
+    .module-text-box {
+      width: 478px;
+      h4 {
+        color: $gray20;
+      }
+    }
   }
 }
 

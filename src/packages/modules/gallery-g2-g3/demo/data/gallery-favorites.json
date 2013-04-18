@@ -8,68 +8,107 @@
         "_comments": "name should be unique, as it is used for IDs.",
         "name": "favorites",
         "mode": "detailed",
+        "signedOutMessage" : {
+            "message" : "To permanently save your favorites you must ",
+            "label" : "Log In",
+            "link" : "#LOGIN",
+            "messageSuffix" : "."
+        },
+        "shareMenu" : {
+            "shareText" : "Share",
+            "shortLink" : "so.ny/favs3az9c",
+            "socialButtons":[
+              {
+                "id" : "facebook",
+                "label" : "Facebook",
+                "icon" : "fonticon-15-facebook-sm",
+                "link" : "#FACEBOOK"
+              },
+              {
+                "id" : "twitter",
+                "label" : "Twitter",
+                "icon" : "fonticon-15-twitter",
+                "link" : "#TWITTER"
+              },
+              {
+                "id" : "gplus",
+                "label" : "Google+",
+                "icon" : "fonticon-15-gplus",
+                "link" : "#GOOGLE_PLUS"
+              },
+              {
+                "id" : "pinterest",
+                "label" : "Pinterest",
+                "icon" : "fonticon-15-pinterest",
+                "link" : "#PINTEREST"
+              }
+            ]
+        },
+        "sortText" : "Show Me:",
         "sortSet": [
             {
                 "name": "default",
-                "label": "Featured"
+                "label": "All"
             },
             {
-                "name": "price",
-                "label": "Price - high to low",
-                "reverse": true
+                "name": "camera",
+                "label": "Cameras"
             },
             {
-                "name": "price",
-                "label": "Price - low to high"
+                "name": "television",
+                "label": "Televisions"
             },
             {
-                "name": "popularity",
-                "label": "Popularity"
-            },
-            {
-                "name": "rating",
-                "label": "Rating",
-                "reverse": true
-            },
-            {
-                "name": "release-date",
-                "label": "New Products",
-                "reverse": true
+                "name": "accessory",
+                "label": "Accessories"
             }
-        ]
-    },
-    "submodules": [
-        {
-            "type": "packages/modules/product/html/product.jade",
-            "data": "packages/modules/product/demo/data/carrying-case-LCMCSVHB.json"
+        ],
+        "nofavs" : {
+            "title" : "You have no favorites",
+            "message" : "Just click the heart, and all your favorite products will appear here for you to revisit later."
         },
-        {
-            "type": "packages/modules/product/html/product.jade",
-            "data": "packages/modules/product/demo/data/carrying-case-LCSBBFB.json"
-        },
-        {
-            "type": "packages/modules/product/html/product.jade",
-            "data": "packages/modules/product/demo/data/camera-case-LCSTWKB.json"
-        },
-        {
-            "type": "packages/modules/product/html/product.jade",
-            "data": "packages/modules/product/demo/data/carrying-case-LCJRXBB.json"
-        },
-        {
-            "type": "packages/modules/product/html/product.jade",
-            "data": "packages/modules/product/demo/data/carrying-case-LCJTHFB.json"
-        },
-        {
-            "type": "packages/modules/product/html/product.jade",
-            "data": "packages/modules/product/demo/data/carrying-case-LCMCSVHB.json"
-        },
-        {
-            "type": "packages/modules/product/html/product.jade",
-            "data": "packages/modules/product/demo/data/carrying-case-LCSBBFB.json"
-        },
-        {
-            "type": "packages/modules/product/html/product.jade",
-            "data": "packages/modules/product/demo/data/camera-case-LCSTWKB.json"
+        "favorites" : [
+            {
+                "type": "packages/modules/product/html/product.jade",
+                "data": "packages/modules/product/demo/data/rx100.json"
+            },
+            {
+                "type": "packages/modules/product/html/product.jade",
+                "data": "packages/modules/product/demo/data/hx750.json"
+            },
+            {
+                "type": "packages/modules/product/html/product.jade",
+                "data": "packages/modules/product/demo/data/linksys-e1200.json"
+            },
+            {
+                "type": "packages/modules/product/html/product.jade",
+                "data": "packages/modules/product/demo/data/rx1.json"
+            },
+            {
+                "type": "packages/modules/product/html/product.jade",
+                "data": "packages/modules/product/demo/data/ex640.json"
+            }
+        ],
+        "recommended" : {
+            "title" : "You may also like",
+            "products" : [
+                {
+                    "type": "packages/modules/product/html/product.jade",
+                    "data": "packages/modules/product/demo/data/w750.json"
+                },
+                {
+                    "type": "packages/modules/product/html/product.jade",
+                    "data": "packages/modules/product/demo/data/smart-watch.json"
+                },
+                {
+                    "type": "packages/modules/product/html/product.jade",
+                    "data": "packages/modules/product/demo/data/xperia-dock.json"
+                },
+                {
+                    "type": "packages/modules/product/html/product.jade",
+                    "data": "packages/modules/product/demo/data/hmz-t1.json"
+                }
+            ]
         }
-    ]
+    }
 }

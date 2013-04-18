@@ -10,13 +10,13 @@ include gallery-helpers.jade
 .tab-content.gallery-content(data-module-name=data.config.module_name, data-module-id=data.config.module_id)
   if data.tabs[0]
     .tab-pane.fade.in.active(data-tab=data.tabs[0].slug)
-      +featuredGallery( data.submodules, data.featured, 'product' )
+      +featuredGallery( data.submodules, data.featured, 'camera' )
       +featuredGallery( data.submodules, data.featured2, 'accessory' )
 
 
   if data.tabs[1]
     .tab-pane.fade(data-tab=data.tabs[1].slug)
-      +detailedGallery( data.submodules, data.productCards )
+      +detailedGallery( data.submodules, data.productCards, 'camera' )
 
   if data.tabs[2]
     .tab-pane.fade(data-tab=data.tabs[2].slug)

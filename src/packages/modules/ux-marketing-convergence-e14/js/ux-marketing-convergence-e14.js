@@ -4,10 +4,9 @@
 //
 // * **Class:** MarketingConvergenceModule
 // * **Version:** 0.2
-// * **Modified:** 04/15/2013
+// * **Modified:** 04/17/2013
 // * **Author:** George Pantazis, Telly Koosis
 // * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html)
-
 
 define(function(require){
 
@@ -15,9 +14,9 @@ define(function(require){
 
   var $ = require('jquery'),
       iQ = require('iQ'),
+      Modernizr = require('modernizr'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      Modernizr = require('modernizr'),
       SimpleKnob = require('secondary/jquery.simpleknob');
 
   var module = {
@@ -39,6 +38,8 @@ define(function(require){
 
     self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
     self.onResizeFunc = $.proxy(self.handleResize, self);
+    self.isResize = false;
+    self.atBreakpoint = null;
 
     self.$reloadButton = self.$el.find('.btn-reload');
     self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
@@ -46,6 +47,8 @@ define(function(require){
     self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
     self.$partnerCarousel = self.$el.find('.partner-products');
     self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
+    self.$partnerCarouselBackgrounds = self.$el.find('.partner-products-backgrounds'); 
+    self.$partnerCarouselBgSlides = self.$partnerCarouselBackgrounds.find('li'); 
 
     // LISTEN
     Environment.on(self.debounceEvent, self.onResizeFunc);
@@ -64,35 +67,48 @@ define(function(require){
       var self = this;
 
       self.currentPartnerProduct = -1;
-
+      
+      self.setBreakpoint();
       self.gotoNextPartnerProduct();
       self.resetPartnerCarouselInterval();
       self.animationLoop();
       self.setupButtons();   
       self.setupDials();
       self.setupSlideLinks();
-
     },
 
     // enable entire slide as link without reworking markup
     // assumes mark-up particular markup
     setupSlideLinks : function(){
       var self = this;
-
-      self.$partnerCarouselSlides.bind("click",function(){
+      self.$partnerCarouselBgSlides.bind("click",function(){
           var loc = $(this).find(".uxmc-link").attr("href"); // link location
           window.location = loc;
       });
-
     },
 
-  
     handleResize : function(){
       var self = this;
+      self.isResize = true;
+      self.setBreakpoint();
       self.resetPartnerCarouselInterval();
-      self.gotoPartnerProduct( self.currentPartnerProduct ); // preserve state
+      self.gotoPartnerProduct( self.currentPartnerProduct ); // preserve current slide state
     },
 
+    setBreakpoint : function(){
+      var self = this,
+          breakpoint = null; 
+    
+      if(Modernizr.mq('(min-width: 568px) and (max-width: 767px)')){
+        breakpoint = "tablet";
+      }else if(Modernizr.mq('(max-width: 567px)')){
+        breakpoint = "phone";
+      }else{
+        breakpoint = "desktop";
+      }
+
+      self.atBreakpoint = breakpoint;
+    },
 
     'setupButtons': function() {
 
@@ -163,12 +179,11 @@ define(function(require){
     },
 
     // Simple "next slide" progression logic.
-
     'gotoNextPartnerProduct': function() {
 
       var self = this;
 
-      if ( self.currentPartnerProduct === self.$partnerCarouselSlides.length - 1 ) {
+      if ( self.currentPartnerProduct === self.$partnerCarouselBgSlides.length - 1 ) {
          self.gotoPartnerProduct(0);
       } else {
         self.gotoPartnerProduct(self.currentPartnerProduct + 1);
@@ -177,55 +192,88 @@ define(function(require){
 
     // Slide out and destroy current slide, slide in the specified slide.
     // Force an update to iQ for the newly-created assets.
-
     'gotoPartnerProduct': function(which) {
 
       var self = this,
-          isZero = (which === 0),
+          transitionTime = self.transitionTime,
           $newSlide, newTop;
 
       if ( self.isAnimating ) { return; }
 
+      // if resize, just snap to slide
+      if(self.isResize){
+        self.isResize = false;
+        transitionTime = 0;
+      }
+
       self.currentPartnerProduct = which;
-      $newSlide = self.$partnerCarouselSlides.eq(which);
+      $newSlide = self.$partnerCarouselBgSlides.eq(which);
 
       // animated only if there's more than one slide
-      if ( self.$partnerCarousel.children().length > 1 ) {
+      if ( self.$partnerCarouselBackgrounds.children().length > 1 ) {
 
         self.isAnimating = true;
 
-        // if we're in mobile, position will be 1/2 
-        // since slides are stacked instead of side by side (in desktop)
-        if (isZero){
-          newTop = (0) + "%";
-        }else{
-          if(Modernizr.mediaqueries && Modernizr.mq('(max-width: 767px)')){
-            newTop = (-(which * 100) / 2) + "%";
-          }else{
-            // assumes desktop
-            newTop = (-(which * 100)) + "%";
-          }
-        }
-
-        // console.log( 'newTop »' , newTop);
+        newTop = self.calcuateNewTop(which);
 
         self.$reloadButton.css('color', $newSlide.css('backgroundColor'));
 
         // animate the container ul
-        self.$partnerCarousel.animate({
+        self.$partnerCarouselBackgrounds.animate({ 
           "top": newTop
-        }, {
-          'duration': self.transitionTime,
-          // 'easing' : 'easeInOutQuart',
+        },{
+          'duration': transitionTime,
+          'easing' : Settings.$easing.easeOutQuart,
           'complete': function() {
             self.isAnimating = false;
+            self.swapContent(which);
           }
         });
-
       }
 
       iQ.update();
       self.resetDials();
+    },
+
+    swapContent : function(which){
+      var self = this;
+
+      // hide all slides
+      // then show active one
+      self.$partnerCarouselSlides
+        .removeClass("active")
+        .removeAttr("class")
+        .eq(which)
+        .addClass("active");
+    },
+
+
+    calcuateNewTop : function(which){
+      var self = this,
+          slideHeight = 0,
+          newTop = null,
+          isZero = (which === 0);
+
+      switch (self.atBreakpoint) {
+         case "tablet":
+            slideHeight = 260;
+            break;
+         case "phone":
+            slideHeight = 220;
+            break;
+         default:
+            slideHeight = 340; // assumes desktop
+            break;
+      }
+
+      if(self.atBreakpoint === "desktop"){
+        newTop = -(which*slideHeight) + "px";
+      }else{
+        // becuase elements are stacked
+        newTop = (slideHeight-(which*slideHeight)) + "px";
+      }
+
+      return newTop;
     },
 
     // Update the current progress indicator dial, reset others to zero, and timestamp the event.

@@ -3,13 +3,13 @@
 
 .editorial{
   @include dttb;
-    
+
   &.gray{
     background: $gray80;
   }
-  
+
   position:relative;
-  
+
   .left{
     text-align:left;
   }
@@ -39,6 +39,10 @@
   .box{
     margin-bottom:25px;
   }
+}
+.editorial.full-inner,
+.editorial.full-tout,
+.editorial.full{
   .image-module{
     background-size: cover;
     background-repeat: no-repeat;
@@ -65,11 +69,6 @@
   .box.center{
     padding: 70px 100px;
   }
-  .image-module{
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
 }
 
 .editorial.mediaright,
@@ -78,14 +77,13 @@
   .box{
     padding:70px 52px 70px 52px;
   }
-  .grid,
-  .grid > div{
-    height:560px;
+  .grid{
+    min-height:560px;
   }
-  .table-center-wrap{ 
+  .table-center-wrap{
      height:100%;
   }
-    
+
   .media-element > div{
     margin: 0 auto;
   }
@@ -94,8 +92,16 @@
   }
 }
 
+.editorial.full-tout,
 .editorial.tout{
   padding: 52px 0 50px 0;
+  .submodule{
+    margin-top:-18px;
+    padding-bottom:40px;
+  }
+  .title-block{
+    padding-bottom:40px;
+  }
   .m1up{
     .textright{
       padding-right:52px;
@@ -116,7 +122,7 @@
         box-shadow:none;
         background: rgba(255,255,255,.8)
       }
-      
+
       >div{
         height: 162px;
         float:left;

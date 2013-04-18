@@ -3,20 +3,28 @@
 
 .primary-tout{
   @include theme-btn-colors;
-  
+
   h1{
     @include hyphens;
   }
-  
+
   position:relative;
-  
+
   .image-module{
     height:560px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
   }
-  
+  .submodule{
+    position:relative;
+    z-index:2;
+    .box-close{
+      top:12px;
+      right:14px;
+    }
+  }
+
   .box.left{
     text-align:left;
   }
@@ -26,7 +34,7 @@
   .box.right{
     text-align:right;
   }
-    
+
   .inner{
     height:100%;
     position:absolute;
@@ -64,11 +72,11 @@
     }
   }
 
-  
+
   &.homepage{
     .image-module{
       height:490px;
-    } 
+    }
     .inner {
       .table-center-wrap{
         width:100%;
@@ -99,19 +107,19 @@
       }
     }
   }
-  
+
   &.product-intro-plate{
     .image-module{
       height:610px;
     }
     .dark-text-light-box,
-    .dark-text-trans-box{ 
+    .dark-text-trans-box{
       .eyebrow{
         color: $gray40;
       }
     }
     .light-text-dark-box,
-    .light-text-trans-box{ 
+    .light-text-trans-box{
       .eyebrow{
         color: $gray50;
       }
@@ -119,7 +127,7 @@
     .inner .box{
       padding:66px 52px 40px;
       .eyebrow{
-        margin-bottom:6px; 
+        margin-bottom:6px;
       }
       h1{
         margin-bottom:15px;
@@ -138,29 +146,29 @@
           font-size:px-em(12);
         }
       }
-      
+
     }
-    
+
   }
-  
+
   &.title-plate{
     @include theme-bg-colors;
-    
+
     .image-module{
       background-size:auto;
       height:300px;
     }
-    .dark-text-trans-box{ 
+    .dark-text-trans-box{
       .eyebrow{
         color: $gray40;
       }
     }
-    .light-text-trans-box{ 
+    .light-text-trans-box{
       .eyebrow{
         color: $gray50;
       }
     }
-    
+
     .inner .box{
       padding:49px 52px 58px 0;
       .eyebrow{
@@ -184,7 +192,7 @@
     }
 
   }
-  
+
 }
 
 .lt-ie9 .primary-tout .inner .box i{

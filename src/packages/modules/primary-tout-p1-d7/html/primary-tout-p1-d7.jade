@@ -45,11 +45,11 @@ mixin links(d, extraclass)
         when "btn"
           a(class= extraclass)(class= "btn", href= link.url)!= link.text
         when "video"
-          a(class = "btn btn-special")(class= extraclass)(href= link.url)
+          a(class = "video btn btn-special")(class= extraclass)(href= link.url)
             i.fonticon-15-circle-play
             span!= link.text
         when "gallery"
-          a(class = "btn")(class= extraclass)(href= link.url)
+          a(class = "gallery btn")(class= extraclass)(href= link.url)
             i.fonticon-15-popup
             span!= link.text
         when "text"
@@ -60,12 +60,9 @@ mixin boxclass(layout)
   .box(class = layout.alignment)
     block
 
-mixin boxlayout(layout)
+mixin boxlayout(layout, style)
   layout = layout || data.layout
-  classes = data.style
-  if data.variation && data.mode == "default" 
-    if data.variation.headertext !== "larger"
-      classes = classes + " force-mobile-bg"
+  classes = style || data.style || layout.text == "full"
   if data.variation
     if data.variation.mobilealign
       classes = classes + " " + data.variation.mobilealign
@@ -91,14 +88,17 @@ mixin boxlayout(layout)
               +boxclass
                 block
 
-
-classes = data.mode
-if data.theme
-  classes = classes + " " + data.theme
-.primary-tout.container.full-bleed-no-max(class= classes)
+.primary-tout.container.full-bleed-no-max(class= data.mode)(class= data.theme)
   .container.full-bleed-no-max.hero-image
     e = {"locals":locals, "data":data.image}
     !{locals.partial('packages/modules/image/html/image.jade' , e)}
+
+  if data.submodules.length > 0
+    .container.full-bleed-no-max.submodule.hidden
+      button(class= "box-close box-close-small")
+        i(class="fonticon-10-x")
+      +partial(data.submodules[0].type, data.submodules[0].data)
+
   if data.mode == "homepage"
     if data.variation.secondbox
       +boxlayout
@@ -120,7 +120,11 @@ if data.theme
         +bodytext(data, "hidden-phone")
         +links
   else if data.mode == "default"
-    +boxlayout
+    style = data.style || ""
+    if data.variation
+      if data.variation.headertext !== "larger"
+        style = style + " force-mobile-bg"
+    +boxlayout(data.layout, style)
       +eyebrow
       +header
       +bodytext
