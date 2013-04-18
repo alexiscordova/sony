@@ -78,8 +78,8 @@ define(function(require){
 
       self.initCarousel();
 
-      // self.setBreakpoint();
-      // self.setupSlideLinks();
+      self.setBreakpoint();
+      self.setupSlideLinks();
       // self.resetPartnerCarouselInterval();
       // self.gotoNextPartnerProduct();
       // self.animationLoop();
@@ -98,20 +98,17 @@ define(function(require){
         wrapper: '.uxmc-carousel-wrapper',
         slides: '.sony-carousel-slide',
         useCSS3: true,
-        setAnimationSpeed: 750
+        draggable: false,
+        setAnimationSpeed: self.transitionTime
       });    
     },
-
-
-
-
-
 
     // enable entire slide as link without reworking markup
     // assumes mark-up particular markup
     setupSlideLinks : function(){
       var self = this;
-      self.$carouselSlides.bind("click",function(){
+      self.$carouselSlides.bind("click",function(e){
+          e.preventDefault();
           var loc = $(this).find(".uxmc-link").attr("href"); // link location
           window.location = loc;
       });
@@ -207,7 +204,7 @@ define(function(require){
 
       self.partnerCarouselInterval = setInterval(function(){
         // fade out content slide
-        self.fadeOutContent();
+        // self.fadeOutContent();
 
         // go to next
         self.gotoNextPartnerProduct();
@@ -220,8 +217,11 @@ define(function(require){
       var self = this;
 
       if ( self.currentPartnerProduct === self.$carouselSlides.length - 1 ) {
+         //self.gotoPartnerProduct(0);
          self.gotoPartnerProduct(0);
+         
       } else {
+        // self.gotoPartnerProduct(self.currentPartnerProduct + 1);
         self.gotoPartnerProduct(self.currentPartnerProduct + 1);
       }
     },

@@ -18,16 +18,6 @@ section.container.uxmc
         span
         img.iq-img(data-src-desktop=data.baseProduct.imgSrcDesktop, data-src-tablet=data.baseProduct.imgSrcTablet, data-src-phone=data.baseProduct.imgSrcPhone, data-src-desktop-highres=data.baseProduct.imgSrcDesktopHighRes, data-src-tablet-highres=data.baseProduct.imgSrcTabletHighRes, data-src-phone-highres=data.baseProduct.imgSrcPhoneHighRes)
 
-    //- ul.partner-products
-    //-   for product in data.partnerProducts     
-    //-     li
-    //-       div.uxmc-overlay
-    //-         p #{product.topLine}
-    //-         a.fonticon-10-chevron--after.uxmc-link(href=product.link, title=product.altText) #{product.linkText}
-    //-       div.uxmc-image-wrapper.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
-    //-         span
-    //-         img.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
-
     div.uxmc-carousel-wrapper
       div.uxmc-carousel
         for product in data.partnerProducts
@@ -36,7 +26,7 @@ section.container.uxmc
           div(class= slideClasses)
             div(class= slideChildClasses)
               div.uxmc-overlay
-                p. #{product.topLine}
+                p #{product.topLine}
                 a.fonticon-10-chevron--after.uxmc-link(href=product.link, title=product.altText) #{product.linkText}
               div.uxmc-image-wrapper.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
                 span
@@ -48,3 +38,15 @@ section.container.uxmc
           div.uxmc-dial-wrapper
             span.uxmc-dial-label #{i}
             input.uxmc-dial(type='text', value='0')
+
+
+
+  //- ul.partner-products
+  //-   for product in data.partnerProducts     
+  //-     li
+  //-       div.uxmc-overlay
+  //-         p #{product.topLine}
+  //-         a.fonticon-10-chevron--after.uxmc-link(href=product.link, title=product.altText) #{product.linkText}
+  //-       div.uxmc-image-wrapper.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
+  //-         span
+  //-         img.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
