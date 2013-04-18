@@ -29,16 +29,28 @@
     margin-bottom: 14px;
     padding-bottom: 30px;
     border-bottom: 1px solid $gray70;
-    overflow: hidden;
+    @include clearfix();
+}
+
+.countries ol {
+  margin-left: -6px;
 }
 
 .countries li {
-    margin-bottom: 14px;
+    margin-bottom: 1px;
 }
 
 .country {
+    display: block;
+    height: 26px;
     color: $gray40;
     font-size: 0.8125em;
+    padding: 5px 0 0 6px;
+}
+
+.country:hover {
+    background-color: $white;
+    color: $gray20;
 }
 
 .media,
@@ -52,7 +64,7 @@
 }
 
 .media-bd {
-    line-height: 14px;
+    line-height: 16px;
 }
 
 .scrollable {
