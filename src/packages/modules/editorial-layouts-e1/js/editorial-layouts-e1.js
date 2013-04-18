@@ -55,7 +55,7 @@ define(function(require){
         }else{
           minh = Math.max(self.$el.find('.grid').css('min-height').replace(/[^-\d\.]/g, ''), self.$el.find('.media-element .table-center').children().first().height())+"px";
         }
-
+        
         self.$el.find('.grid, .grid > div').css('height', minh);
       },
 
