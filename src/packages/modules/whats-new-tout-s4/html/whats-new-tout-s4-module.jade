@@ -1,0 +1,15 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('whats-new-tout-s4')
+
+if data.config.title
+  .container.st-header
+    .grid
+      h2.l1 #{data.config.title}
+
+.whats-new-tout.secondary-tout
+  .st-container
+    .st-container-inner.container
+      for slide in data.slides
+        .st-content.slimgrid.no-grid-at-767
+          e = {"locals":locals, "content": slide}
+          !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4.jade', e)}

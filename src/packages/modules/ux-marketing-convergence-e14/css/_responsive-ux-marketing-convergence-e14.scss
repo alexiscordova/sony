@@ -1,0 +1,134 @@
+//
+// Responsive: Footer
+// --------------------------------------------------
+
+// 8888888888  .d8888b.  8888888888                                     888888888   .d8888b.   .d8888b.                    
+//       d88P d88P  Y88b       d88P                                     888        d88P  Y88b d88P  Y88b                   
+//      d88P  888             d88P                                      888        888        Y88b. d88P                   
+//     d88P   888d888b.      d88P  88888b.  888  888                    8888888b.  888d888b.   "Y88888"  88888b.  888  888 
+//  88888888  888P "Y88b  88888888 888 "88b `Y8bd8P'                         "Y88b 888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P' 
+//   d88P     888    888   d88P    888  888   X88K         888888              888 888    888 888    888 888  888   X88K   
+//  d88P      Y88b  d88P  d88P     888 d88P .d8""8b.                    Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b. 
+// d88P        "Y8888P"  d88P      88888P"  888  888                     "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888 
+//                                 888                                                                   888               
+//                                 888                                                                   888               
+//                                 888                                                                   888           
+@media (min-width: 568px) and (max-width: 767px) {
+  $slideHeightTablet: 260px;
+  body {
+     .uxmc-container {
+       position: relative;
+       height: $slideHeightTablet*2;
+       background-color: #ccc;
+       overflow: hidden;
+
+       .base-product {
+         float: none;
+         width: 100%;
+         height: $slideHeightTablet;
+       }
+
+        .partner-products-backgrounds {
+          width: 100%;
+          height: $slideHeightTablet;
+
+          li{
+            height:$slideHeightTablet;
+          }
+        }
+
+       .partner-products {
+         float: none;
+         width: 100%;
+         height:$slideHeightTablet;
+         
+         li{
+           height:$slideHeightTablet;
+         }
+       }
+
+       .uxmc-overlay {
+         margin: 0 0 19px 24px;
+         font-size: px-em(15px);
+       }
+
+       .btn-reload {
+         font-size: px-em(40px); 
+       }
+
+       .progress-indicators {
+          @include scale(0.7);
+          height:$slideHeightTablet;
+       }
+     }
+   }
+} // END min-width 480px and max-width 567px
+
+
+// ------------------------------------------------
+// LANDSCAPE PHONE AND BELOW
+// ------------------------------------------------
+// 888888888   .d8888b.  8888888888                         .d8888b.                                  888
+// 888        d88P  Y88b       d88P                        d88P  "88b                                 888
+// 888        888             d88P                         Y88b. d88P                                 888
+// 8888888b.  888d888b.      d88P  88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888
+//      "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"
+//        888 888    888   d88P    888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888
+// Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888
+//  "Y8888P"   "Y8888P"  d88P      88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888
+//                                 888
+//                                 888
+//                                 888
+
+@media (max-width: px-em(567px)) {
+  $slideHeightPhone:220px;
+  body {
+    .uxmc-container {
+      position: relative;
+      height: $slideHeightPhone*2;
+      background-color: #ccc;
+      overflow: hidden;
+
+      .base-product {
+        float: none;
+        width: 100%;
+        height: $slideHeightPhone;
+      }
+
+      .partner-products-backgrounds {
+        width: 100%;
+        height: $slideHeightPhone;
+
+        li{
+          height: $slideHeightPhone;          
+        }
+
+      }
+
+      .partner-products {
+        float: none;
+        width: 100%;
+        height: $slideHeightPhone;
+        
+        li{
+          height:$slideHeightPhone;
+        }
+      }
+
+      .uxmc-overlay {
+        margin: 0 0 19px 24px;
+        font-size: px-em(15px);
+      }
+
+       .btn-reload {
+         font-size: px-em(40px); 
+       }
+
+      .progress-indicators {
+        @include scale(0.7);
+        height: $slideHeightPhone;
+      }
+    }
+  }
+
+} // END max-width: 567px

@@ -31,13 +31,14 @@ button.close {
 }
 
 
-// Used in gallery and spec pages
+// Used in gallery and spec pages, modals
 .box-close {
   position: absolute;
+  z-index: 50;
   top: 0;
   right: 0;
   display: block;
-  @include size( px-em(40px), px-em(43px) );
+  @include size( px-em(34px), px-em(38px) );
   padding: 0;
   line-height: 1;
   background: $gray40;
@@ -59,11 +60,11 @@ button.close {
 
 // Used in gallery compare tool
 .box-close-small {
-  @include square( px-em(23px) );
-  top: 0;
+  @include square( px-em(22px) );
+  line-height: px-em(6);
 
-  // We know the icon is 16x16, center it with line-height
   i {
-    line-height: 16px;
+    font-size: px-em(12);
+    vertical-align: bottom;
   }
 }

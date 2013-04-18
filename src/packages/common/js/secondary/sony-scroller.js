@@ -45,8 +45,8 @@ define(function(require){
       var self = this,
           resizeFunc = $.debounce( self.throttleTime, $.proxy( self._onResize, self ) );
 
-      self.$contentContainer = self.$el.find(self.contentSelector);
-      self.$elements = self.$el.find(self.itemElementSelector);
+      self.$contentContainer = self.contentSelector ? self.$el.find( self.contentSelector ) : self.$el.children().first();
+      self.$elements = self.itemElementSelector ? self.$el.find( self.itemElementSelector ) : self.$contentContainer.children();
       self.$sampleElement = self.$elements.eq(0);
 
       self.windowWidth = Settings.windowWidth;
@@ -174,6 +174,9 @@ define(function(require){
       // Add back the extra spacing we took away for previous calculations
       containerWidth += self.extraSpacing;
 
+       // Add extra marging
+      containerWidth += self.extraMarging;
+
       // Update the width again to the new width based on however many 'pages' there are now
       self._setContentWidth( numPages, containerWidth );
 
@@ -204,13 +207,13 @@ define(function(require){
         $.each($elemsInPage , function(i) {
           var $el = $(this);
 
-          if(self.autoGutters){
+          if ( self.autoGutters ) {
             $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(true))) + 'px' );
-          }else{
-            if( i === 0 ){
-              $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + 'px' );
-            }else{
-              $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + (i * self.gutterWidth) + 'px' );
+          } else {
+            if ( i === 0 ) {
+              $el.css( 'left' , Math.floor( startX + (i * $el.outerWidth()) ) + 'px' );
+            } else {
+              $el.css( 'left' , Math.floor( startX + (i * $el.outerWidth()) ) + (i * self.gutterWidth) + 'px' );
             }
           }
 
@@ -223,7 +226,7 @@ define(function(require){
       }
 
       // Space elements out accordingly
-      for (i = 0 ; i < numPages; i++) {
+      for ( ; i < numPages; i++) {
         var startIndex = i * availToFit,
             endIndex = startIndex + availToFit - 1;
 
@@ -308,15 +311,15 @@ define(function(require){
       }
 
       // When `isPaginated` or `isCarouselMode`, we're using iscroll, which needs to be updated.
-      if ( self.isPaginated || self.isCarouselMode || self.isFreeMode ) {
+      // However, only `isPaginated` needs an update on init
+      if ( isInit && self.isPaginated ) {
         self.scroller.refresh();
-
+      } else if ( !isInit && (self.isPaginated || self.isCarouselMode || self.isFreeMode) ) {
+        self.scroller.refresh();
         // As long as this isn't the initial setup, scroll to the current page.
         // We don't want to call this on init because it calls the `onScrollStart` function/option
         // Which might not have a reference to the scroller yet
-        if ( !isInit ) {
-          self.scroller.scrollToPage(self.currentPage, 0, 400);
-        }
+        self.scroller.scrollToPage(self.currentPage, 0, 400);
       }
 
       self._fire('update');
@@ -339,7 +342,7 @@ define(function(require){
       self._update();
     },
 
-    _onScrollEnd : function() {
+    _onScrollEnd : function( iscroll ) {
       var self = this;
 
       self._fire('scrolled');
@@ -347,26 +350,27 @@ define(function(require){
       // If they've defined a callback as well, call it
       // We saved their function to this reference so we could have our own onScrollEnd
       if ( self.onScrollEnd ) {
-        self.onScrollEnd();
+        self.onScrollEnd.call( iscroll, iscroll );
       }
     },
 
     _showHideNavs : function( currentPage, numPages ) {
-      var self = this;
+      var self = this,
+          theClass = 'hidden';
 
       if ( self.$navPrev && self.$navNext ) {
         // Hide show prev button depending on where we are
         if ( currentPage === 0 ) {
-          self.$navPrev.addClass('hide');
+          self.$navPrev.addClass( theClass );
         } else {
-          self.$navPrev.removeClass('hide');
+          self.$navPrev.removeClass( theClass );
         }
 
         // Hide show next button depending on where we are
         if ( currentPage === numPages ) {
-          self.$navNext.addClass('hide');
+          self.$navNext.addClass( theClass );
         } else {
-          self.$navNext.removeClass('hide');
+          self.$navNext.removeClass( theClass );
         }
       }
     },
@@ -385,7 +389,7 @@ define(function(require){
       // If they've defined a callback as well, call it
       // Original function is saved as reference (self.onBeforeScrollStart) so we could have a custom onBeforeScrollStart
       if ( self.onBeforeScrollStart ) {
-        self.onBeforeScrollStart( iscroll );
+        self.onBeforeScrollStart.call( iscroll, iscroll );
       }
     },
 
@@ -437,7 +441,7 @@ define(function(require){
       }
 
       // Set it
-      self.$contentContainer.css('width' , contentWidth );
+      self.$contentContainer.css( 'width' , contentWidth );
 
       return self;
     },
@@ -446,7 +450,7 @@ define(function(require){
       var self = this,
           containerWidth = self.$el.width();
 
-      self.$elements.css('width', containerWidth);
+      self.$elements.css( 'width', containerWidth );
     },
 
     _fire : function( eventName, args ) {
@@ -462,6 +466,16 @@ define(function(require){
     setGutterWidth: function(gutterWidth){
       var self = this;
       self.gutterWidth = gutterWidth;
+    },
+
+    setFitPerPage: function(fitPerPage){
+      var self = this;
+      self.fitPerPage = fitPerPage;
+    },
+
+    setExtraMarging: function(extraMarging){
+      var self = this;
+      self.extraMarging = extraMarging;
     },
 
     gotopage: function( pageNumber, duration ) {
@@ -555,10 +569,11 @@ define(function(require){
   // Defaults
   $.fn.scrollerModule.defaults = {
     mode: 'free', // if mode == 'paginate', the items in the container will be paginated
-    contentSelector: '.content', // parent of items in scroller
-    itemElementSelector: '.block', // items in scroller
+    contentSelector: undefined, // parent of items in scroller
+    itemElementSelector: undefined, // items in scroller
     lastPageCenter: false, // option to center last page elements
     extraSpacing: 0, // per page
+    extraMarging: 0, // per page
     nextSelector: '', // selector for next paddle
     prevSelector: '', // selector for previous paddle
     fitPerPage: null, // if content needs to be fixed per page
@@ -584,8 +599,7 @@ define(function(require){
       onScrollEnd: null,
       lockDirection: true,
       onBeforeScrollStart: null,
-      onAnimationEnd: null,
-      gutterWidth:0
+      onAnimationEnd: null
     }
 
   };

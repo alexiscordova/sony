@@ -1,5 +1,26 @@
 module.exports = function(grunt) {
+
+  var gruntconfig = {};
+
+  if ( grunt.file.exists('.gruntconfig') ) {
+    gruntconfig = grunt.file.readJSON('.gruntconfig');
+  }
+
+  //cachable jade values
+  var c = {
+    modulecss: grunt.file.expand('packages/modules/**/css/*.scss').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/^_responsive/)}),
+    polyfills: grunt.file.expand('packages/common/js/libs/polyfill/*.js').map(function(a){return a.split('/').pop()}),
+    polyfillsie7: grunt.file.expand('packages/common/js/libs/polyfill-lte-ie7/*.js').map(function(a){return a.split('/').pop()}),
+    plugins: grunt.file.expand('packages/common/js/plugins/*.js').map(function(a){return a.split('/').pop()}),
+    secondary: grunt.file.expand('packages/common/js/secondary/*.js').map(function(a){return a.split('/').pop()}),
+    defer: grunt.file.expand('packages/modules/**/js/*.js').map(function(a){return a.split('/').pop()})
+  };
+
   var jadeconfig = {
+
+    spawnProcesses: gruntconfig.maxProcesses,
+    compileDebug: false,
+
     data:{
       partial: function(templatePath, dataObj){
         var template = grunt.file.read(templatePath);
@@ -18,6 +39,9 @@ module.exports = function(grunt) {
         return grunt.file.readJSON(path);
       },
       locals:{
+        getConfigFile:function(path){
+          return grunt.file.readJSON(path);
+        },
         getEnvironments:function(){
           return grunt.option('deploy') ? 'deploy' : 'debug'
         },
@@ -25,25 +49,31 @@ module.exports = function(grunt) {
           return str.replace(/\[\+\]/g , '<i class="fonticon-30-plus"></i>');
         },
         modulescss:function(){
-          return grunt.file.expand('packages/modules/**/css/*.scss').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/^_responsive/)});
+          return c.modulecss;
         },
         polyfills:function(){
-          return grunt.file.expand('packages/common/js/libs/polyfill/*.js').map(function(a){return a.split('/').pop()});
+          return c.polyfills;
         },
         polyfillsie7:function(){
-          return grunt.file.expand('packages/common/js/libs/polyfill-lte-ie7/*.js').map(function(a){return a.split('/').pop()});
+          return c.polyfillsie7;
         },
         plugins:function(){
-          return grunt.file.expand('packages/common/js/plugins/*.js').map(function(a){return a.split('/').pop()});
+          return c.plugins;
         },
         secondary:function(){
-          return grunt.file.expand('packages/common/js/secondary/*.js').map(function(a){return a.split('/').pop()});
+          return c.secondary;
         },
         defer:function(){
-          return grunt.file.expand('packages/modules/**/js/*.js').map(function(a){return a.split('/').pop()});
+          return c.defer;
         },
-        doccopages:function(){
-          return grunt.file.expand('../docs/docco/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
+        doccoModules:function(){
+          return grunt.file.expand('../docs/docco/modules/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
+        },
+        doccoSecondary:function(){
+          return grunt.file.expand('../docs/docco/secondary/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
+        },
+        doccoGlobal:function(){
+          return grunt.file.expand('../docs/docco/global/*.html').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/index.html/g)});
         },
         pages:function(){
           return grunt.file.expand('packages/pages/*.jade').map(function(a){return a.split('/').pop().replace(/.jade/g, '.html')}).filter(function(a){return a.match(/-pagebuild.html/g)});
@@ -69,7 +99,9 @@ module.exports = function(grunt) {
   }
 
   grunt.config.init({
+
     pkg: grunt.file.readJSON('package.json'),
+
     clean:{
      options:{
         force:true
@@ -79,6 +111,7 @@ module.exports = function(grunt) {
       deployRequireJSTemp: ['../build/deploy-requirejs-temp/'],
       docs: ['../docs/']
     },
+
     jshint: {
       files: ['packages/**/*.js', 'packages/**/*.json', '!packages/docs/**', '!**/libs/*.js'],
       options: {
@@ -108,6 +141,7 @@ module.exports = function(grunt) {
         }
       }
     },
+
     copy:{
       common_debug:{
         files:[
@@ -164,6 +198,7 @@ module.exports = function(grunt) {
       }
 
     },
+
     compass:{
       common_debug:{
         options:{
@@ -238,6 +273,7 @@ module.exports = function(grunt) {
         }
       }
     },
+
     jade:{
       docs:{
         options:jadeconfig,
@@ -270,9 +306,10 @@ module.exports = function(grunt) {
         ]
       }
     },
+
     watch:{
       common:{
-        files:['packages/common/**/*.*'],
+        files:['packages/common/**/*.*', '!packages/common/css/responsive-modules.scss'],
         tasks:['common']
       },
       js:{
@@ -290,13 +327,32 @@ module.exports = function(grunt) {
       assets:{
         files:['packages/modules/**/img/**/*.*'],
         tasks:['assets']
+      },
+      docs: {
+        files:['packages/docs/**/*.*'],
+        tasks:['docs']
       }
     },
+
     doccoh: {
-      main: {
-        src: ['packages/modules/**/js/*.js', 'packaes/common/js/require/**/*.js', 'packaes/common/js/secondary/**/*.js'],
+      modules: {
+        src: grunt.file.expand('packages/modules/**/js/*.js').filter(function(a){return !a.match(/index.js/g)}),
         options: {
-          output: '../docs/docco/'
+          output: '../docs/docco/modules'
+        }
+      },
+
+      secondary: {
+        src: grunt.file.expand('packages/common/js/secondary/**/*.js').filter(function(a){return !a.match(/index.js/g)}),
+        options: {
+          output: '../docs/docco/secondary'
+        }
+      },
+
+      global: {
+        src: grunt.file.expand('packages/common/js/require/**/*.js').filter(function(a){return !a.match(/index.js/g)}),
+        options: {
+          output: '../docs/docco/global'
         }
       }
     },
@@ -372,24 +428,34 @@ module.exports = function(grunt) {
     grunt.option('deploy', true);
     grunt.task.run('build');
   });
-  
+
+  grunt.registerTask('pages_debug', function(){
+    grunt.option('deploy', false);
+    grunt.task.run('pages');
+  });
+
   grunt.registerTask('pages_deploy', function(){
     grunt.option('deploy', true);
     grunt.task.run('pages');
   });
 
-  grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages', 'pages_deploy']);
-  
+  grunt.registerTask('requirejs_deploy', function(){
+    grunt.option('deploy', true);
+    grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
+  });
+
+  grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages_debug', 'pages_deploy']);
+
   //******************************************************************************
   //all of the following can be called with --deploy otherwise they assume --debug
   //******************************************************************************
-    
+
   grunt.registerTask('pages', function(){
     var env = grunt.option('deploy') ? 'deploy' : 'debug';
     grunt.config('jshint.files', ['packages/pages/data/**/*.json']);
     grunt.task.run(['jshint', 'jade:pages_'+env]);
   });
-    
+
   grunt.registerTask('common', 'lint, scss, copy', function(){
     var env = grunt.option('deploy') ? 'deploy' : 'debug';
 
@@ -412,7 +478,7 @@ module.exports = function(grunt) {
   //****************************************************************************************
   //all of the following can also be called with :your-module-name otherwise they assume all
   //****************************************************************************************
-  
+
   grunt.registerTask('css', 'run compass on *.scss', function(module){
     module = module || '**';
     var env = grunt.option('deploy') ? 'deploy' : 'debug';
@@ -427,7 +493,7 @@ module.exports = function(grunt) {
 
    var str = '@import "_base/variables"; \n@import "_base/mixins"; \n';
     grunt.file.expand('packages/modules/**/css/*.scss').filter(function(a){return a.match(/_responsive/g)}).forEach(function(path){
-      console.log(path);
+      // console.log(path);
 
       str += '@import "' + path.replace(/packages/g, '../..') +'"; \n';
     })
@@ -468,9 +534,14 @@ module.exports = function(grunt) {
       mod = path.split('/')[2];
       arr.push({expand:true, cwd:path, src:['*.jade'], dest:'../build/'+ env, ext:'.html', flatten:true})
     });
+    grunt.config('htmlStartStamp', new Date());
+    grunt.registerTask('htmlCompleteTime', function(m){
+      console.log('Completed in ' + ((new Date()) - grunt.config('htmlStartStamp')) / 1000 + ' seconds.');
+    });
     grunt.config('jade.build_'+env+'.files', arr);
     grunt.task.run('jade:build_'+env);
-
+    grunt.task.run('htmlCompleteTime');
+    
   });
 
   grunt.registerTask('js', 'lint js/*.js files then minify and copy', function(module){
@@ -500,26 +571,65 @@ module.exports = function(grunt) {
     grunt.task.run(['clear', 'common', 'assets'+module, 'light'+module])
 
     if(grunt.option('deploy')){
-      grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
+      grunt.task.run('requirejs_deploy');
     }
   });
 
   grunt.registerTask('w', function(module){
     module = module || '**';
 
-    grunt.config('watch.js.files', ['packages/modules/' + module + '/js/*.js']);
-    grunt.config('watch.css.files', ['packages/modules/' + module + '/css/*.scss']);
-    grunt.config('watch.html.files', ['packages/modules/' + module + '/**/*.jade', 'packages/modules/' + module + '/**/*.json']);
-    grunt.config('watch.assets.files', ['packages/modules/' + module + '/img/']);
+    var jsWatch = ['packages/modules/' + module + '/js/*.js'],
+        cssWatch = ['packages/modules/' + module + '/css/*.scss'],
+        htmlWatch = ['packages/modules/' + module + '/**/*.jade', 'packages/modules/' + module + '/**/*.json'],
+        imgWatch = ['packages/modules/' + module + '/img/*.*'];
+
+    var jsTask = ['js:'+module],
+        cssTask = ['css:'+module],
+        htmlTask = ['html:'+module],
+        imgTask = ['assets:'+module];
+
+    for ( var i = 1; i < arguments.length; i++ ) {
+      jsWatch.push('packages/modules/' + arguments[i] + '/js/*.js');
+      cssWatch.push('packages/modules/' + arguments[i] + '/css/*.scss');
+      htmlWatch.push('packages/modules/' + arguments[i] + '/**/*.jade');
+      htmlWatch.push('packages/modules/' + arguments[i] + '/**/*.json');
+      imgWatch.push('packages/modules/' + arguments[i] + '/img/*.*');
+
+      jsTask.push('js:'+arguments[i]);
+      cssTask.push('css:'+arguments[i]);
+      htmlTask.push('html:'+arguments[i]);
+      imgTask.push('assets:'+arguments[i]);
+    }
+
+    grunt.config('watch.js.files', jsWatch);
+    grunt.config('watch.css.files', cssWatch);
+    grunt.config('watch.html.files', htmlWatch);
+    grunt.config('watch.assets.files', imgWatch);
 
     if(module !== '**'){
-      grunt.config('watch.js.tasks', 'js:'+module);
-      grunt.config('watch.css.tasks', 'css:'+module);
-      grunt.config('watch.html.tasks', 'html:'+module);
-      grunt.config('watch.assets.tasks', 'assets:'+module);
+
+      grunt.config('watch.js.tasks', jsTask);
+      grunt.config('watch.css.tasks', cssTask);
+      grunt.config('watch.html.tasks', htmlTask);
+      grunt.config('watch.assets.tasks', imgTask);
     }
 
     grunt.task.run('watch');
-
   });
+
+  //*************************************
+  // The following are utility functions.
+  //*************************************
+
+  // Use in conjunction with timerEnd to test performance/load of your commands.
+  // ex. `grunt timerStart command-foo timerEnd
+
+  grunt.registerTask('timer-start', function() {
+    grunt.config('timerStartStamp', new Date());
+  });
+
+  grunt.registerTask('timer-end', function() {
+    console.log('Completed in ' + ((new Date()) - grunt.config('timerStartStamp')) / 1000 + ' seconds.')
+  });
+
 };

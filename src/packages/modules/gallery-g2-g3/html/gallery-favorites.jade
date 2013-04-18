@@ -1,0 +1,23 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('gallery-g2-g3')
+
+include gallery-helpers.jade
+
+.alert.collapsed#sign-in-alert
+  .container.alert-inner
+    .grid.relative
+      p.p3.msg
+        | !{ data.favs.signedOutMessage.message }
+        a(href=data.favs.signedOutMessage.link)= data.favs.signedOutMessage.label
+        | !{ data.favs.signedOutMessage.messageSuffix }
+      button(class="box-close box-close-small", data-dismiss="alert", data-target="#sign-in-alert")
+        i.fonticon-10-x
+
++loaderDiv()
+
+.gallery-content(data-module-name=data.config.module_name, data-module-id=data.config.module_id)
+  .container.gallery-title
+    .grid
+      h1.t3
+        strong= data.title
+  +favoritesGallery( data.favs )

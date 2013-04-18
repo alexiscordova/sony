@@ -1,0 +1,81 @@
+include ../../common/html/ieconditionals.html
+doctype 5
+
+include docs-head.html
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
+  //- include docs-nav.html
+
+  div#page-wrap-outer.page-wrap-outer
+    div#page-wrap-inner.page-wrap-inner
+
+      div.wikiNav.wikiDemoNav
+        div.container
+            div.grid
+              div#primaryNav.primaryNav
+                ul
+                  li.navLogo
+                    a(href='doku.php')
+                      span.sprite-32a-sony-logo-sm-short
+
+      header.jumbotron.subhead#overview
+        div.container
+          div.grid
+            h6.bs-docs-heading Scaffolding
+            h1.bs-docs-heading Containers Demo
+
+      section.container(style='padding-bottom:20px; padding-top:0; border-top:0;')
+        div.grid          
+          p
+            | Resize your browser to see how the&nbsp;
+            code
+              | .container
+            | &nbsp;and&nbsp;
+            code
+              | .grid
+            | &nbsp;respond with the&nbsp;
+            code
+              | .full&#8209;bleed
+            | &nbsp;and&nbsp;
+            code
+              | .full&#8209;bleed&#8209;no&#8209;max
+            | &nbsp;classes.
+          p
+            small
+              | Note: You need a display wider than 1400px to see any difference between&nbsp;
+              code
+                | .full&#8209;bleed
+              | &nbsp;and&nbsp;
+              code
+                | full&#8209;bleed&#8209;no&#8209;max
+              | .
+      div.docs-page-structure-page.full-size
+        div.docs-page-structure-main
+          div.docs-docs-page-structure-maxWidth-outline
+          section.container
+            pre.prettyprint.prettyprint-jade .container
+          section.container.full-bleed
+            pre.prettyprint.prettyprint-jade .container.full-bleed
+          section.container.full-bleed-no-max
+            pre.prettyprint.prettyprint-jade .container.full-bleed-no-max
+          section.container.nesting-demo-parent
+            div.grid.show-grid
+              pre.prettyprint.prettyprint-jade.tall
+                | .container
+                |   .grid
+          section.container.full-bleed.nesting-demo-parent
+            div.container.nesting-demo-parent
+              div.grid.show-grid
+                pre.prettyprint.prettyprint-jade.tall
+                  | .container.full-bleed
+                  |   .container
+                  |     .grid
+          section.container.full-bleed-no-max.nesting-demo-parent
+            div.container.full-bleed.nesting-demo-parent
+              div.container.nesting-demo-parent
+                div.grid.show-grid
+                  pre.prettyprint.prettyprint-jade.tall
+                    | .container.full-bleed-no-max
+                    |   .container.full-bleed
+                    |     .container
+                    |       .grid
+  include docs-foot-responsive.html

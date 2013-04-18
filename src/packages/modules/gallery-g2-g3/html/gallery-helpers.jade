@@ -1,14 +1,11 @@
 include ../../../common/html/jade-helpers.jade
 
-- layout1 = [ "carousel", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
-- layout2 = [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "normal", "normal" ]
-- layout3 = "normal"
-- layout4 = [ "large", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
-- layouts = { "layout1": layout1, "layout2" : layout2, "layout3" : layout3, "layout4": layout4 }
+- layouts = locals.getConfigFile("packages/modules/gallery-g2-g3/html/layouts.json")
 
 mixin loaderDiv()
-  .loading.gallery-loader.text-center
-    img(src="img/loader.gif", alt="Loading...")
+  .relative.gallery-loader
+    .loading.text-center
+      img(src="img/loader.gif", alt="Loading...")
 
 mixin filterColor( filterSet )
   ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
@@ -55,20 +52,23 @@ mixin filterGroup( filterSet )
       mediaObject = li + btn + body + '</li>'
       | !{ mediaObject }
 
-mixin helpPopover( help, pullRight )
-  pullRight = pullRight || false
+mixin helpPopover( help, pullRight, circleOnLeft )
+  pullRight = pullRight ? pullRight : false
   classes = 'help-container js-popover-trigger'
   - if ( pullRight ) classes += ' pull-right'
   div(class=classes, data-original-title=help.title)
+    if circleOnLeft
+      i.fonticon-10-circle-q
     if help.label
       span.p4.help-label= help.label
-    i.fonticon-10-circle-q
+    if !circleOnLeft
+      i.fonticon-10-circle-q
     +popoverContent( help )
 
 mixin popoverContent( help )
   - layout = help.layout
   .js-popover-content.hidden
-    .box-close.box-close-small
+    button.box-close.box-close-small
       i.fonticon-10-x
     if layout == '2up'
       .twoup
@@ -101,51 +101,57 @@ mixin filterSet( filterSet )
       +filterGroup( filterSet )
 
 
-mixin galleryFilters( gallery )
-  .container.filter-display-bar.slide-toggle-parent
-    if gallery.sortSet
-      .grid.no-grid-at-767
+mixin galleryFilters( gallery, isCompareGallery )
+  compareStr = isCompareGallery ? 'Browse' : 'Compare'
+  sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
+  productsStr = gallery.productsStr ? gallery.productsStr : 'Products'
+  filterStr = 'Filter'
+  compareBrowseLink = isCompareGallery ? gallery.browseLink : gallery.compareLink
+  compareBrowseLink = compareBrowseLink ? compareBrowseLink : '#'
+  wrapperClass = 'container filter-display-bar slide-toggle-parent'
+  gridClass = 'grid no-grid-at-767'
 
+  div(class=wrapperClass)
+    if gallery.sortSet
+      div(class=gridClass)
 
         //- Product Count
-        span.p3.ib.product-count-wrap
+        div.pull-left.p3.product-count-wrap
           strong.text-dark.product-count= gallery.total
-          | &nbsp;Products
+          | !{ productsStr }
 
 
         //- Filter and compare buttons
         if gallery.filterSet
           button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
-            | Filter
+            | !{ filterStr }
             i.fonticon-10-arrowhead-down
-          button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool", disabled=true)
-            | Compare
-            i.fonticon-10-sm-bold-plus
+          a.lt3.btn.btn-alt-special.btn-alt-plus(href=compareBrowseLink)
+            if isCompareGallery
+              i.fonticon-10-grid-3x3
+            else
+              i.fonticon-10-speaker
+            | !{ compareStr }
 
         else if gallery.accessoryFinder
-          button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder
+          button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder-btn
             | !{ gallery.accessoryFinder.title }
             i.fonticon-10-sm-bold-plus
 
-        //- Sort options
-        .sort-options.pull-right
-          label.l3.filter-label(for="select-sort-by") Sort By:&nbsp;
-          span.dropdown.dropdown-alt.ib
-            button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
-              span.js-toggle-text= gallery.sortSet[0].label
-              i.fonticon-10-arrowheads-elevator
-            ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
-              each sort in gallery.sortSet
-                //- Jade will interpret attr=true as attr=attr. We need to make it a string
-                - reverse = sort.reverse === true ? 'true' : 'false'
-                li
-                  a(data-value=sort.name, data-reverse=reverse, tabindex="-1", href="#")= sort.label
-          .native-dropdown
-            i.fonticon-10-arrowheads-elevator.absolutely
-            select#select-sort-by.select-small
-              each sort in gallery.sortSet
-                - reverse = sort.reverse === true ? 'true' : 'false'
-                option(value=sort.name, data-reverse=reverse)= sort.label
+        if gallery.shareMenu
+          .pull-right.options-wrap
+            .share-options
+              a.js-share.share-trigger(data-toggle="dropdown", href="#")
+                span.bt3= gallery.shareMenu.shareText
+                span.plus-holder
+                  i.fonticon-10-sm-bold-plus
+              +shareMenu( gallery.shareMenu.socialButtons, gallery.shareMenu.shortLink )
+              span.p5.spacer |
+            //- Sort options
+            +sorter( gallery.sortSet, sortByStr, false )
+        else
+          //- Sort options
+          +sorter( gallery.sortSet, sortByStr )
 
 
   if gallery.filterSet
@@ -173,8 +179,30 @@ mixin galleryFilters( gallery )
                 if filterSet.filterGroup == 3
                   +filterSet( filterSet )
 
-  .container.active-filters-wrap
-    .grid.active-filters(data-clear-label="Clear All")
+    .container.active-filters-wrap
+      .grid.active-filters(data-clear-label="Clear All")
+
+
+mixin sorter( sortSet, text )
+  .sort-options.pull-right
+    label.l3.filter-label(for="select-sort-by")= text
+    span.dropdown.dropdown-alt.ib
+      button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
+        span.js-toggle-text= sortSet[0].label
+        i.fonticon-10-arrowheads-elevator
+      ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
+        each sort in sortSet
+          //- Jade will interpret attr=true as attr=attr. We need to make it a string
+          //- If sort is false, or not present, we don't need to add the attribute
+          - reverse = sort.reverse ? 'true' : false
+          li
+            a(data-value=sort.name, data-reverse=reverse, tabindex="-1", href="#")= sort.label
+    .native-dropdown
+      i.fonticon-10-arrowheads-elevator.absolutely
+      select#select-sort-by.select-small
+        each sort in sortSet
+          - reverse = sort.reverse ? 'true' : false
+          option(value=sort.name, data-reverse=reverse)= sort.label
 
 
 mixin zeroProductsMessage( gallery )
@@ -188,10 +216,11 @@ mixin zeroProductsMessage( gallery )
 
 
 mixin featuredGallery( submodules, gallery, type )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.featured
-  type = type || 'product'
+  submodules = submodules ? submodules : data.submodules
+  gallery = gallery ? gallery : data.featured
+  type = type ? type : 'product'
   i = 0
+
   section.gallery.fade.container((id=gallery.name + '-gallery', data-mode=gallery.mode)
     .grid
       h2.t6.featured-gallery-title= gallery.title
@@ -210,9 +239,10 @@ mixin featuredGallery( submodules, gallery, type )
 
 
 mixin detailedGallery( submodules, gallery, type )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.productCards
-  type = type || 'product'
+  submodules = submodules ? submodules : data.submodules
+  gallery = gallery ? gallery : data.productCards
+  type = type ? type : 'product'
+
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
     +galleryFilters( gallery )
 
@@ -232,23 +262,105 @@ mixin detailedGallery( submodules, gallery, type )
         a(href=gallery.nextLink) Camera Overflow
       .infscr-holder.text-center
 
-mixin compareGallery( submodules, gallery, type )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.productCards
-  type = type || 'product'
-  section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
-    +galleryFilters( gallery )
+mixin favoritesGallery( gallery )
 
-    .container
-      .products.slimgrid.no-grid-at-767
-        each module in submodules
-          d = locals.data(module.data)
-          if d.type == type && !d.promo
-            - d.view = "compare"
-            e = { "locals" : locals, "data" : d }
-            !{locals.partial( module.type, e )}
+  if gallery.favorites && gallery.favorites.length > 0
+    section.gallery.fade.gallery-favorites(id=gallery.name + '-gallery', data-mode=gallery.mode)
+      +galleryFilters( gallery )
+
+      .container
+        .products.slimgrid.no-grid-at-767
+          each favorite in gallery.favorites
+            d = locals.data(favorite.data)
+            if d.isFavorited && !d.promo
+              - d.view = "detailed"
+              - d.includeType = true
+              e = { "locals" : locals, "data" : d }
+              !{locals.partial( favorite.type, e )}
+          +recommendedTile( gallery.recommended )
+
+      if gallery.nextLink
+        .navigation.invisible
+          a(href=gallery.nextLink) Next set
+        .infscr-holder.text-center
+  else
+    section.container.no-favs
+      .grid.text-center
+        h1.t4
+          strong= gallery.nofavs.title
+        p.ilikeyou
+          i.fonticon-10-favorite
+        p.p3= gallery.nofavs.message
+
+
+
+mixin compareGallery( submodules, gallery, type, labels )
+  submodules = submodules ? submodules : data.submodules
+  gallery = gallery ? gallery : data.productCards
+  type = type ? type : 'product'
+  labels = labels ? labels : gallery.labels
+
+  label = gallery.galleryName ? gallery.galleryName : 'Compare Things'
+  legend = gallery.legend ? gallery.legend : 'this is defined in gallery.legend'
+  resetLabel = gallery.resetLabel ? gallery.resetLabel : 'do things'
+
+  section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
+
+    +galleryFilters( gallery, true )
+
+    .tone-bar
+      .container
+        .grid
+          h2.t6.compare-gallery-title= label
+          a.compare-reset.lt4.js-compare-reset.js-clear-filters.disabled(href="#")
+            i.fonticon-10-circlearrow
+            span= resetLabel
+          span.legend
+            i.swatch-lemon.mini-swatch
+            span.p5
+              em!= '&nbsp;' + legend
+
+
+    .sticky-nav.tone-bar
+      .container
+        .grid
+          .pull-left
+            h2.t7.sticky-nav-title= label
+          a.pull-right.compare-reset.lt4.js-compare-reset.js-clear-filters.disabled(href="#")
+            i.fonticon-10-circlearrow
+            span= resetLabel
+
+
+    .relative
+      .container.compare-wrap
+        nav.compare-nav-container.pagination-paddles.show-paddles
+          button.pagination-paddle.pagination-prev.on.compare-nav.compare-nav-prev
+            i.fonticon-10-chevron-reverse
+          button.pagination-paddle.pagination-next.on.compare-nav.compare-nav-next
+            i.fonticon-10-chevron
+        .products
+          .span2.detail-labels-wrap
+            .compare-sticky-header.sticky-count
+              .right-bar
+            .detail-labels-wrapping
+              .detail-label-group
+                each label in labels
+                  .detail-label.detail
+                    p.l3
+                      strong= label.label
+
+          .compare-items-wrap
+            .compare-items-container
+              each module in submodules
+                d = locals.data(module.data)
+                if d.type == type && !d.promo
+                  - d.view = "compare"
+                  e = { "locals" : locals, "data" : d, "labels" : gallery.labels }
+                  !{locals.partial( module.type, e )}
 
     +zeroProductsMessage( gallery )
+
+
 
 mixin galleryStickyTabs( tabs, moduleName, moduleId )
   .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel", data-module-name=moduleName, data-module-id=moduleId)
@@ -268,41 +380,67 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
                         i(class=iconClass)
                     h3.l2.tab-label= tab.label
         nav.tab-nav-btns
-          button.nav-paddle.tab-nav.tab-nav-prev
+          button.nav-paddle.tab-nav.tab-nav-prev.hide
             i.fonticon-10-chevron-reverse
-          button.nav-paddle.tab-nav.tab-nav-next
+          button.nav-paddle.tab-nav.tab-nav-next.hide
             i.fonticon-10-chevron
+
+mixin accessoryFinder( submodules, finder, type )
+  submodules = submodules ? submodules : data.submodules
+  finder = finder ? finder : data.accessories.accessoryFinder
+  buttonStr = 'Accessory Finder'
+  type = type ? type : 'camera'
+
+  .af-module
+    .container
+      .grid
+        button.btn.accessory-finder-btn(data-toggle="modal", data-target="#accessory-finder-modal")
+          | !{ buttonStr }
+          i.fonticon-10-sm-bold-plus
+
+    #accessory-finder-modal.accessory-finder.modal.fade.hide(tabindex="-1", role="dialog", aria-labelledby="accessory-modal-title", aria-hidden="true")
+      .container
+        .modal-inner
+          .modal-header.grid
+            h4.t4#accessory-modal-title= finder.title
+
+            p.p3= finder.subtitle
+            button.box-close(data-dismiss="modal", aria-hidden="true")
+              i.fonticon-10-x-skinny
+
+          .modal-subhead
+            .grid.m-grid-at-767.filter-container
+              .search-form.pull-left
+                i.fonticon-10-search.input-icon
+                label.visuallyhidden(for="accessory-finder-input")
+                input(class="p2", id="accessory-finder-input", type="text", placeholder=finder.placeholder)
+              +helpPopover( finder.help, undefined, true )
+
+          .modal-body.fade
+            .grid.compat-filters.filter-display-bar
+              //- Sort options
+              +sorter( finder.sortSet, finder.sortText )
+
+              //- Product Count
+              span.p3.ib.product-count-wrap
+                strong.text-dark.product-count= finder.total
+                | !{ finder.productsStr }
+
+            .slimgrid.no-grid-at-567.products
+              each module in submodules
+                d = locals.data(module.data)
+                if d.type == type && !d.promo && d.imgTiny
+                  - d.view = "compatibility"
+                  e = { "locals" : locals, "data" : d }
+                  !{locals.partial( module.type, e )}
+
 
 
 mixin productStrips( submodules, strips, type )
-  submodules = submodules || data.submodules
-  type = type || 'accessory'
+  submodules = submodules ? submodules : data.submodules
+  type = type ? type : 'accessory'
+
   section
-    //- .slide-toggle-parent.container
-    //-   button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target="#IDGOESHERE")
-    //-     | Accessory Finder
-    //-     i.icon-ui-arrowhead-up-white.up.hide
-    //-     i.icon-ui-arrowhead-down-white.down
-    //- .container.slide-arrow-under.fade
-    //-   .relative
-    //-     .slide-toggle-arrow
-    //- .container.slide-arrow-over.fade
-    //-   .relative
-    //-     .slide-toggle-arrow
-
-    //- .collapse.slide-toggle-target(id="IDGOESHERE")
-    //-   .container
-    //-     .grid.no-grid-at-767
-    //-       h1 Collapse
-    //-       h2 Collapse
-    //-       h3 Collapse
-    //-       h4 Collapse
-    //-       h5 Collapse
-    //-       h6 Collapse
-
-
-    //- .spacer
-
     .container
       each strip in strips
         .slimgrid5.m-grid-at-767.product-strip-wrap
@@ -315,32 +453,26 @@ mixin productStrips( submodules, strips, type )
             each module in submodules
               d = locals.data(module.data)
               if d.type == type && d.subtype == strip.subtype && count < 5
-                - d.layout = layout3
+                - d.layout = layouts.layout3
                 - d.view = "basic"
                 e = { "locals" : locals, "data" : d }
                 !{locals.partial( module.type, e )}
                 - count += 1
 
 
-mixin compareToolModal()
-  label = 'Compare'
-  legend = 'Highlights indicate highest performance features'
-  resetLabel = 'Reset'
+mixin recommendedTile( recommended )
+  div.span4.detailed.gallery-item.recommended-tile(data-recommended="true")
+    h3.l3.recommended-title= recommended.title
+    .wrap
+      ul.media-list
+        each product in recommended.products
+          li.media
+            d = locals.data( product.data )
+            - d.view = "recommended"
+            e = { "locals" : locals, "data" : d }
+            !{ locals.partial( product.type, e ) }
 
-  #compare-tool.modal.takeover.hide.fade(tabindex="-1", role="dialog", aria-labelledby="compare-tool-label", aria-hidden="true")
-    .modal-inner
-      .modal-header.container(data-reset-label=resetLabel)
-        h3.t3.pull-left#compare-tool-label= label
-        button.box-close(data-dismiss="modal", aria-hidden="true")
-          i.fonticon-10-x-skinny
-      .modal-body
-        .container.compare-key
-          div
-            i.swatch-lemon.mini-swatch
-            span.p4!= '&nbsp;' + legend
-      .takeover-sticky-header
-        .container.relative
-          h6.t6-light.sticky-nav-title
-          button.box-close(data-dismiss="modal", aria-hidden="true")
-            i.fonticon-10-x-skinny
+
+
+
 

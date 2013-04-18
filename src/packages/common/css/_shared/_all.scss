@@ -6,6 +6,26 @@
 // It is named all.scss so that it comes first in the source and is easier to override
 
 
+
+.favorite-holder {
+  display: inline-block;
+  cursor: pointer;
+
+  i {
+    color: $gray60;
+    vertical-align: baseline;
+    font-size: .8125em;
+    padding: .6875em .875em;
+  }
+
+  .no-touch &:hover i,
+  .no-touch a:hover > & i,
+  &.active i {
+    color: rgb(243,84,41);
+  }
+}
+
+
 //  .d8888b.  888    d8b          888                     888b    888
 // d88P  Y88b 888    Y8P          888                     8888b   888
 // Y88b.      888                 888                     88888b  888
@@ -22,47 +42,52 @@
 ul.jump-links {
   margin-left: -.375em;
   margin-bottom: 0;
+  @include clearfix();
 
   li {
     margin: 0 0 0 px-em(23px);
     padding: 0;
-
-    .lt-ie8 & {
-      float: left;
-    }
+    float: left;
+    line-height: 1;
   }
 
   li:first-child {
     margin-left: 0;
   }
 
+  $totalHeight: 10px;
+  $highlightBarHeight: 4px;
+  $whitespaceHeight: $totalHeight - $highlightBarHeight;
   a {
     display: block;
     margin-bottom: 0;
     padding-right: 6px;
-    padding-bottom: 10px;
+    padding-bottom: $totalHeight;
     padding-left: 6px;
     color: $gray20;
     @include box-shadow(inset 0 0 0 $btnBackground);
     @include transition($transitionFast $easeNormal);
   }
 
-  li:hover a {
-    color: $linkBlueActive;
+  .no-touch & li:hover a {
+    color: $secondarySlateDark;
   }
 
   .no-touch & li:hover a,
   .active a {
-    @include box-shadow(inset 0 -4px 0 $btnBackground);
+    @include box-shadow(inset 0 -#{$highlightBarHeight} 0 $btnBackground);
   }
 
-  .no-boxshadow & a {
-    padding-bottom: 6px;
-    border-bottom: 4px solid transparent;
+  .no-boxshadow & a,
+  .sonytablets & a {
+    @include box-shadow(none);
+    padding-bottom: $whitespaceHeight;
+    border-bottom: $highlightBarHeight solid transparent;
   }
 
   .no-boxshadow.no-touch & li:hover a,
-  .no-boxshadow & .active a {
+  .no-boxshadow & .active a,
+  .sonytablets & .active a {
     border-bottom-color: $btnBackground;
   }
 }
@@ -94,10 +119,10 @@ ul.jump-links {
     @include transition-timing-function(ease-out);
   }
 
-  // // Disable box shadow if the sticky headers are visible
-  // .sticky-header-open & {
-  //   @include box-shadow(none);
-  // }
+  // Disable box shadow if the sticky headers are visible
+  .sticky-header-open & {
+    @include box-shadow(none);
+  }
 
   .no-boxshadow & {
     border-bottom: 1px solid $gray70;
@@ -141,7 +166,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   }
 
   &:focus .product-img,
-  .product-img:hover {
+  .no-touch & .product-img:hover {
     background-color: $gray75;
   }
 
@@ -154,6 +179,15 @@ $oneByOneImgPadding: 107.84313725490196%;
   // < ie8 doesn't support pseudo elements
   .lt-ie8 & {
     height: 17.25em; // 276
+  }
+
+  .lt-ie9 &.concealed {
+    height: 0;
+    min-height: 0;
+
+    &:after {
+      content: none;
+    }
   }
 
   // Make them a bit bigger
@@ -223,6 +257,12 @@ $oneByOneImgPadding: 107.84313725490196%;
 
     .product-img:after {
       padding-top: 88.14589665653495%;
+    }
+
+    // IE8 gets 0 wrapper width
+    .lt-ie9 & .js-item-carousel {
+      width: px-em(538);
+      height: px-em(475);
     }
 
     // Carousels
@@ -345,6 +385,30 @@ $oneByOneImgPadding: 107.84313725490196%;
     }
   }
 
+  // Social tiles
+  &.social {
+
+    // .lt-ie8 & {
+    //   height: 17.25em; // 276
+
+    //   .product-img {
+    //     height: 11.3125em; // 181
+    //   }
+    // }
+
+    &:after {
+      padding-top: 78.19025522041764%;
+    }
+
+    .product-img:after {
+      padding-top: 51.3%;
+    }
+
+    .shuffle-6 & .product-img:after {
+      padding-top: 50.3%;
+    }
+  }
+
   .label {
     position: absolute;
     z-index: 10;
@@ -381,25 +445,6 @@ $oneByOneImgPadding: 107.84313725490196%;
     position: absolute;
     left: 0;
     bottom: 0;
-    text-align: center;
-    cursor: pointer;
-
-    i {
-      // margin-top: px-em(3px);
-      color: $gray60;
-      vertical-align: baseline;
-      font-size: .8125em;
-      padding: .6875em .875em;
-    }
-
-    &:hover i,
-    &.active i {
-      color: rgb(243,84,41);
-    }
-  }
-
-  .fonticon-10-star {
-    color: $gray50;
   }
 }
 
@@ -511,6 +556,60 @@ $oneByOneImgPadding: 107.84313725490196%;
   &.align-right-bottom {}
 }
 
+.gallery-item.social {
+
+  .img-wrap,
+  .quote {
+    max-width: 50%;
+  }
+
+  .img-wrap {
+    float: left;
+    height: 100%;
+  }
+
+  .quote {
+    float: right;
+    width: 50%;
+    height: 100%;
+    height: -webkit-calc( 100% - 18px );
+    height: calc( 100% - 18px );
+    padding-right: 5%;
+    text-align: left;
+
+    .lt-ie8 & {
+      width: 45%;
+      margin-top: 30px;
+    }
+  }
+
+  figcaption {
+    margin-top: px-em( 5 );
+  }
+
+  .social-icon {
+    @include square( 30px );
+    vertical-align: middle;
+    margin-right: 10px;
+    border-radius: 50%;
+    background-color: white;
+  }
+
+  .social-icon i {
+    font-size: 16px; // has to be pixels cause it's ghost-centered
+  }
+
+  .author {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+
+  blockquote p {
+    color: $gray20;
+    margin-bottom: 0;
+  }
+}
 
 
 // Detailed gallery item sizes
@@ -615,8 +714,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
-  width: -webkit-calc(100% - 0.625em);
-  width:         calc(100% - 0.625em);
 }
 
 // Gray border top for labels
@@ -664,7 +761,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   // The sticky-count uses a pseudo element for the box-shadow
   &:not(.sticky-count) {
-    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
+    @include box-shadow(0 .125em .3125em 0 $stickyShadowColor);
   }
 
   // Needs more specificity to override span margins
@@ -692,7 +789,7 @@ $oneByOneImgPadding: 107.84313725490196%;
     height: 100%;
     background: $gray90;
     border-right: .0625em solid rgba(0,0,0,0.05);
-    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
+    @include box-shadow(0 .125em .3125em 0 $stickyShadowColor);
   }
 
   .media .pull-left {
@@ -756,14 +853,9 @@ $oneByOneImgPadding: 107.84313725490196%;
 // Sticky nav
 .spec-sticky-nav {
 
-  // Disable box shadow if the sticky headers are visible
-  .sticky-header-open & {
-    @include box-shadow(none);
-  }
-
   .sticky-nav-title {
-    margin-top: 17px;
-    margin-bottom: 2px;
+    margin-top: 22px;
+    margin-bottom: 10px;
     line-height: .9;
 
     // Add a border-right to the far right of the grid (over the sticky nav)

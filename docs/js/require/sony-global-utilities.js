@@ -18,7 +18,7 @@ define(function (require) {
 
     // Force a redraw for webkit browsers.
 
-    'forceWebkitRedraw': function(){
+    forceWebkitRedraw: function(){
 
       var tempStyleSheet = document.createElement('style');
 
@@ -38,7 +38,7 @@ define(function (require) {
 
     // Return calculated column if width is above 568px/35.5em.
 
-    'masonryColumns': function(containerWidth) {
+    masonryColumns: function(containerWidth) {
 
       var column = containerWidth;
 
@@ -55,7 +55,7 @@ define(function (require) {
 
     // Return calculated gutter if width is above 568px/35.5em.
 
-    'masonryGutters': function(containerWidth) {
+    masonryGutters: function(containerWidth) {
 
       var gutter = 0;
 
@@ -73,7 +73,7 @@ define(function (require) {
     // Takes a 2D CSS transform matrix (such as `matrix(1, 0, 0, 1, -120, 0)`) and
     // returns a JSON object exposing the same paramters.
 
-    'parseMatrix': function( str ) {
+    parseMatrix: function( str ) {
 
       var modified;
 
@@ -100,7 +100,7 @@ define(function (require) {
 
     // Constrains a value between a min and max boundary.
 
-    'constrain': function(value, min, max) {
+    constrain: function(value, min, max) {
 
       value = parseFloat(value);
 
@@ -109,8 +109,88 @@ define(function (require) {
              value;
     },
 
-    scrollToTop : function() {
+    scrollToTop: function() {
       $.simplescroll();
+    },
+
+    // Swap two jQuery elements.
+
+    swapElements: function($elm1, $elm2) {
+
+      var elm1 = $elm1.get(0),
+          elm2 = $elm2.get(0),
+          parent1, next1,
+          parent2, next2;
+
+      if ( !elm1 || !elm2 ) { return; }
+
+      parent1 = elm1.parentNode;
+      next1   = elm1.nextSibling;
+      parent2 = elm2.parentNode;
+      next2   = elm2.nextSibling;
+
+      parent1.insertBefore(elm2, next1);
+      parent2.insertBefore(elm1, next2);
+    },
+
+    // Given an array of numbers (`arr`), find the item in the array closest
+    // to a given number (`num`). If you provide '>' or '<' for `filter`,
+    // it only looks for items greater or lesser than `num`, respectively.
+
+    closestInArray: function(arr, num, filter){
+
+      var closest = 0, closestDiff;
+
+      for ( var i in arr ) {
+
+        if ( filter === '>' ) {
+          if ( arr[i] < num ) { continue; }
+        }
+
+        if ( filter === '<' ) {
+          if ( arr[i] > num ) { continue; }
+        }
+
+        var diff = Math.abs(arr[i] - num);
+        if ( typeof closestDiff === 'undefined' || diff < closestDiff ) {
+          closestDiff = diff;
+          closest = arr[i];
+        }
+      }
+
+      return closest;
+    },
+
+    // Returns a function that will be executed at most one time, no matter how
+    // often you call it. Useful for lazy initialization.
+    // Care of [Underscore](http://underscorejs.org/underscore.js).
+
+    once: function(func) {
+
+      var ran = false, memo;
+
+      return function() {
+        if (ran) { return memo; }
+        ran = true;
+        memo = func.apply(this, arguments);
+        func = null;
+        return memo;
+      };
+    },
+
+    // When you click inside the input, the text will be selected
+    autoSelectInputOnFocus: function( $input ) {
+      $input.on('focus', function() {
+        var input = this;
+
+        // We use a timeout here because .select() will select everything,
+        // then the default browser action will deselect our selection
+        setTimeout(function() {
+          input.select();
+        }, 0);
+      });
+
+      $input = null;
     }
   };
 

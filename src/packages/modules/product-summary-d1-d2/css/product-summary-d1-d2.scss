@@ -1,0 +1,222 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+
+.ps-module {
+
+  .product-img-wrap {
+    padding-top: px-em(16);
+
+    .ghost-center-wrap {
+      height: 100%;
+    }
+  }
+
+  .product-details {
+    padding-top: px-em(34);
+    padding-bottom: px-em(41);
+  }
+
+  .price-content {
+    position: relative;
+    padding-top: px-em( 53px );
+  }
+
+
+  // Middle column
+  // --------------------
+  .product-img-wrap .product-img {
+    max-width: 141px;
+    max-height: 152px;
+    width: 100%;
+
+    img {
+      max-height: 100%;
+    }
+  }
+
+  .link-color {
+    color: $linkBlue;
+
+    &:hover {
+      color: $secondarySlateDark;
+    }
+  }
+
+  .product-title {
+    margin-top: -2px;
+    margin-bottom: 0;
+  }
+
+  .product-model span:last-child {
+    padding-left: 4px;
+  }
+
+  .product-sizes {
+    padding-right: 2px;
+  }
+
+  .m-product-img {
+    display: none;
+    max-width: 60%;
+  }
+
+  .spacer {
+    color: $gray50;
+    padding: 0 4px;
+  }
+
+  // Inline details (sizes | swatches)
+  .inline-details {
+    margin-top: px-em(6);
+  }
+
+  .inline-details > * {
+    display: block;
+    float: left;
+    margin: 0;
+  }
+
+  .inline-details .color-swatches {
+    padding-left: 2px;
+    margin-top: .1875em;
+  }
+
+
+  // Content on the right
+  // -----------------------
+
+  // copied from btn-special because btn-special has the colors the designers
+  // want, but the font and padding are different :\
+  .btn {
+    background: $btnSpecialBackground;
+
+    &:hover {
+      background: $btnSpecialBackgroundHover;
+    }
+    &.active,
+    &:active {
+      background: $btnSpecialBackgroundActive;
+    }
+    &.disabled:hover,
+    &[disabled]:hover {
+      background: $btnSpecialBackground;
+    }
+  }
+
+  .space-right {
+    margin-right: 1.25em;
+  }
+
+  .space-top {
+    margin-top: px-em(6);
+  }
+
+  .price-prefix {
+    margin-bottom: -3px;
+  }
+
+  .msrp {
+    padding-right: 2px;
+  }
+
+  .arrow-holder {
+    display: inline-block;
+
+    i {
+      position: relative;
+      top: -(px-em(2));
+      vertical-align: baseline;
+      padding: 0 0 0 px-em(8, 16);
+      // margin-right: -(px-em( 4 ));
+    }
+  }
+
+  .favorite-holder i {
+    padding: 0 0 0 px-em(8, 13);
+  }
+
+  .be-social {
+    position: absolute;
+    top: auto;
+    right: 0;
+    text-align: right;
+    width: 160%;
+  }
+
+  .share-trigger {
+    margin-left: 1.25em;
+  }
+
+  .be-social > a .bt3 {
+    color: $gray20;
+  }
+
+  // be social links active/hover color
+  .open .share-trigger > span,
+  .no-touch & .price-content a:hover > span {
+    color: $linkColorHover;
+  }
+
+  // icon default color
+  .fonticon-10-favorite,
+  .fonticon-10-arrowhead-down {
+    color: $gray50;
+  }
+
+  // Icon active/hover
+  .open .share-trigger > span i,
+  .active .fonticon-10-favorite,
+  .no-touch & .price-content a:hover .fonticon-10-arrowhead-down,
+  .no-touch & .price-content a:hover .fonticon-10-favorite {
+    color: $linkColorHover;
+  }
+
+}
+
+// Product summary sticky nav
+.ps-sticky-nav {
+  .product-img {
+    overflow: hidden;
+    margin-top: px-em(6);
+    margin-bottom: px-em(6);
+    max-width: px-em(96);
+    max-height: px-em(60);
+
+    // Don't let the image exceed 100% of the parent's height
+    img {
+      // max-height: 100%;
+      max-height: px-em(60); // firefox why u no like 100%?!
+    }
+  }
+
+  .sticky-nav-title {
+    margin-top: px-em(22, 18);
+    margin-bottom: px-em(12, 18);
+    line-height: .9;
+  }
+
+  .btn {
+    margin-top: px-em(13, 15);
+    margin-bottom: px-em(11, 15);
+  }
+
+  .price-prefix {
+    margin-top: px-em(14, 12);
+  }
+
+  .grid {
+    position: relative;
+  }
+
+  .jump-links {
+    position: absolute;
+    bottom: 0;
+    left: auto;
+  }
+}
+
+
+
+
+

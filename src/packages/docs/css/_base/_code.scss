@@ -25,7 +25,7 @@ pre {
   display: block;
   padding: 0.45em * $baseLineHeight;
   margin: 0 0 (0.5em * $baseLineHeight);
-  font-size: (0.9 * $baseFontSize);
+  font-size: (0.8125em);
   line-height: $baseLineHeight;
   word-break: break-all;
   word-wrap: break-word;
@@ -54,4 +54,63 @@ pre {
 .pre-scrollable {
   max-height: 340px;
   overflow-y: scroll;
+}
+
+
+
+
+
+.prettyprint.prettyprint-jade{
+  margin:15px 0 25px;
+  line-height: 1.2em;
+  padding: 5px 25px;
+  font-size:px-em(12);
+
+  &.tall{
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+  &.fused{
+    margin: -22px 0 50px;
+    line-height: 1.4em;
+    padding: 14px 25px 9px;
+  }
+
+  .pln, .kwd, .pun, .lit { color:#ff485e;} // classes / default
+  .tag .pln { color:#44f; } // tag
+  .com { color:rgb(6, 156, 0);} // id
+  .invisibles-column .pun{ color:rgba(0,0,0,0.35); }
+
+  .plain span{
+    color:$gray40;
+    font-size:0.8em;
+  }
+}
+.docs-page-structure-page .prettyprint.prettyprint-jade{
+  // margin:0 0 3px;
+  margin:0;
+}
+
+.docs-page-structure-page,
+.docs-container-demo{
+  .prettyprint.linenums,
+  .prettyprint,
+  pre.prettyprint{
+    padding:2px 8px;
+    font-size:$font_13_15;
+    background-color:rgba(255,255,255,0.5);
+    border:solid 1px rgba(255,255,255,0.9)!important;
+    @include box-shadow(none);
+    margin-bottom:0;
+    display:inline-block;
+    text-align:left;
+
+    ol.linenums {
+      margin: 0;
+      li{
+        margin:0;
+        padding:0;
+      }
+    }
+  }
 }

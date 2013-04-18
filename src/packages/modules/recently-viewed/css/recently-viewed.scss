@@ -1,0 +1,186 @@
+@import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../../../common/css/_base/mixins";
+
+
+
+.recently-viewed {
+
+  position:relative;
+  overflow: hidden;
+
+  h6 {
+    margin-top:50px;
+    margin-bottom:0;
+  }
+
+  .products {
+
+    margin-top: 25px;
+
+    .p3 {
+      margin-top :9px;
+    }
+
+  }
+
+  .rv-carousel{
+    margin-top:25px;
+    margin-bottom:40px; /* 30px + 10px (bullet height) */
+  }
+
+  .sony-carousel-slide {
+    margin-right: 0.10731%;
+  }
+
+  .sony-carousel-wrapper {
+
+    height:auto;
+
+  }
+
+  .o-visible {
+
+    .sony-carousel-wrapper{
+      overflow: visible;  
+    }
+
+    .pagination-paddles {
+      display:none;
+    }
+
+    .sony-dot-nav{
+      display:none;
+    }
+    
+  }
+
+  .pagination-paddles {
+
+      .pagination-paddle {
+
+        height:43px;
+        margin-top:-45px; /* -26 - 19(product content width / 2) */
+        margin-left:0;
+        margin-right:0;
+        position: absolute;
+        top: 50%;
+        width:28px;
+
+        background-color:rgba($gray10, 0.2);
+
+        
+      }
+
+      .pagination-next { right: 20px; }
+
+      .pagination-prev { left: 20px; }
+      
+    }
+
+  .color-swatches {
+    display: none;
+    visibility: hidden;
+  }
+
+  .favorite-holder {
+    display: none;
+    visibility: hidden;
+  }
+
+  .product-price {
+    display: none;
+    visibility: hidden;
+  }
+
+  .label-success {
+    display: none;
+    visibility: hidden;
+  }
+
+
+  .gallery-item {
+
+    display: block;
+    float:none;
+    overflow: inherit;
+    margin-top:0;
+
+    .gallery-item-inner {
+      position:static;
+    }
+
+    .normal{
+
+      .label.label-success {
+
+          display : none; 
+
+      }
+
+    }
+
+    .product-img {
+
+      .product-img-wrap{
+
+        padding: 0 6.666666666%;
+
+      }
+
+    }
+
+    .product-img:after {
+      padding-top: 86.843137%;
+    }
+
+    @media screen and (max-width: 768px) {
+
+      .product-img:after {
+        padding-top: 0;
+      }
+
+    }
+
+  }
+
+  .gallery-item:after{
+    padding:0;
+  }
+
+  .product-img:after {
+    content: '';
+  }
+
+  
+  .pagination-bullets {
+    bottom:-10px;
+  }
+
+  .sony-dot-nav{
+    margin-top:55px;
+  }
+
+
+  @media screen and (max-width: 979px) {
+
+    h6 {
+      margin-top:38px;
+    }
+
+    .rv-carousel {
+      margin-top:20px;
+    }
+
+    .pagination-paddles {
+      display:none;
+    }
+
+    .sony-dot-nav{
+      display:none;
+    }
+
+  }
+
+
+}
+

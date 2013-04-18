@@ -1,0 +1,133 @@
+@media (min-width: px-em(768px)) and (max-width: px-em(1036px)) {
+	.pd-module{
+		.measurements{
+			.img-wrapper{
+				width:60%;
+			} // img-wrapper
+		} //measurements
+  } // pd-module
+} //mq
+
+
+// TABLET
+//@media (min-width: px-em(480px)) and (max-width: px-em(767px)) {
+@media (min-width: px-em(568px)) and (max-width: px-em(979px)) {
+	.pd-module{
+		.top{
+			.desc{
+				@include content-columns(1);
+			} //. desc
+		} // .top
+
+		.last-column{
+			position: relative;
+
+			&.has-measurements{
+				// padding:24px 2.75% 32px;
+			} // has-measurements
+
+			&.m-span6{
+				margin-left:0;
+			}
+
+			.measurement{
+				margin-bottom: 0;
+			}
+
+		} // last-column
+			
+		.bottom{	
+			.bottom-btn{				
+				&.m-span6{
+					text-align: left;
+				} // m-span6
+			} // .bottom-btn	
+		} // bottom
+	} // pd-module
+} // end MQ
+
+
+// PHONE
+@media (max-width: px-em(567px)) {
+	.pd-module{
+		.top{
+			.desc{
+				@include content-columns(1);
+				margin-bottom:0;
+			} //. desc
+		} // .top
+
+		dl{
+			margin-bottom: 0;
+		}
+
+		.features{
+			padding-bottom:20px;
+		}
+
+		.last-column{
+			padding:0;
+
+			.specs{
+				padding:0;
+			} // specs
+
+			.features{
+				padding-top:0px;
+
+				li{
+					padding-bottom: 16px;
+					padding-top: 16px;
+					border-top:1px solid $gray70;
+				} // li
+
+			} // features
+
+		} // last column
+
+		.extras{
+			margin-top: 0;
+
+			&.with-measurements{
+				margin-top: 0;
+			}
+
+		} // extras
+
+		.specs{
+			padding-top:20px;
+		} // specs
+
+		.measurements{
+			display:none;
+		} // measurements
+
+		.bottom{
+			.text-tout{
+				text-align:center;
+				position: relative;
+
+				.icon{
+					position: relative;
+					display: block;
+				} //  icon
+
+				.copy{
+
+					&.with-icon{
+						margin-left: 0;
+						max-width: 100%;
+						display: block;						
+					} // with-icon
+				} // copy
+			} // text-tout
+
+			.bottom-btn{
+				&.span6{
+					padding-top: 30px;
+					text-align: center;
+				} // span6
+			} // bottom-btn
+		} // bottom
+	} // pd-module
+} // end MQ

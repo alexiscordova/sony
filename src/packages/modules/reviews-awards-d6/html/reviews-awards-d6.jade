@@ -1,0 +1,115 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('reviews-awards-d6')
+
+section.raa-module
+  .container.raa-header
+    .grid
+      h2.l1 #{data.config.title}
+
+  .container.raa-content(class=(data.userReviews.count <= 0) ? "no-user-reviews" : "has-user-reviews")(class=(data.expertReviews) ? "has-expert-reviews" : "no-expert-reviews")
+
+    .grid.raa-merged-carousel-wrapper.no-grid-at-567
+      div.raa-merged-carousel.raa-user-reviews.raa-expert-reviews.span12
+        h3.l3
+        div
+
+    .grid.no-grid-at-567
+
+      userReviewColumns = 8;
+      if ((!data.expertReviews && !data.awards) || !data.userReviews || data.userReviews.count <= 0)
+        userReviewTakeover = true
+        userReviewColumns = 12;
+
+      section.raa-user-reviews(class='span'+ userReviewColumns)
+        h3.l3 Users Say
+
+        div
+          .raa-user-reviews-carousel
+             .carousel-slide
+
+              div.user-ratings(data-header="Users Say")
+                if data.userReviews && data.userReviews.count > 0
+                  div.raa-overall
+                    div.raa-stars
+                      - for ( i = 1; i <= 5; i++ ) {
+                        - starClass = "star"+i
+                        if i < data.userReviews.average
+                          - starClass += " on"
+                        i.fonticon-10-star.star(class=starClass)
+                      - }
+                    p.average-rating.p2
+                      strong #{data.userReviews.average}
+                      span.p3  based on
+                        a(href=data.userReviews.reviewPageLink)  #{data.userReviews.count} reviews
+                  dl.raa-breakdown
+                    for item in data.userReviews.criteria
+                      div
+                        dt.l3 #{item.name}
+                        div.raa-rating-bar
+                          div.raa-rating-bar-score(class = "score-" + Math.round(item.score))
+                        dd #{Math.round(item.score)}
+
+                else
+                  div.raa-overall
+                    div.raa-stars
+                      - for ( i = 1; i <= 5; i++ ) {
+                        i.fonticon-10-star.star(class="star"+i)
+                      - }
+                    p.zero-ratings.p2
+                      strong #{data.userReviews.average}
+                      span  reviews
+                    p Currently there are no reviews. Would you like to be the first?
+
+                div.cta
+                  a.btn.btn-small(href="#") Add your own review
+
+              if data.userSocialMentions
+                for item in data.userSocialMentions
+                  div.raa-social-mention(data-header="Users Say")
+                    aside
+                      blockquote.bq2
+                        p #{item.message}
+                      div.p4.lt
+                        a(href=item.profileLink)
+                          img(src=item.profileImage)
+                          | #{item.name}
+
+      if !userReviewTakeover
+        aside.span4.raa-expert-reviews
+          if data.expertReviews
+            h3.l3 Experts Say
+            div.reviews
+              div
+                for item in data.expertReviews
+                  div.raa-expert-review(data-header="Experts Say")
+                    a(href=item.link)
+                      img(src=item.logoImage, alt=item.reviewer)
+                    blockquote.bq4.bq3-at-567
+                      p #{item.blurb}
+                    div.p4.lt
+                      a(href=item.link) Read Review
+
+          if data.awards
+            h3.l3 Awards
+            ul.raa-awards(data-header="Awards")
+              for item in data.awards
+                li
+                  a(href=item.link)
+                    img(src=item.badgeImage)
+                  p.p4
+                    span.award-name #{item.awardedBy} #{item.title} #{''}
+                    span.award-year #{" "+item.year} #{''}
+
+    if userReviewTakeover
+      .grid.no-grid-at-567
+        aside.span12.raa-awards-wrapper
+          if data.awards
+            h3.l3 Awards
+            ul.raa-awards
+              for item in data.awards
+                li
+                  a(href=item.link)
+                    img(src=item.badgeImage)
+                  p.p4
+                    span.award-name #{item.awardedBy} #{item.title} #{''}
+                    span.award-year #{" "+item.year} #{''}

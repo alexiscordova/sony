@@ -1,8 +1,8 @@
 include ../../../common/html/jade-helpers.jade
-
++includeJavascriptModule('tertiary-tout-t1-t5')
 
 mixin copyblock(module)
-  .tcc-copy               
+  .tcc-copy
     if (module.title)
       p.p2
         strong= module.title
@@ -33,7 +33,7 @@ mixin articleNews(module)
 
 mixin articleEvent(module)
   //- assumes there only ever be one image
-  .img-container.tcc-image(data-src= module.images[0].src)
+  .img-container.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
     .attendance-count
       .details
         p.t3= module.attendanceCount
@@ -41,7 +41,7 @@ mixin articleEvent(module)
 
 mixin articleFeatured(module)
   //- assumes there only ever be one image
-  .featured-image.tcc-image(data-src= module.images[0].src)
+  .featured-image.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
   article
     .feature-copy.light-text-dark-box
       p.t5-light= module.title
@@ -79,10 +79,10 @@ mixin question(module)
   .credits
     .avatar
       +iQImage(module.images[0],'tcc-image')
-    
+
     p.author.p4
       a(href= module.author.link)
-        | #{module.author.handle} 
+        | #{module.author.handle}
       | #{module.title}
 
   blockquote.bq3
@@ -111,19 +111,19 @@ mixin facebook(module)
 
 mixin instagram(module)
   div.left
-    div.tcc-image(data-src= module.images[1].src)
-    div.tcc-image.last(data-src= module.images[2].src)
+    div.tcc-image(data-src-desktop= module.images[1].srcDesktop, data-src-tablet= module.images[1].srcTablet, data-src-phone= module.images[1].srcPhone, data-src-desktop-highres= module.images[1].srcDesktopHighRes, data-src-tablet-highres= module.images[1].srcTabletHighRes, data-src-phone-highres= module.images[1].srcPhoneHighRes)
+    div.tcc-image.last(data-src-desktop= module.images[2].srcDesktop, data-src-tablet= module.images[2].srcTablet, data-src-phone= module.images[2].srcPhone, data-src-desktop-highres= module.images[2].srcDesktopHighRes, data-src-tablet-highres= module.images[2].srcTabletHighRes, data-src-phone-highres= module.images[2].srcPhoneHighRes)
   div.right
-    div.tcc-image(data-src= module.images[0].src)
+    div.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
 
 mixin sonysVoiceTop(icon, meta)
   .icon-container
     .white-bg.fonticon-10-dot
     div(class= icon)
 
-  if (meta)    
-    .meta            
-      p.p4  
+  if (meta)
+    .meta
+      p.p4
         span.user= meta.user
         span.timestamp= meta.timestamp
 
@@ -155,12 +155,12 @@ mixin flickrContent(meta, images, btnLink, btnLabel)
         .white-bg.fonticon-10-dot
         .left.fonticon-10-dot
         .right.fonticon-10-dot
-        
+
       .meta.p4
         for info in meta
           if (info.user)
             span.user= info.user
-            
+
           if (info.title)
             span= info.title
 
@@ -170,7 +170,7 @@ mixin flickrContent(meta, images, btnLink, btnLabel)
             - for (i = 0; i <= 2; i++) {
             if(images[i])
               div
-                mixin iQImage(images[i],'tcc-image')
+                +iQImage(images[i],'tcc-image')
             -}
         .bottom-row
             - for (i = 3; i <= 5; i++) {
@@ -210,12 +210,12 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
               //- if there is a title and a featured image
               if(contentMode == "featured")
                 +articleFeatured(module)
-              else                                          
+              else
                 if(contentMode == "default")
                   +articleDefault(module)
-                if(contentMode == "news") && (module.date)              
+                if(contentMode == "news") && (module.date)
                   +articleNews(module)
-                if(contentMode == "event") && (module.attendanceCount)               
+                if(contentMode == "event") && (module.attendanceCount)
                   +articleEvent(module)
                 +copyblock(module)
             when "users-voice"
@@ -227,7 +227,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id)
 
               if (contentMode == "question")
                 +question(module)
-            
+
             when "sonys-voice"
               .tcc-inner-container
                 .top

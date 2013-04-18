@@ -1,7 +1,15 @@
-mixin docco()
-  for name in locals.doccopages()
-    li: a( href = 'docco/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
-      
+mixin doccoModules()
+  for name in locals.doccoModules()
+    li: a( href = 'docco/modules/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+
+mixin doccoSecondary()
+  for name in locals.doccoSecondary()
+    li: a( href = 'docco/secondary/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+
+mixin doccoGlobal()
+  for name in locals.doccoGlobal()
+    li: a( href = 'docco/global/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+
 include ../../common/html/ieconditionals.html
 doctype 5
 
@@ -11,13 +19,22 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
 
   .jumbotron.subhead
     .container-px-width
-      h2.bs-docs-heading JS Documentation
+      h1.bs-docs-heading JS Documentation
       p.p1
         | Documentation for each class may be found on the links below.
-  
+
   .container-px-width
+    h3 Global Classes
     ul
-      +docco()
+      +doccoGlobal()
+
+    h3 Modules
+    ul
+      +doccoModules()
+
+    h3 Secondary Classes
+    ul
+      +doccoSecondary()
 
   include docs-foot.html
 </html>

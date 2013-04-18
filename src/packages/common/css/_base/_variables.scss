@@ -18,7 +18,7 @@
 // ------------------------------------------------
 #COLORS{} // this is just here for a SublimeText code-folding collapse point.
 
-// TODO: Make a mixin (or something) to allow any color to be used as an rgba, with an option to pass in the alpha value
+// If you need rgba values, just use the built-in rgba sass function. ex: rgba($gray50,0.5);
 
   // -------------------------
   // Grays
@@ -97,21 +97,22 @@
   $themeBlueLight:       rgb(49,176,204);
   $themeBlueLightHover:  rgb(43,154,178);
   $themeBlueLightActive: rgb(55,198,229);
-  $themeGreen:           rgb(139,199,72);
-  $themeGreenHover:      rgb(122,173,62);
-  $themeGreenActive:     rgb(157,224,81);
-  $themeOrange:          rgb(232,117,51);
-  $themeOrangeHover:     rgb(207,105,45);
-  $themeOrangeActive:    rgb(255,129,56);
   $themeBlueDark:        rgb(39,99,163);
   $themeBlueDarkHover:   rgb(33,84,138);
   $themeBlueDarkActive:  rgb(45,115,189);
+  $themeOrange:          rgb(232,117,51);
+  $themeOrangeHover:     rgb(207,105,45);
+  $themeOrangeActive:    rgb(255,129,56);
+  $themeGreen:           rgb(139,199,72);
+  $themeGreenHover:      rgb(122,173,62);
+  $themeGreenActive:     rgb(157,224,81);
 
   // Secondary Colors
   // --------------------------------------------------
   $secondaryGold:     rgb(240,185,56);
   $secondarySage:     rgb(146,185,164);
   $secondaryOlive:    rgb(162,184,73);
+  $secondaryMint:     rgb(34,192,131);
   $secondaryAqua:     rgb(69,175,201);
   $secondaryEggplant: rgb(151,91,119);
   $secondaryLavender: rgb(110,93,145);
@@ -121,12 +122,13 @@
 
   // 3rd Party Brand Colors
   // --------------------------------------------------
-  $twitterColor:   rgb(40,170,225) !default;
+  $twitterColor:   rgb(0,172,238) !default;
   $facebookColor:  rgb(59,91,153) !default;
   $gplusColor:     rgb(219,74,57) !default;
   $youtubeColor:   rgb(239,60,57) !default;
-  $flickrBlueColor: rgb(0,99,220) !default;
-  $flickrPinkColor: rgb(255,0,132) !default;
+  $flickrBlueColor:rgb(0,99,220) !default;
+  $flickrPinkColor:rgb(255,0,132) !default;
+  $pinterestColor: rgb(203,32,39) !default;
 
 
   // MISC Colors
@@ -954,11 +956,6 @@
 
   $easeNormal:    ease-out;
 
-
-
-
-
-
 // ------------------------------------------------
 // 888b     d888 d8b
 // 8888b   d8888 Y8P
@@ -970,6 +967,41 @@
 // 888       888 888  88888P'  "Y8888P
 // ------------------------------------------------
 #MISC{}
-  $squareHalo: 0 0 5px $innerGlow, 0 0 0 6px $transparentBlack; // anybody using this? Nope, it was for old gallery filters
 
 
+
+
+
+
+
+#WIKI{}
+
+// Wiki Variables
+// main text and background colors
+$wiki_text:           #333;
+$wiki_background:     #fff;
+// alternative text and background colors
+$wiki_textAlt:        #999;
+$wiki_backgroundAlt:  #eee;
+// neutral text and background colors
+$wiki_textNeu:        #666;
+$wiki_backgroundNeu:  #ddd;
+// border color
+$wiki_border:         #ccc;
+
+// highlighted text (e.g. search snippets)
+$wiki_highlight:      #ff9;
+
+$wiki_backgroundSite: #fbfaf9;
+
+// these are used for links
+$wiki_link:           #2b73b7;
+$wiki_existing:       #080;
+$wiki_missing:        #d30;
+
+// site and sidebar widths
+$wiki_siteWidth:      75em;
+$wiki_sidebarWidth:   16em;
+// cut off points for mobile devices
+$wiki_tabletWidth:    800px;
+$wiki_phoneWidth:     480px;

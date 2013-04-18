@@ -1,7 +1,12 @@
 /*!
  * iScroll v4.2.5 ~ Copyright (c) 2012 Matteo Spinelli, http://cubiq.org
  * Released under MIT license, http://cubiq.org/license
- * Modified: 01/07/2013 by Glen Cheney (added onAnimate + more cleanup in destroy() + IE events)
+ * Modified: 04/02/2013 by Glen Cheney
+ * Added:
+ *   onAnimate
+ *   more cleanup in destroy()
+ *   IE events
+ *   scrollWidth/Height for wrapper w/h in `refresh()`
  */
 (function(window, doc){
 	function prefixStyle (style) {
@@ -107,11 +112,12 @@
 
 		that.wrapper = typeof el === 'object' ? el : doc.getElementById(el);
 
-		that.wrapper.style.overflow = 'hidden';
 		that.scroller = that.wrapper.children[0];
 
 		// Default options
 		that.options = {
+			isOverflowHidden: true,
+
 			hScroll: true,
 			vScroll: true,
 			x: 0,
@@ -162,6 +168,11 @@
 
 		// User defined options
 		for (i in options){ that.options[i] = options[i]; }
+
+		// Added by Glen
+		if ( that.options.isOverflowHidden ) {
+			that.wrapper.style.overflow = 'hidden';
+		}
 
 		// Set starting position
 		that.x = that.options.x;
@@ -947,8 +958,8 @@ IScroll.prototype = {
 			page = 0;
 
 		if (that.scale < that.options.zoomMin) { that.scale = that.options.zoomMin; }
-		that.wrapperW = that.wrapper.clientWidth || 1;
-		that.wrapperH = that.wrapper.clientHeight || 1;
+		that.wrapperW = that.wrapper.clientWidth || that.wrapper.scrollWidth || 1;
+		that.wrapperH = that.wrapper.clientHeight || that.wrapper.scrollHeight || 1;
 
 		that.minScrollY = -that.options.topOffset || 0;
 		that.scrollerW = m.round(that.scroller.offsetWidth * that.scale);
@@ -1013,6 +1024,13 @@ IScroll.prototype = {
 	},
 
 	scrollTo: function (x, y, time, relative) {
+		if ( !x && x !== 0 ) {
+			x = 0;
+		}
+		if ( !y && y !== 0 ) {
+			y = 0;
+		}
+
 		var that = this,
 			step = x,
 			i, l;

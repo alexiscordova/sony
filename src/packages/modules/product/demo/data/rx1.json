@@ -1,12 +1,13 @@
 {
-    "type" : "product",
+    "type" : "camera",
     "featured" : true,
+    "isFavorited" : true,
     "filterSet" : {
         "features" : [ "lcd", "panorama" ],
         "price" : 2799.99,
         "megapixels" : "20+",
         "popularity" : 11,
-        "rating" : 3,
+        "rating" : 3.5,
         "release-date" : "2011-12-20T20:13:05.771Z",
         "group" : ["running", "studio"],
         "colors" : ["black"]
@@ -14,30 +15,60 @@
     "label" : false,
     "priority" : 2,
     "img" : {
-        "src" : "img/product/cameras/DSCRX1B-frt-med.png",
+        "srcDesktop": "img/product/cameras/DSCRX1B-frt-med-desktop.png",
+        "srcDesktopHighRes": "img/product/cameras/DSCRX1B-frt-med-desktop@2x.png",
+        "srcTablet": "img/product/cameras/DSCRX1B-frt-med-tablet.png",
+        "srcTabletHighRes": "img/product/cameras/DSCRX1B-frt-med-tablet@2x.png",
+        "srcPhone": "img/product/cameras/DSCRX1B-frt-med-phone.png",
+        "srcPhoneHighRes": "img/product/cameras/DSCRX1B-frt-med-phone@2x.png",
         "alt" : "",
         "colors" : [
             {
                 "color" : "black",
-                "src" : "img/product/cameras/DSCRX1B-frt-med.png",
+                "srcDesktop": "img/product/cameras/DSCRX1B-frt-med-desktop.png",
+                "srcDesktopHighRes": "img/product/cameras/DSCRX1B-frt-med-desktop@2x.png",
+                "srcTablet": "img/product/cameras/DSCRX1B-frt-med-tablet.png",
+                "srcTabletHighRes": "img/product/cameras/DSCRX1B-frt-med-tablet@2x.png",
+                "srcPhone": "img/product/cameras/DSCRX1B-frt-med-phone.png",
+                "srcPhoneHighRes": "img/product/cameras/DSCRX1B-frt-med-phone@2x.png",
                 "alt" : "A black RX1 Cyber-shot digital camera"
             }
         ]
     },
     "imgLarge" : {
-        "src" : "img/product/cameras/rx100-front-lrg.png",
+        "srcDesktop": "img/product/cameras/rx100-front-lrg-desktop.png",
+        "srcDesktopHighRes": "img/product/cameras/rx100-front-lrg-desktop@2x.png",
+        "srcTablet": "img/product/cameras/rx100-front-lrg-tablet.png",
+        "srcTabletHighRes": "img/product/cameras/rx100-front-lrg-tablet@2x.png",
+        "srcPhone": "img/product/cameras/rx100-front-lrg-phone.png",
+        "srcPhoneHighRes": "img/product/cameras/rx100-front-lrg-phone@2x.png",
         "noscriptsrc" : "img/product/cameras/rx100-front-lrg-desktop.png",
         "alt" : ""
     },
     "imgSmall" : {
-        "src" : "img/product/cameras/rx1-sml.png",
+        "srcDesktop": "img/product/cameras/rx1-sml-desktop.png",
+        "srcDesktopHighRes": "img/product/cameras/rx1-sml-desktop@2x.png",
+        "srcTablet": "img/product/cameras/rx1-sml-tablet.png",
+        "srcTabletHighRes": "img/product/cameras/rx1-sml-tablet@2x.png",
+        "srcPhone": "img/product/cameras/rx1-sml-phone.png",
+        "srcPhoneHighRes": "img/product/cameras/rx1-sml-phone@2x.png",
         "noscriptsrc" : "img/product/cameras/rx1-sml-desktop.png",
         "alt" : ""
     },
-    "model" : "DSC-TX20",
+    "imgTiny" : {
+        "srcDesktop": "img/product/cameras/tiny/DSCRX1B-frt-desktop.png",
+        "srcDesktopHighRes": "img/product/cameras/tiny/DSCRX1B-frt-desktop@2x.png",
+        "srcTablet": "img/product/cameras/tiny/DSCRX1B-frt-tablet.png",
+        "srcTabletHighRes": "img/product/cameras/tiny/DSCRX1B-frt-tablet@2x.png",
+        "srcPhone": "img/product/cameras/tiny/DSCRX1B-frt-phone.png",
+        "srcPhoneHighRes": "img/product/cameras/tiny/DSCRX1B-frt-phone@2x.png",
+        "noscriptsrc" : "img/product/cameras/tiny/DSCRX1B-frt-desktop.png",
+        "alt" : ""
+    },
+    "model" : "DSC-RX1",
     "name" : "Cyber-shot RX1",
     "rating" : {
-        "stars" : 3,
+        "stars" : 3.5,
         "reviews" : 17
     },
     "price" : 2799.99,
@@ -46,18 +77,17 @@
         { "name" : "Carl Zeiss Lens", "value" : "f/2.0" },
         { "name" : "Sensor", "value" : "Exmore&trade; CMOS" }
     ],
+    "totalAccessories" : 12,
     "details" : [
         {
-            "slug" : "dimensions",
-            "label": "Dimensions",
+            "_comments": "Dimensions",
             "value" : {
                 "lineOne" : "W 2.375\", H 2.375\", D 2.375\"",
                 "lineTwo" : "8 ounces"
             }
         },
         {
-            "slug" : "sensor",
-            "label": "Megapixels &amp; Sensor",
+            "_comments": "Megapixels &amp; Sensor",
             "value" : {
                 "box" : "20.2 MP",
                 "lineOne" : "20.2 megapixels",
@@ -65,74 +95,57 @@
             }
         },
         {
-            "slug" : "bestFor",
-            "label": "Best For",
+            "_comments": "Best For",
             "value" : [
                 {
                     "label" : "Skating",
                     "description" : "Waterproof, shockproof, dustproof, and rugged.",
-                    "icon" : "snowboard"
-                },
-                {
-                    "label" : "Running",
-                    "description" : "Water resistant, shockproof, and ultra small.",
-                    "icon" : "running"
+                    "icon" : "fonticon-30-water-drop"
                 }
             ]
         },
         {
-            "slug" : "fps",
-            "label": "Frames Per Second",
+            "_comments": "Frames Per Second",
             "value" : "Up to 10 fps"
         },
         {
-            "slug" : "opticalZoom",
-            "label": "Optical Zoom",
+            "_comments": "Optical Zoom",
             "value" : "3.6x"
         },
         {
-            "slug" : "lensType",
-            "label": "Lens Type",
+            "_comments": "Lens Type",
             "value" : "Carl Zeiss&reg; Sonnar T*"
         },
         {
-            "slug" : "videoRecording",
-            "label": "HD Video Recording",
+            "_comments": "HD Video Recording",
             "value" : "Full HD 1080/60p with Manual Control"
         },
         {
-            "slug" : "recordingFormat",
-            "label": "Recording Format",
+            "_comments": "Recording Format",
             "value" : "Still: JPEG, RAW Movie: AVCHD Ver. 2.0, MP4"
         },
         {
-            "slug" : "sweepPanorama",
-            "label": "Sweep Panorama",
+            "_comments": "Sweep Panorama",
             "value" : "Sweep"
         },
         {
-            "slug" : "waterproof",
-            "label": "Water Proof",
+            "_comments": "Water Proof",
             "value" : "No"
         },
         {
-            "slug" : "lcdScreen",
-            "label": "LCD Screen",
+            "_comments": "LCD Screen",
             "value" : "3\""
         },
         {
-            "slug" : "3dCapable",
-            "label": "3D Capability",
+            "_comments": "3D Capability",
             "value" : "No"
         },
         {
-            "slug" : "wifiSharing",
-            "label": "Wi-Fi Sharing",
+            "_comments": "Wi-Fi Sharing",
             "value" : "No"
         },
         {
-            "slug" : "gpsTagging",
-            "label": "GPS Tagging",
+            "_comments": "GPS Tagging",
             "value" : "No"
         }
     ]

@@ -4,8 +4,8 @@
 
 [class*="fonticon-"] {
   display: inline-block;
-  line-height: 0.6; // sorry if this screwed up your icons, but 0.6 appears to be the same as 0 everywhere except IE9 & 10 where it NEEDS 0.6 or it's too small.
-  // overflow: hidden; -- if you need overflow:hidden, you have to apply it to your own icon/s.
+  line-height: 0.6; // 0.6 appears to be the same as 0 everywhere except IE9 & 10 where it NEEDS 0.6 or it's too small.
+  // overflow: hidden; -- if you need overflow:hidden, you have to apply it to your own icons.
 
   &:before,
   &[class*="--after"]:after {
@@ -15,6 +15,7 @@
     font-weight: normal;
     line-height: 1;
     // -webkit-font-smoothing: antialiased; // NO! Icons have been adjusted so they don't need this, and rendering is consistent across browsers.
+    // If you have a light icon over a dark background, apply -webkit-font-smoothing: antialiased; so they don't render so thick on Mac Webkit browsers.
   }
   &.l-o-d{ // light-on-dark
     -webkit-font-smoothing: antialiased;
@@ -31,12 +32,9 @@ i[class*="fonticon-"] {
 }
 [class*="fonticon-20-"] {
   font-size: 2.0em;
-  // The styles below are currently in .btn-square i { } but could be moved here
-  margin: -.125em; // -3px ( 3 / 24 )
 }
 [class*="fonticon-30-"] {
   font-size: 3.0em;
-  // margin: -.1875em; // 9/48
 }
 [class*="fonticon-40-"] {
   font-size:4.0em;

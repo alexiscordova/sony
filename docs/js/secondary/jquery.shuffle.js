@@ -5,7 +5,7 @@
  * Use it for whatever you want! Requires jQuery 1.9+
  * @author Glen Cheney (http://glencheney.com)
  * @version 1.6.1
- * @date 02/07/13
+ * @date 03/14/13
  */
 
 define(function(require){
@@ -48,6 +48,14 @@ define(function(require){
                 if ( valA === undefined && valB === undefined ) {
                     revert = true;
                     return 0;
+                }
+
+                if ( valA === 'sortFirst' || valB === 'sortLast' ) {
+                    return -1;
+                }
+
+                if ( valA === 'sortLast' || valB === 'sortFirst' ) {
+                    return 1;
                 }
 
                 return (valA < valB) ? -1 :
@@ -98,7 +106,6 @@ define(function(require){
 
     var Shuffle = function( $container, options ) {
         var self = this;
-
         $.extend(self, $.fn.shuffle.options, options, $.fn.shuffle.settings);
 
         self.$container = $container.addClass('shuffle');
@@ -123,9 +130,10 @@ define(function(require){
                 beforeResizeFunc,
                 debouncedBeforeResize;
 
-            self.$items = self._getItems().addClass('shuffle-item');
+            self.$items = self._getItems().addClass('shuffle-item filtered');
             self.transitionName = self.prefixed('transition'),
             self.transitionDelayName = self.prefixed('transitionDelay');
+            self.transitionDuration = self.prefixed('transitionDuration');
             self.transform = self.getPrefixed('transform');
 
             self.isFluid = self.columnWidth && typeof self.columnWidth === 'function';
@@ -148,7 +156,7 @@ define(function(require){
             // Get debounced versions of our resize methods
             afterResizeFunc = $.proxy( self._afterResize, self );
             debouncedAfterResize = self.throttle ? self.throttle( self.throttleTime, afterResizeFunc ) : afterResizeFunc;
-            self.$window.on('resize.shuffle', debouncedAfterResize);
+            self.$window.on('resize.' + self.unique, debouncedAfterResize);
 
             // If we need to hide layouts with a fade instead, we need another event on window resize
             // which is only fired the first time window resize is triggered
@@ -174,9 +182,10 @@ define(function(require){
             self._setColumns( parseInt( containerCSS.width, 10 ) );
             self.shuffle( self.group );
 
-            if ( !self.showInitialTransition ) {
+            // If we've hidden the initial layout, we need to now add the transition to the elements
+            if ( !self.showInitialTransition && self.supported && self.useTransition ) {
                 setTimeout(function() {
-                    self._initItems( true );
+                    self._setTransitions();
                 }, 0);
             }
         },
@@ -191,19 +200,15 @@ define(function(require){
 
             self.fire('filter');
 
-            // Default is to show all items
-            // $items.removeClass('concealed filtered');
-
             // Loop through each item and use provided function to determine
             // whether to hide it or not.
             if ( $.isFunction(category) ) {
                 $items.each(function() {
                     var $item = $(this),
                     passes = category.call($item[0], $item, self);
-                    // $item.addClass(passes ? 'filtered' : 'concealed');
 
                     if ( passes ) {
-                        $filtered = $filtered.add($item);
+                        $filtered = $filtered.add( $item );
                     }
                 });
             }
@@ -217,12 +222,9 @@ define(function(require){
                         groups = $this.data('groups'),
                         keys = self.delimeter && !$.isArray( groups ) ? groups.split( self.delimeter ) : groups,
                         passes = $.inArray(category, keys) > -1;
-                        // theClass = passes ? 'concealed' : 'filtered';
-
-                        // $this.addClass( theClass );
 
                         if ( passes ) {
-                            $filtered = $filtered.add($this);
+                            $filtered = $filtered.add( $this );
                         }
                     });
                 }
@@ -230,31 +232,32 @@ define(function(require){
                 // category === 'all', add filtered class to everything
                 else {
                     $filtered = $items;
-                    // $filtered = $items.addClass('filtered');
                 }
             }
 
             // Individually add/remove concealed/filtered classes
+            var concealed = 'concealed',
+                filtered = 'filtered';
             $items.filter( $filtered ).each(function() {
                 var $filteredItem = $(this);
                 // Remove concealed if it's there
-                if ( $filteredItem.hasClass('concealed') ) {
-                    $filteredItem.removeClass('concealed');
+                if ( $filteredItem.hasClass( concealed ) ) {
+                    $filteredItem.removeClass( concealed );
                 }
                 // Add filtered class if it's not there
-                if ( !$filteredItem.hasClass('filtered') ) {
-                    $filteredItem.addClass('filtered');
+                if ( !$filteredItem.hasClass( filtered ) ) {
+                    $filteredItem.addClass( filtered );
                 }
             });
             $items.not( $filtered ).each(function() {
                 var $filteredItem = $(this);
                 // Add concealed if it's not there
-                if ( !$filteredItem.hasClass('concealed') ) {
-                    $filteredItem.addClass('concealed');
+                if ( !$filteredItem.hasClass( concealed ) ) {
+                    $filteredItem.addClass( concealed );
                 }
                 // Remove filtered class if it's there
-                if ( $filteredItem.hasClass('filtered') ) {
-                    $filteredItem.removeClass('filtered');
+                if ( $filteredItem.hasClass( filtered ) ) {
+                    $filteredItem.removeClass( filtered );
                 }
             });
 
@@ -284,6 +287,13 @@ define(function(require){
         _setTransition : function( element ) {
             var self = this;
             element.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
+        },
+
+        _setTransitions : function() {
+            var self = this;
+            self.$items.each(function() {
+                self._setTransition( this );
+            });
         },
 
 
@@ -548,10 +558,11 @@ define(function(require){
         /**
          * Hides the elements that don't match our filter
          */
-        shrink : function() {
+        shrink : function( $collection, fn ) {
             var self = this,
-                $concealed = self.$items.filter('.concealed'),
-                transitionObj = {};
+                $concealed = $collection || self.$items.filter('.concealed'),
+                transitionObj = {},
+                callback = fn || self.shrinkEnd;
 
             // Abort if no items
             if ($concealed.length === 0) {
@@ -577,7 +588,7 @@ define(function(require){
                     y: y,
                     scale : 0.001,
                     opacity: 0,
-                    callback: self.shrinkEnd
+                    callback: callback
                 };
 
                 self.styleQueue.push( transitionObj );
@@ -772,10 +783,16 @@ define(function(require){
             this.fire('sorted');
         },
 
-        _skipTransition : function(element, property, value) {
+        /**
+         * Change a property or execute a function which will not have a transition
+         * @param  {Element}         element    DOM element that won't be transitioned
+         * @param  {string|function} property   the new style property which will be set or a function which will be called
+         * @param  {string}          [value]    the value that `property` should be.
+         */
+        _skipTransition : function( element, property, value ) {
             var self = this,
                 reflow,
-                durationName = self.getPrefixed('transitionDuration'),
+                durationName = self.transitionDuration,
                 duration = element.style[ durationName ];
 
             // Set the duration to zero so it happens immediately
@@ -856,7 +873,7 @@ define(function(require){
                 return;
             }
 
-            if (!category) {
+            if ( !category ) {
                 category = 'all';
             }
 
@@ -954,12 +971,39 @@ define(function(require){
             }
         },
 
+        remove : function( $collection ) {
+
+            // If this isn't a jquery object, exit
+            if ( !$collection.length || !$collection.jquery ) {
+                return;
+            }
+
+            var self = this,
+            remove = function() {
+                var shuffle = this;
+                $collection.remove();
+                $collection = null;
+                setTimeout(function() {
+                    shuffle.$items = shuffle._getItems();
+                    shuffle.layout();
+                }, 0);
+            };
+
+            self.shrink( $collection, remove );
+            self._processStyleQueue();
+        },
+
         destroy: function() {
             var self = this;
 
-            self.$container.removeAttr('style').removeData('shuffle');
-            self.$window.off('.shuffle');
-            self.$items.removeAttr('style').removeClass('concealed filtered shuffle-item');
+            self.$window.off('.' + self.unique);
+            self.$container
+                .removeClass('shuffle')
+                .removeAttr('style')
+                .removeData('shuffle');
+            self.$items
+                .removeAttr('style')
+                .removeClass('concealed filtered shuffle-item');
             self.destroyed = true;
         }
 
@@ -995,6 +1039,7 @@ define(function(require){
                     case 'enable':
                     case 'disable':
                     case 'layout':
+                    case 'remove':
                         shuffle[ opts ].apply( shuffle, args );
                         break;
                     default:

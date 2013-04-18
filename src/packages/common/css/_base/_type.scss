@@ -31,6 +31,28 @@ a:focus {
 }
 
 
+// Placing these above type styles so they don't override them
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  font-size: $font_13_16;
+  line-height: $baseLineHeight;
+}
+
 
 // --------------------------------------
 // New font styles
@@ -56,7 +78,7 @@ a:focus {
   color: $defaultTextColor;
 }
 
-.t1, .t2, .t5, h1, h2, h5 {
+.t1, .t2, .t5, .t3-bold, .t4-bold, h1, h2, h5 {
   @include fontRegular;
   @include em-strong(Regular);
 }
@@ -64,9 +86,12 @@ a:focus {
   @include fontLight;
   @include em-strong(Light);
 }
-.t6, .t7, h6{
+.t6, .t7, .t1-bold, .t2-bold, .t5-bold, h6{
   @include fontMedium;
   @include em-strong(Medium);
+}
+.t6-bold, .t7-bold{
+  @include fontBold;
 }
 
 .t1-light, .t2-light, .t5-light {
@@ -77,41 +102,41 @@ a:focus {
   @include em-strong(Regular);
 }
 
-.t1, .t1-light, .t3, .t3-light,
+.t1, .t1-light, .t1-bold, .t3, .t3-light, .t3-bold,
 h1, h3 {
   letter-spacing: -0.01em;
 }
-.t2, .t2-light, .t4, .t4-light,
+.t2, .t2-light, .t2-bold, .t4, .t4-light, .t4-bold,
 h2, h4 {
   letter-spacing: -0.04em;
 }
 
 
-.t1, .t1-light, h1{
+.t1, .t1-light, .t1-bold, h1{
   @include px-em--font-size--line-height(54,62);
   margin-bottom: 30px;
 }
-.t2, .t2-light, h2{
+.t2, .t2-light, .t2-bold, h2{
   @include px-em--font-size--line-height(44,50);
   margin-bottom: 24px;
 }
-.t3, .t3-light, h3{
+.t3, .t3-light, .t3-bold, h3{
   @include px-em--font-size--line-height(32,38);
   margin-bottom: 18px;
 }
-.t4, .t4-light, h4{
+.t4, .t4-light, .t4-bold, h4{
   @include px-em--font-size--line-height(26,34);
   margin-bottom: 16px;
 }
-.t5, .t5-light, h5{
+.t5, .t5-light, .t5-bold, h5{
   @include px-em--font-size--line-height(22,26);
   margin-bottom: 14px;
 }
-.t6, .t6-light, h6{
+.t6, .t6-light, .t6-bold, h6{
   @include px-em--font-size--line-height(18,26);
   margin-bottom: 8px;
 }
-.t7, .t7-light{
+.t7, .t7-light, .t7-bold{
   @include px-em--font-size--line-height(15,22);
   margin-bottom: 6px;
 }
@@ -126,12 +151,12 @@ h2, h4 {
 //
 // --------------------------------------
 
-.l1, .l2, .l3, .l4, .l1-light, .l2-light, .l3-light, .l4-light {
+.l1, .l2, .l3, .l4, .l1-light, .l2-light, .l3-light, .l4-light , .l1-bold, .l2-bold, .l3-bold, .l4-bold {
   text-rendering: optimizeLegibility; // disable this if we have performance issues.
   text-transform: uppercase;
   color: $defaultTextColor;
 }
-.l1{
+.l1, .l2-bold, .l3-bold, .l4-bold, {
   @include fontBold;
 }
 .l2, .l3, .l4, .l1-light {
@@ -142,25 +167,25 @@ h2, h4 {
   @include fontRegular;
   @include em-strong(Regular);
 }
-.l1, .l1-light{
+.l1, .l1-light, .l1-bold{
   letter-spacing: 0.05em;
   margin-bottom: 24px;
   margin-top: 40px;
 }
-.l2, .l3, .l4, .l2-light, .l3-light, .l4-light{
+.l2, .l3, .l4, .l2-light, .l3-light, .l4-light, .l2-bold, .l3-bold, .l4-bold{
   letter-spacing: 0.01em;
   margin-bottom: 8px;
 }
-.l1, .l1-light{
+.l1, .l1-light{, .l1-bold{
   @include px-em--font-size--line-height(22,30);
 }
-.l2, .l2-light{
+.l2, .l2-light{, .l2-bold{
   @include px-em--font-size--line-height(12,18);
 }
-.l3, .l3-light{
+.l3, .l3-light{, .l3-bold{
   @include px-em--font-size--line-height(11,18);
 }
-.l4, .l4-light{
+.l4, .l4-light{, .l4-bold{
   @include px-em--font-size--line-height(10,16);
 }
 
@@ -175,7 +200,7 @@ h2, h4 {
 // For most .lt classes, the only difference between the .lt3 and the .p3 classes is the margin-bottom.
 // So now instead of having a paragraph with the class .lt3, you can use the .p3 class and the .lt class.
 // So <div class="lt3"> becomes <div "class="p3 tl"> -- make sense?
-// This makes it more obvious that a .lt3 paragraph is really just a alightly altered (margin-bottom) .p3.
+// This makes it more obvious that a .lt3 paragraph is really just a slightly altered (margin-bottom) .p3.
 // The one exception is .lt-alt which has a few other differences.
 //
 // For now you can continue using .lt# classes if you want, but they will probably be removed in the future.
@@ -190,13 +215,13 @@ p, .p1, .p2, .p3, .p4, .p5 { color: $defaultParagraphColor; }
 .p1, .lt1 { // also affects .p1.lt
   @include px-em--font-size--line-height(18,26);
 }
-.p2, .lt2, p { // also affects .p2.lt
+.p2, .lt2, p, input.p2 { // also affects .p2.lt
   @include px-em--font-size--line-height(15,22);
 }
 .p3, .lt3, .lt3-alt { // also affects .p3.lt
   @include px-em--font-size--line-height(13,20);
 }
-.p4, .lt4 { // also affects .p4.lt
+.p4, .lt4, input.p4 { // also affects .p4.lt
   @include px-em--font-size--line-height(12,18);
 }
 .p5, .lt5 { // also affects .p5.lt
@@ -276,6 +301,11 @@ blockquote p{
   &:first-child { text-indent:-7px; }
 }
 .bq5 p{
+  @include px-em--font-size--line-height(15,22);
+  margin-bottom: 12px;
+  &:first-child { text-indent:-6px; }
+}
+.bq6 p{
   @include px-em--font-size--line-height(13,20);
   margin-bottom: 12px;
   &:first-child { text-indent:-5px; }
@@ -407,28 +437,6 @@ p{ @extend .p2; }
   color:$grayDark;
 }
 
-
-
-select,
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input {
-  font-size: $font_13_16;
-  line-height: $baseLineHeight;
-}
 
 // Page header
 // -------------------------

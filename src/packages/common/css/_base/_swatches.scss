@@ -206,14 +206,12 @@
 
 
 // Mini swatches
-.color-swatches > .mini-swatch {
-  margin-right: 0;
-}
-.color-swatches > .mini-swatch:not(:first-child) {
-  margin-left: px-em(2px);
+.color-swatches > .mini-swatch:not(:last-child) {
+  margin-right: px-em(2px);
 }
 
-.mini-swatch {
+.mini-swatch,
+.micro-swatch {
   @include square(.75em);
   border: 1px solid $transparentBlack;
   line-height: 0.1em;
@@ -225,6 +223,13 @@
   // Disable hover and active states
   &:before,
   &:after { content: none; }
+}
+
+.micro-swatch {
+  @include square(.625em);
+}
+.color-swatches > .micro-swatch:not(:last-child) {
+  margin-right: px-em(1px);
 }
 
 

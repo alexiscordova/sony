@@ -99,6 +99,11 @@
      -moz-background-clip: padding;
           background-clip: padding-box;
 
+  .csstransitions & {
+    opacity: 0;
+    @include transition( opacity .15s );
+  }
+
   // Aligns the dropdown menu to right
   &.pull-right {
     right: 0;
@@ -154,7 +159,7 @@
     font-size: $font_15_16;
     color: $gray;
     @include transition-duration( $transitionNormal );
-    padding: 10px 20px;
+    padding: 10px 19px;
   }
 }
 
@@ -219,6 +224,10 @@
 
   & > .dropdown-menu {
     display: block;
+  }
+
+  .csstransitions &.in > .dropdown-menu {
+    opacity: 1;
   }
 
   .dropdown-toggle-alt {
@@ -295,3 +304,79 @@
 .typeahead {
   margin-top: 2px; // give it some space to breathe
 }
+
+// Social sharing dropdown menu
+// ----------------------------
+.share-menu {
+  margin-top: 1.125em;
+  padding-top: 1.25em;
+  padding-bottom: 1.125em;
+  min-width: 12.25em;
+  width: auto;
+  text-align: left;
+
+  // Triangle above dropdown
+  &:before {
+    content: '';
+    position: absolute;
+    top: -.8125em;
+    right: 1.5em;
+    width: 0;
+    height: 0;
+    border-bottom: .75em solid $white;
+    border-left: .625em solid transparent;
+    border-right: .625em solid transparent;
+  }
+
+  a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .input-holder {
+    position: relative;
+    margin-top: 9px;
+    padding: 0 17px;
+  }
+
+  .input-holder input {
+    display: block;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 100%;
+    height: 37px;
+    @include borderBox();
+
+    // IE8 not vertically aligning input text... but when I toggle some styles
+    // then put them back, it works...
+    .lt-ie9 & {
+
+    }
+
+    // Input not extending 100%
+    .lt-ie8 & {
+      width: 167px;
+    }
+  }
+
+  .input-holder .link-icon {
+    position: absolute;
+    right: 19px + 4px; // 19px from the edge + 4px of padding from the inside of the input
+    top: 6px;
+    height: 25px;
+    width: 36px;
+    background: $gray50;
+    text-align: center;
+
+    pointer-events: none; // click through. doesn't working in IE
+  }
+
+  .input-holder i {
+    color: $white;
+
+    background: white;
+    @include square(16px);
+  }
+}
+

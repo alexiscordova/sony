@@ -1,0 +1,369 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+// "product-details-module"
+.pd-module{
+	padding:60px 0 90px 0;
+
+	.no-wrap{
+		white-space: nowrap;
+	}
+
+	// 88888888888  .d88888b.  8888888b.  
+	//     888     d88P" "Y88b 888   Y88b 
+	//     888     888     888 888    888 
+	//     888     888     888 888   d88P 
+	//     888     888     888 8888888P"  
+	//     888     888     888 888        
+	//     888     Y88b. .d88P 888        
+	//     888      "Y88888P"  888        
+	
+	.top{
+
+		.title{
+			margin:0;
+			padding:0 0 20px 0;
+			border-bottom: 4px solid $gray70;
+		} // title
+
+		.desc{
+			margin:30px 0 36px 0;
+			@include content-columns(2);
+		} //. desc
+
+	} // .top
+
+
+	// 8888888888                888                                       
+	// 888                       888                                       
+	// 888                       888                                       
+	// 8888888  .d88b.   8888b.  888888 888  888 888d888  .d88b.  .d8888b  
+	// 888     d8P  Y8b     "88b 888    888  888 888P"   d8P  Y8b 88K      
+	// 888     88888888 .d888888 888    888  888 888     88888888 "Y8888b. 
+	// 888     Y8b.     888  888 Y88b.  Y88b 888 888     Y8b.          X88 
+	// 888      "Y8888  "Y888888  "Y888  "Y88888 888      "Y8888   88888P' 
+	.features{
+		padding-top:40px;
+
+		.feature-list{
+			margin:0;
+		} // feature-list
+
+		li{
+			border-top:1px solid $gray70;
+			padding-bottom:16px;
+			padding-top:16px;
+		
+			&:first-child{
+				border-top:0px none;
+				padding-top:0px;
+			} // :first-child
+		
+			&.hidden{
+				display:none;
+			}
+
+		} // li
+
+		.copy,
+		.icon{
+			margin-bottom: 0px;
+		} 
+
+		.copy{		
+			font-size: 15px; // AKA p2; need to set this because ghost-center removes it
+						
+			a{
+				font-size: 12px; // AKA bt3; need to set this because ghost-center removes it
+			}
+
+	 		&.with-icon{
+				width:71%;
+				margin-left: px-em(10px);
+				display: inline-block;
+			} // .with-icon
+
+		} // copy
+
+		.icon {
+			text-align: center;
+			color:$gray20;
+			height: 45px;
+			display: inline-block;
+		} // icon
+
+
+		[class*="fonticon-40"]{
+			font-size: 3.0em;
+		}
+
+		.fonticon-40-panorama{
+			position: relative;
+			top:3px;
+		}
+
+		.fonticon-40-face{
+			position: relative;
+			top:6px;
+		}
+
+		a{
+			text-transform: capitalize;
+		} // a
+
+	} // features
+
+
+	//  .d8888b.                                      
+	// d88P  Y88b                                     
+	// Y88b.                                          
+	//  "Y888b.   88888b.   .d88b.   .d8888b .d8888b  
+	//     "Y88b. 888 "88b d8P  Y8b d88P"    88K      
+	//       "888 888  888 88888888 888      "Y8888b. 
+	// Y88b  d88P 888 d88P Y8b.     Y88b.         X88 
+	//  "Y8888P"  88888P"   "Y8888   "Y8888P  88888P' 
+	//            888                                 
+	//            888                                 
+	//            888                                 
+	.specs{
+		padding-top:40px;
+		padding-right:px-em(35px); 
+
+		dt{
+			&.l3{
+				margin-bottom:4px;
+			}
+		}
+
+		dd{
+			margin-left:0;
+			&.p3{
+				margin-bottom:16px;	
+			}
+
+		} // dd
+
+
+	} // .specs
+                 
+	// 888                        888           .d8888b.           888                                 
+	// 888                        888          d88P  Y88b          888                                 
+	// 888                        888          888    888          888                                 
+	// 888       8888b.  .d8888b  888888       888         .d88b.  888 
+	// 888          "88b 88K      888          888        d88""88b 888 
+	// 888      .d888888 "Y8888b. 888          888    888 888  888 888 
+	// 888      888  888      X88 Y88b.        Y88b  d88P Y88..88P 888 
+	// 88888888 "Y888888  88888P'  "Y888        "Y8888P"   "Y88P"  888 
+
+	.last-column{
+		padding:0;
+
+		&.has-measurements{
+			background-color:$gray80;
+			padding:24px 2.75% 32px;
+		}
+
+		// show only after images are loaded
+		.vertical-measurement,
+		.horizontal-measurement{
+			opacity: 0;
+		  
+		  &.on{
+		  	@include transition(opacity $transitionFast ease-in);
+				opacity: 1;
+		  } // on
+			
+		} // horizontal-measurement
+
+	} // last-column
+
+
+	// 888b     d888                                                                                      888             
+	// 8888b   d8888                                                                                      888             
+	// 88888b.d88888                                                                                      888             
+	// 888Y88888P888  .d88b.   8888b.  .d8888b  888  888 888d888  .d88b.  88888b.d88b.   .d88b.  88888b.  888888 .d8888b  
+	// 888 Y888P 888 d8P  Y8b     "88b 88K      888  888 888P"   d8P  Y8b 888 "888 "88b d8P  Y8b 888 "88b 888    88K      
+	// 888  Y8P  888 88888888 .d888888 "Y8888b. 888  888 888     88888888 888  888  888 88888888 888  888 888    "Y8888b. 
+	// 888   "   888 Y8b.     888  888      X88 Y88b 888 888     Y8b.     888  888  888 Y8b.     888  888 Y88b.       X88 
+	// 888       888  "Y8888  "Y888888  88888P'  "Y88888 888      "Y8888  888  888  888  "Y8888  888  888  "Y888  88888P' 
+	
+	$measurementPadding:8px;
+
+	.measurements{
+		display: inline-block;
+		overflow: hidden;
+
+		.measurement{
+		  margin-bottom:18px;
+		  margin-right: px-em(30px);
+		  float:left;
+		} // end .measurement
+
+		.img-wrapper{
+			float:left;
+			position: relative;
+		}
+
+		.inches{
+			color:$gray40;
+		}
+
+		.centimeters{
+			@include fontMedium;
+			color:$gray10;
+		}
+
+		.inches,
+		.centimeters{	
+			margin:0;
+		}
+
+		.measurements-container{
+			background-color:$gray80;
+			position: absolute;
+			top:0;
+			left:0;
+			z-index: 2;
+		} // .measurements-container
+
+		.vertical-measurement{
+			@include clearfix();
+			position: relative;
+			float:left;
+			text-align: center;
+			padding-left:0;
+
+			.measurements-container{
+				top:50%;
+				padding:$measurementPadding 0;
+			} //.vertical-measurement > .measurements-container
+
+			&.not-thin{
+				margin-left: px-em(24px);
+
+				&:after{
+	  				content:'';
+	          display:block;
+	          border-left:1px solid $gray50;
+	   				position: absolute;
+	   				left:50%;
+	   				top:0;
+	   				width:100%;
+	   				height:100%;
+	   				z-index:1;
+					} // :after
+
+			} // not-thin
+
+		} // vertical-measurement
+
+		.horizontal-measurement{
+			clear:both;
+			position: relative;
+			text-align: center;
+			display:block;
+
+			.measurements-container{
+				padding:26px px-em($measurementPadding) 0 px-em($measurementPadding);
+				left:50%;
+			} // .horizontal-measurement > .measurements-container
+
+			&:after{
+  				content:'';
+          display:block;
+          border-top:1px solid $gray50;
+   				position: absolute;
+   				left:0;
+   				top:70%;
+   				width:100%;
+   				height:100%;
+   				z-index:1;
+
+				} // :after
+
+		} // .horizontal-measurement
+
+	} // .measurements
+
+	// 8888888888          888                              
+	// 888                 888                              
+	// 888                 888                              
+	// 8888888    888  888 888888 888d888  8888b.  .d8888b  
+	// 888        `Y8bd8P' 888    888P"       "88b 88K      
+	// 888          X88K   888    888     .d888888 "Y8888b. 
+	// 888        .d8""8b. Y88b.  888     888  888      X88 
+	// 8888888888 888  888  "Y888 888     "Y888888  88888P' 
+	.extras{
+		clear:both;
+		background-color:$gray80;
+		margin-top: 26px;
+		padding:24px 6.25% 32px;
+		
+		&.with-measurements{
+			padding:0;
+		} // with-measurements
+
+		.extra{
+			.p3{
+				margin-bottom:0;
+			} // p3
+		} // extra
+
+	} // extras
+
+
+	// 888888b.    .d88888b. 88888888888 88888888888  .d88888b.  888b     d888 
+	// 888  "88b  d88P" "Y88b    888         888     d88P" "Y88b 8888b   d8888 
+	// 888  .88P  888     888    888         888     888     888 88888b.d88888 
+	// 8888888K.  888     888    888         888     888     888 888Y88888P888 
+	// 888  "Y88b 888     888    888         888     888     888 888 Y888P 888 
+	// 888    888 888     888    888         888     888     888 888  Y8P  888 
+	// 888   d88P Y88b. .d88P    888         888     Y88b. .d88P 888   "   888 
+	// 8888888P"   "Y88888P"     888         888      "Y88888P"  888       888 
+
+
+	.bottom{
+		margin-top:36px;
+
+		.text-tout{
+			text-align: left;
+			position: relative;
+
+			.icon{
+				position: absolute;
+				left: 0;
+				top: 0;
+			} // .icon
+
+			.copy{
+				max-width:78%;
+				margin-left:0;
+				display: inline-block;
+				padding-top:5px;
+		
+				&.with-icon{
+					margin-left: px-em(90px);
+				} // .with-icon
+
+				a{
+					text-transform: capitalize;
+				} // a
+	
+			} // copy
+			
+		} // .text-tout
+
+		.bottom-btn{
+			&.span6{
+				text-align: right;
+			} // span6
+
+			&.m-span6{
+				text-align: left;
+			}
+
+		} // .bottom-btn
+
+	} // bottom
+
+} // .product-details

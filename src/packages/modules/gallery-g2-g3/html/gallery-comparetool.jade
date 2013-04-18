@@ -1,0 +1,25 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('gallery-g2-g3')
+
+include gallery-helpers.jade
+
++galleryStickyTabs( data.tabs, data.config.module_name, data.config.module_id )
+
++loaderDiv()
+
+.tab-content.gallery-content(data-module-name=data.config.module_name, data-module-id=data.config.module_id)
+  if data.tabs[0]
+    .tab-pane.fade.in.active(data-tab=data.tabs[0].slug)
+      +featuredGallery( data.submodules, data.featured, 'camera' )
+      +featuredGallery( data.submodules, data.featured2, 'accessory' )
+
+
+  if data.tabs[1]
+    .tab-pane.fade(data-tab=data.tabs[1].slug)
+      //- This is the only thing that's different
+      +compareGallery( data.submodules, data.productCards, 'camera', data.labels )
+
+  if data.tabs[2]
+    .tab-pane.fade(data-tab=data.tabs[2].slug)
+      +accessoryFinder( data.submodules, data.accessories.accessoryFinder )
+      +productStrips( data.submodules, data.accessories.productStrips, 'accessory' )

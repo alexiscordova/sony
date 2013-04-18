@@ -125,7 +125,6 @@ define(function(require){
 
       // High-resolution settings
       minDevicePixelRatio = opts.minDevicePixelRatio || 2,
-      highResPathSuffix = opts.highResPathSuffix || '@2x',
 
       // Deferred loading
       asyncDistance = opts.asyncDistance || 0,
@@ -133,13 +132,6 @@ define(function(require){
       throttleSpeed = opts.throttleSpeed || 250,
 
       // Image path template settings
-      base = opts.base || '',
-      pathTemplate = opts.pathTemplate || '{fileName}-{breakpoint}{highRes}.{ext}',
-      QUESTION_MARK_REGEX = /\?/,
-      BREAKPOINT_NAME_REGEX = /\{breakpoint\}/gi,
-      HIGH_RES_REGEX = /\{highRes\}/gi,
-      FILE_NAME_REGEX = /\{fileName\}/gi,
-      FILE_EXT_REGEX = /\{ext\}/gi,
       breakpoint,
       breakpointName,
       breakpoints = opts.breakpoints || [
@@ -546,21 +538,12 @@ define(function(require){
   // Returns the URL of an image
   // If reload is true, a timestamp is added to avoid caching.
 
-  getImageSrc = function(img, breakpointName, reload) {
-    var src = ($(img).data('base') || base) + pathTemplate,
-        fileName = ($(img).data('src') || EMPTYSTRING).split('.');
+  getImageSrc = function(img, breakpointName) {
+    var isHighRes = (bandwidth === HIGH && devicePixelRatio >= minDevicePixelRatio),
+        standardResSrc = $(img).data('src-' + breakpointName),
+        highResSrc = $(img).data('src-' + breakpointName + '-highres');
 
-    src = src.replace(BREAKPOINT_NAME_REGEX, breakpointName);
-    src = src.replace(FILE_NAME_REGEX, fileName[0]);
-    src = src.replace(FILE_EXT_REGEX, fileName[1]);
-    src = src.replace(HIGH_RES_REGEX, (bandwidth === HIGH && devicePixelRatio >= minDevicePixelRatio)? highResPathSuffix : EMPTYSTRING);
-
-    // if (reload) {
-      // src += (QUESTION_MARK_REGEX.test(src) ? '&' : '?');
-      // src += 'riloadrts='+(new Date).getTime();
-    // }
-
-    return src;
+    return (isHighRes && highResSrc) ? highResSrc : standardResSrc;
   },
 
   // Tells if an image is visible to the user or not.

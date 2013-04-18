@@ -54,10 +54,18 @@ define(function (require) {
         }
 
       });
+
+      if ( Settings.isSonyTabletS ) {
+        Settings.$html.addClass('sonytablets');
+      }
+
       // Overwrite the Modernizr.mq function for IE < 10
       if ( Settings.isLTIE10 ) {
         Modernizr.mq = function() { return false; };
+        Modernizr.mediaqueries = false;
       }
+
+
     },
 
     // Normalizes the console.log method.
@@ -135,7 +143,7 @@ define(function (require) {
 
         // If you aren't IE7/8, you may pass.
 
-        if ( !Settings.$html.hasClass('lt-ie9') ) {
+        if ( !Settings.isLTIE9 ) {
           return cb();
         }
 
@@ -201,9 +209,14 @@ define(function (require) {
     fixModernizrFalsePositives : function() {
 
       // The sony tablet s gets a false negative on generated content (pseudo elements)
-      if ( Settings.isSonyTabletS ) {
+      if ( !Modernizr.generatedcontent && Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = true;
-        Settings.$html.removeClass('no-generatedcontent').addClass('generatedcontent sonytablets');
+        Settings.$html.removeClass('no-generatedcontent').addClass('generatedcontent');
+      }
+
+      if ( Settings.isLTIE8 ) {
+        Modernizr.generatedcontent = false;
+        Settings.$html.removeClass('generatedcontent').addClass('no-generatedcontent');
       }
     }
 
@@ -215,7 +228,7 @@ define(function (require) {
 
 });
 
-// Need to find a better place for this to live.
+// Need to find a better place for these to live.
 
 if (!Array.prototype.indexOf) {
   Array.prototype.indexOf = function(elt /*, from*/) {
@@ -233,5 +246,24 @@ if (!Array.prototype.indexOf) {
       }
     }
     return -1;
+  };
+}
+
+if (!Array.prototype.filter) {
+  Array.prototype.filter = function(a, //a function to test each value of the array against. Truthy values will be put into the new array and falsy values will be excluded from the new array
+    b, // placeholder
+    c, // placeholder
+    d, // placeholder
+    e // placeholder
+  ) {
+      c = this; // cache the array
+      d = []; // array to hold the new values which match the expression
+      for (e in c) {
+        ~~e + '' == e && e >= 0 && // coerce the array position and if valid,
+        a.call(b, c[e], +e, c) && // pass the current value into the expression and if truthy,
+        d.push(c[e]); // add it to the new array
+      }
+
+      return d; // give back the new array
   };
 }

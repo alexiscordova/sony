@@ -78,76 +78,86 @@
  * ========================================================== */
 
 
-// !function ($) {
+!function ($) {
 
-//   "use strict"; // jshint ;_;
-
-
-//  /* ALERT CLASS DEFINITION
-//   * ====================== */
-
-//   var dismiss = '[data-dismiss="alert"]'
-//     , Alert = function (el) {
-//         $(el).on('click', dismiss, this.close)
-//       }
-
-//   Alert.prototype.close = function (e) {
-//     var $this = $(this)
-//       , selector = $this.attr('data-target')
-//       , $parent
-
-//     if (!selector) {
-//       selector = $this.attr('href')
-//       selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
-//     }
-
-//     $parent = $(selector)
-
-//     e && e.preventDefault()
-
-//     $parent.length || ($parent = $this.hasClass('alert') ? $this : $this.parent())
-
-//     $parent.trigger(e = $.Event('close'))
-
-//     if (e.isDefaultPrevented()) return
-
-//     $parent.removeClass('in')
-
-//     function removeElement() {
-//       $parent
-//         .trigger('closed')
-//         .remove()
-//     }
-
-//     $.support.transition && $parent.hasClass('fade') ?
-//       $parent.on($.support.transition.end, removeElement) :
-//       removeElement()
-//   }
+  "use strict"; // jshint ;_;
 
 
-//  /* ALERT PLUGIN DEFINITION
-//   * ======================= */
+ /* ALERT CLASS DEFINITION
+  * ====================== */
 
-//   $.fn.alert = function (option) {
-//     return this.each(function () {
-//       var $this = $(this)
-//         , data = $this.data('alert')
-//       if (!data) $this.data('alert', (data = new Alert(this)))
-//       if (typeof option == 'string') data[option].call($this)
-//     })
-//   }
+  var dismiss = '[data-dismiss="alert"]'
+    , Alert = function (el) {
+        $(el).on('click', dismiss, this.close)
+      }
 
-//   $.fn.alert.Constructor = Alert
+  // Use the `data-target` attribute with an id: `data-target="#signin-alert"`
+  function getParent( $close ) {
+    var selector = $close.attr('data-target')
+    //   , $parent
+
+    // if (!selector) {
+    //   selector = $close.attr('href')
+    //   selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
+    // }
+
+    // $parent = $(selector)
+
+    // if ( !$parent.length ) {
+    //   $parent = $close.hasClass('alert') ? $close : $close.closest('.alert')
+    // }
+
+    return $( selector )
+  };
+
+  Alert.prototype.close = function (e) {
+    var $this = $(this)
+      , $parent = getParent( $this )
+
+    e && e.preventDefault()
+
+    $parent.trigger(e = $.Event('close'))
+
+    if (e.isDefaultPrevented()) return
+
+    // $parent.removeClass('in')
+    $parent.addClass('collapsed')
+
+    function removeElement() {
+      $parent
+        .trigger('closed')
+        .remove()
+    }
+
+    $.support.transition ?
+      $parent.on($.support.transition.end, removeElement) :
+      removeElement()
+  }
 
 
-//  /* ALERT DATA-API
-//   * ============== */
+ /* ALERT PLUGIN DEFINITION
+  * ======================= */
 
-//   $(function () {
-//     $('body').on('click.alert.data-api', dismiss, Alert.prototype.close)
-//   })
+  $.fn.alert = function (option) {
+    return this.each(function () {
+      var $this = $(this)
+        , data = $this.data('alert')
+      if (!data) $this.data('alert', (data = new Alert(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
 
-// }(window.jQuery);
+  $.fn.alert.Constructor = Alert
+
+
+ /* ALERT DATA-API
+  * ============== */
+
+  $(function () {
+    $('body').on('click.alert.data-api MPSPointerUp.alert.data-api touchend.alert.data-api', dismiss, Alert.prototype.close)
+  })
+
+}(window.jQuery);
 /* ============================================================
  * bootstrap-button.js v2.1.1
  * http://twitter.github.com/bootstrap/javascript.html#buttons
@@ -622,6 +632,10 @@
         , $parent
         , isActive
 
+      function next() {
+        $this.focus();
+      }
+
       if ($this.is('.disabled, :disabled')) return
 
       $parent = getParent($this)
@@ -631,8 +645,16 @@
       clearMenus()
 
       if (!isActive) {
-        $parent.toggleClass('open')
-        $this.focus()
+        $parent.addClass('open')
+
+        if ( $.support.transition ) {
+          $this.one( $.support.transition.end, next )
+          setTimeout(function() {
+            $parent.addClass('in')
+          }, 0)
+        } else {
+          next()
+        }
       }
 
       return false
@@ -659,9 +681,16 @@
 
       isActive = $parent.hasClass('open')
 
-      if (!isActive || (isActive && e.keyCode == 27)) return $this.click()
+      if (!isActive) return $this.click()
 
-      $items = $('[role=menu] li:not(.divider) a', $parent)
+      if (isActive && e.keyCode == 27) {
+        return $this.click() && setTimeout(function() {
+          $(':focus').blur()
+        }, 16)
+      }
+
+      // $items = $('[role=menu] li:not(.divider) a', $parent)
+      $items = $('[role=menu] li:not(.divider) a, [role=menu] li:not(.divider) input', $parent)
 
       if (!$items.length) return
 
@@ -678,29 +707,41 @@
 
   }
 
-  function clearMenus(evt) {
+  function clearMenus( evt ) {
     var $parent = getParent($(toggle))
+      , $target = evt && evt.target ? $( evt.target ) : false
+      , targetInsideDropdown = $target.length && $parent.length ? $target.closest('.dropdown-menu').length > 0 : false
+
+    // Check for inputs in the dropdown
+    if ( (targetInsideDropdown && $target.is('input')) || ( $target && $target.hasClass('js-no-close')) ) {
+      return;
+    }
 
     if ( $parent.hasClass('open') ) {
-      $parent.removeClass('open');
+
+      if ( $.support.transition ) {
+        $parent.removeClass('in');
+        setTimeout(function() {
+          $parent.removeClass('open')
+        }, 150)
+      } else {
+        $parent.removeClass('open in')
+      }
 
     // If the parent dropdown doesn't have a class of open, exit early
     } else {
       return;
     }
 
-    if ( evt && evt.target ) {
-      var $target = $(evt.target);
-      if ( $target.is('a') && $parent.find($target).length ) {
-        $target
-          .parent()
-            .addClass('active')
-            .siblings()
-            .removeClass('active')
+    if ( $target && $target.is('a') && targetInsideDropdown ) {
+      $target
+        .parent()
+          .addClass('active')
+          .siblings()
+          .removeClass('active')
 
-        // Return focus to the window
-        $target.blur();
-      }
+      // Return focus to the window
+      $target.blur();
     }
   }
 
@@ -738,16 +779,23 @@
   /* APPLY TO STANDARD DROPDOWN ELEMENTS
    * =================================== */
 
-  $(function () {
-    $('html')
-      .on('click.dropdown.data-api touchstart.dropdown.data-api', clearMenus)
-    $('body')
-      .on('click.dropdown touchstart.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-      .on('click.dropdown.data-api touchstart.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
-      .on('keydown.dropdown.data-api touchstart.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
-  })
+  $(document)
+    .on('click.dropdown.data-api', clearMenus)
+    .on('click.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.dropdown-menu', function (e) { e.stopPropagation() })
+    .on('click.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
+    .on('keydown.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
+  // $(function () {
+  //   $('html')
+  //     .on('click.dropdown.data-api touchstart.dropdown.data-api', clearMenus)
+  //   $('body')
+  //     .on('click.dropdown touchstart.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+  //     .on('click.dropdown.data-api touchstart.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
+  //     .on('keydown.dropdown.data-api touchstart.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
+  // })
 
-}(window.jQuery);/* =========================================================
+}(window.jQuery);
+/* =========================================================
  * bootstrap-modal.js v2.1.1
  * http://twitter.github.com/bootstrap/javascript.html#modals
  * =========================================================
@@ -778,7 +826,7 @@
   var Modal = function (element, options) {
     this.options = options
     this.$element = $(element)
-      .delegate('[data-dismiss="modal"]', 'click.dismiss.modal', $.proxy(this.hide, this))
+      .delegate('[data-dismiss="modal"]', 'click.dismiss.modal touchend.dismiss.modal MSPointerUp.dismiss.modal', $.proxy(this.hide, this))
     this.options.remote && this.$element.find('.modal-body').load(this.options.remote)
   }
 
@@ -927,11 +975,10 @@
     , backdrop: function (callback) {
         var that = this
           , animate = this.$element.hasClass('fade') ? 'fade' : ''
-
         if (this.isShown && this.options.backdrop) {
           var doAnimate = $.support.transition && animate
 
-          this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
+          this.$backdrop = $('<div class="modal-backdrop ' + this.options.backdropClass + ' ' + animate + '" />')
             .appendTo(document.body)
 
           if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
@@ -972,6 +1019,7 @@
 
   $.fn.modal.defaults = {
       backdrop: true
+    , backdropClass: ''
     , keyboard: true
     , show: true
   }
@@ -1076,6 +1124,7 @@
   , enter: function (e) {
       var self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
+      clearTimeout( this.removeTipTimeout )
       if (!self.options.delay || !self.options.delay.show) return self.show()
 
       clearTimeout(this.timeout)
@@ -1168,14 +1217,20 @@
           .addClass('in')
 
         this.$element.trigger('tipshow')
+
+        $tip = null
       }
     }
 
   , setContent: function () {
       var $tip = this.tip()
+        , $inner = $tip.find('.tooltip-inner')
         , title = this.getTitle()
 
-      $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
+      if ( this.options.html ) {
+        $inner.empty();
+      }
+      $inner[ this.options.html ? 'html' : 'text' ]( title )
       $tip.removeClass('fade in top bottom left right offsettop offsetright')
     }
 
@@ -1186,19 +1241,24 @@
       $tip.removeClass('in')
 
       function removeWithAnimation() {
-        var timeout = setTimeout(function () {
+        that.removeTipTimeout = setTimeout(function () {
           $tip.off($.support.transition.end).remove()
+          $tip = null
         }, 500)
 
         $tip.one($.support.transition.end, function () {
-          clearTimeout(timeout)
+          clearTimeout(that.removeTipTimeout)
           $tip.remove()
+          $tip = null
         })
       }
 
-      $.support.transition && this.$tip.hasClass('fade') ?
-        removeWithAnimation() :
+      if ( $.support.transition && this.$tip.hasClass('fade') ) {
+        removeWithAnimation()
+      } else {
         $tip.remove()
+        $tip = null
+      }
 
       return this
     }
@@ -1485,7 +1545,7 @@
         for (i = offsets.length; i--;) {
           activeTarget != targets[i]
             && scrollTop >= offsets[i]
-            && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+            && (!offsets[i + 1] || scrollTop < offsets[i + 1])
             && this.activate( targets[i] )
         }
       }
