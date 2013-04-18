@@ -1,0 +1,190 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-tab.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="sony-carousel.html">                 sony-carousel.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickynav.html">                 sony-stickynav.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-tab.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/* Modified from Twitter Bootstrap Tabs */</span>
+
+define(<span class="keyword">function</span>(require){
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>);
+
+ <span class="comment">/* TAB CLASS DEFINITION
+  * ==================== */</span>
+
+  <span class="keyword">var</span> Tab = <span class="function"><span class="keyword">function</span> <span class="params">(element)</span> {</span>
+    <span class="keyword">this</span>.$el = $(element);
+    <span class="keyword">this</span>.showHash = <span class="keyword">this</span>.$el.data(<span class="string">'hash'</span>) || <span class="literal">false</span>;
+  };
+
+  Tab.prototype = {
+
+    constructor: Tab,
+
+    show: <span class="function"><span class="keyword">function</span> <span class="params">( showHash )</span> {</span>
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $<span class="keyword">this</span> = self.$el,
+          selector = $<span class="keyword">this</span>.attr(<span class="string">'data-target'</span>),
+          previous,
+          $prevPane,
+          e;
+
+      self.$target = self.$target || $(<span class="string">'[data-tab="'</span> + selector + <span class="string">'"]'</span>);
+      showHash = showHash === <span class="literal">false</span> ? <span class="literal">false</span> : <span class="literal">true</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Don't do anything if this tab is already active</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.$target.length || self.$target.hasClass(<span class="string">'active'</span>) || $<span class="keyword">this</span>.parent(<span class="string">'li'</span>).hasClass(<span class="string">'active'</span>) ) {
+        <span class="keyword">return</span>;
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Trigger show event on both tab and pane</p>             </td>             <td class="code">               <div class="highlight"><pre>      previous = $<span class="keyword">this</span>.parent().find(<span class="string">'.active:last'</span>)[<span class="number">0</span>];
+      $prevPane = self.$target.parent().find(<span class="string">'&gt; .active'</span>);
+      e = <span class="keyword">new</span> $.Event({
+        type: <span class="string">'show'</span>,
+        relatedTarget: previous,
+        prevPane: $prevPane,
+        pane: self.$target
+      });
+      $<span class="keyword">this</span>.add(self.$target).trigger(e);
+
+      <span class="keyword">if</span> ( e.isDefaultPrevented() ) {
+        <span class="keyword">return</span>;
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Show active tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.activate( $<span class="keyword">this</span>, $<span class="keyword">this</span>.parent() );
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Show active tab pane</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.activate( self.$target, self.$target.parent(), <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Trigger shown event on both tab and pane</p>             </td>             <td class="code">               <div class="highlight"><pre>        $<span class="keyword">this</span>.add(self.$target).trigger({
+          type: <span class="string">'shown'</span>,
+          relatedTarget: previous,
+          prevPane: $prevPane,
+          pane: self.$target
+        });
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Defer this, it doesn't need to happen immediately</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Add tab selector hash to history and url</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( self.showHash &amp;&amp; showHash ) {
+            self.hash(selector);
+          }
+        }, <span class="number">0</span>);
+
+      }, <span class="literal">true</span>);
+    },
+
+    activate: <span class="function"><span class="keyword">function</span> <span class="params">( $element, $container, callback, isPane )</span> {</span>
+      <span class="keyword">var</span> $active = $container.find(<span class="string">'&gt; .active'</span>),
+          transition = callback &amp;&amp; $.support.transition &amp;&amp; $active.hasClass(<span class="string">'fade'</span>);
+
+      <span class="function"><span class="keyword">function</span> <span class="title">next</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> dummy;
+        $active
+          .removeClass(<span class="string">'active'</span>)
+          .find(<span class="string">'&gt; .dropdown-menu &gt; .active'</span>)
+          .removeClass(<span class="string">'active'</span>);
+
+        $element
+          .addClass(<span class="string">'active'</span>);
+
+        <span class="keyword">if</span> ( isPane ) {
+          $active.addClass(<span class="string">'off-screen'</span>);
+          $element.removeClass(<span class="string">'off-screen'</span>);
+        }
+
+        <span class="keyword">if</span> ( transition ) {
+          dummy = $element[<span class="number">0</span>].offsetWidth; <span class="comment">// reflow for transition</span>
+          $element.addClass(<span class="string">'in'</span>);
+        } <span class="keyword">else</span> {
+          $element.removeClass(<span class="string">'fade'</span>);
+        }
+
+        <span class="keyword">if</span> ( $element.parent(<span class="string">'.dropdown-menu'</span>) ) {
+          $element.closest(<span class="string">'li.dropdown'</span>).addClass(<span class="string">'active'</span>);
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Execute callback if one exists</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( callback ) {
+          callback();
+        }
+      }
+
+      <span class="keyword">if</span> ( transition ) {
+        $active.one($.support.transition.end, next);
+      } <span class="keyword">else</span> {
+        next();
+      }
+
+      $active.removeClass(<span class="string">'in'</span>);
+    },
+
+    hash: <span class="keyword">function</span>(hash, $target) {
+      <span class="keyword">var</span> fake;
+
+      hash = hash.replace(<span class="regexp">/^#/</span>, <span class="string">''</span>);
+
+      <span class="keyword">if</span> ( $target &amp;&amp; $target.length ) {
+        $target.attr( <span class="string">'id'</span>, <span class="string">''</span> );
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>We need the exact scroll top of the window because
+that's where the browser will scroll us to</p>             </td>             <td class="code">               <div class="highlight"><pre>      fake = $( <span class="string">'&lt;div/&gt;'</span> ).css({
+          position: <span class="string">'absolute'</span>,
+          visibility: <span class="string">'hidden'</span>,
+          top: $(window).scrollTop() + <span class="string">'px'</span>
+        })
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Set its id</p>             </td>             <td class="code">               <div class="highlight"><pre>        .attr( <span class="string">'id'</span>, hash )
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Get the DOM node from jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>        [<span class="number">0</span>];
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Use native append over jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>      document.body.appendChild( fake );
+      window.location.hash = hash;
+      document.body.removeChild( fake );
+
+      <span class="keyword">if</span> ( $target &amp;&amp; $target.length ) {
+        $target.attr( <span class="string">'id'</span>, hash );
+      }
+
+    }
+  };
+
+
+ <span class="comment">/* TAB PLUGIN DEFINITION
+  * ===================== */</span>
+
+  $.fn.tab = <span class="function"><span class="keyword">function</span> <span class="params">( option )</span> {</span>
+    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+    <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+          tab = $<span class="keyword">this</span>.data(<span class="string">'tab'</span>);
+
+      <span class="keyword">if</span> ( !tab ) {
+        tab = <span class="keyword">new</span> Tab(<span class="keyword">this</span>);
+        $<span class="keyword">this</span>.data( <span class="string">'tab'</span>, tab );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> option === <span class="string">'string'</span> ) {
+        tab[ option ].apply( tab, args );
+      }
+    });
+  };
+
+  $.fn.tab.Constructor = Tab;
+
+
+ <span class="comment">/* TAB DATA-API
+  * ============ */</span>
+
+  $(window).on(<span class="string">'hashchange'</span>, <span class="keyword">function</span>( evt ) {
+    <span class="keyword">var</span> target = window.location.hash ? window.location.hash.substring(<span class="number">1</span>) : $(<span class="string">'.tab[data-target]'</span>).first().attr(<span class="string">'data-target'</span>),
+        $target = $(<span class="string">'.tab[data-target="'</span> + target + <span class="string">'"]'</span>),
+        isAlreadyActive = $target.hasClass(<span class="string">'active'</span>),
+        showHash = !!window.location.hash;
+
+    <span class="keyword">if</span> ( !isAlreadyActive ) {
+      $target.tab( <span class="string">'show'</span>, showHash );
+    } <span class="keyword">else</span> <span class="keyword">if</span> ( evt.isTrigger ) {
+      $(<span class="string">'[data-tab="'</span> + target + <span class="string">'"]'</span>).trigger(<span class="string">'alreadyshown'</span>);
+    }
+  });
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Should be called after everything is initialized
+$(window).trigger('hashchange');</p>             </td>             <td class="code">               <div class="highlight"><pre>
+  $(document).on(<span class="string">'click.tab.data-api'</span>, <span class="string">'[data-toggle="tab"], [data-toggle="pill"]'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> {</span>
+    e.preventDefault();
+    $(<span class="keyword">this</span>).tab(<span class="string">'show'</span>);
+  });
+
+});
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
