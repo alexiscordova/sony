@@ -14,6 +14,7 @@ define(function(require){
 
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
+      enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
       SonyCarousel = require('secondary/index').sonyCarousel;
 
@@ -30,6 +31,10 @@ define(function(require){
     var self = this;
 
     self.$el = $(element);
+    self.$navgrid = self.$el.find('nav .slimgrid');
+    self.$subcats = self.$el.find('.subnav-tray .subcategory');
+    self.$subcatgrids = self.$subcats.find('.slimgrid');
+
     self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
 
     self.init();
@@ -43,7 +48,22 @@ define(function(require){
 
     init: function() {
       var self = this;
-    }
+
+      if ( !Settings.$html.hasClass('lt-ie10') ){
+        enquire.register("(min-width: 768px)", function() {
+          self.renderDesktop();
+        });
+        enquire.register("(max-width: 767px)", function() {
+          self.renderMobile();
+        });
+      } else {
+        self.renderDesktop();
+      }
+    },
+
+    renderDesktop: function() {},
+
+    renderMobile: function() {}
   };
 
   return module;

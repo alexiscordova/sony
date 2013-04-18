@@ -61,6 +61,12 @@ or something similar; otherwise you'll retain a ton of references in memory that
 can't be garbage-collected.</p>
 
 <pre><code> $('#foo').sonyCarousel('destroy');
+</code></pre>
+
+<p>If you need to execute code at the end of an animation sequence, bind to the
+<code>SonyCarousel:AnimationComplete</code> event.</p>
+
+<pre><code> $('#foo').on('SonyCarousel:AnimationComplete', function(){...});
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
 define(<span class="keyword">function</span>(require){
 
@@ -322,6 +328,12 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
 
         }
 
+        self.$el.on(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>, <span class="keyword">function</span>(){
+          iQ.update(<span class="literal">true</span>);
+          self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
+          self.$el.off(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
+        });
+
         self.$el.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), speed + <span class="string">'ms'</span> );
 
         <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
@@ -342,7 +354,10 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
 
         self.$el.animate(props, {
           <span class="string">'duration'</span>: speed,
-          <span class="string">'complete'</span>: <span class="keyword">function</span>(){ iQ.update(<span class="literal">true</span>); }
+          <span class="string">'complete'</span>: <span class="keyword">function</span>(){
+            iQ.update(<span class="literal">true</span>);
+            self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
+          }
         });
       }
 
