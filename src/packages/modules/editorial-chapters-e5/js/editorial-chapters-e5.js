@@ -83,7 +83,6 @@ define(function(require){
         if(self.hasThumbs){
           self.createThumbNav();
         }
-        self.setThumbWidth();
         self.centerThumbText();
         self.$slideContainer.css( 'opacity' , 1 );
 
@@ -205,16 +204,6 @@ define(function(require){
             $span.removeClass();
           }
         });
-      },
-
-      // Adds a class to the thumb nav if it only has 2-3 chapters
-      setThumbWidth: function(){
-        var self = this;
-        if ( self.numSlides == 3) {
-          self.$thumbNav.addClass('chapters3');
-        } else if ( self.numSlides == 2) {
-          self.$thumbNav.addClass('chapters2');
-        }
       }
 
       //end prototype object
