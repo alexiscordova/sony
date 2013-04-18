@@ -93,20 +93,6 @@ define(function(require){
 
         self.$slideContainer.css( 'opacity' , 1 );
 
-         /*
-        self.setupCarousel();
-        self.setupBreakpoints();
-        
-        if(self.hasThumbs){
-          self.createThumbNav();
-        }
-
-        self.$slideContainer.css( 'opacity' , 1 );
-
-
-        // Listen for debounced resize event
-        Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );*/
-
       },
 
       // Handles global debounced resize event
