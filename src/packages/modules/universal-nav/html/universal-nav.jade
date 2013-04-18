@@ -8,9 +8,9 @@ include ../../../common/html/jade-helpers.jade
 //-   - minimal = false
 //-   - minimal_class = ""
 
-nav#universal-nav.u-nav-wrapper(role='navigation')
-  div.u-nav
-    div.u-nav-head
+div#universal-nav.u-nav-wrapper(role='navigation')
+  div.u-nav.container
+    div.u-nav-head.grid
       a#u-nav-close-btn.u-nav-close-btn(href="#", style="background-image:url(" + data.close_btn.img_src + ")")
         | !{data.close_btn.label}
       h5.l1
@@ -19,28 +19,40 @@ nav#universal-nav.u-nav-wrapper(role='navigation')
         | !{data.all_sites_link.label}
 
     //- the row of image-heavy links
-    div.u-nav-primary
+    div.u-nav-primary.grid
 
       //- each column
+      - col_count = 1
       - each col, i in data.primary_columns
+        - feat_class1 = "u-nav-primary-feat u-nav-primary-col" + col_count
         if col.double_wide === "true"
-          - col_class = "span8.u-nav-primary-col-double-wide"
+          - feat_class1 += " u-nav-primary-span8"
+          - col_count += 2
         else
-          - col_class = "span4"
-        div.u-nav-primary-col(class=col_class)
-          //- For each feature per column - either 1 or 2. If there's only 1 double-tall, only 1 will be rendered so we're all good.
-          - each feature, j in col.features
-            if feature.double_tall === "true"
-              - feature_class = "u-nav-primary-col.u-nav-primary-col-double-tall"
+          - feat_class1 += " u-nav-primary-span4"
+          - col_count ++
+
+        //- For each feature per column
+        - each feat, j in col.features
+          - feat_class2 = feat_class1
+          if feat.double_tall === "true"
+            - feat_class2 += " u-nav-primary-2high"
+          else 
+            if j < 1
+              - feat_class2 += " u-nav-primary-row1"
             else 
-              - feature_class = "u-nav-primary-col"
-            div.u-nav-primary-row(class=feature_class)
-              a(href=feature.link)
-                img(src=feature.img.src, alt=feature.alt)
-                | !{feature.label}
+              - feat_class2 += " u-nav-primary-row2"
 
-          //- if col.length > 1
-
-          //- else 
-          //-   a.tl(href=col.link)= col.label
-
+          div(class=feat_class2)
+            a.u-nav-primary-link.l2(href=feat.link)
+              img.u-nav-primary-img(src=feat.img.src, title=feat.alt)
+              span.u-nav-primary-label !{feat.label}
+//- 
+    p
+      | blue = u-nav-primary (table)
+    p
+      | yellow = u-nav-primary-inner (tr)
+    p
+      | green = u-nav-primary-col (td)
+    p
+      | purple = u-nav-primary-row (inside stacked div)
