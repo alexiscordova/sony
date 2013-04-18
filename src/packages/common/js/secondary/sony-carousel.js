@@ -56,6 +56,11 @@
 // can't be garbage-collected.
 //
 //      $('#foo').sonyCarousel('destroy');
+//
+// If you need to execute code at the end of an animation sequence, bind to the
+// `SonyCarousel:AnimationComplete` event.
+//
+//      $('#foo').on('SonyCarousel:AnimationComplete', function(){...});
 
 define(function(require){
 
@@ -325,6 +330,12 @@ define(function(require){
 
         }
 
+        self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(){
+          iQ.update(true);
+          self.$el.trigger('SonyCarousel:AnimationComplete');
+          self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
+        });
+
         self.$el.css(Modernizr.prefixed('transitionDuration'), speed + 'ms' );
 
         if ( self.direction === 'horizontal' ) {
@@ -345,7 +356,10 @@ define(function(require){
 
         self.$el.animate(props, {
           'duration': speed,
-          'complete': function(){ iQ.update(true); }
+          'complete': function(){
+            iQ.update(true);
+            self.$el.trigger('SonyCarousel:AnimationComplete');
+          }
         });
       }
 

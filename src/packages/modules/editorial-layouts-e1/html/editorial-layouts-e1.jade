@@ -55,6 +55,10 @@ mixin toutcopy(copyobject, titleclass, subtitleclass, bodyclass)
   span.toutcopy
     +copyblock(copyobject, titleclass, subtitleclass, bodyclass)
 
+mixin toutimage(imgdata)
+  if imgdata.data !== undefined
+    !{locals.partial('packages/modules/image/html/image.jade' , imgdata)}
+
 mixin copyblock(copyobject, titleclass, subtitleclass, bodyclass, linkclass)
   copyobject = copyobject || data
   titleclass = titleclass || "t2"
@@ -67,8 +71,8 @@ mixin copyblock(copyobject, titleclass, subtitleclass, bodyclass, linkclass)
       h3(class = subtitleclass) !{copyobject.subtitle}
     if copyobject.body
       p(class = bodyclass) !{copyobject.body}
-  .link
-    if copyobject.link
+  if copyobject.link
+    .link
       linktextsize = copyobject.link.type == "txt" ? "lt3" : ""
       a(class = copyobject.link.type, href= copyobject.link.url)(class = linktextsize) !{copyobject.link.text}
 
@@ -131,43 +135,50 @@ if data.variation
             .box
               +copyblock(data, "t3", "t7", "p3")
 
-  else if data.mode == "tout"
+  else if data.mode == "tout" || data.mode =="full-tout"
     .container
-      columnoffset = data.layout.columnoffset || 0;
+      if data.title
+        +gridstyle("title-block")
+          +textonlylayout
+            +copyblock
+      if data.submodules
+        .submodule
+          +partial(data.submodules[0].type, data.submodules[0].data)
+      columnoffset = data.layout.tout.columnoffset || 0;
       offset = "offset" + columnoffset;
       ups = "m" + data.columns.length + "up"
       +gridstyle(ups)
         if data.columns.length == 1
           e = {"locals":locals, "data":data.columns[0].image}
-          if data.layout.text == "right"
-            span = "span"+ data.layout.columns[columnoffset]
+          if data.layout.tout.text == "right"
+            span = "span"+ data.layout.tout.columns[columnoffset]
             div(class = span)(class = offset)
-              !{locals.partial('packages/modules/image/html/image.jade' , e)}
-            span = "span"+ data.layout.columns[columnoffset +1]
-            div(class = span)(class = "text"+data.layout.text)
+              +toutimage(e)
+            span = "span"+ data.layout.tout.columns[columnoffset +1]
+            div(class = span)(class = "text"+data.layout.tout.text)
               +toutcopy(data.columns[0], "t6", "", "p3")
   
           else
-            span = "span"+ data.layout.columns[columnoffset]
-            div(class = span)(class = offset)(class = "text"+data.layout.text)
+            span = "span"+ data.layout.tout.columns[columnoffset]
+            div(class = span)(class = offset)(class = "text"+data.layout.tout.text)
               +toutcopy(data.columns[0], "t6", "", "p3")
-            span = "span"+ data.layout.columns[columnoffset +1]
+            span = "span"+ data.layout.tout.columns[columnoffset +1]
             div(class = span)
-              !{locals.partial('packages/modules/image/html/image.jade' , e)}
+              +toutimage(e)
   
   
         else if data.columns.length == 2
           for col, i in data.columns
             e = {"locals":locals, "data":col.image}
-            span = "span"+ data.layout.columns[i + columnoffset]
+            span = "span"+ data.layout.tout.columns[i + columnoffset]
             offset = i == 0 ? "offset"+columnoffset : ""
-            if data.layout.orientation == "vertical"
-              .vertical(class = span)(class = offset)(class = data.layout.alignment)
-                !{locals.partial('packages/modules/image/html/image.jade' , e)}
+            if data.layout.tout.orientation == "vertical"
+              .vertical(class = span)(class = offset)(class = data.layout.tout.alignment)
+                +toutimage(e)
                 +toutcopy(col,"t6", "", "p3")
             else
-              .horizontal(class = span)(class = offset)(class = data.layout.alignment)(class = "clearfix")
-                !{locals.partial('packages/modules/image/html/image.jade' , e)}
+              .horizontal(class = span)(class = offset)(class = data.layout.tout.alignment)(class = "clearfix")
+                +toutimage(e)
                 div
                   +center
                     +toutcopy(col, "t7", "", "p3 hidden-phone")
@@ -175,9 +186,9 @@ if data.variation
         else if data.columns.length == 3
           for col, i in data.columns
             e = {"locals":locals, "data":col.image}
-            span = "span"+ data.layout.columns[i]
-            div(class = span)(class = data.layout.alignment)
-              !{locals.partial('packages/modules/image/html/image.jade' , e)}
+            span = "span"+ data.layout.tout.columns[i]
+            div(class = span)(class = data.layout.tout.alignment)
+              +toutimage(e)
               +toutcopy(col,"t6", "", "p3")
 
 

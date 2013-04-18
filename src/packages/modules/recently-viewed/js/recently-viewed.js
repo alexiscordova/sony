@@ -69,7 +69,6 @@ define(function(require){
       self.$container             = self.$carousel.parent(); //parent of the .carousel, span12
       self.$paddles               = null; // has to be created and given to the sony-carousel
       self.$paginationPaddles     = null;
-
       
       //Startup
       self.init();
