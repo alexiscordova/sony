@@ -12,18 +12,16 @@ mixin thumb-nav
         if slide.label
           span= slide.label
 
-mixin carousel
-  div(class='editorial-carousel-wrapper')
-    div(class='editorial-carousel')
-      for slide in data.submodules
-        .editorial-carousel-slide
-          +partial(slide.type, slide.data)
-
 section.editorial-chapters-container( class=data.config.nav_shade+' '+data.config.nav_location+'-nav '+data.config.nav_placement+'-nav '+data.config.nav_mode+'-mode' )
   div(class='editorial-chapters')
-    if data.config.nav_location == "top" && data.config.nav_placement == "offset"
+    if data.config.nav_placement == "offset" && data.config.nav_location == "top"
       +thumb-nav
-      +carousel
-    else
-      +carousel
+    div(class='editorial-carousel-wrapper')
+      if data.config.nav_placement == "overlay"
+        +thumb-nav
+      div(class='editorial-carousel')
+        for slide in data.submodules
+          .editorial-carousel-slide
+            +partial(slide.type, slide.data)
+    if data.config.nav_placement == "offset" && data.config.nav_location == "bottom"
       +thumb-nav
