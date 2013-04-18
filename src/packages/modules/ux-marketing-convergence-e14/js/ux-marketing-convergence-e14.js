@@ -17,7 +17,8 @@ define(function(require){
       Modernizr = require('modernizr'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      SimpleKnob = require('secondary/jquery.simpleknob');
+      SimpleKnob = require('secondary/jquery.simpleknob'),
+      SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
     'init': function(options) {
@@ -37,7 +38,7 @@ define(function(require){
     self.$el = $(element);
 
     self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
-    self.onResizeFunc = $.proxy(self.handleResize, self);
+    //self.onResizeFunc = $.proxy(self.handleResize, self);
     self.isResize = false;
     self.atBreakpoint = null;
 
@@ -45,13 +46,19 @@ define(function(require){
     self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
     self.$dials = self.$dialWrappers.find('.uxmc-dial');
     self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
-    self.$partnerCarousel = self.$el.find('.partner-products');
-    self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
-    self.$partnerCarouselBackgrounds = self.$el.find('.partner-products-backgrounds'); 
-    self.$partnerCarouselBgSlides = self.$partnerCarouselBackgrounds.find('li'); 
+    
+    // self.$partnerCarousel = self.$el.find('.partner-products');
+    // self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
+    // self.$partnerCarouselBgs = self.$el.find('.partner-products-backgrounds'); 
+    // self.$carouselSlides = self.$carousel.find('li'); 
+    // self.$contentSlides = self.$el.find(".product-content-slides")
+
+    self.$carousel = self.$el.find('.uxmc-carousel'); 
+    self.$carouselSlides = self.$carousel.find('.sony-carousel-slide'); 
+
 
     // LISTEN
-    Environment.on(self.debounceEvent, self.onResizeFunc);
+    //Environment.on(self.debounceEvent, self.onResizeFunc);
 
     self.init();
 
@@ -68,23 +75,43 @@ define(function(require){
 
       self.currentPartnerProduct = -1;
       
-      self.setBreakpoint();
-      self.setupSlideLinks();
-      self.resetPartnerCarouselInterval();
-      self.gotoNextPartnerProduct();
-      self.animationLoop();
-      self.setupButtons();   
-      self.setupDials();
 
-      //one off
+      self.initCarousel();
+
+      // self.setBreakpoint();
+      // self.setupSlideLinks();
+      // self.resetPartnerCarouselInterval();
+      // self.gotoNextPartnerProduct();
+      // self.animationLoop();
+      // self.setupButtons();   
+      // self.setupDials();
+
+      // one off
       // self.gotoPartnerProduct(0);
     },
+
+    initCarousel : function(){
+      var self = this;
+      
+      $('.uxmc-carousel').sonyCarousel({
+        direction: 'vertical',
+        wrapper: '.uxmc-carousel-wrapper',
+        slides: '.sony-carousel-slide',
+        useCSS3: true,
+        setAnimationSpeed: 750
+      });    
+    },
+
+
+
+
+
 
     // enable entire slide as link without reworking markup
     // assumes mark-up particular markup
     setupSlideLinks : function(){
       var self = this;
-      self.$partnerCarouselBgSlides.bind("click",function(){
+      self.$carouselSlides.bind("click",function(){
           var loc = $(this).find(".uxmc-link").attr("href"); // link location
           window.location = loc;
       });
@@ -192,7 +219,7 @@ define(function(require){
 
       var self = this;
 
-      if ( self.currentPartnerProduct === self.$partnerCarouselBgSlides.length - 1 ) {
+      if ( self.currentPartnerProduct === self.$carouselSlides.length - 1 ) {
          self.gotoPartnerProduct(0);
       } else {
         self.gotoPartnerProduct(self.currentPartnerProduct + 1);
@@ -216,10 +243,10 @@ define(function(require){
       }
 
       self.currentPartnerProduct = which;
-      $newSlide = self.$partnerCarouselBgSlides.eq(which);
+      $newSlide = self.$carouselSlides.eq(which);
 
       // animated only if there's more than one slide
-      if ( self.$partnerCarouselBackgrounds.children().length > 1 ) {
+      if ( self.$carousel.children().length > 1 ) {
 
         self.isAnimating = true;
 
@@ -228,14 +255,13 @@ define(function(require){
         self.$reloadButton.css('color', $newSlide.css('backgroundColor'));
 
         // animate the container ul
-        self.$partnerCarouselBackgrounds.animate({ 
+        self.$carousel.animate({ 
           "top": newTop
         },{
           'duration': transitionTime,
           'easing' : Settings.$easing.easeOutQuart,
           'complete': function() {
             self.isAnimating = false;
-            // self.swapContent(which);
             self.fadeInContent(which);
           }
         });
@@ -258,12 +284,6 @@ define(function(require){
         .eq(which)
         .addClass("active");   
     },
-
-    // swapContent : function(which){
-    //   var self = this;
-    //   self.fadeOutContent();
-    //   self.fadeInContent();
-    // },
 
     calcuateNewTop : function(which){
       var self = this,
