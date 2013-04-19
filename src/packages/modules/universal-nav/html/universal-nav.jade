@@ -26,10 +26,10 @@ div#universal-nav.u-nav-wrapper(role='navigation')
       - each col, i in data.primary_columns
         - feat_class1 = "u-nav-primary-feat u-nav-primary-col" + col_count
         if col.double_wide === "true"
-          - feat_class1 += " u-nav-primary-span8"
+          - feat_class1 += " span8"
           - col_count += 2
         else
-          - feat_class1 += " u-nav-primary-span4"
+          - feat_class1 += " span4"
           - col_count ++
 
         //- For each feature per column
@@ -45,8 +45,19 @@ div#universal-nav.u-nav-wrapper(role='navigation')
 
           div(class=feat_class2)
             a.u-nav-primary-link.l2(href=feat.link)
+              if feat.label_tag
+                span.label.label-success !{feat.label_tag}
               img.u-nav-primary-img(src=feat.img.src, title=feat.alt)
-              span.u-nav-primary-label !{feat.label}
+              span.u-nav-primary-caption !{feat.caption}
+
+    //- the row of image-heavy links
+    ul.u-nav-secondary.grid
+      //- each column
+      - feat_count = 1
+      - each feat, i in data.secondary_columns
+        li.u-nav-secondary-li.span3
+          a.u-nav-secondary-link(href=feat.link) !{feat.caption}
+          span.u-nav-secondary-desc !{feat.desctiption}
 //- 
     p
       | blue = u-nav-primary (table)

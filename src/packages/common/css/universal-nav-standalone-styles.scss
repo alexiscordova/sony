@@ -33,14 +33,6 @@ body,html{
 
 // Resets for standalone version - Mimics resets
 #JUST-FOR-REFERENCE{
-
-	/* This is a combination of Eric Meyers reset, and Nicolas Gallagher's normalize */
-
-	/* http://meyerweb.com/eric/tools/css/reset/ 
-	   v2.0 | 20110126
-	   License: none (public domain)
-	*/
-
 	div, span,
 	h1, h2, h3, h4, h5, h6, p,
 	a, big, em, img,
@@ -62,45 +54,29 @@ body,html{
 	footer, header, hgroup, menu, nav, section {
 	  display: block;
 	}
-	ol, ul {
-	  list-style: none;
-	}
-	b, i, strong, em, cite {
-	  font-weight:normal;
-	  font-style:normal;
-	}
-
-	// Reset
-	// Adapted from http://github.com/necolas/normalize.css
-	// --------------------------------------------------
 	html {
 	  -webkit-text-size-adjust: 100%;
 	      -ms-text-size-adjust: 100%;
-	}
-	// Focus states
-	a:focus {
-	  @include tab-focus();
-	}
-	// Hover & Active
-	a:hover,
-	a:active {
-	  outline: 0;
-	}
-	img {
-	  /* Responsive images (ensure images don't scale beyond their parents) */
-	  max-width: 100%; /* Part 1: Set a maxium relative to the parent */
-	  width: auto\9; /* IE7-8 need help adjusting responsive images */
-	  height: auto; /* Part 2: Scale the height according to the width, otherwise you get stretching */
-
-	  vertical-align: middle;
-	  -ms-interpolation-mode: bicubic;
 	}
 }
 
 
 
 
+$span3-width: 22.34043%;
+$span4-width: 30.96927%;
+$span8-width: 65.48463%;
+$gutter-width: 3.5461%;
 
+$span3-width-768: 22.46154%;
+$span4-width-768: 31.07692%;
+$span8-width-768: 65.53846%;
+$gutter-width-768: 3.38462%;
+
+$span3-width-1200: 22.35294%;
+$span4-width-1200: 30.98039%;
+$span8-width-1200: 65.4902%;
+$gutter-width-1200: 3.52941%;
 
 .u-nav-wrapper{
 	font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -108,12 +84,37 @@ body,html{
 	font-style: normal;
 	line-height: 1.65;
 	font-color: rgb(47,53,61); // $gray20;
+
 	img{
 		border:none;
+	  /* Responsive images (ensure images don't scale beyond their parents) */
+	  max-width: 100%; /* Part 1: Set a maxium relative to the parent */
+	  width: auto\9; /* IE7-8 need help adjusting responsive images */
+	  height: auto; /* Part 2: Scale the height according to the width, otherwise you get stretching */
+	  vertical-align: middle;
+	  -ms-interpolation-mode: bicubic;
+	}
+	ol, ul {
+	  list-style: none;
+	  margin:0;
+	  padding:0;
 	}
 	a {
+		outline:0;
 		color: #4572ed;
 		text-decoration: none;
+		:focus {
+	  	@include tab-focus();
+	  }
+		&:hover,
+		&:active,
+		&:focus  {
+			color: #3c4c74;
+		}
+		&:not(.no-hover-transition){
+		  -webkit-transition: color 0.25s linear, background-color 0.25s linear;
+		  transition: color 0.25s linear, background-color 0.25s linear;
+		}
 	}
 	div{
 		margin: 0;
@@ -121,9 +122,9 @@ body,html{
 		border: 0;
 		font-size: 100%;
 		// vertical-align: baseline;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
+		-webkit-box-sizing: content-box;
+		-moz-box-sizing: content-box;
+		box-sizing: content-box;
 	}
 	.l1 {
 		font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -161,7 +162,31 @@ body,html{
 	  *zoom: 1;
   	width: $fluidGridWidth;
 	}
+	.span3{
+		width: $span3-width;		
+	}
+	.span4{
+		width: $span4-width;		
+	}
+	.span8{
+		width: $span8-width;
+	}
+	.label-success{
+		position:absolute;
+		top:0;
+		right:0;
+		z-index: 10;
+		margin: 0;
+		padding: 4px 10px;
+		background:$green;
+
+		color: white;
+		font-size: 0.916666666666667em;
+		vertical-align: baseline;
+		white-space: nowrap;
+	}
 }
+
 
 @media (min-width: px-em(1200px)){
 	.u-nav-wrapper{
@@ -184,14 +209,41 @@ body,html{
 	}
 }
 
+@media (min-width: px-em(1200)){
+	.u-nav-wrapper{
+		.span3{
+			width: $span3-width-1200;		
+		}
+		.span4{
+			width: $span4-width-1200;		
+		}
+		.span8{
+			width: $span8-width-1200;
+		}
+	}
+}
+
+@media (max-width: px-em(979px)) and (min-width: px-em(768px)){
+	.u-nav-wrapper{
+		.span3{
+			width: $span3-width-768;		
+		}
+		.span4{
+			width: $span4-width-768;		
+		}
+		.span8{
+			width: $span8-width-768;
+		}
+	}
+}
 
 
 
 
 // universal-nav-specific classes. These are needed by all versions of the Universal Nav
 .u-nav-wrapper{
-  background: rgb(243,244,246); // $gray90;
-  padding:20px 0;
+  background: red;// rgb(243,244,246); // $gray90;
+  padding: 20px 0;
 
   .u-nav-head{
   	position: relative;
@@ -204,15 +256,20 @@ body,html{
 		font-style: normal;
 		font-size: px-em(12);
 		letter-spacing: 0.0625em;
-		padding: 9px 47px 10px 13px;
+		padding: 9px 49px 10px 13px;
 		color: #fff;
 		background-color: rgb(146,149,153);
 		background-repeat: no-repeat;
-		background-position: 90% 50%;
+		background-position: 88% 50%;
 		@include border-radius(1px);
 
 		margin: 0 0 14px;
   	float: right;
+
+  	&:hover, &:active, &:focus, &.active{
+  	  color: #fff;
+			background-color: rgba(47,53,61,1);
+  	}
 	}
 	h5.l1{
 		clear: both;
@@ -235,14 +292,32 @@ body,html{
 	.u-nav-primary-feat{
 	}
 	.u-nav-primary-link{
-	}
-	.u-nav-primary-img{
 		display:block;
-		width:100%;
+		position:relative;
+		opacity: 1;
+
+		.u-nav-primary-img{
+			display:block;
+			z-index:1;
+			width:100%;
+			opacity: 1;
+			-webkit-transition: opacity 0.15s;
+			transition: opacity 0.15s;
+			-webkit-transform: scale3d(1, 1, 1);
+		}
+
+		&:hover,
+		&:active,
+		&:focus{
+			.u-nav-primary-img{
+				opacity: 0.9;
+			}
+		}
+
 	}
-	.u-nav-primary-label{
+	.u-nav-primary-caption{
 		display:block;
-		padding: px-em(10px) 0 px-em(4px) 0;
+		padding: px-em(11px) 0 px-em(4px) 0;
 	}
 
 	// col1 is normal, display:block, in the flow, to set the height of the container. 
@@ -260,34 +335,33 @@ body,html{
 		position:absolute;
 		bottom:0;
 	}
-	$span4-width: 30.96927%;
-	$span8-width: 65.48463%;
-	$gutter-width: 3.5461%;
-	.u-nav-primary-span4{
-		width: $span4-width;		
-	}
-	.u-nav-primary-span8{
-		width: $span8-width;
-	}
 	.u-nav-primary-col2{
 		left: $span4-width + $gutter-width; // col1 width plus margin
 	}
 	.u-nav-primary-col3{
 		left: $span8-width + $gutter-width; // col1 width plus margin
 	}
+
+
+	.u-nav-secondary{
+		background:#fff;
+		margin-top: 18px;
+		padding:22px 0;
+	}
+
+
+
+
+
+
+
+
+
+
 }
 
 @media (min-width: px-em(1200)){
-	$span4-width-1200: 30.98039%;
-	$span8-width-1200: 65.4902%;
-	$gutter-width-1200: 3.52941%;
 	.u-nav-wrapper{
-		.u-nav-primary-span4{
-			width: $span4-width-1200;		
-		}
-		.u-nav-primary-span8{
-			width: $span8-width-1200;
-		}
 		.u-nav-primary-col2{
 			left: $span4-width-1200 + $gutter-width-1200; // col1 width plus margin
 		}
@@ -298,16 +372,7 @@ body,html{
 }
 
 @media (max-width: px-em(979px)) and (min-width: px-em(768px)){
-	$span4-width-768: 31.07692%;
-	$span8-width-768: 65.53846%;
-	$gutter-width-768: 3.38462%;
 	.u-nav-wrapper{
-		.u-nav-primary-span4{
-			width: $span4-width-768;		
-		}
-		.u-nav-primary-span8{
-			width: $span8-width-768;
-		}
 		.u-nav-primary-col2{
 			left: $span4-width-768 + $gutter-width-768; // col1 width plus margin
 		}
