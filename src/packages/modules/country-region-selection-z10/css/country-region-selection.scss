@@ -2,85 +2,87 @@
 @import "../../../common/css/_base/mixins";
 @import "country-region-selection-flags";
 
-.continent-sticky-header {
-  top: 0;
-  position: fixed;
-  z-index: 1000;
-  background-color: $gray80;
-  display: none;
-}
-
-.matte {
-    margin-top: 16px;
-    margin-bottom: 69px;
+.country-region {
+  .continent-sticky-header {
+    top: 0;
+    position: fixed;
+    z-index: 1000;
     background-color: $gray80;
-}
+    display: none;
+  }
 
-.continent-sticky-header-title {
-  position: relative;
-}
+  .matte {
+      margin-top: 16px;
+      margin-bottom: 69px;
+      background-color: $gray80;
+  }
 
-.continent {
-    margin-top: 26px;
-}
+  .continent-sticky-header-title {
+    position: relative;
+  }
 
-.countries {
-    margin-top: 20px;
-    margin-bottom: 14px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid $gray70;
-    @include clearfix();
-}
+  .continent {
+      margin-top: 26px;
+  }
 
-.countries ol {
-  margin-left: -6px;
-}
+  .countries {
+      margin-top: 20px;
+      margin-bottom: 14px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid $gray70;
+      @include clearfix();
+  }
 
-.countries li {
-    margin-bottom: 1px;
-}
+  .countries ol {
+    margin-left: -6px;
+  }
 
-.country {
-    display: block;
-    height: 26px;
-    color: $gray40;
-    font-size: 0.8125em;
-    padding: 5px 0 0 6px;
-}
+  .countries li {
+      margin-bottom: 1px;
+  }
 
-.country:hover {
-    background-color: $white;
+  .country {
+      display: block;
+      height: 26px;
+      color: $gray40;
+      font-size: 0.8125em;
+      padding: 5px 0 0 6px;
+  }
+
+  .country:hover {
+      background-color: $white;
+      color: $gray20;
+  }
+
+  .media,
+  .media-bd {
+      overflow: hidden;
+  }
+
+  .media-img {
+      float: left;
+      margin-right: 11px;
+  }
+
+  .media-bd {
+      line-height: 16px;
+  }
+
+  .scrollable {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: scroll;
+  }
+
+  .info-hd {
+    font-size: 0.9375em;
     color: $gray20;
-}
+  }
 
-.media,
-.media-bd {
-    overflow: hidden;
-}
-
-.media-img {
-    float: left;
-    margin-right: 11px;
-}
-
-.media-bd {
-    line-height: 16px;
-}
-
-.scrollable {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: scroll;
-}
-
-.info-hd {
-  font-size: 0.9375em;
-  color: $gray20;
-}
-
-.info-bd {
-  font-size: 0.8125em;
+  .info-bd {
+    font-size: 0.8125em;
+  }
 }
