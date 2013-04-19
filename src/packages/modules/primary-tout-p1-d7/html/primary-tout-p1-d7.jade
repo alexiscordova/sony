@@ -48,13 +48,13 @@ mixin links(_data, _extra)
           if data.mode !== "product-intro-plate"
             e = e + " btn btn-special"
           a(class = "video")(class= e)(href= link.url)
-            i.fonticon-15-circle-play
+            i.fonticon-15-circle-play.l-o-d
             span!= link.text
         when "gallery"
           if data.mode !== "product-intro-plate"
             e = e + " btn"
           a(class = "gallery")(class= e)(href= link.url)
-            i.fonticon-15-popup
+            i.fonticon-15-popup.l-o-d
             span!= link.text
         when "text"
           a(class= e)( href= link.url)!= link.text
@@ -66,7 +66,7 @@ mixin boxclass(_layout)
 
 mixin boxlayout(_layout, _style)
   layout = _layout ? _layout : data.layout
-  classes = _style ? _style : data.style 
+  classes = _style ? _style : data.style
   if data.variation
     if data.variation.mobilealign
       classes = classes + " " + data.variation.mobilealign
