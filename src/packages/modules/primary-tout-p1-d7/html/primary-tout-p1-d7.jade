@@ -41,23 +41,24 @@ mixin links(_data, _extra)
   if d.links
     for link in d.links
       e = _extra ? _extra : ""
+      sm = link.submodule ? link.submodule : "0"
       case link.type
         when "btn"
           a(class= e)(class= "btn", href= link.url)!= link.text
         when "video"
           if data.mode !== "product-intro-plate"
             e = e + " btn btn-special"
-          a(class = "video")(class= e)(href= link.url)
+          a(class = "video")(class= e)(href= link.url)(data-submodule = sm)
             i.fonticon-15-circle-play.l-o-d
             span!= link.text
-        when "gallery"
+        when "carousel"
           if data.mode !== "product-intro-plate"
             e = e + " btn"
-          a(class = "gallery")(class= e)(href= link.url)
+          a(class = "carousel")(class= e)(href= link.url)(data-submodule = sm)
             i.fonticon-15-popup.l-o-d
             span!= link.text
         when "text"
-          a(class= e)( href= link.url)!= link.text
+          a(class= e)( href= link.url)!= link.text 
 
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
@@ -98,10 +99,11 @@ mixin boxlayout(_layout, _style)
     !{locals.partial('packages/modules/image/html/image.jade' , e)}
 
   if data.submodules.length > 0
-    .container.full-bleed-no-max.submodule.hidden
-      button(class= "box-close box-close-small")
-        i(class="fonticon-10-x")
-      +partial(data.submodules[0].type, data.submodules[0].data)
+    for sub, i in data.submodules
+      .container.full-bleed-no-max.submodule.hidden
+        button(class= "box-close box-close-small")
+          i(class="fonticon-10-x")
+        +partial(data.submodules[i].type, data.submodules[i].data)
 
   if data.mode == "homepage"
     if data.variation.secondbox

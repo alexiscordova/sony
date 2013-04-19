@@ -66,17 +66,20 @@ define(function(require){
           Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         }
 
-        var vbutton = self.$el.find(".inner .box a.video");
-        console.log(vbutton);
-        if(vbutton.length > 0){
-          vbutton.bind('click', function(){
-            self.$el.find('.hero-image').toggleClass('hidden');
-            self.$el.find('.submodule').toggleClass('hidden');
+
+        var btn = self.$el.find(".inner .box a");
+
+        if(btn.length > 0){
+          btn.on('click', function(e){
+            e.preventDefault();
+            self.$el.find('.hero-image').addClass('hidden');
+            self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('hidden');
             //play video?
           });
-          self.$el.find('.submodule .box-close').bind('click', function(){
-            self.$el.find('.hero-image').toggleClass('hidden');
-            self.$el.find('.submodule').toggleClass('hidden');
+          self.$el.find('.submodule .box-close').on('click', function(e){
+            e.preventDefault();
+            self.$el.find('.hero-image').removeClass('hidden');
+            self.$el.find('.submodule').addClass('hidden');
           });
         }
 
