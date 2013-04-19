@@ -10,4 +10,5 @@ define(function(require){
   return {
     RecentlyViewed: _recentlyViewed
   };
+
 });

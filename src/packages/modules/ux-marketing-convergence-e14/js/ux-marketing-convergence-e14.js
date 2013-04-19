@@ -4,10 +4,9 @@
 //
 // * **Class:** MarketingConvergenceModule
 // * **Version:** 0.2
-// * **Modified:** 04/15/2013
+// * **Modified:** 04/18/2013
 // * **Author:** George Pantazis, Telly Koosis
-// * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html)
-
+// * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html), [SonyCarousel](sony-carousel.html)
 
 define(function(require){
 
@@ -15,10 +14,11 @@ define(function(require){
 
   var $ = require('jquery'),
       iQ = require('iQ'),
+      Modernizr = require('modernizr'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      Modernizr = require('modernizr'),
-      SimpleKnob = require('secondary/jquery.simpleknob');
+      SimpleKnob = require('secondary/jquery.simpleknob'),
+      SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
     'init': function(options) {
@@ -34,21 +34,31 @@ define(function(require){
 
     $.extend(this, {}, module.defaults, options, module.settings);
 
+    // general
     self.$html = $(document.documentElement);
     self.$el = $(element);
+    self.isInit = true;
 
-    self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
-    self.onResizeFunc = $.proxy(self.handleResize, self);
-
+    // resize event related
+    // self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
+    // self.onResizeFunc = $.proxy(self.handleResize, self);    
+    // self.isResize = false;
+    // self.atBreakpoint = undefined;
+    
+    // buttons & dials
     self.$reloadButton = self.$el.find('.btn-reload');
     self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
     self.$dials = self.$dialWrappers.find('.uxmc-dial');
     self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
-    self.$partnerCarousel = self.$el.find('.partner-products');
-    self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
+
+    // carousel
+    self.$carousel = self.$el.find('.uxmc-carousel'); 
+    self.$carouselInstance = undefined;
+    self.$carouselSlides = self.$carousel.find('.sony-carousel-slide');
+    self.$carouselSlidesChildren = self.$carousel.find('.sony-carousel-slide-children');
 
     // LISTEN
-    Environment.on(self.debounceEvent, self.onResizeFunc);
+    self.$carousel.on('SonyCarousel:AnimationComplete', $.proxy(self.onAnimationComplete, self));
 
     self.init();
 
@@ -63,36 +73,54 @@ define(function(require){
 
       var self = this;
 
-      self.currentPartnerProduct = -1;
+      // self.currentPartnerProduct = -1;
+      self.currentPartnerProduct = 0;
 
-      self.gotoNextPartnerProduct();
-      self.resetPartnerCarouselInterval();
-      self.animationLoop();
-      self.setupButtons();   
-      self.setupDials();
+      self.initCarousel();  
       self.setupSlideLinks();
+      
+      self.animationLoop();
+      self.setupButtons();
+      self.setupDials();
 
+      // INIT SEQUENCE 
+      self.setButtonColor(self.currentPartnerProduct); // set color
+      self.fadeInContent(self.currentPartnerProduct); // show content
+      self.resetDials(); // start animation
+      self.resetPartnerCarouselInterval(); // start timer
+    },
+
+    'initCarousel' : function(){
+      var self = this;
+      
+      self.$carouselInstance = $('.uxmc-carousel').sonyCarousel({
+        direction: 'vertical',
+        wrapper: '.uxmc-carousel-wrapper',
+        slides: '.sony-carousel-slide',
+        useCSS3: true,
+        draggable: false,
+        jumping:true,
+        setCSS3Easing: Settings.easing.easeOutQuart,
+        animationSpeed: self.transitionTime
+      });    
+    },
+
+    'onAnimationComplete' : function(){
+      var self = this;
+      self.fadeOutContent(); 
+      self.fadeInContent(self.currentPartnerProduct); 
     },
 
     // enable entire slide as link without reworking markup
     // assumes mark-up particular markup
-    setupSlideLinks : function(){
+    'setupSlideLinks' : function(){
       var self = this;
-
-      self.$partnerCarouselSlides.bind("click",function(){
+      self.$carouselSlides.bind("click",function(e){
+          e.preventDefault();
           var loc = $(this).find(".uxmc-link").attr("href"); // link location
           window.location = loc;
       });
-
     },
-
-  
-    handleResize : function(){
-      var self = this;
-      self.resetPartnerCarouselInterval();
-      self.gotoPartnerProduct( self.currentPartnerProduct ); // preserve state
-    },
-
 
     'setupButtons': function() {
 
@@ -102,13 +130,12 @@ define(function(require){
 
         e.preventDefault();
 
-        self.gotoNextPartnerProduct();
+        self.gotoPartnerProduct();
         self.resetPartnerCarouselInterval();
       });
     },
 
     // Setup simpleKnob dials, setup behaviors for hover/click.
-
     'setupDials': function() {
 
       var self = this;
@@ -131,7 +158,8 @@ define(function(require){
         if ( position === self.currentPartnerProduct ) {
           self.resetDials();
         } else {
-          self.gotoPartnerProduct(position);
+          self.currentPartnerProduct = position;
+          self.gotoPartnerProduct();
         }
 
         self.resetPartnerCarouselInterval();
@@ -148,7 +176,6 @@ define(function(require){
     },
 
     // Timer to trigger carousel rotation. Subsequent calls reset the timer's interval.
-
     'resetPartnerCarouselInterval': function() {
 
       var self = this;
@@ -158,79 +185,55 @@ define(function(require){
       }
 
       self.partnerCarouselInterval = setInterval(function(){
-        self.gotoNextPartnerProduct();
+        self.gotoPartnerProduct();
       }, self.rotationSpeed);
     },
 
-    // Simple "next slide" progression logic.
-
-    'gotoNextPartnerProduct': function() {
-
-      var self = this;
-
-      if ( self.currentPartnerProduct === self.$partnerCarouselSlides.length - 1 ) {
-         self.gotoPartnerProduct(0);
-      } else {
-        self.gotoPartnerProduct(self.currentPartnerProduct + 1);
-      }
-    },
-
-    // Slide out and destroy current slide, slide in the specified slide.
-    // Force an update to iQ for the newly-created assets.
-
-    'gotoPartnerProduct': function(which) {
+    'gotoPartnerProduct': function() {
 
       var self = this,
-          isZero = (which === 0),
-          $newSlide, newTop;
+          newSlideColor,
+          which = self.currentPartnerProduct === self.$carouselSlides.length - 1  ?  0 : self.currentPartnerProduct + 1;
 
-      if ( self.isAnimating ) { return; }
+      // new color for reload buton
+      self.setButtonColor(which);
 
-      self.currentPartnerProduct = which;
-      $newSlide = self.$partnerCarouselSlides.eq(which);
+      // fade out content as slide is moving
+      // self.fadeOutContent(); 
 
-      // animated only if there's more than one slide
-      if ( self.$partnerCarousel.children().length > 1 ) {
-
-        self.isAnimating = true;
-
-        // if we're in mobile, position will be 1/2 
-        // since slides are stacked instead of side by side (in desktop)
-        if (isZero){
-          newTop = (0) + "%";
-        }else{
-          if(Modernizr.mediaqueries && Modernizr.mq('(max-width: 767px)')){
-            newTop = (-(which * 100) / 2) + "%";
-          }else{
-            // assumes desktop
-            newTop = (-(which * 100)) + "%";
-          }
-        }
-
-        // console.log( 'newTop »' , newTop);
-
-        self.$reloadButton.css('color', $newSlide.css('backgroundColor'));
-
-        // animate the container ul
-        self.$partnerCarousel.animate({
-          "top": newTop
-        }, {
-          'duration': self.transitionTime,
-          // 'easing' : 'easeInOutQuart',
-          'complete': function() {
-            self.isAnimating = false;
-          }
-        });
-
-      }
+      // to go the slide
+      self.$carouselInstance.sonyCarousel('gotoSlide', which);
+      
+      // update current slide
+      self.currentPartnerProduct = which;  
 
       iQ.update();
-      self.resetDials();
+      self.resetDials();      
+    },
+
+    'setButtonColor' : function(which){
+      var self = this;
+
+      self.$reloadButton.css('color', self.$carouselSlides.eq(which).css("backgroundColor"));
+    },
+
+    'fadeOutContent' : function(){
+      var self = this;
+      
+      self.$carouselSlidesChildren
+      .removeClass("active");
+    },
+
+    'fadeInContent' : function(which){
+      var self = this;
+      self.$carouselSlides
+        .eq(which)
+        .children(".sony-carousel-slide-children")
+        .addClass("active"); 
     },
 
     // Update the current progress indicator dial, reset others to zero, and timestamp the event.
     // Label active dial for IE fallbacks.
-
     'resetDials': function() {
 
       var self = this;
@@ -246,11 +249,22 @@ define(function(require){
     },
 
     // Animations that should occur as the window is ready to paint.
-
     'animationLoop': function() {
 
       var self = this,
-          position = (new Date() - self.slideStartTime) / self.rotationSpeed * 100;
+          position;
+
+      if(self.isInit){
+        // remove transition time since there's no transition on init
+        position = (new Date() - self.slideStartTime) / (self.rotationSpeed) * 100;
+        self.isInit = false;
+      }else{
+        position = (new Date() - self.slideStartTime - self.transitionTime) / (self.rotationSpeed - self.transitionTime) * 100;
+      }
+          
+      if(position < 0){
+        position = 0;
+      }
 
       window.requestAnimationFrame( $.proxy(self.animationLoop, self) );
 
@@ -266,10 +280,10 @@ define(function(require){
   module.defaults = {
 
     // Timeout between slide rotation.
-    'rotationSpeed': 7500,
+    'rotationSpeed': 5000,
 
     // Duration of slide transition.
-    'transitionTime': 1000
+    'transitionTime': 1500
   };
 
   return module;
