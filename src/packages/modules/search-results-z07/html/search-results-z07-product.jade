@@ -1,11 +1,14 @@
 .featured-result
   h3.p3.results
-    span.bold-dark 84
-    | Results
+    span.bold-dark #{data.results.count}
+    |  Results
   form.visible-phone.select-narrow
     select
-      option Narrow Results
+      option= data.narrowResultsPlaceholderText
   .media
+      e = { "locals" : locals, "data" : {"view": "blank"}, "labels" : data.labels }
+      !{locals.partial( 'packages/modules/product/html/product.jade', e )}
+
     .img.img-lg.no-float
       img(src="img/search-results-z07/product-img.jpg")
     .bd.feature-text
@@ -38,45 +41,24 @@
           img(src="img/search-results-z07/accessories-img.jpg")
           .accessories-copy.p4 32 GB SDHC <br /> Memory
 ul.results-list
-  li
-    a(href="#")
-      .media
-        .img
-          img(src="img/search-results-z07/list-img.jpg")
-        .bd
-          h4.lt3
-            a(href="#") Headline
-          p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-  li
-    a(href="#")
-      .media
-        .img
-          img(src="img/search-results-z07/list-img.jpg")
-        .bd
-          h4.lt3
-            a(href="#") Headline
-          p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-          ul.h-list.h-list-md
-            li.lt4
-              a(href="#") Accessories
-            li.lt4
-              a(href="#") Support
-  li
-    a(href="#")
-      .media
-        .img
-          img(src="img/search-results-z07/list-img.jpg")
-        .bd
-          h4.lt3
-            a(href="#") Headline
-          h5.lt4.italic-hd
-            a(href="#") Is there a proper way to disconnect the camera USB from a Macintosh computer?
-          p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-  li
-    a(href="#")
-      .media
-        .bd
-          h4.lt3
-            a(href="#") Headline
-          p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-  button.bt2.search-more Load More
+  each item in data.results.items
+    li
+      a(href="#")
+        .media
+          .img
+            +iQImage(item.image)
+          .bd
+            h4.lt3
+              a(href= item.url)= item.headline
+
+            if item.question
+              h5.lt4.italic-hd
+                a(href= item.question.url)= item.question.text
+
+            p.p4= item.body
+
+            if item.related
+              ul.h-list.h-list-md
+                each link in item.related
+                  li.lt4
+                    a(href= link.url)= link.text
