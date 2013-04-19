@@ -20,6 +20,7 @@ define(function(require) {
   'use strict';
 
   var $ = require('jquery'),
+      Utilities = require('require/sony-global-utilities'),
       iQ = require('iQ'),
       enquire = require('enquire'),
       sonyCarousel = require('secondary/index').sonyCarousel,
@@ -92,6 +93,9 @@ define(function(require) {
         // Remove grid classes to wrappers
         self.$el.find('.m-container').removeClass('container');
         self.$wrapper.removeClass('grid');
+
+        // Stop images from becoming tiny
+        setTimeout( Utilities.forceWebkitRedraw, 0 );
       }
 
       // Initialize a new sony carousel
@@ -110,6 +114,7 @@ define(function(require) {
       self.isDesktop = true;
       self.isMobile = false;
     },
+
     _setupMobile : function() {
       var self = this,
           wasDesktop = self.isDesktop;
@@ -117,6 +122,9 @@ define(function(require) {
       // Destroy the carousel if there was one
       if ( wasDesktop ) {
         self.$carousel.sonyCarousel( 'destroy' );
+
+        // Stop images from becoming tiny
+        setTimeout( Utilities.forceWebkitRedraw, 0 );
       }
 
       // Add grid classes to wrappers
@@ -129,7 +137,7 @@ define(function(require) {
         iscrollProps: {
           hScrollbar: false,
           isOverflowHidden: false,
-          onAnimationEnd: iQ.update()
+          onAnimationEnd: iQ.update
         },
         getContentWidth: function() {
           var contentWidth = 0,
@@ -153,7 +161,7 @@ define(function(require) {
             slideWidths.push( slideWidth );
 
             // Make sure we count the margin on the .slide
-            contentWidth += slideWidth + parseInt( $slide.css( 'marginRight' ), 10 );
+            contentWidth += slideWidth;
           });
 
           // Set slide widths

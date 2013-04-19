@@ -595,7 +595,8 @@ define(function(require){
     destroy: function() {
 
       var self = this,
-          $paddleWrapper = self.$paddleWrapper || self.$wrapper;
+          $paddleWrapper = self.$paddleWrapper || self.$wrapper,
+          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides;
 
       // Reset styles.
       self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '')
@@ -605,18 +606,22 @@ define(function(require){
 
       // Unbind
       Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
-      self.$el.off('sonyDraggable:dragStart');
-      self.$el.off('sonyDraggable:dragEnd');
+      self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
+      $clickContext.off('click');
 
       // Destroy all plugins.
       self.$el.sonyDraggable('destroy');
 
       if ( self.paddles ) {
         $paddleWrapper.sonyPaddles('destroy');
+        $paddleWrapper.off('sonyPaddles:clickLeft');
+        $paddleWrapper.off('sonyPaddles:clickRight');
       }
 
       if ( self.$dotnav ) {
         self.$dotnav.sonyNavDots('destroy');
+        self.$dotnav.remove();
+        self.$dotnav = null;
       }
 
       // Remove data from element, allowing for later reinit.
