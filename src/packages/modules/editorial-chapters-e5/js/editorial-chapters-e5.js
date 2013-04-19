@@ -83,7 +83,6 @@ define(function(require){
         if(self.hasThumbs){
           self.createThumbNav();
         }
-        self.centerThumbText();
         self.$slideContainer.css( 'opacity' , 1 );
 
         // Re-center thumb spans if window resizes
@@ -160,6 +159,21 @@ define(function(require){
         });
        
         $anchors.eq(0).addClass('active');
+
+        // Vertically center thumb text based on height
+        self.$thumbLabels.each(function(){
+          var $span = $(this),
+            height = $span.height();
+
+          // Loop through each label, detect height, and offset top as needed
+          if (height <= 31) {
+            $span.removeClass().addClass('oneLine');
+          } else if (height >= 32 && height <= 47) {
+            $span.removeClass().addClass('twoLine');
+          } else if (height >= 48) {
+            $span.removeClass();
+          }
+        });
       },
 
       // Handles when a thumbnail is chosen
@@ -182,28 +196,6 @@ define(function(require){
         var self = this;
         self.$thumbNav.find('li').removeClass('active')
           .eq( self.currentId ).addClass('active');
-      },
-
-      // Vertically center thumb text based on height
-      centerThumbText: function(){
-        var self = this;
-
-        // Loop through each label, detect height, and offset top as needed
-        self.$thumbLabels.each(function(){
-          var $span = $(this);
-
-          $span.text( $span.text().substring(0,40) ); //temporary truncation for testing purposes, take out for production
-
-          var height = $span.height();
-
-          if (height <= 31) {
-            $span.removeClass().addClass('oneLine');
-          } else if (height >= 32 && height <= 47) {
-            $span.removeClass().addClass('twoLine');
-          } else if (height >= 48) {
-            $span.removeClass();
-          }
-        });
       }
 
       //end prototype object

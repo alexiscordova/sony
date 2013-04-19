@@ -11,7 +11,7 @@ section.subnav-module
   nav
     .container
       - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
-        .slimgrid.m-grid-at-479
+        .slimgrid
           - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
             - item = data.subcategories[j]
             .span2.m-span2
@@ -23,39 +23,39 @@ section.subnav-module
   .subnav-tray.container
 
     for subcategory in data.subcategories
+      section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))
+        div.slimgrid
+          .span6
+            h3 !{subcategory.title}
+            p !{subcategory.message}
+          .span6
+            a(href=subcategory.accessoryLink) Accessories
+            a(href=subcategory.galleryLink) View All !{subcategory.title}
 
-      div.slimgrid
-        .span6
-          h3 !{subcategory.title}
-          p !{subcategory.message}
-        .span6
-          a(href=subcategory.accessoryLink) Accessories
-          a(href=subcategory.galleryLink) View All !{subcategory.title}
+        - subcategoryLength = subcategory.products.length
+        - if ( subcategory.marketingTout ) subcategoryLength++
 
-      - subcategoryLength = subcategory.products.length
-      - if ( subcategory.marketingTout ) subcategoryLength++
+        - for ( i = 0; i < subcategoryLength; i = i + 4 ) {
+          .subnav-product-grid.slimgrid.no-grid-at-479
+            - for ( j = i; j < i + 4 && j < subcategoryLength; j++ ) {
 
-      - for ( i = 0; i < subcategoryLength; i = i + 4 ) {
-        .slimgrid.m-grid-at-767.no-grid-at-479
-          - for ( j = i; j < i + 4 && j < subcategoryLength; j++ ) {
+              if subcategory.marketingTout && j == subcategoryLength - 1
+                - item = subcategory.marketingTout
+                .span3.m-span2
+                  a(href=item.link)
+                    img(src=item.imageSrc)
+                    p !{item.message + " "}
+                      span !{item.linkText}
 
-            if subcategory.marketingTout && j == subcategoryLength - 1
-              - item = subcategory.marketingTout
-              .span3.m-span2
-                a(href=item.link)
+              else
+                - item = subcategory.products[j]
+                .span3.m-span2
                   img(src=item.imageSrc)
-                  p !{item.message + " "}
-                    span !{item.linkText}
-
-            else
-              - item = subcategory.products[j]
-              .span3.m-span2
-                img(src=item.imageSrc)
-                h4 !{item.label}
-                p !{item.count} !{subcategory.title}
-                p !{item.message}
-                p Starting at
-                  strong !{" " + item.startingAtPrice + " "}
-                  | MSRP
-          - }
-      - }
+                  h4 !{item.label}
+                  p !{item.count} !{subcategory.title}
+                  p !{item.message}
+                  p Starting at
+                    strong !{" " + item.startingAtPrice + " "}
+                    | MSRP
+            - }
+        - }

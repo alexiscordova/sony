@@ -56,6 +56,11 @@
 // can't be garbage-collected.
 //
 //      $('#foo').sonyCarousel('destroy');
+//
+// If you need to execute code at the end of an animation sequence, bind to the
+// `SonyCarousel:AnimationComplete` event.
+//
+//      $('#foo').on('SonyCarousel:AnimationComplete', function(){...});
 
 define(function(require){
 
@@ -111,8 +116,10 @@ define(function(require){
         self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3Easing);
       }
 
-      Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function(){
-        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
+      Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function() {
+        if ( self.snapping ) {
+          self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
+        }
       });
 
       self.gotoSlide(0);
@@ -181,6 +188,12 @@ define(function(require){
       var self = this,
           goToWhich;
 
+      // Don't snap if it's disabled
+      if ( !self.snapping ) {
+        return;
+      }
+
+      // Snap to appropriate slides
       if ( data.acceleration.x > 150 ) {
 
         if ( self.currentSlide === 0 ) {
@@ -295,7 +308,7 @@ define(function(require){
 
       // This exception is built specifically for carousels like the OSC (S2) module, which must
       // respect the grid even though they aren't really in it. Refer to S2 for usage example;
-      // `sony-carousel-flex` is the required trigger class for that layout stategy.
+      // `sony-carousel-flex` is the required trigger class for that layout strategy.
 
       if ( !Modernizr.jsautomargins ) {
         if ( self.$el.hasClass('sony-carousel-flex') ) {
@@ -325,6 +338,12 @@ define(function(require){
 
         }
 
+        self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(){
+          iQ.update(true);
+          self.$el.trigger('SonyCarousel:AnimationComplete');
+          self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
+        });
+
         self.$el.css(Modernizr.prefixed('transitionDuration'), speed + 'ms' );
 
         if ( self.direction === 'horizontal' ) {
@@ -345,7 +364,10 @@ define(function(require){
 
         self.$el.animate(props, {
           'duration': speed,
-          'complete': function(){ iQ.update(true); }
+          'complete': function(){
+            iQ.update(true);
+            self.$el.trigger('SonyCarousel:AnimationComplete');
+          }
         });
       }
 
@@ -430,7 +452,9 @@ define(function(require){
 
       self.paddlesInit = true;
 
-      $wrapper.sonyPaddles();
+      $wrapper.sonyPaddles({
+        useSmallPaddles: self.useSmallPaddles
+      });
 
       self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
 
@@ -476,6 +500,37 @@ define(function(require){
       var self = this;
 
       self.CSS3Easing = bezierStr;
+    },
+
+    setSnapping: function( snapping ) {
+      var self = this,
+          $wrapper = self.$paddleWrapper || self.$wrapper;
+
+      self.snapping = snapping;
+
+      if ( self.snapping ) {
+        // Show paddles
+        if ( self.paddles ) {
+          $wrapper.sonyPaddles('showPaddle', 'both');
+        }
+
+        // Show dots
+        if ( self.pagination ) {
+          self.$dotnav.show();
+        }
+
+        // Snap to the nearest slide
+        self.gotoNearestSlide();
+      } else {
+        // Hide paddles
+        $wrapper.sonyPaddles('hidePaddle', 'both');
+
+        // Hide dots
+        if ( self.pagination ) {
+          self.$dotnav.hide();
+        }
+
+      }
     },
 
     // To prevent drags from being misinterpreted as clicks, we only redirect the user
@@ -540,7 +595,8 @@ define(function(require){
     destroy: function() {
 
       var self = this,
-          $paddleWrapper = self.$paddleWrapper || self.$wrapper;
+          $paddleWrapper = self.$paddleWrapper || self.$wrapper,
+          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides;
 
       // Reset styles.
       self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '')
@@ -550,18 +606,22 @@ define(function(require){
 
       // Unbind
       Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
-      self.$el.off('sonyDraggable:dragStart');
-      self.$el.off('sonyDraggable:dragEnd');
+      self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
+      $clickContext.off('click');
 
       // Destroy all plugins.
       self.$el.sonyDraggable('destroy');
 
       if ( self.paddles ) {
         $paddleWrapper.sonyPaddles('destroy');
+        $paddleWrapper.off('sonyPaddles:clickLeft');
+        $paddleWrapper.off('sonyPaddles:clickRight');
       }
 
       if ( self.$dotnav ) {
         self.$dotnav.sonyNavDots('destroy');
+        self.$dotnav.remove();
+        self.$dotnav = null;
       }
 
       // Remove data from element, allowing for later reinit.
@@ -618,6 +678,8 @@ define(function(require){
     // Should this carousel seamlessly loop from end to end?
     looped: false,
 
+    snap: true,
+
     // Should the carousel jump directly to the next slide in either direction?
     jumping: false,
 
@@ -649,6 +711,9 @@ define(function(require){
 
     // Create paddles.
     paddles: false,
+
+    // Will use `.nav-paddle` instead of `.pagination-paddle` for the paddle class
+    useSmallPaddles: false,
 
     // If element is specified, insert pagination into that element instead of using the default position.
     $dotNavWrapper: undefined,
