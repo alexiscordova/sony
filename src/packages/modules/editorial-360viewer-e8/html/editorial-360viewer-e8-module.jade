@@ -1,0 +1,24 @@
+- type = data.type
+- image = data.image || null
+- extraclass = image.classes || ""
+- id = data.id || ""
+
+.e360
+  .outer
+    if data.heights 
+      string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+id+" {height: "+data.heights.phone+"}} "
+      style(type = "text/css")
+        #{string}
+      
+    if data.background == "true"
+      .image-module.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+
+    else
+      .image-module
+        img.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+          noscript
+              img(src= image.noscriptsrc)
+  .controls
+    i.fonticon-10-chevron-reverse
+    span.instructions DRAG
+    i.fonticon-10-chevron
