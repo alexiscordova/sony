@@ -61,8 +61,6 @@ body,html{
 }
 
 
-
-
 $span3-width: 22.34043%;
 $span4-width: 30.96927%;
 $span8-width: 65.48463%;
@@ -161,6 +159,15 @@ $gutter-width-1200: 3.52941%;
 	  margin-left: auto;
 	  *zoom: 1;
   	width: $fluidGridWidth;
+
+  	[class*=span]{
+  		display:block;
+  		float:left;
+  		margin-left:$gutter-width;
+  		&:first-child {
+				margin-left: 0;
+			}
+  	}
 	}
 	.span3{
 		width: $span3-width;		
@@ -195,7 +202,22 @@ $gutter-width-1200: 3.52941%;
 		}
 		.grid {
 			width: 91.89189%;
+
+	  	[class*=span]{
+	  		margin-left:$gutter-width-1200;
+	  	}
+			.span3{
+				width: $span3-width-1200;		
+			}
+			.span4{
+				width: $span4-width-1200;		
+			}
+			.span8{
+				width: $span8-width-1200;
+			}
 		}
+	}
+	.u-nav-wrapper .grid{
 	}
 }
 @media (max-width: px-em(979px)) and (min-width: px-em(768px)){
@@ -205,34 +227,20 @@ $gutter-width-1200: 3.52941%;
 		}
 		.grid {
 			width: 91.80791%;
-		}
-	}
-}
 
-@media (min-width: px-em(1200)){
-	.u-nav-wrapper{
-		.span3{
-			width: $span3-width-1200;		
-		}
-		.span4{
-			width: $span4-width-1200;		
-		}
-		.span8{
-			width: $span8-width-1200;
-		}
-	}
-}
+	  	[class*=span]{
+	  		margin-left:$gutter-width-768;
+	  	}
 
-@media (max-width: px-em(979px)) and (min-width: px-em(768px)){
-	.u-nav-wrapper{
-		.span3{
-			width: $span3-width-768;		
-		}
-		.span4{
-			width: $span4-width-768;		
-		}
-		.span8{
-			width: $span8-width-768;
+			.span3{
+				width: $span3-width-768;		
+			}
+			.span4{
+				width: $span4-width-768;		
+			}
+			.span8{
+				width: $span8-width-768;
+			}
 		}
 	}
 }
@@ -242,8 +250,8 @@ $gutter-width-1200: 3.52941%;
 
 // universal-nav-specific classes. These are needed by all versions of the Universal Nav
 .u-nav-wrapper{
-  background: red;// rgb(243,244,246); // $gray90;
-  padding: 20px 0;
+  background: rgb(243,244,246); // $gray90;
+  padding: 20px 0 50px;
 
   .u-nav-head{
   	position: relative;
@@ -288,6 +296,10 @@ $gutter-width-1200: 3.52941%;
 	.u-nav-primary{
 		position: relative;
 		overflow: hidden;
+		[class*="span"]{
+  		float:none;
+  		margin-left:0;
+  	}
 	}
 	.u-nav-primary-feat{
 	}
@@ -344,9 +356,44 @@ $gutter-width-1200: 3.52941%;
 
 
 	.u-nav-secondary{
+		overflow:hidden;
 		background:#fff;
 		margin-top: 18px;
-		padding:22px 0;
+		padding:14px 0 0;
+
+		li:nth-child(5n+0){
+			margin-left:0;
+		}
+	}
+	.u-nav-secondary-li{
+		padding-bottom: 27px;
+		padding-top:9px;
+	}
+	.u-nav-secondary-link,
+	.u-nav-secondary-desc{
+		position:relative;
+		padding-right:10.5%;
+		padding-left:10.5%;
+		left:5.5%;
+	}
+	.u-nav-secondary{
+		li:nth-child(4n+0){
+			.u-nav-secondary-link,
+			.u-nav-secondary-desc{
+				padding-right:17%; // the (right) end one needs more padding so the text doesn't get too close to the edge.
+			}
+		}
+	}
+	.u-nav-secondary-link{
+		font-size:px-em(15);
+		display:inline-block;
+		line-height: 1.9;
+	}
+	.u-nav-secondary-desc{
+		display:block;
+		font-size:px-em(13);
+		line-height: 1.6;
+		color:#83838f;
 	}
 
 
