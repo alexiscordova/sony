@@ -12,151 +12,16 @@ include search-results-z07-helpers.jade
           input.search(value= data.searchForm.searchedText)
           a.clear-search(href"#") i X
           button.btn.hidden-phone= data.searchForm.buttonText
+
   .container
     .container
       .search-suggestions
         span.p3.search-correction= data.correctionText
         ul.h-list.h-list-lg
-          li.lt3
-            a(href="#") NEX-60
-          li.lt3
-            a(href="#") NEX 600
-    .grid.no-grid-at-767
-      .span8
-        .featured-result
-          h3.p3.results
-            span.bold-dark 84
-            | Results
-          form.visible-phone.select-narrow
-            select
-              option= data.narrowResultsPlaceholderText
-          .media
-            .img.img-lg.no-float
-              img(src="img/search-results-z07/feature-img.jpg")
-            .bd.feature-text
-              h3.t5.title Cameras
-              p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed diam lectus, nec dictum erat dolor sit amet.
-              ul.featured-list
-                li.lt4
-                  a(href="#") Cyber-shot Cameras
-                li.lt4
-                  a(href="#") NEX Cameras
-                li.lt4
-                  a(href="#") DLSR Cameras
-              ul.featured-list.featured-list-right
-                li.lt4
-                  a(href="#") Camera Lenses
-                li.lt4
-                  a(href="#") Camera Support
-        ul.results-list
-          li
-            a(href="#")
-              .media
-                .img
-                  img(src="img/search-results-z07/list-img.jpg")
-                .bd
-                  h4.lt3
-                    a(href="#") Headline
-                  p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-          li
-            a(href="#")
-              .media
-                .img
-                  img(src="img/search-results-z07/list-img.jpg")
-                .bd
-                  h4.lt3
-                    a(href="#") Headline
-                  p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-          li
-            a(href="#")
-              .media
-                .bd
-                  h4.lt3
-                    a(href="#") Headline
-                  p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-          button.bt2.search-more Load More
-
-      .span3.offset1.hidden-phone
-        .result-sidebar
-          .results-link-group
-            h3.l3= data.sidebar.narrowResultsTitle
-            ul
-              li.lt3
-                a(href="#")= data.sidebar.narrowResultsOption1
-              li.lt3
-                a(href="#")= data.sidebar.narrowResultsOption2
-              li.lt3
-                a(href="#")= data.sidebar.narrowResultsOption3
-
-          .results-link-group
-            h3.l3= data.sidebar.recentSearchTitle
-            ul
-              li.lt3
-                a(href="#")= data.sidebar.recentSearchOption1
-              li.lt3
-                a(href="#")= data.sidebar.recentSearchOption2
-              li.lt3
-                a(href="#")= data.sidebar.recentSearchOption3
-              li.lt3
-                a(href="#")= data.sidebar.recentSearchOption4
-
-          .results-link-group
-            h3.l3= data.sidebar.popularSearchTitle
-            ul
-              li.lt3
-                a(href="#")= data.sidebar.popularSearchOption1
-              li.lt3
-                a(href="#")= data.sidebar.popularSearchOption2
-              li.lt3
-                a(href="#")= data.sidebar.popularSearchOption3
-              li.lt3
-                a(href="#")= data.sidebar.popularSearchOption4
-              li.lt3
-                a(href="#")= data.sidebar.popularSearchOption5
-              li.lt3
-                a(href="#")= data.sidebar.popularSearchOption6
-
-  .related-searches
-    .container
-      .grid.no-grid-at-767
-        .span3
-          h3.l3 Related Searches
-        .span3
-          ul
+          each correction in data.corrections
             li.lt3
-              a(href="#") NEX-6 Support
-            li.lt3
-              a(href="#") NEX-5n
-        .span3
-          ul
-            li.lt3
-              a(href="#") NEX-6 Accessories
-            li.lt3
-              a(href="#") NEX-6 Reviews
-        .span3
-          ul
-            li.lt3
-              a(href="#") NEX-6 Lenses
+              a(href="#{correction.url}")= correction.text
 
-#page-wrapper-inner
-  .bar-tone
-    .container
-      .container
-        h2.l3 SEARCH RESULTS
-        form.search-form
-          label.search-label search
-          input.search
-          a.clear-search(href"#") i X
-          button.btn.hidden-phone Search
-  .container
-    .container
-      .search-suggestions
-        span.p3.search-correction Did you mean?
-        ul.h-list.h-list-lg
-          li.lt3
-            a(href="#") NEX-60
-          li.lt3
-            a(href="#") NEX 600
     .grid.no-grid-at-767
       .span8
         .featured-result
