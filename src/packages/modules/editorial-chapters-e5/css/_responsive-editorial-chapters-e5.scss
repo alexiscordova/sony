@@ -70,18 +70,24 @@
         .twoLine {top:0;}
     }
   }
+  &.offset-nav .thumb-nav li {width:25%;}
 }
 
-@media (max-width: 1468px) {
+// Set mobile view for any container under 768 pixels
+.span4,
+.span5,
+.span6,
+.span7 {
+  .editorial-chapters-container{
+    @include compact-thumb-nav;
+  }
+}
 
-  // .span7,
-  // .span8 {
-  //   .editorial-chapters-container{
-  //     @include compact-thumb-nav;
-  //   }
-  // }
-
-} // END max-width: 1468px
+@media (max-width: 1379px) {
+  .span8 .editorial-chapters-container{
+    @include compact-thumb-nav;
+  }
+}
 
 @media (max-width: 767px) {
 

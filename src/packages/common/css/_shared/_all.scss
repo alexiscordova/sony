@@ -240,6 +240,23 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   }
 
+  &.simple {
+    margin-top: 0;
+
+    &:after {
+      content: none;
+    }
+
+    .gallery-item-inner {
+      position: static;
+    }
+
+    // Make the tiles smaller
+    .product-img:after {
+      padding-top: 78%;
+    }
+  }
+
   // Large tiles
   &.large {
 

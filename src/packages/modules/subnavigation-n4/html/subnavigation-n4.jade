@@ -11,7 +11,7 @@ section.subnav-module
   nav
     .container
       - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
-        .slimgrid.m-grid-at-479
+        .slimgrid
           - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
             - item = data.subcategories[j]
             .span2.m-span2
@@ -36,7 +36,7 @@ section.subnav-module
         - if ( subcategory.marketingTout ) subcategoryLength++
 
         - for ( i = 0; i < subcategoryLength; i = i + 4 ) {
-          .slimgrid.no-grid-at-479.m-grid-at-767
+          .subnav-product-grid.slimgrid.no-grid-at-479
             - for ( j = i; j < i + 4 && j < subcategoryLength; j++ ) {
 
               if subcategory.marketingTout && j == subcategoryLength - 1
