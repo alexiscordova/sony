@@ -104,7 +104,7 @@ html {
 
 /* line 119, ../../src/packages/common/css/_base/_reset.scss */
 a:focus {
-  outline: thin dotted #333;
+  outline: thin dotted #333333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -248,7 +248,7 @@ body {
 .img-polaroid {
   padding: 4px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -2568,7 +2568,7 @@ select:focus,
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
-  outline: thin dotted #333;
+  outline: thin dotted #333333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -2950,7 +2950,7 @@ p .btn, td .btn {
 /* line 42, ../../src/packages/common/css/_base/_buttons.scss */
 .btn:focus {
   background: #6694ff;
-  outline: thin dotted #333;
+  outline: thin dotted #333333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -3060,7 +3060,7 @@ p .btn-special, td .btn-special {
 /* line 160, ../../src/packages/common/css/_base/_buttons.scss */
 .btn-square i {
   line-height: 0;
-  margin: -0.125em;
+  margin: -.125em;
 }
 
 /* line 168, ../../src/packages/common/css/_base/_buttons.scss */
@@ -3777,8 +3777,8 @@ input[type="submit"].btn.btn-mini {
 [class*=" swatch-"]:after {
   top: 50%;
   left: 50%;
-  margin-left: -0.5em;
-  margin-top: -0.5625em;
+  margin-left: -.5em;
+  margin-top: -.5625em;
   color: white;
 }
 /* line 78, ../../src/packages/common/css/_base/_swatches.scss */
@@ -4048,7 +4048,7 @@ input[type="submit"].btn.btn-mini {
   margin: 0;
   list-style: none;
   background-color: white;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   *border-right-width: 2px;
   *border-bottom-width: 2px;
@@ -4295,13 +4295,13 @@ input[type="submit"].btn.btn-mini {
 .share-menu:before {
   content: '';
   position: absolute;
-  top: -0.8125em;
+  top: -.8125em;
   right: 1.5em;
   width: 0;
   height: 0;
   border-bottom: 0.75em solid white;
-  border-left: .625em solid transparent;
-  border-right: .625em solid transparent;
+  border-left: 0.625em solid transparent;
+  border-right: 0.625em solid transparent;
 }
 /* line 331, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu a {
@@ -4940,7 +4940,7 @@ button.close {
 }
 /* line 424, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-main .navtray-list-main {
-  margin: 0 4.0% 1.0% 4.0%;
+  margin: 0 4% 1% 4%;
   overflow: hidden;
 }
 /* line 428, ../../src/packages/common/css/_components/_navbar.scss */
@@ -6293,7 +6293,8 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   opacity: 1;
 }
 
-/* line 154, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 155, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle,
 .nav-paddle {
   display: block;
   border: none;
@@ -6306,22 +6307,27 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
-/* line 165, ../../src/packages/common/css/_components/_pagination.scss */
-.lt-ie9 .nav-paddle {
+/* line 166, ../../src/packages/common/css/_components/_pagination.scss */
+.lt-ie9 .pagination-paddles .nav-paddle, .lt-ie9
+.nav-paddle {
   zoom: 1;
 }
-/* line 169, ../../src/packages/common/css/_components/_pagination.scss */
-.touch .nav-paddle {
+/* line 170, ../../src/packages/common/css/_components/_pagination.scss */
+.touch .pagination-paddles .nav-paddle, .touch
+.nav-paddle {
   display: none;
 }
-/* line 174, ../../src/packages/common/css/_components/_pagination.scss */
-.nav-paddle:hover, .nav-paddle:focus {
+/* line 175, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle:hover, .pagination-paddles .nav-paddle:focus,
+.nav-paddle:hover,
+.nav-paddle:focus {
   background-color: #2f353d;
   background-color: rgba(33, 37, 48, 0.8);
   outline: none;
   cursor: pointer;
 }
-/* line 181, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 182, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle i,
 .nav-paddle i {
   vertical-align: middle;
   color: white;
@@ -6329,24 +6335,25 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   margin-left: .0625em;
   margin-top: -0.125em;
 }
-/* line 189, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 190, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle i.fonticon-10-chevron-reverse,
 .nav-paddle i.fonticon-10-chevron-reverse {
   margin-left: 0;
   margin-right: 0.0625em;
 }
 
-/* line 197, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 198, ../../src/packages/common/css/_components/_pagination.scss */
 .paddle-trigger .nav-paddle {
   opacity: 0;
 }
 
-/* line 203, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 204, ../../src/packages/common/css/_components/_pagination.scss */
 .paddle-trigger:hover .nav-paddle,
 .paddle-trigger .nav-paddle:focus {
   opacity: 1;
 }
 
-/* line 215, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 216, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle {
   position: absolute;
   top: 50%;
@@ -6364,12 +6371,12 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   cursor: pointer;
   -webkit-font-smoothing: antialiased;
 }
-/* line 232, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 233, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle:hover {
   background-color: #2f353d;
   background-color: rgba(33, 37, 48, 0.8);
 }
-/* line 237, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 238, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle i {
   width: 15px;
   height: 15px;
@@ -6378,11 +6385,11 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   margin-left: auto;
   margin-right: auto;
 }
-/* line 244, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 245, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle.left {
   left: 10px;
 }
-/* line 248, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 249, ../../src/packages/common/css/_components/_pagination.scss */
 .rp-nav .paddle.right {
   right: 10px;
 }
@@ -6556,7 +6563,7 @@ body.modal-open {
   margin-bottom: 0;
   text-align: right;
   background-color: #f5f5f5;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
   border-radius: 0 0 6px 6px;
   -webkit-box-shadow: inset 0 1px 0 white;
   box-shadow: inset 0 1px 0 white;
@@ -7786,22 +7793,27 @@ i.pinterest-color {
   width: auto;
 }
 
-/* line 1237, ../../src/packages/common/css/_base/_mixins.scss */
-.grid {
+/* line 1238, ../../src/packages/common/css/_base/_mixins.scss */
+.grid,
+.grid .grid {
   *zoom: 1;
 }
 /* line 88, ../../src/packages/common/css/_base/_mixins.scss */
-.grid:before, .grid:after {
+.grid:before, .grid:after,
+.grid .grid:before,
+.grid .grid:after {
   display: table;
   content: "";
   line-height: 0;
 }
 /* line 95, ../../src/packages/common/css/_base/_mixins.scss */
-.grid:after {
+.grid:after,
+.grid .grid:after {
   clear: both;
 }
 /* line 1241, ../../src/packages/common/css/_base/_mixins.scss */
-.grid [class*=span] {
+.grid [class*=span],
+.grid .grid [class*=span] {
   display: block;
   width: auto;
   float: left;
@@ -7809,206 +7821,248 @@ i.pinterest-color {
   *margin-left: 3.487%;
 }
 /* line 1249, ../../src/packages/common/css/_base/_mixins.scss */
-.grid [class*=span]:first-child {
+.grid [class*=span]:first-child,
+.grid .grid [class*=span]:first-child {
   margin-left: 0;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span12 {
+.grid .span12,
+.grid .grid .span12 {
   width: 100%;
   *width: 99.9409%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span11 {
+.grid .span11,
+.grid .grid .span11 {
   width: 91.37116%;
   *width: 91.31206%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span10 {
+.grid .span10,
+.grid .grid .span10 {
   width: 82.74232%;
   *width: 82.68322%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span9 {
+.grid .span9,
+.grid .grid .span9 {
   width: 74.11348%;
   *width: 74.05437%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span8 {
+.grid .span8,
+.grid .grid .span8 {
   width: 65.48463%;
   *width: 65.42553%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span7 {
+.grid .span7,
+.grid .grid .span7 {
   width: 56.85579%;
   *width: 56.79669%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span6 {
+.grid .span6,
+.grid .grid .span6 {
   width: 48.22695%;
   *width: 48.16785%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span5 {
+.grid .span5,
+.grid .grid .span5 {
   width: 39.59811%;
   *width: 39.53901%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span4 {
+.grid .span4,
+.grid .grid .span4 {
   width: 30.96927%;
   *width: 30.91017%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span3 {
+.grid .span3,
+.grid .grid .span3 {
   width: 22.34043%;
   *width: 22.28132%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span2 {
+.grid .span2,
+.grid .grid .span2 {
   width: 13.71158%;
   *width: 13.65248%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .span1 {
+.grid .span1,
+.grid .grid .span1 {
   width: 5.08274%;
   *width: 5.02364%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset12 {
+.grid .offset12,
+.grid .grid .offset12 {
   margin-left: 107.0922%;
   *margin-left: 106.974%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset12:first-child {
+.grid .offset12:first-child,
+.grid .grid .offset12:first-child {
   margin-left: 103.5461%;
   *margin-left: 103.4279%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset11 {
+.grid .offset11,
+.grid .grid .offset11 {
   margin-left: 98.46336%;
   *margin-left: 98.34515%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset11:first-child {
+.grid .offset11:first-child,
+.grid .grid .offset11:first-child {
   margin-left: 94.91726%;
   *margin-left: 94.79905%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset10 {
+.grid .offset10,
+.grid .grid .offset10 {
   margin-left: 89.83452%;
   *margin-left: 89.71631%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset10:first-child {
+.grid .offset10:first-child,
+.grid .grid .offset10:first-child {
   margin-left: 86.28842%;
   *margin-left: 86.17021%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset9 {
+.grid .offset9,
+.grid .grid .offset9 {
   margin-left: 81.20567%;
   *margin-left: 81.08747%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset9:first-child {
+.grid .offset9:first-child,
+.grid .grid .offset9:first-child {
   margin-left: 77.65957%;
   *margin-left: 77.54137%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset8 {
+.grid .offset8,
+.grid .grid .offset8 {
   margin-left: 72.57683%;
   *margin-left: 72.45863%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset8:first-child {
+.grid .offset8:first-child,
+.grid .grid .offset8:first-child {
   margin-left: 69.03073%;
   *margin-left: 68.91253%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset7 {
+.grid .offset7,
+.grid .grid .offset7 {
   margin-left: 63.94799%;
   *margin-left: 63.82979%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset7:first-child {
+.grid .offset7:first-child,
+.grid .grid .offset7:first-child {
   margin-left: 60.40189%;
   *margin-left: 60.28369%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset6 {
+.grid .offset6,
+.grid .grid .offset6 {
   margin-left: 55.31915%;
   *margin-left: 55.20095%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset6:first-child {
+.grid .offset6:first-child,
+.grid .grid .offset6:first-child {
   margin-left: 51.77305%;
   *margin-left: 51.65485%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset5 {
+.grid .offset5,
+.grid .grid .offset5 {
   margin-left: 46.69031%;
   *margin-left: 46.5721%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset5:first-child {
+.grid .offset5:first-child,
+.grid .grid .offset5:first-child {
   margin-left: 43.14421%;
   *margin-left: 43.026%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset4 {
+.grid .offset4,
+.grid .grid .offset4 {
   margin-left: 38.06147%;
   *margin-left: 37.94326%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset4:first-child {
+.grid .offset4:first-child,
+.grid .grid .offset4:first-child {
   margin-left: 34.51537%;
   *margin-left: 34.39716%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset3 {
+.grid .offset3,
+.grid .grid .offset3 {
   margin-left: 29.43262%;
   *margin-left: 29.31442%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset3:first-child {
+.grid .offset3:first-child,
+.grid .grid .offset3:first-child {
   margin-left: 25.88652%;
   *margin-left: 25.76832%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset2 {
+.grid .offset2,
+.grid .grid .offset2 {
   margin-left: 20.80378%;
   *margin-left: 20.68558%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset2:first-child {
+.grid .offset2:first-child,
+.grid .grid .offset2:first-child {
   margin-left: 17.25768%;
   *margin-left: 17.13948%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset1 {
+.grid .offset1,
+.grid .grid .offset1 {
   margin-left: 12.17494%;
   *margin-left: 12.05674%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.grid .offset1:first-child {
+.grid .offset1:first-child,
+.grid .grid .offset1:first-child {
   margin-left: 8.62884%;
   *margin-left: 8.51064%;
 }
 
-/* line 1237, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid {
+/* line 1238, ../../src/packages/common/css/_base/_mixins.scss */
+.slimgrid,
+.grid .slimgrid {
   *zoom: 1;
 }
 /* line 88, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid:before, .slimgrid:after {
+.slimgrid:before, .slimgrid:after,
+.grid .slimgrid:before,
+.grid .slimgrid:after {
   display: table;
   content: "";
   line-height: 0;
 }
 /* line 95, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid:after {
+.slimgrid:after,
+.grid .slimgrid:after {
   clear: both;
 }
 /* line 1241, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid [class*=span] {
+.slimgrid [class*=span],
+.grid .slimgrid [class*=span] {
   display: block;
   width: auto;
   float: left;
@@ -8016,206 +8070,248 @@ i.pinterest-color {
   *margin-left: 2.06856%;
 }
 /* line 1249, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid [class*=span]:first-child {
+.slimgrid [class*=span]:first-child,
+.grid .slimgrid [class*=span]:first-child {
   margin-left: 0;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span12 {
+.slimgrid .span12,
+.grid .slimgrid .span12 {
   width: 100%;
   *width: 99.9409%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span11 {
+.slimgrid .span11,
+.grid .slimgrid .span11 {
   width: 91.48936%;
   *width: 91.43026%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span10 {
+.slimgrid .span10,
+.grid .slimgrid .span10 {
   width: 82.97872%;
   *width: 82.91962%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span9 {
+.slimgrid .span9,
+.grid .slimgrid .span9 {
   width: 74.46809%;
   *width: 74.40898%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span8 {
+.slimgrid .span8,
+.grid .slimgrid .span8 {
   width: 65.95745%;
   *width: 65.89835%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span7 {
+.slimgrid .span7,
+.grid .slimgrid .span7 {
   width: 57.44681%;
   *width: 57.38771%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span6 {
+.slimgrid .span6,
+.grid .slimgrid .span6 {
   width: 48.93617%;
   *width: 48.87707%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span5 {
+.slimgrid .span5,
+.grid .slimgrid .span5 {
   width: 40.42553%;
   *width: 40.36643%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span4 {
+.slimgrid .span4,
+.grid .slimgrid .span4 {
   width: 31.91489%;
   *width: 31.85579%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span3 {
+.slimgrid .span3,
+.grid .slimgrid .span3 {
   width: 23.40426%;
   *width: 23.34515%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span2 {
+.slimgrid .span2,
+.grid .slimgrid .span2 {
   width: 14.89362%;
   *width: 14.83452%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .span1 {
+.slimgrid .span1,
+.grid .slimgrid .span1 {
   width: 6.38298%;
   *width: 6.32388%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset12 {
+.slimgrid .offset12,
+.grid .slimgrid .offset12 {
   margin-left: 104.25532%;
   *margin-left: 104.13712%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset12:first-child {
+.slimgrid .offset12:first-child,
+.grid .slimgrid .offset12:first-child {
   margin-left: 102.12766%;
   *margin-left: 102.00946%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset11 {
+.slimgrid .offset11,
+.grid .slimgrid .offset11 {
   margin-left: 95.74468%;
   *margin-left: 95.62648%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset11:first-child {
+.slimgrid .offset11:first-child,
+.grid .slimgrid .offset11:first-child {
   margin-left: 93.61702%;
   *margin-left: 93.49882%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset10 {
+.slimgrid .offset10,
+.grid .slimgrid .offset10 {
   margin-left: 87.23404%;
   *margin-left: 87.11584%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset10:first-child {
+.slimgrid .offset10:first-child,
+.grid .slimgrid .offset10:first-child {
   margin-left: 85.10638%;
   *margin-left: 84.98818%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset9 {
+.slimgrid .offset9,
+.grid .slimgrid .offset9 {
   margin-left: 78.7234%;
   *margin-left: 78.6052%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset9:first-child {
+.slimgrid .offset9:first-child,
+.grid .slimgrid .offset9:first-child {
   margin-left: 76.59574%;
   *margin-left: 76.47754%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset8 {
+.slimgrid .offset8,
+.grid .slimgrid .offset8 {
   margin-left: 70.21277%;
   *margin-left: 70.09456%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset8:first-child {
+.slimgrid .offset8:first-child,
+.grid .slimgrid .offset8:first-child {
   margin-left: 68.08511%;
   *margin-left: 67.9669%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset7 {
+.slimgrid .offset7,
+.grid .slimgrid .offset7 {
   margin-left: 61.70213%;
   *margin-left: 61.58392%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset7:first-child {
+.slimgrid .offset7:first-child,
+.grid .slimgrid .offset7:first-child {
   margin-left: 59.57447%;
   *margin-left: 59.45626%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset6 {
+.slimgrid .offset6,
+.grid .slimgrid .offset6 {
   margin-left: 53.19149%;
   *margin-left: 53.07329%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset6:first-child {
+.slimgrid .offset6:first-child,
+.grid .slimgrid .offset6:first-child {
   margin-left: 51.06383%;
   *margin-left: 50.94563%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset5 {
+.slimgrid .offset5,
+.grid .slimgrid .offset5 {
   margin-left: 44.68085%;
   *margin-left: 44.56265%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset5:first-child {
+.slimgrid .offset5:first-child,
+.grid .slimgrid .offset5:first-child {
   margin-left: 42.55319%;
   *margin-left: 42.43499%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset4 {
+.slimgrid .offset4,
+.grid .slimgrid .offset4 {
   margin-left: 36.17021%;
   *margin-left: 36.05201%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset4:first-child {
+.slimgrid .offset4:first-child,
+.grid .slimgrid .offset4:first-child {
   margin-left: 34.04255%;
   *margin-left: 33.92435%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset3 {
+.slimgrid .offset3,
+.grid .slimgrid .offset3 {
   margin-left: 27.65957%;
   *margin-left: 27.54137%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset3:first-child {
+.slimgrid .offset3:first-child,
+.grid .slimgrid .offset3:first-child {
   margin-left: 25.53191%;
   *margin-left: 25.41371%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset2 {
+.slimgrid .offset2,
+.grid .slimgrid .offset2 {
   margin-left: 19.14894%;
   *margin-left: 19.03073%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset2:first-child {
+.slimgrid .offset2:first-child,
+.grid .slimgrid .offset2:first-child {
   margin-left: 17.02128%;
   *margin-left: 16.90307%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset1 {
+.slimgrid .offset1,
+.grid .slimgrid .offset1 {
   margin-left: 10.6383%;
   *margin-left: 10.52009%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid .offset1:first-child {
+.slimgrid .offset1:first-child,
+.grid .slimgrid .offset1:first-child {
   margin-left: 8.51064%;
   *margin-left: 8.39243%;
 }
 
-/* line 1237, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 {
+/* line 1238, ../../src/packages/common/css/_base/_mixins.scss */
+.slimgrid5,
+.grid .slimgrid5 {
   *zoom: 1;
 }
 /* line 88, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5:before, .slimgrid5:after {
+.slimgrid5:before, .slimgrid5:after,
+.grid .slimgrid5:before,
+.grid .slimgrid5:after {
   display: table;
   content: "";
   line-height: 0;
 }
 /* line 95, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5:after {
+.slimgrid5:after,
+.grid .slimgrid5:after {
   clear: both;
 }
 /* line 1241, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 [class*=span] {
+.slimgrid5 [class*=span],
+.grid .slimgrid5 [class*=span] {
   display: block;
   width: auto;
   float: left;
@@ -8223,81 +8319,97 @@ i.pinterest-color {
   *margin-left: 1.90168%;
 }
 /* line 1249, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 [class*=span]:first-child {
+.slimgrid5 [class*=span]:first-child,
+.grid .slimgrid5 [class*=span]:first-child {
   margin-left: 0;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .span5 {
+.slimgrid5 .span5,
+.grid .slimgrid5 .span5 {
   width: 100.0%;
   *width: 99.9409%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .span4 {
+.slimgrid5 .span4,
+.grid .slimgrid5 .span4 {
   width: 79.60784%;
   *width: 79.54874%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .span3 {
+.slimgrid5 .span3,
+.grid .slimgrid5 .span3 {
   width: 59.21569%;
   *width: 59.15658%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .span2 {
+.slimgrid5 .span2,
+.grid .slimgrid5 .span2 {
   width: 38.82353%;
   *width: 38.76443%;
 }
 /* line 1271, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .span1 {
+.slimgrid5 .span1,
+.grid .slimgrid5 .span1 {
   width: 18.43137%;
   *width: 18.37227%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .offset5 {
+.slimgrid5 .offset5,
+.grid .slimgrid5 .offset5 {
   margin-left: 103.92157%;
   *margin-left: 103.80337%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .offset5:first-child {
+.slimgrid5 .offset5:first-child,
+.grid .slimgrid5 .offset5:first-child {
   margin-left: 101.96078%;
   *margin-left: 101.84258%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .offset4 {
+.slimgrid5 .offset4,
+.grid .slimgrid5 .offset4 {
   margin-left: 83.52941%;
   *margin-left: 83.41121%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .offset4:first-child {
+.slimgrid5 .offset4:first-child,
+.grid .slimgrid5 .offset4:first-child {
   margin-left: 81.56863%;
   *margin-left: 81.45042%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .offset3 {
+.slimgrid5 .offset3,
+.grid .slimgrid5 .offset3 {
   margin-left: 63.13725%;
   *margin-left: 63.01905%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .offset3:first-child {
+.slimgrid5 .offset3:first-child,
+.grid .slimgrid5 .offset3:first-child {
   margin-left: 61.17647%;
   *margin-left: 61.05827%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .offset2 {
+.slimgrid5 .offset2,
+.grid .slimgrid5 .offset2 {
   margin-left: 42.7451%;
   *margin-left: 42.62689%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .offset2:first-child {
+.slimgrid5 .offset2:first-child,
+.grid .slimgrid5 .offset2:first-child {
   margin-left: 40.78431%;
   *margin-left: 40.66611%;
 }
 /* line 1288, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .offset1 {
+.slimgrid5 .offset1,
+.grid .slimgrid5 .offset1 {
   margin-left: 22.35294%;
   *margin-left: 22.23474%;
 }
 /* line 1289, ../../src/packages/common/css/_base/_mixins.scss */
-.slimgrid5 .offset1:first-child {
+.slimgrid5 .offset1:first-child,
+.grid .slimgrid5 .offset1:first-child {
   margin-left: 20.39216%;
   *margin-left: 20.27395%;
 }
@@ -8694,7 +8806,7 @@ textarea,
   color: #d2d2db;
   vertical-align: baseline;
   font-size: .8125em;
-  padding: .6875em .875em;
+  padding: 0.6875em 0.875em;
 }
 /* line 23, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .favorite-holder:hover i, .no-touch a:hover > .favorite-holder i, .favorite-holder.active i {
@@ -8703,7 +8815,7 @@ textarea,
 
 /* line 42, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links {
-  margin-left: -0.375em;
+  margin-left: -.375em;
   margin-bottom: 0;
   *zoom: 1;
 }
@@ -8887,37 +8999,49 @@ ul.jump-links .active a {
   max-width: 100%;
   margin: auto;
 }
+/* line 243, ../../src/packages/common/css/_shared/_all.scss */
+.gallery-item.simple {
+  margin-top: 0;
+}
 /* line 246, ../../src/packages/common/css/_shared/_all.scss */
+.gallery-item.simple:after {
+  content: none;
+}
+/* line 250, ../../src/packages/common/css/_shared/_all.scss */
+.gallery-item.simple .gallery-item-inner {
+  position: static;
+}
+/* line 258, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.large {
   height: 35.625em;
 }
-/* line 249, ../../src/packages/common/css/_shared/_all.scss */
+/* line 261, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.large .product-img {
   height: 29.6875em;
 }
-/* line 254, ../../src/packages/common/css/_shared/_all.scss */
+/* line 266, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large:after {
   padding-top: 105.92705167173253%;
 }
-/* line 258, ../../src/packages/common/css/_shared/_all.scss */
+/* line 270, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .product-img:after {
   padding-top: 88.14589665653495%;
 }
-/* line 263, ../../src/packages/common/css/_shared/_all.scss */
+/* line 275, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie9 .gallery-item.large .js-item-carousel {
   width: 33.625em;
   height: 29.6875em;
 }
-/* line 269, ../../src/packages/common/css/_shared/_all.scss */
+/* line 281, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .slide {
   float: left;
   max-width: 100%;
 }
-/* line 277, ../../src/packages/common/css/_shared/_all.scss */
+/* line 289, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .pagination-bullets {
   bottom: 5.6390977%;
 }
-/* line 282, ../../src/packages/common/css/_shared/_all.scss */
+/* line 294, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-prev,
 .gallery-item.large .nav-paddle-next {
   position: absolute;
@@ -8925,39 +9049,39 @@ ul.jump-links .active a {
   top: 50%;
   margin-top: -1.625em;
 }
-/* line 289, ../../src/packages/common/css/_shared/_all.scss */
+/* line 301, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-prev {
   left: 3.75%;
 }
-/* line 293, ../../src/packages/common/css/_shared/_all.scss */
+/* line 305, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.large .nav-paddle-next {
   right: 3.75%;
 }
-/* line 303, ../../src/packages/common/css/_shared/_all.scss */
+/* line 315, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.large:after {
   padding-top: 165.196%;
 }
-/* line 308, ../../src/packages/common/css/_shared/_all.scss */
+/* line 320, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.large .product-img:after {
   padding-top: 107.84314%;
 }
-/* line 313, ../../src/packages/common/css/_shared/_all.scss */
+/* line 325, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item.large:after {
   padding-top: 105.3%;
 }
-/* line 317, ../../src/packages/common/css/_shared/_all.scss */
+/* line 329, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item.large .product-img:after {
   padding-top: 87%;
 }
-/* line 325, ../../src/packages/common/css/_shared/_all.scss */
+/* line 337, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate:after {
   padding-top: 59.190255%;
 }
-/* line 329, ../../src/packages/common/css/_shared/_all.scss */
+/* line 341, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-4 .gallery-item.plate:after {
   padding-top: 77.790255%;
 }
-/* line 333, ../../src/packages/common/css/_shared/_all.scss */
+/* line 345, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate .product-content {
   position: absolute;
   top: 0;
@@ -8966,16 +9090,16 @@ ul.jump-links .active a {
   height: 100%;
   text-align: left;
 }
-/* line 342, ../../src/packages/common/css/_shared/_all.scss */
+/* line 354, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate .product-img {
   height: 100%;
 }
-/* line 346, ../../src/packages/common/css/_shared/_all.scss */
+/* line 358, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate img {
   max-height: none;
   max-width: none;
 }
-/* line 351, ../../src/packages/common/css/_shared/_all.scss */
+/* line 363, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.plate div.iq-img {
   width: 100%;
   height: 100%;
@@ -8983,19 +9107,19 @@ ul.jump-links .active a {
   background-position: center center;
   background-size: cover;
 }
-/* line 363, ../../src/packages/common/css/_shared/_all.scss */
+/* line 375, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.promo {
   height: 17.25em;
 }
-/* line 366, ../../src/packages/common/css/_shared/_all.scss */
+/* line 378, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.promo .product-img {
   height: 11.3125em;
 }
-/* line 371, ../../src/packages/common/css/_shared/_all.scss */
+/* line 383, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo:after {
   padding-top: 78.19025522041764%;
 }
-/* line 376, ../../src/packages/common/css/_shared/_all.scss */
+/* line 388, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo div.iq-img {
   position: absolute;
   top: 0;
@@ -9006,19 +9130,19 @@ ul.jump-links .active a {
   background-position: center center;
   background-size: cover;
 }
-/* line 399, ../../src/packages/common/css/_shared/_all.scss */
+/* line 411, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social:after {
   padding-top: 78.19025522041764%;
 }
-/* line 403, ../../src/packages/common/css/_shared/_all.scss */
+/* line 415, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .product-img:after {
   padding-top: 51.3%;
 }
-/* line 407, ../../src/packages/common/css/_shared/_all.scss */
+/* line 419, ../../src/packages/common/css/_shared/_all.scss */
 .shuffle-6 .gallery-item.social .product-img:after {
   padding-top: 50.3%;
 }
-/* line 412, ../../src/packages/common/css/_shared/_all.scss */
+/* line 424, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .label {
   position: absolute;
   z-index: 10;
@@ -9027,7 +9151,7 @@ ul.jump-links .active a {
   margin: 0;
 }
 
-/* line 425, ../../src/packages/common/css/_shared/_all.scss */
+/* line 437, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-tooltip i {
   position: relative;
   top: -1px;
@@ -9035,13 +9159,13 @@ ul.jump-links .active a {
   padding-left: 2px;
 }
 
-/* line 438, ../../src/packages/common/css/_shared/_all.scss */
+/* line 450, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .color-swatches {
   position: absolute;
   right: .875em;
   bottom: .6875em;
 }
-/* line 444, ../../src/packages/common/css/_shared/_all.scss */
+/* line 456, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .favorite-holder {
   position: absolute;
   left: 0;
@@ -9059,22 +9183,22 @@ ul.jump-links .active a {
 .no-touch .gallery-item.promo .gallery-item-inner:hover .iq-img {
   opacity: 0.9;
 }
-/* line 469, ../../src/packages/common/css/_shared/_all.scss */
+/* line 481, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .gallery-item.promo .gallery-item-inner .promo-title i {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
-/* line 473, ../../src/packages/common/css/_shared/_all.scss */
+/* line 485, ../../src/packages/common/css/_shared/_all.scss */
 .no-touch .gallery-item.promo .gallery-item-inner:hover .promo-title i {
   -webkit-transform: translate(0.375em, 0);
   -ms-transform: translate(0.375em, 0);
   transform: translate(0.375em, 0);
 }
-/* line 477, ../../src/packages/common/css/_shared/_all.scss */
+/* line 489, ../../src/packages/common/css/_shared/_all.scss */
 .no-csstransforms .no-touch .gallery-item.promo .gallery-item-inner:hover .promo-title i {
   left: 6px;
 }
-/* line 483, ../../src/packages/common/css/_shared/_all.scss */
+/* line 495, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo .product-content {
   position: absolute;
   top: 0;
@@ -9083,67 +9207,67 @@ ul.jump-links .active a {
   height: 100%;
   text-align: left;
 }
-/* line 493, ../../src/packages/common/css/_shared/_all.scss */
+/* line 505, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo .product-img {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  padding: 10.129032% 10.6060606% 10.967742%;
+  padding: 10.12903% 10.60606% 10.96774%;
 }
-/* line 501, ../../src/packages/common/css/_shared/_all.scss */
+/* line 513, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo img {
   max-height: none;
   max-width: none;
 }
 
-/* line 507, ../../src/packages/common/css/_shared/_all.scss */
+/* line 519, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content {
   position: relative;
   height: 100%;
   text-align: left;
 }
-/* line 512, ../../src/packages/common/css/_shared/_all.scss */
+/* line 524, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title {
   margin: 0;
 }
-/* line 515, ../../src/packages/common/css/_shared/_all.scss */
+/* line 527, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title i {
   position: relative;
   top: -0.1875em;
   left: 0.125em;
 }
-/* line 523, ../../src/packages/common/css/_shared/_all.scss */
+/* line 535, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title .title,
 .gallery-item .promo-content .promo-title .emphasis {
   color: white;
 }
-/* line 527, ../../src/packages/common/css/_shared/_all.scss */
+/* line 539, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title .emphasis {
   color: #2f353d;
 }
-/* line 532, ../../src/packages/common/css/_shared/_all.scss */
+/* line 544, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .text-count {
   position: absolute;
   bottom: 0;
   margin: 0;
 }
-/* line 539, ../../src/packages/common/css/_shared/_all.scss */
+/* line 551, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .text-count span {
   color: white;
 }
 
-/* line 562, ../../src/packages/common/css/_shared/_all.scss */
+/* line 574, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .img-wrap,
 .gallery-item.social .quote {
   max-width: 50%;
 }
-/* line 566, ../../src/packages/common/css/_shared/_all.scss */
+/* line 578, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .img-wrap {
   float: left;
   height: 100%;
 }
-/* line 571, ../../src/packages/common/css/_shared/_all.scss */
+/* line 583, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .quote {
   float: right;
   width: 50%;
@@ -9153,16 +9277,16 @@ ul.jump-links .active a {
   padding-right: 5%;
   text-align: left;
 }
-/* line 580, ../../src/packages/common/css/_shared/_all.scss */
+/* line 592, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.social .quote {
   width: 45%;
   margin-top: 30px;
 }
-/* line 586, ../../src/packages/common/css/_shared/_all.scss */
+/* line 598, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social figcaption {
   margin-top: 0.3125em;
 }
-/* line 590, ../../src/packages/common/css/_shared/_all.scss */
+/* line 602, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .social-icon {
   width: 30px;
   height: 30px;
@@ -9171,40 +9295,40 @@ ul.jump-links .active a {
   border-radius: 50%;
   background-color: white;
 }
-/* line 598, ../../src/packages/common/css/_shared/_all.scss */
+/* line 610, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .social-icon i {
   font-size: 16px;
 }
-/* line 602, ../../src/packages/common/css/_shared/_all.scss */
+/* line 614, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .author {
   display: inline-block;
   vertical-align: middle;
   margin: 0;
 }
-/* line 608, ../../src/packages/common/css/_shared/_all.scss */
+/* line 620, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social blockquote p {
   color: #2f353d;
   margin-bottom: 0;
 }
 
-/* line 619, ../../src/packages/common/css/_shared/_all.scss */
+/* line 631, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-detailed .gallery-item:after {
   padding-top: 140%;
 }
-/* line 623, ../../src/packages/common/css/_shared/_all.scss */
+/* line 635, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-detailed .gallery-item {
   height: 25.375em;
 }
-/* line 626, ../../src/packages/common/css/_shared/_all.scss */
+/* line 638, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-detailed .gallery-item .product-img {
   height: 13.8125em;
 }
-/* line 631, ../../src/packages/common/css/_shared/_all.scss */
+/* line 643, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-detailed .product-img:after {
   padding-top: 76.05633802816901%;
 }
 
-/* line 659, ../../src/packages/common/css/_shared/_all.scss */
+/* line 671, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label strong {
   display: inline-block;
   max-width: 100%;
@@ -9212,17 +9336,17 @@ ul.jump-links .active a {
   text-overflow: ellipsis;
 }
 
-/* line 666, ../../src/packages/common/css/_shared/_all.scss */
+/* line 678, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap {
   position: relative;
   z-index: 5;
   height: 100%;
 }
-/* line 671, ../../src/packages/common/css/_shared/_all.scss */
+/* line 683, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie9 .detail-labels-wrap {
   margin-left: 0;
 }
-/* line 676, ../../src/packages/common/css/_shared/_all.scss */
+/* line 688, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap:before {
   content: '';
   position: absolute;
@@ -9235,7 +9359,7 @@ ul.jump-links .active a {
   -webkit-transition: box-shadow 0.15s ease-in;
   transition: box-shadow 0.15s ease-in;
 }
-/* line 690, ../../src/packages/common/css/_shared/_all.scss */
+/* line 702, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap.overflowing:before {
   -webkit-box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
   box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
@@ -9243,7 +9367,7 @@ ul.jump-links .active a {
   transition-timing-function: ease-out;
 }
 
-/* line 698, ../../src/packages/common/css/_shared/_all.scss */
+/* line 710, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrapping {
   -webkit-transform: translate(-0.625em, 0);
   -ms-transform: translate(-0.625em, 0);
@@ -9252,7 +9376,7 @@ ul.jump-links .active a {
   -webkit-transition: opacity 0.2s ease-out 0.1s, -webkit-transform 0.2s ease-out 0.1s;
   transition: opacity 0.2s ease-out 0.1s, transform 0.2s ease-out 0.1s;
 }
-/* line 704, ../../src/packages/common/css/_shared/_all.scss */
+/* line 716, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrapping.complete {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
@@ -9260,18 +9384,18 @@ ul.jump-links .active a {
   opacity: 1;
 }
 
-/* line 710, ../../src/packages/common/css/_shared/_all.scss */
+/* line 722, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label-group {
   position: absolute;
 }
 
-/* line 715, ../../src/packages/common/css/_shared/_all.scss */
+/* line 727, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
 }
 
-/* line 721, ../../src/packages/common/css/_shared/_all.scss */
+/* line 733, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail,
 .detail-labels-wrapping .product-count-wrap {
   position: relative;
@@ -9279,7 +9403,7 @@ ul.jump-links .active a {
   padding-bottom: 30px;
   margin-bottom: 0;
 }
-/* line 729, ../../src/packages/common/css/_shared/_all.scss */
+/* line 741, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail:after,
 .detail-labels-wrapping .product-count-wrap:after {
   content: '';
@@ -9291,7 +9415,7 @@ ul.jump-links .active a {
   background: #d2d2db;
 }
 
-/* line 742, ../../src/packages/common/css/_shared/_all.scss */
+/* line 754, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail-label:after,
 .detail-labels-wrapping .product-count-wrap:after {
   left: 0;
@@ -9299,7 +9423,7 @@ ul.jump-links .active a {
   background: #d2d2db;
 }
 
-/* line 751, ../../src/packages/common/css/_shared/_all.scss */
+/* line 763, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header {
   position: absolute;
   z-index: 10;
@@ -9312,16 +9436,16 @@ ul.jump-links .active a {
   -webkit-transition: top 0.2s ease-in, left 0s 0.2s;
   transition: top 0.2s ease-in, left 0s 0.2s;
 }
-/* line 763, ../../src/packages/common/css/_shared/_all.scss */
+/* line 775, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header:not(.sticky-count) {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
   box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
 }
-/* line 768, ../../src/packages/common/css/_shared/_all.scss */
+/* line 780, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-headers .compare-sticky-header {
   margin: 0;
 }
-/* line 773, ../../src/packages/common/css/_shared/_all.scss */
+/* line 785, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header.open {
   left: 0;
   top: 0;
@@ -9330,13 +9454,13 @@ ul.jump-links .active a {
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 782, ../../src/packages/common/css/_shared/_all.scss */
+/* line 794, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header.sticky-count:before {
   content: '';
   position: absolute;
   z-index: -1;
   top: 0;
-  right: -0.1875em;
+  right: -.1875em;
   width: 2000px;
   height: 100%;
   background: #f3f4f6;
@@ -9344,17 +9468,17 @@ ul.jump-links .active a {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
   box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
 }
-/* line 795, ../../src/packages/common/css/_shared/_all.scss */
+/* line 807, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header .media .pull-left {
   max-width: 90px;
   margin-right: 4px;
 }
-/* line 800, ../../src/packages/common/css/_shared/_all.scss */
+/* line 812, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header .product-name {
   color: #2f353d;
 }
 
-/* line 805, ../../src/packages/common/css/_shared/_all.scss */
+/* line 817, ../../src/packages/common/css/_shared/_all.scss */
 .compare-box {
   display: inline-block;
   padding: 11px 12px;
@@ -9363,41 +9487,41 @@ ul.jump-links .active a {
   background: #2f353d;
 }
 
-/* line 831, ../../src/packages/common/css/_shared/_all.scss */
+/* line 843, ../../src/packages/common/css/_shared/_all.scss */
 .spec-single,
 .spec-multi {
   margin-top: 4.375em;
 }
-/* line 834, ../../src/packages/common/css/_shared/_all.scss */
+/* line 846, ../../src/packages/common/css/_shared/_all.scss */
 .spec-single dt,
 .spec-multi dt {
   margin-bottom: 0;
 }
 
-/* line 839, ../../src/packages/common/css/_shared/_all.scss */
+/* line 851, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title-wrap {
   position: relative;
   margin-bottom: 1.25em;
 }
 
-/* line 844, ../../src/packages/common/css/_shared/_all.scss */
+/* line 856, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title {
   margin: 0;
   font-size: 2.25em;
 }
 
-/* line 849, ../../src/packages/common/css/_shared/_all.scss */
+/* line 861, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title-link {
   color: #4572ed;
 }
 
-/* line 856, ../../src/packages/common/css/_shared/_all.scss */
+/* line 868, ../../src/packages/common/css/_shared/_all.scss */
 .spec-sticky-nav .sticky-nav-title {
   margin-top: 22px;
   margin-bottom: 10px;
   line-height: .9;
 }
-/* line 862, ../../src/packages/common/css/_shared/_all.scss */
+/* line 874, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-header-open .spec-sticky-nav .sticky-nav-title:after {
   content: '';
   position: absolute;
@@ -9408,38 +9532,38 @@ ul.jump-links .active a {
   top: 100%;
 }
 
-/* line 890, ../../src/packages/common/css/_shared/_all.scss */
+/* line 902, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tiles-wrap {
   margin-top: 3.75em;
   margin-bottom: 9.375em;
 }
-/* line 894, ../../src/packages/common/css/_shared/_all.scss */
+/* line 906, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tiles-wrap .features-title {
   margin-bottom: 0;
   padding-bottom: 12px;
   border-bottom: 3px solid #e4e7eb;
 }
 
-/* line 901, ../../src/packages/common/css/_shared/_all.scss */
+/* line 913, ../../src/packages/common/css/_shared/_all.scss */
 .container .spec-tiles .spec-tile {
   margin-left: 0;
 }
 
-/* line 905, ../../src/packages/common/css/_shared/_all.scss */
+/* line 917, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile {
   margin-top: 1.5em;
   background: #f1f5f9;
 }
-/* line 909, ../../src/packages/common/css/_shared/_all.scss */
+/* line 921, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .tile-content {
   padding: 1.875em 2.5em 2.75em 1.875em;
 }
-/* line 914, ../../src/packages/common/css/_shared/_all.scss */
+/* line 926, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .tile-title {
   margin-top: 0;
 }
 
-/* line 920, ../../src/packages/common/css/_shared/_all.scss */
+/* line 932, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .iq-img {
   width: 100%;
   height: auto;

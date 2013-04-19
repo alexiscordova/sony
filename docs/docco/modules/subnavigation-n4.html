@@ -33,7 +33,6 @@ define(<span class="keyword">function</span>(require){
     self.$el = $(element);
     self.$navgrid = self.$el.find(<span class="string">'nav .slimgrid'</span>);
     self.$subcats = self.$el.find(<span class="string">'.subnav-tray .subcategory'</span>);
-    self.$subcatgrids = self.$subcats.find(<span class="string">'.slimgrid'</span>);
 
     self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
 
@@ -53,17 +52,112 @@ define(<span class="keyword">function</span>(require){
         enquire.register(<span class="string">"(min-width: 768px)"</span>, <span class="keyword">function</span>() {
           self.renderDesktop();
         });
-        enquire.register(<span class="string">"(max-width: 767px)"</span>, <span class="keyword">function</span>() {
+        enquire.register(<span class="string">"(min-width: 480px) and (max-width: 767px)"</span>, <span class="keyword">function</span>() {
+          self.renderTablet();
+        });
+        enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
           self.renderMobile();
         });
       } <span class="keyword">else</span> {
         self.renderDesktop();
       }
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Debug</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.renderSubcategory(<span class="string">'televisions'</span>);
     },
 
-    renderDesktop: <span class="keyword">function</span>() {},
+    renderDesktop: <span class="keyword">function</span>() {
 
-    renderMobile: <span class="keyword">function</span>() {}
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( self.$activeSubcatGrids ) {
+        self.$activeSubcatGrids = self.gridApportion(self.$activeSubcatGrids, <span class="literal">false</span>);
+        self.$activeSubcatGrids.removeClass(<span class="string">'m-grid-override'</span>);
+      }
+
+      self.$navgrid = self.gridApportion(self.$navgrid, <span class="literal">false</span>, <span class="literal">true</span>);
+      self.$navgrid.removeClass(<span class="string">'m-grid-override'</span>);
+    },
+
+    renderTablet: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( self.$activeSubcatGrids ) {
+        self.$activeSubcatGrids = self.gridApportion(self.$activeSubcatGrids, <span class="literal">true</span>);
+        self.$activeSubcatGrids.addClass(<span class="string">'m-grid-override'</span>);
+      }
+
+      self.$navgrid = self.gridApportion(self.$navgrid, <span class="literal">false</span>, <span class="literal">true</span>);
+      self.$navgrid.removeClass(<span class="string">'m-grid-override'</span>);
+    },
+
+    renderMobile: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( self.$activeSubcatGrids ) {
+        self.$activeSubcatGrids = self.gridApportion(self.$activeSubcatGrids, <span class="literal">true</span>);
+        self.$activeSubcatGrids.addClass(<span class="string">'m-grid-override'</span>);
+      }
+
+      self.$navgrid = self.gridApportion(self.$navgrid, <span class="literal">true</span>, <span class="literal">true</span>);
+      self.$navgrid.addClass(<span class="string">'m-grid-override'</span>);
+    },
+
+    renderSubcategory: <span class="keyword">function</span>(which) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $subcat = $(<span class="string">'#subcategory-'</span> + which);
+
+      self.$activeSubcatGrids = $subcat.find(<span class="string">'.subnav-product-grid'</span>);
+      enquire.fire();
+    },
+
+    gridApportion: <span class="keyword">function</span>($grids, mobile, center) {
+
+      <span class="keyword">var</span> $grid = $grids.first().clone().empty(),
+          $compiledGrids = $(<span class="string">''</span>),
+          $workingGrid = $grid.clone(),
+          roomRemaining = mobile ? <span class="number">6</span> : <span class="number">12</span>,
+          $mSpans = $grids.find(mobile ? <span class="string">'[class*="m-span"]'</span> : <span class="string">'[class*="span"]'</span>);
+
+      $mSpans.each(<span class="keyword">function</span>(i){
+
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+            classes = <span class="keyword">this</span>.className.split(<span class="string">' '</span>),
+            spanCount;
+
+        <span class="keyword">for</span> (<span class="keyword">var</span> j <span class="keyword">in</span> classes) {
+          <span class="keyword">if</span> ( classes[j].indexOf(mobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>) === <span class="number">0</span> ) {
+            spanCount = classes[j].split(mobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>)[<span class="number">1</span>] * <span class="number">1</span>;
+          }
+        }
+
+        <span class="keyword">if</span> ( roomRemaining &lt; spanCount ) {
+          $compiledGrids = $compiledGrids.add($workingGrid.clone());
+          $workingGrid = $grid.clone();
+          roomRemaining = mobile ? <span class="number">6</span> : <span class="number">12</span>;
+        }
+
+        $workingGrid.append($<span class="keyword">this</span>);
+        roomRemaining -= spanCount;
+
+        <span class="keyword">if</span> ( i === $mSpans.length - <span class="number">1</span> ) {
+
+          <span class="keyword">if</span> ( center &amp;&amp; roomRemaining &gt;= <span class="number">2</span> ) {
+            $workingGrid.children().first().addClass((mobile ? <span class="string">'m-offset'</span> : <span class="string">'offset'</span>) + Math.floor(roomRemaining / <span class="number">2</span>));
+          }
+
+          $compiledGrids = $compiledGrids.add($workingGrid.clone());
+          $workingGrid = <span class="literal">null</span>;
+        }
+      });
+
+      $grids.not($grids.first()).remove();
+      $grids.first().replaceWith($compiledGrids);
+
+      <span class="keyword">return</span> $compiledGrids;
+    }
   };
 
   <span class="keyword">return</span> module;
