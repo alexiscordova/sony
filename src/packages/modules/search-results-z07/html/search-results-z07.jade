@@ -9,7 +9,7 @@ include search-results-z07-helpers.jade
         h2.l3= data.pageTitle
         form.search-form
           label.search-label= data.searchForm.label
-          input.search
+          input.search(value= data.searchForm.searchedText)
           a.clear-search(href"#") i X
           button.btn.hidden-phone= data.searchForm.buttonText
   .container
