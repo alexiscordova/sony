@@ -5,13 +5,13 @@
 // * **Version:** 1.0
 // * **Modified:** 04/18/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.7+ , Modernizr, sony-carousel
+// * **Dependencies:** jQuery 1.7+ , Modernizr, sony-carousel, sony-scroller
 //
 // *Notes:*
 //
 // *Example Usage:*
 //
-//      $('.recently-views-products').recentlyViewed();
+//      new RecentlyViewed( $('.rv-module')[0] )
 //
 //
 
@@ -20,14 +20,10 @@ define(function(require) {
   'use strict';
 
   var $ = require('jquery'),
-      // Modernizr = require('modernizr'),
       iQ = require('iQ'),
       enquire = require('enquire'),
       sonyCarousel = require('secondary/index').sonyCarousel,
       sonyScroller = require('secondary/index').sonyScroller;
-      // Settings = require('require/sony-global-settings'),
-      // Environment = require('require/sony-global-environment'),
-      // Utilities = require('require/sony-global-utilities');
 
   var module = {
     init: function() {
@@ -63,8 +59,6 @@ define(function(require) {
       self.$wrapper = self.$el.find( '.sony-carousel-wrapper' );
       self.$carousel = self.$el.find( '.sony-carousel' );
 
-      // Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
-
       if ( Modernizr.mediaqueries ) {
 
         enquire.register('(min-width: 48em)', {
@@ -82,7 +76,6 @@ define(function(require) {
         self._setupDesktop();
       }
 
-      // self._onResize();
     },
 
     _setupDesktop : function() {
@@ -90,14 +83,18 @@ define(function(require) {
           wasMobile = self.isMobile;
 
       if ( wasMobile ) {
+        // Destroy the scroller
         self.$wrapper.scrollerModule('destroy');
+
+        // Remove widths set `_setupMobile`
+        self.$carousel.find('.sony-carousel-slide').css( 'width', '' );
 
         // Remove grid classes to wrappers
         self.$el.find('.m-container').removeClass('container');
         self.$wrapper.removeClass('grid');
-        self.$carousel.find('.sony-carousel-slide').css( 'width', '' );
       }
 
+      // Initialize a new sony carousel
       self.$carousel.sonyCarousel({
         wrapper: '.sony-carousel-wrapper',
         slides: '.sony-carousel-slide',
@@ -117,6 +114,7 @@ define(function(require) {
       var self = this,
           wasDesktop = self.isDesktop;
 
+      // Destroy the carousel if there was one
       if ( wasDesktop ) {
         self.$carousel.sonyCarousel( 'destroy' );
       }
@@ -125,14 +123,13 @@ define(function(require) {
       self.$el.find('.m-container').addClass('container');
       self.$wrapper.addClass('grid');
 
+      // Initialize the new scroller
       self.$wrapper.scrollerModule({
         itemElementSelector: '.gallery-item',
         iscrollProps: {
           hScrollbar: false,
           isOverflowHidden: false,
-          onAnimationEnd: function() {
-            iQ.update();
-          }
+          onAnimationEnd: iQ.update()
         },
         getContentWidth: function() {
           var contentWidth = 0,
@@ -141,7 +138,7 @@ define(function(require) {
 
           $slides.css( 'width', '' );
 
-          // Count it
+          // Loop through all slides to count the gallery item widths
           $slides.each(function() {
             var slideWidth = 0,
                 $slide = $( this );
@@ -151,16 +148,20 @@ define(function(require) {
             });
 
             slideWidth = Math.ceil( slideWidth );
+
+            // Save the widths to apply them later
             slideWidths.push( slideWidth );
 
+            // Make sure we count the margin on the .slide
             contentWidth += slideWidth + parseInt( $slide.css( 'marginRight' ), 10 );
           });
 
-          self.$el.find('.sony-carousel-slide').each(function( i ) {
+          // Set slide widths
+          $slides.each(function( i ) {
             $(this).css( 'width', slideWidths[ i ] );
           });
 
-
+          // Tell scroller what the width should be
           return contentWidth;
         }
       });
@@ -171,5 +172,4 @@ define(function(require) {
   };
 
   return module;
-
 });
