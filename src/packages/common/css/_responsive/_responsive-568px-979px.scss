@@ -38,15 +38,14 @@
 
 // implement the default (desktop) grid if no override class is present.
 @media (min-width: px-em(568px)) and (max-width: px-em(767px)) {
-  #TESTING1{background:red;}
-  // .grid,
-  // .slimgrid,
-  // .slimgrid5, .grid5 {
-  //   &:not(.no-grid-at-767):not(.m-grid-at-767):not(.m-grid):not(.m-grid-override){
-  //     @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
-  //   }
-  // }
-  @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
+  .grid,
+  .slimgrid,
+  .slimgrid5, .grid5 {
+    &:not(.no-grid-at-767):not(.m-grid-at-767):not(.m-grid):not(.m-grid-override){
+      @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
+    }
+  }
+  // @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
 } // (min-width: 568px)) and (max-width: 767px))
 
 
