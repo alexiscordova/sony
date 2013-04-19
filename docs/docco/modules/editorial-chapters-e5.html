@@ -77,7 +77,6 @@ define(<span class="keyword">function</span>(require){
         <span class="keyword">if</span>(self.hasThumbs){
           self.createThumbNav();
         }
-        self.centerThumbText();
         self.$slideContainer.css( <span class="string">'opacity'</span> , <span class="number">1</span> );
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Re-center thumb spans if window resizes</p>             </td>             <td class="code">               <div class="highlight"><pre>        Environment.on(<span class="string">'global:resizeThrottled'</span>, <span class="keyword">function</span>(){
@@ -147,9 +146,22 @@ define(<span class="keyword">function</span>(require){
         });
        
         $anchors.eq(<span class="number">0</span>).addClass(<span class="string">'active'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Vertically center thumb text based on height</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$thumbLabels.each(<span class="keyword">function</span>(){
+          <span class="keyword">var</span> $span = $(<span class="keyword">this</span>),
+            height = $span.height();
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Loop through each label, detect height, and offset top as needed</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> (height &lt;= <span class="number">31</span>) {
+            $span.removeClass().addClass(<span class="string">'oneLine'</span>);
+          } <span class="keyword">else</span> <span class="keyword">if</span> (height &gt;= <span class="number">32</span> &amp;&amp; height &lt;= <span class="number">47</span>) {
+            $span.removeClass().addClass(<span class="string">'twoLine'</span>);
+          } <span class="keyword">else</span> <span class="keyword">if</span> (height &gt;= <span class="number">48</span>) {
+            $span.removeClass();
+          }
+        });
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>      onThumbSelected: <span class="keyword">function</span>($el){
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>      onThumbSelected: <span class="keyword">function</span>($el){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $anchors = self.$thumbNav.find(<span class="string">'li'</span>),
         selectedIndex =  $el.index(),
@@ -163,30 +175,10 @@ define(<span class="keyword">function</span>(require){
         self.$slideContainer.sonyCarousel( <span class="string">'gotoSlide'</span> , self.currentId );
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>      setCurrentActiveThumb: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>      setCurrentActiveThumb: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
         self.$thumbNav.find(<span class="string">'li'</span>).removeClass(<span class="string">'active'</span>)
           .eq( self.currentId ).addClass(<span class="string">'active'</span>);
-      },
-
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Vertically center thumb text based on height</p>             </td>             <td class="code">               <div class="highlight"><pre>      centerThumbText: <span class="keyword">function</span>(){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Loop through each label, detect height, and offset top as needed</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$thumbLabels.each(<span class="keyword">function</span>(){
-          <span class="keyword">var</span> $span = $(<span class="keyword">this</span>);
-
-          $span.text( $span.text().substring(<span class="number">0</span>,<span class="number">40</span>) ); <span class="comment">//temporary truncation for testing purposes, take out for production</span>
-
-          <span class="keyword">var</span> height = $span.height();
-
-          <span class="keyword">if</span> (height &lt;= <span class="number">31</span>) {
-            $span.removeClass().addClass(<span class="string">'oneLine'</span>);
-          } <span class="keyword">else</span> <span class="keyword">if</span> (height &gt;= <span class="number">32</span> &amp;&amp; height &lt;= <span class="number">47</span>) {
-            $span.removeClass().addClass(<span class="string">'twoLine'</span>);
-          } <span class="keyword">else</span> <span class="keyword">if</span> (height &gt;= <span class="number">48</span>) {
-            $span.removeClass();
-          }
-        });
       }
 
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };

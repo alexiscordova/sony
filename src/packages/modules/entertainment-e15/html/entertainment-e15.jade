@@ -10,27 +10,28 @@ mixin benefitList(benefit)
       p.p3.hidden-phone= benefit.body
 
 #page-inner
-  .container.container-full-bleed.entertainment
-    .container
-      .logo-container
-        img(src= data.logo)
-      .entertainment-header
-        h1.t1= data.header
-        .mobile-img.visible-phone
-          img(src= data.img.mobile)
-        p.p2= data.subhead
-    .grid.no-grid-at-979
-      .span7
-        .tablet-img.visible-tablet
-          img(src= data.img.tablet)
-        ul.entertainment-benefits
-          li.entertainment-benefit-one
-            +benefitList(data.benefits.fees)
-          li.entertainment-benefit-two
-            +benefitList(data.benefits.stream)
-          li.entertainment-benefit-three
-            +benefitList(data.benefits.moviestogo)
-        .btn-holder
-          button.btn= data.learn
-      .span5
-        img.visible-desktop(src= data.img.desktop)
+  .entertainment-wrapper
+    .container.container-full-bleed.entertainment
+      .container
+        .logo-container
+          img(src= data.logo)
+        .entertainment-header
+          h1.t1= data.header
+          .mobile-img.visible-phone
+            img(src= data.img.mobile)
+          p.p2= data.subhead
+      .grid.no-grid-at-979
+        .span7
+          .tablet-img.visible-tablet
+            img(src= data.img.tablet)
+          ul.entertainment-benefits
+            li.entertainment-benefit-one
+              +benefitList(data.benefits.fees)
+            li.entertainment-benefit-two
+              +benefitList(data.benefits.stream)
+            li.entertainment-benefit-three
+              +benefitList(data.benefits.moviestogo)
+          .btn-holder
+            button.btn= data.learn
+        .span5
+          img.visible-desktop(src= data.img.desktop)

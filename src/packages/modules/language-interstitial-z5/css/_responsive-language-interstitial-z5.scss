@@ -11,44 +11,43 @@ $desktopMin: px-em(980);
 
 
 @media ( max-width: $desktopMin ) {
-  .module-li {
+  .language-interstitial {
     .module-margin {
       margin-left: 3.52941%;
     }
-  }
+    .module-li-main {
+      .module-text-box {
+        width: 100%;
+      }
   
-  .module-li-main {
-    .module-text-box {
-      width: 100%;
-  }
-
+    }
   }
 }
 
 @media ( max-width: $tabletMax ) {
-  .module-li-main {
-    .module-text-box {
-      width: 100%;
+  .language-interstitial {
+    .module-li-main {
+      padding: 50px 0 70px 0;
+      .module-text-box {
+        width: 100%;
+      }
     }
-  }
-  .box {
-    margin: 59px 0 45px 0;
-    height: 196px;
-    h1 {
-      margin-bottom: 30px;
+    .box {
+      margin: 59px 0 45px 0;
+      height: 196px;
+      h1 {
+        margin-bottom: 30px;
+      }
+      .btn-holder .btn {
+        margin-right: 15px;
+      }
     }
-    .btn-holder .btn {
-      margin-right: 15px;
-    }
-  }
-  .module-li-main {
-    padding: 50px 0 70px 0;
   }
 }
 
 
 @media ( max-width: $phoneMax ) {
-  .module-li {
+  .language-interstitial {
     .box {
       margin: 48px 0 47px 0;
       height: 205px;
@@ -56,27 +55,26 @@ $desktopMin: px-em(980);
         margin-bottom: 29px;
       }
     }
-  }
-  .btn-holder {
-    .btn {
-      display: block;
-      margin-bottom: 17px;
-      margin-right: 0;
+    .btn-holder {
+      .btn {
+        display: block;
+        margin-bottom: 17px;
+        margin-right: 0;
+      }
     }
-  }
-  .module-li-main {
-    padding: 29px 0 14px 0;
-    .module-text-box {
-      margin-bottom: 46px;
-      width: 100%;
+    .module-li-main {
+      padding: 29px 0 14px 0;
+      .module-text-box {
+        margin-bottom: 46px;
+        width: 100%;
+      }
     }
-    
   }
 }
 
 
 @media ( max-width: $phone ) {
-    .module-li {
+    .language-interstitial {
       .box {
         margin: 40px 0 40px 0;
         height: 220px;
@@ -84,26 +82,24 @@ $desktopMin: px-em(980);
           margin-bottom: 26px;
         }
       }
+     .btn-holder {
+      .btn {
+        display: block;
+        margin-bottom: 14px;
+        margin-right: 0;
+      }
     }
-   
-   .btn-holder {
-    .btn {
-      display: block;
-      margin-bottom: 14px;
-      margin-right: 0;
-    }
-  }
-  .module-li-main {
-    padding: 64px 0 14px 0;
-    .module-text-box {
-      width: 100%;
-      margin-bottom: 46px;
-      padding-bottom: 0;
-      p {
-        margin-bottom: 0;
+    .module-li-main {
+      padding: 64px 0 14px 0;
+      .module-text-box {
+        width: 100%;
+        margin-bottom: 46px;
+        padding-bottom: 0;
+        p {
+          margin-bottom: 0;
+        }
       }
     }
   }
-
 }
 
