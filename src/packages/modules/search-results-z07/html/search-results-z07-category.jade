@@ -7,7 +7,7 @@
       option= data.narrowResultsPlaceholderText
   .media
     .img.img-lg.no-float
-      img(src="img/search-results-z07/feature-img.jpg")
+      +iQImage(data.results.category.image)
     .bd.feature-text
       h3.t5.title= data.results.category.title
       p.p4= data.results.category.description
@@ -19,12 +19,11 @@
 ul.results-list
   each item in data.results.items
     li
-      a(href="#")
+      a(href= item.url)
         .media
           .img
-            img(src="img/search-results-z07/list-img.jpg")
+            +iQImage(item.image)
           .bd
             h4.lt3
               a(href= item.url)= item.headline
-            p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-  button.bt2.search-more Load More
+            p.p4= item.body
