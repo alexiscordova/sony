@@ -20,6 +20,7 @@ define(function(require) {
   'use strict';
 
   var $ = require('jquery'),
+      Modernizr = require('modernizr'),
       Utilities = require('require/sony-global-utilities'),
       iQ = require('iQ'),
       enquire = require('enquire'),
