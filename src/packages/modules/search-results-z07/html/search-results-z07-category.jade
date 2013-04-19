@@ -1,0 +1,30 @@
+.featured-result
+  h3.p3.results
+    span.bold-dark= data.results.count
+    |  #{data.resultsTitle}
+  form.visible-phone.select-narrow
+    select
+      option= data.narrowResultsPlaceholderText
+  .media
+    .img.img-lg.no-float
+      img(src="img/search-results-z07/feature-img.jpg")
+    .bd.feature-text
+      h3.t5.title= data.results.category.title
+      p.p4= data.results.category.description
+      ul.featured-list
+        each category in data.results.category.subcategories
+          li.lt4
+            a(href= category.url)= category.title
+
+ul.results-list
+  each item in data.results.items
+    li
+      a(href="#")
+        .media
+          .img
+            img(src="img/search-results-z07/list-img.jpg")
+          .bd
+            h4.lt3
+              a(href= item.url)= item.headline
+            p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
+  button.bt2.search-more Load More

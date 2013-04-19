@@ -24,216 +24,30 @@ include search-results-z07-helpers.jade
 
     .grid.no-grid-at-767
       .span8
-        .featured-result
-          h3.p3.results
-            span.bold-dark 84
-            | Results
-          form.visible-phone.select-narrow
-            select
-              option Narrow Results
-          .media
-            .img.img-lg.no-float
-              img(src="img/search-results-z07/product-img.jpg")
-            .bd.feature-text
-              h3.t5.title Nex 6
-              .reviews-copy
-                span.p5 Stars here (41 Users reviews)
-              p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed diam lectus, nec dictum erat dolor sit amet.
-              ul.h-list.h-list-md
-                li.lt3
-                  a(href="#") Accessories
-                li.lt3
-                  a(href="#") Support
-          .accessories-hd
-            h4.l3 Popular Nexus Accessories
-          ul.h-list.h-list-md.accessories-list
-            li
-              a(href="#")
-                img(src="img/search-results-z07/accessories-img.jpg")
-                .accessories-copy.p4 32 GB SDHC <br /> Memory
-              li
-                a(href="#")
-                  img(src="img/search-results-z07/accessories-img.jpg")
-                  .accessories-copy.p4 32 GB SDHC <br /> Memory
-              li
-                a(href="#")
-                  img(src="img/search-results-z07/accessories-img.jpg")
-                  .accessories-copy.p4 32 GB SDHC <br /> Memory
-              li
-                a(href="#")
-                  img(src="img/search-results-z07/accessories-img.jpg")
-                  .accessories-copy.p4 32 GB SDHC <br /> Memory
-        ul.results-list
-          li
-            a(href="#")
-              .media
-                .img
-                  img(src="img/search-results-z07/list-img.jpg")
-                .bd
-                  h4.lt3
-                    a(href="#") Headline
-                  p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-          li
-            a(href="#")
-              .media
-                .img
-                  img(src="img/search-results-z07/list-img.jpg")
-                .bd
-                  h4.lt3
-                    a(href="#") Headline
-                  p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-                  ul.h-list.h-list-md
-                    li.lt4
-                      a(href="#") Accessories
-                    li.lt4
-                      a(href="#") Support
-          li
-            a(href="#")
-              .media
-                .img
-                  img(src="img/search-results-z07/list-img.jpg")
-                .bd
-                  h4.lt3
-                    a(href="#") Headline
-                  h5.lt4.italic-hd
-                    a(href="#") Is there a proper way to disconnect the camera USB from a Macintosh computer?
-                  p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-          li
-            a(href="#")
-              .media
-                .bd
-                  h4.lt3
-                    a(href="#") Headline
-                  p.p4 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper velit ut turpis pellentesque rutrum
-          button.bt2.search-more Load More
+        if data.results.count == 0
+          include search-results-z07-no-results.jade
+        else
+          if data.results.type == 'category'
+            include search-results-z07-category.jade
+          else
+            include search-results-z07-product.jade
+
       .span3.offset1.hidden-phone
         .result-sidebar
-          .results-link-group
-            h3.l3 Narrow Your Results
-            ul
-              li.lt3
-                a(href="#") Products
-              li.lt3
-                a(href="#") Acccessories
-              li.lt3
-                a(href="#") Support
-          .results-link-group
-            h3.l3 Recent Searches
-            ul
-              li.lt3
-                a(href="#") cyber-shot
-              li.lt3
-                a(href="#") alpha-next
-              li.lt3
-                a(href="#") cameras
-              li.lt3
-                a(href="#") point and shoot
-          .results-link-group
-            h3.l3 Popular Searches
-            ul
-              li.lt3
-                a(href="#") Laptops
-              li.lt3
-                a(href="#") VAIO
-              li.lt3
-                a(href="#") Headphones
-              li.lt3
-                a(href="#") PSP
-              li.lt3
-                a(href="#") Playstation
-              li.lt3
-                a(href="#") NEX
-  .related-searches
-    .container
-      .grid.no-grid-at-767
-        .span3
-          h3.l3 Related Searches
-        .span3
-          ul
-            li.lt3
-              a(href="#") NEX-6 Support
-            li.lt3
-              a(href="#") NEX-5n
-        .span3
-          ul
-            li.lt3
-              a(href="#") NEX-6 Accessories
-            li.lt3
-              a(href="#") NEX-6 Reviews
-        .span3
-          ul
-            li.lt3
-              a(href="#") NEX-6 Lenses
+          if data.narrowResults
+            mixin resultsLinkGroup(data.narrowResults)
+          if data.recentSearches
+            mixin resultsLinkGroup(data.recentSearches)
+          if data.popularSearches && data.results.count > 0
+            mixin resultsLinkGroup(data.popularSearches)
 
-#page-wrapper-inner
-  .bar-tone
-    .container
+  if data.relatedSearches.length > 0
+    .related-searches
       .container
-        h2.l3 SEARCH RESULTS
-        form.search-form
-          label.search-label search
-          input.search
-          a.clear-search(href"#") i X
-          button.btn.hidden-phone Search
-  .container
-    .container
-      .search-suggestions
-        span.p3.search-correction Did you mean?
-        ul.h-list.h-list-lg
-          li.lt3
-            a(href="#") Gallaxy
-    .grid.no-grid-at-767
-      .span8
-        .featured-result
-          h3.p3 There are
-            span.bold-dark 0 results
-            | for "Gallexy"
-        .results-link-group
-          h3.l3 Popular Searches
-          ul
-            li.lt3
-              a(href="#") Laptops
-            li.lt3
-              a(href="#") VAIO
-            li.lt3
-              a(href="#") Headphones
-            li.lt3
-              a(href="#") PSP
-            li.lt3
-              a(href="#") Playstation
-            li.lt3
-              a(href="#") NEX
-      .span3.offset1.hidden-phone
-          .results-link-group
-            h3.l3 Recent Searches
-            ul
-              li.lt3
-                a(href="#") cyber-shot
-              li.lt3
-                a(href="#") alpha-next
-              li.lt3
-                a(href="#") cameras
-              li.lt3
-                a(href="#") point and shoot
-  .related-searches
-    .container
-      .grid.no-grid-at-767
-        .span3
-          h3.l3 Related Searches
-        .span3
-          ul
-            li.lt3
-              a(href="#") NEX-6 Support
-            li.lt3
-              a(href="#") NEX-5n
-        .span3
-          ul
-            li.lt3
-              a(href="#") NEX-6 Accessories
-            li.lt3
-              a(href="#") NEX-6 Reviews
-        .span3
-          ul
-            li.lt3
-              a(href="#") NEX-6 Lenses
+        .grid.no-grid-at-767
+          .span3
+            h3.l3= data.relatedSearchesTitle
 
+          mixin relatedSearchesColumn(data.relatedSearches.slice(0, 2))
+          mixin relatedSearchesColumn(data.relatedSearches.slice(2, 4))
+          mixin relatedSearchesColumn(data.relatedSearches.slice(4, 6))
