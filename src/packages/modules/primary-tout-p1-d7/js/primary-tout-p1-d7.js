@@ -66,8 +66,7 @@ define(function(require){
           Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         }
 
-
-        var btn = self.$el.find(".inner .box a");
+        var btn = self.$el.find(".inner .box a, .mobile-buttons a");
 
         if(btn.length > 0){
           btn.on('click', function(e){

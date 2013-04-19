@@ -141,9 +141,10 @@ mixin boxlayout(_layout, _style)
       h1.t3!= data.headline
       +bodytext
       +links(data, "hidden-phone")
-    .mobile-buttons-wrap.container.grid.no-grid-at-767
-      .mobile-buttons.clearfix
-        +links(data, "visible-phone")
+    .mobile-buttons-wrap.container
+      .grid.no-grid-at-767
+        .mobile-buttons.clearfix
+          +links(data, "visible-phone btn")
   else if data.mode == "title-plate"
     +boxlayout
       +eyebrow
