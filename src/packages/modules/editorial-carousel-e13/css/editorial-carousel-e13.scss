@@ -2,23 +2,11 @@
 @import "../../../common/css/_base/mixins";
 
 
-.js {
-
-  .editorial-carousel-e13 {
-
-    .rp-overflow {
-      overflow:hidden;
-    }
-
-  }
-
-}
-
-
 .editorial-carousel-e13 {
 
   background-color:#f1f5f9;
   position:relative;
+  overflow: hidden;
 
   h3 {
     color:$gray20;
@@ -30,6 +18,7 @@
   p.p3 {
     color:$gray40;
     margin-top: 28px;
+    margin-bottom: 0px;
     text-align:center;
   }
 
@@ -43,36 +32,47 @@
 
   }
 
-  .rp-container {
+  .e13-carousel{
+    margin-top:50px;
+    margin-bottom:12px;
+  }
 
-    height: 100%;
-    position: relative;
-    width: 100%;
+  .sony-carousel-slide {
+    margin-right: 0.10731%;
+  }
 
-    -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
-    -webkit-backface-visibility: hidden;
+  .sony-carousel-wrapper {
 
-    .lt-ie9 & {
-      min-width: 1190px;
+    height:auto;
+
+  }
+
+  .o-visible {
+
+    .sony-carousel-wrapper{
+      overflow: visible;  
     }
-    
+
+    .pagination-paddles {
+      display:none;
+    }
+
+    .sony-dot-nav{
+      display:none;
+    }
     
   }
 
-  .rp-overflow {
-      
-    height: 100%;
-    position: relative;
-    width: 100%;
-
-    -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
-    -moz-user-select: -moz-none;
-    -webkit-user-select: none;
-    user-select: none;
-    -webkit-backface-visibility: hidden;
+  .sony-dot-nav {
+    margin-top: 40px;
   }
 
   .gallery-item  {
+
+    display: block;
+    float:none;
+    overflow: inherit;
+    margin-top:0;
 
     .item-img{
 
@@ -213,26 +213,29 @@
     
   }
 
-  .editorial-carousel-e13-products {
+  .pagination-paddles {
 
-    .nav-paddles {
+      .pagination-paddle {
 
-        .nav-paddle {
+        height:43px;
+        margin-top:-45px; /* -26 - 19(product content width / 2) */
+        margin-left:0;
+        margin-right:0;
+        position: absolute;
+        top: 50%;
+        width:28px;
 
-          height:52px;
-          position: absolute;
-          top: 148px;
-          width:34px;
+        background-color:rgba($gray10, 0.2);
 
-          background-color:rgba($gray10, 0.2);
-
-          &.nav-paddle-next { right: 2.33333333%; }
-
-          &.nav-paddle-prev { left: 2.33333333%; }
-        }
+        
       }
 
+      .pagination-next { right: 20px; }
+
+      .pagination-prev { left: 20px; }
+      
   }
+
 
   .gallery-item:after{
     padding:0;
@@ -307,29 +310,15 @@
       display:none;
     }
 
-/*
-    .navigation-container{
-      display:none;
+  }
+
+  @media screen and (max-width: 480px) {
+
+    .e13-carousel{
+      margin-bottom:60px;
     }
-    */
 
   }
-
-  .product-img:after {
-    content: '';
-  }
-
-  .pagination-bullets {
-    bottom:30px;
-  }
-
-  /*
-  .full-bleed-no-max {
-    .slimgrid {
-      width:100%;
-    }
-  }
-  */
 
 
 }
