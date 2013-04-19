@@ -117,7 +117,7 @@ define(function(require){
       }
 
       Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function() {
-        if ( self.snapping ) {
+        if ( self.snap ) {
           self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
         }
       });
@@ -189,7 +189,7 @@ define(function(require){
           goToWhich;
 
       // Don't snap if it's disabled
-      if ( !self.snapping ) {
+      if ( !self.snap ) {
         return;
       }
 
@@ -506,9 +506,9 @@ define(function(require){
       var self = this,
           $wrapper = self.$paddleWrapper || self.$wrapper;
 
-      self.snapping = snapping;
+      self.snap = snapping;
 
-      if ( self.snapping ) {
+      if ( self.snap ) {
         // Show paddles
         if ( self.paddles ) {
           $wrapper.sonyPaddles('showPaddle', 'both');
