@@ -21,8 +21,8 @@ section.container.uxmc
     div.uxmc-carousel-wrapper
       div.uxmc-carousel
         for product in data.partnerProducts
-          - slideClasses = ["sony-carousel-slide"]
-          - slideChildClasses = ["sony-carousel-slide-children",['theme-'+product.theme.toLowerCase()]]
+          - slideClasses = ["sony-carousel-slide",['theme-'+product.theme.toLowerCase()]]
+          - slideChildClasses = ["sony-carousel-slide-children"]
           div(class= slideClasses)
             div(class= slideChildClasses)
               div.uxmc-overlay
