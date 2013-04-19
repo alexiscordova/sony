@@ -1,0 +1,448 @@
+//
+// Universal Nav - The output CSS will be used for stand-alone versions, NOT the scss.
+// This way we can still use global variables & mixins in here.
+// --------------------------------------------------
+
+// Core variables and mixins
+@import "_base/variables";
+@import "_base/mixins";
+
+//
+// Universal Nav - The output CSS will be used for stand-alone versions, NOT the scss.
+// This way we can still use global variables & mixins in here.
+// --------------------------------------------------
+
+// resets for standalone version. These are already compiled into the Sony Global Web Transform 2013 project, but are needed elsewhere.
+
+// These are needed on any site that includes the Universal Nav. 
+// They don't have to have the same classnames, but for the Universal Nav to work, 
+// there needs to be an outer container with overflow:hidden & an inner container with position:relative to slide the site.
+body,html{
+	padding:0;
+	margin:0;
+}
+.page-wrap-outer {
+	width: 100%;
+	overflow: hidden;
+}
+.page-wrap-inner {
+  width: 100%;
+  position: relative;
+}
+
+
+// Resets for standalone version - Mimics resets
+#JUST-FOR-REFERENCE{
+	div, span,
+	h1, h2, h3, h4, h5, h6, p,
+	a, big, em, img,
+	strong, sub, sup,
+	b, u, i,
+	dl, dt, dd, ol, ul, li, 
+	article, aside, details, figcaption, figure, 
+	footer, header, hgroup, menu, nav, section {
+	  margin: 0;
+	  padding: 0;
+	  border: 0;
+	  font-size: 100%;
+	  font: inherit;
+	  vertical-align: baseline;
+	  @include borderBox;
+	}
+	/* HTML5 display-role reset for older browsers */
+	article, aside, details, figcaption, figure, 
+	footer, header, hgroup, menu, nav, section {
+	  display: block;
+	}
+	html {
+	  -webkit-text-size-adjust: 100%;
+	      -ms-text-size-adjust: 100%;
+	}
+}
+
+
+
+
+$span3-width: 22.34043%;
+$span4-width: 30.96927%;
+$span8-width: 65.48463%;
+$gutter-width: 3.5461%;
+
+$span3-width-768: 22.46154%;
+$span4-width-768: 31.07692%;
+$span8-width-768: 65.53846%;
+$gutter-width-768: 3.38462%;
+
+$span3-width-1200: 22.35294%;
+$span4-width-1200: 30.98039%;
+$span8-width-1200: 65.4902%;
+$gutter-width-1200: 3.52941%;
+
+.u-nav-wrapper{
+	font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: normal;
+	font-style: normal;
+	line-height: 1.65;
+	font-color: rgb(47,53,61); // $gray20;
+
+	img{
+		border:none;
+	  /* Responsive images (ensure images don't scale beyond their parents) */
+	  max-width: 100%; /* Part 1: Set a maxium relative to the parent */
+	  width: auto\9; /* IE7-8 need help adjusting responsive images */
+	  height: auto; /* Part 2: Scale the height according to the width, otherwise you get stretching */
+	  vertical-align: middle;
+	  -ms-interpolation-mode: bicubic;
+	}
+	ol, ul {
+	  list-style: none;
+	  margin:0;
+	  padding:0;
+	}
+	a {
+		outline:0;
+		color: #4572ed;
+		text-decoration: none;
+		:focus {
+	  	@include tab-focus();
+	  }
+		&:hover,
+		&:active,
+		&:focus  {
+			color: #3c4c74;
+		}
+		&:not(.no-hover-transition){
+		  -webkit-transition: color 0.25s linear, background-color 0.25s linear;
+		  transition: color 0.25s linear, background-color 0.25s linear;
+		}
+	}
+	div{
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		// vertical-align: baseline;
+		-webkit-box-sizing: content-box;
+		-moz-box-sizing: content-box;
+		box-sizing: content-box;
+	}
+	.l1 {
+		font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: normal;
+		font-style: normal;
+		text-rendering: optimizeLegibility;
+		text-transform: uppercase;
+		color: #2f353d;
+		font-size: 1.375em;
+		line-height: 1.36364;
+		letter-spacing: 0.05em;
+	}
+	.l2{
+		font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: normal;
+		font-style: normal;
+		text-rendering: optimizeLegibility;
+		text-transform: uppercase;
+		color: #2f353d;
+		font-size: 0.75em;
+  	line-height: 1.5;
+  	letter-spacing: 0.01em;
+		margin-bottom: 8px;
+	}
+	.container {
+		margin-right: auto;
+	  margin-left: auto;
+	  *zoom: 1;
+	  width: $fluidContainerWidth;
+	  max-width: $fluidContainerWidthMax-px;
+	}
+	.grid {
+		margin-right: auto;
+	  margin-left: auto;
+	  *zoom: 1;
+  	width: $fluidGridWidth;
+	}
+	.span3{
+		width: $span3-width;		
+	}
+	.span4{
+		width: $span4-width;		
+	}
+	.span8{
+		width: $span8-width;
+	}
+	.label-success{
+		position:absolute;
+		top:0;
+		right:0;
+		z-index: 10;
+		margin: 0;
+		padding: 4px 10px;
+		background:$green;
+
+		color: white;
+		font-size: 0.916666666666667em;
+		vertical-align: baseline;
+		white-space: nowrap;
+	}
+}
+
+
+@media (min-width: px-em(1200px)){
+	.u-nav-wrapper{
+		.container {
+			width: 92.5%;
+		}
+		.grid {
+			width: 91.89189%;
+		}
+	}
+}
+@media (max-width: px-em(979px)) and (min-width: px-em(768px)){
+	.u-nav-wrapper{
+		.container {
+			width: 92.1875%;
+		}
+		.grid {
+			width: 91.80791%;
+		}
+	}
+}
+
+@media (min-width: px-em(1200)){
+	.u-nav-wrapper{
+		.span3{
+			width: $span3-width-1200;		
+		}
+		.span4{
+			width: $span4-width-1200;		
+		}
+		.span8{
+			width: $span8-width-1200;
+		}
+	}
+}
+
+@media (max-width: px-em(979px)) and (min-width: px-em(768px)){
+	.u-nav-wrapper{
+		.span3{
+			width: $span3-width-768;		
+		}
+		.span4{
+			width: $span4-width-768;		
+		}
+		.span8{
+			width: $span8-width-768;
+		}
+	}
+}
+
+
+
+
+// universal-nav-specific classes. These are needed by all versions of the Universal Nav
+.u-nav-wrapper{
+  background: red;// rgb(243,244,246); // $gray90;
+  padding: 20px 0;
+
+  .u-nav-head{
+  	position: relative;
+  	margin-bottom:13px;
+	}
+	.u-nav-close-btn{
+		font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		-webkit-font-smoothing: antialiased;
+		font-weight: normal;
+		font-style: normal;
+		font-size: px-em(12);
+		letter-spacing: 0.0625em;
+		padding: 9px 49px 10px 13px;
+		color: #fff;
+		background-color: rgb(146,149,153);
+		background-repeat: no-repeat;
+		background-position: 88% 50%;
+		@include border-radius(1px);
+
+		margin: 0 0 14px;
+  	float: right;
+
+  	&:hover, &:active, &:focus, &.active{
+  	  color: #fff;
+			background-color: rgba(47,53,61,1);
+  	}
+	}
+	h5.l1{
+		clear: both;
+		margin: 0;
+	}
+	.u-nav-all-sites-link{
+		position: absolute;
+		bottom: 1px;
+		right: 0;
+		font-size: px-em(13);
+	}
+
+
+
+
+	.u-nav-primary{
+		position: relative;
+		overflow: hidden;
+	}
+	.u-nav-primary-feat{
+	}
+	.u-nav-primary-link{
+		display:block;
+		position:relative;
+		opacity: 1;
+
+		.u-nav-primary-img{
+			display:block;
+			z-index:1;
+			width:100%;
+			opacity: 1;
+			-webkit-transition: opacity 0.15s;
+			transition: opacity 0.15s;
+			-webkit-transform: scale3d(1, 1, 1);
+		}
+
+		&:hover,
+		&:active,
+		&:focus{
+			.u-nav-primary-img{
+				opacity: 0.9;
+			}
+		}
+
+	}
+	.u-nav-primary-caption{
+		display:block;
+		padding: px-em(11px) 0 px-em(4px) 0;
+	}
+
+	// col1 is normal, display:block, in the flow, to set the height of the container. 
+	// If there are 2 rows in the first column, there should be a margin-top on row2 to set up the height of the content.
+	.u-nav-primary-col1.u-nav-primary-row2{
+		padding-top:24px;
+	}
+	.u-nav-primary-col2.u-nav-primary-row1,
+	.u-nav-primary-col3.u-nav-primary-row1{
+		position:absolute;
+		top:0;
+	}
+	.u-nav-primary-col2.u-nav-primary-row2,
+	.u-nav-primary-col3.u-nav-primary-row2{
+		position:absolute;
+		bottom:0;
+	}
+	.u-nav-primary-col2{
+		left: $span4-width + $gutter-width; // col1 width plus margin
+	}
+	.u-nav-primary-col3{
+		left: $span8-width + $gutter-width; // col1 width plus margin
+	}
+
+
+	.u-nav-secondary{
+		background:#fff;
+		margin-top: 18px;
+		padding:22px 0;
+	}
+
+
+
+
+
+
+
+
+
+
+}
+
+@media (min-width: px-em(1200)){
+	.u-nav-wrapper{
+		.u-nav-primary-col2{
+			left: $span4-width-1200 + $gutter-width-1200; // col1 width plus margin
+		}
+		.u-nav-primary-col3{
+			left: $span8-width-1200 + $gutter-width-1200; // col1 width plus margin
+		}
+	}
+}
+
+@media (max-width: px-em(979px)) and (min-width: px-em(768px)){
+	.u-nav-wrapper{
+		.u-nav-primary-col2{
+			left: $span4-width-768 + $gutter-width-768; // col1 width plus margin
+		}
+		.u-nav-primary-col3{
+			left: $span8-width-768 + $gutter-width-768; // col1 width plus margin
+		}
+	}
+}
+
+
+
+
+
+/*
+	.u-nav-primary-col{
+		position: relative;
+	  float:left;
+	  background:rgba(34,139,34,0.5);
+	  border:solid 1px rgba(34,139,34,1);
+	}
+	.u-nav-primary-col-inner{
+		width: 100%;
+		overflow:hidden;
+	}
+	.u-nav-primary-row{
+		display:block;
+		a.l2{
+			display:block;
+		}
+	  background:rgba(160,32,240,0.5);
+	  border:solid 1px rgba(160,32,240,1);
+	}
+	.u-nav-primary-row1{
+		display: block;
+		width: 100%;
+	}
+	.u-nav-primary-row2{
+		display: block;
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+	}
+
+	img.u-nav-primary-img{
+		display:block;
+		width:100%;
+	}
+	.u-nav-primary-label{
+		display:inline-block;
+		padding-top:5px;
+	}
+}
+*/
+
+
+// .no-touch .sony-one-carousel .soc-item article .soc-image {
+//   -webkit-transition: opacity 0.15s;
+//   transition: opacity 0.15s;
+//   -webkit-transform: scale3d(1, 1, 1);
+//   opacity: 1;
+// }
+// .no-touch .sony-one-carousel .soc-item article:hover .soc-image {
+//   opacity: 0.9;
+// }
+
+
+
+
+
+
+
+

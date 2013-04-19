@@ -2,35 +2,38 @@ include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('editorial-carousel-e13')
 
 .editorial-carousel-e13
-  .container
+  .container.e13-title
     .grid
       h3(class='t3')= data.title
       p(class='p3')= data.subtitle
-  .container.products.pd-container
+  .container.e13-carousel
     .slimgrid
-      section.editorial-carousel-e13-products(class="span12", data-mode=data.config.mode , data-variation=data.config.variation )
-        .rp-overflow
-          .rp-container(class="hide fade")
-            i = 0
-            for item in data.slide
-              a(class="gallery-item m-span4 span3 medium")
-                .gallery-item-inner
-                  if item.headline
-                    div(class="headline-counter")
-                      span.p3= item.headline.nbPlayer
-                      span.p5= item.headline.player
-                  div.wrapper-image
-                    if item.headline
-                      div(class="cover")
-                        span.picto-play
-                          span.bg
-                          span.picto
-                        span.title(class="p3")= item.play
-                    img.iq-img(alt=item.alt, data-src-desktop=item.backgroundImgSrcDesktop, data-src-tablet=item.backgroundImgSrcTablet, data-src-phone=item.backgroundImgSrcPhone, data-src-desktop-highres=item.backgroundImgSrcDesktopHighRes, data-src-tablet-highres=item.backgroundImgSrcTabletHighRes, data-src-phone-highres=item.backgroundImgSrcPhoneHighRes)
-                      noscript
-                        img(src=item.noscriptsrc, alt=item.alt)
-                  div(class="infos")
-                    p(class='p4 title')= item.infos.title
-                    p(class='p4 players')
-                      span= item.infos.nbPlayer
-                      span.bold= item.infos.player
+      .span12
+        div.carousel
+          div.sony-carousel-wrapper
+            div.sony-carousel
+              i = 0
+              for item in data.slide
+                div.sony-carousel-slide
+                  div.sony-carousel-slide-children
+                    a(class="gallery-item medium")
+                      .gallery-item-inner
+                        if item.headline
+                          div(class="headline-counter")
+                            span.p3= item.headline.nbPlayer
+                            span.p5= item.headline.player
+                        div.wrapper-image
+                          if item.headline
+                            div(class="cover")
+                              span.picto-play
+                                span.bg
+                                span.picto
+                              span.title(class="p3")= item.play
+                          img.iq-img(alt=item.alt, data-src-desktop=item.backgroundImgSrcDesktop, data-src-tablet=item.backgroundImgSrcTablet, data-src-phone=item.backgroundImgSrcPhone, data-src-desktop-highres=item.backgroundImgSrcDesktopHighRes, data-src-tablet-highres=item.backgroundImgSrcTabletHighRes, data-src-phone-highres=item.backgroundImgSrcPhoneHighRes)
+                            noscript
+                              img(src=item.noscriptsrc, alt=item.alt)
+                        div(class="infos")
+                          p(class='p4 title')= item.infos.title
+                          p(class='p4 players')
+                            span= item.infos.nbPlayer
+                            span.bold= item.infos.player
