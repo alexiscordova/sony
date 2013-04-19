@@ -1,8 +1,8 @@
 include ../../../common/html/jade-helpers.jade
 
-- var search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
-
 a#SkipToContentLink(href='#main', class='visuallyhidden', tabindex='1')= data.skip_to_content.label
+
+- var search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
 
 if typeof minimal !== 'undefined' && minimal === true
   - minimal_class = "nav-wrapper-minimal"
