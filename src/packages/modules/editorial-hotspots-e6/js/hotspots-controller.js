@@ -280,20 +280,41 @@ define(function(require) {
                   adjustedY = ( percY * assetH ) / 100;
                
                   $( el ).css( "left", adjustedX );
-                  $( el ).css( "top", adjustedY );          
-              
+                  $( el ).css( "top", adjustedY );
             });
           }
         }
       }
     },
     
+    hover: function( el, self, flag ) {
+      log( 'hover' );
+      log( $( el ) );
+      switch(flag) {
+        case true:
+          $( el ).find( '.hspot-core, .hspot-core-on' ).removeClass( 'hspot-hover-off' ).addClass( 'hspot-hover-on' );
+        break;
+        case false:
+          $( el ).find( '.hspot-core, .hspot-core-on' ).removeClass( 'hspot-hover-on' ).addClass( 'hspot-hover-off' );
+        break;
+      }
+    },
+    
     bind: function( el ) {
       var self = this;
       // hotspot clicks
-      $($( el ).find( '.hspot-core' ) ).bind( 'click', function( event ) {
+      $( $( el ).find( '.hspot-core' ) ).bind( 'click', function( event ) {
         self.click( event, self );
       });
+      
+      $( $( el ).find( '.hspot-core' ) ).bind( 'mouseover', function( event ) {
+        self.hover( el, self, true );
+      });
+      
+      $( $( el ).find( '.hspot-core' ) ).bind( 'mouseout', function( event ) {
+        self.hover( el, self, false );
+      });
+      
     },
     
     place: function( el ) {
@@ -329,8 +350,8 @@ define(function(require) {
       log( self.canShowHotspots );
       if( true === self.canShowHotspots ) {
         $( self.$els ).each(function( index, el ) {
-          if( $( el ).hasClass( 'hidden' ) ) {
-            $( el ).removeClass( 'hidden' ).fadeIn( 500 );
+          if( $( el ).hasClass( 'eh-transparent' ) ) {
+            $( el ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           }
         });
       }
@@ -777,6 +798,7 @@ define(function(require) {
         el.removeClass( 'three-stack-right-bottom-justified' ).addClass( 'two-stack-right-bottom-justified' );
       }
     },
+    
     transition: function( _el, direction ) {
       switch(direction) {
         case "on":
@@ -787,6 +809,7 @@ define(function(require) {
         break;
       }
     },
+    
     close: function( container, hotspot, info ) {
         var self = this;
         // we are setting display:none when the trasition is complete, and managing the timer here
@@ -814,7 +837,7 @@ define(function(require) {
         
         // kill the underlay if we're in minified mode
         if( true === self.showOverlayCentered ) {
-          $( '.hspot-underlay' ).addClass( 'hidden' );          
+          $( '.hspot-underlay' ).addClass( 'hidden' );   
         }
     },
     
@@ -845,15 +868,8 @@ define(function(require) {
         if( true === self.showOverlayCentered ) {
           $( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
         } else {
-          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
-        }
-        
-/*
-        info.find('.top').addClass( 'eh-visible' );
-        info.find('.middle').addClass( 'eh-visible' );
-        info.find('.footer').addClass( 'eh-visible' );
-*/
-       
+          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        }       
     },
     
     reset: function( container ) {

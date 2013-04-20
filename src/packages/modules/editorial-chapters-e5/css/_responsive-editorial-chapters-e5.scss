@@ -27,6 +27,14 @@
         i, span {display:none;}
     }
   }
+  &.offset-nav {
+    .thumb-nav {margin:0 !important;}
+      li {width:auto;}
+
+    &.top-nav .thumb-nav {
+      height:58px;
+    } 
+  }
   &.top-nav.thumb-mode li {
     &.active,
     &:hover {margin-top:0;}
@@ -38,9 +46,6 @@
       li {
         width:auto;
         height:30px;
-
-        &.active,
-        &:hover {margin-top:-4px;}
       }
         img, span {display:none;}
         i {
@@ -70,7 +75,6 @@
         .twoLine {top:0;}
     }
   }
-  &.offset-nav .thumb-nav li {width:25%;}
 }
 
 // Set mobile view for any container under 768 pixels
@@ -102,10 +106,18 @@
   .span12 {
     & > .editorial-chapters-container {
       .thumb-nav {
-        bottom:0 !important;
+        bottom:auto !important;
         width:100%;
         left:0;
+        top:240px;
+        position:absolute;
+        background:$gray80 !important;
+
+        li,
+        li:hover,
+        li.active {background:$gray80 !important;}
       }
+      .box {margin-top:58px !important;}
       &.dark .thumb-nav {background:$gray20;}
       &.gray .thumb-nav {background:$gray80;}
       &.white .thumb-nav {background:$white;}

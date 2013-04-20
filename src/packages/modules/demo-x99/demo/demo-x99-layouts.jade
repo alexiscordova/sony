@@ -3,6 +3,7 @@ doctype 5
 include ../../../common/html/ieconditionals.html
 
 head
+  title (module name here) Layouts
   include ../../../common/html/head.jade
 
 body
@@ -13,10 +14,19 @@ body
 
       #main.container.m-full-bleed(role='main')
 
-        //- put content here - the div below is just to add height for the demo.
-        .bs-docs-grid(style="height:500px; background: rgb(70, 70, 70);")
+        +partial('demo-x99/html/demo-x99.jade', 'packages/modules/demo-x99/demo/data/default.json')
 
-      +partial('recently-viewed/html/recently-viewed.jade', 'packages/modules/recently-viewed/demo/data/two-products.json')
+        hr(style="margin:50px 0;")
+
+        //- This would use a different set of json
+        +partial('demo-x99/html/demo-x99.jade', 'packages/modules/demo-x99/demo/data/default.json')
+
+        hr(style="margin:50px 0;")
+
+        //- This would use a different set of json
+        +partial('demo-x99/html/demo-x99.jade', 'packages/modules/demo-x99/demo/data/default.json')
+
+        hr(style="margin:50px 0;")
 
       e = {"locals":locals, "data":data('packages/modules/global-header-footer/demo/data/default-footer.json'), "sample_session_data":data('packages/modules/global-header-footer/demo/data/sample_session_data.json')}
       !{partial('packages/modules/global-header-footer/html/global-footer.jade', e)}

@@ -143,6 +143,8 @@ define(function(require){
       var self = this;
 
       self.$navContainer.remove();
+
+      self.$el.removeData('sonyNavDots');
     }
   };
 

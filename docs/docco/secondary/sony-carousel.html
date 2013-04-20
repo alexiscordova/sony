@@ -123,7 +123,7 @@ define(<span class="keyword">function</span>(require){
       }
 
       Environment.on(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id, <span class="keyword">function</span>() {
-        <span class="keyword">if</span> ( self.snapping ) {
+        <span class="keyword">if</span> ( self.snap ) {
           self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
         }
       });
@@ -192,7 +192,7 @@ reset position to the nearest one.</p>             </td>             <td class="
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           goToWhich;
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Don't snap if it's disabled</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.snapping ) {
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Don't snap if it's disabled</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.snap ) {
         <span class="keyword">return</span>;
       }
 
@@ -499,9 +499,9 @@ Reset the carousel to its natural position and order.</p>             </td>     
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $wrapper = self.$paddleWrapper || self.$wrapper;
 
-      self.snapping = snapping;
+      self.snap = snapping;
 
-      <span class="keyword">if</span> ( self.snapping ) {
+      <span class="keyword">if</span> ( self.snap ) {
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Show paddles</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.paddles ) {
           $wrapper.sonyPaddles(<span class="string">'showPaddle'</span>, <span class="string">'both'</span>);
         }
@@ -581,7 +581,8 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
     destroy: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $paddleWrapper = self.$paddleWrapper || self.$wrapper;
+          $paddleWrapper = self.$paddleWrapper || self.$wrapper,
+          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides;
 
 </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Reset styles.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.css(Modernizr.prefixed(<span class="string">'transitionTimingFunction'</span>), <span class="string">''</span>)
           .css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">''</span> )
@@ -589,17 +590,21 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
           .css(self.posAttr, <span class="string">''</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id);
-      self.$el.off(<span class="string">'sonyDraggable:dragStart'</span>);
-      self.$el.off(<span class="string">'sonyDraggable:dragEnd'</span>);
+      self.$el.off(<span class="string">'sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide '</span> + Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
+      $clickContext.off(<span class="string">'click'</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Destroy all plugins.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.sonyDraggable(<span class="string">'destroy'</span>);
 
       <span class="keyword">if</span> ( self.paddles ) {
         $paddleWrapper.sonyPaddles(<span class="string">'destroy'</span>);
+        $paddleWrapper.off(<span class="string">'sonyPaddles:clickLeft'</span>);
+        $paddleWrapper.off(<span class="string">'sonyPaddles:clickRight'</span>);
       }
 
       <span class="keyword">if</span> ( self.$dotnav ) {
         self.$dotnav.sonyNavDots(<span class="string">'destroy'</span>);
+        self.$dotnav.remove();
+        self.$dotnav = <span class="literal">null</span>;
       }
 
 </pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Remove data from element, allowing for later reinit.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.removeData(<span class="string">'sonyCarousel'</span>);

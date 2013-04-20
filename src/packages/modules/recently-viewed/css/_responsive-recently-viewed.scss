@@ -2,9 +2,14 @@
   .rv-module {
     margin: px-em( 30 ) 0 px-em( 40 );
 
-    .sony-carousel .gallery-item {
+    // Needs to be specific enough to override the mobile grid
+    .sony-carousel .slimgrid .gallery-item {
       width: px-em( 132 );
       margin-left: px-em( 12 );
+    }
+
+    .sony-carousel .sony-carousel-slide:first-child .gallery-item:first-child {
+      margin-left: 0;
     }
 
     .m-container {
@@ -19,14 +24,6 @@
     .sony-carousel .container,
     .sony-carousel .slimgrid {
       width: auto;
-    }
-
-    .sony-carousel-slide {
-      margin-right: 12px;
-
-      &:last-child {
-        margin-right: 0;
-      }
     }
   }
 }

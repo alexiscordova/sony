@@ -274,9 +274,12 @@ else if data.view == 'simple'
   a.span2.gallery-item.simple(href=data.href ? data.href : '#')
     .gallery-item-inner
       .product-img
-        .product-img-wrap.ghost-center-wrap
-          .ghost-center
-              +iQImage( data.imgSmall )
+        //- .product-img-wrap.ghost-center-wrap
+        //-   .ghost-center
+        //-       +iQImage( data.imgSmall )
+        //- Fix for image heights not obeying max-height:100%
+        .product-img-wrap
+          +iQImage( data.imgSmall )
 
       +priceBlock( data, true )
 
