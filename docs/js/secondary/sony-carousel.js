@@ -99,7 +99,7 @@ define(function(require){
 
       var self = this;
 
-      self.resetSlides();
+      self.resetSlides( true );
       self.setupLinkClicks();
 
       if ( self.direction === 'vertical' ) {
@@ -546,7 +546,7 @@ define(function(require){
         $clickContext = self.$slides;
       }
 
-      $clickContext.on('click', function(e){
+      $clickContext.on('click.sonycarousel', function(e){
 
         var $this = $(this),
             destination = $this.find(self.defaultLink).attr('href'),
@@ -570,11 +570,22 @@ define(function(require){
       });
     },
 
-    resetSlides: function() {
+    resetSlides: function( isInit ) {
 
-      var self = this;
+      var self = this,
+          $clickContext;
+
+      if ( !isInit ) {
+        // Remove the event because we're going to subscribe to it again
+        $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides;
+        $clickContext.off('click.sonycarousel');
+      }
 
       self.$slides = self.$el.find(self.slides).not(self.cloneClass);
+
+      if ( !isInit ) {
+        self.setupLinkClicks();
+      }
 
       if ( self.looped ) {
         self.setupLoopedCarousel();
@@ -607,7 +618,7 @@ define(function(require){
       // Unbind
       Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
       self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
-      $clickContext.off('click');
+      $clickContext.off('click.sonycarousel');
 
       // Destroy all plugins.
       self.$el.sonyDraggable('destroy');

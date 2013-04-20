@@ -191,7 +191,67 @@ define(function (require) {
       });
 
       $input = null;
+    },
+
+    // Takes a number of grids, supplied as a jQuery object (`$grids`) and re-apportions
+    // their elements, in order, to a new set of grids. The old grids are then removed,
+    // and the new grids are inserted at the point of the first grid.
+    //
+    // If the `mobile` argument is **true**, grids will be apportioned based on m-spans instead.
+    //
+    // If the `center` argument is **true**, the final grid will attempt to center its contents,
+    // based on the floor of half the remaining available columns.
+
+    gridApportion: function($grids, mobile, center) {
+
+      if ( !$grids ) {
+        return;
+      }
+
+      var $grid = $grids.first().clone().empty(),
+          $compiledGrids = $(''),
+          $workingGrid = $grid.clone(),
+          roomRemaining = mobile ? 6 : 12,
+          $mSpans = $grids.find(mobile ? '[class*="m-span"]' : '[class*="span"]');
+
+      $mSpans.each(function(i){
+
+        var $this = $(this),
+            classes = this.className.split(' '),
+            spanCount;
+
+        for ( var j = 0; j < classes.length; j++ ) {
+          if ( classes[j].indexOf(mobile ? 'm-span' : 'span') === 0 ) {
+            spanCount = classes[j].split(mobile ? 'm-span' : 'span')[1] * 1;
+          }
+        }
+
+        if ( roomRemaining < spanCount ) {
+          $compiledGrids = $compiledGrids.add($workingGrid.clone());
+          $workingGrid = $grid.clone();
+          roomRemaining = mobile ? 6 : 12;
+        }
+
+        $workingGrid.append($this);
+        roomRemaining -= spanCount;
+
+        if ( i === $mSpans.length - 1 ) {
+
+          if ( center && roomRemaining >= 2 ) {
+            $workingGrid.children().first().addClass((mobile ? 'm-offset' : 'offset') + Math.floor(roomRemaining / 2));
+          }
+
+          $compiledGrids = $compiledGrids.add($workingGrid.clone());
+          $workingGrid = null;
+        }
+      });
+
+      $grids.not($grids.first()).remove();
+      $grids.first().replaceWith($compiledGrids);
+
+      return $compiledGrids;
     }
+
   };
 
   return self;

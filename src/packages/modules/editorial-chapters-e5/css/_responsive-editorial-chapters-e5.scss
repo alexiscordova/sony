@@ -106,10 +106,18 @@
   .span12 {
     & > .editorial-chapters-container {
       .thumb-nav {
-        bottom:0 !important;
+        bottom:auto !important;
         width:100%;
         left:0;
+        top:240px;
+        position:absolute;
+        background:$gray80 !important;
+
+        li,
+        li:hover,
+        li.active {background:$gray80 !important;}
       }
+      .box {margin-top:58px !important;}
       &.dark .thumb-nav {background:$gray20;}
       &.gray .thumb-nav {background:$gray80;}
       &.white .thumb-nav {background:$white;}

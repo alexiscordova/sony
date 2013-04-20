@@ -863,6 +863,11 @@ define(function(require){
 
         self.initScroller();
 
+        // Almost everything with the compare tool expects items have a class of `filtered`
+        if ( !self.hasFilters ) {
+          self.manualFilter( 'all' );
+        }
+
         // We're done
         setTimeout(function() {
           self.initStickyNav();
@@ -2672,9 +2677,11 @@ define(function(require){
         if ( isEvent ) {
           $item.addClass('concealed').removeClass('filtered');
           // Putting this in a rAF because it can be deferred and also takes a while
-          requestAnimationFrame(function() {
-            self.setFilterStatuses();
-          });
+          if ( self.hasFilters ) {
+            requestAnimationFrame(function() {
+              self.setFilterStatuses();
+            });
+          }
         }
         dfd.resolve();
       }
