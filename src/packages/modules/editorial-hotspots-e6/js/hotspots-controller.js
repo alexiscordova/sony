@@ -89,6 +89,7 @@ define(function(require) {
     self.trackOpacity                    = null,
     self.trackOpacityTimer               = null;
     self.canShowHotspots                 = false;
+    self.curAnimationCount               = 0;
     
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
@@ -124,8 +125,7 @@ define(function(require) {
       var moduleHandle = self.$container.find( '.image-module' );
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
         self.trackingMode = 'background';
-        self.trackingAsset = moduleHandle.children( '.iq-img' );
-        self.canShowHotspots = true;
+        self.trackingAsset = moduleHandle;
       } else {
         self.trackingMode = 'asset';
         self.trackingAsset = $( moduleHandle.children( '.iq-img' )[0] );
@@ -142,20 +142,31 @@ define(function(require) {
             log( 'clearing' );
             clearInterval( self.trackOpacityTimer );
             self.canShowHotspots = true;
-            triggerInitialPosition();  
+            triggerInitialPosition();
           break;
         }
       };
       
-      self.trackOpacityTimer = setInterval( self.trackOpacity, 50 );
+      self.trackHeight = function() {
+        log( 'no bg' );
+        if( "none" !== self.trackingAsset.css( 'background-image' ) ) {
+          clearInterval( self.trackOpacityTimer );
+          log( 'bg detected, clearing' );
+          self.canShowHotspots = true;
+          triggerInitialPosition();
+        }
+      };
+      
+      if( 'asset' === self.trackingMode ) { 
+        self.trackOpacityTimer = setInterval( self.trackOpacity, 50 );
+      } else {
+        self.trackOpacityTimer = setInterval( self.trackHeight, 1000 );
+      }
       
       var triggerInitialPosition = function() {
-        /* log( 'show' ); */
         self.follow();
         self.show();
       };
-      
-      self.trackingAsset.on('iQ:imageLoaded', triggerInitialPosition);
       
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
@@ -288,8 +299,6 @@ define(function(require) {
     },
     
     hover: function( el, self, flag ) {
-      log( 'hover' );
-      log( $( el ) );
       switch(flag) {
         case true:
           $( el ).find( '.hspot-core, .hspot-core-on' ).removeClass( 'hspot-hover-off' ).addClass( 'hspot-hover-on' );
@@ -321,7 +330,7 @@ define(function(require) {
     
       var self = this;
       if( 'background' === self.trackingMode ) {
-
+        
         // this places the hotspot absolutely (currently by % fed from data-x,y attrib)
         var xAnchor = $( el ).data( "x" );
         var yAnchor = $( el ).data( "y" );
@@ -345,13 +354,17 @@ define(function(require) {
     },
     
     show: function( el ) {
-      var self = this;
-      log( 'can show hotspots?' );
-      log( self.canShowHotspots );
+      var self        = this,
+          offsetTime  = 75;
+
       if( true === self.canShowHotspots ) {
         $( self.$els ).each(function( index, el ) {
-          if( $( el ).hasClass( 'eh-transparent' ) ) {
-            $( el ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+          if( $( el ).hasClass( 'eh-transparent' ) ) { 
+            var stagger = function() { 
+              $( el ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+            };
+            setTimeout( stagger, ( self.curAnimationCount * offsetTime ) );
+            self.curAnimationCount++;
           }
         });
       }
@@ -360,11 +373,8 @@ define(function(require) {
     find: function( currentTarget ) {
       var self = this;
       self.$els.each( function( index, el ) {
-        log('searching');
         if( $( el ).is( currentTarget ) ) {
           return el;
-        } else {
-          log('no match');
         }
       });
     },
