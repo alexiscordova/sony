@@ -7,7 +7,7 @@ $centerRatio: (28.571428571429% / 2);
 $indicatorRatio: 14px; /* 35%; */ /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
-$transitionSpeed: 1.5s;
+$transitionSpeed: 0.5s;
 
 /*MIXINZ*/
 @mixin ehsTransition() {
@@ -23,85 +23,123 @@ $transitionSpeed: 1.5s;
   z-index: 0;
 }
 
-.eh-transparent {
-  @include ehsTransition();
-  opacity: 0;
+.ehs {
+  .arrow-right-small {
+  	width: 0; 
+  	height: 0; 
+  	border-top: 8px solid transparent;
+  	border-bottom: 8px solid transparent;
+  	border-left: 8px solid #fff;
+  }
+  
+  .arrow-left-small {
+  	width: 0; 
+  	height: 0; 
+  	border-top: 8px solid transparent;
+  	border-bottom: 8px solid transparent; 	
+  	border-right: 8px solid #fff; 
+  }
+  
+  .arrow-right {
+  	width: 0; 
+  	height: 0; 
+  	border-top: 10px solid transparent;
+  	border-bottom: 10px solid transparent;
+  	border-left: 10px solid #fff;
+  }
+  
+  .arrow-left {
+  	width: 0; 
+  	height: 0; 
+  	border-top: 10px solid transparent;
+  	border-bottom: 10px solid transparent; 	
+  	border-right: 10px solid #fff; 
+  }
 }
 
-.eh-visible {
-  @include ehsTransition();
-  opacity: 1;
+.ehs {
+  .hotspot-instance, .image-module {
+    .eh-transparent {
+      @include ehsTransition();
+      opacity: 0;
+    }
+    
+    .eh-visible {
+      @include ehsTransition();
+      opacity: 1;
+    } 
+  }
 }
 
 /*GLOBAL OVERLAY*/
 .hspot-global-details-main {
-    .overlay-inner {
-      margin: 0px auto;
+  .overlay-inner {
+    margin: 0px auto;
+    width: 230px;
+    background-color: #fff;
+    .overlay-close {
+      position: relative;
       width: 230px;
-      background-color: #fff;
-      .overlay-close {
+      -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+      -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+      box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+      margin-top: 1em;
+      
+      .top {
+        background-color: #fff;
+      }
+      
+      .middle {
+        background-color: #fff;
+        padding: 20px 30px 23px 20px;
+        border-bottom: 1px solid #e4e7eb;
         position: relative;
-        width: 230px;
-        -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-        -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-        box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-        margin-top: 1em;
         
-        .top {
-          background-color: #fff;
-        }
-        
-        .middle {
-          background-color: #fff;
-          padding: 20px 30px 23px 20px;
-          border-bottom: 1px solid #e4e7eb;
-          position: relative;
+        .p4, .p3 {
+          @include px-em--font-size--line-height(12,18);
+          margin-bottom: 4px;
           
-          .p4, .p3 {
-            @include px-em--font-size--line-height(12,18);
-            margin-bottom: 4px;
-            
-            &.cHBI {
-              margin-bottom: 0;
-            }
+          &.cHBI {
+            margin-bottom: 0;
           }
-        }
-        .footer {
-          background-color: #fff;
-          padding: 20px 30px 20px 20px;
-          
-          p.p4, p.p3 {
-            @include px-em--font-size--line-height(12,18);
-            font-style: italic;
-            color: $secondarySlateDark;
-            margin-bottom: 9px;
-          }
-          
-          blockquote.l4, blockquote.l3 {
-            color: $gray40;
-            position: relative;
-            margin-left: 24px;
-            @include px-em--font-size--line-height(10,16);
-            
-            &:before {
-              display: block;
-              content: "\201C";
-              font-size: 40px;
-              font-family: Georgia;
-              position: absolute;
-              left: -24px;
-              top: -13px;
-              color: $secondarySlateDark;
-            }
-          }
-        }
-        .hspot-close {
-          position: absolute;
-          top: 0px;
-          right: 0px;
         }
       }
+      .footer {
+        background-color: #fff;
+        padding: 20px 30px 20px 20px;
+        
+        p.p4, p.p3 {
+          @include px-em--font-size--line-height(12,18);
+          font-style: italic;
+          color: $secondarySlateDark;
+          margin-bottom: 9px;
+        }
+        
+        blockquote.l4, blockquote.l3 {
+          color: $gray40;
+          position: relative;
+          margin-left: 24px;
+          @include px-em--font-size--line-height(10,16);
+          
+          &:before {
+            display: block;
+            content: "\201C";
+            font-size: 40px;
+            font-family: Georgia;
+            position: absolute;
+            left: -24px;
+            top: -13px;
+            color: $secondarySlateDark;
+          }
+        }
+      }
+      .hspot-close {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+      }
     }
+  }
 }
 
 /*UTILS*/
@@ -111,7 +149,7 @@ $transitionSpeed: 1.5s;
     position: relative;
   }
   
-  hspot-outer.info-jump-to-top {
+  .hspot-outer.info-jump-to-top {
     z-index: 4; 
   }
   
@@ -630,14 +668,14 @@ $transitionSpeed: 1.5s;
       }
       .arrow-left-top {
         position: absolute;
-        top: 27px;
+        top: 31px;
         left: -10px;
         width: 10px;
         height: 22px;
       }
       .arrow-right-top {
         position: absolute;
-        top: 27px;
+        top: 31px;
         right: -10px;
         width: 10px;
         height: 22px;
@@ -645,14 +683,14 @@ $transitionSpeed: 1.5s;
       .arrow-left-bottom {
         position: absolute;
         /* bottom: 44px; */
-        top: 152px;
+        top: 156px;
         left: -10px;
         width: 10px;
         height: 22px;
       }
       .arrow-right-bottom {
         position: absolute;
-        top: 152px;
+        top: 156px;
         right: -10px;
         width: 10px;
         height: 22px;
@@ -707,14 +745,14 @@ $transitionSpeed: 1.5s;
       }
       .arrow-left-top {
         position: absolute;
-        top: 18px;
+        top: 24px;
         left: -8px;
         width: 8px;
         height: 18px;
       }
       .arrow-right-top {
         position: absolute;
-        top: 18px;
+        top: 24px;
         right: -8px;
         width: 8px;
         height: 18px; 
@@ -722,7 +760,7 @@ $transitionSpeed: 1.5s;
       .arrow-left-bottom {
         position: absolute;
         /* bottom: 36px; */
-        top: 132px;
+        top: 138px;
         left: -8px;
         width: 8px;
         height: 18px;
@@ -730,7 +768,7 @@ $transitionSpeed: 1.5s;
       .arrow-right-bottom {
         position: absolute;
         /* bottom: 36px; */
-        top: 132px;
+        top: 138px;
         right: -8px;
         width: 8px;
         height: 18px;
