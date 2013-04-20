@@ -1,4 +1,4 @@
-
+include jade-helpers.jade
 include meta.html
 include fonts.html
 
@@ -13,9 +13,7 @@ l = {"locals": locals}
   link(rel="stylesheet", href="css/responsive.css")
   <!--<![endif]-->
 
-  for name in locals.modulescss
-    hrf = "css/modules/" + name + ".css"
-      link(rel="stylesheet", href= hrf)
+  +defineBlock('modulescss')
 
   <!--[if (gt IE 9)|!(IE)]><!-->
   link(rel="stylesheet", href="css/responsive-modules.css")

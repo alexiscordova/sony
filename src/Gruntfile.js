@@ -8,7 +8,6 @@ module.exports = function(grunt) {
 
   //cachable jade values
   var c = {
-    modulecss: [],
     // modulecss: grunt.file.expand('packages/modules/**/css/*.scss').map(function(a){return a.split('/').pop()}).filter(function(a){return !a.match(/^_responsive/)}),
     polyfills: grunt.file.expand('packages/common/js/libs/polyfill/*.js').map(function(a){return a.split('/').pop()}),
     polyfillsie7: grunt.file.expand('packages/common/js/libs/polyfill-lte-ie7/*.js').map(function(a){return a.split('/').pop()}),
@@ -49,7 +48,6 @@ module.exports = function(grunt) {
         plusify : function(str){
           return str.replace(/\[\+\]/g , '<i class="fonticon-30-plus"></i>');
         },
-        modulescss:[],
         // modulescss:function(){
           // return c.modulecss;
         // },
@@ -543,7 +541,7 @@ module.exports = function(grunt) {
     grunt.config('jade.build_'+env+'.files', arr);
     grunt.task.run('jade:build_'+env);
     grunt.task.run('htmlCompleteTime');
-    
+
   });
 
   grunt.registerTask('js', 'lint js/*.js files then minify and copy', function(module){
