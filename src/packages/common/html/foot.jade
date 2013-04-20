@@ -2,6 +2,7 @@ script(src="js/libs/require.js")
 
 l = {"locals": locals}
 
+
 - for ( var i in locals.javascriptModules )
   - locals.javascriptModules[i] = 'modules/' + locals.javascriptModules[i] + '/index'
 
@@ -15,6 +16,7 @@ script
     require(["require/index"], function(){
 
       require(["modules/global-header-footer/index"]);
+      require(["js/modules/universal-nav/universal-nav.js"]); //- Universal Nav needs to be separate, and can't use require.js, so that it can also be used as a standalone module on other Sony sites.
       require(!{JSON.stringify(l.locals.javascriptModules)});
 
     });
