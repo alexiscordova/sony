@@ -38,6 +38,8 @@ define(function(require){
     self.$html = $(document.documentElement);
     self.$el = $(element);
     self.isInit = true;
+    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions; // sony carousel will check this too and then this can just be 'true'
+
 
     // resize event related
     self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
@@ -101,7 +103,7 @@ define(function(require){
         direction: 'vertical',
         wrapper: '.uxmc-carousel-wrapper',
         slides: '.sony-carousel-slide',
-        useCSS3: true,
+        useCSS3: self.useCSS3,
         draggable: false,
         jumping:true,
         setCSS3Easing: Settings.easing.easeOutQuart,
