@@ -16,38 +16,32 @@
 //
 define(function(require){
 
-    //'use strict';
+    'use strict';
 
-    $ = require('jquery');
-    carousel = require('secondary/sony-carousel');
-    iQ = require('iQ');
-    Settings = require('require/sony-global-settings');
+    var $ = require('jquery'),
+      carousel = require('secondary/sony-carousel'),
+      iQ = require('iQ'),
+      Settings = require('require/sony-global-settings');
 
-    self = {
+    var module = {
       'init': function() {
         $('.editorial-carousel-e13').editorialCarouselE13();
       }
     };
 
     //EditorialCarouselE13 Definition
-    EditorialCarouselE13 = function(element, options){
+    var EditorialCarouselE13 = function(element, options){
 
-      self           = this,
-      transEndEventNames = {
-        'WebkitTransition' : 'webkitTransitionEnd',
-        'MozTransition'    : 'transitionend',
-        'OTransition'      : 'oTransitionEnd',
-        'msTransition'     : 'MSTransitionEnd',
-        'transition'       : 'transitionend'};
-      
+      var self = this;
+
       //Extend E13 Editorial Carousel instance with defaults and options
       $.extend(self , $.fn.editorialCarouselE13.defaults , options);
 
       //var
       self.carousel               = null;
-      self.breakPoint             = "1200";
+      self.breakPoint             = '1200';
       self.paddleHeight           = 43;
-      self.classgrid              = "span3";
+      self.classgrid              = 'span3';
 
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
@@ -60,17 +54,17 @@ define(function(require){
       self.$html                  = Settings.$html;
 
       self.$el                    = $(element);
-      self.$RVtitle               = self.$el.find(".e13-title");
-      self.$RVcarousel            = self.$el.find(".e13-carousel");
-      self.$carousel              = self.$el.find(".carousel");
-      self.$slides                = self.$el.find(".sony-carousel-slide"); 
-      self.$items                 = self.$el.find(".sony-carousel-slide-children");
+      self.$RVtitle               = self.$el.find('.e13-title');
+      self.$RVcarousel            = self.$el.find('.e13-carousel');
+      self.$carousel              = self.$el.find('.carousel');
+      self.$slides                = self.$el.find('.sony-carousel-slide');
+      self.$items                 = self.$el.find('.sony-carousel-slide-children');
       self.$slidesContainer       = self.$el.find('.sony-carousel');
       self.$carouselWrapper       = self.$el.find('.sony-carousel-wrapper');
       self.$container             = self.$carousel.parent(); //parent of the .carousel, span12
       self.$paddles               = null; // has to be created and given to the sony-carousel
       self.$paginationPaddles     = null;
-      
+
       //Startup
       self.init();
 
@@ -82,10 +76,7 @@ define(function(require){
       //Inital setup of module
       init: function(){
 
-        self = this;
-
-        //Initialize media queries detection
-        self.mqFix();
+        var self = this;
 
         //Setup Breakpoint
         self.setupBreakPoint();
@@ -105,34 +96,34 @@ define(function(require){
       },
       getNbSlides : function(){
 
-        self = this;
+        var self = this,
         numColumns     = 6;
 
         if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
         {
           self.isOSCStyle = false;
-          self.classgrid = "span3";
+          self.classgrid = 'span3';
           numColumns     = 4;
         }
-        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) 
+        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') )
         {
           self.isOSCStyle = false;
-          self.classgrid = "span3";
+          self.classgrid = 'span3';
           numColumns     = 4;
 
-        } 
-        else if ( self.mq('(min-width: 770px)') ) 
+        }
+        else if ( self.mq('(min-width: 770px)') )
         {
 
           self.isOSCStyle = true;
-          self.classgrid = "span4";
+          self.classgrid = 'span4';
           numColumns     = 3;
 
-        }else 
+        }else
         {
 
           self.isOSCStyle = true;
-          self.classgrid = "span6";
+          self.classgrid = 'span6';
           numColumns     = 2;
 
         }
@@ -143,48 +134,46 @@ define(function(require){
       },
       setupBreakPoint : function(){
 
-        self = this;
+        var self = this;
 
         if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
         {
-          self.breakPoint     = "1200";
+          self.breakPoint     = '1200';
         }
-        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) 
+        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') )
         {
 
-          self.breakPoint     = "980";
+          self.breakPoint     = '980';
 
-        } 
+        }
         else if ( self.mq('(min-width: 770px)') ) {
 
-          self.breakPoint     = "769";
+          self.breakPoint     = '769';
 
         }else {
 
-          self.breakPoint     = "mobile";
+          self.breakPoint     = 'mobile';
 
         }
 
       },
-      setupItemsSlides : function(oscStyle){
 
-       
-        nbItemsPerSlides = self.getNbSlides();
-        oscS = oscStyle || self.isOSCStyle;
-
-        //Extract items
-        aSlides = [];
-        aItemForHtml = [];
-        isO = 0;
-
-
-      
+      setupItemsSlides : function(oscStyle) {
+        var self = this,
+            nbItemsPerSlides = self.getNbSlides(),
+            oscS = oscStyle || self.isOSCStyle,
+            //Extract items
+            aSlides = [],
+            aItemForHtml = [],
+            isO = 0,
+            htmlSlide = '',
+            i;
 
         $.each( self.$items, function(i)
         {
 
           //remove span
-          $(this).find("a.gallery-item").removeClass("m-span3").removeClass("span2");
+          $(this).find('a.gallery-item').removeClass('m-span3').removeClass('span2');
 
           if( i % nbItemsPerSlides == isO )
           {
@@ -193,40 +182,38 @@ define(function(require){
               aSlides.push( aItemForHtml.slice(0) );
             }
 
-            aItemForHtml = []; 
+            aItemForHtml = [];
           }
-          
+
           aItemForHtml[i % nbItemsPerSlides] = $(this);
 
           if( i == self.$items.length - 1 )
           {
             aSlides.push( aItemForHtml.slice(0) );
           }
-          
+
         });
 
         //Generate HTML
-
-        htmlSlide = "";
         for( i = 0; i < aSlides.length; i++)
         {
 
           htmlSlide += '<div class="sony-carousel-slide">';
 
-          for( j = 0; j < aSlides[i].length; j++)
+          for( var j = 0; j < aSlides[i].length; j++)
           {
             htmlSlide += '<div class="sony-carousel-slide-children">' + aSlides[i][j].html() + '</div>';
           }
 
           htmlSlide += '</div>';
 
-        } 
+        }
 
         //reset + append
         self.$slidesContainer.empty().append(htmlSlide);
 
-        self.$slides = self.$el.find(".sony-carousel-slide"); 
-        self.$items  = self.$el.find(".sony-carousel-slide-children");
+        self.$slides = self.$el.find('.sony-carousel-slide');
+        self.$items  = self.$el.find('.sony-carousel-slide-children');
 
 
         //updateItems
@@ -242,20 +229,19 @@ define(function(require){
         {
           self.createCarousel();
         }
-        
+
 
       },
       udpateItems : function(){
-
-        self = this;
-        containerWidth = Math.floor( self.$carousel.width() );
-        extraMarging   = 1;
-        slimGridW      = 0;
-        margeSlimGrid  = 0;
-        extraPct       = 1;
-        heightContainer     = 55 + 17 + 30;
-        marginLeftContainer = 0;
-        numColumns     = 6;
+        var self = this,
+            containerWidth = Math.floor( self.$carousel.width() ),
+            extraMarging   = 1,
+            slimGridW      = 0,
+            margeSlimGrid  = 0,
+            extraPct       = 1,
+            heightContainer = 55 + 17 + 30,
+            marginLeftContainer = 0,
+            numColumns = 6;
 
 
         //reset
@@ -264,79 +250,79 @@ define(function(require){
         if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
         {
 
-          self.$slides.removeClass("slimgrid");
-          
-          if(self.breakPoint != "1200")
+          self.$slides.removeClass('slimgrid');
+
+          if(self.breakPoint != '1200')
           {
-            self.breakPoint = "1200";
+            self.breakPoint = '1200';
             self.setupItemsSlides(false);
             return false;
           }
 
-          self.$carousel.removeClass("o-visible");
-          self.$slides.addClass("no-osc");
+          self.$carousel.removeClass('o-visible');
+          self.$slides.addClass('no-osc');
 
-          self.classgrid = "span3";
+          self.classgrid = 'span3';
           self.isOSCStyle = false;
-          self.breakPoint = "1200";
+          self.breakPoint = '1200';
 
         }
         else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
 
-          self.$slides.removeClass("slimgrid");
+          self.$slides.removeClass('slimgrid');
 
-          if(self.breakPoint != "980")
+          if(self.breakPoint != '980')
           {
-            self.breakPoint = "980";
+            self.breakPoint = '980';
             self.setupItemsSlides(false);
             return false;
           }
 
-          self.$carousel.removeClass("o-visible");
-          self.$slides.addClass("no-osc");
+          self.$carousel.removeClass('o-visible');
+          self.$slides.addClass('no-osc');
 
-          self.classgrid = "span3";
+          self.classgrid = 'span3';
           self.isOSCStyle = false;
-          self.breakPoint = "980";
+          self.breakPoint = '980';
 
 
-        } 
+        }
         else if ( self.mq('(min-width: 770px)') ) {
 
-          self.$slides.addClass("slimgrid");
+          self.$slides.addClass('slimgrid');
 
-          if(self.breakPoint != "769")
+          if(self.breakPoint != '769')
           {
-            self.breakPoint = "769";
+            self.breakPoint = '769';
             self.setupItemsSlides(false);
             return false;
           }
 
-          self.$carousel.removeClass("o-visible");
-          self.$slides.addClass("no-osc");
+          self.$carousel.removeClass('o-visible');
+          self.$slides.addClass('no-osc');
 
-          self.classgrid = "span4";
+          self.classgrid = 'span4';
           self.isOSCStyle = true;
-          self.breakPoint = "769";
+          self.breakPoint = '769';
 
 
         }else {
 
-           self.$slides.addClass("slimgrid");
+           self.$slides.addClass('slimgrid');
 
-          if(self.breakPoint != "mobile")
+          if(self.breakPoint != 'mobile')
           {
-            self.breakPoint = "mobile";
+            self.breakPoint = 'mobile';
             self.setupItemsSlides(true);
             return false;
           }
 
-          self.$carousel.addClass("o-visible");
-          self.$slides.removeClass("no-osc");
+          self.$carousel.addClass('o-visible');
+          self.$slides.removeClass('no-osc');
 
-          self.classgrid = "span6";
+          self.classgrid = 'span6';
           self.isOSCStyle = true;
-          self.breakPoint = "mobile";
+          self.breakPoint = 'mobile';
 
         }
 
@@ -348,7 +334,7 @@ define(function(require){
       },
       setupCarousel : function(){
 
-        self = this;
+        var self = this;
 
         self.createCarousel();
 
@@ -356,12 +342,12 @@ define(function(require){
 
       },
       createCarousel : function(){
-
+        var self = this;
         if( self.carousel ){
 
-          self.$slidesContainer.sonyCarousel("destroy");
+          self.$slidesContainer.sonyCarousel('destroy');
 
-          self.$el.find(".sony-dot-nav").remove();
+          self.$el.find('.sony-dot-nav').remove();
         }
 
         self.carousel = self.$slidesContainer.sonyCarousel({
@@ -374,7 +360,7 @@ define(function(require){
           pagination: true
         });
 
-        self.$paginationPaddles = $(".pagination-paddle");
+        self.$paginationPaddles = $('.pagination-paddle');
 
         self.topPaddles();
 
@@ -383,7 +369,7 @@ define(function(require){
       },
       setupGlobalEvent : function(){
 
-        self = this;
+        var self = this;
 
         //Resize
         self.$win.on('resize.rp', $.debounce(50 , function() {
@@ -394,32 +380,32 @@ define(function(require){
 
         }));
 
-        self.$container.on("mouseenter", function(e){
-          self.$el.find(".pagination-paddles").addClass("show-paddles");
+        self.$container.on('mouseenter', function(e){
+          self.$el.find('.pagination-paddles').addClass('show-paddles');
         });
 
-        self.$container.on("mouseleave", function(e){
-          self.$el.find(".pagination-paddles").removeClass("show-paddles");
+        self.$container.on('mouseleave', function(e){
+          self.$el.find('.pagination-paddles').removeClass('show-paddles');
         });
 
       },
       setupEvents : function(){
-
+        var self = this;
         //Bind nav
-        self.$el.find(".pagination-paddles").off("click").on("click", function(e){
+        self.$el.find('.pagination-paddles').off('click').on('click', function(e){
           iQ.update(true);
         });
 
-        self.$el.find(".sony-dot-nav").off("click").on("click", function(e){
+        self.$el.find('.sony-dot-nav').off('click').on('click', function(e){
           iQ.update(true);
         });
 
       },
       resetSlides : function(){
-
+        var self = this;
         if(self.carousel)
         {
-          self.$slidesContainer.sonyCarousel("resetSlides");
+          self.$slidesContainer.sonyCarousel('resetSlides');
 
           self.setupEvents();
         }
@@ -429,43 +415,35 @@ define(function(require){
       /* Paddles */
 
       createPaddles : function(){
-
+        var self = this;
         self.$paddles = $('<div class="wrapper-pagination-paddles"></div>');
         self.$carousel.append(self.$paddles);
 
       },
       topPaddles : function(){
+        var self = this,
+            heightRVCarousel;
 
         if (self.$paginationPaddles)
         {
-          heightRVCarousel = self.$RVtitle.height() +  parseInt(self.$RVcarousel.css("marginTop"), 10) + ( ( self.$items.find(".wrapper-image").first().height() / 2) - ( self.paddleHeight / 2 ) );
+          heightRVCarousel = self.$RVtitle.height() +  parseInt(self.$RVcarousel.css('marginTop'), 10) + ( ( self.$items.find('.wrapper-image').first().height() / 2) - ( self.paddleHeight / 2 ) );
           self.$paginationPaddles.css({
             'top'    : heightRVCarousel,
             'margin' : 0
-          });  
-        }
-        
-      },
-      //Fixes a bug in IE when media queries aren't available
-      mqFix: function(){
-        self = this;
-        
-        if( !self.hasMediaQueries && self.isIE7orIE8 || self.oldIE){
-          self.mq = function(){
-            return false;
-          };
+          });
         }
 
       },
+
       initAnimationProps: function(){
-        self = this;
+        var self = this;
 
         if(self.useCSS3Transitions) {
             self.use3dTransform = Modernizr.csstransforms3d;
         }
 
         if(self.useCSS3Transitions) {
-      
+
           // some constants for CSS3
           self.TP     = 'transitionProperty';
           self.TD     = 'transitionDuration';
@@ -491,7 +469,7 @@ define(function(require){
 
       },
       setupEasing: function(){
-        self = this;
+        var self = this;
 
         //Define easing equations
         self.css3Easing = {
@@ -502,8 +480,8 @@ define(function(require){
         };
       },
       initEvents: function(){
-        self = this;
-        
+        var self = this;
+
         if(Modernizr.touch) {
             self.hasTouch         = true;
             self.downEvent        = 'touchstart.rp';
@@ -524,10 +502,10 @@ define(function(require){
 
        //Store gallery items orginal parent slide for teardown and rebuild
       storeGalleryItemParentSlides: function(){
-        self = this;
+        var self = this;
 
         self.$galleryItems.each(function(){
-          $item = $(this);
+          var $item = $(this);
           $item.data('slide' , $item.parent());
         });
       },
@@ -535,12 +513,12 @@ define(function(require){
       //Set up outbound links to not interfere with dragging between slides
       setupLinkClicks: function(){
 
-        self = this;
+        var self = this;
 
         self.$galleryItems.on( self.tapOrClick() , function(e){
-          $item   = $(this);
-          destination = $item.attr('href');
-          point;
+          var $item   = $(this),
+          destination = $item.attr('href'),
+          point,
           distanceMoved;
 
           if ( self.hasTouch ) {
@@ -569,17 +547,19 @@ define(function(require){
       setupStripMode: function(){
 
 
-        self       = this;
-        containerWidth = self.$el.width();
-        gutterWidth    = self.gutterWidth['default'] * containerWidth;
-        colWidth       = self.colWidth['default']    * containerWidth;
-        extraMarging   = 0;
-        slimGridW      = 0;
-        margeSlimGrid  = 0;
-        extraPct       = 1;
-        heightContainer     = 55 + 17 + 30;
-        marginLeftContainer = 0;
-        numColumns     = 4;
+        var self       = this,
+        containerWidth = self.$el.width(),
+        gutterWidth    = self.gutterWidth['default'] * containerWidth,
+        colWidth       = self.colWidth['default']    * containerWidth,
+        extraMarging   = 0,
+        slimGridW      = 0,
+        margeSlimGrid  = 0,
+        extraPct       = 1,
+        heightContainer     = 55 + 17 + 30,
+        marginLeftContainer = 0,
+        numColumns     = 4,
+        $galleryItemsFirst,
+        newContainerHeight;
 
         //reset
         self.$slimGrid.removeAttr('style');
@@ -594,7 +574,7 @@ define(function(require){
           colWidth       = self.colWidth['default'] * containerWidth  ;
           numColumns     = 4;
 
-        } 
+        }
         else if ( self.mq('(min-width: 768px)') ) {
 
           self.$containerProduct.addClass('full-bleed-no-max');
@@ -666,7 +646,7 @@ define(function(require){
         self.animationInit();
 
         //Create the sony-scroller instance
-        
+
         setTimeout(function(){
 
           if(self.scrollerModule !== null){
@@ -694,16 +674,16 @@ define(function(require){
 
           }).data('scrollerModule');
 
-          //self.$el.bind("update.sm", self._onScrollerModuleUpdate );
+          //self.$el.bind('update.sm', self._onScrollerModuleUpdate );
 
-          self.$pagination = $(".nav-paddles");
+          self.$pagination = $('.nav-paddles');
 
           self.nbPages = Math.ceil( Math.round( self.$galleryItems.length * extraPct) / numColumns);
           self.scrollerModule._generatePagination( self.nbPages );
 
           self.$galleryItems.find('.product-name').evenHeights();
 
-          self.$el.find('.rp-overflow').on("update.sm", self._onScrollerModuleUpdate );
+          self.$el.find('.rp-overflow').on('update.sm', $.proxy( self._onScrollerModuleUpdate, self ) );
 
           self.$win.trigger('resize.rp');
 
@@ -728,17 +708,17 @@ define(function(require){
           //reset
           self.$slimGrid.removeAttr('style');
 
-          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) 
+          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') )
           {
 
             self.$containerProduct.removeClass('full-bleed-no-max');
-            
+
 
             gutterWidth    = self.gutterWidth['default'] * containerWidth;
             colWidth       = self.colWidth['default'] * containerWidth;
             numColumns     = 4;
 
-          }else if ( self.mq('(min-width: 768px)') ) 
+          }else if ( self.mq('(min-width: 768px)') )
           {
 
             self.$containerProduct.addClass('full-bleed-no-max');
@@ -804,7 +784,7 @@ define(function(require){
           $galleryItemsFirst.css({
             'width'   : colWidth,
             'margin'  : 0
-          }); 
+          });
 
           newContainerHeight = self.$el.find('.gallery-item.medium').first().height() + heightContainer + 'px';
 
@@ -815,7 +795,7 @@ define(function(require){
             //'min-width'  : 550 + 'px'
           });
 
-          
+
 
           //window.iQ.update();
 
@@ -826,31 +806,31 @@ define(function(require){
       },
 
       animationInit : function(){
-        self    = this,
+        var self    = this,
             animObj = {};
 
         //if( !self.useCSS3Transitions ) {
 
           //jquery fallback
           animObj.opacity = 1;
-          self.$container.removeClass("hide").animate(animObj, 700);
+          self.$container.removeClass('hide').animate(animObj, 700);
 
         /*}else {
-          
+
           animObj[ self.prefixed( self.TD ) ] = 700 + 'ms';
           animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.easeOutBack;
-          console.log("animObj", animObj);
+          console.log('animObj', animObj);
           //animObj.display = 'block';
           //animObj.opacity = 1;
           self.$container.css( animObj );
-          //self.$container.removeClass("hide").addClass("in");
+          //self.$container.removeClass('hide').addClass('in');
         }
         */
-        
+
       },
 
       tapOrClick: function(){
-        self = this;
+        var self = this;
         return self.hasTouch ? self.upEvent : self.clickEvent ;
       },
 
@@ -859,10 +839,11 @@ define(function(require){
       },
 
       _onScrollerModuleUpdate: function(e){
-        
-        //self = this;
 
-        console.log("_onScrollerModuleUpdate");
+        var self = this,
+            numColumns = self.getNbSlides();
+
+        // console.log('_onScrollerModuleUpdate');
 
         if(!self.scrollerModule)
         {
@@ -871,9 +852,9 @@ define(function(require){
 
         self.scrollerModule._generatePagination( self.nbPages );
 
-        if ( ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) &&  self.$galleryItems.length <= numColumns ) 
+        if ( ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) &&  self.$galleryItems.length <= numColumns )
         {
-          self.$galleryItems.css({position:"relative", left : 0, top : 0});
+          self.$galleryItems.css({position:'relative', left : 0, top : 0});
         }
       }
 
@@ -882,15 +863,15 @@ define(function(require){
 
     //E13 Editorial Carousel definition on jQuery
     $.fn.editorialCarouselE13 = function(options) {
-      args = arguments;
+      var args = arguments;
       return this.each(function(){
-        self = $(this);
+        var self = $(this);
         if (options instanceof Object || !options) {
           if( !self.data('editorialCarouselE13') ) {
             self.data('editorialCarouselE13', new EditorialCarouselE13(self, options));
           }
         } else {
-          editorialCarouselE13 = self.data('editorialCarouselE13');
+          var editorialCarouselE13 = self.data('editorialCarouselE13');
           if (editorialCarouselE13 && editorialCarouselE13[options]) {
               return editorialCarouselE13[options].apply(editorialCarouselE13, Array.prototype.slice.call(args, 1));
           }
@@ -906,6 +887,6 @@ define(function(require){
       navigationControl: 'bullets'
     };
 
-    return self;
+    return module;
 
 });
