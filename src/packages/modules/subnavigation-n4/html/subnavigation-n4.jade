@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('subnavigation-n4')
 +includeJavascriptModule('subnavigation-n4')
 
 section.subnav-module
@@ -13,10 +14,10 @@ section.subnav-module
       - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
         .slimgrid
           - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
-            - item = data.subcategories[j]
-            .span2.m-span2
-              img(src=item.imageSrc)
-              p !{item.title}
+            - subcategory = data.subcategories[j]
+            .subcategory-link.span2.m-span2(data-subcategory=subcategory.title.toLowerCase().replace(/\W/g, ''))
+              img(src=subcategory.imageSrc)
+              p !{subcategory.title}
           - }
       - }
 

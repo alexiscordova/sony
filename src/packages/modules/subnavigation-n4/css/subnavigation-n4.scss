@@ -1,2 +1,24 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
+
+.subnav-module {
+
+
+  .subnav-tray {
+    @include transition(height 400ms ease-out);
+    position: relative;
+    overflow: hidden;
+
+    .subcategory {
+      @include transition(opacity 400ms ease-out);
+      position: absolute;
+      top: 0;
+      @include opacity(0);
+      z-index: 0;
+
+      &.active {
+        @include opacity(100);
+      }
+    }
+  }
+}
