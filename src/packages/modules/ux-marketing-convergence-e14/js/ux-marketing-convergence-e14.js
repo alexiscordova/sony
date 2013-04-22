@@ -38,7 +38,7 @@ define(function(require){
     self.$html = $(document.documentElement);
     self.$el = $(element);
     self.isInit = true;
-    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions; // sony carousel will check this too and then this can just be 'true'
+    // self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions; // sony carousel will check this too and then this can just be 'true'
 
 
     // resize event related
@@ -103,7 +103,7 @@ define(function(require){
         direction: 'vertical',
         wrapper: '.uxmc-carousel-wrapper',
         slides: '.sony-carousel-slide',
-        useCSS3: self.useCSS3,
+        useCSS3: true,
         draggable: false,
         jumping:true,
         setCSS3Easing: Settings.easing.easeOutQuart,
@@ -213,18 +213,19 @@ define(function(require){
        
         // update current slide after transition is complete
         self.currentPartnerProduct = which;  
-
       }
 
       iQ.update();
       self.resetDials();
-
     },
 
     'setButtonColor' : function(which){
       var self = this;
 
-      self.$reloadButton.css('color', self.$carouselSlides.eq(which).css("backgroundColor"));
+      self.$reloadButton.css({
+        "color": self.$carouselSlides.eq(which).css("backgroundColor"),
+      });
+
     },
 
     'fadeOutContent' : function(){
@@ -239,7 +240,7 @@ define(function(require){
 
       self.$carouselSlides
         .eq(which)
-        .children(".sony-carousel-slide-children")
+        .find(".sony-carousel-slide-children")
         .addClass("active"); 
     },
 

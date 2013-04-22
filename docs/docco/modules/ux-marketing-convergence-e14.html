@@ -37,6 +37,8 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>general</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$html = $(document.documentElement);
     self.$el = $(element);
     self.isInit = <span class="literal">true</span>;
+    self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions; <span class="comment">// sony carousel will check this too and then this can just be 'true'</span>
+
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>resize event related</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.debounceEvent = <span class="string">'global:resizeDebounced-200ms.uxmc'</span>;
     self.onResizeEvent = $.proxy(self.handleResize, self);    
@@ -95,7 +97,7 @@ define(<span class="keyword">function</span>(require){
         direction: <span class="string">'vertical'</span>,
         wrapper: <span class="string">'.uxmc-carousel-wrapper'</span>,
         slides: <span class="string">'.sony-carousel-slide'</span>,
-        useCSS3: <span class="literal">true</span>,
+        useCSS3: self.useCSS3,
         draggable: <span class="literal">false</span>,
         jumping:<span class="literal">true</span>,
         setCSS3Easing: Settings.easing.easeOutQuart,
