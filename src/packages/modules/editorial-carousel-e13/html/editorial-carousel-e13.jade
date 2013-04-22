@@ -25,7 +25,7 @@ include ../../../common/html/jade-helpers.jade
                 .slimgrid
                   each tile in slide
                     .sony-carousel-slide-children.span3
-                      a.ec-tile(href="#")
+                      a.ec-tile(href=tile.link ? tile.link : '#')
                         if tile.headline
                           .headline-counter
                             span.p3.count
@@ -37,10 +37,12 @@ include ../../../common/html/jade-helpers.jade
                           if tile.headline
                             .cover
                               span.picto-play
-                                span.bg
+                                span.bg-for-icon
                                 span.picto
                               span.p3.cta
                                 strong= tile.callToAction
+                          else
+                            .cover.light
                           +iQImage( tile.img )
                         .infos
                           p.p4.tile-title
