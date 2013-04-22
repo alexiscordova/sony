@@ -3,7 +3,7 @@
 //
 // * **Class:** EditorialCarouselE13
 // * **Version:** 1.0
-// * **Modified:** 02/22/2013
+// * **Modified:** 04/22/2013
 // * **Author:** Arnaud Tanielian
 // * **Dependencies:** jQuery 1.7+ , Modernizr
 //
@@ -14,7 +14,7 @@
 //      $('.editorial-carousel-e13').editorialCarouselE13();
 //
 //
-define(function(require){
+define(function(require) {
 
     'use strict';
 
@@ -30,7 +30,7 @@ define(function(require){
     };
 
     //EditorialCarouselE13 Definition
-    var EditorialCarouselE13 = function(element, options){
+    var EditorialCarouselE13 = function(element, options) {
 
       var self = this;
 
@@ -74,7 +74,7 @@ define(function(require){
     EditorialCarouselE13.prototype = {
 
       //Inital setup of module
-      init: function(){
+      init: function() {
 
         var self = this;
 
@@ -94,71 +94,58 @@ define(function(require){
         self.setupGlobalEvent();
 
       },
-      getNbSlides : function(){
 
+      getNbSlides : function() {
         var self = this,
         numColumns     = 6;
 
-        if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
-        {
-          self.isOSCStyle = false;
-          self.classgrid = 'span3';
-          numColumns     = 4;
-        }
-        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') )
-        {
+        if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! Settings.isLTIE10 ) {
           self.isOSCStyle = false;
           self.classgrid = 'span3';
           numColumns     = 4;
 
-        }
-        else if ( self.mq('(min-width: 770px)') )
-        {
+        } else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || Settings.isLTIE10 ) {
+          self.isOSCStyle = false;
+          self.classgrid = 'span3';
+          numColumns     = 4;
 
+        } else if ( self.mq('(min-width: 770px)') ) {
           self.isOSCStyle = true;
           self.classgrid = 'span4';
           numColumns     = 3;
 
-        }else
-        {
-
+        } else {
           self.isOSCStyle = true;
           self.classgrid = 'span6';
           numColumns     = 2;
-
         }
 
 
         return numColumns;
 
       },
-      setupBreakPoint : function(){
+
+      setupBreakPoint : function() {
 
         var self = this;
 
-        if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
-        {
+        if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! Settings.isLTIE10 ) {
           self.breakPoint     = '1200';
-        }
-        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') )
-        {
 
+        } else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || Settings.isLTIE10 ) {
           self.breakPoint     = '980';
 
-        }
-        else if ( self.mq('(min-width: 770px)') ) {
-
+        } else if ( self.mq('(min-width: 770px)') ) {
           self.breakPoint     = '769';
 
-        }else {
-
+        } else {
           self.breakPoint     = 'mobile';
 
         }
 
       },
 
-      setupItemsSlides : function(oscStyle) {
+      setupItemsSlides : function( oscStyle ) {
         var self = this,
             nbItemsPerSlides = self.getNbSlides(),
             oscS = oscStyle || self.isOSCStyle,
@@ -169,16 +156,13 @@ define(function(require){
             htmlSlide = '',
             i;
 
-        $.each( self.$items, function(i)
-        {
+        $.each( self.$items, function(i) {
 
           //remove span
           $(this).find('a.gallery-item').removeClass('m-span3').removeClass('span2');
 
-          if( i % nbItemsPerSlides == isO )
-          {
-            if( aItemForHtml.length > 0 )
-            {
+          if ( i % nbItemsPerSlides === isO ) {
+            if ( aItemForHtml.length > 0 ) {
               aSlides.push( aItemForHtml.slice(0) );
             }
 
@@ -187,26 +171,22 @@ define(function(require){
 
           aItemForHtml[i % nbItemsPerSlides] = $(this);
 
-          if( i == self.$items.length - 1 )
-          {
+          if ( i === self.$items.length - 1 ) {
             aSlides.push( aItemForHtml.slice(0) );
           }
 
         });
 
         //Generate HTML
-        for( i = 0; i < aSlides.length; i++)
-        {
+        for ( i = 0; i < aSlides.length; i++) {
 
           htmlSlide += '<div class="sony-carousel-slide">';
 
-          for( var j = 0; j < aSlides[i].length; j++)
-          {
+          for ( var j = 0; j < aSlides[i].length; j++) {
             htmlSlide += '<div class="sony-carousel-slide-children">' + aSlides[i][j].html() + '</div>';
           }
 
           htmlSlide += '</div>';
-
         }
 
         //reset + append
@@ -225,35 +205,33 @@ define(function(require){
         //update top paddles
         self.topPaddles();
 
-        if( oscS != self.isOSCStyle ) //because if the OSC style
+        if ( oscS !== self.isOSCStyle ) //because if the OSC style
         {
           self.createCarousel();
         }
 
 
       },
-      udpateItems : function(){
-        var self = this,
-            containerWidth = Math.floor( self.$carousel.width() ),
-            extraMarging   = 1,
-            slimGridW      = 0,
-            margeSlimGrid  = 0,
-            extraPct       = 1,
-            heightContainer = 55 + 17 + 30,
-            marginLeftContainer = 0,
-            numColumns = 6;
+      udpateItems : function() {
+        var self = this;
+            // containerWidth = Math.floor( self.$carousel.width() ),
+            // extraMarging   = 1,
+            // slimGridW      = 0,
+            // margeSlimGrid  = 0,
+            // extraPct       = 1,
+            // heightContainer = 55 + 17 + 30,
+            // marginLeftContainer = 0,
+            // numColumns = 6;
 
 
         //reset
         self.$carouselWrapper.removeAttr('style');
 
-        if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! self.$html.hasClass('lt-ie10') )
-        {
+        if ( Modernizr.mediaqueries && self.mq('(min-width: 1200px)') && ! Settings.isLTIE10 ) {
 
           self.$slides.removeClass('slimgrid');
 
-          if(self.breakPoint != '1200')
-          {
+          if (self.breakPoint !== '1200') {
             self.breakPoint = '1200';
             self.setupItemsSlides(false);
             return false;
@@ -266,13 +244,11 @@ define(function(require){
           self.isOSCStyle = false;
           self.breakPoint = '1200';
 
-        }
-        else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+        } else if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || Settings.isLTIE10 ) {
 
           self.$slides.removeClass('slimgrid');
 
-          if(self.breakPoint != '980')
-          {
+          if (self.breakPoint !== '980') {
             self.breakPoint = '980';
             self.setupItemsSlides(false);
             return false;
@@ -285,14 +261,11 @@ define(function(require){
           self.isOSCStyle = false;
           self.breakPoint = '980';
 
-
-        }
-        else if ( self.mq('(min-width: 770px)') ) {
+        } else if ( self.mq('(min-width: 770px)') ) {
 
           self.$slides.addClass('slimgrid');
 
-          if(self.breakPoint != '769')
-          {
+          if (self.breakPoint !== '769') {
             self.breakPoint = '769';
             self.setupItemsSlides(false);
             return false;
@@ -306,12 +279,11 @@ define(function(require){
           self.breakPoint = '769';
 
 
-        }else {
+        } else {
 
            self.$slides.addClass('slimgrid');
 
-          if(self.breakPoint != 'mobile')
-          {
+          if (self.breakPoint !== 'mobile') {
             self.breakPoint = 'mobile';
             self.setupItemsSlides(true);
             return false;
@@ -332,18 +304,18 @@ define(function(require){
 
 
       },
-      setupCarousel : function(){
 
+      setupCarousel : function() {
         var self = this;
 
         self.createCarousel();
 
         iQ.update(true);
-
       },
-      createCarousel : function(){
+
+      createCarousel : function() {
         var self = this;
-        if( self.carousel ){
+        if ( self.carousel ) {
 
           self.$slidesContainer.sonyCarousel('destroy');
 
@@ -367,8 +339,8 @@ define(function(require){
         self.setupEvents();
 
       },
-      setupGlobalEvent : function(){
 
+      setupGlobalEvent : function() {
         var self = this;
 
         //Resize
@@ -380,31 +352,32 @@ define(function(require){
 
         }));
 
-        self.$container.on('mouseenter', function(e){
+        self.$container.on('mouseenter', function() {
           self.$el.find('.pagination-paddles').addClass('show-paddles');
         });
 
-        self.$container.on('mouseleave', function(e){
+        self.$container.on('mouseleave', function() {
           self.$el.find('.pagination-paddles').removeClass('show-paddles');
         });
 
       },
-      setupEvents : function(){
+
+      setupEvents : function() {
         var self = this;
         //Bind nav
-        self.$el.find('.pagination-paddles').off('click').on('click', function(e){
+        self.$el.find('.pagination-paddles').off('click').on('click', function() {
           iQ.update(true);
         });
 
-        self.$el.find('.sony-dot-nav').off('click').on('click', function(e){
+        self.$el.find('.sony-dot-nav').off('click').on('click', function() {
           iQ.update(true);
         });
 
       },
-      resetSlides : function(){
+
+      resetSlides : function() {
         var self = this;
-        if(self.carousel)
-        {
+        if (self.carousel) {
           self.$slidesContainer.sonyCarousel('resetSlides');
 
           self.setupEvents();
@@ -413,36 +386,34 @@ define(function(require){
       },
 
       /* Paddles */
-
-      createPaddles : function(){
+      createPaddles : function() {
         var self = this;
         self.$paddles = $('<div class="wrapper-pagination-paddles"></div>');
         self.$carousel.append(self.$paddles);
 
       },
-      topPaddles : function(){
+
+      topPaddles : function() {
         var self = this,
             heightRVCarousel;
 
-        if (self.$paginationPaddles)
-        {
+        if (self.$paginationPaddles) {
           heightRVCarousel = self.$RVtitle.height() +  parseInt(self.$RVcarousel.css('marginTop'), 10) + ( ( self.$items.find('.wrapper-image').first().height() / 2) - ( self.paddleHeight / 2 ) );
           self.$paginationPaddles.css({
             'top'    : heightRVCarousel,
             'margin' : 0
           });
         }
-
       },
 
-      initAnimationProps: function(){
+      initAnimationProps: function() {
         var self = this;
 
-        if(self.useCSS3Transitions) {
-            self.use3dTransform = Modernizr.csstransforms3d;
+        if (self.useCSS3Transitions) {
+          self.use3dTransform = Modernizr.csstransforms3d;
         }
 
-        if(self.useCSS3Transitions) {
+        if (self.useCSS3Transitions) {
 
           // some constants for CSS3
           self.TP     = 'transitionProperty';
@@ -450,7 +421,7 @@ define(function(require){
           self.TTF    = 'transitionTimingFunction';
           self.yProp  = self.xProp = self.prefixed ( 'transform' );
 
-          if(self.use3dTransform) {
+          if (self.use3dTransform) {
             self.tPref1 = 'translate3d(';
             self.tPref2 = 'px, ';
             self.tPref3 = 'px, 0px)';
@@ -468,21 +439,23 @@ define(function(require){
         }
 
       },
-      setupEasing: function(){
+
+      setupEasing: function() {
         var self = this;
 
         //Define easing equations
         self.css3Easing = {
-            easeOutSine     : 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
-            easeInOutSine   : 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
-            easeOutBack     : 'cubic-bezier(0.595, -0.160, 0.255, 1.140)',
-            sonyScrollEase  : 'cubic-bezier(0.33,0.66,0.66,1)'
+          easeOutSine     : 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
+          easeInOutSine   : 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
+          easeOutBack     : 'cubic-bezier(0.595, -0.160, 0.255, 1.140)',
+          sonyScrollEase  : 'cubic-bezier(0.33,0.66,0.66,1)'
         };
       },
-      initEvents: function(){
+
+      initEvents: function() {
         var self = this;
 
-        if(Modernizr.touch) {
+        if (Modernizr.touch) {
             self.hasTouch         = true;
             self.downEvent        = 'touchstart.rp';
             self.moveEvent        = 'touchmove.rp';
@@ -501,21 +474,21 @@ define(function(require){
       },
 
        //Store gallery items orginal parent slide for teardown and rebuild
-      storeGalleryItemParentSlides: function(){
+      storeGalleryItemParentSlides: function() {
         var self = this;
 
-        self.$galleryItems.each(function(){
+        self.$galleryItems.each(function() {
           var $item = $(this);
           $item.data('slide' , $item.parent());
         });
       },
 
       //Set up outbound links to not interfere with dragging between slides
-      setupLinkClicks: function(){
+      setupLinkClicks: function() {
 
         var self = this;
 
-        self.$galleryItems.on( self.tapOrClick() , function(e){
+        self.$galleryItems.on( self.tapOrClick() , function(e) {
           var $item   = $(this),
           destination = $item.attr('href'),
           point,
@@ -540,11 +513,11 @@ define(function(require){
           }
         });
 
-        self.$galleryItems.on( self.tapOrClick() , function(e){
+        self.$galleryItems.on( self.tapOrClick() , function(e) {
           e.preventDefault();
         });
       },
-      setupStripMode: function(){
+      setupStripMode: function() {
 
 
         var self       = this,
@@ -564,7 +537,7 @@ define(function(require){
         //reset
         self.$slimGrid.removeAttr('style');
 
-        if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+        if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || Settings.isLTIE10 ) {
 
           self.$containerProduct.removeClass('full-bleed-no-max');
 
@@ -574,8 +547,7 @@ define(function(require){
           colWidth       = self.colWidth['default'] * containerWidth  ;
           numColumns     = 4;
 
-        }
-        else if ( self.mq('(min-width: 768px)') ) {
+        } else if ( self.mq('(min-width: 768px)') ) {
 
           self.$containerProduct.addClass('full-bleed-no-max');
 
@@ -593,7 +565,7 @@ define(function(require){
           extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
           numColumns     = 3;
 
-        }else {
+        } else {
 
           self.$containerProduct.addClass('full-bleed-no-max');
 
@@ -618,8 +590,7 @@ define(function(require){
 
         $galleryItemsFirst = self.$galleryItems.first();
 
-        if( self.$galleryItems.length <= numColumns)
-        {
+        if ( self.$galleryItems.length <= numColumns) {
           marginLeftContainer = gutterWidth;
         }
 
@@ -647,9 +618,9 @@ define(function(require){
 
         //Create the sony-scroller instance
 
-        setTimeout(function(){
+        setTimeout(function() {
 
-          if(self.scrollerModule !== null){
+          if (self.scrollerModule !== null) {
             self.scrollerModule.destroy();
             self.scrollerModule = null;
           }
@@ -687,7 +658,7 @@ define(function(require){
 
           self.$win.trigger('resize.rp');
 
-          setTimeout(function(){ self.$win.trigger('resize.rp'); }, 1000);
+          setTimeout(function() { self.$win.trigger('resize.rp'); }, 1000);
           //window.iQ.update();
 
         }, 50);
@@ -708,8 +679,7 @@ define(function(require){
           //reset
           self.$slimGrid.removeAttr('style');
 
-          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') )
-          {
+          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || Settings.isLTIE10 ) {
 
             self.$containerProduct.removeClass('full-bleed-no-max');
 
@@ -718,8 +688,7 @@ define(function(require){
             colWidth       = self.colWidth['default'] * containerWidth;
             numColumns     = 4;
 
-          }else if ( self.mq('(min-width: 768px)') )
-          {
+          } else if ( self.mq('(min-width: 768px)') ) {
 
             self.$containerProduct.addClass('full-bleed-no-max');
 
@@ -739,7 +708,7 @@ define(function(require){
             extraMarging   = containerWidth - ( $(window).width() * self.containerWidthPct ) + gutterWidth;
             numColumns     = 3;
 
-          }else {
+          } else {
 
             self.$containerProduct.addClass('full-bleed-no-max');
 
@@ -767,7 +736,7 @@ define(function(require){
           self.scrollerModule.setFitPerPage(numColumns);
           self.scrollerModule.setExtraMarging(extraMarging);
 
-          if( self.$galleryItems.length <= numColumns)
+          if ( self.$galleryItems.length <= numColumns)
           {
             marginLeftContainer = gutterWidth;
             self.$pagination.hide();
@@ -805,17 +774,17 @@ define(function(require){
 
       },
 
-      animationInit : function(){
+      animationInit : function() {
         var self    = this,
             animObj = {};
 
-        //if( !self.useCSS3Transitions ) {
+        //if ( !self.useCSS3Transitions ) {
 
           //jquery fallback
           animObj.opacity = 1;
           self.$container.removeClass('hide').animate(animObj, 700);
 
-        /*}else {
+        /*} else {
 
           animObj[ self.prefixed( self.TD ) ] = 700 + 'ms';
           animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.easeOutBack;
@@ -829,31 +798,28 @@ define(function(require){
 
       },
 
-      tapOrClick: function(){
+      tapOrClick: function() {
         var self = this;
         return self.hasTouch ? self.upEvent : self.clickEvent ;
       },
 
-      toString: function(){
+      toString: function() {
         return '[ object EditorialCarouselE13 ]';
       },
 
-      _onScrollerModuleUpdate: function(e){
-
+      _onScrollerModuleUpdate: function() {
         var self = this,
             numColumns = self.getNbSlides();
 
         // console.log('_onScrollerModuleUpdate');
 
-        if(!self.scrollerModule)
-        {
+        if (!self.scrollerModule) {
           return false;
         }
 
         self.scrollerModule._generatePagination( self.nbPages );
 
-        if ( ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) &&  self.$galleryItems.length <= numColumns )
-        {
+        if ( ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || Settings.isLTIE10 ) &&  self.$galleryItems.length <= numColumns ) {
           self.$galleryItems.css({position:'relative', left : 0, top : 0});
         }
       }
@@ -864,10 +830,10 @@ define(function(require){
     //E13 Editorial Carousel definition on jQuery
     $.fn.editorialCarouselE13 = function(options) {
       var args = arguments;
-      return this.each(function(){
+      return this.each(function() {
         var self = $(this);
         if (options instanceof Object || !options) {
-          if( !self.data('editorialCarouselE13') ) {
+          if ( !self.data('editorialCarouselE13') ) {
             self.data('editorialCarouselE13', new EditorialCarouselE13(self, options));
           }
         } else {
@@ -888,5 +854,4 @@ define(function(require){
     };
 
     return module;
-
 });
