@@ -33,7 +33,7 @@ define(<span class="keyword">function</span>(require){
     <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
     self.$el = $(element);
-    self.$navgrid = self.$el.find(<span class="string">'nav .slimgrid'</span>);
+    self.$navgroups = self.$el.find(<span class="string">'nav .subnav-nav-carousel-slide'</span>);
     self.$tray = self.$el.find(<span class="string">'.subnav-tray'</span>);
     self.$subcats = self.$tray.find(<span class="string">'.subcategory'</span>);
 
@@ -89,7 +89,11 @@ define(<span class="keyword">function</span>(require){
 
       $grids = $subcat.find(<span class="string">'.subnav-product-grid'</span>);
 
-      $grids = Utilities.gridApportion($grids, mobile);
+      $grids = Utilities.gridApportion({
+        $groups: $grids,
+        mobile: mobile
+      });
+
       $grids[ mobile ? <span class="string">'addClass'</span> : <span class="string">'removeClass'</span> ](<span class="string">'m-grid-override'</span>);
 
       self.$activeSubcat = $subcat;
@@ -100,8 +104,14 @@ define(<span class="keyword">function</span>(require){
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      self.$navgrid = Utilities.gridApportion(self.$navgrid, mobile, <span class="literal">true</span>);
-      self.$navgrid[ mobile ? <span class="string">'addClass'</span> : <span class="string">'removeClass'</span> ](<span class="string">'m-grid-override'</span>);
+      self.$navgroups = Utilities.gridApportion({
+        $groups: self.$navgroups,
+        gridSelector: <span class="string">'.slimgrid'</span>,
+        mobile: mobile,
+        center: <span class="literal">true</span>
+      });
+
+      self.$navgroups.find(<span class="string">'.slimgrid'</span>)[ mobile ? <span class="string">'addClass'</span> : <span class="string">'removeClass'</span> ](<span class="string">'m-grid-override'</span>);
 
       self.bindNav();
     },
@@ -109,17 +119,18 @@ define(<span class="keyword">function</span>(require){
     bindNav: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $buttons = self.$el.find(<span class="string">'.subcategory-link'</span>);
+          $buttons = self.$navgroups.find(<span class="string">'.slimgrid'</span>).children();
 
       $buttons.on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
 
-        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>);
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+            isActive = $<span class="keyword">this</span>.hasClass(<span class="string">'active'</span>);
 
-        <span class="keyword">if</span> ( $<span class="keyword">this</span>.hasClass(<span class="string">'active'</span>) ) {
-          $buttons.removeClass(<span class="string">'active'</span>);
+        $buttons.removeClass(<span class="string">'active'</span>);
+
+        <span class="keyword">if</span> ( isActive ) {
           self.closeTray();
         } <span class="keyword">else</span> {
-          $buttons.removeClass(<span class="string">'active'</span>);
           $<span class="keyword">this</span>.addClass(<span class="string">'active'</span>);
           self.openSubcat($<span class="keyword">this</span>.data(<span class="string">'subcategory'</span>));
         }
