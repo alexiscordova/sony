@@ -79,12 +79,12 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
-        if(!window.console){
+/*        if(!window.console){
           window.console = {};
           window.console.log = function(){};
-        }
+        }*/
 
-        window.console.log(' new carousel... ');
+        //window.console.log(' new carousel... ');
 
         self.setupEvents();
         self.setupSlides();
@@ -129,7 +129,7 @@ define(function(require){
 
         self.$pagination = self.$el.find('.pagination-bullets');
 
-        self.$slideContainer.on('SonyCarousel:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
+        self.$slideContainer.on( 'SonyCarousel:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
 
         iQ.update();
 
@@ -219,7 +219,7 @@ define(function(require){
         self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
         self.$slides.width( 100 / (self.numSlides + 2) + '%' );
 
-        console.log( 'Setup slides: ' , 1 );
+        //console.log( 'Setup slides: ' , 1 );
 
       },
       
