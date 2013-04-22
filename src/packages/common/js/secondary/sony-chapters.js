@@ -1,66 +1,16 @@
 
-// Sony Carousel (SonyCarousel) Module
+// Sony Chapters (SonyChapters) Module
 // --------------------------------------------
 //
 // * **Class:** SonyCarousel
 // * **Version:** 0.1
-// * **Modified:** 03/19/2013
-// * **Author:** George Pantazis
+// * **Modified:** 04/22/2013
+// * **Author:** Steve Davis
 // * **Dependencies:** jQuery 1.7+
 //
-// This plugin is used to create flexible carousels. Given that *#foo* is an element containing a
-// number of slides, hidden by *#foo-carousel-wrapper*'s `overflow: hidden;` property, #foo will
-// become draggable with each slide being a snap-point for progression between the slides.
-// Additionally, your CSS should be such that the carousel can have slides added to it
-// on either end without breaking; this allows for "infinite" carousels.
-//
-// Refer to this Jade structure:
-//
-//      div#foo-carousel-wrapper
-//        div#foo
-//          div.foo-carousel-slide
-//            div.foo-slide-children
-//            div.foo-slide-children
-//          div.foo-carousel-slide
-//            div.foo-slide-children
-//            div.foo-slide-children
-//          div.foo-carousel-slide
-//            div.foo-slide-children
-//            div.foo-slide-children
-//
-// *Example Usage:*
-//
-// See Defaults for detailed explanation of properties. The sonyCarousel() method should be called
-// on the draggable carousel object.
-//
-//      $('#foo').sonyCarousel({
-//        wrapper: '#foo-carousel-wrapper',
-//        slides: '.foo-carousel-slide',
-//        slideChildren: '.foo-slide-children',
-//        useCSS3: true,
-//        paddles: true,
-//        pagination: true
-//      });
-//
-// Go to a specific slide (0-based).
-//
-//      $('#foo').sonyCarousel('gotoSlide', 0);
-//
-// If you've replaced or manipulated the slides, tell SonyCarousel to cache them again.
-//
-//      $('#foo').sonyCarousel('resetSlides');
-//
-// If you need to destroy the carousel, run the method below. You should be sure
-// to run destroy if you're wiping/reinitializing your carousels as part of resize
-// or something similar; otherwise you'll retain a ton of references in memory that
-// can't be garbage-collected.
-//
-//      $('#foo').sonyCarousel('destroy');
-//
-// If you need to execute code at the end of an animation sequence, bind to the
-// `SonyCarousel:AnimationComplete` event.
-//
-//      $('#foo').on('SonyCarousel:AnimationComplete', function(){...});
+// This plugin is meant to be pulled into the Sony Carousel plugin at some point but for
+// now will be a stripped-down, modified version of it to allow for fade transitions
+// instead of sliding transitions.
 
 define(function(require){
 
@@ -108,18 +58,12 @@ define(function(require){
         self.posAttr = 'left';
       }
 
-      if ( self.useCSS3 ) {
-
-        // Check to see if this browser actually supports CSS3.
-        if ( !Modernizr.csstransforms || !Modernizr.csstransitions ) {
-          self.useCSS3 = false;
-        } else {
-          self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3Easing);
-        }
-      }
-
       if ( self.draggable ) {
         self.setupDraggable();
+      }
+
+      if ( self.useCSS3 ) {
+        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3Easing);
       }
 
       Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function() {
@@ -327,55 +271,32 @@ define(function(require){
         }
       }
 
-      if ( self.useCSS3 ) {
+      newPosition = destinationPosition / innerContainerMeasurement;
 
-        newPosition = destinationPosition / innerContainerMeasurement;
+      // If you're on the last slide, only move over enough to show the last child.
+      // Prevents excess whitespace on the right.
 
-        // If you're on the last slide, only move over enough to show the last child.
-        // Prevents excess whitespace on the right.
-
-        if ( self.slideChildren && which === $slideSet.length - 1 ) {
-          var childrenSumMeasurement = 0;
-
-          if ( self.direction === 'horizontal' ) {
-            $destinationSlide.find(self.slideChildren).each(function(){ childrenSumMeasurement += $(this).outerWidth(true); });
-            newPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
-          }
-
-        }
-
-        self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(){
-          iQ.update(true);
-          self.$el.trigger('SonyCarousel:AnimationComplete');
-          self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
-        });
-
-        self.$el.css(Modernizr.prefixed('transitionDuration'), speed + 'ms' );
+      if ( self.slideChildren && which === $slideSet.length - 1 ) {
+        var childrenSumMeasurement = 0;
 
         if ( self.direction === 'horizontal' ) {
-          self.$el.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ', 0)');
-        } else {
-          self.$el.css(Modernizr.prefixed('transform'), 'translate(0, ' + (-100 * newPosition + '%') + ')');
+          $destinationSlide.find(self.slideChildren).each(function(){ childrenSumMeasurement += $(this).outerWidth(true); });
+          newPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
         }
 
-      } else {
-
-        var props = {};
-
-        if ( self.direction === 'horizontal' ) {
-          props[self.posAttr] = -100 * destinationPosition / self.$wrapper.width() + '%';
-        } else {
-          props[self.posAttr] = -100 * destinationPosition / self.$wrapper.height() + '%';
-        }
-
-        self.$el.animate(props, {
-          'duration': speed,
-          'complete': function(){
-            iQ.update(true);
-            self.$el.trigger('SonyCarousel:AnimationComplete');
-          }
-        });
       }
+
+      self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(){
+        iQ.update(true);
+        self.$el.trigger('SonyCarousel:AnimationComplete');
+        self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
+      });
+
+      self.$el.css(Modernizr.prefixed('transitionDuration'), speed + 'ms' );
+
+      //for fade transition
+      $destinationSlide.addClass('active')
+        .siblings().removeClass('active');
 
       // If you've taken the carousel out of its normal flow (either with `self.jumping` or `self.looped`)
       // Reset the carousel to its natural position and order.

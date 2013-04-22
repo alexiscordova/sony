@@ -21,7 +21,7 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        sonyCarousel = require('secondary/index').sonyCarousel;
+        sonyCarousel = require('secondary/index').sonyChapters;
 
     var self = {
       'init': function() {
@@ -160,7 +160,13 @@ define(function(require){
        
         $anchors.eq(0).addClass('active');
 
-        // Vertically center thumb text based on height
+        self.centerThumbText();
+      },
+
+      // Vertically center thumb text based on height
+      centerThumbText: function(){
+        var self = this;
+
         self.$thumbLabels.each(function(){
           var $span = $(this),
             height = $span.height();
