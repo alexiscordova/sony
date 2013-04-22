@@ -167,9 +167,9 @@ define(function(require){
       self.setAcceleration(e);
 
       setTimeout(function(){
-        self.$el.removeClass('dragging dragging2');    
+        self.$el.removeClass('dragging dragging2');
       }, 250);
-      
+
       self.isScrubbing = self.hasPassedThreshold = false;
 
       self.$el.trigger('sonyDraggable:dragEnd', {
@@ -381,6 +381,8 @@ define(function(require){
       if ( !Modernizr.touch ) {
         self.$win.off(_endEvents(self.id));
       }
+
+      self.$el.removeData('sonyDraggable');
     }
   };
 

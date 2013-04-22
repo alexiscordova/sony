@@ -20,4 +20,13 @@ script
     });
   });
 
+
+
+if locals.modulescss
+  +appendBlock('modulescss')
+    for name in locals.modulescss
+      hrf = "css/modules/" + name + ".css"
+      link(rel="stylesheet", href= hrf)
+
+- delete locals.modulescss
 - delete locals.javascriptModules

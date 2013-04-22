@@ -160,9 +160,9 @@ cache the new interaction's start position, then bind for movement onto onScrubb
       self.setAcceleration(e);
 
       setTimeout(<span class="keyword">function</span>(){
-        self.$el.removeClass(<span class="string">'dragging dragging2'</span>);    
+        self.$el.removeClass(<span class="string">'dragging dragging2'</span>);
       }, <span class="number">250</span>);
-      
+
       self.isScrubbing = self.hasPassedThreshold = <span class="literal">false</span>;
 
       self.$el.trigger(<span class="string">'sonyDraggable:dragEnd'</span>, {
@@ -367,6 +367,8 @@ respect the grid even though they aren't really in it. Refer to S2 for usage exa
       <span class="keyword">if</span> ( !Modernizr.touch ) {
         self.$win.off(_endEvents(self.id));
       }
+
+      self.$el.removeData(<span class="string">'sonyDraggable'</span>);
     }
   };
 

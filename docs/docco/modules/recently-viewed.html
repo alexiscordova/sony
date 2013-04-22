@@ -1,462 +1,239 @@
-<!DOCTYPE html>  <html> <head>   <title>recently-viewed.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="country-region-selection-z10.html">                 country-region-selection-z10.js               </a>                                           <a class="source" href="editorial-carousel-e13.html">                 editorial-carousel-e13.js               </a>                                           <a class="source" href="editorial-chapters-e5.html">                 editorial-chapters-e5.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="hotspots-controller.html">                 hotspots-controller.js               </a>                                           <a class="source" href="editorial-layouts-e1.html">                 editorial-layouts-e1.js               </a>                                           <a class="source" href="editorial-slideshows-e4.html">                 editorial-slideshows-e4.js               </a>                                           <a class="source" href="footnotes-module.html">                 footnotes-module.js               </a>                                           <a class="source" href="gallery-g2-g3.html">                 gallery-g2-g3.js               </a>                                           <a class="source" href="global-header-footer.html">                 global-header-footer.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="pdp-slideshow-d4.html">                 pdp-slideshow-d4.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="product-details-d5.html">                 product-details-d5.js               </a>                                           <a class="source" href="product-summary-d1-d2.html">                 product-summary-d1-d2.js               </a>                                           <a class="source" href="recently-viewed.html">                 recently-viewed.js               </a>                                           <a class="source" href="related-products-g1.html">                 related-products-g1.js               </a>                                           <a class="source" href="reviews-awards-d6.html">                 reviews-awards-d6.js               </a>                                           <a class="source" href="secondary-touts-s1-s4.html">                 secondary-touts-s1-s4.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="subnavigation-n4.html">                 subnavigation-n4.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="unsupported-z19.html">                 unsupported-z19.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="whats-new-tout-s4.html">                 whats-new-tout-s4.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               recently-viewed.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h2>Recently Viewed (RecentlyViewed) Module</h2>
+<!DOCTYPE html>  <html> <head>   <title>recently-viewed.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="country-region-selection-z10.html">                 country-region-selection-z10.js               </a>                                           <a class="source" href="demo-x99.html">                 demo-x99.js               </a>                                           <a class="source" href="editorial-carousel-e13.html">                 editorial-carousel-e13.js               </a>                                           <a class="source" href="editorial-chapters-e5.html">                 editorial-chapters-e5.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="hotspots-controller.html">                 hotspots-controller.js               </a>                                           <a class="source" href="editorial-layouts-e1.html">                 editorial-layouts-e1.js               </a>                                           <a class="source" href="editorial-slideshows-e4.html">                 editorial-slideshows-e4.js               </a>                                           <a class="source" href="footnotes-module.html">                 footnotes-module.js               </a>                                           <a class="source" href="gallery-g2-g3.html">                 gallery-g2-g3.js               </a>                                           <a class="source" href="global-header-footer.html">                 global-header-footer.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="pdp-slideshow-d4.html">                 pdp-slideshow-d4.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="product-details-d5.html">                 product-details-d5.js               </a>                                           <a class="source" href="product-summary-d1-d2.html">                 product-summary-d1-d2.js               </a>                                           <a class="source" href="recently-viewed.html">                 recently-viewed.js               </a>                                           <a class="source" href="related-products-g1.html">                 related-products-g1.js               </a>                                           <a class="source" href="reviews-awards-d6.html">                 reviews-awards-d6.js               </a>                                           <a class="source" href="secondary-touts-s1-s4.html">                 secondary-touts-s1-s4.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="subnavigation-n4.html">                 subnavigation-n4.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="universal-nav.html">                 universal-nav.js               </a>                                           <a class="source" href="unsupported-z19.html">                 unsupported-z19.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="whats-new-tout-s4.html">                 whats-new-tout-s4.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               recently-viewed.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h2>Recently Viewed (RecentlyViewed) Module</h2>
 
 <ul>
 <li><strong>Class:</strong> RecentlyViewed</li>
 <li><strong>Version:</strong> 1.0</li>
-<li><strong>Modified:</strong> 02/22/2013</li>
-<li><strong>Author:</strong> Arnaud Tanielian</li>
-<li><strong>Dependencies:</strong> jQuery 1.7+ , Modernizr, sony-carousel</li>
+<li><strong>Modified:</strong> 04/18/2013</li>
+<li><strong>Author:</strong> Glen Cheney</li>
+<li><strong>Dependencies:</strong> jQuery 1.7+ , Modernizr, sony-carousel, sony-scroller</li>
 </ul>
 
 <p><em>Notes:</em></p>
 
 <p><em>Example Usage:</em></p>
 
-<pre><code> $('.recently-views-products').recentlyViewed();
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>define(<span class="keyword">function</span>(require){
+<pre><code> new RecentlyViewed( $('.rv-module')[0] )
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+define(<span class="keyword">function</span>(require) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>'use strict';</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    $ = require(<span class="string">'jquery'</span>);
-    carousel = require(<span class="string">'secondary/sony-carousel'</span>);
-    iQ = require(<span class="string">'iQ'</span>);
-    Settings = require(<span class="string">'require/sony-global-settings'</span>);
+  <span class="string">'use strict'</span>;
 
-    self = {
-      <span class="string">'init'</span>: <span class="keyword">function</span>() {
-        $(<span class="string">'.recently-viewed'</span>).recentlyViewed();
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+      Modernizr = require(<span class="string">'modernizr'</span>),
+      Utilities = require(<span class="string">'require/sony-global-utilities'</span>),
+      iQ = require(<span class="string">'iQ'</span>),
+      enquire = require(<span class="string">'enquire'</span>),
+      sonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel,
+      sonyScroller = require(<span class="string">'secondary/index'</span>).sonyScroller;
+
+  <span class="keyword">var</span> module = {
+    init: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> $rvModule = $(<span class="string">'.rv-module'</span>);
+
+      <span class="keyword">if</span> ( $rvModule.length ) {
+        <span class="keyword">new</span> RecentlyViewed( $rvModule[<span class="number">0</span>] );
       }
-    };
+    }
+  };
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Related Products Definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    RecentlyViewed = <span class="keyword">function</span>(element, options){
-      self           = <span class="keyword">this</span>;
-      transEndEventNames = {
-        <span class="string">'WebkitTransition'</span> : <span class="string">'webkitTransitionEnd'</span>,
-        <span class="string">'MozTransition'</span>    : <span class="string">'transitionend'</span>,
-        <span class="string">'OTransition'</span>      : <span class="string">'oTransitionEnd'</span>,
-        <span class="string">'msTransition'</span>     : <span class="string">'MSTransitionEnd'</span>,
-        <span class="string">'transition'</span>       : <span class="string">'transitionend'</span>};
-      
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Extend Recently Viewed instance with defaults and options</p>             </td>             <td class="code">               <div class="highlight"><pre>      $.extend(self , $.fn.recentlyViewed.defaults , options);
+  <span class="keyword">var</span> RecentlyViewed = <span class="keyword">function</span>( element ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>var</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.carousel               = <span class="literal">null</span>;
-      self.breakPoint             = <span class="string">"1200"</span>;
-      self.paddleHeight           = <span class="number">43</span>;
-      self.classgrid              = <span class="string">"span2"</span>;
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      self.useCSS3Transitions     = Modernizr.csstransitions; <span class="comment">//Detect if we can use CSS3 transitions</span>
-      self.hasMediaQueries        = Modernizr.mediaqueries;
-      self.mq                     = Modernizr.mq;
-      self.isOSCStyle             = <span class="literal">false</span>;
+    self.isDesktop = <span class="literal">false</span>;
+    self.isMobile = <span class="literal">false</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>$</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$doc                   = Settings.$document;
-      self.$win                   = Settings.$window;
-      self.$html                  = Settings.$html;
+    self.$el = $( element );
+    self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
+    self.init();
 
-      self.$el                    = $(element);
-      self.$RVtitle               = self.$el.find(<span class="string">".rv-title"</span>);
-      self.$RVcarousel            = self.$el.find(<span class="string">".rv-carousel"</span>);
-      self.$carousel              = self.$el.find(<span class="string">".carousel"</span>);
-      self.$slides                = self.$el.find(<span class="string">".sony-carousel-slide"</span>); 
-      self.$items                 = self.$el.find(<span class="string">".sony-carousel-slide-children"</span>);
-      self.$slidesContainer       = self.$el.find(<span class="string">'.sony-carousel'</span>);
-      self.$carouselWrapper       = self.$el.find(<span class="string">'.sony-carousel-wrapper'</span>);
-      self.$container             = self.$carousel.parent(); <span class="comment">//parent of the .carousel, span12</span>
-      self.$paddles               = <span class="literal">null</span>; <span class="comment">// has to be created and given to the sony-carousel</span>
-      self.$paginationPaddles     = <span class="literal">null</span>;
-      
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Startup</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
+    log(<span class="string">'SONY : RecentlyViewed : Initialized'</span>);
+  };
 
-    };
+  RecentlyViewed.prototype = {
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Related Products protoype object definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    RecentlyViewed.prototype = {
+    constructor: RecentlyViewed,
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Inital setup of module</p>             </td>             <td class="code">               <div class="highlight"><pre>      init: <span class="keyword">function</span>(){
+    init: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-        self = <span class="keyword">this</span>;
+      self.$wrapper = self.$el.find( <span class="string">'.sony-carousel-wrapper'</span> );
+      self.$carousel = self.$el.find( <span class="string">'.sony-carousel'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Initialize media queries detection</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.mqFix();
+      <span class="keyword">if</span> ( Modernizr.mediaqueries ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Setup Breakpoint</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setupBreakPoint();
-
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Create custom paddles</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.createPaddles();
-
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Setup slides</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setupItemsSlides();
-
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Setup Carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setupCarousel();
-
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Setup Global events</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setupGlobalEvent();
-
-
-      },
-      getNbSlides : <span class="keyword">function</span>(){
-
-        self = <span class="keyword">this</span>;
-        numColumns     = <span class="number">6</span>;
-
-        <span class="keyword">if</span> ( Modernizr.mediaqueries &amp;&amp; self.mq(<span class="string">'(min-width: 1200px)'</span>) &amp;&amp; ! self.$html.hasClass(<span class="string">'lt-ie10'</span>) )
-        {
-          self.isOSCStyle = <span class="literal">false</span>;
-          self.classgrid = <span class="string">"span2"</span>;
-          numColumns     = <span class="number">6</span>;
-        }
-        <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || self.mq(<span class="string">'(min-width: 981px)'</span>) || self.$html.hasClass(<span class="string">'lt-ie10'</span>) ) 
-        {
-          self.isOSCStyle = <span class="literal">false</span>;
-          self.classgrid = <span class="string">"span2"</span>;
-          numColumns     = <span class="number">6</span>;
-
-        } 
-        <span class="keyword">else</span> <span class="keyword">if</span> ( self.mq(<span class="string">'(min-width: 770px)'</span>) ) 
-        {
-
-          self.isOSCStyle = <span class="literal">true</span>;
-          self.classgrid = <span class="string">"span3"</span>;
-          numColumns     = <span class="number">4</span>;
-
-        }<span class="keyword">else</span> 
-        {
-
-          self.isOSCStyle = <span class="literal">true</span>;
-          self.classgrid = <span class="string">"span6"</span>;
-          numColumns     = <span class="number">2</span>;
-
-        }
-
-
-        <span class="keyword">return</span> numColumns;
-
-      },
-      setupBreakPoint : <span class="keyword">function</span>(){
-
-        self = <span class="keyword">this</span>;
-
-        <span class="keyword">if</span> ( Modernizr.mediaqueries &amp;&amp; self.mq(<span class="string">'(min-width: 1200px)'</span>) &amp;&amp; ! self.$html.hasClass(<span class="string">'lt-ie10'</span>) )
-        {
-          self.breakPoint     = <span class="string">"1200"</span>;
-        }
-        <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || self.mq(<span class="string">'(min-width: 981px)'</span>) || self.$html.hasClass(<span class="string">'lt-ie10'</span>) ) 
-        {
-
-          self.breakPoint     = <span class="string">"980"</span>;
-
-        } 
-        <span class="keyword">else</span> <span class="keyword">if</span> ( self.mq(<span class="string">'(min-width: 770px)'</span>) ) {
-
-          self.breakPoint     = <span class="string">"769"</span>;
-
-        }<span class="keyword">else</span> {
-
-          self.breakPoint     = <span class="string">"mobile"</span>;
-
-        }
-
-      },
-      setupItemsSlides : <span class="keyword">function</span>(oscStyle){
-
-       
-        nbItemsPerSlides = self.getNbSlides();
-        oscS = oscStyle || self.isOSCStyle;
-
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Extract items</p>             </td>             <td class="code">               <div class="highlight"><pre>        aSlides = [];
-        aItemForHtml = [];
-        isO = <span class="number">0</span>;
-
-        $.each( self.$items, <span class="keyword">function</span>(i)
-        {
-
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>remove span</p>             </td>             <td class="code">               <div class="highlight"><pre>          $(<span class="keyword">this</span>).find(<span class="string">"a.gallery-item"</span>).removeClass(<span class="string">"m-span3"</span>).removeClass(<span class="string">"span2"</span>);
-
-          <span class="keyword">if</span>( i % nbItemsPerSlides == isO )
-          {
-            <span class="keyword">if</span>( aItemForHtml.length &gt; <span class="number">0</span> )
-            {
-              aSlides.push( aItemForHtml.slice(<span class="number">0</span>) );
+        enquire
+          .register(<span class="string">'(min-width: 48em)'</span>, {
+            match: <span class="keyword">function</span>() {
+              self._setupDesktop();
             }
-
-            aItemForHtml = []; 
-          }
-          
-          aItemForHtml[i % nbItemsPerSlides] = $(<span class="keyword">this</span>);
-
-          <span class="keyword">if</span>( i == self.$items.length - <span class="number">1</span> )
-          {
-            aSlides.push( aItemForHtml.slice(<span class="number">0</span>) );
-          }
-          
-        });
-
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Generate HTML</p>             </td>             <td class="code">               <div class="highlight"><pre>
-        htmlSlide = <span class="string">""</span>;
-        <span class="keyword">for</span>( i = <span class="number">0</span>; i &lt; aSlides.length; i++)
-        {
-
-          htmlSlide += <span class="string">'&lt;div class="sony-carousel-slide"&gt;'</span>;
-
-          <span class="keyword">for</span>( j = <span class="number">0</span>; j &lt; aSlides[i].length; j++)
-          {
-            htmlSlide += <span class="string">'&lt;div class="sony-carousel-slide-children"&gt;'</span> + aSlides[i][j].html() + <span class="string">'&lt;/div&gt;'</span>;
-          }
-
-          htmlSlide += <span class="string">'&lt;/div&gt;'</span>;
-
-        } 
-
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>reset + append</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slidesContainer.empty().append(htmlSlide);
-
-        self.$slides = self.$el.find(<span class="string">".sony-carousel-slide"</span>); 
-        self.$items  = self.$el.find(<span class="string">".sony-carousel-slide-children"</span>);
-
-
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>updateItems</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.udpateItems();
-
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>resetSlides</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.resetSlides();
-
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>update top paddles</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.topPaddles();
-
-        <span class="keyword">if</span>( oscS != self.isOSCStyle ) <span class="comment">//because if the OSC style</span>
-        {
-          self.createCarousel();
-        }
-        
-
-      },
-      udpateItems : <span class="keyword">function</span>(){
-
-        self = <span class="keyword">this</span>;
-        containerWidth = Math.floor( self.$carousel.width() );
-        extraMarging   = <span class="number">1</span>;
-        slimGridW      = <span class="number">0</span>;
-        margeSlimGrid  = <span class="number">0</span>;
-        extraPct       = <span class="number">1</span>;
-        heightContainer     = <span class="number">55</span> + <span class="number">17</span> + <span class="number">30</span>;
-        marginLeftContainer = <span class="number">0</span>;
-        numColumns     = <span class="number">6</span>;
-
-
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$carouselWrapper.removeAttr(<span class="string">'style'</span>);
-
-        <span class="keyword">if</span> ( Modernizr.mediaqueries &amp;&amp; self.mq(<span class="string">'(min-width: 1200px)'</span>) &amp;&amp; ! self.$html.hasClass(<span class="string">'lt-ie10'</span>) )
-        {
-
-          self.$slides.removeClass(<span class="string">"slimgrid"</span>);
-          
-          <span class="keyword">if</span>(self.breakPoint != <span class="string">"1200"</span>)
-          {
-            self.breakPoint = <span class="string">"1200"</span>;
-            self.setupItemsSlides(<span class="literal">false</span>);
-            <span class="keyword">return</span> <span class="literal">false</span>;
-          }
-
-          self.$carousel.removeClass(<span class="string">"o-visible"</span>);
-          self.$slides.addClass(<span class="string">"no-osc"</span>);
-
-          self.classgrid = <span class="string">"span2"</span>;
-          self.isOSCStyle = <span class="literal">false</span>;
-          self.breakPoint = <span class="string">"1200"</span>;
-
-        }
-        <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || self.mq(<span class="string">'(min-width: 981px)'</span>) || self.$html.hasClass(<span class="string">'lt-ie10'</span>) ) {
-
-          self.$slides.removeClass(<span class="string">"slimgrid"</span>);
-
-          <span class="keyword">if</span>(self.breakPoint != <span class="string">"980"</span>)
-          {
-            self.breakPoint = <span class="string">"980"</span>;
-            self.setupItemsSlides(<span class="literal">false</span>);
-            <span class="keyword">return</span> <span class="literal">false</span>;
-          }
-
-          self.$carousel.removeClass(<span class="string">"o-visible"</span>);
-          self.$slides.addClass(<span class="string">"no-osc"</span>);
-
-          self.classgrid = <span class="string">"span2"</span>;
-          self.isOSCStyle = <span class="literal">false</span>;
-          self.breakPoint = <span class="string">"980"</span>;
-
-
-        } 
-        <span class="keyword">else</span> <span class="keyword">if</span> ( self.mq(<span class="string">'(min-width: 770px)'</span>) ) {
-
-          self.$slides.addClass(<span class="string">"slimgrid"</span>);
-
-          <span class="keyword">if</span>(self.breakPoint != <span class="string">"769"</span>)
-          {
-            self.breakPoint = <span class="string">"769"</span>;
-            self.setupItemsSlides(<span class="literal">true</span>);
-            <span class="keyword">return</span> <span class="literal">false</span>;
-          }
-
-          self.$carousel.addClass(<span class="string">"o-visible"</span>);
-          self.$slides.removeClass(<span class="string">"no-osc"</span>);
-
-          self.classgrid = <span class="string">"span3"</span>;
-          self.isOSCStyle = <span class="literal">true</span>;
-          self.breakPoint = <span class="string">"769"</span>;
-
-
-        }<span class="keyword">else</span> {
-
-           self.$slides.addClass(<span class="string">"slimgrid"</span>);
-
-          <span class="keyword">if</span>(self.breakPoint != <span class="string">"mobile"</span>)
-          {
-            self.breakPoint = <span class="string">"mobile"</span>;
-            self.setupItemsSlides(<span class="literal">true</span>);
-            <span class="keyword">return</span> <span class="literal">false</span>;
-          }
-
-          self.$carousel.addClass(<span class="string">"o-visible"</span>);
-          self.$slides.removeClass(<span class="string">"no-osc"</span>);
-
-          self.classgrid = <span class="string">"span6"</span>;
-          self.isOSCStyle = <span class="literal">true</span>;
-          self.breakPoint = <span class="string">"mobile"</span>;
-
-        }
-
-
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Finally, apply the good class</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$items.addClass(self.classgrid);
-
-
-      },
-      setupCarousel : <span class="keyword">function</span>(){
-
-        self = <span class="keyword">this</span>;
-
-        self.createCarousel();
-
-        iQ.update(<span class="literal">true</span>);
-
-      },
-      createCarousel : <span class="keyword">function</span>(){
-
-        <span class="keyword">if</span>( self.carousel ){
-
-          self.$slidesContainer.sonyCarousel(<span class="string">"destroy"</span>);
-
-          self.$el.find(<span class="string">".sony-dot-nav"</span>).remove();
-        }
-
-        self.carousel = self.$slidesContainer.sonyCarousel({
-          wrapper: <span class="string">'.sony-carousel-wrapper'</span>,
-          slides: <span class="string">'.sony-carousel-slide'</span>,
-          slideChildren: <span class="string">'.sony-carousel-slide-children'</span>,
-          useCSS3: <span class="literal">true</span>,
-          paddles: <span class="literal">true</span>,
-          $paddleWrapper : self.$paddles,
-          pagination: <span class="literal">true</span>
-        });
-
-        self.$paginationPaddles = $(<span class="string">".pagination-paddle"</span>);
-
-        self.topPaddles();
-
-        self.setupEvents();
-
-      },
-      setupGlobalEvent : <span class="keyword">function</span>(){
-
-        self = <span class="keyword">this</span>;
-
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$win.on(<span class="string">'resize.rp'</span>, $.debounce(<span class="number">50</span> , <span class="keyword">function</span>() {
-
-          self.udpateItems();
-
-          iQ.update(<span class="literal">true</span>);
-
-        }));
-
-        self.$container.on(<span class="string">"mouseenter"</span>, <span class="keyword">function</span>(e){
-          self.$el.find(<span class="string">".pagination-paddles"</span>).addClass(<span class="string">"show-paddles"</span>);
-        });
-
-        self.$container.on(<span class="string">"mouseleave"</span>, <span class="keyword">function</span>(e){
-          self.$el.find(<span class="string">".pagination-paddles"</span>).removeClass(<span class="string">"show-paddles"</span>);
-        });
-
-      },
-      setupEvents : <span class="keyword">function</span>(){
-
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Bind nav</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$el.find(<span class="string">".pagination-paddles"</span>).off(<span class="string">"click"</span>).on(<span class="string">"click"</span>, <span class="keyword">function</span>(e){
-          iQ.update(<span class="literal">true</span>);
-        });
-
-        self.$el.find(<span class="string">".sony-dot-nav"</span>).off(<span class="string">"click"</span>).on(<span class="string">"click"</span>, <span class="keyword">function</span>(e){
-          iQ.update(<span class="literal">true</span>);
-        });
-
-      },
-      resetSlides : <span class="keyword">function</span>(){
-
-        <span class="keyword">if</span>(self.carousel)
-        {
-          self.$slidesContainer.sonyCarousel(<span class="string">"resetSlides"</span>);
-
-          self.setupEvents();
-        }
-
-      },
-
-      <span class="comment">/* Paddles */</span>
-
-      createPaddles : <span class="keyword">function</span>(){
-
-        self.$paddles = $(<span class="string">'&lt;div class="wrapper-pagination-paddles"&gt;&lt;/div&gt;'</span>);
-        self.$carousel.append(self.$paddles);
-
-      },
-      topPaddles : <span class="keyword">function</span>(){
-
-        <span class="keyword">if</span> (self.$paginationPaddles)
-        {
-          heightRVCarousel = self.$RVtitle.height() +  parseInt(self.$RVcarousel.css(<span class="string">"marginTop"</span>), <span class="number">10</span>) + ( ( self.$items.find(<span class="string">".product-img"</span>).first().height() / <span class="number">2</span>) - ( self.paddleHeight / <span class="number">2</span> ) );
-          self.$paginationPaddles.css({
-            <span class="string">'top'</span>    : heightRVCarousel,
-            <span class="string">'margin'</span> : <span class="number">0</span>
-          });  
-        }
-        
-      },
-
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Fixes a bug in IE when media queries aren't available</p>             </td>             <td class="code">               <div class="highlight"><pre>      mqFix: <span class="keyword">function</span>(){
-        self = <span class="keyword">this</span>;
-        
-        <span class="keyword">if</span>( !self.hasMediaQueries &amp;&amp; self.isIE7orIE8 || self.oldIE){
-          self.mq = <span class="keyword">function</span>(){
-            <span class="keyword">return</span> <span class="literal">false</span>;
-          };
-        }
-
-      },
-
-      toString: <span class="keyword">function</span>(){
-        <span class="keyword">return</span> <span class="string">'[ object RecentlyViewed ]'</span>;
+          })
+          .register(<span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span>, {
+            match: <span class="keyword">function</span>() {
+              self._setupTablet();
+            }
+          })
+          .register(<span class="string">'(min-width: 61.25em)'</span>, {
+            match: <span class="keyword">function</span>() {
+              self._teardownTablet();
+            }
+          })
+          .register(<span class="string">'(max-width: 47.9375em)'</span>, {
+            match: <span class="keyword">function</span>() {
+              self._setupMobile();
+            }
+          });
+
+      } <span class="keyword">else</span> {
+        self._setupDesktop();
       }
 
-    };
+    },
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Recently Viewed definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.recentlyViewed = <span class="keyword">function</span>(options) {
-      args = arguments;
-      <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(){
-        self = $(<span class="keyword">this</span>);
-        <span class="keyword">if</span> (options <span class="keyword">instanceof</span> Object ||  !options) {
-          <span class="keyword">if</span>( !self.data(<span class="string">'recentlyViewed'</span>) ) {
-            self.data(<span class="string">'recentlyViewed'</span>, <span class="keyword">new</span> RecentlyViewed(self, options));
-          }
-        } <span class="keyword">else</span> {
-          recentlyViewed = self.data(<span class="string">'recentlyViewed'</span>);
-          <span class="keyword">if</span> (recentlyViewed &amp;&amp; recentlyViewed[options]) {
-              <span class="keyword">return</span> recentlyViewed[options].apply(recentlyViewed, Array.prototype.slice.call(args, <span class="number">1</span>));
-          }
+    _setupDesktop : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          wasMobile = self.isMobile;
+
+      <span class="keyword">if</span> ( wasMobile ) {
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Destroy the scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$wrapper.scrollerModule(<span class="string">'destroy'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Remove widths set <code>_setupMobile</code></p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$carousel.find(<span class="string">'.sony-carousel-slide'</span>).css( <span class="string">'width'</span>, <span class="string">''</span> );
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Remove grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$el.find(<span class="string">'.m-container'</span>).removeClass(<span class="string">'container'</span>);
+        self.$wrapper.removeClass(<span class="string">'grid'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Stop images from becoming tiny</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout( Utilities.forceWebkitRedraw, <span class="number">0</span> );
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Initialize a new sony carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousel.sonyCarousel({
+        wrapper: <span class="string">'.sony-carousel-wrapper'</span>,
+        slides: <span class="string">'.sony-carousel-slide'</span>,
+        useCSS3: self.useCSS3,
+        pagination: <span class="literal">true</span>,
+        paddles: <span class="literal">true</span>,
+        useSmallPaddles: <span class="literal">true</span>
+      });
+
+      self.isDesktop = <span class="literal">true</span>;
+      self.isMobile = <span class="literal">false</span>;
+    },
+
+    _setupTablet : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.arrangeItemsInSlides( <span class="number">4</span> );
+      self.isTablet = <span class="literal">true</span>;
+    },
+
+    _teardownTablet : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Don't do anything if this isn't in tablet state</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isTablet ) {
+        <span class="keyword">return</span>;
+      }
+
+      self.arrangeItemsInSlides( <span class="number">6</span> );
+      self.isTablet = <span class="literal">false</span>;
+    },
+
+    _setupMobile : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          wasDesktop = self.isDesktop;
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Destroy the carousel if there was one</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( wasDesktop ) {
+        self.$carousel.sonyCarousel( <span class="string">'destroy'</span> );
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Stop images from becoming tiny</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout( Utilities.forceWebkitRedraw, <span class="number">0</span> );
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Add grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.m-container'</span>).addClass(<span class="string">'container'</span>);
+      self.$wrapper.addClass(<span class="string">'grid'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Initialize the new scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$wrapper.scrollerModule({
+        itemElementSelector: <span class="string">'.gallery-item'</span>,
+        iscrollProps: {
+          hScrollbar: <span class="literal">false</span>,
+          isOverflowHidden: <span class="literal">false</span>,
+          onAnimationEnd: iQ.update
+        },
+        getContentWidth: <span class="keyword">function</span>() {
+          <span class="keyword">var</span> contentWidth = <span class="number">0</span>,
+              slideWidths = [],
+              $slides = self.$el.find(<span class="string">'.sony-carousel-slide'</span>);
+
+          $slides.css( <span class="string">'width'</span>, <span class="string">''</span> );
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Loop through all slides to count the gallery item widths</p>             </td>             <td class="code">               <div class="highlight"><pre>          $slides.each(<span class="keyword">function</span>() {
+            <span class="keyword">var</span> slideWidth = <span class="number">0</span>,
+                $slide = $( <span class="keyword">this</span> );
+
+            $slide.find(<span class="string">'.gallery-item'</span>).each(<span class="keyword">function</span>() {
+              slideWidth += $(<span class="keyword">this</span>).outerWidth( <span class="literal">true</span> );
+            });
+
+            slideWidth = Math.ceil( slideWidth );
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Save the widths to apply them later</p>             </td>             <td class="code">               <div class="highlight"><pre>            slideWidths.push( slideWidth );
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Make sure we count the margin on the .slide</p>             </td>             <td class="code">               <div class="highlight"><pre>            contentWidth += slideWidth;
+          });
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Set slide widths</p>             </td>             <td class="code">               <div class="highlight"><pre>          $slides.each(<span class="keyword">function</span>( i ) {
+            $(<span class="keyword">this</span>).css( <span class="string">'width'</span>, slideWidths[ i ] );
+          });
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Tell scroller what the width should be</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">return</span> contentWidth;
         }
       });
-    };
 
+      self.isDesktop = <span class="literal">false</span>;
+      self.isMobile = <span class="literal">true</span>;
+    },
 
-    <span class="keyword">return</span> self;
+    arrangeItemsInSlides : <span class="keyword">function</span>( numPerSlide ) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          doc = document,
+          frag = doc.createDocumentFragment(),
+          $items = self.$carousel.find(<span class="string">'.gallery-item'</span>),
+          numItems = $items.length,
+          numSlides = Math.ceil( numItems / numPerSlide ),
+          i = <span class="number">0</span>,
+          j,
+          itemIndex, slide, container, slimgrid;
 
+      $items
+        .detach()
+        .removeClass( <span class="string">'span2 span3 span4 span6'</span> )
+        .addClass( <span class="string">'span'</span> + <span class="number">12</span> / numPerSlide );
+
+      <span class="keyword">for</span> ( ; i &lt; numSlides; i++ ) {
+        slide = doc.createElement( <span class="string">'div'</span> );
+        slide.className = <span class="string">'sony-carousel-slide'</span>;
+        container = doc.createElement( <span class="string">'div'</span> );
+        container.className = <span class="string">'container'</span>;
+        slimgrid = doc.createElement( <span class="string">'div'</span> );
+        slimgrid.className = <span class="string">'slimgrid'</span>;
+
+        <span class="keyword">for</span> ( j = <span class="number">0</span> ; j &lt; numPerSlide; j++ ) {
+          itemIndex = (i * numPerSlide) + j;
+          <span class="keyword">if</span> ( $items[ itemIndex ] ) {
+            slimgrid.appendChild( $items[ itemIndex ] );
+          }
+        }
+
+        container.appendChild( slimgrid );
+        slide.appendChild( container );
+        frag.appendChild( slide );
+      }
+
+      self.$carousel
+        .empty()
+        .append( frag )
+        .sonyCarousel(<span class="string">'resetSlides'</span>)
+        .sonyCarousel(<span class="string">'gotoNearestSlide'</span>);
+    }
+  };
+
+  <span class="keyword">return</span> module;
 });
-
-
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
