@@ -21,11 +21,17 @@
           position: relative;
           width: 100%;
           height: 100%;
-          float: left;
           display: block;
+          float:left;
+          @include opacity(0);
+          @include transition();
+
+          &.active {
+            position:absolute;
+            @include opacity(100);
+          }
 
           .container {width:100%;}
-            .box {margin-bottom:0 !important;}
         }
     .thumb-nav {
       position:relative;
@@ -47,6 +53,8 @@
         vertical-align:bottom;
         position:relative;
         box-sizing:content-box;
+        width:25%;
+        overflow:hidden;
         @include opacity(75);
 
         & + li {margin-left:-1px;}
@@ -89,6 +97,7 @@
             font-size:12px;
             position:relative;
             top:-3px;
+            display:block;
             margin-right:24px;
 
             &.oneLine {top:14px;}
@@ -101,22 +110,6 @@
       &:hover,
       &.active {background:$white;}
     }
-    &.full-nav .thumb-nav li {width:25%;}
-    &.top-nav {
-      .thumb-nav {
-        li {
-          vertical-align:top;
-
-          &.active,
-          &:hover {
-            border-top:0;
-            border-bottom:4px solid $linkBlue;
-            margin-top:0;
-            margin-bottom:-4px;
-          }
-        }
-      }
-    }
     &.thumb-mode .thumb-nav {
       i {display:none;}
     }
@@ -124,18 +117,6 @@
         img {display:none;}
         i {margin-left:24px; margin-right:10px;}
         span {margin-right:20px;}
-    }
-    &.offset-nav {
-      .thumb-nav {
-        margin-top:20px;
-        left:auto;
-        width:100%;
-      }
-      &.top-nav .thumb-nav {
-        margin-top:0;
-        margin-bottom:20px;
-        height:68px;
-      }
     }
     &.text-mode .thumb-nav {
       img, i {display:none;}
@@ -159,9 +140,5 @@
     li,
     li:hover,
     li.active {background:$gray80;}
-  }
-  .top-nav.editorial-chapters-container .thumb-nav {
-    margin-top:0;
-    margin-bottom:-58px;
   }
 }
