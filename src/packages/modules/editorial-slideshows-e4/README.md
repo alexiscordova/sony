@@ -1,6 +1,6 @@
 ### D4. PDP Slide Show
 
-The pdp slide show D4.
+The pdp slide show D4. This is actually a submodule of an Editorial layout.
 
 
 Document Overview
@@ -24,7 +24,7 @@ Each module will include this document, which contains an ordered list of the fi
 	*../../../../build/deploy/css/modules/all.css
 	
 * pdp-slideshow-d4.css
-	*../../../../build/deploy/css/modules/pdp-slideshow-d4.css
+	*../../../../build/deploy/css/modules/editorial-slideshows-e4.css
 
 * responsive.css
 	*../../../../build/deploy/css/responsive-modules.css	
@@ -51,26 +51,31 @@ Each module will include this document, which contains an ordered list of the fi
 == Related Source ==
 
 * pdp-slideshow-d4.js
-	*../../../js/bundle/defer/pdp-slideshow-d4.js
+	*../../../js/bundle/defer/editorial-slideshows-e4.js
 
 * pdp-slideshow-d4.scss
-	*../../../css/scss/modules/pdp-slideshow-d4.scss
+	*../../../css/scss/modules/editorial-slideshows-e4.scss
 
-* _responsive-pdp-slideshow-d4.scss
-	*../../../css/scss/_responsive/_responsive-pdp-slideshow-d4.scss
 	
 Example JSON File(s)
 --------------------
 
-Each module should contain atleast one example JSON file. Additional JSON files that cover the template variables that could be populated in the module (even though some variations may not use all of them) will also be listed here.
-
 ==JSON files==
 
+* full-left-75-D-L-example1.json
+	*../../../../src/packages/modules/editorial-slideshows-e4/demo/data/full-left-75-D-L-example1.json
+
+* medialeft-66-D-L-example1.json
+	*../../../../src/packages/modules/editorial-slideshows-e4/demo/data/medialeft-66-D-L-example1.json
+
+* mediaright-66-D-L-example1.json
+	*../../../../src/packages/modules/editorial-slideshows-e4/demo/data/mediaright-66-D-L-example1.json
 
 
 Submodule Information ReadMe
 ----------------------------
 
+This uses the pattern from editorials which a D4. PDP Slideshow is actually a submodule itself of an editorial layout
 
 
 
