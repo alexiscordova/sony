@@ -109,7 +109,7 @@ define(function(require){
     bindNav: function() {
 
       var self = this,
-          $buttons = self.$el.find('.subcategory-link');
+          $buttons = self.$navgrid.children();
 
       $buttons.on('click', function(){
 

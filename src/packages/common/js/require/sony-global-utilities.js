@@ -209,7 +209,7 @@ define(function (require) {
       }
 
       var $grid = $grids.first().clone().empty(),
-          $compiledGrids = $(''),
+          compiledGrids = [],
           $workingGrid = $grid.clone(),
           roomRemaining = mobile ? 6 : 12,
           $mSpans = $grids.find(mobile ? '[class*="m-span"]' : '[class*="span"]');
@@ -224,10 +224,13 @@ define(function (require) {
           if ( classes[j].indexOf(mobile ? 'm-span' : 'span') === 0 ) {
             spanCount = classes[j].split(mobile ? 'm-span' : 'span')[1] * 1;
           }
+          if ( center && classes[j].indexOf(mobile ? 'm-offset' : 'offset') === 0 ) {
+            $this.removeClass(classes[j]);
+          }
         }
 
         if ( roomRemaining < spanCount ) {
-          $compiledGrids = $compiledGrids.add($workingGrid.clone());
+          compiledGrids.push($workingGrid.clone().get(0));
           $workingGrid = $grid.clone();
           roomRemaining = mobile ? 6 : 12;
         }
@@ -241,15 +244,15 @@ define(function (require) {
             $workingGrid.children().first().addClass((mobile ? 'm-offset' : 'offset') + Math.floor(roomRemaining / 2));
           }
 
-          $compiledGrids = $compiledGrids.add($workingGrid.clone());
+          compiledGrids.push($workingGrid.clone().get(0));
           $workingGrid = null;
         }
       });
 
       $grids.not($grids.first()).remove();
-      $grids.first().replaceWith($compiledGrids);
+      $grids.first().replaceWith($(compiledGrids));
 
-      return $compiledGrids;
+      return $(compiledGrids);
     }
 
   };
