@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('ux-marketing-convergence-e14')
 +includeJavascriptModule('ux-marketing-convergence-e14')
 
 section.container.uxmc
@@ -31,7 +32,7 @@ section.container.uxmc
               div.uxmc-image-wrapper.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
                 span
                 img.iq-img(data-src-desktop=product.imgSrcDesktop, data-src-tablet=product.imgSrcTablet, data-src-phone=product.imgSrcPhone, data-src-desktop-highres=product.imgSrcDesktopHighRes, data-src-tablet-highres=product.imgSrcTabletHighRes, data-src-phone-highres=product.imgSrcPhoneHighRes)
-            
+
     div.progress-indicators
       div
         - for (var i = 1; i <= data.partnerProducts.length; i++)
@@ -42,7 +43,7 @@ section.container.uxmc
 
 
   //- ul.partner-products
-  //-   for product in data.partnerProducts     
+  //-   for product in data.partnerProducts
   //-     li
   //-       div.uxmc-overlay
   //-         p #{product.topLine}
