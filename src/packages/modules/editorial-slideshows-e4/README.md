@@ -1,6 +1,8 @@
-### D4. PDP Slide Show
+### E4. Editorial - Slideshows
 
-The pdp slide show D4. This is actually a submodule of an Editorial layout.
+These are the submodule slideshows that live in an Editorial layout. 
+
+This is actually a submodule of an Editorial layout.
 
 
 Document Overview
@@ -23,7 +25,7 @@ Each module will include this document, which contains an ordered list of the fi
 * all.css
 	*../../../../build/deploy/css/modules/all.css
 	
-* pdp-slideshow-d4.css
+* editorial-slideshows-e4.css
 	*../../../../build/deploy/css/modules/editorial-slideshows-e4.css
 
 * responsive.css
@@ -50,10 +52,10 @@ Each module will include this document, which contains an ordered list of the fi
 	
 == Related Source ==
 
-* pdp-slideshow-d4.js
+* editorial-slideshows-e4.js
 	*../../../js/bundle/defer/editorial-slideshows-e4.js
 
-* pdp-slideshow-d4.scss
+* editorial-slideshows-e4.scss
 	*../../../css/scss/modules/editorial-slideshows-e4.scss
 
 	
