@@ -21,7 +21,7 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        sonyCarousel = require('secondary/index').sonyChapters,
+        sonyCarouselFade = require('secondary/index').sonyCarouselFade,
         sonyScroller = require('secondary/index').sonyScroller;
 
     var self = {
@@ -98,7 +98,7 @@ define(function(require){
         var self = this;
 
         // Using Sony Carousel for this module
-        self.$slideContainer.sonyCarousel({
+        self.$slideContainer.sonyCarouselFade({
           wrapper: '.editorial-carousel-wrapper',
           slides: '.editorial-carousel-slide',
           looped: false,
@@ -111,7 +111,7 @@ define(function(require){
           draggable: false
         });
 
-        self.$slideContainer.on('SonyCarousel:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
+        self.$slideContainer.on('SonyCarouselFade:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
 
         iQ.update();
 
@@ -212,7 +212,7 @@ define(function(require){
         $anchors.removeClass('active');
         $el.addClass('active');
 
-        self.$slideContainer.sonyCarousel( 'gotoSlide' , self.currentId );
+        self.$slideContainer.sonyCarouselFade( 'gotoSlide' , self.currentId );
       },
 
       // Sets the current active thumbnail
