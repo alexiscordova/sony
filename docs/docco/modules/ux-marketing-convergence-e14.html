@@ -36,24 +36,23 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>general</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$html = $(document.documentElement);
     self.$el = $(element);
-    self.isInit = <span class="literal">true</span>;
-
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>resize event related
-self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
-self.onResizeFunc = $.proxy(self.handleResize, self); <br />
-self.isResize = false;
-self.atBreakpoint = undefined;</p>             </td>             <td class="code">               <div class="highlight"><pre>    
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>buttons &amp; dials</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$reloadButton = self.$el.find(<span class="string">'.btn-reload'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>self.isInit = true;</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>resize event related</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.debounceEvent = <span class="string">'global:resizeDebounced-200ms.uxmc'</span>;
+    self.onResizeEvent = $.proxy(self.handleResize, self);    
+    self.isResize = <span class="literal">false</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>self.atBreakpoint = undefined;</p>             </td>             <td class="code">               <div class="highlight"><pre>    
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>buttons &amp; dials</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$reloadButton = self.$el.find(<span class="string">'.btn-reload'</span>);
     self.$dialWrappers = self.$el.find(<span class="string">'.uxmc-dial-wrapper'</span>);
     self.$dials = self.$dialWrappers.find(<span class="string">'.uxmc-dial'</span>);
     self.$dialLabels = self.$dialWrappers.find(<span class="string">'.uxmc-dial-label'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$carousel = self.$el.find(<span class="string">'.uxmc-carousel'</span>); 
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$carousel = self.$el.find(<span class="string">'.uxmc-carousel'</span>); 
     self.$carouselInstance = <span class="literal">undefined</span>;
     self.$carouselSlides = self.$carousel.find(<span class="string">'.sony-carousel-slide'</span>);
     self.$carouselSlidesChildren = self.$carousel.find(<span class="string">'.sony-carousel-slide-children'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>LISTEN</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$carousel.on(<span class="string">'SonyCarousel:AnimationComplete'</span>, $.proxy(self.onAnimationComplete, self));
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>LISTEN</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$carousel.on(<span class="string">'SonyCarousel:AnimationComplete'</span>, $.proxy(self.onAnimationComplete, self));
+    Environment.on(self.debounceEvent, $.proxy(self.onResizeEvent, self));
 
     self.init();
 
@@ -68,19 +67,28 @@ self.atBreakpoint = undefined;</p>             </td>             <td class="code
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>self.currentPartnerProduct = -1;</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.currentPartnerProduct = <span class="number">0</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>self.currentPartnerProduct = -1;</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.currentPartnerProduct = <span class="number">0</span>;
 
       self.initCarousel();  
       self.setupSlideLinks();
       
-      self.animationLoop();
-      self.setupButtons();
-      self.setupDials();
-
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>INIT SEQUENCE </p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setButtonColor(self.currentPartnerProduct); <span class="comment">// set color</span>
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>self.animationLoop();
+self.setupButtons();
+self.setupDials();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>INIT SEQUENCE </p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setButtonColor(self.currentPartnerProduct); <span class="comment">// set color</span>
       self.fadeInContent(self.currentPartnerProduct); <span class="comment">// show content</span>
-      self.resetDials(); <span class="comment">// start animation</span>
-      self.resetPartnerCarouselInterval(); <span class="comment">// start timer</span>
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>self.resetDials(); // start animation
+self.resetPartnerCarouselInterval(); // start timer</p>             </td>             <td class="code">               <div class="highlight"><pre>    },
+
+    <span class="string">'handleResize'</span> : <span class="keyword">function</span>(){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      console.log( <span class="string">'resize event »'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>self.isResize = true; <br />
+self.gotoPartnerProduct();</p>             </td>             <td class="code">               <div class="highlight"><pre>      
+      
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>true means no animation, jsut 'snap'</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carouselInstance.sonyCarousel(<span class="string">'gotoSlide'</span>, self.currentPartnerProduct, <span class="literal">true</span>); 
+      iQ.update();
+      self.resetDials();      
     },
 
     <span class="string">'initCarousel'</span> : <span class="keyword">function</span>(){
@@ -100,11 +108,13 @@ self.atBreakpoint = undefined;</p>             </td>             <td class="code
 
     <span class="string">'onAnimationComplete'</span> : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      self.fadeOutContent(); 
-      self.fadeInContent(self.currentPartnerProduct); 
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>self.fadeOutContent(); 
+self.fadeInContent(self.currentPartnerProduct); </p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>new color for reload buton
+self.setButtonColor(self.currentPartnerProduct);</p>             </td>             <td class="code">               <div class="highlight"><pre>
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>enable entire slide as link without reworking markup
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>enable entire slide as link without reworking markup
 assumes mark-up particular markup</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'setupSlideLinks'</span> : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.$carouselSlides.bind(<span class="string">"click"</span>,<span class="keyword">function</span>(e){
@@ -127,7 +137,7 @@ assumes mark-up particular markup</p>             </td>             <td class="c
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Setup simpleKnob dials, setup behaviors for hover/click.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'setupDials'</span>: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Setup simpleKnob dials, setup behaviors for hover/click.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'setupDials'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -149,7 +159,7 @@ assumes mark-up particular markup</p>             </td>             <td class="c
         <span class="keyword">if</span> ( position === self.currentPartnerProduct ) {
           self.resetDials();
         } <span class="keyword">else</span> {
-          self.currentPartnerProduct = position;
+          self.currentPartnerProduct = position - <span class="number">1</span>;
           self.gotoPartnerProduct();
         }
 
@@ -166,7 +176,7 @@ assumes mark-up particular markup</p>             </td>             <td class="c
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Timer to trigger carousel rotation. Subsequent calls reset the timer's interval.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'resetPartnerCarouselInterval'</span>: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Timer to trigger carousel rotation. Subsequent calls reset the timer's interval.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'resetPartnerCarouselInterval'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -180,18 +190,19 @@ assumes mark-up particular markup</p>             </td>             <td class="c
     },
 
     <span class="string">'gotoPartnerProduct'</span>: <span class="keyword">function</span>() {
-
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           newSlideColor,
           which = self.currentPartnerProduct === self.$carouselSlides.length - <span class="number">1</span>  ?  <span class="number">0</span> : self.currentPartnerProduct + <span class="number">1</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>new color for reload buton</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setButtonColor(which);
+      self.fadeOutContent(); 
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>fade out content as slide is moving
-self.fadeOutContent(); </p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>to go the slide</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carouselInstance.sonyCarousel(<span class="string">'gotoSlide'</span>, which);
-      
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>update current slide</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.currentPartnerProduct = which;  
+      self.$carouselInstance.sonyCarousel(<span class="string">'gotoSlide'</span>, which);
+
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>new color for reload buton</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setButtonColor(which);
+
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>fade out content as slide is moving</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.fadeInContent(which); 
+     
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>update current slide after transition is complete</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.currentPartnerProduct = which;  
 
       iQ.update();
       self.resetDials();      
@@ -212,13 +223,14 @@ self.fadeOutContent(); </p>             </td>             <td class="code">     
 
     <span class="string">'fadeInContent'</span> : <span class="keyword">function</span>(which){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
       self.$carouselSlides
         .eq(which)
         .children(<span class="string">".sony-carousel-slide-children"</span>)
         .addClass(<span class="string">"active"</span>); 
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Update the current progress indicator dial, reset others to zero, and timestamp the event.
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Update the current progress indicator dial, reset others to zero, and timestamp the event.
 Label active dial for IE fallbacks.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'resetDials'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -233,21 +245,14 @@ Label active dial for IE fallbacks.</p>             </td>             <td class=
       self.$activeDialLabel.addClass(<span class="string">'active'</span>);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Animations that should occur as the window is ready to paint.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'animationLoop'</span>: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Animations that should occur as the window is ready to paint.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'animationLoop'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           position;
 
-      <span class="keyword">if</span>(self.isInit){
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>remove transition time since there's no transition on init</p>             </td>             <td class="code">               <div class="highlight"><pre>        position = (<span class="keyword">new</span> Date() - self.slideStartTime) / (self.rotationSpeed) * <span class="number">100</span>;
-        self.isInit = <span class="literal">false</span>;
-      }<span class="keyword">else</span>{
-        position = (<span class="keyword">new</span> Date() - self.slideStartTime - self.transitionTime) / (self.rotationSpeed - self.transitionTime) * <span class="number">100</span>;
-      }
+      position = (<span class="keyword">new</span> Date() - self.slideStartTime - self.transitionTime) / (self.rotationSpeed - self.transitionTime) * <span class="number">100</span>;
           
-      <span class="keyword">if</span>(position &lt; <span class="number">0</span>){
-        position = <span class="number">0</span>;
-      }
+      <span class="keyword">if</span>(position &lt; <span class="number">0</span>){position = <span class="number">0</span>;}
 
       window.requestAnimationFrame( $.proxy(self.animationLoop, self) );
 
@@ -257,12 +262,12 @@ Label active dial for IE fallbacks.</p>             </td>             <td class=
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   module.defaults = {
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Timeout between slide rotation.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'rotationSpeed'</span>: <span class="number">5000</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Timeout between slide rotation.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'rotationSpeed'</span>: <span class="number">5000</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Duration of slide transition.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'transitionTime'</span>: <span class="number">1500</span>
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Duration of slide transition.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'transitionTime'</span>: <span class="number">1500</span>
   };
 
   <span class="keyword">return</span> module;
