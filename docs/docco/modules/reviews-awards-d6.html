@@ -31,7 +31,6 @@ define(<span class="keyword">function</span>(require){
     <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
     self.$el = $(element);
-    self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
 
     self.init();
 
@@ -98,7 +97,6 @@ define(<span class="keyword">function</span>(require){
       self.$userReviewCarousel = self.$el.find(<span class="string">'.carousel-slide'</span>).sonyCarousel({
         wrapper: <span class="string">'.raa-user-reviews-carousel'</span>,
         slides: <span class="string">'.user-ratings, .raa-social-mention'</span>,
-        useCSS3: self.useCSS3,
         pagination: <span class="literal">true</span>,
         $dotNavWrapper: self.$el.find(<span class="string">'.raa-user-reviews-carousel'</span>)
       });
@@ -106,7 +104,6 @@ define(<span class="keyword">function</span>(require){
       self.$expertReviewCarousel = self.$el.find(<span class="string">'.raa-expert-reviews .reviews &gt; div'</span>).sonyCarousel({
         wrapper: <span class="string">'.raa-expert-reviews .reviews'</span>,
         slides: <span class="string">'.raa-expert-review'</span>,
-        useCSS3: self.useCSS3,
         pagination: <span class="literal">true</span>,
         $dotNavWrapper: self.$el.find(<span class="string">'.raa-expert-reviews .reviews'</span>)
       });
@@ -130,7 +127,6 @@ define(<span class="keyword">function</span>(require){
       self.$mergedCarousel.sonyCarousel({
         wrapper: <span class="string">'.raa-merged-carousel'</span>,
         slides: <span class="string">'.raa-expert-review, .user-ratings, .raa-social-mention, .raa-awards'</span>,
-        useCSS3: self.useCSS3,
         pagination: <span class="literal">true</span>
       });
 
