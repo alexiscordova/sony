@@ -4,7 +4,7 @@
 //
 // * **Class:** MarketingConvergenceModule
 // * **Version:** 0.2
-// * **Modified:** 04/18/2013
+// * **Modified:** 04/22/2013
 // * **Author:** George Pantazis, Telly Koosis
 // * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html), [SonyCarousel](sony-carousel.html)
 
@@ -40,10 +40,9 @@ define(function(require){
     self.isInit = true;
 
     // resize event related
-    // self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
-    // self.onResizeFunc = $.proxy(self.handleResize, self);    
-    // self.isResize = false;
-    // self.atBreakpoint = undefined;
+    self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
+    self.onResizeEvent = $.proxy(self.handleResize, self);    
+    self.isResize = false;
     
     // buttons & dials
     self.$reloadButton = self.$el.find('.btn-reload');
@@ -58,7 +57,7 @@ define(function(require){
     self.$carouselSlidesChildren = self.$carousel.find('.sony-carousel-slide-children');
 
     // LISTEN
-    self.$carousel.on('SonyCarousel:AnimationComplete', $.proxy(self.onAnimationComplete, self));
+    Environment.on(self.debounceEvent, $.proxy(self.onResizeEvent, self));
 
     self.init();
 
@@ -73,7 +72,6 @@ define(function(require){
 
       var self = this;
 
-      // self.currentPartnerProduct = -1;
       self.currentPartnerProduct = 0;
 
       self.initCarousel();  
@@ -88,6 +86,12 @@ define(function(require){
       self.fadeInContent(self.currentPartnerProduct); // show content
       self.resetDials(); // start animation
       self.resetPartnerCarouselInterval(); // start timer
+    },
+
+    'handleResize' : function(){
+      var self = this;
+      self.isResize = true;
+      self.gotoPartnerProduct(); // reset current slide   
     },
 
     'initCarousel' : function(){
@@ -105,11 +109,6 @@ define(function(require){
       });    
     },
 
-    'onAnimationComplete' : function(){
-      var self = this;
-      self.fadeOutContent(); 
-      self.fadeInContent(self.currentPartnerProduct); 
-    },
 
     // enable entire slide as link without reworking markup
     // assumes mark-up particular markup
@@ -158,7 +157,7 @@ define(function(require){
         if ( position === self.currentPartnerProduct ) {
           self.resetDials();
         } else {
-          self.currentPartnerProduct = position;
+          self.currentPartnerProduct = position - 1;
           self.gotoPartnerProduct();
         }
 
@@ -190,25 +189,34 @@ define(function(require){
     },
 
     'gotoPartnerProduct': function() {
-
       var self = this,
           newSlideColor,
           which = self.currentPartnerProduct === self.$carouselSlides.length - 1  ?  0 : self.currentPartnerProduct + 1;
 
-      // new color for reload buton
-      self.setButtonColor(which);
+      if(self.isResize){
+        which = self.currentPartnerProduct;
+        self.isResize = false; // reset
+      }else{
 
-      // fade out content as slide is moving
-      // self.fadeOutContent(); 
+        // new slide
+        self.fadeOutContent(); 
 
-      // to go the slide
-      self.$carouselInstance.sonyCarousel('gotoSlide', which);
-      
-      // update current slide
-      self.currentPartnerProduct = which;  
+        self.$carouselInstance.sonyCarousel('gotoSlide', which);
+
+        // new color for reload buton
+        self.setButtonColor(which);
+
+        // fade out content as slide is moving
+        self.fadeInContent(which); 
+       
+        // update current slide after transition is complete
+        self.currentPartnerProduct = which;  
+
+      }
 
       iQ.update();
-      self.resetDials();      
+      self.resetDials();
+
     },
 
     'setButtonColor' : function(which){
@@ -226,6 +234,7 @@ define(function(require){
 
     'fadeInContent' : function(which){
       var self = this;
+
       self.$carouselSlides
         .eq(which)
         .children(".sony-carousel-slide-children")
@@ -254,17 +263,15 @@ define(function(require){
       var self = this,
           position;
 
-      if(self.isInit){
-        // remove transition time since there's no transition on init
-        position = (new Date() - self.slideStartTime) / (self.rotationSpeed) * 100;
+      if(self.isInit) {
+        // no transition for initial timer
+        position = (new Date() - self.slideStartTime) / self.rotationSpeed * 100;
         self.isInit = false;
       }else{
         position = (new Date() - self.slideStartTime - self.transitionTime) / (self.rotationSpeed - self.transitionTime) * 100;
       }
           
-      if(position < 0){
-        position = 0;
-      }
+      if(position < 0){position = 0;}
 
       window.requestAnimationFrame( $.proxy(self.animationLoop, self) );
 

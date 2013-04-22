@@ -22,7 +22,7 @@ define(<span class="keyword">function</span>(require){
         bootstrap = require(<span class="string">'bootstrap'</span>),
         Settings = require(<span class="string">'require/sony-global-settings'</span>),
         Environment = require(<span class="string">'require/sony-global-environment'</span>),
-        sonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel;
+        sonyCarousel = require(<span class="string">'secondary/index'</span>).sonyChapters;
 
     <span class="keyword">var</span> self = {
       <span class="string">'init'</span>: <span class="keyword">function</span>() {
@@ -147,7 +147,13 @@ define(<span class="keyword">function</span>(require){
        
         $anchors.eq(<span class="number">0</span>).addClass(<span class="string">'active'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Vertically center thumb text based on height</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$thumbLabels.each(<span class="keyword">function</span>(){
+        self.centerThumbText();
+      },
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Vertically center thumb text based on height</p>             </td>             <td class="code">               <div class="highlight"><pre>      centerThumbText: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        self.$thumbLabels.each(<span class="keyword">function</span>(){
           <span class="keyword">var</span> $span = $(<span class="keyword">this</span>),
             height = $span.height();
 

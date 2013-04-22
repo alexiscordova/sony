@@ -2,8 +2,6 @@
 // Responsive: Chapters - E5
 // --------------------------------------------------
 
-// HIDES TEXT IN THUMB NAV FOR ANY CHAPTER MODULE UNDER 768 PIXELS IN ANY BROWSER WINDOW SIZE
-
 @mixin compact-thumb-nav {
   &.thumb-mode {
     .thumb-nav {
@@ -26,18 +24,6 @@
         }
         i, span {display:none;}
     }
-  }
-  &.offset-nav {
-    .thumb-nav {margin:0 !important;}
-      li {width:auto;}
-
-    &.top-nav .thumb-nav {
-      height:58px;
-    } 
-  }
-  &.top-nav.thumb-mode li {
-    &.active,
-    &:hover {margin-top:0;}
   }
   &.icon-mode {
     .thumb-nav {
@@ -77,7 +63,7 @@
   }
 }
 
-// Set mobile view for any container under 768 pixels
+// Set mobile view for any container under 910 pixels
 .span4,
 .span5,
 .span6,
@@ -88,44 +74,30 @@
 }
 
 @media (max-width: 1379px) {
-  .span8 .editorial-chapters-container{
+  .span8 .editorial-chapters-container {
     @include compact-thumb-nav;
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 910px) {
 
   .editorial-chapters-container {
     @include compact-thumb-nav;
-
-    &.top-nav.overlay-nav .thumb-nav {top:20px;}
-    &.bottom-nav.overlay-nav .thumb-nav {bottom:20px;}
   }
+
+}
+
+@media (max-width: 767px) {
 
   .container,
   .span12 {
     & > .editorial-chapters-container {
-      .thumb-nav {
-        bottom:auto !important;
-        width:100%;
-        left:0;
-        top:240px;
-        position:absolute;
-        background:$gray80 !important;
+      .thumb-nav {background:$gray80; width:100%;}
 
-        li,
-        li:hover,
-        li.active {background:$gray80 !important;}
-      }
-      .box {margin-top:58px !important;}
-      &.dark .thumb-nav {background:$gray20;}
-      &.gray .thumb-nav {background:$gray80;}
-      &.white .thumb-nav {background:$white;}
-      &.top-nav .thumb-nav {
-        bottom:auto;
-        top:0;
-      }
+      li,
+      li:hover,
+      li.active {background:$gray80 !important;}
     }
   }
 
-} // END max-width: 767px
+}
