@@ -193,26 +193,48 @@ define(function (require) {
       $input = null;
     },
 
-    // Takes a number of grids, supplied as a jQuery object (`$grids`) and re-apportions
-    // their elements, in order, to a new set of grids. The old grids are then removed,
-    // and the new grids are inserted at the point of the first grid.
+    // Takes a number of groups, supplied as a jQuery object (`options.$groups`) and re-apportions
+    // their elements, in order, to a new set of groups. The old groups are then removed,
+    // and the new groups are inserted at the point of the first group. Groups are assumed to be grids,
+    // unless `options.gridSelector` is specified, in which case the method will look for that selector
+    // inside each group for the location of the actual grid.
     //
-    // If the `mobile` argument is **true**, grids will be apportioned based on m-spans instead.
+    // If the `options.mobile` option is **true**, grids will be apportioned based on m-spans instead.
     //
-    // If the `center` argument is **true**, the final grid will attempt to center its contents,
+    // If the `options.center` option is **true**, the final grid will attempt to center its contents,
     // based on the floor of half the remaining available columns.
+    //
+    // Example Usage:
+    //
+    // * Rearranges items into mobile grid, with the last grid centered. Note that it since it returns
+    // the updated set, you can overwrite the previous reference to the groups (`self.$foo`)
+    // in the calling context. *
+    //
+    //      self.$foo = Utilities.gridApportion({
+    //        $groups: self.$foo,
+    //        gridSelector: '.slimgrid',
+    //        mobile: true,
+    //        center: true
+    //      });
 
-    gridApportion: function($grids, mobile, center) {
+    gridApportion: function(options) {
 
-      if ( !$grids ) {
+      if ( !options.$groups ) {
         return;
       }
 
-      var $grid = $grids.first().clone().empty(),
+      var $groups = options.$groups,
+          isMobile = options.mobile,
+          isCentered = options.center,
+          hasGridSelector = options.gridSelector,
+
+          $container = $groups.first().clone(),
+          $appendContainer = hasGridSelector ? $container.find(options.gridSelector).empty() : $container.empty(),
           compiledGrids = [],
-          $workingGrid = $grid.clone(),
-          roomRemaining = mobile ? 6 : 12,
-          $mSpans = $grids.find(mobile ? '[class*="m-span"]' : '[class*="span"]');
+          $workingAppendContainer = $container.clone(),
+          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer,
+          roomRemaining = isMobile ? 6 : 12,
+          $mSpans = $groups.find(isMobile ? '[class*="m-span"]' : '[class*="span"]');
 
       $mSpans.each(function(i){
 
@@ -221,18 +243,19 @@ define(function (require) {
             spanCount;
 
         for ( var j = 0; j < classes.length; j++ ) {
-          if ( classes[j].indexOf(mobile ? 'm-span' : 'span') === 0 ) {
-            spanCount = classes[j].split(mobile ? 'm-span' : 'span')[1] * 1;
+          if ( classes[j].indexOf(isMobile ? 'm-span' : 'span') === 0 ) {
+            spanCount = classes[j].split(isMobile ? 'm-span' : 'span')[1] * 1;
           }
-          if ( center && classes[j].indexOf(mobile ? 'm-offset' : 'offset') === 0 ) {
+          if ( isCentered && classes[j].indexOf(isMobile ? 'm-offset' : 'offset') === 0 ) {
             $this.removeClass(classes[j]);
           }
         }
 
         if ( roomRemaining < spanCount ) {
-          compiledGrids.push($workingGrid.clone().get(0));
-          $workingGrid = $grid.clone();
-          roomRemaining = mobile ? 6 : 12;
+          compiledGrids.push($workingAppendContainer.clone().get(0));
+          $workingAppendContainer = $container.clone();
+          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer;
+          roomRemaining = isMobile ? 6 : 12;
         }
 
         $workingGrid.append($this);
@@ -240,17 +263,17 @@ define(function (require) {
 
         if ( i === $mSpans.length - 1 ) {
 
-          if ( center && roomRemaining >= 2 ) {
-            $workingGrid.children().first().addClass((mobile ? 'm-offset' : 'offset') + Math.floor(roomRemaining / 2));
+          if ( isCentered && roomRemaining >= 2 ) {
+            $workingGrid.children().first().addClass((isMobile ? 'm-offset' : 'offset') + Math.floor(roomRemaining / 2));
           }
 
-          compiledGrids.push($workingGrid.clone().get(0));
-          $workingGrid = null;
+          compiledGrids.push($workingAppendContainer.clone().get(0));
+          $workingAppendContainer = $workingGrid = null;
         }
       });
 
-      $grids.not($grids.first()).remove();
-      $grids.first().replaceWith($(compiledGrids));
+      $groups.not($groups.first()).remove();
+      $groups.first().replaceWith($(compiledGrids));
 
       return $(compiledGrids);
     }
