@@ -104,7 +104,7 @@ define(<span class="keyword">function</span>(require){
         useCSS3: <span class="literal">true</span>,
         draggable: <span class="literal">false</span>,
         jumping:<span class="literal">true</span>,
-        setCSS3Easing: Settings.easing.easeOutQuart,
+        setCSS3Easing: Settings.easing.easeInOutExpo,
         animationSpeed: self.transitionTime
       });    
     },
@@ -136,9 +136,9 @@ assumes mark-up particular markup</p>             </td>             <td class="c
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      self.$dials.simpleKnob({
-        <span class="string">'width'</span>: <span class="number">28</span>,
-        <span class="string">'height'</span>: <span class="number">28</span>,
+      self.$dials.simpleKnob({    
+        <span class="string">'width'</span>: <span class="number">34</span>,
+        <span class="string">'height'</span>: <span class="number">34</span>,    
         <span class="string">'thickness'</span>: <span class="number">0.15</span>,
         <span class="string">'fontSize'</span>: <span class="string">'1em'</span>,
         <span class="string">'bgColor'</span>: <span class="string">'rgba(255, 255, 255, 0.5)'</span>,
@@ -278,7 +278,7 @@ Label active dial for IE fallbacks.</p>             </td>             <td class=
 
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Timeout between slide rotation.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'rotationSpeed'</span>: <span class="number">5000</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Duration of slide transition.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'transitionTime'</span>: <span class="number">1500</span>
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Duration of slide transition.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'transitionTime'</span>: <span class="number">750</span>
   };
 
   <span class="keyword">return</span> module;
