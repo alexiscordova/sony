@@ -185,10 +185,18 @@ if data.view == 'basic'
         span.label.label-success= data.label
 
       if data.layout == 'promo'
-        .product-img.iq-img(data-src-desktop=data.img.srcDesktop, data-src-tablet=data.img.srcTablet, data-src-phone=data.img.srcPhone, data-src-desktop-highres=data.img.srcDesktopHighRes, data-src-tablet-highres=data.img.srcTabletHighRes, data-src-phone-highres=data.img.srcPhoneHighRes)
-          - style = data.style ? data.style : ''
+        productImgClasses = [ 'product-img', 'iq-img' ]
+        if data.backgroundColorClass
+          - productImgClasses.push( data.backgroundColorClass )
+        div(class=productImgClasses, data-src-desktop=data.img.srcDesktop, data-src-tablet=data.img.srcTablet, data-src-phone=data.img.srcPhone, data-src-desktop-highres=data.img.srcDesktopHighRes, data-src-tablet-highres=data.img.srcTabletHighRes, data-src-phone-highres=data.img.srcPhoneHighRes)
           - classes = ['promo-content']
-          - classes.push( style )
+
+          case data.variation
+            when 'c1'
+              - classes.push( 'dark-text' )
+            when 'c2'
+              - classes.push( 'light-text' )
+
           div(class=classes)
             .promo-title
               span.t4.title= data.title
