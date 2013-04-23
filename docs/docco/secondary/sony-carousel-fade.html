@@ -262,30 +262,41 @@ respect the grid even though they aren't really in it. Refer to S2 for usage exa
         }
       }
 
-      newPosition = destinationPosition / innerContainerMeasurement;
+      <span class="keyword">if</span> ( self.useCSS3 ) {
+
+        newPosition = destinationPosition / innerContainerMeasurement;
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If you're on the last slide, only move over enough to show the last child.
 Prevents excess whitespace on the right.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-      <span class="keyword">if</span> ( self.slideChildren &amp;&amp; which === $slideSet.length - <span class="number">1</span> ) {
-        <span class="keyword">var</span> childrenSumMeasurement = <span class="number">0</span>;
+        <span class="keyword">if</span> ( self.slideChildren &amp;&amp; which === $slideSet.length - <span class="number">1</span> ) {
+          <span class="keyword">var</span> childrenSumMeasurement = <span class="number">0</span>;
 
-        <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
-          $destinationSlide.find(self.slideChildren).each(<span class="keyword">function</span>(){ childrenSumMeasurement += $(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>); });
-          newPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
+          <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
+            $destinationSlide.find(self.slideChildren).each(<span class="keyword">function</span>(){ childrenSumMeasurement += $(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>); });
+            newPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
+          }
+
         }
 
+        self.$el.on(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>, <span class="keyword">function</span>(){
+          iQ.update(<span class="literal">true</span>);
+          self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
+          self.$el.off(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
+        });
+
+        self.$el.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), speed + <span class="string">'ms'</span> );
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>for fade transition</p>             </td>             <td class="code">               <div class="highlight"><pre>        $destinationSlide.addClass(<span class="string">'active'</span>)
+          .siblings().removeClass(<span class="string">'active'</span>);
+
+      } <span class="keyword">else</span> {
+
+        <span class="keyword">var</span> $sibs = $destinationSlide.siblings();
+
+        $destinationSlide.addClass(<span class="string">'active'</span>).hide().fadeIn(<span class="string">'fast'</span>);
+        $sibs.fadeOut(<span class="string">'fast'</span>, <span class="keyword">function</span>(){ $sibs.removeClass(<span class="string">'active'</span>); });
+
       }
-
-      self.$el.on(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>, <span class="keyword">function</span>(){
-        iQ.update(<span class="literal">true</span>);
-        self.$el.trigger(<span class="string">'SonyCarouselFade:AnimationComplete'</span>);
-        self.$el.off(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
-      });
-
-      self.$el.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), speed + <span class="string">'ms'</span> );
-
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>for fade transition</p>             </td>             <td class="code">               <div class="highlight"><pre>      $destinationSlide.addClass(<span class="string">'active'</span>)
-        .siblings().removeClass(<span class="string">'active'</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>If you've taken the carousel out of its normal flow (either with <code>self.jumping</code> or <code>self.looped</code>)
 Reset the carousel to its natural position and order.</p>             </td>             <td class="code">               <div class="highlight"><pre>

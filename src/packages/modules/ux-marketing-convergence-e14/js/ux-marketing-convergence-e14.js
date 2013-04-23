@@ -38,6 +38,8 @@ define(function(require){
     self.$html = $(document.documentElement);
     self.$el = $(element);
     self.isInit = true;
+    // self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions; // sony carousel will check this too and then this can just be 'true'
+
 
     // resize event related
     self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
@@ -57,7 +59,9 @@ define(function(require){
     self.$carouselSlidesChildren = self.$carousel.find('.sony-carousel-slide-children');
 
     // LISTEN
-    Environment.on(self.debounceEvent, $.proxy(self.onResizeEvent, self));
+    if(!Settings.isLTIE10){
+      Environment.on(self.debounceEvent, $.proxy(self.onResizeEvent, self));
+    }
 
     self.init();
 
@@ -82,7 +86,10 @@ define(function(require){
       self.setupDials();
 
       // INIT SEQUENCE 
-      self.setButtonColor(self.currentPartnerProduct); // set color
+      if(!Settings.isLTIE9){
+        self.setButtonColor(self.currentPartnerProduct); // new color for reload buton
+      }
+
       self.fadeInContent(self.currentPartnerProduct); // show content
       self.resetDials(); // start animation
       self.resetPartnerCarouselInterval(); // start timer
@@ -104,11 +111,10 @@ define(function(require){
         useCSS3: true,
         draggable: false,
         jumping:true,
-        setCSS3Easing: Settings.easing.easeOutQuart,
+        setCSS3Easing: Settings.easing.easeInOutExpo,
         animationSpeed: self.transitionTime
       });    
     },
-
 
     // enable entire slide as link without reworking markup
     // assumes mark-up particular markup
@@ -139,9 +145,9 @@ define(function(require){
 
       var self = this;
 
-      self.$dials.simpleKnob({
-        'width': 28,
-        'height': 28,
+      self.$dials.simpleKnob({    
+        'width': 34,
+        'height': 34,    
         'thickness': 0.15,
         'fontSize': '1em',
         'bgColor': 'rgba(255, 255, 255, 0.5)',
@@ -203,26 +209,28 @@ define(function(require){
 
         self.$carouselInstance.sonyCarousel('gotoSlide', which);
 
-        // new color for reload buton
-        self.setButtonColor(which);
+        if(!Settings.isLTIE9){
+          self.setButtonColor(which); // new color for reload buton
+        }
 
         // fade out content as slide is moving
         self.fadeInContent(which); 
        
         // update current slide after transition is complete
         self.currentPartnerProduct = which;  
-
       }
 
       iQ.update();
       self.resetDials();
-
     },
 
     'setButtonColor' : function(which){
-      var self = this;
+      var self = this,
+          $reloadBtn = self.$reloadButton,
+          $slide = self.$carouselSlides.eq(which);
 
-      self.$reloadButton.css('color', self.$carouselSlides.eq(which).css("backgroundColor"));
+      $reloadBtn.css('color', $slide.css("background-color"));
+
     },
 
     'fadeOutContent' : function(){
@@ -237,7 +245,7 @@ define(function(require){
 
       self.$carouselSlides
         .eq(which)
-        .children(".sony-carousel-slide-children")
+        .find(".sony-carousel-slide-children")
         .addClass("active"); 
     },
 
@@ -290,7 +298,7 @@ define(function(require){
     'rotationSpeed': 5000,
 
     // Duration of slide transition.
-    'transitionTime': 1500
+    'transitionTime': 750
   };
 
   return module;

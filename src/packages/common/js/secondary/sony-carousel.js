@@ -261,7 +261,7 @@ define(function(require){
           $slideSet = self.$slides,
           speed = ( noAnim ? 0 : self.animationSpeed ),
           $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
-
+  
       // Logic for the natural ends of a carousel that has been looped
 
       if ( self.looped && ( which === -1 || which >= self.$slides.length )) {
@@ -344,7 +344,8 @@ define(function(require){
 
         }
 
-        self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(){
+        self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(e){
+          if (e.currentTarget !== e.target){return;} // prevent conflicts 
           iQ.update(true);
           self.$el.trigger('SonyCarousel:AnimationComplete');
           self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
@@ -384,8 +385,8 @@ define(function(require){
 
       if ( ( self.isJumped && speed ) || typeof destinationRedirect !== 'undefined' ) {
 
-        repositionCb = Utilities.once(function(){
-
+        repositionCb = Utilities.once(function(e){
+          if (e.currentTarget !== e.target){return;} // prevent conflicts 
           if ( self.isJumped ) {
             ( self.$allSlides || self.$slides ).each(function(){
               $(this).detach().appendTo(self.$el);
@@ -622,12 +623,14 @@ define(function(require){
           .css(self.posAttr, '');
 
       // Unbind
-      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
+      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);        
       self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
       $clickContext.off('click.sonycarousel');
 
       // Destroy all plugins.
-      self.$el.sonyDraggable('destroy');
+      if ( self.draggable ) {
+        self.$el.sonyDraggable('destroy');
+      }
 
       if ( self.paddles ) {
         $paddleWrapper.sonyPaddles('destroy');

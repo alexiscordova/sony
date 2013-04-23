@@ -219,32 +219,38 @@ body {
   width: 100%;
   overflow: hidden;
 }
+/* line 20, ../../src/packages/common/css/_base/_scaffolding.scss */
+.page-wrap-outer.unav-open {
+  position: fixed;
+}
 
-/* line 21, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 24, ../../src/packages/common/css/_base/_scaffolding.scss */
 .page-wrap-inner {
   width: 100%;
   position: relative;
+  -webkit-transition: top 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
+  transition: top 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
 }
 
-/* line 30, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 34, ../../src/packages/common/css/_base/_scaffolding.scss */
 .no-touch a:not(.no-hover-transition),
 .no-touch .btn:not(.no-hover-transition) {
   -webkit-transition: background-color 0.25s linear, color 0.25s linear, border-color 0.25s linear;
   transition: background-color 0.25s linear, color 0.25s linear, border-color 0.25s linear;
 }
-/* line 36, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 40, ../../src/packages/common/css/_base/_scaffolding.scss */
 .no-touch a:not(.no-hover-transition) [class*="fonticon"],
 .no-touch .btn:not(.no-hover-transition) [class*="fonticon"] {
   -webkit-transition: color 0.25s linear;
   transition: color 0.25s linear;
 }
 
-/* line 46, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 50, ../../src/packages/common/css/_base/_scaffolding.scss */
 .img-rounded {
   border-radius: 6px;
 }
 
-/* line 51, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 55, ../../src/packages/common/css/_base/_scaffolding.scss */
 .img-polaroid {
   padding: 4px;
   background-color: #fff;
@@ -255,26 +261,26 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* line 62, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 66, ../../src/packages/common/css/_base/_scaffolding.scss */
 .img-circle {
   border-radius: 50%;
 }
 
 /* Debug grid styles
 -------------------------------------------------- */
-/* line 71, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 75, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid {
   margin-top: 2px;
   margin-bottom: 2px;
 }
 
-/* line 75, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 79, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid [class*="span"] {
   background-color: rgba(125, 125, 125, 0.5) !important;
   text-align: center;
 }
 
-/* line 82, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 86, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid .show-grid [class*="span"] {
   background-color: rgba(255, 125, 0, 0.9) !important;
 }
@@ -6397,6 +6403,210 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   right: 10px;
 }
 
+/* line 22, ../../src/packages/common/css/_components/_universal-nav.scss */
+.unav-screen-overlay {
+  width: 100%;
+  height: 2000px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.7);
+  -webkit-transition: opacity 0.4s linear 0s;
+  transition: opacity 0.4s linear 0s;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+}
+
+/* line 42, ../../src/packages/common/css/_components/_universal-nav.scss */
+.unav-open-until-transition-end .navmenu-w-search-container,
+.unav-open-until-transition-end .navmenu-w-mobile-top,
+.unav-open-until-transition-end .navtray-w-electronics,
+.unav-open-until-transition-end .navtray-w-entertainment {
+  display: none;
+}
+
+/* line 47, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper {
+  background: #f3f4f6;
+  padding: 20px 0 50px;
+  width: 100%;
+  position: absolute;
+}
+/* line 54, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-head {
+  position: relative;
+  margin-bottom: 13px;
+}
+/* line 58, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-close-btn {
+  font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.75em;
+  letter-spacing: 0.0625em;
+  padding: 9px 49px 10px 13px;
+  color: #fff;
+  background-color: #929599;
+  background-repeat: no-repeat;
+  background-position: 88% 50%;
+  border-radius: 1px;
+  margin: 0 0 14px;
+  float: right;
+}
+/* line 75, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-close-btn:hover, .u-nav-wrapper .u-nav-close-btn:active, .u-nav-wrapper .u-nav-close-btn:focus, .u-nav-wrapper .u-nav-close-btn.active {
+  color: #fff;
+  background-color: #2f353d;
+}
+/* line 80, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper h5.l1 {
+  clear: both;
+  margin: 0;
+}
+/* line 84, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-all-sites-link {
+  position: absolute;
+  bottom: 1px;
+  right: 0;
+  font-size: 0.8125em;
+}
+/* line 91, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary {
+  position: relative;
+  overflow: hidden;
+}
+/* line 94, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary [class*="span"] {
+  float: none;
+  margin-left: 0;
+}
+/* line 101, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary-link {
+  display: block;
+  position: relative;
+  opacity: 1;
+  margin-bottom: 0;
+}
+/* line 107, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary-link .u-nav-primary-img {
+  display: block;
+  z-index: 1;
+  width: 100%;
+  opacity: 1;
+  -webkit-transition: opacity 0.15s;
+  transition: opacity 0.15s;
+  -webkit-transform: scale3d(1, 1, 1);
+}
+/* line 120, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary-link:hover .u-nav-primary-img, .u-nav-wrapper .u-nav-primary-link:active .u-nav-primary-img, .u-nav-wrapper .u-nav-primary-link:focus .u-nav-primary-img {
+  opacity: 0.9;
+}
+/* line 126, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary-caption {
+  display: block;
+  padding: 0.6875em 0 0.25em 0;
+}
+/* line 133, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary-col1.u-nav-primary-row2 {
+  padding-top: 24px;
+}
+/* line 137, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary-col2.u-nav-primary-row1,
+.u-nav-wrapper .u-nav-primary-col3.u-nav-primary-row1 {
+  position: absolute;
+  top: 0;
+}
+/* line 142, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary-col2.u-nav-primary-row2,
+.u-nav-wrapper .u-nav-primary-col3.u-nav-primary-row2 {
+  position: absolute;
+  bottom: 0;
+}
+/* line 146, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary-col2 {
+  left: 34.51537%;
+}
+/* line 149, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-primary-col3 {
+  left: 69.03073%;
+}
+/* line 153, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-secondary {
+  overflow: hidden;
+  background: #fff;
+  margin-top: 26px;
+  padding: 14px 0 0;
+}
+/* line 159, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-secondary li:nth-child(5n+0) {
+  margin-left: 0;
+  clear: both;
+}
+/* line 164, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-secondary-li {
+  padding-bottom: 27px;
+  padding-top: 9px;
+}
+/* line 169, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-secondary-link,
+.u-nav-wrapper .u-nav-secondary-desc {
+  position: relative;
+  padding-right: 10.5%;
+  padding-left: 10.5%;
+  left: 5.5%;
+}
+/* line 178, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-secondary li:nth-child(4n+0) .u-nav-secondary-link,
+.u-nav-wrapper .u-nav-secondary li:nth-child(4n+0) .u-nav-secondary-desc {
+  padding-right: 17%;
+}
+/* line 183, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-secondary-link {
+  font-size: 0.9375em;
+  display: inline-block;
+  line-height: 1.9;
+}
+/* line 188, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .u-nav-secondary-desc {
+  display: block;
+  font-size: 0.8125em;
+  line-height: 1.6;
+  color: #83838f;
+}
+/* line 195, ../../src/packages/common/css/_components/_universal-nav.scss */
+.u-nav-wrapper .label-success {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  margin: 0;
+  font-size: 0.916666666666667em;
+  line-height: 1.5;
+}
+
+@media (min-width: 75em) {
+  /* line 208, ../../src/packages/common/css/_components/_universal-nav.scss */
+  .u-nav-wrapper .u-nav-primary-col2 {
+    left: 34.5098%;
+  }
+  /* line 211, ../../src/packages/common/css/_components/_universal-nav.scss */
+  .u-nav-wrapper .u-nav-primary-col3 {
+    left: 69.01961%;
+  }
+}
+@media (max-width: 61.1875em) and (min-width: 48em) {
+  /* line 219, ../../src/packages/common/css/_components/_universal-nav.scss */
+  .u-nav-wrapper .u-nav-primary-col2 {
+    left: 34.46154%;
+  }
+  /* line 222, ../../src/packages/common/css/_components/_universal-nav.scss */
+  .u-nav-wrapper .u-nav-primary-col3 {
+    left: 68.92308%;
+  }
+}
 /* line 6, ../../src/packages/common/css/_components/_modals.scss */
 body.modal-open {
   overflow: hidden;
@@ -7504,32 +7714,37 @@ a.label:hover {
   text-align: left;
 }
 
-/* line 137, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 136, ../../src/packages/common/css/_base/_utilities.scss */
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+/* line 139, ../../src/packages/common/css/_base/_utilities.scss */
 .text-default {
   color: #2f353d;
 }
 
-/* line 138, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 140, ../../src/packages/common/css/_base/_utilities.scss */
 .text-dark {
   color: #2f353d;
 }
 
-/* line 139, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 141, ../../src/packages/common/css/_base/_utilities.scss */
 .text-med-dark {
   color: #83838f;
 }
 
-/* line 140, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 142, ../../src/packages/common/css/_base/_utilities.scss */
 .text-med-light {
   color: #bcbccc;
 }
 
-/* line 141, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 143, ../../src/packages/common/css/_base/_utilities.scss */
 .text-light {
   color: white;
 }
 
-/* line 149, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 151, ../../src/packages/common/css/_base/_utilities.scss */
 .ghost-center-wrap {
   font-size: 0;
 }
@@ -7550,23 +7765,23 @@ a.label:hover {
   font-size: 16px;
 }
 
-/* line 154, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 156, ../../src/packages/common/css/_base/_utilities.scss */
 .ghost-center.v-bottom {
   vertical-align: bottom;
 }
 
-/* line 158, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 160, ../../src/packages/common/css/_base/_utilities.scss */
 .table-center-wrap {
   display: table;
 }
 
-/* line 162, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 164, ../../src/packages/common/css/_base/_utilities.scss */
 .table-center {
   display: table-cell;
   vertical-align: middle;
 }
 
-/* line 175, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 177, ../../src/packages/common/css/_base/_utilities.scss */
 .star-holder {
   position: relative;
   top: .25em;
@@ -7575,36 +7790,36 @@ a.label:hover {
   height: 1em;
   line-height: 1;
 }
-/* line 183, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 185, ../../src/packages/common/css/_base/_utilities.scss */
 .star-holder .fonticon-10-star,
 .star-holder .fonticon-10-star-half {
   position: absolute;
   top: 0;
   left: 0;
 }
-/* line 189, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 191, ../../src/packages/common/css/_base/_utilities.scss */
 .star-holder .fonticon-10-star {
   z-index: 1;
 }
-/* line 193, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 195, ../../src/packages/common/css/_base/_utilities.scss */
 .star-holder .fonticon-10-star-half {
   display: none;
   z-index: 2;
 }
 
-/* line 199, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 201, ../../src/packages/common/css/_base/_utilities.scss */
 [data-stars] .fonticon-10-star {
   color: #bcbccc;
 }
 
-/* line 203, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 205, ../../src/packages/common/css/_base/_utilities.scss */
 [data-stars] .reviews-text {
   line-height: 1;
   margin: 0;
   color: #83838f;
 }
 
-/* line 230, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 232, ../../src/packages/common/css/_base/_utilities.scss */
 [data-stars="1"] .star-holder:nth-child(-n + 1) .fonticon-10-star,
 [data-stars="2"] .star-holder:nth-child(-n + 2) .fonticon-10-star,
 [data-stars="3"] .star-holder:nth-child(-n + 3) .fonticon-10-star,
@@ -7626,7 +7841,7 @@ a.label:hover {
   color: #f25529;
 }
 
-/* line 238, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 240, ../../src/packages/common/css/_base/_utilities.scss */
 .el-hidden {
   display: block;
   position: absolute;
@@ -7639,7 +7854,7 @@ a.label:hover {
   transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
 }
 
-/* line 239, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 241, ../../src/packages/common/css/_base/_utilities.scss */
 .el-shown {
   opacity: 1;
   visibility: visible;
@@ -7649,14 +7864,14 @@ a.label:hover {
   transition: opacity 0.15s ease-in 0s, left 0s linear 0s, visibility 0s linear 0s;
 }
 
-/* line 244, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 246, ../../src/packages/common/css/_base/_utilities.scss */
 .social-label {
   display: inline-block;
   vertical-align: middle;
   margin: 0;
 }
 
-/* line 250, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 252, ../../src/packages/common/css/_base/_utilities.scss */
 .social-icon {
   display: inline-block;
   text-align: center;
@@ -7664,51 +7879,51 @@ a.label:hover {
   height: 2em;
   margin-right: 0.75em;
 }
-/* line 257, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 259, ../../src/packages/common/css/_base/_utilities.scss */
 .social-icon i {
   color: white;
   vertical-align: middle;
 }
 
-/* line 263, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 265, ../../src/packages/common/css/_base/_utilities.scss */
 .facebook-background-color {
   background-color: #3b5b99;
 }
 
-/* line 268, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 270, ../../src/packages/common/css/_base/_utilities.scss */
 .facebook-color,
 i.facebook-color {
   color: #3b5b99;
 }
 
-/* line 272, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 274, ../../src/packages/common/css/_base/_utilities.scss */
 .twitter-background-color {
   background-color: #00acee;
 }
 
-/* line 277, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 279, ../../src/packages/common/css/_base/_utilities.scss */
 .twitter-color,
 i.twitter-color {
   color: #00acee;
 }
 
-/* line 281, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 283, ../../src/packages/common/css/_base/_utilities.scss */
 .gplus-background-color {
   background-color: #db4a39;
 }
 
-/* line 286, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 288, ../../src/packages/common/css/_base/_utilities.scss */
 .gplus-color,
 i.gplus-color {
   color: #db4a39;
 }
 
-/* line 290, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 292, ../../src/packages/common/css/_base/_utilities.scss */
 .pinterest-background-color {
   background-color: #cb2027;
 }
 
-/* line 295, ../../src/packages/common/css/_base/_utilities.scss */
+/* line 297, ../../src/packages/common/css/_base/_utilities.scss */
 .pinterest-color,
 i.pinterest-color {
   color: #cb2027;
@@ -7754,40 +7969,41 @@ i.pinterest-color {
 /* line 28, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 .container {
   width: 93.06122%;
-  max-width: 1295px;
+  max-width: 1400px;
 }
 /* line 32, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 .container.full-bleed {
-  max-width: 1400px;
+  max-width: 1514px;
 }
-/* line 33, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
+/* line 34, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 .container.full-bleed-no-max {
   max-width: 100%;
 }
 
-/* line 35, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
+/* line 36, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 .lt-ie10 .container {
   width: 980px;
 }
 
-/* line 36, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
+/* line 37, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 .lt-ie10 .container.full-bleed {
   max-width: 1400px;
 }
 
-/* line 37, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
+/* line 38, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 .lt-ie10 .container.full-bleed-no-max {
   width: 100%;
 }
 
-/* line 41, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
+/* line 42, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 .grid,
 .slimgrid,
 .slimgrid5, .grid5 {
   width: 92.76316%;
+  max-width: 1190px;
 }
 
-/* line 48, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
+/* line 50, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 .container.full-bleed,
 .container.full-bleed-no-max,
 .grid.full-bleed,
@@ -8635,21 +8851,21 @@ i.pinterest-color {
   *margin-left: 17.2731%;
 }
 
-/* line 65, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
+/* line 67, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 [class*="span"]:first-child {
   margin-left: 0;
 }
 
-/* line 76, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
+/* line 78, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 .container-px-width {
   width: 912px;
   max-width: 1400px;
 }
 
-/* line 80, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
+/* line 82, ../../src/packages/common/css/_responsive/_responsive-980px-1199px-default.scss */
 .grid-px-width {
   width: 846px;
-  max-width: 1310px;
+  max-width: 1190px;
 }
 
 /* line 1517, ../../src/packages/common/css/_base/_mixins.scss */
@@ -9223,58 +9439,82 @@ ul.jump-links .active a {
   padding: 10.129032% 10.6060606% 10.967742%;
 }
 /* line 518, ../../src/packages/common/css/_shared/_all.scss */
+.gallery-item.promo .product-img.dark-panel {
+  background-color: #2f353d;
+}
+/* line 523, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.promo img {
   max-height: none;
   max-width: none;
 }
 
-/* line 524, ../../src/packages/common/css/_shared/_all.scss */
+/* line 529, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content {
   position: relative;
   height: 100%;
   text-align: left;
 }
-/* line 529, ../../src/packages/common/css/_shared/_all.scss */
+/* line 534, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title {
   margin: 0;
 }
-/* line 532, ../../src/packages/common/css/_shared/_all.scss */
+/* line 537, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title i {
   position: relative;
   top: -0.1875em;
   left: 0.125em;
 }
-/* line 540, ../../src/packages/common/css/_shared/_all.scss */
+/* line 545, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title .title,
 .gallery-item .promo-content .promo-title .emphasis {
   color: white;
 }
-/* line 544, ../../src/packages/common/css/_shared/_all.scss */
+/* line 549, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .promo-title .emphasis {
   color: #2f353d;
 }
-/* line 549, ../../src/packages/common/css/_shared/_all.scss */
+/* line 554, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .text-count {
   position: absolute;
   bottom: 0;
   margin: 0;
 }
-/* line 556, ../../src/packages/common/css/_shared/_all.scss */
+/* line 561, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item .promo-content .text-count span {
   color: white;
 }
+/* line 568, ../../src/packages/common/css/_shared/_all.scss */
+.gallery-item .promo-content.light-text .promo-title .title {
+  color: #bcbccc;
+}
+/* line 574, ../../src/packages/common/css/_shared/_all.scss */
+.gallery-item .promo-content.light-text .promo-title .emphasis,
+.gallery-item .promo-content.light-text .promo-title i,
+.gallery-item .promo-content.light-text .text-count span {
+  color: white;
+}
+/* line 580, ../../src/packages/common/css/_shared/_all.scss */
+.gallery-item .promo-content.dark-text .promo-title .title {
+  color: #83838f;
+}
+/* line 586, ../../src/packages/common/css/_shared/_all.scss */
+.gallery-item .promo-content.dark-text .promo-title .emphasis,
+.gallery-item .promo-content.dark-text .promo-title i,
+.gallery-item .promo-content.dark-text .text-count span {
+  color: #2f353d;
+}
 
-/* line 579, ../../src/packages/common/css/_shared/_all.scss */
+/* line 595, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .img-wrap,
 .gallery-item.social .quote {
   max-width: 50%;
 }
-/* line 583, ../../src/packages/common/css/_shared/_all.scss */
+/* line 599, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .img-wrap {
   float: left;
   height: 100%;
 }
-/* line 588, ../../src/packages/common/css/_shared/_all.scss */
+/* line 604, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .quote {
   float: right;
   width: 50%;
@@ -9284,16 +9524,16 @@ ul.jump-links .active a {
   padding-right: 5%;
   text-align: left;
 }
-/* line 597, ../../src/packages/common/css/_shared/_all.scss */
+/* line 613, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-item.social .quote {
   width: 45%;
   margin-top: 30px;
 }
-/* line 603, ../../src/packages/common/css/_shared/_all.scss */
+/* line 619, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social figcaption {
   margin-top: 0.3125em;
 }
-/* line 607, ../../src/packages/common/css/_shared/_all.scss */
+/* line 623, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .social-icon {
   width: 30px;
   height: 30px;
@@ -9302,40 +9542,40 @@ ul.jump-links .active a {
   border-radius: 50%;
   background-color: white;
 }
-/* line 615, ../../src/packages/common/css/_shared/_all.scss */
+/* line 631, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .social-icon i {
   font-size: 16px;
 }
-/* line 619, ../../src/packages/common/css/_shared/_all.scss */
+/* line 635, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social .author {
   display: inline-block;
   vertical-align: middle;
   margin: 0;
 }
-/* line 625, ../../src/packages/common/css/_shared/_all.scss */
+/* line 641, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-item.social blockquote p {
   color: #2f353d;
   margin-bottom: 0;
 }
 
-/* line 636, ../../src/packages/common/css/_shared/_all.scss */
+/* line 652, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-detailed .gallery-item:after {
   padding-top: 140%;
 }
-/* line 640, ../../src/packages/common/css/_shared/_all.scss */
+/* line 656, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-detailed .gallery-item {
   height: 25.375em;
 }
-/* line 643, ../../src/packages/common/css/_shared/_all.scss */
+/* line 659, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie8 .gallery-detailed .gallery-item .product-img {
   height: 13.8125em;
 }
-/* line 648, ../../src/packages/common/css/_shared/_all.scss */
+/* line 664, ../../src/packages/common/css/_shared/_all.scss */
 .gallery-detailed .product-img:after {
   padding-top: 76.05633802816901%;
 }
 
-/* line 676, ../../src/packages/common/css/_shared/_all.scss */
+/* line 692, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label strong {
   display: inline-block;
   max-width: 100%;
@@ -9343,17 +9583,17 @@ ul.jump-links .active a {
   text-overflow: ellipsis;
 }
 
-/* line 683, ../../src/packages/common/css/_shared/_all.scss */
+/* line 699, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap {
   position: relative;
   z-index: 5;
   height: 100%;
 }
-/* line 688, ../../src/packages/common/css/_shared/_all.scss */
+/* line 704, ../../src/packages/common/css/_shared/_all.scss */
 .lt-ie9 .detail-labels-wrap {
   margin-left: 0;
 }
-/* line 693, ../../src/packages/common/css/_shared/_all.scss */
+/* line 709, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap:before {
   content: '';
   position: absolute;
@@ -9366,7 +9606,7 @@ ul.jump-links .active a {
   -webkit-transition: box-shadow 0.15s ease-in;
   transition: box-shadow 0.15s ease-in;
 }
-/* line 707, ../../src/packages/common/css/_shared/_all.scss */
+/* line 723, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrap.overflowing:before {
   -webkit-box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
   box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
@@ -9374,7 +9614,7 @@ ul.jump-links .active a {
   transition-timing-function: ease-out;
 }
 
-/* line 715, ../../src/packages/common/css/_shared/_all.scss */
+/* line 731, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrapping {
   -webkit-transform: translate(-0.625em, 0);
   -ms-transform: translate(-0.625em, 0);
@@ -9383,7 +9623,7 @@ ul.jump-links .active a {
   -webkit-transition: opacity 0.2s ease-out 0.1s, -webkit-transform 0.2s ease-out 0.1s;
   transition: opacity 0.2s ease-out 0.1s, transform 0.2s ease-out 0.1s;
 }
-/* line 721, ../../src/packages/common/css/_shared/_all.scss */
+/* line 737, ../../src/packages/common/css/_shared/_all.scss */
 .detail-labels-wrapping.complete {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
@@ -9391,18 +9631,18 @@ ul.jump-links .active a {
   opacity: 1;
 }
 
-/* line 727, ../../src/packages/common/css/_shared/_all.scss */
+/* line 743, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label-group {
   position: absolute;
 }
 
-/* line 732, ../../src/packages/common/css/_shared/_all.scss */
+/* line 748, ../../src/packages/common/css/_shared/_all.scss */
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
 }
 
-/* line 738, ../../src/packages/common/css/_shared/_all.scss */
+/* line 754, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail,
 .detail-labels-wrapping .product-count-wrap {
   position: relative;
@@ -9410,7 +9650,7 @@ ul.jump-links .active a {
   padding-bottom: 30px;
   margin-bottom: 0;
 }
-/* line 746, ../../src/packages/common/css/_shared/_all.scss */
+/* line 762, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail:after,
 .detail-labels-wrapping .product-count-wrap:after {
   content: '';
@@ -9422,7 +9662,7 @@ ul.jump-links .active a {
   background: #d2d2db;
 }
 
-/* line 759, ../../src/packages/common/css/_shared/_all.scss */
+/* line 775, ../../src/packages/common/css/_shared/_all.scss */
 .compare-container .detail-label:after,
 .detail-labels-wrapping .product-count-wrap:after {
   left: 0;
@@ -9430,7 +9670,7 @@ ul.jump-links .active a {
   background: #d2d2db;
 }
 
-/* line 768, ../../src/packages/common/css/_shared/_all.scss */
+/* line 784, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header {
   position: absolute;
   z-index: 10;
@@ -9443,16 +9683,16 @@ ul.jump-links .active a {
   -webkit-transition: top 0.2s ease-in, left 0s 0.2s;
   transition: top 0.2s ease-in, left 0s 0.2s;
 }
-/* line 780, ../../src/packages/common/css/_shared/_all.scss */
+/* line 796, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header:not(.sticky-count) {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
   box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
 }
-/* line 785, ../../src/packages/common/css/_shared/_all.scss */
+/* line 801, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-headers .compare-sticky-header {
   margin: 0;
 }
-/* line 790, ../../src/packages/common/css/_shared/_all.scss */
+/* line 806, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header.open {
   left: 0;
   top: 0;
@@ -9461,7 +9701,7 @@ ul.jump-links .active a {
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 799, ../../src/packages/common/css/_shared/_all.scss */
+/* line 815, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header.sticky-count:before {
   content: '';
   position: absolute;
@@ -9475,17 +9715,17 @@ ul.jump-links .active a {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
   box-shadow: 0 0.125em 0.3125em 0 rgba(39, 43, 55, 0.25);
 }
-/* line 812, ../../src/packages/common/css/_shared/_all.scss */
+/* line 828, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header .media .pull-left {
   max-width: 90px;
   margin-right: 4px;
 }
-/* line 817, ../../src/packages/common/css/_shared/_all.scss */
+/* line 833, ../../src/packages/common/css/_shared/_all.scss */
 .compare-sticky-header .product-name {
   color: #2f353d;
 }
 
-/* line 822, ../../src/packages/common/css/_shared/_all.scss */
+/* line 838, ../../src/packages/common/css/_shared/_all.scss */
 .compare-box {
   display: inline-block;
   padding: 11px 12px;
@@ -9494,41 +9734,41 @@ ul.jump-links .active a {
   background: #2f353d;
 }
 
-/* line 848, ../../src/packages/common/css/_shared/_all.scss */
+/* line 864, ../../src/packages/common/css/_shared/_all.scss */
 .spec-single,
 .spec-multi {
   margin-top: 4.375em;
 }
-/* line 851, ../../src/packages/common/css/_shared/_all.scss */
+/* line 867, ../../src/packages/common/css/_shared/_all.scss */
 .spec-single dt,
 .spec-multi dt {
   margin-bottom: 0;
 }
 
-/* line 856, ../../src/packages/common/css/_shared/_all.scss */
+/* line 872, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title-wrap {
   position: relative;
   margin-bottom: 1.25em;
 }
 
-/* line 861, ../../src/packages/common/css/_shared/_all.scss */
+/* line 877, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title {
   margin: 0;
   font-size: 2.25em;
 }
 
-/* line 866, ../../src/packages/common/css/_shared/_all.scss */
+/* line 882, ../../src/packages/common/css/_shared/_all.scss */
 .spec-title-link {
   color: #4572ed;
 }
 
-/* line 873, ../../src/packages/common/css/_shared/_all.scss */
+/* line 889, ../../src/packages/common/css/_shared/_all.scss */
 .spec-sticky-nav .sticky-nav-title {
   margin-top: 22px;
   margin-bottom: 10px;
   line-height: .9;
 }
-/* line 879, ../../src/packages/common/css/_shared/_all.scss */
+/* line 895, ../../src/packages/common/css/_shared/_all.scss */
 .sticky-header-open .spec-sticky-nav .sticky-nav-title:after {
   content: '';
   position: absolute;
@@ -9539,38 +9779,38 @@ ul.jump-links .active a {
   top: 100%;
 }
 
-/* line 907, ../../src/packages/common/css/_shared/_all.scss */
+/* line 923, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tiles-wrap {
   margin-top: 3.75em;
   margin-bottom: 9.375em;
 }
-/* line 911, ../../src/packages/common/css/_shared/_all.scss */
+/* line 927, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tiles-wrap .features-title {
   margin-bottom: 0;
   padding-bottom: 12px;
   border-bottom: 3px solid #e4e7eb;
 }
 
-/* line 918, ../../src/packages/common/css/_shared/_all.scss */
+/* line 934, ../../src/packages/common/css/_shared/_all.scss */
 .container .spec-tiles .spec-tile {
   margin-left: 0;
 }
 
-/* line 922, ../../src/packages/common/css/_shared/_all.scss */
+/* line 938, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile {
   margin-top: 1.5em;
   background: #f1f5f9;
 }
-/* line 926, ../../src/packages/common/css/_shared/_all.scss */
+/* line 942, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .tile-content {
   padding: 1.875em 2.5em 2.75em 1.875em;
 }
-/* line 931, ../../src/packages/common/css/_shared/_all.scss */
+/* line 947, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .tile-title {
   margin-top: 0;
 }
 
-/* line 937, ../../src/packages/common/css/_shared/_all.scss */
+/* line 953, ../../src/packages/common/css/_shared/_all.scss */
 .spec-tile .iq-img {
   width: 100%;
   height: auto;

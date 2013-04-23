@@ -2,7 +2,10 @@
 @import "../../../common/css/_base/mixins";
 
 .editorial-chapters-container {
-  overflow:hidden; 
+  overflow:hidden;
+  max-width:100%;
+
+  .image-module {text-align:center;}
 
   .editorial-chapters {
     position: relative;
@@ -30,6 +33,7 @@
 
           &.active {
             position:absolute;
+            z-index:1;
             @include opacity(100);
           }
 
@@ -41,6 +45,11 @@
       text-align:center;
       height:68px;
       z-index:1;
+
+      .left-shade,
+      .right-shade {display:none;}
+
+      .slider {margin:0 auto;}
 
       li {
         padding:10px 0;
@@ -105,6 +114,23 @@
             &.oneLine {top:14px;}
             &.twoLine {top:6px;}
           }
+    }
+    &.top-nav .thumb-nav {
+      margin-bottom:24px;
+      width:auto;
+      text-align:left; 
+
+      li {
+        top:-4px;
+
+        &.active,
+        &:hover {
+          top:0;
+          border-top:0;
+          border-bottom:4px solid $linkBlue;
+          margin-top:0;
+        }
+      }
     }
     &.gray .thumb-nav li {
       background:$gray80;
