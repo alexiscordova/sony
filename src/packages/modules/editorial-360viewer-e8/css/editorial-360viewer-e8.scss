@@ -1,6 +1,32 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
 .e360 {
+  position: relative;
+  .outer {
+    .image-module-360 {
+      text-align: center;
+    }
+  }
   .controls {
     cursor: url(https://mail.google.com/mail/images/2/openhand.cur) 8 8, move;
+    position: absolute;
+    bottom: 52px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    &.hasNav {
+      bottom: 110px;  
+    }
+    &.isSmall {
+      bottom: 36px;
+    }
+    .dark {
+      color: $white;
+    }
+    .light {
+      color: $gray40;
+    }
     .instructions {
       margin: 0 18px 0 18px;
       display: inline-block;
