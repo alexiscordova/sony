@@ -102,7 +102,8 @@ define(function(require){
 
     renderNav: function( mobile ) {
 
-      var self = this;
+      var self = this,
+          currentSlide;
 
       self.$navgroups = Utilities.gridApportion({
         $groups: self.$navgroups,
@@ -110,6 +111,10 @@ define(function(require){
         mobile: mobile,
         center: true
       });
+
+      if ( self.$navgroups.find('.active').length > 0 ) {
+        currentSlide = self.$navgroups.find('.active').closest(self.$navgroups).index();
+      }
 
       self.$navgroups.find('.slimgrid')[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
 
@@ -132,6 +137,8 @@ define(function(require){
           useSmallPaddles: true
         });
       }
+
+      self.$navCarousel.sonyCarousel('gotoSlide', currentSlide);
 
       self.bindNav();
     },
