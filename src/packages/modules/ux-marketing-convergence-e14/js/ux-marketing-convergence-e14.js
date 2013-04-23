@@ -59,7 +59,9 @@ define(function(require){
     self.$carouselSlidesChildren = self.$carousel.find('.sony-carousel-slide-children');
 
     // LISTEN
-    Environment.on(self.debounceEvent, $.proxy(self.onResizeEvent, self));
+    if(!Settings.isLTIE10){
+      Environment.on(self.debounceEvent, $.proxy(self.onResizeEvent, self));
+    }
 
     self.init();
 
@@ -113,7 +115,6 @@ define(function(require){
         animationSpeed: self.transitionTime
       });    
     },
-
 
     // enable entire slide as link without reworking markup
     // assumes mark-up particular markup
@@ -227,12 +228,6 @@ define(function(require){
       var self = this,
           $reloadBtn = self.$reloadButton,
           $slide = self.$carouselSlides.eq(which);
-
-
-      console.log( '$slide »');
-      console.log( $slide);
-      console.log( '$slide color »' , $slide.css("background-color"));
-      console.log($reloadBtn);
 
       $reloadBtn.css('color', $slide.css("background-color"));
 
