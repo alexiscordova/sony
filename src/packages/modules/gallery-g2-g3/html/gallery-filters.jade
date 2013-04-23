@@ -1,7 +1,10 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('gallery-g2-g3')
 +includeJavascriptModule('gallery-g2-g3')
 
 include gallery-helpers.jade
 
-.container: .grid: h2 Gallery Single (2)
-+detailedGallery( data.submodules, data.productCards )
+.container
+  .grid
+    h2 Gallery Single (2)
++detailedGallery( data.submodules, data.productCards, 'camera' )

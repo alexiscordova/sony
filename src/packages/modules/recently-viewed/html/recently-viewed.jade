@@ -1,22 +1,30 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('recently-viewed')
 +includeJavascriptModule('recently-viewed')
 
-.recently-viewed
+
+.rv-module
   .container
     .grid
-      h6(class='t6-light')= data.title
-  .container
-    div.carousel.slimgrid
-      div.sony-carousel-wrapper
-        div.sony-carousel
-          i = 0
-          for module in data.submodules
-            d = locals.data(module.data)
-            if d.type == 'product' && d.featured
-              - d.layout = 'medium'
-              - d.view = 'basic'
-              e = { 'locals' : locals , 'data' : d }
-              div.sony-carousel-slide
-                div.sony-carousel-slide-children
-                  !{locals.partial(module.type , e )}
+      h4.t6.rv-title= data.title
+
+  .m-container
+    .sony-carousel-wrapper
+      .sony-carousel
+
+        slides = [ [], [], [], [], [], [] ]
+        each module, i in data.submodules
+          index = Math.floor( i / 6 )
+          - slides[ index ].push( module )
+
+        each slide in slides
+          if slide.length > 0
+            .sony-carousel-slide
+              .container
+                .slimgrid
+                  each module in slide
+                    d = locals.data( module.data )
+                    - d.view = "simple"
+                    e = { "locals" : locals, "data" : d }
+                    !{locals.partial( module.type, e )}
 

@@ -29,7 +29,8 @@
   width: $fluidContainerWidth;
 
   max-width: $fluidContainerWidthMax-px;
-  &.full-bleed { max-width: $containerWidthMax; }
+  &.full-bleed { max-width: $containerFullBleedWidthMax; }
+  // &.full-bleed { max-width: $containerWidthMax; }
   &.full-bleed-no-max {	max-width:100%; }
 }
 .lt-ie10 .container{ width:980px; }
@@ -40,6 +41,7 @@
 .slimgrid,
 .slimgrid5, .grid5 {
   width: $fluidGridWidth;
+  max-width: $fluidGridWidthMax-px;
 }
 .container.full-bleed,
 .container.full-bleed-no-max,
@@ -59,6 +61,8 @@
 // slim5 only needs to be defined once, for global. It's only used in the 980-1200ish breakpoints, and the class should be changed dynamically to use it only then.
 @include grid-fluid($fluidSlimGrid5ColumnWidth1200, $fluidSlimGrid5GutterWidth1200, $slimGrid5Columns, "slim5");
 
+
+@include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid-override");
 
 [class*="span"]:first-child {
   margin-left: 0;

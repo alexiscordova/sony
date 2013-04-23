@@ -16,7 +16,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 // -------------------------
 @media (min-width: px-em(980px)) and (max-width: px-em(1100px) ) {
 
-  .gallery-detailed .products {
+  .gallery-detailed .container .products {
     margin-top: -2.5em;
   }
 
@@ -51,7 +51,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 // 768-979
 @media ( min-width: $galleryFourColMin ) and ( max-width: $galleryFourColMax ) {
 
-  .gallery-detailed .products {
+  .gallery-detailed .container .products {
     margin-top: -2.5em;
   }
 
@@ -76,7 +76,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   // Promo Media Queries
   // -------------------------
 
-  .gallery-item .promo-content {
+  .gallery .gallery-item .promo-content {
     position: absolute;
     top: 0;
     left: 0;
@@ -96,7 +96,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 
   // Remove percentage heights
-  .gallery-item {
+  .gallery .gallery-item {
 
     &:after,
     .product-img:after {
@@ -110,7 +110,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   }
 
   // Put percentage heights back for editorial
-  .gallery-editorial {
+  .gallery.gallery-editorial {
 
     .gallery-item {
       margin-top: 0.625em;
@@ -134,13 +134,13 @@ $oneByOneImgPadding: 107.84313725490196%;
   }
 
 
-  .gallery-detailed {
+  .gallery.gallery-detailed {
 
     .slide-toggle-parent {
       margin-bottom: .9375em;
     }
 
-    .products {
+    .container .products {
       margin-top: -1.625em;
     }
 
@@ -150,7 +150,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 
     .gallery-item {
       margin-top: 1.625em; // 26
-      width: 100% !important; // override `auto` set by grid system
+      width: 100%;
     }
 
     .gallery-item-inner {
@@ -235,7 +235,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 }
 
 
-
+// 568 - 979
 @media ( min-width: px-em(568px) ) and ( max-width: px-em(979px) ) {
 
   // Feature Tiles
@@ -259,12 +259,29 @@ $oneByOneImgPadding: 107.84313725490196%;
 }
 
 
+// 568 - 767
+@media ( min-width: $galleryThreeColMin ) and ( max-width: $galleryThreeColMax ) {
+
+  .gallery .gallery-item.social:after {
+    padding-top: 80.1%;
+  }
+
+  .gallery .gallery-item.social .product-img:after {
+    padding-top: 52%;
+  }
+
+}
+
 // 568 - 640
 @media ( min-width: $galleryThreeColMin ) and ( max-width: 40em ) {
 
   // Make gallery items taller
-  .gallery-item.basic:after {
+  .gallery .gallery-item.basic:after {
     padding-top: 187%;
+  }
+
+  .gallery .gallery-item.social:after {
+    padding-top: 90.5%;
   }
 }
 
@@ -272,6 +289,26 @@ $oneByOneImgPadding: 107.84313725490196%;
 // <= 567
 @media ( max-width: px-em(567px) ) {
 
+
+  .gallery .gallery-item.social:after {
+    padding-top: 78.9%;
+  }
+
+  .gallery .gallery-item.social .product-img:after {
+    padding-top: 51.5%;
+  }
+
+  .gallery .gallery-item.social {
+
+    figcaption {
+      margin-top: px-em( 3 );
+    }
+
+    .social-icon {
+      @include square( 24px );
+      margin-right: 8px;
+    }
+  }
 
   // Media queries for both single and mutliple spec pages
   .spec-multi,
@@ -312,7 +349,6 @@ $oneByOneImgPadding: 107.84313725490196%;
     .tile-content {
       padding: 1.875em 1.875em 2.8125em 1.25em;
     }
-
   }
 }
 
@@ -325,8 +361,16 @@ $oneByOneImgPadding: 107.84313725490196%;
 @media ( max-width: 22.5em ) {
 
   // Make gallery items taller
-  .gallery-item.basic:after {
+  .gallery .gallery-item.basic:after {
     padding-top: 190%;
+  }
+
+  .gallery .gallery-item.social:after {
+    padding-top: 90.9%;
+  }
+
+  .gallery .gallery-item.social .product-img:after {
+    padding-top: 51.6%;
   }
 }
 

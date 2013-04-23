@@ -112,11 +112,12 @@
 
 		that.wrapper = typeof el === 'object' ? el : doc.getElementById(el);
 
-		that.wrapper.style.overflow = 'hidden';
 		that.scroller = that.wrapper.children[0];
 
 		// Default options
 		that.options = {
+			isOverflowHidden: true,
+
 			hScroll: true,
 			vScroll: true,
 			x: 0,
@@ -167,6 +168,11 @@
 
 		// User defined options
 		for (i in options){ that.options[i] = options[i]; }
+
+		// Added by Glen
+		if ( that.options.isOverflowHidden ) {
+			that.wrapper.style.overflow = 'hidden';
+		}
 
 		// Set starting position
 		that.x = that.options.x;

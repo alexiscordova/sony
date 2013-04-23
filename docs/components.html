@@ -70,9 +70,6 @@
               <li class="scaffolding">
                 <a href="./scaffolding.html">Scaffolding</a>
               </li>
-              <li class="base-css">
-                <a href="./base-css.html">Global Styling</a>
-              </li>
               <li class="components">
                 <a href="./components.html">Components</a>
               </li>
@@ -102,7 +99,7 @@ on both ends of the carousel without breaking the layout.</li></ol><p>More detai
         div.sony-carousel-slide
           div.sony-carousel-slide-children
           div.sony-carousel-slide-children
-        div.carousel-slide
+        div.sony-carousel-slide
           div.sony-carousel-slide-children
           div.sony-carousel-slide-children</pre><h3 id="headers">Basic</h3><p>The basic SonyCarousel implementation, with paddles and navigation.</p><div class="container"><div class="grid"><div class="span12"><h4>Basic 12 Column</h4></div></div><div class="grid"><div class="span12"><div class="carousel-1"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide A</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide B</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide C</div></div></div></div></div></div></div></div><div class="container"><div class="grid"><div class="span12"><h4>Basic 6 Column</h4></div></div><div class="grid"><div class="span6"><div class="carousel-1"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide A</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide B</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide C</div></div></div></div></div></div><div class="span6"><div class="carousel-1"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide A</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide B</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide C</div></div></div></div></div></div></div><div class="grid"><div class="span12"><h5>Code</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  $('.carousel-1 .sony-carousel').sonyCarousel({
     wrapper: '.sony-carousel-wrapper',
@@ -150,7 +147,67 @@ the carousel will only move over enough to show the last child.</p><div class="c
     slides: '.sony-carousel-slide',
     slideChildren: '.sony-carousel-slide-children',
     useCSS3: true
-  });</pre></div></div></div></section></div></div><script src="js/libs/require.js"></script><script>window.isDebugMode = true;</script><script>require(["js/common"], function () {
+  });</pre></div></div></div><h3 id="headers">Overflow-visible, grid-based, flexible carousels (OSC-style)</h3><p>This is an example of a carousel that, while the slides are floated, also lines the active
+slide up with the grid. With the `.sony-carousel` class, slides with the `.sony-carousel-slide`
+class that *also* have a class of `.slimgrid` will inherit a common right margin, creating the
+desired effect. Slide children can therefore have the usual span and offsets as broken down
+in the scaffolding section of documentation.</p><div class="container"><div class="grid"><div class="span12"><div class="carousel-7"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide slimgrid"><div class="sony-carousel-slide-children t1 span6">Slide A1</div><div class="sony-carousel-slide-children t1 span6">Slide A2</div></div><div class="sony-carousel-slide slimgrid"><div class="sony-carousel-slide-children t1 span6">Slide B1</div><div class="sony-carousel-slide-children t1 span6">Slide B2</div></div><div class="sony-carousel-slide slimgrid"><div class="sony-carousel-slide-children t1 span6">Slide C1</div></div></div></div></div></div></div></div><div class="container"><div class="grid"><div class="span12"><h5>Jade</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  div.carousel-7
+    div.sony-carousel-wrapper
+      div.sony-carousel
+        div.sony-carousel-slide.slimgrid
+          div.sony-carousel-slide-children.t1.span6 Slide A1
+          div.sony-carousel-slide-children.t1.span6 Slide A2
+        div.sony-carousel-slide.slimgrid
+          div.sony-carousel-slide-children.t1.span6 Slide B1
+          div.sony-carousel-slide-children.t1.span6 Slide B2
+        div.sony-carousel-slide.slimgrid
+          div.sony-carousel-slide-children.t1.span6 Slide C1</pre></div></div><div class="grid"><div class="span12"><h5>Javascript</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  $('.carousel-7 .sony-carousel').sonyCarousel({
+    wrapper: '.sony-carousel-wrapper',
+    slides: '.sony-carousel-slide',
+    slideChildren: '.sony-carousel-slide-children',
+    useCSS3: true,
+    pagination: true
+  });</pre></div></div></div><h3 id="headers">Vertical Carousels</h3><div class="container"><div class="grid"><div class="span12"><div class="carousel-8 sony-carousel-vertical"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide A1</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide B1</div></div><div class="sony-carousel-slide"><div class="sony-carousel-slide-children t1">Slide C1</div></div></div></div></div></div></div></div><div class="container"><div class="grid"><div class="span12"><h5>Jade</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  div.carousel-8.sony-carousel-vertical
+    div.sony-carousel-wrapper
+      div.sony-carousel
+        div.sony-carousel-slide
+          div.sony-carousel-slide-children.t1 Slide A1
+        div.sony-carousel-slide
+          div.sony-carousel-slide-children.t1 Slide B1
+        div.sony-carousel-slide
+          div.sony-carousel-slide-children.t1 Slide C1</pre></div></div><div class="grid"><div class="span12"><h5>Javascript</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  $('.carousel-8 .sony-carousel').sonyCarousel({
+    direction: 'vertical',
+    wrapper: '.sony-carousel-wrapper',
+    slides: '.sony-carousel-slide',
+    slideChildren: '.sony-carousel-slide-children',
+    useCSS3: true
+  });</pre></div></div></div></section></div></div><div class="container"><div class="grid"><h3 id="headers">Overflow-visible, grid-based, spaced-slide carousels (RP-style)</h3><p>This variant of the carousel is loosely based on the Related Products, where each
+slide takes up 100% of the screen and animates in directly from the edge.
+Note that, as a result, it is incompatible with the `slideChildren` property;
+slideChildren only works where overflow is hiding the mispositioned slides or otherwise,
+like OSC-style carousels, spacing between the slides is seamless.</p></div></div><div class="carousel-9"><div class="sony-carousel-wrapper"><div class="sony-carousel"><div class="sony-carousel-slide"><div class="container"><div class="slimgrid"><div class="sony-carousel-slide-children t1 span6">Slide A1</div><div class="sony-carousel-slide-children t1 span6">Slide A2</div></div></div></div><div class="sony-carousel-slide"><div class="container"><div class="slimgrid"><div class="sony-carousel-slide-children t1 span6">Slide B1</div><div class="sony-carousel-slide-children t1 span6">Slide B2</div></div></div></div><div class="sony-carousel-slide"><div class="container"><div class="slimgrid"><div class="sony-carousel-slide-children t1 span6">Slide C1</div><div class="sony-carousel-slide-children t1 span6">Slide C2</div></div></div></div></div></div></div><div class="container"><div class="grid"><div class="span12"><h5>Jade</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  div.carousel-9
+    div.sony-carousel-wrapper
+      div.sony-carousel
+        div.sony-carousel-slide
+          .container
+            .slimgrid
+              div.sony-carousel-slide-children.t1.span6 Slide A1
+              div.sony-carousel-slide-children.t1.span6 Slide A2
+        div.sony-carousel-slide
+          .container
+            .slimgrid
+              div.sony-carousel-slide-children.t1.span6 Slide B1
+              div.sony-carousel-slide-children.t1.span6 Slide B2
+        div.sony-carousel-slide
+          .container
+            .slimgrid
+              div.sony-carousel-slide-children.t1.span6 Slide C1
+              div.sony-carousel-slide-children.t1.span6 Slide C2</pre></div></div><div class="grid"><div class="span12"><h5>Javascript</h5></div></div><div class="grid"><div class="span12"><pre class="prettyprint prettyprint-jade">  $('.carousel-9 .sony-carousel').sonyCarousel({
+    wrapper: '.sony-carousel-wrapper',
+    slides: '.sony-carousel-slide',
+    useCSS3: true,
+    pagination: true
+  });</pre></div></div></div><script src="js/libs/require.js"></script><script>window.isDebugMode = true;</script><script>require(["js/common"], function () {
   require(["require/index", "secondary/index"], function(Global, Secondary){
   
     var SonyCarousel = Secondary.sonyCarousel;
@@ -210,6 +267,30 @@ the carousel will only move over enough to show the last child.</p><div class="c
       slideChildren: '.sony-carousel-slide-children',
       useCSS3: true
     });
+    
+    $('.carousel-7 .sony-carousel').sonyCarousel({
+      wrapper: '.sony-carousel-wrapper',
+      slides: '.sony-carousel-slide',
+      slideChildren: '.sony-carousel-slide-children',
+      useCSS3: true,
+      pagination: true
+    });
+    
+    $('.carousel-8 .sony-carousel').sonyCarousel({
+      direction: 'vertical',
+      wrapper: '.sony-carousel-wrapper',
+      slides: '.sony-carousel-slide',
+      slideChildren: '.sony-carousel-slide-children',
+      useCSS3: true
+    });
+    
+    $('.carousel-9 .sony-carousel').sonyCarousel({
+      wrapper: '.sony-carousel-wrapper',
+      slides: '.sony-carousel-slide',
+      useCSS3: true,
+      pagination: true
+    });
+    
   });
 });
 </script>    <footer class="footer">

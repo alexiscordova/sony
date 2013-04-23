@@ -1,336 +1,199 @@
-@import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
+$overlayColor: rgb(243,41,41);
+$bannerHeight: 26px; // can't be ems because i'm using ghost-centering
 
-.js {
+.ec-module {
+  position: relative;
+  padding: px-em( 52 ) 0 px-em( 40 );
+  overflow: hidden;
+  background-color: $gray80;
 
-  .editorial-carousel-e13 {
-
-    .rp-overflow {
-      overflow:hidden;
-    }
-
+  .ec-title {
+    margin-bottom: 0;
+    text-align: center;
   }
 
-}
-
-
-.editorial-carousel-e13 {
-
-  background-color:#f1f5f9;
-  position:relative;
-
-  h3 {
-    color:$gray20;
-    margin-top:60px;
-    margin-bottom:0;
-    text-align:center;
+  .ec-subtitle {
+    margin-top: 11px;
+    margin-bottom: 0;
+    text-align: center;
   }
 
-  p.p3 {
-    color:$gray40;
-    margin-top: 28px;
-    text-align:center;
+  // Container for the entire carousel
+  .m-container {
+    margin-top: px-em( 50 );
+    margin-bottom: px-em( 12 );
   }
 
-  .products {
-
-    margin-top: 50px;
-
-    .p3 {
-      margin-top :9px;
-    }
-
+  .sony-carousel-wrapper {
+    height: auto;
   }
 
-  .rp-container {
+  .sony-dot-nav {
+    margin-top: px-em( 40 );
+  }
 
-    height: 100%;
+  // Tiles
+  .ec-tile {
     position: relative;
-    width: 100%;
-
-    -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
-    -webkit-backface-visibility: hidden;
-
-    .lt-ie9 & {
-      min-width: 1190px;
-    }
-    
-    
-  }
-
-  .rp-overflow {
-      
-    height: 100%;
-    position: relative;
-    width: 100%;
-
-    -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
-    -moz-user-select: -moz-none;
-    -webkit-user-select: none;
-    user-select: none;
-    -webkit-backface-visibility: hidden;
-  }
-
-  .gallery-item  {
-
-    .item-img{
-
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      text-align: center;
-
-      .item-img-wrap {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-      }
-
-    }
+    display: block;
 
     img {
-      cursor: pointer;
       display: block;
       max-height: 100%;
       width: 100%;
       margin: auto;
     }
+  }
 
-    img:hover{
-      @include opacity(90);
+  .wrapper-image {
+    position: relative;
+  }
+
+  // eg 23k CURRENT PLAYERS
+  .headline-counter {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    width: 100%;
+    height: $bannerHeight;
+    padding: 0 0 0 1em;
+    background-color: $overlayColor;
+    background-color: rgba( $overlayColor, .9 );
+
+    span {
+      color: $white;
+      margin: 0;
     }
-    
-    .gallery-item-inner {
-
-      position:relative;
-
-      .headline-counter{
-
-        background-color:#e32f30;
-        font-weight: bold;
-        padding:0 0 0 15px;
-        position:absolute;
-        top:0;
-        width: 100%;
-        z-index: 1;
-
-        .p3, .p5{
-          color:$white;
-          margin:0;
-        }
-
-        .p5 {
-          margin:0 0 0 2px;
-          text-transform:uppercase;
-        } 
-      }
-
-      .wrapper-image{
-        position:relative;
-      }
-
-      .cover{
-
-        background-color:rgba(243,41,41,0.9);
-        bottom:0;
-        cursor:pointer;
-        left:0;
-        @include opacity(0);
-        @include transition(opacity $transitionFast $easeNormal);
-        padding:22% 29.797979798% 0 29.797979798%;
-        position:absolute;
-        right:0;
-        text-align:center;
-        top:26px;
-        z-index: 2;
-
-        .title{
-          color: $white;
-          display: block;
-          font-weight: bold;
-          margin:1px 0 0 0;
-          text-transform: uppercase;
-        }
-
-        .picto-play{
-          
-          display: block;
-          height:42%;
-          width: 100%;
-          position:relative;
-
-          .bg {
-            @include border-radius(100px);
-            @include transition(top $transitionFast $easeNormal, left $transitionFast $easeNormal, width $transitionFast $easeNormal, height $transitionFast $easeNormal);
-            background-color: #2f353d;
-            left:15%;
-            position:absolute;
-            top:15%;
-            height: 70%;
-            width: 70%;
-            z-index: 1;
-          }
-
-          .picto {
-            background:url('../../img/editorial-carousel-e13/demo/picto-play.png') center center no-repeat;
-            left:0;
-            position:absolute;
-            top:0;
-            height: 100%;
-            width: 100%;
-            z-index: 2;
-          }
-
-        }
-      }
-
-      .cover:hover{
-        @include opacity(100);
-
-        .bg {
-          left:0;
-          top:0;
-          height: 100%;
-          width: 100%;
-        }
-
-      }
-
-    }
-
-    .normal{
-
-      .label.label-success {
-
-          display : none; 
-
-      }
-
-    }
-    
   }
 
-  .editorial-carousel-e13-products {
-
-    .nav-paddles {
-
-        .nav-paddle {
-
-          height:52px;
-          position: absolute;
-          top: 148px;
-          width:34px;
-
-          background-color:rgba($gray10, 0.2);
-
-          &.nav-paddle-next { right: 2.33333333%; }
-
-          &.nav-paddle-prev { left: 2.33333333%; }
-        }
-      }
-
-  }
-
-  .gallery-item:after{
-    padding:0;
-  }
-
-  .color-swatches {
-    display: none;
-    visibility: hidden;
-  }
-
-  .favorite-holder {
-    display: none;
-    visibility: hidden;
-  }
-
-  .product-price {
-    display: none;
-    visibility: hidden;
-  }
-
-  .label-success {
-    display: none;
-    visibility: hidden;
-  }
-
-  .gallery-item {
-
+  // Info at the bottom of the tile
+  .infos {
     background-color: $white;
-    overflow: inherit;
-
-
-    .infos{
-      background-color: $white;
-      padding: 12px 16px 18px 12px;
-
-      p{
-        color: $gray20;
-      }
-
-      .title{
-        font-weight: bold;
-        margin-bottom:31px;
-      }
-
-      .players{
-        color:$gray20;
-
-        .bold{
-          color:$gray40;
-          margin:0 0 0 4px;
-        }
-
-      }
-
-    }
-
-    
-
+    padding: px-em( 10 ) px-em( 16 ) px-em( 16 );
   }
 
-  @media screen and (max-width: 979px) {
-
-    h6 {
-      margin-top:38px;
-    }
-
-    .products {
-      margin-top:20px;
-    }
-
-    .nav-paddles {
-      display:none;
-    }
-
-/*
-    .navigation-container{
-      display:none;
-    }
-    */
-
+  .tile-title {
+    margin-bottom: px-em( 30, 12 );
   }
 
-  .product-img:after {
-    content: '';
+  .tile-title,
+  .total-players span {
+    color: $gray20;
   }
 
-  .pagination-bullets {
-    bottom:30px;
+  .total-players {
+    margin-bottom: 0;
   }
 
-  /*
-  .full-bleed-no-max {
-    .slimgrid {
-      width:100%;
+  .cover {
+    position: absolute;
+    z-index: 2;
+    top: $bannerHeight;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    background-color: $overlayColor;
+    background-color: rgba( $overlayColor, 0.9 );
+    @include opacity(0);
+    @include transition(opacity $transitionFast $easeNormal);
+
+    &.light {
+      top: 0;
+      // Note, don't want to support oldIE here because the cover would cover the entire image at 100% opacity
+      background-color: rgba( 255, 255, 255, 0.1 );
+    }
+
+    .cta {
+      display: block;
+      color: $white;
+      margin: 8px 0 0 0;
+      text-transform: uppercase;
     }
   }
-  */
 
+  .picto-play {
+    position: relative;
+    display: block;
+    @include square( px-em( 80 ) );
 
+    .picto {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: url('../../img/editorial-carousel-e13/demo/picto-play.png') center center no-repeat;
+    }
+  }
+
+  // dark circle around the icon
+  .bg-for-icon {
+    position: absolute;
+    z-index: 1;
+    background-color: $gray20;
+    @include border-radius( 50% );
+  }
+
+  // Transition width/hight/top/left in browsers without transforms
+  .no-csstransforms & .bg-for-icon {
+    left: 15%;
+    top: 15%;
+    height: 70%;
+    width: 70%;
+    @include transition(top $transitionFast $easeNormal, left $transitionFast $easeNormal, width $transitionFast $easeNormal, height $transitionFast $easeNormal);
+  }
+
+  // transition scale in browsers with transforms
+  .csstransforms & .bg-for-icon {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    @include scale( 0.5 );
+    @include transition();
+  }
+
+  // Fade in cover
+  .no-touch & .cover:hover {
+    @include opacity(100);
+  }
+
+  .no-opacity.no-touch & .cover.light:hover {
+    background-color: transparent;
+  }
+
+  // Make the dark circle grow
+  .no-touch.no-csstransforms & .cover:hover .bg-for-icon {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  // Grow by scaling in browsers that support it
+  .no-touch.csstransforms & .cover:hover .bg-for-icon {
+    @include scale( 1 );
+  }
+}
+
+.ec-module.white-bg {
+  background-color: $white;
+
+  .infos {
+    background-color: $gray80;
+  }
+}
+
+.ec-module.dark-bg {
+  background-color: $gray20;
+
+  .ec-title {
+    color: $white;
+  }
 }
 

@@ -181,6 +181,15 @@ $oneByOneImgPadding: 107.84313725490196%;
     height: 17.25em; // 276
   }
 
+  .lt-ie9 &.concealed {
+    height: 0;
+    min-height: 0;
+
+    &:after {
+      content: none;
+    }
+  }
+
   // Make them a bit bigger
   .shuffle-6 &:after {
     padding-top: 169.396078%;
@@ -229,6 +238,23 @@ $oneByOneImgPadding: 107.84313725490196%;
       margin: auto;
     }
 
+  }
+
+  &.simple {
+    margin-top: 0;
+
+    &:after {
+      content: none;
+    }
+
+    .gallery-item-inner {
+      position: static;
+    }
+
+    // Make the tiles smaller
+    .product-img:after {
+      padding-top: 78%;
+    }
   }
 
   // Large tiles
@@ -376,6 +402,30 @@ $oneByOneImgPadding: 107.84313725490196%;
     }
   }
 
+  // Social tiles
+  &.social {
+
+    // .lt-ie8 & {
+    //   height: 17.25em; // 276
+
+    //   .product-img {
+    //     height: 11.3125em; // 181
+    //   }
+    // }
+
+    &:after {
+      padding-top: 78.19025522041764%;
+    }
+
+    .product-img:after {
+      padding-top: 51.3%;
+    }
+
+    .shuffle-6 & .product-img:after {
+      padding-top: 50.3%;
+    }
+  }
+
   .label {
     position: absolute;
     z-index: 10;
@@ -463,6 +513,11 @@ $oneByOneImgPadding: 107.84313725490196%;
     left: 0;
     height: 100%;
     padding: 10.129032% 10.6060606% 10.967742%;
+
+    // Background color classes
+    &.dark-panel {
+      background-color: $gray20;
+    }
   }
 
   img {
@@ -509,20 +564,85 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   // ::Different styles go here::
 
-  &.light-text-dark-box {}
-  &.light-text-trans-box {}
-  &.dark-text-light-box {}
-  &.dark-text-trans-box {}
+  &.light-text {
+    .promo-title .title {
+      color: $gray50;
+    }
 
-  &.align-left-top {}
-  &.align-left-center {}
-  &.align-left-bottom {}
-  &.align-center-center {}
-  &.align-right-top {}
-  &.align-right-center {}
-  &.align-right-bottom {}
+    .promo-title .emphasis,
+    .promo-title i,
+    .text-count span {
+      color: $white;
+    }
+  }
+
+  &.dark-text {
+    .promo-title .title {
+      color: $gray40;
+    }
+
+    .promo-title .emphasis,
+    .promo-title i,
+    .text-count span {
+      color: $gray20;
+    }
+  }
 }
 
+.gallery-item.social {
+
+  .img-wrap,
+  .quote {
+    max-width: 50%;
+  }
+
+  .img-wrap {
+    float: left;
+    height: 100%;
+  }
+
+  .quote {
+    float: right;
+    width: 50%;
+    height: 100%;
+    height: -webkit-calc( 100% - 18px );
+    height: calc( 100% - 18px );
+    padding-right: 5%;
+    text-align: left;
+
+    .lt-ie8 & {
+      width: 45%;
+      margin-top: 30px;
+    }
+  }
+
+  figcaption {
+    margin-top: px-em( 5 );
+  }
+
+  .social-icon {
+    @include square( 30px );
+    vertical-align: middle;
+    margin-right: 10px;
+    border-radius: 50%;
+    background-color: white;
+  }
+
+  .social-icon i {
+    font-size: 16px; // has to be pixels cause it's ghost-centered
+  }
+
+  .author {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+
+  blockquote p {
+    color: $gray20;
+    margin-bottom: 0;
+  }
+}
 
 
 // Detailed gallery item sizes

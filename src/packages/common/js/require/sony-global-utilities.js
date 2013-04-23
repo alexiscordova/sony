@@ -176,7 +176,108 @@ define(function (require) {
         func = null;
         return memo;
       };
+    },
+
+    // When you click inside the input, the text will be selected
+    autoSelectInputOnFocus: function( $input ) {
+      $input.on('focus', function() {
+        var input = this;
+
+        // We use a timeout here because .select() will select everything,
+        // then the default browser action will deselect our selection
+        setTimeout(function() {
+          input.select();
+        }, 0);
+      });
+
+      $input = null;
+    },
+
+    // Takes a number of groups, supplied as a jQuery object (`options.$groups`) and re-apportions
+    // their elements, in order, to a new set of groups. The old groups are then removed,
+    // and the new groups are inserted at the point of the first group. Groups are assumed to be grids,
+    // unless `options.gridSelector` is specified, in which case the method will look for that selector
+    // inside each group for the location of the actual grid.
+    //
+    // If the `options.mobile` option is **true**, grids will be apportioned based on m-spans instead.
+    //
+    // If the `options.center` option is **true**, the final grid will attempt to center its contents,
+    // based on the floor of half the remaining available columns.
+    //
+    // Example Usage:
+    //
+    // * Rearranges items into mobile grid, with the last grid centered. Note that it since it returns
+    // the updated set, you can overwrite the previous reference to the groups (`self.$foo`)
+    // in the calling context. *
+    //
+    //      self.$foo = Utilities.gridApportion({
+    //        $groups: self.$foo,
+    //        gridSelector: '.slimgrid',
+    //        mobile: true,
+    //        center: true
+    //      });
+
+    gridApportion: function(options) {
+
+      if ( !options.$groups ) {
+        return;
+      }
+
+      var $groups = options.$groups,
+          isMobile = options.mobile,
+          isCentered = options.center,
+          hasGridSelector = options.gridSelector,
+
+          $container = $groups.first().clone(),
+          $appendContainer = hasGridSelector ? $container.find(options.gridSelector).empty() : $container.empty(),
+          compiledGrids = [],
+          $workingAppendContainer = $container.clone(),
+          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer,
+          roomRemaining = isMobile ? 6 : 12,
+          $mSpans = $groups.find(isMobile ? '[class*="m-span"]' : '[class*="span"]');
+
+      $mSpans.each(function(i){
+
+        var $this = $(this),
+            classes = this.className.split(' '),
+            spanCount;
+
+        for ( var j = 0; j < classes.length; j++ ) {
+          if ( classes[j].indexOf(isMobile ? 'm-span' : 'span') === 0 ) {
+            spanCount = classes[j].split(isMobile ? 'm-span' : 'span')[1] * 1;
+          }
+          if ( isCentered && classes[j].indexOf(isMobile ? 'm-offset' : 'offset') === 0 ) {
+            $this.removeClass(classes[j]);
+          }
+        }
+
+        if ( roomRemaining < spanCount ) {
+          compiledGrids.push($workingAppendContainer.clone().get(0));
+          $workingAppendContainer = $container.clone();
+          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer;
+          roomRemaining = isMobile ? 6 : 12;
+        }
+
+        $workingGrid.append($this);
+        roomRemaining -= spanCount;
+
+        if ( i === $mSpans.length - 1 ) {
+
+          if ( isCentered && roomRemaining >= 2 ) {
+            $workingGrid.children().first().addClass((isMobile ? 'm-offset' : 'offset') + Math.floor(roomRemaining / 2));
+          }
+
+          compiledGrids.push($workingAppendContainer.clone().get(0));
+          $workingAppendContainer = $workingGrid = null;
+        }
+      });
+
+      $groups.not($groups.first()).remove();
+      $groups.first().replaceWith($(compiledGrids));
+
+      return $(compiledGrids);
     }
+
   };
 
   return self;

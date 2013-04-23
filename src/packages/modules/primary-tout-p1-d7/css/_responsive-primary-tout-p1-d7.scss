@@ -39,6 +39,9 @@ $desktopMin: px-em(980);
       .table-center-wrap{
         width:100%;
       }
+      .inner .box{
+        padding:40px 34px 30px 34px;
+      }
     }
     
     &.title-plate{
@@ -62,42 +65,60 @@ $desktopMin: px-em(980);
     .box.right{
       text-align:left;
     }
+    .no-grid-at-767{
+      width:100%;
+    }
     
     .image-module{
-      height:320px;
+      height:462px;
     }
     .table-center-wrap{
       width:100%;
     } 
     .top{
-      padding-top:4%;
+      padding-top:45px;
       .table-center{
         vertical-align:top;
       }
     }
     .bottom{
-      padding-bottom:4%;
+      padding-bottom:45px;
       .table-center{
         vertical-align:bottom;
       }
     }
-    .inner.light-text-trans-box,
-    .inner.dark-text-trans-box{
+    .inner{
+      &.light-text-trans-box,
+      &.dark-text-trans-box{
+        .box{
+          padding:0 9px;
+        }
+      }
+      
+      &.light-text-trans-box.force-mobile-bg .box{
+        background:$titleBlack;
+        padding:16px 22px 20px 22px;
+      }
+      &.dark-text-trans-box.force-mobile-bg .box{
+        background:$titleWhite;
+        padding:16px 22px 20px 22px;
+      }
       .box{
-        padding: 0;
-      }
-    }
-    .inner .box{
-      margin-top:0;
-      padding:16px 22px 20px 22px;
-      .btn{
+        .t2{
+          font-size: 1.5em;
+          line-height: 1.16667;          
+        }
         margin-top:0;
-      }
-      .p3{
-        margin-bottom:24px;
+        padding:16px 22px 20px 22px;
+        .btn{
+          margin-top:0;
+        }
+        .p3{
+          margin-bottom:24px;
+        }
       }
     }
-    
+
     &.homepage{
       .image-module{
         height:306px;
@@ -133,15 +154,21 @@ $desktopMin: px-em(980);
           margin-bottom:6px;
         }        
       }
-      
-      .top.inner .box{
-        padding:18px 20px 1px 20px;
-        .p3{
-          margin-bottom:15px;
+            
+      .top.inner{
+        padding-top:4%;
+        .box{
+          padding:18px 20px 1px 20px;
+          .p3{
+            margin-bottom:15px;
+          }
         }
       }
-      .bottom.inner .box{
-         padding:18px 20px 44px 20px;
+      .bottom.inner{
+        padding-bottom:4%;
+        .box{
+          padding:18px 20px 44px 20px;
+        }
       }
       
       .mobile-buttons-wrap{
@@ -149,13 +176,14 @@ $desktopMin: px-em(980);
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 20;
+        z-index: 1;
         padding-bottom:4%;
         .mobile-buttons{
           padding:20px;
           a{
             float:left;
             margin-right:3px;
+            padding:10px;
             span{
               display:none;
             }

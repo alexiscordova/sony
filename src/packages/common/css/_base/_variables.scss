@@ -97,21 +97,22 @@
   $themeBlueLight:       rgb(49,176,204);
   $themeBlueLightHover:  rgb(43,154,178);
   $themeBlueLightActive: rgb(55,198,229);
-  $themeGreen:           rgb(139,199,72);
-  $themeGreenHover:      rgb(122,173,62);
-  $themeGreenActive:     rgb(157,224,81);
-  $themeOrange:          rgb(232,117,51);
-  $themeOrangeHover:     rgb(207,105,45);
-  $themeOrangeActive:    rgb(255,129,56);
   $themeBlueDark:        rgb(39,99,163);
   $themeBlueDarkHover:   rgb(33,84,138);
   $themeBlueDarkActive:  rgb(45,115,189);
+  $themeOrange:          rgb(232,117,51);
+  $themeOrangeHover:     rgb(207,105,45);
+  $themeOrangeActive:    rgb(255,129,56);
+  $themeGreen:           rgb(139,199,72);
+  $themeGreenHover:      rgb(122,173,62);
+  $themeGreenActive:     rgb(157,224,81);
 
   // Secondary Colors
   // --------------------------------------------------
   $secondaryGold:     rgb(240,185,56);
   $secondarySage:     rgb(146,185,164);
   $secondaryOlive:    rgb(162,184,73);
+  $secondaryMint:     rgb(34,192,131);
   $secondaryAqua:     rgb(69,175,201);
   $secondaryEggplant: rgb(151,91,119);
   $secondaryLavender: rgb(110,93,145);
@@ -125,9 +126,9 @@
   $facebookColor:  rgb(59,91,153) !default;
   $gplusColor:     rgb(219,74,57) !default;
   $youtubeColor:   rgb(239,60,57) !default;
-  $flickrBlueColor: rgb(0,99,220) !default;
-  $flickrPinkColor: rgb(255,0,132) !default;
-  $pinterestColor: rgb(203,32,39) !default;;
+  $flickrBlueColor:rgb(0,99,220) !default;
+  $flickrPinkColor:rgb(255,0,132) !default;
+  $pinterestColor: rgb(203,32,39) !default;
 
 
   // MISC Colors
@@ -785,7 +786,10 @@
   $grid5GutterWidth: $slimGrid5GutterWidth1200 !default; // legacy - to keep from breaking old code - should find&replace variable in code later, but don't want to right now because I've made so many changes there's likely to be conflicts.
 
   // Max breakpoint
+  $containerFullBleedWidthMax:1514px !default;
   $containerWidthMax:         1400px !default; // if the browser is wider than this, the content will have a set width & side margins will be auto.
+  $gridWidthMax:              1190px !default; // if the browser is wider than this, the content will have a set width & side margins will be auto.
+  
   $containerMarginWidthMax:   79px !default; // these are calculated based on the 1200 values, at 1400.
   $gridMarginWidthMax:        64px !default;
   $gridColumnWidthMax:        58px !default;
@@ -828,7 +832,7 @@
   $gridWidth1200:               ($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1));
 
   // 1400px+ breakpoint
-  $gridWidthMax:                $containerWidthMax - ($gridMarginWidth1200 * 2);
+  // $gridWidthMax:                $containerWidthMax - ($gridMarginWidth1200 * 2);
 
   // 768px-979px breakpoints
   $containerWidthFullBleed768:  768px;
@@ -863,6 +867,7 @@
 
   // 1200px+
   $fluidContainerWidth1200:       percentage($containerWidth1200/1200px) !default;
+  $fluidGridWidth1200-Ratio:      $gridWidth1200/$containerWidth1200 !default;
   $fluidGridWidth1200:            percentage($gridWidth1200/$containerWidth1200) !default;
   $fluidGridColumnWidth1200:      percentage($gridColumnWidth1200/$gridWidth1200) !default;
   $fluidGridGutterWidth1200:      percentage($gridGutterWidth1200/$gridWidth1200) !default;
@@ -870,7 +875,9 @@
   // we need to figure out what the maxwidth minus the page margins @ the max width are, to keep the grids lined up.
   // get the percent width of the page margins at 1200.
   $containerMarginWidth1400-px:   (100% - $fluidContainerWidth1200)/2 / 100% * $containerWidthMax;
-  $fluidContainerWidthMax-px:     $containerWidthMax - ($containerMarginWidth1400-px * 2) + 0px;
+  $fluidContainerWidthMax-px:     $containerWidthMax; // $containerWidthMax - ($containerMarginWidth1400-px * 2) + 0px;
+
+  $fluidGridWidthMax-px:          $gridWidthMax;
 
 
   // 1200px+ slimGrid
@@ -947,18 +954,20 @@
   // ------------------------------------------------
   // Transition Timing Functions
   // ------------------------------------------------
-  $easeOutQuad:     cubic-bezier(0.250, 0.460, 0.450, 0.940);
-  $easeOutCubic:    cubic-bezier(0.215, 0.610, 0.355, 1.000);
-  $easeOutQuart:    cubic-bezier(0.165, 0.840, 0.440, 1.000);
-  $easeOutExpo:     cubic-bezier(0.190, 1.000, 0.220, 1.000);
-  $easeOutNav:      cubic-bezier(0.455, 0.030, 0.515, 0.955);
+        
+  $easeOutSine:    cubic-bezier(0.39, 0.575, 0.565, 1);
+  $easeInOutSine:  cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  $easeInSine:     cubic-bezier(0.47, 0, 0.745, 0.715);
+  $easeInOutQuint: cubic-bezier(0.86, 0, 0.07, 1);
+  $easeInOutExpo:  cubic-bezier(1, 0, 0, 1);
+  $easeInQuad:     cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  $easeOutQuad:    cubic-bezier(0.250, 0.460, 0.450, 0.940);
+  $easeOutCubic:   cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  $easeOutQuart:   cubic-bezier(0.165, 0.840, 0.440, 1.000);
+  $easeOutExpo:    cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  $easeOutNav:     cubic-bezier(0.455, 0.030, 0.515, 0.955);
 
-  $easeNormal:    ease-out;
-
-
-
-
-
+  $easeNormal:     ease-out;
 
 // ------------------------------------------------
 // 888b     d888 d8b

@@ -1,0 +1,31 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('language-interstitial-z5')
+
+e = {"locals":locals, "data":data}
+
+.language-interstitial
+  .container.full-bleed-no-max.module-li-bg
+    //- div(data-src=data.image.images)
+    .container.full-bleed.hero-image
+      e = {"locals":locals, "data":data.image}
+      !{locals.partial('packages/modules/image/html/image.jade' , e)}
+      .inner.container
+        .grid.no-grid-at-979
+          .span7
+            .box.display-table
+              .display-table-cell
+                h1.t2= data.headline
+                .btn-holder
+                  a.btn(href="#")= data.buttons.buttonOne
+                  a.btn(href="#")= data.buttons.buttonTwo
+  .module-li-main
+    .container
+     .grid.no-grid-at-767
+       .span6
+         .module-text-box
+           p.p2-bold.language-interstitial-hdg= data.leftBlock.headline
+           p.p3.language-interstitial-text= data.leftBlock.content
+       .span6
+         .module-text-box
+           p.p2-bold.language-interstitial-hdg= data.rightBlock.headline
+           p.p3.language-interstitial-text= data.rightBlock.content

@@ -13,6 +13,9 @@ define(function(require){
     'use strict';
 
     var $ = require('jquery'),
+        // enquire = require('enquire'),
+        // iQ = require('iQ'),
+        // Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment');
 
     var module = {
@@ -26,6 +29,7 @@ define(function(require){
     // Start module
     var PrimaryTout = function(element, options){
       var self = this;
+      self.$el = $(element);
       $.extend(self, {}, $.fn.primaryTout.defaults, options, $.fn.primaryTout.settings);
 
       self._init();
@@ -34,7 +38,8 @@ define(function(require){
     PrimaryTout.prototype = {
       constructor: PrimaryTout,
 
-      _resize: function(){
+      resize: function(){
+
         var w = $(window).outerWidth();
         if(w > 980){
           //this makes the header grow 1px taller for every 20px over 980w..
@@ -42,10 +47,10 @@ define(function(require){
           $('.primary-tout.default .image-module').css('height', Math.round(Math.min(660, 560 + ((w - 980) / 5))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles
-          $('.primary-tout.homepage .image-module, .primary-tout.default .image-module').css('height', '');
+          $('.primary-tout .image-module').css('height', '');
         }
 
-        // this each and find inner for layouts page
+        //centers homepage primary box vertically above secondary box
         $.each ($('.primary-tout.homepage .inner .table-center-wrap'), function(i,e){
           var self = $(e);
           var outer = self.closest('.primary-tout.homepage');
@@ -54,8 +59,29 @@ define(function(require){
       },
 
       _init: function(){
-        this._resize();
-        Environment.on('global:resizeDebounced', this._resize);
+        var self = this;
+
+        if($(".primary-tout.homepage, .primary-tout.default").length > 0){
+          self.resize();
+          Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
+        }
+
+        var btn = self.$el.find(".inner .box a, .mobile-buttons a");
+
+        if(btn.length > 0){
+          btn.on('click', function(e){
+            e.preventDefault();
+            self.$el.find('.hero-image').addClass('hidden');
+            self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('hidden');
+            //play video?
+          });
+          self.$el.find('.submodule .box-close').on('click', function(e){
+            e.preventDefault();
+            self.$el.find('.hero-image').removeClass('hidden');
+            self.$el.find('.submodule').addClass('hidden');
+          });
+        }
+
 
         log('SONY : PrimaryTout : Initialized');
       }

@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('secondary-touts-s1-s4')
 
 if data.config.title
   .container.st-header
@@ -9,5 +10,6 @@ if data.config.title
   .st-container
     .st-container-inner.container
       for slide in data.slides
-        e = {"locals": locals, "content": slide}
-        !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4.jade', e)}
+        .st-content.slimgrid.no-grid-at-767
+          e = {"locals": locals, "content": slide}
+          !{locals.partial('packages/modules/secondary-touts-s1-s4/html/secondary-touts-s1-s4.jade', e)}

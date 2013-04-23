@@ -18,6 +18,7 @@ define(function(require) {
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
+      Utilities = require('require/sony-global-utilities'),
       sonyStickyNav = require('secondary/index').sonyStickyNav,
       jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
@@ -36,6 +37,7 @@ define(function(require) {
     var self = this;
 
     self.isDesktop = false;
+    self.isTablet = false;
     self.isMobile = false;
 
     self.$el = $( element );
@@ -64,6 +66,9 @@ define(function(require) {
       self.$stickyPriceText = self.$stickyNav.find('.price-text');
       self.$modal = self.$el.find('#share-tool');
 
+      self.$span1AtTablet = self.$el.find('#span1-at-tablet');
+      self.$span3AtTablet = self.$el.find('#span3-at-tablet');
+
       self.$favoriteBtn.on('click', $.proxy( self._onFavorite, self ));
       self.$shareBtn.on('click', $.proxy( self._onShare, self ));
 
@@ -85,6 +90,16 @@ define(function(require) {
             self._setupDesktop();
           }
         })
+        .register('(min-width: 48em) and (max-width: 61.1875em)', {
+          match: function() {
+            self._setupTablet();
+          }
+        })
+        .register('(min-width: 61.25em)', {
+          match: function() {
+            self._teardownTablet();
+          }
+        })
         .register('(max-width: 47.9375em)', {
           match: function() {
             self._setupMobile();
@@ -99,15 +114,7 @@ define(function(require) {
 
       // Setup that can be deferred
       setTimeout(function() {
-        self.$shareLink.on('focus', function() {
-          var input = this;
-
-          // We use a timeout here because .select() will select everything,
-          // then the default browser action will deselect our selection
-          setTimeout(function() {
-            input.select();
-          }, 0);
-        });
+        Utilities.autoSelectInputOnFocus( self.$shareLink );
 
         // Init sticky nav
         self.$stickyNav.stickyNav({
@@ -183,8 +190,7 @@ define(function(require) {
 
     _hideShareDialog : function( toDesktop ) {
       var $closer = toDesktop ? $('.modal-backdrop') : Settings.$document;
-      $closer.click();
-
+      $closer.trigger('click');
     },
 
     _setupDesktop : function() {
@@ -200,6 +206,31 @@ define(function(require) {
       self._swapDomElements( true );
     },
 
+    _setupTablet : function() {
+      var self = this;
+
+      self.isTablet = true;
+
+      self.$span1AtTablet.removeClass( 'span2' ).addClass( 'span1' );
+      self.$span3AtTablet.removeClass( 'span2' ).addClass( 'span3' );
+    },
+
+    _teardownTablet : function() {
+      var self = this;
+
+
+      if ( self.isTablet ) {
+        // Spans need to be reset
+        self.$span1AtTablet
+          .add( self.$span3AtTablet )
+            .removeClass('span1 span3')
+            .addClass('span2');
+      }
+
+      self.isTablet = false;
+
+    },
+
     _setupMobile : function() {
       var self = this,
           wasDesktop = self.isDesktop;
@@ -213,9 +244,10 @@ define(function(require) {
       self._swapTexts( false );
       self._swapDomElements( false );
 
-      // If this was originally setup desktop, there will be heights set on the columns
       if ( wasDesktop ) {
+        // If this was originally setup desktop, there will be heights set on the columns
         self.$evenCols.css('height', '');
+        self._teardownTablet();
       }
     }
   };

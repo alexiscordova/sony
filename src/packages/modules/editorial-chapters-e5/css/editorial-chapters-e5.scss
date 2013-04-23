@@ -1,19 +1,19 @@
 @import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../../../common/css/_base/mixins";
 
-.EDITORIALSLIDESHOWS {}
-
 .editorial-chapters-container {
+  overflow:hidden;
+  max-width:100%;
+
+  .image-module {text-align:center;}
+
   .editorial-chapters {
     position: relative;
-    height: 560px;
-    max-height: 560px;
-    margin-top: 24px;
-
+  }
     .editorial-carousel-wrapper {
       position: relative;
       overflow: hidden;
-
+    }
       .editorial-carousel {
         position: relative;
         width: 100%;
@@ -21,94 +21,133 @@
         opacity: 0;
         filter: alpha(opacity=0);
         -webkit-backface-visibility: hidden;
-
+      }
         .editorial-carousel-slide {
           position: relative;
           width: 100%;
           height: 100%;
-          float: left;
           display: block;
+          float:left;
+          @include opacity(0);
+          @include transition();
 
-          img {
-            width: 100%;
+          &.active {
+            position:absolute;
+            z-index:1;
+            @include opacity(100);
           }
+
+          .container {width:100%;}
         }
-      }
-    }
-
-    .t2 {
-      color: $gray20;
-    }
-
-    .p2 {
-      color: $gray40;
-    }
-
-    a.opt-link {
-      color: $linkBlue;
-      display: block;
-    }
-
     .thumb-nav {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      margin-left:-510px;
-      max-width: 1020px;
+      position:relative;
+      margin-bottom:0;
       text-align:center;
-      height: 72px;
+      height:68px;
+      z-index:1;
+
+      .left-shade,
+      .right-shade {display:none;}
+
+      .slider {margin:0 auto;}
 
       li {
-        width:25%;
-        padding:10px;
-        height:68px;
+        padding:10px 0;
+        height:48px;
         display: inline-block;
-        background:$gray80;
-        color:$gray20;
+        background:$white;
+        color:$gray40;
         cursor:pointer;
         text-align:left;
         line-height:16px;
+        border:0;
+        vertical-align:bottom;
+        position:relative;
+        box-sizing:content-box;
+        width:25%;
+        overflow:hidden;
+        @include opacity(75);
 
-        &.active {
-          cursor:default;
+        & + li {margin-left:-1px;}
+
+        &.active,
+        &:hover {
           border-top:4px solid $linkBlue;
-          height:72px;
-
-          div {@include opacity(100);}
-        }
-
-        .gray & {
-          background:$white;
-        }
-        .dark & {
-          background:$gray20;
-          color:$white;
+          color:$gray20;
+          margin-top:-4px;
+          background:$gray80;
+          -webkit-backface-visibility:hidden;
+          @include transition();
+          @include opacity(100);
         }
 
         .lt-ie8 & {
           @include ie7-inline-block();
         }
       }
-        div {
-          @include opacity(50);
-          @include transition();
-          display:table;
-        }
           img {
             position:relative;
             display:block;  
             height:48px;
-            width:64px;
-            display:table-cell;
+            min-width:64px;
             float:left;
+            margin:0 10px;
+            -webkit-backface-visibility:hidden;
+            @include transition();
+          }
+          i {
+            font-size:20px;
+            margin-right:10px;
+            line-height:16px;
+            position:relative;
+            top:13px;
+            float:left;
+            margin-bottom:20px;
           }
           span {
-            display:table-cell;
-            vertical-align:middle;
             font-size:12px;
-            width:171px;
-            padding-left:10px;
+            position:relative;
+            top:-3px;
+            display:block;
+            margin-right:24px;
+
+            &.oneLine {top:14px;}
+            &.twoLine {top:6px;}
           }
     }
-  }
+    &.top-nav .thumb-nav {
+      margin-bottom:24px;
+      width:auto;
+      text-align:left; 
+
+      li {
+        top:-4px;
+
+        &.active,
+        &:hover {
+          top:0;
+          border-top:0;
+          border-bottom:4px solid $linkBlue;
+          margin-top:0;
+        }
+      }
+    }
+    &.gray .thumb-nav li {
+      background:$gray80;
+
+      &:hover,
+      &.active {background:$white;}
+    }
+    &.thumb-mode .thumb-nav {
+      i {display:none;}
+    }
+    &.icon-mode .thumb-nav {
+        img {display:none;}
+        i {margin-left:24px; margin-right:10px;}
+        span {margin-right:20px;}
+    }
+    &.text-mode .thumb-nav {
+      img, i {display:none;}
+      span {margin:0 24px;}
+    }
 }
