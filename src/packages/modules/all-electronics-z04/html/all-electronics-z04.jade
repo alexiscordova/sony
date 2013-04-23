@@ -28,10 +28,11 @@ include ../../../common/html/jade-helpers.jade
 												span.product-img-w
 													+iQImage(product.img)
 												span.nav-label.p3-bold= product.label
-
+							- if (category.menu_secondary != undefined) {
 							.products-section-secondary
 								h6.l2= category.menu_secondary.title
 								ul.products-list-secondary
 									- each item, i in category.menu_secondary.menu_items
 										li.products-li
 											a.products-li-link.p3(class=item.class)(href=item.link)= item.label
+							- }
