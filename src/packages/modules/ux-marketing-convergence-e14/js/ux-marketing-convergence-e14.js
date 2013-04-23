@@ -84,7 +84,10 @@ define(function(require){
       self.setupDials();
 
       // INIT SEQUENCE 
-      self.setButtonColor(self.currentPartnerProduct); // set color
+      if(!Settings.isLTIE9){
+        self.setButtonColor(self.currentPartnerProduct); // new color for reload buton
+      }
+
       self.fadeInContent(self.currentPartnerProduct); // show content
       self.resetDials(); // start animation
       self.resetPartnerCarouselInterval(); // start timer
@@ -205,8 +208,9 @@ define(function(require){
 
         self.$carouselInstance.sonyCarousel('gotoSlide', which);
 
-        // new color for reload buton
-        self.setButtonColor(which);
+        if(!Settings.isLTIE9){
+          self.setButtonColor(which); // new color for reload buton
+        }
 
         // fade out content as slide is moving
         self.fadeInContent(which); 
@@ -220,11 +224,17 @@ define(function(require){
     },
 
     'setButtonColor' : function(which){
-      var self = this;
+      var self = this,
+          $reloadBtn = self.$reloadButton,
+          $slide = self.$carouselSlides.eq(which);
 
-      self.$reloadButton.css({
-        "color": self.$carouselSlides.eq(which).css("backgroundColor"),
-      });
+
+      console.log( '$slide »');
+      console.log( $slide);
+      console.log( '$slide color »' , $slide.css("background-color"));
+      console.log($reloadBtn);
+
+      $reloadBtn.css('color', $slide.css("background-color"));
 
     },
 

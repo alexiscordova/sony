@@ -10,7 +10,8 @@ section.container.uxmc
   div.grid.uxmc-container(class=['mode-'+data.mode.toLowerCase()])
 
     div.btn-reload-container
-      a.fonticon-30-plus.btn-reload(title='Load another product to go with your ' + data.baseProduct.title, href='#')
+      //- a.fonticon-30-plus.btn-reload(title='Load another product to go with your ' + data.baseProduct.title, href='#')
+      span.fonticon-30-plus.btn-reload(title='Load another product to go with your ' + data.baseProduct.title)
 
     div.base-product     
       div.uxmc-image-wrapper.iq-img(data-src-desktop=data.baseProduct.img.srcDesktop, data-src-tablet=data.baseProduct.img.srcTablet, data-src-phone=data.baseProduct.img.srcPhone, data-src-desktop-highres=data.baseProduct.img.srcDesktopHighRes, data-src-tablet-highres=data.baseProduct.img.srcTabletHighRes, data-src-phone-highres=data.baseProduct.img.srcPhoneHighRes)

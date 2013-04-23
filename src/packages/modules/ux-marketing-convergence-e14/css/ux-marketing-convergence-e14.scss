@@ -93,9 +93,9 @@
      width: 50%;
      height: 100%;
 
-    .uxmc-image-wrapper{
-      background-size: cover;
-    }
+      .uxmc-image-wrapper{
+        background-size: cover;
+      }
 
    }
 
@@ -165,9 +165,9 @@
      overflow: hidden;
      text-align: center;
 
-     // .lt-ie8 & {
-     //   display: none;
-     // }
+     .lt-ie9 & {
+       display:none;
+     }
 
      &:before {
        position: relative;
@@ -178,12 +178,17 @@
    } // btn-reload-container
 
    .btn-reload {
+     cursor: pointer;
      margin:0;
      padding:0;
      width: 1em;
      height: 1em;
      background-color: #fff;
      color: #ccc;
+
+     .lt-ie9 & {
+        display:none;
+     }
    }
 
    .progress-indicators {
@@ -247,10 +252,6 @@
 
      * {
        vertical-align: middle;
-     }
-
-     img {
-       display: inline;
      }
    }
  }
