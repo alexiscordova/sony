@@ -76,6 +76,18 @@
   .editorial-chapters-container {
     @include compact-thumb-nav;
   }
+  .container,
+  .span12 {
+    & > .editorial-chapters-container.text-mode {
+      .thumb-nav {
+        width:100% !important;
+
+        .left-shade,
+        .right-shade {display:block; width:7px; position:absolute; top:0; bottom:0; left:0; background: url('../img/editorial-chapters-e5/nav_shading.png') no-repeat;}
+        .right-shade {left:auto; right:0; background-position:bottom right;}
+      }
+    }
+  }
 }
 
 @media (max-width: 410px) {
