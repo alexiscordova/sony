@@ -3,8 +3,6 @@
 // --------------------------------------------------
 
 @mixin compact-thumb-nav {
-  .thumb-nav {width:100%;}
-
   &.thumb-mode {
     .thumb-nav {
       height:58px;
@@ -78,6 +76,19 @@
   .editorial-chapters-container {
     @include compact-thumb-nav;
   }
+}
+
+@media (max-width: 410px) {
+  .span7 .editorial-chapters-container.text-mode .thumb-nav {width:300px;}
+}
+@media (min-width: 411px) and (max-width: 510px) {
+  .span7 .editorial-chapters-container.text-mode .thumb-nav {width:370px;}
+}
+@media (min-width: 768px) and (max-width: 867px) {
+  .span7 .editorial-chapters-container.text-mode .thumb-nav {width:370px;}
+}
+@media (min-width: 868px) and (max-width: 967px) {
+  .span7 .editorial-chapters-container.text-mode .thumb-nav {width:470px;}
 }
 
 @media (min-width: 910px) {
