@@ -52,7 +52,7 @@ var UNAV = ( function(window, document, $, undefined){
       console.log("_openUNav");
 
       $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
-      $pageWrapInner.css('top', uNavOuterHeight + 'px');
+      $pageWrapInner.css('margin-top', uNavOuterHeight + 'px');
 
 
       // show the screen overlay
@@ -86,7 +86,7 @@ var UNAV = ( function(window, document, $, undefined){
       }
 
       $pageWrapOuter.removeClass('unav-open');
-      $pageWrapInner.css('top', '0px');
+      $pageWrapInner.css('margin-top', '0px');
     }
 
   }; // end _init
