@@ -138,7 +138,7 @@ define(function(require){
         });
       }
 
-      self.$navCarousel.sonyCarousel('gotoSlide', currentSlide);
+      self.$navCarousel.sonyCarousel('gotoSlide', currentSlide, true);
 
       self.bindNav();
     },
