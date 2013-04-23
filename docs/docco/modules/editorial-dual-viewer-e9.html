@@ -101,7 +101,12 @@ define(<span class="keyword">function</span>(require){
           }, <span class="number">250</span>);
         }
       });
-     
+
+      self.$scrubber.on(<span class="string">'sonyDraggable:dragEnd'</span>, <span class="keyword">function</span>(){
+        setTimeout(<span class="keyword">function</span>(){
+          self.$scrubber.removeClass(<span class="string">'dragging dragging2'</span>);
+        }, <span class="number">250</span>);
+      });
 
     },
 
@@ -148,6 +153,7 @@ percentage's inverse to maintain the desired positioning.</p>             </td> 
         (e.position.top &lt;= <span class="number">75</span>) ? self.$bottomSlide.next().fadeIn(<span class="number">200</span>) : self.$bottomSlide.next().fadeOut(<span class="number">200</span>);
 
       }
+
     }
 
   };

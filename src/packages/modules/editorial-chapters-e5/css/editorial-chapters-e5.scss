@@ -5,6 +5,8 @@
   overflow:hidden;
   max-width:100%;
 
+  .image-module {text-align:center;}
+
   .editorial-chapters {
     position: relative;
   }
@@ -31,6 +33,7 @@
 
           &.active {
             position:absolute;
+            z-index:1;
             @include opacity(100);
           }
 
@@ -42,6 +45,8 @@
       text-align:center;
       height:68px;
       z-index:1;
+
+      .slider {margin:0 auto;}
 
       li {
         padding:10px 0;
