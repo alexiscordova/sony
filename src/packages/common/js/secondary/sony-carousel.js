@@ -261,7 +261,7 @@ define(function(require){
           $slideSet = self.$slides,
           speed = ( noAnim ? 0 : self.animationSpeed ),
           $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
-
+  
       // Logic for the natural ends of a carousel that has been looped
 
       if ( self.looped && ( which === -1 || which >= self.$slides.length )) {
@@ -623,6 +623,14 @@ define(function(require){
 
       // Unbind
       Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
+
+
+      // if (e.currentTarget !== e.target){
+      //   return
+      // }else{
+      //   self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
+      // }
+        
       self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
       $clickContext.off('click.sonycarousel');
 
