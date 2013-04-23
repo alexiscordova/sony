@@ -93,9 +93,9 @@
      width: 50%;
      height: 100%;
 
-    .uxmc-image-wrapper{
-      background-size: cover;
-    }
+      .uxmc-image-wrapper{
+        background-size: cover;
+      }
 
    }
 
@@ -109,9 +109,9 @@
      height: 100%;
      overflow:hidden;
 
-     .lt-ie8 & {
-       width: 49.5%;
-     }
+     // .lt-ie8 & {
+     //   width: 49.5%;
+     // }
 
       .uxmc-carousel{
         width: 100%;
@@ -165,8 +165,8 @@
      overflow: hidden;
      text-align: center;
 
-     .lt-ie8 & {
-       display: none;
+     .lt-ie9 & {
+       display:none;
      }
 
      &:before {
@@ -178,12 +178,17 @@
    } // btn-reload-container
 
    .btn-reload {
+     cursor: pointer;
      margin:0;
      padding:0;
      width: 1em;
      height: 1em;
      background-color: #fff;
      color: #ccc;
+
+     .lt-ie9 & {
+        display:none;
+     }
    }
 
    .progress-indicators {
@@ -237,7 +242,7 @@
 
    .uxmc-image-wrapper {
      display: table-cell;
-     background-image: none !important;
+     //background-image: none !important;
      vertical-align: middle;
 
      span {
@@ -247,10 +252,6 @@
 
      * {
        vertical-align: middle;
-     }
-
-     img {
-       display: inline;
      }
    }
  }
