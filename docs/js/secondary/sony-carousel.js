@@ -627,7 +627,9 @@ define(function(require){
       $clickContext.off('click.sonycarousel');
 
       // Destroy all plugins.
-      self.$el.sonyDraggable('destroy');
+      if ( self.draggable ) {
+        self.$el.sonyDraggable('destroy');
+      }
 
       if ( self.paddles ) {
         $paddleWrapper.sonyPaddles('destroy');

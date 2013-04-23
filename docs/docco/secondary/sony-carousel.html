@@ -608,7 +608,9 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
       self.$el.off(<span class="string">'sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide '</span> + Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
       $clickContext.off(<span class="string">'click.sonycarousel'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Destroy all plugins.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.sonyDraggable(<span class="string">'destroy'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Destroy all plugins.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.draggable ) {
+        self.$el.sonyDraggable(<span class="string">'destroy'</span>);
+      }
 
       <span class="keyword">if</span> ( self.paddles ) {
         $paddleWrapper.sonyPaddles(<span class="string">'destroy'</span>);

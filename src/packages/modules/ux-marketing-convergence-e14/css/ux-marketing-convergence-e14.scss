@@ -93,9 +93,9 @@
      width: 50%;
      height: 100%;
 
-    .uxmc-image-wrapper{
-      background-size: cover;
-    }
+      .uxmc-image-wrapper{
+        background-size: cover;
+      }
 
    }
 
@@ -127,6 +127,7 @@
         display: block;
         text-align: center;
         background-color: transparent;
+        -webkit-backface-visibility: hidden;
 
 
         &.theme-watch { background-color: $themeRed; }
@@ -145,9 +146,11 @@
         height: 100%;
         z-index: 2;
         opacity: 0;
+        -webkit-backface-visibility: hidden;
         @include transition(opacity .75s $easeNormal);
 
         &.active{
+          -webkit-backface-visibility: hidden;
           @include transition(opacity .75s $easeNormal);
           opacity: 1;
         }
@@ -165,8 +168,8 @@
      overflow: hidden;
      text-align: center;
 
-     .lt-ie8 & {
-       display: none;
+     .lt-ie9 & {
+       display:none;
      }
 
      &:before {
@@ -178,12 +181,17 @@
    } // btn-reload-container
 
    .btn-reload {
+     cursor: pointer;
      margin:0;
      padding:0;
      width: 1em;
      height: 1em;
      background-color: #fff;
      color: #ccc;
+
+     .lt-ie9 & {
+        display:none;
+     }
    }
 
    .progress-indicators {
@@ -217,10 +225,12 @@
          font-size: 0.75em;
          text-align: center;
          opacity:0.65;
+         -webkit-backface-visibility: hidden;
          @include transition(opacity $transitionFast $easeNormal);
 
          &.active{
            opacity:1;
+           -webkit-backface-visibility: hidden;
            @include transition(opacity $transitionFast $easeNormal);
          }
        }
@@ -237,7 +247,7 @@
 
    .uxmc-image-wrapper {
      display: table-cell;
-     background-image: none !important;
+     //background-image: none !important;
      vertical-align: middle;
 
      span {
@@ -247,10 +257,6 @@
 
      * {
        vertical-align: middle;
-     }
-
-     img {
-       display: inline;
      }
    }
  }
