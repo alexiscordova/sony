@@ -141,7 +141,7 @@ define(function(require){
       var self = this,
           $buttons = self.$navgroups.find('.slimgrid').children();
 
-      $buttons.on('click', function(){
+      $buttons.on('mouseup', function(){
 
         var $this = $(this),
             isActive = $this.hasClass('active');
