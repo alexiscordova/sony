@@ -163,6 +163,10 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
     @include opacity(100);
   }
 
+  .no-opacity.no-touch & .cover.light:hover {
+    background-color: transparent;
+  }
+
   // Make the dark circle grow
   .no-touch.no-csstransforms & .cover:hover .bg-for-icon {
     left: 0;

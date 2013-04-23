@@ -100,7 +100,7 @@ define(function(require){
       self.setTrayHeight();
     },
 
-    renderNav: function(mobile) {
+    renderNav: function( mobile ) {
 
       var self = this;
 
@@ -112,6 +112,26 @@ define(function(require){
       });
 
       self.$navgroups.find('.slimgrid')[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
+
+      if ( self.$navCarousel ) {
+        self.$navCarousel.sonyCarousel('destroy');
+      }
+
+      if ( mobile ) {
+        self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
+          draggable: true,
+          wrapper: '.subnav-nav-carousel-wrapper',
+          slides: '.subnav-nav-carousel-slide'
+        });
+      } else {
+        self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
+          draggable: false,
+          wrapper: '.subnav-nav-carousel-wrapper',
+          slides: '.subnav-nav-carousel-slide',
+          paddles: true,
+          useSmallPaddles: true
+        });
+      }
 
       self.bindNav();
     },
@@ -128,11 +148,13 @@ define(function(require){
 
         $buttons.removeClass('active');
 
-        if ( isActive ) {
-          self.closeTray();
-        } else {
-          $this.addClass('active');
-          self.openSubcat($this.data('subcategory'));
+        if ( !$this.parents().hasClass('dragging') ) {
+          if ( isActive ) {
+            self.closeTray();
+          } else {
+            $this.addClass('active');
+            self.openSubcat($this.data('subcategory'));
+          }
         }
       });
     },
