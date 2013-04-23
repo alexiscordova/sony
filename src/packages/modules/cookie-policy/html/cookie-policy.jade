@@ -1,0 +1,12 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('cookie-policy')
++includeJavascriptModule('cookie-policy')
+
+.alert.collapsed#cookie-alert
+  .container.alert-inner
+    .grid.no-grid-at-767.relative
+      span.span7.m-span1
+        p.p3.msg 
+          | !{ data.dialog_module.message }
+      button(class="btn btn-alt pull-right", data-dismiss="alert", data-target="#sign-in-alert")
+        | !{ data.dialog_module.dialog_config.label }
