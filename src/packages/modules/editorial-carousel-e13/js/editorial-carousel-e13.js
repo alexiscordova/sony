@@ -5,7 +5,7 @@
 // * **Version:** 1.0
 // * **Modified:** 04/22/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.7+ , Modernizr, sony-carousel
+// * **Dependencies:** jQuery 1.7+ , Modernizr, enquire, sony-carousel
 //
 // *Notes:*
 //

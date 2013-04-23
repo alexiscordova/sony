@@ -2,7 +2,7 @@
 @import "../../../common/css/_base/mixins";
 
 $overlayColor: rgb(243,41,41);
-$bannerHeight: px-em( 26 );
+$bannerHeight: 26px; // can't be ems because i'm using ghost-centering
 
 .ec-module {
   position: relative;
@@ -96,8 +96,6 @@ $bannerHeight: px-em( 26 );
     right: 0;
     bottom: 0;
     left: 0;
-    cursor: pointer;
-    padding: 22% 29.797979798% 0 29.797979798%;
     text-align: center;
     background-color: $overlayColor;
     background-color: rgba( $overlayColor, 0.9 );
@@ -113,7 +111,7 @@ $bannerHeight: px-em( 26 );
     .cta {
       display: block;
       color: $white;
-      margin: 1px 0 0 0;
+      margin: 8px 0 0 0;
       text-transform: uppercase;
     }
   }
@@ -121,8 +119,7 @@ $bannerHeight: px-em( 26 );
   .picto-play {
     position: relative;
     display: block;
-    height: 42%;
-    width: 100%;
+    @include square( px-em( 80 ) );
 
     .picto {
       position: absolute;
@@ -135,28 +132,49 @@ $bannerHeight: px-em( 26 );
     }
   }
 
+  // dark circle around the icon
   .bg-for-icon {
     position: absolute;
     z-index: 1;
+    background-color: $gray20;
+    @include border-radius( 50% );
+  }
+
+  // Transition width/hight/top/left in browsers without transforms
+  .no-csstransforms & .bg-for-icon {
     left: 15%;
     top: 15%;
     height: 70%;
     width: 70%;
-    background-color: $gray20;
-    @include border-radius(100px);
     @include transition(top $transitionFast $easeNormal, left $transitionFast $easeNormal, width $transitionFast $easeNormal, height $transitionFast $easeNormal);
   }
 
+  // transition scale in browsers with transforms
+  .csstransforms & .bg-for-icon {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    @include scale( 0.5 );
+    @include transition();
+  }
 
+  // Fade in cover
   .no-touch & .cover:hover {
     @include opacity(100);
+  }
 
-    .bg-for-icon {
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 100%;
-    }
+  // Make the dark circle grow
+  .no-touch.no-csstransforms & .cover:hover .bg-for-icon {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  // Grow by scaling in browsers that support it
+  .no-touch.csstransforms & .cover:hover .bg-for-icon {
+    @include scale( 1 );
   }
 }
 

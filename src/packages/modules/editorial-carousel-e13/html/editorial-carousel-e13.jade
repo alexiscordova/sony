@@ -35,12 +35,13 @@ include ../../../common/html/jade-helpers.jade
                               strong= tile.headline.currentPlayersText
                         .wrapper-image
                           if tile.headline
-                            .cover
-                              span.picto-play
-                                span.bg-for-icon
-                                span.picto
-                              span.p3.cta
-                                strong= tile.callToAction
+                            .cover.ghost-center-wrap
+                              .ghost-center
+                                span.picto-play
+                                  span.bg-for-icon
+                                  span.picto
+                                span.p3.cta
+                                  strong= tile.callToAction
                           else
                             .cover.light
                           +iQImage( tile.img )
