@@ -19,12 +19,35 @@ $span4-width-1200: 30.98039%;
 $span8-width-1200: 65.4902%;
 $gutter-width-1200: 3.52941%;
 
+.unav-screen-overlay {
+	width: 100%;
+	// height: 100%;
+	height: 2000px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1040;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.7);
+	-webkit-transition: opacity $transitionSlower linear 0s;
+	transition: opacity $transitionSlower linear 0s;
+
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+  // background-color: #212530;
+}
+.unav-open-until-transition-end .navmenu-w-search-container,
+.unav-open-until-transition-end .navmenu-w-mobile-top,
+.unav-open-until-transition-end .navtray-w-electronics,
+.unav-open-until-transition-end .navtray-w-entertainment{
+	display:none;
+}
+
 // universal-nav-specific classes. These are needed by all versions of the Universal Nav
 .u-nav-wrapper{
   background: rgb(243,244,246); // $gray90;
   padding: 20px 0 50px;
   width:100%;
-  z-index:99999;
   position:absolute;
   // top:;
 

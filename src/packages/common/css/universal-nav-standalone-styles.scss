@@ -9,8 +9,8 @@
 @import "_base/mixins";
 
 // These are needed on any site that includes the Universal Nav. 
-// They don't have to have the same classnames, but for the Universal Nav to work, 
-// there needs to be an outer container with overflow:hidden & an inner container with position:relative to slide the site.
+// For the Universal Nav to work, there needs to be a .page-wrap-outer & .page-wrap-inner to slide the site down.
+// If the class names are changed, the css needs to be updated here, and the initializing javascript call needs them passed in.
 body,html{
 	padding:0;
 	margin:0;
@@ -18,12 +18,25 @@ body,html{
 .page-wrap-outer {
 	width: 100%;
 	overflow: hidden;
+	&.unav-open-until-transition-end{
+		position:fixed;
+		height:1500px;
+	}
 }
 .page-wrap-inner {
   width: 100%;
-  position: relative;
+  position:relative;
+  // @include transition(left $transitionSlower $easeOutNav 0s, top $transitionSlower $easeOutNav 0s, width $transitionSlower $easeOutNav 0s);
+  @include transition(top $transitionSlower $easeOutNav 0s);
 }
 
+
+.unav-screen-overlay.opacity0 {
+  opacity: 0;
+}
+.unav-screen-overlay.opacity1 {
+  opacity: 1;
+}
 
 $span3-width: 22.34043%;
 $span4-width: 30.96927%;
@@ -39,6 +52,8 @@ $span3-width-1200: 22.35294%;
 $span4-width-1200: 30.98039%;
 $span8-width-1200: 65.4902%;
 $gutter-width-1200: 3.52941%;
+
+
 
 .u-nav-wrapper{
 	font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
