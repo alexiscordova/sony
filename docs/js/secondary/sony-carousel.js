@@ -108,12 +108,18 @@ define(function(require){
         self.posAttr = 'left';
       }
 
-      if ( self.draggable ) {
-        self.setupDraggable();
+      if ( self.useCSS3 ) {
+
+        // Check to see if this browser actually supports CSS3.
+        if ( !Modernizr.csstransforms || !Modernizr.csstransitions ) {
+          self.useCSS3 = false;
+        } else {
+          self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3Easing);
+        }
       }
 
-      if ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3Easing);
+      if ( self.draggable ) {
+        self.setupDraggable();
       }
 
       Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function() {
@@ -621,7 +627,9 @@ define(function(require){
       $clickContext.off('click.sonycarousel');
 
       // Destroy all plugins.
-      self.$el.sonyDraggable('destroy');
+      if ( self.draggable ) {
+        self.$el.sonyDraggable('destroy');
+      }
 
       if ( self.paddles ) {
         $paddleWrapper.sonyPaddles('destroy');

@@ -4,23 +4,21 @@ include ../../../common/html/jade-helpers.jade
 
 mixin thumb-nav
   ul.thumb-nav.container
-    for slide in data.submodules
-      li
-        if slide.thumb
-          +iQImage(slide.thumb)
-        if slide.icon
-          i(class=slide.icon)
-        if slide.label
-          span= slide.label
+    .slider
+      for slide in data.submodules
+        li
+          if slide.thumb
+            +iQImage(slide.thumb)
+          if slide.icon
+            i(class=slide.icon)
+          if slide.label
+            span= slide.label
 
-section.editorial-chapters-container( class=data.config.nav_shade+' '+data.config.nav_location+'-nav '+data.config.nav_placement+'-nav '+data.config.nav_mode+'-mode '+data.config.nav_size+'-nav' )
+section.editorial-chapters-container( class=data.config.nav_shade+' '+data.config.nav_mode+'-mode ')
   div(class='editorial-chapters')
-    if data.config.nav_location == "top"
-      +thumb-nav
     div(class='editorial-carousel-wrapper')
       div(class='editorial-carousel')
         for slide in data.submodules
           .editorial-carousel-slide
             +partial(slide.type, slide.data)
-    if data.config.nav_location == "bottom"
-      +thumb-nav
+    +thumb-nav
