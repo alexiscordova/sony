@@ -753,7 +753,7 @@ else if data.view == 'compatibility'
             | !{ accessories }
 
 
-else if data.view = 'recommended'
+else if data.view == 'recommended'
   startingAtText = 'Starting at'
   msrp = 'MSRP'
 
@@ -769,6 +769,21 @@ else if data.view = 'recommended'
         span.l4-light.msrp= msrp
         +heart()
 
+else if data.view == 'search-results'
+  - product = locals.data(data.results.product.data)
+  .media
+    .img.img-lg.no-float
+      +iQImage( product.imgSmall )
+    .bd.feature-text
+      h3.t5.title= product.title
+      .reviews-copy
+        +productRating( product.rating.stars, product.rating.reviews )
+      p.p4= data.results.product.text
+      ul.h-list.h-list-md
+        if data.links
+          each link in data.results.product.links
+            li.lt3
+              a(href= link.url) link.text
 
 else
   em oh noes, you don't have a known view variable set :(

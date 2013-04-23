@@ -194,8 +194,7 @@ define(function(require){
           contentSelector: '.slider',
           iscrollProps: {
             hScrollbar: false,
-            isOverflowHidden: false,
-            onAnimationEnd: iQ.update
+            isOverflowHidden: false
           }
         });
       },
