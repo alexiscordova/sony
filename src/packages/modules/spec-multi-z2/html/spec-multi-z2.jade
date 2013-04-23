@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('spec-multi-z2')
 +includeJavascriptModule('spec-multi-z2')
 
 .spec-multi
@@ -70,7 +71,7 @@ include ../../../common/html/jade-helpers.jade
           .spec-items-container
             each module, i in data.submodules
               d = locals.data(module.data)
-              if d.type == "product"
+              if true
                 - d.view = "specs"
                 - d.iterator = i
                 e = { "locals" : locals, "data" : d, "labels" : data.labels }

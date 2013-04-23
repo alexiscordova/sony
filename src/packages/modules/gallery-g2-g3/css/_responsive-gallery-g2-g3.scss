@@ -9,6 +9,10 @@ $galleryFourColMax: px-em(979px);
 // Recommended Tile
 @media ( max-width: $galleryThreeColMax ) {
 
+  .gallery-content .gallery-title {
+    margin-top: px-em( 40 );
+  }
+
   .gallery-favorites .products {
     overflow: visible;
   }
@@ -25,8 +29,9 @@ $galleryFourColMax: px-em(979px);
   .gallery-favorites {
 
     .options-wrap {
-      float: none;
-      clear: left;
+      .share-options {
+        margin-top: 0;
+      }
 
       .spacer {
         display: none;
@@ -58,7 +63,7 @@ $galleryFourColMax: px-em(979px);
 
     .media {
       float: left;
-      width: px-em( 120 );
+      width: px-em( 132 );
       height: 100%;
       padding: px-em( 5 ) 0 px-em( 22 );
       margin-right: px-em( 5 );

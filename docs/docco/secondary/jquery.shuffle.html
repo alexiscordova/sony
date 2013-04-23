@@ -1,4 +1,4 @@
-<!DOCTYPE html>  <html> <head>   <title>jquery.shuffle.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="sony-carousel.html">                 sony-carousel.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickynav.html">                 sony-stickynav.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               jquery.shuffle.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*!
+<!DOCTYPE html>  <html> <head>   <title>jquery.shuffle.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="sony-carousel-fade.html">                 sony-carousel-fade.js               </a>                                           <a class="source" href="sony-carousel.html">                 sony-carousel.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickynav.html">                 sony-stickynav.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               jquery.shuffle.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*!
  * jQuery Shuffle Plugin
  * Uses CSS Transforms to filter down a grid of items (degrades to jQuery's animate).
  * Inspired by Isotope http://isotope.metafizzy.co/
@@ -504,10 +504,11 @@ The buffer value is very useful when the height is a percentage of the width</p>
         <span class="comment">/**
          * Hides the elements that don't match our filter
          */</span>
-        shrink : <span class="keyword">function</span>() {
+        shrink : <span class="keyword">function</span>( $collection, fn ) {
             <span class="keyword">var</span> self = <span class="keyword">this</span>,
-                $concealed = self.$items.filter(<span class="string">'.concealed'</span>),
-                transitionObj = {};
+                $concealed = $collection || self.$items.filter(<span class="string">'.concealed'</span>),
+                transitionObj = {},
+                callback = fn || self.shrinkEnd;
 
 </pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>Abort if no items</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ($concealed.length === <span class="number">0</span>) {
                 <span class="keyword">return</span>;
@@ -532,7 +533,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
                     y: y,
                     scale : <span class="number">0.001</span>,
                     opacity: <span class="number">0</span>,
-                    callback: self.shrinkEnd
+                    callback: callback
                 };
 
                 self.styleQueue.push( transitionObj );
@@ -888,6 +889,27 @@ The buffer value is very useful when the height is a percentage of the width</p>
             }
         },
 
+        remove : <span class="keyword">function</span>( $collection ) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>If this isn't a jquery object, exit</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !$collection.length || !$collection.jquery ) {
+                <span class="keyword">return</span>;
+            }
+
+            <span class="keyword">var</span> self = <span class="keyword">this</span>,
+            remove = <span class="keyword">function</span>() {
+                <span class="keyword">var</span> shuffle = <span class="keyword">this</span>;
+                $collection.remove();
+                $collection = <span class="literal">null</span>;
+                setTimeout(<span class="keyword">function</span>() {
+                    shuffle.$items = shuffle._getItems();
+                    shuffle.layout();
+                }, <span class="number">0</span>);
+            };
+
+            self.shrink( $collection, remove );
+            self._processStyleQueue();
+        },
+
         destroy: <span class="keyword">function</span>() {
             <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -905,21 +927,21 @@ The buffer value is very useful when the height is a percentage of the width</p>
     };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle = <span class="keyword">function</span>(opts, sortObj) {
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle = <span class="keyword">function</span>(opts, sortObj) {
         <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
         <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
             <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
                 shuffle = $<span class="keyword">this</span>.data(<span class="string">'shuffle'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>If we don't have a stored shuffle, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !shuffle ) {
+</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>If we don't have a stored shuffle, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !shuffle ) {
                 shuffle = <span class="keyword">new</span> Shuffle($<span class="keyword">this</span>, opts);
                 $<span class="keyword">this</span>.data(<span class="string">'shuffle'</span>, shuffle);
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>If passed a string, lets decide what to do with it. Or they've provided a function to filter by</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( $.isFunction(opts) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>If passed a string, lets decide what to do with it. Or they've provided a function to filter by</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( $.isFunction(opts) ) {
                 shuffle.shuffle( opts );
 
-</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>Key should be an object with propreties reversed and by.</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> opts === <span class="string">'string'</span>) {
+</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>Key should be an object with propreties reversed and by.</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> opts === <span class="string">'string'</span>) {
                 <span class="keyword">switch</span>( opts ) {
                     <span class="keyword">case</span> <span class="string">'sort'</span>:
                         shuffle.sort(sortObj);
@@ -930,6 +952,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
                     <span class="keyword">case</span> <span class="string">'enable'</span>:
                     <span class="keyword">case</span> <span class="string">'disable'</span>:
                     <span class="keyword">case</span> <span class="string">'layout'</span>:
+                    <span class="keyword">case</span> <span class="string">'remove'</span>:
                         shuffle[ opts ].apply( shuffle, args );
                         <span class="keyword">break</span>;
                     <span class="keyword">default</span>:
@@ -940,7 +963,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
         });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.options = {
+</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.options = {
         group : <span class="string">'all'</span>, <span class="comment">// Filter group</span>
         speed : <span class="number">400</span>, <span class="comment">// Transition/animation speed (milliseconds)</span>
         easing : <span class="string">'ease-out'</span>, <span class="comment">// css easing function to use</span>
@@ -958,7 +981,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
         useTransition: <span class="literal">true</span> <span class="comment">// You don't want transitions on shuffle items? Fine, but you're weird</span>
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.settings = {
         itemCss : { <span class="comment">// default CSS for each item</span>
             position: <span class="string">'absolute'</span>,
             top: <span class="number">0</span>,

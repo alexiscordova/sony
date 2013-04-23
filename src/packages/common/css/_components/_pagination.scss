@@ -36,6 +36,8 @@ $bulletMargin: px-em(5px);
     font-size: $bulletSize;
     @include transition();
 
+    -webkit-font-smoothing: antialiased;
+
     .pagination-light & {
       color: $gray40;
 
@@ -121,6 +123,9 @@ $bulletMargin: px-em(5px);
       font-size: $font_15_16;
       margin-left: .0625em;
       margin-top: -0.125em;
+
+      // Get rid of the white dot
+      -webkit-font-smoothing: antialiased;
     }
 
     i.fonticon-10-chevron-reverse {
@@ -151,6 +156,7 @@ $bulletMargin: px-em(5px);
 // Stuff below this line should be deleted once we implement the global paddles.
 // ^^^ There are 2 sizes/types of paddles
 
+.pagination-paddles .nav-paddle,
 .nav-paddle {
   display: block;
   border: none;
@@ -184,6 +190,9 @@ $bulletMargin: px-em(5px);
     font-size: $font_15_16;
     margin-left: .0625em;
     margin-top: -0.125em;
+
+    // Get rid of the white dot
+    -webkit-font-smoothing: antialiased;
   }
 
   i.fonticon-10-chevron-reverse {

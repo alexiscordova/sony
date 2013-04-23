@@ -103,7 +103,7 @@ mixin productRating( rating, reviews, reviewsText )
     meta(itemprop="ratingValue", content=rating)
 
 
-mixin priceBlock( product )
+mixin priceBlock( product, onlyName )
   startingAtText = 'Starting at '
   msrp = 'MSRP'
 
@@ -111,11 +111,13 @@ mixin priceBlock( product )
     .product-name-wrap
       .product-name.p3
         strong= data.name
-    .product-price
-      span.price-prefix.p5= startingAtText
-      span.price.p2
-        strong= '$' + data.price + '&nbsp;'
-      span.msrp.p5= msrp
+
+    if ( !onlyName )
+      .product-price
+        span.price-prefix.p5= startingAtText
+        span.price.p2
+          strong= '$' + data.price + '&nbsp;'
+        span.msrp.p5= msrp
 
 //- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
 
@@ -267,6 +269,19 @@ if data.view == 'basic'
           +heart()
 
         +priceBlock( data )
+
+else if data.view == 'simple'
+  a.span2.gallery-item.simple(href=data.href ? data.href : '#')
+    .gallery-item-inner
+      .product-img
+        //- .product-img-wrap.ghost-center-wrap
+        //-   .ghost-center
+        //-       +iQImage( data.imgSmall )
+        //- Fix for image heights not obeying max-height:100%
+        .product-img-wrap
+          +iQImage( data.imgSmall )
+
+      +priceBlock( data, true )
 
 
 else if data.view == 'detailed'

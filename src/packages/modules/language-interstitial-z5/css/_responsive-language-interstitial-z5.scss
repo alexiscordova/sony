@@ -7,74 +7,99 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
 
-@media ( max-width: $phone ) {
-    .module-li {
-      .box {
-        margin: 40px 0 40px 0;
-        h1 {
-          margin-bottom: 26px;
-        }
-      }
-    }
-   
-   .btn-holder {
-    .btn {
-      display: block;
-      margin-bottom: 14px;
-    }
-  }
-  .module-li-main {
-    padding: 64px 0 14px 0;
-    .module-text-box {
-      width: 100%;
-      margin-bottom: 52px;
-    }
-  }
 
-}
 
-@media ( max-width: $phoneMax ) {
-  .module-li {
-    .box {
-      margin: 48px 0 47px 0;
-      h1 {
-        margin-bottom: 26px;
+
+@media ( max-width: $desktopMin ) {
+  .language-interstitial {
+    .module-margin {
+      margin-left: 3.52941%;
+    }
+    .module-li-main {
+      .module-text-box {
+        width: 100%;
       }
-    }
-  }
-  .btn-holder {
-    .btn {
-      margin-right: 15px;
-    }
-  }
-  .module-li-main {
-    padding: 45px 0 65px 0;
-    .module-text-box {
-      width: 100%;
+  
     }
   }
 }
 
 @media ( max-width: $tabletMax ) {
-  .module-li-main {
-    .module-text-box {
-      width: 100%;
+  .language-interstitial {
+    .module-li-main {
+      padding: 50px 0 70px 0;
+      .module-text-box {
+        width: 100%;
+      }
+    }
+    .box {
+      margin: 59px 0 45px 0;
+      height: 196px;
+      h1 {
+        margin-bottom: 30px;
+      }
+      .btn-holder .btn {
+        margin-right: 15px;
+      }
     }
   }
-
 }
 
-@media ( max-width: $desktopMin ) {
-  .module-li {
-    .module-margin {
-      margin-left: 3.52941%;
+
+@media ( max-width: $phoneMax ) {
+  .language-interstitial {
+    .box {
+      margin: 48px 0 47px 0;
+      height: 205px;
+      h1 {
+        margin-bottom: 29px;
+      }
+    }
+    .btn-holder {
+      .btn {
+        display: block;
+        margin-bottom: 17px;
+        margin-right: 0;
+      }
+    }
+    .module-li-main {
+      padding: 29px 0 14px 0;
+      .module-text-box {
+        margin-bottom: 46px;
+        width: 100%;
+      }
     }
   }
-  
-  .module-li-main {
-    .module-text-box {
-      width: 100%;
-  }
+}
 
+
+@media ( max-width: $phone ) {
+    .language-interstitial {
+      .box {
+        margin: 40px 0 40px 0;
+        height: 220px;
+        h1 {
+          margin-bottom: 26px;
+        }
+      }
+     .btn-holder {
+      .btn {
+        display: block;
+        margin-bottom: 14px;
+        margin-right: 0;
+      }
+    }
+    .module-li-main {
+      padding: 64px 0 14px 0;
+      .module-text-box {
+        width: 100%;
+        margin-bottom: 46px;
+        padding-bottom: 0;
+        p {
+          margin-bottom: 0;
+        }
+      }
+    }
   }
 }
+

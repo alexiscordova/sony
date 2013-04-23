@@ -1,0 +1,15 @@
+include universal-nav-standalone-meta.html
+include universal-nav-standalone-fonts.html
+
+//- modernizr needs to load right after the fonts.com script, which has to be in head to prevent FOUT.
+//- CAN I EVEN USE MODERNIZR?
+//- script(src = "js/libs/modernizr.js")
+
+//- At least jQuery 1.7 is needed to use $.on() - if using an older version, change it to $.bind()
+//- script(src = "//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js");
+script(src = "//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js");
+
+//- script(src = "js/universal-nav.js");
+script(src = "js/modules/universal-nav/universal-nav.js");
+link(rel="stylesheet", href="css/universal-nav-standalone-styles.css");
+

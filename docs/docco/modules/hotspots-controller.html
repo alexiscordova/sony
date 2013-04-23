@@ -1,4 +1,4 @@
-<!DOCTYPE html>  <html> <head>   <title>hotspots-controller.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="country-region-selection-z10.html">                 country-region-selection-z10.js               </a>                                           <a class="source" href="editorial-carousel-e13.html">                 editorial-carousel-e13.js               </a>                                           <a class="source" href="editorial-chapters-e5.html">                 editorial-chapters-e5.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="hotspots-controller.html">                 hotspots-controller.js               </a>                                           <a class="source" href="editorial-layouts-e1.html">                 editorial-layouts-e1.js               </a>                                           <a class="source" href="editorial-slideshows-e4.html">                 editorial-slideshows-e4.js               </a>                                           <a class="source" href="footnotes-module.html">                 footnotes-module.js               </a>                                           <a class="source" href="gallery-g2-g3.html">                 gallery-g2-g3.js               </a>                                           <a class="source" href="global-header-footer.html">                 global-header-footer.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="pdp-slideshow-d4.html">                 pdp-slideshow-d4.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="product-details-d5.html">                 product-details-d5.js               </a>                                           <a class="source" href="product-summary-d1-d2.html">                 product-summary-d1-d2.js               </a>                                           <a class="source" href="recently-viewed.html">                 recently-viewed.js               </a>                                           <a class="source" href="related-products-g1.html">                 related-products-g1.js               </a>                                           <a class="source" href="reviews-awards-d6.html">                 reviews-awards-d6.js               </a>                                           <a class="source" href="secondary-touts-s1-s4.html">                 secondary-touts-s1-s4.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="unsupported-z19.html">                 unsupported-z19.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="whats-new-tout-s4.html">                 whats-new-tout-s4.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               hotspots-controller.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global define, Modernizr, log*/</span>
+<!DOCTYPE html>  <html> <head>   <title>hotspots-controller.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="country-region-selection-z10.html">                 country-region-selection-z10.js               </a>                                           <a class="source" href="demo-x99.html">                 demo-x99.js               </a>                                           <a class="source" href="editorial-carousel-e13.html">                 editorial-carousel-e13.js               </a>                                           <a class="source" href="legacy_editorial-carousel-e13.html">                 legacy_editorial-carousel-e13.js               </a>                                           <a class="source" href="editorial-chapters-e5.html">                 editorial-chapters-e5.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="hotspots-controller.html">                 hotspots-controller.js               </a>                                           <a class="source" href="editorial-layouts-e1.html">                 editorial-layouts-e1.js               </a>                                           <a class="source" href="editorial-slideshows-e4.html">                 editorial-slideshows-e4.js               </a>                                           <a class="source" href="footnotes-module.html">                 footnotes-module.js               </a>                                           <a class="source" href="gallery-g2-g3.html">                 gallery-g2-g3.js               </a>                                           <a class="source" href="global-header-footer.html">                 global-header-footer.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="pdp-slideshow-d4.html">                 pdp-slideshow-d4.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="product-details-d5.html">                 product-details-d5.js               </a>                                           <a class="source" href="product-summary-d1-d2.html">                 product-summary-d1-d2.js               </a>                                           <a class="source" href="recently-viewed.html">                 recently-viewed.js               </a>                                           <a class="source" href="related-products-g1.html">                 related-products-g1.js               </a>                                           <a class="source" href="reviews-awards-d6.html">                 reviews-awards-d6.js               </a>                                           <a class="source" href="secondary-touts-s1-s4.html">                 secondary-touts-s1-s4.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="subnavigation-n4.html">                 subnavigation-n4.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="universal-nav.html">                 universal-nav.js               </a>                                           <a class="source" href="unsupported-z19.html">                 unsupported-z19.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="whats-new-tout-s4.html">                 whats-new-tout-s4.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               hotspots-controller.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global define, Modernizr, log*/</span>
 
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>------------ Sony Editorial Hotspots ------------
 Module: Editorial
@@ -253,19 +253,40 @@ waste of cycles</p>             </td>             <td class="code">             
                   adjustedY = ( percY * assetH ) / <span class="number">100</span>;
                
                   $( el ).css( <span class="string">"left"</span>, adjustedX );
-                  $( el ).css( <span class="string">"top"</span>, adjustedY );          
-              
+                  $( el ).css( <span class="string">"top"</span>, adjustedY );
             });
           }
         }
       }
     },
     
+    hover: <span class="keyword">function</span>( el, self, flag ) {
+      log( <span class="string">'hover'</span> );
+      log( $( el ) );
+      <span class="keyword">switch</span>(flag) {
+        <span class="keyword">case</span> <span class="literal">true</span>:
+          $( el ).find( <span class="string">'.hspot-core, .hspot-core-on'</span> ).removeClass( <span class="string">'hspot-hover-off'</span> ).addClass( <span class="string">'hspot-hover-on'</span> );
+        <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="literal">false</span>:
+          $( el ).find( <span class="string">'.hspot-core, .hspot-core-on'</span> ).removeClass( <span class="string">'hspot-hover-on'</span> ).addClass( <span class="string">'hspot-hover-off'</span> );
+        <span class="keyword">break</span>;
+      }
+    },
+    
     bind: <span class="keyword">function</span>( el ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>hotspot clicks</p>             </td>             <td class="code">               <div class="highlight"><pre>      $($( el ).find( <span class="string">'.hspot-core'</span> ) ).bind( <span class="string">'click'</span>, <span class="keyword">function</span>( event ) {
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>hotspot clicks</p>             </td>             <td class="code">               <div class="highlight"><pre>      $( $( el ).find( <span class="string">'.hspot-core'</span> ) ).bind( <span class="string">'click'</span>, <span class="keyword">function</span>( event ) {
         self.click( event, self );
       });
+      
+      $( $( el ).find( <span class="string">'.hspot-core'</span> ) ).bind( <span class="string">'mouseover'</span>, <span class="keyword">function</span>( event ) {
+        self.hover( el, self, <span class="literal">true</span> );
+      });
+      
+      $( $( el ).find( <span class="string">'.hspot-core'</span> ) ).bind( <span class="string">'mouseout'</span>, <span class="keyword">function</span>( event ) {
+        self.hover( el, self, <span class="literal">false</span> );
+      });
+      
     },
     
     place: <span class="keyword">function</span>( el ) {
@@ -299,8 +320,8 @@ waste of cycles</p>             </td>             <td class="code">             
       log( self.canShowHotspots );
       <span class="keyword">if</span>( <span class="literal">true</span> === self.canShowHotspots ) {
         $( self.$els ).each(<span class="keyword">function</span>( index, el ) {
-          <span class="keyword">if</span>( $( el ).hasClass( <span class="string">'hidden'</span> ) ) {
-            $( el ).removeClass( <span class="string">'hidden'</span> ).fadeIn( <span class="number">500</span> );
+          <span class="keyword">if</span>( $( el ).hasClass( <span class="string">'eh-transparent'</span> ) ) {
+            $( el ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
           }
         });
       }
@@ -714,6 +735,7 @@ make room one last time</p>             </td>             <td class="code">     
         el.removeClass( <span class="string">'three-stack-right-bottom-justified'</span> ).addClass( <span class="string">'two-stack-right-bottom-justified'</span> );
       }
     },
+    
     transition: <span class="keyword">function</span>( _el, direction ) {
       <span class="keyword">switch</span>(direction) {
         <span class="keyword">case</span> <span class="string">"on"</span>:
@@ -724,6 +746,7 @@ make room one last time</p>             </td>             <td class="code">     
         <span class="keyword">break</span>;
       }
     },
+    
     close: <span class="keyword">function</span>( container, hotspot, info ) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 </pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.cleanTimer();
@@ -743,7 +766,7 @@ make room one last time</p>             </td>             <td class="code">     
 </pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>set the open status to zilch</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastOpen = <span class="literal">null</span>;
         
 </pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>kill the underlay if we're in minified mode</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
-          $( <span class="string">'.hspot-underlay'</span> ).addClass( <span class="string">'hidden'</span> );          
+          $( <span class="string">'.hspot-underlay'</span> ).addClass( <span class="string">'hidden'</span> );   
         }
     },
     
@@ -767,15 +790,8 @@ make room one last time</p>             </td>             <td class="code">     
 </pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>fade in info window</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
           $( <span class="string">'.hspot-global-details-overlay'</span> ).find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );  
         } <span class="keyword">else</span> {
-          info.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );  
-        }
-        
-<span class="comment">/*
-        info.find('.top').addClass( 'eh-visible' );
-        info.find('.middle').addClass( 'eh-visible' );
-        info.find('.footer').addClass( 'eh-visible' );
-*/</span>
-       
+          info.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
+        }       
     },
     
     reset: <span class="keyword">function</span>( container ) {

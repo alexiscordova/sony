@@ -136,7 +136,7 @@ define(function(require){
 
     // Initialize favorites gallery extras
     if ( self.hasRecommendedTile ) {
-      setTimeout( $.proxy( self.initRecommendedTile, self ), 200 );
+      setTimeout( $.proxy( self.initFavoritesGallery, self ), 200 );
     }
 
     // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
@@ -236,6 +236,7 @@ define(function(require){
       self.isEditorialMode = self.mode === 'editorial';
       self.isDetailedMode = self.mode === 'detailed';
       self.isCompareMode = self.mode === 'compare';
+      self.isFavoritesGallery = self.$container.hasClass('gallery-favorites');
 
       self.itemSelector = '.' + ( self.isCompareMode ? 'compare' : 'gallery' ) + '-item';
       self.$items = self.$grid.find( self.itemSelector );
@@ -862,6 +863,11 @@ define(function(require){
 
         self.initScroller();
 
+        // Almost everything with the compare tool expects items have a class of `filtered`
+        if ( !self.hasFilters ) {
+          self.manualFilter( 'all' );
+        }
+
         // We're done
         setTimeout(function() {
           self.initStickyNav();
@@ -1280,6 +1286,25 @@ define(function(require){
       self.$favorites = self.$grid.find('.js-favorite');
     },
 
+    initFavoritesGallery : function() {
+      var self = this;
+
+      self.initRecommendedTile();
+
+      // Show alert if the user is not logged in
+      if ( !Settings.isLoggedIn ) {
+        setTimeout(function() {
+          $('.alert').removeClass('collapsed');
+        }, 200);
+
+      // Otherwise we don't need this. This could also be done serverside...
+      } else {
+        $('.alert').remove();
+      }
+
+      Utilities.autoSelectInputOnFocus( self.$container.find( '.share-options input' ) );
+    },
+
     initRecommendedTile : function() {
       var self = this,
       debouncedHeights = $.debounce( 190, function() {
@@ -1295,21 +1320,6 @@ define(function(require){
 
       // Save this
       self.$recommendedTitleBar = self.$recommendedTile.find( '.recommended-title' );
-
-      // Highjacking the rest of this function because only favorited galleries have a recommended tile
-
-      // Show alert if the user is not logged in
-      if ( !Settings.isLoggedIn ) {
-        setTimeout(function() {
-          $('.alert').removeClass('collapsed');
-        }, 200);
-
-      // Otherwise we don't need this. This could also be done serverside...
-      } else {
-        $('.alert').remove();
-      }
-
-      Utilities.autoSelectInputOnFocus( self.$container.find( '.share-options input' ) );
     },
 
     initCarousels : function() {
@@ -2423,6 +2433,7 @@ define(function(require){
 
         // Save to account with ajax?
         if ( Settings.isLoggedIn ) {
+          // TODO
           $.getJSON( 'path/to/server', { add: true } );
 
         // Store in cookie
@@ -2433,6 +2444,7 @@ define(function(require){
             return;
           }
 
+          // TODO
           // Get the cookies (string) and convert it to an array
           // favs = JSON.parse( Cookies.get( 'favorites' ) );
           // Add this one to it
@@ -2447,6 +2459,7 @@ define(function(require){
       } else {
 
         if ( Settings.isLoggedIn ) {
+          // TODO
           $.getJSON( 'path/to/server', { add: false } );
 
         // Remove from stored cookie
@@ -2456,6 +2469,20 @@ define(function(require){
           if ( !window.JSON ) {
             return;
           }
+
+          // TODO
+          // Remove the id from the cookie
+        }
+
+        // Remove the gallery item from the page if it's being removed and this is a favorites gallery
+        if ( self.isFavoritesGallery ) {
+          $('.tooltip')
+            // Try to remove them
+            .tooltip('hide')
+            // Forcefully remove them
+            .remove();
+          self.shuffle.remove( $galleryItem );
+          self.updateProductCount();
         }
 
       }
@@ -2650,9 +2677,11 @@ define(function(require){
         if ( isEvent ) {
           $item.addClass('concealed').removeClass('filtered');
           // Putting this in a rAF because it can be deferred and also takes a while
-          requestAnimationFrame(function() {
-            self.setFilterStatuses();
-          });
+          if ( self.hasFilters ) {
+            requestAnimationFrame(function() {
+              self.setFilterStatuses();
+            });
+          }
         }
         dfd.resolve();
       }
