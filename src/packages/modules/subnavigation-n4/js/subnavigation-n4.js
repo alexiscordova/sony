@@ -122,21 +122,13 @@ define(function(require){
         self.$navCarousel.sonyCarousel('destroy');
       }
 
-      if ( mobile ) {
-        self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
-          draggable: true,
-          wrapper: '.subnav-nav-carousel-wrapper',
-          slides: '.subnav-nav-carousel-slide'
-        });
-      } else {
-        self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
-          draggable: false,
-          wrapper: '.subnav-nav-carousel-wrapper',
-          slides: '.subnav-nav-carousel-slide',
-          paddles: true,
-          useSmallPaddles: true
-        });
-      }
+      self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
+        draggable: true,
+        wrapper: '.subnav-nav-carousel-wrapper',
+        slides: '.subnav-nav-carousel-slide',
+        paddles: mobile ? false : true,
+        useSmallPaddles: mobile ? null : true
+      });
 
       self.$navCarousel.sonyCarousel('gotoSlide', currentSlide, true);
 
