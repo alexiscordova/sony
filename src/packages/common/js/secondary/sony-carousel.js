@@ -344,7 +344,8 @@ define(function(require){
 
         }
 
-        self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(){
+        self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(e){
+          if (e.currentTarget !== e.target){return;} // prevent conflicts 
           iQ.update(true);
           self.$el.trigger('SonyCarousel:AnimationComplete');
           self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
@@ -384,8 +385,8 @@ define(function(require){
 
       if ( ( self.isJumped && speed ) || typeof destinationRedirect !== 'undefined' ) {
 
-        repositionCb = Utilities.once(function(){
-
+        repositionCb = Utilities.once(function(e){
+          if (e.currentTarget !== e.target){return;} // prevent conflicts 
           if ( self.isJumped ) {
             ( self.$allSlides || self.$slides ).each(function(){
               $(this).detach().appendTo(self.$el);
@@ -622,15 +623,7 @@ define(function(require){
           .css(self.posAttr, '');
 
       // Unbind
-      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
-
-
-      // if (e.currentTarget !== e.target){
-      //   return
-      // }else{
-      //   self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
-      // }
-        
+      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);        
       self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
       $clickContext.off('click.sonycarousel');
 
