@@ -1,8 +1,9 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('editorial-layouts-e1')
 +includeJavascriptModule('editorial-layouts-e1')
 
-mixin gridstyle(extraclass)
-  extraclass = extraclass || ""
+mixin gridstyle(_extra)
+  extraclass = _extra ? _extra : ""
   .grid.no-grid-at-767(class = extraclass)(class = data.style)
     block
     
@@ -11,8 +12,8 @@ mixin center
     .table-center
       block
       
-mixin col(layout, extras)
-  layout = layout || data.layout
+mixin col(_layout, extras)
+  layout = _layout ? _layout : data.layout
   if layout.text == "left"
     - span = "span" + layout.columns[0]
     div(class = span)(class = extras)
@@ -23,13 +24,13 @@ mixin col(layout, extras)
     div(class = span)(class = offset)(class = extras)
       block
 
-mixin boxclass(layout)
-  layout = layout || data.layout
+mixin boxclass(_layout)
+  layout = _layout ? _layout : data.layout
   .box(class = layout.alignment)
     block
 
-mixin boxlayout(layout)
-  layout = layout || data.layout
+mixin boxlayout(_layout)
+  layout = _layout ? _layout : data.layout
   classes = data.style
   if layout.mobilealign
     classes = classes + " " + layout.mobilealign
@@ -59,11 +60,11 @@ mixin toutimage(imgdata)
   if imgdata.data !== undefined
     !{locals.partial('packages/modules/image/html/image.jade' , imgdata)}
 
-mixin copyblock(copyobject, titleclass, subtitleclass, bodyclass, linkclass)
-  copyobject = copyobject || data
-  titleclass = titleclass || "t2"
-  subtitleclass = subtitleclass || "t6"
-  bodyclass = bodyclass || "p2"
+mixin copyblock(_copy, _title, _subtitle, _body, linkclass)
+  copyobject = _copy ? _copy : data
+  titleclass = _title ? _title : "t2"
+  subtitleclass = _subtitle ? _subtitle : "t6"
+  bodyclass = _body ? _body : "p2"
   .copy
     if copyobject.title
       h2(class = titleclass) !{copyobject.title}
@@ -76,8 +77,8 @@ mixin copyblock(copyobject, titleclass, subtitleclass, bodyclass, linkclass)
       linktextsize = copyobject.link.type == "txt" ? "lt3" : ""
       a(class = copyobject.link.type, href= copyobject.link.url)(class = linktextsize) !{copyobject.link.text}
 
-mixin textonlylayout(layout)
-  layout = layout || data.layout
+mixin textonlylayout(_layout)
+  layout = _layout ? _layout : data.layout
   if layout.text == "full"
     .box.span12(class = layout.alignment)
       block

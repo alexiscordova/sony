@@ -7,7 +7,7 @@ $centerRatio: (28.571428571429% / 2);
 $indicatorRatio: 14px; /* 35%; */ /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
-$transitionSpeed: .5s;
+$transitionSpeed: 1s;
 
 /*MIXINZ*/
 @mixin ehsTransition() {
@@ -42,21 +42,25 @@ $transitionSpeed: .5s;
       .overlay-close {
         position: relative;
         width: 230px;
-        -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
-        -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
-        box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+        -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+        box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
         margin-top: 1em;
+        
         .top {
           background-color: #fff;
         }
+        
         .middle {
           background-color: #fff;
           padding: 20px 30px 23px 20px;
           border-bottom: 1px solid #e4e7eb;
           position: relative;
+          
           .p4, .p3 {
             @include px-em--font-size--line-height(12,18);
             margin-bottom: 4px;
+            
             &.cHBI {
               margin-bottom: 0;
             }
@@ -65,17 +69,20 @@ $transitionSpeed: .5s;
         .footer {
           background-color: #fff;
           padding: 20px 30px 20px 20px;
+          
           p.p4, p.p3 {
             @include px-em--font-size--line-height(12,18);
             font-style: italic;
             color: $secondarySlateDark;
             margin-bottom: 9px;
           }
+          
           blockquote.l4, blockquote.l3 {
             color: $gray40;
             position: relative;
             margin-left: 24px;
             @include px-em--font-size--line-height(10,16);
+            
             &:before {
               display: block;
               content: "\201C";
@@ -92,10 +99,6 @@ $transitionSpeed: .5s;
           position: absolute;
           top: 0px;
           right: 0px;
-          /*
-          width: 27px;
-          height: 27px;
-          */
         }
       }
     }
@@ -108,8 +111,8 @@ $transitionSpeed: .5s;
     position: relative;
   }
   
-  .info-jump-to-top {
-    z-index: 4;
+  hspot-outer.info-jump-to-top {
+    z-index: 4; 
   }
   
   .overlay-close {
@@ -129,24 +132,29 @@ $transitionSpeed: .5s;
       margin: 0px auto;
       width: 230px;
       background-color: #fff;
+      
       .overlay-close {
         position: relative;
         width: 230px;
-        -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
-        -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
-        box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+        -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+        -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+        box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
         margin-top: 27px;
+        
         .top {
           background-color: #fff;
         }
+        
         .middle {
           background-color: #fff;
           padding: 20px 30px 23px 20px;
           border-bottom: 1px solid #e4e7eb;
           position: relative;
+          
           .p4, .p3 {
             @include px-em--font-size--line-height(12,18);
             margin-bottom: 4px;
+            
             &.cHBI {
               margin-bottom: 0;
             }
@@ -155,17 +163,20 @@ $transitionSpeed: .5s;
         .footer {
           background-color: #fff;
           padding: 20px 30px 20px 20px;
+          
           p.p4, p.p3 {
             @include px-em--font-size--line-height(12,18);
             font-style: italic;
             color: $secondarySlateDark;
             margin-bottom: 9px;
           }
+          
           blockquote.l4, blockquote.l3 {
             color: $gray40;
             position: relative;
             margin-left: 24px;
             @include px-em--font-size--line-height(10,16);
+            
             &:before {
               display: block;
               content: "\201C";
@@ -198,33 +209,33 @@ $transitionSpeed: .5s;
     -webkit-transition:0s;
     transition:0s;
     &.three-stack-right-top-justified {
-      top: -159px;
-      left: 63px;
+      top: -156px;
+      left: 69px;
     }
       
     &.three-stack-left-top-justified {
-      top: -159px;
-      left: -288px;
+      top: -156px;
+      left: -286px;
     }
     
     &.three-stack-right-bottom-justified {
-      top: -284px;
-      left: 63px;
+      top: -281px;
+      left: 68px;
     }
       
     &.three-stack-left-bottom-justified {
-      left: -288px;
-      top: -284px;
+      left: -286px;
+      top: -281px;
     }
     
     &.two-stack-right-top-justified {
-      top: -14px;
-      left: 63px;
+      top: -11px;
+      left: 69px;
     }
       
     &.two-stack-left-top-justified {
-      top: -14px;
-      left: -288px;
+      top: -11px;
+      left: -287px;
     }
     
     &.two-stack-right-bottom-justified {
@@ -233,7 +244,54 @@ $transitionSpeed: .5s;
     }
       
     &.two-stack-left-bottom-justified {
-      top: -139px;
+      top: -137px;
+      left: -288px;        
+    }
+  }
+  
+  .hspot-small .variant1 {
+    -o-transition:0s;
+    -ms-transition:0s;
+    -moz-transition:0s;
+    -webkit-transition:0s;
+    transition:0s;
+    &.three-stack-right-top-justified {
+      top: -164px;
+      left: 54px;
+    }
+      
+    &.three-stack-left-top-justified {
+      top: -156px;
+      left: -288px;
+    }
+    
+    &.three-stack-right-bottom-justified {
+      top: -288px;
+      left: 54px;
+    }
+      
+    &.three-stack-left-bottom-justified {
+      left: -288px;
+      top: -289px;
+    }
+    
+    &.two-stack-right-top-justified {
+      top: -19px;
+      left: 54px;
+    }
+      
+    &.two-stack-left-top-justified {
+      top: -19px;
+      left: -287px;
+    }
+    
+    &.two-stack-right-bottom-justified {
+      top: -144px;
+      left: 53px;
+    }
+      
+    &.two-stack-left-bottom-justified {
+      top: -144px;
       left: -288px;        
     }
   }
@@ -245,47 +303,92 @@ $transitionSpeed: .5s;
     -webkit-transition:0s;
     transition:0s;
     &.three-stack-right-top-justified {
-      top: -124px;
-      left: 60px;
+      top: -122px;
+      left: 66px;
     }
       
     &.three-stack-left-top-justified {
-      top: -124px;
+      top: -122px;
       left: -235px;
     }
     
     &.three-stack-right-bottom-justified {
-      top: -239px;
-      left: 60px;
+      top: -235px;
+      left: 66px;
     }
       
     &.three-stack-left-bottom-justified {
-      top: -239px;
-      left: -235px;
+      top: -237px;
+      left: -234px;
     }
 
     &.two-stack-right-top-justified {
-      top: -4px;
-      left: 60px;
+      top: -2px;
+      left: 66px;
     }
       
     &.two-stack-left-top-justified {
-      top: -4px;
+      top: -2px;
       left: -235px;        
     }
     
     &.two-stack-right-bottom-justified {
-      top: -119px;
-      left: 60px;        
+      top: -116px;
+      left: 66px;        
     }
       
     &.two-stack-left-bottom-justified {
-      top: -119px;
-      left: -235px;        
+      top: -117px;
+      left: -234px;        
     }
   }
 
+  .hspot-small .variant2 {
+    -o-transition:0s;
+    -ms-transition:0s;
+    -moz-transition:0s;
+    -webkit-transition:0s;
+    transition:0s;
+    &.three-stack-right-top-justified {
+      top: -130px;
+      left: 51px;
+    }
+      
+    &.three-stack-left-top-justified {
+      top: -130px;
+      left: -235px;
+    }
+    
+    &.three-stack-right-bottom-justified {
+      top: -243px;
+      left: 51px;
+    }
+      
+    &.three-stack-left-bottom-justified {
+      top: -243px;
+      left: -235px;
+    }
 
+    &.two-stack-right-top-justified {
+      top: -10px;
+      left: 51px;
+    }
+      
+    &.two-stack-left-top-justified {
+      top: -10px;
+      left: -235px;        
+    }
+    
+    &.two-stack-right-bottom-justified {
+      top: -124px;
+      left: 51px;        
+    }
+      
+    &.two-stack-left-bottom-justified {
+      top: -124px;
+      left: -235px;        
+    }
+  }
 
 }
 /*CONTAINER DEFINITIONS*/
@@ -302,78 +405,191 @@ $transitionSpeed: .5s;
 
 
 /*HOTSPOT DEFINITION*/
-
-.hspot-outer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 56px;
-  width: 56px;
-  cursor: pointer;
-  z-index: 1;
-  text-align: left;
-  .hspot-core {
-    margin: $centerRatio;
-    height: $innerDiameter;
-    width: $innerDiameter;
-    border-radius: 50%;
-    border: 0;
-    background-color: $buttonOrange;
-    -moz-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-    -webkit-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-    box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-    -o-transition:$indicatorRotateSpeed;
-    -ms-transition:$indicatorRotateSpeed;
-    -moz-transition:$indicatorRotateSpeed;
-    -webkit-transition:$indicatorRotateSpeed;
-    transition:$indicatorRotateSpeed;
-    transition-property: none;
+.ehs {
+  /*LARGE HOTSPOTS*/
+  .hspot-outer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top:-43px;
+    left: -30px;
+    width: 62px;
+    height: 62px;
+    background:url('../../img/editorial-dual-viewer-e9/gray30.png');
+    cursor:pointer;
     z-index: 1;
-    &:hover {
-      background-color: $buttonOrangeHover;
+    color: #fff;
+    @include border-radius(50%);
+    @include transition(.1s);
+    
+    .hspot-core {
+      position:absolute;
+      width:46px;
+      height:46px;
+      background:$buttonOrange;
+      display:block;
+      text-align:center;
+      font-size:0.9em;
+      top:50%;
+      left:50%;
+      margin:-23px 0 0 -23px;
+      @include border-radius(50%);
+      @include transition(.1s ease-out);
+      
+      .icons {
+        position:absolute;
+        top:50%;
+        left:50%;
+        width:100px;
+        margin:-14px 0 0 -50px;
+        
+        i {
+          display:inline-block;
+          margin:0;
+          -webkit-font-smoothing: antialiased;
+          @include rotate(0deg);
+          @include transition(.1s ease-out);
+        }
+      }
+      &.hspot-hover-on {
+        @include scale(1.1);
+        background:$buttonOrangeHover;
+        i {
+          margin:0 3px;
+        }
+      }
     }
-    .hspot-indicator {
-      padding: 12.5% 0 0 33.5%;
-      img {
-        -o-transition:$indicatorRotateSpeed;
-        -ms-transition:$indicatorRotateSpeed;
-        -moz-transition:$indicatorRotateSpeed;
-        -webkit-transition:$indicatorRotateSpeed;
-        transition:$indicatorRotateSpeed;
-        @include rotate(0deg);
+    
+    .hspot-core-on {
+      position:absolute;
+      width:46px;
+      height:46px;
+      background:$gray30;
+      display:block;
+      text-align:center;
+      font-size:0.9em;
+      top:50%;
+      left:50%;
+      margin:-23px 0 0 -23px;
+      @include border-radius(50%);
+      @include transition(.1s ease-out);
+      
+      .icons {
+        position:absolute;
+        top:50%;
+        left:50%;
+        width:100px;
+        margin:-14px 0 0 -50px;
+        
+        i {
+          display:inline-block;
+          margin:0;
+          -webkit-font-smoothing: antialiased;
+          @include rotate(45deg);
+          @include transition(.1s ease-out);
+        }
+      }
+      &.hspot-hover-on {
+        @include scale(1.1);
+        background:$gray40;
+        i {
+          margin:0 3px;
+        }
       }
     }
   }
-  .hspot-core-on {
-    margin: $centerRatio;
-    height: $innerDiameter;
-    width: $innerDiameter;
-    border-radius: 50%;
-    border: 0;
-    background-color: $gray40;
-    -moz-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-    -webkit-box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-    box-shadow: 0 0 0 $outerStroke rgba($gray30, 0.3);
-    -o-transition: $indicatorRotateSpeed;
-    -ms-transition: $indicatorRotateSpeed;
-    -moz-transition: $indicatorRotateSpeed;
-    -webkit-transition: $indicatorRotateSpeed;
-    transition: $indicatorRotateSpeed;
-    transition-property: none;
-    -ms-transform: scale(1, 1);    
-    z-index: 1;
-    &:hover {
-      background-color: $gray30;
+  
+  /*SMALL HOTSPOTS*/
+  .hspot-outer.hspot-small {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: -20px;
+    left: -15px;
+    width: 46px;
+    height: 46px;
+    background: url('../../img/editorial-dual-viewer-e9/gray30.png');
+    cursor: pointer;
+    z-index: auto;
+    color: #fff;
+    @include border-radius(50%);
+    @include transition(.1s);
+    
+    .hspot-core {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background: $buttonOrange;
+      display: block;
+      text-align: center;
+      font-size: 0.9em;
+      top: 50%;
+      left: 50%;
+      margin: -16px 0 0 -16px;
+      @include border-radius(50%);
+      @include transition(.1s ease-out);
+      
+      .icons {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        margin: -14px 0 0 -50px;
+        
+        i {
+          display: inline-block;
+          margin: 0;
+          -webkit-font-smoothing: antialiased;
+          @include rotate(0deg);
+          @include transition(.1s ease-out);
+        }
+      }
+      &.hspot-hover-on {
+        @include scale(1.1);
+        background: $buttonOrangeHover;
+        
+        i {
+          margin:0 3px;
+        }
+      }
     }
-    .hspot-indicator {
-      padding: 12.5% 0 0 33.5%;
-      img {
-        -o-transition: $indicatorRotateSpeed;
-        -ms-transition: $indicatorRotateSpeed;
-        -moz-transition: $indicatorRotateSpeed;
-        -webkit-transition: $indicatorRotateSpeed;
-        transition: $indicatorRotateSpeed;
-        @include rotate(45deg);
+    
+    .hspot-core-on {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background:$gray30;
+      display:block;
+      text-align:center;
+      font-size:0.9em;
+      top:50%;
+      left:50%;
+      margin: -16px 0 0 -16px;
+      @include border-radius(50%);
+      @include transition(.1s ease-out);
+      
+      .icons {
+        position:absolute;
+        top:50%;
+        left:50%;
+        width:100px;
+        margin: -14px 0 0 -50px;
+        
+        i {
+          display:inline-block;
+          margin:0;
+          -webkit-font-smoothing: antialiased;
+          @include rotate(45deg);
+          @include transition(.1s ease-out);
+        }
+      }
+      &.hspot-hover-on {
+        @include scale(1.1);
+        background:$gray40;
+        
+        i {
+          margin:0 3px;
+        }
       }
     }
   }
@@ -385,12 +601,13 @@ $transitionSpeed: .5s;
   z-index: 2;
   position: absolute;
   cursor: default;
+  
   .overlay-inner {
     height: 100%;
     background-color: #fff;
-    -moz-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
-    -webkit-box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
-    box-shadow: 0 0 5px rgba(200, 200, 200, 0.3);
+    -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+    -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+    box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
   }
   &.variant1 { 
     width: 280px;
@@ -547,9 +764,27 @@ $transitionSpeed: .5s;
   }
 }  
 
+/** IE **/
 
+.no-borderradius {
+  .ehs {
+    .hspot-instance .hspot-outer {
+      background:url('../../img/editorial-hotspots-e6/hotspot-indicator.png');
 
+      .hspot-core {visibility:hidden;}
+      .hspot-hover-on {
+        background-position:-62px 0;
+      }
+    }
+  }
+}
 
+// IE7
+.lt-ie8 {
+  .ehs {
+    .hspot-instance .hspot-outer {padding:0;}
+  }
+}
 
 
 
@@ -566,7 +801,6 @@ $transitionSpeed: .5s;
     margin: 0px auto;
   }
 }
-
 
 /*EXAMPLE CONTAINER*/
 

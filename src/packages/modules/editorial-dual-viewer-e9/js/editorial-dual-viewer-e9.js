@@ -108,7 +108,12 @@ define(function(require){
           }, 250);
         }
       });
-     
+
+      self.$scrubber.on('sonyDraggable:dragEnd', function(){
+        setTimeout(function(){
+          self.$scrubber.removeClass('dragging dragging2');
+        }, 250);
+      });
 
     },
 
@@ -159,6 +164,7 @@ define(function(require){
         (e.position.top <= 75) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
 
       }
+
     }
 
   };

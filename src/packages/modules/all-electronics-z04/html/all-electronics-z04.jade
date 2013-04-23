@@ -1,32 +1,39 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('all-electronics-z04')
++includeCSS('primary-tout-p1-d7')
 
-.primary-tout.container.full-bleed-no-max.title-plate.secondaryAqua
-	.container.full-bleed-no-max.hero-image
-		+iQImage(data.header.img)
-	.container.inner.light-text-trans-box
+.all-electronics.container.full-bleed-no-max
+	.primary-tout.container.full-bleed-no-max.title-plate.secondaryAqua
+		.container.full-bleed-no-max.hero-image
+			e = {"locals":locals, "data": data.image}
+			!{locals.partial('packages/modules/image/html/image.jade', e)}
+		.container.inner.light-text-trans-box
+			.grid
+				.span6
+					.box.left
+						h1.t2= data.header.headline
+						p.p3= data.header.body
+	section.container.full-bleed
 		.grid
-			.span6
-				.box.left
-					h1.t2= data.header.headline
-					p.p3= data.header.body
-
-.products-w-electronics
-	- each category, i in data.electronics_all
-		.products-w
-			.products-hdg
-				h4.t4-bold= category.label
-			.products-section-main
-				ul.products-list-main
-					- each product, i in category.menu_main.menu_items
-						li.products-li(class=product.class)
-							a.products-li-link.tl(href=product.link)
-								span.product-img-w
-									+iQImage(product.img)
-								span.nav-label.p3-bold= product.label
-
-			.products-section-secondary
-				h6.l2= category.menu_secondary.title
-				ul.products-list-secondary
-					- each item, i in category.menu_secondary.menu_items
-						li.products-li
-							a.products-li-link.p3(class=item.class)(href=item.link)= item.label
+			.span12
+				.products-w-electronics
+					- each category, i in data.electronics_all
+						.products-w
+							.products-hdg
+								h4.t4-bold= category.label
+							.products-section-main
+								ul.products-list-main
+									- each product, i in category.menu_main.menu_items
+										li.products-li(class=product.class)
+											a.products-li-link.tl(href=product.link)
+												span.product-img-w
+													+iQImage(product.img)
+												span.nav-label.p3-bold= product.label
+							- if (category.menu_secondary != undefined) {
+							.products-section-secondary
+								h6.l2= category.menu_secondary.title
+								ul.products-list-secondary
+									- each item, i in category.menu_secondary.menu_items
+										li.products-li
+											a.products-li-link.p3(class=item.class)(href=item.link)= item.label
+							- }
