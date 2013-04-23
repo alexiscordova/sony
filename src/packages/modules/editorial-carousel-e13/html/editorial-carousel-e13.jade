@@ -2,7 +2,17 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('editorial-carousel-e13')
 +includeJavascriptModule('editorial-carousel-e13')
 
-.ec-module
+moduleClasses = [ 'ec-module' ]
+moduleMode = false
+
+case data.variation
+  when 'a2'
+    - moduleClasses.push( 'white-bg' )
+  when 'a3'
+    - moduleClasses.push( 'dark-bg' )
+    moduleMode = 'dark'
+
+div(class=moduleClasses, data-mode=moduleMode)
   .container
     .grid
       h3.t3.ec-title= data.title
