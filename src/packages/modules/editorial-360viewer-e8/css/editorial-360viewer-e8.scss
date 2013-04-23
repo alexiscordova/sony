@@ -1,9 +1,19 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
+
+.unselectable * {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
 .e360 {
   position: relative;
   .outer {
+    position: relative;
     .image-module-360 {
       text-align: center;
     }
@@ -37,7 +47,7 @@
       -ms-user-select: none;
       user-select: none;
     }
-    .is-dragging {
+    &.is-dragging {
       cursor: grabbing;
       cursor: -webkit-grabbing;
       cursor: -moz-grabbing;

@@ -5,29 +5,41 @@ include ../../../common/html/jade-helpers.jade
 - image = data.sequence[0].image || null
 - extraclass = image.classes || ""
 - id = data.id || ""
+- startId = id+"-0"
 - isDark = data.dark ? "dark" : "light"
 
-.e360
+.e360(id=data.id)
+  script.hidden(type="text/html")
+    - i = 0
+    - for imgData in data.sequence
+      - sequenceId = id+"-"+i 
+      .image-module.track-by-background.iq-img(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)
+      - i++
   .outer
-    .image-module-360
-      if data.heights 
-        string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+id+" {height: "+data.heights.phone+"}} "
+    if data.background == "true"
+    - i = 0
+    - for imgData in data.sequence
+      - sequenceId = id+"-"+i 
+      if i == 0
+        hide = ""
+      else 
+        hide = "hidden"
+      if data.heights
+        string = "#"+ sequenceId +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+sequenceId+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+sequenceId+" {height: "+data.heights.phone+"}} "
         style(type = "text/css")
           #{string}
-        
-      if data.background == "true"
-        .image-module.track-by-background.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-      
-      else
-        img.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-          noscript
-            img(src= image.noscriptsrc)
+      .image-module.track-by-background.iq-img(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+      - i++    
+    else
+      img.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+        noscript
+          img(src= image.noscriptsrc)
 
   .controls.container
     .grid.no-grid-at-767
       .span12
         .table-center-wrap
           .table-center(class=isDark)
-            i.fonticon-10-chevron-reverse
+            i.left-arrow.fonticon-10-chevron-reverse
             span.instructions.l3(class=isDark) DRAG
-            i.fonticon-10-chevron
+            i.right-arrow.fonticon-10-chevron

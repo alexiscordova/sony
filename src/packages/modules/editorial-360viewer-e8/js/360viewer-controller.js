@@ -45,10 +45,10 @@ define(function(require){
       
       // detect if there are 360 viewer constructs on the DOM
       $( '.e360' ).each( function( index, el ) {
-        
         // for each instance, initialize
         $( this ).editorial360Viewer({});
       });
+      
     }
   };
 
@@ -56,8 +56,23 @@ define(function(require){
     
     var self = this;
     
+    log( 'element' );    
+    log( element );
+    
     // defaults
-    self.$container = $( element );
+    self.$container     = $( element );
+    self.$sequence      = self.$container.find( '.outer div' );
+    self.$controls      = self.$container.find( '.controls' );
+    self.$controlCenter = self.$controls.find( '.instructions' );
+    self.$leftArrow     = self.$controls.find( '.left-arrow' );
+    self.$rightArrow    = self.$controls.find( '.right-arrow' );
+    self.sequenceLength = self.$sequence.length;
+    self.curIndex       = 0;
+    self.movingLeft     = false;
+    self.movingRight    = false;
+    self.clicked        = false;
+    self.lastX          = null;
+    self.inMotion       = false;
     
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
@@ -68,24 +83,129 @@ define(function(require){
     constructor: Editorial360Viewer,
 
     init : function( param ) {
+      var self = this;
       // Method body
-      
       // bind scroll event to fire animation on the dragger
       // 1. movement on desktop and 2. viewport on mobile
       
+      // initial animation, hey why not.
+      setTimeout(function() {
+        self.animateDragger();
+      }, 500);
+      
+      $( window ).bind( 'scroll', function( event ) {
+        if( false === self.inMotion) {
+          self.inMotion = true;
+          self.animateDragger();
+        }
+      });
+      
+      // setup controller interactions
+      self.$controls.bind( 'mousedown', function( event ) {
+        event.preventDefault();
+        $( self.$controls ).addClass( 'is-dragging' );
+        $(document.body).addClass('unselectable');
+        self.clicked = true;
+      });
+
+      self.$controls.bind( 'mouseup', function( event ) {
+        event.preventDefault();
+        $( self.$controls ).removeClass( 'is-dragging' );
+        $(document.body).removeClass('unselectable');
+        self.clicked = false;
+      });
+      
+      // track mousemove
+      $( self.$controls ).bind( 'mousemove', function( event ) {
+        event.preventDefault();
+        // direction?
+        if( event.pageX > self.lastX ) {
+          // moving right
+          self.movingLeft   = false;
+          self.movingRight  = true;
+        } else {
+          // moving left
+          self.movingLeft   = true;
+          self.movingRight  = false;
+        }
+
+        // left clicked?
+        if( self.clicked ) {
+          var direction = self.movingLeft ? "left" : "right";
+          self.move( direction );
+        }
+
+        self.lastX = event.pageX;
+      });
       
       log('SONY : Editorial 360 Viewer : Initialized');
     },
     animateDragger: function( cycles ) {
-      if( null === cycles ) {
-        // animate once
-      } else {
-        // animate until a flag is reached 
-      }
+      var self = this;
+      
+      $( self.$leftArrow ).animate({
+        opacity: 0
+      });
+      $( self.$rightArrow ).animate({
+        opacity: 0        
+      });
+      $( self.$controlCenter ).animate({
+        marginLeft: "+36px",
+        marginRight: "+36px"
+      }, 499, function(event) {
+        self.resetAnimation();
+      });
       
     },
     resetAnimation: function() {
+      var self = this;
+      $( self.$leftArrow ).css( {
+        opacity: 1
+      });
+      $( self.$rightArrow ).css( {
+        opacity: 1
+      });
+      $( self.$controlCenter ).css( { 
+        marginLeft : "18px", 
+        marginRight : "18px" 
+      });
+      self.inMotion = false;
+    },
+    move: function( direction ) {
+      var self      = this,
+          lastIndex = self.curIndex;
       
+      switch( direction ) {
+        case "left":
+          if( 0 === self.curIndex ) {
+            self.curIndex = self.sequenceLength-1;
+          } else {
+            self.curIndex--;
+          }
+        break;
+        case "right":
+          if( self.curIndex == self.sequenceLength-1 ) {
+            self.curIndex = 0;
+          } else {
+            self.curIndex++;
+          }
+        break;
+      }
+
+      self.pluck( lastIndex ).addClass( 'hidden' );
+      self.pluck( self.curIndex ).removeClass( 'hidden' );
+    },
+    pluck: function( lastIndex ) {
+      var self = this;
+      
+      // find by data index
+      for( var i = 0; i < self.$sequence.length; i++ ) {
+        if( lastIndex == $( self.$sequence[i] ).data( 'sequence-id' ) ) {
+          return $( self.$sequence[i] );
+        }
+      }
+      // not found
+      return false;
     }
   };
 
