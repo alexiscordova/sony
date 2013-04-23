@@ -2,7 +2,7 @@
 // Sony Chapters (SonyChapters) Module
 // --------------------------------------------
 //
-// * **Class:** SonyCarousel
+// * **Class:** SonyCarouselFade
 // * **Version:** 0.1
 // * **Modified:** 04/22/2013
 // * **Author:** Steve Davis
@@ -28,10 +28,10 @@ define(function(require){
 
   var _id = 0;
 
-  var SonyCarousel = function($element, options){
+  var SonyCarouselFade = function($element, options){
     var self = this;
 
-    $.extend(self, {}, $.fn.sonyCarousel.defaults, options, $.fn.sonyCarousel.settings);
+    $.extend(self, {}, $.fn.sonyCarouselFade.defaults, options, $.fn.sonyCarouselFade.settings);
 
     self.currentSlide = 0;
     self.id = _id++;
@@ -41,9 +41,9 @@ define(function(require){
     self.init();
   };
 
-  SonyCarousel.prototype = {
+  SonyCarouselFade.prototype = {
 
-    constructor: SonyCarousel,
+    constructor: SonyCarouselFade,
 
     init: function() {
 
@@ -66,7 +66,7 @@ define(function(require){
         self.$el.css(Modernizr.prefixed('transitionTimingFunction'), self.CSS3Easing);
       }
 
-      Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function() {
+      Environment.on('global:resizeDebounced-200ms.SonyCarouselFade-' + self.id, function() {
         if ( self.snap ) {
           self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
         }
@@ -87,10 +87,10 @@ define(function(require){
             $backSlide = self.$slides.eq(self.$slides.length - 1 - i).clone(true);
 
         $frontSlide.addClass(self.cloneClass)
-            .data('sonyCarouselGoto', i);
+            .data('sonyCarouselFadeGoto', i);
 
         $backSlide.addClass(self.cloneClass)
-            .data('sonyCarouselGoto', self.$slides.length - 1 - i);
+            .data('sonyCarouselFadeGoto', self.$slides.length - 1 - i);
 
         self.$el.append($frontSlide).prepend($backSlide);
 
@@ -288,7 +288,7 @@ define(function(require){
 
       self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(){
         iQ.update(true);
-        self.$el.trigger('SonyCarousel:AnimationComplete');
+        self.$el.trigger('SonyCarouselFade:AnimationComplete');
         self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
       });
 
@@ -301,7 +301,7 @@ define(function(require){
       // If you've taken the carousel out of its normal flow (either with `self.jumping` or `self.looped`)
       // Reset the carousel to its natural position and order.
 
-      destinationRedirect = $destinationSlide.data('sonyCarouselGoto');
+      destinationRedirect = $destinationSlide.data('sonyCarouselFadeGoto');
 
       if ( ( self.isJumped && speed ) || typeof destinationRedirect !== 'undefined' ) {
 
@@ -330,7 +330,7 @@ define(function(require){
 
       self.currentSlide = which;
 
-      self.$el.trigger('SonyCarousel:gotoSlide', self.currentSlide);
+      self.$el.trigger('SonyCarouselFade:gotoSlide', self.currentSlide);
     },
 
     createPagination: function () {
@@ -361,7 +361,7 @@ define(function(require){
         self.gotoSlide(which);
       });
 
-      self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
+      self.$el.on('SonyCarouselFade:gotoSlide', function(e, which) {
         self.$dotnav.sonyNavDots('reset', {
           'activeButton': which
         });
@@ -383,7 +383,7 @@ define(function(require){
         useSmallPaddles: self.useSmallPaddles
       });
 
-      self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
+      self.$el.on('SonyCarouselFade:gotoSlide', function(e, which) {
 
         $wrapper.sonyPaddles('showPaddle', 'both');
 
@@ -407,7 +407,7 @@ define(function(require){
 
     // Update animation speed, in ms.
     //
-    //      $('#foo').sonyCarousel('setAnimationSpeed', 100);
+    //      $('#foo').sonyCarouselFade('setAnimationSpeed', 100);
     //
     setAnimationSpeed: function(newSpeed){
 
@@ -418,8 +418,8 @@ define(function(require){
 
     // Update CSS3 Easing equation.
     //
-    //      $('#foo').sonyCarousel('setCSS3Easing', 'ease-in');
-    //      $('#foo').sonyCarousel('setCSS3Easing',
+    //      $('#foo').sonyCarouselFade('setCSS3Easing', 'ease-in');
+    //      $('#foo').sonyCarouselFade('setCSS3Easing',
     //          'cubic-bezier(0.000, 1.035, 0.400, 0.985)');
     //
     setCSS3Easing: function(bezierStr){
@@ -543,8 +543,8 @@ define(function(require){
           .css(self.posAttr, '');
 
       // Unbind
-      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
-      self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
+      Environment.off('global:resizeDebounced-200ms.SonyCarouselFade-' + self.id);
+      self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarouselFade:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
       $clickContext.off('click.sonycarousel');
 
       // Destroy all plugins.
@@ -563,26 +563,26 @@ define(function(require){
       }
 
       // Remove data from element, allowing for later reinit.
-      self.$el.removeData('sonyCarousel');
+      self.$el.removeData('sonyCarouselFade');
     }
   };
 
   // jQuery Plugin Definition
   // ------------------------
 
-  $.fn.sonyCarousel = function( options ) {
+  $.fn.sonyCarouselFade = function( options ) {
     var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
       var self = $(this),
-          sonyCarousel = self.data('sonyCarousel');
+          sonyCarouselFade = self.data('sonyCarouselFade');
 
-      if ( !sonyCarousel ) {
-        sonyCarousel = new SonyCarousel( self, options );
-        self.data( 'sonyCarousel', sonyCarousel );
+      if ( !sonyCarouselFade ) {
+        sonyCarouselFade = new SonyCarouselFade( self, options );
+        self.data( 'sonyCarouselFade', sonyCarouselFade );
       }
 
       if ( typeof options === 'string' ) {
-        sonyCarousel[ options ].apply( sonyCarousel, args );
+        sonyCarouselFade[ options ].apply( sonyCarouselFade, args );
       }
     });
   };
@@ -590,7 +590,7 @@ define(function(require){
   // Defaults
   // --------
 
-  $.fn.sonyCarousel.defaults = {
+  $.fn.sonyCarouselFade.defaults = {
 
     direction: 'horizontal',
 

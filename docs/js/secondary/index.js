@@ -8,7 +8,7 @@ define(function (require) {
     jquerySimpleScroll: require('secondary/jquery.simplescroll'),
     sonyDraggable: require('secondary/sony-draggable'),
     sonyCarousel: require('secondary/sony-carousel'),
-    sonyChapters: require('secondary/sony-chapters'),
+    sonyCarouselFade: require('secondary/sony-carousel-fade'),
     sonyEvenHeights: require('secondary/sony-evenheights'),
     sonyNavigationDots: require('secondary/sony-navigationdots'),
     sonyPaddles: require('secondary/sony-paddles'),
