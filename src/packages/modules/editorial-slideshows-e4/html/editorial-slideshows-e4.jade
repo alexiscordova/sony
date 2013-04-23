@@ -8,7 +8,7 @@ include ../../../common/html/jade-helpers.jade
 mixin editorialSlide(data)
   for slide in data.submodules
     slideData = locals.data( slide.data )
-    .editorial-carousel-slide( class= slideData.variation, data-mode=slideData.mode )
+    .editorial-carousel-slide( class= slideData.variation, )
       +iQImage(slideData.productImg)
 
 //- Main section wrapper for slides

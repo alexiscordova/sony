@@ -62,7 +62,6 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
     padding: 0 0 0 1em;
     background-color: $overlayColor;
     background-color: rgba( $overlayColor, .9 );
-    text-transform: uppercase;
 
     span {
       color: $white;
@@ -179,6 +178,22 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
   // Grow by scaling in browsers that support it
   .no-touch.csstransforms & .cover:hover .bg-for-icon {
     @include scale( 1 );
+  }
+}
+
+.ec-module.white-bg {
+  background-color: $white;
+
+  .infos {
+    background-color: $gray80;
+  }
+}
+
+.ec-module.dark-bg {
+  background-color: $gray20;
+
+  .ec-title {
+    color: $white;
   }
 }
 
