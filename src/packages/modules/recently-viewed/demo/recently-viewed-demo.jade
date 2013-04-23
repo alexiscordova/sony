@@ -3,11 +3,25 @@ doctype 5
 include ../../../common/html/ieconditionals.html
 
 head
+  title Recently Viewed Demo
   include ../../../common/html/head.jade
 
 body
+  #page-wrap-outer.page-wrap-outer
+    #page-wrap-inner.page-wrap-inner
+      e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-header.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json'), "sample_search_results":data('packages/pages/data/global-header-footer/sample_search_results.json')}
+      !{partial('packages/modules/global-header-footer/html/global-header.jade', e)}
+      #main(role='main')
 
-  +partial('recently-viewed/html/recently-viewed.jade', 'packages/modules/recently-viewed/demo/data/default.json')
+        .container
+          .grid(style="background:ghostwhite;height:500px;margin-bottom:40px;")
+
+        +partial("footnotes/html/footnotes.jade", "packages/modules/footnotes/demo/data/homepage-en.json")
+
+        +partial('recently-viewed/html/recently-viewed.jade', 'packages/modules/recently-viewed/demo/data/default.json')
+
+      e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-footer.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json')}
+      !{partial('packages/modules/global-header-footer/html/global-footer.jade', e)}
 
   include ../../../common/html/foot.jade
 </html>

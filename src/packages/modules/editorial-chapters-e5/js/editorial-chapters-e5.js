@@ -21,7 +21,8 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        sonyCarousel = require('secondary/index').sonyCarousel;
+        sonyCarouselFade = require('secondary/index').sonyCarouselFade,
+        sonyScroller = require('secondary/index').sonyScroller;
 
     var self = {
       'init': function() {
@@ -55,6 +56,7 @@ define(function(require){
       self.$slides              = self.$el.find('.editorial-carousel-slide');
       self.$slideContainer      = self.$el.find('.editorial-carousel');
       self.$thumbNav            = self.$el.find('.thumb-nav');
+      self.$thumbItems          = self.$thumbNav.find('li');
       self.$thumbLabels         = self.$thumbNav.find('span');
 
       self.hasThumbs            = self.$thumbNav.length > 0;
@@ -96,7 +98,7 @@ define(function(require){
         var self = this;
 
         // Using Sony Carousel for this module
-        self.$slideContainer.sonyCarousel({
+        self.$slideContainer.sonyCarouselFade({
           wrapper: '.editorial-carousel-wrapper',
           slides: '.editorial-carousel-slide',
           looped: false,
@@ -109,7 +111,7 @@ define(function(require){
           draggable: false
         });
 
-        self.$slideContainer.on('SonyCarousel:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
+        self.$slideContainer.on('SonyCarouselFade:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
 
         iQ.update();
 
@@ -160,7 +162,16 @@ define(function(require){
        
         $anchors.eq(0).addClass('active');
 
-        // Vertically center thumb text based on height
+        self.centerThumbText();
+        if (self.$el.hasClass('text-mode')) {
+          self.initScroller();
+        }
+      },
+
+      // Vertically center thumb text based on height
+      centerThumbText: function(){
+        var self = this;
+
         self.$thumbLabels.each(function(){
           var $span = $(this),
             height = $span.height();
@@ -172,6 +183,19 @@ define(function(require){
             $span.removeClass().addClass('twoLine');
           } else if (height >= 48) {
             $span.removeClass();
+          }
+        });
+      },
+
+      initScroller: function(){
+        self = this;
+
+        self.$thumbNav.scrollerModule({
+          contentSelector: '.slider',
+          iscrollProps: {
+            hScrollbar: false,
+            isOverflowHidden: false,
+            onAnimationEnd: iQ.update
           }
         });
       },
@@ -188,7 +212,7 @@ define(function(require){
         $anchors.removeClass('active');
         $el.addClass('active');
 
-        self.$slideContainer.sonyCarousel( 'gotoSlide' , self.currentId );
+        self.$slideContainer.sonyCarouselFade( 'gotoSlide' , self.currentId );
       },
 
       // Sets the current active thumbnail

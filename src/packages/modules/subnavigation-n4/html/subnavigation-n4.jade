@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('subnavigation-n4')
 +includeJavascriptModule('subnavigation-n4')
 
 section.subnav-module
@@ -8,16 +9,18 @@ section.subnav-module
       .slimgrid
         h2 !{data.category}
 
-  nav
-    .container
+  .subnav-nav-carousel-wrapper
+    nav
       - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
-        .slimgrid.m-grid-at-479
-          - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
-            - item = data.subcategories[j]
-            .span2.m-span2
-              img(src=item.imageSrc)
-              p !{item.title}
-          - }
+        .subnav-nav-carousel-slide
+          .container
+            .slimgrid
+              - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
+                - subcategory = data.subcategories[j]
+                .subcategory-link.span2.m-span2(data-subcategory=subcategory.title.toLowerCase().replace(/\W/g, ''))
+                  img(src=subcategory.imageSrc)
+                  p !{subcategory.title}
+              - }
       - }
 
   .subnav-tray.container
@@ -36,7 +39,7 @@ section.subnav-module
         - if ( subcategory.marketingTout ) subcategoryLength++
 
         - for ( i = 0; i < subcategoryLength; i = i + 4 ) {
-          .slimgrid.no-grid-at-479.m-grid-at-767
+          .subnav-product-grid.slimgrid.no-grid-at-479
             - for ( j = i; j < i + 4 && j < subcategoryLength; j++ ) {
 
               if subcategory.marketingTout && j == subcategoryLength - 1

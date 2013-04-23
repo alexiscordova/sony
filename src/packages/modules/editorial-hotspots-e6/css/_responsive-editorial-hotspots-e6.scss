@@ -39,6 +39,7 @@ $transitionSpeed: .5s;
 @media ( min-width: px-em(567) ) and (max-width: px-em(767px)) {
   .ehs {
     .variant1 {
+/*
       &.three-stack-right-top-justified {
         top: -159px;
         left: 63px;
@@ -78,8 +79,10 @@ $transitionSpeed: .5s;
         top: -149px;
         left: -288px;        
       }
+*/
     }
     .variant2 {
+/*
       &.three-stack-right-top-justified {
         top: -124px;
         left: 60px;
@@ -119,6 +122,7 @@ $transitionSpeed: .5s;
         top: -130px;
         left: -237px;        
       }
+*/
 
     }
   }
@@ -162,50 +166,10 @@ $transitionSpeed: 0.5s;
       opacity: 1;
     }
   }
-
+    
   .ehs {
-    .hspot-underlay {
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      position: absolute;
-      background: rgb(255, 255, 255) transparent;
-      background-color: rgba(255, 255, 255, 0);
-      z-index: 5;
-      -o-transition:$transitionSpeed;
-      -ms-transition:$transitionSpeed;
-      -moz-transition:$transitionSpeed;
-      -webkit-transition:$transitionSpeed; 
-      transition:$transitionSpeed;
-      opacity: 0;
-    }
-    .hspot-underlay-on {
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      position: absolute;
-      background: rgb(255, 255, 255) transparent;
-      background-color: rgba(255, 255, 255, 0.3);
-      z-index: 5;
-      -o-transition:$transitionSpeed;
-      -ms-transition:$transitionSpeed;
-      -moz-transition:$transitionSpeed;
-      -webkit-transition:$transitionSpeed; 
-      transition:$transitionSpeed;	
-      opacity: 1;
-    }
-/*
-    .overlay-base {
-      left: 50%;
-      .overlay-inner {
-        position: relative;
-        left: -50%;
-      }
-    }
-*/
-    .hspot-outer {
+ /*
+   .hspot-outer {
       height: 30px;
       width: 30px;
       .hspot-core {
@@ -215,12 +179,11 @@ $transitionSpeed: 0.5s;
         -webkit-box-shadow: 0 0 0 5px rgba($gray30, 0.3);
         box-shadow: 0 0 0 5px rgba($gray30, 0.3);
         .hspot-indicator {
-          padding: 0 0 0 33.5%;
-          img {
-            margin-top: -3px;
-            width: 9px;
-            height: 9px;
-            
+          padding: 0 0 0 25%;
+          i {
+            padding: 7px 0;
+            display: block;
+            font-size: 0.8em;
           }
         }
       }
@@ -232,13 +195,15 @@ $transitionSpeed: 0.5s;
       -webkit-box-shadow: 0 0 0 5px rgba($gray30, 0.3);
       box-shadow: 0 0 0 5px rgba($gray30, 0.3);
       .hspot-indicator {
-        padding: 0 0 0 33.5%;
-        img {
-          margin-top: -3px;
-          width: 9px;
-          height: 9px;
+        padding: 0 0 0 25%;
+        i {
+          padding: 8px 0;
+          display: block;
+          font-size: 0.8em;
         }
       }
     }
+*/
   }
+
 }

@@ -1,2 +1,43 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
+
+$maxChildren: 20;
+
+.subnav-module {
+
+  .subnav-nav-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+
+    nav {
+      position: relative;
+      width: 100% * $maxChildren;
+
+      .subnav-nav-carousel-slide {
+        -webkit-transform: translateZ(0);
+        float: left;
+        width: 100% / $maxChildren;
+        height: 100%;
+      }
+    }
+  }
+
+  .subnav-tray {
+    @include transition(height 400ms ease-out);
+    position: relative;
+    overflow: hidden;
+
+    .subcategory {
+      @include transition(opacity 400ms ease-out);
+      position: absolute;
+      top: 0;
+      @include opacity(0);
+      z-index: 0;
+
+      &.active {
+        @include opacity(100);
+      }
+    }
+  }
+}

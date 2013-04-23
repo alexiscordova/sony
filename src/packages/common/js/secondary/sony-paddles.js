@@ -133,6 +133,8 @@ define(function(require){
       var self = this;
 
       self.$nav.remove();
+
+      self.$el.removeData('sonyPaddles');
     }
   };
 
