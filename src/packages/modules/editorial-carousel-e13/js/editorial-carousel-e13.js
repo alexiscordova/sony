@@ -28,7 +28,9 @@ define(function(require) {
       var $module = $('.ec-module');
 
       if ( $module.length ) {
-        new EditorialCarousel( $module[0] );
+        $module.each(function() {
+          new EditorialCarousel( this );
+        });
       }
     }
   };
@@ -61,7 +63,8 @@ define(function(require) {
         wrapper: '.sony-carousel-wrapper',
         slides: '.sony-carousel-slide',
         pagination: true,
-        paddles: true
+        paddles: true,
+        paginationTheme: self.$el.data('mode') === 'dark' ? 'light' : 'dark'
       });
 
       if ( Modernizr.mediaqueries ) {
