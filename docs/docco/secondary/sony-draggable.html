@@ -170,10 +170,10 @@ cache the new interaction's start position, then bind for movement onto onScrubb
       });
 
       <span class="keyword">if</span> ( self.snapToBounds &amp;&amp; self.bounds ) {
-        <span class="keyword">if</span> ( self.axis.search(<span class="string">'x'</span>) &gt;= <span class="number">0</span> ) {
+        <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'x'</span>) &gt;= <span class="number">0</span> ) {
           self.animateToBounds(<span class="string">'x'</span>);
         }
-        <span class="keyword">if</span> ( self.axis.search(<span class="string">'y'</span>) &gt;= <span class="number">0</span> ) {
+        <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'y'</span>) &gt;= <span class="number">0</span> ) {
           self.animateToBounds(<span class="string">'y'</span>);
         }
       }
@@ -263,19 +263,19 @@ to overwrite the scrubber's current position.</p>             </td>             
           newY = <span class="number">0</span>;
 
       <span class="keyword">if</span> ( self.unit === <span class="string">'px'</span> ) {
-        <span class="keyword">if</span> ( self.axis.search(<span class="string">'x'</span>) &gt;= <span class="number">0</span> ) {
+        <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'x'</span>) &gt;= <span class="number">0</span> ) {
           newX = self.handlePosition.x;
         }
-        <span class="keyword">if</span> ( self.axis.search(<span class="string">'y'</span>) &gt;= <span class="number">0</span> ) {
+        <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'y'</span>) &gt;= <span class="number">0</span> ) {
           newY = self.handlePosition.y;
         }
       }
 
       <span class="keyword">if</span> ( self.unit === <span class="string">'%'</span> ) {
-        <span class="keyword">if</span> ( self.axis.search(<span class="string">'x'</span>) &gt;= <span class="number">0</span> ) {
+        <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'x'</span>) &gt;= <span class="number">0</span> ) {
           newX = ((self.handlePosition.x) / self.containmentWidth * <span class="number">100</span>);
         }
-        <span class="keyword">if</span> ( self.axis.search(<span class="string">'y'</span>) &gt;= <span class="number">0</span> ) {
+        <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'y'</span>) &gt;= <span class="number">0</span> ) {
           newY = ((self.handlePosition.y) / self.containmentHeight * <span class="number">100</span>);
         }
       }
@@ -286,10 +286,10 @@ to overwrite the scrubber's current position.</p>             </td>             
       }
 
       <span class="keyword">if</span> ( overridePosition ) {
-        <span class="keyword">if</span> ( self.axis.search(<span class="string">'x'</span>) &gt;= <span class="number">0</span> ) {
+        <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'x'</span>) &gt;= <span class="number">0</span> ) {
           newX = overridePosition.x;
         }
-        <span class="keyword">if</span> ( self.axis.search(<span class="string">'y'</span>) &gt;= <span class="number">0</span> ) {
+        <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'y'</span>) &gt;= <span class="number">0</span> ) {
           newY = overridePosition.y;
         }
       }
