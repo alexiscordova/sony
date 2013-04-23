@@ -1,8 +1,9 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('primary-tout-p1-d7')
 +includeJavascriptModule('primary-tout-p1-d7')
 
-mixin eyebrow(d)
-  d = d || data
+mixin eyebrow(_data)
+  d = _data ? _data : data
   if d.eyebrow
     if d.eyebrow.link
       a.eyebrow(href= d.eyebrow.link)
@@ -12,8 +13,8 @@ mixin eyebrow(d)
     else
       h2.t7.eyebrow!= locals.plusify(d.eyebrow.text)
 
-mixin header(d)
-  d = d || data
+mixin header(_data)
+  d = _data ? _data : data
   if d.variation
     if d.variation.quote
       blockquote.bq1
@@ -27,48 +28,53 @@ mixin header(d)
       else
         h1.t2!= d.headline
 
-mixin bodytext(d, extraclass)
-  d = d || data
-  extraclass = extraclass || ""
+mixin bodytext(_data, _extra)
+  d = _data ? _data : data
+  e = _extra ? _extra : ""
   if d.variation
     if d.variation.headertext == "larger"
-      extraclass = extraclass + " hidden-phone"
+      e = e + " hidden-phone"
   if d.body
-    p.p3(class= extraclass)!= d.body
+    p.p3(class= e)!= d.body
 
-mixin links(d, extraclass)
-  d = d || data
-  extraclass = extraclass || ""
+mixin links(_data, _extra)
+  d = _data ? _data : data
   if d.links
     for link in d.links
+      e = _extra ? _extra : ""
+      sm = link.submodule ? link.submodule : "0"
       case link.type
         when "btn"
-          a(class= extraclass)(class= "btn", href= link.url)!= link.text
+          a(class= e)(class= "btn", href= link.url)!= link.text
         when "video"
-          a(class = "video btn btn-special")(class= extraclass)(href= link.url)
-            i.fonticon-15-circle-play
+          if data.mode !== "product-intro-plate"
+            e = e + " btn btn-special"
+          a(class = "video")(class= e)(href= link.url)(data-submodule = sm)
+            i.fonticon-15-circle-play.l-o-d
             span!= link.text
-        when "gallery"
-          a(class = "gallery btn")(class= extraclass)(href= link.url)
-            i.fonticon-15-popup
+        when "carousel"
+          if data.mode !== "product-intro-plate"
+            e = e + " btn"
+          a(class = "carousel")(class= e)(href= link.url)(data-submodule = sm)
+            i.fonticon-15-popup.l-o-d
             span!= link.text
         when "text"
-          a(class= extraclass)( href= link.url)!= link.text
+          a(class= e)( href= link.url)!= link.text 
 
-mixin boxclass(layout)
-  layout = layout || data.layout
+mixin boxclass(_layout)
+  layout = _layout ? _layout : data.layout
   .box(class = layout.alignment)
     block
 
-mixin boxlayout(layout, style)
-  layout = layout || data.layout
-  classes = style || data.style || layout.text == "full"
+mixin boxlayout(_layout, _style)
+  layout = _layout ? _layout : data.layout
+  classes = _style ? _style : data.style
   if data.variation
     if data.variation.mobilealign
       classes = classes + " " + data.variation.mobilealign
     else
       classes = classes + " bottom"
-  if layout.text == "left"
+  if layout.text == "left" || layout.text == "full"
     .container.inner(class= classes)
       .grid.no-grid-at-767
         - span = "span" + layout.columns[0]
@@ -88,16 +94,17 @@ mixin boxlayout(layout, style)
               +boxclass
                 block
 
-.primary-tout.container.full-bleed-no-max(class= data.mode)(class= data.theme)
+.primary-tout.container.full-bleed-no-max(class= data.mode || "")(class= data.theme || "")
   .container.full-bleed-no-max.hero-image
     e = {"locals":locals, "data":data.image}
     !{locals.partial('packages/modules/image/html/image.jade' , e)}
 
   if data.submodules.length > 0
-    .container.full-bleed-no-max.submodule.hidden
-      button(class= "box-close box-close-small")
-        i(class="fonticon-10-x")
-      +partial(data.submodules[0].type, data.submodules[0].data)
+    for sub, i in data.submodules
+      .container.full-bleed-no-max.submodule.hidden
+        button(class= "box-close box-close-small")
+          i(class="fonticon-10-x")
+        +partial(data.submodules[i].type, data.submodules[i].data)
 
   if data.mode == "homepage"
     if data.variation.secondbox
@@ -135,9 +142,10 @@ mixin boxlayout(layout, style)
       h1.t3!= data.headline
       +bodytext
       +links(data, "hidden-phone")
-    .mobile-buttons-wrap.container.grid.no-grid-at-767
-      .mobile-buttons.clearfix
-        +links(data, "visible-phone")
+    .mobile-buttons-wrap.container
+      .grid.no-grid-at-767
+        .mobile-buttons.clearfix
+          +links(data, "visible-phone btn")
   else if data.mode == "title-plate"
     +boxlayout
       +eyebrow

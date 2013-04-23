@@ -1,4 +1,6 @@
-              
+include ../../../common/html/jade-helpers.jade
++includeCSS('utility-links-pdp-d8')
+
 section.ulinks-pdp-wrapper.container.full-bleed-no-max.m-full-bleed
     section.ulinks-body-wrapper.container
         div.ulinks-body.grid
@@ -18,7 +20,7 @@ section.ulinks-pdp-wrapper.container.full-bleed-no-max.m-full-bleed
                   nextId = "pdp-link-tail"+i
                   if(i==2)
                     div(id=nextId).span4.drop-at-767
-                      a(href=linkUrl).pdp-help.lt3 #{linkLabel}                  
+                      a(href=linkUrl).pdp-help.lt3 #{linkLabel}
                   else if(i>=3)
                     div(id=nextId).span4
                       a(href=linkUrl).pdp-help.lt3 #{linkLabel}
