@@ -1,8 +1,8 @@
-<!DOCTYPE html>  <html> <head>   <title>sony-chapters.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="sony-carousel.html">                 sony-carousel.js               </a>                                           <a class="source" href="sony-chapters.html">                 sony-chapters.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickynav.html">                 sony-stickynav.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-chapters.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+<!DOCTYPE html>  <html> <head>   <title>sony-carousel-fade.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="sony-carousel-fade.html">                 sony-carousel-fade.js               </a>                                           <a class="source" href="sony-carousel.html">                 sony-carousel.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickynav.html">                 sony-stickynav.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-carousel-fade.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Sony Chapters (SonyChapters) Module</h2>
 
 <ul>
-<li><strong>Class:</strong> SonyCarousel</li>
+<li><strong>Class:</strong> SonyCarouselFade</li>
 <li><strong>Version:</strong> 0.1</li>
 <li><strong>Modified:</strong> 04/22/2013</li>
 <li><strong>Author:</strong> Steve Davis</li>
@@ -28,10 +28,10 @@ define(<span class="keyword">function</span>(require){
 
   <span class="keyword">var</span> _id = <span class="number">0</span>;
 
-  <span class="keyword">var</span> SonyCarousel = <span class="keyword">function</span>($element, options){
+  <span class="keyword">var</span> SonyCarouselFade = <span class="keyword">function</span>($element, options){
     <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-    $.extend(self, {}, $.fn.sonyCarousel.defaults, options, $.fn.sonyCarousel.settings);
+    $.extend(self, {}, $.fn.sonyCarouselFade.defaults, options, $.fn.sonyCarouselFade.settings);
 
     self.currentSlide = <span class="number">0</span>;
     self.id = _id++;
@@ -41,9 +41,9 @@ define(<span class="keyword">function</span>(require){
     self.init();
   };
 
-  SonyCarousel.prototype = {
+  SonyCarouselFade.prototype = {
 
-    constructor: SonyCarousel,
+    constructor: SonyCarouselFade,
 
     init: <span class="keyword">function</span>() {
 
@@ -66,7 +66,7 @@ define(<span class="keyword">function</span>(require){
         self.$el.css(Modernizr.prefixed(<span class="string">'transitionTimingFunction'</span>), self.CSS3Easing);
       }
 
-      Environment.on(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id, <span class="keyword">function</span>() {
+      Environment.on(<span class="string">'global:resizeDebounced-200ms.SonyCarouselFade-'</span> + self.id, <span class="keyword">function</span>() {
         <span class="keyword">if</span> ( self.snap ) {
           self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
         }
@@ -87,10 +87,10 @@ define(<span class="keyword">function</span>(require){
             $backSlide = self.$slides.eq(self.$slides.length - <span class="number">1</span> - i).clone(<span class="literal">true</span>);
 
         $frontSlide.addClass(self.cloneClass)
-            .data(<span class="string">'sonyCarouselGoto'</span>, i);
+            .data(<span class="string">'sonyCarouselFadeGoto'</span>, i);
 
         $backSlide.addClass(self.cloneClass)
-            .data(<span class="string">'sonyCarouselGoto'</span>, self.$slides.length - <span class="number">1</span> - i);
+            .data(<span class="string">'sonyCarouselFadeGoto'</span>, self.$slides.length - <span class="number">1</span> - i);
 
         self.$el.append($frontSlide).prepend($backSlide);
 
@@ -278,7 +278,7 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
 
       self.$el.on(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>, <span class="keyword">function</span>(){
         iQ.update(<span class="literal">true</span>);
-        self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
+        self.$el.trigger(<span class="string">'SonyCarouselFade:AnimationComplete'</span>);
         self.$el.off(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
       });
 
@@ -289,7 +289,7 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>If you've taken the carousel out of its normal flow (either with <code>self.jumping</code> or <code>self.looped</code>)
 Reset the carousel to its natural position and order.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-      destinationRedirect = $destinationSlide.data(<span class="string">'sonyCarouselGoto'</span>);
+      destinationRedirect = $destinationSlide.data(<span class="string">'sonyCarouselFadeGoto'</span>);
 
       <span class="keyword">if</span> ( ( self.isJumped &amp;&amp; speed ) || <span class="keyword">typeof</span> destinationRedirect !== <span class="string">'undefined'</span> ) {
 
@@ -318,7 +318,7 @@ Reset the carousel to its natural position and order.</p>             </td>     
 
       self.currentSlide = which;
 
-      self.$el.trigger(<span class="string">'SonyCarousel:gotoSlide'</span>, self.currentSlide);
+      self.$el.trigger(<span class="string">'SonyCarouselFade:gotoSlide'</span>, self.currentSlide);
     },
 
     createPagination: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
@@ -349,7 +349,7 @@ Reset the carousel to its natural position and order.</p>             </td>     
         self.gotoSlide(which);
       });
 
-      self.$el.on(<span class="string">'SonyCarousel:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
+      self.$el.on(<span class="string">'SonyCarouselFade:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
         self.$dotnav.sonyNavDots(<span class="string">'reset'</span>, {
           <span class="string">'activeButton'</span>: which
         });
@@ -371,7 +371,7 @@ Reset the carousel to its natural position and order.</p>             </td>     
         useSmallPaddles: self.useSmallPaddles
       });
 
-      self.$el.on(<span class="string">'SonyCarousel:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
+      self.$el.on(<span class="string">'SonyCarouselFade:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
 
         $wrapper.sonyPaddles(<span class="string">'showPaddle'</span>, <span class="string">'both'</span>);
 
@@ -395,7 +395,7 @@ Reset the carousel to its natural position and order.</p>             </td>     
 
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Update animation speed, in ms.</p>
 
-<pre><code> $('#foo').sonyCarousel('setAnimationSpeed', 100);
+<pre><code> $('#foo').sonyCarouselFade('setAnimationSpeed', 100);
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre>    setAnimationSpeed: <span class="keyword">function</span>(newSpeed){
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -405,8 +405,8 @@ Reset the carousel to its natural position and order.</p>             </td>     
 
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Update CSS3 Easing equation.</p>
 
-<pre><code> $('#foo').sonyCarousel('setCSS3Easing', 'ease-in');
- $('#foo').sonyCarousel('setCSS3Easing',
+<pre><code> $('#foo').sonyCarouselFade('setCSS3Easing', 'ease-in');
+ $('#foo').sonyCarouselFade('setCSS3Easing',
      'cubic-bezier(0.000, 1.035, 0.400, 0.985)');
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre>    setCSS3Easing: <span class="keyword">function</span>(bezierStr){
 
@@ -519,8 +519,8 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
           .css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">''</span>)
           .css(self.posAttr, <span class="string">''</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id);
-      self.$el.off(<span class="string">'sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide '</span> + Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarouselFade-'</span> + self.id);
+      self.$el.off(<span class="string">'sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarouselFade:gotoSlide '</span> + Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
       $clickContext.off(<span class="string">'click.sonycarousel'</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Destroy all plugins.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.sonyDraggable(<span class="string">'destroy'</span>);
@@ -537,30 +537,30 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
         self.$dotnav = <span class="literal">null</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Remove data from element, allowing for later reinit.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.removeData(<span class="string">'sonyCarousel'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Remove data from element, allowing for later reinit.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.removeData(<span class="string">'sonyCarouselFade'</span>);
     }
   };
 
 </pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>             </td>             <td class="code">               <div class="highlight"><pre>
-  $.fn.sonyCarousel = <span class="keyword">function</span>( options ) {
+  $.fn.sonyCarouselFade = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
-          sonyCarousel = self.data(<span class="string">'sonyCarousel'</span>);
+          sonyCarouselFade = self.data(<span class="string">'sonyCarouselFade'</span>);
 
-      <span class="keyword">if</span> ( !sonyCarousel ) {
-        sonyCarousel = <span class="keyword">new</span> SonyCarousel( self, options );
-        self.data( <span class="string">'sonyCarousel'</span>, sonyCarousel );
+      <span class="keyword">if</span> ( !sonyCarouselFade ) {
+        sonyCarouselFade = <span class="keyword">new</span> SonyCarouselFade( self, options );
+        self.data( <span class="string">'sonyCarouselFade'</span>, sonyCarouselFade );
       }
 
       <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
-        sonyCarousel[ options ].apply( sonyCarousel, args );
+        sonyCarouselFade[ options ].apply( sonyCarouselFade, args );
       }
     });
   };
 
 </pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
-  $.fn.sonyCarousel.defaults = {
+  $.fn.sonyCarouselFade.defaults = {
 
     direction: <span class="string">'horizontal'</span>,
 
