@@ -1,17 +1,18 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
+$subPhoneMax: px-em(479);
+$phoneMin: px-em(480);
 $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
-$desktopMin: px-em(980);
 
 
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .primary-tout{
     
     .image-module{
-      height:428px;
+      height:500px;
     }
     .inner .box{
       padding:31px 34px 30px 34px;
@@ -34,7 +35,7 @@ $desktopMin: px-em(980);
     
     &.product-intro-plate{
       .image-module{
-        height:428px;
+        height:440px;
       }
       .table-center-wrap{
         width:100%;
@@ -57,6 +58,7 @@ $desktopMin: px-em(980);
     }
   }
 }
+
 @media (max-width: $phoneMax) {
   .primary-tout{
     
@@ -68,10 +70,10 @@ $desktopMin: px-em(980);
     .no-grid-at-767{
       width:100%;
     }
-    
     .image-module{
-      height:462px;
+      height:420px;
     }
+
     .table-center-wrap{
       width:100%;
     } 
@@ -120,9 +122,6 @@ $desktopMin: px-em(980);
     }
 
     &.homepage{
-      .image-module{
-        height:306px;
-      }
       .inner .box{
         padding:38px 0 25px 0;
         .eyebrow{
@@ -143,9 +142,6 @@ $desktopMin: px-em(980);
     }
     
     &.product-intro-plate{
-      .image-module{
-        height:383px;
-      }
       .inner .box{
         .eyebrow{
           margin-bottom:0;
@@ -206,5 +202,22 @@ $desktopMin: px-em(980);
       }
     }
     
+  }
+}
+
+@media (min-width: $phoneMin) and (max-width: $phoneMax){
+  .primary-tout,
+  .primary-tout.product-intro-plate{
+    .image-module{
+      height:420px;
+    }
+  }
+}
+@media (max-width: $subPhoneMax){
+  .primary-tout,
+  .primary-tout.product-intro-plate{
+    .image-module{
+      height:400px;
+    }
   }
 }
