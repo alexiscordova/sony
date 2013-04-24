@@ -219,7 +219,12 @@ define(function(require){
           contentSelector: '.slider',
           iscrollProps: {
             hScrollbar: false,
+            vScrollbar: false,
             isOverflowHidden: false,
+            //increase width of slider by 1 on load so scrolled items dont wrap in FF
+            onRefresh: function(){
+              self.$slider.width( self.$slider.width() + 1 );
+            },
             onScrollMove: function(){
               var node = self.$slider.get(0),
                   curTransform = new WebKitCSSMatrix(window.getComputedStyle(node).webkitTransform),
