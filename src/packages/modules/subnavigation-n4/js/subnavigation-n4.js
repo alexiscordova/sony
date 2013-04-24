@@ -1,5 +1,5 @@
 
-// Reviews + Awards (Subnavigation) Module
+// Subnavigation (Subnavigation) Module
 // ---------------------------------------
 //
 // * **Class:** Subnavigation
@@ -33,7 +33,7 @@ define(function(require){
     var self = this;
 
     self.$el = $(element);
-    self.$navgrid = self.$el.find('nav .slimgrid');
+    self.$navgroups = self.$el.find('nav .subnav-nav-carousel-slide');
     self.$tray = self.$el.find('.subnav-tray');
     self.$subcats = self.$tray.find('.subcategory');
 
@@ -89,19 +89,48 @@ define(function(require){
 
       $grids = $subcat.find('.subnav-product-grid');
 
-      $grids = Utilities.gridApportion($grids, mobile);
+      $grids = Utilities.gridApportion({
+        $groups: $grids,
+        mobile: mobile
+      });
+
       $grids[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
 
       self.$activeSubcat = $subcat;
       self.setTrayHeight();
     },
 
-    renderNav: function(mobile) {
+    renderNav: function( mobile ) {
 
-      var self = this;
+      var self = this,
+          currentSlide;
 
-      self.$navgrid = Utilities.gridApportion(self.$navgrid, mobile, true);
-      self.$navgrid[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
+      self.$navgroups = Utilities.gridApportion({
+        $groups: self.$navgroups,
+        gridSelector: '.grid',
+        mobile: mobile,
+        center: true
+      });
+
+      if ( self.$navgroups.find('.active').length > 0 ) {
+        currentSlide = self.$navgroups.find('.active').closest(self.$navgroups).index();
+      }
+
+      self.$navgroups.find('.grid')[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
+
+      if ( self.$navCarousel ) {
+        self.$navCarousel.sonyCarousel('destroy');
+      }
+
+      self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
+        draggable: true,
+        wrapper: '.subnav-nav-carousel-wrapper',
+        slides: '.subnav-nav-carousel-slide',
+        paddles: mobile ? false : true,
+        useSmallPaddles: mobile ? null : true
+      });
+
+      self.$navCarousel.sonyCarousel('gotoSlide', currentSlide, true);
 
       self.bindNav();
     },
@@ -109,19 +138,22 @@ define(function(require){
     bindNav: function() {
 
       var self = this,
-          $buttons = self.$el.find('.subcategory-link');
+          $buttons = self.$navgroups.find('.grid').children();
 
-      $buttons.on('click', function(){
+      $buttons.on('mouseup touchend', function(){
 
-        var $this = $(this);
+        var $this = $(this),
+            isActive = $this.hasClass('active');
 
-        if ( $this.hasClass('active') ) {
-          $buttons.removeClass('active');
-          self.closeTray();
-        } else {
-          $buttons.removeClass('active');
-          $this.addClass('active');
-          self.openSubcat($this.data('subcategory'));
+        $buttons.removeClass('active');
+
+        if ( !$this.parents().hasClass('dragging') ) {
+          if ( isActive ) {
+            self.closeTray();
+          } else {
+            $this.addClass('active');
+            self.openSubcat($this.data('subcategory'));
+          }
         }
       });
     },
@@ -152,7 +184,7 @@ define(function(require){
       var self = this;
 
       if ( self.$activeSubcat ) {
-        self.$tray.css('height', self.$activeSubcat.height());
+        self.$tray.css('height', self.$activeSubcat.outerHeight(true));
       }
     }
 

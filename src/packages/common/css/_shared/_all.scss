@@ -513,6 +513,11 @@ $oneByOneImgPadding: 107.84313725490196%;
     left: 0;
     height: 100%;
     padding: 10.129032% 10.6060606% 10.967742%;
+
+    // Background color classes
+    &.dark-panel {
+      background-color: $gray20;
+    }
   }
 
   img {
@@ -559,18 +564,29 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   // ::Different styles go here::
 
-  &.light-text-dark-box {}
-  &.light-text-trans-box {}
-  &.dark-text-light-box {}
-  &.dark-text-trans-box {}
+  &.light-text {
+    .promo-title .title {
+      color: $gray50;
+    }
 
-  &.align-left-top {}
-  &.align-left-center {}
-  &.align-left-bottom {}
-  &.align-center-center {}
-  &.align-right-top {}
-  &.align-right-center {}
-  &.align-right-bottom {}
+    .promo-title .emphasis,
+    .promo-title i,
+    .text-count span {
+      color: $white;
+    }
+  }
+
+  &.dark-text {
+    .promo-title .title {
+      color: $gray40;
+    }
+
+    .promo-title .emphasis,
+    .promo-title i,
+    .text-count span {
+      color: $gray20;
+    }
+  }
 }
 
 .gallery-item.social {

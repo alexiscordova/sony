@@ -29,7 +29,8 @@
   width: $fluidContainerWidth;
 
   max-width: $fluidContainerWidthMax-px;
-  &.full-bleed { max-width: $containerWidthMax; }
+  &.full-bleed { max-width: $containerFullBleedWidthMax; }
+  // &.full-bleed { max-width: $containerWidthMax; }
   &.full-bleed-no-max {	max-width:100%; }
 }
 .lt-ie10 .container{ width:980px; }
@@ -40,6 +41,7 @@
 .slimgrid,
 .slimgrid5, .grid5 {
   width: $fluidGridWidth;
+  max-width: $fluidGridWidthMax-px;
 }
 .container.full-bleed,
 .container.full-bleed-no-max,

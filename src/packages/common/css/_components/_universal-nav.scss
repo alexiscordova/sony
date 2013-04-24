@@ -1,0 +1,223 @@
+//
+// Universal Nav - The output CSS will be used for stand-alone versions, NOT the scss.
+// This file will be compiled into styles.css for the SGFE 2013 site, and will be pulled
+//   into the standalone CSS file for the standalone version.
+// --------------------------------------------------
+
+$span3-width: 22.34043%;
+$span4-width: 30.96927%;
+$span8-width: 65.48463%;
+$gutter-width: 3.5461%;
+
+$span3-width-768: 22.46154%;
+$span4-width-768: 31.07692%;
+$span8-width-768: 65.53846%;
+$gutter-width-768: 3.38462%;
+
+$span3-width-1200: 22.35294%;
+$span4-width-1200: 30.98039%;
+$span8-width-1200: 65.4902%;
+$gutter-width-1200: 3.52941%;
+
+
+.unav-open-until-transition-end .navmenu-w-search-container,
+.unav-open-until-transition-end .navmenu-w-mobile-top,
+.unav-open-until-transition-end .navtray-w-electronics,
+.unav-open-until-transition-end .navtray-w-entertainment{
+	display:none;
+}
+
+// universal-nav-specific classes. These are needed by all versions of the Universal Nav
+.u-nav-wrapper{
+  background: rgb(243,244,246); // $gray90;
+  padding: 20px 0 50px;
+  width:100%;
+  position:absolute;
+  top:-9999px; // just place it off the screen for pageload. This will be overridden as soon as the JS runs & explicity places it.
+
+  .u-nav-head{
+  	position: relative;
+  	margin-bottom:13px;
+	}
+	.u-nav-close-btn{
+		font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		-webkit-font-smoothing: antialiased;
+		font-weight: normal;
+		font-style: normal;
+		font-size: px-em(12);
+		letter-spacing: 0.0625em;
+		padding: 9px 49px 10px 13px;
+		color: #fff;
+		background-color: rgb(146,149,153);
+		background-repeat: no-repeat;
+		background-position: 88% 50%;
+		@include border-radius(1px);
+
+		margin: 0 0 14px;
+  	float: right;
+
+  	&:hover, &:active, &:focus, &.active{
+  	  color: #fff;
+			background-color: rgba(47,53,61,1);
+  	}
+	}
+	h5.l1{
+		clear: both;
+		margin: 0;
+	}
+	.u-nav-all-sites-link{
+		position: absolute;
+		bottom: 1px;
+		right: 0;
+		font-size: px-em(13);
+	}
+
+	.u-nav-primary{
+		position: relative;
+		overflow: hidden;
+		[class*="span"]{
+  		float:none;
+  		margin-left:0;
+  	}
+	}
+	.u-nav-primary-feat{
+	}
+	.u-nav-primary-link{
+		display:block;
+		position:relative;
+		opacity: 1;
+		margin-bottom:0;
+
+		.u-nav-primary-img{
+			display:block;
+			z-index:1;
+			width:100%;
+			opacity: 1;
+			-webkit-transition: opacity 0.15s;
+			transition: opacity 0.15s;
+			-webkit-transform: scale3d(1, 1, 1);
+		}
+
+		&:hover,
+		&:active,
+		&:focus{
+			.u-nav-primary-img{
+				opacity: 0.9;
+			}
+		}
+
+	}
+	.u-nav-primary-caption{
+		display:block;
+		padding: px-em(11px) 0 px-em(4px) 0;
+	}
+
+	// col1 is normal, display:block, in the flow, to set the height of the container. 
+	// If there are 2 rows in the first column, there should be a margin-top on row2 to set up the height of the content.
+	.u-nav-primary-col1.u-nav-primary-row2{
+		padding-top:24px;
+	}
+	.u-nav-primary-col2.u-nav-primary-row1,
+	.u-nav-primary-col3.u-nav-primary-row1{
+		position:absolute;
+		top:0;
+	}
+	.u-nav-primary-col2.u-nav-primary-row2,
+	.u-nav-primary-col3.u-nav-primary-row2{
+		position:absolute;
+		bottom:0;
+	}
+	.u-nav-primary-col2{
+		left: $span4-width + $gutter-width; // col1 width plus margin
+	}
+	.u-nav-primary-col3{
+		left: $span8-width + $gutter-width; // col1 width plus margin
+	}
+
+	.u-nav-secondary{
+		overflow:hidden;
+		background:#fff;
+		margin-top: 26px;
+		padding:14px 0 0;
+
+		li:nth-child(5n+0){ // every 5th one starts a new row.
+			margin-left:0;
+			clear:both;
+		}
+	}
+	.u-nav-secondary-li{
+		padding-bottom: 27px;
+		padding-top:9px;
+	}
+	.u-nav-secondary-link,
+	.u-nav-secondary-desc{
+		position:relative;
+		padding-right:10.5%;
+		padding-left:10.5%;
+		left:5.5%;
+	}
+	.u-nav-secondary{
+		li:nth-child(4n+0){
+			.u-nav-secondary-link,
+			.u-nav-secondary-desc{
+				padding-right:17%; // the (right) end one needs more padding so the text doesn't get too close to the edge.
+			}
+		}
+	}
+	.u-nav-secondary-link{
+		display:inline-block;
+		color:#4572ed;
+		margin-bottom:0;
+	}
+	.u-nav-secondary-desc{
+		display:block;
+		color:#83838f;
+	}
+
+	.label-success{
+		position:absolute;
+		top:0;
+		right:0;
+		z-index: 10;
+		margin: 0;
+		font-size: 0.916666666666667em;
+		line-height:1.5;
+	}
+}
+
+@media (min-width: px-em(1200)){
+	.u-nav-wrapper{
+		.u-nav-primary-col2{
+			left: $span4-width-1200 + $gutter-width-1200; // col1 width plus margin
+		}
+		.u-nav-primary-col3{
+			left: $span8-width-1200 + $gutter-width-1200; // col1 width plus margin
+		}
+	}
+}
+
+@media (max-width: px-em(979px)) and (min-width: px-em(768px)){
+	.u-nav-wrapper{
+		.u-nav-primary-col2{
+			left: $span4-width-768 + $gutter-width-768; // col1 width plus margin
+		}
+		.u-nav-primary-col3{
+			left: $span8-width-768 + $gutter-width-768; // col1 width plus margin
+		}
+
+		.u-nav-secondary-link{
+			font-size:px-em(13);
+			line-height: 1.7;
+		}
+		.u-nav-secondary-desc{
+			font-size:px-em(12);
+			line-height: 1.5;
+		}
+	}
+}
+@media (max-width: px-em(767px)){
+	.u-nav-wrapper{
+		display:none;
+	}	
+}
+

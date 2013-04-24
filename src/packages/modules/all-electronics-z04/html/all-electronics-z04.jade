@@ -1,18 +1,19 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('all-electronics-z04')
++includeCSS('primary-tout-p1-d7')
 
-.all-electronics.container.full-bleed-no-max
-	.primary-tout.container.full-bleed-no-max.title-plate.secondaryAqua
-		.container.full-bleed-no-max.hero-image
-			e = {"locals":locals, "data": data.image}
-			!{locals.partial('packages/modules/image/html/image.jade', e)}
-		.container.inner.light-text-trans-box
-			.grid
-				.span6
-					.box.left
-						h1.t2= data.header.headline
-						p.p3= data.header.body
-	section.container.full-bleed
+.primary-tout.container.full-bleed-no-max.title-plate.secondaryAqua.all-electronics
+	.container.full-bleed-no-max.hero-image
+		e = {"locals":locals, "data": data.image}
+		!{locals.partial('packages/modules/image/html/image.jade', e)}
+	.container.inner.light-text-trans-box
+		.grid
+			.span6
+				.box.left
+					h1.t2= data.header.headline
+					p.p3= data.header.body
+section.container.full-bleed.all-electronics
+	.container
 		.grid
 			.span12
 				.products-w-electronics
@@ -28,10 +29,11 @@ include ../../../common/html/jade-helpers.jade
 												span.product-img-w
 													+iQImage(product.img)
 												span.nav-label.p3-bold= product.label
-
+							- if (category.menu_secondary != undefined) {
 							.products-section-secondary
 								h6.l2= category.menu_secondary.title
 								ul.products-list-secondary
 									- each item, i in category.menu_secondary.menu_items
 										li.products-li
 											a.products-li-link.p3(class=item.class)(href=item.link)= item.label
+							- }
