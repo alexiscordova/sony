@@ -17,6 +17,9 @@ div(class=moduleClasses, data-mode=moduleMode)
     .grid
       h3.t3.ec-title= data.title
       p.p3.ec-subtitle= data.subtitle
+      if data.link
+        p.lt3.text-center.ec-tl
+          a(href=data.link.href)= data.link.label
 
   .m-container
     .sony-carousel-wrapper
@@ -44,19 +47,18 @@ div(class=moduleClasses, data-mode=moduleMode)
                             span.p5.text-uppercase
                               strong= tile.headline.currentPlayersText
                         .wrapper-image
-                          if tile.headline
-                            .cover.ghost-center-wrap
-                              .ghost-center
-                                span.picto-play
-                                  span.bg-for-icon
-                                  span.picto
-                                span.p3.cta
-                                  strong= tile.callToAction
-                          else
-                            .cover.light
+                          classes = [ 'cover', 'ghost-center-wrap' ]
+                          if !tile.headline
+                            - classes.push( 'no-headline' )
+                          div(class=classes)
+                            .ghost-center
+                              span.picto-play
+                                span.bg-for-icon
+                                span.picto
+                              span.l3.cta= tile.callToAction
                           +iQImage( tile.img )
                         .infos
-                          p.p4.tile-title
+                          p.p3.tile-title
                             strong= tile.infos.title
                           p.p4.total-players
                             strong= tile.infos.totalPlayers

@@ -21,6 +21,7 @@ define(function(require) {
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
+      Environment = require('require/sony-global-environment'),
       sonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
@@ -57,6 +58,7 @@ define(function(require) {
 
       self.$wrapper = self.$el.find( '.sony-carousel-wrapper' );
       self.$carousel = self.$el.find( '.sony-carousel' );
+      self.$titles = self.$el.find( '.tile-title' );
 
       // Initialize a new sony carousel
       self.$carousel.sonyCarousel({
@@ -95,6 +97,21 @@ define(function(require) {
         self.setupDesktop();
       }
 
+      self.onResize();
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+    },
+
+    onResize : function() {
+      var self = this;
+
+      // Make all product name heights even
+      function evenTheHeights() {
+        self.$titles.evenHeights();
+      }
+
+      requestAnimationFrame( evenTheHeights );
     },
 
     setupDesktop : function() {
