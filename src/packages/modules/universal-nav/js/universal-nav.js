@@ -81,9 +81,10 @@ var UNAV = ( function( window, document, $, undefined ){
 
 
     // if $.throttle isn't available, we'll roll our own quick & dirrty one.
+    // Using a somewhat arbitrary delay in an attempt to avoid firing at the same time as anything else that might be throttled.
     if ($.isFunction($.throttle)){
       // console.log("$.throttle is available");
-      $(window).resize( $.throttle( 500, _resizeEvent ) );
+      $(window).resize( $.throttle( 283, _resizeEvent ) );
     } else {
       // console.log("$.throttle NOT available");
       var throttleTimeout = null;
@@ -92,7 +93,7 @@ var UNAV = ( function( window, document, $, undefined ){
           throttleTimeout = setTimeout(function(){
             throttleTimeout = null;
             _resizeEvent();
-          }, 500);
+          }, 283);
         }
       });
     }
@@ -114,6 +115,7 @@ var UNAV = ( function( window, document, $, undefined ){
 
     $firstChild.height(uNavColHeight + "px");
     // now they we set the height of the images container, we can grab the height of the entire u-nav for our js.
+
     setTimeout(function(){
       uNavOuterHeight = $uNav.outerHeight();
       // console.log("uNavOuterHeight: " + uNavOuterHeight);
@@ -126,8 +128,8 @@ var UNAV = ( function( window, document, $, undefined ){
         if ($pageWrapOuter.hasClass('unav-open')){
           $pageWrapInner.css('margin-top', uNavOuterHeight + 'px');
         }
-      },5);
-    },5);
+      },1);
+    },1);
   },
 
 
