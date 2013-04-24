@@ -1,0 +1,28 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('SEN-convergence-e12')
+
+e = {"locals":locals, "data":data}
+
+.sen-convergence
+  .container
+    e = {"locals":locals, "data":data.image}
+    !{locals.partial('packages/modules/image/html/image.jade' , e)}
+    .grid-placement
+      .container
+        .grid.no-grid-at-767
+          .sen-convergence-placement
+            .module-hdg
+              h1.t2 Get what's new, instantly
+            .span5.offset7
+              .sen-convergence-content
+                .logo-container
+                  img(src="img/SEN-convergence-e12/logo-video-unlimited.png")
+                .sen-convergence-hdg
+                  p.p2-bold Suhead Lorem ipsum dolo
+                .sen-convergence-text
+                  p.p3 Body lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non elit vel lorem pharetra molestie. Vess ipsum a venenatis.
+                a.btn Discover Video Unlimited
+            
+        
+        
+      
