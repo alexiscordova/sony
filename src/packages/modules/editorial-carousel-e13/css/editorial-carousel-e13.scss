@@ -21,6 +21,10 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
     text-align: center;
   }
 
+  .ec-tl {
+    margin-bottom: 0;
+  }
+
   // Container for the entire carousel
   .m-container {
     margin-top: px-em( 50 );
@@ -39,6 +43,7 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
   .ec-tile {
     position: relative;
     display: block;
+    background-color: $white;
 
     img {
       display: block;
@@ -50,6 +55,8 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
 
   .wrapper-image {
     position: relative;
+    height: 0;
+    padding-bottom: 128.5087719%;
   }
 
   // eg 23k CURRENT PLAYERS
@@ -71,16 +78,11 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
 
   // Info at the bottom of the tile
   .infos {
-    background-color: $white;
     padding: px-em( 10 ) px-em( 16 ) px-em( 16 );
   }
 
   .tile-title {
     margin-bottom: px-em( 30, 12 );
-  }
-
-  .tile-title,
-  .total-players span {
     color: $gray20;
   }
 
@@ -101,10 +103,8 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
     @include opacity(0);
     @include transition(opacity $transitionFast $easeNormal);
 
-    &.light {
+    &.no-headline {
       top: 0;
-      // Note, don't want to support oldIE here because the cover would cover the entire image at 100% opacity
-      background-color: rgba( 255, 255, 255, 0.1 );
     }
 
     .cta {
@@ -159,16 +159,12 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
   }
 
   // Fade in cover
-  .no-touch & .cover:hover {
+  .no-touch & .ec-tile:hover .cover {
     @include opacity(100);
   }
 
-  .no-opacity.no-touch & .cover.light:hover {
-    background-color: transparent;
-  }
-
   // Make the dark circle grow
-  .no-touch.no-csstransforms & .cover:hover .bg-for-icon {
+  .no-touch.no-csstransforms & .ec-tile:hover .bg-for-icon {
     left: 0;
     top: 0;
     height: 100%;
@@ -176,7 +172,7 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
   }
 
   // Grow by scaling in browsers that support it
-  .no-touch.csstransforms & .cover:hover .bg-for-icon {
+  .no-touch.csstransforms & .ec-tile:hover .bg-for-icon {
     @include scale( 1 );
   }
 }
@@ -184,7 +180,7 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
 .ec-module.white-bg {
   background-color: $white;
 
-  .infos {
+  .ec-tile {
     background-color: $gray80;
   }
 }
