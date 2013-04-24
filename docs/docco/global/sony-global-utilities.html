@@ -181,25 +181,49 @@ then the default browser action will deselect our selection</p>             </td
       $input = <span class="literal">null</span>;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Takes a number of grids, supplied as a jQuery object (<code>$grids</code>) and re-apportions
-their elements, in order, to a new set of grids. The old grids are then removed,
-and the new grids are inserted at the point of the first grid.</p>
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Takes a number of groups, supplied as a jQuery object (<code>options.$groups</code>) and re-apportions
+their elements, in order, to a new set of groups. The old groups are then removed,
+and the new groups are inserted at the point of the first group. Groups are assumed to be grids,
+unless <code>options.gridSelector</code> is specified, in which case the method will look for that selector
+inside each group for the location of the actual grid.</p>
 
-<p>If the <code>mobile</code> argument is <strong>true</strong>, grids will be apportioned based on m-spans instead.</p>
+<p>If the <code>options.mobile</code> option is <strong>true</strong>, grids will be apportioned based on m-spans instead.</p>
 
-<p>If the <code>center</code> argument is <strong>true</strong>, the final grid will attempt to center its contents,
-based on the floor of half the remaining available columns.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    gridApportion: <span class="keyword">function</span>($grids, mobile, center) {
+<p>If the <code>options.center</code> option is <strong>true</strong>, the final grid will attempt to center its contents,
+based on the floor of half the remaining available columns.</p>
 
-      <span class="keyword">if</span> ( !$grids ) {
+<p>Example Usage:</p>
+
+<ul>
+<li><p>Rearranges items into mobile grid, with the last grid centered. Note that it since it returns
+the updated set, you can overwrite the previous reference to the groups (<code>self.$foo</code>)
+in the calling context. *</p>
+
+<p>self.$foo = Utilities.gridApportion({
+   $groups: self.$foo,
+   gridSelector: '.slimgrid',
+   mobile: true,
+   center: true
+ });</p></li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+    gridApportion: <span class="keyword">function</span>(options) {
+
+      <span class="keyword">if</span> ( !options.$groups ) {
         <span class="keyword">return</span>;
       }
 
-      <span class="keyword">var</span> $grid = $grids.first().clone().empty(),
-          $compiledGrids = $(<span class="string">''</span>),
-          $workingGrid = $grid.clone(),
-          roomRemaining = mobile ? <span class="number">6</span> : <span class="number">12</span>,
-          $mSpans = $grids.find(mobile ? <span class="string">'[class*="m-span"]'</span> : <span class="string">'[class*="span"]'</span>);
+      <span class="keyword">var</span> $groups = options.$groups,
+          isMobile = options.mobile,
+          isCentered = options.center,
+          hasGridSelector = options.gridSelector,
+
+          $container = $groups.first().clone(),
+          $appendContainer = hasGridSelector ? $container.find(options.gridSelector).empty() : $container.empty(),
+          compiledGrids = [],
+          $workingAppendContainer = $container.clone(),
+          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer,
+          roomRemaining = isMobile ? <span class="number">6</span> : <span class="number">12</span>,
+          $mSpans = $groups.find(isMobile ? <span class="string">'[class*="m-span"]'</span> : <span class="string">'[class*="span"]'</span>);
 
       $mSpans.each(<span class="keyword">function</span>(i){
 
@@ -208,15 +232,19 @@ based on the floor of half the remaining available columns.</p>             </td
             spanCount;
 
         <span class="keyword">for</span> ( <span class="keyword">var</span> j = <span class="number">0</span>; j &lt; classes.length; j++ ) {
-          <span class="keyword">if</span> ( classes[j].indexOf(mobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>) === <span class="number">0</span> ) {
-            spanCount = classes[j].split(mobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>)[<span class="number">1</span>] * <span class="number">1</span>;
+          <span class="keyword">if</span> ( classes[j].indexOf(isMobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>) === <span class="number">0</span> ) {
+            spanCount = classes[j].split(isMobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>)[<span class="number">1</span>] * <span class="number">1</span>;
+          }
+          <span class="keyword">if</span> ( isCentered &amp;&amp; classes[j].indexOf(isMobile ? <span class="string">'m-offset'</span> : <span class="string">'offset'</span>) === <span class="number">0</span> ) {
+            $<span class="keyword">this</span>.removeClass(classes[j]);
           }
         }
 
         <span class="keyword">if</span> ( roomRemaining &lt; spanCount ) {
-          $compiledGrids = $compiledGrids.add($workingGrid.clone());
-          $workingGrid = $grid.clone();
-          roomRemaining = mobile ? <span class="number">6</span> : <span class="number">12</span>;
+          compiledGrids.push($workingAppendContainer.clone().get(<span class="number">0</span>));
+          $workingAppendContainer = $container.clone();
+          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer;
+          roomRemaining = isMobile ? <span class="number">6</span> : <span class="number">12</span>;
         }
 
         $workingGrid.append($<span class="keyword">this</span>);
@@ -224,19 +252,19 @@ based on the floor of half the remaining available columns.</p>             </td
 
         <span class="keyword">if</span> ( i === $mSpans.length - <span class="number">1</span> ) {
 
-          <span class="keyword">if</span> ( center &amp;&amp; roomRemaining &gt;= <span class="number">2</span> ) {
-            $workingGrid.children().first().addClass((mobile ? <span class="string">'m-offset'</span> : <span class="string">'offset'</span>) + Math.floor(roomRemaining / <span class="number">2</span>));
+          <span class="keyword">if</span> ( isCentered &amp;&amp; roomRemaining &gt;= <span class="number">2</span> ) {
+            $workingGrid.children().first().addClass((isMobile ? <span class="string">'m-offset'</span> : <span class="string">'offset'</span>) + Math.floor(roomRemaining / <span class="number">2</span>));
           }
 
-          $compiledGrids = $compiledGrids.add($workingGrid.clone());
-          $workingGrid = <span class="literal">null</span>;
+          compiledGrids.push($workingAppendContainer.clone().get(<span class="number">0</span>));
+          $workingAppendContainer = $workingGrid = <span class="literal">null</span>;
         }
       });
 
-      $grids.not($grids.first()).remove();
-      $grids.first().replaceWith($compiledGrids);
+      $groups.not($groups.first()).remove();
+      $groups.first().replaceWith($(compiledGrids));
 
-      <span class="keyword">return</span> $compiledGrids;
+      <span class="keyword">return</span> $(compiledGrids);
     }
 
   };

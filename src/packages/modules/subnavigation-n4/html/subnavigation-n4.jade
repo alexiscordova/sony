@@ -9,16 +9,18 @@ section.subnav-module
       .slimgrid
         h2 !{data.category}
 
-  nav
-    .container
+  .subnav-nav-carousel-wrapper
+    nav
       - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
-        .slimgrid
-          - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
-            - subcategory = data.subcategories[j]
-            .subcategory-link.span2.m-span2(data-subcategory=subcategory.title.toLowerCase().replace(/\W/g, ''))
-              img(src=subcategory.imageSrc)
-              p !{subcategory.title}
-          - }
+        .subnav-nav-carousel-slide
+          .container
+            .slimgrid
+              - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
+                - subcategory = data.subcategories[j]
+                .subcategory-link.span2.m-span2(data-subcategory=subcategory.title.toLowerCase().replace(/\W/g, ''))
+                  img(src=subcategory.imageSrc)
+                  p !{subcategory.title}
+              - }
       - }
 
   .subnav-tray.container

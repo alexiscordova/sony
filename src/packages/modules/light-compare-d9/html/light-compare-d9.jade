@@ -1,18 +1,40 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('light-compare-d9')
+e = {"locals":locals, "data": data}
++includeJavascriptModule('light-compare-d9')
+section.container.full-bleed
+  .grid
+    .light-compare-box
+      e = {"locals":locals, "data": data.image}
+      !{locals.partial('packages/modules/image/html/image.jade', e)}
+      .inner
+        .container
+          .light-compare-bd
+            .p1= data.compare.body
+            a.btn.btn-small.btn-alt-special.launch-modal= data.compare.link
+              i.fonticon-10-sm-bold-plus
 
-.mobile-hd.visible-phone
-  h1.t5.mobile-hd-txt= data.title
-  .modal-close
-    img(src="img/light-compare-d9/modal-close.png")
-.container
+#light-compare-modal.modal.modal-light-compare.hide.fade(tabindex="-1", role="dialog", aria-labelledby="unsupported-browser-label", aria-hidden="true")
   .container
-    .light-compare
-      .modal-close.hidden-phone
-        img(src="img/light-compare-d9/modal-close.png")
-      .light-compare-hd
-        h1.t3= data.subtitle
-        p.p2= data.tagline
-      e = {"locals":locals, "data":data.image}
-      !{locals.partial('packages/modules/image/html/image.jade' , e)}
+    .modal-inner.grid
+      .modal-header(data-reset-label="Reset")
+        button.box-close(data-dismiss="modal", aria-hidden="true")
+          i.fonticon-10-x-skinny.l-o-d
+      .modal-body
+        .tab-container
+          ul.tabs
+            - each tab, i in data.tabs
+              li
+                a(href="#")= tab.tabname
+        - each tab, i in data.tabs
+          div(id= tab.id)
+          .light-compare.tab
+            .mobile-hd.visible-phone
+              h1.t5.mobile-hd-txt= tab.title
+            .light-compare-hd
+              h1.t3= tab.subtitle
+              p.p2= tab.tagline
+            .image-module
+              +iQImage(tab.img)
+
 

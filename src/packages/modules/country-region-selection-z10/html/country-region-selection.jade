@@ -35,11 +35,11 @@ include ../../../common/html/jade-helpers.jade
                     - var country = continent.countries[j];
 
                     li
-                      a(href="#{country.url}")
+                      a(href="#{country.url}").country
                         .media
                           .media-img
                             i(class="icon-flag icon-flag-#{country.icon}")
-                          .media-bd.country= country.name
+                          .media-bd= country.name
                   - }
             - }
 
