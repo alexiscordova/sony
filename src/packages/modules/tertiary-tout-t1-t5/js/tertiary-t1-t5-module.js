@@ -17,6 +17,7 @@ define(function(require){
 
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
+      iQ = require('iQ'),
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
       SonyCarousel = require('secondary/index').sonyCarousel;
@@ -113,6 +114,7 @@ define(function(require){
       // reset 
       self.$carouselWrapper = self.$el.find(self.carouselWrapperClass);
       self.$carousel = self.$carouselWrapper.find(self.carouselClass);
+      iQ.update();
     },
 
     renderDesktop: function() {

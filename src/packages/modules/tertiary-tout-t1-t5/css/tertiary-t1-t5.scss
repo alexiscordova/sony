@@ -30,6 +30,7 @@ $three-up-height:400px;
   padding:60px 0 98px;
 
 	.tcc-header{
+		margin-bottom: 30px;
 		border-bottom: 3px solid $gray70;
 		position: relative;
 		padding-bottom: 20px;
@@ -49,6 +50,15 @@ $three-up-height:400px;
 	
 	} // end .tcc-header
 
+
+	//  .d8888b.                                                       888 
+	// d88P  Y88b                                                      888 
+	// 888    888                                                      888 
+	// 888         8888b.  888d888  .d88b.  888  888 .d8888b   .d88b.  888 
+	// 888            "88b 888P"   d88""88b 888  888 88K      d8P  Y8b 888 
+	// 888    888 .d888888 888     888  888 888  888 "Y8888b. 88888888 888 
+	// Y88b  d88P 888  888 888     Y88..88P Y88b 888      X88 Y8b.     888 
+	//  "Y8888P"  "Y888888 888      "Y88P"   "Y88888  88888P'  "Y8888  888 
 	#three-up,
 	#two-up,
 	#one-up{
@@ -60,12 +70,13 @@ $three-up-height:400px;
 		overflow:hidden;
 		position: relative;
 		width: 100%;
-		height: 400px;
+		height: 100%;
 	} // tcc-carousel-wrapper
 
 	.tcc-carousel{
 		position: relative;
 		width: 2000%;
+		height:100%;
 	} // tcc-carousel
 
 	.sony-carousel-slide{
@@ -74,11 +85,152 @@ $three-up-height:400px;
 		float: left;
 		width: 5%;
 		height: 100%;
+
+		.grid,
+		.container,
+		[class*="span"]{
+			height: 100%;
+		}
+
 	} // .sony-carousel-slide
 
 	.sony-carousel-slide-children{
 		border:1px solid gray;
+		height:100%;
 	} // sony-carousel-slide-children
+
+
+		//        d8888         888    d8b          888          
+		//       d88888         888    Y8P          888          
+		//      d88P888         888                 888          
+		//     d88P 888 888d888 888888 888  .d8888b 888  .d88b.  
+		//    d88P  888 888P"   888    888 d88P"    888 d8P  Y8b 
+		//   d88P   888 888     888    888 888      888 88888888 
+		//  d8888888888 888     Y88b.  888 Y88b.    888 Y8b.     
+		// d88P     888 888      "Y888 888  "Y8888P 888  "Y8888 
+		.article{
+			.p4,
+			.p2{
+				overflow: hidden;
+				word-break: break-word;
+			}
+
+			// Title
+			.p2{
+				outline: 1px solid blue;
+				max-height: 45px; // two lines
+				color:$titleBlack;
+			} // end p2
+
+			// Description
+			.p4{
+				outline: 1px solid red;
+				color:$gray40;
+				max-height: 75px; // four lines
+			} // end p4
+
+			.tcc-copy{
+				margin-top:30px;
+				padding:0 px-em(20px) px-em(20px) px-em(20px); 
+			} // tcc-copy
+
+			.img-container{
+				position: relative;
+				
+				img{
+					width: 100%;
+				} // img
+
+			} // img-container
+
+			//  _____          __               _  _   
+			// |  __ \        / _|             | || |  
+			// | |  | |  ___ | |_  __ _  _   _ | || |_ 
+			// | |  | | / _ \|  _|/ _` || | | || || __|
+			// | |__| ||  __/| | | (_| || |_| || || |_ 
+			// |_____/  \___||_|  \__,_| \__,_||_| \__|
+			&.default{} // default
+
+
+			//  _   _                      
+			// | \ | |                     
+			// |  \| |  ___ __      __ ___ 
+			// | . ` | / _ \\ \ /\ / // __|
+			// | |\  ||  __/ \ V  V / \__ \
+			// |_| \_| \___|  \_/\_/  |___/
+			&.news{
+
+				.img-container{
+
+					.l3-light{
+						-webkit-backface-visibility:hidden;
+						position:absolute;
+						top:0;
+						right:0;
+						background-color:rgba($gray10, 0.95);	
+						color:$white;
+						padding:px-em(10px);
+					} // l3-light (date)
+
+				} // img-container
+
+			} // news
+
+
+			//  ______                   _   
+			// |  ____|                 | |  
+			// | |__ __   __ ___  _ __  | |_ 
+			// |  __|\ \ / // _ \| '_ \ | __|
+			// | |____\ V /|  __/| | | || |_ 
+			// |______|\_/  \___||_| |_| \__|
+			&.event{
+
+				.img-container{
+				
+					.attendance{
+						-webkit-backface-visibility:hidden; // prevents flickering on transition
+						position: absolute;
+						top: 0;
+						bottom:0;
+						right:0;
+						left:0;
+						height:100%;
+						width:100%;
+						opacity:0.95;
+						padding:12% 36%;
+
+						.details{
+							background-color: $secondaryOlive;
+							padding:3px;
+
+							.t3,
+							.l3-light{
+								margin-bottom:0;
+								color:$white;
+							} // type
+
+						} // end details
+
+					} // end attendence
+					
+				} // end img-container
+
+			}
+
+			//  ______            _                          _ 
+			// |  ____|          | |                        | |
+			// | |__  ___   __ _ | |_  _   _  _ __  ___   __| |
+			// |  __|/ _ \ / _` || __|| | | || '__|/ _ \ / _` |
+			// | |  |  __/| (_| || |_ | |_| || |  |  __/| (_| |
+			// |_|   \___| \__,_| \__| \__,_||_|   \___| \__,_|
+			&.featured{}
+
+		} // end article
+	
+
+	.sonys-voice{}
+	.users-voice{}
+	.flickr{}
 
 } // tcc-module
 
