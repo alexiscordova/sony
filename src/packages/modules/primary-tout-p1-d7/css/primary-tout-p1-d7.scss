@@ -48,9 +48,25 @@
     .grid > div,
     .table-center-wrap{
       height:100%;
+      .table-center .box{
+        margin-top:-1%
+      }
+      .table-top,
+      .table-bottom{
+         display:table-cell;      
+        .box{
+          margin-top:0;          
+        }
+      }
+      .table-top{
+        vertical-align:top;
+      }
+      .table-bottom{
+        vertical-align:bottom;
+      }
     }
+    
     .box{
-      margin-top:-1%;
       padding:56px 52px 50px 52px;
       .eyebrow{
         margin-bottom:0px;
@@ -161,10 +177,13 @@
 
   &.title-plate{
     @include theme-bg-colors;
-
+    
     .image-module{
       background-size:auto;
       height:300px;
+    }
+    .cover .image-module{
+      background-size:cover;
     }
     .dark-text-trans-box{
       .eyebrow{
