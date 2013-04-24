@@ -19,23 +19,15 @@ body,html{
 	width: 100%;
 	overflow: hidden;
 	&.unav-open-until-transition-end{
-		position:fixed;
-		height:1500px;
+		// position:fixed;
+		// height:1500px;
 	}
 }
 .page-wrap-inner {
   width: 100%;
   position:relative;
   // @include transition(left $transitionSlower $easeOutNav 0s, top $transitionSlower $easeOutNav 0s, width $transitionSlower $easeOutNav 0s);
-  @include transition(top $transitionSlower $easeOutNav 0s);
-}
-
-
-.unav-screen-overlay.opacity0 {
-  opacity: 0;
-}
-.unav-screen-overlay.opacity1 {
-  opacity: 1;
+  @include transition(margin-top $transitionSlower $easeOutNav 0s);
 }
 
 $span3-width: 22.34043%;
@@ -56,11 +48,9 @@ $gutter-width-1200: 3.52941%;
 
 
 .u-nav-wrapper{
-	font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight: normal;
-	font-style: normal;
+  @include fontRegular;
 	line-height: 1.65;
-	font-color: rgb(47,53,61); // $gray20;
+	font-color: $gray20;
 
 	img{
 		border:none;
@@ -98,13 +88,12 @@ $gutter-width-1200: 3.52941%;
 		padding: 0;
 		border: 0;
 		font-size: 100%;
-		// vertical-align: baseline;
 		-webkit-box-sizing: content-box;
 		-moz-box-sizing: content-box;
 		box-sizing: content-box;
 	}
 	.l1 {
-		font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  	@include fontBold;
 		font-weight: normal;
 		font-style: normal;
 		text-rendering: optimizeLegibility;
@@ -115,9 +104,7 @@ $gutter-width-1200: 3.52941%;
 		letter-spacing: 0.05em;
 	}
 	.l2{
-		font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-		font-weight: normal;
-		font-style: normal;
+  	@include fontMedium;
 		text-rendering: optimizeLegibility;
 		text-transform: uppercase;
 		color: #2f353d;
@@ -125,6 +112,12 @@ $gutter-width-1200: 3.52941%;
   	line-height: 1.5;
   	letter-spacing: 0.01em;
 		margin-bottom: 8px;
+	}
+	.p3{
+  	@include px-em--font-size--line-height(13,20);
+	}
+	.p4{
+  	@include px-em--font-size--line-height(12,18);
 	}
 	.container {
 		margin-right: auto;
@@ -194,6 +187,12 @@ $gutter-width-1200: 3.52941%;
 }
 @media (max-width: px-em(979px)) and (min-width: px-em(768px)){
 	.u-nav-wrapper{
+	  .p3 {
+	    @include px-em--font-size--line-height(12,18);
+	  }
+	  .p4 {
+	    @include px-em--font-size--line-height(11,15);
+	  }
 		.container {
 			width: 92.1875%;
 		}
@@ -216,6 +215,7 @@ $gutter-width-1200: 3.52941%;
 		}
 	}
 }
+
 
 // pull in the universal-nav component scss for the u-nav- specific styles.
 @import "_components/universal-nav";
