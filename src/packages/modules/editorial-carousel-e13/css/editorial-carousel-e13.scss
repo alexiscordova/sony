@@ -1,7 +1,10 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-$overlayColor: rgb(243,41,41);
+$bannerColor: rgb(243,41,41);
+$bannerOpacity: 0.9;
+$overlayColor: $gray05;
+$overlayOpacity: 0.6;
 $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
 
 .ec-module {
@@ -67,8 +70,8 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
     width: 100%;
     height: $bannerHeight;
     padding: 0 0 0 1em;
-    background-color: $overlayColor;
-    background-color: rgba( $overlayColor, .9 );
+    background-color: $bannerColor;
+    background-color: rgba( $bannerColor, $bannerOpacity );
 
     span {
       color: $white;
@@ -99,7 +102,7 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
     left: 0;
     text-align: center;
     background-color: $overlayColor;
-    background-color: rgba( $overlayColor, 0.9 );
+    background-color: rgba( $overlayColor, $overlayOpacity );
     @include opacity(0);
     @include transition(opacity $transitionFast $easeNormal);
 

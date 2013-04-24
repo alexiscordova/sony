@@ -3,7 +3,7 @@ doctype 5
 include ../common/html/ieconditionals.html
 
 head
-  title PDP EX645
+  title PDP RX100
   include ../common/html/head.jade
 
 body
@@ -13,46 +13,41 @@ body
       !{partial('packages/modules/global-header-footer/html/global-header.jade', e)}
       #main(role='main')
 
-        //- D1-2
+        //- D3. Product Intro Plate
+        +partial('primary-tout-p1-d7/html/primary-tout-p1-d7.jade', 'packages/modules/primary-tout-p1-d7/demo/data/pdp-LD-L-rx100.json')
+
+        //- D1. Product Summary
         +partial('product-summary-d1-d2/html/product-summary-d1-d2.jade', 'packages/modules/product-summary-d1-d2/demo/data/default.json')
 
-        //- D4
-        +partial('pdp-slideshow-d4/html/pdp-slideshow-d4.jade', 'packages/modules/pdp-slideshow-d4/demo/data/pdp-slideshow-d4-light.json')
+        // E10. Editorial + Chapters + Hotspot (will this be available?)
 
-        //- E1 ( medialeft 75 )
+
+        // E3. Editorial + Video
+
+
+        //- E9. Editorial + Dual Viewer ( mediaright span7 )
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-dual-viewer-e9/demo/data/mediaright-57-D-L-example1.json')
+
+        // E3. Editorial + Video
+
+        //- E1. Editorial + Image ( medialeft 75 )
         +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-layouts-e1/demo/data/medialeft-75-D-L-example1.json')
 
-        // E3 (video)
-
-        //- E1 ( mediaright 57 )
-        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-layouts-e1/demo/data/mediaright-57-D-L-example1.json')
-
-        //- E1 ( full inner right 66 )
-        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-layouts-e1/demo/data/full-inner-right-66-LD-L-example1.json')
-
-        //- E1( tout 2up vertical )
-        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-layouts-e1/demo/data/tout-2up-vertical-1551-D-C-example1.json')
-
-        //- D5
+        //- D5. Details
         +partial('product-details-d5/html/product-details-d5.jade', 'packages/modules/product-details-d5/demo/data/product-details-d5-fsme-lie.json')
 
-        //- D6
+        //- D6. Reviews and Awards
         +partial('reviews-awards-d6/html/reviews-awards-d6.jade', 'packages/modules/reviews-awards-d6/demo/data/has-reviews-has-expertReviews-has-awards.json')
 
-        //- G1 ( 4up )
-        +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/4up-purple-color.json')
+        //- G1. Related Products (tabbed version)
+        +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/homepage-tabbed.json')
 
-        //- T1
+        //- T1. Teritiary Touts
         +partial('tertiary-tout-t1-t5/html/tertiary-tout-t1-t5.jade', 'packages/modules/tertiary-tout-t1-t5/demo/data/article-t2-a-c-d.json')
 
-        //- D8
+        //- D8. Utility/Related Links (PDP)
         +partial('utility-links-category-d8/html/utility-links-category-d8.jade', "packages/modules/utility-links-category-d8/demo/data/demo-category-example-mixed.json")
 
-        //- Footnotes
-        +partial("footnotes/html/footnotes.jade", "packages/modules/footnotes/demo/data/homepage-en.json")
-
-        //- Recently Viewed
-        +partial('recently-viewed/html/recently-viewed.jade', 'packages/modules/recently-viewed/demo/data/default.json')
 
       e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-footer.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json')}
       !{partial('packages/modules/global-header-footer/html/global-footer.jade', e)}
