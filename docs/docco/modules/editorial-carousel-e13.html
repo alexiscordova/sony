@@ -20,6 +20,7 @@ define(<span class="keyword">function</span>(require) {
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
       Modernizr = require(<span class="string">'modernizr'</span>),
       enquire = require(<span class="string">'enquire'</span>),
+      Environment = require(<span class="string">'require/sony-global-environment'</span>),
       sonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel;
 
   <span class="keyword">var</span> module = {
@@ -56,6 +57,7 @@ define(<span class="keyword">function</span>(require) {
 
       self.$wrapper = self.$el.find( <span class="string">'.sony-carousel-wrapper'</span> );
       self.$carousel = self.$el.find( <span class="string">'.sony-carousel'</span> );
+      self.$titles = self.$el.find( <span class="string">'.tile-title'</span> );
 
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Initialize a new sony carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousel.sonyCarousel({
         wrapper: <span class="string">'.sony-carousel-wrapper'</span>,
@@ -93,6 +95,19 @@ define(<span class="keyword">function</span>(require) {
         self.setupDesktop();
       }
 
+      self.onResize();
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Listen for global resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self.onResize, self ));
+    },
+
+    onResize : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Make all product name heights even</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">evenTheHeights</span><span class="params">()</span> {</span>
+        self.$titles.evenHeights();
+      }
+
+      requestAnimationFrame( evenTheHeights );
     },
 
     setupDesktop : <span class="keyword">function</span>() {
@@ -100,12 +115,12 @@ define(<span class="keyword">function</span>(require) {
           wasMobile = self.isMobile,
           stillTablet = Modernizr.mq( <span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Remove grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( wasMobile ) {
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Remove grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( wasMobile ) {
         self.$el.find(<span class="string">'.m-container'</span>).removeClass(<span class="string">'container'</span>);
         self.$el.find(<span class="string">'.sony-carousel-slide'</span>).removeClass( <span class="string">'slimgrid'</span> );
         self.$wrapper.removeClass(<span class="string">'grid'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Going straight from mobile to desktop without passing tablet in between</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !stillTablet ) {
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Going straight from mobile to desktop without passing tablet in between</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !stillTablet ) {
           self.arrangeItemsInSlides( <span class="number">4</span> );
         }
       }
@@ -123,7 +138,7 @@ define(<span class="keyword">function</span>(require) {
     teardownTablet : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Don't do anything if this isn't in tablet state</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isTablet ) {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Don't do anything if this isn't in tablet state</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isTablet ) {
         <span class="keyword">return</span>;
       }
 
@@ -134,7 +149,7 @@ define(<span class="keyword">function</span>(require) {
     setupMobile : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Add grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.m-container'</span>).addClass(<span class="string">'container'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Add grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.m-container'</span>).addClass(<span class="string">'container'</span>);
       self.$wrapper.addClass(<span class="string">'grid'</span>);
 
       self.arrangeItemsInSlides( <span class="number">2</span> );

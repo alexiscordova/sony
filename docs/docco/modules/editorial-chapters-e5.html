@@ -52,6 +52,9 @@ define(<span class="keyword">function</span>(require){
       self.$slides              = self.$el.find(<span class="string">'.editorial-carousel-slide'</span>);
       self.$slideContainer      = self.$el.find(<span class="string">'.editorial-carousel'</span>);
       self.$thumbNav            = self.$el.find(<span class="string">'.thumb-nav'</span>);
+      self.$slider              = self.$el.find(<span class="string">'.slider'</span>);
+      self.$leftShade           = self.$el.find(<span class="string">'.left-shade'</span>);
+      self.$rightShade          = self.$el.find(<span class="string">'.right-shade'</span>);
       self.$thumbItems          = self.$thumbNav.find(<span class="string">'li'</span>);
       self.$thumbLabels         = self.$thumbNav.find(<span class="string">'span'</span>);
 
@@ -172,18 +175,6 @@ define(<span class="keyword">function</span>(require){
         });
       },
 
-      initScroller: <span class="keyword">function</span>(){
-        self = <span class="keyword">this</span>;
-
-        self.$thumbNav.scrollerModule({
-          contentSelector: <span class="string">'.slider'</span>,
-          iscrollProps: {
-            hScrollbar: <span class="literal">false</span>,
-            isOverflowHidden: <span class="literal">false</span>
-          }
-        });
-      },
-
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>      onThumbSelected: <span class="keyword">function</span>($el){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $anchors = self.$thumbNav.find(<span class="string">'li'</span>),
@@ -202,17 +193,52 @@ define(<span class="keyword">function</span>(require){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
         self.$thumbNav.find(<span class="string">'li'</span>).removeClass(<span class="string">'active'</span>)
           .eq( self.currentId ).addClass(<span class="string">'active'</span>);
+      },
+
+      initScroller: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        self.$thumbNav.scrollerModule({
+          contentSelector: <span class="string">'.slider'</span>,
+          iscrollProps: {
+            hScrollbar: <span class="literal">false</span>,
+            vScrollbar: <span class="literal">false</span>,
+            isOverflowHidden: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>increase width of slider by 1 on load so scrolled items dont wrap in FF</p>             </td>             <td class="code">               <div class="highlight"><pre>            onRefresh: <span class="keyword">function</span>(){
+              self.$slider.width( self.$slider.width() + <span class="number">1</span> );
+            },
+            onScrollMove: <span class="keyword">function</span>(){
+              <span class="keyword">var</span> node = self.$slider.get(<span class="number">0</span>),
+                  curTransform = <span class="keyword">new</span> WebKitCSSMatrix(window.getComputedStyle(node).webkitTransform),
+                  sliderOffset = node.offsetLeft + curTransform.m41, <span class="comment">//real offset left</span>
+                  sliderWidth = self.$slider.width(),
+                  navWidth = self.$thumbNav.width();
+              
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>left shadow</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span> (sliderOffset &lt; <span class="number">0</span>) { 
+                self.$leftShade.show();
+              } <span class="keyword">else</span> {
+                self.$leftShade.hide();
+              }
+    
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>right shadhow</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span> ( sliderOffset &gt; ((-<span class="number">1</span> * sliderWidth) + navWidth)) { 
+                self.$rightShade.show();
+              } <span class="keyword">else</span> {
+                self.$rightShade.hide();
+              }
+            }
+          }
+        });
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>jQuery Plugin Definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>jQuery Plugin Definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters = <span class="keyword">function</span>( options ) {
       <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> self = $( <span class="keyword">this</span> ),
           editorialChapters = self.data( <span class="string">'editorialChapters'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !editorialChapters ) {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !editorialChapters ) {
             editorialChapters = <span class="keyword">new</span> EditorialChapters( self, options );
             self.data( <span class="string">'moduleName'</span>, editorialChapters );
         }
@@ -223,9 +249,9 @@ define(<span class="keyword">function</span>(require){
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.defaults = {};
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.defaults = {};
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.settings = {};
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.settings = {};
   
     <span class="keyword">return</span> self;
  });
