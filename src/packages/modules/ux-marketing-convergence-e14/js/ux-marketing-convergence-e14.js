@@ -111,7 +111,7 @@ define(function(require){
         useCSS3: true,
         draggable: false,
         jumping:true,
-        setCSS3Easing: Settings.easing.easeOutQuart,
+        setCSS3Easing: Settings.easing.easeInOutExpo,
         animationSpeed: self.transitionTime
       });    
     },
@@ -145,9 +145,9 @@ define(function(require){
 
       var self = this;
 
-      self.$dials.simpleKnob({
-        'width': 28,
-        'height': 28,
+      self.$dials.simpleKnob({    
+        'width': 34,
+        'height': 34,    
         'thickness': 0.15,
         'fontSize': '1em',
         'bgColor': 'rgba(255, 255, 255, 0.5)',
@@ -298,7 +298,7 @@ define(function(require){
     'rotationSpeed': 5000,
 
     // Duration of slide transition.
-    'transitionTime': 1500
+    'transitionTime': 750
   };
 
   return module;

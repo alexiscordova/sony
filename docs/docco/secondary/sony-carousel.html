@@ -260,7 +260,7 @@ TODO: This is getting to be confusing. Should split it into a few methods for re
           $slideSet = self.$slides,
           speed = ( noAnim ? <span class="number">0</span> : self.animationSpeed ),
           $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
-
+  
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Logic for the natural ends of a carousel that has been looped</p>             </td>             <td class="code">               <div class="highlight"><pre>
       <span class="keyword">if</span> ( self.looped &amp;&amp; ( which === -<span class="number">1</span> || which &gt;= self.$slides.length )) {
         $slideSet = self.$allSlides;
@@ -339,7 +339,8 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
 
         }
 
-        self.$el.on(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>, <span class="keyword">function</span>(){
+        self.$el.on(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>, <span class="keyword">function</span>(e){
+          <span class="keyword">if</span> (e.currentTarget !== e.target){<span class="keyword">return</span>;} <span class="comment">// prevent conflicts </span>
           iQ.update(<span class="literal">true</span>);
           self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
           self.$el.off(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
@@ -378,8 +379,8 @@ Reset the carousel to its natural position and order.</p>             </td>     
 
       <span class="keyword">if</span> ( ( self.isJumped &amp;&amp; speed ) || <span class="keyword">typeof</span> destinationRedirect !== <span class="string">'undefined'</span> ) {
 
-        repositionCb = Utilities.once(<span class="keyword">function</span>(){
-
+        repositionCb = Utilities.once(<span class="keyword">function</span>(e){
+          <span class="keyword">if</span> (e.currentTarget !== e.target){<span class="keyword">return</span>;} <span class="comment">// prevent conflicts </span>
           <span class="keyword">if</span> ( self.isJumped ) {
             ( self.$allSlides || self.$slides ).each(<span class="keyword">function</span>(){
               $(<span class="keyword">this</span>).detach().appendTo(self.$el);
@@ -604,7 +605,7 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
           .css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">''</span>)
           .css(self.posAttr, <span class="string">''</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id);
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id);        
       self.$el.off(<span class="string">'sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide '</span> + Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
       $clickContext.off(<span class="string">'click.sonycarousel'</span>);
 
