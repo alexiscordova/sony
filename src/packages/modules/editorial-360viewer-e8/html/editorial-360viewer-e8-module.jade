@@ -9,31 +9,33 @@ include ../../../common/html/jade-helpers.jade
 - isDark = data.dark ? "dark" : "light"
 
 .e360(id=data.id)
-  script.hidden(type="text/html")
-    - i = 0
-    - for imgData in data.sequence
-      - sequenceId = id+"-"+i 
-      .image-module.track-by-background.iq-img(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)
-      - i++
   .outer
-    if data.background == "true"
-    - i = 0
-    - for imgData in data.sequence
-      - sequenceId = id+"-"+i 
-      if i == 0
-        hide = ""
-      else 
-        hide = "hidden"
-      if data.heights
-        string = "#"+ sequenceId +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+sequenceId+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+sequenceId+" {height: "+data.heights.phone+"}} "
-        style(type = "text/css")
-          #{string}
-      .image-module.track-by-background.iq-img(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
-      - i++    
+    if data.background === "true"
+      - i = 0
+      - for imgData in data.sequence
+        - sequenceId = id+"-"+i 
+        if i == 0
+          hide = ""
+        else 
+          hide = "hidden"
+        if data.heights
+          string = "#"+ sequenceId +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+sequenceId+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+sequenceId+" {height: "+data.heights.phone+"}} "
+          style(type = "text/css")
+            #{string}
+        .image-module.track-by-background.iq-img(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+        - i++
     else
-      img.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-        noscript
-          img(src= image.noscriptsrc)
+      - i = 0
+      - for imgData in data.sequence
+        - sequenceId = id+"-"+i 
+        if i == 0
+          hide = ""
+        else 
+          hide = "hidden"
+        img.iq-img(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+          noscript
+            img(src= imgData.noscriptsrc) 
+        - i++
 
   .controls.container
     .grid.no-grid-at-767

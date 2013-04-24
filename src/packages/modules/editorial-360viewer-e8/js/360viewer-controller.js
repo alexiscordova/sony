@@ -56,23 +56,24 @@ define(function(require){
     
     var self = this;
     
-    log( 'element' );    
-    log( element );
-    
     // defaults
     self.$container     = $( element );
-    self.$sequence      = self.$container.find( '.outer div' );
+    self.$sequence      = ( self.$container.find( '.outer div' ).length ) > 0 ? self.$container.find( '.outer div' ) : self.$container.find( '.outer img' );
     self.$controls      = self.$container.find( '.controls' );
     self.$controlCenter = self.$controls.find( '.instructions' );
     self.$leftArrow     = self.$controls.find( '.left-arrow' );
     self.$rightArrow    = self.$controls.find( '.right-arrow' );
     self.sequenceLength = self.$sequence.length;
+    self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
     self.curIndex       = 0;
     self.movingLeft     = false;
     self.movingRight    = false;
     self.clicked        = false;
     self.lastX          = null;
+    self.lastTriggerX   = null;
     self.inMotion       = false;
+    
+    log( self.$sequence ); 
     
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
@@ -84,7 +85,7 @@ define(function(require){
 
     init : function( param ) {
       var self = this;
-      // Method body
+
       // bind scroll event to fire animation on the dragger
       // 1. movement on desktop and 2. viewport on mobile
       
@@ -93,84 +94,135 @@ define(function(require){
         self.animateDragger();
       }, 500);
       
+      // trigger UI indication (Desktop)
       $( window ).bind( 'scroll', function( event ) {
-        if( false === self.inMotion) {
-          self.inMotion = true;
-          self.animateDragger();
-        }
+        self.onScroll( event );
+      });
+      
+      // reset the step buffer when the window changes size
+      $( window ).bind( 'resize', function( event ) {
+        self.onResize( event );
       });
       
       // setup controller interactions
       self.$controls.bind( 'mousedown', function( event ) {
-        event.preventDefault();
-        $( self.$controls ).addClass( 'is-dragging' );
-        $(document.body).addClass('unselectable');
-        self.clicked = true;
+        self.mouseDown( event );
       });
 
       self.$controls.bind( 'mouseup', function( event ) {
-        event.preventDefault();
-        $( self.$controls ).removeClass( 'is-dragging' );
-        $(document.body).removeClass('unselectable');
-        self.clicked = false;
+        self.mouseUp( event );      
       });
       
       // track mousemove
       $( self.$controls ).bind( 'mousemove', function( event ) {
-        event.preventDefault();
-        // direction?
-        if( event.pageX > self.lastX ) {
-          // moving right
-          self.movingLeft   = false;
-          self.movingRight  = true;
-        } else {
-          // moving left
-          self.movingLeft   = true;
-          self.movingRight  = false;
-        }
-
-        // left clicked?
-        if( self.clicked ) {
-          var direction = self.movingLeft ? "left" : "right";
-          self.move( direction );
-        }
-
-        self.lastX = event.pageX;
+        self.mouseMove( event );
       });
       
       log('SONY : Editorial 360 Viewer : Initialized');
     },
+    
+    onResize: function( event ) {
+      var self = this;
+      self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
+    },
+    
+    onScroll: function( event ) {
+      var self = this;
+      if( false === self.inMotion) {
+        self.inMotion = true;
+        self.animateDragger();
+      }
+    },
+    
+    mouseDown: function( event ) {
+      var self = this;
+      event.preventDefault();
+      $( self.$controls ).addClass( 'is-dragging' );
+      $(document.body).addClass('unselectable');
+      self.clicked = true;
+    },
+
+    mouseUp: function( event ) {
+      var self = this;
+      event.preventDefault();
+      $( self.$controls ).removeClass( 'is-dragging' );
+      $(document.body).removeClass('unselectable');
+      self.clicked = false;
+    },
+    
+    mouseMove: function( event ) {
+      var self    = this,
+          doMove  = false;
+        
+      event.preventDefault();
+      
+      // set a default if not already set
+      if( null === self.lastTriggerX ) {
+        self.lastTriggerX = self.lastX = event.pageX;
+      }
+      
+      if( event.pageX > ( self.lastTriggerX + self.dynamicBuffer ) ) {
+        // moving right
+        self.movingLeft   = false;
+        self.movingRight  = true;
+        doMove = true;
+        self.lastTriggerX = event.pageX;
+      } else if( event.pageX < ( self.lastTriggerX - self.dynamicBuffer ) ) {
+        // moving left
+        self.movingLeft   = true;
+        self.movingRight  = false;
+        doMove = true;
+        self.lastTriggerX = event.pageX;
+      }
+
+      // shall we?
+      if( self.clicked && doMove ) {
+        var direction = self.movingLeft ? "left" : "right";
+        self.move( direction );
+      }
+
+      self.lastX = event.pageX;
+    },
+    
     animateDragger: function( cycles ) {
       var self = this;
       
       $( self.$leftArrow ).animate({
         opacity: 0
       });
+      
       $( self.$rightArrow ).animate({
         opacity: 0        
       });
+      
       $( self.$controlCenter ).animate({
-        marginLeft: "+36px",
-        marginRight: "+36px"
+        marginLeft: "+26px",
+        marginRight: "+26px"
       }, 499, function(event) {
         self.resetAnimation();
       });
       
     },
+    
     resetAnimation: function() {
       var self = this;
+      
       $( self.$leftArrow ).css( {
         opacity: 1
       });
+      
       $( self.$rightArrow ).css( {
         opacity: 1
       });
+      
       $( self.$controlCenter ).css( { 
         marginLeft : "18px", 
         marginRight : "18px" 
       });
+      
       self.inMotion = false;
     },
+    
     move: function( direction ) {
       var self      = this,
           lastIndex = self.curIndex;
@@ -183,6 +235,7 @@ define(function(require){
             self.curIndex--;
           }
         break;
+        
         case "right":
           if( self.curIndex == self.sequenceLength-1 ) {
             self.curIndex = 0;
@@ -195,6 +248,7 @@ define(function(require){
       self.pluck( lastIndex ).addClass( 'hidden' );
       self.pluck( self.curIndex ).removeClass( 'hidden' );
     },
+    
     pluck: function( lastIndex ) {
       var self = this;
       
