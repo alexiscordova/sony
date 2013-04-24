@@ -20,6 +20,14 @@
     @include transition();
   }
 
+  .title {
+    color: $black;
+  }
+
+  &.alert-large {
+    max-height: 500px; // max-height: auto 
+  }
+
   // Animate max-height because height with auto cannot be animated
   &.collapsed {
     max-height: 0;
