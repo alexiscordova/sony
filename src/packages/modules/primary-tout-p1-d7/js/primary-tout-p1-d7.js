@@ -43,8 +43,8 @@ define(function(require){
         var w = $(window).outerWidth();
         if(w > 980){
           //this makes the header grow 1px taller for every 20px over 980w..
-          $('.primary-tout.homepage .image-module').css('height', Math.round(Math.min(770, 490 + ((w - 980) / 5))));
-          $('.primary-tout.default .image-module').css('height', Math.round(Math.min(660, 560 + ((w - 980) / 5))));
+          $('.primary-tout.product-intro-plate .image-module').css('height', Math.round(Math.min(720, 560 + ((w - 980) / 5))));
+          $('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles
           $('.primary-tout .image-module').css('height', '');
@@ -61,7 +61,7 @@ define(function(require){
       _init: function(){
         var self = this;
 
-        if($(".primary-tout.homepage, .primary-tout.default").length > 0){
+        if($(".primary-tout.homepage, .primary-tout.default, .primary-tout.product-intro-plate").length > 0){
           self.resize();
           Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         }

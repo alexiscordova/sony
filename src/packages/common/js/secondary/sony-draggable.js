@@ -91,7 +91,6 @@ define(function(require){
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
       }
 
-      self.$el.addClass('dragging');
       self.isScrubbing = self.hasPassedThreshold = false;
       self.handleStartPosition = self.getPagePosition(e);
       self.setDimensions();
@@ -141,6 +140,7 @@ define(function(require){
 
       e.preventDefault();
 
+      self.$el.addClass('dragging');
       self.handlePosition.x = self.scrubberLeft + distX;
       self.handlePosition.y = self.scrubberTop + distY;
 
@@ -171,6 +171,8 @@ define(function(require){
       self.$el.trigger('sonyDraggable:dragEnd', {
         'acceleration': self.acceleration
       });
+
+      self.$el.removeClass('dragging');
 
       if ( self.snapToBounds && self.bounds ) {
         if ( self.axis.indexOf('x') >= 0 ) {
