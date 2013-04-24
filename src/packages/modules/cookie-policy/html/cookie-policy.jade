@@ -2,11 +2,16 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('cookie-policy')
 +includeJavascriptModule('cookie-policy')
 
-.alert.collapsed#cookie-alert
+.alert.alert-large.collapsed#cookie-alert
   .container.alert-inner
-    .grid.no-grid-at-767.relative
-      span.span7.m-span1
+    .grid.no-grid-at-767.relative      
+      .span8.m-span1
         p.p3.msg 
-          | !{ data.dialog_module.message }
-      button(class="btn btn-alt pull-right", data-dismiss="alert", data-target="#sign-in-alert")
-        | !{ data.dialog_module.dialog_config.label }
+          if(data.dialog_module.title) 
+            strong.title !{ data.dialog_module.title }
+          !{ data.dialog_module.message }
+
+      //- an implicit link is black, explicit link is blue
+      .span2.m-span1.pull-right 
+        button.alert-button.btn.btn-small( class=data.config.type === "implicit" ? 'btn-alt' : '' )
+          | !{ data.dialog_module.dialog_config.label }
