@@ -5,6 +5,8 @@
   overflow:hidden;
   max-width:100%;
 
+  .image-module {text-align:center;}
+
   .editorial-chapters {
     position: relative;
   }
@@ -31,6 +33,7 @@
 
           &.active {
             position:absolute;
+            z-index:1;
             @include opacity(100);
           }
 
@@ -42,6 +45,11 @@
       text-align:center;
       height:68px;
       z-index:1;
+
+      .left-shade,
+      .right-shade {display:none;}
+
+      .slider {margin:0 auto;}
 
       li {
         padding:10px 0;
@@ -107,6 +115,26 @@
             &.twoLine {top:6px;}
           }
     }
+    &.top-nav .thumb-nav {
+      margin-bottom:24px;
+      width:auto;
+      text-align:left; 
+
+      li {
+        top:-4px;
+        width:auto;
+
+        &.active,
+        &:hover {
+          top:0;
+          border-top:0;
+          border-bottom:4px solid $linkBlue;
+          margin-top:0;
+        }
+      }
+        i {float:none;}
+        span {display:inline;}
+    }
     &.gray .thumb-nav li {
       background:$gray80;
 
@@ -119,7 +147,7 @@
     &.icon-mode .thumb-nav {
         img {display:none;}
         i {margin-left:24px; margin-right:10px;}
-        span {margin-right:20px;}
+        span {margin-right:24px;}
     }
     &.text-mode .thumb-nav {
       img, i {display:none;}

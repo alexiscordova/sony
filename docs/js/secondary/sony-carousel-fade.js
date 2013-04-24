@@ -271,32 +271,43 @@ define(function(require){
         }
       }
 
-      newPosition = destinationPosition / innerContainerMeasurement;
+      if ( self.useCSS3 ) {
 
-      // If you're on the last slide, only move over enough to show the last child.
-      // Prevents excess whitespace on the right.
+        newPosition = destinationPosition / innerContainerMeasurement;
 
-      if ( self.slideChildren && which === $slideSet.length - 1 ) {
-        var childrenSumMeasurement = 0;
+        // If you're on the last slide, only move over enough to show the last child.
+        // Prevents excess whitespace on the right.
 
-        if ( self.direction === 'horizontal' ) {
-          $destinationSlide.find(self.slideChildren).each(function(){ childrenSumMeasurement += $(this).outerWidth(true); });
-          newPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
+        if ( self.slideChildren && which === $slideSet.length - 1 ) {
+          var childrenSumMeasurement = 0;
+
+          if ( self.direction === 'horizontal' ) {
+            $destinationSlide.find(self.slideChildren).each(function(){ childrenSumMeasurement += $(this).outerWidth(true); });
+            newPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
+          }
+
         }
 
+        self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(){
+          iQ.update(true);
+          self.$el.trigger('SonyCarousel:AnimationComplete');
+          self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
+        });
+
+        self.$el.css(Modernizr.prefixed('transitionDuration'), speed + 'ms' );
+
+        //for fade transition
+        $destinationSlide.addClass('active')
+          .siblings().removeClass('active');
+
+      } else {
+
+        var $sibs = $destinationSlide.siblings();
+
+        $destinationSlide.addClass('active').hide().fadeIn('fast');
+        $sibs.fadeOut('fast', function(){ $sibs.removeClass('active'); });
+
       }
-
-      self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(){
-        iQ.update(true);
-        self.$el.trigger('SonyCarouselFade:AnimationComplete');
-        self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
-      });
-
-      self.$el.css(Modernizr.prefixed('transitionDuration'), speed + 'ms' );
-
-      //for fade transition
-      $destinationSlide.addClass('active')
-        .siblings().removeClass('active');
 
       // If you've taken the carousel out of its normal flow (either with `self.jumping` or `self.looped`)
       // Reset the carousel to its natural position and order.
