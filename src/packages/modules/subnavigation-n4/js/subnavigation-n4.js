@@ -1,5 +1,5 @@
 
-// Reviews + Awards (Subnavigation) Module
+// Subnavigation (Subnavigation) Module
 // ---------------------------------------
 //
 // * **Class:** Subnavigation
@@ -107,7 +107,7 @@ define(function(require){
 
       self.$navgroups = Utilities.gridApportion({
         $groups: self.$navgroups,
-        gridSelector: '.slimgrid',
+        gridSelector: '.grid',
         mobile: mobile,
         center: true
       });
@@ -116,7 +116,7 @@ define(function(require){
         currentSlide = self.$navgroups.find('.active').closest(self.$navgroups).index();
       }
 
-      self.$navgroups.find('.slimgrid')[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
+      self.$navgroups.find('.grid')[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
 
       if ( self.$navCarousel ) {
         self.$navCarousel.sonyCarousel('destroy');
@@ -138,9 +138,9 @@ define(function(require){
     bindNav: function() {
 
       var self = this,
-          $buttons = self.$navgroups.find('.slimgrid').children();
+          $buttons = self.$navgroups.find('.grid').children();
 
-      $buttons.on('mouseup', function(){
+      $buttons.on('mouseup touchend', function(){
 
         var $this = $(this),
             isActive = $this.hasClass('active');
@@ -184,7 +184,7 @@ define(function(require){
       var self = this;
 
       if ( self.$activeSubcat ) {
-        self.$tray.css('height', self.$activeSubcat.height());
+        self.$tray.css('height', self.$activeSubcat.outerHeight(true));
       }
     }
 
