@@ -1,0 +1,193 @@
+mixin copyblock(module)
+  .tcc-copy
+    if (module.title)
+      p.p2
+        strong= module.title
+
+    if (module.bodyCopy)
+      p.p4= module.bodyCopy
+
+    if (module.articleLink)
+      p.lt3
+        a(href= module.articleLink) Read More
+
+mixin socialButton(link, label)
+  .social-btn
+    a.btn.btn-small(href= link)= label
+
+mixin header(header)
+  .tcc-header-wrapper
+    .container
+      .tcc-header.grid.no-grid-at-479
+        .span6
+          p.tcc-header-title.l1 #{header.title}
+        .span3.offset3
+          p.tcc-header-link.lt3
+            a(href="#{header.link}") #{header.linkText}
+
+mixin article(type, data)
+  if(type == "featured")
+    +featured(data)
+  else
+    +default(data)
+    +copyblock(data)
+
+mixin default(data)
+  .img-container
+    +iQImage(data.image)
+
+    if(data.mode == "event")
+      +event(data.attendanceCount)
+
+    if(data.mode == "news")
+      +news(data.date)
+
+mixin event(count)
+  .attendance
+    .details
+      p.t3= count
+      p.l3-light attending
+
+mixin news(date)
+  //- date
+  p.l3-light= date
+
+mixin featured(data)
+  .img-container.iq-img(data-src-desktop= data.image.srcDesktop, data-src-tablet= data.image.srcTablet, data-src-phone= data.image.srcPhone, data-src-desktop-highres= data.image.srcDesktopHighRes, data-src-tablet-highres= data.image.srcTabletHighRes, data-src-phone-highres= data.image.srcPhoneHighRes)
+  .copy.dark-box.light-text
+    p.t5-light= data.title
+    p.lt3
+      a(href= data.articleLink) Read More
+
+mixin expertQuote(module)
+  .title.l3= module.title
+
+  blockquote.bq3
+    p= module.quote
+
+  .credits
+    .avatar
+      +iQImage(module.image,'tcc-image')
+    p.author.p4
+      a(href= module.author.link)= module.author.name
+
+mixin userQuote(module)
+  .title.l3= module.title
+
+  blockquote.bq3
+    p= module.quote
+
+  .credits
+    .avatar
+      +iQImage(module.image,'tcc-image')
+
+    p.handle.p4
+      a(href= module.author.link)= module.author.handle
+
+    p.author.p4= module.author.name
+
+mixin question(module)
+  .credits
+    .avatar
+      +iQImage(module.image,'tcc-image')
+
+    p.author.p4
+      a(href= module.author.link)
+        | #{module.author.handle}
+      | #{module.title}
+
+  blockquote.bq3
+    p
+      | #{module.question}
+
+  p.lt3
+    a(href= module.repliesLink)
+      | See Replies
+
+  .answer-btn
+    a.btn.btn-small(href= module.answerLink)
+      | Answer this Question
+
+mixin twitter(module)
+  blockquote.bq4
+    p= module.quote
+
+mixin facebook(module)
+  .post-image
+    +iQImage(module.image,'tcc-image')
+
+  blockquote.post-copy.bq6
+      p= module.postCopy
+        a= module.postLink
+
+mixin instagram(module)
+  div.left
+    div.tcc-image(data-src-desktop= module.images[1].srcDesktop, data-src-tablet= module.images[1].srcTablet, data-src-phone= module.images[1].srcPhone, data-src-desktop-highres= module.images[1].srcDesktopHighRes, data-src-tablet-highres= module.images[1].srcTabletHighRes, data-src-phone-highres= module.images[1].srcPhoneHighRes)
+    div.tcc-image.last(data-src-desktop= module.images[2].srcDesktop, data-src-tablet= module.images[2].srcTablet, data-src-phone= module.images[2].srcPhone, data-src-desktop-highres= module.images[2].srcDesktopHighRes, data-src-tablet-highres= module.images[2].srcTabletHighRes, data-src-phone-highres= module.images[2].srcPhoneHighRes)
+  div.right
+    div.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
+
+mixin sonysVoiceTop(icon, meta)
+  .icon-container
+    .white-bg.fonticon-10-dot
+    div(class= icon)
+
+  if (meta)
+    .meta
+      p.p4
+        span.user= meta.user
+        span.timestamp= meta.timestamp
+
+mixin sonysVoiceCenter(mode, module)
+  .center-container
+    case mode
+      when "twitter"
+        +twitter(module)
+      when "facebook"
+        +facebook(module)
+      when "instagram"
+        +instagram(module)
+
+mixin sonysVoiceBottom(mode, module)
+  case mode
+    when "twitter"
+      - label = "Follow Us on Twitter"
+    when "facebook"
+      - label = "Like Us on Facebook"
+    when "instagram"
+      - label = "Follow Us on Instagram"
+
+  +socialButton( module.socialBtnLink, label )
+
+mixin flickrContent(meta, images, btnLink, btnLabel)
+  if (contentMode == "default")
+    .top
+      .icon-container
+        .white-bg.fonticon-10-dot
+        .left.fonticon-10-dot
+        .right.fonticon-10-dot
+
+      .meta.p4
+        for info in meta
+          if (info.user)
+            span.user= info.user
+
+          if (info.title)
+            span= info.title
+
+    .center
+      .center-container
+        .top-row
+            - for (i = 0; i <= 2; i++) {
+            if(images[i])
+              div
+                +iQImage(images[i],'tcc-image')
+            -}
+        .bottom-row
+            - for (i = 3; i <= 5; i++) {
+            if(images[i])
+              div
+                +iQImage(images[i],'tcc-image')
+            -}
+    .bottom
+      +socialButton( btnLink, btnLabel )
