@@ -135,11 +135,11 @@ define(function(require) {
         switch( self.trackingAsset.css( 'opacity' ) ) {
           case undefined:
           case "undefined":
-            log( 'undefined' );
+            /* log( 'undefined' ); */
             clearInterval( self.trackOpacityTimer );
           break;
           case "1":
-            log( 'clearing' );
+            /* log( 'clearing' ); */
             clearInterval( self.trackOpacityTimer );
             self.canShowHotspots = true;
             triggerInitialPosition();
@@ -148,10 +148,10 @@ define(function(require) {
       };
       
       self.trackHeight = function() {
-        log( 'no bg' );
+/*         log( 'no bg' ); */
         if( "none" !== self.trackingAsset.css( 'background-image' ) ) {
           clearInterval( self.trackOpacityTimer );
-          log( 'bg detected, clearing' );
+/*           log( 'bg detected, clearing' ); */
           self.canShowHotspots = true;
           triggerInitialPosition();
         }
@@ -247,7 +247,7 @@ define(function(require) {
       var self       = this,
           inViewport = null;
           
-      if( true /* self.isElementInViewport( self.trackingAsset ) */ ) {
+      if( true ) {
         if( el ) {
           var offsetX     = self.trackingAsset.position().left,
               offsetY     = self.trackingAsset.position().top,
@@ -355,12 +355,13 @@ define(function(require) {
     
     show: function( el ) {
       var self        = this,
-          offsetTime  = 75;
+          offsetTime  = 100; 
 
       if( true === self.canShowHotspots ) {
         $( self.$els ).each(function( index, el ) {
           if( $( el ).hasClass( 'eh-transparent' ) ) { 
             var stagger = function() { 
+              log('stagger');
               $( el ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
             };
             setTimeout( stagger, ( self.curAnimationCount * offsetTime ) );
@@ -388,7 +389,7 @@ define(function(require) {
         self.close( container, hotspot, info );
       } else {
         if( self.$lastOpen && !container.is( self.$lastOpen ) ) {
-          log('resetting:::::');
+/*           log('resetting:::::'); */
           self.reset();
         }
          self.open( container, hotspot, info );
@@ -492,22 +493,22 @@ define(function(require) {
         case 'right-top':
           overlay.addClass( rows + '-stack-right-top-justified' );
           overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
-          log('::overlay hits container top::');
+/*           log('::overlay hits container top::'); */
         break;
         case 'right-bottom':
           overlay.addClass( rows + '-stack-right-bottom-justified' );
           overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
-          log('::overlay hits container left::');
+/*           log('::overlay hits container left::'); */
         break;
         case 'left-top':
           overlay.addClass( rows + '-stack-left-top-justified' );
           overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
-          log('::overlay hits container right::');
+/*           log('::overlay hits container right::'); */
         break;
         case 'left-bottom':
           overlay.addClass( rows + '-stack-left-bottom-justified' );
           overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
-          log('::overlay hits container floor::');
+/*           log('::overlay hits container floor::'); */
         break;
       }
     },
@@ -704,7 +705,7 @@ define(function(require) {
           // since we're tracking collisions by side, we can easily do this prescriptively,
           if( true === collides && i == 3 ) {
           
-            log('Reposition did not work. ');
+/*             log('Reposition did not work. '); */
             
             top = overlayTop; // clean up redundant vars!!!!
             footer = overlayFooter; // clean up redundant vars!!!!
@@ -732,11 +733,11 @@ define(function(require) {
             if(passes==1) {
               top.addClass( 'hidden' );
               footer.addClass( 'hidden' );
-              log( 'performing second pass' );              
+              /* log( 'performing second pass' );               */
               i=-1;
             } else if( passes > 1 ) { 
             
-              log( 'forcing second best default positioning' );
+              /* log( 'forcing second best default positioning' ); */
               // test if overlay is hitting the right side of the screen
               var outerRight    = $( window ).width();
               var windowLeft    = overlay.offset().left;
@@ -747,10 +748,10 @@ define(function(require) {
               log(windowRight);
                             
               if( outerRight <= ( windowRight - 10 ) ) {
-                log( 'moving away from right wall' );
+                /* log( 'moving away from right wall' ); */
                 self.moveTo( overlay, 'left-top', rows );
               } else if( 0 + 10 >= windowLeft ) {
-                log( 'moving away from left wall' );
+                /* log( 'moving away from left wall' ); */
                 self.moveTo( overlay, 'right-top', rows );
               }
               
