@@ -7,7 +7,7 @@
 <li><strong>Author:</strong> Thisispete</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+ , sony-global-environment</li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
-define(<span class="keyword">function</span>(require){
+define(<span class="keyword">function</span>(require) {
 
     <span class="string">'use strict'</span>;
 
@@ -21,18 +21,18 @@ define(<span class="keyword">function</span>(require){
 
     <span class="keyword">var</span> module = {
       init: <span class="keyword">function</span>() {
-        <span class="keyword">if</span> ( $(<span class="string">'.editorial'</span>).length &gt; <span class="number">0</span> ) {
+        <span class="keyword">if</span> ( $(<span class="string">'.editorial'</span>).length ) {
           $(<span class="string">'.editorial'</span>).editorial();
         }
       }
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Start module</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> Editorial = <span class="keyword">function</span>(element, options){
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Start module</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> Editorial = <span class="keyword">function</span>(element, options) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$el = $(element);
       self.collapsableTout = self.$el.find(<span class="string">'.m2up, .m3up'</span>);
-      self.colspan = self.$el.find(<span class="string">'.m3up'</span>).length &gt; <span class="number">0</span> ? <span class="string">"span4"</span> : self.collapsableTout.find(<span class="string">'.horizontal'</span>).length &gt; <span class="number">0</span> ? <span class="string">"span6"</span> : <span class="string">"span5"</span>;
+      self.colspan = self.$el.find(<span class="string">'.m3up'</span>).length ? <span class="string">'span4'</span> : self.collapsableTout.find(<span class="string">'.horizontal'</span>).length ? <span class="string">'span6'</span> : <span class="string">'span5'</span>;
       self.col = self.collapsableTout.find(<span class="string">'&gt;div'</span>);
       self.hasOffset1 = self.col.hasClass(<span class="string">'offset1'</span>);
 
@@ -44,45 +44,46 @@ define(<span class="keyword">function</span>(require){
     Editorial.prototype = {
       constructor: Editorial,
 
-      fixmediaheights: <span class="keyword">function</span>(){
+      fixMediaHeights: <span class="keyword">function</span>() {
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>fixes the min height of medialeft and mediaright on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> self = <span class="keyword">this</span>, minh;
 
-        <span class="keyword">if</span>($(window).outerWidth() &lt;= <span class="number">767</span>){
-          minh = <span class="string">"auto"</span>;
-        }<span class="keyword">else</span>{
-          minh = Math.max(self.$el.find(<span class="string">'.grid'</span>).css(<span class="string">'min-height'</span>).replace(<span class="regexp">/[^-\d\.]/g</span>, <span class="string">''</span>), self.$el.find(<span class="string">'.media-element .table-center'</span>).children().first().height())+<span class="string">"px"</span>;
+        <span class="keyword">if</span> ($(window).outerWidth() &lt;= <span class="number">767</span>) {
+          minh = <span class="string">'auto'</span>;
+        } <span class="keyword">else</span> {
+          minh = Math.max(self.$el.find(<span class="string">'.grid'</span>).css(<span class="string">'min-height'</span>).replace(<span class="regexp">/[^-\d\.]/g</span>, <span class="string">''</span>), self.$el.find(<span class="string">'.media-element .table-center'</span>).children().first().height())+<span class="string">'px'</span>;
         }
-        
+
         self.$el.find(<span class="string">'.grid, .grid &gt; div'</span>).css(<span class="string">'height'</span>, minh);
       },
 
-      resizetouts: <span class="keyword">function</span>(){
+      resizeTouts: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>fixes horizontal 2 up layout wraping</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> tc = $(<span class="string">'.editorial.tout .m2up .horizontal .table-center-wrap'</span>).parent();
-        <span class="keyword">if</span>(tc.length &gt; <span class="number">0</span>){
+        <span class="keyword">if</span> (tc.length) {
           tc.css(<span class="string">'width'</span>, tc.parent().width() - tc.prev().width() -<span class="number">2</span>);
         }
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
-        <span class="keyword">if</span>(heightGroup.length &gt;<span class="number">0</span>){
+        <span class="keyword">if</span> (heightGroup.length) {
           heightGroup.evenHeights();
         }
       },
 
-      initDesktop: <span class="keyword">function</span>(){
+      initDesktop: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
         self.collapsableTout.sonyCarousel(<span class="string">'destroy'</span>);
         self.collapsableTout.off(Settings.transEndEventName);
         self.collapsableTout.addClass(<span class="string">'grid'</span>);
-        self.collapsableTout.attr(<span class="string">"style"</span>, <span class="string">""</span>);
+        self.collapsableTout.attr(<span class="string">'style'</span>, <span class="string">''</span>);
         self.col.addClass(self.colspan);
-        <span class="keyword">if</span>(self.hasOffset1){
+        <span class="keyword">if</span> (self.hasOffset1) {
           self.col.first().addClass(<span class="string">'offset1'</span>);
         }
       },
-      initMobile: <span class="keyword">function</span>(){
+
+      initMobile: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
         self.collapsableTout.removeClass(<span class="string">'grid'</span>);
@@ -95,35 +96,32 @@ define(<span class="keyword">function</span>(require){
           paddles: <span class="literal">false</span>,
           pagination: <span class="literal">true</span>
         });
-        self.collapsableTout.on(Settings.transEndEventName, <span class="keyword">function</span>(){
-          iQ.update(<span class="literal">true</span>);
-        });
+        self.collapsableTout.on( Settings.transEndEventName, iQ.update );
       },
 
-
-      _init: <span class="keyword">function</span>(){
+      _init: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>if its a 2 or 3up we want to start the carousel code</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.collapsableTout.length &gt; <span class="number">0</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>if its a 2 or 3up we want to start the carousel code</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.collapsableTout.length) {
 
-          <span class="keyword">if</span> ( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
-            enquire.register(<span class="string">"(min-width: 768px)"</span>, <span class="keyword">function</span>() {
+          <span class="keyword">if</span> ( !Settings.isLTIE10 ) {
+            enquire.register(<span class="string">'(min-width: 48em)'</span>, <span class="keyword">function</span>() {
               self.initDesktop();
             });
-            enquire.register(<span class="string">"(max-width: 767px)"</span>, <span class="keyword">function</span>() {
+            enquire.register(<span class="string">'(max-width: 47.9375em)'</span>, <span class="keyword">function</span>() {
               self.initMobile();
             });
           } <span class="keyword">else</span> {
             self.initDesktop();
           }
-          self.resizetouts();
-          Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.resizetouts, self));
+          self.resizeTouts();
+          Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.resizeTouts, self));
         }
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>if its mediaright or left fix heights on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.$el.hasClass(<span class="string">'mediaright'</span>) || self.$el.hasClass(<span class="string">'medialeft'</span>)){
-          self.fixmediaheights();
-          Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.fixmediaheights, self));
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>if its mediaright or left fix heights on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'mediaright'</span>) || self.$el.hasClass(<span class="string">'medialeft'</span>)) {
+          self.fixMediaHeights();
+          Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.fixMediaHeights, self));
         }
 
         log(<span class="string">'SONY : Editorial : Initialized'</span>);

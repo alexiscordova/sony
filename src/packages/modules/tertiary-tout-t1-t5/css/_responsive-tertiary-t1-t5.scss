@@ -13,6 +13,7 @@ $one-up-height:275px;
 // //                            888      
 // //                            888     
 
+// @media (min-width: px-em(580px)) and (max-width: px-em(979px)) {
 @media (min-width: px-em(480px)) and (max-width: px-em(979px)) {
 	.tcc-module{
 		outline:1px solid red;
@@ -23,19 +24,43 @@ $one-up-height:275px;
 			height:$two-up-height;
 		}
 
-		//  ______            _                          _ 
-		// |  ____|          | |                        | |
-		// | |__  ___   __ _ | |_  _   _  _ __  ___   __| |
-		// |  __|/ _ \ / _` || __|| | | || '__|/ _ \ / _` |
-		// | |  |  __/| (_| || |_ | |_| || |  |  __/| (_| |
-		// |_|   \___| \__,_| \__| \__,_||_|   \___| \__,_|
-    &.featured{
-      .copy{
-        padding:px-em(30px); 
-      } // end .copy
 
-    } // featured
+		//        d8888         888    d8b          888          
+		//       d88888         888    Y8P          888          
+		//      d88P888         888                 888          
+		//     d88P 888 888d888 888888 888  .d8888b 888  .d88b.  
+		//    d88P  888 888P"   888    888 d88P"    888 d8P  Y8b 
+		//   d88P   888 888     888    888 888      888 88888888 
+		//  d8888888888 888     Y88b.  888 Y88b.    888 Y8b.     
+		// d88P     888 888      "Y888 888  "Y8888P 888  "Y8888 
+		.article{
+			
 
+			//  ______            _                          _ 
+			// |  ____|          | |                        | |
+			// | |__  ___   __ _ | |_  _   _  _ __  ___   __| |
+			// |  __|/ _ \ / _` || __|| | | || '__|/ _ \ / _` |
+			// | |  |  __/| (_| || |_ | |_| || |  |  __/| (_| |
+			// |_|   \___| \__,_| \__| \__,_||_|   \___| \__,_|
+	    &.featured{
+
+	      .copy{
+	        padding:px-em(30px); 
+	        max-height: 120px;
+	      } // end .copy
+
+	      .t5-light{
+	      	height: 52px;
+					max-height: 52px;
+	      } // t5-light
+
+	      .lt3{
+	        margin-top:0px;
+	      } // lt3
+
+	    } // featured
+
+		} // article
 
 	} // tcc module
 	
@@ -56,6 +81,7 @@ $one-up-height:275px;
 // //                        888      
 // //                        888    
 
+ //@media (max-width: px-em(579px)) {
  @media (max-width: px-em(479px)) {
 	.tcc-module{
 		outline:1px solid blue;
@@ -102,13 +128,17 @@ $one-up-height:275px;
 	    &.featured{
 	      .copy{
 	        padding:px-em(17px) px-em(25px); 
-	        // height: 39%;
+	        max-height: 120px;
+	      } // end copy
 
-	        .lt3{
-	          margin-top:0px;
-	        }
+        .t5-light{
+        	height: 52px;
+					max-height: 52px;
+        } // t5-light
 
-	      } // end .feature-copy
+        .lt3{
+          margin-top:0px;
+        } //lt3
 
 	    } // featured
 

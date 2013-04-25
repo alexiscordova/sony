@@ -74,10 +74,12 @@ define(function(require){
           self.renderDesktop();
         });
 
+        // enquire.register("(min-width: 580px) and (max-width: 979px)", function() {
         enquire.register("(min-width: 480px) and (max-width: 979px)", function() {
           self.renderTablet();
         });
 
+        //enquire.register("(max-width: 579px)", function() {
         enquire.register("(max-width: 479px)", function() {
           self.renderMobile();
         });
