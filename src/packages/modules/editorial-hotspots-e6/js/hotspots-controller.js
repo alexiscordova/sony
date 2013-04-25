@@ -449,12 +449,22 @@ define(function(require) {
         overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
         overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
         
-        setTimeout( function() {
+        setTimeout( function() {          
           // finally show the overlay
           overlayBase.removeClass( 'hidden' );
+          // position the overlay vertical center
+          var topPos = null,
+              outerHeight = $( window ).height() / 2,
+              innerHeight = overlayBase.height() / 2;
+          topPos = outerHeight - innerHeight;
+          overlayBase.css( 'margin-top', topPos+'px' );
+
           self.lastOverlayFadein = setTimeout( function() {
             overlayBase.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           }, 10 );
+          // stop scroll
+          document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+          document.body.scroll = "no"; // ie only
         }, 200);
         
       } else {
@@ -484,6 +494,11 @@ define(function(require) {
           // reopen normal overlay
           el.find( '.overlay-base' ).removeClass( 'hidden' ).find( '.overlay-inner' ).removeClass( 'eh-hidden' ).addClass( 'eh-visible' );
         }
+       
+        // reenable scrolling
+        document.documentElement.style.overflow = 'auto';  // firefox, chrome
+        document.body.scroll = "yes"; // ie only 
+        
       }
     },
     moveTo: function( overlay, position, rows ) {
