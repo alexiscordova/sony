@@ -21,12 +21,7 @@ mixin header(_data)
         p!= d.quote
       p.p3!= d.byline
     else
-      if d.variation.headertext == "larger"
-        h1!= d.headline
-      else if d.variation.headertext == "smaller"
-        h1.t3!= d.headline
-      else
-        h1.t2!= d.headline
+      h1!= d.headline
 
 mixin bodytext(_data, _extra)
   d = _data ? _data : data
@@ -66,6 +61,23 @@ mixin boxclass(_layout)
   .box(class = layout.alignment)
     block
 
+mixin vbox()
+  vert = "center"
+  if data.layout
+    if data.layout.valign
+      vert  = data.layout.valign 
+  .table-center-wrap
+   case vert
+      when "top"
+        .table-top
+          block
+      when "center"
+        .table-center
+          block
+      when "bottom"
+        .table-bottom
+          block
+      
 mixin boxlayout(_layout, _style)
   layout = _layout ? _layout : data.layout
   classes = _style ? _style : data.style
@@ -79,32 +91,31 @@ mixin boxlayout(_layout, _style)
       .grid.no-grid-at-767
         - span = "span" + layout.columns[0]
         div(class= span)
-          .table-center-wrap
-            .table-center
-              +boxclass
-                block
+          +vbox
+            +boxclass
+              block
   else if layout.text == "right" || layout.text == "center"
     .container.inner(class= classes)
       .grid.no-grid-at-767
         - span = "span" + layout.columns[1]
         - offset =  "offset" + layout.columns[0]
         div(class= span)(class= offset)
-          .table-center-wrap
-            .table-center
-              +boxclass
-                block
+          +vbox
+            +boxclass
+              block
 
 .primary-tout.container.full-bleed-no-max(class= data.mode || "")(class= data.theme || "")
-  .container.full-bleed-no-max.hero-image
-    e = {"locals":locals, "data":data.image}
-    !{locals.partial('packages/modules/image/html/image.jade' , e)}
+  if data.mode !== "title-plate"
+    .container.full-bleed-no-max.hero-image
+      e = {"locals":locals, "data":data.image}
+      !{locals.partial('packages/modules/image/html/image.jade' , e)}
 
-  if data.submodules.length > 0
-    for sub, i in data.submodules
-      .container.full-bleed-no-max.submodule.hidden
-        button(class= "box-close box-close-small")
-          i(class="fonticon-10-x")
-        +partial(data.submodules[i].type, data.submodules[i].data)
+    if data.submodules.length > 0
+      for sub, i in data.submodules
+        .container.full-bleed-no-max.submodule.hidden
+          button(class= "box-close box-close-small")
+            i(class="fonticon-10-x")
+          +partial(data.submodules[i].type, data.submodules[i].data)
 
   if data.mode == "homepage"
     if data.variation.secondbox
@@ -129,7 +140,7 @@ mixin boxlayout(_layout, _style)
   else if data.mode == "default"
     style = data.style || ""
     if data.variation
-      if data.variation.headertext !== "larger"
+      if data.variation.mobilebg
         style = style + " force-mobile-bg"
     +boxlayout(data.layout, style)
       +eyebrow
@@ -147,6 +158,17 @@ mixin boxlayout(_layout, _style)
         .mobile-buttons.clearfix
           +links(data, "visible-phone btn")
   else if data.mode == "title-plate"
+    .container.full-bleed-no-max.hero-image.cover
+      e = {"locals":locals, "data":data.image}  
+      if data.variation
+        if data.variation.backgroundstyle
+          if data.variation.backgroundstyle == "full-bleed"
+            !{locals.partial('packages/modules/image/html/image.jade' , e)}  
+          else
+            .image-module
+      else        
+        !{locals.partial('packages/modules/image/html/image.jade' , e)}
+
     +boxlayout
       +eyebrow
       h1.t2!= data.headline
