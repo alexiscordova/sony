@@ -1,0 +1,102 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$phoneMax: px-em(767);
+$phone: px-em(568);
+
+@media (max-width:$phoneMax) {
+  .search-results {
+    .media .no-float {
+      float: none;
+      margin: 0;
+    }
+  
+    .media .no-float .img {
+      margin-bottom: 0;
+    }
+  
+    .bar-tone {
+      margin-bottom: 10px;
+      .l3 {
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+      .search-form {
+        margin-bottom: 30px;
+      }
+      .search {
+        width: 84%;
+      }
+      .clear-search {
+        height: 21px;
+        width: 21px;
+        background: url(../img/search-results-z07/icon-erase-mobile.png) no-repeat 0 0;
+      }
+    }
+  
+    .search-suggestions {
+      margin-bottom: 23px;
+    }
+  
+    .featured-result .results {
+      margin-bottom: 10px;
+    }
+  
+    .featured-result .title {
+      margin-bottom: 5px;
+    }
+  
+    .featured-result {
+      margin-bottom: 22px
+    }
+  
+    .select-narrow {
+      margin-bottom: 8px;
+    }
+  
+    .results-list > li {
+      padding: 20px 0 30px 0;
+    }
+  
+    .results-list > li:first-child {
+      border-top: 1px solid #e7e9ed;
+    }
+  
+    .results-list .bd {
+      padding-right: 15px;
+    }
+    .search-more {
+      margin: 30px auto 40px auto;
+    }
+  
+    .related-searches {
+      padding: 25px 0 50px 0;
+    }
+  
+    .related-searches ul {
+      margin: 0;
+    }
+    .h-list-md > * + *  {
+      margin-left: 10px
+    }
+    .accessories-list {
+      margin-bottom: 50px;
+    }
+    .accessories-list li:nth-child(3) {
+      clear: left;
+      margin-left: 0;
+    }
+    .accessories-list li:nth-child(1),
+    .accessories-list li:nth-child(2) {
+      margin-bottom: 30px;
+    }
+  }
+}
+
+@media (max-width:$phoneMax) {
+  .search-results {
+    .search {
+        width: 63%;
+      }
+  }
+}

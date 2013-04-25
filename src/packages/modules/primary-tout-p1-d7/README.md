@@ -1,35 +1,48 @@
-==Description==
-The primary tout is a large header section with text over a full-bleed image, generally the first thing on the page. It has a few variations and layout options, in some cases it is just text, in others it can load a video or gallery into itself.
+#Overview
+The primary tout is a large header section with text over a full-bleed image, generally the first thing on the page. It has a few variations and layout options, in some cases it is just text, in others it can load a video or gallery into itself. 
 
-==Configuration==
+##Configuration 
 
-mode:
-* default P1, P2 - primary tout standard - Most basic mode with text in one block with the option for right or left positioning
-* homepage P1 - Specific to the homepage, slightly different layout with the h1 separate from the text block
-* product-intro-plate D3 - This has a video and or gallery button that loads in a submodule, mainly used on PDP's 
-* title-plate D7 - simple photo and text header that is shorter than the default p1 and generally used on gallery pages
+**mode:**  
+*default P1, P2, p3* - primary tout standard - Most basic mode with text in one block with the option for right or left positioning  
+*homepage P1* - Specific to the homepage, slightly different layout with the h1 separate from the text block  
+*product-intro-plate D3* - This has a video and or gallery button that loads in a submodule, mainly used on PDP's   
+*title-plate D7* - simple photo and text header that is shorter than the default p1 and generally used on gallery pages  
 
-layout: defines the main layout columns
-  * text - which column the text goes into (right | left | center)
-  * alignment - text alignment within the column (left | right | center)
-  * mobilealign - (top | bottom) some configs define the text locking to the top or bottom of the container in mobile
-  * columns - array of the column breakdown for 12 column grid in order from left to right ie: [5,7] span5 on left span7 on right -or- [1,10,1] span10 in the middle of the page 
+**layout:** defines the main layout columns  
+*text* - which column the text goes into (right | left | center)  
+*alignment* - text alignment within the column (left | right | center)  
+*valign* - (top | bottom | middle)
+*columns* - array of the column breakdown for 12 column grid in order from left to right ie: [5,7] span5 on left span7 on right -or- [1,10,1] span10 in the middle of the page  
 
-theme: some configurations define an optional global theme color ie (themePurple | themeGreen) some text, buttons, and icons pick up this color
+**theme:** some configurations define an optional global theme color ie (themePurple | themeGreen) some text, buttons, and icons pick up this color  
 
-style: additional classes that define if it has a dark or light text box or if the text is dark or light, etc
+**style:** additional classes that define if it has a dark or light text box or if the text is dark or light, etc  
 
-variation: optional variation parameters get picked up for certain modes
-  *example- headertext: (smaller | larger) - makes the header text a h2 or h1
+**variation:** optional variation parameters get picked up for certain modes  
+*mobilebg* - (undefined | true) - forces background box - always contrasts the text color so if style is dark-text-trans-box it goes light-box in mobile, light-text-trans-box = dark-box
+*quote* - (undefined | true) - makes the text a quote style on the homepage  
+*secondbox* - (undefined | true) - uses the second box style for the homepage design  
+*substyle* - (required if secondbox is true) style for the second box
+*backgroundstyle* - (undefined | full-bleed | solid-color) - only for d7 variations, bg can be full bleed (cover), a solid color, or defaults to a set size (auto not cover)
 
-image: defines the image src and attrubutes (see image module)
+**image:** defines the image src and attrubutes (see image module)
 
-eyebrow: optional text that comes before the h1 headline (often the product category or model)
+**eyebrow:** optional text that comes before the h1 headline (often the product category or model)  
+*text* - (required) plain text (optional plusbox inline using [+] string will be replaced at render time with the appropriate symbol markup)  
+*link* - (undefined | url) url for a link src  
 
-headline: optional h1 headline of the main text block
+**headline:** optional h1 headline of the main text block  
 
-body: optional body text of the main text block
+**quote:** optional headline quote text (requires setting quote = true in variation settings)  
+**byline:** attribute for the quote text (requires setting quote = true in variation settings)  
 
-links: supports 0 or more links of type button (btn) or text (txt) possibly more options for video or gallery icons
+**body:** optional body text of the main text block  
 
-submodules: supports 0 or more sub modules that load into itself (functionality pending not available on 'home-page' mode)
+**links:** supports 0 or more links  
+*type* - (btn | text | video | carousel) - the type of button / icon / style  
+*text* - the text for the button  
+*url* - link  
+*submodule* - index number (0 based) of the submodule to show for product intro plates that have nested submodules that showup when a link is clicked  
+
+**submodules:** supports 0 or more sub modules that load into itself (only for product-intro-plate or default mode)

@@ -185,10 +185,18 @@ if data.view == 'basic'
         span.label.label-success= data.label
 
       if data.layout == 'promo'
-        .product-img.iq-img(data-src-desktop=data.img.srcDesktop, data-src-tablet=data.img.srcTablet, data-src-phone=data.img.srcPhone, data-src-desktop-highres=data.img.srcDesktopHighRes, data-src-tablet-highres=data.img.srcTabletHighRes, data-src-phone-highres=data.img.srcPhoneHighRes)
-          - style = data.style ? data.style : ''
+        productImgClasses = [ 'product-img', 'iq-img' ]
+        if data.backgroundColorClass
+          - productImgClasses.push( data.backgroundColorClass )
+        div(class=productImgClasses, data-src-desktop=data.img.srcDesktop, data-src-tablet=data.img.srcTablet, data-src-phone=data.img.srcPhone, data-src-desktop-highres=data.img.srcDesktopHighRes, data-src-tablet-highres=data.img.srcTabletHighRes, data-src-phone-highres=data.img.srcPhoneHighRes)
           - classes = ['promo-content']
-          - classes.push( style )
+
+          case data.variation
+            when 'c1'
+              - classes.push( 'dark-text' )
+            when 'c2'
+              - classes.push( 'light-text' )
+
           div(class=classes)
             .promo-title
               span.t4.title= data.title
@@ -274,9 +282,12 @@ else if data.view == 'simple'
   a.span2.gallery-item.simple(href=data.href ? data.href : '#')
     .gallery-item-inner
       .product-img
-        .product-img-wrap.ghost-center-wrap
-          .ghost-center
-              +iQImage( data.imgSmall )
+        //- .product-img-wrap.ghost-center-wrap
+        //-   .ghost-center
+        //-       +iQImage( data.imgSmall )
+        //- Fix for image heights not obeying max-height:100%
+        .product-img-wrap
+          +iQImage( data.imgSmall )
 
       +priceBlock( data, true )
 
@@ -672,14 +683,14 @@ else if data.view == 'blank'
 else if data.view == 'summary'
   titleLabel = data.collectionLabel ? data.collectionLabel : 'Cybershot'
   titleHref = data.collectionHref ? data.collectionHref : '#'
-  sizes = data.sizes ? data.sizes : ['one', 'two', 'three', 'four']
+  sizes = data.sizes ? data.sizes : []
   startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
   msrp = data.msrp ? data.msrp : 'MSRP'
   priceUnit = data.priceUnit ? data.priceUnit : '$'
   buyText = data.buyText ? data.buyText : 'Buy Now'
   modelText = data.modelText ? data.modelText : 'Model Number:'
 
-  .container
+  .container(itemscope, itemtype="http://schema.org/Product")
     .grid.no-grid-at-767.js-even-cols
 
       .span2.product-img-wrap
@@ -697,19 +708,27 @@ else if data.view == 'summary'
 
         +productRating( data.rating.stars, data.rating.reviews )
 
-        .inline-details.clearfix
-          p.p5.product-sizes
-            each size in sizes
-              span.product-size= size
-              span.spacer |
-          +colorSwatches( data.img.colors, true, true )
+        if sizes.length || ( data.img && data.img.colors && data.img.colors.length )
+          .inline-details.clearfix
+            if sizes.length
+              p.p5.product-sizes
+                sizesLength = sizes.length
+                each size, i in sizes
+                  span.product-size= size
+                  if i == sizesLength - 1
+                    if data.img && data.img.colors && data.img.colors.length
+                      span.spacer |
+                  else
+                    span.spacer |
+            if data.img && data.img.colors && data.img.colors.length
+              +colorSwatches( data.img.colors, true, true )
 
       .span2.price-content#span1-at-tablet
         .text-right.pull-right.space-top
           p.p4.price-prefix= startingAtText
           span.p5.msrp= msrp
           span.p1.price
-            strong.text-dark !{ priceUnit + data.price }
+            strong.text-dark(itemprop="price") !{ priceUnit + data.price }
 
       .span2.price-content#span3-at-tablet
         a.btn.btn-large.btn-block(href=data.storeLink)= buyText
@@ -750,22 +769,37 @@ else if data.view == 'compatibility'
             | !{ accessories }
 
 
-else if data.view = 'recommended'
+else if data.view == 'recommended'
   startingAtText = 'Starting at'
   msrp = 'MSRP'
 
   .pull-left.js-even-cols
-    +iQImage( data.imgSmall, 'media-object' )
+    +iQImage( data.imgSmall, 'media-object', 'image' )
   .media-body.ghost-center-wrap.js-even-cols
     .ghost-center
-      h4.p3.media-heading= data.name
+      h4.p3.media-heading(itemprop="name")= data.name
       p.p5.price-prefix= startingAtText
       p
         span.p3.price
-          strong= '$' + data.price + '&nbsp;'
+          strong(itemprop="price")= '$' + data.price + '&nbsp;'
         span.l4-light.msrp= msrp
         +heart()
 
+else if data.view == 'search-results'
+  - product = locals.data(data.results.product.data)
+  .media
+    .img.img-lg.no-float
+      +iQImage( product.imgSmall )
+    .bd.feature-text
+      h3.t5.title= product.title
+      .reviews-copy
+        +productRating( product.rating.stars, product.rating.reviews )
+      p.p4= data.results.product.text
+      ul.h-list.h-list-md
+        if data.links
+          each link in data.results.product.links
+            li.lt3
+              a(href= link.url) link.text
 
 else
   em oh noes, you don't have a known view variable set :(

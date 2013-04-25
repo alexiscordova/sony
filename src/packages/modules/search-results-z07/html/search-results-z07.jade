@@ -1,0 +1,56 @@
+include ../../../common/html/jade-helpers.jade
+
+include search-results-z07-helpers.jade
++includeCSS('search-results-z07')
+
+.search-results
+  .bar-tone
+    .container
+      .grid
+        h2.l3= data.pageTitle
+        form.search-form
+          label.search-label= data.searchForm.label
+          input.search(value= data.searchForm.searchedText)
+          a.clear-search(href"#") i X
+          button.btn.hidden-phone= data.searchForm.buttonText
+
+  .container
+    .grid
+      .search-suggestions
+        span.p3.search-correction= data.correctionText
+        ul.h-list.h-list-lg
+          each correction in data.corrections
+            li.lt3
+              a(href="#{correction.url}")= correction.text
+
+    .grid.m-grid-at-767
+      .span8.m-span6
+        if data.results.count == 0
+          include search-results-z07-no-results.jade
+        else
+          if data.results.type == 'category'
+            include search-results-z07-category.jade
+          else
+            include search-results-z07-product.jade
+  
+          button.bt2.search-more Load More
+  
+      .span3.offset1.hidden-phone
+        .result-sidebar
+          if data.narrowResults
+            mixin resultsLinkGroup(data.narrowResults)
+          if data.recentSearches
+            mixin resultsLinkGroup(data.recentSearches)
+          if data.popularSearches && data.results.count > 0
+            mixin resultsLinkGroup(data.popularSearches)
+
+  if data.relatedSearches.length > 0
+    .related-searches
+      .container
+        .grid.no-grid-at-767
+          .span3
+            h3.l3= data.relatedSearchesTitle
+
+          mixin relatedSearchesColumn(data.relatedSearches.slice(0, 2))
+          mixin relatedSearchesColumn(data.relatedSearches.slice(2, 4))
+          mixin relatedSearchesColumn(data.relatedSearches.slice(4, 6))

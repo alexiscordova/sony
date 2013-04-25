@@ -2,6 +2,11 @@
 @import "../../../common/css/_base/mixins";
 
 .editorial-chapters-container {
+  overflow:hidden;
+  max-width:100%;
+
+  .image-module {text-align:center;}
+
   .editorial-chapters {
     position: relative;
   }
@@ -15,26 +20,37 @@
         height: 100%;
         opacity: 0;
         filter: alpha(opacity=0);
-        -webkit-backface-visibility: hidden;
+        @include flickerfix();
       }
         .editorial-carousel-slide {
           position: relative;
           width: 100%;
           height: 100%;
-          float: left;
           display: block;
+          float:left;
+          @include opacity(0);
+          @include transition();
+
+          &.active {
+            position:absolute;
+            z-index:1;
+            @include opacity(100);
+          }
 
           .container {width:100%;}
-              .box {margin-bottom:92px !important;}
         }
     .thumb-nav {
-      position:absolute;
-      bottom:20px;
+      position:relative;
       margin-bottom:0;
       text-align:center;
-      height:72px;
-      left:3.75%;
+      height:68px;
       z-index:1;
+      margin-top:-4px;
+
+      .left-shade,
+      .right-shade {display:none;}
+
+      .slider {margin:0 auto;}
 
       li {
         padding:10px 0;
@@ -48,7 +64,11 @@
         border:0;
         vertical-align:bottom;
         position:relative;
-        box-sizing:content-box;
+        width:25%;
+        overflow:hidden;
+        @include flickerfix();
+        @include box-sizing(content-box);
+        @include opacity(75);
 
         & + li {margin-left:-1px;}
 
@@ -56,10 +76,10 @@
         &:hover {
           border-top:4px solid $linkBlue;
           color:$gray20;
-          margin-top:-4px;
+         
+          background:$gray80;
           @include transition();
-
-          img {@include opacity(100);}
+          @include opacity(100);
         }
 
         .lt-ie8 & {
@@ -73,60 +93,58 @@
             min-width:64px;
             float:left;
             margin:0 10px;
+            @include flickerfix();
             @include transition();
-            @include opacity(90);
           }
           i {
             font-size:20px;
             margin-right:10px;
             line-height:16px;
             position:relative;
-            top:13px;
+            top:9px;
             float:left;
             margin-bottom:20px;
           }
           span {
             font-size:12px;
             position:relative;
-            top:-3px;
+            top:-4px;
+            display:block;
             margin-right:24px;
 
-            &.oneLine {top:14px;}
-            &.twoLine {top:6px;}
+            &.oneLine {top:12px;}
+            &.twoLine {top:4px;}
           }
     }
-    &.full-nav .thumb-nav li {width:25%;}
-    &.gray .thumb-nav li {
-      background:$gray80;
-    }
-    &.dark .thumb-nav li {
-      background:$gray20;
-      color:$white;
-      color:$gray50;
+    &.top-nav .thumb-nav {
+      margin-bottom:24px;
+      width:auto;
+      text-align:left;
+      margin-top:0;
 
-      img {@include opacity(75);}
+      li {
+        width:auto;
+        border-top:0;
+        vertical-align:top;
 
-      &.active,
-      &:hover {
-        color:$white;
-      }
-    }
-    &.top-nav {
-      .thumb-nav {
-        bottom:auto;
-        top:20px;
-
-        li {
-          vertical-align:top;
-
-          &.active,
-          &:hover {
-            border-top:0;
-            border-bottom:4px solid $linkBlue;
-            margin-top:0;
-          }
+        &.active,
+        &:hover {
+          border-top:0;
+          border-bottom:4px solid $linkBlue;
+          margin-top:0;
         }
       }
+        i {
+          float:none;
+          top:13px;
+        }
+        span {display:inline;}
+    }
+    &.gray .thumb-nav li {
+      background:$gray80;
+
+      &:hover,
+      &.active {background:$white;}
     }
     &.thumb-mode .thumb-nav {
       i {display:none;}
@@ -134,27 +152,86 @@
     &.icon-mode .thumb-nav {
         img {display:none;}
         i {margin-left:24px; margin-right:10px;}
-        span {margin-right:20px;}
-    }
-    &.offset-nav {
-      .thumb-nav {
-        position:relative;
-        bottom:auto;
-        top:auto;
-        margin-top:20px;
-        left:auto;
-        width:100%;
-      }
-      &.top-nav .thumb-nav {
-        margin-top:0;
-        margin-bottom:24px;
-      }
-      &.white .thumb-nav {background:$gray80;}
-      &.gray .thumb-nav {background:$white;}
-      &.dark .thumb-nav {background:$gray20;}
+        span {margin-right:24px;}
     }
     &.text-mode .thumb-nav {
       img, i {display:none;}
       span {margin:0 24px;}
     }
+}
+
+.span5,
+.span6,
+.span7 {
+  .editorial-chapters-container {
+    &.thumb-mode {
+      .thumb-nav {
+        height:62px;
+
+        li {
+          width:auto;
+          padding:8px 0;
+          height:42px;
+        }
+          img {
+            width:55px;
+            height:42px;
+            margin:0 5px;
+          }
+          i, span {display:none;}
+      }
+    }
+    &.icon-mode {
+      .thumb-nav {
+        height:54px;
+
+        li {
+          width:auto;
+          height:30px;
+        }
+          img, span {display:none;}
+          i {
+            top:4px;
+            margin:0 15px;
+          }
+      }
+    } 
+    &.text-mode {
+      .thumb-nav {
+        height:48px;
+
+        li {
+          line-height:14px;
+          padding:15px 0;
+          height:14px;
+          width:auto;
+        }
+          img, i {display:none;}
+          span {
+            height:14px;
+            display:block;
+            overflow:hidden;
+            margin:0 15px;
+          }
+          .oneLine,
+          .twoLine {top:0;}
+      }
+    }
+    &.top-nav .thumb-nav {
+      i, img {display:none;}
+      span {
+        display:inline-block;
+        margin-left:20px;
+        top:6px;
+      }
+    }
+  }
+}
+
+.lt-ie10 {
+  .editorial-chapters-container {
+    .editorial-carousel-slide.active {position:relative;}
+    .thumb-nav.container {width:92.5%;}
+    &.top-nav .thumb-nav.container {width:auto;}
+  }
 }

@@ -17,10 +17,14 @@ body {
 .page-wrap-outer{ // always full browser width, never moves
   width:100%;
   overflow:hidden;
+  &.unav-open{
+    // position:fixed;
+  }
 }
 .page-wrap-inner{ // this is to shift the entire content over for the side slide-in menu on mobile
   width:100%;
   position:relative;
+  @include transition( margin-top $transitionSlower $easeOutNav 0s );
 }
 
 
