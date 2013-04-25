@@ -20,7 +20,7 @@
         height: 100%;
         opacity: 0;
         filter: alpha(opacity=0);
-        -webkit-backface-visibility: hidden;
+        @include flickerfix();
       }
         .editorial-carousel-slide {
           position: relative;
@@ -45,6 +45,10 @@
       text-align:center;
       height:68px;
       z-index:1;
+      margin-top:-4px;
+
+      .left-shade,
+      .right-shade {display:none;}
 
       .slider {margin:0 auto;}
 
@@ -60,9 +64,10 @@
         border:0;
         vertical-align:bottom;
         position:relative;
-        box-sizing:content-box;
         width:25%;
         overflow:hidden;
+        @include flickerfix();
+        @include box-sizing(content-box);
         @include opacity(75);
 
         & + li {margin-left:-1px;}
@@ -71,9 +76,8 @@
         &:hover {
           border-top:4px solid $linkBlue;
           color:$gray20;
-          margin-top:-4px;
+         
           background:$gray80;
-          -webkit-backface-visibility:hidden;
           @include transition();
           @include opacity(100);
         }
@@ -89,7 +93,7 @@
             min-width:64px;
             float:left;
             margin:0 10px;
-            -webkit-backface-visibility:hidden;
+            @include flickerfix();
             @include transition();
           }
           i {
@@ -97,20 +101,44 @@
             margin-right:10px;
             line-height:16px;
             position:relative;
-            top:13px;
+            top:9px;
             float:left;
             margin-bottom:20px;
           }
           span {
             font-size:12px;
             position:relative;
-            top:-3px;
+            top:-4px;
             display:block;
             margin-right:24px;
 
-            &.oneLine {top:14px;}
-            &.twoLine {top:6px;}
+            &.oneLine {top:12px;}
+            &.twoLine {top:4px;}
           }
+    }
+    &.top-nav .thumb-nav {
+      margin-bottom:24px;
+      width:auto;
+      text-align:left;
+      margin-top:0;
+
+      li {
+        width:auto;
+        border-top:0;
+        vertical-align:top;
+
+        &.active,
+        &:hover {
+          border-top:0;
+          border-bottom:4px solid $linkBlue;
+          margin-top:0;
+        }
+      }
+        i {
+          float:none;
+          top:13px;
+        }
+        span {display:inline;}
     }
     &.gray .thumb-nav li {
       background:$gray80;
@@ -124,10 +152,86 @@
     &.icon-mode .thumb-nav {
         img {display:none;}
         i {margin-left:24px; margin-right:10px;}
-        span {margin-right:20px;}
+        span {margin-right:24px;}
     }
     &.text-mode .thumb-nav {
       img, i {display:none;}
       span {margin:0 24px;}
     }
+}
+
+.span5,
+.span6,
+.span7 {
+  .editorial-chapters-container {
+    &.thumb-mode {
+      .thumb-nav {
+        height:62px;
+
+        li {
+          width:auto;
+          padding:8px 0;
+          height:42px;
+        }
+          img {
+            width:55px;
+            height:42px;
+            margin:0 5px;
+          }
+          i, span {display:none;}
+      }
+    }
+    &.icon-mode {
+      .thumb-nav {
+        height:54px;
+
+        li {
+          width:auto;
+          height:30px;
+        }
+          img, span {display:none;}
+          i {
+            top:4px;
+            margin:0 15px;
+          }
+      }
+    } 
+    &.text-mode {
+      .thumb-nav {
+        height:48px;
+
+        li {
+          line-height:14px;
+          padding:15px 0;
+          height:14px;
+          width:auto;
+        }
+          img, i {display:none;}
+          span {
+            height:14px;
+            display:block;
+            overflow:hidden;
+            margin:0 15px;
+          }
+          .oneLine,
+          .twoLine {top:0;}
+      }
+    }
+    &.top-nav .thumb-nav {
+      i, img {display:none;}
+      span {
+        display:inline-block;
+        margin-left:20px;
+        top:6px;
+      }
+    }
+  }
+}
+
+.lt-ie10 {
+  .editorial-chapters-container {
+    .editorial-carousel-slide.active {position:relative;}
+    .thumb-nav.container {width:92.5%;}
+    &.top-nav .thumb-nav.container {width:auto;}
+  }
 }

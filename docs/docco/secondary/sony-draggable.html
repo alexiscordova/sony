@@ -91,7 +91,6 @@ cache the new interaction's start position, then bind for movement onto onScrubb
         self.$el.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">'0ms'</span>);
       }
 
-      self.$el.addClass(<span class="string">'dragging'</span>);
       self.isScrubbing = self.hasPassedThreshold = <span class="literal">false</span>;
       self.handleStartPosition = self.getPagePosition(e);
       self.setDimensions();
@@ -137,6 +136,7 @@ cache the new interaction's start position, then bind for movement onto onScrubb
 
       e.preventDefault();
 
+      self.$el.addClass(<span class="string">'dragging'</span>);
       self.handlePosition.x = self.scrubberLeft + distX;
       self.handlePosition.y = self.scrubberTop + distY;
 
@@ -164,6 +164,8 @@ cache the new interaction's start position, then bind for movement onto onScrubb
       self.$el.trigger(<span class="string">'sonyDraggable:dragEnd'</span>, {
         <span class="string">'acceleration'</span>: self.acceleration
       });
+
+      self.$el.removeClass(<span class="string">'dragging'</span>);
 
       <span class="keyword">if</span> ( self.snapToBounds &amp;&amp; self.bounds ) {
         <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'x'</span>) &gt;= <span class="number">0</span> ) {

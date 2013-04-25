@@ -683,14 +683,14 @@ else if data.view == 'blank'
 else if data.view == 'summary'
   titleLabel = data.collectionLabel ? data.collectionLabel : 'Cybershot'
   titleHref = data.collectionHref ? data.collectionHref : '#'
-  sizes = data.sizes ? data.sizes : ['one', 'two', 'three', 'four']
+  sizes = data.sizes ? data.sizes : []
   startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
   msrp = data.msrp ? data.msrp : 'MSRP'
   priceUnit = data.priceUnit ? data.priceUnit : '$'
   buyText = data.buyText ? data.buyText : 'Buy Now'
   modelText = data.modelText ? data.modelText : 'Model Number:'
 
-  .container
+  .container(itemscope, itemtype="http://schema.org/Product")
     .grid.no-grid-at-767.js-even-cols
 
       .span2.product-img-wrap
@@ -708,19 +708,27 @@ else if data.view == 'summary'
 
         +productRating( data.rating.stars, data.rating.reviews )
 
-        .inline-details.clearfix
-          p.p5.product-sizes
-            each size in sizes
-              span.product-size= size
-              span.spacer |
-          +colorSwatches( data.img.colors, true, true )
+        if sizes.length || ( data.img && data.img.colors && data.img.colors.length )
+          .inline-details.clearfix
+            if sizes.length
+              p.p5.product-sizes
+                sizesLength = sizes.length
+                each size, i in sizes
+                  span.product-size= size
+                  if i == sizesLength - 1
+                    if data.img && data.img.colors && data.img.colors.length
+                      span.spacer |
+                  else
+                    span.spacer |
+            if data.img && data.img.colors && data.img.colors.length
+              +colorSwatches( data.img.colors, true, true )
 
       .span2.price-content#span1-at-tablet
         .text-right.pull-right.space-top
           p.p4.price-prefix= startingAtText
           span.p5.msrp= msrp
           span.p1.price
-            strong.text-dark !{ priceUnit + data.price }
+            strong.text-dark(itemprop="price") !{ priceUnit + data.price }
 
       .span2.price-content#span3-at-tablet
         a.btn.btn-large.btn-block(href=data.storeLink)= buyText
@@ -766,14 +774,14 @@ else if data.view == 'recommended'
   msrp = 'MSRP'
 
   .pull-left.js-even-cols
-    +iQImage( data.imgSmall, 'media-object' )
+    +iQImage( data.imgSmall, 'media-object', 'image' )
   .media-body.ghost-center-wrap.js-even-cols
     .ghost-center
-      h4.p3.media-heading= data.name
+      h4.p3.media-heading(itemprop="name")= data.name
       p.p5.price-prefix= startingAtText
       p
         span.p3.price
-          strong= '$' + data.price + '&nbsp;'
+          strong(itemprop="price")= '$' + data.price + '&nbsp;'
         span.l4-light.msrp= msrp
         +heart()
 

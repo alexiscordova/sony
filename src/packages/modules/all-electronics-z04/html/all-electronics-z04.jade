@@ -1,26 +1,26 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('all-electronics-z04')
-+includeCSS('primary-tout-p1-d7')
 
-.all-electronics.container.full-bleed-no-max
-	.primary-tout.container.full-bleed-no-max.title-plate.secondaryAqua
-		.container.full-bleed-no-max.hero-image
-			e = {"locals":locals, "data": data.image}
-			!{locals.partial('packages/modules/image/html/image.jade', e)}
-		.container.inner.light-text-trans-box
-			.grid
-				.span6
-					.box.left
-						h1.t2= data.header.headline
-						p.p3= data.header.body
-	section.container.full-bleed
+section.container.full-bleed.all-electronics
+	.container
 		.grid
 			.span12
 				.products-w-electronics
 					- each category, i in data.electronics_all
 						.products-w
-							.products-hdg
-								h4.t4-bold= category.label
+							- if (category.description) {
+								.products-hdg-desc
+									h4.t4-bold= category.label
+									.products-desc
+										.p2= category.description
+							- } else {
+								.products-hdg
+									h4.t4-bold= category.label
+							- }
+							- if (category.link) {
+								.products-link
+									a.btn(href=category.link.href)= category.link.label
+							- }
 							.products-section-main
 								ul.products-list-main
 									- each product, i in category.menu_main.menu_items

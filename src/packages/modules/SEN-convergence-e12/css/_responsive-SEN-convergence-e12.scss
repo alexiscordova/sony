@@ -1,0 +1,69 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$phone: px-em(568);
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$desktopMin: px-em(980);
+
+
+
+
+@media ( max-width: $desktopMin ) {
+  .sen-convergence {
+    .sen-bg-img {
+      height: 429px;
+    }
+  }
+}
+
+@media ( max-width: $tabletMax ) {
+  .sen-convergence {
+    .sen-bg-img {
+      height: 547px;
+    }
+    
+  }
+}
+
+
+@media ( max-width: $phoneMax ) {
+  .sen-convergence {
+    .sen-bg-img {
+      height: 361px;
+    }
+    .grid-placement {
+      position: relative;
+    }
+    .module-hdg {
+      margin-top: 13px;
+      margin-bottom: 18px;
+    }
+    .sen-convergence-content {
+      padding: 0;
+      text-align: center;
+    }
+    .logo-container {
+      margin-bottom: 5px;
+    }
+    .sen-convergence-text {
+      margin-bottom: 21px;
+      text-align: center;
+    }
+    a.btn {
+      margin-bottom: 36px;
+    }
+    
+  }
+}
+
+
+@media ( max-width: $phone ) {
+  .sen-convergence {
+    .sen-bg-img {
+      height: 181px;
+    }
+  }
+}
+

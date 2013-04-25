@@ -466,7 +466,7 @@ mixin recommendedTile( recommended )
     .wrap
       ul.media-list
         each product in recommended.products
-          li.media
+          li.media(itemscope, itemtype="http://schema.org/Product")
             d = locals.data( product.data )
             - d.view = "recommended"
             e = { "locals" : locals, "data" : d }

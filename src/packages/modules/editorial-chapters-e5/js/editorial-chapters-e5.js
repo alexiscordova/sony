@@ -56,6 +56,9 @@ define(function(require){
       self.$slides              = self.$el.find('.editorial-carousel-slide');
       self.$slideContainer      = self.$el.find('.editorial-carousel');
       self.$thumbNav            = self.$el.find('.thumb-nav');
+      self.$slider              = self.$el.find('.slider');
+      self.$leftShade           = self.$el.find('.left-shade');
+      self.$rightShade          = self.$el.find('.right-shade');
       self.$thumbItems          = self.$thumbNav.find('li');
       self.$thumbLabels         = self.$thumbNav.find('span');
 
@@ -187,18 +190,6 @@ define(function(require){
         });
       },
 
-      initScroller: function(){
-        self = this;
-
-        self.$thumbNav.scrollerModule({
-          contentSelector: '.slider',
-          iscrollProps: {
-            hScrollbar: false,
-            isOverflowHidden: false
-          }
-        });
-      },
-
       // Handles when a thumbnail is chosen
       onThumbSelected: function($el){
         var self = this,
@@ -219,6 +210,44 @@ define(function(require){
         var self = this;
         self.$thumbNav.find('li').removeClass('active')
           .eq( self.currentId ).addClass('active');
+      },
+
+      initScroller: function(){
+        var self = this;
+
+        self.$thumbNav.scrollerModule({
+          contentSelector: '.slider',
+          iscrollProps: {
+            hScrollbar: false,
+            vScrollbar: false,
+            isOverflowHidden: false,
+            //increase width of slider by 1 on load so scrolled items dont wrap in FF
+            onRefresh: function(){
+              self.$slider.width( self.$slider.width() + 1 );
+            },
+            onScrollMove: function(){
+              var node = self.$slider.get(0),
+                  curTransform = new WebKitCSSMatrix(window.getComputedStyle(node).webkitTransform),
+                  sliderOffset = node.offsetLeft + curTransform.m41, //real offset left
+                  sliderWidth = self.$slider.width(),
+                  navWidth = self.$thumbNav.width();
+              
+              //left shadow
+              if (sliderOffset < 0) { 
+                self.$leftShade.show();
+              } else {
+                self.$leftShade.hide();
+              }
+    
+              //right shadhow
+              if ( sliderOffset > ((-1 * sliderWidth) + navWidth)) { 
+                self.$rightShade.show();
+              } else {
+                self.$rightShade.hide();
+              }
+            }
+          }
+        });
       }
 
       //end prototype object
