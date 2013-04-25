@@ -15,15 +15,15 @@ mixin socialButton(link, label)
   .social-btn
     a.btn.btn-small(href= link)= label
 
-mixin header(header)
+mixin header(data)
   .tcc-header-wrapper
     .container
       .tcc-header.grid.no-grid-at-479
         .span6
-          p.tcc-header-title.l1 #{header.title}
+          p.tcc-header-title.l1 #{data.title}
         .span3.offset3
           p.tcc-header-link.lt3
-            a(href="#{header.link}") #{header.linkText}
+            a(href= #{data.link}) #{data.linkText}
 
 mixin article(type, data)
   if(type == "featured")
@@ -159,8 +159,10 @@ mixin sonysVoiceBottom(mode, module)
 
   +socialButton( module.socialBtnLink, label )
 
-mixin flickrContent(meta, images, btnLink, btnLabel)
-  if (contentMode == "default")
+//- mixin flickrContent(meta, images, btnLink, btnLabel)
+//- module.meta, module.images, module.socialBtnLink, "View Set on Flickr"
+mixin flickrContent(data, mode)
+  if (mode == "default")
     .top
       .icon-container
         .white-bg.fonticon-10-dot
@@ -168,7 +170,7 @@ mixin flickrContent(meta, images, btnLink, btnLabel)
         .right.fonticon-10-dot
 
       .meta.p4
-        for info in meta
+        for info in data.meta
           if (info.user)
             span.user= info.user
 
@@ -179,15 +181,15 @@ mixin flickrContent(meta, images, btnLink, btnLabel)
       .center-container
         .top-row
             - for (i = 0; i <= 2; i++) {
-            if(images[i])
+            if(data.images[i])
               div
-                +iQImage(images[i],'tcc-image')
+                +iQImage(data.images[i])
             -}
         .bottom-row
             - for (i = 3; i <= 5; i++) {
-            if(images[i])
+            if(data.images[i])
               div
-                +iQImage(images[i],'tcc-image')
+                +iQImage(data.images[i])
             -}
     .bottom
-      +socialButton( btnLink, btnLabel )
+      +socialButton( data.socialBtnLink, "View Set on Flickr" )

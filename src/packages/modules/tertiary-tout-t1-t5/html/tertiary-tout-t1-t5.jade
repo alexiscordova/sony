@@ -4,9 +4,11 @@ include ../../../common/html/jade-helpers.jade
 
 include tertiary-t1-t5-helpers.jade
 
+- header = {"title": "Latest News", "link": "#", "linkText": "Sony Press Center"}
+
 //- START TCC MODULE
 section.tcc-module.container.full-bleed-no-max
-  +header(data.header)
+  +header(header)
 
   div#three-up
     div.tcc-carousel-wrapper
@@ -46,9 +48,9 @@ section.tcc-module.container.full-bleed-no-max
                           +sonysVoiceBottom(mode, module)
     
                       when "flickr"
-                        +flickrContent(module.meta, module.images, module.socialBtnLink, "View Set on Flickr")
+                        +flickrContent(mode, module)
 
-         
+
 //- END TCC MODULE
 
 
