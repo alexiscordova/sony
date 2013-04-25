@@ -1,0 +1,47 @@
+include ../../../common/html/jade-helpers.jade
++includeJavascriptModule('editorial-360viewer-e8')
+
+- type = data.type
+- image = data.sequence[0].image || null
+- extraclass = image.classes || ""
+- id = data.id || ""
+- startId = id+"-0"
+- isDark = data.dark ? "dark" : "light"
+
+.e360(id=data.id)
+  .outer
+    if data.background === "true"
+      - i = 0
+      - for imgData in data.sequence
+        - sequenceId = id+"-"+i 
+        if i == 0
+          hide = ""
+        else 
+          hide = "hidden"
+        if data.heights
+          string = "#"+ sequenceId +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+sequenceId+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+sequenceId+" {height: "+data.heights.phone+"}} "
+          style(type = "text/css")
+            #{string}
+        .image-module.track-by-background.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+        - i++
+    else
+      - i = 0
+      - for imgData in data.sequence
+        - sequenceId = id+"-"+i 
+        if i == 0
+          hide = ""
+        else 
+          hide = "hidden"
+        img.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+          noscript
+            img(src= imgData.noscriptsrc) 
+        - i++
+
+  .controls.container
+    .grid.no-grid-at-767
+      .span12
+        .table-center-wrap
+          .table-center(class=isDark)
+            i.left-arrow.fonticon-10-chevron-reverse
+            span.instructions.l3(class=isDark) DRAG
+            i.right-arrow.fonticon-10-chevron

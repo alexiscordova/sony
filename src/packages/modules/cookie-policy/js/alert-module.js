@@ -41,7 +41,7 @@ define(function(require){
 
     constructor: AlertModule,
     
-    // show ther alert 
+    // display the alert 
     _displayAlert: function() {
       var self = this;
 

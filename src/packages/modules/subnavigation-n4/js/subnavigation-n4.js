@@ -52,12 +52,12 @@ define(function(require){
       var self = this;
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 768px)", function() {
+        enquire.register("(min-width: 1023px)", function() {
           self.renderSubcats(null, false);
           self.renderNav();
           self.mode = 'desktop';
         });
-        enquire.register("(min-width: 480px) and (max-width: 767px)", function() {
+        enquire.register("(min-width: 480px) and (max-width: 1023px)", function() {
           self.renderSubcats(null, true);
           self.renderNav();
           self.mode = 'tablet';
