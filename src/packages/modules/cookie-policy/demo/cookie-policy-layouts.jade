@@ -3,12 +3,18 @@ doctype 5
 include ../../../common/html/ieconditionals.html
 
 l = {"locals":locals}
+
   head
+    title Cookie Policy Layouts
     include ../../../common/html/head.jade
 
   body
-
+    h6 Cookie Module (implicit)
+    +partial('cookie-policy/html/cookie-policy.jade', 'packages/modules/cookie-policy/demo/data/cookie-policy-implicit.json')
+      hr         
+    h6 Cookie Module (explicit)
     +partial('cookie-policy/html/cookie-policy.jade', 'packages/modules/cookie-policy/demo/data/cookie-policy-explicit.json')
+      hr         
 
     include ../../../common/html/foot.jade
 </html>

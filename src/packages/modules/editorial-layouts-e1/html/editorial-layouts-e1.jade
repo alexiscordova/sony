@@ -6,12 +6,12 @@ mixin gridstyle(_extra)
   extraclass = _extra ? _extra : ""
   .grid.no-grid-at-767(class = extraclass)(class = data.style)
     block
-    
+
 mixin center
   .table-center-wrap
     .table-center
       block
-      
+
 mixin col(_layout, extras)
   layout = _layout ? _layout : data.layout
   if layout.text == "left"
@@ -51,7 +51,7 @@ mixin boxlayout(_layout)
           +center
             +boxclass
               block
-                
+
 mixin toutcopy(copyobject, titleclass, subtitleclass, bodyclass)
   span.toutcopy
     +copyblock(copyobject, titleclass, subtitleclass, bodyclass)
@@ -90,7 +90,7 @@ mixin textonlylayout(_layout)
 bg = ""
 if data.variation
   bg = data.variation.background || ""
-.editorial.container.full-bleed-no-max(class = data.mode)(class = bg)
+.editorial(class = data.mode)(class = bg)
   if data.mode == "textonly"
     .container
       +gridstyle
@@ -141,7 +141,7 @@ if data.variation
       if data.title
         +gridstyle("title-block")
           +textonlylayout
-            +copyblock
+            +copyblock(data, "t3", "t7", "p3")
       if data.submodules
         .submodule
           +partial(data.submodules[0].type, data.submodules[0].data)
@@ -157,17 +157,17 @@ if data.variation
               +toutimage(e)
             span = "span"+ data.layout.tout.columns[columnoffset +1]
             div(class = span)(class = "text"+data.layout.tout.text)
-              +toutcopy(data.columns[0], "t6", "", "p3")
-  
+              +toutcopy(data.columns[0], "t7", "", "p3")
+
           else
             span = "span"+ data.layout.tout.columns[columnoffset]
             div(class = span)(class = offset)(class = "text"+data.layout.tout.text)
-              +toutcopy(data.columns[0], "t6", "", "p3")
+              +toutcopy(data.columns[0], "t7", "", "p3")
             span = "span"+ data.layout.tout.columns[columnoffset +1]
             div(class = span)
               +toutimage(e)
-  
-  
+
+
         else if data.columns.length == 2
           for col, i in data.columns
             e = {"locals":locals, "data":col.image}
@@ -176,21 +176,21 @@ if data.variation
             if data.layout.tout.orientation == "vertical"
               .vertical(class = span)(class = offset)(class = data.layout.tout.alignment)
                 +toutimage(e)
-                +toutcopy(col,"t6", "", "p3")
+                +toutcopy(col,"t7", "", "p3")
             else
               .horizontal(class = span)(class = offset)(class = data.layout.tout.alignment)(class = "clearfix")
                 +toutimage(e)
                 div
                   +center
                     +toutcopy(col, "t7", "", "p3 hidden-phone")
-  
+
         else if data.columns.length == 3
           for col, i in data.columns
             e = {"locals":locals, "data":col.image}
             span = "span"+ data.layout.tout.columns[i]
             div(class = span)(class = data.layout.tout.alignment)
               +toutimage(e)
-              +toutcopy(col,"t6", "", "p3")
+              +toutcopy(col,"t7", "", "p3")
 
 
 

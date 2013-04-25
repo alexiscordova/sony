@@ -39,8 +39,8 @@ Settings = require('require/sony-global-settings'),</p>             </td>       
 
         <span class="keyword">var</span> w = $(window).outerWidth();
         <span class="keyword">if</span>(w &gt; <span class="number">980</span>){
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>this makes the header grow 1px taller for every 20px over 980w..</p>             </td>             <td class="code">               <div class="highlight"><pre>          $(<span class="string">'.primary-tout.homepage .image-module'</span>).css(<span class="string">'height'</span>, Math.round(Math.min(<span class="number">770</span>, <span class="number">490</span> + ((w - <span class="number">980</span>) / <span class="number">5</span>))));
-          $(<span class="string">'.primary-tout.default .image-module'</span>).css(<span class="string">'height'</span>, Math.round(Math.min(<span class="number">660</span>, <span class="number">560</span> + ((w - <span class="number">980</span>) / <span class="number">5</span>))));
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>this makes the header grow 1px taller for every 20px over 980w..</p>             </td>             <td class="code">               <div class="highlight"><pre>          $(<span class="string">'.primary-tout.product-intro-plate .image-module'</span>).css(<span class="string">'height'</span>, Math.round(Math.min(<span class="number">720</span>, <span class="number">560</span> + ((w - <span class="number">980</span>) / <span class="number">5</span>))));
+          $(<span class="string">'.primary-tout.default .image-module, .primary-tout.homepage .image-module'</span>).css(<span class="string">'height'</span>, Math.round(Math.min(<span class="number">640</span>, <span class="number">520</span> + ((w - <span class="number">980</span>) / <span class="number">5</span>))));
         }<span class="keyword">else</span>{
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>this removes the dynamic css so it will reset back to responsive styles</p>             </td>             <td class="code">               <div class="highlight"><pre>          $(<span class="string">'.primary-tout .image-module'</span>).css(<span class="string">'height'</span>, <span class="string">''</span>);
         }
@@ -55,7 +55,7 @@ Settings = require('require/sony-global-settings'),</p>             </td>       
       _init: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-        <span class="keyword">if</span>($(<span class="string">".primary-tout.homepage, .primary-tout.default"</span>).length &gt; <span class="number">0</span>){
+        <span class="keyword">if</span>($(<span class="string">".primary-tout.homepage, .primary-tout.default, .primary-tout.product-intro-plate"</span>).length &gt; <span class="number">0</span>){
           self.resize();
           Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.resize, self));
         }
@@ -65,12 +65,12 @@ Settings = require('require/sony-global-settings'),</p>             </td>       
         <span class="keyword">if</span>(btn.length &gt; <span class="number">0</span>){
           btn.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
             e.preventDefault();
-            self.$el.find(<span class="string">'.hero-image'</span>).addClass(<span class="string">'hidden'</span>);
+            self.$el.find(<span class="string">'.hero-image, .inner, .mobile-buttons-wrap'</span>).addClass(<span class="string">'hidden'</span>);
             self.$el.find(<span class="string">'.submodule'</span>).eq($(<span class="keyword">this</span>).data(<span class="string">'submodule'</span>)).removeClass(<span class="string">'hidden'</span>);
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>play video?</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
           self.$el.find(<span class="string">'.submodule .box-close'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
             e.preventDefault();
-            self.$el.find(<span class="string">'.hero-image'</span>).removeClass(<span class="string">'hidden'</span>);
+            self.$el.find(<span class="string">'.hero-image, .inner, .mobile-buttons-wrap'</span>).removeClass(<span class="string">'hidden'</span>);
             self.$el.find(<span class="string">'.submodule'</span>).addClass(<span class="string">'hidden'</span>);
           });
         }
