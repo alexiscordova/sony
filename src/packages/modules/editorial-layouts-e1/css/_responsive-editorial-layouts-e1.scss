@@ -1,9 +1,11 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
+$subPhoneMax: px-em(479);
 $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
+$superDesktop: px-em(1200);
 
 //tablet only
 @media (min-width: $tabletMin) and (max-width: $tabletMax) {
@@ -20,6 +22,14 @@ $tabletMax: px-em(979);
   .editorial.medialeft {
     .grid {
       min-height: 460px;
+    }
+  }
+
+  .editorial.full-inner,
+  .editorial.full-tout,
+  .editorial.full {
+    .submodule > .image-module {
+      height: 440px;
     }
   }
 
@@ -108,6 +118,13 @@ $tabletMax: px-em(979);
       padding: 22px 28px 26px 28px;
     }
   }
+  .editorial.full-inner,
+  .editorial.full-tout,
+  .editorial.full {
+    .submodule > .image-module {
+      height: 320px;
+    }
+  }
   .editorial.full-tout,
   .editorial.tout {
     .container {
@@ -165,6 +182,7 @@ $tabletMax: px-em(979);
     }
   }
 
+
   // "Editorial modules that have a dark panel/light text at desktop view -
   // that panel should go to a tone with dark text in mobile view"
   .editorial .light-text-dark-box {
@@ -180,5 +198,26 @@ $tabletMax: px-em(979);
       background: $gray80;
     }
   }
+}
 
+//bottom end
+@media (max-width: $subPhoneMax) {
+  .editorial.full-inner,
+  .editorial.full-tout,
+  .editorial.full {
+    .submodule > .image-module {
+      height: 220px;
+    }
+  }
+}
+
+//top end
+@media (min-width: $superDesktop) {
+  .editorial.full-inner,
+  .editorial.full-tout,
+  .editorial.full {
+    .submodule > .image-module {
+      height: 620px;
+    }
+  }
 }
