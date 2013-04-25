@@ -1,14 +1,10 @@
 #Overview
 The primary tout is a large header section with text over a full-bleed image, generally the first thing on the page. It has a few variations and layout options, in some cases it is just text, in others it can load a video or gallery into itself. 
 
-##Description 
-
-The primary tout is a large header section with text over a full-bleed image, generally the first thing on the page. It has a few variations and layout options, in some cases it is just text, in others it can load a video or gallery into itself.
-
 ##Configuration 
 
 **mode:**  
-*default P1, P2* - primary tout standard - Most basic mode with text in one block with the option for right or left positioning  
+*default P1, P2, p3* - primary tout standard - Most basic mode with text in one block with the option for right or left positioning  
 *homepage P1* - Specific to the homepage, slightly different layout with the h1 separate from the text block  
 *product-intro-plate D3* - This has a video and or gallery button that loads in a submodule, mainly used on PDP's   
 *title-plate D7* - simple photo and text header that is shorter than the default p1 and generally used on gallery pages  
@@ -16,7 +12,7 @@ The primary tout is a large header section with text over a full-bleed image, ge
 **layout:** defines the main layout columns  
 *text* - which column the text goes into (right | left | center)  
 *alignment* - text alignment within the column (left | right | center)  
-*mobilealign* - (top | bottom) some configs define the text locking to the top or bottom of the container in mobile  
+*valign* - (top | bottom | middle)
 *columns* - array of the column breakdown for 12 column grid in order from left to right ie: [5,7] span5 on left span7 on right -or- [1,10,1] span10 in the middle of the page  
 
 **theme:** some configurations define an optional global theme color ie (themePurple | themeGreen) some text, buttons, and icons pick up this color  
@@ -24,11 +20,11 @@ The primary tout is a large header section with text over a full-bleed image, ge
 **style:** additional classes that define if it has a dark or light text box or if the text is dark or light, etc  
 
 **variation:** optional variation parameters get picked up for certain modes  
-*headertext* - (undefined | smaller | larger) - makes the header a t1 for larger and a t3 for smaller undefined is t2  
-*mobilealign* - (top | bottom) - makes the text panel align top or bottom in phone layout  
+*mobilebg* - (undefined | true) - forces background box - always contrasts the text color so if style is dark-text-trans-box it goes light-box in mobile, light-text-trans-box = dark-box
 *quote* - (undefined | true) - makes the text a quote style on the homepage  
 *secondbox* - (undefined | true) - uses the second box style for the homepage design  
-*substyle* - (required if secondbox is true) style for the second box  
+*substyle* - (required if secondbox is true) style for the second box
+*backgroundstyle* - (undefined | full-bleed | solid-color) - only for d7 variations, bg can be full bleed (cover), a solid color, or defaults to a set size (auto not cover)
 
 **image:** defines the image src and attrubutes (see image module)
 

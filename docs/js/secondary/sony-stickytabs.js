@@ -1,5 +1,3 @@
-/*global SONY, iQ*/
-
 // * Module: Sticky Tabs
 // * Version: 1.0
 // * Modified: 01/28/2013

@@ -304,8 +304,9 @@ define(function(require){
 
         var $sibs = $destinationSlide.siblings();
 
-        $destinationSlide.addClass('active').hide().fadeIn('fast');
-        $sibs.fadeOut('fast', function(){ $sibs.removeClass('active'); });
+        $sibs.fadeOut('fast', function(){
+          $destinationSlide.fadeIn('fast');
+        });
 
       }
 
