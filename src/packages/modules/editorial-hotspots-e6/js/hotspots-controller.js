@@ -298,6 +298,16 @@ define(function(require) {
       }
     },
     
+    disableScroll: function( flag ) {
+      if( flag ) {
+        document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+        document.body.scroll = "no"; // ie only        
+      } else {
+        document.documentElement.style.overflow = 'auto';  // firefox, chrome
+        document.body.scroll = "yes"; // ie only
+      }
+    },
+    
     hover: function( el, self, flag ) {
       switch(flag) {
         case true:
@@ -462,11 +472,11 @@ define(function(require) {
           self.lastOverlayFadein = setTimeout( function() {
             overlayBase.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           }, 10 );
-          // stop scroll
-          document.documentElement.style.overflow = 'hidden';  // firefox, chrome
-          document.body.scroll = "no"; // ie only
         }, 200);
+        // stop scroll
+        self.disableScroll( true );
         
+
       } else {
         // cleanup
         clearTimeout( self.lastOverlayFadeout );
@@ -496,8 +506,7 @@ define(function(require) {
         }
        
         // reenable scrolling
-        document.documentElement.style.overflow = 'auto';  // firefox, chrome
-        document.body.scroll = "yes"; // ie only 
+        self.disableScroll( false );
         
       }
     },
@@ -573,7 +582,7 @@ define(function(require) {
         
         /* log('unabaited repositioning'); */
         self.reanchor(el, false);
-        
+
         /*
          * INITIAL CALCULATIONS TO SEE IF WE'RE COLLIDING AT THE DEFAULT POSITIONING (TOP RIGHT)
          * THIS SHOULD LOOP 4 TIMES. IF IT'S STILL COLLIDING WE HAVE TO FIGURE THAT OUT...heh...
