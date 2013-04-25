@@ -4,7 +4,7 @@ define(function(require){
 
   var $ = require('jquery'),
       bootstrap = require('bootstrap'),
-      iQ = require('iq'),
+      iQ = require('iQ'),
       enquire = require('enquire');
 
   var module = {
