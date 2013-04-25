@@ -2,6 +2,10 @@
 // Responsive: Chapters - E5
 // --------------------------------------------------
 
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+
 @mixin compact-thumb-nav {
   &.thumb-mode {
     .thumb-nav {
@@ -109,4 +113,13 @@
 
 @media (max-width: 767px) {
   .editorial-chapters-container .box {margin-bottom:0 !important;}
+}
+
+//tablet only
+@media (min-width: $tabletMin) and (max-width:$tabletMax) {
+  .editorial-chapters-container .image-module {height:440px;}
+}
+//phone only
+@media (max-width: $phoneMax) {
+  .editorial-chapters-container .image-module {height:320px;}
 }
