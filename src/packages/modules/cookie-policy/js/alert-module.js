@@ -17,7 +17,6 @@ define(function(require){
   // Defaults
   // --------
   defaults = {
-    allowsCookies : true,
     alertSelector : '.alert'
   };
 
@@ -51,6 +50,7 @@ define(function(require){
 
     },
     
+    .
     _closeAlert: function(event) {
       var el = event.target, 
           self = this,
