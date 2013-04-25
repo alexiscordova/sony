@@ -1,5 +1,4 @@
 /*global log*/
-/*jshint debug:true */
 
 // ------------ Sony Alert ------------
 // Module: Alert Module
@@ -50,7 +49,6 @@ define(function(require){
 
     },
     
-    .
     _closeAlert: function(event) {
       var el = event.target, 
           self = this,
