@@ -3,7 +3,9 @@
   <span class="string">'use strict'</span>;
 
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
-      bootstrap = require(<span class="string">'bootstrap'</span>);
+      bootstrap = require(<span class="string">'bootstrap'</span>),
+      iQ = require(<span class="string">'iQ'</span>),
+      enquire = require(<span class="string">'enquire'</span>);
 
   <span class="keyword">var</span> module = {
     init: <span class="keyword">function</span>() {
@@ -11,6 +13,21 @@
         $(<span class="string">'#light-compare-modal'</span>).modal();
       });
       <span class="keyword">this</span>.tabhide();
+
+      <span class="keyword">var</span> breakpoints = [ <span class="number">767</span>, <span class="number">768</span>, <span class="number">979</span>, <span class="number">980</span> ];
+      <span class="keyword">var</span> breakpointReactor = <span class="keyword">function</span>( e ) {
+        iQ.update();
+      };
+
+      <span class="keyword">for</span>( <span class="keyword">var</span> i=<span class="number">0</span>; i &lt; breakpoints.length; i++ ) {
+        <span class="keyword">if</span>( <span class="number">0</span> === i ) {
+          <span class="comment">/* log( "(max-width: " + breakpoints[ i ] + "px)" ); */</span>
+          enquire.register( <span class="string">"(max-width: "</span> + breakpoints[ i ] + <span class="string">"px)"</span>, breakpointReactor).listen();
+        } <span class="keyword">else</span> {
+          <span class="comment">/* log( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)" ); */</span>
+          enquire.register( <span class="string">"(min-width: "</span> + ( breakpoints[ i-<span class="number">1</span> ] + <span class="number">1</span> ) + <span class="string">"px) and (max-width: "</span> + breakpoints[ i ] + <span class="string">"px)"</span>, breakpointReactor).listen();
+        }
+      }
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>temp tab behavior, remove this after integrating tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>    tabhide: <span class="keyword">function</span>(){
