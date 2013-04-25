@@ -14,20 +14,19 @@
 define(function(require){
 
   'use strict';
-  
+
   // provisions
   var $ = require( 'jquery' ),
       iQ = require( 'iQ' ),
-      bootstrap = require( 'bootstrap' ),
-      enquire = require('enquire'),
-      Settings = require( 'require/sony-global-settings' ),
+      bootstrap   = require( 'bootstrap' ),
+      enquire     = require( 'enquire' ),
+      Settings    = require( 'require/sony-global-settings' ),
       Environment = require( 'require/sony-global-environment' ),
-      Utilities = require( 'require/sony-global-utilities' );
+      Utilities   = require( 'require/sony-global-utilities' ),
+      hammer      = require( 'plugins/index' ).hammer;
 
-  // outer scope holding 'self'
   var self = {
     'init': function() {
-
       // setup breakpoints
       var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
       var breakpointReactor = function( e ) {
@@ -48,7 +47,6 @@ define(function(require){
         // for each instance, initialize
         $( this ).editorial360Viewer({});
       });
-      
     }
   };
 
@@ -63,8 +61,9 @@ define(function(require){
     self.$controlCenter = self.$controls.find( '.instructions' );
     self.$leftArrow     = self.$controls.find( '.left-arrow' );
     self.$rightArrow    = self.$controls.find( '.right-arrow' );
+    self.isImage        = $( self.$sequence[0] ).is( 'img' ) ? true : false;
     self.sequenceLength = self.$sequence.length;
-    self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
+    self.dynamicBuffer  = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
     self.curIndex       = 0;
     self.movingLeft     = false;
     self.movingRight    = false;
@@ -72,8 +71,6 @@ define(function(require){
     self.lastX          = null;
     self.lastTriggerX   = null;
     self.inMotion       = false;
-    
-    log( self.$sequence ); 
     
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
@@ -118,12 +115,26 @@ define(function(require){
         self.mouseMove( event );
       });
       
+      // adjust controls to center if type is image
+      if( true === self.isImage ) {
+        self.syncControlLayout();
+      }
+      
       log('SONY : Editorial 360 Viewer : Initialized');
+    },
+    
+    syncControlLayout: function() {
+      var self = this;
+      var _assetWidth = $( self.$sequence[0] ).width();
+      self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
     },
     
     onResize: function( event ) {
       var self = this;
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
+      if( true === self.isImage ) {
+        self.syncControlLayout();
+      }
     },
     
     onScroll: function( event ) {
@@ -131,6 +142,9 @@ define(function(require){
       if( false === self.inMotion) {
         self.inMotion = true;
         self.animateDragger();
+      }
+      if( true === self.isImage ) {
+        self.syncControlLayout();
       }
     },
     
