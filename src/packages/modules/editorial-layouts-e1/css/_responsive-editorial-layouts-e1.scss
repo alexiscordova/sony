@@ -47,10 +47,21 @@ $superDesktop: px-em(1200);
       display: none !important; // override important from hidden-phone display:inherit;
     }
 
-    .m2up .image-module {
+    .m2up .horizontal .image-module {
       width: 122px;
       height: 122px;
+      margin: auto;
     }
+
+    .m2up .horizontal > div {
+      height: 122px;
+    }
+  }
+
+  // The title block doesn't line up with anything when used with touts
+  .editorial.tout .title-block .box {
+    padding-right: 0;
+    padding-left: 0;
   }
 }
 
@@ -85,18 +96,22 @@ $superDesktop: px-em(1200);
   .editorial.full-inner {
     .inner {
       position: relative;
+
       > .grid {
         width: 100%;
       }
     }
+
     .box {
       margin-top: 0;
       padding: 22px 28px 26px 28px;
     }
+
     .box.center {
       padding: 22px 28px 26px 28px;
     }
   }
+
   .editorial.mediaright,
   .editorial.medialeft {
     .grid {
@@ -118,6 +133,7 @@ $superDesktop: px-em(1200);
       padding: 22px 28px 26px 28px;
     }
   }
+
   .editorial.full-inner,
   .editorial.full-tout,
   .editorial.full {
@@ -125,53 +141,70 @@ $superDesktop: px-em(1200);
       height: 320px;
     }
   }
+
   .editorial.full-tout,
   .editorial.tout {
+    padding: 20px 0;
+
     .container {
       overflow: hidden;
       padding-bottom: 2px;
     }
-    padding: 20px 0;
+
     .grid {
       width: 100%
     }
+
+    // Mobile 1up
     .m1up {
       .textright,
       .textleft {
         padding: 0 28px;
       }
+
       .offset1{
         margin-bottom: 30px;
       }
     }
+
+    // Mobile 2up
     .m2up {
       width: 220%;
       position: relative;
+
       > div {
         position: relative;
         float: left;
         width: 45%;
         margin-right: 5%;
       }
+
+      .horizontal .image-module {
+        width: 98px;
+        height: 98px;
+        margin: auto;
+      }
+
       .horizontal {
         > div {
           height: 98px;
         }
+
         .table-center-wrap {
           padding: 0 20px;
         }
-        .image-module {
-          width: 98px;
-          height: 98px;
-        }
       }
+
       .vertical {
         padding: 0 28px;
       }
     }
+
+    // Mobile 3up
     .m3up {
       width: 330%;
       position: relative;
+
       > div {
         float: left;
         position: relative;
