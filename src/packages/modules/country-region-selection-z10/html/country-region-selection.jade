@@ -1,4 +1,6 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('country-region-selection')
++includeCSS('country-region-selection-flags')
 +includeJavascriptModule('country-region-selection-z10')
 
 .country-region.container.continent-sticky-header
@@ -33,11 +35,11 @@ include ../../../common/html/jade-helpers.jade
                     - var country = continent.countries[j];
 
                     li
-                      a(href="#{country.url}")
+                      a(href="#{country.url}").country
                         .media
                           .media-img
                             i(class="icon-flag icon-flag-#{country.icon}")
-                          .media-bd.country= country.name
+                          .media-bd= country.name
                   - }
             - }
 

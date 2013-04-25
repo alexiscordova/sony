@@ -1,12 +1,12 @@
 
-// Reviews + Awards (Subnavigation) Module
+// Subnavigation (Subnavigation) Module
 // ---------------------------------------
 //
 // * **Class:** Subnavigation
 // * **Version:** 0.1
 // * **Modified:** 04/17/2013
 // * **Author:** George Pantazis
-// * **Dependencies:** jQuery 1.7+, Modernizr, [SonyCarousel](sony-carousel.html),
+// * **Dependencies:** jQuery 1.7+, Modernizr, Enquire, [SonyCarousel](sony-carousel.html),
 
 define(function(require){
 
@@ -16,6 +16,8 @@ define(function(require){
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
+      Utilities = require('require/sony-global-utilities'),
+      Environment = require('require/sony-global-environment'),
       SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
@@ -31,8 +33,9 @@ define(function(require){
     var self = this;
 
     self.$el = $(element);
-    self.$navgrid = self.$el.find('nav .slimgrid');
-    self.$subcats = self.$el.find('.subnav-tray .subcategory');
+    self.$navgroups = self.$el.find('nav .subnav-nav-carousel-slide');
+    self.$tray = self.$el.find('.subnav-tray');
+    self.$subcats = self.$tray.find('.subcategory');
 
     self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
 
@@ -50,115 +53,141 @@ define(function(require){
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
         enquire.register("(min-width: 768px)", function() {
-          self.renderDesktop();
+          self.renderSubcats(null, false);
+          self.renderNav();
+          self.mode = 'desktop';
         });
         enquire.register("(min-width: 480px) and (max-width: 767px)", function() {
-          self.renderTablet();
+          self.renderSubcats(null, true);
+          self.renderNav();
+          self.mode = 'tablet';
         });
         enquire.register("(max-width: 479px)", function() {
-          self.renderMobile();
+          self.renderSubcats(null, true);
+          self.renderNav(true);
+          self.mode = 'mobile';
         });
       } else {
-        self.renderDesktop();
+        self.renderSubcats(null, false);
+        self.renderNav();
+        self.mode = 'desktop';
       }
 
-      // Debug
-      self.renderSubcategory('televisions');
+      Environment.on('global:resizeDebounced', $.proxy(self.setTrayHeight, self));
     },
 
-    renderDesktop: function() {
+    renderSubcats: function($subcat, mobile) {
 
-      var self = this;
+      var self = this,
+          $grids;
 
-      if ( self.$activeSubcatGrids ) {
-        self.$activeSubcatGrids = self.gridApportion(self.$activeSubcatGrids, false);
-        self.$activeSubcatGrids.removeClass('m-grid-override');
+      $subcat = $subcat || self.$activeSubcat;
+
+      if ( !$subcat ) {
+        return;
       }
 
-      self.$navgrid = self.gridApportion(self.$navgrid, false, true);
-      self.$navgrid.removeClass('m-grid-override');
+      $grids = $subcat.find('.subnav-product-grid');
+
+      $grids = Utilities.gridApportion({
+        $groups: $grids,
+        mobile: mobile
+      });
+
+      $grids[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
+
+      self.$activeSubcat = $subcat;
+      self.setTrayHeight();
     },
 
-    renderTablet: function() {
+    renderNav: function( mobile ) {
 
-      var self = this;
+      var self = this,
+          currentSlide;
 
-      if ( self.$activeSubcatGrids ) {
-        self.$activeSubcatGrids = self.gridApportion(self.$activeSubcatGrids, true);
-        self.$activeSubcatGrids.addClass('m-grid-override');
+      self.$navgroups = Utilities.gridApportion({
+        $groups: self.$navgroups,
+        gridSelector: '.grid',
+        mobile: mobile,
+        center: true
+      });
+
+      if ( self.$navgroups.find('.active').length > 0 ) {
+        currentSlide = self.$navgroups.find('.active').closest(self.$navgroups).index();
       }
 
-      self.$navgrid = self.gridApportion(self.$navgrid, false, true);
-      self.$navgrid.removeClass('m-grid-override');
-    },
+      self.$navgroups.find('.grid')[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
 
-    renderMobile: function() {
-
-      var self = this;
-
-      if ( self.$activeSubcatGrids ) {
-        self.$activeSubcatGrids = self.gridApportion(self.$activeSubcatGrids, true);
-        self.$activeSubcatGrids.addClass('m-grid-override');
+      if ( self.$navCarousel ) {
+        self.$navCarousel.sonyCarousel('destroy');
       }
 
-      self.$navgrid = self.gridApportion(self.$navgrid, true, true);
-      self.$navgrid.addClass('m-grid-override');
+      self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
+        draggable: true,
+        wrapper: '.subnav-nav-carousel-wrapper',
+        slides: '.subnav-nav-carousel-slide',
+        paddles: mobile ? false : true,
+        useSmallPaddles: mobile ? null : true
+      });
+
+      self.$navCarousel.sonyCarousel('gotoSlide', currentSlide, true);
+
+      self.bindNav();
     },
 
-    renderSubcategory: function(which) {
+    bindNav: function() {
+
+      var self = this,
+          $buttons = self.$navgroups.find('.grid').children();
+
+      $buttons.on('mouseup touchend', function(){
+
+        var $this = $(this),
+            isActive = $this.hasClass('active');
+
+        $buttons.removeClass('active');
+
+        if ( !$this.parents().hasClass('dragging') ) {
+          if ( isActive ) {
+            self.closeTray();
+          } else {
+            $this.addClass('active');
+            self.openSubcat($this.data('subcategory'));
+          }
+        }
+      });
+    },
+
+    openSubcat: function(which) {
 
       var self = this,
           $subcat = $('#subcategory-' + which);
 
-      self.$activeSubcatGrids = $subcat.find('.subnav-product-grid');
-      enquire.fire();
+      self.renderSubcats($subcat, self.mode !== 'desktop');
+
+      self.$subcats.removeClass('active');
+
+      $subcat.addClass('active');
     },
 
-    gridApportion: function($grids, mobile, center) {
+    closeTray: function() {
 
-      var $grid = $grids.first().clone().empty(),
-          $compiledGrids = $(''),
-          $workingGrid = $grid.clone(),
-          roomRemaining = mobile ? 6 : 12,
-          $mSpans = $grids.find(mobile ? '[class*="m-span"]' : '[class*="span"]');
+      var self = this;
 
-      $mSpans.each(function(i){
+      self.$subcats.removeClass('active');
+      self.$tray.css('height', 0);
+      self.$activeSubcat = null;
+    },
 
-        var $this = $(this),
-            classes = this.className.split(' '),
-            spanCount;
+    setTrayHeight: function() {
 
-        for (var j in classes) {
-          if ( classes[j].indexOf(mobile ? 'm-span' : 'span') === 0 ) {
-            spanCount = classes[j].split(mobile ? 'm-span' : 'span')[1] * 1;
-          }
-        }
+      var self = this;
 
-        if ( roomRemaining < spanCount ) {
-          $compiledGrids = $compiledGrids.add($workingGrid.clone());
-          $workingGrid = $grid.clone();
-          roomRemaining = mobile ? 6 : 12;
-        }
-
-        $workingGrid.append($this);
-        roomRemaining -= spanCount;
-
-        if ( i === $mSpans.length - 1 ) {
-
-          if ( center && roomRemaining >= 2 ) {
-            $workingGrid.children().first().addClass((mobile ? 'm-offset' : 'offset') + Math.floor(roomRemaining / 2));
-          }
-
-          $compiledGrids = $compiledGrids.add($workingGrid.clone());
-          $workingGrid = null;
-        }
-      });
-
-      $grids.not($grids.first()).remove();
-      $grids.first().replaceWith($compiledGrids);
-
-      return $compiledGrids;
+      if ( self.$activeSubcat ) {
+        self.$tray.css('height', self.$activeSubcat.outerHeight(true));
+      }
     }
+
   };
 
   return module;

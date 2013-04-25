@@ -1,0 +1,17 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('cookie-policy')
++includeJavascriptModule('cookie-policy')
+
+.alert.alert-large.collapsed( class=data.config.type === "implicit" ? 'implicit' : 'explicit' )
+  .container.alert-inner
+    .grid.no-grid-at-767.relative      
+      .span8.m-span1
+        p.p3.msg 
+          if(data.dialog_module.title) 
+            strong.title !{ data.dialog_module.title }
+          !{ data.dialog_module.message }
+
+      //- an implicit link is black, explicit link is blue
+      .span2.m-span1.pull-right 
+        button.alert-button.btn.btn-small( class=data.config.type === "implicit" ? 'btn-alt' : '' )
+          | !{ data.dialog_module.dialog_config.label }

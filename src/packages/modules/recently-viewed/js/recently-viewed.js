@@ -20,6 +20,7 @@ define(function(require) {
   'use strict';
 
   var $ = require('jquery'),
+      Modernizr = require('modernizr'),
       Utilities = require('require/sony-global-utilities'),
       iQ = require('iQ'),
       enquire = require('enquire'),
@@ -44,7 +45,6 @@ define(function(require) {
     self.isMobile = false;
 
     self.$el = $( element );
-    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
     self.init();
 
     log('SONY : RecentlyViewed : Initialized');
@@ -113,7 +113,6 @@ define(function(require) {
       self.$carousel.sonyCarousel({
         wrapper: '.sony-carousel-wrapper',
         slides: '.sony-carousel-slide',
-        useCSS3: self.useCSS3,
         pagination: true,
         paddles: true,
         useSmallPaddles: true

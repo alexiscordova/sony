@@ -1,5 +1,3 @@
-
-
 //- single line mixin for partials
 //- +partial('example.html.jade', 'example/default.json')
 
@@ -7,13 +5,21 @@ mixin partial(m, d)
   e = {"locals":locals, "data":locals.data(d)}
   !{locals.partial('packages/modules/' + m, e)}
 
+mixin includeCSS(moduleName)
+  e = {"locals": locals}
+  if (!e.locals.modulescss)
+    - e.locals.modulescss = []
+  if(e.locals.modulescss)
+    if (e.locals.modulescss.indexOf(moduleName) === -1)
+      - e.locals.modulescss.push(moduleName)
+
 mixin includeJavascriptModule(moduleName)
   e = {"locals":locals}
   if ( !e.locals.javascriptModules )
     - e.locals.javascriptModules = []
   if ( e.locals.javascriptModules )
     if ( e.locals.javascriptModules.indexOf(moduleName) === -1 )
-      - e.locals.javascriptModules.push(moduleName);
+      - e.locals.javascriptModules.push(moduleName)
 
 //- img - an object with at least: `src`, `alt`, `noscriptsrc`
 //- [extraClasses] - a string containing any extra classes to put on the img element
@@ -85,4 +91,16 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
       span.link-icon.ghost-center-wrap.js-no-close
         i.fonticon-10-link.ghost-center.js-no-close
       input.p4(type="text", value=shortLink)
+
+
+- var blocks = {};
+mixin defineBlock(name)
+  block
+  - var i = buf.length;
+  - buf.push('');
+  - blocks[name] = i;
+mixin appendBlock(name)
+  - var start = buf.length;
+  block
+  - buf[blocks[name]] += buf.splice(start, buf.length - start).join('');
 
