@@ -27,7 +27,7 @@ section.subnav-module
 
     for subcategory in data.subcategories
       section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))
-        div.grid.no-grid-at-479
+        div.grid.no-grid-at-979
           .span6
             h3.t4-bold !{subcategory.title}
             p.p2 !{subcategory.message}
@@ -51,8 +51,8 @@ section.subnav-module
                 .marketing-tout.span3.m-span2
                   a(href=item.link)
                     img(src=item.imageSrc)
-                    p.t5.table-center-wrap
-                      span.table-center !{item.message + " "}
+                    p.t5
+                      span !{item.message + " "}
                         span.highlight !{item.linkText}
                           i.fonticon-10-chevron-sm
 

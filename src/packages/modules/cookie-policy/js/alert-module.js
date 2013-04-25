@@ -9,50 +9,39 @@
 // --------------------------------------
 
 define(function(require){
-  var defaults,
-      AlertModule,
-      module;
 
-  // Public methods
-  // --------------
-  module = {
-    'init': function() {
-      new AlertModule();
-    }
-  };
-  
+  var defaults,
+      $win = $(window),
+      AlertModule;
+
+  // Defaults
+  // --------
   defaults = {
     allowsCookies : true,
-    alertModule : '#cookie-alert'
+    alertSelector : '.alert'
   };
 
-  AlertModule = function( options ) {
-    $win = $(window);
+  AlertModule = function( elem, options ) {
 
     // Map optional configs if they exist  
-    options = this.options = options ? $.extend({}, defaults, options) : defaults;
+    this.options = options ? $.extend({}, defaults, options) : defaults;
+    options = this.options;
 
+    // define our variables
     this.allowsCookies = options.allowsCookies;
-    this.$alertModule = $( options.alertModule );
+    this.$alertModule = $( options.alertSelector );
 
     // init :)
     this.init();
   };
 
-  // AlertModule Methods
+  // AlertModule Constructor
+  // ------------------------
   AlertModule.prototype = {
 
-    // Check our faux setting if user allows cookies or not
-    _checkCookies: function() {
-
-      // if the user allows cookies we can display the error
-      if (this.allowsCookies) { 
-        this._displayAlert();
-      }
-
-    },
-      
-    // show ther alert 
+    constructor: AlertModule,
+    
+    // display the alert 
     _displayAlert: function() {
       var self = this;
 
@@ -64,14 +53,15 @@ define(function(require){
     
     _closeAlert: function(event) {
       var el = event.target, 
-          self = this;
+          self = this,
+          currTarget = $(el).closest(self.options.alertSelector);
       
       event.preventDefault();
-      self.$alertModule.addClass('collapsed');
+      currTarget.addClass('collapsed');
       
       // after we close the alert lets remove it from the DOM
       setTimeout(function() {
-        self.$alertModule.remove();
+        currTarget.remove();
       }, 1500 );
     },
 
@@ -80,6 +70,7 @@ define(function(require){
       var self = this;
 
       self.$alertModule.on('click', 'button', $.proxy(self._closeAlert, self));
+
     },
 
     init: function() {
@@ -90,11 +81,15 @@ define(function(require){
       // once the dom is ready we can fire our calls
       function domReady() {
         self._initBindings();
-        self._checkCookies();
+        self._displayAlert();
       }
     }
 
   }; // end AlertModule prototype
 
-  return module;
+  // Attach the AlertModule constructor to jQuery
+  // ------------------------
+  $.fn.sonyAlert = function(settings) {
+    new AlertModule(this, settings);
+  };
 });
