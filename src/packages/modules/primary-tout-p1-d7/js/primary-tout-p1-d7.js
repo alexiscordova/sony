@@ -71,13 +71,13 @@ define(function(require){
         if(btn.length > 0){
           btn.on('click', function(e){
             e.preventDefault();
-            self.$el.find('.hero-image').addClass('hidden');
+            self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('hidden');
             self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('hidden');
             //play video?
           });
           self.$el.find('.submodule .box-close').on('click', function(e){
             e.preventDefault();
-            self.$el.find('.hero-image').removeClass('hidden');
+            self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').removeClass('hidden');
             self.$el.find('.submodule').addClass('hidden');
           });
         }

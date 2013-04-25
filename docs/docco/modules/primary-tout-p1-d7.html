@@ -65,12 +65,12 @@ Settings = require('require/sony-global-settings'),</p>             </td>       
         <span class="keyword">if</span>(btn.length &gt; <span class="number">0</span>){
           btn.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
             e.preventDefault();
-            self.$el.find(<span class="string">'.hero-image'</span>).addClass(<span class="string">'hidden'</span>);
+            self.$el.find(<span class="string">'.hero-image, .inner, .mobile-buttons-wrap'</span>).addClass(<span class="string">'hidden'</span>);
             self.$el.find(<span class="string">'.submodule'</span>).eq($(<span class="keyword">this</span>).data(<span class="string">'submodule'</span>)).removeClass(<span class="string">'hidden'</span>);
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>play video?</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
           self.$el.find(<span class="string">'.submodule .box-close'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
             e.preventDefault();
-            self.$el.find(<span class="string">'.hero-image'</span>).removeClass(<span class="string">'hidden'</span>);
+            self.$el.find(<span class="string">'.hero-image, .inner, .mobile-buttons-wrap'</span>).removeClass(<span class="string">'hidden'</span>);
             self.$el.find(<span class="string">'.submodule'</span>).addClass(<span class="string">'hidden'</span>);
           });
         }

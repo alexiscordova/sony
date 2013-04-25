@@ -5,17 +5,13 @@
 @mixin compact-thumb-nav {
   &.thumb-mode {
     .thumb-nav {
-      height:58px;
+      height:62px;
+      width:100%;
 
       li {
         width:auto;
         padding:8px 0;
         height:42px;
-
-        &.active,
-        &:hover {
-          margin-top:-4px;
-        }
       }
         img {
           width:55px;
@@ -27,7 +23,7 @@
   }
   &.icon-mode {
     .thumb-nav {
-      height:50px;
+      height:54px;
 
       li {
         width:auto;
@@ -42,7 +38,7 @@
   } 
   &.text-mode {
     .thumb-nav {
-      height:44px;
+      height:48px;
 
       li {
         line-height:14px;
@@ -68,15 +64,6 @@
       margin-left:20px;
       top:6px;
     }
-  }
-}
-
-.span4,
-.span5,
-.span6,
-.span7 {
-  .editorial-chapters-container {
-    @include compact-thumb-nav;
   }
 }
 

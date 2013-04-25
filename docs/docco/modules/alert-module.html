@@ -8,43 +8,32 @@ Modified: 04/22/2013</p>
 
 <h2>Dependencies: jQuery, bootstrap, Sony (Settings|Environment|Utilities), shuffle, scroller, evenheights, tabs, stickytabs, stickynav, simplescroll, rangecontrol</h2>             </td>             <td class="code">               <div class="highlight"><pre>
 define(<span class="keyword">function</span>(require){
+
   <span class="keyword">var</span> defaults,
-      AlertModule,
-      module;
+      $win = $(window),
+      AlertModule;
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h2>Public methods</h2>             </td>             <td class="code">               <div class="highlight"><pre>  module = {
-    <span class="string">'init'</span>: <span class="keyword">function</span>() {
-      <span class="keyword">new</span> AlertModule();
-    }
-  };
-  
-  defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>  defaults = {
     allowsCookies : <span class="literal">true</span>,
-    alertModule : <span class="string">'#cookie-alert'</span>
+    alertSelector : <span class="string">'.alert'</span>
   };
 
-  AlertModule = <span class="keyword">function</span>( options ) {
-    $win = $(window);
+  AlertModule = <span class="keyword">function</span>( elem, options ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Map optional configs if they exist  </p>             </td>             <td class="code">               <div class="highlight"><pre>    options = <span class="keyword">this</span>.options = options ? $.extend({}, defaults, options) : defaults;
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Map optional configs if they exist  </p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">this</span>.options = options ? $.extend({}, defaults, options) : defaults;
+    options = <span class="keyword">this</span>.options;
 
-    <span class="keyword">this</span>.allowsCookies = options.allowsCookies;
-    <span class="keyword">this</span>.$alertModule = $( options.alertModule );
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>define our variables</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">this</span>.allowsCookies = options.allowsCookies;
+    <span class="keyword">this</span>.$alertModule = $( options.alertSelector );
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>init :)</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">this</span>.init();
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>init :)</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">this</span>.init();
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>AlertModule Methods</p>             </td>             <td class="code">               <div class="highlight"><pre>  AlertModule.prototype = {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h2>AlertModule Constructor</h2>             </td>             <td class="code">               <div class="highlight"><pre>  AlertModule.prototype = {
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Check our faux setting if user allows cookies or not</p>             </td>             <td class="code">               <div class="highlight"><pre>    _checkCookies: <span class="keyword">function</span>() {
-
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>if the user allows cookies we can display the error</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (<span class="keyword">this</span>.allowsCookies) { 
-        <span class="keyword">this</span>._displayAlert();
-      }
-
-    },
-      
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>show ther alert </p>             </td>             <td class="code">               <div class="highlight"><pre>    _displayAlert: <span class="keyword">function</span>() {
+    constructor: AlertModule,
+    
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>show ther alert </p>             </td>             <td class="code">               <div class="highlight"><pre>    _displayAlert: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       setTimeout(<span class="keyword">function</span>() {
@@ -55,20 +44,22 @@ define(<span class="keyword">function</span>(require){
     
     _closeAlert: <span class="keyword">function</span>(event) {
       <span class="keyword">var</span> el = event.target, 
-          self = <span class="keyword">this</span>;
+          self = <span class="keyword">this</span>,
+          currTarget = $(el).closest(self.options.alertSelector);
       
       event.preventDefault();
-      self.$alertModule.addClass(<span class="string">'collapsed'</span>);
+      currTarget.addClass(<span class="string">'collapsed'</span>);
       
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>after we close the alert lets remove it from the DOM</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
-        self.$alertModule.remove();
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>after we close the alert lets remove it from the DOM</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+        currTarget.remove();
       }, <span class="number">1500</span> );
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>init our bindings to show? // hide the message</p>             </td>             <td class="code">               <div class="highlight"><pre>    _initBindings: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>init our bindings to show? // hide the message</p>             </td>             <td class="code">               <div class="highlight"><pre>    _initBindings: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$alertModule.on(<span class="string">'click'</span>, <span class="string">'button'</span>, $.proxy(self._closeAlert, self));
+
     },
 
     init: <span class="keyword">function</span>() {
@@ -76,15 +67,17 @@ define(<span class="keyword">function</span>(require){
 
       $(domReady);
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>once the dom is ready we can fire our calls</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">domReady</span><span class="params">()</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>once the dom is ready we can fire our calls</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">domReady</span><span class="params">()</span> {</span>
         self._initBindings();
-        self._checkCookies();
+        self._displayAlert();
       }
     }
 
   }; <span class="comment">// end AlertModule prototype</span>
 
-  <span class="keyword">return</span> module;
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <h2>Attach the AlertModule constructor to jQuery</h2>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.sonyAlert = <span class="keyword">function</span>(settings) {
+    <span class="keyword">new</span> AlertModule(<span class="keyword">this</span>, settings);
+  };
 });
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
