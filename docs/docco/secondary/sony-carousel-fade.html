@@ -293,8 +293,9 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
 
         <span class="keyword">var</span> $sibs = $destinationSlide.siblings();
 
-        $destinationSlide.addClass(<span class="string">'active'</span>).hide().fadeIn(<span class="string">'fast'</span>);
-        $sibs.fadeOut(<span class="string">'fast'</span>, <span class="keyword">function</span>(){ $sibs.removeClass(<span class="string">'active'</span>); });
+        $sibs.fadeOut(<span class="string">'fast'</span>, <span class="keyword">function</span>(){
+          $destinationSlide.fadeIn(<span class="string">'fast'</span>);
+        });
 
       }
 
