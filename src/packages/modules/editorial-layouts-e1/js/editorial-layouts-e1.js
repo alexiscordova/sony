@@ -15,6 +15,7 @@ define(function(require) {
     var $ = require('jquery'),
         enquire = require('enquire'),
         iQ = require('iQ'),
+        Modernizr = require('modernizr'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         SonyCarousel = require('secondary/sony-carousel'),
@@ -70,7 +71,8 @@ define(function(require) {
 
         //fixes heights of tout copy across 2up 3up
         var heightGroup = self.col.find('.copy');
-        if (heightGroup.length) {
+
+        if (heightGroup.length && Modernizr.mq( '(min-width: 48em)') ) {
           heightGroup.evenHeights();
         }
       },

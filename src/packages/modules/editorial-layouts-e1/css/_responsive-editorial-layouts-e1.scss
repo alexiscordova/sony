@@ -12,9 +12,13 @@ $superDesktop: px-em(1200);
   .editorial.full-inner {
     .box {
       padding: 46px 42px 40px 42px;
+
+      .link {
+        margin-top: 32px;
+      }
     }
     .box.center {
-      padding: 70px 56px;
+      padding: 56px 82px;
     }
   }
 
@@ -37,9 +41,13 @@ $superDesktop: px-em(1200);
   .editorial.tout {
 
     .m2up .horizontal .table-center-wrap,
-    .m2up .vertical,
-    .m3up > div {
-      padding: 0 20px;
+    .m3up > div.left .toutcopy {
+      padding: 0 12px 0 0;
+    }
+
+    .m2up > div.center .toutcopy,
+    .m3up > div.center .toutcopy {
+      padding: 0 8px;
     }
 
     // No body copy
@@ -47,10 +55,32 @@ $superDesktop: px-em(1200);
       display: none !important; // override important from hidden-phone display:inherit;
     }
 
-    .m2up .image-module {
+    .m2up .horizontal .image-module {
       width: 122px;
       height: 122px;
+      margin: auto;
     }
+
+    .m2up .horizontal > div {
+      height: 122px;
+    }
+  }
+
+
+  .editorial .toutcopy .link {
+    padding-top: 4px;
+  }
+
+  // The title block doesn't line up with anything when used with touts
+  .editorial.tout .title-block .box {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+
+  .editorial.full-tout .submodule,
+  .editorial.tout .submodule {
+    padding-bottom: 24px;
   }
 }
 
@@ -63,7 +93,7 @@ $superDesktop: px-em(1200);
     .box {
       padding: 0 28px;
       .link {
-        margin-top: 12px;
+        margin-top: 24px;
       }
     }
     .center {
@@ -74,29 +104,33 @@ $superDesktop: px-em(1200);
     }
   }
   .editorial.textonly {
-    padding: 20px 0;
+    padding: 42px 0 28px;
   }
   .editorial.full {
-    padding: 20px 0;
+    padding: 42px 0 28px;
     .box {
-      margin-bottom: 15px;
+      margin-bottom: 16px;
     }
   }
   .editorial.full-inner {
     .inner {
       position: relative;
+
       > .grid {
         width: 100%;
       }
     }
+
     .box {
       margin-top: 0;
       padding: 22px 28px 26px 28px;
     }
+
     .box.center {
       padding: 22px 28px 26px 28px;
     }
   }
+
   .editorial.mediaright,
   .editorial.medialeft {
     .grid {
@@ -115,9 +149,10 @@ $superDesktop: px-em(1200);
       text-align: center;
     }
     .box {
-      padding: 22px 28px 26px 28px;
+      padding: 32px 28px 26px 28px;
     }
   }
+
   .editorial.full-inner,
   .editorial.full-tout,
   .editorial.full {
@@ -125,59 +160,80 @@ $superDesktop: px-em(1200);
       height: 320px;
     }
   }
+
   .editorial.full-tout,
   .editorial.tout {
+    padding: 42px 0 28px;
+
     .container {
       overflow: hidden;
       padding-bottom: 2px;
     }
-    padding: 20px 0;
+
     .grid {
       width: 100%
     }
+
+    // Mobile 1up
     .m1up {
       .textright,
       .textleft {
         padding: 0 28px;
       }
+
       .offset1{
         margin-bottom: 30px;
       }
     }
+
+    // Mobile 2up
     .m2up {
       width: 220%;
       position: relative;
+
       > div {
         position: relative;
         float: left;
         width: 45%;
         margin-right: 5%;
       }
+
+      .horizontal .image-module {
+        width: 98px;
+        height: 98px;
+        margin: auto;
+      }
+
       .horizontal {
         > div {
           height: 98px;
         }
+
         .table-center-wrap {
           padding: 0 20px;
         }
-        .image-module {
-          width: 98px;
-          height: 98px;
-        }
       }
-      .vertical {
+
+      .vertical .toutcopy {
         padding: 0 28px;
       }
     }
+
+    // Mobile 3up
     .m3up {
       width: 330%;
       position: relative;
-      > div {
+
+      > div.left,
+      > div.center {
         float: left;
         position: relative;
         width: 30%;
         margin-right: 3%;
-        padding: 0 28px;
+
+        .toutcopy {
+          padding: 0 28px;
+        }
       }
     }
   }
@@ -198,6 +254,45 @@ $superDesktop: px-em(1200);
       background: $gray80;
     }
   }
+
+
+  .editorial .toutcopy .link {
+    padding-top: 0;
+  }
+
+  .editorial .dark-text-light-box {
+
+    .box {
+      background: transparent;
+    }
+  }
+
+
+  .editorial .toutcopy .link {
+    padding-top: 0;
+  }
+
+  .editorial.medialeft .image-module {
+    padding-top: 32px;
+  }
+  .editorial.mediaright .image-module {
+    padding-bottom: 26px;
+  }
+
+  .editorial.full-tout .title-block,
+  .editorial.tout .title-block {
+    padding: 0;
+  }
+
+  .editorial.full-tout .box {
+    margin-bottom: 16px;
+  }
+
+  .editorial.full-tout .submodule {
+    margin-top: 0;
+  }
+
+
 }
 
 //bottom end
