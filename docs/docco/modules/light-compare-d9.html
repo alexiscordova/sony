@@ -5,6 +5,7 @@
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
       bootstrap = require(<span class="string">'bootstrap'</span>),
       iQ = require(<span class="string">'iQ'</span>),
+      sonyStickyTabs = require(<span class="string">'secondary/index'</span>).sonyStickyTabs,
       enquire = require(<span class="string">'enquire'</span>);
 
   <span class="keyword">var</span> module = {
@@ -12,7 +13,6 @@
       $(<span class="string">'.launch-modal'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
         $(<span class="string">'#light-compare-modal'</span>).modal();
       });
-      <span class="keyword">this</span>.tabhide();
 
       <span class="keyword">var</span> breakpoints = [ <span class="number">767</span>, <span class="number">768</span>, <span class="number">979</span>, <span class="number">980</span> ];
       <span class="keyword">var</span> breakpointReactor = <span class="keyword">function</span>( e ) {
@@ -28,13 +28,7 @@
           enquire.register( <span class="string">"(min-width: "</span> + ( breakpoints[ i-<span class="number">1</span> ] + <span class="number">1</span> ) + <span class="string">"px) and (max-width: "</span> + breakpoints[ i ] + <span class="string">"px)"</span>, breakpointReactor).listen();
         }
       }
-    },
-
-</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>temp tab behavior, remove this after integrating tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>    tabhide: <span class="keyword">function</span>(){
-      <span class="keyword">var</span> $modal = $(<span class="string">'.light-compare-modal'</span>);
-      $(<span class="string">'.tab'</span>).hide().first().show();
     }
-
   };
 
   <span class="keyword">return</span> module;
