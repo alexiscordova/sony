@@ -1,5 +1,4 @@
 /*global log*/
-/*jshint debug:true */
 
 // ------------ Sony Alert ------------
 // Module: Alert Module
@@ -17,7 +16,6 @@ define(function(require){
   // Defaults
   // --------
   defaults = {
-    allowsCookies : true,
     alertSelector : '.alert'
   };
 
