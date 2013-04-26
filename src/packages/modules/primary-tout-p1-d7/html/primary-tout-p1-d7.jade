@@ -20,8 +20,12 @@ mixin header(_data)
       blockquote.bq1
         p!= d.quote
       p.p3!= d.byline
+    else if d.variation.headertext == "smaller"
+      h1.t2!= d.headline
     else
       h1!= d.headline
+  else
+    h1!= d.headline
 
 mixin bodytext(_data, _extra)
   d = _data ? _data : data

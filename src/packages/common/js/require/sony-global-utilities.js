@@ -193,6 +193,28 @@ define(function (require) {
       $input = null;
     },
 
+    reapportionMSpans: function($spans) {
+
+      $spans.each(function(){
+
+        var $this = $(this),
+            classes = this.className.split(' ');
+
+        // Set span data for each possibility.
+        if ( !$this.data('m-span') ) {
+          for ( var j = 0; j < classes.length; j++ ) {
+            if ( classes[j].indexOf('m-span') === 0 && classes[j].indexOf('m-span-at') === -1 ) {
+              $this.data('m-span', classes[j]);
+            }
+            if ( classes[j].indexOf('m-span-at') === 0 ) {
+              $this.data(classes[j], true);
+            }
+          }
+        }
+
+      });
+    },
+
     // Takes a number of groups, supplied as a jQuery object (`options.$groups`) and re-apportions
     // their elements, in order, to a new set of groups. The old groups are then removed,
     // and the new groups are inserted at the point of the first group. Groups are assumed to be grids,
@@ -243,7 +265,7 @@ define(function (require) {
             spanCount;
 
         for ( var j = 0; j < classes.length; j++ ) {
-          if ( classes[j].indexOf(isMobile ? 'm-span' : 'span') === 0 ) {
+          if ( classes[j].indexOf(isMobile ? 'm-span' : 'span') === 0 && classes[j].indexOf('m-span-at') === -1) {
             spanCount = classes[j].split(isMobile ? 'm-span' : 'span')[1] * 1;
           }
           if ( isCentered && classes[j].indexOf(isMobile ? 'm-offset' : 'offset') === 0 ) {
