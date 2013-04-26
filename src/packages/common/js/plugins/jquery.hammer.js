@@ -22,7 +22,7 @@ define(function(require){
    */
   var Hammer = function(element, options) {
       return new Hammer.Instance(element, options || {});
-  };
+  }; 
   
   // default settings
   Hammer.defaults = {
