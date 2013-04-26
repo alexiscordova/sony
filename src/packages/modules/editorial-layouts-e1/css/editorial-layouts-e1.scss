@@ -36,6 +36,17 @@
   .table-center {
     width: 100%;
   }
+
+  // Mobile spans shouldn't affect desktop layout, but only when the m-span isn't on a span
+  .m-span2,
+  .m-span4 {
+    float: none;
+  }
+
+  [class^="span"].m-span2,
+  [class^="span"].m-span4 {
+    float: left;
+  }
 }
 
 .editorial.textonly {
@@ -157,24 +168,17 @@
       .toutcopy {
         padding: 0 24px;
       }
-
-      .image-module {
-        margin-bottom: 30px;
-      }
     }
   }
 
   .m3up {
+
     > div.left .toutcopy {
       padding: 0 44px 0 0;
     }
 
     > div.center .toutcopy {
       padding: 0 16px;
-    }
-
-    .image-module {
-      margin-bottom: 30px;
     }
   }
 
@@ -184,5 +188,13 @@
 
   .table-center-wrap {
     height: 100%;
+  }
+}
+
+.editorial.tout {
+
+  .m3up .image-module,
+  .m2up .image-module {
+    margin-bottom: 30px;
   }
 }
