@@ -134,15 +134,20 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
           | !{ productsStr }
 
 
-        //- Filter and compare buttons
+        //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
           button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
             | !{ filterStr }
             i.fonticon-10-arrowhead-down
           +compareBrowseBtn( isCompareGallery, compareBrowseLink )
 
+        //- Favorites gallery
         if !gallery.filterSet && isFavoritesGallery
           +compareBrowseBtn( isCompareGallery, compareBrowseLink, true )
+
+        //- Standalone compare gallery
+        if !gallery.filterSet && isCompareGallery
+          +compareBrowseBtn( isCompareGallery, compareBrowseLink )
 
 
         else if gallery.accessoryFinder

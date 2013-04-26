@@ -12,9 +12,13 @@ $superDesktop: px-em(1200);
   .editorial.full-inner {
     .box {
       padding: 46px 42px 40px 42px;
+
+      .link {
+        margin-top: 32px;
+      }
     }
     .box.center {
-      padding: 70px 56px;
+      padding: 56px 82px;
     }
   }
 
@@ -37,9 +41,13 @@ $superDesktop: px-em(1200);
   .editorial.tout {
 
     .m2up .horizontal .table-center-wrap,
-    .m2up .vertical,
-    .m3up > div {
-      padding: 0 20px;
+    .m3up > div.left .toutcopy {
+      padding: 0 12px 0 0;
+    }
+
+    .m2up > div.center .toutcopy,
+    .m3up > div.center .toutcopy {
+      padding: 0 8px;
     }
 
     // No body copy
@@ -58,10 +66,21 @@ $superDesktop: px-em(1200);
     }
   }
 
+
+  .editorial .toutcopy .link {
+    padding-top: 4px;
+  }
+
   // The title block doesn't line up with anything when used with touts
   .editorial.tout .title-block .box {
     padding-right: 0;
     padding-left: 0;
+  }
+
+
+  .editorial.full-tout .submodule,
+  .editorial.tout .submodule {
+    padding-bottom: 24px;
   }
 }
 
@@ -74,7 +93,7 @@ $superDesktop: px-em(1200);
     .box {
       padding: 0 28px;
       .link {
-        margin-top: 12px;
+        margin-top: 24px;
       }
     }
     .center {
@@ -85,12 +104,12 @@ $superDesktop: px-em(1200);
     }
   }
   .editorial.textonly {
-    padding: 20px 0;
+    padding: 42px 0 28px;
   }
   .editorial.full {
-    padding: 20px 0;
+    padding: 42px 0 28px;
     .box {
-      margin-bottom: 15px;
+      margin-bottom: 16px;
     }
   }
   .editorial.full-inner {
@@ -130,7 +149,7 @@ $superDesktop: px-em(1200);
       text-align: center;
     }
     .box {
-      padding: 22px 28px 26px 28px;
+      padding: 32px 28px 26px 28px;
     }
   }
 
@@ -144,7 +163,7 @@ $superDesktop: px-em(1200);
 
   .editorial.full-tout,
   .editorial.tout {
-    padding: 20px 0;
+    padding: 42px 0 28px;
 
     .container {
       overflow: hidden;
@@ -195,7 +214,7 @@ $superDesktop: px-em(1200);
         }
       }
 
-      .vertical {
+      .vertical .toutcopy {
         padding: 0 28px;
       }
     }
@@ -205,12 +224,16 @@ $superDesktop: px-em(1200);
       width: 330%;
       position: relative;
 
-      > div {
+      > div.left,
+      > div.center {
         float: left;
         position: relative;
         width: 30%;
         margin-right: 3%;
-        padding: 0 28px;
+
+        .toutcopy {
+          padding: 0 28px;
+        }
       }
     }
   }
@@ -231,6 +254,45 @@ $superDesktop: px-em(1200);
       background: $gray80;
     }
   }
+
+
+  .editorial .toutcopy .link {
+    padding-top: 0;
+  }
+
+  .editorial .dark-text-light-box {
+
+    .box {
+      background: transparent;
+    }
+  }
+
+
+  .editorial .toutcopy .link {
+    padding-top: 0;
+  }
+
+  .editorial.medialeft .image-module {
+    padding-top: 32px;
+  }
+  .editorial.mediaright .image-module {
+    padding-bottom: 26px;
+  }
+
+  .editorial.full-tout .title-block,
+  .editorial.tout .title-block {
+    padding: 0;
+  }
+
+  .editorial.full-tout .box {
+    margin-bottom: 16px;
+  }
+
+  .editorial.full-tout .submodule {
+    margin-top: 0;
+  }
+
+
 }
 
 //bottom end
