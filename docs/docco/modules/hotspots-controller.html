@@ -79,6 +79,7 @@ define(<span class="keyword">function</span>(require) {
     self.trackOpacity                    = <span class="literal">null</span>,
     self.trackOpacityTimer               = <span class="literal">null</span>;
     self.canShowHotspots                 = <span class="literal">false</span>;
+    self.curAnimationCount               = <span class="number">0</span>;
     
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>EXTEND THIS OBJECT TO BE A JQUERY PLUGIN</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -107,8 +108,7 @@ collapsing containers and the behavior of the browser image resizing</p>        
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>detect what type of tracking we need to bind the instance to</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> moduleHandle = self.$container.find( <span class="string">'.image-module'</span> );
       <span class="keyword">if</span>( moduleHandle.hasClass( <span class="string">'track-by-background'</span> ) ) {
         self.trackingMode = <span class="string">'background'</span>;
-        self.trackingAsset = moduleHandle.children( <span class="string">'.iq-img'</span> );
-        self.canShowHotspots = <span class="literal">true</span>;
+        self.trackingAsset = moduleHandle;
       } <span class="keyword">else</span> {
         self.trackingMode = <span class="string">'asset'</span>;
         self.trackingAsset = $( moduleHandle.children( <span class="string">'.iq-img'</span> )[<span class="number">0</span>] );
@@ -118,27 +118,38 @@ collapsing containers and the behavior of the browser image resizing</p>        
         <span class="keyword">switch</span>( self.trackingAsset.css( <span class="string">'opacity'</span> ) ) {
           <span class="keyword">case</span> <span class="literal">undefined</span>:
           <span class="keyword">case</span> <span class="string">"undefined"</span>:
-            log( <span class="string">'undefined'</span> );
+            <span class="comment">/* log( 'undefined' ); */</span>
             clearInterval( self.trackOpacityTimer );
           <span class="keyword">break</span>;
           <span class="keyword">case</span> <span class="string">"1"</span>:
-            log( <span class="string">'clearing'</span> );
+            <span class="comment">/* log( 'clearing' ); */</span>
             clearInterval( self.trackOpacityTimer );
             self.canShowHotspots = <span class="literal">true</span>;
-            triggerInitialPosition();  
+            triggerInitialPosition();
           <span class="keyword">break</span>;
         }
       };
       
-      self.trackOpacityTimer = setInterval( self.trackOpacity, <span class="number">50</span> );
+      self.trackHeight = <span class="keyword">function</span>() {
+<span class="comment">/*         log( 'no bg' ); */</span>
+        <span class="keyword">if</span>( <span class="string">"none"</span> !== self.trackingAsset.css( <span class="string">'background-image'</span> ) ) {
+          clearInterval( self.trackOpacityTimer );
+<span class="comment">/*           log( 'bg detected, clearing' ); */</span>
+          self.canShowHotspots = <span class="literal">true</span>;
+          triggerInitialPosition();
+        }
+      };
+      
+      <span class="keyword">if</span>( <span class="string">'asset'</span> === self.trackingMode ) { 
+        self.trackOpacityTimer = setInterval( self.trackOpacity, <span class="number">50</span> );
+      } <span class="keyword">else</span> {
+        self.trackOpacityTimer = setInterval( self.trackHeight, <span class="number">1000</span> );
+      }
       
       <span class="keyword">var</span> triggerInitialPosition = <span class="keyword">function</span>() {
-        <span class="comment">/* log( 'show' ); */</span>
         self.follow();
         self.show();
       };
-      
-      self.trackingAsset.on(<span class="string">'iQ:imageLoaded'</span>, triggerInitialPosition);
       
 </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>initialize hotspot(s)</p>             </td>             <td class="code">               <div class="highlight"><pre>      $( self.$els ).each(<span class="keyword">function</span>( index, el ) {
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>bind the click, place it based on the data-x and -y coordinates, and fade em in
@@ -211,7 +222,7 @@ waste of cycles</p>             </td>             <td class="code">             
       <span class="keyword">var</span> self       = <span class="keyword">this</span>,
           inViewport = <span class="literal">null</span>;
           
-      <span class="keyword">if</span>( <span class="literal">true</span> <span class="comment">/* self.isElementInViewport( self.trackingAsset ) */</span> ) {
+      <span class="keyword">if</span>( <span class="literal">true</span> ) {
         <span class="keyword">if</span>( el ) {
           <span class="keyword">var</span> offsetX     = self.trackingAsset.position().left,
               offsetY     = self.trackingAsset.position().top,
@@ -260,9 +271,17 @@ waste of cycles</p>             </td>             <td class="code">             
       }
     },
     
+    disableScroll: <span class="keyword">function</span>( flag ) {
+      <span class="keyword">if</span>( flag ) {
+        document.documentElement.style.overflow = <span class="string">'hidden'</span>;  <span class="comment">// firefox, chrome</span>
+        document.body.scroll = <span class="string">"no"</span>; <span class="comment">// ie only        </span>
+      } <span class="keyword">else</span> {
+        document.documentElement.style.overflow = <span class="string">'auto'</span>;  <span class="comment">// firefox, chrome</span>
+        document.body.scroll = <span class="string">"yes"</span>; <span class="comment">// ie only</span>
+      }
+    },
+    
     hover: <span class="keyword">function</span>( el, self, flag ) {
-      log( <span class="string">'hover'</span> );
-      log( $( el ) );
       <span class="keyword">switch</span>(flag) {
         <span class="keyword">case</span> <span class="literal">true</span>:
           $( el ).find( <span class="string">'.hspot-core, .hspot-core-on'</span> ).removeClass( <span class="string">'hspot-hover-off'</span> ).addClass( <span class="string">'hspot-hover-on'</span> );
@@ -293,7 +312,7 @@ waste of cycles</p>             </td>             <td class="code">             
     
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       <span class="keyword">if</span>( <span class="string">'background'</span> === self.trackingMode ) {
-
+        
 </pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>this places the hotspot absolutely (currently by % fed from data-x,y attrib)</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> xAnchor = $( el ).data( <span class="string">"x"</span> );
         <span class="keyword">var</span> yAnchor = $( el ).data( <span class="string">"y"</span> );
         $( el ).css( <span class="string">"left"</span>, xAnchor );
@@ -315,13 +334,18 @@ waste of cycles</p>             </td>             <td class="code">             
     },
     
     show: <span class="keyword">function</span>( el ) {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      log( <span class="string">'can show hotspots?'</span> );
-      log( self.canShowHotspots );
+      <span class="keyword">var</span> self        = <span class="keyword">this</span>,
+          offsetTime  = <span class="number">100</span>; 
+
       <span class="keyword">if</span>( <span class="literal">true</span> === self.canShowHotspots ) {
         $( self.$els ).each(<span class="keyword">function</span>( index, el ) {
-          <span class="keyword">if</span>( $( el ).hasClass( <span class="string">'eh-transparent'</span> ) ) {
-            $( el ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
+          <span class="keyword">if</span>( $( el ).hasClass( <span class="string">'eh-transparent'</span> ) ) { 
+            <span class="keyword">var</span> stagger = <span class="keyword">function</span>() { 
+              log(<span class="string">'stagger'</span>);
+              $( el ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
+            };
+            setTimeout( stagger, ( self.curAnimationCount * offsetTime ) );
+            self.curAnimationCount++;
           }
         });
       }
@@ -330,11 +354,8 @@ waste of cycles</p>             </td>             <td class="code">             
     find: <span class="keyword">function</span>( currentTarget ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.$els.each( <span class="keyword">function</span>( index, el ) {
-        log(<span class="string">'searching'</span>);
         <span class="keyword">if</span>( $( el ).is( currentTarget ) ) {
           <span class="keyword">return</span> el;
-        } <span class="keyword">else</span> {
-          log(<span class="string">'no match'</span>);
         }
       });
     },
@@ -348,7 +369,7 @@ waste of cycles</p>             </td>             <td class="code">             
         self.close( container, hotspot, info );
       } <span class="keyword">else</span> {
         <span class="keyword">if</span>( self.$lastOpen &amp;&amp; !container.is( self.$lastOpen ) ) {
-          log(<span class="string">'resetting:::::'</span>);
+<span class="comment">/*           log('resetting:::::'); */</span>
           self.reset();
         }
          self.open( container, hotspot, info );
@@ -398,25 +419,33 @@ waste of cycles</p>             </td>             <td class="code">             
         overlayBase.find( <span class="string">'.middle'</span> ).find( <span class="string">'.arrow-right-bottom'</span> ).addClass( <span class="string">'hidden'</span> );
         overlayBase.find( <span class="string">'.hspot-close'</span> ).removeClass( <span class="string">'hidden'</span> );
         
-        setTimeout( <span class="keyword">function</span>() {
+        setTimeout( <span class="keyword">function</span>() {          
 </pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>finally show the overlay</p>             </td>             <td class="code">               <div class="highlight"><pre>          overlayBase.removeClass( <span class="string">'hidden'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>position the overlay vertical center</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> topPos = <span class="literal">null</span>,
+              outerHeight = $( window ).height() / <span class="number">2</span>,
+              innerHeight = overlayBase.height() / <span class="number">2</span>;
+          topPos = outerHeight - innerHeight;
+          overlayBase.css( <span class="string">'margin-top'</span>, topPos+<span class="string">'px'</span> );
+
           self.lastOverlayFadein = setTimeout( <span class="keyword">function</span>() {
             overlayBase.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
           }, <span class="number">10</span> );
         }, <span class="number">200</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>stop scroll</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.disableScroll( <span class="literal">true</span> );
         
+
       } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>cleanup</p>             </td>             <td class="code">               <div class="highlight"><pre>        clearTimeout( self.lastOverlayFadeout );
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>cleanup</p>             </td>             <td class="code">               <div class="highlight"><pre>        clearTimeout( self.lastOverlayFadeout );
         clearTimeout( self.lastOverlayFadein );
 
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>untag last overlay</p>             </td>             <td class="code">               <div class="highlight"><pre>        el.removeClass( <span class="string">'lastMoved'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>untag last overlay</p>             </td>             <td class="code">               <div class="highlight"><pre>        el.removeClass( <span class="string">'lastMoved'</span> );
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>close mobile overlay</p>             </td>             <td class="code">               <div class="highlight"><pre>        overlayBase.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-visible'</span> ).addClass( <span class="string">'eh-transparent'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>close mobile overlay</p>             </td>             <td class="code">               <div class="highlight"><pre>        overlayBase.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-visible'</span> ).addClass( <span class="string">'eh-transparent'</span> );
         self.lastOverlayFadeout = setTimeout( <span class="keyword">function</span>() {
           overlayBase.addClass( <span class="string">'hidden'</span> );
           <span class="keyword">if</span>( !underlayBase.hasClass( <span class="string">'hidden'</span> ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>close underlay</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> anon = <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>close underlay</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> anon = <span class="keyword">function</span>() {
               underlayBase.addClass( <span class="string">'hidden'</span> );
             };
             underlayBase.removeClass( <span class="string">'hspot-underlay-on'</span> ).addClass( <span class="string">'hspot-underlay'</span> );
@@ -425,8 +454,11 @@ waste of cycles</p>             </td>             <td class="code">             
         }, <span class="number">500</span> );
 
         <span class="keyword">if</span>( <span class="literal">false</span> === self.showOverlayCentered ) {
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>reopen normal overlay</p>             </td>             <td class="code">               <div class="highlight"><pre>          el.find( <span class="string">'.overlay-base'</span> ).removeClass( <span class="string">'hidden'</span> ).find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-hidden'</span> ).addClass( <span class="string">'eh-visible'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>reopen normal overlay</p>             </td>             <td class="code">               <div class="highlight"><pre>          el.find( <span class="string">'.overlay-base'</span> ).removeClass( <span class="string">'hidden'</span> ).find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-hidden'</span> ).addClass( <span class="string">'eh-visible'</span> );
         }
+       
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>reenable scrolling</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.disableScroll( <span class="literal">false</span> );
+        
       }
     },
     moveTo: <span class="keyword">function</span>( overlay, position, rows ) {
@@ -436,22 +468,22 @@ waste of cycles</p>             </td>             <td class="code">             
         <span class="keyword">case</span> <span class="string">'right-top'</span>:
           overlay.addClass( rows + <span class="string">'-stack-right-top-justified'</span> );
           overlay.find( <span class="string">'.arrow-left-top'</span> ).removeClass( <span class="string">'hidden'</span> );
-          log(<span class="string">'::overlay hits container top::'</span>);
+<span class="comment">/*           log('::overlay hits container top::'); */</span>
         <span class="keyword">break</span>;
         <span class="keyword">case</span> <span class="string">'right-bottom'</span>:
           overlay.addClass( rows + <span class="string">'-stack-right-bottom-justified'</span> );
           overlay.find( <span class="string">'.arrow-left-bottom'</span> ).removeClass( <span class="string">'hidden'</span> );
-          log(<span class="string">'::overlay hits container left::'</span>);
+<span class="comment">/*           log('::overlay hits container left::'); */</span>
         <span class="keyword">break</span>;
         <span class="keyword">case</span> <span class="string">'left-top'</span>:
           overlay.addClass( rows + <span class="string">'-stack-left-top-justified'</span> );
           overlay.find( <span class="string">'.arrow-right-top'</span> ).removeClass( <span class="string">'hidden'</span> );
-          log(<span class="string">'::overlay hits container right::'</span>);
+<span class="comment">/*           log('::overlay hits container right::'); */</span>
         <span class="keyword">break</span>;
         <span class="keyword">case</span> <span class="string">'left-bottom'</span>:
           overlay.addClass( rows + <span class="string">'-stack-left-bottom-justified'</span> );
           overlay.find( <span class="string">'.arrow-right-bottom'</span> ).removeClass( <span class="string">'hidden'</span> );
-          log(<span class="string">'::overlay hits container floor::'</span>);
+<span class="comment">/*           log('::overlay hits container floor::'); */</span>
         <span class="keyword">break</span>;
       }
     },
@@ -491,7 +523,7 @@ waste of cycles</p>             </td>             <td class="code">             
           horizontalGutter      = <span class="number">45</span>;
 
       
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>we need to put this element in the centered overlay, not free form next to it's hotspot button</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>we need to put this element in the centered overlay, not free form next to it's hotspot button</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
         
         <span class="comment">/* log('need to reparen to overlay view'); */</span>
         self.reanchor( el, <span class="literal">true</span> );
@@ -500,13 +532,13 @@ waste of cycles</p>             </td>             <td class="code">             
         
         <span class="comment">/* log('unabaited repositioning'); */</span>
         self.reanchor(el, <span class="literal">false</span>);
-        
+
         <span class="comment">/*
          * INITIAL CALCULATIONS TO SEE IF WE'RE COLLIDING AT THE DEFAULT POSITIONING (TOP RIGHT)
          * THIS SHOULD LOOP 4 TIMES. IF IT'S STILL COLLIDING WE HAVE TO FIGURE THAT OUT...heh...
          **/</span>
   
-</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>see if we're growing or shrinking</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">try</span> { 
+</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>see if we're growing or shrinking</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">try</span> { 
           
           <span class="keyword">if</span>( parentRight &gt; self.lastWidth ) {
             self.direction = <span class="string">'grew'</span>;
@@ -530,33 +562,33 @@ waste of cycles</p>             </td>             <td class="code">             
           log(e);
         }
   
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>The script will move the window into it's 4 potential orientations, until it finds a place it fits.
+</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>The script will move the window into it's 4 potential orientations, until it finds a place it fits.
 if the loop is completed and there are no matches, the script will turn off the top and footer nodes of
 the overlay and reiterate through the loop, breaking when the overlay is at a safe zone.</p>             </td>             <td class="code">               <div class="highlight"><pre>        
-</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>TODO:: Apply restraints to Editorial types [as spec'd from comps] </p>             </td>             <td class="code">               <div class="highlight"><pre>                
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>TODO:: Apply restraints to Editorial types [as spec'd from comps] </p>             </td>             <td class="code">               <div class="highlight"><pre>                
         <span class="keyword">for</span>( <span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span> &amp;&amp; ( <span class="literal">true</span> === collides || <span class="literal">null</span> === collides ); i++ ) { 
-</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>resample coordinates</p>             </td>             <td class="code">               <div class="highlight"><pre>          overlayHeight       = overlay.height(),
+</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>resample coordinates</p>             </td>             <td class="code">               <div class="highlight"><pre>          overlayHeight       = overlay.height(),
           overlayPosition     = overlay.position(),
           overlayHeaderHeight = overlayTop.height(),
           overlayFooterHeight = overlayFooter.height(),
           hotspotPosition     = overlay.parent().position();
           
-</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>check if the hotspot's offset plus the negative margin of the overlay is at or less than "top:0" with resepct to it's container</p>             </td>             <td class="code">               <div class="highlight"><pre>          topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top );
-</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>check if overlays' width plus position offset is overlapping the rightmost boundary of it's container</p>             </td>             <td class="code">               <div class="highlight"><pre>          rightOverlayPosition = hotspotPosition.left + overlayPosition.left + overlay.width();
+</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>check if the hotspot's offset plus the negative margin of the overlay is at or less than "top:0" with resepct to it's container</p>             </td>             <td class="code">               <div class="highlight"><pre>          topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top );
+</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>check if overlays' width plus position offset is overlapping the rightmost boundary of it's container</p>             </td>             <td class="code">               <div class="highlight"><pre>          rightOverlayPosition = hotspotPosition.left + overlayPosition.left + overlay.width();
           
           bottomOverlayPosition = ( hotspotPosition.top - Math.abs( overlayPosition.top ) ) + overlay.height();
           
           leftOverlayPosition = hotspotPosition.left + overlayPosition.left;
                   
           <span class="keyword">if</span>( topOverlayPosition &lt;= ( <span class="number">0</span> + verticalGutter ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>it is colliding with the top of the parent container</p>             </td>             <td class="code">               <div class="highlight"><pre>            collidesTop = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>it is colliding with the top of the parent container</p>             </td>             <td class="code">               <div class="highlight"><pre>            collidesTop = <span class="literal">true</span>;
             self.moveTo( overlay, <span class="string">'right-top'</span>, rows );
           } <span class="keyword">else</span> {
             collidesTop = <span class="literal">false</span>;
           }
           
           <span class="keyword">if</span>( rightOverlayPosition &gt;= ( parentRight - horizontalGutter ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>its colliding with the right side</p>             </td>             <td class="code">               <div class="highlight"><pre>            collidesRight = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>its colliding with the right side</p>             </td>             <td class="code">               <div class="highlight"><pre>            collidesRight = <span class="literal">true</span>;
             self.moveTo( overlay, <span class="string">'left-top'</span>, rows );
           } <span class="keyword">else</span> {
             collidesRight = <span class="literal">false</span>;
@@ -564,7 +596,7 @@ the overlay and reiterate through the loop, breaking when the overlay is at a sa
           
           
           <span class="keyword">if</span>( bottomOverlayPosition &gt;= ( parentFloor - verticalGutter ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>it's colliding with bottom</p>             </td>             <td class="code">               <div class="highlight"><pre>            collidesFloor = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>it's colliding with bottom</p>             </td>             <td class="code">               <div class="highlight"><pre>            collidesFloor = <span class="literal">true</span>;
             self.moveTo( overlay, <span class="string">'left-bottom'</span>, rows );
           } <span class="keyword">else</span> {
             collidesFloor = <span class="literal">false</span>;
@@ -572,7 +604,7 @@ the overlay and reiterate through the loop, breaking when the overlay is at a sa
           
   
           <span class="keyword">if</span>( leftOverlayPosition &lt;= horizontalGutter ) {
-</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>it's colliding with left side</p>             </td>             <td class="code">               <div class="highlight"><pre>            collidesLeft = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>it's colliding with left side</p>             </td>             <td class="code">               <div class="highlight"><pre>            collidesLeft = <span class="literal">true</span>;
             self.moveTo( overlay, <span class="string">'right-bottom'</span>, rows );
           } <span class="keyword">else</span> {
             collidesLeft = <span class="literal">false</span>;
@@ -586,7 +618,7 @@ the overlay and reiterate through the loop, breaking when the overlay is at a sa
             
             collides = <span class="literal">false</span>;
             
-</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>element has a default image, and due to shifting around, can be turned on if there is
+</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>element has a default image, and due to shifting around, can be turned on if there is
 1. room, and 2. the last resize was growing and not shrinking, implying there is more space now 
 to potentially turn on the top section.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>( overlayTop.hasClass( <span class="string">'is-default-on'</span> ) &amp;&amp; 
                 overlayTop.hasClass( <span class="string">'hidden'</span> ) &amp;&amp;
@@ -603,8 +635,8 @@ to potentially turn on the top section.</p>             </td>             <td cl
               topOverlayPosition = hotspotPosition.top - Math.abs( overlayPosition.top ) - topHeight + verticalGutter;
               
               <span class="keyword">if</span>( topOverlayPosition &gt; <span class="number">0</span> ) {
-</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>it fits!</p>             </td>             <td class="code">               <div class="highlight"><pre>                overlayTop.removeClass( <span class="string">'hidden'</span> );
-</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>make sure the orientation is correct. In some cases it needs to be adjusted</p>             </td>             <td class="code">               <div class="highlight"><pre>                self.twoToThree(overlay);
+</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>it fits!</p>             </td>             <td class="code">               <div class="highlight"><pre>                overlayTop.removeClass( <span class="string">'hidden'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>make sure the orientation is correct. In some cases it needs to be adjusted</p>             </td>             <td class="code">               <div class="highlight"><pre>                self.twoToThree(overlay);
               }
             }
   
@@ -629,11 +661,11 @@ to potentially turn on the top section.</p>             </td>             <td cl
             
           }
           
-</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>if we're in the last iteration of the loop, and no position has been found,
+</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>if we're in the last iteration of the loop, and no position has been found,
 we need to attempt to turn off the the top or bottom section to make room
 since we're tracking collisions by side, we can easily do this prescriptively,</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>( <span class="literal">true</span> === collides &amp;&amp; i == <span class="number">3</span> ) {
           
-            log(<span class="string">'Reposition did not work. '</span>);
+<span class="comment">/*             log('Reposition did not work. '); */</span>
             
             top = overlayTop; <span class="comment">// clean up redundant vars!!!!</span>
             footer = overlayFooter; <span class="comment">// clean up redundant vars!!!!</span>
@@ -656,16 +688,16 @@ since we're tracking collisions by side, we can easily do this prescriptively,</
             <span class="comment">/* log('finished '+passes+' passes' ); */</span>
             passes++;
             
-</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>two passes, and no dice; lets turn off top and bottom in an attempt to 
+</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>two passes, and no dice; lets turn off top and bottom in an attempt to 
 make room one last time</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(passes==<span class="number">1</span>) {
               top.addClass( <span class="string">'hidden'</span> );
               footer.addClass( <span class="string">'hidden'</span> );
-              log( <span class="string">'performing second pass'</span> );              
+              <span class="comment">/* log( 'performing second pass' );               */</span>
               i=-<span class="number">1</span>;
             } <span class="keyword">else</span> <span class="keyword">if</span>( passes &gt; <span class="number">1</span> ) { 
             
-              log( <span class="string">'forcing second best default positioning'</span> );
-</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>test if overlay is hitting the right side of the screen</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">var</span> outerRight    = $( window ).width();
+              <span class="comment">/* log( 'forcing second best default positioning' ); */</span>
+</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>test if overlay is hitting the right side of the screen</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">var</span> outerRight    = $( window ).width();
               <span class="keyword">var</span> windowLeft    = overlay.offset().left;
               <span class="keyword">var</span> windowRight   = windowLeft + overlay.width();
               
@@ -674,10 +706,10 @@ make room one last time</p>             </td>             <td class="code">     
               log(windowRight);
                             
               <span class="keyword">if</span>( outerRight &lt;= ( windowRight - <span class="number">10</span> ) ) {
-                log( <span class="string">'moving away from right wall'</span> );
+                <span class="comment">/* log( 'moving away from right wall' ); */</span>
                 self.moveTo( overlay, <span class="string">'left-top'</span>, rows );
               } <span class="keyword">else</span> <span class="keyword">if</span>( <span class="number">0</span> + <span class="number">10</span> &gt;= windowLeft ) {
-                log( <span class="string">'moving away from left wall'</span> );
+                <span class="comment">/* log( 'moving away from left wall' ); */</span>
                 self.moveTo( overlay, <span class="string">'right-top'</span>, rows );
               }
               
@@ -749,23 +781,23 @@ make room one last time</p>             </td>             <td class="code">     
     
     close: <span class="keyword">function</span>( container, hotspot, info ) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.cleanTimer();
+</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.cleanTimer();
         
-</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>save last close state</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.data( <span class="string">'state'</span>, <span class="string">'closed'</span> ).removeClass( <span class="string">'info-jump-to-top'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>save last close state</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.data( <span class="string">'state'</span>, <span class="string">'closed'</span> ).removeClass( <span class="string">'info-jump-to-top'</span> );
         
-</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>        hotspot.removeClass( <span class="string">'hspot-core-on'</span> ).addClass( <span class="string">'hspot-core'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>        hotspot.removeClass( <span class="string">'hspot-core-on'</span> ).addClass( <span class="string">'hspot-core'</span> );
         
-</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>begin fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.transition( info.find(<span class="string">'.overlay-inner'</span>),  <span class="string">'off'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>begin fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.transition( info.find(<span class="string">'.overlay-inner'</span>),  <span class="string">'off'</span> );
         
-</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>closure to allow script to set display:none when transition is complete</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> anon = <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>closure to allow script to set display:none when transition is complete</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> anon = <span class="keyword">function</span>() {
           info.addClass( <span class="string">'hidden'</span> );
         };
         
-</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>fire a timer that will set the display to none when the element is closed. </p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
+</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>fire a timer that will set the display to none when the element is closed. </p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
         
-</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>set the open status to zilch</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastOpen = <span class="literal">null</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>set the open status to zilch</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastOpen = <span class="literal">null</span>;
         
-</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>kill the underlay if we're in minified mode</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
+</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>kill the underlay if we're in minified mode</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
           $( <span class="string">'.hspot-underlay'</span> ).addClass( <span class="string">'hidden'</span> );   
         }
     },
@@ -773,21 +805,21 @@ make room one last time</p>             </td>             <td class="code">     
     open: <span class="keyword">function</span>( container, hotspot, info ) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
         
-</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.$lastOpen &amp;&amp; container.is(self.$lastOpen[<span class="number">0</span>])) {
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.$lastOpen &amp;&amp; container.is(self.$lastOpen[<span class="number">0</span>])) {
           self.cleanTimer();
         }
         
-</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>save last open state</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastOpen = <span class="keyword">new</span> Array( container, hotspot, info );
+</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>save last open state</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastOpen = <span class="keyword">new</span> Array( container, hotspot, info );
         
-</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>add data- info to this hotspot</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.data( <span class="string">'state'</span>, <span class="string">'open'</span> ).addClass( <span class="string">'info-jump-to-top'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>add data- info to this hotspot</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.data( <span class="string">'state'</span>, <span class="string">'open'</span> ).addClass( <span class="string">'info-jump-to-top'</span> );
         
-</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>        hotspot.removeClass( <span class="string">'hspot-core'</span> ).addClass( <span class="string">'hspot-core-on'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>        hotspot.removeClass( <span class="string">'hspot-core'</span> ).addClass( <span class="string">'hspot-core-on'</span> );
         
-</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>we have to set display: block to allow DOM to calculate dimension</p>             </td>             <td class="code">               <div class="highlight"><pre>        info.removeClass( <span class="string">'hidden'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>we have to set display: block to allow DOM to calculate dimension</p>             </td>             <td class="code">               <div class="highlight"><pre>        info.removeClass( <span class="string">'hidden'</span> );
         
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>reposition window per it's collision detection</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.reposition( container );
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>reposition window per it's collision detection</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.reposition( container );
         
-</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>fade in info window</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
+</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>fade in info window</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
           $( <span class="string">'.hspot-global-details-overlay'</span> ).find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );  
         } <span class="keyword">else</span> {
           info.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
@@ -813,12 +845,12 @@ make room one last time</p>             </td>             <td class="code">     
     } 
   };
   
-</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.hotspotsController = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.hotspotsController = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
         hotspotsController = self.data(<span class="string">'hotspotsController'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>If we don't have a stored tertiaryModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !hotspotsController ) {
+</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>If we don't have a stored tertiaryModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !hotspotsController ) {
             hotspotsController = <span class="keyword">new</span> HotspotsController( self, options );
             self.data( <span class="string">'hotspotsController'</span>, hotspotsController );
         }
@@ -829,7 +861,7 @@ make room one last time</p>             </td>             <td class="code">     
       });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>Defaults options for the module</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.hotspotsController.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>Defaults options for the module</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.hotspotsController.defaults = {
     options : {
 
     }

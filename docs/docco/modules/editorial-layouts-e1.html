@@ -14,6 +14,7 @@ define(<span class="keyword">function</span>(require) {
     <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
         enquire = require(<span class="string">'enquire'</span>),
         iQ = require(<span class="string">'iQ'</span>),
+        Modernizr = require(<span class="string">'modernizr'</span>),
         Settings = require(<span class="string">'require/sony-global-settings'</span>),
         Environment = require(<span class="string">'require/sony-global-environment'</span>),
         SonyCarousel = require(<span class="string">'secondary/sony-carousel'</span>),
@@ -65,7 +66,8 @@ define(<span class="keyword">function</span>(require) {
         }
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
-        <span class="keyword">if</span> (heightGroup.length) {
+
+        <span class="keyword">if</span> (heightGroup.length &amp;&amp; Modernizr.mq( <span class="string">'(min-width: 48em)'</span>) ) {
           heightGroup.evenHeights();
         }
       },
