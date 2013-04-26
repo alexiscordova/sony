@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('editorial-360viewer-e8')
 +includeJavascriptModule('editorial-360viewer-e8')
 
 - type = data.type
@@ -6,7 +7,13 @@ include ../../../common/html/jade-helpers.jade
 - extraclass = image.classes || ""
 - id = data.id || ""
 - startId = id+"-0"
+- multiModule = data.multiModule || ""
 - isDark = data.dark ? "dark" : "light"
+
+if multiModule == "true"
+    bump = "multiModule"
+else
+    bump = ""
 
 .e360(id=data.id)
   .outer
@@ -15,7 +22,7 @@ include ../../../common/html/jade-helpers.jade
       - for imgData in data.sequence
         - sequenceId = id+"-"+i 
         if i == 0
-          hide = ""
+          hide = "" 
         else 
           hide = "hidden"
         if data.heights
@@ -41,7 +48,7 @@ include ../../../common/html/jade-helpers.jade
     .grid.no-grid-at-767
       .span12
         .table-center-wrap
-          .table-center(class=isDark)
+          .table-center(class=isDark)(class=bump)
             i.left-arrow.fonticon-10-chevron-reverse
             span.instructions.l3(class=isDark) DRAG
             i.right-arrow.fonticon-10-chevron
