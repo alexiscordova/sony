@@ -1,8 +1,12 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-$phoneMax: px-em(767);
 $phone: px-em(568);
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$desktopMin: px-em(980);
+
 
 @media (max-width:$phoneMax) {
   .search-results {
@@ -93,10 +97,12 @@ $phone: px-em(568);
   }
 }
 
-@media (max-width:$phoneMax) {
+@media (max-width:$phone) {
   .search-results {
-    .search {
-        width: 63%;
+    .bar-tone {
+      .search {
+          width: 63%;
       }
+    }
   }
 }
