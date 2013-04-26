@@ -101,7 +101,7 @@ if data.variation
     .container.submodule
       +partial(data.submodules[0].type, data.submodules[0].data)
     +boxlayout
-      +copyblock(data, "t3", "t7", "p3")
+      +copyblock(data, "t3-bold", "t7", "p3")
   else if data.mode == "full"
     .container
       +gridstyle
@@ -117,7 +117,7 @@ if data.variation
         div(class = span)
           +center
             .box
-              +copyblock(data, "t3", "t7", "p3")
+              +copyblock(data, "t3-bold", "t7", "p3")
         span = "span" + data.layout.columns[1]
         .media-element(class = span)
           +center
@@ -134,14 +134,14 @@ if data.variation
         div(class = span)
           +center
             .box
-              +copyblock(data, "t3", "t7", "p3")
+              +copyblock(data, "t3-bold", "t7", "p3")
 
   else if data.mode == "tout" || data.mode =="full-tout"
     .container
       if data.title
         +gridstyle("title-block")
           +textonlylayout
-            +copyblock(data, "t3", "t7", "p3")
+            +copyblock
       if data.submodules
         .submodule
           +partial(data.submodules[0].type, data.submodules[0].data)
