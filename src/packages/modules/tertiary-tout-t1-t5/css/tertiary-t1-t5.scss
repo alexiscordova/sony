@@ -210,6 +210,12 @@ $three-up-height:400px;
 						opacity:0.95;
 						padding:12% 36%;
 
+										// IE9 and BELOW
+						// 				.lt-ie10 & {
+						// 		    	margin:5% auto 10% auto;
+						// 		    } // END IE9 and BELOW
+
+
 						.details{
 							background-color: $secondaryOlive;
 							padding:3px;
@@ -262,6 +268,19 @@ $three-up-height:400px;
 						margin: 0;
 						text-align: left;
 					} // copy
+					
+					// IE9 and BELOW
+					// 				.lt-ie10 & {
+					// 		    	height:145px;
+					// 		    	max-height: 145px;
+					//           min-height:145px;
+					//    				position: absolute;
+					//           bottom:0;
+					//           left: 0;
+					//           margin:0;
+					//           padding:30px;
+					//           width:100%;
+					// 		    }	// END IE9 and BELOW
 
 					.t5-light{
 						overflow:hidden;
@@ -287,8 +306,8 @@ $three-up-height:400px;
 							} // pseudo
 
 						} // a
-
-					}
+ 
+					} // light-text
 
 
 					.dark-box{
@@ -353,6 +372,10 @@ $three-up-height:400px;
 		//               |_|                                                             
 		&.expert-quote{
 			background-color:rgba($gray10,0.95);
+			
+			.lt-ie9 & {
+				background-color:$gray10;
+	    } // END IE8 and BELOW
 
 			.title{
 			  color:$gray50;
@@ -450,10 +473,82 @@ $three-up-height:400px;
 
 
 
+	//  .d8888b.                                           888     888          d8b                   
+	// d88P  Y88b                                          888     888          Y8P                   
+	// Y88b.                                               888     888                                
+	//  "Y888b.    .d88b.  88888b.  888  888 .d8888b       Y88b   d88P  .d88b.  888  .d8888b  .d88b.  
+	//     "Y88b. d88""88b 888 "88b 888  888 88K            Y88b d88P  d88""88b 888 d88P"    d8P  Y8b 
+	//       "888 888  888 888  888 888  888 "Y8888b. 888888 Y88o88P   888  888 888 888      88888888 
+	// Y88b  d88P Y88..88P 888  888 Y88b 888      X88         Y888P    Y88..88P 888 Y88b.    Y8b.     
+	//  "Y8888P"   "Y88P"  888  888  "Y88888  88888P'          Y8P      "Y88P"  888  "Y8888P  "Y8888  
+	//                                   888                                                          
+	//                              Y8b d88P                                                          
+	//                               "Y88P"                                                           
+	.sonys-voice{
+		position: relative;
+
+		.top{
+			float:left;
+			width:100%;
+			border:1px solid red;
+			text-align: center;
+		} // top
+
+		.center{
+			border:1px solid blue;
+			height: 76.75%;
+			width:100%;
+		} // center
+		
+		.content{
+			border:1px solid green;
+			width:100%;
+		} // content
+
+		.facebook{
+			.bq5{
+				p{
+					color:$secondarySlateDark;
+				}
+			}
+		} // facebook
+		
+		.twitter{
+			.bq4{
+				p{
+					color:$secondarySlateDark;
+				}
+			}
+		} // twitter
+
+
+		.instagram{
+			background-color: $white;
+
+			.left{
+				border:1px solid black;
+			} // left
+
+			.right{
+				border:1px solid black;
+			} // right
+
+		} // instagram
 
 
 
-	.sonys-voice{}
+		.bottom{
+			position: absolute;
+			bottom:0;
+			left:0;
+			width:100%;
+			border:1px solid red;
+			text-align: center;
+		} // bottom
+
+
+	}
+
 	.flickr{}
 
 } // tcc-module
@@ -542,155 +637,6 @@ $three-up-height:400px;
 
 
 
-// 	// TYPE: USERS VOICE
-// 	.users-voice{
-// 		text-align: left;
-
-// 		&.user-quote,
-// 		&.expert-quote,
-// 		&.question{
-// 			.avatar{
-// 				img{
-// 					max-height:50px; // 2x images need this or it gets too big
-// 				}
-// 			}
-// 		}
-
-// 		&.user-quote,
-// 		&.expert-quote{
-// 		  padding: px-em(30px) px-em(40px) px-em($users-voice-padding-bottom-desktop) $users-voice-padding-left-right-desktop;
-
-// 		  .credits{
-// 		    position:absolute;
-// 		    bottom:$users-voice-padding-bottom-desktop;
-// 		    left:$users-voice-padding-left-right-desktop;
-
-// 		    .avatar{
-// 		      margin-bottom:15px;
-// 		    } // .avatar
-		    
-// 		    .author{	      
-// 		      &.p4{
-// 		        margin:0;
-// 		      } // end .p4
-
-// 		    } // end author
-
-// 		    .author,
-// 		    .handle{
-// 		      display: inline;
-// 		    } // end .handle & .author
-
-// 		  } // end .credits
-
-// 		} //end .user-quote and .expert-quote
-
-// 		&.expert-quote{
-// 			background-color:rgba($gray10,0.95);
-
-// 			// END IE8 and BELOW
-// 			.lt-ie9 & {
-// 				background-color:$gray10;
-// 	    } // END IE8 and BELOW
-		
-// 			.author{
-// 				display: inline;
-// 				margin:0;
-// 				text-transform: capitalize;
-// 			} // end .author
-
-// 			.bq3{
-				
-// 				p{
-// 					color:$white;	
-// 				} // end p
-			
-// 			} // end bq3
-
-// 			.title{
-// 			  color:$gray50;
-// 			} // end .title
-
-// 			.name{
-// 				color:$linkBlue;	
-// 			} // end .name
-
-// 		} // end .expert-quote
-		
-
-// 		&.user-quote,
-// 		&.question{
-// 			.bq3{
-// 				p{
-// 			  	color:$secondarySlateDark;
-// 				} // end p
-// 			} // end .bq3
-// 		} // end quote color
-
-// 		&.user-quote{
-// 			background-color:$white;
-			
-// 			.title{
-// 			  color:$gray40;
-// 			} // end .title
-			
-// 			.credits{
-// 				.handle,
-// 				.author{
-// 				  display: inline;
-// 				} // end .handle & .author
-
-// 				.author{
-// 					padding-left: 10px;
-// 				}
-
-// 			} // end .credits
-
-// 		} // end expert-quote & user-quote
-		
-// 		&.question{
-// 			padding:0;
-
-//       .bq3,
-//       .lt3,
-//       .answer-btn{
-//         text-align: center;
-//       }
-
-// 			.credits{
-// 				background-color: $white;
-// 				@include clearfix();
-//         position: relative;
-//         width: 100%;
-//         white-space: nowrap;
-        
-//         .avatar{
-//           float:left;
-//         } // end .avatar
-
-//         .author{
-//           position: absolute;
-//           top:50%;
-//           left:73px;
-//           margin:-11px 0 0 0;
-//         } // end .author
-
-// 			} // end .credits
-
-// 	     .bq3{
-//         padding:40px px-em(30px) 0px px-em(30px);
-//       } // .bq3
-
-//       .answer-btn{
-//         position: absolute;
-//         bottom: 10px;
-//         left: 50%;
-//         margin-left: -71px;
-//       } // end .answer-btn		
-
-// 		} // end .question
-
-// 	} // end .users-voice
 
 // 	// TYPE: SONYS VOICE
 // 	.sonys-voice{
@@ -840,7 +786,6 @@ $three-up-height:400px;
 // 						div{
 // 							width:100%; 
 // 							height:100%; 
-
 // 						}
 // 					} // end right
 

@@ -30,18 +30,10 @@ section.tcc-module.container.full-bleed-no-max
                         +users-voice(mode, module)
 
                       when "sonys-voice"
-                        .tcc-inner-container
-                          .top
-                          +sonysVoiceTop("fonticon-15-" + mode, module.meta)
-      
-                          .center
-                          +sonysVoiceCenter(mode, module)
-      
-                          .bottom
-                          +sonysVoiceBottom(mode, module)
+                        +sonys-voice(mode, module)
     
                       when "flickr"
-                        +flickrContent(mode, module)
+                        +flickr(mode, module)
 
 
 //- END TCC MODULE

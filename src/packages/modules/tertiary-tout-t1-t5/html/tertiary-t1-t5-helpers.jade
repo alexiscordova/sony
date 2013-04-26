@@ -11,10 +11,6 @@ mixin copyblock(module)
       p.lt3
         a(href= module.articleLink) Read More
 
-mixin socialButton(link, label)
-  .social-btn
-    a.btn.btn-small(href= link)= label
-
 mixin header(data)
   .tcc-header-wrapper
     .container
@@ -93,6 +89,7 @@ mixin credits(mode, data)
         +author-default(mode, data.author)
 
 mixin author-expert-quote(author)
+
   a(href= author.link)= author.name
 
 mixin author-default(mode, author)
@@ -114,58 +111,71 @@ mixin question-extra(data)
     a.btn.btn-small(href= data.answerLink)
       | Answer this Question
 
+mixin sonys-voice(mode, data)
+  +top("fonticon-15-" + mode, data.meta)
+  +center(mode, data)
+  +bottom(mode, data)
+
+mixin top(icon, meta)
+  .top
+    .icon-container
+      .white-bg.fonticon-10-dot
+      div(class= icon)
+
+    if (meta)
+      .meta
+        p.p4
+          span.user= meta.user
+          span.timestamp= meta.timestamp
+
+mixin center(mode, module)
+  .center.table-center-wrap
+    .content.table-center
+      case mode
+        when "twitter"
+          +twitter(module)
+        when "facebook"
+          +facebook(module)
+        when "instagram"
+          +instagram(module)
+
 mixin twitter(module)
-  blockquote.bq4
-    p= module.quote
+    blockquote.bq4
+      p= module.quote
 
 mixin facebook(module)
-  .post-image
-    +iQImage(module.image,'tcc-image')
+    .post-image
+      +iQImage(module.image,'tcc-image')
 
-  blockquote.post-copy.bq6
-      p= module.postCopy
-        a= module.postLink
+    blockquote.post-copy.bq6
+        p= module.postCopy
+          a= module.postLink
 
 mixin instagram(module)
-  div.left
-    div.tcc-image(data-src-desktop= module.images[1].srcDesktop, data-src-tablet= module.images[1].srcTablet, data-src-phone= module.images[1].srcPhone, data-src-desktop-highres= module.images[1].srcDesktopHighRes, data-src-tablet-highres= module.images[1].srcTabletHighRes, data-src-phone-highres= module.images[1].srcPhoneHighRes)
-    div.tcc-image.last(data-src-desktop= module.images[2].srcDesktop, data-src-tablet= module.images[2].srcTablet, data-src-phone= module.images[2].srcPhone, data-src-desktop-highres= module.images[2].srcDesktopHighRes, data-src-tablet-highres= module.images[2].srcTabletHighRes, data-src-phone-highres= module.images[2].srcPhoneHighRes)
-  div.right
-    div.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
+  .instagram
+    .left
+      .iq-img(data-src-desktop= module.images[1].srcDesktop, data-src-tablet= module.images[1].srcTablet, data-src-phone= module.images[1].srcPhone, data-src-desktop-highres= module.images[1].srcDesktopHighRes, data-src-tablet-highres= module.images[1].srcTabletHighRes, data-src-phone-highres= module.images[1].srcPhoneHighRes)
+      .iq-img.last(data-src-desktop= module.images[2].srcDesktop, data-src-tablet= module.images[2].srcTablet, data-src-phone= module.images[2].srcPhone, data-src-desktop-highres= module.images[2].srcDesktopHighRes, data-src-tablet-highres= module.images[2].srcTabletHighRes, data-src-phone-highres= module.images[2].srcPhoneHighRes)
+    .right
+      .iq-img(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
 
-mixin sonysVoiceTop(icon, meta)
-  .icon-container
-    .white-bg.fonticon-10-dot
-    div(class= icon)
+mixin socialButton(link, label)
+  .social-btn
+    a.btn.btn-small(href= link)= label
 
-  if (meta)
-    .meta
-      p.p4
-        span.user= meta.user
-        span.timestamp= meta.timestamp
-
-mixin sonysVoiceCenter(mode, module)
-  .center-container
+mixin bottom(mode, module)
+  .bottom
     case mode
       when "twitter"
-        +twitter(module)
+        - label = "Follow Us on Twitter"
       when "facebook"
-        +facebook(module)
+        - label = "Like Us on Facebook"
       when "instagram"
-        +instagram(module)
+        - label = "Follow Us on Instagram"
 
-mixin sonysVoiceBottom(mode, module)
-  case mode
-    when "twitter"
-      - label = "Follow Us on Twitter"
-    when "facebook"
-      - label = "Like Us on Facebook"
-    when "instagram"
-      - label = "Follow Us on Instagram"
+    +socialButton( module.socialBtnLink, label )
 
-  +socialButton( module.socialBtnLink, label )
-
-mixin flickrContent(data, mode)
+mixin flickr(mode, data)
   if (mode == "default")
     .top
       .icon-container
@@ -197,7 +207,6 @@ mixin flickrContent(data, mode)
             -}
     .bottom
       +socialButton( data.socialBtnLink, "View Set on Flickr" )
-
 
 
 
