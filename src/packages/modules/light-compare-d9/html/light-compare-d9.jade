@@ -1,5 +1,7 @@
 include ../../../common/html/jade-helpers.jade
+
 +includeCSS('light-compare-d9')
+
 e = {"locals":locals, "data": data}
 +includeJavascriptModule('light-compare-d9')
 section.container.full-bleed
@@ -25,17 +27,23 @@ section.container.full-bleed
         .tab-container
           ul.tabs
             - each tab, i in data.tabs
-              li
+              - var klass = (i === 0 ? 'active' : '')
+              li(class= klass, data-target= tab.id, data-toggle="tab", data-hash="true")
                 a(href="#")= tab.tabname
         - each tab, i in data.tabs
-          div(id= tab.id)
-          .light-compare.tab
-            .mobile-hd.visible-phone
-              h1.t5.mobile-hd-txt= tab.title
-            .light-compare-hd
-              h1.t3= tab.subtitle
-              p.p2= tab.tagline
-            .image-module
-              +iQImage(tab.img, 'update-always')
+          if i === 0
+            - var klasses = "tab-pane fade in active";
+          else
+            - var klasses = "tab-pane fade off-screen";
+
+          div(id= tab.id, data-tab= tab.id, class= klasses)
+            .light-compare.tab
+              .mobile-hd.visible-phone
+                h1.t5.mobile-hd-txt= tab.title
+              .light-compare-hd
+                h1.t3= tab.subtitle
+                p.p2= tab.tagline
+              .image-module
+                +iQImage(tab.img, 'update-always')
 
 
