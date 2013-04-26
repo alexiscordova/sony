@@ -91,7 +91,6 @@ define(function(require){
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
       }
 
-      self.$el.addClass('dragging');
       self.isScrubbing = self.hasPassedThreshold = false;
       self.handleStartPosition = self.getPagePosition(e);
       self.setDimensions();
@@ -141,6 +140,7 @@ define(function(require){
 
       e.preventDefault();
 
+      self.$el.addClass('dragging');
       self.handlePosition.x = self.scrubberLeft + distX;
       self.handlePosition.y = self.scrubberTop + distY;
 
@@ -166,21 +166,19 @@ define(function(require){
 
       self.setAcceleration(e);
 
-      setTimeout(function(){
-        self.$el.removeClass('dragging dragging2');    
-      }, 250);
-      
       self.isScrubbing = self.hasPassedThreshold = false;
 
       self.$el.trigger('sonyDraggable:dragEnd', {
         'acceleration': self.acceleration
       });
 
+      self.$el.removeClass('dragging');
+
       if ( self.snapToBounds && self.bounds ) {
-        if ( self.axis.search('x') >= 0 ) {
+        if ( self.axis.indexOf('x') >= 0 ) {
           self.animateToBounds('x');
         }
-        if ( self.axis.search('y') >= 0 ) {
+        if ( self.axis.indexOf('y') >= 0 ) {
           self.animateToBounds('y');
         }
       }
@@ -275,19 +273,19 @@ define(function(require){
           newY = 0;
 
       if ( self.unit === 'px' ) {
-        if ( self.axis.search('x') >= 0 ) {
+        if ( self.axis.indexOf('x') >= 0 ) {
           newX = self.handlePosition.x;
         }
-        if ( self.axis.search('y') >= 0 ) {
+        if ( self.axis.indexOf('y') >= 0 ) {
           newY = self.handlePosition.y;
         }
       }
 
       if ( self.unit === '%' ) {
-        if ( self.axis.search('x') >= 0 ) {
+        if ( self.axis.indexOf('x') >= 0 ) {
           newX = ((self.handlePosition.x) / self.containmentWidth * 100);
         }
-        if ( self.axis.search('y') >= 0 ) {
+        if ( self.axis.indexOf('y') >= 0 ) {
           newY = ((self.handlePosition.y) / self.containmentHeight * 100);
         }
       }
@@ -298,10 +296,10 @@ define(function(require){
       }
 
       if ( overridePosition ) {
-        if ( self.axis.search('x') >= 0 ) {
+        if ( self.axis.indexOf('x') >= 0 ) {
           newX = overridePosition.x;
         }
-        if ( self.axis.search('y') >= 0 ) {
+        if ( self.axis.indexOf('y') >= 0 ) {
           newY = overridePosition.y;
         }
       }
@@ -381,6 +379,8 @@ define(function(require){
       if ( !Modernizr.touch ) {
         self.$win.off(_endEvents(self.id));
       }
+
+      self.$el.removeData('sonyDraggable');
     }
   };
 

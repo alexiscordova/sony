@@ -181,6 +181,15 @@ $oneByOneImgPadding: 107.84313725490196%;
     height: 17.25em; // 276
   }
 
+  .lt-ie9 &.concealed {
+    height: 0;
+    min-height: 0;
+
+    &:after {
+      content: none;
+    }
+  }
+
   // Make them a bit bigger
   .shuffle-6 &:after {
     padding-top: 169.396078%;
@@ -229,6 +238,23 @@ $oneByOneImgPadding: 107.84313725490196%;
       margin: auto;
     }
 
+  }
+
+  &.simple {
+    margin-top: 0;
+
+    &:after {
+      content: none;
+    }
+
+    .gallery-item-inner {
+      position: static;
+    }
+
+    // Make the tiles smaller
+    .product-img:after {
+      padding-top: 78%;
+    }
   }
 
   // Large tiles
@@ -487,6 +513,11 @@ $oneByOneImgPadding: 107.84313725490196%;
     left: 0;
     height: 100%;
     padding: 10.129032% 10.6060606% 10.967742%;
+
+    // Background color classes
+    &.dark-panel {
+      background-color: $gray20;
+    }
   }
 
   img {
@@ -533,18 +564,29 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   // ::Different styles go here::
 
-  &.light-text-dark-box {}
-  &.light-text-trans-box {}
-  &.dark-text-light-box {}
-  &.dark-text-trans-box {}
+  &.light-text {
+    .promo-title .title {
+      color: $gray50;
+    }
 
-  &.align-left-top {}
-  &.align-left-center {}
-  &.align-left-bottom {}
-  &.align-center-center {}
-  &.align-right-top {}
-  &.align-right-center {}
-  &.align-right-bottom {}
+    .promo-title .emphasis,
+    .promo-title i,
+    .text-count span {
+      color: $white;
+    }
+  }
+
+  &.dark-text {
+    .promo-title .title {
+      color: $gray40;
+    }
+
+    .promo-title .emphasis,
+    .promo-title i,
+    .text-count span {
+      color: $gray20;
+    }
+  }
 }
 
 .gallery-item.social {
@@ -561,13 +603,17 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .quote {
     float: right;
+    width: 50%;
     height: 100%;
     height: -webkit-calc( 100% - 18px );
     height: calc( 100% - 18px );
-    // Why is this relative to the whole .gallery-item???
-    // margin-top: 12%;
     padding-right: 5%;
     text-align: left;
+
+    .lt-ie8 & {
+      width: 45%;
+      margin-top: 30px;
+    }
   }
 
   figcaption {

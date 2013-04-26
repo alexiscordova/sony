@@ -6,60 +6,93 @@
 // Base styles
 // -------------------------
 
+
+// check `gallery-favorites.jade` for example usage
 .alert {
-  padding: 8px 35px 8px 14px;
-  margin-bottom: $baseLineHeight;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
-  background-color: $warningBackground;
-  border: 1px solid $warningBorder;
-  @include border-radius(4px);
-  color: $warningText;
+  background-color: $gray80;
+  max-height: 90px;
+  overflow: hidden;
+  @include transition();
+
+  // Need the inner element to have padding because zero height still has padding
+  .alert-inner {
+    padding: px-em( 32 ) 0 px-em( 28 );
+    @include transition();
+  }
+
+  .title {
+    color: $black;
+  }
+
+  &.alert-large {
+    max-height: 500px; // max-height: auto 
+  }
+
+  // Animate max-height because height with auto cannot be animated
+  &.collapsed {
+    max-height: 0;
+
+    .alert-inner {
+      padding: 0;
+    }
+  }
+
+  .msg {
+    margin-bottom: 0;
+    padding-right: 30px; // the close button is 22x22
+  }
+  // margin-bottom: $baseLineHeight;
+  // text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  // background-color: $warningBackground;
+  // border: 1px solid $warningBorder;
+  // @include border-radius(4px);
+  // color: $warningText;
 }
-.alert h4 {
-  margin: 0;
-}
+// .alert h4 {
+//   margin: 0;
+// }
 
 // Adjust close link position
-.alert .close {
-  position: relative;
-  top: -2px;
-  right: -21px;
-  line-height: $baseLineHeight;
-}
+// .alert .close {
+//   position: relative;
+//   top: -2px;
+//   right: -21px;
+//   line-height: $baseLineHeight;
+// }
 
 
 // Alternate styles
 // -------------------------
 
-.alert-success {
-  background-color: $successBackground;
-  border-color: $successBorder;
-  color: $successText;
-}
-.alert-danger,
-.alert-error {
-  background-color: $errorBackground;
-  border-color: $errorBorder;
-  color: $errorText;
-}
-.alert-info {
-  background-color: $infoBackground;
-  border-color: $infoBorder;
-  color: $infoText;
-}
+// .alert-success {
+//   background-color: $successBackground;
+//   border-color: $successBorder;
+//   color: $successText;
+// }
+// .alert-danger,
+// .alert-error {
+//   background-color: $errorBackground;
+//   border-color: $errorBorder;
+//   color: $errorText;
+// }
+// .alert-info {
+//   background-color: $infoBackground;
+//   border-color: $infoBorder;
+//   color: $infoText;
+// }
 
 
 // Block alerts
 // -------------------------
 
-.alert-block {
-  padding-top: 14px;
-  padding-bottom: 14px;
-}
-.alert-block > p,
-.alert-block > ul {
-  margin-bottom: 0;
-}
-.alert-block p + p {
-  margin-top: 5px;
-}
+// .alert-block {
+//   padding-top: 14px;
+//   padding-bottom: 14px;
+// }
+// .alert-block > p,
+// .alert-block > ul {
+//   margin-bottom: 0;
+// }
+// .alert-block p + p {
+//   margin-top: 5px;
+// }

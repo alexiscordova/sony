@@ -1,36 +1,66 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('editorial-carousel-e13')
 +includeJavascriptModule('editorial-carousel-e13')
 
-.editorial-carousel-e13
+moduleClasses = [ 'ec-module' ]
+moduleMode = false
+
+case data.variation
+  when 'a2'
+    - moduleClasses.push( 'white-bg' )
+  when 'a3'
+    - moduleClasses.push( 'dark-bg' )
+    moduleMode = 'dark'
+
+div(class=moduleClasses, data-mode=moduleMode)
   .container
     .grid
-      h3(class='t3')= data.title
-      p(class='p3')= data.subtitle
-  .container.products.pd-container
-    .slimgrid
-      section.editorial-carousel-e13-products(class="span12", data-mode=data.config.mode , data-variation=data.config.variation )
-        .rp-overflow
-          .rp-container(class="hide fade")
-            i = 0
-            for item in data.slide
-              a(class="gallery-item m-span4 span3 medium")
-                .gallery-item-inner
-                  if item.headline
-                    div(class="headline-counter")
-                      span.p3= item.headline.nbPlayer
-                      span.p5= item.headline.player
-                  div.wrapper-image
-                    if item.headline
-                      div(class="cover")
-                        span.picto-play
-                          span.bg
-                          span.picto
-                        span.title(class="p3")= item.play
-                    img.iq-img(alt=item.alt, data-src-desktop=item.backgroundImgSrcDesktop, data-src-tablet=item.backgroundImgSrcTablet, data-src-phone=item.backgroundImgSrcPhone, data-src-desktop-highres=item.backgroundImgSrcDesktopHighRes, data-src-tablet-highres=item.backgroundImgSrcTabletHighRes, data-src-phone-highres=item.backgroundImgSrcPhoneHighRes)
-                      noscript
-                        img(src=item.noscriptsrc, alt=item.alt)
-                  div(class="infos")
-                    p(class='p4 title')= item.infos.title
-                    p(class='p4 players')
-                      span= item.infos.nbPlayer
-                      span.bold= item.infos.player
+      h3.t3.ec-title= data.title
+      p.p3.ec-subtitle= data.subtitle
+      if data.link
+        p.lt3.text-center.ec-tl
+          a(href=data.link.href)= data.link.label
+
+  .m-container
+    .sony-carousel-wrapper
+      .sony-carousel
+
+        tilesPerSlide = 4
+        slides = [ [], [], [], [], [], [] ]
+        each tile, i in data.tiles
+          index = Math.floor( i / tilesPerSlide )
+          - slides[ index ].push( tile )
+
+        each slide in slides
+          if slide.length > 0
+            .sony-carousel-slide
+              .container
+                .slimgrid
+                  each tile in slide
+                    .sony-carousel-slide-children.span3
+                      a.ec-tile(href=tile.link ? tile.link : '#')
+                        if tile.headline
+                          .headline-counter
+                            span.p3.count
+                              strong= tile.headline.currentPlayers
+                            | &nbsp;
+                            span.p5.text-uppercase
+                              strong= tile.headline.currentPlayersText
+                        .wrapper-image
+                          classes = [ 'cover', 'ghost-center-wrap' ]
+                          if !tile.headline
+                            - classes.push( 'no-headline' )
+                          div(class=classes)
+                            .ghost-center
+                              span.picto-play
+                                span.bg-for-icon
+                                span.picto
+                              span.l3.cta= tile.callToAction
+                          +iQImage( tile.img )
+                        .infos
+                          p.p3.tile-title
+                            strong= tile.infos.title
+                          p.p4.total-players
+                            strong= tile.infos.totalPlayers
+                            | &nbsp;
+                            span= tile.infos.playersText

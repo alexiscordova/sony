@@ -89,6 +89,7 @@ define(function(require) {
     self.trackOpacity                    = null,
     self.trackOpacityTimer               = null;
     self.canShowHotspots                 = false;
+    self.curAnimationCount               = 0;
     
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
@@ -124,8 +125,7 @@ define(function(require) {
       var moduleHandle = self.$container.find( '.image-module' );
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
         self.trackingMode = 'background';
-        self.trackingAsset = moduleHandle.children( '.iq-img' );
-        self.canShowHotspots = true;
+        self.trackingAsset = moduleHandle;
       } else {
         self.trackingMode = 'asset';
         self.trackingAsset = $( moduleHandle.children( '.iq-img' )[0] );
@@ -135,27 +135,38 @@ define(function(require) {
         switch( self.trackingAsset.css( 'opacity' ) ) {
           case undefined:
           case "undefined":
-            log( 'undefined' );
+            /* log( 'undefined' ); */
             clearInterval( self.trackOpacityTimer );
           break;
           case "1":
-            log( 'clearing' );
+            /* log( 'clearing' ); */
             clearInterval( self.trackOpacityTimer );
             self.canShowHotspots = true;
-            triggerInitialPosition();  
+            triggerInitialPosition();
           break;
         }
       };
       
-      self.trackOpacityTimer = setInterval( self.trackOpacity, 50 );
+      self.trackHeight = function() {
+/*         log( 'no bg' ); */
+        if( "none" !== self.trackingAsset.css( 'background-image' ) ) {
+          clearInterval( self.trackOpacityTimer );
+/*           log( 'bg detected, clearing' ); */
+          self.canShowHotspots = true;
+          triggerInitialPosition();
+        }
+      };
+      
+      if( 'asset' === self.trackingMode ) { 
+        self.trackOpacityTimer = setInterval( self.trackOpacity, 50 );
+      } else {
+        self.trackOpacityTimer = setInterval( self.trackHeight, 1000 );
+      }
       
       var triggerInitialPosition = function() {
-        /* log( 'show' ); */
         self.follow();
         self.show();
       };
-      
-      self.trackingAsset.on('iQ:imageLoaded', triggerInitialPosition);
       
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
@@ -236,7 +247,7 @@ define(function(require) {
       var self       = this,
           inViewport = null;
           
-      if( true /* self.isElementInViewport( self.trackingAsset ) */ ) {
+      if( true ) {
         if( el ) {
           var offsetX     = self.trackingAsset.position().left,
               offsetY     = self.trackingAsset.position().top,
@@ -280,27 +291,56 @@ define(function(require) {
                   adjustedY = ( percY * assetH ) / 100;
                
                   $( el ).css( "left", adjustedX );
-                  $( el ).css( "top", adjustedY );          
-              
+                  $( el ).css( "top", adjustedY );
             });
           }
         }
       }
     },
     
+    disableScroll: function( flag ) {
+      if( flag ) {
+        document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+        document.body.scroll = "no"; // ie only        
+      } else {
+        document.documentElement.style.overflow = 'auto';  // firefox, chrome
+        document.body.scroll = "yes"; // ie only
+      }
+    },
+    
+    hover: function( el, self, flag ) {
+      switch(flag) {
+        case true:
+          $( el ).find( '.hspot-core, .hspot-core-on' ).removeClass( 'hspot-hover-off' ).addClass( 'hspot-hover-on' );
+        break;
+        case false:
+          $( el ).find( '.hspot-core, .hspot-core-on' ).removeClass( 'hspot-hover-on' ).addClass( 'hspot-hover-off' );
+        break;
+      }
+    },
+    
     bind: function( el ) {
       var self = this;
       // hotspot clicks
-      $($( el ).find( '.hspot-core' ) ).bind( 'click', function( event ) {
+      $( $( el ).find( '.hspot-core' ) ).bind( 'click', function( event ) {
         self.click( event, self );
       });
+      
+      $( $( el ).find( '.hspot-core' ) ).bind( 'mouseover', function( event ) {
+        self.hover( el, self, true );
+      });
+      
+      $( $( el ).find( '.hspot-core' ) ).bind( 'mouseout', function( event ) {
+        self.hover( el, self, false );
+      });
+      
     },
     
     place: function( el ) {
     
       var self = this;
       if( 'background' === self.trackingMode ) {
-
+        
         // this places the hotspot absolutely (currently by % fed from data-x,y attrib)
         var xAnchor = $( el ).data( "x" );
         var yAnchor = $( el ).data( "y" );
@@ -324,13 +364,18 @@ define(function(require) {
     },
     
     show: function( el ) {
-      var self = this;
-      log( 'can show hotspots?' );
-      log( self.canShowHotspots );
+      var self        = this,
+          offsetTime  = 100; 
+
       if( true === self.canShowHotspots ) {
         $( self.$els ).each(function( index, el ) {
-          if( $( el ).hasClass( 'hidden' ) ) {
-            $( el ).removeClass( 'hidden' ).fadeIn( 500 );
+          if( $( el ).hasClass( 'eh-transparent' ) ) { 
+            var stagger = function() { 
+              log('stagger');
+              $( el ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+            };
+            setTimeout( stagger, ( self.curAnimationCount * offsetTime ) );
+            self.curAnimationCount++;
           }
         });
       }
@@ -339,11 +384,8 @@ define(function(require) {
     find: function( currentTarget ) {
       var self = this;
       self.$els.each( function( index, el ) {
-        log('searching');
         if( $( el ).is( currentTarget ) ) {
           return el;
-        } else {
-          log('no match');
         }
       });
     },
@@ -357,7 +399,7 @@ define(function(require) {
         self.close( container, hotspot, info );
       } else {
         if( self.$lastOpen && !container.is( self.$lastOpen ) ) {
-          log('resetting:::::');
+/*           log('resetting:::::'); */
           self.reset();
         }
          self.open( container, hotspot, info );
@@ -417,14 +459,24 @@ define(function(require) {
         overlayBase.find( '.middle' ).find( '.arrow-right-bottom' ).addClass( 'hidden' );
         overlayBase.find( '.hspot-close' ).removeClass( 'hidden' );
         
-        setTimeout( function() {
+        setTimeout( function() {          
           // finally show the overlay
           overlayBase.removeClass( 'hidden' );
+          // position the overlay vertical center
+          var topPos = null,
+              outerHeight = $( window ).height() / 2,
+              innerHeight = overlayBase.height() / 2;
+          topPos = outerHeight - innerHeight;
+          overlayBase.css( 'margin-top', topPos+'px' );
+
           self.lastOverlayFadein = setTimeout( function() {
             overlayBase.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           }, 10 );
         }, 200);
+        // stop scroll
+        self.disableScroll( true );
         
+
       } else {
         // cleanup
         clearTimeout( self.lastOverlayFadeout );
@@ -452,6 +504,10 @@ define(function(require) {
           // reopen normal overlay
           el.find( '.overlay-base' ).removeClass( 'hidden' ).find( '.overlay-inner' ).removeClass( 'eh-hidden' ).addClass( 'eh-visible' );
         }
+       
+        // reenable scrolling
+        self.disableScroll( false );
+        
       }
     },
     moveTo: function( overlay, position, rows ) {
@@ -461,22 +517,22 @@ define(function(require) {
         case 'right-top':
           overlay.addClass( rows + '-stack-right-top-justified' );
           overlay.find( '.arrow-left-top' ).removeClass( 'hidden' );
-          log('::overlay hits container top::');
+/*           log('::overlay hits container top::'); */
         break;
         case 'right-bottom':
           overlay.addClass( rows + '-stack-right-bottom-justified' );
           overlay.find( '.arrow-left-bottom' ).removeClass( 'hidden' );
-          log('::overlay hits container left::');
+/*           log('::overlay hits container left::'); */
         break;
         case 'left-top':
           overlay.addClass( rows + '-stack-left-top-justified' );
           overlay.find( '.arrow-right-top' ).removeClass( 'hidden' );
-          log('::overlay hits container right::');
+/*           log('::overlay hits container right::'); */
         break;
         case 'left-bottom':
           overlay.addClass( rows + '-stack-left-bottom-justified' );
           overlay.find( '.arrow-right-bottom' ).removeClass( 'hidden' );
-          log('::overlay hits container floor::');
+/*           log('::overlay hits container floor::'); */
         break;
       }
     },
@@ -526,7 +582,7 @@ define(function(require) {
         
         /* log('unabaited repositioning'); */
         self.reanchor(el, false);
-        
+
         /*
          * INITIAL CALCULATIONS TO SEE IF WE'RE COLLIDING AT THE DEFAULT POSITIONING (TOP RIGHT)
          * THIS SHOULD LOOP 4 TIMES. IF IT'S STILL COLLIDING WE HAVE TO FIGURE THAT OUT...heh...
@@ -673,7 +729,7 @@ define(function(require) {
           // since we're tracking collisions by side, we can easily do this prescriptively,
           if( true === collides && i == 3 ) {
           
-            log('Reposition did not work. ');
+/*             log('Reposition did not work. '); */
             
             top = overlayTop; // clean up redundant vars!!!!
             footer = overlayFooter; // clean up redundant vars!!!!
@@ -701,11 +757,11 @@ define(function(require) {
             if(passes==1) {
               top.addClass( 'hidden' );
               footer.addClass( 'hidden' );
-              log( 'performing second pass' );              
+              /* log( 'performing second pass' );               */
               i=-1;
             } else if( passes > 1 ) { 
             
-              log( 'forcing second best default positioning' );
+              /* log( 'forcing second best default positioning' ); */
               // test if overlay is hitting the right side of the screen
               var outerRight    = $( window ).width();
               var windowLeft    = overlay.offset().left;
@@ -716,10 +772,10 @@ define(function(require) {
               log(windowRight);
                             
               if( outerRight <= ( windowRight - 10 ) ) {
-                log( 'moving away from right wall' );
+                /* log( 'moving away from right wall' ); */
                 self.moveTo( overlay, 'left-top', rows );
               } else if( 0 + 10 >= windowLeft ) {
-                log( 'moving away from left wall' );
+                /* log( 'moving away from left wall' ); */
                 self.moveTo( overlay, 'right-top', rows );
               }
               
@@ -777,6 +833,7 @@ define(function(require) {
         el.removeClass( 'three-stack-right-bottom-justified' ).addClass( 'two-stack-right-bottom-justified' );
       }
     },
+    
     transition: function( _el, direction ) {
       switch(direction) {
         case "on":
@@ -787,6 +844,7 @@ define(function(require) {
         break;
       }
     },
+    
     close: function( container, hotspot, info ) {
         var self = this;
         // we are setting display:none when the trasition is complete, and managing the timer here
@@ -814,7 +872,7 @@ define(function(require) {
         
         // kill the underlay if we're in minified mode
         if( true === self.showOverlayCentered ) {
-          $( '.hspot-underlay' ).addClass( 'hidden' );          
+          $( '.hspot-underlay' ).addClass( 'hidden' );   
         }
     },
     
@@ -845,15 +903,8 @@ define(function(require) {
         if( true === self.showOverlayCentered ) {
           $( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
         } else {
-          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
-        }
-        
-/*
-        info.find('.top').addClass( 'eh-visible' );
-        info.find('.middle').addClass( 'eh-visible' );
-        info.find('.footer').addClass( 'eh-visible' );
-*/
-       
+          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        }       
     },
     
     reset: function( container ) {

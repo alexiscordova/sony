@@ -50,6 +50,14 @@ define(function(require){
                     return 0;
                 }
 
+                if ( valA === 'sortFirst' || valB === 'sortLast' ) {
+                    return -1;
+                }
+
+                if ( valA === 'sortLast' || valB === 'sortFirst' ) {
+                    return 1;
+                }
+
                 return (valA < valB) ? -1 :
                     (valA > valB) ? 1 : 0;
             });
@@ -550,10 +558,11 @@ define(function(require){
         /**
          * Hides the elements that don't match our filter
          */
-        shrink : function() {
+        shrink : function( $collection, fn ) {
             var self = this,
-                $concealed = self.$items.filter('.concealed'),
-                transitionObj = {};
+                $concealed = $collection || self.$items.filter('.concealed'),
+                transitionObj = {},
+                callback = fn || self.shrinkEnd;
 
             // Abort if no items
             if ($concealed.length === 0) {
@@ -579,7 +588,7 @@ define(function(require){
                     y: y,
                     scale : 0.001,
                     opacity: 0,
-                    callback: self.shrinkEnd
+                    callback: callback
                 };
 
                 self.styleQueue.push( transitionObj );
@@ -962,6 +971,28 @@ define(function(require){
             }
         },
 
+        remove : function( $collection ) {
+
+            // If this isn't a jquery object, exit
+            if ( !$collection.length || !$collection.jquery ) {
+                return;
+            }
+
+            var self = this,
+            remove = function() {
+                var shuffle = this;
+                $collection.remove();
+                $collection = null;
+                setTimeout(function() {
+                    shuffle.$items = shuffle._getItems();
+                    shuffle.layout();
+                }, 0);
+            };
+
+            self.shrink( $collection, remove );
+            self._processStyleQueue();
+        },
+
         destroy: function() {
             var self = this;
 
@@ -1008,6 +1039,7 @@ define(function(require){
                     case 'enable':
                     case 'disable':
                     case 'layout':
+                    case 'remove':
                         shuffle[ opts ].apply( shuffle, args );
                         break;
                     default:

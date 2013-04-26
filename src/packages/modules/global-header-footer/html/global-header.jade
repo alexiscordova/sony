@@ -1,8 +1,8 @@
 include ../../../common/html/jade-helpers.jade
 
-- var search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
-
 a#SkipToContentLink(href='#main', class='visuallyhidden', tabindex='1')= data.skip_to_content.label
+
+- var search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
 
 if typeof minimal !== 'undefined' && minimal === true
   - minimal_class = "nav-wrapper-minimal"
@@ -236,7 +236,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                   span.lbl= data.search.label
                   i.old-ie-cleartype-fix-gray20.fonticon-10-search
               li.nav-li.nav-li-universal
-                a.nav-li-link.nav-li-linkBtn(href='#', tabindex='1500')
+                a#nav-li-link-universal.nav-li-link.nav-li-linkBtn(href='#', tabindex='1500')
                   | !{data.universal.label}
                   i.fonticon-10-arrowhead-up
 

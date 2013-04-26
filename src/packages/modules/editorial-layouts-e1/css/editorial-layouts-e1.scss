@@ -1,152 +1,188 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-.editorial{
-  @include dttb;
+.editorial {
+  position: relative;
 
-  &.gray{
+  &.gray {
     background: $gray80;
   }
 
-  position:relative;
-
-  .left{
-    text-align:left;
+  .left {
+    text-align: left;
   }
-  .center{
-    text-align:center;
+  .center {
+    text-align: center;
   }
-  .right{
-    text-align:right;
+  .right {
+    text-align: right;
   }
-  .box{
-    padding:0 52px;
+  .box {
+    padding: 0;
     .link {
-      margin-top:18px;
+      margin-top: 42px;
     }
   }
+
+  .toutcopy {
+    display: block;
+  }
+
+  .toutcopy .link {
+    padding-top: 8px;
+  }
+
   .table-center-wrap,
-  .table-center{
-    width:100%;
+  .table-center {
+    width: 100%;
   }
 }
 
-.editorial.textonly{
-  padding:70px 0 75px 0;
+.editorial.textonly {
+  padding: 70px 0 75px 0;
 }
-.editorial.full{
-  padding:70px 0 75px 0;
-  .box{
-    margin-bottom:25px;
+.editorial.full {
+  padding: 70px 0 75px 0;
+  .box {
+    margin-bottom: 25px;
   }
-  .image-module{
+}
+.editorial.full-inner,
+.editorial.full-tout,
+.editorial.full {
+  .submodule > .image-module {
+    height: 540px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
   }
 }
-.editorial.full-inner{
-  .inner{
-    height:100%;
-    position:absolute;
-    top:0;
-    right:0;
-    left:0;
+.editorial.full-inner {
+  .inner {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
     .grid,
     .grid > div,
-    .table-center-wrap{
-      height:100%;
+    .table-center-wrap {
+      height: 100%;
     }
   }
-  .box{
-    margin-top:-1%;
-    padding:56px 52px 50px 52px;
+  .box {
+    margin-top: -1%;
+    padding: 56px 52px 50px 52px;
   }
-  .box.center{
-    padding: 70px 100px;
-  }
-  .image-module{
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
+  .box.center {
+    padding: 70px 130px;
   }
 }
 
 .editorial.mediaright,
-.editorial.medialeft{
-  padding:0;
-  .box{
-    padding:70px 52px 70px 52px;
+.editorial.medialeft {
+  padding: 0;
+  .box {
+    padding: 70px 52px 70px 52px;
   }
-  .grid{
-    min-height:560px;
+  .grid {
+    min-height: 560px;
   }
-  .table-center-wrap{
-     height:100%;
+  .table-center-wrap {
+     height: 100%;
   }
 
-  .media-element > div{
+  .media-element > div {
     margin: 0 auto;
   }
-  .table-center-wrap{
+  .table-center-wrap {
     margin-top: -1%;
   }
 }
 
-.editorial.tout{
-  padding: 52px 0 50px 0;
-  .m1up{
-    .textright{
-      padding-right:52px;
+.editorial.full-tout,
+.editorial.tout {
+  padding: 70px 0 75px 0;
+
+  .submodule {
+    margin-top: -18px;
+    padding-bottom: 28px;
+  }
+
+  .title-block {
+    padding-bottom: 40px;
+  }
+
+  .m1up {
+    .textright {
+      padding-right: 52px;
     }
-    .textleft{
-      padding-left:20px;
+    .textleft {
+      padding-left: 20px;
     }
   }
-  .m2up{
+
+  .m2up {
+
     .horizontal {
       background: $white;
       -webkit-box-shadow: 0 1px 0 #d2d2db;
       box-shadow: 0 1px 0 #d2d2db;
       -webkit-transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
       transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
-      &:hover{
+
+      &:hover {
         -webkit-box-shadow: none;
-        box-shadow:none;
+        box-shadow: none;
         background: rgba(255,255,255,.8)
       }
 
-      >div{
+      > div {
         height: 162px;
-        float:left;
+        float: left;
       }
-      .image-module{
-          width: 162px;
-          height: 162px;
-        }
-      .table-center-wrap{
+
+      .image-module {
+        width: 162px;
+        height: 162px;
+      }
+
+      .table-center-wrap {
         padding: 0 40px;
       }
     }
-    .vertical{
-      padding: 0 52px;
-      .image-module{
-        margin-bottom:30px;
+
+    .vertical {
+
+      .toutcopy {
+        padding: 0 24px;
+      }
+
+      .image-module {
+        margin-bottom: 30px;
       }
     }
   }
-  .m3up{
-    >div{
-      padding: 0 52px;
+
+  .m3up {
+    > div.left .toutcopy {
+      padding: 0 44px 0 0;
     }
-    .image-module{
-      margin-bottom:30px;
+
+    > div.center .toutcopy {
+      padding: 0 16px;
+    }
+
+    .image-module {
+      margin-bottom: 30px;
     }
   }
-  .image-module{
-    text-align:center;
+
+  .image-module {
+    text-align: center;
   }
-  .table-center-wrap{
-    height:100%;
+
+  .table-center-wrap {
+    height: 100%;
   }
 }

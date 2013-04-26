@@ -1,0 +1,73 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+
+.unselectable * {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.e360 {
+  position: relative;
+  
+  div.image-module {
+    background-position: center center;
+    background-size: cover;
+  }
+  
+  .outer {
+    position: relative;
+    .image-module-360 {
+      text-align: center;
+    }
+  } 
+  .controls {
+    cursor: url(https://mail.google.com/mail/images/2/openhand.cur) 8 8, move;
+    position: absolute;
+    /* bottom: 52px; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    &.hasNav {
+      bottom: 110px;  
+    }
+    &.isSmall {
+      bottom: 36px;
+    }
+    .dark {
+      color: $white;
+    }
+    .light {
+      color: $gray40;
+    }
+    .table-center {
+      position: absolute;
+      bottom: 52px;
+      left: 0px;
+    }
+    .multiModule {
+      bottom: 110px;
+    }
+    .instructions {
+      margin: 0 18px 0 18px;
+      display: inline-block;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    &.is-dragging {
+      cursor: grabbing;
+      cursor: -webkit-grabbing;
+      cursor: -moz-grabbing;
+      cursor: url(https://mail.google.com/mail/images/2/closedhand.cur) 8 8, move;
+    }
+  }
+}

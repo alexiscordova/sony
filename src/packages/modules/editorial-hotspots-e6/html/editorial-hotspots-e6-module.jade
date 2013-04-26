@@ -1,15 +1,24 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('editorial-hotspots-e6')
 +includeJavascriptModule('editorial-hotspots-e6')
 
-mixin hotspotCore(hotspotData, assets)
+mixin hotspotCore(hotspotData, assets, useSmall)
   size = hotspotData.size
-  .hspot-outer(data-x=hotspotData.coords[0],data-y=hotspotData.coords[1],style="display:none;").hidden
-    .hspot-core
-      .hspot-indicator
-        img(src=assets.indicator);
+  if useSmall
+    smallClass = "hspot-small"
+  else
+    smallClass = ""
+  span.hspot-outer(class=smallClass, data-x=hotspotData.coords[0], data-y=hotspotData.coords[1]).eh-transparent
+    span.hspot-core
+      span.hspot-indicator
+        span.icons
+          if smallClass == "hspot-small"
+            i.fonticon-10-sm-bold-plus(aria-hidden="true")
+          else
+            i.fonticon-10-plus-skinny(aria-hidden="true")
     case size
       when "large"
-        .overlay-base.variant1.hidden 
+        .overlay-base.variant1.hidden
           .overlay-inner.eh-transparent
             .overlay-close
               .hspot-close.hidden
@@ -20,7 +29,7 @@ mixin hotspotCore(hotspotData, assets)
                 .top.is-default-on
                   img.iq-img(class=hotspotData.image.classes)(alt=hotspotData.image.alt, data-src-desktop= hotspotData.image.srcDesktop, data-src-tablet= hotspotData.image.srcTablet, data-src-phone= hotspotData.image.srcPhone, data-src-desktop-highres= hotspotData.image.srcDesktopHighRes, data-src-tablet-highres= hotspotData.image.srcTabletHighRes, data-src-phone-highres= hotspotData.image.srcPhoneHighRes)
               else
-                .top.hidden          
+                .top.hidden
               .middle
                 h5.t6 #{hotspotData.title}
                 p.p3 #{hotspotData.bodyCopy}
@@ -28,14 +37,14 @@ mixin hotspotCore(hotspotData, assets)
                   a.lt3(href=hotspotData.link.url) #{hotspotData.link.copy}
                 - imageLeft = assets.large.arrowLeft.image
                 - imageRight = assets.large.arrowRight.image
-                .arrow-left-top
-                  img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
-                .arrow-left-bottom.hidden
-                  img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
-                .arrow-right-top.hidden
-                  img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
-                .arrow-right-bottom.hidden
-                  img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
+                .arrow-left-top.arrow-left
+                  //img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
+                .arrow-left-bottom.arrow-left.hidden
+                  //img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
+                .arrow-right-top.arrow-right.hidden
+                  //img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
+                .arrow-right-bottom.arrow-right.hidden
+                  //img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
               if(hotspotData.testimonial.copy)
                 .footer.is-default-on
                   p.p3 #{hotspotData.testimonial.copy}
@@ -50,7 +59,7 @@ mixin hotspotCore(hotspotData, assets)
               .hspot-close.hidden
                 a(href="#")
                   img.iq-img(class=assets.closeBtn.classes)(alt=assets.closeBtn.alt, data-src-desktop= assets.closeBtn.srcDesktop, data-src-tablet= assets.closeBtn.srcTablet, data-src-phone= assets.closeBtn.srcPhone, data-src-desktop-highres= assets.closeBtn.srcDesktopHighRes, data-src-tablet-highres= assets.closeBtn.srcTabletHighRes, data-src-phone-highres= assets.closeBtn.srcPhoneHighRes)
- 
+
               if(hotspotData.image)
                 .top.is-default-on
                   img.iq-img(class=hotspotData.image.classes)(alt=hotspotData.image.alt, data-src-desktop= hotspotData.image.srcDesktop, data-src-tablet= hotspotData.image.srcTablet, data-src-phone= hotspotData.image.srcPhone, data-src-desktop-highres= hotspotData.image.srcDesktopHighRes, data-src-tablet-highres= hotspotData.image.srcTabletHighRes, data-src-phone-highres= hotspotData.image.srcPhoneHighRes)
@@ -63,21 +72,21 @@ mixin hotspotCore(hotspotData, assets)
                   a.lt4(href=hotspotData.link.url) #{hotspotData.link.copy}
                 - imageLeft = assets.small.arrowLeft.image
                 - imageRight = assets.small.arrowRight.image
-                .arrow-left-top
-                  img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
-                .arrow-left-bottom.hidden
-                  img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
-                .arrow-right-top.hidden
-                  img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
-                .arrow-right-bottom.hidden
-                  img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
-              if(hotspotData.testimonial.copy) 
+                .arrow-left-top.arrow-left-small
+                  //img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
+                .arrow-left-bottom.arrow-left-small.hidden
+                  //img.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
+                .arrow-right-top.arrow-right-small.hidden
+                  //img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
+                .arrow-right-bottom.arrow-right-small.hidden
+                  //img.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
+              if(hotspotData.testimonial.copy)
                 .footer.is-default-on
                   p.p4 #{hotspotData.testimonial.copy}
                   blockquote.l4 #{hotspotData.testimonial.credit}
               else
                 .footer.hidden
-        
+
 - type = data.type
 - assets = data.hotspots.assets
 - image = data.hotspotContainerImage.image
@@ -86,18 +95,18 @@ mixin hotspotCore(hotspotData, assets)
 
 .ehs
   .hotspot-instance
-    if data.heights 
+    if data.heights
       string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+id+" {height: "+data.heights.phone+"}} "
       style(type = "text/css")
         #{string}
-      
+
     if data.background == "true"
       .image-module.track-by-background.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
         .hspot-underlay.hidden
           .hspot-global-details-main.hidden
         .hspot-global-details-overlay.hidden.eh-transparent
         - for hotstpot in data.hotspots.items
-          +hotspotCore(hotstpot, assets)
+          +hotspotCore(hotstpot, assets, false)
 
     else
       .image-module.track-by-asset
@@ -108,5 +117,4 @@ mixin hotspotCore(hotspotData, assets)
         .hspot-global-details-main.hidden
       .hspot-global-details-overlay.hidden.eh-transparent
       - for hotstpot in data.hotspots.items
-        +hotspotCore(hotstpot, assets)
-      
+        +hotspotCore(hotstpot, assets, true)

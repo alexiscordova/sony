@@ -1,30 +1,31 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('language-interstitial-z5')
 
 e = {"locals":locals, "data":data}
 
-.module-li
+.language-interstitial
   .container.full-bleed-no-max.module-li-bg
     //- div(data-src=data.image.images)
     .container.full-bleed.hero-image
       e = {"locals":locals, "data":data.image}
       !{locals.partial('packages/modules/image/html/image.jade' , e)}
-      .container.inner
-        .grid.no-grid-at-767
-          .span6
-            .table-center
-              .box
+      .inner.container
+        .grid.m-grid-at-979
+          .span7
+            .box.display-table
+              .display-table-cell
                 h1.t2= data.headline
                 .btn-holder
                   a.btn(href="#")= data.buttons.buttonOne
                   a.btn(href="#")= data.buttons.buttonTwo
- .container
-   .module-li-main
-     .grid.m-grid-at-767.no-grid-at-479
-       .span6.m-span3
+  .module-li-main
+    .container
+     .grid.no-grid-at-767
+       .span6
          .module-text-box
-           h4= data.leftBlock.headline
-           p.t5= data.leftBlock.content
-       .span6.m-span3
+           p.p2-bold.language-interstitial-hdg= data.leftBlock.headline
+           p.p3.language-interstitial-text= data.leftBlock.content
+       .span6
          .module-text-box
-           h4= data.rightBlock.headline
-           p.t5= data.rightBlock.content
+           p.p2-bold.language-interstitial-hdg= data.rightBlock.headline
+           p.p3.language-interstitial-text= data.rightBlock.content

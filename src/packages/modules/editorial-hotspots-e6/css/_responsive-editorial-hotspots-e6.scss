@@ -4,7 +4,7 @@ $centerRatio: (28.571428571429% / 2);
 $indicatorRatio: 35%; /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
-$transitionSpeed: .5s;
+$transitionSpeed: 1.5s;
 
 @media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
   .ehs {
@@ -39,86 +39,9 @@ $transitionSpeed: .5s;
 @media ( min-width: px-em(567) ) and (max-width: px-em(767px)) {
   .ehs {
     .variant1 {
-      &.three-stack-right-top-justified {
-        top: -159px;
-        left: 63px;
-      }
-        
-      &.three-stack-left-top-justified {
-        top: -159px;
-        left: -288px;
-      }
-      
-      &.three-stack-right-bottom-justified {
-        top: -284px;
-        left: 63px;
-      }
-        
-      &.three-stack-left-bottom-justified {
-        left: -288px;
-        top: -284px;
-      }
-      
-      &.two-stack-right-top-justified {
-        top: -25px;
-        left: 42px;
-      }
-        
-      &.two-stack-left-top-justified {
-        top: -25px;
-        left: -288px;
-      }
-      
-      &.two-stack-right-bottom-justified {
-        top: -149px;
-        left: 42px;
-      }
-        
-      &.two-stack-left-bottom-justified {
-        top: -149px;
-        left: -288px;        
-      }
+
     }
     .variant2 {
-      &.three-stack-right-top-justified {
-        top: -124px;
-        left: 60px;
-      }
-        
-      &.three-stack-left-top-justified {
-        top: -124px;
-        left: -235px;
-      }
-      
-      &.three-stack-right-bottom-justified {
-        top: -239px;
-        left: 60px;
-      }
-        
-      &.three-stack-left-bottom-justified {
-        top: -239px;
-        left: -235px;
-      }
-  
-      &.two-stack-right-top-justified {
-        top: -16px;
-        left: 41px;
-      }
-        
-      &.two-stack-left-top-justified {
-        top: -16px;
-        left: -237px;        
-      }
-      
-      &.two-stack-right-bottom-justified {
-        top: -130px;
-        left: 40px;        
-      }
-        
-      &.two-stack-left-bottom-justified {
-        top: -130px;
-        left: -237px;        
-      }
 
     }
   }
@@ -162,83 +85,9 @@ $transitionSpeed: 0.5s;
       opacity: 1;
     }
   }
-
+    
   .ehs {
-    .hspot-underlay {
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      position: absolute;
-      background: rgb(255, 255, 255) transparent;
-      background-color: rgba(255, 255, 255, 0);
-      z-index: 5;
-      -o-transition:$transitionSpeed;
-      -ms-transition:$transitionSpeed;
-      -moz-transition:$transitionSpeed;
-      -webkit-transition:$transitionSpeed; 
-      transition:$transitionSpeed;
-      opacity: 0;
-    }
-    .hspot-underlay-on {
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      position: absolute;
-      background: rgb(255, 255, 255) transparent;
-      background-color: rgba(255, 255, 255, 0.3);
-      z-index: 5;
-      -o-transition:$transitionSpeed;
-      -ms-transition:$transitionSpeed;
-      -moz-transition:$transitionSpeed;
-      -webkit-transition:$transitionSpeed; 
-      transition:$transitionSpeed;	
-      opacity: 1;
-    }
-/*
-    .overlay-base {
-      left: 50%;
-      .overlay-inner {
-        position: relative;
-        left: -50%;
-      }
-    }
-*/
-    .hspot-outer {
-      height: 30px;
-      width: 30px;
-      .hspot-core {
-        height: 25px;
-        width: 25px;
-        -moz-box-shadow: 0 0 0 5px rgba($gray30, 0.3);
-        -webkit-box-shadow: 0 0 0 5px rgba($gray30, 0.3);
-        box-shadow: 0 0 0 5px rgba($gray30, 0.3);
-        .hspot-indicator {
-          padding: 0 0 0 33.5%;
-          img {
-            margin-top: -3px;
-            width: 9px;
-            height: 9px;
-            
-          }
-        }
-      }
-    }
-    .hspot-core-on {
-      height: 25px;
-      width: 25px;
-      -moz-box-shadow: 0 0 0 5px rgba($gray30, 0.3);
-      -webkit-box-shadow: 0 0 0 5px rgba($gray30, 0.3);
-      box-shadow: 0 0 0 5px rgba($gray30, 0.3);
-      .hspot-indicator {
-        padding: 0 0 0 33.5%;
-        img {
-          margin-top: -3px;
-          width: 9px;
-          height: 9px;
-        }
-      }
-    }
+
   }
+
 }

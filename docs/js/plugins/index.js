@@ -8,6 +8,8 @@ define(function (require) {
     infiniteScroll: require('plugins/jquery.infinitescroll'),
     throttleDebounce: require('plugins/jquery.throttle-debounce'),
     rAF: require('plugins/rAF'),
-    sonyIScroll: require('plugins/sony-iscroll')
+    sonyIScroll: require('plugins/sony-iscroll'),
+    bez:require('plugins/jquery.bez'),
+    hammer:require('plugins/jquery.hammer')
   }
 });

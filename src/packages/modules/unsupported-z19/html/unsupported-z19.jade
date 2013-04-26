@@ -1,4 +1,5 @@
 include ../../../common/html/jade-helpers.jade
++includeCSS('unsupported-z19')
 +includeJavascriptModule('unsupported-z19')
 
 a.launch-modal(href="#") Launch Unsupported Browser Modal
@@ -7,16 +8,16 @@ a.launch-modal(href="#") Launch Unsupported Browser Modal
     .modal-inner.grid
       .modal-header(data-reset-label="Reset")
         button.box-close(data-dismiss="modal", aria-hidden="true")
-          i.fonticon-10-x-skinny
+          i.fonticon-10-x-skinny.l-o-d
       .modal-body
         .unsupported
           .unsupported-hd
             span.t2= data.title
           .unsupported-bd
-            span.p3= data.subtitle.desktop
+            p.p3= data.subtitle.desktop
           .unsupported-bd-alt
-            span.p3= data.subtitle.mobile
-          .container.browser-list
+            p.p3= data.subtitle.mobile
+          .container.full-bleed.browser-list
             - for (var i = 0; i < data.browser.length; i += 2) {
               .grid
                 .span6
@@ -37,5 +38,5 @@ a.launch-modal(href="#") Launch Unsupported Browser Modal
                         .media-bd.p3= data.download
             - }
 
-          a.p3-bold.link-proceed= data.proceed
-          a.btn.btn-large= data.proceed
+          a.lt3.link-proceed= data.proceed
+          a.btn.btn-medium= data.proceed

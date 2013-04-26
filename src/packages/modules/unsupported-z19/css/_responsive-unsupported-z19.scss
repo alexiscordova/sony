@@ -8,8 +8,15 @@ $desktopMin: px-em(980);
 
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
     .unsupported {
+        padding: 0 4%;
         .media-content {
-            font-size: 90%;
+            padding-left: 4%;
+        }
+        .browser-list {
+            .span6 {
+                width: 100%;
+                margin: 0;
+            }
         }
     }
 }
@@ -28,6 +35,10 @@ $desktopMin: px-em(980);
         }
         .unsupported-bd-alt {
             display: block;
+            margin: 16px auto 44px;
+            .p3 {
+                line-height: 1.7em;
+            }
         }
         .browser-list {
             display: none;
@@ -50,6 +61,9 @@ $desktopMin: px-em(980);
         }
         .box-close {
             display: none;
+        }
+        .modal-body {
+            padding: 2.3em 1em;
         }
     }
 }

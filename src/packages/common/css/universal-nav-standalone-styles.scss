@@ -1,0 +1,227 @@
+//
+// Universal Nav - The output CSS will be used for stand-alone versions, NOT the scss.
+// This file includes only those styles necessary to load the standalone version, so no other styles are needed.
+// This file is NOT needed for the SGFE 2013 site, as these styles are all already included elsewhere.
+// --------------------------------------------------
+
+// Core variables and mixins
+@import "_base/variables";
+@import "_base/mixins";
+
+// These are needed on any site that includes the Universal Nav. 
+// For the Universal Nav to work, there needs to be a .page-wrap-outer & .page-wrap-inner to slide the site down.
+// If the class names are changed, the css needs to be updated here, and the initializing javascript call needs them passed in.
+body,html{
+	padding:0;
+	margin:0;
+}
+.page-wrap-outer {
+	width: 100%;
+	overflow: hidden;
+	&.unav-open-until-transition-end{
+		// position:fixed;
+		// height:1500px;
+	}
+}
+.page-wrap-inner {
+  width: 100%;
+  position:relative;
+  // @include transition(left $transitionSlower $easeOutNav 0s, top $transitionSlower $easeOutNav 0s, width $transitionSlower $easeOutNav 0s);
+  @include transition(margin-top $transitionSlower $easeOutNav 0s);
+}
+
+$span3-width: 22.34043%;
+$span4-width: 30.96927%;
+$span8-width: 65.48463%;
+$gutter-width: 3.5461%;
+
+$span3-width-768: 22.46154%;
+$span4-width-768: 31.07692%;
+$span8-width-768: 65.53846%;
+$gutter-width-768: 3.38462%;
+
+$span3-width-1200: 22.35294%;
+$span4-width-1200: 30.98039%;
+$span8-width-1200: 65.4902%;
+$gutter-width-1200: 3.52941%;
+
+
+
+.u-nav-wrapper{
+  @include fontRegular;
+	line-height: 1.65;
+	font-color: $gray20;
+
+	img{
+		border:none;
+	  // Responsive images (ensure images don't scale beyond their parents) 
+	  max-width: 100%; // Part 1: Set a maxium relative to the parent 
+	  width: auto\9; // IE7-8 need help adjusting responsive images 
+	  height: auto; // Part 2: Scale the height according to the width, otherwise you get stretching 
+	  vertical-align: middle;
+	  -ms-interpolation-mode: bicubic;
+	}
+	ol, ul {
+	  list-style: none;
+	  margin:0;
+	  padding:0;
+	}
+	a {
+		outline:0;
+		color: #4572ed;
+		text-decoration: none;
+		:focus {
+	  	@include tab-focus();
+	  }
+		&:hover,
+		&:active,
+		&:focus  {
+			color: #3c4c74;
+		}
+		&:not(.no-hover-transition){
+		  -webkit-transition: color 0.25s linear, background-color 0.25s linear;
+		  transition: color 0.25s linear, background-color 0.25s linear;
+		}
+	}
+	div{
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		-webkit-box-sizing: content-box;
+		-moz-box-sizing: content-box;
+		box-sizing: content-box;
+	}
+	.l1 {
+  	@include fontBold;
+		font-weight: normal;
+		font-style: normal;
+		text-rendering: optimizeLegibility;
+		text-transform: uppercase;
+		color: #2f353d;
+		font-size: 1.375em;
+		line-height: 1.36364;
+		letter-spacing: 0.05em;
+	}
+	.l2{
+  	@include fontMedium;
+		text-rendering: optimizeLegibility;
+		text-transform: uppercase;
+		color: #2f353d;
+		font-size: 0.75em;
+  	line-height: 1.5;
+  	letter-spacing: 0.01em;
+		margin-bottom: 8px;
+	}
+	.p3{
+  	@include px-em--font-size--line-height(13,20);
+	}
+	.p4{
+  	@include px-em--font-size--line-height(12,18);
+	}
+	.container {
+		margin-right: auto;
+	  margin-left: auto;
+	  *zoom: 1;
+	  width: $fluidContainerWidth;
+	  max-width: $fluidContainerWidthMax-px;
+	}
+	.grid {
+		margin-right: auto;
+	  margin-left: auto;
+	  *zoom: 1;
+  	width: $fluidGridWidth;
+
+  	[class*=span]{
+  		display:block;
+  		float:left;
+  		margin-left:$gutter-width;
+  		&:first-child {
+				margin-left: 0;
+			}
+  	}
+	}
+	.span3{
+		width: $span3-width;		
+	}
+	.span4{
+		width: $span4-width;		
+	}
+	.span8{
+		width: $span8-width;
+	}
+	.label-success{
+		padding: 4px 10px;
+		background:$green;
+		color: white;
+		vertical-align: baseline;
+		white-space: nowrap;
+	}
+}
+
+
+@media (min-width: px-em(1200px)){
+	.u-nav-wrapper{
+		.container {
+			width: 92.5%;
+		}
+		.grid {
+			width: 91.89189%;
+
+	  	[class*=span]{
+	  		margin-left:$gutter-width-1200;
+	  	}
+			.span3{
+				width: $span3-width-1200;		
+			}
+			.span4{
+				width: $span4-width-1200;		
+			}
+			.span8{
+				width: $span8-width-1200;
+			}
+		}
+	}
+	.u-nav-wrapper .grid{
+	}
+}
+@media (max-width: px-em(979px)) and (min-width: px-em(768px)){
+	.u-nav-wrapper{
+	  .p3 {
+	    @include px-em--font-size--line-height(12,18);
+	  }
+	  .p4 {
+	    @include px-em--font-size--line-height(11,15);
+	  }
+		.container {
+			width: 92.1875%;
+		}
+		.grid {
+			width: 91.80791%;
+
+	  	[class*=span]{
+	  		margin-left:$gutter-width-768;
+	  	}
+
+			.span3{
+				width: $span3-width-768;		
+			}
+			.span4{
+				width: $span4-width-768;		
+			}
+			.span8{
+				width: $span8-width-768;
+			}
+		}
+	}
+}
+
+
+// pull in the universal-nav component scss for the u-nav- specific styles.
+@import "_components/universal-nav";
+
+
+
+
+
+

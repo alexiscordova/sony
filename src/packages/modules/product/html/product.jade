@@ -20,7 +20,7 @@ include ../../../common/html/jade-helpers.jade
 //-   <dd>definition</dd>
 //- </dl>
 mixin definitionList( list, isHorizontal )
-  - isHorizontal = isHorizontal || false
+  - isHorizontal = isHorizontal ? isHorizontal : false
   - clss = isHorizontal ? 'dl-horizontal' : null
   dl(class=clss)
     each li in list
@@ -35,7 +35,7 @@ mixin definitionList( list, isHorizontal )
 //- A simple unstyled ul
 mixin specList( list, extraClasses )
   - classes = 'unstyled spec-list'
-  - extraClasses = extraClasses || false
+  - extraClasses = extraClasses ? extraClasses : false
   - if ( extraClasses ) classes += ' ' + extraClasses
   ul(class=classes)
     each li in list
@@ -67,9 +67,9 @@ mixin iQColorImages( colors )
 mixin heart
   - heartClass = 'favorite-holder js-favorite'
   - if ( data.isFavorited ) heartClass += ' active'
-  favoritedTitle = 'Added'
+  favoritedTitle = 'Remove Favorite?'
   toFavoriteTitle = 'Add to Favorites'
-  span(class=heartClass, data-active-title="Added", data-default-title=toFavoriteTitle)
+  span(class=heartClass, data-active-title=favoritedTitle, data-default-title=toFavoriteTitle)
     i.fonticon-10-favorite
 
 mixin productRating( rating, reviews, reviewsText )
@@ -103,7 +103,7 @@ mixin productRating( rating, reviews, reviewsText )
     meta(itemprop="ratingValue", content=rating)
 
 
-mixin priceBlock( product )
+mixin priceBlock( product, onlyName )
   startingAtText = 'Starting at '
   msrp = 'MSRP'
 
@@ -111,11 +111,13 @@ mixin priceBlock( product )
     .product-name-wrap
       .product-name.p3
         strong= data.name
-    .product-price
-      span.price-prefix.p5= startingAtText
-      span.price.p2
-        strong= '$' + data.price + '&nbsp;'
-      span.msrp.p5= msrp
+
+    if ( !onlyName )
+      .product-price
+        span.price-prefix.p5= startingAtText
+        span.price.p2
+          strong= '$' + data.price + '&nbsp;'
+        span.msrp.p5= msrp
 
 //- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
 
@@ -176,27 +178,6 @@ mixin basicGalleryItem( layout, priority, href )
       block
 
 
-mixin shareMenu( socialButtons, shortLink, addCloseButton )
-  //- Default to false
-  addCloseButton = addCloseButton === true
-
-  ul.dropdown-menu.dropdown-menu-alt.share-menu.pull-right(role="menu")
-    if addCloseButton
-      button.box-close.box-close-small(data-dismiss="modal", aria-hidden="true")
-        i.fonticon-10-x
-    each social in socialButtons
-      li
-        a(href=social.link)
-          span.social-icon(class=social.id + '-background-color')
-            i(class=social.icon)
-          span.social-label.p3= social.label
-    li.input-holder
-      span.link-icon.ghost-center-wrap.js-no-close
-        i.fonticon-10-link.ghost-center.js-no-close
-      input.p4(type="text", value=shortLink)
-
-
-
 if data.view == 'basic'
   +basicGalleryItem( data.layout, data.priority, data.href )
     .gallery-item-inner
@@ -204,10 +185,18 @@ if data.view == 'basic'
         span.label.label-success= data.label
 
       if data.layout == 'promo'
-        .product-img.iq-img(data-src-desktop=data.img.srcDesktop, data-src-tablet=data.img.srcTablet, data-src-phone=data.img.srcPhone, data-src-desktop-highres=data.img.srcDesktopHighRes, data-src-tablet-highres=data.img.srcTabletHighRes, data-src-phone-highres=data.img.srcPhoneHighRes)
-          - style = data.style ? data.style : ''
+        productImgClasses = [ 'product-img', 'iq-img' ]
+        if data.backgroundColorClass
+          - productImgClasses.push( data.backgroundColorClass )
+        div(class=productImgClasses, data-src-desktop=data.img.srcDesktop, data-src-tablet=data.img.srcTablet, data-src-phone=data.img.srcPhone, data-src-desktop-highres=data.img.srcDesktopHighRes, data-src-tablet-highres=data.img.srcTabletHighRes, data-src-phone-highres=data.img.srcPhoneHighRes)
           - classes = ['promo-content']
-          - classes.push( style )
+
+          case data.variation
+            when 'c1'
+              - classes.push( 'dark-text' )
+            when 'c2'
+              - classes.push( 'light-text' )
+
           div(class=classes)
             .promo-title
               span.t4.title= data.title
@@ -289,15 +278,30 @@ if data.view == 'basic'
 
         +priceBlock( data )
 
+else if data.view == 'simple'
+  a.span2.gallery-item.simple(href=data.href ? data.href : '#')
+    .gallery-item-inner
+      .product-img
+        //- .product-img-wrap.ghost-center-wrap
+        //-   .ghost-center
+        //-       +iQImage( data.imgSmall )
+        //- Fix for image heights not obeying max-height:100%
+        .product-img-wrap
+          +iQImage( data.imgSmall )
+
+      +priceBlock( data, true )
+
 
 else if data.view == 'detailed'
   filterSet = JSON.stringify( data.filterSet )
-  a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
+  type = data.includeType ? data.type : false
+
+  a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, data-type=type, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
     .gallery-item-inner
       .product-img
         if data.label
           span.label.label-success= data.label
-        - hasExtraColors = data.img.colors && data.img.colors.length > 1
+        - hasExtraColors = data.img && data.img.colors && data.img.colors.length > 1
         - classes = 'product-img-wrap ghost-center-wrap js-product-imgs'
         - if ( !hasExtraColors ) classes += ' no-swatches'
         div(class=classes)
@@ -679,14 +683,14 @@ else if data.view == 'blank'
 else if data.view == 'summary'
   titleLabel = data.collectionLabel ? data.collectionLabel : 'Cybershot'
   titleHref = data.collectionHref ? data.collectionHref : '#'
-  sizes = data.sizes ? data.sizes : ['one', 'two', 'three', 'four']
+  sizes = data.sizes ? data.sizes : []
   startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
   msrp = data.msrp ? data.msrp : 'MSRP'
   priceUnit = data.priceUnit ? data.priceUnit : '$'
   buyText = data.buyText ? data.buyText : 'Buy Now'
   modelText = data.modelText ? data.modelText : 'Model Number:'
 
-  .container
+  .container(itemscope, itemtype="http://schema.org/Product")
     .grid.no-grid-at-767.js-even-cols
 
       .span2.product-img-wrap
@@ -704,19 +708,27 @@ else if data.view == 'summary'
 
         +productRating( data.rating.stars, data.rating.reviews )
 
-        .inline-details.clearfix
-          p.p5.product-sizes
-            each size in sizes
-              span.product-size= size
-              span.spacer |
-          +colorSwatches( data.img.colors, true, true )
+        if sizes.length || ( data.img && data.img.colors && data.img.colors.length )
+          .inline-details.clearfix
+            if sizes.length
+              p.p5.product-sizes
+                sizesLength = sizes.length
+                each size, i in sizes
+                  span.product-size= size
+                  if i == sizesLength - 1
+                    if data.img && data.img.colors && data.img.colors.length
+                      span.spacer |
+                  else
+                    span.spacer |
+            if data.img && data.img.colors && data.img.colors.length
+              +colorSwatches( data.img.colors, true, true )
 
       .span2.price-content#span1-at-tablet
         .text-right.pull-right.space-top
           p.p4.price-prefix= startingAtText
           span.p5.msrp= msrp
           span.p1.price
-            strong.text-dark !{ priceUnit + data.price }
+            strong.text-dark(itemprop="price") !{ priceUnit + data.price }
 
       .span2.price-content#span3-at-tablet
         a.btn.btn-large.btn-block(href=data.storeLink)= buyText
@@ -756,6 +768,39 @@ else if data.view == 'compatibility'
             strong.total= data.totalAccessories
             | !{ accessories }
 
+
+else if data.view == 'recommended'
+  startingAtText = 'Starting at'
+  msrp = 'MSRP'
+
+  a.block(href=data.href ? data.href : '#')
+    .pull-left.js-even-cols
+      +iQImage( data.imgSmall, 'media-object', 'image' )
+    .media-body.ghost-center-wrap.js-even-cols
+      .ghost-center
+        h4.p4.media-heading
+          strong(itemprop="name")= data.name
+        p.p5.price-prefix= startingAtText
+        p
+          span.p3.price
+            strong(itemprop="price")= '$' + data.price + '&nbsp;'
+          span.l4.msrp= msrp
+          +heart()
+
+else if data.view == 'search-results'
+  - product = locals.data(data.results.product.data)
+  .media
+    .img.img-lg.no-float
+      +iQImage( product.imgSmall )
+    .bd.feature-text
+      h3.t5.title= product.title
+      .reviews-copy
+        +productRating( product.rating.stars, product.rating.reviews )
+      p.p4= data.results.product.text
+      ul.h-list.h-list-md
+        each link in data.results.product.links
+          li.lt3
+            a(href= link.url)= link.text
 
 else
   em oh noes, you don't have a known view variable set :(

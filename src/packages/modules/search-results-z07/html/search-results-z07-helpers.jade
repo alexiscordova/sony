@@ -1,0 +1,15 @@
+mixin relatedSearchesColumn(items)
+  .span3
+    ul
+      - each item in items
+        li.lt3
+          a(href= item.url)= item.text
+
+mixin resultsLinkGroup(group)
+  .results-link-group
+    h3.l3= group.title
+    ul
+      each option in group.options
+        li.lt3
+          a(href="#{option.url}")= option.text
+

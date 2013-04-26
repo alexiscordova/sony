@@ -53,7 +53,7 @@ mixin filterGroup( filterSet )
       | !{ mediaObject }
 
 mixin helpPopover( help, pullRight, circleOnLeft )
-  pullRight = pullRight || false
+  pullRight = pullRight ? pullRight : false
   classes = 'help-container js-popover-trigger'
   - if ( pullRight ) classes += ' pull-right'
   div(class=classes, data-original-title=help.title)
@@ -101,8 +101,21 @@ mixin filterSet( filterSet )
       +filterGroup( filterSet )
 
 
-mixin galleryFilters( gallery, isCompareGallery )
+mixin compareBrowseBtn( isCompareGallery, link, addFade )
   compareStr = isCompareGallery ? 'Browse' : 'Compare'
+  classes = [ 'lt3', 'btn', 'btn-alt-special', 'btn-alt-plus', 'compare-btn' ]
+
+  if addFade
+    - classes.push( 'fade' )
+
+  a(class=classes, href=link)
+    if isCompareGallery
+      i.fonticon-10-grid-3x3
+    else
+      i.fonticon-10-speaker
+    | !{ compareStr }
+
+mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
   productsStr = gallery.productsStr ? gallery.productsStr : 'Products'
   filterStr = 'Filter'
@@ -116,30 +129,46 @@ mixin galleryFilters( gallery, isCompareGallery )
       div(class=gridClass)
 
         //- Product Count
-        span.p3.ib.product-count-wrap
+        div.pull-left.p3.product-count-wrap
           strong.text-dark.product-count= gallery.total
           | !{ productsStr }
 
 
-        //- Filter and compare buttons
+        //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
           button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
             | !{ filterStr }
             i.fonticon-10-arrowhead-down
-          a.lt3.btn.btn-alt-special.btn-alt-plus(href=compareBrowseLink)
-            if isCompareGallery
-              i.fonticon-10-grid-3x3
-            else
-              i.fonticon-10-speaker
-            | !{ compareStr }
+          +compareBrowseBtn( isCompareGallery, compareBrowseLink )
+
+        //- Favorites gallery
+        if !gallery.filterSet && isFavoritesGallery
+          +compareBrowseBtn( isCompareGallery, compareBrowseLink, true )
+
+        //- Standalone compare gallery
+        if !gallery.filterSet && isCompareGallery
+          +compareBrowseBtn( isCompareGallery, compareBrowseLink )
+
 
         else if gallery.accessoryFinder
           button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder-btn
             | !{ gallery.accessoryFinder.title }
             i.fonticon-10-sm-bold-plus
 
-        //- Sort options
-        +sorter( gallery.sortSet, sortByStr )
+        if gallery.shareMenu
+          .pull-right.options-wrap
+            .share-options
+              a.js-share.share-trigger(data-toggle="dropdown", href="#")
+                span.bt3= gallery.shareMenu.shareText
+                span.plus-holder
+                  i.fonticon-10-sm-bold-plus
+              +shareMenu( gallery.shareMenu.socialButtons, gallery.shareMenu.shortLink )
+              span.p5.spacer |
+            //- Sort options
+            +sorter( gallery.sortSet, sortByStr, false )
+        else
+          //- Sort options
+          +sorter( gallery.sortSet, sortByStr )
 
 
   if gallery.filterSet
@@ -181,14 +210,15 @@ mixin sorter( sortSet, text )
       ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
         each sort in sortSet
           //- Jade will interpret attr=true as attr=attr. We need to make it a string
-          - reverse = sort.reverse === true ? 'true' : 'false'
+          //- If sort is false, or not present, we don't need to add the attribute
+          - reverse = sort.reverse ? 'true' : false
           li
             a(data-value=sort.name, data-reverse=reverse, tabindex="-1", href="#")= sort.label
     .native-dropdown
       i.fonticon-10-arrowheads-elevator.absolutely
       select#select-sort-by.select-small
         each sort in sortSet
-          - reverse = sort.reverse === true ? 'true' : 'false'
+          - reverse = sort.reverse ? 'true' : false
           option(value=sort.name, data-reverse=reverse)= sort.label
 
 
@@ -203,9 +233,9 @@ mixin zeroProductsMessage( gallery )
 
 
 mixin featuredGallery( submodules, gallery, type )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.featured
-  type = type || 'product'
+  submodules = submodules ? submodules : data.submodules
+  gallery = gallery ? gallery : data.featured
+  type = type ? type : 'product'
   i = 0
 
   section.gallery.fade.container((id=gallery.name + '-gallery', data-mode=gallery.mode)
@@ -226,9 +256,9 @@ mixin featuredGallery( submodules, gallery, type )
 
 
 mixin detailedGallery( submodules, gallery, type )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.productCards
-  type = type || 'product'
+  submodules = submodules ? submodules : data.submodules
+  gallery = gallery ? gallery : data.productCards
+  type = type ? type : 'product'
 
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
     +galleryFilters( gallery )
@@ -249,38 +279,47 @@ mixin detailedGallery( submodules, gallery, type )
         a(href=gallery.nextLink) Camera Overflow
       .infscr-holder.text-center
 
-mixin favoritesGallery( submodules, gallery, type )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.productCards
+mixin favoritesGallery( gallery )
 
-  section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
-    +galleryFilters( gallery )
+  if gallery.favorites && gallery.favorites.length > 0
+    section.gallery.fade.gallery-favorites(id=gallery.name + '-gallery', data-mode=gallery.mode)
+      +galleryFilters( gallery, null, true )
 
-    .container
-      .products.slimgrid.no-grid-at-767
-        each module in submodules
-          d = locals.data(module.data)
-          if !d.promo
-            - d.view = "detailed"
-            e = { "locals" : locals, "data" : d }
-            !{locals.partial( module.type, e )}
+      .container
+        .products.slimgrid.no-grid-at-767
+          each favorite in gallery.favorites
+            d = locals.data(favorite.data)
+            if d.isFavorited && !d.promo
+              - d.view = "detailed"
+              - d.includeType = true
+              e = { "locals" : locals, "data" : d }
+              !{locals.partial( favorite.type, e )}
+          +recommendedTile( gallery.recommended )
 
-    +zeroProductsMessage( gallery )
+      if gallery.nextLink
+        .navigation.invisible
+          a(href=gallery.nextLink) Next set
+        .infscr-holder.text-center
+  else
+    section.container.no-favs
+      .grid.text-center
+        h1.t4
+          strong= gallery.nofavs.title
+        p.ilikeyou
+          i.fonticon-10-favorite
+        p.p3= gallery.nofavs.message
 
-    if gallery.nextLink
-      .navigation.invisible
-        a(href=gallery.nextLink) Next set
-      .infscr-holder.text-center
+
 
 mixin compareGallery( submodules, gallery, type, labels )
-  submodules = submodules || data.submodules
-  gallery = gallery || data.productCards
-  type = type || 'product'
-  labels = labels || gallery.labels
+  submodules = submodules ? submodules : data.submodules
+  gallery = gallery ? gallery : data.productCards
+  type = type ? type : 'product'
+  labels = labels ? labels : gallery.labels
 
-  label = gallery.galleryName || 'Compare Things'
-  legend = gallery.legend || 'this is defined in gallery.legend'
-  resetLabel = gallery.resetLabel || 'do things'
+  label = gallery.galleryName ? gallery.galleryName : 'Compare Things'
+  legend = gallery.legend ? gallery.legend : 'this is defined in gallery.legend'
+  resetLabel = gallery.resetLabel ? gallery.resetLabel : 'do things'
 
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
 
@@ -363,11 +402,11 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
           button.nav-paddle.tab-nav.tab-nav-next.hide
             i.fonticon-10-chevron
 
-mixin accessoryFinder( submodules, finder )
+mixin accessoryFinder( submodules, finder, type )
   submodules = submodules ? submodules : data.submodules
   finder = finder ? finder : data.accessories.accessoryFinder
   buttonStr = 'Accessory Finder'
-  type = type || 'product'
+  type = type ? type : 'camera'
 
   .af-module
     .container
@@ -415,8 +454,8 @@ mixin accessoryFinder( submodules, finder )
 
 
 mixin productStrips( submodules, strips, type )
-  submodules = submodules || data.submodules
-  type = type || 'accessory'
+  submodules = submodules ? submodules : data.submodules
+  type = type ? type : 'accessory'
 
   section
     .container
@@ -436,5 +475,21 @@ mixin productStrips( submodules, strips, type )
                 e = { "locals" : locals, "data" : d }
                 !{locals.partial( module.type, e )}
                 - count += 1
+
+
+mixin recommendedTile( recommended )
+  div.span4.detailed.gallery-item.recommended-tile(data-recommended="true")
+    h3.l3.recommended-title= recommended.title
+    .wrap
+      ul.media-list
+        each product in recommended.products
+          li.media(itemscope, itemtype="http://schema.org/Product")
+            d = locals.data( product.data )
+            - d.view = "recommended"
+            e = { "locals" : locals, "data" : d }
+            !{ locals.partial( product.type, e ) }
+
+
+
 
 
