@@ -193,25 +193,35 @@ define(function (require) {
       $input = null;
     },
 
-    reapportionMSpans: function($spans) {
+    reassignSpanWidths: function($spans, toWhat) {
+
+      var newSpan = toWhat;
 
       $spans.each(function(){
 
         var $this = $(this),
-            classes = this.className.split(' ');
+            classes = this.className.split(' '),
+            defaultSpan, currentSpan;
 
-        // Set span data for each possibility.
-        if ( !$this.data('m-span') ) {
-          for ( var j = 0; j < classes.length; j++ ) {
-            if ( classes[j].indexOf('m-span') === 0 && classes[j].indexOf('m-span-at') === -1 ) {
-              $this.data('m-span', classes[j]);
-            }
-            if ( classes[j].indexOf('m-span-at') === 0 ) {
-              $this.data(classes[j], true);
-            }
+        for ( var j = 0; j < classes.length; j++ ) {
+
+          var classStr = classes[j];
+
+          if ( classStr.search('default-span') === 0  ) {
+            defaultSpan = classStr.split('span')[1];
+          }
+
+          if ( classStr.search('span') === 0  ) {
+            currentSpan = classStr.split('span')[1];
           }
         }
 
+        if ( toWhat === 'reset' ) {
+          newSpan = defaultSpan;
+        }
+
+        $this.removeClass('span' + currentSpan);
+        $this.addClass('span' + newSpan);
       });
     },
 
@@ -223,9 +233,6 @@ define(function (require) {
     //
     // If the `options.mobile` option is **true**, grids will be apportioned based on m-spans instead.
     //
-    // If the `options.center` option is **true**, the final grid will attempt to center its contents,
-    // based on the floor of half the remaining available columns.
-    //
     // Example Usage:
     //
     // * Rearranges items into mobile grid, with the last grid centered. Note that it since it returns
@@ -235,8 +242,7 @@ define(function (require) {
     //      self.$foo = Utilities.gridApportion({
     //        $groups: self.$foo,
     //        gridSelector: '.slimgrid',
-    //        mobile: true,
-    //        center: true
+    //        mobile: true
     //      });
 
     gridApportion: function(options) {
@@ -247,7 +253,6 @@ define(function (require) {
 
       var $groups = options.$groups,
           isMobile = options.mobile,
-          isCentered = options.center,
           hasGridSelector = options.gridSelector,
 
           $container = $groups.first().clone(),
@@ -268,9 +273,6 @@ define(function (require) {
           if ( classes[j].indexOf(isMobile ? 'm-span' : 'span') === 0 && classes[j].indexOf('m-span-at') === -1) {
             spanCount = classes[j].split(isMobile ? 'm-span' : 'span')[1] * 1;
           }
-          if ( isCentered && classes[j].indexOf(isMobile ? 'm-offset' : 'offset') === 0 ) {
-            $this.removeClass(classes[j]);
-          }
         }
 
         if ( roomRemaining < spanCount ) {
@@ -284,11 +286,6 @@ define(function (require) {
         roomRemaining -= spanCount;
 
         if ( i === $mSpans.length - 1 ) {
-
-          if ( isCentered && roomRemaining >= 2 ) {
-            $workingGrid.children().first().addClass((isMobile ? 'm-offset' : 'offset') + Math.floor(roomRemaining / 2));
-          }
-
           compiledGrids.push($workingAppendContainer.clone().get(0));
           $workingAppendContainer = $workingGrid = null;
         }
