@@ -5,7 +5,41 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
+$desktopMed: px-em(1100);
 
+@media (max-width:$desktopMed) {
+  .entertainment-wrapper {
+    .entertainment {
+      padding: 84px 0 115px 0;
+    }
+    .entertainment-benefits {
+      margin: 0 0 26px 0;
+      .icon-holder {
+        padding: 13px;
+      }
+    }
+    .entertainment-media {
+      margin: 0 0 9px 0;
+      img {
+        float: left;
+        margin-right: 21px;
+      }
+    }
+    .entertainment-content {
+      .container-media {
+        width: 52%;
+        float: right;
+      }
+      .container-benefits {
+        width: 45%;
+        float: left;
+      }
+    }
+    .entertainment-header .p2 {
+      width: auto;
+    }
+  }
+}
 
 @media (max-width:$tabletMax) {
   .entertainment-wrapper {
@@ -13,6 +47,12 @@ $desktopMin: px-em(980);
       padding: 61px 0 115px 0;
     }
     
+    .entertainment-content {
+      .container-benefits {
+        width: auto;
+      }
+    }
+
     .logo-container {
       margin-bottom: 17px;
     }
@@ -24,21 +64,22 @@ $desktopMin: px-em(980);
     
     .tablet-img {
       margin-bottom: 33px;
+      text-align: center;
     }
     
     .entertainment-benefits {
       overflow: hidden;
       margin-bottom: 31px;
+      .icon-holder {
+        max-width: 74px;
+      }
     }
     
     .entertainment-benefits > li {
       float: left;
-      width: 30.96927%;
+      width: 33%;
       text-align: center;
-    }
-    
-    .entertainment-benefits > li + li {
-      margin-left: 3.5461%;
+      padding: 0 4%;
     }
     
     .entertainment-media {
@@ -53,6 +94,7 @@ $desktopMin: px-em(980);
     
     .entertainment .btn-holder {
       width: 100%;
+      position: relative;
     }
     
     .entertainment .btn-holder .btn {
@@ -74,6 +116,7 @@ $desktopMin: px-em(980);
     
     .logo-container {
       margin-bottom: 7px;
+      width: 100px;
     }
     
     .entertainment-hd h1 {
@@ -90,10 +133,18 @@ $desktopMin: px-em(980);
     
     .entertainment-benefits {
       margin-bottom: 13px;
+      .icon-holder {
+        padding: 4px;
+      }
     }
     
     .entertainment-media {
       margin-bottom: 11px;
+      .img {
+        i {
+          font-size: 2em;
+        }
+      }
     }
     
     .entertainment-media .no-float {
@@ -114,7 +165,7 @@ $desktopMin: px-em(980);
     }
     
     .entertainment-benefits .bd {
-      padding-top: 24px;
+      padding-top: 9px;
     }
     
     .entertainment .btn-holder .btn {
