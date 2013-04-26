@@ -64,11 +64,21 @@ $desktopMin: px-em(980);
     }
     .products-w-electronics {
       padding-top: 12px;
-    }
-    .products-w {
-      border: none;
-      .products-hdg {
-        margin: 20px 0 16px 0;
+    
+      .products-w {
+        border: none;
+        .products-hdg {
+          margin: 20px 0 16px 0;
+        }
+        .products-hdg-desc {
+          width: 100%;
+          float: left;
+          margin: 20px 0 16px 0;
+        }
+        .products-link {
+          float: left;
+          margin: 0 0 30px 0;
+        }
       }
     }
     .products-section-main {
@@ -78,17 +88,19 @@ $desktopMin: px-em(980);
           width: 100%;
           border-bottom: 1px solid $gray70;
           position: relative;
-          &:first-child {
-            .products-li-link {
-              padding-top: 0;
-            }
-            .tl:after {
-              top: 14px;
-            }
-          }
         }
         .products-li-link {
           height: auto;
+          display: table;
+          width: 100%;
+          .nav-label {
+            float: none;
+            margin: 0;
+            width: 100%;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: left;
+          }
           img {
             max-height: 40px;
           }

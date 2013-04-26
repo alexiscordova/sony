@@ -8,13 +8,14 @@
 // * **Dependencies:** jQuery 1.7+ , sony-global-environment
 //
 
-define(function(require){
+define(function(require) {
 
     'use strict';
 
     var $ = require('jquery'),
         enquire = require('enquire'),
         iQ = require('iQ'),
+        Modernizr = require('modernizr'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         SonyCarousel = require('secondary/sony-carousel'),
@@ -22,19 +23,19 @@ define(function(require){
 
     var module = {
       init: function() {
-        if ( $('.editorial').length > 0 ) {
+        if ( $('.editorial').length ) {
           $('.editorial').editorial();
         }
       }
     };
 
     // Start module
-    var Editorial = function(element, options){
+    var Editorial = function(element, options) {
       var self = this;
 
       self.$el = $(element);
       self.collapsableTout = self.$el.find('.m2up, .m3up');
-      self.colspan = self.$el.find('.m3up').length > 0 ? "span4" : self.collapsableTout.find('.horizontal').length > 0 ? "span6" : "span5";
+      self.colspan = self.$el.find('.m3up').length ? 'span4' : self.collapsableTout.find('.horizontal').length ? 'span6' : 'span5';
       self.col = self.collapsableTout.find('>div');
       self.hasOffset1 = self.col.hasClass('offset1');
 
@@ -46,48 +47,50 @@ define(function(require){
     Editorial.prototype = {
       constructor: Editorial,
 
-      fixmediaheights: function(){
+      fixMediaHeights: function() {
         //fixes the min height of medialeft and mediaright on resize
         var self = this, minh;
 
-        if($(window).outerWidth() <= 767){
-          minh = "auto";
-        }else{
-          minh = Math.max(self.$el.find('.grid').css('min-height').replace(/[^-\d\.]/g, ''), self.$el.find('.media-element .table-center').children().first().height())+"px";
+        if ($(window).outerWidth() <= 767) {
+          minh = 'auto';
+        } else {
+          minh = Math.max(self.$el.find('.grid').css('min-height').replace(/[^-\d\.]/g, ''), self.$el.find('.media-element .table-center').children().first().height())+'px';
         }
-        
+
         self.$el.find('.grid, .grid > div').css('height', minh);
       },
 
-      resizetouts: function(){
+      resizeTouts: function() {
         var self = this;
 
         //fixes horizontal 2 up layout wraping
         var tc = $('.editorial.tout .m2up .horizontal .table-center-wrap').parent();
-        if(tc.length > 0){
+        if (tc.length) {
           tc.css('width', tc.parent().width() - tc.prev().width() -2);
         }
 
         //fixes heights of tout copy across 2up 3up
         var heightGroup = self.col.find('.copy');
-        if(heightGroup.length >0){
+
+        if (heightGroup.length && Modernizr.mq( '(min-width: 48em)') ) {
           heightGroup.evenHeights();
         }
       },
 
-      initDesktop: function(){
+      initDesktop: function() {
         var self = this;
 
         self.collapsableTout.sonyCarousel('destroy');
         self.collapsableTout.off(Settings.transEndEventName);
         self.collapsableTout.addClass('grid');
-        self.collapsableTout.attr("style", "");
+        self.collapsableTout.attr('style', '');
         self.col.addClass(self.colspan);
-        if(self.hasOffset1){
+        if (self.hasOffset1) {
           self.col.first().addClass('offset1');
         }
       },
-      initMobile: function(){
+
+      initMobile: function() {
         var self = this;
 
         self.collapsableTout.removeClass('grid');
@@ -100,37 +103,34 @@ define(function(require){
           paddles: false,
           pagination: true
         });
-        self.collapsableTout.on(Settings.transEndEventName, function(){
-          iQ.update(true);
-        });
+        self.collapsableTout.on( Settings.transEndEventName, iQ.update );
       },
 
-
-      _init: function(){
+      _init: function() {
         var self = this;
 
         //if its a 2 or 3up we want to start the carousel code
-        if(self.collapsableTout.length > 0){
+        if (self.collapsableTout.length) {
 
-          if ( !Settings.$html.hasClass('lt-ie10') ){
-            enquire.register("(min-width: 768px)", function() {
+          if ( !Settings.isLTIE10 ) {
+            enquire.register('(min-width: 48em)', function() {
               self.initDesktop();
             });
-            enquire.register("(max-width: 767px)", function() {
+            enquire.register('(max-width: 47.9375em)', function() {
               self.initMobile();
             });
           } else {
             self.initDesktop();
           }
-          self.resizetouts();
-          Environment.on('global:resizeDebounced', $.proxy(self.resizetouts, self));
+          self.resizeTouts();
+          Environment.on('global:resizeDebounced', $.proxy(self.resizeTouts, self));
         }
 
 
         //if its mediaright or left fix heights on resize
-        if(self.$el.hasClass('mediaright') || self.$el.hasClass('medialeft')){
-          self.fixmediaheights();
-          Environment.on('global:resizeDebounced', $.proxy(self.fixmediaheights, self));
+        if (self.$el.hasClass('mediaright') || self.$el.hasClass('medialeft')) {
+          self.fixMediaHeights();
+          Environment.on('global:resizeDebounced', $.proxy(self.fixMediaHeights, self));
         }
 
         log('SONY : Editorial : Initialized');
