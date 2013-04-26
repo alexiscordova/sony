@@ -7,17 +7,17 @@ head
   include ../../../common/html/head.jade
 
 body
-  h6 full white
-  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-white.json')
-  hr
+  //- this module is no longer being supported
+  // h6 full white
+  // +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-white.json')
 
-  h6 full gray
-  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-gray.json')
-  hr
+  //- this module is no longer being supported
+  // h6 full gray
+  // +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-gray.json')
 
   h6 full inner white
-  .container
-    +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/chapters-full-inner-white.json')
+  // this module should contain chapters
+  +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/chapters-full-inner-white.json')
   hr
 
   h6 mediaright span6 gray
@@ -26,6 +26,10 @@ body
 
   h6 medialeft span6 white
   +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-66-medialeft-white.json')
+  hr
+
+  h6 mediaright span6 grey + hotspots
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e10-medialeft-grey-hotspot.json')
   hr
 
   include ../../../common/html/foot.jade
