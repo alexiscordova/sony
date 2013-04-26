@@ -1,0 +1,275 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-global-utilities.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="sony-global-analytics.html">                 sony-global-analytics.js               </a>                                           <a class="source" href="sony-global-environment.html">                 sony-global-environment.js               </a>                                           <a class="source" href="sony-global-settings.html">                 sony-global-settings.js               </a>                                           <a class="source" href="sony-global-utilities.html">                 sony-global-utilities.js               </a>                                           <a class="source" href="sony-global.html">                 sony-global.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-global-utilities.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Sony Utilities Class</h2>
+
+<ul>
+<li><strong>Class:</strong> SONY.Utilities</li>
+</ul>
+
+<p>This class contains common, sharable methods that may be called from any
+script in the application.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+define(<span class="function"><span class="keyword">function</span> <span class="params">(require)</span> {</span>
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+      Settings = require(<span class="string">'require/sony-global-settings'</span>);
+
+  <span class="keyword">var</span> self = {
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Force a redraw for webkit browsers.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    forceWebkitRedraw: <span class="keyword">function</span>(){
+
+      <span class="keyword">var</span> tempStyleSheet = document.createElement(<span class="string">'style'</span>);
+
+      document.body.appendChild(tempStyleSheet);
+      document.body.removeChild(tempStyleSheet);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Converts pixel value to an em value (including unit) at a given context.
+Default context for this application is 16.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    pxToEm : <span class="keyword">function</span>(pxValue, context){
+
+      context = <span class="keyword">typeof</span> context !== <span class="string">'undefined'</span> ? context : <span class="number">16</span>;
+
+      <span class="keyword">return</span> (pxValue / context) + <span class="string">'em'</span>;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Return calculated column if width is above 568px/35.5em.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    masonryColumns: <span class="keyword">function</span>(containerWidth) {
+
+      <span class="keyword">var</span> column = containerWidth;
+
+      <span class="keyword">if</span> ( !Modernizr || !Settings ) {
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">if</span> ( !Modernizr.mediaqueries || Modernizr.mq(<span class="string">'(min-width: 35.5em)'</span>) ) {
+        column = Settings.COLUMN_WIDTH_SLIM * containerWidth;
+      }
+
+      <span class="keyword">return</span> column;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Return calculated gutter if width is above 568px/35.5em.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    masonryGutters: <span class="keyword">function</span>(containerWidth) {
+
+      <span class="keyword">var</span> gutter = <span class="number">0</span>;
+
+      <span class="keyword">if</span> ( !Modernizr || !Settings ) {
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">if</span> ( !Modernizr.mediaqueries || Modernizr.mq(<span class="string">'(min-width: 35.5em)'</span>) ) {
+        gutter = Settings.GUTTER_WIDTH_SLIM * containerWidth;
+      }
+
+      <span class="keyword">return</span> gutter;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Takes a 2D CSS transform matrix (such as <code>matrix(1, 0, 0, 1, -120, 0)</code>) and
+returns a JSON object exposing the same paramters.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    parseMatrix: <span class="keyword">function</span>( str ) {
+
+      <span class="keyword">var</span> modified;
+
+      modified = str.replace( <span class="regexp">/^\w+\(/</span>, <span class="string">'['</span> ).replace( <span class="regexp">/\)$/</span>, <span class="string">']'</span>);
+
+      <span class="keyword">try</span> {
+        modified = JSON.parse(modified);
+      } <span class="keyword">catch</span> (e) {
+        modified = [<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>];
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p><strong>TODO</strong>: The first four value names are probably wrong.
+I only know the last two (translates) for sure.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      <span class="keyword">return</span> {
+        val1 : modified[<span class="number">0</span>],
+        val2 : modified[<span class="number">1</span>],
+        val3 : modified[<span class="number">2</span>],
+        val4 : modified[<span class="number">3</span>],
+        translateX : modified[<span class="number">4</span>],
+        translateY : modified[<span class="number">5</span>]
+      };
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Constrains a value between a min and max boundary.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    constrain: <span class="keyword">function</span>(value, min, max) {
+
+      value = parseFloat(value);
+
+      <span class="keyword">return</span> value &lt; min ? min :
+             value &gt; max ? max :
+             value;
+    },
+
+    scrollToTop: <span class="keyword">function</span>() {
+      $.simplescroll();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Swap two jQuery elements.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    swapElements: <span class="keyword">function</span>($elm1, $elm2) {
+
+      <span class="keyword">var</span> elm1 = $elm1.get(<span class="number">0</span>),
+          elm2 = $elm2.get(<span class="number">0</span>),
+          parent1, next1,
+          parent2, next2;
+
+      <span class="keyword">if</span> ( !elm1 || !elm2 ) { <span class="keyword">return</span>; }
+
+      parent1 = elm1.parentNode;
+      next1   = elm1.nextSibling;
+      parent2 = elm2.parentNode;
+      next2   = elm2.nextSibling;
+
+      parent1.insertBefore(elm2, next1);
+      parent2.insertBefore(elm1, next2);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Given an array of numbers (<code>arr</code>), find the item in the array closest
+to a given number (<code>num</code>). If you provide '>' or '&lt;' for <code>filter</code>,
+it only looks for items greater or lesser than <code>num</code>, respectively.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    closestInArray: <span class="keyword">function</span>(arr, num, filter){
+
+      <span class="keyword">var</span> closest = <span class="number">0</span>, closestDiff;
+
+      <span class="keyword">for</span> ( <span class="keyword">var</span> i <span class="keyword">in</span> arr ) {
+
+        <span class="keyword">if</span> ( filter === <span class="string">'&gt;'</span> ) {
+          <span class="keyword">if</span> ( arr[i] &lt; num ) { <span class="keyword">continue</span>; }
+        }
+
+        <span class="keyword">if</span> ( filter === <span class="string">'&lt;'</span> ) {
+          <span class="keyword">if</span> ( arr[i] &gt; num ) { <span class="keyword">continue</span>; }
+        }
+
+        <span class="keyword">var</span> diff = Math.abs(arr[i] - num);
+        <span class="keyword">if</span> ( <span class="keyword">typeof</span> closestDiff === <span class="string">'undefined'</span> || diff &lt; closestDiff ) {
+          closestDiff = diff;
+          closest = arr[i];
+        }
+      }
+
+      <span class="keyword">return</span> closest;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Returns a function that will be executed at most one time, no matter how
+often you call it. Useful for lazy initialization.
+Care of <a href="http://underscorejs.org/underscore.js">Underscore</a>.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    once: <span class="keyword">function</span>(func) {
+
+      <span class="keyword">var</span> ran = <span class="literal">false</span>, memo;
+
+      <span class="keyword">return</span> <span class="keyword">function</span>() {
+        <span class="keyword">if</span> (ran) { <span class="keyword">return</span> memo; }
+        ran = <span class="literal">true</span>;
+        memo = func.apply(<span class="keyword">this</span>, arguments);
+        func = <span class="literal">null</span>;
+        <span class="keyword">return</span> memo;
+      };
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>When you click inside the input, the text will be selected</p>             </td>             <td class="code">               <div class="highlight"><pre>    autoSelectInputOnFocus: <span class="keyword">function</span>( $input ) {
+      $input.on(<span class="string">'focus'</span>, <span class="keyword">function</span>() {
+        <span class="keyword">var</span> input = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>We use a timeout here because .select() will select everything,
+then the default browser action will deselect our selection</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>() {
+          input.select();
+        }, <span class="number">0</span>);
+      });
+
+      $input = <span class="literal">null</span>;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Takes a number of groups, supplied as a jQuery object (<code>options.$groups</code>) and re-apportions
+their elements, in order, to a new set of groups. The old groups are then removed,
+and the new groups are inserted at the point of the first group. Groups are assumed to be grids,
+unless <code>options.gridSelector</code> is specified, in which case the method will look for that selector
+inside each group for the location of the actual grid.</p>
+
+<p>If the <code>options.mobile</code> option is <strong>true</strong>, grids will be apportioned based on m-spans instead.</p>
+
+<p>If the <code>options.center</code> option is <strong>true</strong>, the final grid will attempt to center its contents,
+based on the floor of half the remaining available columns.</p>
+
+<p>Example Usage:</p>
+
+<ul>
+<li><p>Rearranges items into mobile grid, with the last grid centered. Note that it since it returns
+the updated set, you can overwrite the previous reference to the groups (<code>self.$foo</code>)
+in the calling context. *</p>
+
+<p>self.$foo = Utilities.gridApportion({
+   $groups: self.$foo,
+   gridSelector: '.slimgrid',
+   mobile: true,
+   center: true
+ });</p></li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+    gridApportion: <span class="keyword">function</span>(options) {
+
+      <span class="keyword">if</span> ( !options.$groups ) {
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">var</span> $groups = options.$groups,
+          isMobile = options.mobile,
+          isCentered = options.center,
+          hasGridSelector = options.gridSelector,
+
+          $container = $groups.first().clone(),
+          $appendContainer = hasGridSelector ? $container.find(options.gridSelector).empty() : $container.empty(),
+          compiledGrids = [],
+          $workingAppendContainer = $container.clone(),
+          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer,
+          roomRemaining = isMobile ? <span class="number">6</span> : <span class="number">12</span>,
+          $mSpans = $groups.find(isMobile ? <span class="string">'[class*="m-span"]'</span> : <span class="string">'[class*="span"]'</span>);
+
+      $mSpans.each(<span class="keyword">function</span>(i){
+
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+            classes = <span class="keyword">this</span>.className.split(<span class="string">' '</span>),
+            spanCount;
+
+        <span class="keyword">for</span> ( <span class="keyword">var</span> j = <span class="number">0</span>; j &lt; classes.length; j++ ) {
+          <span class="keyword">if</span> ( classes[j].indexOf(isMobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>) === <span class="number">0</span> ) {
+            spanCount = classes[j].split(isMobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>)[<span class="number">1</span>] * <span class="number">1</span>;
+          }
+          <span class="keyword">if</span> ( isCentered &amp;&amp; classes[j].indexOf(isMobile ? <span class="string">'m-offset'</span> : <span class="string">'offset'</span>) === <span class="number">0</span> ) {
+            $<span class="keyword">this</span>.removeClass(classes[j]);
+          }
+        }
+
+        <span class="keyword">if</span> ( roomRemaining &lt; spanCount ) {
+          compiledGrids.push($workingAppendContainer.clone().get(<span class="number">0</span>));
+          $workingAppendContainer = $container.clone();
+          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer;
+          roomRemaining = isMobile ? <span class="number">6</span> : <span class="number">12</span>;
+        }
+
+        $workingGrid.append($<span class="keyword">this</span>);
+        roomRemaining -= spanCount;
+
+        <span class="keyword">if</span> ( i === $mSpans.length - <span class="number">1</span> ) {
+
+          <span class="keyword">if</span> ( isCentered &amp;&amp; roomRemaining &gt;= <span class="number">2</span> ) {
+            $workingGrid.children().first().addClass((isMobile ? <span class="string">'m-offset'</span> : <span class="string">'offset'</span>) + Math.floor(roomRemaining / <span class="number">2</span>));
+          }
+
+          compiledGrids.push($workingAppendContainer.clone().get(<span class="number">0</span>));
+          $workingAppendContainer = $workingGrid = <span class="literal">null</span>;
+        }
+      });
+
+      $groups.not($groups.first()).remove();
+      $groups.first().replaceWith($(compiledGrids));
+
+      <span class="keyword">return</span> $(compiledGrids);
+    }
+
+  };
+
+  <span class="keyword">return</span> self;
+
+});
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

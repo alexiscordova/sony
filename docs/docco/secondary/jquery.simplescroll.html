@@ -1,0 +1,138 @@
+<!DOCTYPE html>  <html> <head>   <title>jquery.simplescroll.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="sony-carousel-fade.html">                 sony-carousel-fade.js               </a>                                           <a class="source" href="sony-carousel.html">                 sony-carousel.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickynav.html">                 sony-stickynav.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               jquery.simplescroll.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*!
+ * Smooth Scrolling plugin (https://github.com/Vestride/simplescroll)
+ * @date 04.01.13
+ * @version 1.3
+ * Copyright (c) 2013 Glen Cheney
+ * Licensed under the MIT license.
+ */</span>
+define(<span class="keyword">function</span>(require){
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>);
+
+  <span class="keyword">var</span> SimpleScroll = <span class="keyword">function</span>( options, fn ) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    $.extend( self, $.simplescroll.options, options );
+    self.$window = $(window);
+    self._init( fn );
+  };
+
+  SimpleScroll.prototype = {
+
+    _init : <span class="keyword">function</span>( fn ) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          target = $.isFunction( self.target ) ? self.target() : self.target,
+          selector = target.jquery ? <span class="string">'#'</span> + target.attr(<span class="string">'id'</span>) : target.replace(<span class="regexp">/.*(?=#[^\s]*$)/</span>, <span class="string">''</span>), <span class="comment">// strip for ie7</span>
+          $target = target.jquery ? target : $(selector),
+          targetOffset = $target.length ? $target.offset().top - self.offset : <span class="number">0</span>,
+          totalHeight = $(document).height(),
+          screenHeight = self.$window.height();
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Unable to find target</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !$target.length ) {
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> fn === <span class="string">'function'</span> ) {
+        self.callback = fn;
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Make sure we have room to scroll - basically choose an offset that we'll scroll to and have the entire window.
+This keeps timing correct.
+If amount below the target offset's is less than our screen height</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( totalHeight - targetOffset &lt; screenHeight ) {
+        targetOffset -= screenHeight - (totalHeight - targetOffset);
+      }
+
+      <span class="keyword">if</span> ( self.showHash ) {
+        self._showHash( selector, $target );
+      }
+
+      self._animate(targetOffset, self.speed, self.easing, self.callback);
+    },
+
+    _animate : <span class="keyword">function</span>( offset, speed, easing, complete ) {
+      <span class="keyword">var</span> called = <span class="literal">false</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Scroll!</p>             </td>             <td class="code">               <div class="highlight"><pre>      $(<span class="string">'html,body'</span>).animate({
+        scrollTop: offset
+      }, speed, easing, <span class="keyword">function</span>( evt ) {
+        <span class="keyword">if</span> ( !called ) {
+          complete.call( <span class="keyword">this</span>, evt );
+        }
+        called = <span class="literal">true</span>;
+      });
+    },
+
+    _showHash : <span class="keyword">function</span>( hash, $target ) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          fake;
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>the hash should already be cleaned up for ie7 here, we're just removing the <code>#</code>
+to make it an id of a new element</p>             </td>             <td class="code">               <div class="highlight"><pre>      hash = hash.replace(<span class="regexp">/^#/</span>, <span class="string">''</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Create a new, fake element which will have the id of the target,
+position it absolutely with the current window's scrollTop,
+and append it to the DOM</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( $target.length ) {
+        $target.attr( <span class="string">'id'</span>, <span class="string">''</span> );
+        fake = $( <span class="string">'&lt;div/&gt;'</span> ).css({
+          position: <span class="string">'absolute'</span>,
+          visibility: <span class="string">'hidden'</span>,
+          top: self.$window.scrollTop() + <span class="string">'px'</span>
+        })
+        .attr( <span class="string">'id'</span>, hash )
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Get the DOM node from jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>        [<span class="number">0</span>];
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Use native append over jQuery (http://jsperf.com/native-appendchild-vs-jquery-append/4)</p>             </td>             <td class="code">               <div class="highlight"><pre>        document.body.appendChild( fake );
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Set the hash</p>             </td>             <td class="code">               <div class="highlight"><pre>      window.location.hash = hash;
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Remove the fake element and put the id back on the real one</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( $target.length ) {
+        document.body.removeChild( fake );
+        $target.attr( <span class="string">'id'</span>, hash );
+      }
+    }
+  };
+
+  $.simplescroll = <span class="keyword">function</span>( options, fn ) {
+    <span class="keyword">return</span> <span class="keyword">new</span> SimpleScroll( options, fn );
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If we load the page with a hash, scroll to it</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.simplescroll.initial = <span class="keyword">function</span>( options, fn ) {
+    <span class="keyword">if</span> ( window.location.hash ) {
+      options = $.extend( options, {target: window.location.hash} );
+      $.simplescroll( options, fn );
+    }
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Convenience method which attaches a click event to the collection which scrolls to the
+defined target (via a function) or the href attribute</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.simplescroll = <span class="keyword">function</span>( options, fn ) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
+      $(<span class="keyword">this</span>).on(<span class="string">'click.simplescroll'</span>, <span class="keyword">function</span>( evt ) {
+        evt.preventDefault();
+        <span class="keyword">var</span> opts = $.extend({}, options);
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>If the target option is a function, use its return value, else try the href attribute</p>             </td>             <td class="code">               <div class="highlight"><pre>        opts.target = $.isFunction( opts.target ) ?
+          opts.target.call( <span class="keyword">this</span> ) :
+          <span class="keyword">this</span>.getAttribute(<span class="string">'href'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>If the offset option is a function, use its return value, else use the given value or zero</p>             </td>             <td class="code">               <div class="highlight"><pre>        opts.offset = $.isFunction( opts.offset ) ?
+          opts.offset.call( <span class="keyword">this</span> ) :
+          opts.offset || <span class="number">0</span>;
+
+        $.simplescroll( opts, fn );
+      });
+    });
+  };
+
+  $.simplescroll.options = {
+    target: <span class="string">'body'</span>, <span class="comment">// can be a selector or jQuery object or a function that returns one of those</span>
+    speed: <span class="number">400</span>, <span class="comment">// duration of the animation</span>
+    easing: $.easing.easeOutQuad ? <span class="string">'easeOutQuad'</span> : <span class="string">'swing'</span>, <span class="comment">// easing function to use. Defaults to easeOutQuad if it's available</span>
+    showHash: <span class="literal">false</span>, <span class="comment">// if showHash is true, and your target has an ID, this will add that id to the browser's hash</span>
+    callback: $.noop, <span class="comment">// called after the animation is finished. Default is an empty function</span>
+    offset: <span class="number">0</span> <span class="comment">// distance from the target to scroll to. Positive numbers will result in the window being above your target, negative and it will be below</span>
+  };
+
+});
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

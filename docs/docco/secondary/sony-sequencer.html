@@ -1,0 +1,82 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-sequencer.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="sony-carousel-fade.html">                 sony-carousel-fade.js               </a>                                           <a class="source" href="sony-carousel.html">                 sony-carousel.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickynav.html">                 sony-stickynav.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-sequencer.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h2>Sony Sequencer </h2>
+
+<ul>
+<li><strong>Description:</strong> A utility to allow control of method execution</li>
+<li><strong>Version:</strong> 0.1</li>
+<li><strong>Modified:</strong> 01/01/2013</li>
+<li><strong>Author:</strong> Telly Koosis, Tyler Madison</li>
+<li><strong>Dependencies:</strong> None</li>
+</ul>
+
+<p><em>Example Usage:</em></p>
+
+<pre><code>var self = this, // scope
+    self.speed  = 200, // speed in ms
+    theSequence = new Sequencer(); // instance
+
+// first action
+theSequence.add( self, self.methodName1, self.speed ); 
+
+// second action
+theSequence.add( self, self.methodName2, self.speed + 100 ); 
+
+// last action
+// functionParameters = {"foo":"bar"}
+theSequence.add( self, self.methodLast, self.speed, functionParameters ); 
+
+// start the sequence
+theSequence.start();
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+
+(<span class="keyword">function</span>(window, <span class="literal">undefined</span>){
+
+  <span class="function"><span class="keyword">function</span> <span class="title">Sequencer</span><span class="params">()</span>{</span>
+    <span class="keyword">var</span> t = <span class="keyword">this</span>;
+    t.queue = <span class="literal">null</span>;
+    t.timer = -<span class="number">1</span>;
+  }
+
+  Sequencer.prototype.add = <span class="keyword">function</span>( s , m , d , a ) {
+    <span class="keyword">var</span> t = <span class="keyword">this</span>;
+    <span class="keyword">if</span>( t.queue === <span class="literal">null</span> ) { t.queue = [];}
+    t.queue.push({ scope: s, method: m, throttle: d, args: a });
+  };
+
+  Sequencer.prototype.start = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> t = <span class="keyword">this</span>;
+    <span class="keyword">if</span>(t.timer === -<span class="number">1</span>){
+      <span class="keyword">if</span>(t.queue.length &gt; <span class="number">0</span>){
+        <span class="keyword">var</span> o = t.queue.shift();
+        t.timer = setTimeout(<span class="keyword">function</span>(){
+          <span class="keyword">var</span> restartTime = o.method.apply(o.scope , o.args);
+          <span class="keyword">if</span>(restartTime === <span class="literal">undefined</span>){
+            t.timer = -<span class="number">1</span>;
+            t.start();
+          }<span class="keyword">else</span>{
+            t.timer = -<span class="number">1</span>;
+            setTimeout(<span class="keyword">function</span>(){t.start();} , restartTime);
+          }
+        } , o.throttle);
+      }<span class="keyword">else</span>{
+        t.destroy();
+      }
+    }
+  };
+
+  Sequencer.prototype.stop = <span class="keyword">function</span>(){
+    <span class="keyword">var</span> t = <span class="keyword">this</span>;
+    clearTimeout(t.timer);
+    t.timer = -<span class="number">1</span>;
+  };
+
+   Sequencer.prototype.destroy = <span class="keyword">function</span>(){
+    <span class="keyword">var</span> t = <span class="keyword">this</span>;
+    t.queue = [];
+    t.queue = <span class="literal">null</span>;
+   };
+
+   window.Sequencer = Sequencer;
+
+
+  })(window, <span class="literal">undefined</span>);
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
