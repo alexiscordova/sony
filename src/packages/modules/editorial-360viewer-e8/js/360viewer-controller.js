@@ -23,7 +23,8 @@ define(function(require){
       Settings    = require( 'require/sony-global-settings' ),
       Environment = require( 'require/sony-global-environment' ),
       Utilities   = require( 'require/sony-global-utilities' ),
-      hammer      = require( 'plugins/index' ).hammer;
+      hammer      = require( 'plugins/index' ).hammer,
+      viewport    = require( 'secondary/jquery.viewport' );
 
   var self = {
     'init': function() {
@@ -71,6 +72,7 @@ define(function(require){
     self.lastX          = null;
     self.lastTriggerX   = null;
     self.inMotion       = false;
+    self.throttle       = 3;
     
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
@@ -120,18 +122,41 @@ define(function(require){
         self.syncControlLayout();
       }
       
+      self.$controls.hammer();
+      
+      self.$controls.on( 'swipeleft', function( event ) {
+        self.move( 'left' );
+
+      });
+      
+      self.$controls.on( 'swiperight', function( event ) {
+        self.move( 'right' );
+      });
+
+      
       log('SONY : Editorial 360 Viewer : Initialized');
+    },
+    
+    easeSwipe: function( event ) {
+      var self = this;
+      // is the swipe greater than one movement 
+      // where  (container.width / sequence.length-1) / 3 = one step
+      var assetWidth      = $( self.$sequence[self.curIndex] ).width(),
+          swipeDistance   = event.gesture.distance,
+          sequenceLength  = sequence.length - 1,
+          stepSize        = ( assetWidth / sequenceLength ) / self.throttle,
+          shouldEase      = ( 0 < ( swipeDistance - stepSize ) ) ? ( swipeDistance - stepSize ) : false;
     },
     
     syncControlLayout: function() {
       var self = this;
-      var _assetWidth = $( self.$sequence[0] ).width();
+      var _assetWidth = $( self.$sequence[self.curIndex] ).width();
       self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
     },
     
     onResize: function( event ) {
       var self = this;
-      self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
+      self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
       if( true === self.isImage ) {
         self.syncControlLayout();
       }

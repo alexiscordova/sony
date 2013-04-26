@@ -19,7 +19,8 @@ The primary tout is a large header section with text over a full-bleed image, ge
 
 **style:** additional classes that define if it has a dark or light text box or if the text is dark or light, etc  
 
-**variation:** optional variation parameters get picked up for certain modes  
+**variation:** optional variation parameters get picked up for certain modes
+*headertext* - (undefined | smaller) - if smaller it uses t2 class for headline instead of h1
 *mobilebg* - (undefined | true) - forces background box - always contrasts the text color so if style is dark-text-trans-box it goes light-box in mobile, light-text-trans-box = dark-box
 *quote* - (undefined | true) - makes the text a quote style on the homepage  
 *secondbox* - (undefined | true) - uses the second box style for the homepage design  
