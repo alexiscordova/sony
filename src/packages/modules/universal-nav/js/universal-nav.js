@@ -3,7 +3,7 @@
 // ------------ Sony Universal Nav ------------
 // Module: Universal Nav
 // Version: 1.0
-// Modified: 2013-04-24 by Christopher Mischler
+// Modified: 2013-04-26 by Christopher Mischler
 // Dependencies: jQuery 1.4+
 // -------------------------------------------------------------------------
 
@@ -97,14 +97,16 @@ var UNAV = ( function( window, document, $, undefined ){
         }
       });
     }
-
-    _setUpElements();
+    if ($uNavPrimary.children().length < 6){
+      _setUpPrimaryLinks();
+    } else {
+      $uNavPrimary.addClass('u-nav-primary-6up');
+    }
   },
 
 
 
-
-  _setUpElements = function(){
+  _setUpPrimaryLinks = function(){
 
     // So we don't have to download the images before we can figure out how high the module will be,
     // we need to figure out the height the image should be at this width, based on current browser width.
@@ -137,7 +139,7 @@ var UNAV = ( function( window, document, $, undefined ){
   _openUNav = function(){
     // console.log("_openUNav");
 
-    _setUpElements();
+    _setUpPrimaryLinks();
 
     setTimeout(function() {
       $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
@@ -180,7 +182,7 @@ var UNAV = ( function( window, document, $, undefined ){
   },
 
   _resizeEvent = function(){
-    _setUpElements();
+    _setUpPrimaryLinks();
   };
 
   return {
