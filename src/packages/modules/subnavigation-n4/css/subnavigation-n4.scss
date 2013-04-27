@@ -28,13 +28,24 @@ $maxChildren: 20;
       height: 100%;
     }
 
+    .grid {
+      text-align: center;
+    }
+
     .subcategory-link {
       @include transition(border-width 150ms);
       height: 155px;
+      display: inline-block;
       border-bottom-style: solid;
       border-bottom-color: $buttonBlue;
       cursor: pointer;
+      float: none;
       text-align: center;
+
+      .lt-ie8 & {
+        display: inline;
+        border-bottom-style: none;
+      }
 
       &.active,
       &:hover,
