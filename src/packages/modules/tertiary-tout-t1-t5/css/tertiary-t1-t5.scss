@@ -487,6 +487,15 @@ $three-up-height:400px;
 	.sonys-voice{
 		position: relative;
 
+
+		//  _______                                 
+		// |__   __|                                
+		//    | |  ___   _ __                       
+		//    | | / _ \ | '_ \                      
+		//    | || (_) || |_) |                     
+		//    |_| \___/ | .__/                      
+		//              | |                         
+		//              |_|                                                                 
 		.top{
 			float:left;
 			width:100%;
@@ -494,49 +503,111 @@ $three-up-height:400px;
 			text-align: center;
 		} // top
 
+		.icon-container{
+			overflow: hidden;
+		  text-align: center;
+		  outline:1px solid green;
+		} // end .icon-container
+
+		.fonticon-10-dot{
+				font-size:px-em(56px); 
+				width:100%;
+				color:$white;
+				z-index: 1;
+		} // background white dot
+
+		.fonticon-15-facebook,
+		.fonticon-15-twitter,
+		.fonticon-15-instagram {
+			font-size: px-em(26px);
+			position: absolute;
+			top: px-em(10px); 
+			left: 0;
+			z-index: 2;
+			width:100%;
+		} // end .fonticons
+
+		.fonticon-15-twitter{color:$twitterColor;} // end .fonticon-15-twitter
+		.fonticon-15-facebook{color:$facebookColor;} // end .fonticon-15-facebook
+
+		.meta{
+			margin-top:8px;
+		
+			.p4{
+				margin:0;
+			} // end p4
+
+		} // end .meta
+
+		.user{
+			color:$gray20;
+		} // end .user
+
+		.timestamp{
+			padding-left:10px;
+			color:$gray40;
+		} // end .timestamp
+	
+
+		//   _____              _                   
+		//  / ____|            | |                  
+		// | |      ___  _ __  | |_  ___  _ __      
+		// | |     / _ \| '_ \ | __|/ _ \| '__|     
+		// | |____|  __/| | | || |_|  __/| |        
+		//  \_____|\___||_| |_| \__|\___||_|        
 		.center{
-			border:1px solid blue;
-			height: 76.75%;
+			border:1px solid yellow;
+			height: 69.75%;
 			width:100%;
 		} // center
 		
 		.content{
-			border:1px solid green;
+			border:1px solid silver;
 			width:100%;
 		} // content
 
-		.facebook{
-			.bq5{
-				p{
-					color:$secondarySlateDark;
-				}
-			}
-		} // facebook
+		.bq4{
+			p{
+				color:$secondarySlateDark;
+			} //p 
+		}// bq4
 		
-		.twitter{
-			.bq4{
-				p{
-					color:$secondarySlateDark;
-				}
-			}
-		} // twitter
-
+		.bq5{
+			margin-top: px-em(22px); 
+			p{
+				color:$secondarySlateDark;
+			} //p 
+		} //bq5
 
 		.instagram{
 			background-color: $white;
+			height:150px; // TEMP
+
+			.left,
+			.right{
+				float: left;
+				height: 100%;
+				width: 50%;
+			}
 
 			.left{
-				border:1px solid black;
+				border:1px solid green;
 			} // left
 
 			.right{
-				border:1px solid black;
+				border:1px solid red;
 			} // right
 
 		} // instagram
 
 
 
+		//  ____          _    _                    
+		// |  _ \        | |  | |                   
+		// | |_) |  ___  | |_ | |_  ___   _ __ ___  
+		// |  _ <  / _ \ | __|| __|/ _ \ | '_ ` _ \ 
+		// | |_) || (_) || |_ | |_| (_) || | | | | |
+		// |____/  \___/  \__| \__|\___/ |_| |_| |_|
 		.bottom{
 			position: absolute;
 			bottom:0;

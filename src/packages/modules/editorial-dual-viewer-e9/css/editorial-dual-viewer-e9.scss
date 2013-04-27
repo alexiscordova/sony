@@ -9,7 +9,6 @@
   .edv-images {
     @include user-select(none);
     position: relative;
-    height:100%;
     margin-bottom:24px;
     height:560px;
 
@@ -162,6 +161,7 @@
       background-size:contain;
       background-position:center center;
     }
+    .handle {margin-top:-31px;}
   } 
 
   &.scrubber-disabled .scrubber {display:none;}
@@ -277,4 +277,10 @@
   .edv .edv-images {
     .edv-image .edv-image-wrapper {background-color:$gray80;}
   }
+}
+
+.span5,
+.span6,
+.span7 {
+  .edv .edv-images {height:440px;}
 }

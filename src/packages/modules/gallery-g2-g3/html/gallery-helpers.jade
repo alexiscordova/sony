@@ -101,8 +101,21 @@ mixin filterSet( filterSet )
       +filterGroup( filterSet )
 
 
-mixin galleryFilters( gallery, isCompareGallery )
+mixin compareBrowseBtn( isCompareGallery, link, addFade )
   compareStr = isCompareGallery ? 'Browse' : 'Compare'
+  classes = [ 'lt3', 'btn', 'btn-alt-special', 'btn-alt-plus', 'compare-btn' ]
+
+  if addFade
+    - classes.push( 'fade' )
+
+  a(class=classes, href=link)
+    if isCompareGallery
+      i.fonticon-10-grid-3x3
+    else
+      i.fonticon-10-speaker
+    | !{ compareStr }
+
+mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
   productsStr = gallery.productsStr ? gallery.productsStr : 'Products'
   filterStr = 'Filter'
@@ -121,17 +134,21 @@ mixin galleryFilters( gallery, isCompareGallery )
           | !{ productsStr }
 
 
-        //- Filter and compare buttons
+        //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
           button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
             | !{ filterStr }
             i.fonticon-10-arrowhead-down
-          a.lt3.btn.btn-alt-special.btn-alt-plus(href=compareBrowseLink)
-            if isCompareGallery
-              i.fonticon-10-grid-3x3
-            else
-              i.fonticon-10-speaker
-            | !{ compareStr }
+          +compareBrowseBtn( isCompareGallery, compareBrowseLink )
+
+        //- Favorites gallery
+        if !gallery.filterSet && isFavoritesGallery
+          +compareBrowseBtn( isCompareGallery, compareBrowseLink, true )
+
+        //- Standalone compare gallery
+        if !gallery.filterSet && isCompareGallery
+          +compareBrowseBtn( isCompareGallery, compareBrowseLink )
+
 
         else if gallery.accessoryFinder
           button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder-btn
@@ -266,7 +283,7 @@ mixin favoritesGallery( gallery )
 
   if gallery.favorites && gallery.favorites.length > 0
     section.gallery.fade.gallery-favorites(id=gallery.name + '-gallery', data-mode=gallery.mode)
-      +galleryFilters( gallery )
+      +galleryFilters( gallery, null, true )
 
       .container
         .products.slimgrid.no-grid-at-767
@@ -466,7 +483,7 @@ mixin recommendedTile( recommended )
     .wrap
       ul.media-list
         each product in recommended.products
-          li.media
+          li.media(itemscope, itemtype="http://schema.org/Product")
             d = locals.data( product.data )
             - d.view = "recommended"
             e = { "locals" : locals, "data" : d }

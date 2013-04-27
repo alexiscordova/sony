@@ -14,7 +14,7 @@ body
       #main(role='main')
 
         //- D1-2
-        +partial('product-summary-d1-d2/html/product-summary-d1-d2.jade', 'packages/modules/product-summary-d1-d2/demo/data/default.json')
+        +partial('product-summary-d1-d2/html/product-summary-d1-d2.jade', 'packages/pages/data/product-summary-d1-d2/hvlf20s-pdp.json')
 
         //- D4
         +partial('pdp-slideshow-d4/html/pdp-slideshow-d4.jade', 'packages/modules/pdp-slideshow-d4/demo/data/pdp-slideshow-d4-light.json')
@@ -29,11 +29,14 @@ body
         +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-layouts-e1/demo/data/mediaright-66-D-L-example1.json')
 
         //- D5
-        +partial('product-details-d5/html/product-details-d5.jade', 'packages/modules/product-details-d5/demo/data/product-details-d5-fsme-lie.json')
+        +partial('product-details-d5/html/product-details-d5.jade', 'packages/pages/data/product-details-d5/product-details-d5-HVLF20.json')
 
         //- G1 (strip)
         +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/strip-mode.json')
 
+        //- D8
+        //- +partial('utility-links-pdp-d8/html/utility-links-pdp-d8.jade', "packages/pages/data/utility-links-pdp-d8/homepage.json")
+                
       e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-footer.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json')}
       !{partial('packages/modules/global-header-footer/html/global-footer.jade', e)}
 

@@ -7,7 +7,7 @@ $centerRatio: (28.571428571429% / 2);
 $indicatorRatio: 14px; /* 35%; */ /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
-$transitionSpeed: 1s;
+$transitionSpeed: 0.5s;
 
 /*MIXINZ*/
 @mixin ehsTransition() {
@@ -23,85 +23,192 @@ $transitionSpeed: 1s;
   z-index: 0;
 }
 
-.eh-transparent {
-  @include ehsTransition();
-  opacity: 0;
+.ehs {
+  .arrow-right-small {
+  	width: 0; 
+  	height: 0; 
+  	border-top: 8px solid transparent;
+  	border-bottom: 8px solid transparent;
+  	border-left: 8px solid #fff;
+  }
+  
+  .arrow-left-small {
+  	width: 0; 
+  	height: 0; 
+  	border-top: 8px solid transparent;
+  	border-bottom: 8px solid transparent; 	
+  	border-right: 8px solid #fff; 
+  }
+  
+  .arrow-right {
+  	width: 0; 
+  	height: 0; 
+  	border-top: 10px solid transparent;
+  	border-bottom: 10px solid transparent;
+  	border-left: 10px solid #fff;
+  }
+  
+  .arrow-left {
+  	width: 0; 
+  	height: 0; 
+  	border-top: 10px solid transparent;
+  	border-bottom: 10px solid transparent; 	
+  	border-right: 10px solid #fff; 
+  }
 }
 
-.eh-visible {
-  @include ehsTransition();
-  opacity: 1;
+.ehs {
+  .hotspot-instance, .image-module {
+    .eh-transparent {
+      @include ehsTransition();
+      opacity: 0;
+    }
+    
+    .eh-visible {
+      @include ehsTransition();
+      opacity: 1;
+    } 
+  }
 }
 
 /*GLOBAL OVERLAY*/
 .hspot-global-details-main {
-    .overlay-inner {
-      margin: 0px auto;
-      width: 230px;
+
+
+/*
+  &.variant1 { 
+    width: 280px;
+
+    top: -159px;
+    left: 63px;
+    .top {
       background-color: #fff;
-      .overlay-close {
+    }
+    .middle {
+      background-color: #fff;
+      padding: 30px 40px 29px 30px;
+      border-bottom: 1px solid #e4e7eb;
+      position: relative;
+      .p3 {
+        margin-bottom: 7px;
+        &.cHBC {
+          margin-bottom: 0;
+        }
+      }
+      .arrow-left-top {
+        position: absolute;
+        top: 31px;
+        left: -10px;
+      }
+      .arrow-right-top {
+        position: absolute;
+        top: 31px;
+        right: -10px;
+      }
+      .arrow-left-bottom {
+        position: absolute;
+
+        top: 156px;
+        left: -10px;
+      }
+      .arrow-right-bottom {
+        position: absolute;
+        top: 156px;
+        right: -10px;
+      }
+      
+    }
+    .footer {
+      background-color: #fff;
+      padding: 18px 40px 0px 30px;
+      height: 107px;
+      .p3 {
+        font-style: italic;
+        color: $secondarySlateDark;
+        margin-bottom: 8px;
+      }
+      blockquote.l4 {
+        color: $gray40;
         position: relative;
-        width: 230px;
-        -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-        -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-        box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-        margin-top: 1em;
-        
-        .top {
-          background-color: #fff;
-        }
-        
-        .middle {
-          background-color: #fff;
-          padding: 20px 30px 23px 20px;
-          border-bottom: 1px solid #e4e7eb;
-          position: relative;
-          
-          .p4, .p3 {
-            @include px-em--font-size--line-height(12,18);
-            margin-bottom: 4px;
-            
-            &.cHBI {
-              margin-bottom: 0;
-            }
-          }
-        }
-        .footer {
-          background-color: #fff;
-          padding: 20px 30px 20px 20px;
-          
-          p.p4, p.p3 {
-            @include px-em--font-size--line-height(12,18);
-            font-style: italic;
-            color: $secondarySlateDark;
-            margin-bottom: 9px;
-          }
-          
-          blockquote.l4, blockquote.l3 {
-            color: $gray40;
-            position: relative;
-            margin-left: 24px;
-            @include px-em--font-size--line-height(10,16);
-            
-            &:before {
-              display: block;
-              content: "\201C";
-              font-size: 40px;
-              font-family: Georgia;
-              position: absolute;
-              left: -24px;
-              top: -13px;
-              color: $secondarySlateDark;
-            }
-          }
-        }
-        .hspot-close {
+        margin-left: 24px;
+        &:before {
+          display: block;
+          content: "\201C";
+          font-size: 40px;
+          font-family: Georgia;
           position: absolute;
-          top: 0px;
-          right: 0px;
+          left: -24px;
+          top: -13px;
+          color: $secondarySlateDark;
         }
       }
     }
+  }
+*/
+
+  .overlay-inner {
+    margin: 0px auto;
+    width: 280px;
+    background-color: #fff;
+    .overlay-close {
+      position: relative;
+      width: 280px;
+      -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+      -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+      box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+      margin-top: 1em;
+      
+      .top {
+        background-color: #fff;
+      }
+      
+      .middle {
+        background-color: #fff;
+        padding: 30px 40px 29px 30px;
+        border-bottom: 1px solid #e4e7eb;
+        position: relative;
+        
+        p.p4, p.p3 {
+          margin-bottom: 7px;
+          &.cHBC {
+            margin-bottom: 0;
+          }
+        }
+      }
+      .footer {
+        background-color: #fff;
+        padding: 18px 40px 0px 30px;
+        height: 107px;
+        
+        p.p4, p.p3 {
+          font-style: italic;
+          color: $secondarySlateDark;
+          margin-bottom: 8px;
+        }
+        
+        blockquote.l4, blockquote.l3 {
+          color: $gray40;
+          position: relative;
+          margin-left: 24px;
+          &:before { 
+            display: block;
+            content: "\201C";
+            font-size: 40px;
+            font-family: Georgia;
+            position: absolute;
+            left: -24px;
+            top: -13px;
+            color: $secondarySlateDark;
+          }
+        }
+      }
+      .hspot-close {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+      }
+    }
+  }
 }
 
 /*UTILS*/
@@ -111,7 +218,7 @@ $transitionSpeed: 1s;
     position: relative;
   }
   
-  hspot-outer.info-jump-to-top {
+  .hspot-outer.info-jump-to-top {
     z-index: 4; 
   }
   
@@ -209,23 +316,23 @@ $transitionSpeed: 1s;
     -webkit-transition:0s;
     transition:0s;
     &.three-stack-right-top-justified {
-      top: -156px;
+      top: -160px;
       left: 69px;
     }
       
     &.three-stack-left-top-justified {
-      top: -156px;
+      top: -160px;
       left: -286px;
     }
     
     &.three-stack-right-bottom-justified {
-      top: -281px;
+      top: -285px;
       left: 68px;
     }
       
     &.three-stack-left-bottom-justified {
+      top: -285px;
       left: -286px;
-      top: -281px;
     }
     
     &.two-stack-right-top-justified {
@@ -276,22 +383,22 @@ $transitionSpeed: 1s;
     }
     
     &.two-stack-right-top-justified {
-      top: -19px;
+      top: -22px;
       left: 54px;
     }
       
     &.two-stack-left-top-justified {
-      top: -19px;
+      top: -22px;
       left: -287px;
     }
     
     &.two-stack-right-bottom-justified {
-      top: -144px;
+      top: -147px;
       left: 53px;
     }
       
     &.two-stack-left-bottom-justified {
-      top: -144px;
+      top: -147px;
       left: -288px;        
     }
   }
@@ -303,42 +410,42 @@ $transitionSpeed: 1s;
     -webkit-transition:0s;
     transition:0s;
     &.three-stack-right-top-justified {
-      top: -122px;
+      top: -127px;
       left: 66px;
     }
       
     &.three-stack-left-top-justified {
-      top: -122px;
+      top: -127px;
       left: -235px;
     }
     
     &.three-stack-right-bottom-justified {
-      top: -235px;
+      top: -242px;
       left: 66px;
     }
       
     &.three-stack-left-bottom-justified {
-      top: -237px;
+      top: -242px;
       left: -234px;
     }
 
     &.two-stack-right-top-justified {
-      top: -2px;
+      top: -8px;
       left: 66px;
     }
       
     &.two-stack-left-top-justified {
-      top: -2px;
+      top: -8px;
       left: -235px;        
     }
     
     &.two-stack-right-bottom-justified {
-      top: -116px;
+      top: -121px;
       left: 66px;        
     }
       
     &.two-stack-left-bottom-justified {
-      top: -117px;
+      top: -121px;
       left: -234px;        
     }
   }
@@ -350,42 +457,42 @@ $transitionSpeed: 1s;
     -webkit-transition:0s;
     transition:0s;
     &.three-stack-right-top-justified {
-      top: -130px;
+      top: -135px;
       left: 51px;
     }
       
     &.three-stack-left-top-justified {
-      top: -130px;
+      top: -135px;
       left: -235px;
     }
     
     &.three-stack-right-bottom-justified {
-      top: -243px;
+      top: -248px;
       left: 51px;
     }
       
     &.three-stack-left-bottom-justified {
-      top: -243px;
+      top: -248px;
       left: -235px;
     }
 
     &.two-stack-right-top-justified {
-      top: -10px;
+      top: -15px;
       left: 51px;
     }
       
     &.two-stack-left-top-justified {
-      top: -10px;
+      top: -15px;
       left: -235px;        
     }
     
     &.two-stack-right-bottom-justified {
-      top: -124px;
+      top: -129px;
       left: 51px;        
     }
       
     &.two-stack-left-bottom-justified {
-      top: -124px;
+      top: -129px;
       left: -235px;        
     }
   }
@@ -424,15 +531,21 @@ $transitionSpeed: 1s;
     
     .hspot-core {
       position:absolute;
+      width:92px;
+      height:92px;
+      @include scale(0.5);
+/*
       width:46px;
       height:46px;
+*/
       background:$buttonOrange;
       display:block;
       text-align:center;
-      font-size:0.9em;
+      font-size:2em;
       top:50%;
       left:50%;
-      margin:-23px 0 0 -23px;
+/*       margin:-23px 0 0 -23px; */
+      margin:-46px 0 0 -46px;
       @include border-radius(50%);
       @include transition(.1s ease-out);
       
@@ -441,7 +554,7 @@ $transitionSpeed: 1s;
         top:50%;
         left:50%;
         width:100px;
-        margin:-14px 0 0 -50px;
+        margin:-30px 0 0 -50px;
         
         i {
           display:inline-block;
@@ -452,7 +565,7 @@ $transitionSpeed: 1s;
         }
       }
       &.hspot-hover-on {
-        @include scale(1.1);
+        @include scale(0.55);
         background:$buttonOrangeHover;
         i {
           margin:0 3px;
@@ -462,15 +575,16 @@ $transitionSpeed: 1s;
     
     .hspot-core-on {
       position:absolute;
-      width:46px;
-      height:46px;
+      width:92px;
+      height:92px;
       background:$gray30;
       display:block;
       text-align:center;
-      font-size:0.9em;
+      font-size:2em;
       top:50%;
       left:50%;
-      margin:-23px 0 0 -23px;
+      margin:-46px 0 0 -46px;
+      @include scale(0.5);
       @include border-radius(50%);
       @include transition(.1s ease-out);
       
@@ -479,7 +593,7 @@ $transitionSpeed: 1s;
         top:50%;
         left:50%;
         width:100px;
-        margin:-14px 0 0 -50px;
+        margin:-30px 0 0 -50px;
         
         i {
           display:inline-block;
@@ -490,7 +604,7 @@ $transitionSpeed: 1s;
         }
       }
       &.hspot-hover-on {
-        @include scale(1.1);
+        @include scale(0.55);
         background:$gray40;
         i {
           margin:0 3px;
@@ -517,15 +631,16 @@ $transitionSpeed: 1s;
     
     .hspot-core {
       position: absolute;
-      width: 32px;
-      height: 32px;
+      width: 64px;
+      height: 64px;
+      @include scale(0.5);
       background: $buttonOrange;
       display: block;
       text-align: center;
-      font-size: 0.9em;
+      font-size: 2.0em;
       top: 50%;
       left: 50%;
-      margin: -16px 0 0 -16px;
+      margin: -32px 0 0 -32px;
       @include border-radius(50%);
       @include transition(.1s ease-out);
       
@@ -534,7 +649,7 @@ $transitionSpeed: 1s;
         top: 50%;
         left: 50%;
         width: 100px;
-        margin: -14px 0 0 -50px;
+        margin: -30px 0 0 -50px;
         
         i {
           display: inline-block;
@@ -545,7 +660,7 @@ $transitionSpeed: 1s;
         }
       }
       &.hspot-hover-on {
-        @include scale(1.1);
+        @include scale(0.55);
         background: $buttonOrangeHover;
         
         i {
@@ -556,15 +671,16 @@ $transitionSpeed: 1s;
     
     .hspot-core-on {
       position: absolute;
-      width: 32px;
-      height: 32px;
+      width: 64px;
+      height: 64px;
+      @include scale(0.5);
       background:$gray30;
       display:block;
       text-align:center;
-      font-size:0.9em;
+      font-size:2.0em;
       top:50%;
       left:50%;
-      margin: -16px 0 0 -16px;
+      margin: -32px 0 0 -32px;
       @include border-radius(50%);
       @include transition(.1s ease-out);
       
@@ -573,7 +689,7 @@ $transitionSpeed: 1s;
         top:50%;
         left:50%;
         width:100px;
-        margin: -14px 0 0 -50px;
+        margin: -30px 0 0 -50px;
         
         i {
           display:inline-block;
@@ -584,7 +700,7 @@ $transitionSpeed: 1s;
         }
       }
       &.hspot-hover-on {
-        @include scale(1.1);
+        @include scale(0.55);
         background:$gray40;
         
         i {
@@ -630,32 +746,24 @@ $transitionSpeed: 1s;
       }
       .arrow-left-top {
         position: absolute;
-        top: 27px;
+        top: 31px;
         left: -10px;
-        width: 10px;
-        height: 22px;
       }
       .arrow-right-top {
         position: absolute;
-        top: 27px;
+        top: 31px;
         right: -10px;
-        width: 10px;
-        height: 22px;
       }
       .arrow-left-bottom {
         position: absolute;
         /* bottom: 44px; */
-        top: 152px;
+        top: 156px;
         left: -10px;
-        width: 10px;
-        height: 22px;
       }
       .arrow-right-bottom {
         position: absolute;
-        top: 152px;
+        top: 156px;
         right: -10px;
-        width: 10px;
-        height: 22px;
       }
       
     }
@@ -707,33 +815,41 @@ $transitionSpeed: 1s;
       }
       .arrow-left-top {
         position: absolute;
-        top: 18px;
-        left: -8px;
+        top: 24px;
+        left: -7px;
+/*
         width: 8px;
         height: 18px;
+*/
       }
       .arrow-right-top {
         position: absolute;
-        top: 18px;
+        top: 24px;
         right: -8px;
+/*
         width: 8px;
         height: 18px; 
+*/
       }
       .arrow-left-bottom {
         position: absolute;
         /* bottom: 36px; */
-        top: 132px;
-        left: -8px;
+        top: 138px;
+        left: -7px;
+/*
         width: 8px;
         height: 18px;
+*/
       }
       .arrow-right-bottom {
         position: absolute;
         /* bottom: 36px; */
-        top: 132px;
-        right: -8px;
+        top: 138px;
+        right: -7px;
+/*
         width: 8px;
         height: 18px;
+*/
       }
     }
     .footer {

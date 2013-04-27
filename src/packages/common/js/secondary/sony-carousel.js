@@ -261,7 +261,7 @@ define(function(require){
           $slideSet = self.$slides,
           speed = ( noAnim ? 0 : self.animationSpeed ),
           $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
-  
+
       // Logic for the natural ends of a carousel that has been looped
 
       if ( self.looped && ( which === -1 || which >= self.$slides.length )) {
@@ -345,7 +345,11 @@ define(function(require){
         }
 
         self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(e){
-          if (e.currentTarget !== e.target){return;} // prevent conflicts 
+
+          if ( e.currentTarget !== e.target ) {
+            return;
+          }
+
           iQ.update(true);
           self.$el.trigger('SonyCarousel:AnimationComplete');
           self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
@@ -386,7 +390,11 @@ define(function(require){
       if ( ( self.isJumped && speed ) || typeof destinationRedirect !== 'undefined' ) {
 
         repositionCb = Utilities.once(function(e){
-          if (e.currentTarget !== e.target){return;} // prevent conflicts 
+
+          if ( e && (e.currentTarget !== e.target)) {
+            return;
+          }
+
           if ( self.isJumped ) {
             ( self.$allSlides || self.$slides ).each(function(){
               $(this).detach().appendTo(self.$el);
@@ -614,16 +622,20 @@ define(function(require){
 
       var self = this,
           $paddleWrapper = self.$paddleWrapper || self.$wrapper,
-          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides;
+          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides,
+          containerStyles = {
+            transitionTimingFunction: '',
+            transitionDuration: '',
+            transform: ''
+          };
+
+      containerStyles[ self.posAttr ] = '';
 
       // Reset styles.
-      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '')
-          .css(Modernizr.prefixed('transitionDuration'), '' )
-          .css(Modernizr.prefixed('transform'), '')
-          .css(self.posAttr, '');
+      self.$el.css( containerStyles );
 
       // Unbind
-      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);        
+      Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
       self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
       $clickContext.off('click.sonycarousel');
 

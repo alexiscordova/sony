@@ -67,9 +67,9 @@ mixin iQColorImages( colors )
 mixin heart
   - heartClass = 'favorite-holder js-favorite'
   - if ( data.isFavorited ) heartClass += ' active'
-  favoritedTitle = 'Added'
+  favoritedTitle = 'Remove Favorite?'
   toFavoriteTitle = 'Add to Favorites'
-  span(class=heartClass, data-active-title="Added", data-default-title=toFavoriteTitle)
+  span(class=heartClass, data-active-title=favoritedTitle, data-default-title=toFavoriteTitle)
     i.fonticon-10-favorite
 
 mixin productRating( rating, reviews, reviewsText )
@@ -683,14 +683,14 @@ else if data.view == 'blank'
 else if data.view == 'summary'
   titleLabel = data.collectionLabel ? data.collectionLabel : 'Cybershot'
   titleHref = data.collectionHref ? data.collectionHref : '#'
-  sizes = data.sizes ? data.sizes : ['one', 'two', 'three', 'four']
+  sizes = data.sizes ? data.sizes : []
   startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
   msrp = data.msrp ? data.msrp : 'MSRP'
   priceUnit = data.priceUnit ? data.priceUnit : '$'
   buyText = data.buyText ? data.buyText : 'Buy Now'
   modelText = data.modelText ? data.modelText : 'Model Number:'
 
-  .container
+  .container(itemscope, itemtype="http://schema.org/Product")
     .grid.no-grid-at-767.js-even-cols
 
       .span2.product-img-wrap
@@ -708,19 +708,27 @@ else if data.view == 'summary'
 
         +productRating( data.rating.stars, data.rating.reviews )
 
-        .inline-details.clearfix
-          p.p5.product-sizes
-            each size in sizes
-              span.product-size= size
-              span.spacer |
-          +colorSwatches( data.img.colors, true, true )
+        if sizes.length || ( data.img && data.img.colors && data.img.colors.length )
+          .inline-details.clearfix
+            if sizes.length
+              p.p5.product-sizes
+                sizesLength = sizes.length
+                each size, i in sizes
+                  span.product-size= size
+                  if i == sizesLength - 1
+                    if data.img && data.img.colors && data.img.colors.length
+                      span.spacer |
+                  else
+                    span.spacer |
+            if data.img && data.img.colors && data.img.colors.length
+              +colorSwatches( data.img.colors, true, true )
 
       .span2.price-content#span1-at-tablet
         .text-right.pull-right.space-top
           p.p4.price-prefix= startingAtText
           span.p5.msrp= msrp
           span.p1.price
-            strong.text-dark !{ priceUnit + data.price }
+            strong.text-dark(itemprop="price") !{ priceUnit + data.price }
 
       .span2.price-content#span3-at-tablet
         a.btn.btn-large.btn-block(href=data.storeLink)= buyText
@@ -765,17 +773,19 @@ else if data.view == 'recommended'
   startingAtText = 'Starting at'
   msrp = 'MSRP'
 
-  .pull-left.js-even-cols
-    +iQImage( data.imgSmall, 'media-object' )
-  .media-body.ghost-center-wrap.js-even-cols
-    .ghost-center
-      h4.p3.media-heading= data.name
-      p.p5.price-prefix= startingAtText
-      p
-        span.p3.price
-          strong= '$' + data.price + '&nbsp;'
-        span.l4-light.msrp= msrp
-        +heart()
+  a.block(href=data.href ? data.href : '#')
+    .pull-left.js-even-cols
+      +iQImage( data.imgSmall, 'media-object', 'image' )
+    .media-body.ghost-center-wrap.js-even-cols
+      .ghost-center
+        h4.p4.media-heading
+          strong(itemprop="name")= data.name
+        p.p5.price-prefix= startingAtText
+        p
+          span.p3.price
+            strong(itemprop="price")= '$' + data.price + '&nbsp;'
+          span.l4.msrp= msrp
+          +heart()
 
 else if data.view == 'search-results'
   - product = locals.data(data.results.product.data)
@@ -788,10 +798,9 @@ else if data.view == 'search-results'
         +productRating( product.rating.stars, product.rating.reviews )
       p.p4= data.results.product.text
       ul.h-list.h-list-md
-        if data.links
-          each link in data.results.product.links
-            li.lt3
-              a(href= link.url) link.text
+        each link in data.results.product.links
+          li.lt3
+            a(href= link.url)= link.text
 
 else
   em oh noes, you don't have a known view variable set :(
