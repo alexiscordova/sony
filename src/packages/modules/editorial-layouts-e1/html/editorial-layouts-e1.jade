@@ -2,10 +2,14 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('editorial-layouts-e1')
 +includeJavascriptModule('editorial-layouts-e1')
 
-mixin gridstyle(_extra)
+mixin gridstyle(_extra, mgrid)
   extraclass = _extra ? _extra : ""
-  .grid.no-grid-at-767(class = extraclass)(class = data.style)
-    block
+  if mgrid
+    .grid.m-grid-at-767(class = extraclass)(class = data.style)
+      block
+  else
+    .grid.no-grid-at-767(class = extraclass)(class = data.style)
+      block
 
 mixin center
   .table-center-wrap
@@ -52,12 +56,14 @@ mixin boxlayout(_layout)
             +boxclass
               block
 
-mixin toutcopy(copyobject, titleclass, subtitleclass, bodyclass)
-  span.toutcopy
+mixin toutcopy(copyobject, titleclass, subtitleclass, bodyclass, mobileclass)
+  mobileclass = mobileclass ? mobileclass : ""
+  span.toutcopy(class = mobileclass)
     +copyblock(copyobject, titleclass, subtitleclass, bodyclass)
 
-mixin toutimage(imgdata)
+mixin toutimage(imgdata, mobileclass)
   if imgdata.data !== undefined
+    - imgdata.data.mobileclass = mobileclass
     !{locals.partial('packages/modules/image/html/image.jade' , imgdata)}
 
 mixin copyblock(_copy, _title, _subtitle, _body, linkclass)
@@ -148,22 +154,23 @@ if data.variation
       columnoffset = data.layout.tout.columnoffset || 0;
       offset = "offset" + columnoffset;
       ups = "m" + data.columns.length + "up"
-      +gridstyle(ups)
+      +gridstyle(ups, data.mode == "tout")
         if data.columns.length == 1
           e = {"locals":locals, "data":data.columns[0].image}
+          mspan = e.data == null ? "" : " m-span4"
           if data.layout.tout.text == "right"
-            span = "span"+ data.layout.tout.columns[columnoffset]
+            span = "span"+ data.layout.tout.columns[columnoffset] + " m-span2"
             div(class = span)(class = offset)
               +toutimage(e)
-            span = "span"+ data.layout.tout.columns[columnoffset +1]
+            span = "span"+ data.layout.tout.columns[columnoffset +1] + mspan
             div(class = span)(class = "text"+data.layout.tout.text)
               +toutcopy(data.columns[0], "t7", "", "p3")
 
           else
-            span = "span"+ data.layout.tout.columns[columnoffset]
+            span = "span"+ data.layout.tout.columns[columnoffset] + mspan
             div(class = span)(class = offset)(class = "text"+data.layout.tout.text)
               +toutcopy(data.columns[0], "t7", "", "p3")
-            span = "span"+ data.layout.tout.columns[columnoffset +1]
+            span = "span"+ data.layout.tout.columns[columnoffset +1] + " m-span2"
             div(class = span)
               +toutimage(e)
 
@@ -173,24 +180,26 @@ if data.variation
             e = {"locals":locals, "data":col.image}
             span = "span"+ data.layout.tout.columns[i + columnoffset]
             offset = i == 0 ? "offset"+columnoffset : ""
+            mspan = e.data == null ? "" : "m-span4"
             if data.layout.tout.orientation == "vertical"
               .vertical(class = span)(class = offset)(class = data.layout.tout.alignment)
-                +toutimage(e)
-                +toutcopy(col,"t7", "", "p3")
+                +toutimage(e, "m-span2")
+                +toutcopy(col,"t7", "", "p3", mspan)
             else
               .horizontal(class = span)(class = offset)(class = data.layout.tout.alignment)(class = "clearfix")
-                +toutimage(e)
+                +toutimage(e, "m-span2")
                 div
                   +center
-                    +toutcopy(col, "t7", "", "p3 hidden-phone")
+                    +toutcopy(col, "t7", "", "p3 hidden-phone", mspan)
 
         else if data.columns.length == 3
           for col, i in data.columns
             e = {"locals":locals, "data":col.image}
             span = "span"+ data.layout.tout.columns[i]
+            mspan = e.data == null ? "" : "m-span4"
             div(class = span)(class = data.layout.tout.alignment)
-              +toutimage(e)
-              +toutcopy(col,"t7", "", "p3")
+              +toutimage(e, "m-span2")
+              +toutcopy(col,"t7", "", "p3", mspan)
 
 
 

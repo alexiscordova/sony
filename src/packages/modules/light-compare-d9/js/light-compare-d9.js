@@ -5,6 +5,7 @@ define(function(require){
   var $ = require('jquery'),
       bootstrap = require('bootstrap'),
       iQ = require('iQ'),
+      sonyStickyTabs = require('secondary/index').sonyStickyTabs,
       enquire = require('enquire');
 
   var module = {
@@ -12,7 +13,6 @@ define(function(require){
       $('.launch-modal').on('click', function(){
         $('#light-compare-modal').modal();
       });
-      this.tabhide();
 
       var breakpoints = [ 767, 768, 979, 980 ];
       var breakpointReactor = function( e ) {
@@ -28,14 +28,7 @@ define(function(require){
           enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
         }
       }
-    },
-
-    // temp tab behavior, remove this after integrating tabs
-    tabhide: function(){
-      var $modal = $('.light-compare-modal');
-      $('.tab').hide().first().show();
     }
-
   };
 
   return module;
