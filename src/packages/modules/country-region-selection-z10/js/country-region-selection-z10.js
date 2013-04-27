@@ -1,4 +1,3 @@
-/*global define, Modernizr, log*/
 
 // -------- Sony Country Region Selection -------
 // Module: Country / Region Selection
@@ -13,6 +12,7 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
+      Modernizr = require('modernizr'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
       sonyIScroll = require('plugins/sony-iscroll'),
@@ -34,17 +34,23 @@ define(function(require){
 
     // Binds enquire handlers to setup page for mobile, tablet and desktop.
     bind : function() {
-      window.enquire.register('(max-width: 767px)', {
-        match : $.proxy(this.toMobile, this)
-      });
 
-      window.enquire.register('(min-width: 767px) and (max-width: 988px)', {
-        match : $.proxy(this.toTablet, this)
-      });
+      // Enquire doesn't exist in old IE, so make sure it's there
+      if ( Modernizr.mediaqueries ) {
 
-      window.enquire.register('(min-width: 1024px)', {
-        match : $.proxy(this.toDesktop, this)
-      }, true);
+        enquire
+          .register('(max-width: 47.9375em)', {
+            match : $.proxy(this.toMobile, this)
+          })
+          .register('(min-width: 48em) and (max-width: 61.1875em)', {
+            match : $.proxy(this.toTablet, this)
+          })
+          .register('(min-width: 64em)', {
+            match : $.proxy(this.toDesktop, this)
+          }, true);
+      } else {
+        this.toDesktop();
+      }
 
       return this;
     },
@@ -110,8 +116,6 @@ define(function(require){
       this.currentHeader = undefined;
       this.headerIsVisible = false;
 
-      $('.scrollable').attr('id', 'scrollable');
-
       this.$fixedHeader.css('left', $(this.$headers[0]).offset().left + 'px');
 
       return this._getHeaderOffsets();
@@ -134,9 +138,11 @@ define(function(require){
 
     // Enables iScroll and makes sure sticky header is correctly aligned.
     enable: function() {
+      // HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!
+      var handler = $.proxy( this.scrollHandler, this );
       this.scroll = new IScroll('scrollable', {
-        onScrollMove: this.scrollHandler.bind(this),
-        onScrollEnd: this.scrollHandler.bind(this)
+        onScrollMove: handler,
+        onScrollEnd: handler
       });
 
       // Align fixed header with other headers
@@ -168,7 +174,7 @@ define(function(require){
           headerIndex = this._indexOfClosestHeader(targetOffset);
 
       // Only update the fixed header if the new header is different.
-      if (headerIndex != this.currentHeader) {
+      if (headerIndex !== this.currentHeader) {
         this.currentHeader = headerIndex;
         $header = $(this.$headers[headerIndex]);
         this.$fixedHeaderTitle.text($header.text());
@@ -217,8 +223,8 @@ define(function(require){
   }
 
   FluidList.prototype = {
-    MEDIA_TAG_ATTR: "data-fluid-list",
-    CONTAINERS_REL_ATTR: "data-fluid-list-containers",
+    MEDIA_TAG_ATTR: 'data-fluid-list',
+    CONTAINERS_REL_ATTR: 'data-fluid-list-containers',
 
     init: function(numGridColumns, $list, minItemsPerContainer) {
       this.$list = $list;
@@ -246,7 +252,7 @@ define(function(require){
     // Gets the containers from the markup. Uses the rel attribute.
     _getContainers: function() {
       var listContainerRel = this.$list.attr(this.CONTAINERS_REL_ATTR);
-      return $("[rel=" + listContainerRel + "]");
+      return $('[rel=' + listContainerRel + ']');
     },
 
     // Maps the containers to their tags.
