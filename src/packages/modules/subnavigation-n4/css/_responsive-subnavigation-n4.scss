@@ -2,6 +2,8 @@
 // Responsive: Reviews + Awards
 // --------------------------------------------------
 
+$maxChildren: 20;
+
 // -----------------------------------------
 // DEFAULT: 980px - 1199px;
 // -----------------------------------------
@@ -285,15 +287,24 @@
   nav {
 
     .container {
-      margin: 0;
+      width: 100%;
+      margin: 0 0 0 1.8%;
 
       .grid {
+        width: 100%;
         margin: 0;
+        text-align: left;
       }
     }
 
     .subnav-nav-carousel-slide {
-      margin-right: -0.5%;
+      width: 80% / $maxChildren;
+      margin: 0 0 0 3% / $maxChildren;
+      text-align: left;
+
+      img {
+        margin: 27px 0 7px;
+      }
     }
   }
 

@@ -712,6 +712,8 @@ define(function(require){
 
     snap: true,
 
+    onlySnapAtEnds: false,
+
     // Should the carousel jump directly to the next slide in either direction?
     jumping: false,
 

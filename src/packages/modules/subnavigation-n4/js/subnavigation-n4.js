@@ -52,12 +52,12 @@ define(function(require){
       var self = this;
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 1023px)", function() {
+        enquire.register("(min-width: 980px)", function() {
           self.mode = 'desktop';
           self.renderSubcats(null, false);
           self.renderNav();
         });
-        enquire.register("(min-width: 480px) and (max-width: 1023px)", function() {
+        enquire.register("(min-width: 480px) and (max-width: 979px)", function() {
           self.mode = 'tablet';
           self.renderSubcats(null, true);
           self.renderNav();
@@ -135,7 +135,7 @@ define(function(require){
 
       self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
         draggable: true,
-        snap: !isMobile,
+        onlySnapAtEnds: isMobile,
         wrapper: '.subnav-nav-carousel-wrapper',
         slides: '.subnav-nav-carousel-slide',
         paddles: !isMobile,
