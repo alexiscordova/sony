@@ -2,8 +2,8 @@
 @import "../../../common/css/_base/mixins";
 
 .editorial-chapters-container {
-  overflow:hidden;
   max-width:100%;
+  @include clearfix();
 
   .image-module {
     text-align:center;
@@ -15,7 +15,7 @@
   }
     .editorial-carousel-wrapper {
       position: relative;
-      overflow: hidden;
+      @include clearfix();
     }
       .editorial-carousel {
         position: relative;
