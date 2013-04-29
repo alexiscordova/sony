@@ -2,14 +2,17 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('error-pages-z18')
 
 .container.error-pages
-  .grid
+  .grid.no-grid-at-767
     .content
-      h2.t2= data.title
-      p= data.subtitle
-
-      if data.errortype == "404" || data.errortype == "500"
-        a.btn.btn-large(href=data.buttonLink)= data.buttonText
-
-      else if data.errortype == '503'
-        .error-box
-          p= data.boxtext
+      .error-content-main.span8
+        .error-content-inner
+          h2.t2= data.title
+          .error-content-paragraph
+            p= data.subtitle
+  
+          if data.errortype == "404" || data.errortype == "500"
+            a.btn.btn-large(href=data.buttonLink)= data.buttonText
+  
+          else if data.errortype == '503'
+            .error-box
+              p= data.boxtext

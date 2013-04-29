@@ -1,11 +1,34 @@
 @import "../../../common/css/_base/variables";
 
-$tabletMin: px-em(979);
+$phoneMax: px-em(767);
+$phone: px-em(568);
 
-@media (min-width:$tabletMin) {
+
+@media (max-width:$phoneMax) {
   .error-pages {
     .content {
-      margin-left: 52px;
+      margin-left: 0;
+      height: auto;
+    }
+    .error-content-main {
+      height: auto;
+      display: table;
+      margin-bottom: 50px;
+    }
+    .error-content-inner {
+      display: table-cell;
+      vertical-align: top;
+      padding: 66px 0 50px 0;
+    }
+    .error-content-paragraph {
+      margin-bottom: 22px;
+    }
+    .error-box {
+        display: inline-block;
+        padding: 11px 15px;
+        background-color: $gray80;
+        color: $gray20;
+        height: auto;
     }
   }
 }
