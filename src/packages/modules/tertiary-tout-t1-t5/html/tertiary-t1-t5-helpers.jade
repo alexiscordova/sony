@@ -11,6 +11,10 @@ mixin copyblock(module)
       p.lt3
         a(href= module.articleLink) Read More
 
+mixin socialButton(link, label)
+  .social-btn
+    a.btn.btn-small(href= link)= label
+
 mixin header(data)
   .tcc-header-wrapper
     .container
@@ -111,22 +115,32 @@ mixin question-extra(data)
     a.btn.btn-small(href= data.answerLink)
       | Answer this Question
 
-mixin sonys-voice(mode, data)
-  +top("fonticon-15-" + mode, data.meta)
+mixin topCenterBottom(mode, data)
+  +top("fonticon-15-" + mode, data)
   +center(mode, data)
   +bottom(mode, data)
 
-mixin top(icon, meta)
+mixin top(icon, data)
+  - meta = data.meta
   .top
     .icon-container
-      .fonticon-10-dot
-      div(class= icon)
+      if(type == "flickr")
+        +flickrIcon()
+      else
+        .fonticon-10-dot
+        div(class= icon)
 
     if (meta)
       .meta
         p.p4
           span.user= meta.user
-          span.timestamp= meta.timestamp
+          
+          if(meta.timestamp)
+            span.timestamp= meta.timestamp
+          
+          //- Flickr 
+          if(meta.title)
+            span.title= meta.title
 
 mixin center(mode, data)
   .center.table-center-wrap
@@ -138,10 +152,26 @@ mixin center(mode, data)
           +facebook(data)
         when "instagram"
           +instagram(data)
+        when "flickr"
+          +flickr(data)
+
+mixin bottom(mode, data)
+  .bottom
+    case mode
+      when "twitter"
+        - label = "Follow Us on Twitter"
+      when "facebook"
+        - label = "Like Us on Facebook"
+      when "instagram"
+        - label = "Follow Us on Instagram"
+      when "flickr"
+        - label = "View Set on Flickr"
+
+    +socialButton( data.socialBtnLink, label )
 
 mixin twitter(data)
-    blockquote.bq4
-      p= data.quote
+  blockquote.bq4
+    p= data.quote
 
 mixin facebook(data)
     .post-image
@@ -160,56 +190,30 @@ mixin instagram(data)
     .right
       .iq-img(data-src-desktop= images[0].srcDesktop, data-src-tablet= images[0].srcTablet, data-src-phone= images[0].srcPhone, data-src-desktop-highres= images[0].srcDesktopHighRes, data-src-tablet-highres= images[0].srcTabletHighRes, data-src-phone-highres= images[0].srcPhoneHighRes)
 
-mixin socialButton(link, label)
-  .social-btn
-    a.btn.btn-small(href= link)= label
+mixin flickrIcon()
+  .bg
+    .fonticon-10-dot
+  .left
+    .fonticon-10-dot
+  .right
+    .fonticon-10-dot
 
-mixin bottom(mode, module)
-  .bottom
-    case mode
-      when "twitter"
-        - label = "Follow Us on Twitter"
-      when "facebook"
-        - label = "Like Us on Facebook"
-      when "instagram"
-        - label = "Follow Us on Instagram"
-
-    +socialButton( module.socialBtnLink, label )
-
-mixin flickr(mode, data)
-  if (mode == "default")
-    .top
-      .icon-container
-        .white-bg.fonticon-10-dot
-        .left.fonticon-10-dot
-        .right.fonticon-10-dot
-
-      .meta.p4
-        for info in data.meta
-          if (info.user)
-            span.user= info.user
-
-          if (info.title)
-            span= info.title
-
-    .center
-      .center-container
-        .top-row
-            - for (i = 0; i <= 2; i++) {
-            if(data.images[i])
-              div
-                +iQImage(data.images[i])
-            -}
-        .bottom-row
-            - for (i = 3; i <= 5; i++) {
-            if(data.images[i])
-              div
-                +iQImage(data.images[i])
-            -}
-    .bottom
-      +socialButton( data.socialBtnLink, "View Set on Flickr" )
-
-
+mixin flickr(data)
+  .flickr-container
+    .top-row
+        - for (i = 0; i <= 2; i++) {
+        if(data.images[i])
+          .iq-img(data-src-desktop= data.images[i].srcDesktop, data-src-tablet= data.images[i].srcTablet, data-src-phone= data.images[i].srcPhone, data-src-desktop-highres= data.images[i].srcDesktopHighRes, data-src-tablet-highres= data.images[i].srcTabletHighRes, data-src-phone-highres= data.images[i].srcPhoneHighRes)
+          //- div
+          //-   +iQImage(data.images[i]s[i])
+        -}
+    .bottom-row
+        - for (i = 3; i <= 5; i++) {
+        if(data.images[i])
+          .iq-img(data-src-desktop= data.images[i].srcDesktop, data-src-tablet= data.images[i].srcTablet, data-src-phone= data.images[i].srcPhone, data-src-desktop-highres= data.images[i].srcDesktopHighRes, data-src-tablet-highres= data.images[i].srcTabletHighRes, data-src-phone-highres= data.images[i].srcPhoneHighRes)
+          //- div
+          //-   +iQImage(data.images[i])
+        -}
 
 
 //- 888888b.          d8888  .d8888b.  888    d8P  888     888 8888888b.        8888888b.  8888888888 8888888888 

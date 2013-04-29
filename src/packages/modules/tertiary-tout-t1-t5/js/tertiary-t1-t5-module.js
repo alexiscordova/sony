@@ -4,12 +4,11 @@
 //
 // * **Module:** Tertiary Module
 // * **Version:** 0.2
-// * **Modified:** 04/11/2013
+// * **Modified:** 04/29/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr, Enquire, [SonyCarousel](sony-carousel.html), 
 
 // //jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html), [sony-scroller.js](sony-scroller.html), [sony-sequencer.js](sony-sequencer.html)
-//
 
 define(function(require){
 
@@ -74,12 +73,10 @@ define(function(require){
           self.renderDesktop();
         });
 
-        // enquire.register("(min-width: 580px) and (max-width: 979px)", function() {
         enquire.register("(min-width: 480px) and (max-width: 979px)", function() {
           self.renderTablet();
         });
 
-        //enquire.register("(max-width: 579px)", function() {
         enquire.register("(max-width: 479px)", function() {
           self.renderMobile();
         });
@@ -156,7 +153,7 @@ define(function(require){
         useCSS3:        self.useCSS3,
         pagination:     true,
         paddles:        true,
-        $dotNavWrapper: self.$carouselWrapper
+        $dotNavWrapper: self.$tcc-module
       });
 
       self.resetSlides();    
@@ -203,7 +200,7 @@ define(function(require){
         useCSS3:        self.useCSS3,
         pagination:     true,
         paddles:        true,
-        $dotNavWrapper: self.$carouselWrapper
+        $dotNavWrapper: self.$el
       });
       
       self.resetSlides();
