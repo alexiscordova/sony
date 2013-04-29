@@ -1,5 +1,4 @@
 /*global log*/
-/*jshint debug:true */
 
 // ------------ Sony Alert ------------
 // Module: Alert Module

@@ -5,14 +5,14 @@ include ../../../common/html/jade-helpers.jade
 section.raa-module
   .container.raa-header
     .grid
-      h2.l1 #{data.config.title}
+      h2.l1 Reviews
 
   .container.raa-content(class=(data.userReviews.count <= 0) ? "no-user-reviews" : "has-user-reviews")(class=(data.expertReviews) ? "has-expert-reviews" : "no-expert-reviews")
 
-    .grid.raa-merged-carousel-wrapper.no-grid-at-567
-      div.raa-merged-carousel.raa-user-reviews.raa-expert-reviews.span12
+    .grid.raa-merged-wrapper.no-grid-at-567
+      div.raa-merged-carousel-wrapper.raa-user-reviews.raa-expert-reviews.span12
         h3.l3
-        div
+        div.raa-merged-carousel
 
     .grid.no-grid-at-567
 
@@ -48,7 +48,7 @@ section.raa-module
                         dt.l3 #{item.name}
                         div.raa-rating-bar
                           div.raa-rating-bar-score(class = "score-" + Math.round(item.score))
-                        dd #{Math.round(item.score)}
+                        dd.t6 #{Math.round(item.score)}
 
                 else
                   div.raa-overall
@@ -79,16 +79,17 @@ section.raa-module
         aside.span4.raa-expert-reviews
           if data.expertReviews
             h3.l3 Experts Say
-            div.reviews
-              div
-                for item in data.expertReviews
-                  div.raa-expert-review(data-header="Experts Say")
-                    a(href=item.link)
-                      img(src=item.logoImage, alt=item.reviewer)
-                    blockquote.bq4.bq3-at-567
-                      p #{item.blurb}
-                    div.p4.lt
-                      a(href=item.link) Read Review
+            div.raa-expert-reviews-wrapper
+              div.reviews
+                div.raa-expert-carousel
+                  for item in data.expertReviews
+                    div.raa-expert-review(data-header="Experts Say")
+                      a(href=item.link)
+                        img(src=item.logoImage, alt=item.reviewer)
+                      blockquote.bq4.bq3-at-567
+                        p #{item.blurb}
+                      div.p4.lt
+                        a(href=item.link) Read Review
 
           if data.awards
             h3.l3 Awards

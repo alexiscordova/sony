@@ -31,6 +31,7 @@
   padding: 0;
   .modal-inner {
     max-width: 1100px;
+    overflow: hidden;
   }
   .modal-header,
   .modal-body {
@@ -46,20 +47,77 @@
     font-size: 0;
   }
   .tabs {
-    overflow: hidden;
     background: #fff;
     margin: 0;
     display: inline-block;
     font-size: 12px;
     li {
       float: left;
-      border-top: 4px solid #f3f4f6;
       &:last-child {
         margin: 0;
       }
-    }
-    .active {
-      border-color: #4e79e6;
+      .fonticon {
+      margin-right:10px;
+      }
+
+      a {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        display: block;
+        @include transition();
+
+        .ghost-center-wrap {
+          height: 95%;
+          position: relative;
+          z-index: 1;
+        }
+
+        span {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 1;
+          background: $linkBlue;
+          width: 100%;
+          height: 5%;
+          display: block;
+
+          @include transition(top .15s linear);
+          @include opacity(0);
+
+        }
+
+        &.light {
+          img {
+            @include opacity(60);
+          }
+        }
+
+        &.dark {
+          img {
+            @include opacity(75);
+          }
+        }
+
+        &.active,
+        &:hover {
+          span {
+            top: -5.8%;
+            @include opacity(100);
+          }
+          img {
+            @include opacity(100);
+          }
+        }
+      }
+      &.active {
+        span {
+            top: -5.8%;
+            @include opacity(100);
+          }
+      }
     }
     a {
       padding:  20px 25px;

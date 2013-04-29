@@ -1,8 +1,12 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-$phoneMax: px-em(767);
 $phone: px-em(568);
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$desktopMin: px-em(980);
+
 
 @media (max-width:$phoneMax) {
   .search-results {
@@ -24,12 +28,18 @@ $phone: px-em(568);
       .search-form {
         margin-bottom: 30px;
       }
+      .search-left {
+        width: 90%;
+      }
       .search {
-        width: 84%;
+        width: 80%;
       }
       .clear-search {
         height: 21px;
         width: 21px;
+        background: url(../img/search-results-z07/icon-erase-mobile.png) no-repeat 0 0;
+      }
+      .clear-search:hover {
         background: url(../img/search-results-z07/icon-erase-mobile.png) no-repeat 0 0;
       }
     }
@@ -82,21 +92,19 @@ $phone: px-em(568);
     .accessories-list {
       margin-bottom: 50px;
     }
-    .accessories-list li:nth-child(3) {
-      clear: left;
-      margin-left: 0;
-    }
-    .accessories-list li:nth-child(1),
-    .accessories-list li:nth-child(2) {
-      margin-bottom: 30px;
-    }
+    
   }
 }
 
-@media (max-width:$phoneMax) {
+@media (max-width:$phone) {
   .search-results {
-    .search {
-        width: 63%;
+    .bar-tone {
+      .search {
+          width: 60%;
       }
+      .search-left {
+        width: 85%;
+      }
+    }
   }
 }

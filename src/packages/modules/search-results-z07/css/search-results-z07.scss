@@ -37,7 +37,7 @@
   }
 
   .media .img-lg {
-      margin-right: 28px;
+      margin-right: 3.52941%;
   }
 
   .media .img img { display:block; }
@@ -56,6 +56,10 @@
     }
     .search-form {
       margin-bottom: 30px;
+      overflow: hidden;
+    }
+    .search-left {
+      float: left;
     }
     .search-label {
       display: inline-block;
@@ -66,7 +70,7 @@
       height: 30px;
     }
     .search {
-      width: 74%;
+      width: 80%;
       padding: 2px;
       margin-right: 10px;
       background-color: transparent;
@@ -76,11 +80,13 @@
     }
     .search:focus {
       outline: none;
-
+    }
+    .search-right {
+      float: right;
     }
     .clear-search {
       display: inline-block;
-      margin-right: 20px;
+      margin-top: 10px;
       height: 34px;
       width: 34px;
       background: url(../../img/search-results-z07/icon-erase.png) no-repeat 0 0;
@@ -175,7 +181,7 @@
     width: 100%;
     overflow: hidden;
   }
-  
+
   .accessories-list li:first-child {
     margin-left: 0;
   }
@@ -189,7 +195,33 @@
     margin-bottom: 10px;
   }
   
-  .slimgrid {
+  .rv-module {
     margin: 0;
+  }
+  
+  .sony-dot-nav {
+    display: none;
+  }
+
+  .rv-module .slimgrid {
+    margin: 0;
+  }
+
+  .sony-carousel-wrapper {
+    height: auto;
+  }
+  .sony-carousel-wrapper.grid {
+    width: 100%;
+  }
+  
+  .product-name {
+    color: $gray20;
+  }
+
+  .rv-module {
+    .container,
+    .slimgrid {
+      width: 100%;
+    }
   }
 }
