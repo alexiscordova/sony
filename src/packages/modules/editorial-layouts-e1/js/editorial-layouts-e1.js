@@ -67,17 +67,21 @@ define(function(require) {
       resizeTouts: function() {
         var self = this;
 
-        //fixes horizontal 2 up layout wraping
+        // Fixes horizontal 2 up layout wraping
         var tc = $('.editorial.tout .m2up .horizontal .table-center-wrap').parent();
         if (tc.length) {
           tc.css('width', tc.parent().width() - tc.prev().width() -2);
         }
 
-        //fixes heights of tout copy across 2up 3up
+        // Fixes heights of tout copy across 2up 3up
         var heightGroup = self.col.find('.copy');
 
-        if (heightGroup.length && Modernizr.mq( '(min-width: 48em)' )) {
-          heightGroup.evenHeights();
+        if (heightGroup.length) {
+          if ( Modernizr.mq( '(min-width: 48em)' ) ) {
+            heightGroup.evenHeights();
+          } else {
+            heightGroup.css( 'height', '' );
+          }
         }
       },
 
@@ -85,7 +89,6 @@ define(function(require) {
         var self = this;
 
         self.collapsableTout.sonyCarousel('destroy');
-        // self.collapsableTout.addClass('grid');
         self.collapsableTout.attr('style', '');
         self.col.addClass(self.colspan);
         if (self.hasOffset1) {
@@ -96,7 +99,6 @@ define(function(require) {
       initMobile: function() {
         var self = this;
 
-        // self.collapsableTout.removeClass('grid');
         self.col.removeClass(self.colspan);
         self.col.removeClass('offset1');
         self.collapsableTout.sonyCarousel({

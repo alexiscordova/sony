@@ -15,6 +15,7 @@ define(function(require){
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
+      hammer = require('plugins/index').hammer,
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
@@ -152,7 +153,7 @@ define(function(require){
       var self = this,
           $buttons = self.$navgroups.find('.grid').children();
 
-      $buttons.on('mouseup touchend', function(){
+      $buttons.hammer().on('tap', function(){
 
         var $this = $(this),
             isActive = $this.hasClass('active');

@@ -117,7 +117,7 @@ define(<span class="keyword">function</span>(require) {
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Init sticky nav</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$stickyNav.stickyNav({
           $jumpLinks: self.$jumpLinks,
           offset: <span class="number">0</span>,
-          offsetTarget: self.$el.find(<span class="string">'.jump-links:not(.nav)'</span>)
+          offsetTarget: self.$el.next()
         });
 
         iQ.update();
