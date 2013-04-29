@@ -1,0 +1,320 @@
+<!DOCTYPE html>  <html> <head>   <title>country-region-selection-z10.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="SEN-convergence-e12.html">                 SEN-convergence-e12.js               </a>                                           <a class="source" href="all-electronics-z04.html">                 all-electronics-z04.js               </a>                                           <a class="source" href="alert-module.html">                 alert-module.js               </a>                                           <a class="source" href="country-region-selection-z10.html">                 country-region-selection-z10.js               </a>                                           <a class="source" href="demo-x99.html">                 demo-x99.js               </a>                                           <a class="source" href="360viewer-controller.html">                 360viewer-controller.js               </a>                                           <a class="source" href="editorial-carousel-e13.html">                 editorial-carousel-e13.js               </a>                                           <a class="source" href="editorial-chapters-e5.html">                 editorial-chapters-e5.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="hotspots-controller.html">                 hotspots-controller.js               </a>                                           <a class="source" href="editorial-layouts-e1.html">                 editorial-layouts-e1.js               </a>                                           <a class="source" href="editorial-slideshows-e4.html">                 editorial-slideshows-e4.js               </a>                                           <a class="source" href="footnotes-module.html">                 footnotes-module.js               </a>                                           <a class="source" href="gallery-g2-g3.html">                 gallery-g2-g3.js               </a>                                           <a class="source" href="global-header-footer.html">                 global-header-footer.js               </a>                                           <a class="source" href="light-compare-d9.html">                 light-compare-d9.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="pdp-slideshow-d4.html">                 pdp-slideshow-d4.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="product-details-d5.html">                 product-details-d5.js               </a>                                           <a class="source" href="product-summary-d1-d2.html">                 product-summary-d1-d2.js               </a>                                           <a class="source" href="recently-viewed.html">                 recently-viewed.js               </a>                                           <a class="source" href="related-products-g1.html">                 related-products-g1.js               </a>                                           <a class="source" href="reviews-awards-d6.html">                 reviews-awards-d6.js               </a>                                           <a class="source" href="secondary-touts-s1-s4.html">                 secondary-touts-s1-s4.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="subnavigation-n4.html">                 subnavigation-n4.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="universal-nav.html">                 universal-nav.js               </a>                                           <a class="source" href="unsupported-z19.html">                 unsupported-z19.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="whats-new-tout-s4.html">                 whats-new-tout-s4.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               country-region-selection-z10.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>-------- Sony Country Region Selection -------
+Module: Country / Region Selection
+Version: 1.0
+Author: Chris Pickett
+Date: 04/10/13</p>
+
+<h2>Dependencies: jQuery 1.7+, sony-iscroll</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+define(<span class="keyword">function</span>(require){
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+      Modernizr = require(<span class="string">'modernizr'</span>),
+      Settings = require(<span class="string">'require/sony-global-settings'</span>),
+      Environment = require(<span class="string">'require/sony-global-environment'</span>),
+      sonyIScroll = require(<span class="string">'plugins/sony-iscroll'</span>),
+      enquire = require(<span class="string">'enquire'</span>);
+
+  <span class="keyword">var</span> COLUMNS_IN_GRID = <span class="number">12</span>;
+  <span class="keyword">var</span> MIN_COUNTRIES_PER_COLUMN = <span class="number">5</span>;
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>View Controller for country / region selection</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> CountryRegionSelection = {
+    init: <span class="keyword">function</span>() {
+      <span class="keyword">this</span>.stickyHeader = <span class="keyword">this</span>.stickyHeader = StickyHeader.init();
+      <span class="keyword">this</span>.$countryLists = $(<span class="string">'.countries &gt; ol'</span>);
+      <span class="keyword">this</span>.fluidLists = <span class="keyword">this</span>.getFluidLists();
+
+      <span class="keyword">return</span> <span class="keyword">this</span>.bind();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Binds enquire handlers to setup page for mobile, tablet and desktop.</p>             </td>             <td class="code">               <div class="highlight"><pre>    bind : <span class="keyword">function</span>() {
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Enquire doesn't exist in old IE, so make sure it's there</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.mediaqueries ) {
+
+        enquire
+          .register(<span class="string">'(max-width: 47.9375em)'</span>, {
+            match : $.proxy(<span class="keyword">this</span>.toMobile, <span class="keyword">this</span>)
+          })
+          .register(<span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span>, {
+            match : $.proxy(<span class="keyword">this</span>.toTablet, <span class="keyword">this</span>)
+          })
+          .register(<span class="string">'(min-width: 64em)'</span>, {
+            match : $.proxy(<span class="keyword">this</span>.toDesktop, <span class="keyword">this</span>)
+          }, <span class="literal">true</span>);
+      } <span class="keyword">else</span> {
+        <span class="keyword">this</span>.toDesktop();
+      }
+
+      <span class="keyword">return</span> <span class="keyword">this</span>;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Gets a FluidList object for each country list.</p>             </td>             <td class="code">               <div class="highlight"><pre>    getFluidLists : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> lists = [];
+
+      <span class="keyword">this</span>.$countryLists.each(<span class="keyword">function</span>(index, list) {
+        lists.push(<span class="keyword">new</span> FluidList(COLUMNS_IN_GRID, $(list), MIN_COUNTRIES_PER_COLUMN));
+      });
+
+      <span class="keyword">return</span> lists;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Calls reset on each FluidList</p>             </td>             <td class="code">               <div class="highlight"><pre>    resetFluidLists : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> i = <span class="number">0</span>,
+          numLists = <span class="keyword">this</span>.fluidLists.length;
+
+      <span class="keyword">for</span> ( ; i &lt; numLists; i += <span class="number">1</span>) {
+        <span class="keyword">this</span>.fluidLists[i].reset();
+      }
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Calls update on each FluidList</p>             </td>             <td class="code">               <div class="highlight"><pre>    updateFluidLists : <span class="keyword">function</span>(tag) {
+      <span class="keyword">var</span> i = <span class="number">0</span>,
+          numLists = <span class="keyword">this</span>.fluidLists.length;
+
+      <span class="keyword">for</span> ( ; i &lt; numLists; i += <span class="number">1</span>) {
+        <span class="keyword">this</span>.fluidLists[i].update(tag);
+      }
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Called when media query matches mobile.</p>             </td>             <td class="code">               <div class="highlight"><pre>    toMobile : <span class="keyword">function</span>() {
+      <span class="keyword">this</span>.stickyHeader.enable();
+      <span class="keyword">this</span>.resetFluidLists();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Called when media query matches tablet.</p>             </td>             <td class="code">               <div class="highlight"><pre>    toTablet : <span class="keyword">function</span>() {
+      <span class="keyword">this</span>.stickyHeader.disable();
+      <span class="keyword">this</span>.updateFluidLists(<span class="string">'tablet'</span>);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Called when media query matches desktop.</p>             </td>             <td class="code">               <div class="highlight"><pre>    toDesktop : <span class="keyword">function</span>() {
+      <span class="keyword">this</span>.stickyHeader.disable();
+      <span class="keyword">this</span>.updateFluidLists(<span class="string">'desktop'</span>);
+    }
+  };
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Handles continent name sticky header for mobile.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> StickyHeader = {
+    init: <span class="keyword">function</span>() {
+      <span class="keyword">this</span>.$fixedHeader = $(<span class="string">'.continent-sticky-header'</span>).hide();
+      <span class="keyword">this</span>.$fixedHeaderTitle = <span class="keyword">this</span>.$fixedHeader.find(<span class="string">'.continent-sticky-header-title'</span>);
+      <span class="keyword">this</span>.$headers = $(<span class="string">'.continent'</span>);
+      <span class="keyword">this</span>.offsets = [];
+      <span class="keyword">this</span>.currentHeader = <span class="literal">undefined</span>;
+      <span class="keyword">this</span>.headerIsVisible = <span class="literal">false</span>;
+
+      <span class="keyword">this</span>.$fixedHeader.css(<span class="string">'left'</span>, $(<span class="keyword">this</span>.$headers[<span class="number">0</span>]).offset().left + <span class="string">'px'</span>);
+
+      <span class="keyword">return</span> <span class="keyword">this</span>._getHeaderOffsets();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Gets the offsets of each of the headers.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getHeaderOffsets: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> offsets = [];
+
+      <span class="keyword">this</span>.$headers.each(<span class="keyword">function</span>(index, header) {
+        <span class="keyword">var</span> $header = $(header);
+        offsets.push($header.offset().top);
+      });
+
+      <span class="keyword">this</span>.offsets = offsets;
+      <span class="keyword">this</span>.lastScrollOffset = <span class="number">0</span>;
+
+      <span class="keyword">return</span> <span class="keyword">this</span>;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Enables iScroll and makes sure sticky header is correctly aligned.</p>             </td>             <td class="code">               <div class="highlight"><pre>    enable: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> handler = $.proxy( <span class="keyword">this</span>.scrollHandler, <span class="keyword">this</span> );
+      <span class="keyword">this</span>.scroll = <span class="keyword">new</span> IScroll(<span class="string">'scrollable'</span>, {
+        onScrollMove: handler,
+        onScrollEnd: handler
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Align fixed header with other headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">this</span>.$fixedHeader.css(<span class="string">'left'</span>, $(<span class="keyword">this</span>.$headers[<span class="number">0</span>]).offset().left + <span class="string">'px'</span>);
+
+      <span class="keyword">return</span> <span class="keyword">this</span>;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Hides the fixed header and destroys the iscroll.</p>             </td>             <td class="code">               <div class="highlight"><pre>    disable: <span class="keyword">function</span>() {
+      <span class="keyword">this</span>.$fixedHeader.hide();
+
+      <span class="keyword">if</span> (<span class="keyword">this</span>.scroll) {
+        <span class="keyword">this</span>.scroll.destroy();
+      }
+
+      <span class="keyword">return</span> <span class="keyword">this</span>;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Called by iScroll when a scroll event happens.</p>             </td>             <td class="code">               <div class="highlight"><pre>    scrollHandler: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> offsetTarget = Math.abs(<span class="keyword">this</span>.scroll.y); <span class="comment">// iScroll.y is negative</span>
+      <span class="keyword">this</span>.updateFixedHeader(offsetTarget);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Updates the fixed header with the title of the closest header.</p>             </td>             <td class="code">               <div class="highlight"><pre>    updateFixedHeader: <span class="keyword">function</span>(targetOffset) {
+      <span class="keyword">var</span> $header,
+          headerIndex = <span class="keyword">this</span>._indexOfClosestHeader(targetOffset);
+
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Only update the fixed header if the new header is different.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (headerIndex !== <span class="keyword">this</span>.currentHeader) {
+        <span class="keyword">this</span>.currentHeader = headerIndex;
+        $header = $(<span class="keyword">this</span>.$headers[headerIndex]);
+        <span class="keyword">this</span>.$fixedHeaderTitle.text($header.text());
+
+        <span class="keyword">if</span> (!<span class="keyword">this</span>.headerIsVisible) {
+          <span class="keyword">this</span>.$fixedHeader.stop().show();
+          <span class="keyword">this</span>.headerIsVisible = <span class="literal">true</span>;
+        }
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Hide the fixed header if there is no header to display.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (headerIndex === -<span class="number">1</span> &amp;&amp; <span class="keyword">this</span>.headerIsVisible) {
+          <span class="keyword">this</span>.$fixedHeader.stop().hide();
+          <span class="keyword">this</span>.headerIsVisible = <span class="literal">false</span>;
+      }
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Gets the index of the closest header to the target offset.
+Closest being the header that is not in view (a negative offset) and nearest to the target offset.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _indexOfClosestHeader: <span class="function"><span class="keyword">function</span> <span class="params">(targetOffset)</span> {</span>
+      <span class="keyword">var</span> headerIndex = -<span class="number">1</span>,
+          i = <span class="number">0</span>,
+          numHeaders = <span class="keyword">this</span>.$headers.length,
+          offset,
+          closestOffset;
+
+      <span class="keyword">for</span> (; i &lt; numHeaders; i += <span class="number">1</span>) {
+        offset = <span class="keyword">this</span>.offsets[i] - targetOffset;
+        <span class="keyword">if</span> (offset &lt; <span class="number">0</span> &amp;&amp; (offset &gt; closestOffset || !closestOffset)) {
+          closestOffset = offset;
+          headerIndex = i;
+        }
+      }
+
+      <span class="keyword">return</span> headerIndex;
+    }
+  };
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>FluidList
+Takes a html list and will make it fit into the given containers</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>FluidList constructor</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="function"><span class="keyword">function</span> <span class="title">FluidList</span><span class="params">(numGridColumns, $list, minItemsPerContainer)</span> {</span>
+    <span class="keyword">return</span> <span class="keyword">this</span>.init(numGridColumns, $list, minItemsPerContainer);
+  }
+
+  FluidList.prototype = {
+    MEDIA_TAG_ATTR: <span class="string">'data-fluid-list'</span>,
+    CONTAINERS_REL_ATTR: <span class="string">'data-fluid-list-containers'</span>,
+
+    init: <span class="keyword">function</span>(numGridColumns, $list, minItemsPerContainer) {
+      <span class="keyword">this</span>.$list = $list;
+      <span class="keyword">this</span>.numGridColumns = numGridColumns;
+      <span class="keyword">this</span>.items = <span class="keyword">this</span>._getItemsInList();
+      <span class="keyword">this</span>.$containers = <span class="keyword">this</span>._getContainers();
+      <span class="keyword">this</span>.containersMap = <span class="keyword">this</span>._getContainersMap();
+      <span class="keyword">this</span>.minItemsPerContainer = minItemsPerContainer || <span class="number">0</span>;
+
+      <span class="keyword">return</span> <span class="keyword">this</span>;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Gets an array of the items in the list.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getItemsInList: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> items = [];
+
+      <span class="keyword">this</span>.$list.find(<span class="string">'li'</span>).each(<span class="keyword">function</span>(index, element) {
+        <span class="keyword">var</span> $item = $(element);
+        items.push($item);
+      });
+
+      <span class="keyword">return</span> items;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Gets the containers from the markup. Uses the rel attribute.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getContainers: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> listContainerRel = <span class="keyword">this</span>.$list.attr(<span class="keyword">this</span>.CONTAINERS_REL_ATTR);
+      <span class="keyword">return</span> $(<span class="string">'[rel='</span> + listContainerRel + <span class="string">']'</span>);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Maps the containers to their tags.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getContainersMap: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> tagAttr = <span class="keyword">this</span>.MEDIA_TAG_ATTR,
+          $list = <span class="keyword">this</span>.$list,
+          containersMap = {};
+
+      <span class="keyword">this</span>.$containers.each(<span class="keyword">function</span>(index, element) {
+        <span class="keyword">var</span> $container = $(element),
+            tags = $container.attr(tagAttr).split(<span class="string">','</span>),
+            tag,
+            $containerList = $list.clone().empty();
+
+        <span class="keyword">for</span>( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; tags.length; i += <span class="number">1</span> ) {
+          tag = tags[i];
+          <span class="keyword">if</span> (!containersMap[tag]) {
+            containersMap[tag] = [];
+          }
+
+          $container.append($containerList);
+          containersMap[tag].push({
+            $container: $container,
+            $list: $containerList
+          });
+        }
+      });
+
+      <span class="keyword">return</span> containersMap;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Returns the correct set of containers for the given tag.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getContainersForTag: <span class="keyword">function</span>(tag) {
+        <span class="keyword">return</span> <span class="keyword">this</span>.containersMap[tag];
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Reflows the items to fit into the containers for the given tag.</p>             </td>             <td class="code">               <div class="highlight"><pre>    update: <span class="keyword">function</span>(tag) {
+      <span class="keyword">var</span> containers = <span class="keyword">this</span>._getContainersForTag(tag),
+          containerWidth = <span class="keyword">this</span>.numGridColumns / containers.length,
+          itemsPerContainer = Math.ceil(<span class="keyword">this</span>.items.length / containers.length),
+          spanClass = <span class="string">'span'</span> + containerWidth,
+          container,
+          i = <span class="number">0</span>,
+          j = <span class="number">0</span>,
+          max = <span class="number">0</span>;
+
+      <span class="keyword">if</span> (<span class="keyword">this</span>.minItemsPerContainer &amp;&amp; itemsPerContainer &lt; <span class="keyword">this</span>.minItemsPerContainer) {
+        itemsPerContainer = <span class="keyword">this</span>.minItemsPerContainer;
+      }
+
+      <span class="keyword">this</span>._resetContainers();
+
+      <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; containers.length; i += <span class="number">1</span>) {
+        container = containers[i];
+        container.$container.addClass(spanClass);
+
+        j = i * itemsPerContainer;
+        max = j + itemsPerContainer;
+
+        <span class="keyword">for</span> (; j &lt; max; j += <span class="number">1</span>) {
+          <span class="keyword">if</span> (j &lt; <span class="keyword">this</span>.items.length) {
+            containers[i].$list.append(<span class="keyword">this</span>.items[j]);
+          }
+        }
+      }
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Removes the items from the containers and puts them back into the initial list and makes sure that span classes are removed from the containers.</p>             </td>             <td class="code">               <div class="highlight"><pre>    reset: <span class="keyword">function</span>() {
+      <span class="keyword">return</span> <span class="keyword">this</span>._resetItems()._resetContainers();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Removes the items from the containers and puts them back into the initial list.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _resetItems: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> i = <span class="number">0</span>,
+          numItems = <span class="keyword">this</span>.items.length;
+
+      <span class="keyword">for</span>( ; i &lt; numItems; i += <span class="number">1</span>) {
+        <span class="keyword">this</span>.items[i].appendTo(<span class="keyword">this</span>.$list);
+      }
+
+      <span class="keyword">return</span> <span class="keyword">this</span>;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Removes all classes from the containers</p>             </td>             <td class="code">               <div class="highlight"><pre>    _resetContainers: <span class="keyword">function</span>() {
+      <span class="keyword">this</span>.$containers.removeClass();
+      <span class="keyword">return</span> <span class="keyword">this</span>;
+    }
+  };
+
+  <span class="keyword">return</span> CountryRegionSelection;
+});
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

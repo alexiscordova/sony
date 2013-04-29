@@ -1,5 +1,6 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('search-results')
++includeCSS('recently-viewed')
 +includeJavascriptModule('recently-viewed')
 
 
@@ -18,14 +19,25 @@ include ../../../common/html/jade-helpers.jade
   .accessories-hd
     h4.l3= data.results.product.popularAccessoriesTitle
     .rv-module
-      each slide in slides
-        if slide.length > 0
-          .sony-carousel-slide
-            each module in slide
-              d = locals.data( module.data )
-              - d.view = "simple"
-              e = { "locals" : locals, "data" : d }
-              !{locals.partial( module.type, e )}
+      .container.m-container
+        .sony-carousel-wrapper
+          .sony-carousel
+
+            slides = [ [], [], [], [], [], [] ]
+            each accessory, i in data.results.product.popularAccessories
+              index = Math.floor( i / 6 )
+              - slides[ index ].push( accessory )
+
+            each slide in slides
+              if slide.length > 0
+                .sony-carousel-slide
+                  .container
+                    .slimgrid
+                      each accessory in slide
+                        d = accessory
+                        - d.view = "simple"
+                        e = { "locals" : locals, "data" : d }
+                        !{locals.partial( accessory.type, e )}
 
 ul.results-list
   each item in data.results.items
