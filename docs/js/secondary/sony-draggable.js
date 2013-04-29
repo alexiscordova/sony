@@ -391,8 +391,13 @@ define(function(require){
         sonyDraggable = self.data('sonyDraggable');
 
       if ( !sonyDraggable ) {
-          sonyDraggable = new SonyDraggable( self, options );
-          self.data( 'sonyDraggable', sonyDraggable );
+
+        if ( typeof options === 'string' ) {
+          return;
+        }
+
+        sonyDraggable = new SonyDraggable( self, options );
+        self.data( 'sonyDraggable', sonyDraggable );
       }
 
       if ( typeof options === 'string' ) {
