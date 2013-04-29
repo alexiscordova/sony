@@ -27,14 +27,18 @@ mixin header(_data)
   else
     h1!= d.headline
 
-mixin bodytext(_data, _extra)
+mixin bodytext(_data, _extra, _altbody)
   d = _data ? _data : data
   e = _extra ? _extra : ""
+  a = _altbody ? _altbody : ""
   if d.variation
     if d.variation.headertext == "larger"
       e = e + " hidden-phone"
   if d.body
-    p.p3(class= e)!= d.body
+    if a == ""
+      p.p3(class= e)!= d.body
+    else
+      p(class= e)(class= a)!= d.body
 
 mixin links(_data, _extra)
   d = _data ? _data : data
@@ -149,7 +153,7 @@ mixin boxlayout(_layout, _style)
     +boxlayout(data.layout, style)
       +eyebrow
       +header
-      +bodytext
+      +bodytext(data, "", "p2")
       +links
   else if data.mode == "product-intro-plate"
     +boxlayout
