@@ -15,6 +15,7 @@ define(<span class="keyword">function</span>(require){
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
       Modernizr = require(<span class="string">'modernizr'</span>),
       enquire = require(<span class="string">'enquire'</span>),
+      hammer = require(<span class="string">'plugins/index'</span>).hammer,
       Settings = require(<span class="string">'require/sony-global-settings'</span>),
       Utilities = require(<span class="string">'require/sony-global-utilities'</span>),
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
@@ -152,7 +153,7 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $buttons = self.$navgroups.find(<span class="string">'.grid'</span>).children();
 
-      $buttons.on(<span class="string">'mouseup touchend'</span>, <span class="keyword">function</span>(){
+      $buttons.hammer().on(<span class="string">'tap'</span>, <span class="keyword">function</span>(){
 
         <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
             isActive = $<span class="keyword">this</span>.hasClass(<span class="string">'active'</span>);
