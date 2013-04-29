@@ -50,7 +50,6 @@ define(function(require){
 
     },
     
-    .
     _closeAlert: function(event) {
       var el = event.target, 
           self = this,
