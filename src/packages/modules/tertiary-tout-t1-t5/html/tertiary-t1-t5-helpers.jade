@@ -1,15 +1,15 @@
-mixin copyblock(module)
+mixin copyblock(data)
   .tcc-copy
-    if (module.title)
+    if (data.title)
       p.p2
-        strong= module.title
+        strong= data.title
 
-    if (module.bodyCopy)
-      p.p4= module.bodyCopy
+    if (data.bodyCopy)
+      p.p4= data.bodyCopy
 
-    if (module.articleLink)
+    if (data.articleLink)
       p.lt3
-        a(href= module.articleLink) Read More
+        a(href= data.articleLink)= data.linkTitle
 
 mixin socialButton(link, label)
   .social-btn
@@ -57,7 +57,7 @@ mixin featured(data)
   .copy.dark-box.light-text
     p.t5-light= data.title
     p.lt3
-      a(href= data.articleLink) Read More
+      a(href= data.articleLink)= data.linkTitle
 
 mixin users-voice(mode, data)
   if(data.mode == "question")
@@ -108,12 +108,10 @@ mixin author-default(mode, author)
 
 mixin question-extra(data)
   .lt3
-    a(href= data.repliesLink)
-      | See Replies
+    a(href= data.repliesLink)= data.linkTitle
 
   .answer-btn
-    a.btn.btn-small(href= data.answerLink)
-      | Answer this Question
+    a.btn.btn-small(href= data.answerLink)= data.answerLinkTitle
 
 mixin topCenterBottom(mode, data)
   +top("fonticon-15-" + mode, data)
@@ -214,177 +212,3 @@ mixin flickr(data)
           //- div
           //-   +iQImage(data.images[i])
         -}
-
-
-//- 888888b.          d8888  .d8888b.  888    d8P  888     888 8888888b.        8888888b.  8888888888 8888888888 
-//- 888  "88b        d88888 d88P  Y88b 888   d8P   888     888 888   Y88b       888   Y88b 888        888        
-//- 888  .88P       d88P888 888    888 888  d8P    888     888 888    888       888    888 888        888        
-//- 8888888K.      d88P 888 888        888d88K     888     888 888   d88P       888   d88P 8888888    8888888    
-//- 888  "Y88b    d88P  888 888        8888888b    888     888 8888888P"        8888888P"  888        888        
-//- 888    888   d88P   888 888    888 888  Y88b   888     888 888              888 T88b   888        888        
-//- 888   d88P  d8888888888 Y88b  d88P 888   Y88b  Y88b. .d88P 888              888  T88b  888        888        
-//- 8888888P"  d88P     888  "Y8888P"  888    Y88b  "Y88888P"  888              888   T88b 8888888888 888  
-
-
-//- mixin articleDefault(module)
-//-   .img-container
-//-     .img-wrap
-//-       //- assumes there only ever be one image
-//-       +iQImage(module.images[0],'tcc-image')
-
-//- mixin articleNews(module)
-//-   .img-container
-//-     .img-wrap
-//-       //- assumes there only ever be one image
-//-       +iQImage(module.images[0],'tcc-image')
-//-       p.news-date.l3-light= module.date
-
-//- mixin articleEvent(module)
-//-   //- assumes there only ever be one image
-//-   .img-container.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
-//-     .attendance-count
-//-       .details
-//-         p.t3= module.attendanceCount
-//-         p.l3-light attending
-
-//- mixin articleFeatured(module)
-//-   //- assumes there only ever be one image
-//-   .featured-image.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
-//-   article
-//-     .feature-copy.light-text-dark-box
-//-       p.t5-light= module.title
-//-       p.lt3
-//-         a(href= module.articleLink) Read More
-
-//- mixin expertQuote(module)
-//-   .title.l3= module.title
-
-//-   blockquote.bq3
-//-     p= module.quote
-
-//-   .credits
-//-     .avatar
-//-       +iQImage(module.images[0],'tcc-image')
-//-     p.author.p4
-//-       a(href= module.author.link)= module.author.name
-
-//- mixin userQuote(module)
-//-   .title.l3= module.title
-
-//-   blockquote.bq3
-//-     p= module.quote
-
-//-   .credits
-//-     .avatar
-//-       +iQImage(module.images[0],'tcc-image')
-
-//-     p.handle.p4
-//-       a(href= module.author.link)= module.author.handle
-
-//-     p.author.p4= module.author.name
-
-//- mixin question(module)
-//-   .credits
-//-     .avatar
-//-       +iQImage(module.images[0],'tcc-image')
-
-//-     p.author.p4
-//-       a(href= module.author.link)
-//-         | #{module.author.handle}
-//-       | #{module.title}
-
-//-   blockquote.bq3
-//-     p
-//-       | #{module.question}
-
-//-   p.lt3
-//-     a(href= module.repliesLink)
-//-       | See Replies
-
-//-   .answer-btn
-//-     a.btn.btn-small(href= module.answerLink)
-//-       | Answer this Question
-
-//- mixin twitter(module)
-//-   blockquote.bq4
-//-     p= module.quote
-
-//- mixin facebook(module)
-//-   .post-image
-//-     +iQImage(module.images[0],'tcc-image')
-
-//-   blockquote.post-copy.bq6
-//-       p= module.postCopy
-//-         a= module.postLink
-
-//- mixin instagram(module)
-//-   div.left
-//-     div.tcc-image(data-src-desktop= module.images[1].srcDesktop, data-src-tablet= module.images[1].srcTablet, data-src-phone= module.images[1].srcPhone, data-src-desktop-highres= module.images[1].srcDesktopHighRes, data-src-tablet-highres= module.images[1].srcTabletHighRes, data-src-phone-highres= module.images[1].srcPhoneHighRes)
-//-     div.tcc-image.last(data-src-desktop= module.images[2].srcDesktop, data-src-tablet= module.images[2].srcTablet, data-src-phone= module.images[2].srcPhone, data-src-desktop-highres= module.images[2].srcDesktopHighRes, data-src-tablet-highres= module.images[2].srcTabletHighRes, data-src-phone-highres= module.images[2].srcPhoneHighRes)
-//-   div.right
-//-     div.tcc-image(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
-
-//- mixin sonysVoiceTop(icon, meta)
-//-   .icon-container
-//-     .white-bg.fonticon-10-dot
-//-     div(class= icon)
-
-//-   if (meta)
-//-     .meta
-//-       p.p4
-//-         span.user= meta.user
-//-         span.timestamp= meta.timestamp
-
-//- mixin sonysVoiceCenter(mode, module)
-//-   .center-container
-//-     case mode
-//-       when "twitter"
-//-         +twitter(module)
-//-       when "facebook"
-//-         +facebook(module)
-//-       when "instagram"
-//-         +instagram(module)
-
-//- mixin sonysVoiceBottom(mode, module)
-//-   case mode
-//-     when "twitter"
-//-       - label = "Follow Us on Twitter"
-//-     when "facebook"
-//-       - label = "Like Us on Facebook"
-//-     when "instagram"
-//-       - label = "Follow Us on Instagram"
-
-//-   +socialButton( module.socialBtnLink, label )
-
-//- mixin flickrContent(meta, images, btnLink, btnLabel)
-//-   if (contentMode == "default")
-//-     .top
-//-       .icon-container
-//-         .white-bg.fonticon-10-dot
-//-         .left.fonticon-10-dot
-//-         .right.fonticon-10-dot
-
-//-       .meta.p4
-//-         for info in meta
-//-           if (info.user)
-//-             span.user= info.user
-
-//-           if (info.title)
-//-             span= info.title
-
-//-     .center
-//-       .center-container
-//-         .top-row
-//-             - for (i = 0; i <= 2; i++) {
-//-             if(images[i])
-//-               div
-//-                 +iQImage(images[i],'tcc-image')
-//-             -}
-//-         .bottom-row
-//-             - for (i = 3; i <= 5; i++) {
-//-             if(images[i])
-//-               div
-//-                 +iQImage(images[i],'tcc-image')
-//-             -}
-//-     .bottom
-//-       +socialButton( btnLink, btnLabel )

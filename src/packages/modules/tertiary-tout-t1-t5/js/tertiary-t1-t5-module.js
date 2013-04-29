@@ -155,8 +155,6 @@ define(function(require){
         paddles:        true,
         $dotNavWrapper: self.$tcc-module
       });
-
-      self.resetSlides();    
     },
 
     renderMobile: function() {
@@ -202,13 +200,7 @@ define(function(require){
         paddles:        true,
         $dotNavWrapper: self.$el
       });
-      
-      self.resetSlides();
-    },
 
-    resetSlides : function(){
-      var self = this;
-      self.$tccCarousel.sonyCarousel('resetSlides');
     },
 
     updateId : function(newID){
@@ -216,13 +208,13 @@ define(function(require){
       self.$carouselWrapper.parent().attr("id",newID);
     },
 
-    updateSpans : function(updateClass){
+    updateSpans : function(newClass){
       var self = this;    
       self.$el
         .find(self.slideClass)
         .find('.span4, .span6, .span12')
         .removeClass('span4 span6 span12')
-        .addClass(updateClass);
+        .addClass(newClass);
     }
   };
 
