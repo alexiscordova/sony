@@ -1,14 +1,20 @@
 mixin doccoModules()
-  for name in locals.doccoModules()
-    li: a( href = 'docco/modules/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+  doccoModules = locals.doccoModules()
+  for name in doccoModules
+    title = name.replace(/.html/g, '').replace(/-/g, ' ')
+    a( href = 'docco/modules/' + name, title=title) !{ title }
 
 mixin doccoSecondary()
-  for name in locals.doccoSecondary()
-    li: a( href = 'docco/secondary/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+  doccoSecondary = locals.doccoSecondary()
+  for name in doccoSecondary
+    title = name.replace(/.html/g, '').replace(/-/g, ' ')
+    a( href = 'docco/secondary/' + name, title=title) !{ title }
 
 mixin doccoGlobal()
-  for name in locals.doccoGlobal()
-    li: a( href = 'docco/global/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+  doccoGlobal = locals.doccoGlobal()
+  for name in doccoGlobal
+    title = name.replace(/.html/g, '').replace(/-/g, ' ')
+    a( href = 'docco/global/' + name, title=title) !{ title }
 
 include ../../common/html/ieconditionals.html
 doctype 5
@@ -17,24 +23,31 @@ include docs-head.html
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
   include docs-nav.html
 
-  .jumbotron.subhead
-    .container-px-width
-      h1.bs-docs-heading JS Documentation
-      p.p1
-        | Documentation for each class may be found on the links below.
+  header.jumbotron.subhead#overview
+    .container
+      .grid.no-grid-at-767
+        h1 JS Documentation
+        p Documentation for each class may be found on the links below.
 
-  .container-px-width
-    h3 Global Classes
-    ul
-      +doccoGlobal()
+  .container
+    .grid.no-grid-at-767
+      .span4
+        h3 Global Classes
+        hr
+        .module-nav
+          +doccoGlobal()
 
-    h3 Modules
-    ul
-      +doccoModules()
+      .span4
+        h3 Modules
+        hr
+        .module-nav
+          +doccoModules()
 
-    h3 Secondary Classes
-    ul
-      +doccoSecondary()
+      .span4
+        h3 Secondary Classes
+        hr
+        .module-nav
+          +doccoSecondary()
 
   include docs-foot.html
 </html>
