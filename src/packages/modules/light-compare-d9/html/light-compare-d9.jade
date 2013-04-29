@@ -29,7 +29,10 @@ section.container.full-bleed
             - each tab, i in data.tabs
               - var klass = (i === 0 ? 'active' : '')
               li(class= klass, data-target= tab.id, data-toggle="tab", data-hash="true")
-                a(href="#")= tab.tabname
+                a(href="#")
+                  span.active-highlight
+                  i.fonticon.fonticon-10-square-neg-plus
+                  = tab.tabname
         - each tab, i in data.tabs
           if i === 0
             - var klasses = "tab-pane fade in active";
