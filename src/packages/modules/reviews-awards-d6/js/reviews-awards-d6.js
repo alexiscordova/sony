@@ -95,18 +95,25 @@ define(function(require){
 
       self.reloadCached();
 
-      self.$userReviewCarousel = self.$el.find('.carousel-slide').sonyCarousel({
+      self.$userReviewCarousel = self.$el.find('.carousel-slide');
+
+      self.$userReviewCarousel.sonyCarousel({
         wrapper: '.raa-user-reviews-carousel',
         slides: '.user-ratings, .raa-social-mention',
         pagination: true,
-        $dotNavWrapper: self.$el.find('.raa-user-reviews-carousel')
+        $dotNavWrapper: self.$el.find('.raa-user-reviews-carousel'),
+        paddles: true,
+        useSmallPaddles: true
       });
 
-      self.$expertReviewCarousel = self.$el.find('.raa-expert-reviews .reviews > div').sonyCarousel({
+      self.$expertReviewCarousel = self.$el.find('.raa-expert-carousel').sonyCarousel({
         wrapper: '.raa-expert-reviews .reviews',
         slides: '.raa-expert-review',
         pagination: true,
-        $dotNavWrapper: self.$el.find('.raa-expert-reviews .reviews')
+        $dotNavWrapper: self.$el.find('.raa-expert-reviews .reviews'),
+        paddles: true,
+        useSmallPaddles: true,
+        $paddleWrapper: self.$el.find('.raa-expert-reviews-wrapper')
       });
     },
 
@@ -116,7 +123,7 @@ define(function(require){
 
       self.reloadCached();
 
-      self.$mergedCarousel = self.$el.find('.raa-merged-carousel > div');
+      self.$mergedCarousel = self.$el.find('.raa-merged-carousel');
       self.$mergedCarouselHeader = self.$mergedCarousel.parent().find('h3');
 
       self.$el.find('.raa-expert-review, .user-ratings, .raa-social-mention').each(function(){
@@ -126,7 +133,7 @@ define(function(require){
       self.$mergedCarousel.append(self.$el.find('.raa-awards'));
 
       self.$mergedCarousel.sonyCarousel({
-        wrapper: '.raa-merged-carousel',
+        wrapper: '.raa-merged-carousel-wrapper',
         slides: '.raa-expert-review, .user-ratings, .raa-social-mention, .raa-awards',
         pagination: true
       });
