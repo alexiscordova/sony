@@ -193,9 +193,9 @@
 
   .raa-user-reviews {
 
-    .raa-overall,
+    .raa-overall > div,
     .raa-breakdown,
-    .raa-social-mention aside {
+    .raa-social-mention blockquote {
       width: 81%;
       margin: 0 auto;
     }
@@ -256,12 +256,25 @@
 
 @media (max-width: 567px) {
 
+  .raa-social-mention {
+    display: table;
+
+    > aside {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
   .raa-user-reviews {
 
     .raa-user-reviews-carousel {
       border-right: none;
     }
 
+  }
+
+  .raa-awards {
+    padding-top: 12px;
   }
 
   .raa-module {
