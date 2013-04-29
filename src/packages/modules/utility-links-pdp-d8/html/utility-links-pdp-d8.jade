@@ -9,37 +9,58 @@ section.container.full-bleed-no-max.m-full-bleed.phone-at-567.ulinks-pdp-wrapper
         img(class=image.classes, data-src-desktop=image.srcDesktop, data-src-tablet=image.srcTablet, data-src-phone=image.srcPhone, data-src-desktop-highres=image.srcDesktopHighRes, data-src-tablet-highres=image.srcTabletHighRes, data-src-phone-highres=image.srcPhoneHighRes)
         noscript
           img(src=image.noscriptsrc)
-      .span3.mobile-container-padded.pdp-col1
-        .t7.pdp-help-title #{data.header}
-        - col1data = ( data.links.length > 3 ) ? 3 : data.links.length
-        - for(var i = 0; i < col1data; i++)
-          linkLabel = data.links[ i ].label
-          linkUrl = data.links[i].url
-          if ( i < 2 )
+      
+      if data.links.length == 5
+        .span3.mobile-container-padded.pdp-col1
+          .t7.pdp-help-title #{data.header}
+          - col1data = ( data.links.length > 3 ) ? 3 : data.links.length
+          - for(var i = 0; i < col1data; i++)
+            linkLabel = data.links[ i ].label
+            linkUrl = data.links[i].url
+            if ( i < 2 )
+              div
+                a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+            else
+              div.show-at-980
+                a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+  
+        .span3.mobile-container-padded.no-header.pdp-col2
+          - col2data = ( data.links.length > 5 ) ? 5 : data.links.length
+          - for(var i = 2; i < col2data; i++)
+            linkLabel = data.links[i].label
+            linkUrl = data.links[i].url
+            if i == 2
+              div.hide-at-980
+                a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+            else if i == 3
+              div
+                a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+            else
+              div.show-at-980
+                a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+  
+        .span3.mobile-container-padded.no-header.pdp-col3
+          - col3data = ( data.links.length == 5 ) ? 5 : 4
+          - for(var i = 4; i < col3data; i++)
+            linkLabel = data.links[i].label
             div
               a(href=linkUrl).pdp-help.lt3 #{linkLabel}
-          else
-            div.show-at-980
-              a(href=linkUrl).pdp-help.lt3 #{linkLabel}
-
-      .span3.mobile-container-padded.no-header.pdp-col2
-        - col2data = ( data.links.length > 5 ) ? 5 : data.links.length
-        - for(var i = 2; i < col2data; i++)
-          linkLabel = data.links[i].label
-          linkUrl = data.links[i].url
-          if i == 2
-            div.hide-at-980
-              a(href=linkUrl).pdp-help.lt3 #{linkLabel}
-          else if i == 3
+      else
+        .span3.mobile-container-padded.pdp-col1
+          .t7.pdp-help-title #{data.header}
+          - col1data = ( data.links.length > 2 ) ? 2 : data.links.length
+          - for(var i = 0; i < col1data; i++)
+            linkLabel = data.links[ i ].label
+            linkUrl = data.links[i].url
             div
               a(href=linkUrl).pdp-help.lt3 #{linkLabel}
-          else
-            div.show-at-980
+  
+        .span3.mobile-container-padded.no-header.pdp-col2
+          - col2data = ( data.links.length > 4 ) ? 4 : data.links.length
+          - for(var i = 2; i < col2data; i++)
+            linkLabel = data.links[i].label
+            linkUrl = data.links[i].url
+            div
               a(href=linkUrl).pdp-help.lt3 #{linkLabel}
-
-      .span3.mobile-container-padded.no-header.pdp-col3
-        - col3data = ( data.links.length == 5 ) ? 5 : 4
-        - for(var i = 4; i < col3data; i++)
-          linkLabel = data.links[i].label
-          div
-            a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+  
+        .span3.mobile-container-padded.no-header.pdp-col3
