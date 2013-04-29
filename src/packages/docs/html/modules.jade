@@ -1,9 +1,11 @@
 mixin demos()
   lastPageTitle = null;
   demos = locals.demos()
+  - demos.sort( function(a, b) { if (a.toLowerCase() < b.toLowerCase()) return -1; if (a.toLowerCase() > b.toLowerCase()) return 1; return 0; })
   for name in demos
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ demo/, '')
-    prefix = title.substring( 0, title.indexOf(' ') )
+    firstSpace = title.indexOf(' ')
+    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
     if lastPageTitle != null && lastPageTitle != prefix
       hr
     a( href = '../build/debug/' + name, title=title) !{ title }
@@ -15,7 +17,8 @@ mixin demosGenerated()
   generatedDemos = locals.generateddemos()
   for name in generatedDemos
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ demo/, '')
-    prefix = title.substring( 0, title.indexOf(' ') )
+    firstSpace = title.indexOf(' ')
+    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
     if lastPageTitle != null && lastPageTitle != prefix
       hr
     a( href = '../build/debug/' + name, title=title) !{ title }
@@ -27,7 +30,8 @@ mixin layouts()
   layouts = locals.layouts()
   for name in layouts
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ layouts/, '')
-    prefix = title.substring( 0, title.indexOf(' ') )
+    firstSpace = title.indexOf(' ')
+    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
     if lastPageTitle != null && lastPageTitle != prefix
       hr
     a( href = '../build/debug/' + name, title=title) !{ title }
@@ -38,7 +42,8 @@ mixin demoStyles()
   demoStyles = locals.demostyles()
   for name in demoStyles
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ styles/, '')
-    prefix = title.substring( 0, title.indexOf(' ') )
+    firstSpace = title.indexOf(' ')
+    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
     if lastPageTitle != null && lastPageTitle != prefix
       hr
     a( href = '../build/debug/' + name, title=title) !{ title }
@@ -60,26 +65,22 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
 
   .container
     .grid.no-grid-at-767
-      .span3
-        h3 Demos
+      .span4
+        h3 Single Module Demos
         hr
         nav.module-nav
           +demos()
-
-      .span3
-        h3 Generated Demos
-        hr
-        nav.module-nav
+          hr
           +demosGenerated()
 
-      .span3
-        h3 Module Layouts
+      .span4
+        h3 Module Modes
         hr
         nav.module-nav
           +layouts()
 
-      .span3
-        h3 Module Styles
+      .span4
+        h3 Module Variations
         hr
         nav.module-nav
           +demoStyles()
