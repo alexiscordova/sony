@@ -1,6 +1,13 @@
 mixin descriptors()
-  for name in locals.pages()
-    li: a( href = '../build/debug/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+  lastPageTitle = null;
+  pages = locals.pages()
+  for name in pages
+    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ pagebuild/, '')
+    prefix = title.substring( 0, title.indexOf(' ') )
+    if lastPageTitle != null && lastPageTitle != prefix
+      hr
+    a( href = '../build/debug/' + name, title=title) !{ title }
+    lastPageTitle = prefix
 
 include ../../common/html/ieconditionals.html
 doctype 5
@@ -10,14 +17,19 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
   include docs-nav.html
 
   header.jumbotron.subhead#overview
-    div.container
-      h1 Archetypal Pages
-      p Modules Working Together.
+    .container
+      .grid.no-grid-at-767
+        h1 Archetypal Pages
+        p Modules Working Together.
 
-  
-  div.container
-    ul
-      +descriptors()
-    
+
+  .container
+    .grid.no-grid-at-767
+      .span4
+        h3 Pages
+        hr
+        nav.module-nav
+          +descriptors()
+
   include docs-foot.html
 </html>

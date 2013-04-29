@@ -1,16 +1,48 @@
 mixin demos()
-  for name in locals.demos()
-    li: a( href = '../build/debug/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+  lastPageTitle = null;
+  demos = locals.demos()
+  for name in demos
+    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ demo/, '')
+    prefix = title.substring( 0, title.indexOf(' ') )
+    if lastPageTitle != null && lastPageTitle != prefix
+      hr
+    a( href = '../build/debug/' + name, title=title) !{ title }
+    lastPageTitle = prefix
 
-            
+
 mixin demosGenerated()
-  for name in locals.generateddemos()
-    li: a( href = '../build/debug/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+  lastPageTitle = null;
+  generatedDemos = locals.generateddemos()
+  for name in generatedDemos
+    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ demo/, '')
+    prefix = title.substring( 0, title.indexOf(' ') )
+    if lastPageTitle != null && lastPageTitle != prefix
+      hr
+    a( href = '../build/debug/' + name, title=title) !{ title }
+    lastPageTitle = prefix
 
-          
+
 mixin layouts()
-  for name in locals.layouts()
-    li: a( href = '../build/debug/' + name) !{name.replace(/.html/g, '').replace(/-/g, ' ')}
+  lastPageTitle = null;
+  layouts = locals.layouts()
+  for name in layouts
+    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ layouts/, '')
+    prefix = title.substring( 0, title.indexOf(' ') )
+    if lastPageTitle != null && lastPageTitle != prefix
+      hr
+    a( href = '../build/debug/' + name, title=title) !{ title }
+    lastPageTitle = prefix
+
+mixin demoStyles()
+  lastPageTitle = null;
+  demoStyles = locals.demostyles()
+  for name in demoStyles
+    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ styles/, '')
+    prefix = title.substring( 0, title.indexOf(' ') )
+    if lastPageTitle != null && lastPageTitle != prefix
+      hr
+    a( href = '../build/debug/' + name, title=title) !{ title }
+    lastPageTitle = prefix
 
 
 include ../../common/html/ieconditionals.html
@@ -21,22 +53,36 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
     include docs-nav.html
 
   header.jumbotron.subhead#overview
-    div.container
-      h1 Module Demos
-      p Individual Module Demos.
-    
-  div.container
-        ul
-            +demos()
+    .container
+      .grid.no-grid-at-767
+        h1 Module Demos
+        p Individual Module Demos.
 
-            +demosGenerated()
-            
-    div.container
-      h2 Module Layouts
-  
-  div.container
-        ul
-            +layouts()
+  .container
+    .grid.no-grid-at-767
+      .span3
+        h3 Demos
+        hr
+        nav.module-nav
+          +demos()
+
+      .span3
+        h3 Generated Demos
+        hr
+        nav.module-nav
+          +demosGenerated()
+
+      .span3
+        h3 Module Layouts
+        hr
+        nav.module-nav
+          +layouts()
+
+      .span3
+        h3 Module Styles
+        hr
+        nav.module-nav
+          +demoStyles()
 
   include docs-foot.html
 </html>
