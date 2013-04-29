@@ -8,11 +8,13 @@ include search-results-z07-helpers.jade
     .container
       .slimgrid
         h2.l3= data.pageTitle
-        form.search-form
-          label.search-label= data.searchForm.label
-          input.search(value= data.searchForm.searchedText)
-          a.clear-search(href"#") i X
-          button.btn.hidden-phone= data.searchForm.buttonText
+        .span10
+          form.search-form
+            label.search-label= data.searchForm.label
+            input.search(value= data.searchForm.searchedText)
+            a.clear-search(href"#") i X
+        .span2
+        button.btn.hidden-phone= data.searchForm.buttonText
 
   .container
     .slimgrid
