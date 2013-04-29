@@ -122,14 +122,12 @@ $three-up-height:400px;
 
 			// Title
 			.p2{
-				outline: 1px solid blue;
 				max-height: 45px; // two lines
 				color:$titleBlack;
 			} // end p2
 
 			// Description
 			.p4{
-				outline: 1px solid red;
 				color:$gray40;
 				max-height: 75px; // four lines
 			} // end p4
@@ -210,12 +208,6 @@ $three-up-height:400px;
 						opacity:0.95;
 						padding:12% 36%;
 
-										// IE9 and BELOW
-						// 				.lt-ie10 & {
-						// 		    	margin:5% auto 10% auto;
-						// 		    } // END IE9 and BELOW
-
-
 						.details{
 							background-color: $secondaryOlive;
 							padding:3px;
@@ -269,19 +261,6 @@ $three-up-height:400px;
 						text-align: left;
 					} // copy
 					
-					// IE9 and BELOW
-					// 				.lt-ie10 & {
-					// 		    	height:145px;
-					// 		    	max-height: 145px;
-					//           min-height:145px;
-					//    				position: absolute;
-					//           bottom:0;
-					//           left: 0;
-					//           margin:0;
-					//           padding:30px;
-					//           width:100%;
-					// 		    }	// END IE9 and BELOW
-
 					.t5-light{
 						overflow:hidden;
 						max-height: 57px;
@@ -472,6 +451,36 @@ $three-up-height:400px;
 	} // users-voice
 
 
+	//  _______                  __   _____              _                    __  ____          _    _                    
+	// |__   __|                / /  / ____|            | |                  / / |  _ \        | |  | |                   
+	//    | |  ___   _ __      / /  | |      ___  _ __  | |_  ___  _ __     / /  | |_) |  ___  | |_ | |_  ___   _ __ ___  
+	//    | | / _ \ | '_ \    / /   | |     / _ \| '_ \ | __|/ _ \| '__|   / /   |  _ <  / _ \ | __|| __|/ _ \ | '_ ` _ \ 
+	//    | || (_) || |_) |  / /    | |____|  __/| | | || |_|  __/| |     / /    | |_) || (_) || |_ | |_| (_) || | | | | |
+	//    |_| \___/ | .__/  /_/      \_____|\___||_| |_| \__|\___||_|    /_/     |____/  \___/  \__| \__|\___/ |_| |_| |_|
+	//              | |                                                                                                   
+	//              |_|                                                                                                   
+	.top{
+		float:left;
+		width:100%;
+		text-align: center;
+	} // top
+
+	.center{
+		width:100%;
+	} // center
+	
+	.content{
+		width:100%;
+	} // content
+
+	.bottom{
+		position: absolute;
+		bottom:0;
+		left:0;
+		width:100%;
+		text-align: center;
+	} // bottom
+
 
 	//  .d8888b.                                           888     888          d8b                   
 	// d88P  Y88b                                          888     888          Y8P                   
@@ -496,17 +505,15 @@ $three-up-height:400px;
 		//    |_| \___/ | .__/                      
 		//              | |                         
 		//              |_|                                                                 
-		.top{
-			float:left;
-			width:100%;
-			border:1px solid red;
-			text-align: center;
-		} // top
+		// .top{
+		// 	float:left;
+		// 	width:100%;
+		// 	text-align: center;
+		// } // top
 
 		.icon-container{
 			overflow: hidden;
 		  text-align: center;
-		  outline:1px solid green;
 		} // end .icon-container
 
 		.fonticon-10-dot{
@@ -556,46 +563,74 @@ $three-up-height:400px;
 		// | |____|  __/| | | || |_|  __/| |        
 		//  \_____|\___||_| |_| \__|\___||_|        
 		.center{
-			border:1px solid yellow;
 			height: 69.75%;
-			width:100%;
 		} // center
 		
-		.content{
-			border:1px solid silver;
-			width:100%;
-		} // content
+		// .content{
+		// 	width:100%;
+		// } // content
 
 		.bq4{
 			p{
 				color:$secondarySlateDark;
 			} //p 
+
 		}// bq4
 		
 		.bq5{
 			margin-top: px-em(22px); 
 			p{
+				margin-bottom:0;
 				color:$secondarySlateDark;
 			} //p 
+
 		} //bq5
 
 		.instagram{
 			background-color: $white;
-			height:150px; // TEMP
+			height:217px;
+			padding:10px;
+			overflow: hidden;
 
 			.left,
 			.right{
-				float: left;
-				height: 100%;
-				width: 50%;
-			}
+				display: inline-block;
+				overflow: hidden;
+				height:100%;
+
+				.iq-img{
+					width:100%;
+					background-size: cover;
+					background-position: center center;
+					background-repeat: no-repeat;
+				} //iq-img
+
+			} // left/right
 
 			.left{
+				padding-right: px-em(5px);
 				border:1px solid green;
+				width:percentage( 96 / 318 ); 
+
+				.last{
+					margin-top: px-em(5px);
+				} // last
+
+				.iq-img{
+					height:50%;				
+				}// iq-img
+
 			} // left
 
 			.right{
+				padding-left: px-em(5px);
 				border:1px solid red;
+				width:percentage( 197 / 318 ); 
+
+				.iq-img{
+					height:100%;
+				}// iq-img
+				
 			} // right
 
 		} // instagram
@@ -608,17 +643,16 @@ $three-up-height:400px;
 		// |  _ <  / _ \ | __|| __|/ _ \ | '_ ` _ \ 
 		// | |_) || (_) || |_ | |_| (_) || | | | | |
 		// |____/  \___/  \__| \__|\___/ |_| |_| |_|
-		.bottom{
-			position: absolute;
-			bottom:0;
-			left:0;
-			width:100%;
-			border:1px solid red;
-			text-align: center;
-		} // bottom
+		// .bottom{
+		// 	position: absolute;
+		// 	bottom:0;
+		// 	left:0;
+		// 	width:100%;
+		// 	text-align: center;
+		// } // bottom
 
 
-	}
+	} // sonys voice
 
 	.flickr{}
 

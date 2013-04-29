@@ -128,36 +128,37 @@ mixin top(icon, meta)
           span.user= meta.user
           span.timestamp= meta.timestamp
 
-mixin center(mode, module)
+mixin center(mode, data)
   .center.table-center-wrap
     .content.table-center
       case mode
         when "twitter"
-          +twitter(module)
+          +twitter(data)
         when "facebook"
-          +facebook(module)
+          +facebook(data)
         when "instagram"
-          +instagram(module)
+          +instagram(data)
 
-mixin twitter(module)
+mixin twitter(data)
     blockquote.bq4
-      p= module.quote
+      p= data.quote
 
-mixin facebook(module)
+mixin facebook(data)
     .post-image
-      +iQImage(module.image,'tcc-image')
+      +iQImage(data.image,'tcc-image')
 
     blockquote.bq5
-        p= module.postCopy
-          a= module.postLink
+        p= data.postCopy
+          a= data.postLink
 
-mixin instagram(module)
+mixin instagram(data)
+  -images = data.images
   .instagram
     .left
-      .iq-img(data-src-desktop= module.images[1].srcDesktop, data-src-tablet= module.images[1].srcTablet, data-src-phone= module.images[1].srcPhone, data-src-desktop-highres= module.images[1].srcDesktopHighRes, data-src-tablet-highres= module.images[1].srcTabletHighRes, data-src-phone-highres= module.images[1].srcPhoneHighRes)
-      .iq-img.last(data-src-desktop= module.images[2].srcDesktop, data-src-tablet= module.images[2].srcTablet, data-src-phone= module.images[2].srcPhone, data-src-desktop-highres= module.images[2].srcDesktopHighRes, data-src-tablet-highres= module.images[2].srcTabletHighRes, data-src-phone-highres= module.images[2].srcPhoneHighRes)
+      .iq-img(data-src-desktop= images[1].srcDesktop, data-src-tablet= images[1].srcTablet, data-src-phone= images[1].srcPhone, data-src-desktop-highres= images[1].srcDesktopHighRes, data-src-tablet-highres= images[1].srcTabletHighRes, data-src-phone-highres= images[1].srcPhoneHighRes)
+      .iq-img.last(data-src-desktop= images[2].srcDesktop, data-src-tablet= images[2].srcTablet, data-src-phone= images[2].srcPhone, data-src-desktop-highres= images[2].srcDesktopHighRes, data-src-tablet-highres= images[2].srcTabletHighRes, data-src-phone-highres= images[2].srcPhoneHighRes)
     .right
-      .iq-img(data-src-desktop= module.images[0].srcDesktop, data-src-tablet= module.images[0].srcTablet, data-src-phone= module.images[0].srcPhone, data-src-desktop-highres= module.images[0].srcDesktopHighRes, data-src-tablet-highres= module.images[0].srcTabletHighRes, data-src-phone-highres= module.images[0].srcPhoneHighRes)
+      .iq-img(data-src-desktop= images[0].srcDesktop, data-src-tablet= images[0].srcTablet, data-src-phone= images[0].srcPhone, data-src-desktop-highres= images[0].srcDesktopHighRes, data-src-tablet-highres= images[0].srcTabletHighRes, data-src-phone-highres= images[0].srcPhoneHighRes)
 
 mixin socialButton(link, label)
   .social-btn
