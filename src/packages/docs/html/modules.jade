@@ -1,6 +1,7 @@
 mixin demos()
   lastPageTitle = null;
   demos = locals.demos()
+  - demos.sort( function(a, b) { if (a.toLowerCase() < b.toLowerCase()) return -1; if (a.toLowerCase() > b.toLowerCase()) return 1; return 0; })
   for name in demos
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ demo/, '')
     firstSpace = title.indexOf(' ')
@@ -64,26 +65,22 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
 
   .container
     .grid.no-grid-at-767
-      .span3
-        h3 Demos
+      .span4
+        h3 Single Module Demos
         hr
         nav.module-nav
           +demos()
-
-      .span3
-        h3 Generated Demos
-        hr
-        nav.module-nav
+          hr
           +demosGenerated()
 
-      .span3
-        h3 Module Layouts
+      .span4
+        h3 Module Modes
         hr
         nav.module-nav
           +layouts()
 
-      .span3
-        h3 Module Styles
+      .span4
+        h3 Module Variations
         hr
         nav.module-nav
           +demoStyles()
