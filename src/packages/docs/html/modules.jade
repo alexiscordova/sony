@@ -3,7 +3,8 @@ mixin demos()
   demos = locals.demos()
   for name in demos
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ demo/, '')
-    prefix = title.substring( 0, title.indexOf(' ') )
+    firstSpace = title.indexOf(' ')
+    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
     if lastPageTitle != null && lastPageTitle != prefix
       hr
     a( href = '../build/debug/' + name, title=title) !{ title }
@@ -15,7 +16,8 @@ mixin demosGenerated()
   generatedDemos = locals.generateddemos()
   for name in generatedDemos
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ demo/, '')
-    prefix = title.substring( 0, title.indexOf(' ') )
+    firstSpace = title.indexOf(' ')
+    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
     if lastPageTitle != null && lastPageTitle != prefix
       hr
     a( href = '../build/debug/' + name, title=title) !{ title }
@@ -27,7 +29,8 @@ mixin layouts()
   layouts = locals.layouts()
   for name in layouts
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ layouts/, '')
-    prefix = title.substring( 0, title.indexOf(' ') )
+    firstSpace = title.indexOf(' ')
+    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
     if lastPageTitle != null && lastPageTitle != prefix
       hr
     a( href = '../build/debug/' + name, title=title) !{ title }
@@ -38,7 +41,8 @@ mixin demoStyles()
   demoStyles = locals.demostyles()
   for name in demoStyles
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ styles/, '')
-    prefix = title.substring( 0, title.indexOf(' ') )
+    firstSpace = title.indexOf(' ')
+    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
     if lastPageTitle != null && lastPageTitle != prefix
       hr
     a( href = '../build/debug/' + name, title=title) !{ title }

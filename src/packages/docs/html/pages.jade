@@ -3,7 +3,8 @@ mixin descriptors()
   pages = locals.pages()
   for name in pages
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ pagebuild/, '')
-    prefix = title.substring( 0, title.indexOf(' ') )
+    firstSpace = title.indexOf(' ')
+    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
     if lastPageTitle != null && lastPageTitle != prefix
       hr
     a( href = '../build/debug/' + name, title=title) !{ title }
