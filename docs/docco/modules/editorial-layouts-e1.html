@@ -64,15 +64,19 @@ define(<span class="keyword">function</span>(require) {
       resizeTouts: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>fixes horizontal 2 up layout wraping</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> tc = $(<span class="string">'.editorial.tout .m2up .horizontal .table-center-wrap'</span>).parent();
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Fixes horizontal 2 up layout wraping</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> tc = $(<span class="string">'.editorial.tout .m2up .horizontal .table-center-wrap'</span>).parent();
         <span class="keyword">if</span> (tc.length) {
           tc.css(<span class="string">'width'</span>, tc.parent().width() - tc.prev().width() -<span class="number">2</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
 
-        <span class="keyword">if</span> (heightGroup.length &amp;&amp; Modernizr.mq( <span class="string">'(min-width: 48em)'</span> )) {
-          heightGroup.evenHeights();
+        <span class="keyword">if</span> (heightGroup.length) {
+          <span class="keyword">if</span> ( Modernizr.mq( <span class="string">'(min-width: 48em)'</span> ) ) {
+            heightGroup.evenHeights();
+          } <span class="keyword">else</span> {
+            heightGroup.css( <span class="string">'height'</span>, <span class="string">''</span> );
+          }
         }
       },
 
@@ -80,7 +84,7 @@ define(<span class="keyword">function</span>(require) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
         self.collapsableTout.sonyCarousel(<span class="string">'destroy'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>self.collapsableTout.addClass('grid');</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.collapsableTout.attr(<span class="string">'style'</span>, <span class="string">''</span>);
+        self.collapsableTout.attr(<span class="string">'style'</span>, <span class="string">''</span>);
         self.col.addClass(self.colspan);
         <span class="keyword">if</span> (self.hasOffset1) {
           self.col.first().addClass(<span class="string">'offset1'</span>);
@@ -90,7 +94,7 @@ define(<span class="keyword">function</span>(require) {
       initMobile: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>self.collapsableTout.removeClass('grid');</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.col.removeClass(self.colspan);
+        self.col.removeClass(self.colspan);
         self.col.removeClass(<span class="string">'offset1'</span>);
         self.collapsableTout.sonyCarousel({
           wrapper: <span class="string">'.editorial.tout .container, .editorial.full-tout .container'</span>,
@@ -102,7 +106,7 @@ define(<span class="keyword">function</span>(require) {
       _init: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>if its a 2 or 3up we want to start the carousel code</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.collapsableTout.length) {
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>if its a 2 or 3up we want to start the carousel code</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.collapsableTout.length) {
 
           <span class="keyword">if</span> ( !Settings.isLTIE10 ) {
             enquire.register(<span class="string">'(min-width: 48em)'</span>, <span class="keyword">function</span>() {
@@ -119,7 +123,7 @@ define(<span class="keyword">function</span>(require) {
         }
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>if its mediaright or left fix heights on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'mediaright'</span>) || self.$el.hasClass(<span class="string">'medialeft'</span>)) {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>if its mediaright or left fix heights on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'mediaright'</span>) || self.$el.hasClass(<span class="string">'medialeft'</span>)) {
           self.fixMediaHeights();
           Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.fixMediaHeights, self));
         }
@@ -128,13 +132,13 @@ define(<span class="keyword">function</span>(require) {
       }
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorial = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorial = <span class="keyword">function</span>( options ) {
       <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           editorial = self.data(<span class="string">'editorial'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !editorial ) {
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !editorial ) {
             editorial = <span class="keyword">new</span> Editorial( self, options );
             self.data( <span class="string">'editorial'</span>, editorial );
         }
