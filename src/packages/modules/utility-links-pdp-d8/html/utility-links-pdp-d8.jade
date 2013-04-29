@@ -1,29 +1,45 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('utility-links-pdp-d8')
 
-section.ulinks-pdp-wrapper.container.full-bleed-no-max.m-full-bleed
-    section.ulinks-body-wrapper.container
-        div.ulinks-body.grid
-          div(id="pdp-product-image").ulinks-pdp-module.span3.m-span3.table-center-wrap
-            - image = data.image
-            img(class=image.classes, data-src-desktop=image.srcDesktop, data-src-tablet=image.srcTablet, data-src-phone=image.srcPhone, data-src-desktop-highres=image.srcDesktopHighRes, data-src-tablet-highres=image.srcTabletHighRes, data-src-phone-highres=image.srcPhoneHighRes)
-            noscript
-              img(src=image.noscriptsrc)
-          div.ulinks-pdp-module.span9.table-center-wrap
-            #pdp-g-head.grid
-              .span4.t7.pdp-help-title
-                div #{data.header}
-            #pdp-g-links.grid
-              - for(var i=0; i<data.links.length; i++)
-                  linkLabel = data.links[i].label
-                  linkUrl = data.links[i].url
-                  nextId = "pdp-link-tail"+i
-                  if(i==2)
-                    div(id=nextId).span4.drop-at-767
-                      a(href=linkUrl).pdp-help.lt3 #{linkLabel}
-                  else if(i>=3)
-                    div(id=nextId).span4
-                      a(href=linkUrl).pdp-help.lt3 #{linkLabel}
-                  else
-                    div(id=nextId).span4
-                      a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+section.container.full-bleed-no-max.m-full-bleed.phone-at-567.ulinks-pdp-wrapper
+  .container.full-bleed-at-567.ulinks-body-wrapper
+    .grid.no-grid-at-567.ulinks-body
+      .span3.mobile-container-padded.ulinks-pdp-module.pdp-col0
+        - image = data.image
+        img(class=image.classes, data-src-desktop=image.srcDesktop, data-src-tablet=image.srcTablet, data-src-phone=image.srcPhone, data-src-desktop-highres=image.srcDesktopHighRes, data-src-tablet-highres=image.srcTabletHighRes, data-src-phone-highres=image.srcPhoneHighRes)
+        noscript
+          img(src=image.noscriptsrc)
+      .span3.mobile-container-padded.pdp-col1
+        .t7.pdp-help-title #{data.header}
+        - col1data = ( data.links.length > 3 ) ? 3 : data.links.length
+        - for(var i = 0; i < col1data; i++)
+          linkLabel = data.links[ i ].label
+          linkUrl = data.links[i].url
+          if ( i < 2 )
+            div
+              a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+          else
+            div.show-at-980
+              a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+
+      .span3.mobile-container-padded.no-header.pdp-col2
+        - col2data = ( data.links.length > 5 ) ? 5 : data.links.length
+        - for(var i = 2; i < col2data; i++)
+          linkLabel = data.links[i].label
+          linkUrl = data.links[i].url
+          if i == 2
+            div.hide-at-980
+              a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+          else if i == 3
+            div
+              a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+          else
+            div.show-at-980
+              a(href=linkUrl).pdp-help.lt3 #{linkLabel}
+
+      .span3.mobile-container-padded.no-header.pdp-col3
+        - col3data = ( data.links.length == 5 ) ? 5 : 4
+        - for(var i = 4; i < col3data; i++)
+          linkLabel = data.links[i].label
+          div
+            a(href=linkUrl).pdp-help.lt3 #{linkLabel}
