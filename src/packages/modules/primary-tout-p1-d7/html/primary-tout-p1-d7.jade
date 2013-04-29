@@ -34,7 +34,10 @@ mixin bodytext(_data, _extra)
     if d.variation.headertext == "larger"
       e = e + " hidden-phone"
   if d.body
-    p.p3(class= e)!= d.body
+    if data.mode == "homepage" || data.mode == "default"
+      p.p2(class= e)!= d.body
+    else
+      p.p3(class= e)!= d.body
 
 mixin links(_data, _extra)
   d = _data ? _data : data
