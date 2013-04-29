@@ -2,6 +2,8 @@
 // Responsive: Reviews + Awards
 // --------------------------------------------------
 
+$maxChildren: 20;
+
 // -----------------------------------------
 // DEFAULT: 980px - 1199px;
 // -----------------------------------------
@@ -127,6 +129,37 @@
 
 } // min-width: 768px and max-width: 979px
 
+
+
+
+
+@media (max-width: px-em(979px)) {
+
+.subnav-module {
+
+  .subnav-tray {
+
+    .subcategory{
+
+      .general-links {
+        text-align: left;
+
+        .gallery-link {
+          float: left;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+}
+
+} // END max-width: 979px
+
+
+
+
+
 // ------------------------------------------------
 // MOBILE-LARGE (somewhere between tablet & mobile)
 // ------------------------------------------------
@@ -251,6 +284,30 @@
 
 .subnav-module {
 
+  nav {
+
+    .container {
+      width: 100%;
+      margin: 0 0 0 1.8%;
+
+      .grid {
+        width: 100%;
+        margin: 0;
+        text-align: left;
+      }
+    }
+
+    .subnav-nav-carousel-slide {
+      width: 80% / $maxChildren;
+      margin: 0 0 0 3% / $maxChildren;
+      text-align: left;
+
+      img {
+        margin: 27px 0 7px;
+      }
+    }
+  }
+
   .subnav-tray {
 
     .subcategory {
@@ -278,15 +335,6 @@
 
         .message {
           margin: 0 0 8px;
-        }
-      }
-
-      .general-links {
-        text-align: left;
-
-        .gallery-link {
-          float: left;
-          margin: 0;
         }
       }
 

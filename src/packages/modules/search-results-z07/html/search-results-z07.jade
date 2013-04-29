@@ -6,16 +6,20 @@ include search-results-z07-helpers.jade
 .search-results
   .bar-tone
     .container
-      .grid
+      .slimgrid.no-grid-at-767
         h2.l3= data.pageTitle
-        form.search-form
-          label.search-label= data.searchForm.label
-          input.search(value= data.searchForm.searchedText)
-          a.clear-search(href"#") i X
+        .span9.m-span6
+          form.search-form
+            .search-left
+              label.search-label= data.searchForm.label
+              input.search(value= data.searchForm.searchedText)
+            .search-right
+              a.clear-search(href"#") i X
+        .span2.hidden-phone
           button.btn.hidden-phone= data.searchForm.buttonText
 
   .container
-    .grid
+    .slimgrid
       .search-suggestions
         span.p3.search-correction= data.correctionText
         ul.h-list.h-list-lg
@@ -23,7 +27,7 @@ include search-results-z07-helpers.jade
             li.lt3
               a(href="#{correction.url}")= correction.text
 
-    .grid.m-grid-at-767
+    .slimgrid.m-grid-at-767
       .span8.m-span6
         if data.results.count == 0
           include search-results-z07-no-results.jade
@@ -47,7 +51,7 @@ include search-results-z07-helpers.jade
   if data.relatedSearches.length > 0
     .related-searches
       .container
-        .grid.no-grid-at-767
+        .slimgrid.no-grid-at-767
           .span3
             h3.l3= data.relatedSearchesTitle
 

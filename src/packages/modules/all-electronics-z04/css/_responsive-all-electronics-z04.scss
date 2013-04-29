@@ -5,6 +5,25 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
+$desktopMed: px-em(1024);
+
+@media (max-width: $desktopMed) {
+  .all-electronics {
+    .products-section-main {
+      .products-list-main {
+        .products-li {
+          width: 28.6%;
+          margin-right: 4.6%;
+        }
+      }
+      .products-li-link {
+        img {
+          max-height: 82px;
+        }
+      }
+    }
+  }
+}
 
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .all-electronics {
@@ -71,6 +90,7 @@ $desktopMin: px-em(980);
           margin: 20px 0 16px 0;
         }
         .products-hdg-desc {
+          width: 100%;
           float: left;
           margin: 20px 0 16px 0;
         }
@@ -87,17 +107,19 @@ $desktopMin: px-em(980);
           width: 100%;
           border-bottom: 1px solid $gray70;
           position: relative;
-          &:first-child {
-            .products-li-link {
-              padding-top: 0;
-            }
-            .tl:after {
-              top: 14px;
-            }
-          }
         }
         .products-li-link {
           height: auto;
+          display: table;
+          width: 100%;
+          .nav-label {
+            float: none;
+            margin: 0;
+            width: 100%;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: left;
+          }
           img {
             max-height: 40px;
           }

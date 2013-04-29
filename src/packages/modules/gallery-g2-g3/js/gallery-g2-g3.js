@@ -387,8 +387,8 @@ define(function(require){
           $target = $(evt.target),
           isSelect = $target.is('select'),
           filterName,
-          index,
-          method;
+          method,
+          $compareBtn = self.$container.find( '.filter-display-bar .btn' ).first();
 
       // Get variables based on what kind of component we're working with
       if ( isSelect ) {
@@ -426,6 +426,27 @@ define(function(require){
       self.shuffle.shuffle( method );
 
       self.updateProductCount();
+
+      // method is `all`, hide the compare button
+      if ( typeof method === 'string' ) {
+        if ( $compareBtn.hasClass( 'in' ) ) {
+          $compareBtn.removeClass( 'in' );
+
+          // Remove the saved type
+          $compareBtn.removeData( 'type' );
+        }
+
+      // method is a function, meaning the items are filtered,
+      // show the compare button
+      } else {
+        if ( !$compareBtn.hasClass( 'in' ) ) {
+          $compareBtn.addClass( 'in' );
+
+          // Save the type that was filtered
+          $compareBtn.data( 'type', filterName );
+        }
+
+      }
     },
 
     // Updates the count displayed at the top left, above the products.
@@ -1287,7 +1308,8 @@ define(function(require){
     },
 
     initFavoritesGallery : function() {
-      var self = this;
+      var self = this,
+          $compareBtn = self.$container.find( '.filter-display-bar .btn' ).first();
 
       self.initRecommendedTile();
 
@@ -1303,6 +1325,21 @@ define(function(require){
       }
 
       Utilities.autoSelectInputOnFocus( self.$container.find( '.share-options input' ) );
+
+      $compareBtn.on('click', function( evt ) {
+        var $btn = $( this ),
+            destination = this.href,
+            type = $btn.data( 'type' ) || '';
+
+        evt.preventDefault();
+
+        if ( type ) {
+          destination += '?type=' + type;
+          window.location = destination;
+        }
+      });
+
+      $compareBtn = null;
     },
 
     initRecommendedTile : function() {
@@ -2419,7 +2456,7 @@ define(function(require){
 
     getFavoriteContent : function( $jsFavorite, isActive ) {
       return isActive ?
-            $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' :
+            $jsFavorite.data('activeTitle'):
             $jsFavorite.data('defaultTitle');
     },
 
@@ -2475,7 +2512,8 @@ define(function(require){
         }
 
         // Remove the gallery item from the page if it's being removed and this is a favorites gallery
-        if ( self.isFavoritesGallery ) {
+        // Also make sure this gallery item isn't the recommended tile
+        if ( self.isFavoritesGallery && !$galleryItem.hasClass( 'recommended-tile' ) ) {
           $('.tooltip')
             // Try to remove them
             .tooltip('hide')

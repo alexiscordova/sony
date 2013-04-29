@@ -355,116 +355,6 @@ hr.soften {
 }
 
 
-
-/* Jumbotrons
--------------------------------------------------- */
-
-/* Base class
-------------------------- */
-// .jumbotron {
-//   position: relative;
-//   padding: 70px 0 40px;
-//   background: $gray20; /* CJM */
-//   border:none !important;
-//   margin-bottom:30px;
-// }
-// .jumbotron h1,
-// .jumbotron h2,
-// .jumbotron h3 {
-//   color:$white;
-//   margin-bottom:17px;
-//   // font-size: 80px;
-//   // font-weight: bold;
-//   // letter-spacing: -1px;
-//   // line-height: 1;
-// }
-// .jumbotron p {
-//   // font-size: 24px;
-//   // font-weight: 300;
-//   // line-height: 30px;
-//   // margin-bottom: 30px;
-// }
-
-// /* Link styles (used on .masthead-links as well) */
-// .jumbotron a {
-//   color: #fff;
-//   color: rgba(255,255,255,.5);
-//   -webkit-transition: all .2s ease-in-out;
-//      -moz-transition: all .2s ease-in-out;
-//           transition: all .2s ease-in-out;
-// }
-// .jumbotron a:hover {
-//   color: #fff;
-//   text-shadow: 0 0 10px rgba(255,255,255,.25);
-// }
-
-// /* Download button */
-// .masthead .btn {
-//   padding: 14px 24px;
-//   font-size: 24px;
-//   font-weight: 200;
-//   color: #fff; /* redeclare to override the `.jumbotron a` */
-//   border: 0;
-//   -webkit-border-radius: 6px;
-//      -moz-border-radius: 6px;
-//           border-radius: 6px;
-//   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-//      -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-//           box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-//   -webkit-transition: none;
-//      -moz-transition: none;
-//           transition: none;
-// }
-// .masthead .btn:hover {
-//   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-//      -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-//           box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-// }
-// .masthead .btn:active {
-//   -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-//      -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-//           box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-// }
-
-
-// /* Pattern overlay
-// ------------------------- */
-// .jumbotron .container-px-width {
-//   position: relative;
-//   z-index: 2;
-// }
-// .jumbotron:after {
-//   content: '';
-//   display: block;
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-//   /*background: url(../img/bs-docs-masthead-pattern.png) repeat center center;*/
-//   opacity: .4;
-// }
-
-
-/* Subhead (other pages)
-------------------------- */
-// .subhead {
-//   text-align: left;
-//   border-bottom: 1px solid #ddd;
-// }
-// .subhead h1 {
-//   font-size: 60px;
-//   padding-bottom: 0;
-//   margin-bottom: 5px;
-// }
-// .subhead p {
-//   margin-bottom: 20px;
-// }
-// .subhead .simple-navbar {
-//   display: none;
-// }
-
-
 .title-docs{
   color:#ff485e;
   font-size: px-em(12px);
@@ -618,6 +508,37 @@ hr.soften {
   float:left;
   width:76%;
 };
+
+
+
+
+
+
+#dokuwiki__content{
+  .level1,
+  .level2,
+  .level3{
+    ul{
+      list-style:disc;
+      @include px-em--font-size--line-height(13,18);
+      margin-bottom: 12px;
+      color: #83838f;
+      margin-bottom:15px;
+
+      p{
+        font-size:1em;
+      }
+      ul{
+        list-style:circle;
+        font-size:1em;
+      }
+    }
+  }
+}
+
+
+
+
 
 
 
@@ -975,7 +896,7 @@ form.bs-docs-example {
 //     padding:0 10px;
 //   }
 // }
-// 
+//
 // I just want to style the table in the Responsive section of the Scaffolding page, and I don't want it to affect anything else.
 // This is just straight Bootstrap styles.
 #responsive{
@@ -1967,7 +1888,7 @@ form.bs-docs-example {
 .docs-color-swatch--youtubeColor            {  background: $youtubeColor;            }
 .docs-color-swatch--flickrblue              {  background: $flickrBlueColor;         }
 .docs-color-swatch--flickrpink              {  background: $flickrPinkColor;         }
-.docs-color-swatch--pinterestColor          {  background: $pinterestColor;         }
+.docs-color-swatch--pinterestColor          {  background: $pinterestColor;          }
 
 
 
@@ -1975,15 +1896,18 @@ form.bs-docs-example {
 
 
 
+$fluidContainerWidthMax-px-docs-demo: $fluidContainerWidthMax-px / 3;
 
+// &.full-bleed { max-width: $containerFullBleedWidthMax; }
+$containerFullBleedWidthMax-docs-demo: $containerFullBleedWidthMax / 3;
 
 .docs-page-structure-page:not(.full-size):not(.full-width){
   .docs-page-structure-main{
     .container{
-      max-width:426px;
+      max-width:$fluidContainerWidthMax-px-docs-demo;
     }
-    .container.full-bleed{ 
-      max-width:460px;
+    .container.full-bleed{
+      max-width:$containerFullBleedWidthMax-docs-demo;
     }
     .container.full-bleed-no-max{
       max-width:none;
@@ -2028,7 +1952,7 @@ form.bs-docs-example {
 
       &.slimgrid{
         background:      rgba(255,175,0,0.4) !important;
-        border:solid 1px rgba(255,175,0,0.6);        
+        border:solid 1px rgba(255,175,0,0.6);
       }
     }
 
@@ -2079,10 +2003,10 @@ form.bs-docs-example {
     padding:0 0 1px 0;
   }
 
-  // adjustments for the margins/paddings on nested containers for the demo  
+  // adjustments for the margins/paddings on nested containers for the demo
   &:not(.docs-page-structure-page-max):not(.full-size){
     .container.full-bleed.nesting-demo-parent .container:not(.full-bleed){
-      // width:93.7%; 
+      // width:93.7%;
     }
     .container.full-bleed.nesting-demo-parent .container.full-bleed .container{
       // width:94.6%;
@@ -2097,16 +2021,17 @@ form.bs-docs-example {
     height: 100%;
     left: 50%;
     top:0;
-    width: 1404px;
-    margin-left: -702px;
+    width: $fluidContainerWidthMax-px + 4;
+    margin-left: ($fluidContainerWidthMax-px + 4) / -2;
   }
   &.docs-page-structure-page-max{
     &:not(.full-size){
       width:600px;
     }
     .docs-docs-page-structure-maxWidth-outline{
-      width: 464px;
-      margin-left: -232px;
+      // width: 464px;
+      width: $fluidContainerWidthMax-px-docs-demo + 4;
+      margin-left: ($fluidContainerWidthMax-px-docs-demo + 4) / -2;
     }
   }
 
@@ -2191,6 +2116,20 @@ form.bs-docs-example {
 
 
 
+.module-nav {
+
+  a {
+    display: block;
+    text-transform: capitalize;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  hr {
+    margin: 1em 0;
+  }
+}
 
 
 

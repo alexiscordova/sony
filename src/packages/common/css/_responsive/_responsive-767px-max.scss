@@ -43,17 +43,18 @@
   // TITLES (headers)
   // --------------------------------------
   //
-  .t1, .t1-light, h1{
+  .t1, .t1-light, .t1-bold, h1{
     @include px-em--font-size--line-height(34,40);
     margin-bottom: 12px;
   }
-  .t2, .t2-light, h2{
-    @include px-em--font-size--line-height(30,34);
-    margin-bottom: 14px;
+  .t2, .t2-light, .t2-bold, h2{
+    @include px-em--font-size--line-height(32,36);
+    margin-bottom: 20px;
   }
-  .t3, .t3-light, h3{
-    @include px-em--font-size--line-height(24,28);
-    margin-bottom: 12px;
+  .t3, .t3-light, .t3-bold, h3{
+    @include px-em--font-size--line-height(22,26);
+    margin-bottom: 16px;
+    letter-spacing: 0em;
   }
   // disabling styles that don't change from the 979 breakpoint.
   // .t4, .t4-light, h4{
@@ -128,40 +129,6 @@
   // or if it should be in _responsive-567px-max.scss
   // ----------------------------------------------------------------------------
 
-  // // Smooth out the collapsing/expanding nav
-  // .nav-collapse {
-  //   -webkit-transform: translate3d(0, 0, 0); // activate the GPU
-  // }
-
-  // // Block level the page header small tag for readability
-  // .page-header h1 small {
-  //   display: block;
-  //   line-height: $baseLineHeight;
-  // }
-
-
-  // // Remove the horizontal form styles
-  // .form-horizontal {
-  //   .control-label {
-  //     float: none;
-  //     width: auto;
-  //     padding-top: 0;
-  //     text-align: left;
-  //   }
-  //   // Move over all input controls and content
-  //   .controls {
-  //     margin-left: 0;
-  //   }
-  //   // Move the options list down to align with labels
-  //   .control-list {
-  //     padding-top: 0; // has to be padding because margin collaspes
-  //   }
-  //   // Move over buttons in .form-actions to align with .controls
-  //   .form-actions {
-  //     padding-left: 10px;
-  //     padding-right: 10px;
-  //   }
-  // }
 
   // Alerts
   .alert {

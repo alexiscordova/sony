@@ -127,6 +127,11 @@ define(<span class="keyword">function</span>(require){
         self.setupDraggable();
       }
 
+      <span class="keyword">if</span> ( self.$slides.length &lt;= <span class="number">1</span> ) {
+        self.destroy();
+        <span class="keyword">return</span>;
+      }
+
       Environment.on(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id, <span class="keyword">function</span>() {
         <span class="keyword">if</span> ( self.snap ) {
           self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
@@ -260,7 +265,7 @@ TODO: This is getting to be confusing. Should split it into a few methods for re
           $slideSet = self.$slides,
           speed = ( noAnim ? <span class="number">0</span> : self.animationSpeed ),
           $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
-  
+
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Logic for the natural ends of a carousel that has been looped</p>             </td>             <td class="code">               <div class="highlight"><pre>
       <span class="keyword">if</span> ( self.looped &amp;&amp; ( which === -<span class="number">1</span> || which &gt;= self.$slides.length )) {
         $slideSet = self.$allSlides;
@@ -340,7 +345,11 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
         }
 
         self.$el.on(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>, <span class="keyword">function</span>(e){
-          <span class="keyword">if</span> (e.currentTarget !== e.target){<span class="keyword">return</span>;} <span class="comment">// prevent conflicts </span>
+
+          <span class="keyword">if</span> ( e.currentTarget !== e.target ) {
+            <span class="keyword">return</span>;
+          }
+
           iQ.update(<span class="literal">true</span>);
           self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
           self.$el.off(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
@@ -380,7 +389,11 @@ Reset the carousel to its natural position and order.</p>             </td>     
       <span class="keyword">if</span> ( ( self.isJumped &amp;&amp; speed ) || <span class="keyword">typeof</span> destinationRedirect !== <span class="string">'undefined'</span> ) {
 
         repositionCb = Utilities.once(<span class="keyword">function</span>(e){
-          <span class="keyword">if</span> (e.currentTarget !== e.target){<span class="keyword">return</span>;} <span class="comment">// prevent conflicts </span>
+
+          <span class="keyword">if</span> ( e &amp;&amp; (e.currentTarget !== e.target)) {
+            <span class="keyword">return</span>;
+          }
+
           <span class="keyword">if</span> ( self.isJumped ) {
             ( self.$allSlides || self.$slides ).each(<span class="keyword">function</span>(){
               $(<span class="keyword">this</span>).detach().appendTo(self.$el);
@@ -598,14 +611,18 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $paddleWrapper = self.$paddleWrapper || self.$wrapper,
-          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides;
+          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides,
+          containerStyles = {
+            transitionTimingFunction: <span class="string">''</span>,
+            transitionDuration: <span class="string">''</span>,
+            transform: <span class="string">''</span>
+          };
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Reset styles.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.css(Modernizr.prefixed(<span class="string">'transitionTimingFunction'</span>), <span class="string">''</span>)
-          .css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">''</span> )
-          .css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">''</span>)
-          .css(self.posAttr, <span class="string">''</span>);
+      containerStyles[ self.posAttr ] = <span class="string">''</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id);        
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Reset styles.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.css( containerStyles );
+
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id);
       self.$el.off(<span class="string">'sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide '</span> + Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
       $clickContext.off(<span class="string">'click.sonycarousel'</span>);
 
@@ -637,6 +654,11 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
           sonyCarousel = self.data(<span class="string">'sonyCarousel'</span>);
 
       <span class="keyword">if</span> ( !sonyCarousel ) {
+
+        <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+          <span class="keyword">return</span>;
+        }
+
         sonyCarousel = <span class="keyword">new</span> SonyCarousel( self, options );
         self.data( <span class="string">'sonyCarousel'</span>, sonyCarousel );
       }
@@ -669,6 +691,8 @@ in the slideChildren set.</p>             </td>             <td class="code">   
 </pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Should this carousel seamlessly loop from end to end?</p>             </td>             <td class="code">               <div class="highlight"><pre>    looped: <span class="literal">false</span>,
 
     snap: <span class="literal">true</span>,
+
+    onlySnapAtEnds: <span class="literal">false</span>,
 
 </pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Should the carousel jump directly to the next slide in either direction?</p>             </td>             <td class="code">               <div class="highlight"><pre>    jumping: <span class="literal">false</span>,
 

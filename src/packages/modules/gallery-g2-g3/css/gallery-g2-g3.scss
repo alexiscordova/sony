@@ -230,11 +230,22 @@ $gifHeight: 60px;
   .media {
     padding: px-em( 9 ) 0;
     background: $gray80;
+    @include transition(background-color $transitionFast $easeNormal);
+
+    // Hover and focus states
+    &:focus,
+    .no-touch &:hover {
+      background-color: $gray75;
+    }
 
     .pull-left {
       margin-right: px-em( 8 );
       max-width: 34%;
     }
+  }
+
+  .block {
+    display: block;
   }
 
   // spacing between li's
@@ -245,7 +256,7 @@ $gifHeight: 60px;
   // Title for the recommended list
   .recommended-title {
     margin-bottom: 0;
-    padding: 15px 24px 11px;
+    padding: 11px 24px 11px;
     color: $white;
     background: $gray20;
   }
@@ -263,7 +274,7 @@ $gifHeight: 60px;
 
   .favorite-holder {
     left: auto;
-    right: 0;
+    right: px-em( 8 );
     bottom: px-em( -4 );
   }
 
@@ -278,6 +289,10 @@ $gifHeight: 60px;
 
   .price-prefix {
     margin-bottom: -4px;
+  }
+
+  .msrp {
+    color: $gray40;
   }
 }
 
@@ -352,9 +367,14 @@ $gifHeight: 60px;
     padding-right: px-em(2, 13);
   }
 
-  .slide-toggle,
-  .accessory-finder-btn {
+  // Move the first element with a button class over
+  .grid > .btn:first-of-type {
     margin-left: 2.5em;
+  }
+
+  // Needs to be more specific than the style in scaffolding because opacity needs to be transitioned
+  .grid .compare-btn {
+    @include transition( $transitionSlowish linear )
   }
 
   .btn-alt-plus {

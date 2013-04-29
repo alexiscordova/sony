@@ -15,6 +15,7 @@ define(function(require){
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
+      hammer = require('plugins/index').hammer,
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
@@ -52,25 +53,25 @@ define(function(require){
       var self = this;
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 768px)", function() {
+        enquire.register("(min-width: 980px)", function() {
+          self.mode = 'desktop';
           self.renderSubcats(null, false);
           self.renderNav();
-          self.mode = 'desktop';
         });
-        enquire.register("(min-width: 480px) and (max-width: 767px)", function() {
+        enquire.register("(min-width: 480px) and (max-width: 979px)", function() {
+          self.mode = 'tablet';
           self.renderSubcats(null, true);
           self.renderNav();
-          self.mode = 'tablet';
         });
         enquire.register("(max-width: 479px)", function() {
-          self.renderSubcats(null, true);
-          self.renderNav(true);
           self.mode = 'mobile';
+          self.renderSubcats(null, true);
+          self.renderNav();
         });
       } else {
+        self.mode = 'desktop';
         self.renderSubcats(null, false);
         self.renderNav();
-        self.mode = 'desktop';
       }
 
       Environment.on('global:resizeDebounced', $.proxy(self.setTrayHeight, self));
@@ -100,23 +101,34 @@ define(function(require){
       self.setTrayHeight();
     },
 
-    renderNav: function( mobile ) {
+    renderNav: function() {
 
       var self = this,
-          currentSlide;
+          isMobile = (self.mode === 'mobile'),
+          newCols, currentSlide;
+
+      switch ( self.mode ) {
+        case 'desktop':
+          newCols = 2;
+          break;
+        case 'tablet':
+          newCols = 3;
+          break;
+        case 'mobile':
+          newCols = 4;
+          break;
+      }
+
+      Utilities.reassignSpanWidths(self.$navgroups.find('.subcategory-link'), newCols);
 
       self.$navgroups = Utilities.gridApportion({
         $groups: self.$navgroups,
-        gridSelector: '.grid',
-        mobile: mobile,
-        center: true
+        gridSelector: '.grid'
       });
 
       if ( self.$navgroups.find('.active').length > 0 ) {
         currentSlide = self.$navgroups.find('.active').closest(self.$navgroups).index();
       }
-
-      self.$navgroups.find('.grid')[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
 
       if ( self.$navCarousel ) {
         self.$navCarousel.sonyCarousel('destroy');
@@ -124,10 +136,11 @@ define(function(require){
 
       self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
         draggable: true,
+        onlySnapAtEnds: isMobile,
         wrapper: '.subnav-nav-carousel-wrapper',
         slides: '.subnav-nav-carousel-slide',
-        paddles: mobile ? false : true,
-        useSmallPaddles: mobile ? null : true
+        paddles: !isMobile,
+        useSmallPaddles: !isMobile
       });
 
       self.$navCarousel.sonyCarousel('gotoSlide', currentSlide, true);
@@ -140,7 +153,7 @@ define(function(require){
       var self = this,
           $buttons = self.$navgroups.find('.grid').children();
 
-      $buttons.on('mouseup touchend', function(){
+      $buttons.hammer().on('tap', function(){
 
         var $this = $(this),
             isActive = $this.hasClass('active');

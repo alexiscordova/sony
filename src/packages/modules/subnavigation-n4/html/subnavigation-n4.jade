@@ -17,7 +17,7 @@ section.subnav-module
             .grid
               - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
                 - subcategory = data.subcategories[j]
-                .subcategory-link.span2.m-span2.t-span3(data-subcategory=subcategory.title.toLowerCase().replace(/\W/g, ''))
+                .subcategory-link.span2.m-span2(data-subcategory=subcategory.title.toLowerCase().replace(/\W/g, ''))
                   img(src=subcategory.imageSrc)
                   p.p4 !{subcategory.title}
               - }
@@ -27,7 +27,7 @@ section.subnav-module
 
     for subcategory in data.subcategories
       section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))
-        div.grid.no-grid-at-479
+        div.grid.no-grid-at-979
           .span6
             h3.t4-bold !{subcategory.title}
             p.p2 !{subcategory.message}
