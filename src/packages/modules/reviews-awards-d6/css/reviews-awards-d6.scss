@@ -55,7 +55,7 @@ $maximumChildren: 20;
   .raa-user-reviews-carousel {
     position: relative;
     top: 8px;
-    height: 420px;
+    height: 440px;
     margin-bottom: 8px;
     overflow: hidden;
     border-right: 1px solid $gray70;
@@ -130,6 +130,7 @@ $maximumChildren: 20;
       }
 
       .zero-ratings {
+        margin-top: 10px;
         color: $buttonOrange;
       }
 
@@ -148,11 +149,11 @@ $maximumChildren: 20;
       > div {
         position: relative;
         overflow: hidden;
-        margin: 12px 0 0;
+        margin: 11px 0 0;
         clear: both;
 
         dt {
-          margin: 0;
+          margin: 0 0 1px;
           text-align: left;
         }
 
@@ -329,7 +330,6 @@ $maximumChildren: 20;
 
     .no-user-reviews & {
       height: 300px;
-      padding-top: 40px;
       background-color: $gray80;
     }
   }
@@ -362,6 +362,18 @@ $maximumChildren: 20;
 
       .no-user-reviews & {
         padding: 0 16px;
+      }
+    }
+  }
+
+  .no-user-reviews & {
+
+    .user-ratings {
+      display: table;
+
+      .raa-overall {
+        display: table-cell;
+        vertical-align: middle;
       }
     }
   }
