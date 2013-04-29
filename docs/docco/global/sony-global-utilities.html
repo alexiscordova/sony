@@ -181,37 +181,45 @@ then the default browser action will deselect our selection</p>             </td
       $input = <span class="literal">null</span>;
     },
 
-    reapportionMSpans: <span class="keyword">function</span>($spans) {
+    reassignSpanWidths: <span class="keyword">function</span>($spans, toWhat) {
+
+      <span class="keyword">var</span> newSpan = toWhat;
 
       $spans.each(<span class="keyword">function</span>(){
 
         <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
-            classes = <span class="keyword">this</span>.className.split(<span class="string">' '</span>);
+            classes = <span class="keyword">this</span>.className.split(<span class="string">' '</span>),
+            defaultSpan, currentSpan;
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Set span data for each possibility.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !$<span class="keyword">this</span>.data(<span class="string">'m-span'</span>) ) {
-          <span class="keyword">for</span> ( <span class="keyword">var</span> j = <span class="number">0</span>; j &lt; classes.length; j++ ) {
-            <span class="keyword">if</span> ( classes[j].indexOf(<span class="string">'m-span'</span>) === <span class="number">0</span> &amp;&amp; classes[j].indexOf(<span class="string">'m-span-at'</span>) === -<span class="number">1</span> ) {
-              $<span class="keyword">this</span>.data(<span class="string">'m-span'</span>, classes[j]);
-            }
-            <span class="keyword">if</span> ( classes[j].indexOf(<span class="string">'m-span-at'</span>) === <span class="number">0</span> ) {
-              $<span class="keyword">this</span>.data(classes[j], <span class="literal">true</span>);
-            }
+        <span class="keyword">for</span> ( <span class="keyword">var</span> j = <span class="number">0</span>; j &lt; classes.length; j++ ) {
+
+          <span class="keyword">var</span> classStr = classes[j];
+
+          <span class="keyword">if</span> ( classStr.search(<span class="string">'default-span'</span>) === <span class="number">0</span>  ) {
+            defaultSpan = classStr.split(<span class="string">'span'</span>)[<span class="number">1</span>];
+          }
+
+          <span class="keyword">if</span> ( classStr.search(<span class="string">'span'</span>) === <span class="number">0</span>  ) {
+            currentSpan = classStr.split(<span class="string">'span'</span>)[<span class="number">1</span>];
           }
         }
 
+        <span class="keyword">if</span> ( toWhat === <span class="string">'reset'</span> ) {
+          newSpan = defaultSpan;
+        }
+
+        $<span class="keyword">this</span>.removeClass(<span class="string">'span'</span> + currentSpan);
+        $<span class="keyword">this</span>.addClass(<span class="string">'span'</span> + newSpan);
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Takes a number of groups, supplied as a jQuery object (<code>options.$groups</code>) and re-apportions
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Takes a number of groups, supplied as a jQuery object (<code>options.$groups</code>) and re-apportions
 their elements, in order, to a new set of groups. The old groups are then removed,
 and the new groups are inserted at the point of the first group. Groups are assumed to be grids,
 unless <code>options.gridSelector</code> is specified, in which case the method will look for that selector
 inside each group for the location of the actual grid.</p>
 
 <p>If the <code>options.mobile</code> option is <strong>true</strong>, grids will be apportioned based on m-spans instead.</p>
-
-<p>If the <code>options.center</code> option is <strong>true</strong>, the final grid will attempt to center its contents,
-based on the floor of half the remaining available columns.</p>
 
 <p>Example Usage:</p>
 
@@ -223,8 +231,7 @@ in the calling context. *</p>
 <p>self.$foo = Utilities.gridApportion({
    $groups: self.$foo,
    gridSelector: '.slimgrid',
-   mobile: true,
-   center: true
+   mobile: true
  });</p></li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
     gridApportion: <span class="keyword">function</span>(options) {
@@ -235,7 +242,6 @@ in the calling context. *</p>
 
       <span class="keyword">var</span> $groups = options.$groups,
           isMobile = options.mobile,
-          isCentered = options.center,
           hasGridSelector = options.gridSelector,
 
           $container = $groups.first().clone(),
@@ -256,9 +262,6 @@ in the calling context. *</p>
           <span class="keyword">if</span> ( classes[j].indexOf(isMobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>) === <span class="number">0</span> &amp;&amp; classes[j].indexOf(<span class="string">'m-span-at'</span>) === -<span class="number">1</span>) {
             spanCount = classes[j].split(isMobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>)[<span class="number">1</span>] * <span class="number">1</span>;
           }
-          <span class="keyword">if</span> ( isCentered &amp;&amp; classes[j].indexOf(isMobile ? <span class="string">'m-offset'</span> : <span class="string">'offset'</span>) === <span class="number">0</span> ) {
-            $<span class="keyword">this</span>.removeClass(classes[j]);
-          }
         }
 
         <span class="keyword">if</span> ( roomRemaining &lt; spanCount ) {
@@ -272,11 +275,6 @@ in the calling context. *</p>
         roomRemaining -= spanCount;
 
         <span class="keyword">if</span> ( i === $mSpans.length - <span class="number">1</span> ) {
-
-          <span class="keyword">if</span> ( isCentered &amp;&amp; roomRemaining &gt;= <span class="number">2</span> ) {
-            $workingGrid.children().first().addClass((isMobile ? <span class="string">'m-offset'</span> : <span class="string">'offset'</span>) + Math.floor(roomRemaining / <span class="number">2</span>));
-          }
-
           compiledGrids.push($workingAppendContainer.clone().get(<span class="number">0</span>));
           $workingAppendContainer = $workingGrid = <span class="literal">null</span>;
         }

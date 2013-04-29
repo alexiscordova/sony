@@ -5,15 +5,24 @@
 // Any beyond this count will go to the next line / be outside the overflow area.
 $maximumChildren: 20;
 
+.raa-header {
+
+  h2 {
+    padding: 0 0 14px 0;
+    margin-bottom: 10px;
+    border-bottom: 3px solid $gray70;
+  }
+}
+
 .raa-content {
 
   .carousel-slide,
   .raa-expert-reviews > div,
-  .raa-merged-carousel {
+  .raa-merged-carousel-wrapper {
     -webkit-backface-visibility: hidden;
   }
 
-  .raa-merged-carousel-wrapper {
+  .raa-merged-wrapper {
     display: none;
   }
 
@@ -29,6 +38,20 @@ $maximumChildren: 20;
 
 .raa-user-reviews {
 
+  .pagination-paddles button {
+    top: 47%;
+
+    &.pagination-prev {
+      left: 50px;
+      margin-left: 0;
+    }
+
+    &.pagination-next {
+      right: 50px;
+      margin-right: 0;
+    }
+  }
+
   .raa-user-reviews-carousel {
     position: relative;
     top: 8px;
@@ -39,7 +62,7 @@ $maximumChildren: 20;
 
     .sony-dot-nav {
       position: absolute;
-      bottom: 16px;
+      bottom: 26px;
       left: 0;
       width: 100%;
     }
@@ -166,21 +189,39 @@ $maximumChildren: 20;
 
 .raa-expert-reviews {
 
+  .pagination-paddles button {
+    top: 47%;
+
+    &.pagination-prev {
+      left: 0;
+      margin-left: -16px;
+    }
+
+    &.pagination-next {
+      right: 0;
+      margin-right: -16px;
+    }
+  }
+
+  .raa-expert-reviews-wrapper {
+    position: relative;
+  }
+
   .reviews {
     position: relative;
     min-height: 236px;
-    margin: 16px 0 40px;
+    margin: 16px 0 35px;
     overflow: hidden;
     background-color: $gray80;
 
-    > div {
+    .raa-expert-carousel {
       position: relative;
       width: $maximumChildren * 100%;
     }
 
     .sony-dot-nav {
       position: absolute;
-      bottom: 16px;
+      bottom: 20px;
       width: 100%;
     }
 
@@ -221,7 +262,7 @@ $maximumChildren: 20;
     }
 
     .no-expert-reviews.has-user-reviews &,
-    .raa-merged-carousel & {
+    .raa-merged-carousel-wrapper & {
       width: 100%;
       max-width: none;
       min-width: 200px;
@@ -244,7 +285,7 @@ $maximumChildren: 20;
         margin: 16px 10px 0 0;
       }
 
-      .has-expert-reviews.has-user-reviews .raa-merged-carousel & {
+      .has-expert-reviews.has-user-reviews .raa-merged-carousel-wrapper & {
         margin: 0;
       }
     }
@@ -267,14 +308,14 @@ $maximumChildren: 20;
         display: none;
       }
 
-      .has-expert-reviews.has-user-reviews .raa-merged-carousel & {
+      .has-expert-reviews.has-user-reviews .raa-merged-carousel-wrapper & {
         display: block;
       }
     }
   }
 }
 
-.raa-merged-carousel {
+.raa-merged-carousel-wrapper {
   position: relative;
   overflow: hidden;
 
@@ -282,7 +323,7 @@ $maximumChildren: 20;
     margin-bottom: 18px;
   }
 
-  > div {
+  .raa-merged-carousel {
     position: relative;
     width: $maximumChildren * 100%;
 

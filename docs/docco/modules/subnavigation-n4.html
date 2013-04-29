@@ -15,6 +15,7 @@ define(<span class="keyword">function</span>(require){
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
       Modernizr = require(<span class="string">'modernizr'</span>),
       enquire = require(<span class="string">'enquire'</span>),
+      hammer = require(<span class="string">'plugins/index'</span>).hammer,
       Settings = require(<span class="string">'require/sony-global-settings'</span>),
       Utilities = require(<span class="string">'require/sony-global-utilities'</span>),
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
@@ -52,25 +53,25 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       <span class="keyword">if</span> ( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
-        enquire.register(<span class="string">"(min-width: 1023px)"</span>, <span class="keyword">function</span>() {
+        enquire.register(<span class="string">"(min-width: 980px)"</span>, <span class="keyword">function</span>() {
+          self.mode = <span class="string">'desktop'</span>;
           self.renderSubcats(<span class="literal">null</span>, <span class="literal">false</span>);
           self.renderNav();
-          self.mode = <span class="string">'desktop'</span>;
         });
-        enquire.register(<span class="string">"(min-width: 480px) and (max-width: 1023px)"</span>, <span class="keyword">function</span>() {
+        enquire.register(<span class="string">"(min-width: 480px) and (max-width: 979px)"</span>, <span class="keyword">function</span>() {
+          self.mode = <span class="string">'tablet'</span>;
           self.renderSubcats(<span class="literal">null</span>, <span class="literal">true</span>);
           self.renderNav();
-          self.mode = <span class="string">'tablet'</span>;
         });
         enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
-          self.renderSubcats(<span class="literal">null</span>, <span class="literal">true</span>);
-          self.renderNav(<span class="literal">true</span>);
           self.mode = <span class="string">'mobile'</span>;
+          self.renderSubcats(<span class="literal">null</span>, <span class="literal">true</span>);
+          self.renderNav();
         });
       } <span class="keyword">else</span> {
+        self.mode = <span class="string">'desktop'</span>;
         self.renderSubcats(<span class="literal">null</span>, <span class="literal">false</span>);
         self.renderNav();
-        self.mode = <span class="string">'desktop'</span>;
       }
 
       Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.setTrayHeight, self));
@@ -100,23 +101,34 @@ define(<span class="keyword">function</span>(require){
       self.setTrayHeight();
     },
 
-    renderNav: <span class="keyword">function</span>( mobile ) {
+    renderNav: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          currentSlide;
+          isMobile = (self.mode === <span class="string">'mobile'</span>),
+          newCols, currentSlide;
+
+      <span class="keyword">switch</span> ( self.mode ) {
+        <span class="keyword">case</span> <span class="string">'desktop'</span>:
+          newCols = <span class="number">2</span>;
+          <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string">'tablet'</span>:
+          newCols = <span class="number">3</span>;
+          <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string">'mobile'</span>:
+          newCols = <span class="number">4</span>;
+          <span class="keyword">break</span>;
+      }
+
+      Utilities.reassignSpanWidths(self.$navgroups.find(<span class="string">'.subcategory-link'</span>), newCols);
 
       self.$navgroups = Utilities.gridApportion({
         $groups: self.$navgroups,
-        gridSelector: <span class="string">'.grid'</span>,
-        mobile: mobile,
-        center: <span class="literal">true</span>
+        gridSelector: <span class="string">'.grid'</span>
       });
 
       <span class="keyword">if</span> ( self.$navgroups.find(<span class="string">'.active'</span>).length &gt; <span class="number">0</span> ) {
         currentSlide = self.$navgroups.find(<span class="string">'.active'</span>).closest(self.$navgroups).index();
       }
-
-      self.$navgroups.find(<span class="string">'.grid'</span>)[ mobile ? <span class="string">'addClass'</span> : <span class="string">'removeClass'</span> ](<span class="string">'m-grid-override'</span>);
 
       <span class="keyword">if</span> ( self.$navCarousel ) {
         self.$navCarousel.sonyCarousel(<span class="string">'destroy'</span>);
@@ -124,10 +136,11 @@ define(<span class="keyword">function</span>(require){
 
       self.$navCarousel = self.$el.find(<span class="string">'.subnav-nav-carousel-wrapper nav'</span>).sonyCarousel({
         draggable: <span class="literal">true</span>,
+        onlySnapAtEnds: isMobile,
         wrapper: <span class="string">'.subnav-nav-carousel-wrapper'</span>,
         slides: <span class="string">'.subnav-nav-carousel-slide'</span>,
-        paddles: mobile ? <span class="literal">false</span> : <span class="literal">true</span>,
-        useSmallPaddles: mobile ? <span class="literal">null</span> : <span class="literal">true</span>
+        paddles: !isMobile,
+        useSmallPaddles: !isMobile
       });
 
       self.$navCarousel.sonyCarousel(<span class="string">'gotoSlide'</span>, currentSlide, <span class="literal">true</span>);
@@ -140,7 +153,7 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $buttons = self.$navgroups.find(<span class="string">'.grid'</span>).children();
 
-      $buttons.on(<span class="string">'mouseup touchend'</span>, <span class="keyword">function</span>(){
+      $buttons.hammer().on(<span class="string">'tap'</span>, <span class="keyword">function</span>(){
 
         <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
             isActive = $<span class="keyword">this</span>.hasClass(<span class="string">'active'</span>);
