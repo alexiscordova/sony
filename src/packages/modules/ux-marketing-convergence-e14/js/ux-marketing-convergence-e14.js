@@ -4,7 +4,7 @@
 //
 // * **Class:** MarketingConvergenceModule
 // * **Version:** 0.2
-// * **Modified:** 04/22/2013
+// * **Modified:** 04/30/2013
 // * **Author:** George Pantazis, Telly Koosis
 // * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html), [SonyCarousel](sony-carousel.html)
 
@@ -38,8 +38,6 @@ define(function(require){
     self.$html = $(document.documentElement);
     self.$el = $(element);
     self.isInit = true;
-    // self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions; // sony carousel will check this too and then this can just be 'true'
-
 
     // resize event related
     self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
@@ -148,7 +146,8 @@ define(function(require){
       self.$dials.simpleKnob({    
         'width': 34,
         'height': 34,    
-        'thickness': 0.15,
+        // 'thickness': 0.15,
+        'thickness': 0.1,
         'fontSize': '1em',
         'bgColor': 'rgba(255, 255, 255, 0.5)',
         'fgColor': '#fff'
@@ -230,7 +229,6 @@ define(function(require){
           $slide = self.$carouselSlides.eq(which);
 
       $reloadBtn.css('color', $slide.css("background-color"));
-
     },
 
     'fadeOutContent' : function(){
