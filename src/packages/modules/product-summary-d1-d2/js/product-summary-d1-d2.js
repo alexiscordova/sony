@@ -120,7 +120,7 @@ define(function(require) {
         self.$stickyNav.stickyNav({
           $jumpLinks: self.$jumpLinks,
           offset: 0,
-          offsetTarget: self.$el.find('.jump-links:not(.nav)')
+          offsetTarget: self.$el.next()
         });
 
         iQ.update();

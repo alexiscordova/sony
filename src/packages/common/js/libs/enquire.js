@@ -44,7 +44,7 @@ window.enquire = (function(matchMedia) {
 
     // Don't try to load this if your browser doesn't support media queries.
     // - George
-    if ( $(document.documentElement).hasClass('no-mediaqueries') ) {
+    if ( document.documentElement.className.indexOf('no-mediaqueries') >= 0 ) {
         return;
     }
 

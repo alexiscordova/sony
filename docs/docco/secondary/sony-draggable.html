@@ -377,8 +377,13 @@ respect the grid even though they aren't really in it. Refer to S2 for usage exa
         sonyDraggable = self.data(<span class="string">'sonyDraggable'</span>);
 
       <span class="keyword">if</span> ( !sonyDraggable ) {
-          sonyDraggable = <span class="keyword">new</span> SonyDraggable( self, options );
-          self.data( <span class="string">'sonyDraggable'</span>, sonyDraggable );
+
+        <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+          <span class="keyword">return</span>;
+        }
+
+        sonyDraggable = <span class="keyword">new</span> SonyDraggable( self, options );
+        self.data( <span class="string">'sonyDraggable'</span>, sonyDraggable );
       }
 
       <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {

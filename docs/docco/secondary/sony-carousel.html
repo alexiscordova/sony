@@ -127,6 +127,11 @@ define(<span class="keyword">function</span>(require){
         self.setupDraggable();
       }
 
+      <span class="keyword">if</span> ( self.$slides.length &lt;= <span class="number">1</span> ) {
+        self.destroy();
+        <span class="keyword">return</span>;
+      }
+
       Environment.on(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id, <span class="keyword">function</span>() {
         <span class="keyword">if</span> ( self.snap ) {
           self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
@@ -606,12 +611,16 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $paddleWrapper = self.$paddleWrapper || self.$wrapper,
-          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides;
+          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides,
+          containerStyles = {
+            transitionTimingFunction: <span class="string">''</span>,
+            transitionDuration: <span class="string">''</span>,
+            transform: <span class="string">''</span>
+          };
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Reset styles.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.css(Modernizr.prefixed(<span class="string">'transitionTimingFunction'</span>), <span class="string">''</span>)
-          .css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">''</span> )
-          .css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">''</span>)
-          .css(self.posAttr, <span class="string">''</span>);
+      containerStyles[ self.posAttr ] = <span class="string">''</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Reset styles.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.css( containerStyles );
 
 </pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id);
       self.$el.off(<span class="string">'sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide '</span> + Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
@@ -645,6 +654,11 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
           sonyCarousel = self.data(<span class="string">'sonyCarousel'</span>);
 
       <span class="keyword">if</span> ( !sonyCarousel ) {
+
+        <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+          <span class="keyword">return</span>;
+        }
+
         sonyCarousel = <span class="keyword">new</span> SonyCarousel( self, options );
         self.data( <span class="string">'sonyCarousel'</span>, sonyCarousel );
       }
@@ -677,6 +691,8 @@ in the slideChildren set.</p>             </td>             <td class="code">   
 </pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Should this carousel seamlessly loop from end to end?</p>             </td>             <td class="code">               <div class="highlight"><pre>    looped: <span class="literal">false</span>,
 
     snap: <span class="literal">true</span>,
+
+    onlySnapAtEnds: <span class="literal">false</span>,
 
 </pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Should the carousel jump directly to the next slide in either direction?</p>             </td>             <td class="code">               <div class="highlight"><pre>    jumping: <span class="literal">false</span>,
 

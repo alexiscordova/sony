@@ -3,7 +3,7 @@
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>------------ Sony Universal Nav ------------
 Module: Universal Nav
 Version: 1.0
-Modified: 2013-04-24 by Christopher Mischler</p>
+Modified: 2013-04-26 by Christopher Mischler</p>
 
 <h2>Dependencies: jQuery 1.4+</h2>             </td>             <td class="code">               <div class="highlight"><pre>
 <span class="keyword">var</span> UNAV = ( <span class="keyword">function</span>( window, document, $, <span class="literal">undefined</span> ){
@@ -39,9 +39,8 @@ Modified: 2013-04-24 by Christopher Mischler</p>
 
 <h2>EVENT LISTENERS</h2>
 
-<p>Since I don't know what version of jQuery will be used on all sites, this will allow versions older than 1.7 
-to work, without using depreciated functions in version 1.7+ 
-At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ($.isFunction($.fn.on)){
+<p>At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().
+This will allow versions older than 1.7 to work without using depreciated functions in version 1.7+</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ($.isFunction($.fn.on)){
       $triggerLink.on(<span class="string">'click'</span>,<span class="keyword">function</span>(e){
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>console.log("$triggerLink");</p>             </td>             <td class="code">               <div class="highlight"><pre>        e.preventDefault();
         <span class="keyword">if</span> ($pageWrapOuter.hasClass(<span class="string">'unav-open'</span>)){
@@ -86,14 +85,20 @@ Using a somewhat arbitrary delay in an attempt to avoid firing at the same time 
         }
       });
     }
-
-    _setUpElements();
+    _setUpPrimaryLinks($uNavPrimary.children().length);
   },
 
 
 
+  _setUpPrimaryLinks = <span class="keyword">function</span>(xUp){
 
-  _setUpElements = <span class="keyword">function</span>(){
+    <span class="keyword">if</span> (xUp === <span class="number">6</span>){
+      $uNavPrimary.addClass(<span class="string">'u-nav-primary-6up'</span>);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (xUp === <span class="number">3</span>){
+      $uNavPrimary.addClass(<span class="string">'u-nav-primary-3up'</span>);
+    } <span class="keyword">else</span> {
+      $uNavPrimary.addClass(<span class="string">'u-nav-primary-5up'</span>);
+    }
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>So we don't have to download the images before we can figure out how high the module will be,
 we need to figure out the height the image should be at this width, based on current browser width.
@@ -120,7 +125,7 @@ delays just to make sure the new heights are set before the next step.</p>      
 
   _openUNav = <span class="keyword">function</span>(){
 </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>console.log("_openUNav");</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    _setUpElements();
+    _setUpPrimaryLinks();
 
     setTimeout(<span class="keyword">function</span>() {
       $pageWrapOuter.addClass(<span class="string">'unav-open unav-open-until-transition-end'</span>);
@@ -160,7 +165,7 @@ via http://stackoverflow.com/questions/7264899/detect-css-transitions-using-java
   },
 
   _resizeEvent = <span class="keyword">function</span>(){
-    _setUpElements();
+    _setUpPrimaryLinks();
   };
 
   <span class="keyword">return</span> {

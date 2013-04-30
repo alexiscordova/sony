@@ -14,8 +14,20 @@
   }
   .modal-body {
     padding: 2em;
-    height: 100%;
+    max-height: 100%;
     -webkit-overflow-scrolling: touch;
+  }
+  &.tablet {
+    height: 100%;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+  }
+  .box-close {
+    i {
+      width: 14px;
+      height: 20px;
+    }
   }
 }
 
@@ -49,7 +61,7 @@
     color: $gray40;
   }
   .browser-list {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
   .browser-link {
     margin-bottom: 20px;
@@ -63,7 +75,7 @@
   }
   .unsupported-bd {
     width: 430px;
-    margin: 20px auto 60px;
+    margin: 20px auto 40px;
   }
   .unsupported-bd-alt {
     display: none;
