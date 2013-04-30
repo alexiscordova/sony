@@ -1,537 +1,449 @@
-$tcc-content-block-height-2up:277px;
-$tcc-content-block-height-1up:277px;//240px;//198px;
-$two-up-breakpoint-max:px-em(979px); //767px;
-$two-up-breakpoint-min:px-em(480px);
-$one-up-breakpoint-max:px-em(479px);
-
-$tenPercentInstaFlickr: percentage(10px/316px);
-$fivePercentInstaFlickr: percentage(5px/316px);
-
-//  .d8888b.                           
-// d88P  Y88b                          
-//        888                          
-//      .d88P        888  888 88888b.  
-//  .od888P"         888  888 888 "88b 
-// d88P"      888888 888  888 888  888 
-// 888"              Y88b 888 888 d88P 
-// 888888888          "Y88888 88888P"  
-//                            888      
-//                            888     
-//                             
-@media (min-width: $two-up-breakpoint-min) and (max-width: $two-up-breakpoint-max) {
-  
-  .tcc-wrapper{
-    height: 475px;
-
-    .tcc-full-bleed-at-979{
-      width:auto;
-    }
-
-    .tcc-body{
-      height:$tcc-content-block-height-2up; 
-    } // end .tcc-body
-
-    .tcc-content-block{
-      height:$tcc-content-block-height-2up;
-    
-      .tcc-inner-container {
-        height:$tcc-content-block-height-2up;
-      } //.tcc-inner-container
-
-    } // tcc-content-block
-
-    .article{ 
-      &.default,
-      &.news,
-      &.event{
-        .p4{
-          max-height: 54px;
-          overflow: hidden;
-        }
-      }
-
-      &.featured{       
-        .feature-copy{
-          max-height: 120px;
-
-          .lt3{
-            margin-top:0px;
-          }
- 
-          .t5-light{
-            height:52px;
-            max-height: 52px;        
-          } // end .t5-light
-
-        } // end .feature-copy
-      
-      } // end .article.featured 
-
-    } // end .article
-
- 
-    .users-voice{
+$two-up-height:314px;
+$one-up-height:240px;
 
 
+// //  .d8888b.                           
+// // d88P  Y88b                          
+// //        888                          
+// //      .d88P        888  888 88888b.  
+// //  .od888P"         888  888 888 "88b 
+// // d88P"      888888 888  888 888  888 
+// // 888"              Y88b 888 888 d88P 
+// // 888888888          "Y88888 88888P"  
+// //                            888      
+// //                            888     
 
-      &.user-quote,
-      &.expert-quote{
-        padding-bottom:22px;
-        
-
-        .bq3{
-          max-height: 105px;
-          overflow:hidden;
-        } // end .bq3
-
-        .credits{
-        
-          .avatar{
-            margin-bottom:5px;
-          } // .avatar        
-        
-        } // .credits
-
-      }
-
-      &.question{
-        .bq3{
-          max-height: 150px;
-          overflow:hidden;
-          padding-top:20px;
-        } // end .bq3
-
-      }// end .question
-
-    } // end .users-voice
-    
-    .sonys-voice{   
-      padding:0; 
+@media (min-width: px-em(480px)) and (max-width: px-em(979px)) {
+	.tcc-module{
+		#three-up,
+		#two-up,
+		#one-up{
+			height:$two-up-height;
+		}
 
 
-      &.instagram{
+		//        d8888         888    d8b          888          
+		//       d88888         888    Y8P          888          
+		//      d88P888         888                 888          
+		//     d88P 888 888d888 888888 888  .d8888b 888  .d88b.  
+		//    d88P  888 888P"   888    888 d88P"    888 d8P  Y8b 
+		//   d88P   888 888     888    888 888      888 88888888 
+		//  d8888888888 888     Y88b.  888 Y88b.    888 Y8b.     
+		// d88P     888 888      "Y888 888  "Y8888P 888  "Y8888 
+		.article{
+			
 
-        .span12{
-          margin-left:0;
-        }
+			//  ______            _                          _ 
+			// |  ____|          | |                        | |
+			// | |__  ___   __ _ | |_  _   _  _ __  ___   __| |
+			// |  __|/ _ \ / _` || __|| | | || '__|/ _ \ / _` |
+			// | |  |  __/| (_| || |_ | |_| || |  |  __/| (_| |
+			// |_|   \___| \__,_| \__| \__,_||_|   \___| \__,_|
+	    &.featured{
 
-        .center{
-          position:relative;
+	      .copy{
+	        padding:px-em(30px); 
+	        max-height: 120px;
+	      } // end .copy
 
-          .center-container{
-            height:116px; // 117 = 96 + 10 + 10
+	      .t5-light{
+	      	height: 52px;
+					max-height: 52px;
+	      } // t5-light
 
-            .right,
-            .left{
-              div{
-                display:inline-block;
-              }
-            }
+	      .lt3{
+	        margin-top:0px;
+	      } // lt3
 
-            .right{
-              padding-left: 0;
-              right:10px;
-              width:percentage( 96 / 318 ); 
-              height:96px; //percentage( 96 / 217 ); 
+	    } // featured
 
-              div{
-                width:100%; 
-                height:100%; 
-              }
-
-            } // end right
-
-            .left{
-              left:10px;
-              width:percentage( 202 / 318 ); //197 = 96*2 + 10 padding (5 on each side)
-              height:96px; //percentage( 96 / 217 );
-
-              div{
-                width:percentage(98.019995/202); // 98 is a slight tweak from 96
-                height:100%;
-              }
-              
-              .last{
-                margin: 0 0 0 px-em(5px);
-              }           
-
-            } // end left
-
-          } //.center-container
-          
-        } // end center
-
-      } // end &.instagram
-
-    } // end .sonys-voice  
-
-    .flickr{
-
-      .center{
-        .bottom-row{  
-          display:none;
-         }    
-               
-        .top-row{
-          margin-bottom:0;
-        }
-        .top-row,
-        .bottom-row{  
-          div{
-            width:30%;
-          }  
-        }    
-  
-      } // end center    
-    
-    } // end .flickr
-    
-    .navigation-container{
-      bottom: 23px;
-      margin-left: -14px; 
-    } // .navigation-container
-
-  } // end .tcc-wrapper
-
-} // end mQ
+		} // article
 
 
-//  d888                           
-// d8888                           
-//   888                           
-//   888         888  888 88888b.  
-//   888         888  888 888 "88b 
-//   888  888888 888  888 888  888 
-//   888         Y88b 888 888 d88P 
-// 8888888        "Y88888 88888P"  
-//                        888      
-//                        888      
-//                        888    
-//                          
-// ONE UP LANDSCAPE PHONE AND BELOW -- 480px
-@media (max-width: $one-up-breakpoint-max) {
-  .tcc-wrapper{
-    height: 475px;
-    padding:50px 0;
+		//  .d8888b.                                           888     888          d8b                   
+		// d88P  Y88b                                          888     888          Y8P                   
+		// Y88b.                                               888     888                                
+		//  "Y888b.    .d88b.  88888b.  888  888 .d8888b       Y88b   d88P  .d88b.  888  .d8888b  .d88b.  
+		//     "Y88b. d88""88b 888 "88b 888  888 88K            Y88b d88P  d88""88b 888 d88P"    d8P  Y8b 
+		//       "888 888  888 888  888 888  888 "Y8888b. 888888 Y88o88P   888  888 888 888      88888888 
+		// Y88b  d88P Y88..88P 888  888 Y88b 888      X88         Y888P    Y88..88P 888 Y88b.    Y8b.     
+		//  "Y8888P"   "Y88P"  888  888  "Y88888  88888P'          Y8P      "Y88P"  888  "Y8888P  "Y8888  
+		//                                   888                                                          
+		//                              Y8b d88P                                                          
+		//                               "Y88P"
+		.sonys-voice{
+			//   _____              _                   
+			//  / ____|            | |                  
+			// | |      ___  _ __  | |_  ___  _ __      
+			// | |     / _ \| '_ \ | __|/ _ \| '__|     
+			// | |____|  __/| | | || |_|  __/| |        
+			//  \_____|\___||_| |_| \__|\___||_|        
+			.center{		
+				height: 62.75%;
+			} // center
 
-    .tcc-full-bleed-at-979{
-      width:auto;
-    } // end .tcc-full-bleed-at-979
-  
-    .tcc-header{
-      padding-bottom: 20px;
-      text-align: left;
+			.instagram{
+				height:128px;
+				padding:0; // everything is now absolute positioned
+				position: relative;
 
-      .tcc-header-title{
-        padding-bottom:10px;
-        display:block;
-        float:none;
-      } // end .tcc-header-title
+				.left,
+				.right{
+					position: absolute;
+					height:84%;
+					display: inline-block;
 
-      .tcc-header-link{
-        display:block;
-        float:none;
-        position: relative;
-        bottom:0;       
-        right: 0;
-      } // end .tcc-header-link
+				} // left/right
 
-    } // end .tcc-header
+				.left{
+					top:10px;
+					left:10px;
+					padding-right:0;
+					width:59.72327%; 
 
+					.iq-img{
+						width:48%;
+						height: 100%;
+						margin-left: 0;
+						display: inline-block;
+					} // iq-img
 
-    .tcc-body-wrapper{
-      padding:30px 0 0 0;
-    } // end .tcc-body-wrapper
+					.last{
+						margin-top: 0;
+						margin-left: 5px;
+					} // last
 
-    .tcc-body{
-      height:$tcc-content-block-height-1up; 
-    } // end .tcc-body
+				} //left
 
-    .tcc-content-block{
-      height:$tcc-content-block-height-1up;
+				.right{
+					padding-left:0;
+					top:10px;
+					right:10px;
+					width:34.27673%; 
+				} //right
 
-      .tcc-inner-container{
-        height:$tcc-content-block-height-1up;
-      }
+			} // instagram
 
-    } // tcc-content-block
-
-    .article{
-      .p4{
-        display:none; // body copy mobile
-      } // end p4
-
-      .img-container{
-      
-        img{
-          width:100%;
-        } // end img
-      
-      } // end .img-container
+		} // sonys-voice
 
 
-      &.default,
-      &.news,
-      &.event{
-        outline:1px soild red;
-        .tcc-copy{
-          max-height:90px;
-        }
+		// 8888888888 888 d8b          888              
+		// 888        888 Y8P          888              
+		// 888        888              888              
+		// 8888888    888 888  .d8888b 888  888 888d888 
+		// 888        888 888 d88P"    888 .88P 888P"   
+		// 888        888 888 888      888888K  888     
+		// 888        888 888 Y88b.    888 "88b 888     
+		// 888        888 888  "Y8888P 888  888 888     
+
+		.flickr{
+			position: relative;
+					
+			//   _____              _                   
+			//  / ____|            | |                  
+			// | |      ___  _ __  | |_  ___  _ __      
+			// | |     / _ \| '_ \ | __|/ _ \| '__|     
+			// | |____|  __/| | | || |_|  __/| |        
+			//  \_____|\___||_| |_| \__|\___||_|        
+			.center{
+				height: 66.55%;
+			} // center
+
+			.flickr-container{
+				height:93px;
+			}
+
+			.iq-img{
+				width:31%;
+			}
+
+			.top-row{
+				height:100%;
+				padding:10px;
+
+			} // end .top-row
+			
+			.bottom-row{
+				display: none;
+			} // end .bottom-row
+
+		} // flickr
+
+	} // tcc module
+	
+} // mq 
+
+
+
+
+// //  d888                           
+// // d8888                           
+// //   888                           
+// //   888         888  888 88888b.  
+// //   888         888  888 888 "88b 
+// //   888  888888 888  888 888  888 
+// //   888         Y88b 888 888 d88P 
+// // 8888888        "Y88888 88888P"  
+// //                        888      
+// //                        888      
+// //                        888    
+
+@media (max-width: px-em(479px)) {
+	.tcc-module{
+		padding:50px 0;
+
+		#three-up,
+		#two-up,
+		#one-up{
+			height:$one-up-height;
+		}
+
+		.tcc-header{
+
+	    .tcc-header-link{
+	      text-align: left;
+	    } // end .tcc-header-link
+
+		} // end .tcc-header
+
+		//        d8888         888    d8b          888          
+		//       d88888         888    Y8P          888          
+		//      d88P888         888                 888          
+		//     d88P 888 888d888 888888 888  .d8888b 888  .d88b.  
+		//    d88P  888 888P"   888    888 d88P"    888 d8P  Y8b 
+		//   d88P   888 888     888    888 888      888 88888888 
+		//  d8888888888 888     Y88b.  888 Y88b.    888 Y8b.     
+		// d88P     888 888      "Y888 888  "Y8888P 888  "Y8888 
+		.article{
+
+			.tcc-copy{
+
+					.p4{
+						display:none;
+					} // p4
+
+			} // tcc-copy
+
+			//  ______            _                          _ 
+			// |  ____|          | |                        | |
+			// | |__  ___   __ _ | |_  _   _  _ __  ___   __| |
+			// |  __|/ _ \ / _` || __|| | | || '__|/ _ \ / _` |
+			// | |  |  __/| (_| || |_ | |_| || |  |  __/| (_| |
+			// |_|   \___| \__,_| \__| \__,_||_|   \___| \__,_|
+	    &.featured{
+	      .copy{
+	        padding:px-em(17px) px-em(25px); 
+	        max-height: 120px;
+	      } // end copy
+
+        .t5-light{
+        	height: 52px;
+					max-height: 52px;
+        } // t5-light
 
         .lt3{
-          margin:0;
-        }
-      }
+          margin-top:0px;
+        } //lt3
 
-      &.featured{
-        .feature-copy{
-          padding:px-em(17px) px-em(25px); 
-          max-height: 120px;
+	    } // featured
 
-          .lt3{
-            margin-top:0px;
-          }
- 
-          .t5-light{
-            height:52px;
-            max-height: 52px;        
-          } // end .t5-light
+		} // article
 
-        } // end .feature-copy
 
-      } // end .article.featured
 
-    } // end .article  
+		//  .d8888b.                                           888     888          d8b                   
+		// d88P  Y88b                                          888     888          Y8P                   
+		// Y88b.                                               888     888                                
+		//  "Y888b.    .d88b.  88888b.  888  888 .d8888b       Y88b   d88P  .d88b.  888  .d8888b  .d88b.  
+		//     "Y88b. d88""88b 888 "88b 888  888 88K            Y88b d88P  d88""88b 888 d88P"    d8P  Y8b 
+		//       "888 888  888 888  888 888  888 "Y8888b. 888888 Y88o88P   888  888 888 888      88888888 
+		// Y88b  d88P Y88..88P 888  888 Y88b 888      X88         Y888P    Y88..88P 888 Y88b.    Y8b.     
+		//  "Y8888P"   "Y88P"  888  888  "Y88888  88888P'          Y8P      "Y88P"  888  "Y8888P  "Y8888  
+		//                                   888                                                          
+		//                              Y8b d88P                                                          
+		//                               "Y88P"
+		.sonys-voice{
+			//  _______                                 
+			// |__   __|                                
+			//    | |  ___   _ __                       
+			//    | | / _ \ | '_ \                      
+			//    | || (_) || |_) |                     
+			//    |_| \___/ | .__/                      
+			//              | |                         
+			//              |_|                                                                 
 
-    .users-voice{
+			.top{
+				display: table;
+			} // top
 
-      &.expert-quote{
-        .credits{
-          .avatar{
-            margin-bottom:0;
-          } // .avatar
+			.icon-container,
+			.meta{
+				display: table-cell;
+				vertical-align: middle;
+				// display: inline-block;
+			}
 
-          .author{
-            padding-left:0;
-          } // end author
+			.icon-container{
+				width:37%;
+				text-align: right;
+				position: relative;
+			} // end .icon-container
 
-        } // end .credits
+			.fonticon-10-dot{
+					font-size:px-em(40px); 
+			} // background white dot
 
-      } // end &.expert-quote
-      
-      &.user-quote{
+			.fonticon-15-facebook,
+			.fonticon-15-twitter,
+			.fonticon-15-instagram {
+				font-size: px-em(21px);
+				right: 0.45em;
+				top: 0.5em; 
+				left:auto;
+			} // end .fonticons
 
-        padding:30px px-em(25px) 26px px-em(25px);
+			.meta{
+				text-align: left;
+				margin-top: 0;
+				padding-left: px-em(10px); 
+			} // meta
 
-        .credits{
-          position:absolute;
-          bottom:23px;
-          left:px-em(25px);
+			//   _____              _                   
+			//  / ____|            | |                  
+			// | |      ___  _ __  | |_  ___  _ __      
+			// | |     / _ \| '_ \ | __|/ _ \| '__|     
+			// | |____|  __/| | | || |_|  __/| |        
+			//  \_____|\___||_| |_| \__|\___||_|        
+			.center{		
+				height: 68.75%;
+			} // center
 
-          .avatar{
-            margin-bottom:0px;
-          } // end avatar
+			.facebook{
+				img{
+				  height: 100%;
+				} // end .iq-img
 
-          .handle,
-          .author{
-            margin:0;
-          }
+			} // facebook
 
-          .author{
-           padding-left: px-em(5px);
-          } // .author
+			.instagram{
+				height:128px;
+				padding:0; // everything is now absolute positioned
+				position: relative;
 
-        } // end .credits
-        
-      } // end .user-quote & .expert-quote
-      
-      &.question{
-        .credits{
-          .author{
-            left:63px;            
-            margin:-8px 0 0 0;
-          } // end .author
-        } // end .credits
+				.left,
+				.right{
+					position: absolute;
+					height:84%;
+					display: inline-block;
 
-        .bq3{
-          padding:25px px-em(10px) 0 px-em(10px);
-          margin-bottom:7px;
-        } // end .bq3
+				} // left/right
 
-        .answer-btn{
-          margin-left: -75px;
-          bottom:0;
-        } // end .answer-btn
+				.left{
+					top:10px;
+					left:10px;
+					padding-right:0;
+					width:59.72327%; 
 
-      } // end .question
+					.iq-img{
+						width:48%;
+						height: 100%;
+						margin-left: 0;
+						display: inline-block;
+					} // iq-img
 
-    } // users voice
+					.last{
+						margin-top: 0;
+						margin-left: 5px;
+					} // last
 
-    .sonys-voice{
-      padding:0;
+				} //left
 
-      .top{
-        .icon-container{
-          display: inline-block;
-          padding: 0;
-          margin: 0 5px 0 0;
-        } // .icon-container
+				.right{
+					padding-left:0;
+					top:10px;
+					right:10px;
+					width:34.27673%; 
+				} //right
 
-       [class*="fonticon-10-dot"]{
-          font-size: px-em(40px); 
+			} // instagram
 
-          &.white-bg{
-            left: 0;
-            margin-left: 0;
-            width:40px;
-            height:40px;
-          } // end .white-bg
+		} // sonys-voice
 
-        } // end fonticon divs
+		// 8888888888 888 d8b          888              
+		// 888        888 Y8P          888              
+		// 888        888              888              
+		// 8888888    888 888  .d8888b 888  888 888d888 
+		// 888        888 888 d88P"    888 .88P 888P"   
+		// 888        888 888 888      888888K  888     
+		// 888        888 888 Y88b.    888 "88b 888     
+		// 888        888 888  "Y8888P 888  888 888     
 
-        .fonticon-15-facebook,
-        .fonticon-15-twitter,
-        .fonticon-15-instagram {
-          font-size: px-em(21px);
-          width: 40px;
-          height: 40px;
-          padding-top: 9px;
-          margin: 0;
-          z-index: 2;        
-        } // end .fonticons
+		.flickr{
+			position: relative;
 
-       .social-btn{
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          margin-left:-73px;
+			//  _______                                 
+			// |__   __|                                
+			//    | |  ___   _ __                       
+			//    | | / _ \ | '_ \                      
+			//    | || (_) || |_) |                     
+			//    |_| \___/ | .__/                      
+			//              | |                         
+			//              |_|  
+			
 
-        } // end socialBtn
+			.top{
+				display: table;
+				padding-left: 17%;
+			} // top
 
-        .meta{
-          display:inline-block;
-          margin:12px 0;
-          padding:0;
-        } // end .meta
+			.icon-container,
+			.meta{
+				display: table-cell;
+				vertical-align: middle;
+			}
 
-      } // end top
+			.icon-container{
+				width:15%;
+				position: relative;
+			} // end .icon-container
 
-      &.twitter{
-        .bq4{
-          padding:0;//20px 0;
-        } // end .bq4
-    
-      } // end .twitter
+			.meta{
+				text-align: left;
+				margin-top: 0;
+				padding-left: px-em(10px); 
+			} // meta
 
-      &.facebook{
-        .bq5{
-          padding:5px 0;
+		
+			//   _____              _                   
+			//  / ____|            | |                  
+			// | |      ___  _ __  | |_  ___  _ __      
+			// | |     / _ \| '_ \ | __|/ _ \| '__|     
+			// | |____|  __/| | | || |_|  __/| |        
+			//  \_____|\___||_| |_| \__|\___||_|        
+			.center{
+				height: 64.55%;
+			} // center
 
-          p{
-            margin-bottom:0;
-          } // end p
-          
-        } // end .bq5
-        
-      } // end &.facebook     
+			.flickr-container{
+				height:93px;
+			}
 
-      &.instagram{
+			.iq-img{
+				width:32%;
+			}
 
-        .span12{
-          margin-left:0;
-        }
+			.top-row{
+				height:100%;
+				padding:10px;
 
-        .center{
-          position:relative;
+			} // end .top-row
+			
+			.bottom-row{
+				display: none;
+			} // end .bottom-row
 
-          .center-container{
-            height:116px; // 117 = 96 + 10 + 10
+		} // flickr
 
-            .right,
-            .left{
-              div{
-                display:inline-block;
-              }
-            }
+	} // tcc module
 
-            .right{
-              padding-left: 0;
-              right:10px;
-              width:percentage( 96 / 318 ); 
-              height:96px; //percentage( 96 / 217 ); 
-
-              div{
-                width:100%; 
-                height:100%; 
-              }
-
-            } // end right
-
-            .left{
-              left:10px;
-              width:percentage( 202 / 318 ); //197 = 96*2 + 10 padding (5 on each side)
-              height:96px; //percentage( 96 / 217 );
-
-              div{
-                width:percentage(98.019995/202); // 98 is a slight tweak from 96
-                height:100%;
-              }
-              
-              .last{
-                margin: 0 0 0 px-em(5px);
-              }           
-
-            } // end left
-
-          } //.center-container
-          
-        } // end center
-
-      } // end &.instagram
-
-    } // end .sonys-voice  
-    
-    .flickr{
-     
-      .top{
-
-        .icon-container{
-          display:inline-block;
-          width: 44px; 
-         
-        } // .icon-container
-
-       .social-btn{
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          margin-left:-73px;
-        } // end socialBtn        
-   
-        .meta{
-          margin-top:8px;
-          display:inline-block;
-          padding-left: px-em(10px); 
-        } // end .meta
-
-      } // end .top
-
-      .center{
-        .bottom-row{  
-          display:none;
-         }    
-               
-        .top-row{
-          margin-bottom:0;
-        }
-      }
-
-    } // end .flickr
-
-    .navigation-container{
-      bottom: 14px;
-    } // .navigation-container
-
-  } // end .tcc-wrapper
-
-} // end > 480
+ } // mq

@@ -11,8 +11,10 @@ include ../../../common/html/jade-helpers.jade
       else
         - var klasses = "tab-pane fade off-screen";
       div(data-tab= tab.tabTitle, class= klasses)
-        e = {"locals":locals, "data":tab.image}
-        !{locals.partial('packages/modules/image/html/image.jade' , e)}
+        .slides
+          for slide in tab.slides
+            e = {"locals":locals, "data":slide}
+            !{locals.partial('packages/modules/image/html/image.jade' , e)}
 
         .grid-placement
           .container
@@ -30,8 +32,12 @@ include ../../../common/html/jade-helpers.jade
                       p.p3= tab.bodycopy
                     a.btn= tab.buttontext
 
-    ul.tabs
-      - each tab, i in data.tabs
-        - var klass = (i === 0 ? 'active' : '')
-        li(class= klass, data-target= tab.tabTitle, data-toggle="tab", data-hash="true")
-          a(href="#")= tab.tabTitle
+    .tabs-container
+      ul.tabs
+        - each tab, i in data.tabs
+          - var klass = (i === 0 ? 'active' : '')
+          li(class= klass, data-target= tab.tabTitle, data-toggle="tab", data-hash="true")
+            a(href="#")
+              span.active-highlight
+              i.fonticon.fonticon-10-square-neg-plus
+              = tab.tabTitle
