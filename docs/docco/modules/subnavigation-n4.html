@@ -174,7 +174,7 @@ define(<span class="keyword">function</span>(require){
     openSubcat: <span class="keyword">function</span>(which) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $subcat = $(<span class="string">'#subcategory-'</span> + which);
+          $subcat = self.$el.find(<span class="string">'#subcategory-'</span> + which);
 
       self.renderSubcats($subcat, self.mode !== <span class="string">'desktop'</span>);
 

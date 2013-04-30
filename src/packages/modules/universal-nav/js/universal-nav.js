@@ -18,6 +18,7 @@ var UNAV = ( function( window, document, $, undefined ){
     $uNavPrimary,
     $firstChild,
     $closeBtn,
+    xUp,
     uNavColWidth,
     uNav2highImgHeight,
     uNavColHeight,
@@ -33,6 +34,7 @@ var UNAV = ( function( window, document, $, undefined ){
     $uNavPrimary = $uNav.find('.u-nav-primary');
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $('#u-nav-close-btn');
+    xUp = $uNavPrimary.children().length;
     _cssTransitions = _browserCssTransitionDetect();
 
 
@@ -101,7 +103,7 @@ var UNAV = ( function( window, document, $, undefined ){
 
 
 
-  _setUpPrimaryLinks = function(xUp){
+  _setUpPrimaryLinks = function(){
 
     var twoHighRatio = 0.887538;
     var twoWideRatio = 0.4201995;
@@ -131,7 +133,6 @@ var UNAV = ( function( window, document, $, undefined ){
 
     setTimeout(function(){
       uNavOuterHeight = $uNav.outerHeight();
-      // console.log("uNavOuterHeight: " + uNavOuterHeight);
       setTimeout(function(){
         // once we have the outerheight, clear the custom height from the $uNavPrimary so it's back to the natural flow.
         // delays just to make sure the new heights are set before the next step.
@@ -150,7 +151,7 @@ var UNAV = ( function( window, document, $, undefined ){
   _openUNav = function(){
     // console.log("_openUNav");
 
-    _setUpPrimaryLinks();
+    _setUpPrimaryLinks($uNavPrimary.children().length);
 
     setTimeout(function() {
       $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
@@ -193,7 +194,7 @@ var UNAV = ( function( window, document, $, undefined ){
   },
 
   _resizeEvent = function(){
-    _setUpPrimaryLinks();
+    _setUpPrimaryLinks($uNavPrimary.children().length);
   };
 
   return {
