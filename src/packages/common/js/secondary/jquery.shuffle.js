@@ -865,8 +865,9 @@ define(function(require){
         /**
          * The magic. This is what makes the plugin 'shuffle'
          * @param  {String|Function} category category to filter by. Can be a function
+         * @param {Object} [sortObj] A sort object which can sort the filtered set
          */
-        shuffle : function( category ) {
+        shuffle : function( category, sortObj ) {
             var self = this;
 
             if ( !self.enabled ) {
@@ -889,6 +890,10 @@ define(function(require){
             // Shrink each concealed item
             self.shrink();
 
+            // If given a valid sort object, save it so that _reLayout() will sort the items
+            if ( sortObj ) {
+                self.lastSort = sortObj;
+            }
             // Update transforms on .filtered elements so they will animate to their new positions
             self._reLayout();
         },
@@ -1011,7 +1016,7 @@ define(function(require){
 
 
     // Plugin definition
-    $.fn.shuffle = function(opts, sortObj) {
+    $.fn.shuffle = function( opts ) {
         var args = Array.prototype.slice.call( arguments, 1 );
         return this.each(function() {
             var $this = $(this),
@@ -1025,14 +1030,12 @@ define(function(require){
 
             // If passed a string, lets decide what to do with it. Or they've provided a function to filter by
             if ( $.isFunction(opts) ) {
-                shuffle.shuffle( opts );
+                shuffle.shuffle.apply( shuffle, args );
 
             // Key should be an object with propreties reversed and by.
             } else if (typeof opts === 'string') {
                 switch( opts ) {
                     case 'sort':
-                        shuffle.sort(sortObj);
-                        break;
                     case 'destroy':
                     case 'update':
                     case 'appended':
