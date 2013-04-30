@@ -4,6 +4,7 @@ include ../../../common/html/jade-helpers.jade
 
 moduleClasses = [ 'ec-module' ]
 moduleMode = false
+moduleId = data.config && data.config.id ? data.config.id : false
 
 case data.variation
   when 'a2'
@@ -12,7 +13,7 @@ case data.variation
     - moduleClasses.push( 'dark-bg' )
     moduleMode = 'dark'
 
-div(class=moduleClasses, data-mode=moduleMode)
+div(class=moduleClasses, id=moduleId, data-mode=moduleMode)
   .container
     .grid
       h3.t3.ec-title= data.title
