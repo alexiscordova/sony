@@ -6,6 +6,20 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
 
+@media (max-height: 34.375em) {
+  .modal-light-compare {
+    &.modal {
+      .container,
+      .grid {
+        height: auto;
+      }
+    }
+    .tab-container {
+      position: fixed;
+    }
+  }
+}
+
 @media (max-width:$phoneMax) {
   .mobile-hd {
     position: relative;
@@ -54,6 +68,9 @@ $desktopMin: px-em(980);
         li {
           display: table-cell;
           float: none;
+          a {
+            padding: 20px 10px;
+          }
         }
       }
     }
