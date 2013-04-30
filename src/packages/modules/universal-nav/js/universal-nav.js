@@ -39,9 +39,8 @@ var UNAV = ( function( window, document, $, undefined ){
     // -----------------------------
     // EVENT LISTENERS
     // -----------------------------
-    // Since I don't know what version of jQuery will be used on all sites, this will allow versions older than 1.7 
-    // to work, without using depreciated functions in version 1.7+ 
     // At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().
+    // This will allow versions older than 1.7 to work without using depreciated functions in version 1.7+
     if ($.isFunction($.fn.on)){
       $triggerLink.on('click',function(e){
         // console.log("$triggerLink");
@@ -97,16 +96,20 @@ var UNAV = ( function( window, document, $, undefined ){
         }
       });
     }
-    if ($uNavPrimary.children().length < 6){
-      _setUpPrimaryLinks();
-    } else {
-      $uNavPrimary.addClass('u-nav-primary-6up');
-    }
+    _setUpPrimaryLinks($uNavPrimary.children().length);
   },
 
 
 
-  _setUpPrimaryLinks = function(){
+  _setUpPrimaryLinks = function(xUp){
+
+    if (xUp === 6){
+      $uNavPrimary.addClass('u-nav-primary-6up');
+    } else if (xUp === 3){
+      $uNavPrimary.addClass('u-nav-primary-3up');
+    } else {
+      $uNavPrimary.addClass('u-nav-primary-5up');
+    }
 
     // So we don't have to download the images before we can figure out how high the module will be,
     // we need to figure out the height the image should be at this width, based on current browser width.
