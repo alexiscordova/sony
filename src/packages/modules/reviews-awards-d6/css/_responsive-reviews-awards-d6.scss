@@ -151,6 +151,22 @@
 // ------------------------------------------------
 @media (min-width: 568px) and (max-width: 979px) {
 
+.raa-user-reviews {
+
+  .pagination-paddles button {
+
+    &.pagination-prev {
+      left: 12px;
+      margin-left: 0;
+    }
+
+    &.pagination-next {
+      right: 12px;
+      margin-right: 0;
+    }
+  }
+}
+
 } // min-width: 768px and max-width: 979px
 
 
@@ -177,9 +193,9 @@
 
   .raa-user-reviews {
 
-    .raa-overall,
+    .raa-overall > div,
     .raa-breakdown,
-    .raa-social-mention aside {
+    .raa-social-mention blockquote {
       width: 81%;
       margin: 0 auto;
     }
@@ -240,12 +256,25 @@
 
 @media (max-width: 567px) {
 
+  .raa-social-mention {
+    display: table;
+
+    > aside {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
   .raa-user-reviews {
 
     .raa-user-reviews-carousel {
       border-right: none;
     }
 
+  }
+
+  .raa-awards {
+    padding-top: 12px;
   }
 
   .raa-module {
@@ -260,8 +289,8 @@
           display: none;
         }
 
-        &.raa-merged-carousel-wrapper,
-        .raa-merged-carousel {
+        &.raa-merged-wrapper,
+        .raa-merged-carousel-wrapper {
           display: block;
         }
       }

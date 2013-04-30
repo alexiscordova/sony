@@ -683,12 +683,15 @@ else if data.view == 'blank'
 else if data.view == 'summary'
   titleLabel = data.collectionLabel ? data.collectionLabel : 'Cybershot'
   titleHref = data.collectionHref ? data.collectionHref : '#'
-  sizes = data.sizes ? data.sizes : []
+  attributeList = data.attributeList ? data.attributeList : []
   startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
   msrp = data.msrp ? data.msrp : 'MSRP'
   priceUnit = data.priceUnit ? data.priceUnit : '$'
   buyText = data.buyText ? data.buyText : 'Buy Now'
   modelText = data.modelText ? data.modelText : 'Model Number:'
+
+  hasSwatches = data.img && data.img.colors && data.img.colors.length > 1
+  hasAttributeList = !!attributeList.length
 
   .container(itemscope, itemtype="http://schema.org/Product")
     .grid.no-grid-at-767.js-even-cols
@@ -708,19 +711,19 @@ else if data.view == 'summary'
 
         +productRating( data.rating.stars, data.rating.reviews )
 
-        if sizes.length || ( data.img && data.img.colors && data.img.colors.length )
+        if hasAttributeList || hasSwatches
           .inline-details.clearfix
-            if sizes.length
+            if hasAttributeList
               p.p5.product-sizes
-                sizesLength = sizes.length
-                each size, i in sizes
-                  span.product-size= size
-                  if i == sizesLength - 1
-                    if data.img && data.img.colors && data.img.colors.length
+                attributeListLength = attributeList.length
+                each attr, i in attributeList
+                  span.product-size= attr
+                  if i == attributeListLength - 1
+                    if hasSwatches
                       span.spacer |
                   else
                     span.spacer |
-            if data.img && data.img.colors && data.img.colors.length
+            if hasSwatches
               +colorSwatches( data.img.colors, true, true )
 
       .span2.price-content#span1-at-tablet

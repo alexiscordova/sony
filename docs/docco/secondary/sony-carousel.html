@@ -127,6 +127,11 @@ define(<span class="keyword">function</span>(require){
         self.setupDraggable();
       }
 
+      <span class="keyword">if</span> ( self.$slides.length &lt;= <span class="number">1</span> ) {
+        self.destroy();
+        <span class="keyword">return</span>;
+      }
+
       Environment.on(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id, <span class="keyword">function</span>() {
         <span class="keyword">if</span> ( self.snap ) {
           self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
@@ -649,6 +654,11 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
           sonyCarousel = self.data(<span class="string">'sonyCarousel'</span>);
 
       <span class="keyword">if</span> ( !sonyCarousel ) {
+
+        <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+          <span class="keyword">return</span>;
+        }
+
         sonyCarousel = <span class="keyword">new</span> SonyCarousel( self, options );
         self.data( <span class="string">'sonyCarousel'</span>, sonyCarousel );
       }

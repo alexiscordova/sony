@@ -218,6 +218,7 @@ $superDesktop: px-em(1200);
         float: left;
         width: 45%;
         margin-right: 5%;
+        padding: 0 18px;
       }
 
       .horizontal .image-module {
@@ -226,14 +227,12 @@ $superDesktop: px-em(1200);
         margin: auto;
       }
 
-      .horizontal {
-        > div {
-          height: 98px;
-        }
+      .horizontal > div {
+        height: 98px;
+      }
 
-        .table-center-wrap {
-          padding: 0 20px;
-        }
+      .horizontal .table-center-wrap {
+        padding: 0 20px;
       }
 
       .vertical .toutcopy {
@@ -254,6 +253,7 @@ $superDesktop: px-em(1200);
         position: relative;
         width: 30%;
         margin-right: 3%;
+        padding: 0 18px;
 
         .toutcopy {
           padding: 0 16px 0 0;
@@ -286,11 +286,25 @@ $superDesktop: px-em(1200);
     }
   }
 
-  // Remove padding from tout boxes at mobile
   .editorial.tout {
 
-    .box {
+    // Container width combined with grid width
+    .m2up-horizontal {
+      width: $mobileContainerPlusGridWidth;
+    }
+
+    // Remove padding on slides here because it has been accounted for above
+    .m2up-horizontal .m2up > div {
       padding: 0;
+    }
+
+    // Has a 30px margin bottom from the desktop css
+    .m2up .vertical .image-module {
+      margin-bottom: 0;
+    }
+
+    .box {
+      margin-bottom: 18px;
     }
   }
 
