@@ -23,7 +23,6 @@ include ../../../common/html/jade-helpers.jade
         option.select-small= data.narrowResultsSet[0].label
           each sort in data.narrowResultsSet
             option(value=sort.name, data-reverse=reverse)= sort.label
-
   - data.view = "search-results"
   e = { "locals" : locals, "data" : data }
   !{locals.partial( 'packages/modules/product/html/product.jade', e )}
