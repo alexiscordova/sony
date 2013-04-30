@@ -63,6 +63,11 @@ $bulletMargin: px-em(5px);
 }
 
 .pagination-paddles {
+
+  .lt-ie8 & {
+    display: none;
+  }
+
   @include transition();
   @include opacity(0);
   height: 0;
