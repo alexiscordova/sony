@@ -49,7 +49,9 @@ define(function(require){
         looped: true,
         pagination: true,
         paginationTheme: 'light',
-        $dotNavWrapper: self.$el.find('.wnc-pagination')
+        $dotNavWrapper: self.$el.find('.wnc-pagination'),
+        paddles: true,
+        useSmallPaddles: true
       });
     }
 
