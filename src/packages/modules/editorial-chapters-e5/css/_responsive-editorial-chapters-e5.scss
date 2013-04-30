@@ -97,6 +97,14 @@ $tabletMax: px-em(979);
     @include compact-thumb-nav;
   }
 
+  .editorial.textonly {
+
+    & + .editorial-chapters-container  {
+      margin: -10px 0 0;
+      padding: 0 0 10px;
+    }
+  }
+     
   .container,
   .span12 {
     & > .editorial-chapters-container.text-mode {
@@ -125,6 +133,7 @@ $tabletMax: px-em(979);
       .slider {width:auto !important;}
     }
   }
+  
 }
 
 @media (max-width: 767px) {

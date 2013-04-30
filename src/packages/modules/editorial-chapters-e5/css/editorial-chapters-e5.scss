@@ -1,6 +1,16 @@
 @import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../../../common/css/_base/mixins";
 
+// if they stack a textonly module ontop of a full module
+// we need to compensate that
+.editorial.textonly {
+
+  & + .editorial-chapters-container  {
+    margin: -50px 0 0;
+    padding: 0 0 50px;
+  }
+}
+
 .editorial-chapters-container {
   max-width:100%;
   @include clearfix();
@@ -166,12 +176,14 @@
   } // end &.top-nav .thumb-nav
   
   &.gray {
+    background:$gray80;
 
     .thumb-nav li {
+      background:$gray80;
 
       &:hover,
       &.active {
-        background:$gray80;
+        background:$white;
       }
     }
   }
@@ -205,7 +217,7 @@
     img, i {display:none;}
     span {margin:0 24px;}
   }
-}
+} // end .editorial-chapters-container
 
 .span5,
 .span6,
