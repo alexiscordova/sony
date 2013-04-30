@@ -16,10 +16,17 @@
 @media (min-width: 568px) and (max-width: 767px) {
   $slideHeightTablet: 260px;
   body {
+
+      .uxmc {
+        &.no-header{
+           margin-bottom: px-em(30px); 
+           margin-top: px-em(30px);
+        }
+      }
+
      .uxmc-container {
        position: relative;
        height: $slideHeightTablet*2;
-       background-color: #ccc;
        overflow: hidden;
 
        .base-product{
@@ -38,12 +45,16 @@
          font-size: px-em(15px);
        }
 
+       .btn-reload-container{
+         padding: 10px px-em(7px) 5px;
+       }
+
        .btn-reload {
          font-size: px-em(40px); 
        }
 
        .progress-indicators {
-          @include scale(0.9);
+          @include scale(1);
           right: 5.5%;
           height:$slideHeightTablet;
        }
@@ -70,10 +81,17 @@
 @media (max-width: px-em(567px)) {
   $slideHeightPhone:220px;
   body {
+
+    .uxmc {
+      &.no-header{
+         margin-bottom: px-em(22px); 
+         margin-top: px-em(22px);
+      }
+    }
+
     .uxmc-container {
       position: relative;
       height: $slideHeightPhone*2;
-      background-color: #ccc;
       overflow: hidden;
       
       .uxmc-carousel-wrapper {
@@ -94,6 +112,7 @@
 
       .btn-reload-container{
         margin: px-em(-24px) 0 0 px-em(-24px);
+        padding: 10px px-em(7px) 5px;
       }
 
        .btn-reload {
@@ -101,7 +120,7 @@
        }
 
       .progress-indicators {
-        @include scale(0.9);
+        @include scale(1);
         right: 5.5%;
         height: $slideHeightPhone;
       }
