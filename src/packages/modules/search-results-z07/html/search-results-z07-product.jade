@@ -24,7 +24,6 @@ include ../../../common/html/jade-helpers.jade
           each sort in data.narrowResultsSet
             option(value=sort.name)= sort.label
 
-
   - data.view = "search-results"
   e = { "locals" : locals, "data" : data }
   !{locals.partial( 'packages/modules/product/html/product.jade', e )}
