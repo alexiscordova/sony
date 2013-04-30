@@ -4,11 +4,9 @@ include ../../../common/html/jade-helpers.jade
 
 include tertiary-t1-t5-helpers.jade
 
-- header = {"title": "Latest News", "link": "#", "linkText": "Sony Press Center"}
-
 //- START TCC MODULE
 section.tcc-module.container.full-bleed-no-max
-  +header(header)
+  +header(data.header)
 
   div#three-up
     div.tcc-carousel-wrapper
@@ -35,95 +33,4 @@ section.tcc-module.container.full-bleed-no-max
                       when "flickr"                       
                         +topCenterBottom("flickr", module)
 
-
 //- END TCC MODULE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//- 888888b.          d8888  .d8888b.  888    d8P  888     888 8888888b.        8888888b.  8888888888 8888888888 
-//- 888  "88b        d88888 d88P  Y88b 888   d8P   888     888 888   Y88b       888   Y88b 888        888        
-//- 888  .88P       d88P888 888    888 888  d8P    888     888 888    888       888    888 888        888        
-//- 8888888K.      d88P 888 888        888d88K     888     888 888   d88P       888   d88P 8888888    8888888    
-//- 888  "Y88b    d88P  888 888        8888888b    888     888 8888888P"        8888888P"  888        888        
-//- 888    888   d88P   888 888    888 888  Y88b   888     888 888              888 T88b   888        888        
-//- 888   d88P  d8888888888 Y88b  d88P 888   Y88b  Y88b. .d88P 888              888  T88b  888        888        
-//- 8888888P"  d88P     888  "Y8888P"  888    Y88b  "Y88888P"  888              888   T88b 8888888888 888  
-
-//-   section(class=scrollerClassNames)
-//-     div(class=bodyClassNames)
-//-       for module in data.contentBlocks
-//-         - contentType = module.type
-//-         - contentMode = module.mode
-//-         - contentBlocksClassNames = ["tcc-content-block","span4", contentType, contentMode]
-
-//-         div(class=contentBlocksClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode)
-//-           case contentType
-//-             when "article"
-
-//-               //- if there is a title and a featured image
-//-               if(contentMode == "featured")
-//-                 +articleFeatured(module)
-              
-//-               else
-//-                 if(contentMode == "default")
-//-                   +articleDefault(module)
-//-                 if(contentMode == "news") && (module.date)
-//-                   +articleNews(module)
-//-                 if(contentMode == "event") && (module.attendanceCount)
-//-                   +articleEvent(module)
-
-//-                 +copyblock(module)
-//-             when "users-voice"
-//-               if (contentMode == "expert-quote")
-//-                 +expertQuote(module)
-
-//-               if (contentMode == "user-quote")
-//-                 +userQuote(module)
-
-//-               if (contentMode == "question")
-//-                 +question(module)
-
-//-             when "sonys-voice"
-//-               .tcc-inner-container
-//-                 .top
-//-                   +sonysVoiceTop("fonticon-15-" + contentMode, module.meta)
-//-                 .center
-//-                   +sonysVoiceCenter(contentMode, module)
-//-                 .bottom
-//-                   +sonysVoiceBottom(contentMode, module)
-//-             when "flickr"
-//-               mixin flickrContent(module.meta, module.images, module.socialBtnLink, "View Set on Flickr")
-
-//- END TCC MODULE
-
-

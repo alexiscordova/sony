@@ -21,9 +21,11 @@ mixin header(data)
       .tcc-header.grid.no-grid-at-479
         .span6
           p.tcc-header-title.l1 #{data.title}
-        .span3.offset3
-          p.tcc-header-link.lt3
-            a(href= #{data.link}) #{data.linkText}
+        
+        if( data.link )
+          .span3.offset3
+            p.tcc-header-link.lt3
+              a(href= #{data.link}) #{data.linkText}
 
 mixin article(mode, data)
   if(mode == "featured")
@@ -108,7 +110,7 @@ mixin author-default(mode, author)
 
 mixin question-extra(data)
   .lt3
-    a(href= data.repliesLink)= data.linkTitle
+    a(href= data.repliesLink)= data.repliesLinkTitle
 
   .answer-btn
     a.btn.btn-small(href= data.answerLink)= data.answerLinkTitle
