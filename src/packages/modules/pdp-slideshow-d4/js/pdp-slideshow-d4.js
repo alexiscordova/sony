@@ -29,20 +29,20 @@ define(function(require){
         $('.pdp-slideshow').pdpSlideShow();
       }
     };
-    
+
     var PDPSlideShow = function(element, options){
       var self = this;
-       
+
       // Extend
       $.extend( self, {}, $.fn.pdpSlideShow.defaults, options, $.fn.pdpSlideShow.settings );
-      
+
       // Set base element
       self.$el = $( element );
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.cssTransitions       = Modernizr.transitions;
-      
+
       // CLASS SELECTOR CONSTANTS
       self.SLIDE_CLASS          = '.pdp-slideshow-slide';
       self.SLIDE_CONTAINER      = '.pdp-slideshow-inner';
@@ -55,7 +55,7 @@ define(function(require){
       self.isDesktopMode        = true; //true by default
       self.isTabletMode         = false;
       self.isMobileMode         = false;
-      
+
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
       self.$document            = $(document);
@@ -87,18 +87,16 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
-        console.log('pdp-slideshow-d4.js init');
-
-        if(!window.console){
-          window.console = {};
-          window.console.log = function(){};
-        }
+        // if(!window.console){
+        //   window.console = {};
+        //   window.console.log = function(){};
+        // }
 
         self.setupEvents();
         self.setupSlides();
         self.setupCarousel();
         self.setupBreakpoints();
-        
+
         if(self.hasThumbs){
           self.createThumbNav();
         }
@@ -115,7 +113,7 @@ define(function(require){
       onDebouncedResize: function(){
         var self = this,
         wW = self.$window.width();
-        
+
         if(wW > 1199){
           self.$el.css('overflow' , 'hidden');
         }else{
@@ -166,7 +164,7 @@ define(function(require){
       // Registers with Enquire JS for breakpoint firing
       setupBreakpoints: function(){
         var self = this;
-        
+
         if( !self.$html.hasClass('lt-ie10') ){
         enquire.register("(min-width: 769px)", function() {
           self.isMobileMode = self.isTabletMode = false;
@@ -200,7 +198,7 @@ define(function(require){
           self.showThumbNav();
           self.toggleDotNav(true); //hide
           self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
-          
+
         }
 
       },
@@ -241,11 +239,11 @@ define(function(require){
         self.$slides.width( 100 / (self.numSlides + 2) + '%' );
 
       },
-      
+
       // Setup touch event types
       setupEvents: function(){
         var self = this;
-        
+
         if( self.hasTouch ){
           self.upEvent = 'touchend.pdpss';
         }else {
@@ -257,17 +255,17 @@ define(function(require){
         };
 
       },
-      
+
       // Bind events to the thumbnail navigation
       createThumbNav: function(){
         var self = this,
         $anchors = self.$thumbNav.find('a');
-        
+
         $anchors.on( self.tapOrClick() , function(e){
           e.preventDefault();
           self.onThumbSelected($(this));
         });
-       
+
         $anchors.eq(0).addClass('active');
       },
 
@@ -325,6 +323,6 @@ define(function(require){
     // Non override-able settings
     // --------------------------
     $.fn.pdpSlideShow.settings = {};
-  
+
     return self;
  });

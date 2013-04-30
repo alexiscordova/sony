@@ -92,27 +92,35 @@ Using a somewhat arbitrary delay in an attempt to avoid firing at the same time 
 
   _setUpPrimaryLinks = <span class="keyword">function</span>(xUp){
 
-    <span class="keyword">if</span> (xUp === <span class="number">6</span>){
-      $uNavPrimary.addClass(<span class="string">'u-nav-primary-6up'</span>);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (xUp === <span class="number">3</span>){
+    <span class="keyword">var</span> twoHighRatio = <span class="number">0.887538</span>;
+    <span class="keyword">var</span> twoWideRatio = <span class="number">0.4201995</span>;
+
+    uNavColWidth = $firstChild.outerWidth();
+
+    <span class="keyword">if</span> (xUp === <span class="number">3</span>){
+      uNav2highImgHeight = uNavColWidth * twoWideRatio;
       $uNavPrimary.addClass(<span class="string">'u-nav-primary-3up'</span>);
     } <span class="keyword">else</span> {
-      $uNavPrimary.addClass(<span class="string">'u-nav-primary-5up'</span>);
+      uNav2highImgHeight = uNavColWidth * twoHighRatio;
+      <span class="keyword">if</span> (xUp === <span class="number">6</span>){
+        $uNavPrimary.addClass(<span class="string">'u-nav-primary-6up'</span>);
+      } <span class="keyword">else</span> {
+        $uNavPrimary.addClass(<span class="string">'u-nav-primary-5up'</span>);
+      }
     }
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>So we don't have to download the images before we can figure out how high the module will be,
 we need to figure out the height the image should be at this width, based on current browser width.
-So based on the image aspect ratio, what height should the image be at this width?</p>             </td>             <td class="code">               <div class="highlight"><pre>    uNavColWidth = $firstChild.outerWidth();
-    uNav2highImgHeight = uNavColWidth * <span class="number">0.887538</span>;
-    uNavColHeight = uNav2highImgHeight + $firstChild.find(<span class="string">'.u-nav-primary-caption'</span>).outerHeight(<span class="literal">true</span>);
+So based on the image aspect ratio, what height should the image be at this width?</p>             </td>             <td class="code">               <div class="highlight"><pre>    
+    uNavColHeight = uNav2highImgHeight + $firstChild.find(<span class="string">'.u-nav-primary-caption'</span>).last().outerHeight(<span class="literal">true</span>); <span class="comment">// use last in case it's a 6up &amp; there are 2. We just want the bottom one.</span>
 
-    $firstChild.height(uNavColHeight + <span class="string">"px"</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>now they we set the height of the images container, we can grab the height of the entire u-nav for our js.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    $uNavPrimary.height(uNavColHeight + <span class="string">"px"</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>now that we set the height of the images container, we can grab the height of the entire u-nav for our js.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setTimeout(<span class="keyword">function</span>(){
       uNavOuterHeight = $uNav.outerHeight();
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>console.log("uNavOuterHeight: " + uNavOuterHeight);</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>once we have the outerheight, clear the custom height from the $firstChild so it's back to the natural flow.
-delays just to make sure the new heights are set before the next step.</p>             </td>             <td class="code">               <div class="highlight"><pre>        $firstChild.css(<span class="string">'height'</span>,<span class="string">''</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>once we have the outerheight, clear the custom height from the $uNavPrimary so it's back to the natural flow.
+delays just to make sure the new heights are set before the next step.</p>             </td>             <td class="code">               <div class="highlight"><pre>        $uNavPrimary.css(<span class="string">'height'</span>,<span class="string">''</span>);
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the </p>             </td>             <td class="code">               <div class="highlight"><pre>        $uNav.css(<span class="string">'top'</span>,<span class="string">'-'</span> + uNavOuterHeight + <span class="string">'px'</span>);
         <span class="keyword">if</span> ($pageWrapOuter.hasClass(<span class="string">'unav-open'</span>)){
           $pageWrapInner.css(<span class="string">'margin-top'</span>, uNavOuterHeight + <span class="string">'px'</span>);
