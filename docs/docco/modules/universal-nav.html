@@ -17,6 +17,7 @@ Modified: 2013-04-26 by Christopher Mischler</p>
     $uNavPrimary,
     $firstChild,
     $closeBtn,
+    xUp,
     uNavColWidth,
     uNav2highImgHeight,
     uNavColHeight,
@@ -32,6 +33,7 @@ Modified: 2013-04-26 by Christopher Mischler</p>
     $uNavPrimary = $uNav.find(<span class="string">'.u-nav-primary'</span>);
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $(<span class="string">'#u-nav-close-btn'</span>);
+    xUp = $uNavPrimary.children().length;
     _cssTransitions = _browserCssTransitionDetect();
 
 
@@ -90,7 +92,7 @@ Using a somewhat arbitrary delay in an attempt to avoid firing at the same time 
 
 
 
-  _setUpPrimaryLinks = <span class="keyword">function</span>(xUp){
+  _setUpPrimaryLinks = <span class="keyword">function</span>(){
 
     <span class="keyword">var</span> twoHighRatio = <span class="number">0.887538</span>;
     <span class="keyword">var</span> twoWideRatio = <span class="number">0.4201995</span>;
@@ -118,10 +120,10 @@ So based on the image aspect ratio, what height should the image be at this widt
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>now that we set the height of the images container, we can grab the height of the entire u-nav for our js.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setTimeout(<span class="keyword">function</span>(){
       uNavOuterHeight = $uNav.outerHeight();
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>console.log("uNavOuterHeight: " + uNavOuterHeight);</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>once we have the outerheight, clear the custom height from the $uNavPrimary so it's back to the natural flow.
+      setTimeout(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>once we have the outerheight, clear the custom height from the $uNavPrimary so it's back to the natural flow.
 delays just to make sure the new heights are set before the next step.</p>             </td>             <td class="code">               <div class="highlight"><pre>        $uNavPrimary.css(<span class="string">'height'</span>,<span class="string">''</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the </p>             </td>             <td class="code">               <div class="highlight"><pre>        $uNav.css(<span class="string">'top'</span>,<span class="string">'-'</span> + uNavOuterHeight + <span class="string">'px'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the </p>             </td>             <td class="code">               <div class="highlight"><pre>        $uNav.css(<span class="string">'top'</span>,<span class="string">'-'</span> + uNavOuterHeight + <span class="string">'px'</span>);
         <span class="keyword">if</span> ($pageWrapOuter.hasClass(<span class="string">'unav-open'</span>)){
           $pageWrapInner.css(<span class="string">'margin-top'</span>, uNavOuterHeight + <span class="string">'px'</span>);
         }
@@ -132,8 +134,8 @@ delays just to make sure the new heights are set before the next step.</p>      
 
 
   _openUNav = <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>console.log("_openUNav");</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    _setUpPrimaryLinks();
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>console.log("_openUNav");</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    _setUpPrimaryLinks($uNavPrimary.children().length);
 
     setTimeout(<span class="keyword">function</span>() {
       $pageWrapOuter.addClass(<span class="string">'unav-open unav-open-until-transition-end'</span>);
@@ -148,12 +150,12 @@ delays just to make sure the new heights are set before the next step.</p>      
   },
 
   _closeUNav = <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>console.log("_closeUNav");</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>console.log("_closeUNav");</p>             </td>             <td class="code">               <div class="highlight"><pre>
     $pageWrapOuter.removeClass(<span class="string">'unav-open'</span>);
     <span class="keyword">if</span> (_cssTransitions){
 
       $pageWrapInner.one(<span class="string">'transitionend webkitTransitionEnd oTransitionEnd otransitionend'</span>, <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>console.log("$pageWrapInner transitionend");</p>             </td>             <td class="code">               <div class="highlight"><pre>        $pageWrapOuter.removeClass(<span class="string">'unav-open-until-transition-end'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>console.log("$pageWrapInner transitionend");</p>             </td>             <td class="code">               <div class="highlight"><pre>        $pageWrapOuter.removeClass(<span class="string">'unav-open-until-transition-end'</span>);
         $triggerLink.add($closeBtn).blur();
       });
 
@@ -166,14 +168,14 @@ delays just to make sure the new heights are set before the next step.</p>      
     }
   },
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>in case Modernizr isn't available, let's do our own check for css transitions.
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>in case Modernizr isn't available, let's do our own check for css transitions.
 via http://stackoverflow.com/questions/7264899/detect-css-transitions-using-javascript-and-without-modernizr</p>             </td>             <td class="code">               <div class="highlight"><pre>  _browserCssTransitionDetect = <span class="keyword">function</span>(){
     <span class="keyword">var</span> s = document.createElement(<span class="string">'p'</span>).style;
     <span class="keyword">return</span> <span class="string">'transition'</span> <span class="keyword">in</span> s || <span class="string">'WebkitTransition'</span> <span class="keyword">in</span> s || <span class="string">'MozTransition'</span> <span class="keyword">in</span> s || <span class="string">'msTransition'</span> <span class="keyword">in</span> s || <span class="string">'OTransition'</span> <span class="keyword">in</span> s;
   },
 
   _resizeEvent = <span class="keyword">function</span>(){
-    _setUpPrimaryLinks();
+    _setUpPrimaryLinks($uNavPrimary.children().length);
   };
 
   <span class="keyword">return</span> {
@@ -183,7 +185,7 @@ via http://stackoverflow.com/questions/7264899/detect-css-transitions-using-java
 })(window, document, jQuery);
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Document.ready call</p>             </td>             <td class="code">               <div class="highlight"><pre>$(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Document.ready call</p>             </td>             <td class="code">               <div class="highlight"><pre>$(<span class="keyword">function</span>(){
   <span class="keyword">if</span> ($(<span class="string">'#universal-nav'</span>).length){
     UNAV.init($(<span class="string">'#nav-li-link-universal'</span>), $(<span class="string">'#page-wrap-inner'</span>), $(<span class="string">'#page-wrap-outer'</span>));
   }
