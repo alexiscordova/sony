@@ -39,9 +39,8 @@ Modified: 2013-04-26 by Christopher Mischler</p>
 
 <h2>EVENT LISTENERS</h2>
 
-<p>Since I don't know what version of jQuery will be used on all sites, this will allow versions older than 1.7 
-to work, without using depreciated functions in version 1.7+ 
-At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ($.isFunction($.fn.on)){
+<p>At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().
+This will allow versions older than 1.7 to work without using depreciated functions in version 1.7+</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ($.isFunction($.fn.on)){
       $triggerLink.on(<span class="string">'click'</span>,<span class="keyword">function</span>(e){
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>console.log("$triggerLink");</p>             </td>             <td class="code">               <div class="highlight"><pre>        e.preventDefault();
         <span class="keyword">if</span> ($pageWrapOuter.hasClass(<span class="string">'unav-open'</span>)){
@@ -86,16 +85,20 @@ Using a somewhat arbitrary delay in an attempt to avoid firing at the same time 
         }
       });
     }
-    <span class="keyword">if</span> ($uNavPrimary.children().length &lt; <span class="number">6</span>){
-      _setUpPrimaryLinks();
-    } <span class="keyword">else</span> {
-      $uNavPrimary.addClass(<span class="string">'u-nav-primary-6up'</span>);
-    }
+    _setUpPrimaryLinks($uNavPrimary.children().length);
   },
 
 
 
-  _setUpPrimaryLinks = <span class="keyword">function</span>(){
+  _setUpPrimaryLinks = <span class="keyword">function</span>(xUp){
+
+    <span class="keyword">if</span> (xUp === <span class="number">6</span>){
+      $uNavPrimary.addClass(<span class="string">'u-nav-primary-6up'</span>);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (xUp === <span class="number">3</span>){
+      $uNavPrimary.addClass(<span class="string">'u-nav-primary-3up'</span>);
+    } <span class="keyword">else</span> {
+      $uNavPrimary.addClass(<span class="string">'u-nav-primary-5up'</span>);
+    }
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>So we don't have to download the images before we can figure out how high the module will be,
 we need to figure out the height the image should be at this width, based on current browser width.

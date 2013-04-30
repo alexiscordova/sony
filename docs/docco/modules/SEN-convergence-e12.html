@@ -4,26 +4,39 @@
 
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
       bootstrap = require(<span class="string">'bootstrap'</span>),
-      iQ = require(<span class="string">'iQ'</span>),
-      sonyStickyTabs = require(<span class="string">'secondary/index'</span>).sonyStickyTabs,
-      enquire = require(<span class="string">'enquire'</span>);
+      sonyStickyTabs = require(<span class="string">'secondary/index'</span>).sonyStickyTabs;
 
   <span class="keyword">var</span> module = {
     init: <span class="keyword">function</span>() {
-      <span class="keyword">var</span> breakpoints = [ <span class="number">767</span>, <span class="number">768</span>, <span class="number">979</span>, <span class="number">980</span> ];
-      <span class="keyword">var</span> breakpointReactor = <span class="keyword">function</span>( e ) {
-        iQ.update();
-      };
+      $(<span class="string">'.sen-convergence .slides'</span>).each(<span class="keyword">function</span>(index, element) {
+        <span class="keyword">var</span> $container = $(element);
+        <span class="keyword">new</span> SlideCrossFade($container);
+      });
+    }
+  };
 
-      <span class="keyword">for</span>( <span class="keyword">var</span> i=<span class="number">0</span>; i &lt; breakpoints.length; i++ ) {
-        <span class="keyword">if</span>( <span class="number">0</span> === i ) {
-          <span class="comment">/* log( "(max-width: " + breakpoints[ i ] + "px)" ); */</span>
-          enquire.register( <span class="string">"(max-width: "</span> + breakpoints[ i ] + <span class="string">"px)"</span>, breakpointReactor).listen();
-        } <span class="keyword">else</span> {
-          <span class="comment">/* log( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)" ); */</span>
-          enquire.register( <span class="string">"(min-width: "</span> + ( breakpoints[ i-<span class="number">1</span> ] + <span class="number">1</span> ) + <span class="string">"px) and (max-width: "</span> + breakpoints[ i ] + <span class="string">"px)"</span>, breakpointReactor).listen();
-        }
-      }
+  <span class="keyword">var</span> SlideCrossFade = <span class="function"><span class="keyword">function</span> <span class="params">($container)</span> {</span>
+    <span class="keyword">this</span>.init($container);
+  };
+
+  SlideCrossFade.prototype = {
+    init: <span class="keyword">function</span>($container) {
+      <span class="keyword">this</span>.$slides = $container.children();
+      <span class="keyword">this</span>.$slides.not(<span class="string">':first'</span>).hide();
+      <span class="keyword">this</span>.$currentSlide = <span class="keyword">this</span>.$slides.first();
+
+      setInterval($.proxy(<span class="keyword">this</span>.showNextSlide, <span class="keyword">this</span>), <span class="number">3500</span>);
+    },
+
+    showNextSlide: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> currentSlideIndex = <span class="keyword">this</span>.$slides.index(<span class="keyword">this</span>.$currentSlide),
+          nextSlideIndex = (currentSlideIndex + <span class="number">1</span>) % <span class="keyword">this</span>.$slides.length,
+          $nextSlide = $(<span class="keyword">this</span>.$slides[nextSlideIndex]);
+
+      <span class="keyword">this</span>.$currentSlide.fadeOut(<span class="number">750</span>);
+      $nextSlide.fadeIn(<span class="number">750</span>);
+
+      <span class="keyword">this</span>.$currentSlide = $nextSlide;
     }
   };
 
