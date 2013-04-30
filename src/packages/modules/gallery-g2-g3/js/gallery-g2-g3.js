@@ -30,7 +30,6 @@ define(function(require){
   var module = {
 
     init: function() {
-      window.console && console.time && console.timeEnd('parsing');
       if ( $('.gallery').length > 0 || $('.af-module').length > 0 ) {
 
         // Register for tab show(n) events here because not all tabs are galleries
