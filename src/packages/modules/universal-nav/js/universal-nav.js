@@ -103,31 +103,39 @@ var UNAV = ( function( window, document, $, undefined ){
 
   _setUpPrimaryLinks = function(xUp){
 
-    if (xUp === 6){
-      $uNavPrimary.addClass('u-nav-primary-6up');
-    } else if (xUp === 3){
+    var twoHighRatio = 0.887538;
+    var twoWideRatio = 0.4201995;
+
+    uNavColWidth = $firstChild.outerWidth();
+
+    if (xUp === 3){
+      uNav2highImgHeight = uNavColWidth * twoWideRatio;
       $uNavPrimary.addClass('u-nav-primary-3up');
     } else {
-      $uNavPrimary.addClass('u-nav-primary-5up');
+      uNav2highImgHeight = uNavColWidth * twoHighRatio;
+      if (xUp === 6){
+        $uNavPrimary.addClass('u-nav-primary-6up');
+      } else {
+        $uNavPrimary.addClass('u-nav-primary-5up');
+      }
     }
 
     // So we don't have to download the images before we can figure out how high the module will be,
     // we need to figure out the height the image should be at this width, based on current browser width.
     // So based on the image aspect ratio, what height should the image be at this width?
-    uNavColWidth = $firstChild.outerWidth();
-    uNav2highImgHeight = uNavColWidth * 0.887538;
-    uNavColHeight = uNav2highImgHeight + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
+    
+    uNavColHeight = uNav2highImgHeight + $firstChild.find('.u-nav-primary-caption').last().outerHeight(true); // use last in case it's a 6up & there are 2. We just want the bottom one.
 
-    $firstChild.height(uNavColHeight + "px");
-    // now they we set the height of the images container, we can grab the height of the entire u-nav for our js.
+    $uNavPrimary.height(uNavColHeight + "px");
+    // now that we set the height of the images container, we can grab the height of the entire u-nav for our js.
 
     setTimeout(function(){
       uNavOuterHeight = $uNav.outerHeight();
       // console.log("uNavOuterHeight: " + uNavOuterHeight);
       setTimeout(function(){
-        // once we have the outerheight, clear the custom height from the $firstChild so it's back to the natural flow.
+        // once we have the outerheight, clear the custom height from the $uNavPrimary so it's back to the natural flow.
         // delays just to make sure the new heights are set before the next step.
-        $firstChild.css('height','');
+        $uNavPrimary.css('height','');
         // set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the 
         $uNav.css('top','-' + uNavOuterHeight + 'px');
         if ($pageWrapOuter.hasClass('unav-open')){
