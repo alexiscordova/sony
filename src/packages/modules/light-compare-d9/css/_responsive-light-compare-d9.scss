@@ -20,6 +20,12 @@ $desktopMin: px-em(980);
   }
 }
 
+@media (max-width:$tabletMax) {
+  .light-compare-wrapper {
+    padding: 20px 0;
+  }
+}
+
 @media (max-width:$phoneMax) {
   .mobile-hd {
     position: relative;
@@ -46,8 +52,13 @@ $desktopMin: px-em(980);
       margin-bottom: 27px;
     }
   }
-  .light-compare-box .image-module {
-    height: 100px;
+  .light-compare-wrapper {
+     padding: 14px 0;
+  }
+  .light-compare-box {
+    .image-module {
+      height: 100px;
+    }
   }
 
   .modal-light-compare {

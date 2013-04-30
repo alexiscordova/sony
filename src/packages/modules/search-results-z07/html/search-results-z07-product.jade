@@ -8,9 +8,21 @@ include ../../../common/html/jade-helpers.jade
   h3.p3.results
     span.bold-dark #{data.results.count}
     |  Results
-  form.visible-phone.select-narrow
-    select
-      option= data.narrowResultsPlaceholderText
+  .sort-options
+    form.visible-phone.select-narrow
+      span.dropdown.dropdown-alt.ib
+        button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
+          span.js-toggle-text= data.narrowResultsSet[0].label
+          i.fonticon-10-arrowheads-elevator
+        ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
+          each sort in data.narrowResultsSet
+            li
+              a(data-value=sort.name, tabindex="-1", href="#")= sort.label
+      .native-dropdown
+        select
+        option.select-small= data.narrowResultsSet[0].label
+          each sort in data.narrowResultsSet
+            option(value=sort.name)= sort.label
 
   - data.view = "search-results"
   e = { "locals" : locals, "data" : data }
@@ -44,8 +56,9 @@ ul.results-list
     li
       a(href="#")
         .media
-          .img
-            +iQImage(item.image)
+          if item.image
+            .img
+              +iQImage(item.image)
           .bd
             h4.lt3
               a(href= item.url)= item.headline

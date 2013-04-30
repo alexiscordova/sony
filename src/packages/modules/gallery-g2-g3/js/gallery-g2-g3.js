@@ -2475,9 +2475,9 @@ define(function(require){
         // Store in cookie
         } else {
 
-          // If we can't parse JSON ( IE7 ), don't bother with favorites when not logged in
-          if ( !window.JSON ) {
-            return;
+          // Check to make sure the browser can parse JSON ( IE7 )
+          if ( window.JSON ) {
+            // Browser support JSON parsing
           }
 
           // TODO
@@ -2501,9 +2501,9 @@ define(function(require){
         // Remove from stored cookie
         } else {
 
-          // If we can't parse JSON ( IE7 ), don't bother with favorites when not logged in
-          if ( !window.JSON ) {
-            return;
+          // Check to make sure the browser can parse JSON ( IE7 )
+          if ( window.JSON ) {
+            // Browser support JSON parsing
           }
 
           // TODO
