@@ -215,6 +215,14 @@ $maximumChildren: 20;
     overflow: hidden;
     background-color: $gray80;
 
+    .no-awards & {
+      height: 440px;
+
+      .raa-expert-carousel {
+        height: 100%;
+      }
+    }
+
     .raa-expert-carousel {
       position: relative;
       width: $maximumChildren * 100%;
@@ -228,6 +236,7 @@ $maximumChildren: 20;
 
     .raa-expert-review {
       width: (100% / $maximumChildren);
+      height: 100%;
       float: left;
       padding: 20px 24px;
 
