@@ -9,8 +9,20 @@ include ../../../common/html/jade-helpers.jade
     span.bold-dark #{data.results.count}
     |  Results
   form.visible-phone.select-narrow
-    select
-      option= data.narrowResultsPlaceholderText
+    span.dropdown.dropdown-alt.ib
+      button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
+        span.js-toggle-text= data.narrowResultsSet[0].label
+        i.fonticon-10-arrowheads-elevator
+      ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
+        each sort in data.narrowResultsSet
+          li
+            a(data-value=sort.name, tabindex="-1", href="#")= sort.label
+    .native-dropdown
+      select
+      option.select-small= data.narrowResultsSet[0].label
+        each sort in data.narrowResultsSet
+          option(value=sort.name, data-reverse=reverse)= sort.label
+
 
   - data.view = "search-results"
   e = { "locals" : locals, "data" : data }
