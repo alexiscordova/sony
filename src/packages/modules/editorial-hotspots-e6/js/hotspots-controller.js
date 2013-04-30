@@ -122,7 +122,7 @@ define(function(require) {
       $( 'body' ).append( underlayNode );
 
       // detect what type of tracking we need to bind the instance to
-      var moduleHandle = self.$container.find( '.image-module' );
+      var moduleHandle = self.$container.parent().find( '.image-module' );
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
         self.trackingMode = 'background';
         self.trackingAsset = moduleHandle;
@@ -282,10 +282,9 @@ define(function(require) {
                   adjustedY   = null,
                   widthOffset = 0;
                
-                  if( $( window ).width() < 768 ) {
-                    widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
-                  }
-               
+                  // compensate for centering in the parent node
+                  widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
+                  
                   // get x coordinate
                   adjustedX = ( percX * assetW ) / 100 + widthOffset;
                   adjustedY = ( percY * assetH ) / 100;
@@ -365,7 +364,7 @@ define(function(require) {
     
     show: function( el ) {
       var self        = this,
-          offsetTime  = 100; 
+          offsetTime  = 400; 
 
       if( true === self.canShowHotspots ) {
         $( self.$els ).each(function( index, el ) {
