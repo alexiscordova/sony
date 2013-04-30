@@ -79,6 +79,7 @@ $bulletMargin: px-em(5px);
 
   button {
     @include transition();
+    @include opacity(0);
     position: absolute;
     top: 50%;
     width: px-em(48px);
@@ -90,7 +91,6 @@ $bulletMargin: px-em(5px);
     background-color: $gray10;
     background-color: rgba($gray10, .4);
     border-radius: .1875em;
-    @include opacity(0);
 
     &.on {
       @include opacity(100);
