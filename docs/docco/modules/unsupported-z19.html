@@ -3,12 +3,57 @@
   <span class="string">'use strict'</span>;
 
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
-      bootstrap = require(<span class="string">'bootstrap'</span>);
+      bootstrap = require(<span class="string">'bootstrap'</span>),
+      enquire = require(<span class="string">'enquire'</span>);
 
   <span class="keyword">var</span> module = {
     init: <span class="keyword">function</span>() {
-      $(<span class="string">'.launch-modal'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
-        $(<span class="string">'#unsupported-browser-modal'</span>).modal();
+      <span class="keyword">this</span>.modalID = <span class="string">'#unsupported-browser-modal'</span>;
+      <span class="keyword">this</span>.$modal = $(<span class="string">'.modal-unsupported'</span>);
+      <span class="keyword">this</span>.bind();
+    },
+    bind: <span class="keyword">function</span>(){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>temporary click event for modal demo</p>             </td>             <td class="code">               <div class="highlight"><pre>      $(<span class="string">'.launch-modal'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
+        self.launchModal(self.modalID);
+      });
+
+      $(window).resize($.proxy(<span class="keyword">this</span>.measureModal, <span class="keyword">this</span>));
+    },
+    launchModal: <span class="keyword">function</span>(id){
+      $(id).modal();
+      <span class="keyword">this</span>.measureModal();
+    },
+    measureModal: <span class="keyword">function</span>(){
+      <span class="keyword">var</span> width = $(window).width();
+      <span class="keyword">if</span> (width &gt; <span class="number">767</span> &amp;&amp; width &lt; <span class="number">980</span>) {
+        <span class="keyword">var</span> bodyheight = $(<span class="string">'.modal-body'</span>).get(<span class="number">0</span>).clientHeight;
+        <span class="keyword">this</span>.$modal.addClass(<span class="string">'tablet'</span>);
+        $(<span class="string">'.tablet'</span>).css({
+          <span class="string">'max-height'</span>: <span class="string">'780px'</span>
+        });
+        <span class="keyword">var</span> modalheight = <span class="keyword">this</span>.$modal.height();
+        <span class="keyword">var</span> modalwidth = <span class="keyword">this</span>.$modal.width();
+        <span class="keyword">var</span> windowheight = $(window).height();
+        console.log(bodyheight);
+        <span class="keyword">this</span>.positionModal(modalwidth, modalheight);
+      } <span class="keyword">else</span> {
+        <span class="keyword">this</span>.resetModal();
+      }
+    },
+    positionModal: <span class="keyword">function</span>(width, height){
+      <span class="keyword">this</span>.$modal.css({
+        <span class="string">'margin-top'</span>: -height / <span class="number">2</span>,
+        <span class="string">'margin-left'</span>: -width / <span class="number">2</span>
+      });
+    },
+    resetModal: <span class="keyword">function</span>(){
+      <span class="keyword">if</span> (<span class="keyword">this</span>.$modal.hasClass(<span class="string">'tablet'</span>)) {
+        <span class="keyword">this</span>.$modal.removeClass(<span class="string">'tablet'</span>);
+      }
+      <span class="keyword">this</span>.$modal.css({
+        <span class="string">'margin-top'</span>: <span class="string">''</span>,
+        <span class="string">'margin-left'</span>: <span class="string">''</span>
       });
     }
   };
