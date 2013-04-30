@@ -175,7 +175,7 @@ mixin twitter(data)
 
 mixin facebook(data)
     .post-image
-      +iQImage(data.image,'tcc-image')
+      +iQImage(data.image)
 
     blockquote.bq5
         p= data.postCopy
@@ -204,13 +204,9 @@ mixin flickr(data)
         - for (i = 0; i <= 2; i++) {
         if(data.images[i])
           .iq-img(data-src-desktop= data.images[i].srcDesktop, data-src-tablet= data.images[i].srcTablet, data-src-phone= data.images[i].srcPhone, data-src-desktop-highres= data.images[i].srcDesktopHighRes, data-src-tablet-highres= data.images[i].srcTabletHighRes, data-src-phone-highres= data.images[i].srcPhoneHighRes)
-          //- div
-          //-   +iQImage(data.images[i]s[i])
         -}
     .bottom-row
         - for (i = 3; i <= 5; i++) {
         if(data.images[i])
           .iq-img(data-src-desktop= data.images[i].srcDesktop, data-src-tablet= data.images[i].srcTablet, data-src-phone= data.images[i].srcPhone, data-src-desktop-highres= data.images[i].srcDesktopHighRes, data-src-tablet-highres= data.images[i].srcTabletHighRes, data-src-phone-highres= data.images[i].srcPhoneHighRes)
-          //- div
-          //-   +iQImage(data.images[i])
         -}

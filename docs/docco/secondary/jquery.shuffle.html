@@ -790,8 +790,9 @@ The buffer value is very useful when the height is a percentage of the width</p>
         <span class="comment">/**
          * The magic. This is what makes the plugin 'shuffle'
          * @param  {String|Function} category category to filter by. Can be a function
+         * @param {Object} [sortObj] A sort object which can sort the filtered set
          */</span>
-        shuffle : <span class="keyword">function</span>( category ) {
+        shuffle : <span class="keyword">function</span>( category, sortObj ) {
             <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
             <span class="keyword">if</span> ( !self.enabled ) {
@@ -811,7 +812,10 @@ The buffer value is very useful when the height is a percentage of the width</p>
 
 </pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>Shrink each concealed item</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.shrink();
 
-</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>Update transforms on .filtered elements so they will animate to their new positions</p>             </td>             <td class="code">               <div class="highlight"><pre>            self._reLayout();
+</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>If given a valid sort object, save it so that _reLayout() will sort the items</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( sortObj ) {
+                self.lastSort = sortObj;
+            }
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>Update transforms on .filtered elements so they will animate to their new positions</p>             </td>             <td class="code">               <div class="highlight"><pre>            self._reLayout();
         },
 
         <span class="comment">/**
@@ -845,10 +849,10 @@ The buffer value is very useful when the height is a percentage of the width</p>
             <span class="keyword">if</span> ( <span class="keyword">this</span>.enabled ) {
 
                 <span class="keyword">if</span> ( !isOnlyLayout ) {
-</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>Get updated colCount</p>             </td>             <td class="code">               <div class="highlight"><pre>                    <span class="keyword">this</span>._setColumns();
+</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>Get updated colCount</p>             </td>             <td class="code">               <div class="highlight"><pre>                    <span class="keyword">this</span>._setColumns();
                 }
 
-</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>Layout items</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">this</span>._reLayout();
+</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>Layout items</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">this</span>._reLayout();
             }
         },
 
@@ -872,7 +876,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
          * @param  {Boolean} [isSequential] If false, new items won't sequentially fade in
          */</span>
         appended : <span class="keyword">function</span>( $newItems, animateIn, isSequential ) {
-</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>True if undefined</p>             </td>             <td class="code">               <div class="highlight"><pre>            animateIn = animateIn === <span class="literal">false</span> ? <span class="literal">false</span> : <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>True if undefined</p>             </td>             <td class="code">               <div class="highlight"><pre>            animateIn = animateIn === <span class="literal">false</span> ? <span class="literal">false</span> : <span class="literal">true</span>;
             isSequential = isSequential === <span class="literal">false</span> ? <span class="literal">false</span> : <span class="literal">true</span>;
 
             <span class="keyword">this</span>._addItems( $newItems, animateIn, isSequential );
@@ -891,7 +895,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
 
         remove : <span class="keyword">function</span>( $collection ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>If this isn't a jquery object, exit</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !$collection.length || !$collection.jquery ) {
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>If this isn't a jquery object, exit</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !$collection.length || !$collection.jquery ) {
                 <span class="keyword">return</span>;
             }
 
@@ -927,25 +931,23 @@ The buffer value is very useful when the height is a percentage of the width</p>
     };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle = <span class="keyword">function</span>(opts, sortObj) {
+</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle = <span class="keyword">function</span>( opts ) {
         <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
         <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
             <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
                 shuffle = $<span class="keyword">this</span>.data(<span class="string">'shuffle'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>If we don't have a stored shuffle, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !shuffle ) {
+</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>If we don't have a stored shuffle, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !shuffle ) {
                 shuffle = <span class="keyword">new</span> Shuffle($<span class="keyword">this</span>, opts);
                 $<span class="keyword">this</span>.data(<span class="string">'shuffle'</span>, shuffle);
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>If passed a string, lets decide what to do with it. Or they've provided a function to filter by</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( $.isFunction(opts) ) {
-                shuffle.shuffle( opts );
+</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>If passed a string, lets decide what to do with it. Or they've provided a function to filter by</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( $.isFunction(opts) ) {
+                shuffle.shuffle.apply( shuffle, args );
 
-</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>Key should be an object with propreties reversed and by.</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> opts === <span class="string">'string'</span>) {
+</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>Key should be an object with propreties reversed and by.</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> opts === <span class="string">'string'</span>) {
                 <span class="keyword">switch</span>( opts ) {
                     <span class="keyword">case</span> <span class="string">'sort'</span>:
-                        shuffle.sort(sortObj);
-                        <span class="keyword">break</span>;
                     <span class="keyword">case</span> <span class="string">'destroy'</span>:
                     <span class="keyword">case</span> <span class="string">'update'</span>:
                     <span class="keyword">case</span> <span class="string">'appended'</span>:
@@ -963,7 +965,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
         });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.options = {
+</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.options = {
         group : <span class="string">'all'</span>, <span class="comment">// Filter group</span>
         speed : <span class="number">400</span>, <span class="comment">// Transition/animation speed (milliseconds)</span>
         easing : <span class="string">'ease-out'</span>, <span class="comment">// css easing function to use</span>
@@ -981,7 +983,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
         useTransition: <span class="literal">true</span> <span class="comment">// You don't want transitions on shuffle items? Fine, but you're weird</span>
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.settings = {
         itemCss : { <span class="comment">// default CSS for each item</span>
             position: <span class="string">'absolute'</span>,
             top: <span class="number">0</span>,
