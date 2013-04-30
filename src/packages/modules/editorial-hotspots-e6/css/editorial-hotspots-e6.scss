@@ -7,7 +7,7 @@ $centerRatio: (28.571428571429% / 2);
 $indicatorRatio: 14px; /* 35%; */ /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
-$transitionSpeed: 0.5s;
+$transitionSpeed: 0.5s; 
 
 /*MIXINZ*/
 @mixin ehsTransition() {
@@ -24,7 +24,7 @@ $transitionSpeed: 0.5s;
 }
 
 .editorial {
-  .submodule {
+  .submodule, .image-module {
     .arrow-right-small {
     	width: 0; 
     	height: 0; 
@@ -60,16 +60,19 @@ $transitionSpeed: 0.5s;
 }
 
 .editorial {
-  .image-module {
-    position: relative;
-    .eh-transparent {
-      @include ehsTransition();
-      opacity: 0;
-    }
-    
-    .eh-visible {
-      @include ehsTransition();
-      opacity: 1;
+  .table-center-wrap .table-center, .submodule {
+    .image-module {
+      position: relative;
+      
+      .eh-transparent {
+        @include ehsTransition();
+        opacity: 0;
+      }
+      
+      .eh-visible {
+        @include ehsTransition();
+        opacity: 1;
+      } 
     } 
   }
 }
@@ -77,7 +80,8 @@ $transitionSpeed: 0.5s;
 /*GLOBAL OVERLAY*/
 .hspot-global-details-main {
   .overlay-inner {
-    margin: 0px auto;
+  
+    margin: 0px auto; 
     width: 280px;
     background-color: #fff;
     .overlay-close {
@@ -143,12 +147,8 @@ $transitionSpeed: 0.5s;
 
 /*UTILS*/
 .editorial {
-  .submodule {
+  .submodule, .hotspot-instance {
     position: relative;
-    
-    .hotspot-instance {
-      position: relative;
-    }
     
     .hspot-outer.info-jump-to-top {
       z-index: 4; 
@@ -249,45 +249,46 @@ $transitionSpeed: 0.5s;
       transition:0s;
       &.three-stack-right-top-justified {
         top: -160px;
-        left: 69px;
+        left: 58px;
       }
         
       &.three-stack-left-top-justified {
         top: -160px;
-        left: -286px;
+        left: -287px;
       }
       
       &.three-stack-right-bottom-justified {
         top: -285px;
-        left: 68px;
+        left: 58px;
       }
         
       &.three-stack-left-bottom-justified {
-        top: -285px;
-        left: -286px;
+        top: -284px;
+        left: -288px;
       }
       
       &.two-stack-right-top-justified {
-        top: -11px;
-        left: 69px;
+        top: -15px;
+        left: 58px;
       }
         
       &.two-stack-left-top-justified {
-        top: -11px;
-        left: -287px;
+        top: -15px;
+        left: -288px;
       }
       
       &.two-stack-right-bottom-justified {
         top: -139px;
-        left: 63px;
+        left: 58px;
       }
         
       &.two-stack-left-bottom-justified {
-        top: -137px;
+        top: -139px;
         left: -288px;        
       }
     }
     
+/*
     .hspot-small .variant1 {
       -o-transition:0s;
       -ms-transition:0s;
@@ -334,54 +335,56 @@ $transitionSpeed: 0.5s;
         left: -288px;        
       }
     }
+*/
     
-    .variant2 {
+    .hspot-small .variant2 {
       -o-transition:0s;
       -ms-transition:0s;
       -moz-transition:0s;
       -webkit-transition:0s;
       transition:0s;
       &.three-stack-right-top-justified {
-        top: -127px;
-        left: 66px;
+        top: -128px;
+        left: 48px;
       }
         
       &.three-stack-left-top-justified {
-        top: -127px;
-        left: -235px;
+        top: -128px;
+        left: -236px;
       }
       
       &.three-stack-right-bottom-justified {
         top: -242px;
-        left: 66px;
+        left: 48px;
       }
         
       &.three-stack-left-bottom-justified {
         top: -242px;
-        left: -234px;
+        left: -235px;
       }
   
       &.two-stack-right-top-justified {
-        top: -8px;
-        left: 66px;
+        top: -9px;
+        left: 48px;
       }
         
       &.two-stack-left-top-justified {
-        top: -8px;
-        left: -235px;        
+        top: -9px;
+        left: -237px;        
       }
       
       &.two-stack-right-bottom-justified {
-        top: -121px;
-        left: 66px;        
+        top: -124px;
+        left: 48px;        
       }
         
       &.two-stack-left-bottom-justified {
-        top: -121px;
-        left: -234px;        
+        top: -124px;
+        left: -237px;        
       }
     }
   
+/*
     .hspot-small .variant2 {
       -o-transition:0s;
       -ms-transition:0s;
@@ -428,6 +431,7 @@ $transitionSpeed: 0.5s;
         left: -235px;
       }
     }
+*/
  
   }
 }
@@ -454,8 +458,8 @@ $transitionSpeed: 0.5s;
       left: 0;
       margin-top:-43px;
       left: -30px;
-      width: 62px;
-      height: 62px;
+      width: 50px;
+      height: 50px;
       background:url('../../img/editorial-dual-viewer-e9/gray30.png');
       cursor:pointer;
       z-index: 1;
@@ -464,26 +468,26 @@ $transitionSpeed: 0.5s;
       @include transition(.1s);
       
       .hspot-core {
-        position:absolute;
-        width:92px;
-        height:92px;
+        position: absolute;
+        width: 80px;
+        height: 80px;
         @include scale(0.5);
-        background:$buttonOrange;
-        display:block;
-        text-align:center;
-        font-size:2em;
-        top:50%;
-        left:50%;
-        margin:-46px 0 0 -46px;
+        background: $buttonOrange;
+        display: block;
+        text-align: center;
+        font-size: 2em;
+        top: 50%;
+        left: 50%;
+        margin: -40px 0 0 -40px;
         @include border-radius(50%);
         @include transition(.1s ease-out);
         
         .icons {
-          position:absolute;
-          top:50%;
-          left:50%;
-          width:100px;
-          margin:-30px 0 0 -50px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100px;
+          margin: -30px 0 0 -50px;
           
           i {
             display:inline-block;
@@ -503,26 +507,26 @@ $transitionSpeed: 0.5s;
       }
       
       .hspot-core-on {
-        position:absolute;
-        width:92px;
-        height:92px;
-        background:$gray30;
-        display:block;
-        text-align:center;
-        font-size:2em;
-        top:50%;
-        left:50%;
-        margin:-46px 0 0 -46px;
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background: $gray30;
+        display: block;
+        text-align: center;
+        font-size: 2em;
+        top: 50%;
+        left: 50%;
+        margin: -40px 0 0 -40px;
         @include scale(0.5);
         @include border-radius(50%);
         @include transition(.1s ease-out);
         
         .icons {
-          position:absolute;
-          top:50%;
-          left:50%;
-          width:100px;
-          margin:-30px 0 0 -50px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100px;
+          margin: -30px 0 0 -50px;
           
           i {
             display:inline-block;
@@ -549,8 +553,8 @@ $transitionSpeed: 0.5s;
       left: 0;
       margin-top: -20px;
       left: -15px;
-      width: 46px;
-      height: 46px;
+      width: 42px;
+      height: 42px;
       background: url('../../img/editorial-dual-viewer-e9/gray30.png');
       cursor: pointer;
       z-index: auto;
@@ -647,6 +651,7 @@ $transitionSpeed: 0.5s;
   z-index: 2;
   position: absolute;
   cursor: default;
+  text-align: left;
   
   .overlay-inner {
     height: 100%;
