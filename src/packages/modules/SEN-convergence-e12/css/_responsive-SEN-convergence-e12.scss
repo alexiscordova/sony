@@ -15,11 +15,24 @@ $desktopMin: px-em(980);
     .sen-bg-img {
       height: 429px;
     }
-  }
-  .sen-convergence-placement {
-      margin-top: 0;
+
+    .sen-convergence-placement {
+        margin-top: 0;
+    }
   }
 }
+
+@media ( min-width: $desktopMin ) {
+  .sen-convergence {
+    .tabs {
+      position: absolute;
+      top: 531px;
+      left: 50%;
+      margin-left: -155px;
+    }
+  }
+}
+
 
 @media ( max-width: $tabletMax ) {
   .sen-convergence {
@@ -29,6 +42,14 @@ $desktopMin: px-em(980);
     .sen-convergence-placement {
       margin-top: 0;
     }
+
+    .tabs {
+      position: absolute;
+      top: 458px;
+      left: 50%;
+      margin-left: -155px;
+    }
+
   }
 }
 
@@ -61,6 +82,13 @@ $desktopMin: px-em(980);
     }
     .sen-convergence-placement {
       margin-top: 65%;
+    }
+
+    .tabs {
+      position: relative;
+      top: auto;
+      left: auto;
+      margin-left: 0;
     }
   }
 }

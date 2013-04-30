@@ -32,8 +32,12 @@ include ../../../common/html/jade-helpers.jade
                       p.p3= tab.bodycopy
                     a.btn= tab.buttontext
 
-    ul.tabs
-      - each tab, i in data.tabs
-        - var klass = (i === 0 ? 'active' : '')
-        li(class= klass, data-target= tab.tabTitle, data-toggle="tab", data-hash="true")
-          a(href="#")= tab.tabTitle
+    .tabs-container
+      ul.tabs
+        - each tab, i in data.tabs
+          - var klass = (i === 0 ? 'active' : '')
+          li(class= klass, data-target= tab.tabTitle, data-toggle="tab", data-hash="true")
+            a(href="#")
+              span.active-highlight
+              i.fonticon.fonticon-10-square-neg-plus
+              = tab.tabTitle
