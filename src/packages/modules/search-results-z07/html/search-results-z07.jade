@@ -6,12 +6,16 @@ include search-results-z07-helpers.jade
 .search-results
   .bar-tone
     .container
-      .slimgrid
+      .slimgrid.no-grid-at-767
         h2.l3= data.pageTitle
-        form.search-form
-          label.search-label= data.searchForm.label
-          input.search(value= data.searchForm.searchedText)
-          a.clear-search(href"#") i X
+        .span9.m-span6
+          form.search-form
+            .search-left
+              label.search-label= data.searchForm.label
+              input.search(value= data.searchForm.searchedText)
+            .search-right
+              a.clear-search(href"#") i X
+        .span2.hidden-phone
           button.btn.hidden-phone= data.searchForm.buttonText
 
   .container

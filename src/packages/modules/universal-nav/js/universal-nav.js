@@ -3,7 +3,7 @@
 // ------------ Sony Universal Nav ------------
 // Module: Universal Nav
 // Version: 1.0
-// Modified: 2013-04-24 by Christopher Mischler
+// Modified: 2013-04-26 by Christopher Mischler
 // Dependencies: jQuery 1.4+
 // -------------------------------------------------------------------------
 
@@ -39,9 +39,8 @@ var UNAV = ( function( window, document, $, undefined ){
     // -----------------------------
     // EVENT LISTENERS
     // -----------------------------
-    // Since I don't know what version of jQuery will be used on all sites, this will allow versions older than 1.7 
-    // to work, without using depreciated functions in version 1.7+ 
     // At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().
+    // This will allow versions older than 1.7 to work without using depreciated functions in version 1.7+
     if ($.isFunction($.fn.on)){
       $triggerLink.on('click',function(e){
         // console.log("$triggerLink");
@@ -97,14 +96,20 @@ var UNAV = ( function( window, document, $, undefined ){
         }
       });
     }
-
-    _setUpElements();
+    _setUpPrimaryLinks($uNavPrimary.children().length);
   },
 
 
 
+  _setUpPrimaryLinks = function(xUp){
 
-  _setUpElements = function(){
+    if (xUp === 6){
+      $uNavPrimary.addClass('u-nav-primary-6up');
+    } else if (xUp === 3){
+      $uNavPrimary.addClass('u-nav-primary-3up');
+    } else {
+      $uNavPrimary.addClass('u-nav-primary-5up');
+    }
 
     // So we don't have to download the images before we can figure out how high the module will be,
     // we need to figure out the height the image should be at this width, based on current browser width.
@@ -137,7 +142,7 @@ var UNAV = ( function( window, document, $, undefined ){
   _openUNav = function(){
     // console.log("_openUNav");
 
-    _setUpElements();
+    _setUpPrimaryLinks();
 
     setTimeout(function() {
       $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
@@ -180,7 +185,7 @@ var UNAV = ( function( window, document, $, undefined ){
   },
 
   _resizeEvent = function(){
-    _setUpElements();
+    _setUpPrimaryLinks();
   };
 
   return {

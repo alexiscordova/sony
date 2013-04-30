@@ -87,6 +87,9 @@ module.exports = function(grunt) {
         layouts:function(){
           return grunt.file.expand('packages/modules/**/demo/*.jade').map(function(a){return a.split('/').pop().replace(/.jade/g, '.html')}).filter(function(a){return a.match(/-layouts.html/g)});
         },
+        demostyles:function(){
+          return grunt.file.expand('packages/modules/**/demo/*.jade').map(function(a){return a.split('/').pop().replace(/.jade/g, '.html')}).filter(function(a){return a.match(/-styles.html/g)});
+        },
         data: function(path){
           return jadeconfig.data.data(path);
         },
