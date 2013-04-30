@@ -189,15 +189,23 @@
     text-align: left;
   }
   /* line 123, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
-  .all-electronics .products-section-main .products-list-main .products-li-link img {
-    max-height: 40px;
+  .all-electronics .products-section-main .products-list-main .products-li-link .product-img-w {
+    display: inline;
+    vertical-align: middle;
+    height: auto;
+    line-height: 1;
   }
   /* line 129, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
+  .all-electronics .products-section-main .products-list-main .products-li-link img {
+    max-height: 36px;
+    width: auto;
+  }
+  /* line 136, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
   .all-electronics .products-section-main .products-list-main .tl {
     padding: 9px 0;
     overflow: hidden;
   }
-  /* line 132, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
+  /* line 139, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
   .all-electronics .products-section-main .products-list-main .tl:after {
     font-family: 'Sony-Icons';
     content: "\e013";
@@ -209,26 +217,26 @@
     right: 0;
     color: #5787f4;
   }
-  /* line 144, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
+  /* line 151, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
   .all-electronics .products-section-main .products-list-main .product-img-w {
     width: 84px;
     float: left;
     margin: 0 12px 0 0;
   }
-  /* line 149, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
+  /* line 156, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
   .all-electronics .products-section-main .products-list-main .nav-label {
     float: left;
   }
-  /* line 154, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
+  /* line 161, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
   .all-electronics .products-section-secondary {
     width: 100%;
     padding: 22px 10px;
   }
-  /* line 158, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
+  /* line 165, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
   .all-electronics .products-section-secondary .products-list-secondary li {
     line-height: 1.65em;
   }
-  /* line 162, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
+  /* line 169, ../../src/packages/modules/all-electronics-z04/css/_responsive-all-electronics-z04.scss */
   .all-electronics .products-section-secondary .l2 {
     margin-bottom: 12px;
   }
@@ -1800,27 +1808,27 @@
   }
 
   /* line 343, ../../src/packages/modules/gallery-g2-g3/css/_responsive-gallery-g2-g3.scss */
-  .filter-display-bar .product-count-wrap {
+  .filter-display-bar .grid .product-count-wrap {
     margin: 0;
   }
   /* line 348, ../../src/packages/modules/gallery-g2-g3/css/_responsive-gallery-g2-g3.scss */
-  .filter-display-bar .btn.slide-toggle,
-  .filter-display-bar .btn.btn-alt-plus {
+  .filter-display-bar .grid .btn.slide-toggle,
+  .filter-display-bar .grid .btn.btn-alt-plus {
     float: left;
     margin: 20px 0 0 0;
     min-width: 0;
     width: 48%;
   }
   /* line 355, ../../src/packages/modules/gallery-g2-g3/css/_responsive-gallery-g2-g3.scss */
-  .filter-display-bar .btn.slide-toggle {
+  .filter-display-bar .grid .btn.slide-toggle {
     clear: both;
   }
   /* line 359, ../../src/packages/modules/gallery-g2-g3/css/_responsive-gallery-g2-g3.scss */
-  .filter-display-bar .btn.btn-alt-plus {
+  .filter-display-bar .grid .btn.btn-alt-plus {
     margin-left: 4%;
   }
   /* line 363, ../../src/packages/modules/gallery-g2-g3/css/_responsive-gallery-g2-g3.scss */
-  .filter-display-bar .btn.accessory-finder {
+  .filter-display-bar .grid .btn.accessory-finder {
     margin-top: 1em;
     margin-left: 0;
   }
@@ -3496,8 +3504,25 @@
     padding-bottom: 0;
   }
 }
+@media (max-height: 34.375em) {
+  /* line 13, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  .modal-light-compare.modal .container,
+  .modal-light-compare.modal .grid {
+    height: auto;
+  }
+  /* line 17, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  .modal-light-compare .tab-container {
+    position: fixed;
+  }
+}
+@media (max-width: 61.1875em) {
+  /* line 24, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  .light-compare-wrapper {
+    padding: 20px 0;
+  }
+}
 @media (max-width: 47.9375em) {
-  /* line 10, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 30, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .mobile-hd {
     position: relative;
     padding: 18px 0 40px 3.125%;
@@ -3506,59 +3531,73 @@
     -moz-box-shadow: 0px 3px 10px -6px rgba(0, 0, 0, 0.18);
     box-shadow: 0px 3px 10px -6px rgba(0, 0, 0, 0.18);
   }
-  /* line 17, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 37, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .mobile-hd .mobile-hd-txt {
     float: left;
   }
-  /* line 20, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 40, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .mobile-hd .modal-close {
     position: absolute;
     right: 11px;
     top: 11px;
   }
 
-  /* line 27, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 47, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .light-compare {
     width: 100%;
     background: white;
   }
-  /* line 30, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 50, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .light-compare .light-compare-hd {
     width: 85%;
     margin-bottom: 27px;
   }
 
-  /* line 36, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 55, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  .light-compare-wrapper {
+    padding: 14px 0;
+  }
+
+  /* line 59, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  .light-compare-box .image-module {
+    height: 100px;
+  }
+
+  /* line 64, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .modal-light-compare {
     height: 100%;
     overflow: auto;
   }
-  /* line 39, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 67, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .modal-light-compare.fade.in {
     top: 0;
   }
-  /* line 42, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 70, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .modal-light-compare .image-module {
     text-align: center;
   }
-  /* line 46, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 74, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .modal-light-compare .container,
   .modal-light-compare .grid {
     width: 100%;
   }
-  /* line 49, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 77, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .modal-light-compare .tab-container {
     display: table;
   }
-  /* line 51, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 79, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .modal-light-compare .tab-container .tabs {
     display: table-row;
     width: 100%;
   }
-  /* line 54, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  /* line 82, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
   .modal-light-compare .tab-container .tabs li {
     display: table-cell;
     float: none;
+  }
+  /* line 85, ../../src/packages/modules/light-compare-d9/css/_responsive-light-compare-d9.scss */
+  .modal-light-compare .tab-container .tabs li a {
+    padding: 20px 10px;
   }
 }
 @media (min-width: 1200px) {
@@ -5462,67 +5501,75 @@
   .unsupported .media-content {
     padding-left: 4%;
   }
+  /* line 15, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  .unsupported .browser-list {
+    margin: 0;
+  }
   /* line 16, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .unsupported .browser-list .span6 {
     width: 100%;
     margin: 0;
   }
+  /* line 22, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  .unsupported .unsupported-bd {
+    margin: 20px auto 30px;
+  }
 }
 @media (max-width: 47.9375em) {
-  /* line 25, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 29, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .unsupported {
     width: auto;
   }
-  /* line 27, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 31, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .unsupported .link-proceed {
     display: none;
   }
-  /* line 30, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 34, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .unsupported .btn {
     display: inline-block;
   }
-  /* line 33, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 37, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .unsupported .unsupported-bd {
     display: none;
   }
-  /* line 36, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 40, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .unsupported .unsupported-bd-alt {
     display: block;
     margin: 16px auto 44px;
   }
-  /* line 39, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 43, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .unsupported .unsupported-bd-alt .p3 {
     line-height: 1.7em;
   }
-  /* line 43, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 47, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .unsupported .browser-list {
     display: none;
   }
 
-  /* line 48, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 52, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .modal-unsupported {
     top: 0;
     height: 100%;
   }
-  /* line 51, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 55, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .modal-unsupported.fade.in {
     top: 0;
   }
-  /* line 54, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 58, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .modal-unsupported .container {
     width: 100%;
     height: 100%;
   }
-  /* line 57, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 61, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .modal-unsupported .container .grid {
     width: 100%;
     height: 100%;
   }
-  /* line 62, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 66, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .modal-unsupported .box-close {
     display: none;
   }
-  /* line 65, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
+  /* line 69, ../../src/packages/modules/unsupported-z19/css/_responsive-unsupported-z19.scss */
   .modal-unsupported .modal-body {
     padding: 2.3em 1em;
   }
