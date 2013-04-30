@@ -33,8 +33,8 @@ define(<span class="keyword">function</span>(require){
     self.onResizeFunc = $.proxy( self.resizeFunc, self );
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>CACHE</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$el = $(element);
-    self.$imageWrappers = self.$el.find(<span class="string">".measurement .img-wrapper"</span>); 
-    self.$measurementImages = self.$imageWrappers.find(<span class="string">".pd-image"</span>); 
+    self.$imageWrappers = self.$el.find(<span class="string">".measurement .img-wrapper"</span>);
+    self.$measurementImages = self.$imageWrappers.find(<span class="string">".pd-image"</span>);
     self.$horzMeasurements = self.$el.find(<span class="string">".horizontal-measurement"</span>);
     self.$vertMeasurements = self.$el.find(<span class="string">".vertical-measurement"</span>);
     self.$measurements = self.$horzMeasurements.add(self.$vertMeasurements);
@@ -74,7 +74,6 @@ register listener for global debounce to call method <strong>after</strong> debo
 
     resizeFunc : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      console.log( <span class="string">'resizeFunc »'</span>);
       self.buildMeasurements();
     },
 
@@ -103,17 +102,17 @@ register listener for global debounce to call method <strong>after</strong> debo
     showMeasurements : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $measurements = self.$measurements;
-      
+
       $measurements.each(<span class="keyword">function</span>() {
         $(<span class="keyword">this</span>).addClass(<span class="string">'on'</span>);
-      });  
+      });
     },
 
     getMImageDimensions : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $images = self.$measurementImages;
-      
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>get the w/h of each image</p>             </td>             <td class="code">               <div class="highlight"><pre>      $images.each(<span class="keyword">function</span>(index, value) { 
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>get the w/h of each image</p>             </td>             <td class="code">               <div class="highlight"><pre>      $images.each(<span class="keyword">function</span>(index, value) {
         self.mImageWidths[index] = $(<span class="keyword">this</span>).outerWidth();
         self.mImageHeights[index] = $(<span class="keyword">this</span>).outerHeight();
       });
@@ -122,8 +121,8 @@ register listener for global debounce to call method <strong>after</strong> debo
     setMeasurementDimensions : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $measurements = self.$vertMeasurements.add(self.$horzMeasurements);
-      
-        $measurements.each(<span class="keyword">function</span>(index) { 
+
+        $measurements.each(<span class="keyword">function</span>(index) {
           <span class="keyword">var</span> dir = $(<span class="keyword">this</span>).hasClass(<span class="string">"vertical-measurement"</span>) ? <span class="string">"v"</span> : <span class="string">"h"</span>,
               imgIndex = self.$imageWrappers.index($(<span class="keyword">this</span>).parent().find(<span class="string">".img-wrapper"</span>)),
               $mContainer = $(<span class="keyword">this</span>).find(<span class="string">".measurements-container"</span>),
@@ -140,9 +139,9 @@ register listener for global debounce to call method <strong>after</strong> debo
               }<span class="keyword">else</span>{
                 theMarginTop = -($mContainer.innerHeight() / <span class="number">2</span>);
               }
-              
+
               theMarginLeft = <span class="number">0</span>;
-              
+
              } <span class="keyword">else</span> <span class="keyword">if</span> (dir === <span class="string">"h"</span>){
                 theMarginTop = <span class="number">0</span>;
                 top = <span class="number">0</span>;
