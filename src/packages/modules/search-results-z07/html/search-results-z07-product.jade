@@ -44,8 +44,9 @@ ul.results-list
     li
       a(href="#")
         .media
-          .img
-            +iQImage(item.image)
+          if data.image
+            .img
+              +iQImage(item.image)
           .bd
             h4.lt3
               a(href= item.url)= item.headline
