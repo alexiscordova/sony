@@ -89,10 +89,11 @@ mixin boxlayout(_layout, _style)
   layout = _layout ? _layout : data.layout
   classes = _style ? _style : data.style
   if data.variation
-    if data.variation.mobilealign
-      classes = classes + " " + data.variation.mobilealign
-    else
-      classes = classes + " bottom"
+    if !data.variation.headline
+      if data.variation.mobilealign
+        classes = classes + " " + data.variation.mobilealign
+      else 
+        classes = classes + " bottom"
   if layout.text == "left" || layout.text == "full"
     .container.inner(class= classes)
       .grid.no-grid-at-767
@@ -149,8 +150,8 @@ mixin boxlayout(_layout, _style)
     if data.variation
       if data.variation.mobilebg
         style = style + " force-mobile-bg"
-    if data.style.indexOf('trans') > -1
-      style = style + " no-bg"
+      if data.variation.headline
+        style = style + " no-bg"      
     +boxlayout(data.layout, style)
       +eyebrow
       +header
