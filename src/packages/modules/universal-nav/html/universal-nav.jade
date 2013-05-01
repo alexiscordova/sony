@@ -13,7 +13,14 @@ div#universal-nav.u-nav-wrapper(role='navigation')
         | !{data.all_sites_link.label}
 
     //- the row of image-heavy links
-    div.u-nav-primary.grid
+    if data.primary_columns[0].double_wide === "true"
+      - u_nav_primary_classes = "u-nav-primary u-nav-primary-3up grid"
+    else if data.primary_columns[0].double_tall === "true"
+      - u_nav_primary_classes = "u-nav-primary u-nav-primary-5up grid"
+    else 
+      - u_nav_primary_classes = "u-nav-primary u-nav-primary-6up grid"
+
+    div(class=u_nav_primary_classes)
 
       //- each column
       - col_count = 1

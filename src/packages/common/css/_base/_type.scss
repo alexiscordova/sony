@@ -356,6 +356,7 @@ p{ @extend .p2; }
 // Light text / Dark text -- on Dark box / Light box / Transparent box
 // ----------------------------------
 // dark text
+.dark-text,
 .dark-text-light-box,
 .dark-text-trans-box{
   h1, h2, h3, h4, h5, h6{
@@ -366,13 +367,14 @@ p{ @extend .p2; }
   }
 }
 //light text
+.light-text,
 .light-text-dark-box,
 .light-text-trans-box{
   h1, h2, h3, h4, h5, h6{
     color:$white;
   }
   p{
-    color:$gray50;
+    color:$white;
   }
 }
 .light-text-dark-box a,
@@ -382,8 +384,8 @@ p{ @extend .p2; }
     color: $gray70;
   }
 }
-.light-text-trans-box p{
-  color:$white;
+.light-text-dark-box p{
+  color:$gray50;
 }
 // trans box
 .dark-text-trans-box,
