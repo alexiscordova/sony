@@ -28,16 +28,16 @@ define(function(require) {
         iQ.update();
       };
       
-      for( var i=0; i < breakpoints.length; i++ ) {
-        if( 0 === i ) {
-          /* log( "(max-width: " + breakpoints[ i ] + "px)" ); */
-          enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-        } else {
-          /* log( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)" ); */
-          enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+      if( enquire ) {
+        for( var i=0; i < breakpoints.length; i++ ) {
+          if( 0 === i ) {
+            enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+          } else {
+            enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+          }
         }
       }
-       
+      
       // detect if there are any hotspot containers present
       $( '.hotspot-instance' ).each( function( index, el ) {
         // for each container, initialize an instance
@@ -182,19 +182,21 @@ define(function(require) {
 
       // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO 
       // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
-      enquire.register("(max-width: 767px)", function() {
-        self.showOverlayCentered = true;
-        try { 
-          self.reposition(self.$lastOpen[0]);
-        } catch(e) {}
-      }).listen();
-      
-      enquire.register("(min-width: 768px)", function() {
-        self.showOverlayCentered = false;
-        try { 
-          self.reposition(self.$lastOpen[0]);
-        } catch(e) {}
-      }).listen();
+      if( enquire ) {
+        enquire.register("(max-width: 767px)", function() {
+          self.showOverlayCentered = true;
+          try { 
+            self.reposition(self.$lastOpen[0]);
+          } catch(e) {}
+        }).listen();
+        
+        enquire.register("(min-width: 768px)", function() {
+          self.showOverlayCentered = false;
+          try { 
+            self.reposition(self.$lastOpen[0]);
+          } catch(e) {}
+        }).listen();
+      }
 
       setTimeout(triggerInitialPosition, 500);      
     
@@ -858,6 +860,10 @@ define(function(require) {
         // perform CSS transitions
         hotspot.removeClass( 'hspot-core-on' ).addClass( 'hspot-core' );
         
+        if( Settings.isLTIE8 || Settings.isLTIE9 ) {
+          hotspot.parent().removeClass( 'ie-on' );  
+        }
+        
         // begin fade out
         self.transition( info.find('.overlay-inner'),  'off' );
         
@@ -894,6 +900,10 @@ define(function(require) {
         
         // perform CSS transitions
         hotspot.removeClass( 'hspot-core' ).addClass( 'hspot-core-on' );
+
+        if( Settings.isLTIE8 || Settings.isLTIE9 ) {
+          hotspot.parent().addClass( 'ie-on' );  
+        }
         
         // we have to set display: block to allow DOM to calculate dimension
         info.removeClass( 'hidden' );

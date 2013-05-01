@@ -22,10 +22,12 @@ define(function(require) {
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       Utilities = require('require/sony-global-utilities'),
+      Environment = require('require/sony-global-environment'),
+      Settings = require('require/sony-global-settings'),
       iQ = require('iQ'),
       enquire = require('enquire'),
+      Favorites = require('secondary/index').sonyFavorites,
       sonyCarousel = require('secondary/index').sonyCarousel,
-      Environment = require('require/sony-global-environment'),
       sonyScroller = require('secondary/index').sonyScroller;
 
   var module = {
@@ -61,9 +63,7 @@ define(function(require) {
       self.$wrapper = self.$el.find( '.sony-carousel-wrapper' );
       self.$carousel = self.$el.find( '.sony-carousel' );
       self.$favorites = self.$el.find('.js-favorite');
-      self.$productNames = self.$el.find('.product-name-wrap');
-
-      self.hasTouch = Modernizr.touch;
+      self.$productNames = self.$el.find( '.product-name-wrap' );
 
       if ( Modernizr.mediaqueries ) {
 
@@ -93,9 +93,9 @@ define(function(require) {
         self._setupDesktop();
       }
 
-      if( self.$favorites.length ){
+      if ( self.$favorites.length ) {
         self.$productNames.evenHeights();
-        self._initTooltips();
+        new Favorites( self.$carousel );
         Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
       }
 
@@ -105,63 +105,6 @@ define(function(require) {
       var self = this;
 
       self.$productNames.evenHeights();
-
-    },
-
-    _initTooltips : function($favorites) {
-      var self = this;
-
-      $favorites = $favorites || self.$favorites;
-
-      // Favorite the gallery item immediately on touch devices
-      if ( self.hasTouch ) {
-
-        $favorites
-          .on('touchend', $.proxy( self._onFavorite, self ))
-          .on('click', false);
-
-      // Show a tooltip on hover before favoriting on desktop devices
-      } else {
-        $favorites.on('click', $.proxy( self._onFavorite, self ));
-
-        $favorites.tooltip({
-          placement: 'offsettop',
-          title: function() {
-            var $jsFavorite = $(this);
-            return self._getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
-          },
-          template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-        });
-      }
-
-      // Update our favorites
-      self.$favorites = self.$carousel.find('.js-favorite');
-    },
-
-    _onFavorite : function( e ) {
-      var self = this,
-          $jsFavorite = $(e.delegateTarget),
-          isAdding = !$jsFavorite.hasClass('active'),
-          content = self.hasTouch ? '' : self._getFavoriteContent( $jsFavorite, isAdding );
-
-      $jsFavorite.toggleClass('active');
-
-      // Show the tooltip if it isn't a touch device
-      if ( !self.hasTouch ) {
-        $('.gallery-tooltip .tooltip-inner')
-          .html( content )
-          .tooltip('show');
-      }
-
-      // Stop event from bubbling to <a> tag
-      e.preventDefault();
-      e.stopPropagation();
-    },
-
-    _getFavoriteContent : function( $jsFavorite, isActive ) {
-      return isActive ?
-            $jsFavorite.data('activeTitle') :
-            $jsFavorite.data('defaultTitle');
     },
 
     _setupDesktop : function() {
