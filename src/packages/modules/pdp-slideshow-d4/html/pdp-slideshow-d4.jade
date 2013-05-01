@@ -29,9 +29,10 @@ mixin pdpThumbs(data)
           +iQImage(slideData.thumb)
 
 //- Container for header, may not need this here
-.container
-  .grid
-    h2.l1= data.config.sectionTitle
+if data.config.sectionTitle
+  .container
+    .grid
+      h2.l1= data.config.sectionTitle
 
 //- Main section wrapper for slides and navigation
 section.pdp-slideshow

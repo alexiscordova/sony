@@ -101,12 +101,14 @@ mixin filterSet( filterSet )
       +filterGroup( filterSet )
 
 
-mixin compareBrowseBtn( isCompareGallery, link, addFade )
+mixin compareBrowseBtn( isCompareGallery, link, addFade, extraClasses )
   compareStr = isCompareGallery ? 'Browse' : 'Compare'
   classes = [ 'lt3', 'btn', 'btn-alt-special', 'btn-alt-plus', 'compare-btn' ]
 
   if addFade
     - classes.push( 'fade' )
+  if extraClasses
+    - classes.push( extraClasses )
 
   a(class=classes, href=link)
     if isCompareGallery
@@ -124,6 +126,12 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   wrapperClass = 'container filter-display-bar slide-toggle-parent'
   gridClass = 'grid no-grid-at-767'
 
+  //- The filter display bar needs to know when there is only 1 button
+  //- so that it doesn't have to be 48% width and clipped
+  numBtns = gallery.filterSet ? 2 : 1;
+  numBtns = ' btns-' + numBtns
+  wrapperClass = wrapperClass + numBtns
+
   div(class=wrapperClass)
     if gallery.sortSet
       div(class=gridClass)
@@ -136,24 +144,24 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
 
         //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
-          button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
+          - filterBtnClasses = [ 'lt3', 'btn', 'btn-alt-special', 'slide-toggle', 'collapsed', 'first' ]
+          button(class=filterBtnClasses, data-toggle="collapse", data-target='#' + gallery.name + '-filters')
             | !{ filterStr }
             i.fonticon-10-arrowhead-down
-          +compareBrowseBtn( isCompareGallery, compareBrowseLink )
+          +compareBrowseBtn( isCompareGallery, compareBrowseLink, false, 'second' )
 
-        //- Favorites gallery
-        if !gallery.filterSet && isFavoritesGallery
-          +compareBrowseBtn( isCompareGallery, compareBrowseLink, true )
+        else if !gallery.filterSet && isFavoritesGallery
+          //- Favorites gallery
+          +compareBrowseBtn( isCompareGallery, compareBrowseLink, true, 'first' )
 
-        //- Standalone compare gallery
-        if !gallery.filterSet && isCompareGallery
-          +compareBrowseBtn( isCompareGallery, compareBrowseLink )
+        else if !gallery.filterSet && isCompareGallery
+          //- Standalone compare gallery
+          +compareBrowseBtn( isCompareGallery, compareBrowseLink, false, 'first' )
 
 
-        else if gallery.accessoryFinder
-          button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder-btn
-            | !{ gallery.accessoryFinder.title }
-            i.fonticon-10-sm-bold-plus
+        else if gallery.mode == 'detailed' && gallery.accessoryFinder
+          +accessoryFinderButton( undefined, 'first' )
+
 
         if gallery.shareMenu
           .pull-right.options-wrap
@@ -397,24 +405,31 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
                         i(class=iconClass)
                     h3.l2.tab-label= tab.label
         nav.tab-nav-btns
-          button.nav-paddle.tab-nav.tab-nav-prev.hide
+          button.nav-paddle.tab-nav.tab-nav-prev.hidden
             i.fonticon-10-chevron-reverse
-          button.nav-paddle.tab-nav.tab-nav-next.hide
+          button.nav-paddle.tab-nav.tab-nav-next.hidden
             i.fonticon-10-chevron
 
-mixin accessoryFinder( submodules, finder, type )
+mixin accessoryFinderButton( text, extraClasses )
+  text = text ? text : 'Accessory Finder'
+  classes = [ 'btn', 'btn-alt-special', 'btn-alt-plus', 'accessory-finder-btn' ]
+  - if ( extraClasses ) classes.push( extraClasses )
+  button(class=classes, data-toggle="modal", data-target="#accessory-finder-modal")
+    i.fonticon-10-sm-bold-plus
+    | !{ text }
+
+mixin accessoryFinder( submodules, finder, type, noButton )
   submodules = submodules ? submodules : data.submodules
   finder = finder ? finder : data.accessories.accessoryFinder
-  buttonStr = 'Accessory Finder'
   type = type ? type : 'camera'
 
-  .af-module
+  //- Add the modal trigger button if they don't say otherwise
+  if !noButton
     .container
       .grid
-        button.btn.accessory-finder-btn(data-toggle="modal", data-target="#accessory-finder-modal")
-          | !{ buttonStr }
-          i.fonticon-10-sm-bold-plus
+        +accessoryFinderButton( undefined, 'first' )
 
+  .af-module
     #accessory-finder-modal.accessory-finder.modal.fade.hide(tabindex="-1", role="dialog", aria-labelledby="accessory-modal-title", aria-hidden="true")
       .container
         .modal-inner
@@ -446,7 +461,7 @@ mixin accessoryFinder( submodules, finder, type )
             .slimgrid.no-grid-at-567.products
               each module in submodules
                 d = locals.data(module.data)
-                if d.type == type && !d.promo && d.imgTiny
+                if d.type == type && !d.promo
                   - d.view = "compatibility"
                   e = { "locals" : locals, "data" : d }
                   !{locals.partial( module.type, e )}

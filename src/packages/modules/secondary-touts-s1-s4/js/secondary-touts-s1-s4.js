@@ -44,6 +44,8 @@ define(function(require){
 
     self.$images.addClass('iq-img');
 
+    iQ.update(true);
+
     if ( self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){
 
       enquire.register("(min-width: 768px)", function() {

@@ -3,7 +3,7 @@ include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('editorial-layouts-e1')
 
 mixin gridstyle(_extra, mgrid)
-  extraclass = _extra ? _extra : ""
+  extraclass = _extra ? _extra : false
   if mgrid
     .grid.m-grid-at-767(class = extraclass)(class = data.style)
       block
@@ -93,10 +93,10 @@ mixin textonlylayout(_layout)
     +col(layout, extras)
       block
 
-bg = ""
+bg = false
 if data.variation
-  bg = data.variation.background || ""
-.editorial(class = data.mode)(class = bg)
+  bg = data.variation.background ? data.variation.background : false
+.editorial(class = data.mode)(class = bg)(id= data.id? data.id : false)
   if data.mode == "textonly"
     .container
       +gridstyle
@@ -143,7 +143,22 @@ if data.variation
               +copyblock(data, "t3-bold", "t7", "p3")
 
   else if data.mode == "tout" || data.mode =="full-tout"
-    .container
+    ups = "m" + data.columns.length + "up"
+    containerClass = ups + "-"
+    suffix = ""
+
+    //- Only 2 column layouts have vertical/horizontal
+    if data.columns.length == 2 && data.layout.tout
+      if data.layout.tout.orientation == "vertical"
+        suffix = "vertical"
+      else
+        suffix = "horizontal"
+    else
+      suffix = "container"
+
+    containerClass = containerClass + suffix
+
+    .container(class = containerClass)
       if data.title
         +gridstyle("title-block")
           +textonlylayout
@@ -153,7 +168,6 @@ if data.variation
           +partial(data.submodules[0].type, data.submodules[0].data)
       columnoffset = data.layout.tout.columnoffset || 0;
       offset = "offset" + columnoffset;
-      ups = "m" + data.columns.length + "up"
       +gridstyle(ups, data.mode == "tout")
         if data.columns.length == 1
           e = {"locals":locals, "data":data.columns[0].image}

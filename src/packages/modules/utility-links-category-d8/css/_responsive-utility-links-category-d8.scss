@@ -15,41 +15,7 @@ $min-breakpoint-max-alt:px-em(567px);
 $tenPercentInstaFlickr: percentage(10px/316px);
 $fivePercentInstaFlickr: percentage(5px/316px); 
 
-@media (min-width: $tablet-breakpoint-min) and (max-width: $tablet-breakpoint-max) {
-
-  // CATEGORY STYLES
-  
-  .ulinks-cat-wrapper {
-    padding: 40px 0 0 0;  
-    
-    .ulinks-body-wrapper {
-      padding: 34px 0 0 0; 
-    }
-    
-    .ul-content-box {
-      padding: 24px 8.939215686275% 34px 0px; 
-    }
-  
-    .first {
-      img { 
-        width: 82.66667%; 
-      }
-    }
-  
-    .last {
-      max-width: 210px; 
-    }
-      
-    .ulink-list {
-      padding-top: 24px; 
-      h5, a {
-        white-space: nowrap;
-      }
-    }
-  } 
-}
-
-@media (min-width: $mobile-breakpoint-min) and (max-width: $mobile-breakpoint-max) {
+@media (min-width: $mobile-breakpoint-min) and (max-width: $tablet-breakpoint-max) {
 
   // CATEGORY STYLES
   
@@ -57,15 +23,19 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     height: auto;
     padding-bottom:0;
 
-    .ulinks-body {
-      height: auto;
-    }
-
     .ulinks-body-wrapper {
       height: 404px;
       padding: 0;
       margin-bottom: 0;
       margin-top: 32px;
+      
+      .ulinks-body {
+        height: auto;
+        
+        .ulink-list {
+          width: 47.993827160494%; 
+        }
+      }
     }
   
     .ulink-list {
@@ -73,7 +43,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       padding-top: 0px;
       line-height: 17px;
       height: auto;
-      width: 47.993827160494%;
     }
   
     .ul-content-box-outer {
@@ -98,30 +67,10 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       margin-top: 12px;
       max-width: 450px;
       width: 74.153846153846%;
-      
-      h5 {
-        font-size: $font_20_16;
-        margin-bottom: 10px;
-        line-height: 1em;
-      }
-      
-      p {
-        margin-bottom: 0;
-        font-size: $font_13_16;
-        line-height: 1.4em;
-      }
-
-      a {
-        font-size: $font_13_16;
-      }
 
     }
     
     .ulink-list {
-      h5, a {
-        font-size: $font_13_16;
-        line-height: px-em(22px);
-      }
     } 
   }
 }
@@ -131,9 +80,16 @@ $fivePercentInstaFlickr: percentage(5px/316px);
   // CATEGORY
   
   .ulinks-cat-wrapper {
+    padding: 0;
+  }
+  
+  .ulinks-cat-wrapper .ulinks-body-wrapper {
+    padding: 30px 0 30px 0;
+  }
+  
+  .ulinks-cat-wrapper {
     height: auto;
     padding-top: 0;
-    padding-bottom: 45px;
 
     .ulinks-header {
       display: none;
@@ -155,16 +111,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       width: 100%;
       margin-left: 0px;
       padding: 0 0 27px 0;
-      h5 {
-        font-size: $font_18_16; 
-        margin-bottom: 5px;
-      }
-      a {
-        font-size: $font_16_16;
-      }
-      a, h5 {
-        line-height: 2.3em;
-      }
     }
     
     .ul-content-box {
@@ -188,18 +134,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     .last {
       width: auto;
       max-width: none;
-      float: none; 
-      h5 {
-        font-size: $font_20_16;
-        line-height: 26px;
-      }
-      p {
-        font-size: $font_13_16;
-        line-height: 20px;
-      }
-      a {
-        font-size: $font_16_16;
-      }
+      float: none;
     }
   } 
 }

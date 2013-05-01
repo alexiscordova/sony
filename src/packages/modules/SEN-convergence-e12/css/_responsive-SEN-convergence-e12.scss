@@ -2,36 +2,74 @@
 @import "../../../common/css/_base/mixins";
 
 $phone: px-em(568);
+$phoneMin: px-em(479);
 $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
+$desktopMid: px-em(1200);
 
-
-
+@media ( max-width: $desktopMid ) {
+  .sen-convergence {
+   .sen-bg-img, 
+   .slides {
+    height: 620px;
+   }
+ }
+}
 
 @media ( max-width: $desktopMin ) {
   .sen-convergence {
-    .sen-bg-img {
-      height: 429px;
+    .sen-convergence-placement {
+      margin-top: 0;    
+    }
+    .module-hdg {
+      margin-top: 60px;
     }
   }
 }
 
+@media ( min-width: $desktopMin ) {
+  .sen-convergence {
+    .tabs {
+      position: absolute;
+      top: 531px;
+      left: 50%;
+      margin-left: -155px;
+    }
+  }
+}
+
+
 @media ( max-width: $tabletMax ) {
   .sen-convergence {
-    .sen-bg-img {
-      height: 547px;
+    .sen-bg-img,
+    .slides {
+      height: 540px;
     }
-    
+    .sen-convergence-content {
+      padding: 30px 32px;
+    }
+    .sen-convergence-placement {
+      margin-top: 0;
+    }
+
+    .tabs {
+      position: absolute;
+      top: 458px;
+      left: 50%;
+      margin-left: -155px;
+    }
+
   }
 }
 
 
 @media ( max-width: $phoneMax ) {
   .sen-convergence {
-    .sen-bg-img {
-      height: 361px;
+    .sen-bg-img,
+    .slides {
+      height: 320px;
     }
     .grid-placement {
       position: relative;
@@ -54,16 +92,33 @@ $desktopMin: px-em(980);
     a.btn {
       margin-bottom: 36px;
     }
-    
-  }
-}
+    .sen-convergence-placement {
+      margin-top: 8%;
+    }
 
-
-@media ( max-width: $phone ) {
-  .sen-convergence {
-    .sen-bg-img {
-      height: 181px;
+    .tabs {
+      position: relative;
+      top: auto;
+      left: auto;
+      margin-left: 0;
     }
   }
 }
 
+@media ( max-width: $phone ) {
+  .sen-convergence {
+    .sen-bg-img,
+    .slides {
+      height: 260px;
+    }
+  }
+}
+
+@media ( max-width: $phoneMin ) {
+  .sen-convergence {
+    .sen-bg-img,
+    .slides {
+      height: 200px;
+    }
+  }
+}

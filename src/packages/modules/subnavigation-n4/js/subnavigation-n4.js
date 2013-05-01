@@ -15,6 +15,7 @@ define(function(require){
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
+      hammer = require('plugins/index').hammer,
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
@@ -52,12 +53,12 @@ define(function(require){
       var self = this;
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 1023px)", function() {
+        enquire.register("(min-width: 980px)", function() {
           self.mode = 'desktop';
           self.renderSubcats(null, false);
           self.renderNav();
         });
-        enquire.register("(min-width: 480px) and (max-width: 1023px)", function() {
+        enquire.register("(min-width: 480px) and (max-width: 979px)", function() {
           self.mode = 'tablet';
           self.renderSubcats(null, true);
           self.renderNav();
@@ -135,7 +136,7 @@ define(function(require){
 
       self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
         draggable: true,
-        snap: !isMobile,
+        onlySnapAtEnds: isMobile,
         wrapper: '.subnav-nav-carousel-wrapper',
         slides: '.subnav-nav-carousel-slide',
         paddles: !isMobile,
@@ -152,7 +153,7 @@ define(function(require){
       var self = this,
           $buttons = self.$navgroups.find('.grid').children();
 
-      $buttons.on('mouseup touchend', function(){
+      $buttons.hammer().on('tap', function(){
 
         var $this = $(this),
             isActive = $this.hasClass('active');
@@ -173,7 +174,7 @@ define(function(require){
     openSubcat: function(which) {
 
       var self = this,
-          $subcat = $('#subcategory-' + which);
+          $subcat = self.$el.find('#subcategory-' + which);
 
       self.renderSubcats($subcat, self.mode !== 'desktop');
 

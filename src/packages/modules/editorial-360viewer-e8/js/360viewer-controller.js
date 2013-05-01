@@ -73,6 +73,7 @@ define(function(require){
     self.lastTriggerX   = null;
     self.inMotion       = false;
     self.throttle       = 3;
+    self.inViewport     = false;
     
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
@@ -93,10 +94,12 @@ define(function(require){
         self.animateDragger();
       }, 500);
       
-      // trigger UI indication (Desktop)
-      $( window ).bind( 'scroll', function( event ) {
-        self.onScroll( event );
-      });
+      if( !Modernizr.touch ) {
+        // trigger UI indication (Desktop)
+        $( window ).bind( 'scroll', function( event ) {
+          self.onScroll( event );
+        });
+      }
       
       // reset the step buffer when the window changes size
       $( window ).bind( 'resize', function( event ) {
@@ -122,18 +125,34 @@ define(function(require){
         self.syncControlLayout();
       }
       
+      // extend with touch controls
       self.$controls.hammer();
-      
+
+      // poll for controls hitting the viewport
+      if( Modernizr.touch ) {
+        self.poller = setInterval( function(){
+          var _$controlStatus   = $( self.$controls ).find( '.table-center :in-viewport' );
+          var inViewport = _$controlStatus.length > 0 ? true : false;
+          if( inViewport ) {
+            if( !self.inViewport ) {
+              self.inMotion = true;
+              self.animateDragger();
+              self.inViewport = true;
+            }
+          } else {
+            self.inViewport = false;
+          }
+        }, 100);
+      }
+
       self.$controls.on( 'swipeleft', function( event ) {
         self.move( 'left' );
-
       });
-      
+
       self.$controls.on( 'swiperight', function( event ) {
         self.move( 'right' );
       });
 
-      
       log('SONY : Editorial 360 Viewer : Initialized');
     },
     

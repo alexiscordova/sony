@@ -1,4 +1,8 @@
 {
+    "config": {
+        "module_name": "gallery",
+        "module_id": "gallery"
+    },
     "heythere": {
         "_comments": "name should be unique, as it is used for IDs.",
         "name": "cybershot-cases-covers-straps",
@@ -34,7 +38,46 @@
         ],
         "accessoryFinder" : {
             "title" : "Accessory Finder",
-            "imhere" : true
+            "subtitle" : "Select your model to find compatible accessories:",
+            "placeholder" : "Enter your Cyber-shot&reg; model number",
+            "help": {
+                "label" : "How do I find my model number?",
+                "title" : "You&rsquo;re looking nice today!",
+                "layout" : "text-only",
+                "text" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod"
+            },
+            "sortText" : "Sort By:",
+            "productsStr" : "Models",
+            "total" : 10,
+            "sortSet": [
+                {
+                    "name": "default",
+                    "label": "Featured"
+                },
+                {
+                    "name": "price",
+                    "label": "Price - high to low",
+                    "reverse": true
+                },
+                {
+                    "name": "price",
+                    "label": "Price - low to high"
+                },
+                {
+                    "name": "popularity",
+                    "label": "Popularity"
+                },
+                {
+                    "name": "rating",
+                    "label": "Rating",
+                    "reverse": true
+                },
+                {
+                    "name": "release-date",
+                    "label": "New Products",
+                    "reverse": true
+                }
+            ]
         }
     },
     "submodules": [
@@ -70,9 +113,5 @@
             "type": "packages/modules/product/html/product.jade",
             "data": "packages/modules/product/demo/data/camera-case-LCSTWKB.json"
         }
-    ],
-    "config": {
-        "module_name": "gallery",
-        "module_id": "gallery"
-    }
+    ]
 }

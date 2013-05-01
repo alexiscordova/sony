@@ -3,7 +3,7 @@
 // ------------ Sony Universal Nav ------------
 // Module: Universal Nav
 // Version: 1.0
-// Modified: 2013-04-24 by Christopher Mischler
+// Modified: 2013-04-26 by Christopher Mischler
 // Dependencies: jQuery 1.4+
 // -------------------------------------------------------------------------
 
@@ -18,9 +18,10 @@ var UNAV = ( function( window, document, $, undefined ){
     $uNavPrimary,
     $firstChild,
     $closeBtn,
+    firstLoad,
+    xUp,
     uNavColWidth,
-    uNav2highImgHeight,
-    uNavColHeight,
+    uNavRowHeight,
     uNavOuterHeight,
     _cssTransitions,
 
@@ -33,15 +34,16 @@ var UNAV = ( function( window, document, $, undefined ){
     $uNavPrimary = $uNav.find('.u-nav-primary');
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $('#u-nav-close-btn');
+    firstLoad = true;
+    xUp = $uNavPrimary.children().length;
     _cssTransitions = _browserCssTransitionDetect();
 
 
     // -----------------------------
     // EVENT LISTENERS
     // -----------------------------
-    // Since I don't know what version of jQuery will be used on all sites, this will allow versions older than 1.7 
-    // to work, without using depreciated functions in version 1.7+ 
     // At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().
+    // This will allow versions older than 1.7 to work without using depreciated functions in version 1.7+
     if ($.isFunction($.fn.on)){
       $triggerLink.on('click',function(e){
         // console.log("$triggerLink");
@@ -98,37 +100,59 @@ var UNAV = ( function( window, document, $, undefined ){
       });
     }
 
-    _setUpElements();
+    // if the images are already cached, give them a chance to render so we can grab their heights.
+    // setTimeout(function(){
+      _setUpPrimaryLinks(true);
+    // },50);
   },
 
 
 
+  _setUpPrimaryLinks = function(isFirstTime){
+    console.log("$firstChild.find('.u-nav-primary-img').height(): " + $firstChild.find('.u-nav-primary-img').height());
 
-  _setUpElements = function(){
+    if ($firstChild.find('.u-nav-primary-img').height() > 0){
+      console.log("has height");
+      // if the image has a height, use it.
+
+    } else {
+      console.log("no height");
+      // if the image doesn't have a height, do the math.
+      var twoHighRatio = 0.8915,
+          twoWideRatio = 0.4202,
+          halfHighRatio = 0.344;
+
+      uNavColWidth = $firstChild.outerWidth();
+
+      if (xUp === 3){
+        uNavRowHeight = (uNavColWidth * twoWideRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
+      } else if (xUp === 6){
+        uNavRowHeight = (((uNavColWidth * halfHighRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true)) * 2) + 36;
+      } else {
+        uNavRowHeight = (uNavColWidth * twoHighRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
+      }
+    }
+    console.log("uNavRowHeight: " + uNavRowHeight);
 
     // So we don't have to download the images before we can figure out how high the module will be,
     // we need to figure out the height the image should be at this width, based on current browser width.
     // So based on the image aspect ratio, what height should the image be at this width?
-    uNavColWidth = $firstChild.outerWidth();
-    uNav2highImgHeight = uNavColWidth * 0.887538;
-    uNavColHeight = uNav2highImgHeight + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
+    
+    // uNavRowHeight = uNav2highImgHeight + $firstChild.find('.u-nav-primary-caption').last().outerHeight(true); // use last in case it's a 6up & there are 2. We just want the bottom one.
 
-    $firstChild.height(uNavColHeight + "px");
-    // now they we set the height of the images container, we can grab the height of the entire u-nav for our js.
+    $uNavPrimary.height(uNavRowHeight + "px");
+    // now that we set the height of the images container, we can grab the height of the entire u-nav for our js.
 
     setTimeout(function(){
       uNavOuterHeight = $uNav.outerHeight();
-      // console.log("uNavOuterHeight: " + uNavOuterHeight);
-      setTimeout(function(){
-        // once we have the outerheight, clear the custom height from the $firstChild so it's back to the natural flow.
-        // delays just to make sure the new heights are set before the next step.
-        $firstChild.css('height','');
-        // set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the 
-        $uNav.css('top','-' + uNavOuterHeight + 'px');
-        if ($pageWrapOuter.hasClass('unav-open')){
-          $pageWrapInner.css('margin-top', uNavOuterHeight + 'px');
-        }
-      },1);
+      // once we have the outerheight, clear the custom height from the $uNavPrimary so it's back to the natural flow.
+      // delays just to make sure the new heights are set before the next step.
+      $uNavPrimary.css('height','');
+      // set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the 
+      $uNav.css('top','-' + uNavOuterHeight + 'px');
+      if ($pageWrapOuter.hasClass('unav-open')){
+        $pageWrapInner.css('margin-top', uNavOuterHeight + 'px');
+      }
     },1);
   },
 
@@ -137,7 +161,7 @@ var UNAV = ( function( window, document, $, undefined ){
   _openUNav = function(){
     // console.log("_openUNav");
 
-    _setUpElements();
+    _setUpPrimaryLinks($uNavPrimary.children().length);
 
     setTimeout(function() {
       $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
@@ -180,7 +204,7 @@ var UNAV = ( function( window, document, $, undefined ){
   },
 
   _resizeEvent = function(){
-    _setUpElements();
+    _setUpPrimaryLinks($uNavPrimary.children().length);
   };
 
   return {

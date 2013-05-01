@@ -2,6 +2,8 @@
 // Responsive: Reviews + Awards
 // --------------------------------------------------
 
+$maxChildren: 20;
+
 // -----------------------------------------
 // DEFAULT: 980px - 1199px;
 // -----------------------------------------
@@ -139,6 +141,11 @@
 
     .subcategory{
 
+      .product {
+        margin-bottom: 8px;
+        margin-top: 20px;
+      }
+
       .general-links {
         text-align: left;
 
@@ -149,7 +156,6 @@
       }
     }
   }
-
 }
 
 } // END max-width: 979px
@@ -207,10 +213,6 @@
         margin-bottom: 6px;
       }
 
-      .product {
-        margin-bottom: 22px;
-      }
-
       .marketing-tout {
 
         p {
@@ -219,7 +221,6 @@
       }
     }
   }
-
 }
 
 } // END max-width: 767px
@@ -285,15 +286,30 @@
   nav {
 
     .container {
-      margin: 0;
+      width: 100%;
+      margin: 0 0 0 1.8%;
 
       .grid {
+        width: 100%;
         margin: 0;
+        text-align: left;
+      }
+    }
+
+    .subcategory-link {
+      p {
+        line-height: 1.1em;
       }
     }
 
     .subnav-nav-carousel-slide {
-      margin-right: -0.5%;
+      width: 80% / $maxChildren;
+      margin: 0 0 0 3% / $maxChildren;
+      text-align: left;
+
+      img {
+        margin: 20px 0 5px;
+      }
     }
   }
 
@@ -324,6 +340,12 @@
 
         .message {
           margin: 0 0 8px;
+        }
+
+        &:hover {
+          .image {
+            background-color: transparent;
+          }
         }
       }
 

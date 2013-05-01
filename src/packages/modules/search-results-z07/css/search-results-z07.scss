@@ -2,6 +2,9 @@
 @import "../../../common/css/_base/mixins";
 
 .search-results {
+  .l3 {
+    font-weight: bold;
+  }
   .h-list {
     overflow: hidden;
     margin: 0;
@@ -36,6 +39,15 @@
       margin-right: 16px;
   }
   
+  .featured-result .media .img {
+    background: $gray80;
+  }
+  
+  .featured-result .media .img:hover {
+    cursor: pointer;
+    background: $gray75;
+  }
+
   .media .img-lg {
       margin-right: 3.52941%;
   }
@@ -56,9 +68,15 @@
     }
     .search-form {
       margin-bottom: 30px;
+      overflow: hidden;
+    }
+    .search-left {
+      float: left;
     }
     .search-label {
       display: inline-block;
+      position: relative;
+      top: -10px;
       margin-right: 16px;
       text-indent: -99999px;
       background: url(../../img/search-results-z07/icon-magnify.png) no-repeat 0 0;
@@ -66,28 +84,29 @@
       height: 30px;
     }
     .search {
-      width: 74%;
+      width: 80%;
       padding: 2px;
       margin-right: 10px;
       background-color: transparent;
-      font-size: 30px;
       color: $gray20;
       border: none;
     }
     .search:focus {
       outline: none;
-
+    }
+    .search-right {
+      float: right;
     }
     .clear-search {
       display: inline-block;
-      margin-right: 20px;
+      margin-top: 10px;
       height: 34px;
       width: 34px;
-      background: url(../../img/search-results-z07/icon-erase.png) no-repeat 0 0;
-      text-indent: -9999px;
+      text-align: center;
+      padding-top: 2px;
     }
     .clear-search:hover {
-      background-image: url(../../img/search-results-z07/icon-erase-hover.png);
+      background-color: $white;
     }
   }
 
@@ -103,7 +122,6 @@
   }
 
   .bold-dark {
-    font-weight: bold;
     color: $gray20;
   }
 
@@ -151,10 +169,15 @@
   .search-more {
     display: block;
     margin: 40px auto 60px auto;
-    padding: 14px 41px 16px 47px;
+    padding: 14px 41px 16px 41px;
     border: none;
-    background: $gray70 url(../../img/search-results-z07/icon-plus.png) no-repeat 24px 48%;
+    background-color: $gray70;
     color: $gray20;
+  }
+  
+  .search-more:hover {
+    color: white;
+    background-color: #83838f;
   }
 
   .results-link-group ul {
@@ -175,7 +198,7 @@
     width: 100%;
     overflow: hidden;
   }
-  
+
   .accessories-list li:first-child {
     margin-left: 0;
   }
@@ -189,7 +212,38 @@
     margin-bottom: 10px;
   }
   
-  .slimgrid {
+  .rv-module {
     margin: 0;
+  }
+  
+  .sony-dot-nav {
+    display: none;
+  }
+
+  .rv-module .slimgrid {
+    margin: 0;
+  }
+
+  .sony-carousel-wrapper {
+    height: auto;
+  }
+  .sony-carousel-wrapper.grid {
+    width: 100%;
+  }
+  
+  .product-name {
+    color: $gray20;
+  }
+
+  .rv-module {
+    .container,
+    .slimgrid {
+      width: 100%;
+    }
+  }
+  .sort-options .native-dropdown {
+    display: none;
+    position: relative;
+    cursor: pointer;
   }
 }
