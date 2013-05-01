@@ -6,15 +6,19 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
-
-
-
+$desktopMid: px-em(1200);
 
 @media ( max-width: $desktopMin ) {
   .sen-convergence {
-    .sen-bg-img {
-      height: 429px;
-    }
+   .sen-bg-img, 
+   .slides {
+    height: 620px;
+   }
+ }
+}
+
+@media ( max-width: $desktopMin ) {
+  .sen-convergence {
     .sen-convergence-placement {
       margin-top: 0;    
     }
@@ -38,8 +42,9 @@ $desktopMin: px-em(980);
 
 @media ( max-width: $tabletMax ) {
   .sen-convergence {
-    .sen-bg-img {
-      height: 547px;
+    .sen-bg-img,
+    .slides {
+      height: 540px;
     }
     .sen-convergence-placement {
       margin-top: 0;
@@ -58,8 +63,9 @@ $desktopMin: px-em(980);
 
 @media ( max-width: $phoneMax ) {
   .sen-convergence {
-    .sen-bg-img {
-      height: 361px;
+    .sen-bg-img,
+    .slides {
+      height: 320px;
     }
     .grid-placement {
       position: relative;
@@ -83,7 +89,7 @@ $desktopMin: px-em(980);
       margin-bottom: 36px;
     }
     .sen-convergence-placement {
-      margin-top: 65%;
+      margin-top: 8%;
     }
 
     .tabs {
@@ -98,8 +104,9 @@ $desktopMin: px-em(980);
 
 @media ( max-width: $phone ) {
   .sen-convergence {
-    .sen-bg-img {
-      height: 181px;
+    .sen-bg-img,
+    .slides {
+      height: 200px;
     }
   }
 }
