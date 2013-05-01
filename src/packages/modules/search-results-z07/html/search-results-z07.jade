@@ -12,11 +12,12 @@ include search-results-z07-helpers.jade
           form.search-form
             .search-left
               label.search-label= data.searchForm.label
-              input.search(value= data.searchForm.searchedText)
+              input.search.t2(value= data.searchForm.searchedText)
             .search-right
-              a.clear-search(href"#") i X
+              a.clear-search(href"#") 
+                i.fonticon-10-x-skinny
         .span2.hidden-phone
-          button.btn.hidden-phone= data.searchForm.buttonText
+          button.btn.btn-large.hidden-phone= data.searchForm.buttonText
 
   .container
     .slimgrid
@@ -37,7 +38,8 @@ include search-results-z07-helpers.jade
           else
             include search-results-z07-product.jade
   
-          button.bt2.search-more Load More
+          button.btn.btn-alt-special.btn-alt-plus.search-more Load More
+            i.fonticon-10-sm-bold-plus
   
       .span3.offset1.hidden-phone
         .result-sidebar
