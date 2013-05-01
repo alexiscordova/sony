@@ -2,13 +2,14 @@
 @import "../../../common/css/_base/mixins";
 
 $phone: px-em(568);
+$phoneMin: px-em(479);
 $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
 $desktopMid: px-em(1200);
 
-@media ( max-width: $desktopMin ) {
+@media ( max-width: $desktopMid ) {
   .sen-convergence {
    .sen-bg-img, 
    .slides {
@@ -45,6 +46,9 @@ $desktopMid: px-em(1200);
     .sen-bg-img,
     .slides {
       height: 540px;
+    }
+    .sen-convergence-content {
+      padding: 30px 32px;
     }
     .sen-convergence-placement {
       margin-top: 0;
@@ -101,8 +105,16 @@ $desktopMid: px-em(1200);
   }
 }
 
-
 @media ( max-width: $phone ) {
+  .sen-convergence {
+    .sen-bg-img,
+    .slides {
+      height: 260px;
+    }
+  }
+}
+
+@media ( max-width: $phoneMin ) {
   .sen-convergence {
     .sen-bg-img,
     .slides {
@@ -110,4 +122,3 @@ $desktopMid: px-em(1200);
     }
   }
 }
-
