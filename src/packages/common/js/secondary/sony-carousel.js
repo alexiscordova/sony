@@ -122,6 +122,11 @@ define(function(require){
         self.setupDraggable();
       }
 
+      if ( self.$slides.length <= 1 ) {
+        self.destroy();
+        return;
+      }
+
       Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function() {
         if ( self.snap ) {
           self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
@@ -622,13 +627,17 @@ define(function(require){
 
       var self = this,
           $paddleWrapper = self.$paddleWrapper || self.$wrapper,
-          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides;
+          $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides,
+          containerStyles = {
+            transitionTimingFunction: '',
+            transitionDuration: '',
+            transform: ''
+          };
+
+      containerStyles[ self.posAttr ] = '';
 
       // Reset styles.
-      self.$el.css(Modernizr.prefixed('transitionTimingFunction'), '')
-          .css(Modernizr.prefixed('transitionDuration'), '' )
-          .css(Modernizr.prefixed('transform'), '')
-          .css(self.posAttr, '');
+      self.$el.css( containerStyles );
 
       // Unbind
       Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
@@ -667,6 +676,11 @@ define(function(require){
           sonyCarousel = self.data('sonyCarousel');
 
       if ( !sonyCarousel ) {
+
+        if ( typeof options === 'string' ) {
+          return;
+        }
+
         sonyCarousel = new SonyCarousel( self, options );
         self.data( 'sonyCarousel', sonyCarousel );
       }
@@ -707,6 +721,8 @@ define(function(require){
     looped: false,
 
     snap: true,
+
+    onlySnapAtEnds: false,
 
     // Should the carousel jump directly to the next slide in either direction?
     jumping: false,

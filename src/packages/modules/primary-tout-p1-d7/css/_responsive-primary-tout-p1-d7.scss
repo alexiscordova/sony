@@ -20,7 +20,7 @@ $tabletMax: px-em(979);
         margin-top:0;
       }
       .p3{
-        margin-bottom:24px;
+        margin-bottom:16px;
       }
     }
     
@@ -78,8 +78,29 @@ $tabletMax: px-em(979);
       width:100%;
     } 
     
+    .top{
+      padding-top:4%;
+      .table-center{
+        vertical-align:top;
+      }
+    }
+    .bottom{
+      padding-bottom:4%;
+      .table-center{
+        vertical-align:bottom;
+      }
+    }
+    .no-bg.top,
+    .no-bg.bottom{
+      .table-center{
+        vertical-align:middle;
+      }
+    }
+
+    
     .inner{
       &.force-mobile-bg{
+        padding:0;
         width:100%;
         .box{
           padding:16px 22px 20px 22px; 
@@ -102,7 +123,7 @@ $tabletMax: px-em(979);
           margin-top:0;
         }
         .p3{
-          margin-bottom:24px;
+          margin-bottom:16px;
         }
       }
     }

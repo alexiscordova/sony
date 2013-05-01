@@ -5,6 +5,25 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
+$desktopMed: px-em(1024);
+
+@media (max-width: $desktopMed) {
+  .all-electronics {
+    .products-section-main {
+      .products-list-main {
+        .products-li {
+          width: 28.6%;
+          margin-right: 4.6%;
+        }
+      }
+      .products-li-link {
+        img {
+          max-height: 82px;
+        }
+      }
+    }
+  }
+}
 
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .all-electronics {
@@ -101,8 +120,15 @@ $desktopMin: px-em(980);
             vertical-align: middle;
             text-align: left;
           }
+          .product-img-w {
+            display: inline;
+            vertical-align: middle;
+            height: auto;
+            line-height: 1;
+          }
           img {
-            max-height: 40px;
+            max-height: 36px;
+            width: auto;
           }
         }
       }

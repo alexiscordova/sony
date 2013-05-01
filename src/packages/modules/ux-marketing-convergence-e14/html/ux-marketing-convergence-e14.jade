@@ -2,20 +2,29 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('ux-marketing-convergence-e14')
 +includeJavascriptModule('ux-marketing-convergence-e14')
 
-section.container.uxmc
+- uxmcModuleClasses = ['container', 'uxmc']
+- uxmcContainerClasses = ['grid', 'uxmc-container', 'mode-'+data.mode.toLowerCase()]
+- moduleId = data.id ? data.id : false
 
-  div.grid
-    h2.l1 #{data.header}
+if(!data.header)
+  //- needed to margin changes when no header
+  - uxmcModuleClasses.push("no-header")
 
-  div.grid.uxmc-container(class=['mode-'+data.mode.toLowerCase()])
+section(id= moduleId)(class= uxmcModuleClasses)
 
+  if(data.header)
+    div.grid
+      p.l1 #{data.header}
+
+  div(class=uxmcContainerClasses)
     div.btn-reload-container
       span.fonticon-30-plus.btn-reload(title='Load another product to go with your ' + data.baseProduct.title)
-
+    
     div.base-product     
       div.uxmc-image-wrapper.iq-img(data-src-desktop=data.baseProduct.img.srcDesktop, data-src-tablet=data.baseProduct.img.srcTablet, data-src-phone=data.baseProduct.img.srcPhone, data-src-desktop-highres=data.baseProduct.img.srcDesktopHighRes, data-src-tablet-highres=data.baseProduct.img.srcTabletHighRes, data-src-phone-highres=data.baseProduct.img.srcPhoneHighRes)
         //- span prevents div glitch on transition
-        span
+        span 
+    
     div.uxmc-carousel-wrapper
       div.uxmc-carousel
         for product in data.partnerProducts
@@ -24,12 +33,12 @@ section.container.uxmc
           div(class= slideClasses)
             div(class= slideChildClasses)
               div.uxmc-overlay
-                p #{product.topLine}
-                a.fonticon-10-chevron--after.uxmc-link(href=product.link, title=product.altText) #{product.linkText}
+                p.l-o-d #{product.topLine}
+                a.l-o-d.fonticon-10-chevron--after.uxmc-link(href=product.link, title=product.altText) #{product.linkText}
               div.uxmc-image-wrapper.iq-img(data-src-desktop=product.img.srcDesktop, data-src-tablet=product.img.srcTablet, data-src-phone=product.img.srcPhone, data-src-desktop-highres=product.img.srcDesktopHighRes, data-src-tablet-highres=product.img.srcTabletHighRes, data-src-phone-highres=product.img.srcPhoneHighRes)
                 //- span prevents div glitch on transition
                 span
-            
+    
     div.progress-indicators
       div
         - for (var i = 1; i <= data.partnerProducts.length; i++)

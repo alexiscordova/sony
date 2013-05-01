@@ -6,6 +6,26 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
 
+@media (max-height: 34.375em) {
+  .modal-light-compare {
+    &.modal {
+      .container,
+      .grid {
+        height: auto;
+      }
+    }
+    .tab-container {
+      position: fixed;
+    }
+  }
+}
+
+@media (max-width:$tabletMax) {
+  .light-compare-wrapper {
+    padding: 20px 0;
+  }
+}
+
 @media (max-width:$phoneMax) {
   .mobile-hd {
     position: relative;
@@ -32,6 +52,14 @@ $desktopMin: px-em(980);
       margin-bottom: 27px;
     }
   }
+  .light-compare-wrapper {
+     padding: 14px 0;
+  }
+  .light-compare-box {
+    .image-module {
+      height: 100px;
+    }
+  }
 
   .modal-light-compare {
     height: 100%;
@@ -45,6 +73,20 @@ $desktopMin: px-em(980);
     .container,
     .grid {
       width: 100%;
+    }
+    .tab-container {
+      display: table;
+      .tabs {
+        display: table-row;
+        width: 100%;
+        li {
+          display: table-cell;
+          float: none;
+          a {
+            padding: 20px 10px;
+          }
+        }
+      }
     }
   }
 

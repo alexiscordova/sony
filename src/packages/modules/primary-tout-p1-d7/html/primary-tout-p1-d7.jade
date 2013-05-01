@@ -20,23 +20,30 @@ mixin header(_data)
       blockquote.bq1
         p!= d.quote
       p.p3!= d.byline
+    else if d.variation.headertext == "smaller"
+      h1.t2!= d.headline
     else
       h1!= d.headline
+  else
+    h1!= d.headline
 
 mixin bodytext(_data, _extra)
   d = _data ? _data : data
-  e = _extra ? _extra : ""
+  e = _extra ? _extra : false
   if d.variation
     if d.variation.headertext == "larger"
       e = e + " hidden-phone"
   if d.body
-    p.p3(class= e)!= d.body
+    if data.mode == "homepage" || data.mode == "default"
+      p.p2(class= e)!= d.body
+    else
+      p.p3(class= e)!= d.body
 
 mixin links(_data, _extra)
   d = _data ? _data : data
   if d.links
     for link in d.links
-      e = _extra ? _extra : ""
+      e = _extra ? _extra : false
       sm = link.submodule ? link.submodule : "0"
       case link.type
         when "btn"
@@ -103,8 +110,8 @@ mixin boxlayout(_layout, _style)
           +vbox
             +boxclass
               block
-
-.primary-tout.container.full-bleed-no-max(class= data.mode || "")(class= data.theme || "")
+              
+.primary-tout.container.full-bleed-no-max(class= data.mode ? data.mode : false)(class= data.theme ? data.theme : false)(id= data.id? data.id : false)
   if data.mode !== "title-plate"
     .container.full-bleed-no-max.hero-image
       e = {"locals":locals, "data":data.image}
@@ -138,10 +145,12 @@ mixin boxlayout(_layout, _style)
         +bodytext(data, "hidden-phone")
         +links
   else if data.mode == "default"
-    style = data.style || ""
+    style = data.style || false
     if data.variation
       if data.variation.mobilebg
         style = style + " force-mobile-bg"
+    if data.style.indexOf('trans') > -1
+      style = style + " no-bg"
     +boxlayout(data.layout, style)
       +eyebrow
       +header

@@ -1,19 +1,22 @@
 include ../../../common/html/jade-helpers.jade
+
 +includeCSS('light-compare-d9')
+
 e = {"locals":locals, "data": data}
 +includeJavascriptModule('light-compare-d9')
 section.container.full-bleed
   .container
     .grid
-      .light-compare-box
-        e = {"locals":locals, "data": data.image}
-        !{locals.partial('packages/modules/image/html/image.jade', e)}
-        .inner
-          .container
-            .light-compare-bd
-              .p1= data.compare.body
-              a.btn.btn-small.btn-alt-special.launch-modal= data.compare.link
-                i.fonticon-10-sm-bold-plus
+      .light-compare-wrapper
+        .light-compare-box
+          e = {"locals":locals, "data": data.image}
+          !{locals.partial('packages/modules/image/html/image.jade', e)}
+          .inner
+            .container
+              .light-compare-bd
+                .t6-light= data.compare.body
+                a.btn.btn-small.btn-alt-special.launch-modal= data.compare.link
+                  i.fonticon-10-sm-bold-plus.l-o-d
 
 #light-compare-modal.modal.modal-light-compare.hide.fade(tabindex="-1", role="dialog", aria-labelledby="unsupported-browser-label", aria-hidden="true")
   .container
@@ -25,17 +28,26 @@ section.container.full-bleed
         .tab-container
           ul.tabs
             - each tab, i in data.tabs
-              li
-                a(href="#")= tab.tabname
+              - var klass = (i === 0 ? 'active' : '')
+              li(class= klass, data-target= tab.id, data-toggle="tab", data-hash="true")
+                a(href="#")
+                  span.active-highlight
+                  i.fonticon.fonticon-10-square-neg-plus
+                  = tab.tabname
         - each tab, i in data.tabs
-          div(id= tab.id)
-          .light-compare.tab
-            .mobile-hd.visible-phone
-              h1.t5.mobile-hd-txt= tab.title
-            .light-compare-hd
-              h1.t3= tab.subtitle
-              p.p2= tab.tagline
-            .image-module
-              +iQImage(tab.img, 'update-always')
+          if i === 0
+            - var klasses = "tab-pane fade in active";
+          else
+            - var klasses = "tab-pane fade off-screen";
+
+          div(id= tab.id, data-tab= tab.id, class= klasses)
+            .light-compare.tab
+              .mobile-hd.visible-phone
+                h1.t5.mobile-hd-txt= tab.title
+              .light-compare-hd
+                h3.t3-bold= tab.subtitle
+                p.p3= tab.tagline
+              .image-module
+                +iQImage(tab.img, 'update-always')
 
 

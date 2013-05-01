@@ -1,12 +1,6 @@
 include ../../../common/html/jade-helpers.jade
 
-//- - var search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
-
-//- if typeof minimal !== 'undefined' && minimal === true
-//-   - minimal_class = "nav-wrapper-minimal"
-//- else 
-//-   - minimal = false
-//-   - minimal_class = ""
+//- In the JSON, the "Featured" label_tag text can be changed, or the tag can be disabled by setting its "label" value to "false".
 
 div#universal-nav.u-nav-wrapper(role='navigation')
   div.u-nav.container
@@ -35,18 +29,19 @@ div#universal-nav.u-nav-wrapper(role='navigation')
         //- For each feature per column
         - each feat, j in col.features
           - feat_class2 = feat_class1
-          if feat.double_tall === "true"
+          if col.double_tall === "true" && j === 0
             - feat_class2 += " u-nav-primary-2high"
           else 
-            if j < 1
+            if j === 0
               - feat_class2 += " u-nav-primary-row1"
             else 
               - feat_class2 += " u-nav-primary-row2"
 
           div(class=feat_class2)
             a.u-nav-primary-link.l2(href=feat.link)
-              if feat.label_tag
-                span.label.label-success !{feat.label_tag}
+              if col.double_tall === "true" || col.double_wide === "true"
+                if data.label_tag.label != "false"
+                  span.label.label-success !{data.label_tag.label}
               img.u-nav-primary-img(src=feat.img.src, title=feat.alt)
               span.u-nav-primary-caption !{feat.caption}
 
