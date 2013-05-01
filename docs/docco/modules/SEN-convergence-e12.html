@@ -8,9 +8,17 @@
 
   <span class="keyword">var</span> module = {
     init: <span class="keyword">function</span>() {
-      $(<span class="string">'.sen-convergence .slides'</span>).each(<span class="keyword">function</span>(index, element) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      $(<span class="string">'.sen-convergence .tab-pane.active .slides'</span>).each(<span class="keyword">function</span>(index, element) {
         <span class="keyword">var</span> $container = $(element);
-        <span class="keyword">new</span> SlideCrossFade($container);
+        self.carousel = <span class="keyword">new</span> SlideCrossFade($container);
+      });
+
+      $(<span class="string">'.tabs'</span>).on(<span class="string">'click'</span>, <span class="string">'li'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        <span class="keyword">var</span> $container = $(<span class="string">'.sen-convergence .tab-pane.active .slides'</span>);
+        self.carousel.stop();
+        self.carousel = <span class="keyword">new</span> SlideCrossFade($container);
       });
     }
   };
@@ -25,7 +33,7 @@
       <span class="keyword">this</span>.$slides.not(<span class="string">':first'</span>).hide();
       <span class="keyword">this</span>.$currentSlide = <span class="keyword">this</span>.$slides.first();
 
-      setInterval($.proxy(<span class="keyword">this</span>.showNextSlide, <span class="keyword">this</span>), <span class="number">3500</span>);
+      <span class="keyword">this</span>.interval = setInterval($.proxy(<span class="keyword">this</span>.showNextSlide, <span class="keyword">this</span>), <span class="number">3500</span>);
     },
 
     showNextSlide: <span class="keyword">function</span>() {
@@ -37,6 +45,10 @@
       $nextSlide.fadeIn(<span class="number">750</span>);
 
       <span class="keyword">this</span>.$currentSlide = $nextSlide;
+    },
+
+    stop: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      clearInterval(<span class="keyword">this</span>.interval);
     }
   };
 
