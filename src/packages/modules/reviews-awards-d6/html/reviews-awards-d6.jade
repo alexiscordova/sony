@@ -2,7 +2,7 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('reviews-awards-d6')
 +includeJavascriptModule('reviews-awards-d6')
 
-section.raa-module
+section.raa-module(id = data.id ? data.id : false)
   .container.raa-header
     .grid
       h2.l1 Reviews
