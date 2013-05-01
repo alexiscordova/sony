@@ -60,17 +60,19 @@ ul.results-list
             .img
               +iQImage(item.image)
           .bd
-            h4.lt3
-              a(href= item.url)= item.headline
-
-            if item.question
-              h5.lt4.italic-hd
-                a(href= item.question.url)= item.question.text
-
-            p.p4= item.body
-
-            if item.related
-              ul.h-list.h-list-md
-                each link in item.related
-                  li.lt4
-                    a(href= link.url)= link.text
+            .results-p
+              h4.lt3
+                a(href= item.url)= item.headline
+  
+              if item.question
+                h5.lt4.italic-hd
+                  a(href= item.question.url)= item.question.text
+              
+              p.p4= item.body
+  
+              if item.related
+                ul.h-list.h-list-md
+                  each link in item.related
+                    li.lt4
+                      a(href= link.url)= link.text
+            i.fonticon-10-chevron
