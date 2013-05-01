@@ -1,0 +1,212 @@
+mixin copyblock(data)
+  .tcc-copy
+    if (data.title)
+      p.p2
+        strong= data.title
+
+    if (data.bodyCopy)
+      p.p4= data.bodyCopy
+
+    if (data.articleLink)
+      p.lt3
+        a(href= data.articleLink)= data.linkTitle
+
+mixin socialButton(link, label)
+  .social-btn
+    a.btn.btn-small(href= link)= label
+
+mixin header(data)
+  .tcc-header-wrapper
+    .container
+      .tcc-header.grid.no-grid-at-479
+        .span6
+          p.tcc-header-title.l1 #{data.title}
+        
+        if( data.link )
+          .span3.offset3
+            p.tcc-header-link.lt3
+              a(href= #{data.link}) #{data.linkText}
+
+mixin article(mode, data)
+  if(mode == "featured")
+    +featured(data)
+  else
+    +default(data)
+    +copyblock(data)
+
+mixin default(data)
+  .img-container
+    +iQImage(data.image)
+
+    if(data.mode == "event")
+      +event(data.attendanceCount)
+
+    if(data.mode == "news")
+      +news(data.date)
+
+mixin event(count)
+  .attendance
+    .details
+      p.t3= count
+      p.l3-light attending
+
+mixin news(date)
+  //- date
+  p.l3-light= date
+
+mixin featured(data)
+  .img-container.iq-img(data-src-desktop= data.image.srcDesktop, data-src-tablet= data.image.srcTablet, data-src-phone= data.image.srcPhone, data-src-desktop-highres= data.image.srcDesktopHighRes, data-src-tablet-highres= data.image.srcTabletHighRes, data-src-phone-highres= data.image.srcPhoneHighRes)
+  .copy.dark-box.light-text
+    p.t5-light= data.title
+    p.lt3
+      a(href= data.articleLink)= data.linkTitle
+
+mixin users-voice(mode, data)
+  if(data.mode == "question")
+    - blockquote = data.question
+  else
+    - blockquote = data.quote
+
+  if(data.mode != "question")
+    .title.l3= data.title
+
+  if(data.mode == "question")
+    +credits(mode, data)
+
+  .quote
+    blockquote.bq3
+      p= blockquote
+
+  if(data.mode != "question")
+    +credits(mode, data)
+
+  if(data.mode == "question")
+    +question-extra(data)
+
+mixin credits(mode, data)
+  .credits
+    .avatar
+      +iQImage(data.image)
+
+    .author.p4
+      if (mode == "expert-quote")
+        +author-expert-quote(data.author)
+      else
+        +author-default(mode, data.author)
+
+mixin author-expert-quote(author)
+
+  a(href= author.link)= author.name
+
+mixin author-default(mode, author)
+  if(author.link)
+    a.handle(href= author.link)= author.handle
+    if(mode == "question")
+      - title = " asked:"
+      | #{title}
+
+  if(author.name)
+    span= author.name
+
+mixin question-extra(data)
+  .lt3
+    a(href= data.repliesLink)= data.repliesLinkTitle
+
+  .answer-btn
+    a.btn.btn-small(href= data.answerLink)= data.answerLinkTitle
+
+mixin topCenterBottom(mode, data)
+  +top("fonticon-15-" + mode, data)
+  +center(mode, data)
+  +bottom(mode, data)
+
+mixin top(icon, data)
+  - meta = data.meta
+  .top
+    .icon-container
+      if(type == "flickr")
+        +flickrIcon()
+      else
+        .fonticon-10-dot
+        div(class= icon)
+
+    if (meta)
+      .meta
+        p.p4
+          span.user= meta.user
+          
+          if(meta.timestamp)
+            span.timestamp= meta.timestamp
+          
+          //- Flickr 
+          if(meta.title)
+            span.title= meta.title
+
+mixin center(mode, data)
+  .center.table-center-wrap
+    .content.table-center
+      case mode
+        when "twitter"
+          +twitter(data)
+        when "facebook"
+          +facebook(data)
+        when "instagram"
+          +instagram(data)
+        when "flickr"
+          +flickr(data)
+
+mixin bottom(mode, data)
+  .bottom
+    case mode
+      when "twitter"
+        - label = "Follow Us on Twitter"
+      when "facebook"
+        - label = "Like Us on Facebook"
+      when "instagram"
+        - label = "Follow Us on Instagram"
+      when "flickr"
+        - label = "View Set on Flickr"
+
+    +socialButton( data.socialBtnLink, label )
+
+mixin twitter(data)
+  blockquote.bq4
+    p= data.quote
+
+mixin facebook(data)
+    .post-image
+      +iQImage(data.image)
+
+    blockquote.bq5
+        p= data.postCopy
+          a= data.postLink
+
+mixin instagram(data)
+  -images = data.images
+  .instagram
+    .left
+      .iq-img(data-src-desktop= images[1].srcDesktop, data-src-tablet= images[1].srcTablet, data-src-phone= images[1].srcPhone, data-src-desktop-highres= images[1].srcDesktopHighRes, data-src-tablet-highres= images[1].srcTabletHighRes, data-src-phone-highres= images[1].srcPhoneHighRes)
+      .iq-img.last(data-src-desktop= images[2].srcDesktop, data-src-tablet= images[2].srcTablet, data-src-phone= images[2].srcPhone, data-src-desktop-highres= images[2].srcDesktopHighRes, data-src-tablet-highres= images[2].srcTabletHighRes, data-src-phone-highres= images[2].srcPhoneHighRes)
+    .right
+      .iq-img(data-src-desktop= images[0].srcDesktop, data-src-tablet= images[0].srcTablet, data-src-phone= images[0].srcPhone, data-src-desktop-highres= images[0].srcDesktopHighRes, data-src-tablet-highres= images[0].srcTabletHighRes, data-src-phone-highres= images[0].srcPhoneHighRes)
+
+mixin flickrIcon()
+  .bg
+    .fonticon-10-dot
+  .left
+    .fonticon-10-dot
+  .right
+    .fonticon-10-dot
+
+mixin flickr(data)
+  .flickr-container
+    .top-row
+        - for (i = 0; i <= 2; i++) {
+        if(data.images[i])
+          .iq-img(data-src-desktop= data.images[i].srcDesktop, data-src-tablet= data.images[i].srcTablet, data-src-phone= data.images[i].srcPhone, data-src-desktop-highres= data.images[i].srcDesktopHighRes, data-src-tablet-highres= data.images[i].srcTabletHighRes, data-src-phone-highres= data.images[i].srcPhoneHighRes)
+        -}
+    .bottom-row
+        - for (i = 3; i <= 5; i++) {
+        if(data.images[i])
+          .iq-img(data-src-desktop= data.images[i].srcDesktop, data-src-tablet= data.images[i].srcTablet, data-src-phone= data.images[i].srcPhone, data-src-desktop-highres= data.images[i].srcDesktopHighRes, data-src-tablet-highres= data.images[i].srcTabletHighRes, data-src-phone-highres= data.images[i].srcPhoneHighRes)
+        -}

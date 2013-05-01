@@ -127,8 +127,6 @@ define(function(require){
 
       log('SONY : RelatedProducts : Initialized');
 
-
-
     };
 
     //Related Products protoype object definition
@@ -138,13 +136,10 @@ define(function(require){
       init: function(){
         var self = this;
 
-        self.mqFix();
-
         if(self.$win.width() < 569){
           self.$el.css({
             opacity: 0
           });
-          //self.log('setting opacity to 0');
         }
 
         //Initialize animation properties
@@ -375,7 +370,7 @@ define(function(require){
 
       getFavoriteContent : function( $jsFavorite, isActive ) {
         return isActive ?
-              $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' :
+              $jsFavorite.data('activeTitle') /*+ '<i class="fonticon-10-sm-bold-check"></i>' */:
               $jsFavorite.data('defaultTitle');
       },
 

@@ -2,12 +2,7 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('whats-new-tout-s4')
 +includeJavascriptModule('whats-new-tout-s4')
 
-if data.config.title
-  .container.st-header
-    .grid
-      h2.l1 #{data.config.title}
-
-.whats-new-tout.secondary-tout
+.whats-new-tout.secondary-tout(id = data.id ? data.id : false)
   .st-container
     .st-container-inner.container
       for slide in data.slides

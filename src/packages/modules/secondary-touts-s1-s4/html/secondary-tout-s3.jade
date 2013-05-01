@@ -6,7 +6,7 @@ if data.config.title
     .grid
       h2.l1 #{data.config.title}
 
-.secondary-tout
+.secondary-tout(id = data.id ? data.id : false)
   .st-container
     .st-container-inner.container
       for slide in data.slides

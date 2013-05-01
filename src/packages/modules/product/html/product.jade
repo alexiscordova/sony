@@ -282,14 +282,18 @@ else if data.view == 'simple'
   a.span2.gallery-item.simple(href=data.href ? data.href : '#')
     .gallery-item-inner
       .product-img
+
         //- .product-img-wrap.ghost-center-wrap
         //-   .ghost-center
         //-       +iQImage( data.imgSmall )
         //- Fix for image heights not obeying max-height:100%
         .product-img-wrap
           +iQImage( data.imgSmall )
+          if data.rp
+            +heart()
 
-      +priceBlock( data, true )
+      - onlyName = data.rp ? false : true
+      +priceBlock( data, onlyName )
 
 
 else if data.view == 'detailed'
@@ -796,13 +800,13 @@ else if data.view == 'search-results'
     .img.img-lg.no-float
       +iQImage( product.imgSmall )
     .bd.feature-text
-      h3.t5.title= product.title
+      p.t5.title= product.title
       .reviews-copy
         +productRating( product.rating.stars, product.rating.reviews )
       p.p4= data.results.product.text
       ul.h-list.h-list-md
         each link in data.results.product.links
-          li.lt3
+          li.lt4
             a(href= link.url)= link.text
 
 else
