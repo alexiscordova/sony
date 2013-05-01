@@ -2,7 +2,6 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('recently-viewed')
 +includeJavascriptModule('recently-viewed')
 
-
 .rv-module
   .container
     .grid
@@ -25,6 +24,7 @@ include ../../../common/html/jade-helpers.jade
                   each module in slide
                     d = locals.data( module.data )
                     - d.view = "simple"
+                    - d.rp = data.config.mode == 'strip'
                     e = { "locals" : locals, "data" : d }
                     !{locals.partial( module.type, e )}
 
