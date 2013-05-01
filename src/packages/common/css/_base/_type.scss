@@ -204,34 +204,39 @@ p, .p1, .p2, .p3, .p4, .p5,
   @include fontRegular;
   @include em-strong(Regular);
 }
-p, .p1, .p2, .p3, .p4, .p5 { color: $defaultParagraphColor; }
+.p1-bold, .p2-bold, .p3-bold, .p4-bold, .p5-bold,
+.lt1-bold, .lt2-bold, .lt3-bold, .lt4-bold, .lt5-bold, .lt3-alt-bold {
+  @include fontMedium;
+  @include em-strong(Medium);  
+}
+p, .p1, .p2, .p3, .p4, .p5, .p1-bold, .p2-bold, .p3-bold, .p4-bold, .p5-bold { color: $defaultParagraphColor; }
 
-.p1, .lt1 { // also affects .p1.lt
+.p1, .lt1, .p1-bold, .lt1-bold { // also affects .p1.lt
   @include px-em--font-size--line-height(18,26);
 }
-.p2, .lt2, p, input.p2 { // also affects .p2.lt
+.p2, .lt2, .p2-bold, .lt2-bold, p, input.p2, input.p2-bold { // also affects .p2.lt
   @include px-em--font-size--line-height(15,22);
 }
-.p3, .lt3, .lt3-alt { // also affects .p3.lt
+.p3, .lt3, .lt3-alt, .p3-bold, .lt3-bold, .lt3-alt-bold { // also affects .p3.lt
   @include px-em--font-size--line-height(13,20);
 }
-.p4, .lt4, input.p4 { // also affects .p4.lt
+.p4, .lt4, input.p4, .p4-bold, .lt4-bold, input.p4-bold { // also affects .p4.lt
   @include px-em--font-size--line-height(12,18);
 }
-.p5, .lt5 { // also affects .p5.lt
+.p5, .lt5 .p5-bold, .lt5-bold { // also affects .p5.lt
   @include px-em--font-size--line-height(11,15);
 }
-.lt-alt, .lt3-alt {
+.lt-alt, .lt3-alt, .lt-alt-bold, .lt3-alt-bold {
   letter-spacing: px-em(1px);
   text-transform: uppercase;
 }
-.p1 { margin-bottom: 16px; }
-.p2, .p3, .lt3-alt { margin-bottom: 12px; }
-.p4, .p5, .p1.lt, .lt1 { margin-bottom: 8px; }
-.p2.lt, .lt2 {  margin-bottom: 6px; }
-.p3.lt, .lt3, .p4.lt, .lt4, .p5.lt, .lt5 { margin-bottom: 4px; }
+.p1, .p1-bold { margin-bottom: 16px; }
+.p2, .p3, .lt3-alt, .p2-bold, .p3-bold, .lt3-alt-bold { margin-bottom: 12px; }
+.p4, .p5, .p1.lt, .lt1, .p4-bold, .p5-bold, .p1.lt-bold, .lt1-bold { margin-bottom: 8px; }
+.p2.lt, .lt2 .p2-bold.lt, .lt2-bold {  margin-bottom: 6px; }
+.p3.lt, .lt3, .p4.lt, .lt4, .p5.lt, .lt5, .p3-bold.lt, .lt3-bold, .p4-bold.lt, .lt4-bold, .p5-bold.lt, .lt5-bold { margin-bottom: 4px; }
 
-.lt, .lt-alt, .lt3-alt{
+.lt, .lt-alt, .lt3-alt, .lt-bold, .lt-alt-bold, .lt3-alt-bold{
   &.text-dark{
     a {
       color:$text-dark;
