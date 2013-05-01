@@ -4,7 +4,7 @@
 <ul>
 <li><strong>Class:</strong> MarketingConvergenceModule</li>
 <li><strong>Version:</strong> 0.2</li>
-<li><strong>Modified:</strong> 04/22/2013</li>
+<li><strong>Modified:</strong> 04/30/2013</li>
 <li><strong>Author:</strong> George Pantazis, Telly Koosis</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+, <a href="jquery.simpleknob.html">jQuery SimpleKnob</a>, <a href="sony-carousel.html">SonyCarousel</a></li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -37,23 +37,22 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>general</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$html = $(document.documentElement);
     self.$el = $(element);
     self.isInit = <span class="literal">true</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions; // sony carousel will check this too and then this can just be 'true'</p>             </td>             <td class="code">               <div class="highlight"><pre>
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>resize event related</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.debounceEvent = <span class="string">'global:resizeDebounced-200ms.uxmc'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>resize event related</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.debounceEvent = <span class="string">'global:resizeDebounced-200ms.uxmc'</span>;
     self.onResizeEvent = $.proxy(self.handleResize, self);    
     self.isResize = <span class="literal">false</span>;
     
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>buttons &amp; dials</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$reloadButton = self.$el.find(<span class="string">'.btn-reload'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>buttons &amp; dials</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$reloadButton = self.$el.find(<span class="string">'.btn-reload'</span>);
     self.$dialWrappers = self.$el.find(<span class="string">'.uxmc-dial-wrapper'</span>);
     self.$dials = self.$dialWrappers.find(<span class="string">'.uxmc-dial'</span>);
     self.$dialLabels = self.$dialWrappers.find(<span class="string">'.uxmc-dial-label'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$carousel = self.$el.find(<span class="string">'.uxmc-carousel'</span>); 
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$carousel = self.$el.find(<span class="string">'.uxmc-carousel'</span>); 
     self.$carouselInstance = <span class="literal">undefined</span>;
     self.$carouselSlides = self.$carousel.find(<span class="string">'.sony-carousel-slide'</span>);
     self.$carouselSlidesChildren = self.$carousel.find(<span class="string">'.sony-carousel-slide-children'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>LISTEN</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span>(!Settings.isLTIE10){
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>LISTEN</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span>(!Settings.isLTIE10){
       Environment.on(self.debounceEvent, $.proxy(self.onResizeEvent, self));
     }
 
@@ -79,7 +78,7 @@ define(<span class="keyword">function</span>(require){
       self.setupButtons();
       self.setupDials();
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>INIT SEQUENCE </p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(!Settings.isLTIE9){
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>INIT SEQUENCE </p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(!Settings.isLTIE9){
         self.setButtonColor(self.currentPartnerProduct); <span class="comment">// new color for reload buton</span>
       }
 
@@ -109,7 +108,7 @@ define(<span class="keyword">function</span>(require){
       });    
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>enable entire slide as link without reworking markup
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>enable entire slide as link without reworking markup
 assumes mark-up particular markup</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'setupSlideLinks'</span> : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.$carouselSlides.bind(<span class="string">"click"</span>,<span class="keyword">function</span>(e){
@@ -132,14 +131,14 @@ assumes mark-up particular markup</p>             </td>             <td class="c
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Setup simpleKnob dials, setup behaviors for hover/click.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'setupDials'</span>: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Setup simpleKnob dials, setup behaviors for hover/click.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'setupDials'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$dials.simpleKnob({    
         <span class="string">'width'</span>: <span class="number">34</span>,
         <span class="string">'height'</span>: <span class="number">34</span>,    
-        <span class="string">'thickness'</span>: <span class="number">0.15</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>'thickness': 0.15,</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="string">'thickness'</span>: <span class="number">0.1</span>,
         <span class="string">'fontSize'</span>: <span class="string">'1em'</span>,
         <span class="string">'bgColor'</span>: <span class="string">'rgba(255, 255, 255, 0.5)'</span>,
         <span class="string">'fgColor'</span>: <span class="string">'#fff'</span>
@@ -217,7 +216,6 @@ assumes mark-up particular markup</p>             </td>             <td class="c
           $slide = self.$carouselSlides.eq(which);
 
       $reloadBtn.css(<span class="string">'color'</span>, $slide.css(<span class="string">"background-color"</span>));
-
     },
 
     <span class="string">'fadeOutContent'</span> : <span class="keyword">function</span>(){
