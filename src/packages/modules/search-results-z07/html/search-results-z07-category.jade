@@ -1,15 +1,16 @@
 .featured-result
-  h3.p3.results
+  p.p3.results
     span.bold-dark= data.results.count
     |  #{data.resultsTitle}
-  form.visible-phone.select-narrow
-    select
-      option= data.narrowResultsPlaceholderText
+  .sort-options.visible-phone
+    form.select-narrow
+      select
+        option= data.narrowResultsPlaceholderText
   .media
     .img.img-lg.no-float
       +iQImage(data.results.category.image)
     .bd.feature-text
-      h3.t5.title= data.results.category.title
+      p.t6-light.title= data.results.category.title
       p.p4= data.results.category.description
       ul.featured-list
         each category in data.results.category.subcategories
