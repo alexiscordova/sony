@@ -22,8 +22,11 @@ define(function(require) {
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       Utilities = require('require/sony-global-utilities'),
+      Environment = require('require/sony-global-environment'),
+      Settings = require('require/sony-global-settings'),
       iQ = require('iQ'),
       enquire = require('enquire'),
+      Favorites = require('secondary/index').sonyFavorites,
       sonyCarousel = require('secondary/index').sonyCarousel,
       sonyScroller = require('secondary/index').sonyScroller;
 
@@ -59,6 +62,8 @@ define(function(require) {
 
       self.$wrapper = self.$el.find( '.sony-carousel-wrapper' );
       self.$carousel = self.$el.find( '.sony-carousel' );
+      self.$favorites = self.$el.find('.js-favorite');
+      self.$productNames = self.$el.find( '.product-name-wrap' );
 
       if ( Modernizr.mediaqueries ) {
 
@@ -88,6 +93,18 @@ define(function(require) {
         self._setupDesktop();
       }
 
+      if ( self.$favorites.length ) {
+        self.$productNames.evenHeights();
+        new Favorites( self.$carousel );
+        Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+      }
+
+    },
+
+    onResize : function() {
+      var self = this;
+
+      self.$productNames.evenHeights();
     },
 
     _setupDesktop : function() {

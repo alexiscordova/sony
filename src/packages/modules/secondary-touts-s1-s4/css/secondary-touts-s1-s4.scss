@@ -28,6 +28,10 @@
       max-width: percentage(400px / 463px);
       width: percentage(400px / 463px);
       min-width: percentage(400px / 3532px);
+
+      &.align-right-center {
+        max-width: none;
+      }
     }
   }
 
@@ -236,7 +240,8 @@
 
     &.content-12,
     &.content-8,
-    &.content-6 {
+    &.content-6,
+    &.content-4 {
       .counter,
       .mini-promo {
         position: absolute;
@@ -244,7 +249,10 @@
 
         &[class*="align-left-"] {
 
-          &.content-12,
+          &.content-12 {
+            left: 4.2%;
+          }
+
           &.content-8 {
             left: 6.2%;
           }
@@ -252,31 +260,41 @@
           &.content-6 {
             left: 7.3%;
           }
+
+          &.content-4 {
+            left: 7.3%;
+          }
         }
 
         &[class*="align-right-"] {
 
+          &.content-12 {
+            right: 6.2%;
+
+            @include onesonyTypeBlockWidths(300px);
+
+            &[class*="copy"] {
+              @include onesonyTypeBlockWidths(350px);
+            }
+          }
+
           &.content-8 {
             right: 6.2%;
 
-            &.align-right-bottom {
-              @include onesonyTypeBlockWidths(300px);
+            @include onesonyTypeBlockWidths(300px);
 
-              &[class*="copy"] {
-                @include onesonyTypeBlockWidths(350px);
-              }
+            &[class*="copy"] {
+              @include onesonyTypeBlockWidths(350px);
             }
           }
 
           &.content-6 {
             right: 8.6%;
 
-            &.align-right-bottom {
-              @include onesonyTypeBlockWidths(250px);
+            @include onesonyTypeBlockWidths(250px);
 
-              &[class*="copy"] {
-                @include onesonyTypeBlockWidths(250px);
-              }
+            &[class*="copy"] {
+              @include onesonyTypeBlockWidths(200px);
             }
           }
         }
@@ -798,6 +816,13 @@
 
         &.content-12 {
           @include onesonyTypeBlockWidths(400px);
+
+          @media( min-width:px-em(768px) ){
+            &[class*="align-left-center"],
+            &[class*="align-right-center"] {
+              width: auto;
+            }
+          }
         }
 
         &.content-8 {
@@ -808,6 +833,9 @@
           @include onesonyTypeBlockWidths(300px);
         }
       }
+
+      //shared
+
 
       &[class*="align-left-"] {
 
@@ -854,6 +882,28 @@
       }
 
       &[class*="align-right-"] {
+
+        &.content-12 {
+          left: auto;
+          right: 6.2%;
+
+          @include onesonyTypeBlockWidths(300px);
+
+          &[class*="copy"] {
+            @include onesonyTypeBlockWidths(350px);
+          }
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+
+          @media(min-width:px-em(981px)){
+            &.align-right-center.content-12 {
+              width: auto;
+            }
+          }
+        }
 
         &.content-8 {
           left: auto;
@@ -910,10 +960,19 @@
       }
 
       //aCB
-      &.align-center-bottom {
+      &[class*="align-center-"] {
         bottom: 40px;
         width: 100%;
         text-align: center;
+
+        &.align-center-center {
+          position: relative;
+          width: 340px;
+          height: 100%;
+          max-width: 66%;
+          bottom: auto;
+          margin: 0 auto;
+        }
 
         > div {
           width: 240px;
@@ -1019,6 +1078,7 @@
       //aRT
       &.align-right-top {
 
+        &.content-12,
         &.content-8,
         &.content-6 {
           top: 11%;
