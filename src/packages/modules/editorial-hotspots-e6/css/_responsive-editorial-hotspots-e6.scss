@@ -80,9 +80,116 @@ $transitionSpeed: 0.5s;
       opacity: 1;
     }
   }
-    
-  .ehs {
-
+  .editorial {
+    .submodule, .hotspot-instance {
+      /* SMALL HOTSPOTS */
+      .hspot-outer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: -20px;
+        left: -15px;
+        width: 42px;
+        height: 42px;
+        background: url('../../img/editorial-dual-viewer-e9/gray30.png');
+        cursor: pointer;
+        z-index: auto;
+        color: #fff;
+        @include border-radius(50%);
+        @include transition(.1s);
+        
+        .hspot-core {
+          position: absolute;
+          width: 64px;
+          height: 64px;
+          @include scale(0.5);
+          background: $buttonOrange;
+          display: block;
+          text-align: center;
+          font-size: 2.0em;
+          top: 50%;
+          left: 50%;
+          margin: -32px 0 0 -32px;
+          @include border-radius(50%);
+          @include transition(.1s ease-out);
+          
+          .icons {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            margin: -30px 0 0 -50px;
+            
+            i {
+              display: inline-block;
+              margin: 0;
+              -webkit-font-smoothing: antialiased;
+              @include rotate(0deg);
+              @include transition(.1s ease-out);
+              &.fonticon-10-plus-skinny {
+                display: none;
+              }
+              &.fonticon-10-sm-bold-plus {
+                display: inline-block;
+              }
+            }
+          }
+          &.hspot-hover-on {
+            @include scale(0.55);
+            background: $buttonOrangeHover;
+            
+            i {
+              margin:0 3px;
+            }
+          }
+        }
+        
+        .hspot-core-on {
+          position: absolute;
+          width: 64px;
+          height: 64px;
+          @include scale(0.5);
+          background:$gray30;
+          display:block;
+          text-align:center;
+          font-size:2.0em;
+          top:50%;
+          left:50%;
+          margin: -32px 0 0 -32px;
+          @include border-radius(50%);
+          @include transition(.1s ease-out);
+          
+          .icons {
+            position:absolute;
+            top:50%;
+            left:50%;
+            width:100px;
+            margin: -30px 0 0 -50px;
+            
+            i {
+              display:inline-block;
+              margin:0;
+              -webkit-font-smoothing: antialiased;
+              @include rotate(45deg);
+              @include transition(.1s ease-out);
+              &.fonticon-10-plus-skinny {
+                display: none;
+              }
+              &.fonticon-10-sm-bold-plus {
+                display: inline-block;
+              }
+            }
+          }
+          &.hspot-hover-on {
+            @include scale(0.55);
+            background:$gray40;
+            
+            i {
+              margin:0 3px;
+            }
+          }
+        }
+      }
+    }
   }
-
 }
