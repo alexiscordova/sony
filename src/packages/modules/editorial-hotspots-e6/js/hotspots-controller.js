@@ -122,7 +122,7 @@ define(function(require) {
       $( 'body' ).append( underlayNode );
 
       // detect what type of tracking we need to bind the instance to
-      var moduleHandle = self.$container.find( '.image-module' );
+      var moduleHandle = self.$container.parent().find( '.image-module' );
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
         self.trackingMode = 'background';
         self.trackingAsset = moduleHandle;
@@ -148,10 +148,9 @@ define(function(require) {
       };
       
       self.trackHeight = function() {
-/*         log( 'no bg' ); */
         if( "none" !== self.trackingAsset.css( 'background-image' ) ) {
+          // bg detected, clearing
           clearInterval( self.trackOpacityTimer );
-/*           log( 'bg detected, clearing' ); */
           self.canShowHotspots = true;
           triggerInitialPosition();
         }
@@ -171,7 +170,11 @@ define(function(require) {
       // initialize hotspot(s)
       $( self.$els ).each(function( index, el ) {
         // bind the click, place it based on the data-x and -y coordinates, and fade em in
-        // lets hide everything first
+        // lets hide everything first, and initialize the hotspot window right top justified
+        var base = $( el ).find( '.overlay-base' );
+        var hasTop = base.find( '.top.is-default-on').length;
+        var threeOrTwo = ( hasTop > 0 ) ? 'three' : 'two';
+        self.moveTo( $( base ), 'right-top', threeOrTwo );
         self.bind( el );
         self.place( el );
       });
@@ -250,7 +253,7 @@ define(function(require) {
       if( true ) {
         if( el ) {
           var offsetX     = self.trackingAsset.position().left,
-              offsetY     = self.trackingAsset.position().top,
+              offsetY     = self.trackingAsset.position().top, 
               percX       = $( el ).data( "x" ).replace( '%', '' ),
               percY       = $( el ).data( "y" ).replace( '%', '' ),
               assetW      = self.trackingAsset.width(),
@@ -282,10 +285,10 @@ define(function(require) {
                   adjustedY   = null,
                   widthOffset = 0;
                
-                  if( $( window ).width() < 768 ) {
+                  // compensate for centering in the parent node
+                  //if( $( window ).width() > 768 ) {
                     widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
-                  }
-               
+                  //}
                   // get x coordinate
                   adjustedX = ( percX * assetW ) / 100 + widthOffset;
                   adjustedY = ( percY * assetH ) / 100;
@@ -365,7 +368,7 @@ define(function(require) {
     
     show: function( el ) {
       var self        = this,
-          offsetTime  = 100; 
+          offsetTime  = 400; 
 
       if( true === self.canShowHotspots ) {
         $( self.$els ).each(function( index, el ) {
@@ -537,7 +540,7 @@ define(function(require) {
       }
     },
     reposition: function( el, fromResize ) {
-      
+
       var self                  = this,
           parentContainer       = ( 'asset' === self.trackingMode ) ? el.parent().parent().parent() : el.parent(),
           parentLeft            = 0,
@@ -571,7 +574,6 @@ define(function(require) {
           verticalGutter        = 10,
           horizontalGutter      = 45;
 
-      
       // we need to put this element in the centered overlay, not free form next to it's hotspot button
       if( true === self.showOverlayCentered ) {
         
@@ -729,27 +731,27 @@ define(function(require) {
           // since we're tracking collisions by side, we can easily do this prescriptively,
           if( true === collides && i == 3 ) {
           
-/*             log('Reposition did not work. '); */
+            log('Reposition did not work. ');
             
             top = overlayTop; // clean up redundant vars!!!!
             footer = overlayFooter; // clean up redundant vars!!!!
             
             if( collidesTop && ( top.height() > 0 ) ) {
-              /* log('turning off top section and restting loop'); */
+              log('turning off top section and restting loop');
               top.addClass( 'hidden' );
               rows = 'two';
               self.downstepStacks( el );
               i=-1;
             }
             if( collidesFloor && ( footer.height() > 0 ) ) {
-              /* log('turning off bottom section and resetting loop'); */
+              log('turning off bottom section and resetting loop');
               footer.addClass( 'hidden' );            
               rows = 'two';
               self.downstepStacks( el ); 
               i=-1;
             } 
   
-            /* log('finished '+passes+' passes' ); */
+            log('finished '+passes+' passes' );
             passes++;
             
             // two passes, and no dice; lets turn off top and bottom in an attempt to 
@@ -757,11 +759,11 @@ define(function(require) {
             if(passes==1) {
               top.addClass( 'hidden' );
               footer.addClass( 'hidden' );
-              /* log( 'performing second pass' );               */
+              log( 'performing second pass' );              
               i=-1;
             } else if( passes > 1 ) { 
             
-              /* log( 'forcing second best default positioning' ); */
+              log( 'forcing second best default positioning' );
               // test if overlay is hitting the right side of the screen
               var outerRight    = $( window ).width();
               var windowLeft    = overlay.offset().left;
@@ -772,10 +774,10 @@ define(function(require) {
               log(windowRight);
                             
               if( outerRight <= ( windowRight - 10 ) ) {
-                /* log( 'moving away from right wall' ); */
+                log( 'moving away from right wall' );
                 self.moveTo( overlay, 'left-top', rows );
               } else if( 0 + 10 >= windowLeft ) {
-                /* log( 'moving away from left wall' ); */
+                log( 'moving away from left wall' );
                 self.moveTo( overlay, 'right-top', rows );
               }
               
