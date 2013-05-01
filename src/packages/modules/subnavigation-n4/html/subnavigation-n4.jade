@@ -29,8 +29,8 @@ section.subnav-module
       section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))
         div.grid.no-grid-at-979
           .span6
-            h3.t4-bold !{subcategory.title}
-            p.p2 !{subcategory.message}
+            h3.t3-bold !{subcategory.title}
+            p.p3 !{subcategory.message}
           .span6.general-links
             a.accesories-link.lt3(href=subcategory.accessoryLink)
               i.fonticon-30-dongle
@@ -54,11 +54,11 @@ section.subnav-module
                     p.t5
                       span !{item.message + " "}
                         span.highlight !{item.linkText}
-                          i.fonticon-10-chevron-sm
+                          i.fonticon-10-chevron-sm.l-o-d
 
               else
                 - item = subcategory.products[j]
-                .product.span3.m-span2
+                a.product.span3.m-span2(href=item.galleryLink)
                   div.image
                     img(src=item.imageSrc)
                   .details
