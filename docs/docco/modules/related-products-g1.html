@@ -343,7 +343,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
       getFavoriteContent : <span class="keyword">function</span>( $jsFavorite, isActive ) {
         <span class="keyword">return</span> isActive ?
-              $jsFavorite.data(<span class="string">'activeTitle'</span>) + <span class="string">'&lt;i class="fonticon-10-sm-bold-check"&gt;&lt;/i&gt;'</span> :
+              $jsFavorite.data(<span class="string">'activeTitle'</span>) <span class="comment">/*+ '&lt;i class="fonticon-10-sm-bold-check"&gt;&lt;/i&gt;' */</span>:
               $jsFavorite.data(<span class="string">'defaultTitle'</span>);
       },
 
