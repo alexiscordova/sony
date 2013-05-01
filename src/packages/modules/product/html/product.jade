@@ -282,14 +282,18 @@ else if data.view == 'simple'
   a.span2.gallery-item.simple(href=data.href ? data.href : '#')
     .gallery-item-inner
       .product-img
+
         //- .product-img-wrap.ghost-center-wrap
         //-   .ghost-center
         //-       +iQImage( data.imgSmall )
         //- Fix for image heights not obeying max-height:100%
         .product-img-wrap
           +iQImage( data.imgSmall )
+          if data.rp
+            +heart()
 
-      +priceBlock( data, true )
+      - onlyName = data.rp ? false : true
+      +priceBlock( data, onlyName )
 
 
 else if data.view == 'detailed'
@@ -755,20 +759,23 @@ else if data.view == 'compatibility'
   accessories = 'Accessories'
   filterSet = JSON.stringify( data.filterSet )
 
+  //- Fall back to small images if tiny ones aren't available
+  image = data.imgTiny ? data.imgTiny : data.imgSmall
+  totalAccessories = data.totalAccessories ? data.totalAccessories : 'N/A'
 
   a.span4.compat-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
     .compat-item-inner
       span.product-img
         div(class='product-img-wrap ghost-center-wrap')
           .ghost-center
-            +iQImage( data.imgTiny, undefined, 'image' )
+            +iQImage( image, undefined, 'image' )
 
       span.product-content
         .product-name-wrap
           .product-model.p2(itemprop="model")= data.model
           .product-name.p3(itemprop="name")= data.name
           .product-total.p3
-            strong.total= data.totalAccessories
+            strong.total= totalAccessories
             | !{ accessories }
 
 
@@ -796,13 +803,13 @@ else if data.view == 'search-results'
     .img.img-lg.no-float
       +iQImage( product.imgSmall )
     .bd.feature-text
-      h3.t5.title= product.title
+      p.t5.title= product.title
       .reviews-copy
         +productRating( product.rating.stars, product.rating.reviews )
       p.p4= data.results.product.text
       ul.h-list.h-list-md
         each link in data.results.product.links
-          li.lt3
+          li.lt4
             a(href= link.url)= link.text
 
 else

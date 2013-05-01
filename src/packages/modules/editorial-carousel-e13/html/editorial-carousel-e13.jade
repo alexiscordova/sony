@@ -4,7 +4,7 @@ include ../../../common/html/jade-helpers.jade
 
 moduleClasses = [ 'ec-module' ]
 moduleMode = false
-moduleId = data.config && data.config.id ? data.config.id : false
+moduleId = data.id ? data.id : false
 
 case data.variation
   when 'a2'
@@ -48,16 +48,17 @@ div(class=moduleClasses, id=moduleId, data-mode=moduleMode)
                             span.p5.text-uppercase
                               strong= tile.headline.currentPlayersText
                         .wrapper-image
-                          classes = [ 'cover', 'ghost-center-wrap' ]
-                          if !tile.headline
-                            - classes.push( 'no-headline' )
-                          div(class=classes)
-                            .ghost-center
-                              span.picto-play
-                                span.bg-for-icon
-                                span.picto
-                              span.l3.cta= tile.callToAction
-                          +iQImage( tile.img )
+                          .wrapper-inside
+                            classes = [ 'cover', 'ghost-center-wrap' ]
+                            if !tile.headline
+                              - classes.push( 'no-headline' )
+                            div(class=classes)
+                              .ghost-center
+                                span.picto-play
+                                  span.bg-for-icon
+                                  span.picto
+                                span.l3.cta= tile.callToAction
+                            +iQImage( tile.img )
                         .infos
                           p.p3.tile-title
                             strong= tile.infos.title

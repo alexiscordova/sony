@@ -8,9 +8,17 @@ define(function(require){
 
   var module = {
     init: function() {
-      $('.sen-convergence .slides').each(function(index, element) {
+      var self = this;
+
+      $('.sen-convergence .tab-pane.active .slides').each(function(index, element) {
         var $container = $(element);
-        new SlideCrossFade($container);
+        self.carousel = new SlideCrossFade($container);
+      });
+
+      $('.tabs').on('click', 'li', function () {
+        var $container = $('.sen-convergence .tab-pane.active .slides');
+        self.carousel.stop();
+        self.carousel = new SlideCrossFade($container);
       });
     }
   };
@@ -25,7 +33,7 @@ define(function(require){
       this.$slides.not(':first').hide();
       this.$currentSlide = this.$slides.first();
 
-      setInterval($.proxy(this.showNextSlide, this), 3500);
+      this.interval = setInterval($.proxy(this.showNextSlide, this), 3500);
     },
 
     showNextSlide: function() {
@@ -37,6 +45,10 @@ define(function(require){
       $nextSlide.fadeIn(750);
 
       this.$currentSlide = $nextSlide;
+    },
+
+    stop: function () {
+      clearInterval(this.interval);
     }
   };
 

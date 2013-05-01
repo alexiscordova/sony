@@ -22,7 +22,7 @@ include gallery-helpers.jade
   if data.tabs[2]
     .tab-pane.fade(data-tab=data.tabs[2].slug)
       if data.accessories.accessoryFinder
-        +accessoryFinder( data.submodules, data.accessories.accessoryFinder )
+        +accessoryFinder( data.submodules, data.accessories.accessoryFinder, 'camera' )
       +productStrips( data.submodules, data.accessories.productStrips, 'accessory' )
 
   - for (i = 3; i < 10; i++) {
