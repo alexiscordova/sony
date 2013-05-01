@@ -375,7 +375,7 @@ define(function(require){
 
       getFavoriteContent : function( $jsFavorite, isActive ) {
         return isActive ?
-              $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' :
+              $jsFavorite.data('activeTitle') /*+ '<i class="fonticon-10-sm-bold-check"></i>' */:
               $jsFavorite.data('defaultTitle');
       },
 
