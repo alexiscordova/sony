@@ -174,7 +174,7 @@ define(function(require){
     openSubcat: function(which) {
 
       var self = this,
-          $subcat = $('#subcategory-' + which);
+          $subcat = self.$el.find('#subcategory-' + which);
 
       self.renderSubcats($subcat, self.mode !== 'desktop');
 

@@ -18,6 +18,7 @@ var UNAV = ( function( window, document, $, undefined ){
     $uNavPrimary,
     $firstChild,
     $closeBtn,
+    xUp,
     uNavColWidth,
     uNav2highImgHeight,
     uNavColHeight,
@@ -33,15 +34,15 @@ var UNAV = ( function( window, document, $, undefined ){
     $uNavPrimary = $uNav.find('.u-nav-primary');
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $('#u-nav-close-btn');
+    xUp = $uNavPrimary.children().length;
     _cssTransitions = _browserCssTransitionDetect();
 
 
     // -----------------------------
     // EVENT LISTENERS
     // -----------------------------
-    // Since I don't know what version of jQuery will be used on all sites, this will allow versions older than 1.7 
-    // to work, without using depreciated functions in version 1.7+ 
     // At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().
+    // This will allow versions older than 1.7 to work without using depreciated functions in version 1.7+
     if ($.isFunction($.fn.on)){
       $triggerLink.on('click',function(e){
         // console.log("$triggerLink");
@@ -97,34 +98,45 @@ var UNAV = ( function( window, document, $, undefined ){
         }
       });
     }
-    if ($uNavPrimary.children().length < 6){
-      _setUpPrimaryLinks();
-    } else {
-      $uNavPrimary.addClass('u-nav-primary-6up');
-    }
+    _setUpPrimaryLinks($uNavPrimary.children().length);
   },
 
 
 
   _setUpPrimaryLinks = function(){
 
+    var twoHighRatio = 0.887538;
+    var twoWideRatio = 0.4201995;
+
+    uNavColWidth = $firstChild.outerWidth();
+
+    if (xUp === 3){
+      uNav2highImgHeight = uNavColWidth * twoWideRatio;
+      $uNavPrimary.addClass('u-nav-primary-3up');
+    } else {
+      uNav2highImgHeight = uNavColWidth * twoHighRatio;
+      if (xUp === 6){
+        $uNavPrimary.addClass('u-nav-primary-6up');
+      } else {
+        $uNavPrimary.addClass('u-nav-primary-5up');
+      }
+    }
+
     // So we don't have to download the images before we can figure out how high the module will be,
     // we need to figure out the height the image should be at this width, based on current browser width.
     // So based on the image aspect ratio, what height should the image be at this width?
-    uNavColWidth = $firstChild.outerWidth();
-    uNav2highImgHeight = uNavColWidth * 0.887538;
-    uNavColHeight = uNav2highImgHeight + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
+    
+    uNavColHeight = uNav2highImgHeight + $firstChild.find('.u-nav-primary-caption').last().outerHeight(true); // use last in case it's a 6up & there are 2. We just want the bottom one.
 
-    $firstChild.height(uNavColHeight + "px");
-    // now they we set the height of the images container, we can grab the height of the entire u-nav for our js.
+    $uNavPrimary.height(uNavColHeight + "px");
+    // now that we set the height of the images container, we can grab the height of the entire u-nav for our js.
 
     setTimeout(function(){
       uNavOuterHeight = $uNav.outerHeight();
-      // console.log("uNavOuterHeight: " + uNavOuterHeight);
       setTimeout(function(){
-        // once we have the outerheight, clear the custom height from the $firstChild so it's back to the natural flow.
+        // once we have the outerheight, clear the custom height from the $uNavPrimary so it's back to the natural flow.
         // delays just to make sure the new heights are set before the next step.
-        $firstChild.css('height','');
+        $uNavPrimary.css('height','');
         // set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the 
         $uNav.css('top','-' + uNavOuterHeight + 'px');
         if ($pageWrapOuter.hasClass('unav-open')){
@@ -139,7 +151,7 @@ var UNAV = ( function( window, document, $, undefined ){
   _openUNav = function(){
     // console.log("_openUNav");
 
-    _setUpPrimaryLinks();
+    _setUpPrimaryLinks($uNavPrimary.children().length);
 
     setTimeout(function() {
       $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
@@ -182,7 +194,7 @@ var UNAV = ( function( window, document, $, undefined ){
   },
 
   _resizeEvent = function(){
-    _setUpPrimaryLinks();
+    _setUpPrimaryLinks($uNavPrimary.children().length);
   };
 
   return {

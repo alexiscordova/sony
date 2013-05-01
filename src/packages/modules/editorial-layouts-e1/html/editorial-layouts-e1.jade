@@ -3,7 +3,7 @@ include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('editorial-layouts-e1')
 
 mixin gridstyle(_extra, mgrid)
-  extraclass = _extra ? _extra : ""
+  extraclass = _extra ? _extra : false
   if mgrid
     .grid.m-grid-at-767(class = extraclass)(class = data.style)
       block
@@ -93,10 +93,10 @@ mixin textonlylayout(_layout)
     +col(layout, extras)
       block
 
-bg = ""
+bg = false
 if data.variation
-  bg = data.variation.background || ""
-.editorial(class = data.mode)(class = bg)
+  bg = data.variation.background ? data.variation.background : false
+.editorial(class = data.mode)(class = bg)(id= data.id? data.id : false)
   if data.mode == "textonly"
     .container
       +gridstyle
