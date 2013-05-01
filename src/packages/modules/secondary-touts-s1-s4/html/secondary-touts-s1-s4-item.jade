@@ -36,7 +36,7 @@ if item.miniPromo
 else
   - item.mpc = ''
 
-if item.typeAlignment == 'align-left-center' || item.typeAlignment == 'align-right-center'
+if item.typeAlignment == 'align-left-center' || item.typeAlignment == 'align-center-center' || item.typeAlignment == 'align-right-center'
   - item.gcwc = 'table-center-wrap'
   - item.gcc = 'table-center'
 else
@@ -65,14 +65,14 @@ article
             a(href=item.headline.link)
               | !{' ' + item.hTa}
               span !{' ' + item.hTb}
-                i.fonticon-10-chevron-sm
+                i.fonticon-10-chevron-sm.l-o-d
       else
         h4.headline(class=smallHeaderType)!= item.headline.title
           if item.headline && item.headline.link
             a(href=item.headline.link)
               | !{' ' + item.hTa}
               span !{' ' + item.hTb}
-                i.fonticon-10-chevron-sm
+                i.fonticon-10-chevron-sm.l-o-d
 
       if item.bodycopy
         p.p3= item.bodycopy
@@ -93,19 +93,17 @@ article
         span.t4 !{likeCount}
         span.l3 people like this
 
-  if item.s == 'content-8' || item.s == 'content-6'
-    if item.contentType == 'headline-counter' || item.contentType == 'headline-copy-counter'
-      .counter(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class=item.mpc)
-        - counterText = item.counter.total + ' ' + item.counter.text
-        h3.l2= counterText
+  if item.counter
+    .counter(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class=item.mpc)
+      - counterText = item.counter.total + ' ' + item.counter.text
+      h3.l2= counterText
 
 aside
-  if item.s == 'content-8'
-    if item.miniPromo
-      a.mini-promo(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
-        div.mini-promo-image-container
-          .play-button
-            i.fonticon-10-video-play
-          img(src=item.miniPromo.imgSrc)
-        div.mini-promo-caption.p4
-          | !{item.miniPromo.caption}
+  if item.miniPromo
+    a.mini-promo(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
+      div.mini-promo-image-container
+        .play-button
+          i.fonticon-10-video-play
+        img(src=item.miniPromo.imgSrc)
+      div.mini-promo-caption.p4
+        | !{item.miniPromo.caption}
