@@ -80,6 +80,7 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>INIT SEQUENCE </p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(!Settings.isLTIE9){
         self.setButtonColor(self.currentPartnerProduct); <span class="comment">// new color for reload buton</span>
+        $(<span class="string">'.btn-reload-container'</span>).addClass(<span class="string">'on'</span>);
       }
 
       self.fadeInContent(self.currentPartnerProduct); <span class="comment">// show content</span>
@@ -197,12 +198,12 @@ assumes mark-up particular markup</p>             </td>             <td class="c
 
         self.$carouselInstance.sonyCarousel(<span class="string">'gotoSlide'</span>, which);
 
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>fade out content as slide is moving</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.fadeInContent(which); 
+
         <span class="keyword">if</span>(!Settings.isLTIE9){
           self.setButtonColor(which); <span class="comment">// new color for reload buton</span>
         }
-
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>fade out content as slide is moving</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.fadeInContent(which); 
-       
+      
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>update current slide after transition is complete</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.currentPartnerProduct = which;  
       }
 

@@ -27,16 +27,16 @@ define(<span class="keyword">function</span>(require) {
         iQ.update();
       };
       
-      <span class="keyword">for</span>( <span class="keyword">var</span> i=<span class="number">0</span>; i &lt; breakpoints.length; i++ ) {
-        <span class="keyword">if</span>( <span class="number">0</span> === i ) {
-          <span class="comment">/* log( "(max-width: " + breakpoints[ i ] + "px)" ); */</span>
-          enquire.register( <span class="string">"(max-width: "</span> + breakpoints[ i ] + <span class="string">"px)"</span>, breakpointReactor).listen();
-        } <span class="keyword">else</span> {
-          <span class="comment">/* log( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)" ); */</span>
-          enquire.register( <span class="string">"(min-width: "</span> + ( breakpoints[ i-<span class="number">1</span> ] + <span class="number">1</span> ) + <span class="string">"px) and (max-width: "</span> + breakpoints[ i ] + <span class="string">"px)"</span>, breakpointReactor).listen();
+      <span class="keyword">if</span>( enquire ) {
+        <span class="keyword">for</span>( <span class="keyword">var</span> i=<span class="number">0</span>; i &lt; breakpoints.length; i++ ) {
+          <span class="keyword">if</span>( <span class="number">0</span> === i ) {
+            enquire.register( <span class="string">"(max-width: "</span> + breakpoints[ i ] + <span class="string">"px)"</span>, breakpointReactor).listen();
+          } <span class="keyword">else</span> {
+            enquire.register( <span class="string">"(min-width: "</span> + ( breakpoints[ i-<span class="number">1</span> ] + <span class="number">1</span> ) + <span class="string">"px) and (max-width: "</span> + breakpoints[ i ] + <span class="string">"px)"</span>, breakpointReactor).listen();
+          }
         }
       }
-       
+      
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>detect if there are any hotspot containers present</p>             </td>             <td class="code">               <div class="highlight"><pre>      $( <span class="string">'.hotspot-instance'</span> ).each( <span class="keyword">function</span>( index, el ) {
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>for each container, initialize an instance</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="comment">/* log('hotspot container detected'); */</span>
         $( <span class="keyword">this</span> ).hotspotsController({});
@@ -161,19 +161,21 @@ lets hide everything first, and initialize the hotspot window right top justifie
 
 
 </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO 
-REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE</p>             </td>             <td class="code">               <div class="highlight"><pre>      enquire.register(<span class="string">"(max-width: 767px)"</span>, <span class="keyword">function</span>() {
-        self.showOverlayCentered = <span class="literal">true</span>;
-        <span class="keyword">try</span> { 
-          self.reposition(self.$lastOpen[<span class="number">0</span>]);
-        } <span class="keyword">catch</span>(e) {}
-      }).listen();
-      
-      enquire.register(<span class="string">"(min-width: 768px)"</span>, <span class="keyword">function</span>() {
-        self.showOverlayCentered = <span class="literal">false</span>;
-        <span class="keyword">try</span> { 
-          self.reposition(self.$lastOpen[<span class="number">0</span>]);
-        } <span class="keyword">catch</span>(e) {}
-      }).listen();
+REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( enquire ) {
+        enquire.register(<span class="string">"(max-width: 767px)"</span>, <span class="keyword">function</span>() {
+          self.showOverlayCentered = <span class="literal">true</span>;
+          <span class="keyword">try</span> { 
+            self.reposition(self.$lastOpen[<span class="number">0</span>]);
+          } <span class="keyword">catch</span>(e) {}
+        }).listen();
+        
+        enquire.register(<span class="string">"(min-width: 768px)"</span>, <span class="keyword">function</span>() {
+          self.showOverlayCentered = <span class="literal">false</span>;
+          <span class="keyword">try</span> { 
+            self.reposition(self.$lastOpen[<span class="number">0</span>]);
+          } <span class="keyword">catch</span>(e) {}
+        }).listen();
+      }
 
       setTimeout(triggerInitialPosition, <span class="number">500</span>);      
     
@@ -787,6 +789,10 @@ make room one last time</p>             </td>             <td class="code">     
         
 </pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>        hotspot.removeClass( <span class="string">'hspot-core-on'</span> ).addClass( <span class="string">'hspot-core'</span> );
         
+        <span class="keyword">if</span>( Settings.isLTIE8 || Settings.isLTIE9 ) {
+          hotspot.parent().removeClass( <span class="string">'ie-on'</span> );  
+        }
+        
 </pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>begin fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.transition( info.find(<span class="string">'.overlay-inner'</span>),  <span class="string">'off'</span> );
         
 </pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>closure to allow script to set display:none when transition is complete</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> anon = <span class="keyword">function</span>() {
@@ -814,6 +820,10 @@ make room one last time</p>             </td>             <td class="code">     
 </pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>add data- info to this hotspot</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.data( <span class="string">'state'</span>, <span class="string">'open'</span> ).addClass( <span class="string">'info-jump-to-top'</span> );
         
 </pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>        hotspot.removeClass( <span class="string">'hspot-core'</span> ).addClass( <span class="string">'hspot-core-on'</span> );
+
+        <span class="keyword">if</span>( Settings.isLTIE8 || Settings.isLTIE9 ) {
+          hotspot.parent().addClass( <span class="string">'ie-on'</span> );  
+        }
         
 </pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>we have to set display: block to allow DOM to calculate dimension</p>             </td>             <td class="code">               <div class="highlight"><pre>        info.removeClass( <span class="string">'hidden'</span> );
         

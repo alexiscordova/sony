@@ -34,6 +34,16 @@ Settings = require('require/sony-global-settings'),</p>             </td>       
 
     PrimaryTout.prototype = {
       constructor: PrimaryTout,
+      
+      fixTitleHeight: <span class="keyword">function</span>(){
+         <span class="keyword">var</span> self = <span class="keyword">this</span>, minh,
+         hero = self.$el.find(<span class="string">'.hero-image .image-module'</span>);
+         hero.css(<span class="string">'height'</span>, <span class="string">''</span>);
+         
+         minh = Math.max(hero.innerHeight(), self.$el.find(<span class="string">'.inner .box'</span>).innerHeight());
+         
+         self.$el.find(<span class="string">'.hero-image .image-module'</span>).css(<span class="string">'height'</span>, minh);
+      },
 
       resize: <span class="keyword">function</span>(){
 
@@ -59,7 +69,12 @@ Settings = require('require/sony-global-settings'),</p>             </td>       
           self.resize();
           Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.resize, self));
         }
-
+        
+        <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'title-plate'</span>)) {
+          self.fixTitleHeight();
+          Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.fixTitleHeight, self));
+        }
+        
         <span class="keyword">var</span> btn = self.$el.find(<span class="string">".inner .box a, .mobile-buttons a"</span>);
 
         <span class="keyword">if</span>(btn.length &gt; <span class="number">0</span>){
