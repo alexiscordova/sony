@@ -204,6 +204,11 @@ p, .p1, .p2, .p3, .p4, .p5,
   @include fontRegular;
   @include em-strong(Regular);
 }
+.p1-bold, .p2-bold, .p3-bold, .p4-bold, .p5-bold,
+.lt1-bold, .lt2-bold, .lt3-bold, .lt4-bold, .lt5-bold, .lt3-alt-bold {
+  @include fontMedium;
+  @include em-strong(Medium);  
+}
 p, .p1, .p2, .p3, .p4, .p5 { color: $defaultParagraphColor; }
 
 .p1, .lt1 { // also affects .p1.lt

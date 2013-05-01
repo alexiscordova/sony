@@ -800,13 +800,13 @@ else if data.view == 'search-results'
     .img.img-lg.no-float
       +iQImage( product.imgSmall )
     .bd.feature-text
-      h3.t5.title= product.title
+      p.t5.title= product.title
       .reviews-copy
         +productRating( product.rating.stars, product.rating.reviews )
       p.p4= data.results.product.text
       ul.h-list.h-list-md
         each link in data.results.product.links
-          li.lt3
+          li.lt4
             a(href= link.url)= link.text
 
 else
