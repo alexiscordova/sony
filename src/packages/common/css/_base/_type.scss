@@ -360,6 +360,11 @@ p{ @extend .p2; }
 // ----------------------------------
 // Light text / Dark text -- on Dark box / Light box / Transparent box
 // ----------------------------------
+
+.l-o-d { // light-on-dark
+  -webkit-font-smoothing: antialiased;
+}
+
 // dark text
 .dark-text,
 .dark-text-light-box,
@@ -377,14 +382,17 @@ p{ @extend .p2; }
 .light-text-trans-box{
   h1, h2, h3, h4, h5, h6{
     color:$white;
+    -webkit-font-smoothing: antialiased;
   }
   p{
     color:$white;
+    -webkit-font-smoothing: antialiased;
   }
 }
 .light-text-dark-box a,
 .light-text-trans-box a{
   color: $white;
+  -webkit-font-smoothing: antialiased;
   &:hover, &:active, &:focus, &.active{
     color: $gray70;
   }
