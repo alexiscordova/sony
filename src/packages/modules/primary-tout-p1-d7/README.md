@@ -17,7 +17,7 @@ The primary tout is a large header section with text over a full-bleed image, ge
 
 **theme:** some configurations define an optional global theme color ie (themePurple | themeGreen) some text, buttons, and icons pick up this color  
 
-**style:** additional classes that define if it has a dark or light text box or if the text is dark or light, etc  
+**style:** additional classes that define if it has a dark or light text box or if the text is dark or light, etc 
 
 **variation:** optional variation parameters get picked up for certain modes
 *headertext* - (undefined | smaller) - if smaller it uses t2 class for headline instead of h1
@@ -26,6 +26,7 @@ The primary tout is a large header section with text over a full-bleed image, ge
 *secondbox* - (undefined | true) - uses the second box style for the homepage design  
 *substyle* - (required if secondbox is true) style for the second box
 *backgroundstyle* - (undefined | full-bleed | solid-color) - only for d7 variations, bg can be full bleed (cover), a solid color, or defaults to a set size (auto not cover)
+*headline* - (undefined | true) - for p1, p2, p3 if this is defined true there will be no background box and the type padding will follow custom layout rules
 
 **image:** defines the image src and attrubutes (see image module)
 

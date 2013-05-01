@@ -7,7 +7,7 @@ $centerRatio: (28.571428571429% / 2);
 $indicatorRatio: 14px; /* 35%; */ /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
-$transitionSpeed: 0.5s;
+$transitionSpeed: 0.5s; 
 
 /*MIXINZ*/
 @mixin ehsTransition() {
@@ -23,131 +23,65 @@ $transitionSpeed: 0.5s;
   z-index: 0;
 }
 
-.ehs {
-  .arrow-right-small {
-  	width: 0; 
-  	height: 0; 
-  	border-top: 8px solid transparent;
-  	border-bottom: 8px solid transparent;
-  	border-left: 8px solid #fff;
-  }
-  
-  .arrow-left-small {
-  	width: 0; 
-  	height: 0; 
-  	border-top: 8px solid transparent;
-  	border-bottom: 8px solid transparent; 	
-  	border-right: 8px solid #fff; 
-  }
-  
-  .arrow-right {
-  	width: 0; 
-  	height: 0; 
-  	border-top: 10px solid transparent;
-  	border-bottom: 10px solid transparent;
-  	border-left: 10px solid #fff;
-  }
-  
-  .arrow-left {
-  	width: 0; 
-  	height: 0; 
-  	border-top: 10px solid transparent;
-  	border-bottom: 10px solid transparent; 	
-  	border-right: 10px solid #fff; 
+.editorial {
+  .submodule, .image-module {
+    .arrow-right-small {
+    	width: 0; 
+    	height: 0; 
+    	border-top: 8px solid transparent;
+    	border-bottom: 8px solid transparent;
+    	border-left: 8px solid #fff;
+    }
+    
+    .arrow-left-small {
+    	width: 0; 
+    	height: 0; 
+    	border-top: 8px solid transparent;
+    	border-bottom: 8px solid transparent; 	
+    	border-right: 8px solid #fff; 
+    }
+    
+    .arrow-right {
+    	width: 0; 
+    	height: 0; 
+    	border-top: 10px solid transparent;
+    	border-bottom: 10px solid transparent;
+    	border-left: 10px solid #fff;
+    }
+    
+    .arrow-left {
+    	width: 0; 
+    	height: 0; 
+    	border-top: 10px solid transparent;
+    	border-bottom: 10px solid transparent; 	
+    	border-right: 10px solid #fff; 
+    } 
   }
 }
 
-.ehs {
-  .hotspot-instance, .image-module {
-    .eh-transparent {
-      @include ehsTransition();
-      opacity: 0;
-    }
-    
-    .eh-visible {
-      @include ehsTransition();
-      opacity: 1;
+.editorial {
+  .table-center-wrap .table-center, .submodule {
+    .image-module {
+      position: relative;
+      
+      .eh-transparent {
+        @include ehsTransition();
+        opacity: 0;
+      }
+      
+      .eh-visible {
+        @include ehsTransition();
+        opacity: 1;
+      } 
     } 
   }
 }
 
 /*GLOBAL OVERLAY*/
 .hspot-global-details-main {
-
-
-/*
-  &.variant1 { 
-    width: 280px;
-
-    top: -159px;
-    left: 63px;
-    .top {
-      background-color: #fff;
-    }
-    .middle {
-      background-color: #fff;
-      padding: 30px 40px 29px 30px;
-      border-bottom: 1px solid #e4e7eb;
-      position: relative;
-      .p3 {
-        margin-bottom: 7px;
-        &.cHBC {
-          margin-bottom: 0;
-        }
-      }
-      .arrow-left-top {
-        position: absolute;
-        top: 31px;
-        left: -10px;
-      }
-      .arrow-right-top {
-        position: absolute;
-        top: 31px;
-        right: -10px;
-      }
-      .arrow-left-bottom {
-        position: absolute;
-
-        top: 156px;
-        left: -10px;
-      }
-      .arrow-right-bottom {
-        position: absolute;
-        top: 156px;
-        right: -10px;
-      }
-      
-    }
-    .footer {
-      background-color: #fff;
-      padding: 18px 40px 0px 30px;
-      height: 107px;
-      .p3 {
-        font-style: italic;
-        color: $secondarySlateDark;
-        margin-bottom: 8px;
-      }
-      blockquote.l4 {
-        color: $gray40;
-        position: relative;
-        margin-left: 24px;
-        &:before {
-          display: block;
-          content: "\201C";
-          font-size: 40px;
-          font-family: Georgia;
-          position: absolute;
-          left: -24px;
-          top: -13px;
-          color: $secondarySlateDark;
-        }
-      }
-    }
-  }
-*/
-
   .overlay-inner {
-    margin: 0px auto;
+  
+    margin: 0px auto; 
     width: 280px;
     background-color: #fff;
     .overlay-close {
@@ -212,298 +146,202 @@ $transitionSpeed: 0.5s;
 }
 
 /*UTILS*/
-.ehs {
-  
-  .hotspot-instance {
+.editorial {
+  .submodule, .hotspot-instance {
     position: relative;
-  }
+    
+    .hspot-outer.info-jump-to-top {
+      z-index: 4; 
+    }
+    
+    .overlay-close {
+      position: relative;
+    }
+    
+    .hspot-global-details-overlay {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      z-index: 6;
   
-  .hspot-outer.info-jump-to-top {
-    z-index: 4; 
-  }
-  
-  .overlay-close {
-    position: relative;
-  }
-  
-  .hspot-global-details-overlay {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    z-index: 6;
-
-    .overlay-inner {
-      margin: 0px auto;
-      width: 230px;
-      background-color: #fff;
-      
-      .overlay-close {
-        position: relative;
+      .overlay-inner {
+        margin: 0px auto;
         width: 230px;
-        -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-        -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-        box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-        margin-top: 27px;
+        background-color: #fff;
         
-        .top {
-          background-color: #fff;
-        }
-        
-        .middle {
-          background-color: #fff;
-          padding: 20px 30px 23px 20px;
-          border-bottom: 1px solid #e4e7eb;
+        .overlay-close {
           position: relative;
+          width: 230px;
+          -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+          -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+          box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
+          margin-top: 27px;
           
-          .p4, .p3 {
-            @include px-em--font-size--line-height(12,18);
-            margin-bottom: 4px;
-            
-            &.cHBI {
-              margin-bottom: 0;
-            }
-          }
-        }
-        .footer {
-          background-color: #fff;
-          padding: 20px 30px 20px 20px;
-          
-          p.p4, p.p3 {
-            @include px-em--font-size--line-height(12,18);
-            font-style: italic;
-            color: $secondarySlateDark;
-            margin-bottom: 9px;
+          .top {
+            background-color: #fff;
           }
           
-          blockquote.l4, blockquote.l3 {
-            color: $gray40;
+          .middle {
+            background-color: #fff;
+            padding: 20px 30px 23px 20px;
+            border-bottom: 1px solid #e4e7eb;
             position: relative;
-            margin-left: 24px;
-            @include px-em--font-size--line-height(10,16);
             
-            &:before {
-              display: block;
-              content: "\201C";
-              font-size: 40px;
-              font-family: Georgia;
-              position: absolute;
-              left: -24px;
-              top: -13px;
-              color: $secondarySlateDark;
+            .p4, .p3 {
+              @include px-em--font-size--line-height(12,18);
+              margin-bottom: 4px;
+              
+              &.cHBI {
+                margin-bottom: 0;
+              }
             }
           }
-        }
-        .hspot-close {
-          position: absolute;
-          top: 0px;
-          right: 0px;
-          /*
-          width: 27px;
-          height: 27px;
-          */
+          .footer {
+            background-color: #fff;
+            padding: 20px 30px 20px 20px;
+            
+            p.p4, p.p3 {
+              @include px-em--font-size--line-height(12,18);
+              font-style: italic;
+              color: $secondarySlateDark;
+              margin-bottom: 9px;
+            }
+            
+            blockquote.l4, blockquote.l3 {
+              color: $gray40;
+              position: relative;
+              margin-left: 24px;
+              @include px-em--font-size--line-height(10,16);
+              
+              &:before {
+                display: block;
+                content: "\201C";
+                font-size: 40px;
+                font-family: Georgia;
+                position: absolute;
+                left: -24px;
+                top: -13px;
+                color: $secondarySlateDark;
+              }
+            }
+          }
+          .hspot-close {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            /*
+            width: 27px;
+            height: 27px;
+            */
+          }
         }
       }
     }
-  }
+    
+    .variant1 {
+      -o-transition:0s;
+      -ms-transition:0s;
+      -moz-transition:0s;
+      -webkit-transition:0s;
+      transition:0s;
+      &.three-stack-right-top-justified {
+        top: -160px;
+        left: 58px;
+      }
+        
+      &.three-stack-left-top-justified {
+        top: -160px;
+        left: -287px;
+      }
+      
+      &.three-stack-right-bottom-justified {
+        top: -285px;
+        left: 58px;
+      }
+        
+      &.three-stack-left-bottom-justified {
+        top: -284px;
+        left: -288px;
+      }
+      
+      &.two-stack-right-top-justified {
+        top: -15px;
+        left: 58px;
+      }
+        
+      &.two-stack-left-top-justified {
+        top: -15px;
+        left: -288px;
+      }
+      
+      &.two-stack-right-bottom-justified {
+        top: -139px;
+        left: 58px;
+      }
+        
+      &.two-stack-left-bottom-justified {
+        top: -139px;
+        left: -288px;        
+      }
+    }
+        
+    .variant2 {
+      -o-transition:0s;
+      -ms-transition:0s;
+      -moz-transition:0s;
+      -webkit-transition:0s;
+      transition:0s;
+      &.three-stack-right-top-justified {
+        top: -128px;
+        left: 48px;
+      }
+        
+      &.three-stack-left-top-justified {
+        top: -128px;
+        left: -236px;
+      }
+      
+      &.three-stack-right-bottom-justified {
+        top: -242px;
+        left: 48px;
+      }
+        
+      &.three-stack-left-bottom-justified {
+        top: -242px;
+        left: -235px;
+      }
   
-  .variant1 {
-    -o-transition:0s;
-    -ms-transition:0s;
-    -moz-transition:0s;
-    -webkit-transition:0s;
-    transition:0s;
-    &.three-stack-right-top-justified {
-      top: -160px;
-      left: 69px;
-    }
+      &.two-stack-right-top-justified {
+        top: -9px;
+        left: 48px;
+      }
+        
+      &.two-stack-left-top-justified {
+        top: -9px;
+        left: -237px;        
+      }
       
-    &.three-stack-left-top-justified {
-      top: -160px;
-      left: -286px;
-    }
-    
-    &.three-stack-right-bottom-justified {
-      top: -285px;
-      left: 68px;
-    }
-      
-    &.three-stack-left-bottom-justified {
-      top: -285px;
-      left: -286px;
-    }
-    
-    &.two-stack-right-top-justified {
-      top: -11px;
-      left: 69px;
-    }
-      
-    &.two-stack-left-top-justified {
-      top: -11px;
-      left: -287px;
-    }
-    
-    &.two-stack-right-bottom-justified {
-      top: -139px;
-      left: 63px;
-    }
-      
-    &.two-stack-left-bottom-justified {
-      top: -137px;
-      left: -288px;        
+      &.two-stack-right-bottom-justified {
+        top: -124px;
+        left: 48px;        
+      }
+        
+      &.two-stack-left-bottom-justified {
+        top: -124px;
+        left: -237px;        
+      }
     }
   }
-  
-  .hspot-small .variant1 {
-    -o-transition:0s;
-    -ms-transition:0s;
-    -moz-transition:0s;
-    -webkit-transition:0s;
-    transition:0s;
-    &.three-stack-right-top-justified {
-      top: -164px;
-      left: 54px;
-    }
-      
-    &.three-stack-left-top-justified {
-      top: -156px;
-      left: -288px;
-    }
-    
-    &.three-stack-right-bottom-justified {
-      top: -288px;
-      left: 54px;
-    }
-      
-    &.three-stack-left-bottom-justified {
-      left: -288px;
-      top: -289px;
-    }
-    
-    &.two-stack-right-top-justified {
-      top: -22px;
-      left: 54px;
-    }
-      
-    &.two-stack-left-top-justified {
-      top: -22px;
-      left: -287px;
-    }
-    
-    &.two-stack-right-bottom-justified {
-      top: -147px;
-      left: 53px;
-    }
-      
-    &.two-stack-left-bottom-justified {
-      top: -147px;
-      left: -288px;        
-    }
-  }
-  
-  .variant2 {
-    -o-transition:0s;
-    -ms-transition:0s;
-    -moz-transition:0s;
-    -webkit-transition:0s;
-    transition:0s;
-    &.three-stack-right-top-justified {
-      top: -127px;
-      left: 66px;
-    }
-      
-    &.three-stack-left-top-justified {
-      top: -127px;
-      left: -235px;
-    }
-    
-    &.three-stack-right-bottom-justified {
-      top: -242px;
-      left: 66px;
-    }
-      
-    &.three-stack-left-bottom-justified {
-      top: -242px;
-      left: -234px;
-    }
-
-    &.two-stack-right-top-justified {
-      top: -8px;
-      left: 66px;
-    }
-      
-    &.two-stack-left-top-justified {
-      top: -8px;
-      left: -235px;        
-    }
-    
-    &.two-stack-right-bottom-justified {
-      top: -121px;
-      left: 66px;        
-    }
-      
-    &.two-stack-left-bottom-justified {
-      top: -121px;
-      left: -234px;        
-    }
-  }
-
-  .hspot-small .variant2 {
-    -o-transition:0s;
-    -ms-transition:0s;
-    -moz-transition:0s;
-    -webkit-transition:0s;
-    transition:0s;
-    &.three-stack-right-top-justified {
-      top: -135px;
-      left: 51px;
-    }
-      
-    &.three-stack-left-top-justified {
-      top: -135px;
-      left: -235px;
-    }
-    
-    &.three-stack-right-bottom-justified {
-      top: -248px;
-      left: 51px;
-    }
-      
-    &.three-stack-left-bottom-justified {
-      top: -248px;
-      left: -235px;
-    }
-
-    &.two-stack-right-top-justified {
-      top: -15px;
-      left: 51px;
-    }
-      
-    &.two-stack-left-top-justified {
-      top: -15px;
-      left: -235px;        
-    }
-    
-    &.two-stack-right-bottom-justified {
-      top: -129px;
-      left: 51px;        
-    }
-      
-    &.two-stack-left-bottom-justified {
-      top: -129px;
-      left: -235px;        
-    }
-  }
-
 }
 /*CONTAINER DEFINITIONS*/
 
-.ehs {
+.editorial {
   /* FULL-WIDTH-HEADER-LEFT */
   &.full-bleed-header-left{
-    .hotspot-instance {
+    .submodule {
       position: relative;
     }
   }
@@ -512,202 +350,211 @@ $transitionSpeed: 0.5s;
 
 
 /*HOTSPOT DEFINITION*/
-.ehs {
-  /*LARGE HOTSPOTS*/
-  .hspot-outer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin-top:-43px;
-    left: -30px;
-    width: 62px;
-    height: 62px;
-    background:url('../../img/editorial-dual-viewer-e9/gray30.png');
-    cursor:pointer;
-    z-index: 1;
-    color: #fff;
-    @include border-radius(50%);
-    @include transition(.1s);
-    
-    .hspot-core {
-      position:absolute;
-      width:92px;
-      height:92px;
-      @include scale(0.5);
-/*
-      width:46px;
-      height:46px;
-*/
-      background:$buttonOrange;
-      display:block;
-      text-align:center;
-      font-size:2em;
-      top:50%;
-      left:50%;
-/*       margin:-23px 0 0 -23px; */
-      margin:-46px 0 0 -46px;
-      @include border-radius(50%);
-      @include transition(.1s ease-out);
-      
-      .icons {
-        position:absolute;
-        top:50%;
-        left:50%;
-        width:100px;
-        margin:-30px 0 0 -50px;
-        
-        i {
-          display:inline-block;
-          margin:0;
-          -webkit-font-smoothing: antialiased;
-          @include rotate(0deg);
-          @include transition(.1s ease-out);
-        }
-      }
-      &.hspot-hover-on {
-        @include scale(0.55);
-        background:$buttonOrangeHover;
-        i {
-          margin:0 3px;
-        }
-      }
-    }
-    
-    .hspot-core-on {
-      position:absolute;
-      width:92px;
-      height:92px;
-      background:$gray30;
-      display:block;
-      text-align:center;
-      font-size:2em;
-      top:50%;
-      left:50%;
-      margin:-46px 0 0 -46px;
-      @include scale(0.5);
-      @include border-radius(50%);
-      @include transition(.1s ease-out);
-      
-      .icons {
-        position:absolute;
-        top:50%;
-        left:50%;
-        width:100px;
-        margin:-30px 0 0 -50px;
-        
-        i {
-          display:inline-block;
-          margin:0;
-          -webkit-font-smoothing: antialiased;
-          @include rotate(45deg);
-          @include transition(.1s ease-out);
-        }
-      }
-      &.hspot-hover-on {
-        @include scale(0.55);
-        background:$gray40;
-        i {
-          margin:0 3px;
-        }
-      }
-    }
-  }
-  
-  /*SMALL HOTSPOTS*/
-  .hspot-outer.hspot-small {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin-top: -20px;
-    left: -15px;
-    width: 46px;
-    height: 46px;
-    background: url('../../img/editorial-dual-viewer-e9/gray30.png');
-    cursor: pointer;
-    z-index: auto;
-    color: #fff;
-    @include border-radius(50%);
-    @include transition(.1s);
-    
-    .hspot-core {
+.editorial {
+  .submodule, .hotspot-instance {
+    /*LARGE HOTSPOTS*/
+    .hspot-outer {
       position: absolute;
-      width: 64px;
-      height: 64px;
-      @include scale(0.5);
-      background: $buttonOrange;
-      display: block;
-      text-align: center;
-      font-size: 2.0em;
-      top: 50%;
-      left: 50%;
-      margin: -32px 0 0 -32px;
+      top: 0;
+      left: 0;
+      margin-top:-43px;
+      left: -30px;
+      width: 50px;
+      height: 50px;
+      background:url('../../img/editorial-dual-viewer-e9/gray30.png');
+      cursor:pointer;
+      z-index: 1;
+      color: #fff;
       @include border-radius(50%);
-      @include transition(.1s ease-out);
+      @include transition(.1s);
       
-      .icons {
+      .hspot-core {
         position: absolute;
+        width: 80px;
+        height: 80px;
+        @include scale(0.5);
+        background: $buttonOrange;
+        display: block;
+        text-align: center;
+        font-size: 2em;
         top: 50%;
         left: 50%;
-        width: 100px;
-        margin: -30px 0 0 -50px;
+        margin: -40px 0 0 -40px;
+        @include border-radius(50%);
+        @include transition(.1s ease-out);
         
-        i {
-          display: inline-block;
-          margin: 0;
-          -webkit-font-smoothing: antialiased;
-          @include rotate(0deg);
-          @include transition(.1s ease-out);
+        .icons {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100px;
+          margin: -30px 0 0 -50px;
+          
+          i {
+            display:inline-block;
+            margin:0;
+            -webkit-font-smoothing: antialiased;
+            @include rotate(0deg);
+            @include transition(.1s ease-out);
+            &.fonticon-10-plus-skinny {
+              display: inline-block;
+            }
+            &.fonticon-10-sm-bold-plus {
+              display: none;
+            }
+          }
+        }
+        &.hspot-hover-on {
+          @include scale(0.55);
+          background:$buttonOrangeHover;
+          i {
+            margin:0 3px;
+          }
         }
       }
-      &.hspot-hover-on {
-        @include scale(0.55);
-        background: $buttonOrangeHover;
+      
+      .hspot-core-on {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background: $gray30;
+        display: block;
+        text-align: center;
+        font-size: 2em;
+        top: 50%;
+        left: 50%;
+        margin: -40px 0 0 -40px;
+        @include scale(0.5);
+        @include border-radius(50%);
+        @include transition(.1s ease-out);
         
-        i {
-          margin:0 3px;
+        .icons {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100px;
+          margin: -30px 0 0 -50px;
+          
+          i {
+            display:inline-block;
+            margin:0;
+            -webkit-font-smoothing: antialiased;
+            @include rotate(45deg);
+            @include transition(.1s ease-out);
+            &.fonticon-10-plus-skinny {
+              display: inline-block;
+            }
+            &.fonticon-10-sm-bold-plus {
+              display: none;
+            }
+          }
+        }
+        &.hspot-hover-on {
+          @include scale(0.55);
+          background:$gray40;
+          i {
+            margin:0 3px;
+          }
         }
       }
     }
     
-    .hspot-core-on {
+    /*SMALL HOTSPOTS*/
+    .hspot-outer.hspot-small {
       position: absolute;
-      width: 64px;
-      height: 64px;
-      @include scale(0.5);
-      background:$gray30;
-      display:block;
-      text-align:center;
-      font-size:2.0em;
-      top:50%;
-      left:50%;
-      margin: -32px 0 0 -32px;
+      top: 0;
+      left: 0;
+      margin-top: -20px;
+      left: -15px;
+      width: 42px;
+      height: 42px;
+      background: url('../../img/editorial-dual-viewer-e9/gray30.png');
+      cursor: pointer;
+      z-index: auto;
+      color: #fff;
       @include border-radius(50%);
-      @include transition(.1s ease-out);
+      @include transition(.1s);
       
-      .icons {
-        position:absolute;
+      .hspot-core {
+        position: absolute;
+        width: 64px;
+        height: 64px;
+        @include scale(0.5);
+        background: $buttonOrange;
+        display: block;
+        text-align: center;
+        font-size: 2.0em;
+        top: 50%;
+        left: 50%;
+        margin: -32px 0 0 -32px;
+        @include border-radius(50%);
+        @include transition(.1s ease-out);
+        
+        .icons {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100px;
+          margin: -30px 0 0 -50px;
+          
+          i {
+            display: inline-block;
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+            @include rotate(0deg);
+            @include transition(.1s ease-out);
+          }
+        }
+        &.hspot-hover-on {
+          @include scale(0.55);
+          background: $buttonOrangeHover;
+          
+          i {
+            margin:0 3px;
+          }
+        }
+      }
+      
+      .hspot-core-on {
+        position: absolute;
+        width: 64px;
+        height: 64px;
+        @include scale(0.5);
+        background:$gray30;
+        display:block;
+        text-align:center;
+        font-size:2.0em;
         top:50%;
         left:50%;
-        width:100px;
-        margin: -30px 0 0 -50px;
+        margin: -32px 0 0 -32px;
+        @include border-radius(50%);
+        @include transition(.1s ease-out);
         
-        i {
-          display:inline-block;
-          margin:0;
-          -webkit-font-smoothing: antialiased;
-          @include rotate(45deg);
-          @include transition(.1s ease-out);
+        .icons {
+          position:absolute;
+          top:50%;
+          left:50%;
+          width:100px;
+          margin: -30px 0 0 -50px;
+          
+          i {
+            display:inline-block;
+            margin:0;
+            -webkit-font-smoothing: antialiased;
+            @include rotate(45deg);
+            @include transition(.1s ease-out);
+          }
+        }
+        &.hspot-hover-on {
+          @include scale(0.55);
+          background:$gray40;
+          
+          i {
+            margin:0 3px;
+          }
         }
       }
-      &.hspot-hover-on {
-        @include scale(0.55);
-        background:$gray40;
-        
-        i {
-          margin:0 3px;
-        }
-      }
-    }
+    } 
   }
 }
 
@@ -717,6 +564,7 @@ $transitionSpeed: 0.5s;
   z-index: 2;
   position: absolute;
   cursor: default;
+  text-align: left;
   
   .overlay-inner {
     height: 100%;
@@ -795,7 +643,6 @@ $transitionSpeed: 0.5s;
   }
   &.variant2 { 
     width: 230px;
-    /* max-height: 398px; */
     /* default right-top justified */
     top: -124px;
     left: 60px;
@@ -817,39 +664,23 @@ $transitionSpeed: 0.5s;
         position: absolute;
         top: 24px;
         left: -7px;
-/*
-        width: 8px;
-        height: 18px;
-*/
       }
       .arrow-right-top {
         position: absolute;
         top: 24px;
         right: -8px;
-/*
-        width: 8px;
-        height: 18px; 
-*/
       }
       .arrow-left-bottom {
         position: absolute;
         /* bottom: 36px; */
         top: 138px;
         left: -7px;
-/*
-        width: 8px;
-        height: 18px;
-*/
       }
       .arrow-right-bottom {
         position: absolute;
         /* bottom: 36px; */
         top: 138px;
         right: -7px;
-/*
-        width: 8px;
-        height: 18px;
-*/
       }
     }
     .footer {
@@ -883,8 +714,8 @@ $transitionSpeed: 0.5s;
 /** IE **/
 
 .no-borderradius {
-  .ehs {
-    .hspot-instance .hspot-outer {
+  .editorial {
+    .submodule .hspot-outer {
       background:url('../../img/editorial-hotspots-e6/hotspot-indicator.png');
 
       .hspot-core {visibility:hidden;}
@@ -897,49 +728,9 @@ $transitionSpeed: 0.5s;
 
 // IE7
 .lt-ie8 {
-  .ehs {
-    .hspot-instance .hspot-outer {padding:0;}
+  .editorial {
+    .submodule .hspot-outer {
+      padding:0;
+    }
   }
 }
-
-
-
-
-/********* DEMO STUFFS **************/
-
-/*DETAILS WINDOW EXAMPLE CONTAINER*/
-.overlay-container-example {
-  width: 1112px;  
-  height: 560px;
-  background-image: url('../../img/editorial-hotspots-e6/editorial-hotspots-bg-fpo.jpg');
-  padding-top: 65px;
-  .overlay-base {
-    margin: 0px auto;
-  }
-}
-
-/*EXAMPLE CONTAINER*/
-
-.hotspot-container-example {
-  width: 600px;
-  height: 400px;
-  border: 1px solid #888;
-  position: relative;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
