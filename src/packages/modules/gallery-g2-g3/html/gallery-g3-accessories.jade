@@ -5,4 +5,7 @@ include ../../../common/html/jade-helpers.jade
 include gallery-helpers.jade
 
 .gallery-content(data-module-name=data.config.module_name, data-module-id=data.config.module_id)
+  if data.heythere.accessoryFinder
+    //- the true parameter specifys that the modal trigger button will be in the +detailedGallery mixin (with the filters)
+    +accessoryFinder( data.submodules, data.heythere.accessoryFinder, 'accessory', true )
   +detailedGallery( data.submodules, data.heythere, 'accessory' )
