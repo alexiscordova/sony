@@ -18,10 +18,21 @@ $transitionSpeed: 0.5s;
   transition:$transitionSpeed;	
 }
 
+@mixin ehsTransition-ltie8() {
+  -ms-transition: 0s;
+  transition: 0s;	
+}
+
+
 /*PATCH TO FIX ZINDEX ISSUE ON FULL-WIDTH-INNER*/
 .editorial.full-inner .inner { 
   z-index: 0;
 }
+/*
+.editorial .container.submodule { 
+  z-index: 0;
+}
+*/
 
 .editorial {
   .submodule, .image-module {
@@ -80,7 +91,6 @@ $transitionSpeed: 0.5s;
 /*GLOBAL OVERLAY*/
 .hspot-global-details-main {
   .overlay-inner {
-  
     margin: 0px auto; 
     width: 280px;
     background-color: #fff;
@@ -91,7 +101,6 @@ $transitionSpeed: 0.5s;
       -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
       box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
       margin-top: 1em;
-      
       .top {
         background-color: #fff;
       }
@@ -232,10 +241,6 @@ $transitionSpeed: 0.5s;
             position: absolute;
             top: 0px;
             right: 0px;
-            /*
-            width: 27px;
-            height: 27px;
-            */
           }
         }
       }
@@ -715,12 +720,36 @@ $transitionSpeed: 0.5s;
 
 .no-borderradius {
   .editorial {
-    .submodule .hspot-outer {
-      background:url('../../img/editorial-hotspots-e6/hotspot-indicator.png');
-
-      .hspot-core {visibility:hidden;}
-      .hspot-hover-on {
-        background-position:-62px 0;
+    .table-center-wrap .table-center, .submodule {
+      .image-module {
+        .eh-transparent {
+          @include ehsTransition-ltie8();
+          opacity: 0;
+        }
+        .eh-visible {
+          @include ehsTransition-ltie8();
+          opacity: 1;
+        } 
+      } 
+    }
+    .submodule .hspot-outer, .image-module .hspot-outer {
+      background: url('../../img/editorial-hotspots-e6/hotspot-fallback.png');
+    }
+    .image-module .hspot-outer.hspot-small {
+      background: url('../../img/editorial-hotspots-e6/hotspot-fallback-small.png');
+    }
+    .submodule .hspot-outer.ie-on, .image-module .hspot-outer.ie-on {
+      background-position: -50px 0;
+    }
+    .image-module .hspot-outer.hspot-small.ie-on {
+      background-position: -42px 0;
+    }
+    .submodule .hspot-outer, .image-module .hspot-outer, .image-module .hspot-outer.hspot-small {
+      .hspot-core, .hspot-core-on {
+        background: transparent;
+        .icons {
+          visibility: hidden;  
+        }
       }
     }
   }
