@@ -37,8 +37,8 @@ define(function(require){
 
     // CACHE
     self.$el = $(element);
-    self.$imageWrappers = self.$el.find(".measurement .img-wrapper"); 
-    self.$measurementImages = self.$imageWrappers.find(".pd-image"); 
+    self.$imageWrappers = self.$el.find(".measurement .img-wrapper");
+    self.$measurementImages = self.$imageWrappers.find(".pd-image");
     self.$horzMeasurements = self.$el.find(".horizontal-measurement");
     self.$vertMeasurements = self.$el.find(".vertical-measurement");
     self.$measurements = self.$horzMeasurements.add(self.$vertMeasurements);
@@ -82,7 +82,6 @@ define(function(require){
 
     resizeFunc : function(){
       var self = this;
-      console.log( 'resizeFunc »');
       self.buildMeasurements();
     },
 
@@ -111,18 +110,18 @@ define(function(require){
     showMeasurements : function(){
       var self = this,
           $measurements = self.$measurements;
-      
+
       $measurements.each(function() {
         $(this).addClass('on');
-      });  
+      });
     },
 
     getMImageDimensions : function(){
       var self = this,
           $images = self.$measurementImages;
-      
+
       // get the w/h of each image
-      $images.each(function(index, value) { 
+      $images.each(function(index, value) {
         self.mImageWidths[index] = $(this).outerWidth();
         self.mImageHeights[index] = $(this).outerHeight();
       });
@@ -131,8 +130,8 @@ define(function(require){
     setMeasurementDimensions : function(){
       var self = this,
           $measurements = self.$vertMeasurements.add(self.$horzMeasurements);
-      
-        $measurements.each(function(index) { 
+
+        $measurements.each(function(index) {
           var dir = $(this).hasClass("vertical-measurement") ? "v" : "h",
               imgIndex = self.$imageWrappers.index($(this).parent().find(".img-wrapper")),
               $mContainer = $(this).find(".measurements-container"),
@@ -150,9 +149,9 @@ define(function(require){
               }else{
                 theMarginTop = -($mContainer.innerHeight() / 2);
               }
-              
+
               theMarginLeft = 0;
-              
+
              } else if (dir === "h"){
                 theMarginTop = 0;
                 top = 0;

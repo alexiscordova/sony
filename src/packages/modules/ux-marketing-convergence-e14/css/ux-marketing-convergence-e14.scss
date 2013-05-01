@@ -1,3 +1,4 @@
+
 //
 // UX Marketing Convergence (UXMC)
 // --------------------------------------------------
@@ -27,6 +28,11 @@
  .uxmc {
    margin-bottom: 2em;
 
+   &.no-header{
+      margin-bottom: px-em(40px); 
+      margin-top: px-em(40px);
+   }
+
    h2 {
      font-size: px-em(22px);
      font-weight: bold;
@@ -37,7 +43,7 @@
  .uxmc-container {
    position: relative;
    height:$slideHeightDesktop;
-   background-color: #ccc;
+   background-color: $gray;
    overflow: hidden;
 
    .uxmc-overlay {
@@ -65,11 +71,15 @@
        font-size: 0.8em;
      }
 
+     [class*="fonticon-"]{
+      line-height: 1em;
+     }
+
      a,
      p {
        display: block;
        width: 357px;
-       color: #fff;
+       color: $white;
        font-size: 1em;
      }
    }
@@ -164,9 +174,15 @@
      z-index: 3;
      margin: px-em(-64px/2) 0 0 px-em(-64px/2);
      padding: 10px px-em(7px) 2px; 
-     background-color: #fff;
+     background-color: $white;
      overflow: hidden;
      text-align: center;
+     opacity:0;
+
+     &.on{
+        opacity:1;
+        @include transition(opacity .25s $easeNormal);
+     }
 
      .lt-ie9 & {
        display:none;
@@ -186,7 +202,7 @@
      padding:0;
      width: 1em;
      height: 1em;
-     background-color: #fff;
+     background-color: $white;
      color: #ccc;
      @include transition(color .25s $easeNormal);
 
@@ -222,7 +238,7 @@
          line-height: $dialSize;
          vertical-align: middle;
          z-index: 4;
-         color: #fff;
+         color: $white;
          cursor: pointer;
          font-size: 0.75em;
          text-align: center;
@@ -271,8 +287,8 @@
 
        .uxmc-dial-label {
          &.active {
-           background: #fff;
-           color: #000;
+           background: $white;
+           color: $black;
          }
        }
      }

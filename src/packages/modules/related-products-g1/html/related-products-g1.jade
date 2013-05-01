@@ -16,6 +16,7 @@ if data.config.tabbedLayout
         .rp-tabs
           for tab in data.config.tabbedLayout
             a.rp-tab(class='lt4 no-hover-transition' , data-rp-panel-id=tab.panelId , href='#')
+              i.fonticon-10-globe
               strong= tab.title
 
   .container(class='full-bleed-no-max rp-container-tabbed')
@@ -100,28 +101,8 @@ else if data.config.standalone == true
             !{locals.partial(module.type , e )}
 
   else if data.config.mode == 'strip'
-    - clss = data.config.mode + ' ' + 'span12'
-    .container
-      .grid
-        h2(class='l1')= data.config.headerTitle
-    .container
-      .grid
-        section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation )
-          .rp-overflow
-            .rp-container
-              i = 0
-              for module in data.submodules
-                d = locals.data(module.data)
-                if d.featured
-                  - d.layout = this[data.config.layout][i++]
-                  - d.view = 'basic'
-                  e = { 'locals' : locals , 'data' : d }
-                  !{locals.partial(module.type , e )}
-
-
-
-
-
+    e = { 'locals' : locals , 'data' : data }
+    !{locals.partial( 'packages/modules/recently-viewed/html/recently-viewed.jade', e) }
 
 
 

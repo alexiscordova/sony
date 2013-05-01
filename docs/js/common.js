@@ -29,7 +29,8 @@ requirejs.config({
     }
   },
 
-  waitSeconds: 30
+  // IE8 and 7 sometimes time out when set to 30sec
+  waitSeconds: 45
 
 });
 

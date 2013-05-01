@@ -1,6 +1,7 @@
 mixin demos()
   lastPageTitle = null;
   demos = locals.demos()
+  - demos.splice( demos.indexOf("demo-x99-demo.html"), 1 )
   - demos.sort( function(a, b) { if (a.toLowerCase() < b.toLowerCase()) return -1; if (a.toLowerCase() > b.toLowerCase()) return 1; return 0; })
   for name in demos
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ demo/, '')
@@ -28,6 +29,7 @@ mixin demosGenerated()
 mixin layouts()
   lastPageTitle = null;
   layouts = locals.layouts()
+  - layouts.splice( layouts.indexOf("demo-x99-layouts.html"), 1 )
   for name in layouts
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ layouts/, '')
     firstSpace = title.indexOf(' ')
