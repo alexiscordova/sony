@@ -37,6 +37,16 @@ define(function(require){
 
     PrimaryTout.prototype = {
       constructor: PrimaryTout,
+      
+      fixTitleHeight: function(){
+         var self = this, minh,
+         hero = self.$el.find('.hero-image .image-module');
+         hero.css('height', '');
+         
+         minh = Math.max(hero.innerHeight(), self.$el.find('.inner .box').innerHeight());
+         
+         self.$el.find('.hero-image .image-module').css('height', minh);
+      },
 
       resize: function(){
 
@@ -65,7 +75,12 @@ define(function(require){
           self.resize();
           Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         }
-
+        
+        if (self.$el.hasClass('title-plate')) {
+          self.fixTitleHeight();
+          Environment.on('global:resizeDebounced', $.proxy(self.fixTitleHeight, self));
+        }
+        
         var btn = self.$el.find(".inner .box a, .mobile-buttons a");
 
         if(btn.length > 0){
