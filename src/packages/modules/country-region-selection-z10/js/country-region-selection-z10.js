@@ -156,6 +156,7 @@ define(function(require){
       this.$fixedHeader.hide();
 
       if (this.scroll) {
+        this.scroll.scrollTo();
         this.scroll.destroy();
       }
 
