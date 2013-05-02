@@ -5,7 +5,7 @@
 // * **Version:** 1.0
 // * **Modified:** 05/01/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.7+, SONY (Environment|Settings), bootstrap tooltip
+// * **Dependencies:** jQuery 1.7+, SONY Settings, bootstrap tooltip
 //
 // *Notes:*
 //
@@ -20,7 +20,6 @@ define(function(require) {
 
   var $ = require('jquery'),
       bootstrap = require('bootstrap'),
-      Environment = require('require/sony-global-environment'),
       Settings = require('require/sony-global-settings');
 
   var Favorites = function( $parent, options ) {
@@ -75,7 +74,7 @@ define(function(require) {
       var self = this,
           $jsFavorite = $(e.delegateTarget),
           isAdding = !$jsFavorite.hasClass('active'),
-          content = self.hasTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding );
+          content = self.hasTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding, true );
 
       $jsFavorite.toggleClass('active');
 
@@ -94,10 +93,17 @@ define(function(require) {
       self.handleFavorite( $jsFavorite.closest( self.itemSelector ), isAdding );
     },
 
-    getFavoriteContent : function( $jsFavorite, isActive ) {
-      return isActive ?
-            $jsFavorite.data('activeTitle') :
-            $jsFavorite.data('defaultTitle');
+    getFavoriteContent : function( $jsFavorite, isActive, isClicked ) {
+      var titles = $jsFavorite.data(),
+          title;
+
+      if ( isActive ) {
+        title = isClicked ? titles.defaultClickedTitle : titles.favoritedTitle;
+      } else {
+        title = isClicked ? titles.favoritedClickedTitle : titles.defaultTitle;
+      }
+
+      return title;
     },
 
     // possibly https://github.com/ScottHamper/Cookies ?
@@ -155,6 +161,7 @@ define(function(require) {
           // Remove the id from the cookie
         }
 
+        // Fire event saying this has been removed
         self.$parent.trigger( 'favoriteremoved', [ $item, self ] );
 
       }
