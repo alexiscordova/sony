@@ -5,7 +5,7 @@
 // * **Version:** 1.0
 // * **Modified:** 05/01/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.7+, SONY (Environment|Settings), bootstrap tooltip
+// * **Dependencies:** jQuery 1.7+, SONY Settings, bootstrap tooltip
 //
 // *Notes:*
 //
@@ -20,7 +20,6 @@ define(function(require) {
 
   var $ = require('jquery'),
       bootstrap = require('bootstrap'),
-      Environment = require('require/sony-global-environment'),
       Settings = require('require/sony-global-settings');
 
   var Favorites = function( $parent, options ) {
@@ -155,6 +154,7 @@ define(function(require) {
           // Remove the id from the cookie
         }
 
+        // Fire event saying this has been removed
         self.$parent.trigger( 'favoriteremoved', [ $item, self ] );
 
       }

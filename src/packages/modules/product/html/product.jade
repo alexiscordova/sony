@@ -717,10 +717,10 @@ else if data.view == 'summary'
         if hasAttributeList || hasSwatches
           .inline-details.clearfix
             if hasAttributeList
-              p.p5.product-sizes
+              p.p5.product-attributes
                 attributeListLength = attributeList.length
                 each attr, i in attributeList
-                  span.product-size= attr
+                  span.product-attribute= attr
                   if i == attributeListLength - 1
                     if hasSwatches
                       span.spacer |
