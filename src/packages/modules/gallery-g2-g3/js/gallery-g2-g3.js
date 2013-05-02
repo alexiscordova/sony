@@ -1,5 +1,3 @@
-/*global log*/
-
 // ------------ Sony Gallery ------------
 // Module: Gallery
 // Version: 1.0
@@ -92,11 +90,6 @@ define(function(require){
     self.$window.on('orientationchange', debouncedResize );
     self.$window.on('resize.gallery', debouncedResize );
 
-    // Infinite scroll?
-    if ( self.hasInfiniteScroll ) {
-      self.initInfscr();
-    }
-
     // Initialize filter dictionaries to keep track of everything
     if ( self.hasFilters ) {
       self.initFilters();
@@ -111,6 +104,11 @@ define(function(require){
     setTimeout(function() {
       self.initSwatches();
       self.initFavorites();
+
+      // Infinite scroll has to come after initFavorites
+      if ( self.hasInfiniteScroll ) {
+        self.initInfscr();
+      }
     }, 200);
 
     self.onResize( true );
@@ -818,10 +816,16 @@ define(function(require){
     onRemoveFilter : function( evt ) {
       var self = this,
           data = $(evt.target).data(),
-          filterType = self.filterTypes[ data.filterName ];
+          filterType = self.filterTypes[ data.filterName ],
+          realType = self.filterData[ data.filterName ].realType;
 
       // Remove from internal data and UI
       self.deleteFilter( data.filter, data.filterName, filterType );
+
+      if ( realType === 'color' ) {
+        self.currentFilterColor = null;
+        self.hideFilteredSwatchImages();
+      }
 
       // Remove this label
       $(evt.target).remove();
@@ -3276,7 +3280,6 @@ define(function(require){
       // False for event objects
       isInit = isInit === true;
 
-      // console.log('resize');
       if ( !isInit && self.isModalOpen ) {
 
         setTimeout(function() {
@@ -3291,6 +3294,7 @@ define(function(require){
 
           if ( self.hasTouch ) {
             screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+            // Stop the page from scrolling behind the modal
             $('#main').css({
               height: screenHeight,
               maxHeight: screenHeight,
@@ -3298,9 +3302,13 @@ define(function(require){
             });
           }
 
-          // Set it
-          self.$modalBody.css( 'maxHeight', maxBodyHeight );
+          // Set a maximum height on the modal body so that it will scroll
+          // Sony tablet s is completely busted in the modal....
+          if ( !Settings.isSonyTabletS ) {
+            self.$modalBody.css( 'maxHeight', maxBodyHeight );
+          }
 
+          // Set an explicit height on the modal body
           if ( !isMobileSize ) {
             self.$modal.css( 'height', modalMaxes.maxModalHeight );
           } else {

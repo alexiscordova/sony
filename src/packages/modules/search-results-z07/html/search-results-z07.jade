@@ -15,7 +15,7 @@ include search-results-z07-helpers.jade
               label.search-label= data.searchForm.label
               input.search.t2(value= data.searchForm.searchedText)
             .search-right
-              a.clear-search(href"#")
+              a.clear-search(href="#")
                 i.fonticon-10-x-skinny
         .span2.hidden-phone
           button.btn.btn-large.hidden-phone= data.searchForm.buttonText
@@ -27,7 +27,7 @@ include search-results-z07-helpers.jade
         ul.h-list.h-list-lg
           each correction in data.corrections
             li.lt3
-              a(href="#{correction.url}")= correction.text
+              a(href=correction.url)= correction.text
 
     .slimgrid.m-grid-at-767
       .span8.m-span6
@@ -39,7 +39,7 @@ include search-results-z07-helpers.jade
           else
             include search-results-z07-product.jade
 
-          button.btn.btn-alt-special.btn-alt-plus.search-more 
+          button.btn.btn-alt-special.btn-alt-plus.search-more
             span Load More
               i.fonticon-10-sm-bold-plus
 
