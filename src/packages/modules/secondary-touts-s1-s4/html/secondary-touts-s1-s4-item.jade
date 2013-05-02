@@ -2,17 +2,15 @@
 - item.hTa = item.headline ? item.headline.linkText.split(item.hTb).shift() : ''
 
 if item.headline
-  - item.contentType = 'headline-only'
+  - item.contentType = 'has-headline'
   if item.counter
-    - item.contentType = 'headline-counter'
+    - item.contentType += ' has-counter'
   if item.eyebrow
-    - item.contentType = 'headline-eyebrow'
+    - item.contentType += ' has-eyebrow'
   if item.bodycopy
-    - item.contentType = 'headline-copy'
-  if item.eyebrow && item.bodycopy
-    - item.contentType = 'headline-eyebrow-copy'
-  if item.bodycopy && item.counter
-    - item.contentType = 'headline-copy-counter'
+    - item.contentType += ' has-copy'
+  if item.miniPromo
+    - item.contentType += ' has-mini-promo'
 
 if item.isWhatsNewCarousel
   - item.contentType = 'headline-eyebrow'
@@ -31,11 +29,6 @@ else if item.objectSize == 'span12'
   - item.c = 'span12'
   - item.s = 'content-12'
 
-if item.miniPromo
-  - item.mpc = 'has-mini-promo'
-else
-  - item.mpc = ''
-
 if item.typeAlignment == 'align-left-center' || item.typeAlignment == 'align-center-center' || item.typeAlignment == 'align-right-center'
   - item.gcwc = 'table-center-wrap'
   - item.gcc = 'table-center'
@@ -52,7 +45,7 @@ else
 
 article
   .st-image(class=item.c, data-src-desktop=item.backgroundImgSrcDesktop, data-src-tablet=item.backgroundImgSrcTablet, data-src-phone=item.backgroundImgSrcPhone, data-src-desktop-highres=item.backgroundImgSrcDesktopHighRes, data-src-tablet-highres=item.backgroundImgSrcTabletHighRes, data-src-phone-highres=item.backgroundImgSrcPhoneHighRes)
-  .st-item-content(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class=item.mpc)(class=item.gcwc)
+  .st-item-content(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class=item.gcwc)
     div(class=item.gcc)
 
       if item.eyebrow
@@ -94,7 +87,7 @@ article
         span.l3 people like this
 
   if item.counter
-    .counter(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class=item.mpc)
+    .counter(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)
       - counterText = item.counter.total + ' ' + item.counter.text
       h3.l2= counterText
 
