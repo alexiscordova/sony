@@ -39,6 +39,16 @@ mixin iQImage( img, extraClasses, itemprop )
     noscript
       img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
 
+//- stuff - an object with some video stuff
+mixin sonyVideo ( videoData )
+  if !videoData
+    p.l3(style='color:red;') Missing Video data!
+  else
+    div(class='player')
+     video(preload='none')
+      source(type='video/webm', src='http://mydomain.org/intro.webm')
+      source(type='video/mp4', src='http://mydomain.org/intro.mp4')
+      source(type='video/ogg', src='http://mydomain.org/intro.ogv')
 
 //-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps
 //- +1 to dump it - gc
