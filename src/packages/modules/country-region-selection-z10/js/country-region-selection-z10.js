@@ -116,8 +116,6 @@ define(function(require){
       this.currentHeader = undefined;
       this.headerIsVisible = false;
 
-      this.$fixedHeader.css('left', $(this.$headers[0]).offset().left + 'px');
-
       return this._getHeaderOffsets();
     },
 
@@ -144,9 +142,6 @@ define(function(require){
         onScrollMove: handler,
         onScrollEnd: handler
       });
-
-      // Align fixed header with other headers
-      this.$fixedHeader.css('left', $(this.$headers[0]).offset().left + 'px');
 
       return this;
     },
