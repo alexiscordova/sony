@@ -980,6 +980,12 @@ $stickyHeaderHeight: px-em(82);
     height: 100%;
   }
 
+  .modal-inner {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+
   .modal-header {
     padding: px-em(36) 0 px-em(30);
 
@@ -1000,6 +1006,12 @@ $stickyHeaderHeight: px-em(82);
     padding: px-em(15) 0;
     background: $gray80;
     @include transition( box-shadow $transitionNormal $easeNormal );
+
+    .sonytablets & {
+      // position: static;
+      // min-height: px-em(80);
+      // @include transition( none );
+    }
 
     &.body-scrolled {
       @include box-shadow( 0 6px 10px -4px $stickyShadowColor );
@@ -1054,12 +1066,17 @@ $stickyHeaderHeight: px-em(82);
     }
 
     #accessory-finder-input {
+      // Dont give me those rounded edges, jerk
+      -webkit-appearance: none;
+      border-radius: 0;
+
       width: 100%;
       height: px-em(50, 15);
       border: 0;
       margin: 0;
       padding: 0 px-em(10, 15) 0 px-em(45, 15);
       @include borderBox();
+
 
       .lt-ie9 & {
         padding-top: 10px;

@@ -3280,7 +3280,6 @@ define(function(require){
       // False for event objects
       isInit = isInit === true;
 
-      // console.log('resize');
       if ( !isInit && self.isModalOpen ) {
 
         setTimeout(function() {
@@ -3295,6 +3294,7 @@ define(function(require){
 
           if ( self.hasTouch ) {
             screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+            // Stop the page from scrolling behind the modal
             $('#main').css({
               height: screenHeight,
               maxHeight: screenHeight,
@@ -3302,9 +3302,13 @@ define(function(require){
             });
           }
 
-          // Set it
-          self.$modalBody.css( 'maxHeight', maxBodyHeight );
+          // Set a maximum height on the modal body so that it will scroll
+          // Sony tablet s is completely busted in the modal....
+          if ( !Settings.isSonyTabletS ) {
+            self.$modalBody.css( 'maxHeight', maxBodyHeight );
+          }
 
+          // Set an explicit height on the modal body
           if ( !isMobileSize ) {
             self.$modal.css( 'height', modalMaxes.maxModalHeight );
           } else {
