@@ -34,12 +34,19 @@ define(function(require){
         iQ.update();
       };
       
+      // IE 10 detection
+      if ( window.atob || Settings.isLTIE10 ) {
+        $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
+      }
+      
       // bind IQ to update at every breakpoint
-      for( var i=0; i < breakpoints.length; i++ ) {
-        if( 0 === i ) {
-          enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-        } else {
-          enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+      if( enquire ) {
+        for( var i=0; i < breakpoints.length; i++ ) {
+          if( 0 === i ) {
+            enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+          } else {
+            enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+          }
         }
       }
       
@@ -52,9 +59,9 @@ define(function(require){
   };
 
   var Editorial360Viewer = function( element, options ) {
-    
+
     var self = this;
-    
+
     // defaults
     self.$container     = $( element );
     self.$sequence      = ( self.$container.find( '.outer div' ).length ) > 0 ? self.$container.find( '.outer div' ) : self.$container.find( '.outer img' );
