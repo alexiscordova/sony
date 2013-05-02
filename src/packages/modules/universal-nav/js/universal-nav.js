@@ -18,12 +18,14 @@ var UNAV = ( function( window, document, $, undefined ){
     $uNavPrimary,
     $firstChild,
     $closeBtn,
-    firstLoad,
+    imagesInited,
+    imagesLoaded,
     xUp,
     uNavColWidth,
     uNavRowHeight,
     uNavOuterHeight,
-    _cssTransitions,
+    isHighRes,
+    hasCssTransitions,
 
   _init = function($_triggerLink, $_pageWrapInner, $_pageWrapOuter){
 
@@ -34,9 +36,12 @@ var UNAV = ( function( window, document, $, undefined ){
     $uNavPrimary = $uNav.find('.u-nav-primary');
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $('#u-nav-close-btn');
-    firstLoad = true;
+    isHighRes = false;
+    imagesInited = false;
+    imagesLoaded = false;
     xUp = $uNavPrimary.children().length;
-    _cssTransitions = _browserCssTransitionDetect();
+    isHighRes = _isRetina();
+    hasCssTransitions = _browserCssTransitionDetect();
 
 
     // -----------------------------
@@ -111,35 +116,34 @@ var UNAV = ( function( window, document, $, undefined ){
   _setUpPrimaryLinks = function(isFirstTime){
     console.log("$firstChild.find('.u-nav-primary-img').height(): " + $firstChild.find('.u-nav-primary-img').height());
 
-    if ($firstChild.find('.u-nav-primary-img').height() > 0){
-      console.log("has height");
+    if (imagesLoaded){
+      console.log("images ARE loaded");
+      uNavRowHeight = $uNavPrimary.outerHeight();
       // if the image has a height, use it.
 
     } else {
-      console.log("no height");
-      // if the image doesn't have a height, do the math.
-      var twoHighRatio = 0.8915,
-          twoWideRatio = 0.4202,
-          halfHighRatio = 0.344;
+      console.log("images are NOT loaded");
+
+      // So we don't have to download the images before we can figure out how high the module will be,
+      // we need to figure out the height the image should be at this width, which is based on current browser width.
+      // So based on the image aspect ratio, what height should the images, & the whole uPrimaryNav be at this width?
+      var x5upRatio = 0.8915,
+          x3upRatio = 0.4205,
+          x6upRatio = 0.3455;
 
       uNavColWidth = $firstChild.outerWidth();
 
       if (xUp === 3){
-        uNavRowHeight = (uNavColWidth * twoWideRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
+        uNavRowHeight = (uNavColWidth * x3upRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
+        
       } else if (xUp === 6){
-        uNavRowHeight = (((uNavColWidth * halfHighRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true)) * 2) + 36;
+        uNavRowHeight = (((uNavColWidth * x6upRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true)) * 2) + 36;
       } else {
-        uNavRowHeight = (uNavColWidth * twoHighRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
+        uNavRowHeight = (uNavColWidth * x5upRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
       }
     }
     console.log("uNavRowHeight: " + uNavRowHeight);
-
-    // So we don't have to download the images before we can figure out how high the module will be,
-    // we need to figure out the height the image should be at this width, based on current browser width.
-    // So based on the image aspect ratio, what height should the image be at this width?
     
-    // uNavRowHeight = uNav2highImgHeight + $firstChild.find('.u-nav-primary-caption').last().outerHeight(true); // use last in case it's a 6up & there are 2. We just want the bottom one.
-
     $uNavPrimary.height(uNavRowHeight + "px");
     // now that we set the height of the images container, we can grab the height of the entire u-nav for our js.
 
@@ -147,7 +151,9 @@ var UNAV = ( function( window, document, $, undefined ){
       uNavOuterHeight = $uNav.outerHeight();
       // once we have the outerheight, clear the custom height from the $uNavPrimary so it's back to the natural flow.
       // delays just to make sure the new heights are set before the next step.
-      $uNavPrimary.css('height','');
+      if ($firstChild.find('.u-nav-primary-img').height() > 0){
+        $uNavPrimary.css('height','');
+      }
       // set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the 
       $uNav.css('top','-' + uNavOuterHeight + 'px');
       if ($pageWrapOuter.hasClass('unav-open')){
@@ -156,16 +162,41 @@ var UNAV = ( function( window, document, $, undefined ){
     },1);
   },
 
+  _initialLoadImages = function(){
+    imagesInited = true;
+
+    setTimeout(function(){
+      var $uNavPrimaryImages = $uNavPrimary.find('img[data-src]'),
+        imagesLoadedCount = 0;
+
+      $uNavPrimaryImages.each(function(){
+        var $thImg = $(this),
+          srcStr = $thImg.attr('data-src');
+        if (isHighRes){
+          srcStr = srcStr.replace(".","@2x.");
+        }
+        // $thImg.attr('src', srcStr);
+        $thImg.bind('load', function() {
+          imagesLoadedCount++;
+          if (imagesLoadedCount === $uNavPrimaryImages.length){
+            imagesLoaded = true;
+            console.log("imagesLoaded: " + imagesLoaded);
+          }
+        });
+      });
+    },1000); // leave at 0 unless testing.
+  },
 
 
   _openUNav = function(){
     // console.log("_openUNav");
 
+    !imagesInited && _initialLoadImages();
     _setUpPrimaryLinks($uNavPrimary.children().length);
 
     setTimeout(function() {
       $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
-      if (_cssTransitions){
+      if (hasCssTransitions){
         $pageWrapInner.css('margin-top', uNavOuterHeight + 'px');
       } else {
         $pageWrapInner.animate({ 'marginTop': uNavOuterHeight + 'px'}, 400);
@@ -179,7 +210,7 @@ var UNAV = ( function( window, document, $, undefined ){
     // console.log("_closeUNav");
 
     $pageWrapOuter.removeClass('unav-open');
-    if (_cssTransitions){
+    if (hasCssTransitions){
 
       $pageWrapInner.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function() {
         // console.log("$pageWrapInner transitionend");
@@ -201,6 +232,53 @@ var UNAV = ( function( window, document, $, undefined ){
   _browserCssTransitionDetect = function(){
     var s = document.createElement('p').style;
     return 'transition' in s || 'WebkitTransition' in s || 'MozTransition' in s || 'msTransition' in s || 'OTransition' in s;
+  },
+
+  // in case Modernizr isn't available, figure out if this is a high-rez display
+  // https://github.com/imulus/retinajs/blob/master/src/retina.js
+  _isRetina = function(){ 
+    var mediaQuery = "(-webkit-min-device-pixel-ratio: 1.5),(min--moz-device-pixel-ratio: 1.5),(-o-min-device-pixel-ratio: 3/2),(min-resolution: 1.5dppx)";
+    var root = (typeof exports == 'undefined' ? window : exports);
+    if (root.devicePixelRatio > 1){
+      return true;
+    }
+
+    if (_matchMedia(mediaQuery).matches){
+      return true;
+    }
+
+    return false;
+  },
+  // needed for _isRetina to work
+  // https://github.com/paulirish/matchMedia.js
+  _matchMedia = function(){ 
+    var bool,
+      doc = document,
+      docElem = doc.documentElement,
+      refNode = docElem.firstElementChild || docElem.firstChild,
+      // fakeBody required for <FF4 when executed in <head>
+      fakeBody = doc.createElement( "body" ),
+      div = doc.createElement( "div" );
+
+    div.id = "mq-test-1";
+    div.style.cssText = "position:absolute;top:-100em";
+    fakeBody.style.background = "none";
+    fakeBody.appendChild(div);
+
+    return function(q){
+
+      div.innerHTML = "&shy;<style media=\"" + q + "\"> #mq-test-1 { width: 42px; }</style>";
+
+      docElem.insertBefore( fakeBody, refNode );
+      bool = div.offsetWidth === 42;
+      docElem.removeChild( fakeBody );
+
+      return {
+        matches: bool,
+        media: q
+      };
+
+    };
   },
 
   _resizeEvent = function(){
