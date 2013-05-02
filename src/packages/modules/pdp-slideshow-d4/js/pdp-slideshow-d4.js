@@ -22,7 +22,8 @@ define(function(require){
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         enquire = require('enquire'),
-        sonyCarousel = require('secondary/index').sonyCarousel;
+        sonyCarousel = require('secondary/index').sonyCarousel,
+        sonyVideo = require('secondary/index').sonyVideo;
 
     var self = {
       'init': function() {
@@ -91,6 +92,8 @@ define(function(require){
         //   window.console = {};
         //   window.console.log = function(){};
         // }
+
+
 
         self.setupEvents();
         self.setupSlides();
@@ -237,6 +240,9 @@ define(function(require){
 
         self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
         self.$slides.width( 100 / (self.numSlides + 2) + '%' );
+
+
+        sonyVideo.initVideos( self.$el.find('.player') );
 
       },
 

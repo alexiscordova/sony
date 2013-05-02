@@ -33,13 +33,17 @@ define(function(require) {
       var self = this;
 
       self.$el = $(element);
-      self.collapsableTout = self.$el.find('.m2up, .m3up');
+      self.$collapsibleTout = self.$el.find('.m2up, .m3up');
+      self.$touts = self.$el.find('.tout-grid .toutcopy');
       self.colspan = self.$el.find('.m3up').length ? 'span4' :
-        self.collapsableTout.find('.horizontal').length ?
+        self.$collapsibleTout.find('.horizontal').length ?
           'span6' :
           'span5';
-      self.col = self.collapsableTout.find('>div');
+      self.col = self.$collapsibleTout.find('>div');
+
       self.hasOffset1 = self.col.hasClass('offset1');
+      self.hasCollapsibleTout = self.$collapsibleTout.length > 0;
+      self.hasTout = self.$touts.length > 0;
 
       self._init();
     };
@@ -88,8 +92,8 @@ define(function(require) {
       initDesktop: function() {
         var self = this;
 
-        self.collapsableTout.sonyCarousel('destroy');
-        self.collapsableTout.attr('style', '');
+        self.$collapsibleTout.sonyCarousel('destroy');
+        self.$collapsibleTout.attr('style', '');
         self.col.addClass(self.colspan);
         if (self.hasOffset1) {
           self.col.first().addClass('offset1');
@@ -101,35 +105,83 @@ define(function(require) {
 
         self.col.removeClass(self.colspan);
         self.col.removeClass('offset1');
-        self.collapsableTout.sonyCarousel({
+        self.$collapsibleTout.sonyCarousel({
           wrapper: '.editorial.tout .container, .editorial.full-tout .container',
           slides: '>div',
           pagination: true
         });
       },
 
+      initSubMobile: function() {
+        this.$touts.each(function() {
+          var $tout = $( this ),
+              $p = $tout.find( 'p' ),
+              p = $p[0],
+              $link = $tout.find( 'a' ),
+              link = $link[0];
+
+          // Save current class name to re apply it when this breakpoint no longer matches
+          $p.data( 'className', p.className );
+          $link.data( 'className', link.className );
+
+          // Switch class to `.p4`
+          p.className = 'p4';
+          link.className = 'lt4';
+        });
+      },
+
+      teardownSubMobile: function() {
+        this.$touts.each(function() {
+          var $tout = $( this ),
+              $p = $tout.find( 'p' ),
+              p = $p[0],
+              $link = $tout.find( 'a' ),
+              link = $link[0],
+              linkClassName = $link.data( 'className' ),
+              pClassName = $p.data( 'className' );
+
+          // Revert class name back to what it was before
+          p.className = pClassName;
+          link.className = linkClassName;
+        });
+      },
+
       _init: function() {
         var self = this;
 
-        //if its a 2 or 3up we want to start the carousel code
-        if (self.collapsableTout.length) {
+        // If its a 2 or 3up we want to start the carousel code
+        if ( self.hasCollapsibleTout ) {
 
           if ( !Settings.isLTIE10 ) {
-            enquire.register('(min-width: 48em)', function() {
-              self.initDesktop();
-            });
-            enquire.register('(max-width: 47.9375em)', function() {
-              self.initMobile();
-            });
+            enquire
+              .register('(min-width: 48em)', function() {
+                self.initDesktop();
+              })
+              .register('(max-width: 47.9375em)', function() {
+                self.initMobile();
+              });
           } else {
             self.initDesktop();
           }
+
           self.resizeTouts();
           Environment.on('global:resizeDebounced', $.proxy(self.resizeTouts, self));
         }
 
+        // Switch out p tag classes
+        if ( self.hasTout && !Settings.isLTIE10 ) {
+          enquire.register('(max-width: 29.9375em)', {
+            match: function() {
+              self.initSubMobile();
+            },
+            unmatch: function() {
+              self.teardownSubMobile();
+            }
+          });
+        }
 
-        //if its mediaright or left fix heights on resize
+
+        // If its mediaright or left fix heights on resize
         if (self.$el.hasClass('mediaright') || self.$el.hasClass('medialeft')) {
           self.fixMediaHeights();
           Environment.on('global:resizeDebounced', $.proxy(self.fixMediaHeights, self));

@@ -93,10 +93,12 @@ mixin textonlylayout(_layout)
     +col(layout, extras)
       block
 
-bg = false
-if data.variation
-  bg = data.variation.background ? data.variation.background : false
-.editorial(class = data.mode)(class = bg)(id= data.id? data.id : false)
+
+editorialClasses = [ "editorial", data.mode ]
+if data.variation && data.variation.background
+  - editorialClasses.push( data.variation.background )
+
+div(class = editorialClasses, id = data.id ? data.id : false)
   if data.mode == "textonly"
     .container
       +gridstyle
@@ -157,6 +159,9 @@ if data.variation
       suffix = "container"
 
     containerClass = containerClass + suffix
+
+    //- add a generic class too
+    ups = ups + " tout-grid"
 
     .container(class = containerClass)
       if data.title
