@@ -8,6 +8,15 @@ $tabletMax: px-em(979);
 $desktopMin: px-em(980);
 
 
+@media (max-width:$tabletMax) {
+  .search-results {
+    .results-list .results-p {
+      width: 86%;
+    }
+  }
+
+}
+
 @media (max-width:$phoneMax) {
   .search-results {
     .media .no-float {
@@ -67,12 +76,26 @@ $desktopMin: px-em(980);
     .results-list > li:first-child {
       border-top: 1px solid #e7e9ed;
     }
-  
+    
+    .results-list .results-p {
+      width: 73%;
+    }
+    
+    .results-list i.fonticon-10-chevron {
+      margin-top: 55px;
+    }
+    
     .results-list .bd {
       padding-right: 25px;
     }
     .search-more {
       margin: 30px auto 40px auto;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .search-more span {
+      display: inline-block;
     }
   
     .related-searches {

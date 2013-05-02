@@ -10,10 +10,13 @@
     background-color: $gray80;
     display: none;
   }
+  .country-region-hdg {
+    margin: 50px 0 30px;
+  }
 
   .matte {
       margin-top: 16px;
-      margin-bottom: 69px;
+      margin-bottom: 50px;
       background-color: $gray80;
   }
 
@@ -22,15 +25,18 @@
   }
 
   .continent {
-      margin-top: 26px;
+      margin: 50px 0 24px;
   }
 
   .countries {
       margin-top: 20px;
       margin-bottom: 14px;
       padding-bottom: 30px;
-      border-bottom: 1px solid $gray70;
+      border-bottom: 1px solid $gray60;
       @include clearfix();
+      &:last-child {
+        border: none;
+      }
   }
 
   .countries ol {
@@ -75,6 +81,10 @@
     right: 0;
     bottom: 0;
     overflow: scroll;
+  }
+
+  .country-region-info {
+    margin-bottom: 80px;
   }
 
   .info-hd {

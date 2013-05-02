@@ -67,9 +67,14 @@ mixin iQColorImages( colors )
 mixin heart
   - heartClass = 'favorite-holder js-favorite'
   - if ( data.isFavorited ) heartClass += ' active'
+
+  inactiveTitle = 'Add to Favorites'
+  inactiveClickedTitle = 'Added'
+
   favoritedTitle = 'Remove Favorite?'
-  toFavoriteTitle = 'Add to Favorites'
-  span(class=heartClass, data-active-title=favoritedTitle, data-default-title=toFavoriteTitle)
+  favoritedClickedTitle = 'Removed'
+
+  span(class=heartClass, data-default-title=inactiveTitle, data-default-clicked-title=inactiveClickedTitle, data-favorited-title=favoritedTitle, data-favorited-clicked-title=favoritedClickedTitle)
     i.fonticon-10-favorite
 
 mixin productRating( rating, reviews, reviewsText )
@@ -279,21 +284,20 @@ if data.view == 'basic'
         +priceBlock( data )
 
 else if data.view == 'simple'
+
+  //- Related products needs the heart + price. Edit this if you need it too.
+  includeHeart = data.rp == true
+  includePrice = data.rp == true
+
   a.span2.gallery-item.simple(href=data.href ? data.href : '#')
     .gallery-item-inner
       .product-img
-
-        //- .product-img-wrap.ghost-center-wrap
-        //-   .ghost-center
-        //-       +iQImage( data.imgSmall )
-        //- Fix for image heights not obeying max-height:100%
         .product-img-wrap
           +iQImage( data.imgSmall )
-          if data.rp
+          if includeHeart
             +heart()
 
-      - onlyName = data.rp ? false : true
-      +priceBlock( data, onlyName )
+      +priceBlock( data, !includePrice )
 
 
 else if data.view == 'detailed'
@@ -718,10 +722,10 @@ else if data.view == 'summary'
         if hasAttributeList || hasSwatches
           .inline-details.clearfix
             if hasAttributeList
-              p.p5.product-sizes
+              p.p5.product-attributes
                 attributeListLength = attributeList.length
                 each attr, i in attributeList
-                  span.product-size= attr
+                  span.product-attribute= attr
                   if i == attributeListLength - 1
                     if hasSwatches
                       span.spacer |
@@ -759,20 +763,23 @@ else if data.view == 'compatibility'
   accessories = 'Accessories'
   filterSet = JSON.stringify( data.filterSet )
 
+  //- Fall back to small images if tiny ones aren't available
+  image = data.imgTiny ? data.imgTiny : data.imgSmall
+  totalAccessories = data.totalAccessories ? data.totalAccessories : 'N/A'
 
   a.span4.compat-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
     .compat-item-inner
       span.product-img
         div(class='product-img-wrap ghost-center-wrap')
           .ghost-center
-            +iQImage( data.imgTiny, undefined, 'image' )
+            +iQImage( image, undefined, 'image' )
 
       span.product-content
         .product-name-wrap
           .product-model.p2(itemprop="model")= data.model
           .product-name.p3(itemprop="name")= data.name
           .product-total.p3
-            strong.total= data.totalAccessories
+            strong.total= totalAccessories
             | !{ accessories }
 
 

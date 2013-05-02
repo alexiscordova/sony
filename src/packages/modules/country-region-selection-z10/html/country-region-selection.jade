@@ -3,48 +3,48 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('country-region-selection-flags')
 +includeJavascriptModule('country-region-selection-z10')
 
-.country-region.container.continent-sticky-header
-  .continent-sticky-header-title.t6
-
-.country-region.scrollable#scrollable
-  div
-    .container
-      .grid
-        h3.t3= data.title
-
-    .matte
+.country-region
+  .container.continent-sticky-header
+    .continent-sticky-header-title.t6
+  .scrollable#scrollable
+    div
       .container
         .grid
+          .country-region-hdg
+            h3.t3-bold= data.title
+      .matte
+        .container
+          .grid
 
-          ol.media-list.continents
+            ol.media-list.continents
 
-            - for (var i = 0; i < data.continents.length; i += 1) {
-              - var continent = data.continents[i];
+              - for (var i = 0; i < data.continents.length; i += 1) {
+                - var continent = data.continents[i];
 
-              li.t6.continent= continent.name
-              li.countries
+                li.t6.continent= continent.name
+                li.countries
 
-                div.fluid-list(data-fluid-list="desktop,tablet", rel="countryList-#{i}")
-                div.fluid-list(data-fluid-list="desktop,tablet", rel="countryList-#{i}")
-                div.fluid-list(data-fluid-list="desktop,tablet", rel="countryList-#{i}")
-                div.fluid-list(data-fluid-list="desktop", rel="countryList-#{i}")
+                  div.fluid-list(data-fluid-list="desktop,tablet", rel="countryList-#{i}")
+                  div.fluid-list(data-fluid-list="desktop,tablet", rel="countryList-#{i}")
+                  div.fluid-list(data-fluid-list="desktop,tablet", rel="countryList-#{i}")
+                  div.fluid-list(data-fluid-list="desktop", rel="countryList-#{i}")
 
-                ol.media-list(data-fluid-list-containers="countryList-#{i}")
+                  ol.media-list(data-fluid-list-containers="countryList-#{i}")
 
-                  - for (var j = 0; j < continent.countries.length; j += 1) {
-                    - var country = continent.countries[j];
+                    - for (var j = 0; j < continent.countries.length; j += 1) {
+                      - var country = continent.countries[j];
 
-                    li
-                      a(href="#{country.url}").country
-                        .media
-                          .media-img
-                            i(class="icon-flag icon-flag-#{country.icon}")
-                          .media-bd= country.name
-                  - }
-            - }
+                      li
+                        a(href="#{country.url}").country
+                          .media
+                            .media-img
+                              i(class="icon-flag icon-flag-#{country.icon}")
+                            .media-bd= country.name
+                    - }
+              - }
 
-    .container
-      .grid
-        .span12.info
-          p.info-hd= data.cookies_blurb.heading
-          p.info-bd= data.cookies_blurb.content
+      .container
+        .grid
+          .span12.country-region-info
+            p.t7-light= data.cookies_blurb.heading
+            p.info-bd= data.cookies_blurb.content
