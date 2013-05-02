@@ -6,9 +6,53 @@
 
   <span class="keyword">var</span> module = {
     init: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-      $(<span class="string">'.search-more'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-        $(<span class="string">'.results-list'</span>).children().clone().appendTo($(<span class="string">'.results-list'</span>));
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.$el = $(<span class="string">'.search-results'</span>);
+      self.$loadmore = self.$el.find(<span class="string">'.search-more'</span>);
+      self.$results = self.$el.find(<span class="string">'.results-list'</span>);
+      self.$clearBtn = self.$el.find(<span class="string">'.clear-search'</span>);
+      self.$search = self.$el.find(<span class="string">'input.search'</span>);
+      self.$searchVal = self.$search.val();
+      self.bind();
+    },
+
+    bind: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.$loadmore.on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        self.loadMore();
       });
+      self.$clearBtn.on({
+        click: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+          self.clearSearch(event);
+        }
+      });
+      self.$search.on({
+        click: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+          self.clearSearch();
+        },
+        blur: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+          self.resetSearch();
+        }
+      });
+    },
+
+    loadMore: <span class="keyword">function</span>(){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.$results.children().clone().appendTo(self.$results);
+    },
+
+    clearSearch: <span class="function"><span class="keyword">function</span> <span class="params">(event)</span> {</span>
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">if</span> (self.$search.val() == self.$searchVal || event) {
+        self.$search.first().focus().val(<span class="string">''</span>);
+      }
+    },
+
+    resetSearch: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">if</span> (self.$search.val() === <span class="string">''</span>) {
+        self.$search.val(self.$searchVal);
+      }
     }
   };
 

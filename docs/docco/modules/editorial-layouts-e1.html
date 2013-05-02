@@ -31,13 +31,17 @@ define(<span class="keyword">function</span>(require) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$el = $(element);
-      self.collapsableTout = self.$el.find(<span class="string">'.m2up, .m3up'</span>);
+      self.$collapsibleTout = self.$el.find(<span class="string">'.m2up, .m3up'</span>);
+      self.$touts = self.$el.find(<span class="string">'.tout-grid .toutcopy'</span>);
       self.colspan = self.$el.find(<span class="string">'.m3up'</span>).length ? <span class="string">'span4'</span> :
-        self.collapsableTout.find(<span class="string">'.horizontal'</span>).length ?
+        self.$collapsibleTout.find(<span class="string">'.horizontal'</span>).length ?
           <span class="string">'span6'</span> :
           <span class="string">'span5'</span>;
-      self.col = self.collapsableTout.find(<span class="string">'&gt;div'</span>);
+      self.col = self.$collapsibleTout.find(<span class="string">'&gt;div'</span>);
+
       self.hasOffset1 = self.col.hasClass(<span class="string">'offset1'</span>);
+      self.hasCollapsibleTout = self.$collapsibleTout.length &gt; <span class="number">0</span>;
+      self.hasTout = self.$touts.length &gt; <span class="number">0</span>;
 
       self._init();
     };
@@ -83,8 +87,8 @@ define(<span class="keyword">function</span>(require) {
       initDesktop: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-        self.collapsableTout.sonyCarousel(<span class="string">'destroy'</span>);
-        self.collapsableTout.attr(<span class="string">'style'</span>, <span class="string">''</span>);
+        self.$collapsibleTout.sonyCarousel(<span class="string">'destroy'</span>);
+        self.$collapsibleTout.attr(<span class="string">'style'</span>, <span class="string">''</span>);
         self.col.addClass(self.colspan);
         <span class="keyword">if</span> (self.hasOffset1) {
           self.col.first().addClass(<span class="string">'offset1'</span>);
@@ -96,34 +100,78 @@ define(<span class="keyword">function</span>(require) {
 
         self.col.removeClass(self.colspan);
         self.col.removeClass(<span class="string">'offset1'</span>);
-        self.collapsableTout.sonyCarousel({
+        self.$collapsibleTout.sonyCarousel({
           wrapper: <span class="string">'.editorial.tout .container, .editorial.full-tout .container'</span>,
           slides: <span class="string">'&gt;div'</span>,
           pagination: <span class="literal">true</span>
         });
       },
 
+      initSubMobile: <span class="keyword">function</span>() {
+        <span class="keyword">this</span>.$touts.each(<span class="keyword">function</span>() {
+          <span class="keyword">var</span> $tout = $( <span class="keyword">this</span> ),
+              $p = $tout.find( <span class="string">'p'</span> ),
+              p = $p[<span class="number">0</span>],
+              $link = $tout.find( <span class="string">'a'</span> ),
+              link = $link[<span class="number">0</span>];
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Save current class name to re apply it when this breakpoint no longer matches</p>             </td>             <td class="code">               <div class="highlight"><pre>          $p.data( <span class="string">'className'</span>, p.className );
+          $link.data( <span class="string">'className'</span>, link.className );
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Switch class to <code>.p4</code></p>             </td>             <td class="code">               <div class="highlight"><pre>          p.className = <span class="string">'p4'</span>;
+          link.className = <span class="string">'lt4'</span>;
+        });
+      },
+
+      teardownSubMobile: <span class="keyword">function</span>() {
+        <span class="keyword">this</span>.$touts.each(<span class="keyword">function</span>() {
+          <span class="keyword">var</span> $tout = $( <span class="keyword">this</span> ),
+              $p = $tout.find( <span class="string">'p'</span> ),
+              p = $p[<span class="number">0</span>],
+              $link = $tout.find( <span class="string">'a'</span> ),
+              link = $link[<span class="number">0</span>],
+              linkClassName = $link.data( <span class="string">'className'</span> ),
+              pClassName = $p.data( <span class="string">'className'</span> );
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Revert class name back to what it was before</p>             </td>             <td class="code">               <div class="highlight"><pre>          p.className = pClassName;
+          link.className = linkClassName;
+        });
+      },
+
       _init: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>if its a 2 or 3up we want to start the carousel code</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.collapsableTout.length) {
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If its a 2 or 3up we want to start the carousel code</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.hasCollapsibleTout ) {
 
           <span class="keyword">if</span> ( !Settings.isLTIE10 ) {
-            enquire.register(<span class="string">'(min-width: 48em)'</span>, <span class="keyword">function</span>() {
-              self.initDesktop();
-            });
-            enquire.register(<span class="string">'(max-width: 47.9375em)'</span>, <span class="keyword">function</span>() {
-              self.initMobile();
-            });
+            enquire
+              .register(<span class="string">'(min-width: 48em)'</span>, <span class="keyword">function</span>() {
+                self.initDesktop();
+              })
+              .register(<span class="string">'(max-width: 47.9375em)'</span>, <span class="keyword">function</span>() {
+                self.initMobile();
+              });
           } <span class="keyword">else</span> {
             self.initDesktop();
           }
+
           self.resizeTouts();
           Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.resizeTouts, self));
         }
 
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Switch out p tag classes</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.hasTout &amp;&amp; !Settings.isLTIE10 ) {
+          enquire.register(<span class="string">'(max-width: 29.9375em)'</span>, {
+            match: <span class="keyword">function</span>() {
+              self.initSubMobile();
+            },
+            unmatch: <span class="keyword">function</span>() {
+              self.teardownSubMobile();
+            }
+          });
+        }
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>if its mediaright or left fix heights on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'mediaright'</span>) || self.$el.hasClass(<span class="string">'medialeft'</span>)) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If its mediaright or left fix heights on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'mediaright'</span>) || self.$el.hasClass(<span class="string">'medialeft'</span>)) {
           self.fixMediaHeights();
           Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.fixMediaHeights, self));
         }
@@ -132,13 +180,13 @@ define(<span class="keyword">function</span>(require) {
       }
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorial = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorial = <span class="keyword">function</span>( options ) {
       <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           editorial = self.data(<span class="string">'editorial'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !editorial ) {
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !editorial ) {
             editorial = <span class="keyword">new</span> Editorial( self, options );
             self.data( <span class="string">'editorial'</span>, editorial );
         }

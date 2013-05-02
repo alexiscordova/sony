@@ -17,12 +17,14 @@ Modified: 2013-04-26 by Christopher Mischler</p>
     $uNavPrimary,
     $firstChild,
     $closeBtn,
-    firstLoad,
+    imagesInited,
+    imagesLoaded,
     xUp,
     uNavColWidth,
     uNavRowHeight,
     uNavOuterHeight,
-    _cssTransitions,
+    isHighRes,
+    hasCssTransitions,
 
   _init = <span class="keyword">function</span>($_triggerLink, $_pageWrapInner, $_pageWrapOuter){
 
@@ -33,9 +35,12 @@ Modified: 2013-04-26 by Christopher Mischler</p>
     $uNavPrimary = $uNav.find(<span class="string">'.u-nav-primary'</span>);
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $(<span class="string">'#u-nav-close-btn'</span>);
-    firstLoad = <span class="literal">true</span>;
+    isHighRes = <span class="literal">false</span>;
+    imagesInited = <span class="literal">false</span>;
+    imagesLoaded = <span class="literal">false</span>;
     xUp = $uNavPrimary.children().length;
-    _cssTransitions = _browserCssTransitionDetect();
+    isHighRes = _isRetina();
+    hasCssTransitions = _browserCssTransitionDetect();
 
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <hr />
@@ -98,53 +103,87 @@ setTimeout(function(){</p>             </td>             <td class="code">      
   _setUpPrimaryLinks = <span class="keyword">function</span>(isFirstTime){
     console.log(<span class="string">"$firstChild.find('.u-nav-primary-img').height(): "</span> + $firstChild.find(<span class="string">'.u-nav-primary-img'</span>).height());
 
-    <span class="keyword">if</span> ($firstChild.find(<span class="string">'.u-nav-primary-img'</span>).height() &gt; <span class="number">0</span>){
-      console.log(<span class="string">"has height"</span>);
+    <span class="keyword">if</span> (imagesLoaded){
+      console.log(<span class="string">"images ARE loaded"</span>);
+      uNavRowHeight = $uNavPrimary.outerHeight();
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>if the image has a height, use it.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     } <span class="keyword">else</span> {
-      console.log(<span class="string">"no height"</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>if the image doesn't have a height, do the math.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> twoHighRatio = <span class="number">0.8915</span>,
-          twoWideRatio = <span class="number">0.4202</span>,
-          halfHighRatio = <span class="number">0.344</span>;
+      console.log(<span class="string">"images are NOT loaded"</span>);
 
-      uNavColWidth = $firstChild.outerWidth();
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>So we don't have to download the images before we can figure out how high the module will be,
+we need to figure out the height the image should be at this width, which is based on current browser width.
+So based on the image aspect ratio, what height should the images, &amp; the whole uPrimaryNav be at this width?</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> x5upRatio = <span class="number">0.8915</span>,
+          x3upRatio = <span class="number">0.4205</span>,
+          x6upRatio = <span class="number">0.3455</span>;
+
+      uNavColWidth = $(<span class="string">'.u-nav-primary-row1'</span>).first().outerWidth();
 
       <span class="keyword">if</span> (xUp === <span class="number">3</span>){
-        uNavRowHeight = (uNavColWidth * twoWideRatio) + $firstChild.find(<span class="string">'.u-nav-primary-caption'</span>).outerHeight(<span class="literal">true</span>);
+
+        uNavRowHeight = ($firstChild.outerWidth() * x3upRatio) + $firstChild.find(<span class="string">'.u-nav-primary-caption'</span>).outerHeight(<span class="literal">true</span>);
       } <span class="keyword">else</span> <span class="keyword">if</span> (xUp === <span class="number">6</span>){
-        uNavRowHeight = (((uNavColWidth * halfHighRatio) + $firstChild.find(<span class="string">'.u-nav-primary-caption'</span>).outerHeight(<span class="literal">true</span>)) * <span class="number">2</span>) + <span class="number">36</span>;
+        uNavRowHeight = (((uNavColWidth * x6upRatio) + $firstChild.find(<span class="string">'.u-nav-primary-caption'</span>).outerHeight(<span class="literal">true</span>)) * <span class="number">2</span>) + <span class="number">36</span>;
       } <span class="keyword">else</span> {
-        uNavRowHeight = (uNavColWidth * twoHighRatio) + $firstChild.find(<span class="string">'.u-nav-primary-caption'</span>).outerHeight(<span class="literal">true</span>);
+        uNavRowHeight = (uNavColWidth * x5upRatio) + $firstChild.find(<span class="string">'.u-nav-primary-caption'</span>).outerHeight(<span class="literal">true</span>);
       }
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>anything with a "row1" or "row2" is a half-height</p>             </td>             <td class="code">               <div class="highlight"><pre>      $(<span class="string">'.u-nav-primary-row1 .u-nav-primary-img-wrap, .u-nav-primary-row2 .u-nav-primary-img-wrap'</span>).height(uNavColWidth * x6upRatio);
+      $(<span class="string">'.u-nav-primary-col1.u-nav-primary-2high .u-nav-primary-img-wrap'</span>).height(uNavColWidth * x5upRatio);
+      $(<span class="string">'.u-nav-primary-col1.u-nav-primary-2wide .u-nav-primary-img-wrap'</span>).height(uNavColWidth * x3upRatio);
     }
     console.log(<span class="string">"uNavRowHeight: "</span> + uNavRowHeight);
-
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>So we don't have to download the images before we can figure out how high the module will be,
-we need to figure out the height the image should be at this width, based on current browser width.
-So based on the image aspect ratio, what height should the image be at this width?</p>             </td>             <td class="code">               <div class="highlight"><pre>    
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>uNavRowHeight = uNav2highImgHeight + $firstChild.find('.u-nav-primary-caption').last().outerHeight(true); // use last in case it's a 6up &amp; there are 2. We just want the bottom one.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    
     $uNavPrimary.height(uNavRowHeight + <span class="string">"px"</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>now that we set the height of the images container, we can grab the height of the entire u-nav for our js.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>now that we set the height of the images container, we can grab the height of the entire u-nav for our js.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setTimeout(<span class="keyword">function</span>(){
       uNavOuterHeight = $uNav.outerHeight();
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>once we have the outerheight, clear the custom height from the $uNavPrimary so it's back to the natural flow.
-delays just to make sure the new heights are set before the next step.</p>             </td>             <td class="code">               <div class="highlight"><pre>      $uNavPrimary.css(<span class="string">'height'</span>,<span class="string">''</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the </p>             </td>             <td class="code">               <div class="highlight"><pre>      $uNav.css(<span class="string">'top'</span>,<span class="string">'-'</span> + uNavOuterHeight + <span class="string">'px'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>once we have the outerheight, clear the custom height from the $uNavPrimary so it's back to the natural flow.
+delays just to make sure the new heights are set before the next step.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ($firstChild.find(<span class="string">'.u-nav-primary-img'</span>).height() &gt; <span class="number">0</span>){
+        $uNavPrimary.css(<span class="string">'height'</span>,<span class="string">''</span>);
+      }
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the </p>             </td>             <td class="code">               <div class="highlight"><pre>      $uNav.css(<span class="string">'top'</span>,<span class="string">'-'</span> + uNavOuterHeight + <span class="string">'px'</span>);
       <span class="keyword">if</span> ($pageWrapOuter.hasClass(<span class="string">'unav-open'</span>)){
         $pageWrapInner.css(<span class="string">'margin-top'</span>, uNavOuterHeight + <span class="string">'px'</span>);
       }
     },<span class="number">1</span>);
   },
 
+  _initialLoadImages = <span class="keyword">function</span>(){
+    imagesInited = <span class="literal">true</span>;
+
+    setTimeout(<span class="keyword">function</span>(){
+      <span class="keyword">var</span> $uNavPrimaryImages = $uNavPrimary.find(<span class="string">'img[data-src]'</span>),
+        imagesLoadedCount = <span class="number">0</span>;
+
+      $uNavPrimaryImages.each(<span class="keyword">function</span>(){
+        <span class="keyword">var</span> $thImg = $(<span class="keyword">this</span>),
+          srcStr = $thImg.attr(<span class="string">'data-src'</span>);
+        <span class="keyword">if</span> (isHighRes){
+          srcStr = srcStr.replace(<span class="string">"."</span>,<span class="string">"@2x."</span>);
+        }
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <hr />
+
+<h2>HERE IS IS!</h2>             </td>             <td class="code">               <div class="highlight"><pre>        $thImg.attr(<span class="string">'src'</span>, srcStr);
+        $thImg.bind(<span class="string">'load'</span>, <span class="keyword">function</span>() {
+          imagesLoadedCount++;
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>now that the image is loaded, clear out the custom height on the image wrapper</p>             </td>             <td class="code">               <div class="highlight"><pre>          $thImg.parent().css(<span class="string">'height'</span>,<span class="string">""</span>);
+          <span class="keyword">if</span> (imagesLoadedCount === $uNavPrimaryImages.length){
+            imagesLoaded = <span class="literal">true</span>;
+            console.log(<span class="string">"imagesLoaded: "</span> + imagesLoaded);
+          }
+        });
+      });
+    },<span class="number">1000</span>); <span class="comment">// leave at 0 unless testing.</span>
+  },
 
 
   _openUNav = <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>console.log("_openUNav");</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>console.log("_openUNav");</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    !imagesInited &amp;&amp; _initialLoadImages();
     _setUpPrimaryLinks($uNavPrimary.children().length);
 
     setTimeout(<span class="keyword">function</span>() {
       $pageWrapOuter.addClass(<span class="string">'unav-open unav-open-until-transition-end'</span>);
-      <span class="keyword">if</span> (_cssTransitions){
+      <span class="keyword">if</span> (hasCssTransitions){
         $pageWrapInner.css(<span class="string">'margin-top'</span>, uNavOuterHeight + <span class="string">'px'</span>);
       } <span class="keyword">else</span> {
         $pageWrapInner.animate({ <span class="string">'marginTop'</span>: uNavOuterHeight + <span class="string">'px'</span>}, <span class="number">400</span>);
@@ -155,12 +194,12 @@ delays just to make sure the new heights are set before the next step.</p>      
   },
 
   _closeUNav = <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>console.log("_closeUNav");</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>console.log("_closeUNav");</p>             </td>             <td class="code">               <div class="highlight"><pre>
     $pageWrapOuter.removeClass(<span class="string">'unav-open'</span>);
-    <span class="keyword">if</span> (_cssTransitions){
+    <span class="keyword">if</span> (hasCssTransitions){
 
       $pageWrapInner.one(<span class="string">'transitionend webkitTransitionEnd oTransitionEnd otransitionend'</span>, <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>console.log("$pageWrapInner transitionend");</p>             </td>             <td class="code">               <div class="highlight"><pre>        $pageWrapOuter.removeClass(<span class="string">'unav-open-until-transition-end'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>console.log("$pageWrapInner transitionend");</p>             </td>             <td class="code">               <div class="highlight"><pre>        $pageWrapOuter.removeClass(<span class="string">'unav-open-until-transition-end'</span>);
         $triggerLink.add($closeBtn).blur();
       });
 
@@ -173,10 +212,54 @@ delays just to make sure the new heights are set before the next step.</p>      
     }
   },
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>in case Modernizr isn't available, let's do our own check for css transitions.
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>in case Modernizr isn't available, let's do our own check for css transitions.
 via http://stackoverflow.com/questions/7264899/detect-css-transitions-using-javascript-and-without-modernizr</p>             </td>             <td class="code">               <div class="highlight"><pre>  _browserCssTransitionDetect = <span class="keyword">function</span>(){
     <span class="keyword">var</span> s = document.createElement(<span class="string">'p'</span>).style;
     <span class="keyword">return</span> <span class="string">'transition'</span> <span class="keyword">in</span> s || <span class="string">'WebkitTransition'</span> <span class="keyword">in</span> s || <span class="string">'MozTransition'</span> <span class="keyword">in</span> s || <span class="string">'msTransition'</span> <span class="keyword">in</span> s || <span class="string">'OTransition'</span> <span class="keyword">in</span> s;
+  },
+
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>in case Modernizr isn't available, figure out if this is a high-rez display
+https://github.com/imulus/retinajs/blob/master/src/retina.js</p>             </td>             <td class="code">               <div class="highlight"><pre>  _isRetina = <span class="keyword">function</span>(){ 
+    <span class="keyword">var</span> mediaQuery = <span class="string">"(-webkit-min-device-pixel-ratio: 1.5),(min--moz-device-pixel-ratio: 1.5),(-o-min-device-pixel-ratio: 3/2),(min-resolution: 1.5dppx)"</span>;
+    <span class="keyword">var</span> root = (<span class="keyword">typeof</span> exports == <span class="string">'undefined'</span> ? window : exports);
+    <span class="keyword">if</span> (root.devicePixelRatio &gt; <span class="number">1</span>){
+      <span class="keyword">return</span> <span class="literal">true</span>;
+    }
+
+    <span class="keyword">if</span> (_matchMedia(mediaQuery).matches){
+      <span class="keyword">return</span> <span class="literal">true</span>;
+    }
+
+    <span class="keyword">return</span> <span class="literal">false</span>;
+  },
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>needed for _isRetina to work
+https://github.com/paulirish/matchMedia.js</p>             </td>             <td class="code">               <div class="highlight"><pre>  _matchMedia = <span class="keyword">function</span>(){ 
+    <span class="keyword">var</span> bool,
+      doc = document,
+      docElem = doc.documentElement,
+      refNode = docElem.firstElementChild || docElem.firstChild,
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>fakeBody required for <FF4 when executed in <head></p>             </td>             <td class="code">               <div class="highlight"><pre>      fakeBody = doc.createElement( <span class="string">"body"</span> ),
+      div = doc.createElement( <span class="string">"div"</span> );
+
+    div.id = <span class="string">"mq-test-1"</span>;
+    div.style.cssText = <span class="string">"position:absolute;top:-100em"</span>;
+    fakeBody.style.background = <span class="string">"none"</span>;
+    fakeBody.appendChild(div);
+
+    <span class="keyword">return</span> <span class="keyword">function</span>(q){
+
+      div.innerHTML = <span class="string">"&amp;shy;&lt;style media=\""</span> + q + <span class="string">"\"&gt; #mq-test-1 { width: 42px; }&lt;/style&gt;"</span>;
+
+      docElem.insertBefore( fakeBody, refNode );
+      bool = div.offsetWidth === <span class="number">42</span>;
+      docElem.removeChild( fakeBody );
+
+      <span class="keyword">return</span> {
+        matches: bool,
+        media: q
+      };
+
+    };
   },
 
   _resizeEvent = <span class="keyword">function</span>(){
@@ -190,7 +273,7 @@ via http://stackoverflow.com/questions/7264899/detect-css-transitions-using-java
 })(window, document, jQuery);
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Document.ready call</p>             </td>             <td class="code">               <div class="highlight"><pre>$(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Document.ready call</p>             </td>             <td class="code">               <div class="highlight"><pre>$(<span class="keyword">function</span>(){
   <span class="keyword">if</span> ($(<span class="string">'#universal-nav'</span>).length){
     UNAV.init($(<span class="string">'#nav-li-link-universal'</span>), $(<span class="string">'#page-wrap-inner'</span>), $(<span class="string">'#page-wrap-outer'</span>));
   }

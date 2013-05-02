@@ -20,13 +20,12 @@
 ul.results-list
   each item in data.results.items
     li
-      a(href= item.url)
-        .media
-          .img
-            +iQImage(item.image)
-          .bd
-            .results-p
-              h4.lt3
-                a(href= item.url)= item.headline
-              p.p4= item.body
-            i.fonticon-10-chevron
+      .media
+        .img
+          +iQImage(item.image)
+        .bd
+          .results-p
+            h4.lt3
+              a(href= item.url)= item.headline
+            p.p4= item.body
+          i.fonticon-10-chevron
