@@ -86,6 +86,7 @@ define(function(require){
       // INIT SEQUENCE 
       if(!Settings.isLTIE9){
         self.setButtonColor(self.currentPartnerProduct); // new color for reload buton
+        $('.btn-reload-container').addClass('on');
       }
 
       self.fadeInContent(self.currentPartnerProduct); // show content
@@ -208,13 +209,13 @@ define(function(require){
 
         self.$carouselInstance.sonyCarousel('gotoSlide', which);
 
+         // fade out content as slide is moving
+        self.fadeInContent(which); 
+
         if(!Settings.isLTIE9){
           self.setButtonColor(which); // new color for reload buton
         }
-
-        // fade out content as slide is moving
-        self.fadeInContent(which); 
-       
+      
         // update current slide after transition is complete
         self.currentPartnerProduct = which;  
       }

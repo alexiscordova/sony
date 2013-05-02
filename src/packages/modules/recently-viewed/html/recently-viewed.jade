@@ -5,7 +5,10 @@ include ../../../common/html/jade-helpers.jade
 .rv-module
   .container
     .grid
-      h4.t6.rv-title= data.title
+      if data.config.mode == 'strip'
+        h2(class='l1')= data.title
+      else
+        h4.t6.rv-title= data.title
 
   .m-container
     .sony-carousel-wrapper
