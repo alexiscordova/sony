@@ -4,7 +4,7 @@
 // Module: Alert Module
 // Version: 0.099
 // Modified: 04/22/2013
-// Dependencies: jQuery, bootstrap, Sony (Settings|Environment|Utilities), shuffle, scroller, evenheights, tabs, stickytabs, stickynav, simplescroll, rangecontrol
+// Dependencies: jQuery, bootstrap, Sony (Settings|Environment|Utilities)
 // --------------------------------------
 
 define(function(require){
