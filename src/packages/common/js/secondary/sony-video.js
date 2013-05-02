@@ -20,6 +20,7 @@ define(function(require) {
 
   var $ = require('jquery'),
       Environment = require('require/sony-global-environment'),
+      flowplayer = require('plugins/index').flowplayer,
       Settings = require('require/sony-global-settings');
 
   var SonyVideo = (function () {
@@ -31,7 +32,7 @@ define(function(require) {
 
       // private vars
       var _videoCollection     = [],
-          _totalVideos         = 0,
+          _totalIntanceCount         = 0,
           _currentPlayer       = null;
 
       // Private methods
@@ -39,9 +40,19 @@ define(function(require) {
 
       // Public methods and variables
       return {
-        initVideos: function ( $el , options ) {
 
-            
+        //pass your video elements as a jquery selector
+        initVideos: function ( $videos , options ) {
+
+            log('initing videos' , $videos.length);
+
+            //init each instace of player
+            $videos.each(function(){
+              //faster :)
+             _videoCollection[_totalIntanceCount] =  $(this).flowplayer();
+             _totalIntanceCount++;
+             
+            });
 
         }
       };
