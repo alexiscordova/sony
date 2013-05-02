@@ -67,9 +67,14 @@ mixin iQColorImages( colors )
 mixin heart
   - heartClass = 'favorite-holder js-favorite'
   - if ( data.isFavorited ) heartClass += ' active'
+
+  inactiveTitle = 'Add to Favorites'
+  inactiveClickedTitle = 'Added'
+
   favoritedTitle = 'Remove Favorite?'
-  toFavoriteTitle = 'Add to Favorites'
-  span(class=heartClass, data-active-title=favoritedTitle, data-default-title=toFavoriteTitle)
+  favoritedClickedTitle = 'Removed'
+
+  span(class=heartClass, data-default-title=inactiveTitle, data-default-clicked-title=inactiveClickedTitle, data-favorited-title=favoritedTitle, data-favorited-clicked-title=favoritedClickedTitle)
     i.fonticon-10-favorite
 
 mixin productRating( rating, reviews, reviewsText )

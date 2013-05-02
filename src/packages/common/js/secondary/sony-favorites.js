@@ -74,7 +74,7 @@ define(function(require) {
       var self = this,
           $jsFavorite = $(e.delegateTarget),
           isAdding = !$jsFavorite.hasClass('active'),
-          content = self.hasTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding );
+          content = self.hasTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding, true );
 
       $jsFavorite.toggleClass('active');
 
@@ -93,10 +93,17 @@ define(function(require) {
       self.handleFavorite( $jsFavorite.closest( self.itemSelector ), isAdding );
     },
 
-    getFavoriteContent : function( $jsFavorite, isActive ) {
-      return isActive ?
-            $jsFavorite.data('activeTitle') :
-            $jsFavorite.data('defaultTitle');
+    getFavoriteContent : function( $jsFavorite, isActive, isClicked ) {
+      var titles = $jsFavorite.data(),
+          title;
+
+      if ( isActive ) {
+        title = isClicked ? titles.defaultClickedTitle : titles.favoritedTitle;
+      } else {
+        title = isClicked ? titles.favoritedClickedTitle : titles.defaultTitle;
+      }
+
+      return title;
     },
 
     // possibly https://github.com/ScottHamper/Cookies ?
