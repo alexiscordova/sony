@@ -23,7 +23,8 @@ define(<span class="keyword">function</span>(require){
         Settings = require(<span class="string">'require/sony-global-settings'</span>),
         Environment = require(<span class="string">'require/sony-global-environment'</span>),
         enquire = require(<span class="string">'enquire'</span>),
-        sonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel;
+        sonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel,
+        sonyVideo = require(<span class="string">'secondary/index'</span>).sonyVideo;
 
     <span class="keyword">var</span> self = {
       <span class="string">'init'</span>: <span class="keyword">function</span>() {
@@ -84,6 +85,8 @@ define(<span class="keyword">function</span>(require){
   window.console = {};
   window.console.log = function(){};
 }</p>             </td>             <td class="code">               <div class="highlight"><pre>
+
+
         self.setupEvents();
         self.setupSlides();
         self.setupCarousel();
@@ -219,6 +222,9 @@ define(<span class="keyword">function</span>(require){
 
         self.$slideContainer.width( <span class="number">100</span> * (self.numSlides + <span class="number">2</span>)+ <span class="string">'%'</span> );
         self.$slides.width( <span class="number">100</span> / (self.numSlides + <span class="number">2</span>) + <span class="string">'%'</span> );
+
+
+        sonyVideo.initVideos( self.$el.find(<span class="string">'.player'</span>) );
 
       },
 

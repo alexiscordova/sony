@@ -10,6 +10,7 @@ define(function (require) {
     rAF: require('plugins/rAF'),
     sonyIScroll: require('plugins/sony-iscroll'),
     bez:require('plugins/jquery.bez'),
-    hammer:require('plugins/jquery.hammer')
+    hammer:require('plugins/jquery.hammer'),
+    flowplayer:require('plugins/jquery.flowplayer')
   }
 });
