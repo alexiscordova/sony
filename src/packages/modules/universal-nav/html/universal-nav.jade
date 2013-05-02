@@ -49,7 +49,8 @@ div#universal-nav.u-nav-wrapper(role='navigation')
               if col.double_tall === "true" || col.double_wide === "true"
                 if data.label_tag.label != "false"
                   span.label.label-success !{data.label_tag.label}
-              img.u-nav-primary-img(src=feat.img.src, title=feat.alt)
+              span.u-nav-primary-img-wrap 
+                img.u-nav-primary-img(src="", data-src=feat.img.src, title=feat.alt)
               span.u-nav-primary-caption !{feat.caption}
 
     //- the row of text links
