@@ -1,5 +1,3 @@
-/*global log*/
-
 // ------------ Sony Gallery ------------
 // Module: Gallery
 // Version: 1.0
@@ -92,11 +90,6 @@ define(function(require){
     self.$window.on('orientationchange', debouncedResize );
     self.$window.on('resize.gallery', debouncedResize );
 
-    // Infinite scroll?
-    if ( self.hasInfiniteScroll ) {
-      self.initInfscr();
-    }
-
     // Initialize filter dictionaries to keep track of everything
     if ( self.hasFilters ) {
       self.initFilters();
@@ -111,6 +104,11 @@ define(function(require){
     setTimeout(function() {
       self.initSwatches();
       self.initFavorites();
+
+      // Infinite scroll has to come after initFavorites
+      if ( self.hasInfiniteScroll ) {
+        self.initInfscr();
+      }
     }, 200);
 
     self.onResize( true );
@@ -818,10 +816,16 @@ define(function(require){
     onRemoveFilter : function( evt ) {
       var self = this,
           data = $(evt.target).data(),
-          filterType = self.filterTypes[ data.filterName ];
+          filterType = self.filterTypes[ data.filterName ],
+          realType = self.filterData[ data.filterName ].realType;
 
       // Remove from internal data and UI
       self.deleteFilter( data.filter, data.filterName, filterType );
+
+      if ( realType === 'color' ) {
+        self.currentFilterColor = null;
+        self.hideFilteredSwatchImages();
+      }
 
       // Remove this label
       $(evt.target).remove();
