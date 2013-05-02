@@ -131,16 +131,20 @@ var UNAV = ( function( window, document, $, undefined ){
           x3upRatio = 0.4205,
           x6upRatio = 0.3455;
 
-      uNavColWidth = $firstChild.outerWidth();
+      uNavColWidth = $('.u-nav-primary-row1').first().outerWidth();
 
       if (xUp === 3){
-        uNavRowHeight = (uNavColWidth * x3upRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
-        
+
+        uNavRowHeight = ($firstChild.outerWidth() * x3upRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
       } else if (xUp === 6){
         uNavRowHeight = (((uNavColWidth * x6upRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true)) * 2) + 36;
       } else {
         uNavRowHeight = (uNavColWidth * x5upRatio) + $firstChild.find('.u-nav-primary-caption').outerHeight(true);
       }
+      // anything with a "row1" or "row2" is a half-height
+      $('.u-nav-primary-row1 .u-nav-primary-img-wrap, .u-nav-primary-row2 .u-nav-primary-img-wrap').height(uNavColWidth * x6upRatio);
+      $('.u-nav-primary-col1.u-nav-primary-2high .u-nav-primary-img-wrap').height(uNavColWidth * x5upRatio);
+      $('.u-nav-primary-col1.u-nav-primary-2wide .u-nav-primary-img-wrap').height(uNavColWidth * x3upRatio);
     }
     console.log("uNavRowHeight: " + uNavRowHeight);
     
@@ -175,9 +179,14 @@ var UNAV = ( function( window, document, $, undefined ){
         if (isHighRes){
           srcStr = srcStr.replace(".","@2x.");
         }
-        // $thImg.attr('src', srcStr);
+        // -------------
+        // HERE IS IS!
+        // -------------
+        $thImg.attr('src', srcStr);
         $thImg.bind('load', function() {
           imagesLoadedCount++;
+          // now that the image is loaded, clear out the custom height on the image wrapper
+          $thImg.parent().css('height',"");
           if (imagesLoadedCount === $uNavPrimaryImages.length){
             imagesLoaded = true;
             console.log("imagesLoaded: " + imagesLoaded);
