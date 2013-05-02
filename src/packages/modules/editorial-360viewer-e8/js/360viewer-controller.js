@@ -14,7 +14,7 @@
 define(function(require){
 
   'use strict';
-
+ 
   // provisions
   var $ = require( 'jquery' ),
       iQ = require( 'iQ' ),
@@ -30,7 +30,7 @@ define(function(require){
     'init': function() {
       // setup breakpoints
       var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
-      var breakpointReactor = function( e ) {
+      var breakpointReactor = function( e ) { 
         iQ.update();
       };
       

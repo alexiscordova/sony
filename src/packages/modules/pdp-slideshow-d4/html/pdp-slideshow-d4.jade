@@ -16,6 +16,8 @@ mixin pdpSlide(data)
               +iQImage(slideData.productImg)
         else if slideData.variation == 'type2'
           +iQImage(slideData.productImg)
+      else if slideData.mode == 'video'
+        +sonyVideo(slideData.video)
 
 //- Mixin for thumbnails
 mixin pdpThumbs(data)

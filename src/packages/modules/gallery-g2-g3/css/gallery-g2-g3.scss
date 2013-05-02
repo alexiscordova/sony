@@ -314,7 +314,7 @@ $gifHeight: 60px;
   }
 
   // Move the first element with a button class over
-  .grid > .btn:first-of-type {
+  .grid > .btn.first {
     margin-left: 2.5em;
   }
 
@@ -323,31 +323,15 @@ $gifHeight: 60px;
     @include transition( $transitionSlowish linear )
   }
 
-  .btn-alt-plus {
-    color: $gray20;
-    background-color: $gray70;
-    border-color: $gray70;
-
-    &:hover {
-      color: $white;
-      background-color: $gray40;
-    }
-  }
-
   .grid .btn + .btn {
     margin-left: .375em;
   }
-}
-
-.accessory-finder-btn {
-
 }
 
 .filter-options {
   position: relative;
   padding-top: 1em;
   padding-bottom: 1em;
-
 }
 
 .sort-options {
