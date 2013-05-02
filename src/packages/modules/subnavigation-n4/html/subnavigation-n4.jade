@@ -17,7 +17,7 @@ section.subnav-module(id = data.id ? data.id : false)
             .grid
               - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
                 - subcategory = data.subcategories[j]
-                .subcategory-link.span2.m-span2(data-subcategory=subcategory.title.toLowerCase().replace(/\W/g, ''))
+                a.subcategory-link.span2.m-span2(href=subcategory.galleryLink)(data-subcategory=subcategory.title.toLowerCase().replace(/\W/g, ''))( class = subcategory.products ? 'has-products' : '' )
                   img(src=subcategory.imageSrc)
                   p.p4-bold !{subcategory.title}
               - }
@@ -26,47 +26,48 @@ section.subnav-module(id = data.id ? data.id : false)
   .subnav-tray.container
 
     for subcategory in data.subcategories
-      section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))
-        div.grid.no-grid-at-979
-          .span6
-            h3.t3-bold !{subcategory.title}
-            p.p3 !{subcategory.message}
-          .span6.general-links
-            a.accesories-link.lt3(href=subcategory.accessoryLink)
-              i.fonticon-30-dongle
-              | Accessories
-            a.gallery-link.btn(href=subcategory.galleryLink)
-              i.fonticon-10-grid-3x3
-              | View All !{subcategory.title}
+      - if ( subcategory.products )
+        section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))
+          div.grid.no-grid-at-979
+            .span6
+              h3.t3-bold !{subcategory.title}
+              p.p3 !{subcategory.message}
+            .span6.general-links
+              a.accesories-link.lt3(href=subcategory.accessoryLink)
+                i.fonticon-30-dongle
+                | Accessories
+              a.gallery-link.btn(href=subcategory.galleryLink)
+                i.fonticon-10-grid-3x3
+                | View All !{subcategory.title}
 
-        - subcategoryLength = subcategory.products.length
-        - if ( subcategory.marketingTout ) subcategoryLength++
+          - subcategoryLength = subcategory.products.length
+          - if ( subcategory.marketingTout ) subcategoryLength++
 
-        - for ( i = 0; i < subcategoryLength; i = i + 4 ) {
-          .subnav-product-grid.grid.no-grid-at-479
-            - for ( j = i; j < i + 4 && j < subcategoryLength; j++ ) {
+          - for ( i = 0; i < subcategoryLength; i = i + 4 ) {
+            .subnav-product-grid.grid.no-grid-at-479
+              - for ( j = i; j < i + 4 && j < subcategoryLength; j++ ) {
 
-              if subcategory.marketingTout && j == subcategoryLength - 1
-                - item = subcategory.marketingTout
-                .marketing-tout.span3.m-span2
-                  a(href=item.link)
-                    img(src=item.imageSrc)
-                    p.t5
-                      span !{item.message + " "}
-                        span.highlight !{item.linkText}
-                          i.fonticon-10-chevron-sm.l-o-d
+                if subcategory.marketingTout && j == subcategoryLength - 1
+                  - item = subcategory.marketingTout
+                  .marketing-tout.span3.m-span2
+                    a(href=item.link)
+                      img(src=item.imageSrc)
+                      p.t5
+                        span !{item.message + " "}
+                          span.highlight !{item.linkText}
+                            i.fonticon-10-chevron-sm.l-o-d
 
-              else
-                - item = subcategory.products[j]
-                a.product.span3.m-span2(href=item.galleryLink)
-                  div.image
-                    img(src=item.imageSrc)
-                  .details
-                    h4.t7 !{item.label}
-                    p.l3 !{item.count} !{subcategory.title}
-                    p.p3.message !{item.message}
-                    p.p3.price Starting at
-                      strong.p2-bold !{" " + item.startingAtPrice + " "}
-                      span.p5 MSRP
-            - }
-        - }
+                else
+                  - item = subcategory.products[j]
+                  a.product.span3.m-span2(href=item.galleryLink)
+                    div.image
+                      img(src=item.imageSrc)
+                    .details
+                      h4.t7 !{item.label}
+                      p.l3 !{item.count} !{subcategory.title}
+                      p.p3.message !{item.message}
+                      p.p3.price Starting at
+                        strong.p2-bold !{" " + item.startingAtPrice + " "}
+                        span.p5 MSRP
+              - }
+          - }
