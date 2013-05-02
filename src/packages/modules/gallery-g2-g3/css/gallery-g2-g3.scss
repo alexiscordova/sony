@@ -587,11 +587,13 @@ $gifHeight: 60px;
   .tabs {
   }
 
+  $sidePadding: px-em( 8px );
   .tab {
     text-align: center;
+    padding: 0 $sidePadding;
 
     [class*="fonticon-30-"] {
-      margin: -.1875em; // 9/48
+      // margin: -.1875em; // 9/48
     }
 
     // Change the icon color on hover/active
@@ -601,15 +603,19 @@ $gifHeight: 60px;
     }
   }
 
-  .ghost-center {
-    width: 100%;
-    padding: 0 8px;
+  .tab-inside {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: $sidePadding;
+    left: $sidePadding;
   }
 
   // Has to be pixels because of ghost-centering
   .holder-for-icon {
-    height: 28px;
-    margin-bottom: 12px;
+    height: px-em( 28px );
+    margin-bottom: px-em( 16px );
+    margin-top: px-em( 18px );
 
     i {
       color: $gray40;
