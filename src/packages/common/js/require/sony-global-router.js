@@ -54,7 +54,7 @@ define(function (require) {
       } else {
         self._checkUrlInterval = setInterval(function(){
           self.checkUrl();
-        }, 100);
+        }, 500);
       }
 
       self.checkUrl();
