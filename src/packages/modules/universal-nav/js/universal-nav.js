@@ -189,7 +189,7 @@ var UNAV = ( function( window, document, $, undefined ){
           }
         });
       });
-    },500); // leave at 0 unless testing.
+    },0); // leave at 0 unless testing the image preloader.
   },
 
 
