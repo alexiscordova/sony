@@ -20,6 +20,8 @@ section.subnav-module(id = data.id ? data.id : false)
                 a.subcategory-link.span2.m-span2(href=subcategory.galleryLink)(data-subcategory=subcategory.title.toLowerCase().replace(/\W/g, ''))( class = subcategory.products ? 'has-products' : '' )
                   img(src=subcategory.imageSrc)
                   p.p4-bold !{subcategory.title}
+                  - if ( subcategory.products )
+                    i.fonticon-10-arrowhead-down
               - }
       - }
 
