@@ -53,12 +53,15 @@
 .editorial.textonly {
   padding: 70px 0 75px 0;
 }
+
 .editorial.full {
   padding: 70px 0 75px 0;
+
   .box {
-    margin-bottom: 25px;
+    margin-bottom: 22px;
   }
 }
+
 .editorial.full-inner,
 .editorial.full-tout,
 .editorial.full {
@@ -69,23 +72,28 @@
     background-position: center center;
   }
 }
+
 .editorial.full-inner {
+
   .inner {
     height: 100%;
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
+
     .grid,
     .grid > div,
     .table-center-wrap {
       height: 100%;
     }
   }
+
   .box {
     margin-top: -1%;
     padding: 56px 52px 50px 52px;
   }
+
   .box.center {
     padding: 70px 130px;
   }
@@ -109,24 +117,26 @@
 .editorial.mediaright,
 .editorial.medialeft {
   padding: 0;
+
   .box {
     padding: 70px 52px 70px 52px;
   }
+
   .grid {
     min-height: 560px;
   }
+
   .table-center-wrap {
     height: 100%;
     margin-top: -1%;
-    .image-module{
-      text-align:center;
+
+    .image-module {
+      text-align: center;
     }
   }
 
   .media-element > div {
     margin: 0 auto;
-  }
-  .table-center-wrap {
   }
 }
 
@@ -135,18 +145,19 @@
   padding: 70px 0 75px 0;
 
   .submodule {
-    margin-top: -18px;
     padding-bottom: 28px;
   }
 
   .title-block {
-    padding-bottom: 40px;
+    padding-bottom: 22px;
   }
 
   .m1up {
+
     .textright {
       padding-right: 52px;
     }
+
     .textleft {
       padding-left: 20px;
     }
@@ -180,25 +191,31 @@
       }
     }
 
-    .vertical {
-      .image-module {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-      .toutcopy {
-        padding: 0 24px;
-      }
+    .vertical .image-module {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    // Even padding when centered
+    .vertical.center .toutcopy {
+      padding: 0 24px;
+    }
+
+    // Right padding when left aligned
+    .vertical.left .toutcopy {
+      padding: 0 44px 0 0;
     }
   }
+
   &.gray .m2up .horizontal{
     background: $white;
+
     &:hover {
       -webkit-box-shadow: none;
       box-shadow: none;
       background: rgba(255,255,255,.8)
     }
   }
-
 
   .m3up {
     > div.left .toutcopy {
