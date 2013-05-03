@@ -3,7 +3,6 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('recently-viewed')
 +includeJavascriptModule('recently-viewed')
 
-
 .featured-result
   p.p3.p3-bold.results
     span.bold-dark #{data.results.count}
@@ -56,7 +55,6 @@ ul.results-list
     li
       .media
         if item.image
-          .media-img
             .img
               +iQImage(item.image)
         .bd
