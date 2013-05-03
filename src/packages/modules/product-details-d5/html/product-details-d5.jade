@@ -4,9 +4,11 @@ include ../../../common/html/jade-helpers.jade
 
 include product-details-d5-helpers.jade
 
+moduleId = data.id ? data.id : false
+
 //- PRODCUT DETAILS MODULE START
 - productDetailsClasses = ["pd-module","container"]
-section(class= productDetailsClasses)
+section(class= productDetailsClasses, id=moduleId)
 
   //- 88888888888  .d88888b.  8888888b.
   //-     888     d88P" "Y88b 888   Y88b
