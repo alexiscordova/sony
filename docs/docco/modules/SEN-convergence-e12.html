@@ -3,21 +3,21 @@
   <span class="string">'use strict'</span>;
 
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
-      bootstrap = require(<span class="string">'bootstrap'</span>),
-      sonyStickyTabs = require(<span class="string">'secondary/index'</span>).sonyStickyTabs;
+      iQ = require(<span class="string">'iQ'</span>),
+      sonyTab = require(<span class="string">'secondary/index'</span>).sonyTab;
 
   <span class="keyword">var</span> module = {
     init: <span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          containerSelector = <span class="string">'.sen-convergence .tab-pane.active .slides'</span>,
+          $container = $(containerSelector);
 
-      $(<span class="string">'.sen-convergence .tab-pane.active .slides'</span>).each(<span class="keyword">function</span>(index, element) {
-        <span class="keyword">var</span> $container = $(element);
-        self.carousel = <span class="keyword">new</span> SlideCrossFade($container);
-      });
+      self.carousel = <span class="keyword">new</span> SlideCrossFade($container);
 
-      $(<span class="string">'.tabs'</span>).on(<span class="string">'click'</span>, <span class="string">'li'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-        <span class="keyword">var</span> $container = $(<span class="string">'.sen-convergence .tab-pane.active .slides'</span>);
+      $(<span class="string">'.tab-pane'</span>).on(<span class="string">'shown'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(evt)</span> {</span>
         self.carousel.stop();
+        iQ.update();
+        <span class="keyword">var</span> $container = $(containerSelector);
         self.carousel = <span class="keyword">new</span> SlideCrossFade($container);
       });
     }
@@ -30,6 +30,7 @@
   SlideCrossFade.prototype = {
     init: <span class="keyword">function</span>($container) {
       <span class="keyword">this</span>.$slides = $container.children();
+      <span class="keyword">this</span>.$slides.first().show();
       <span class="keyword">this</span>.$slides.not(<span class="string">':first'</span>).hide();
       <span class="keyword">this</span>.$currentSlide = <span class="keyword">this</span>.$slides.first();
 

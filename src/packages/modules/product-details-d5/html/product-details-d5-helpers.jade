@@ -21,22 +21,22 @@ mixin measurementValues(value, dir, isThin)
   
 mixin measurementsList(measurements)
   for m in measurements
-    - isThin = m.thinImage
-    - cm = m.height.cm
-    - inches = m.width.inches
+    if(m.image.srcDesktop)
+      - isThin = m.thinImage
+      - cm = m.height.cm
+      - inches = m.width.inches
 
-    .measurement.p4
-      .wrapper
-        .img-wrapper
-          //- .iq-img(data-src-desktop= m.image.srcDesktop, data-src-tablet= m.image.srcTablet, data-src-phone= m.image.srcPhone, data-src-desktop-highres= m.image.srcDesktopHighRes, data-src-tablet-highres= m.image.srcTabletHighRes, data-src-phone-highres= m.image.srcPhoneHighRes)
-          +iQImage(m.image, "pd-image")
+      .measurement.p4
+        .wrapper
+          .img-wrapper
+            //- .iq-img(data-src-desktop= m.image.srcDesktop, data-src-tablet= m.image.srcTablet, data-src-phone= m.image.srcPhone, data-src-desktop-highres= m.image.srcDesktopHighRes, data-src-tablet-highres= m.image.srcTabletHighRes, data-src-phone-highres= m.image.srcPhoneHighRes)
+            +iQImage(m.image, "pd-image")
 
-        if (cm)
-          +measurementValues(m.height, "vertical", isThin)  
+          if (cm)
+            +measurementValues(m.height, "vertical", isThin)  
 
-        //- put width in image wrapper for simple centering solution
-        if (inches)
-          +measurementValues(m.width, "horizontal", isThin)
+          if (inches)
+            +measurementValues(m.width, "horizontal", isThin)
 
 mixin featureList(list)
   - listClasses = 'feature-list'
@@ -71,7 +71,7 @@ mixin specsList( list, isHorizontal )
 
 mixin extras(extras)
   for extra in extras
-    if(extra.copy)
+    if(extra.copy && extra.title)
       .extra
         p.l3
           strong= extra.title
@@ -88,12 +88,13 @@ mixin bottomTout(textTout)
 
     div(class= bottomCopyClasses)
       | #{textTout.copy}
-      if(textTout.link)
+      if(textTout.link && textTout.linkLabel)
         a.no-wrap(href= textTout.link)= textTout.linkLabel
 
 mixin bottomButton(btn)
-  div(class= btmButtonClasses)
-    a.btn.buttonLabel(href= btn.buttonLink)= btn.buttonLabel
+  if(btn.buttonLabel && btn.buttonLink)
+    div(class= btmButtonClasses)
+      a.btn.buttonLabel(href= btn.buttonLink)(title= btn.buttonLabel)= btn.buttonLabel
 
 
 

@@ -29,7 +29,9 @@ mixin iQImage( img, extraClasses, itemprop )
   //- Stop the build process from breaking on undefined images
   //- Hopefully you'll be able to find your broken image on the page!
   if !img
-    p.l3(style="color:red;") Missing image data!
+    div(style="overflow:hidden;")
+      p.l3(style="color:red;margin:0") Missing image data!
+      p.l3(style="color:red;margin:0")= 'img = ' + JSON.stringify( img )
   else
     - classes = 'iq-img'
     - extraClasses = extraClasses || false
