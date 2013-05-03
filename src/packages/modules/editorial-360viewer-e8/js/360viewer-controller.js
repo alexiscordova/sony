@@ -101,42 +101,21 @@ define(function(require){
         self.animateDragger();
       }, 500);
       
-      if( !Modernizr.touch ) {
-        // trigger UI indication (Desktop)
-        $( window ).bind( 'scroll', function( event ) {
-          self.onScroll( event );
-        });
-      }
-      
       // reset the step buffer when the window changes size
       $( window ).bind( 'resize', function( event ) {
         self.onResize( event );
-      });
-      
-      // setup controller interactions
-      self.$controls.bind( 'mousedown', function( event ) {
-        self.mouseDown( event );
-      });
-
-      self.$controls.bind( 'mouseup', function( event ) {
-        self.mouseUp( event );      
-      });
-      
-      // track mousemove
-      $( self.$controls ).bind( 'mousemove', function( event ) {
-        self.mouseMove( event );
       });
       
       // adjust controls to center if type is image
       if( true === self.isImage ) {
         self.syncControlLayout();
       }
-      
-      // extend with touch controls
-      self.$controls.hammer();
-
-      // poll for controls hitting the viewport
-      if( Modernizr.touch ) {
+            
+      if( true === Modernizr.touch ) {
+        // extend with touch controls
+        self.$controls.hammer();
+        
+        // animate dragger arrows when in viewport
         self.poller = setInterval( function(){
           var _$controlStatus   = $( self.$controls ).find( '.table-center :in-viewport' );
           var inViewport = _$controlStatus.length > 0 ? true : false;
@@ -150,15 +129,42 @@ define(function(require){
             self.inViewport = false;
           }
         }, 100);
+        
+        self.$controls.on( 'touch', function( event ) {
+          self.touchDown( event );
+        });
+        
+        self.$controls.on( 'release', function( event ) {
+          self.touchUp( event );
+        });
+        
+        self.$controls.on( 'drag', function( event ) {
+          self.touchMove( event );
+        });
+        
+      } else {
+        // trigger UI indication (Desktop)
+        $( window ).bind( 'scroll', function( event ) {
+          self.onScroll( event );
+        });
+        
+        // setup controller interactions
+        self.$controls.bind( 'mousedown', function( event ) {
+          self.mouseDown( event );
+        });
+  
+        self.$controls.bind( 'mouseup', function( event ) {
+          self.mouseUp( event );      
+        });
+        
+        // track mousemove
+        $( self.$controls ).bind( 'mousemove', function( event ) {
+          self.mouseMove( event );
+        });    
       }
 
-      self.$controls.on( 'swipeleft', function( event ) {
-        self.move( 'left' );
-      });
 
-      self.$controls.on( 'swiperight', function( event ) {
-        self.move( 'right' );
-      });
+
 
       log('SONY : Editorial 360 Viewer : Initialized');
     },
@@ -197,6 +203,50 @@ define(function(require){
       if( true === self.isImage ) {
         self.syncControlLayout();
       }
+    },
+    
+    touchDown: function( event ) {
+      // Montana to Rice!
+      var self = this;
+      self.clicked = true;
+    },
+    
+    touchUp: function( event ) {
+      var self = this;
+      self.clicked = false;
+    },
+    
+    touchMove: function( event ) {
+      var self    = this,
+          pageX   = event.gesture.center.pageX,
+          doMove  = false;
+      
+      // set a default if not already set
+      if( null === self.lastTriggerX ) {
+        self.lastTriggerX = self.lastX = pageX;
+      }
+      
+      if( pageX > ( self.lastTriggerX /* + self.dynamicBuffer */ ) ) {
+        // moving right
+        self.movingLeft   = false;
+        self.movingRight  = true;
+        doMove = true;
+        self.lastTriggerX = pageX;
+      } else if( pageX < ( self.lastTriggerX /* - self.dynamicBuffer */ ) ) {
+        // moving left
+        self.movingLeft   = true;
+        self.movingRight  = false;
+        doMove = true;
+        self.lastTriggerX = pageX;
+      }
+      
+      // shall we?
+      if( self.clicked && doMove ) {
+        var direction = self.movingLeft ? "left" : "right";
+        self.move( direction );
+      }
+
+      self.lastX = pageX;
     },
     
     mouseDown: function( event ) {
