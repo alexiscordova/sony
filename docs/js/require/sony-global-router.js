@@ -10,6 +10,7 @@ define(function (require) {
   'use strict';
 
   var $ = require('jquery'),
+      Modernizr = require('modernizr'),
       Environment = require('require/sony-global-environment'),
       Settings = require('require/sony-global-settings');
 
@@ -46,14 +47,14 @@ define(function (require) {
 
       self.routes = [];
 
-      if ( ('onhashchange' in window) && !$('html').hasClass('lt-ie8') ) {
-        $(window).on('hashchange', function(){
+      if ( Modernizr.hashchange && !Settings.isLTIE8 ) {
+        Settings.$window.on('hashchange', function(){
           self.checkUrl();
         });
       } else {
         self._checkUrlInterval = setInterval(function(){
           self.checkUrl();
-        }, 100);
+        }, 500);
       }
 
       self.checkUrl();
@@ -63,13 +64,19 @@ define(function (require) {
 
     addRoute: function(route, cb) {
 
-      var self = this;
+      var self = this,
+          routeData;
 
       if ( typeof route === 'string' && typeof cb === 'function' ) {
-        self.routes.push({
+
+        routeData = {
           'route': route,
           'cb': cb
-        });
+        };
+
+        self.routes.push(routeData);
+
+        self.checkUrl(routeData);
       }
     },
 
@@ -85,53 +92,67 @@ define(function (require) {
       }
     },
 
-    checkUrl: function(e) {
+    // Check the current URL and
 
-      var self = this;
+    checkUrl: function(routeData) {
 
-      var current = self.getFragment();
+      var self = this,
+          current = self.getFragment(),
+          match;
 
-      if (current === this.fragment) {
+      if (current === self.fragment && !routeData) {
         return false;
       }
 
-      for ( var i = 0; i < self.routes.length; i++ ) {
-        var match = current.match(self.routeToRegExp(self.routes[i].route));
+      if ( routeData ) {
+        match = current.match(self.routeToRegExp(routeData.route));
+        if ( match ) {
+          routeData.cb.apply(window, match.slice(1));
+        }
+        return;
+      }
 
+      for ( var i = 0; i < self.routes.length; i++ ) {
+        match = current.match(self.routeToRegExp(self.routes[i].route));
         if ( match ) {
           self.routes[i].cb.apply(window, match.slice(1));
         }
       }
 
-      this.fragment = current;
+      self.fragment = current;
     },
 
+    // Strips route from hash if present (x-browser smoothing).
+
     getFragment: function(fragment) {
+
       var self = this;
 
       if (!fragment) {
-        fragment = this.getHash();
+        fragment = self.getHash();
       }
       return fragment.replace(self.routeStripper, '');
     },
+
+    // Get current window hash.
 
     getHash: function() {
       var match = window.location.href.match(/#(.*)$/);
       return match ? match[1] : '';
     },
 
+    // Converts routes into regular expressions that can be used by `.match()`
+
     routeToRegExp: function(route) {
 
-      var optionalParam = /\((.*?)\)/g;
-      var namedParam    = /(\(\?)?:\w+/g;
-      var splatParam    = /\*\w+/g;
-      var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
+      var optionalParam = /\((.*?)\)/g,
+          namedParam    = /(\(\?)?:\w+/g,
+          splatParam    = /\*\w+/g,
+          escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
 
       route = route.replace(escapeRegExp, '\\$&')
                    .replace(optionalParam, '(?:$1)?')
-                   .replace(namedParam, function(match, optional){
-                     return optional ? match : '([^\/]+)';
-                   })
+                   .replace(namedParam, function(match, optional){ return optional ? match : '([^\/]+)'; })
                    .replace(splatParam, '(.*?)');
 
       return new RegExp('^' + route + '$');

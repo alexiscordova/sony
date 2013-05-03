@@ -9,16 +9,16 @@ include search-results-z07-helpers.jade
     .container
       .slimgrid.no-grid-at-767
         h2.l3= data.pageTitle
-        .span9.m-span6
+        .span10.m-span6
           form.search-form
             .search-left
               label.search-label= data.searchForm.label
               input.search.t2(value= data.searchForm.searchedText)
             .search-right
-              a.clear-search(href="#")
+              a.clear-search(href="#", tabindex='0')
                 i.fonticon-10-x-skinny
         .span2.hidden-phone
-          button.btn.btn-large.hidden-phone= data.searchForm.buttonText
+          button.btn.btn-large.btn-search.hidden-phone= data.searchForm.buttonText
 
   .container
     .slimgrid
@@ -36,6 +36,8 @@ include search-results-z07-helpers.jade
         else
           if data.results.type == 'category'
             include search-results-z07-category.jade
+          else if data.results.type == 'none'
+            include search-results-z07-none.jade
           else
             include search-results-z07-product.jade
 

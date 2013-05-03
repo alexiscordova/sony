@@ -429,6 +429,7 @@ define(function(require){
       if ( typeof method === 'string' ) {
         if ( $compareBtn.hasClass( 'in' ) ) {
           $compareBtn.removeClass( 'in' );
+          $compareBtn.attr('tabindex', '-1');
 
           // Remove the saved type
           $compareBtn.removeData( 'type' );
@@ -439,6 +440,7 @@ define(function(require){
       } else {
         if ( !$compareBtn.hasClass( 'in' ) ) {
           $compareBtn.addClass( 'in' );
+          $compareBtn.attr('tabindex', '');
 
           // Save the type that was filtered
           $compareBtn.data( 'type', filterName );
