@@ -10,6 +10,7 @@ define(function (require) {
 
   var $ = require('jquery'),
       enquire = require('enquire'),
+      router = require('require/sony-global-router'),
       settings = require('require/sony-global-settings'),
       environment = require('require/sony-global-environment');
 
@@ -20,6 +21,8 @@ define(function (require) {
       if ( !settings.$html.hasClass('lt-ie10') ){
         window.enquire.listen(100);
       }
+
+      router.init();
 
       environment.trigger('global:ready');
 

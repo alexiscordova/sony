@@ -22,7 +22,8 @@
         self.loadMore();
       });
       self.$clearBtn.on({
-        click: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        click: <span class="function"><span class="keyword">function</span> <span class="params">( evt )</span> {</span>
+          evt.preventDefault();
           self.clearSearch(event);
         }
       });

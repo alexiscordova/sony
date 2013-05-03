@@ -3,7 +3,6 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('recently-viewed')
 +includeJavascriptModule('recently-viewed')
 
-
 .featured-result
   p.p3.p3-bold.results
     span.bold-dark #{data.results.count}
@@ -30,7 +29,7 @@ include ../../../common/html/jade-helpers.jade
 
   .accessories-hd
     h4.l3= data.results.product.popularAccessoriesTitle
-    .rv-module
+    .rv-module(data-break-early="true", data-paddle-wrapper=".m-container")
       .container.m-container
         .sony-carousel-wrapper
           .sony-carousel
@@ -56,8 +55,8 @@ ul.results-list
     li
       .media
         if item.image
-          .img
-            +iQImage(item.image)
+            .img
+              +iQImage(item.image)
         .bd
           .results-p
             h4.lt3
@@ -66,7 +65,7 @@ ul.results-list
             if item.question
               h5.lt4.italic-hd
                 a(href= item.question.url)= item.question.text
-            
+
             p.p4= item.body
 
             if item.related

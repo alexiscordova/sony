@@ -153,10 +153,18 @@ define(function(require){
       var self = this,
           $buttons = self.$navgroups.find('.grid').children();
 
+      $buttons.on('click', function(){
+        return !$(this).hasClass('has-products');
+      });
+
       $buttons.hammer().on('tap', function(){
 
         var $this = $(this),
             isActive = $this.hasClass('active');
+
+        if ( !$this.hasClass('has-products') ) {
+          return true;
+        }
 
         $buttons.removeClass('active');
 
