@@ -76,7 +76,7 @@ define(function(require){
         sonyVideo.initVideos( self.$el.find('.player') );
 
 
-        log( self.variation );
+        //log( self.variation );
 
       },
 
