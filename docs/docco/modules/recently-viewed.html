@@ -57,7 +57,14 @@ define(<span class="keyword">function</span>(require) {
     constructor: RecentlyViewed,
 
     init: <span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          breakEarly = self.$el.data( <span class="string">'breakEarly'</span> ),
+          setupTabletBreakpoint = breakEarly ?
+            <span class="string">'(min-width: 48em) and (max-width: 74.9375em)'</span> :
+            <span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span>,
+          teardownTabletBreakpoint = breakEarly ?
+            <span class="string">'(min-width: 75em)'</span> :
+            <span class="string">'(min-width: 61.25em)'</span>;
 
       self.$wrapper = self.$el.find( <span class="string">'.sony-carousel-wrapper'</span> );
       self.$carousel = self.$el.find( <span class="string">'.sony-carousel'</span> );
@@ -72,12 +79,12 @@ define(<span class="keyword">function</span>(require) {
               self._setupDesktop();
             }
           })
-          .register(<span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span>, {
+          .register( setupTabletBreakpoint, {
             match: <span class="keyword">function</span>() {
               self._setupTablet();
             }
           })
-          .register(<span class="string">'(min-width: 61.25em)'</span>, {
+          .register( teardownTabletBreakpoint, {
             match: <span class="keyword">function</span>() {
               self._teardownTablet();
             }

@@ -20,6 +20,7 @@ define(<span class="keyword">function</span>(require) {
 
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
+      flowplayer = require(<span class="string">'plugins/index'</span>).flowplayer,
       Settings = require(<span class="string">'require/sony-global-settings'</span>);
 
   <span class="keyword">var</span> SonyVideo = (<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
@@ -29,22 +30,29 @@ define(<span class="keyword">function</span>(require) {
     <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span> {</span>
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>private vars</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> _videoCollection     = [],
-          _totalVideos         = <span class="number">0</span>,
+          _totalIntanceCount         = <span class="number">0</span>,
           _currentPlayer       = <span class="literal">null</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Private methods</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">_privateMethod</span><span class="params">()</span>{</span>}
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Public methods and variables</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">return</span> {
-        initVideos: <span class="function"><span class="keyword">function</span> <span class="params">( $el , options )</span> {</span>
 
-            
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>pass your video elements as a jquery selector</p>             </td>             <td class="code">               <div class="highlight"><pre>        initVideos: <span class="function"><span class="keyword">function</span> <span class="params">( $videos , options )</span> {</span>
+
+            log(<span class="string">'initing videos'</span> , $videos.length);
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>init each instace of player</p>             </td>             <td class="code">               <div class="highlight"><pre>            $videos.each(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>faster :)</p>             </td>             <td class="code">               <div class="highlight"><pre>             _videoCollection[_totalIntanceCount] =  $(<span class="keyword">this</span>).flowplayer();
+             _totalIntanceCount++;
+             
+            });
 
         }
       };
     }
 
     <span class="keyword">return</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Get the Singleton _instance if one exists</p>             </td>             <td class="code">               <div class="highlight"><pre>      getInstance: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Get the Singleton _instance if one exists</p>             </td>             <td class="code">               <div class="highlight"><pre>      getInstance: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
         <span class="keyword">if</span> ( !_instance ) {
           _instance = init();
         }
