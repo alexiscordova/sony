@@ -73,22 +73,24 @@ $tabletMax: px-em(979);
 
 .thumb-nav {
   width:100% !important;
+  overflow: hidden;
 
   .left-shade,
   .right-shade {
     display:block; 
-    width:7px;
+    width:10px;
     position:absolute;
     top:4px;
     bottom:0;
-    left:0;
-    background: url('../img/editorial-chapters-e5/nav_shading.png') no-repeat;
+    left: 0;
+    box-shadow: inset 5px 0 7px -5px #333;
+    
   }
 
   .right-shade {
     left:auto; 
-    right:0; 
-    background-position:bottom right;
+    box-shadow: inset -5px 0 7px -5px #333;
+    right: 0; 
   }
 }                 
 
