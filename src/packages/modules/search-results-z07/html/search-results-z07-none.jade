@@ -1,0 +1,32 @@
+.featured-result
+  p.p3.p3-bold.results
+    span.bold-dark= data.results.count
+    |  #{data.resultsTitle}
+  .sort-options.visible-phone
+    form.select-narrow
+      select
+        option= data.narrowResultsPlaceholderText
+  .media
+    .media-img.img-sm
+      .img.no-float
+        +iQImage(data.results.category.image)
+    .bd.feature-text
+      p.t6-light.title= data.results.category.title
+      p.p4= data.results.category.description
+      ul.featured-list
+        each category in data.results.category.subcategories
+          li.lt4
+            a(href= category.url)= category.title
+
+ul.results-list
+  each item in data.results.items
+    li
+      .media
+        .img
+          +iQImage(item.image)
+        .bd
+          .results-p
+            h4.lt3
+              a(href= item.url)= item.headline
+            p.p4= item.body
+          i.fonticon-10-chevron
