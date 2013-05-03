@@ -160,6 +160,9 @@ define(function(require){
 
     // Called by iScroll when a scroll event happens.
     scrollHandler: function() {
+      var self = this;
+      self.scroll.refresh();
+
       var offsetTarget = Math.abs(this.scroll.y); // iScroll.y is negative
       this.updateFixedHeader(offsetTarget);
     },
