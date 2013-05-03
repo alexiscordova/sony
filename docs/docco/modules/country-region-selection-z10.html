@@ -144,6 +144,9 @@ define(<span class="keyword">function</span>(require){
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Called by iScroll when a scroll event happens.</p>             </td>             <td class="code">               <div class="highlight"><pre>    scrollHandler: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.scroll.refresh();
+
       <span class="keyword">var</span> offsetTarget = Math.abs(<span class="keyword">this</span>.scroll.y); <span class="comment">// iScroll.y is negative</span>
       <span class="keyword">this</span>.updateFixedHeader(offsetTarget);
     },
