@@ -22,6 +22,10 @@ define(function (require) {
 
     'on': function(route, cb) {
       _router.addRoute(route, cb);
+    },
+
+    'off': function(route) {
+      _router.removeRoute(route);
     }
   };
 
@@ -66,6 +70,18 @@ define(function (require) {
           'route': route,
           'cb': cb
         });
+      }
+    },
+
+    removeRoute: function(route) {
+
+      var self = this;
+
+      for ( var i = 0; i < self.routes.length; i++ ) {
+
+        if ( self.routes[i].route === route ) {
+          self.routes.splice(i, 1);
+        }
       }
     },
 
