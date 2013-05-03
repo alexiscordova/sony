@@ -24,7 +24,6 @@
 
   .media {
       margin: 0 0 15px 0;
-
   }
 
   .media,
@@ -35,12 +34,26 @@
   }
 
   .media .img {
-      float:left;
       margin-right: 16px;
+      float: left;
   }
   
   .featured-result .media .img {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .featured-result .media .media-img {
+    display: table;
+    width: 200px;
+    height: 180px;
+    text-align: center;
     background: $gray80;
+    float: left;
+    .img {
+      float: none;
+    }
   }
   
   .featured-result .media .img:hover {
@@ -52,7 +65,7 @@
       margin-right: 3.52941%;
   }
 
-  .media .img img { display:block; }
+  .media .img img { display:inline-block; }
 
   .media .imgExt {
       float:right;
