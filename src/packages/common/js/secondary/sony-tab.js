@@ -182,17 +182,23 @@ define(function(require){
     var target = window.location.hash ? window.location.hash.substring(1) : $('.tab[data-target]').first().attr('data-target'),
         $target = $('.tab[data-target="' + target + '"]'),
         isAlreadyActive = $target.hasClass('active'),
-        showHash = !!window.location.hash;
+        showHash = !!window.location.hash,
+        $pane;
 
-    if ( !isAlreadyActive ) {
+    if ( $target.length && !isAlreadyActive ) {
       $target.tab( 'show', showHash );
     } else if ( evt.isTrigger ) {
-      $('[data-tab="' + target + '"]').trigger('alreadyshown');
+      // Get the target pane
+      $pane = $('[data-tab="' + target + '"]');
+
+      // If the target pane isn't found, use the first on the page
+      if ( !$pane.length ) {
+        $pane = $('[data-tab]').first();
+      }
+
+      $pane.trigger('alreadyshown');
     }
   });
-
-  // Should be called after everything is initialized
-  // $(window).trigger('hashchange');
 
   $(document).on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
     e.preventDefault();

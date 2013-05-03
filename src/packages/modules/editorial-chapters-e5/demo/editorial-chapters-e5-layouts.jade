@@ -7,24 +7,39 @@ head
   include ../../../common/html/head.jade
 
 body
-  h6 full white
-  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-white.json')
+  //- this module is no longer being supported
+  // h6 full white
+  // +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-white.json')
+
+  //- this module is no longer being supported
+  // h6 full gray
+  // +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-gray.json')
+
+  h6 E5 - Full Inner White
+  // this module should contain chapters
+  +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/chapters-full-inner-white.json')
   hr
 
-  h6 full gray
-  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-gray.json')
+  //- E1
+  h6 E1 + E5 - Layout
+  //-+partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-layouts-e1/demo/data/textonly-left-102-D-L-lorem1.json')
+  //-+partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/chapters-full-gray.json')
   hr
-
-  h6 full inner white
-  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-inner-white.json')
-  hr
-
+  
   h6 mediaright span6 gray
-  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-57-mediaright-gray.json')
+  //-+partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-57-mediaright-gray.json')
   hr
 
   h6 medialeft span6 white
-  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-66-medialeft-white.json')
+  //-+partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-66-medialeft-white.json')
+  hr
+
+  h6 medialeft span6 grey + hotspots
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e10-medialeft-grey-hotspot.json')
+  hr
+
+  h6 mediaright span6 white + hotspots
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e10-mediaright-white-hotspot.json')
   hr
 
   include ../../../common/html/foot.jade

@@ -21,7 +21,7 @@ a.launch-modal(href="#") Launch Unsupported Browser Modal
             - for (var i = 0; i < data.browser.length; i += 2) {
               .grid
                 .span6
-                  a.browser-link
+                  a(href="#", tabindex=(0)).browser-link
                     .media
                       .media-img
                         img(src=data.browser[i].img.srcDesktop)
@@ -29,7 +29,7 @@ a.launch-modal(href="#") Launch Unsupported Browser Modal
                         .media-hd.p2= data.browser[i].label
                         .media-bd.p3= data.download
                 .span6
-                  a.browser-link
+                  a(href="#", tabindex=(0)).browser-link
                     .media
                       .media-img
                         img(src=data.browser[i+1].img.srcDesktop)

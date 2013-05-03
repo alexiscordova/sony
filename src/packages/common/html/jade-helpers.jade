@@ -29,7 +29,9 @@ mixin iQImage( img, extraClasses, itemprop )
   //- Stop the build process from breaking on undefined images
   //- Hopefully you'll be able to find your broken image on the page!
   if !img
-    p.l3(style="color:red;") Missing image data!
+    div(style="overflow:hidden;")
+      p.l3(style="color:red;margin:0") Missing image data!
+      p.l3(style="color:red;margin:0")= 'img = ' + JSON.stringify( img )
   else
     - classes = 'iq-img'
     - extraClasses = extraClasses || false
@@ -44,11 +46,11 @@ mixin sonyVideo ( videoData )
   if !videoData
     p.l3(style='color:red;') Missing Video data!
   else
-    div(class='player')
+    div(class='player' , data-key='$421601038208546')
      video(preload='none')
-      source(type='video/webm', src='http://mydomain.org/intro.webm')
-      source(type='video/mp4', src='http://mydomain.org/intro.mp4')
-      source(type='video/ogg', src='http://mydomain.org/intro.ogv')
+      source(type='video/webm', src=videoData.webm.srcDesktop)
+      source(type='video/mp4', src=videoData.mp4.srcDesktop)
+      source(type='video/ogg', src=videoData.ogg.srcDesktop)
 
 //-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps
 //- +1 to dump it - gc

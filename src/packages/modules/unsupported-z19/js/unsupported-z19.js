@@ -8,9 +8,10 @@ define(function(require){
 
   var module = {
     init: function() {
-      this.modalID = '#unsupported-browser-modal';
-      this.$modal = $('.modal-unsupported');
-      this.bind();
+      var self = this;
+      self.modalID = '#unsupported-browser-modal';
+      self.$el = $('.modal-unsupported');
+      self.bind();
     },
     bind: function(){
       var self = this;
@@ -19,40 +20,43 @@ define(function(require){
         self.launchModal(self.modalID);
       });
 
-      $(window).resize($.proxy(this.measureModal, this));
+      $(window).resize($.proxy(self.measureModal, this));
     },
     launchModal: function(id){
+      var self = this;
       $(id).modal();
-      this.measureModal();
+      self.measureModal();
     },
     measureModal: function(){
+      var self = this;
       var width = $(window).width();
       if (width > 767 && width < 980) {
-        var bodyheight = $('.modal-body').get(0).clientHeight;
-        this.$modal.addClass('tablet');
-        $('.tablet').css({
+        var bodyheight = self.$el.find('.modal-body').get(0).clientHeight;
+        self.$el.addClass('tablet');
+        self.$el.css({
           'max-height': '780px'
         });
-        var modalheight = this.$modal.height();
-        var modalwidth = this.$modal.width();
+        var modalheight = self.$el.height();
+        var modalwidth = self.$el.width();
         var windowheight = $(window).height();
-        console.log(bodyheight);
-        this.positionModal(modalwidth, modalheight);
+        self.positionModal(modalwidth, modalheight);
       } else {
-        this.resetModal();
+        self.resetModal();
       }
     },
     positionModal: function(width, height){
-      this.$modal.css({
+      var self = this;
+      self.$el.css({
         'margin-top': -height / 2,
         'margin-left': -width / 2
       });
     },
     resetModal: function(){
-      if (this.$modal.hasClass('tablet')) {
-        this.$modal.removeClass('tablet');
+      var self = this;
+      if (self.$el.hasClass('tablet')) {
+        self.$el.removeClass('tablet');
       }
-      this.$modal.css({
+      self.$el.css({
         'margin-top': '',
         'margin-left': ''
       });
