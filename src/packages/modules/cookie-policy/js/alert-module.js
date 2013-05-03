@@ -17,7 +17,7 @@ define(function(require){
   // --------
   defaults = {
     alertSelector : '.alert',
-    fadeDelay: 250, // how long from the element fading out to collapsing the alert
+    fadeDelay: 100, // how long from the element fading out to collapsing the alert
     removeDelay: 1500, // how long until the element is removed from the DOM
     fadeOut: true
   };
