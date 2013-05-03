@@ -2,6 +2,10 @@
 // Responsive: Chapters - E5
 // --------------------------------------------------
 
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+
 @mixin compact-thumb-nav {
   &.thumb-mode {
     .thumb-nav {
@@ -67,20 +71,44 @@
   }
 }
 
+.thumb-nav {
+  width:100% !important;
+
+  .left-shade,
+  .right-shade {
+    display:block; 
+    width:7px;
+    position:absolute;
+    top:4px;
+    bottom:0;
+    left:0;
+    background: url('../img/editorial-chapters-e5/nav_shading.png') no-repeat;
+  }
+
+  .right-shade {
+    left:auto; 
+    right:0; 
+    background-position:bottom right;
+  }
+}                 
+
 @media (max-width: 909px) {
   .editorial-chapters-container {
     @include compact-thumb-nav;
   }
+
+  .editorial.textonly {
+
+    & + .editorial-chapters-container  {
+      margin: -10px 0 0;
+      padding: 0 0 10px;
+    }
+  }
+     
   .container,
   .span12 {
     & > .editorial-chapters-container.text-mode {
-      .thumb-nav {
-        width:100% !important;
 
-        .left-shade,
-        .right-shade {display:block; width:7px; position:absolute; top:0; bottom:0; left:0; background: url('../img/editorial-chapters-e5/nav_shading.png') no-repeat;}
-        .right-shade {left:auto; right:0; background-position:bottom right;}
-      }
     }
   }
 }
@@ -105,8 +133,18 @@
       .slider {width:auto !important;}
     }
   }
+  
 }
 
 @media (max-width: 767px) {
   .editorial-chapters-container .box {margin-bottom:0 !important;}
+}
+
+//tablet only
+@media (min-width: $tabletMin) and (max-width:$tabletMax) {
+  .editorial-chapters-container .image-module {height:440px;}
+}
+//phone only
+@media (max-width: $phoneMax) {
+  .editorial-chapters-container .image-module {height:320px;}
 }

@@ -5,8 +5,9 @@ include ../../../common/html/jade-helpers.jade
 div#universal-nav.u-nav-wrapper(role='navigation')
   div.u-nav.container
     div.u-nav-head.grid
-      a#u-nav-close-btn.u-nav-close-btn(href="#", style="background-image:url(" + data.close_btn.img_src + ")")
+      a#u-nav-close-btn.u-nav-close-btn(href="#")
         | !{data.close_btn.label}
+        img.u-nav-close-btn-img(data-src=data.close_btn.img_src, width=12, height=12)
       h5.l1
         | !{data.title}
       a#u-nav-all-sites-link.u-nav-all-sites-link(href=data.all_sites_link.link)

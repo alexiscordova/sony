@@ -21,17 +21,19 @@ var UNAV = ( function( window, document, $, undefined ){
     imagesInited,
     imagesLoaded,
     xUp,
+    minBreakpoint,
     uNavColWidth,
     uNavRowHeight,
     uNavOuterHeight,
     isHighRes,
     hasCssTransitions,
 
-  _init = function($_triggerLink, $_pageWrapInner, $_pageWrapOuter){
+  _init = function($_triggerLink, $_pageWrapInner, $_pageWrapOuter, _minBreakpoint){
 
     $triggerLink = $_triggerLink;
     $pageWrapInner = $_pageWrapInner;
     $pageWrapOuter = $_pageWrapOuter;
+    minBreakpoint = _minBreakpoint;
     $uNav = $('#universal-nav');
     $uNavPrimary = $uNav.find('.u-nav-primary');
     $firstChild = $uNavPrimary.children().first();
@@ -43,7 +45,6 @@ var UNAV = ( function( window, document, $, undefined ){
     isHighRes = _isRetina();
     hasCssTransitions = _browserCssTransitionDetect();
 
-
     // -----------------------------
     // EVENT LISTENERS
     // -----------------------------
@@ -51,14 +52,13 @@ var UNAV = ( function( window, document, $, undefined ){
     // This will allow versions older than 1.7 to work without using depreciated functions in version 1.7+
     if ($.isFunction($.fn.on)){
       $triggerLink.on('click',function(e){
-        // console.log("$triggerLink");
         e.preventDefault();
-        if ($pageWrapOuter.hasClass('unav-open')){
-          // console.log("Nav is open.");
-          _closeUNav();
-        } else {
-          // console.log("Nav is closed.");
-          _openUNav();
+        if ( _minBreakpointMet() ){
+          if ($pageWrapOuter.hasClass('unav-open')){
+            _closeUNav();
+          } else {
+            _openUNav();
+          }
         }
       });
 
@@ -67,16 +67,15 @@ var UNAV = ( function( window, document, $, undefined ){
         _closeUNav();
       });
     } else {
-      // console.log("$triggerLink: " + $triggerLink);
       $triggerLink.bind('click',function(e){
-        // console.log("$triggerLink");
         e.preventDefault();
-        if ($pageWrapOuter.hasClass('unav-open')){
-          // console.log("Nav is open.");
-          _closeUNav();
-        } else {
-          // console.log("Nav is closed.");
-          _openUNav();
+        
+        if ( _minBreakpointMet() ){
+          if ($pageWrapOuter.hasClass('unav-open')){
+            _closeUNav();
+          } else {
+            _openUNav();
+          }
         }
       });
 
@@ -87,43 +86,31 @@ var UNAV = ( function( window, document, $, undefined ){
     }
 
 
-    // if $.throttle isn't available, we'll roll our own quick & dirrty one.
+    // Rolling our own quick & dirrty throttle.
     // Using a somewhat arbitrary delay in an attempt to avoid firing at the same time as anything else that might be throttled.
-    if ($.isFunction($.throttle)){
-      // console.log("$.throttle is available");
-      $(window).resize( $.throttle( 283, _resizeEvent ) );
-    } else {
-      // console.log("$.throttle NOT available");
-      var throttleTimeout = null;
-      $(window).resize( function(){
-        if (!throttleTimeout){
-          throttleTimeout = setTimeout(function(){
-            throttleTimeout = null;
-            _resizeEvent();
-          }, 283);
-        }
-      });
-    }
+    var throttleTimeout = null;
+    $(window).resize( function(){
+      if (!throttleTimeout){
+        throttleTimeout = setTimeout(function(){
+          throttleTimeout = null;
+          _resizeEvent();
+        }, 283);
+      }
+    });
 
-    // if the images are already cached, give them a chance to render so we can grab their heights.
-    // setTimeout(function(){
-      _setUpPrimaryLinks(true);
-    // },50);
+    if ( _minBreakpointMet() ){
+      _setUpPrimaryLinks();
+    }
   },
 
 
 
-  _setUpPrimaryLinks = function(isFirstTime){
-    console.log("$firstChild.find('.u-nav-primary-img').height(): " + $firstChild.find('.u-nav-primary-img').height());
+  _setUpPrimaryLinks = function(){
 
     if (imagesLoaded){
-      console.log("images ARE loaded");
+      // if images are loaded, use their natural height
       uNavRowHeight = $uNavPrimary.outerHeight();
-      // if the image has a height, use it.
-
     } else {
-      console.log("images are NOT loaded");
-
       // So we don't have to download the images before we can figure out how high the module will be,
       // we need to figure out the height the image should be at this width, which is based on current browser width.
       // So based on the image aspect ratio, what height should the images, & the whole uPrimaryNav be at this width?
@@ -144,9 +131,8 @@ var UNAV = ( function( window, document, $, undefined ){
       // anything with a "row1" or "row2" is a half-height
       $('.u-nav-primary-row1 .u-nav-primary-img-wrap, .u-nav-primary-row2 .u-nav-primary-img-wrap').height(uNavColWidth * x6upRatio);
       $('.u-nav-primary-col1.u-nav-primary-2high .u-nav-primary-img-wrap').height(uNavColWidth * x5upRatio);
-      $('.u-nav-primary-col1.u-nav-primary-2wide .u-nav-primary-img-wrap').height(uNavColWidth * x3upRatio);
+      $('.u-nav-primary-col1.u-nav-primary-2wide .u-nav-primary-img-wrap').height($firstChild.outerWidth() * x3upRatio);
     }
-    console.log("uNavRowHeight: " + uNavRowHeight);
     
     $uNavPrimary.height(uNavRowHeight + "px");
     // now that we set the height of the images container, we can grab the height of the entire u-nav for our js.
@@ -170,6 +156,16 @@ var UNAV = ( function( window, document, $, undefined ){
     imagesInited = true;
 
     setTimeout(function(){
+
+      // load the close btn icon first.
+      var $closeBtnImg = $('#u-nav-close-btn .u-nav-close-btn-img'),
+      closeBtnImgSrcStr = $closeBtnImg.attr('data-src');
+      if (isHighRes){
+        closeBtnImgSrcStr = closeBtnImgSrcStr.replace(".","@2x.");
+      }
+      $closeBtnImg.attr('src', closeBtnImgSrcStr);
+
+
       var $uNavPrimaryImages = $uNavPrimary.find('img[data-src]'),
         imagesLoadedCount = 0;
 
@@ -179,27 +175,25 @@ var UNAV = ( function( window, document, $, undefined ){
         if (isHighRes){
           srcStr = srcStr.replace(".","@2x.");
         }
-        // -------------
-        // HERE IS IS!
-        // -------------
+
         $thImg.attr('src', srcStr);
         $thImg.bind('load', function() {
           imagesLoadedCount++;
           // now that the image is loaded, clear out the custom height on the image wrapper
-          $thImg.parent().css('height',"");
+          $thImg.addClass('opacity1').parent().css('height',"");
+          setTimeout(function(){
+            $thImg.parent().css('background-image','none');
+          },300); // wait til the image is faded in before pulling off the preloader graphic (which needs to be hidden because it would show through on hover)
           if (imagesLoadedCount === $uNavPrimaryImages.length){
             imagesLoaded = true;
-            console.log("imagesLoaded: " + imagesLoaded);
           }
         });
       });
-    },1000); // leave at 0 unless testing.
+    },0); // leave at 0 unless testing the image preloader.
   },
 
 
   _openUNav = function(){
-    // console.log("_openUNav");
-
     !imagesInited && _initialLoadImages();
     _setUpPrimaryLinks($uNavPrimary.children().length);
 
@@ -216,13 +210,10 @@ var UNAV = ( function( window, document, $, undefined ){
   },
 
   _closeUNav = function(){
-    // console.log("_closeUNav");
-
     $pageWrapOuter.removeClass('unav-open');
     if (hasCssTransitions){
 
       $pageWrapInner.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function() {
-        // console.log("$pageWrapInner transitionend");
         $pageWrapOuter.removeClass('unav-open-until-transition-end');
         $triggerLink.add($closeBtn).blur();
       });
@@ -275,9 +266,7 @@ var UNAV = ( function( window, document, $, undefined ){
     fakeBody.appendChild(div);
 
     return function(q){
-
       div.innerHTML = "&shy;<style media=\"" + q + "\"> #mq-test-1 { width: 42px; }</style>";
-
       docElem.insertBefore( fakeBody, refNode );
       bool = div.offsetWidth === 42;
       docElem.removeChild( fakeBody );
@@ -286,12 +275,21 @@ var UNAV = ( function( window, document, $, undefined ){
         matches: bool,
         media: q
       };
-
     };
   },
 
+  _minBreakpointMet = function(){
+    return minBreakpoint <= parseInt($(window).width(),10);
+  },
+
   _resizeEvent = function(){
-    _setUpPrimaryLinks($uNavPrimary.children().length);
+    if ( _minBreakpointMet() ){
+      _setUpPrimaryLinks($uNavPrimary.children().length);
+    } else {
+      // hide & reset!
+      $pageWrapOuter.removeClass('unav-open unav-open-until-transition-end');
+      $pageWrapInner.css('margin-top','');
+    }
   };
 
   return {
@@ -304,7 +302,7 @@ var UNAV = ( function( window, document, $, undefined ){
 // Document.ready call
 $(function(){
   if ($('#universal-nav').length){
-    UNAV.init($('#nav-li-link-universal'), $('#page-wrap-inner'), $('#page-wrap-outer'));
+    UNAV.init($('#nav-li-link-universal'), $('#page-wrap-inner'), $('#page-wrap-outer'), 768);
   }
 });
 
