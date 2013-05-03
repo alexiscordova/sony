@@ -143,7 +143,7 @@ For more information on how json elements relate to each other, including requir
 
 	+ id
 		type: string
-		description: a unique id for the tertiary tout
+		description: a unique id for the tertiary tout used for deep linking to modules on a page, should *not* be relied upon for styling/functionality
 
 	+ header
 		type: object
