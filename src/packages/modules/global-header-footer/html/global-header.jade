@@ -2,6 +2,9 @@ include ../../../common/html/jade-helpers.jade
 
 a#SkipToContentLink(href='#main', class='visuallyhidden', tabindex='1')= data.skip_to_content.label
 
+e = {"locals":locals, "data":locals.data('packages/modules/universal-nav/demo/data/default.json')}
+!{locals.partial('packages/modules/universal-nav/html/universal-nav.jade', e)}
+
 - var search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
 
 if typeof minimal !== 'undefined' && minimal === true

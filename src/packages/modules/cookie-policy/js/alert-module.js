@@ -4,7 +4,7 @@
 // Module: Alert Module
 // Version: 0.099
 // Modified: 04/22/2013
-// Dependencies: jQuery, bootstrap, Sony (Settings|Environment|Utilities), shuffle, scroller, evenheights, tabs, stickytabs, stickynav, simplescroll, rangecontrol
+// Dependencies: jQuery, bootstrap, Sony (Settings|Environment|Utilities)
 // --------------------------------------
 
 define(function(require){
@@ -16,7 +16,10 @@ define(function(require){
   // Defaults
   // --------
   defaults = {
-    alertSelector : '.alert'
+    alertSelector : '.alert',
+    fadeDelay: 100, // how long from the element fading out to collapsing the alert
+    removeDelay: 1500, // how long until the element is removed from the DOM
+    fadeOut: true
   };
 
   AlertModule = function( elem, options ) {
@@ -26,7 +29,9 @@ define(function(require){
     options = this.options;
 
     // define our variables
-    this.allowsCookies = options.allowsCookies;
+    this.fadeOut = options.fadeOut;
+    this.fadeDelay = options.fadeDelay;
+    this.removeDelay = options.removeDelay;
     this.$alertModule = $( options.alertSelector );
 
     // init :)
@@ -45,22 +50,47 @@ define(function(require){
 
       setTimeout(function() {
         self.$alertModule.removeClass('collapsed');
-      }, 1000 );
+      }, self.delay );
 
     },
+
     
+    // Method checks if there is an option to fade out or not
+    // then will run that functionality, and close the alert box
+    // followed by a delay to remove the alert box from the DOM.
+
     _closeAlert: function(event) {
       var el = event.target, 
           self = this,
-          currTarget = $(el).closest(self.options.alertSelector);
+          $currTarget = $(el).closest(self.options.alertSelector);
       
       event.preventDefault();
-      currTarget.addClass('collapsed');
       
-      // after we close the alert lets remove it from the DOM
+      // did we define if we should fade the element out?
+      if ( self.fadeOut ) {
+        $currTarget.addClass('invisible');
+
+        setTimeout(function() {
+          $currTarget.addClass('collapsed');
+          self._removeAlert($currTarget);
+        }, self.fadeDelay );
+
+        //$currTarget.addClass('collapsed');
+      } else {
+        $currTarget.addClass('collapsed');
+        self._removeAlert($currTarget);
+      }
+      
+    },
+
+    // removes the alert from the DOM
+    _removeAlert: function(el) {
+      var self = this, 
+          $currTarget = el;
+
       setTimeout(function() {
-        currTarget.remove();
-      }, 1500 );
+        $currTarget.remove();
+      }, self.removeDelay );
     },
 
     // init our bindings to show? // hide the message

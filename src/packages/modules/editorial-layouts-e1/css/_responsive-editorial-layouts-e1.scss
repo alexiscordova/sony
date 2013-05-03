@@ -171,7 +171,7 @@ $mobileSidePadding: 0 18px;
 
   .editorial.full-tout,
   .editorial.tout {
-    padding: 42px 0 28px;
+    padding: 24px 0 20px;
 
     .container {
       overflow: visible; // let it overflow from the edge
@@ -189,6 +189,11 @@ $mobileSidePadding: 0 18px;
     // yay pete and his specificity!
     .container .tout-grid.grid .toutcopy {
       padding: 0;
+    }
+
+    // No body copy
+    .m2up-horizontal .copy p {
+      display: none !important; // override important from hidden-phone display:inherit;
     }
 
     // Mobile 1up
@@ -306,8 +311,8 @@ $mobileSidePadding: 0 18px;
     }
 
     // Has a 30px margin bottom from the desktop css
-    // added `.container` for specificity
-    .container .image-module {
+    // added `.container .tout-grid` for specificity
+    .container .tout-grid .image-module {
       margin-top: 6px;
       margin-bottom: 0;
     }

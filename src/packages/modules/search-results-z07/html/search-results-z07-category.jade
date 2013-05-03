@@ -7,10 +7,11 @@
       select
         option= data.narrowResultsPlaceholderText
   .media
-    .img.img-lg.no-float
-      +iQImage(data.results.category.image)
+    .media-img.img-lg
+      .img.no-float
+        +iQImage(data.results.category.image)
     .bd.feature-text
-      p.t6-light.title= data.results.category.title
+      p.t5.hdg-dark.title= data.results.category.title
       p.p4= data.results.category.description
       ul.featured-list
         each category in data.results.category.subcategories

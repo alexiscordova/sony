@@ -30,20 +30,25 @@ define(function(require) {
 
     // Start module
     var Editorial = function(element/*, options*/) {
-      var self = this;
+      var self = this,
+          spanRegex = /span\d+/;
 
       self.$el = $(element);
       self.$collapsibleTout = self.$el.find('.m2up, .m3up');
       self.$touts = self.$el.find('.tout-grid .toutcopy');
-      self.colspan = self.$el.find('.m3up').length ? 'span4' :
-        self.$collapsibleTout.find('.horizontal').length ?
-          'span6' :
-          'span5';
-      self.col = self.$collapsibleTout.find('>div');
 
+      self.col = self.$collapsibleTout.find('>div');
       self.hasOffset1 = self.col.hasClass('offset1');
       self.hasCollapsibleTout = self.$collapsibleTout.length > 0;
       self.hasTout = self.$touts.length > 0;
+
+      // Build an array of the col spans
+      self.colSpans = [];
+      self.col.each(function() {
+        var result = spanRegex.exec( this.className ),
+            span = result[0];
+        self.colSpans.push( span );
+      });
 
       self._init();
     };
@@ -94,7 +99,9 @@ define(function(require) {
 
         self.$collapsibleTout.sonyCarousel('destroy');
         self.$collapsibleTout.attr('style', '');
-        self.col.addClass(self.colspan);
+        self.col.each(function( i ) {
+          $( this ).addClass( self.colSpans[ i ] );
+        });
         if (self.hasOffset1) {
           self.col.first().addClass('offset1');
         }
@@ -103,7 +110,9 @@ define(function(require) {
       initMobile: function() {
         var self = this;
 
-        self.col.removeClass(self.colspan);
+        self.col.each(function( i ) {
+          $( this ).removeClass( self.colSpans[ i ] );
+        });
         self.col.removeClass('offset1');
         self.$collapsibleTout.sonyCarousel({
           wrapper: '.editorial.tout .container, .editorial.full-tout .container',

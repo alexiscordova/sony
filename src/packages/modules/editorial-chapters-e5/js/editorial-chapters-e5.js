@@ -158,6 +158,7 @@ define(function(require){
         var self = this,
         $anchors = self.$thumbNav.find('li');
         
+          
         $anchors.on( self.tapOrClick() , function(e){
           e.preventDefault();
           self.onThumbSelected($(this));

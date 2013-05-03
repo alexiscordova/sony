@@ -170,17 +170,22 @@ that's where the browser will scroll us to</p>             </td>             <td
     <span class="keyword">var</span> target = window.location.hash ? window.location.hash.substring(<span class="number">1</span>) : $(<span class="string">'.tab[data-target]'</span>).first().attr(<span class="string">'data-target'</span>),
         $target = $(<span class="string">'.tab[data-target="'</span> + target + <span class="string">'"]'</span>),
         isAlreadyActive = $target.hasClass(<span class="string">'active'</span>),
-        showHash = !!window.location.hash;
+        showHash = !!window.location.hash,
+        $pane;
 
-    <span class="keyword">if</span> ( !isAlreadyActive ) {
+    <span class="keyword">if</span> ( $target.length &amp;&amp; !isAlreadyActive ) {
       $target.tab( <span class="string">'show'</span>, showHash );
     } <span class="keyword">else</span> <span class="keyword">if</span> ( evt.isTrigger ) {
-      $(<span class="string">'[data-tab="'</span> + target + <span class="string">'"]'</span>).trigger(<span class="string">'alreadyshown'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Get the target pane</p>             </td>             <td class="code">               <div class="highlight"><pre>      $pane = $(<span class="string">'[data-tab="'</span> + target + <span class="string">'"]'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>If the target pane isn't found, use the first on the page</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !$pane.length ) {
+        $pane = $(<span class="string">'[data-tab]'</span>).first();
+      }
+
+      $pane.trigger(<span class="string">'alreadyshown'</span>);
     }
   });
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Should be called after everything is initialized
-$(window).trigger('hashchange');</p>             </td>             <td class="code">               <div class="highlight"><pre>
   $(document).on(<span class="string">'click.tab.data-api'</span>, <span class="string">'[data-toggle="tab"], [data-toggle="pill"]'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> {</span>
     e.preventDefault();
     $(<span class="keyword">this</span>).tab(<span class="string">'show'</span>);
