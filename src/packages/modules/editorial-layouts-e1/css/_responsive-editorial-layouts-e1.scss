@@ -191,6 +191,11 @@ $mobileSidePadding: 0 18px;
       padding: 0;
     }
 
+    // No body copy
+    .m2up-horizontal .copy p {
+      display: none !important; // override important from hidden-phone display:inherit;
+    }
+
     // Mobile 1up
     .m1up {
       padding: $mobileSidePadding;
@@ -306,8 +311,8 @@ $mobileSidePadding: 0 18px;
     }
 
     // Has a 30px margin bottom from the desktop css
-    // added `.container` for specificity
-    .container .image-module {
+    // added `.container .tout-grid` for specificity
+    .container .tout-grid .image-module {
       margin-top: 6px;
       margin-bottom: 0;
     }
