@@ -59,14 +59,13 @@ define(function(require){
 
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
-      self.$document            = $(document);
-      self.$window              = $(window);
-      self.$html                = $('html');
+      self.$document            = Settings.$document;
+      self.$window              = Settings.$window;
+      self.$html                = Settings.$html;
       self.$slides              = self.$el.find( self.SLIDE_CLASS );
       self.$slideContainer      = self.$el.find( self.SLIDE_CONTAINER );
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$pagination          = null;
-
 
       self.desktopAnimSpeed     = 500;
       self.tabletAnimSpeed      = 300;
