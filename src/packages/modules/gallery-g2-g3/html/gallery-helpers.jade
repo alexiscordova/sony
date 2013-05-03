@@ -104,13 +104,14 @@ mixin filterSet( filterSet )
 mixin compareBrowseBtn( isCompareGallery, link, addFade, extraClasses )
   compareStr = isCompareGallery ? 'Browse' : 'Compare'
   classes = [ 'lt3', 'btn', 'btn-alt-special', 'btn-alt-plus', 'compare-btn' ]
+  tabIndex = addFade ? '-1' : false
 
   if addFade
     - classes.push( 'fade' )
   if extraClasses
     - classes.push( extraClasses )
 
-  a(class=classes, href=link)
+  a(class=classes, href=link, tabindex=tabIndex)
     if isCompareGallery
       i.fonticon-10-grid-3x3
     else
@@ -221,7 +222,7 @@ mixin sorter( sortSet, text )
           //- If sort is false, or not present, we don't need to add the attribute
           - reverse = sort.reverse ? 'true' : false
           li
-            a(data-value=sort.name, data-reverse=reverse, tabindex="-1", href="#")= sort.label
+            a(data-value=sort.name, data-reverse=reverse, href="#")= sort.label
     .native-dropdown
       i.fonticon-10-arrowheads-elevator.absolutely
       select#select-sort-by.select-small
