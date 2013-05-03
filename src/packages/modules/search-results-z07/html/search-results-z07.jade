@@ -36,6 +36,8 @@ include search-results-z07-helpers.jade
         else
           if data.results.type == 'category'
             include search-results-z07-category.jade
+          else if data.results.type == 'none'
+            include search-results-z07-none.jade
           else
             include search-results-z07-product.jade
 

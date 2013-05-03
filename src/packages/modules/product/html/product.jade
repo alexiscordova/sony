@@ -804,8 +804,9 @@ else if data.view == 'recommended'
 else if data.view == 'search-results'
   - product = locals.data(data.results.product.data)
   .media
-    .img.img-lg.no-float
-      +iQImage( product.imgSmall )
+    .media-img.img-lg
+      .img.no-float
+        +iQImage( product.imgSmall )
     .bd.feature-text
       p.t5.title= product.title
       .reviews-copy
@@ -814,7 +815,7 @@ else if data.view == 'search-results'
       ul.h-list.h-list-md
         each link in data.results.product.links
           li.lt4
-            a(href= link.url)= link.text
+              a(href= link.url)= link.text
 
 else
   em oh noes, you don't have a known view variable set :(
