@@ -4,11 +4,12 @@ include ../../../common/html/jade-helpers.jade
 
 include product-details-d5-helpers.jade
 
-moduleId = data.id ? data.id : false
+- moduleId = data.id ? data.id : false
+
 
 //- PRODCUT DETAILS MODULE START
 - productDetailsClasses = ["pd-module","container"]
-section(class= productDetailsClasses, id=moduleId)
+section(class= productDetailsClasses)(id= moduleId)
 
   //- 88888888888  .d88888b.  8888888b.
   //-     888     d88P" "Y88b 888   Y88b
@@ -60,11 +61,6 @@ section(class= productDetailsClasses, id=moduleId)
   - isExtras = extras.length > 0
   - centerLayoutValue = 0  //- features [100] /specs [10] / measurements [1]
   - centerClasses = ["center","grid","m-grid-at-979","no-grid-at-567"]
-
-  //- for 567 breakpoint, padding isn't needed if there's a description
-  //- if (hasDesc)
-  //-   - centerClasses.push("has-desc")
-
 
   //- Calculate layout value based on sections present
   //- Features?
