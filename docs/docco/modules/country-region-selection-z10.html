@@ -105,8 +105,6 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">this</span>.currentHeader = <span class="literal">undefined</span>;
       <span class="keyword">this</span>.headerIsVisible = <span class="literal">false</span>;
 
-      <span class="keyword">this</span>.$fixedHeader.css(<span class="string">'left'</span>, $(<span class="keyword">this</span>.$headers[<span class="number">0</span>]).offset().left + <span class="string">'px'</span>);
-
       <span class="keyword">return</span> <span class="keyword">this</span>._getHeaderOffsets();
     },
 
@@ -131,12 +129,10 @@ define(<span class="keyword">function</span>(require){
         onScrollEnd: handler
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Align fixed header with other headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">this</span>.$fixedHeader.css(<span class="string">'left'</span>, $(<span class="keyword">this</span>.$headers[<span class="number">0</span>]).offset().left + <span class="string">'px'</span>);
-
       <span class="keyword">return</span> <span class="keyword">this</span>;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Hides the fixed header and destroys the iscroll.</p>             </td>             <td class="code">               <div class="highlight"><pre>    disable: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Hides the fixed header and destroys the iscroll.</p>             </td>             <td class="code">               <div class="highlight"><pre>    disable: <span class="keyword">function</span>() {
       <span class="keyword">this</span>.$fixedHeader.hide();
 
       <span class="keyword">if</span> (<span class="keyword">this</span>.scroll) {
@@ -147,16 +143,19 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">return</span> <span class="keyword">this</span>;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Called by iScroll when a scroll event happens.</p>             </td>             <td class="code">               <div class="highlight"><pre>    scrollHandler: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Called by iScroll when a scroll event happens.</p>             </td>             <td class="code">               <div class="highlight"><pre>    scrollHandler: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.scroll.refresh();
+
       <span class="keyword">var</span> offsetTarget = Math.abs(<span class="keyword">this</span>.scroll.y); <span class="comment">// iScroll.y is negative</span>
       <span class="keyword">this</span>.updateFixedHeader(offsetTarget);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Updates the fixed header with the title of the closest header.</p>             </td>             <td class="code">               <div class="highlight"><pre>    updateFixedHeader: <span class="keyword">function</span>(targetOffset) {
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Updates the fixed header with the title of the closest header.</p>             </td>             <td class="code">               <div class="highlight"><pre>    updateFixedHeader: <span class="keyword">function</span>(targetOffset) {
       <span class="keyword">var</span> $header,
           headerIndex = <span class="keyword">this</span>._indexOfClosestHeader(targetOffset);
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Only update the fixed header if the new header is different.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (headerIndex !== <span class="keyword">this</span>.currentHeader) {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Only update the fixed header if the new header is different.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (headerIndex !== <span class="keyword">this</span>.currentHeader) {
         <span class="keyword">this</span>.currentHeader = headerIndex;
         $header = $(<span class="keyword">this</span>.$headers[headerIndex]);
         <span class="keyword">this</span>.$fixedHeaderTitle.text($header.text());
@@ -167,13 +166,13 @@ define(<span class="keyword">function</span>(require){
         }
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Hide the fixed header if there is no header to display.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (headerIndex === -<span class="number">1</span> &amp;&amp; <span class="keyword">this</span>.headerIsVisible) {
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Hide the fixed header if there is no header to display.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (headerIndex === -<span class="number">1</span> &amp;&amp; <span class="keyword">this</span>.headerIsVisible) {
           <span class="keyword">this</span>.$fixedHeader.stop().hide();
           <span class="keyword">this</span>.headerIsVisible = <span class="literal">false</span>;
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Gets the index of the closest header to the target offset.
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Gets the index of the closest header to the target offset.
 Closest being the header that is not in view (a negative offset) and nearest to the target offset.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _indexOfClosestHeader: <span class="function"><span class="keyword">function</span> <span class="params">(targetOffset)</span> {</span>
       <span class="keyword">var</span> headerIndex = -<span class="number">1</span>,
           i = <span class="number">0</span>,
@@ -194,9 +193,9 @@ Closest being the header that is not in view (a negative offset) and nearest to 
   };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>FluidList
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>FluidList
 Takes a html list and will make it fit into the given containers</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>FluidList constructor</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="function"><span class="keyword">function</span> <span class="title">FluidList</span><span class="params">(numGridColumns, $list, minItemsPerContainer)</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>FluidList constructor</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="function"><span class="keyword">function</span> <span class="title">FluidList</span><span class="params">(numGridColumns, $list, minItemsPerContainer)</span> {</span>
     <span class="keyword">return</span> <span class="keyword">this</span>.init(numGridColumns, $list, minItemsPerContainer);
   }
 
@@ -215,7 +214,7 @@ Takes a html list and will make it fit into the given containers</p>            
       <span class="keyword">return</span> <span class="keyword">this</span>;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Gets an array of the items in the list.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getItemsInList: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Gets an array of the items in the list.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getItemsInList: <span class="keyword">function</span>() {
       <span class="keyword">var</span> items = [];
 
       <span class="keyword">this</span>.$list.find(<span class="string">'li'</span>).each(<span class="keyword">function</span>(index, element) {
@@ -226,12 +225,12 @@ Takes a html list and will make it fit into the given containers</p>            
       <span class="keyword">return</span> items;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Gets the containers from the markup. Uses the rel attribute.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getContainers: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Gets the containers from the markup. Uses the rel attribute.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getContainers: <span class="keyword">function</span>() {
       <span class="keyword">var</span> listContainerRel = <span class="keyword">this</span>.$list.attr(<span class="keyword">this</span>.CONTAINERS_REL_ATTR);
       <span class="keyword">return</span> $(<span class="string">'[rel='</span> + listContainerRel + <span class="string">']'</span>);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Maps the containers to their tags.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getContainersMap: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Maps the containers to their tags.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getContainersMap: <span class="keyword">function</span>() {
       <span class="keyword">var</span> tagAttr = <span class="keyword">this</span>.MEDIA_TAG_ATTR,
           $list = <span class="keyword">this</span>.$list,
           containersMap = {};
@@ -259,11 +258,11 @@ Takes a html list and will make it fit into the given containers</p>            
       <span class="keyword">return</span> containersMap;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Returns the correct set of containers for the given tag.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getContainersForTag: <span class="keyword">function</span>(tag) {
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Returns the correct set of containers for the given tag.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getContainersForTag: <span class="keyword">function</span>(tag) {
         <span class="keyword">return</span> <span class="keyword">this</span>.containersMap[tag];
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Reflows the items to fit into the containers for the given tag.</p>             </td>             <td class="code">               <div class="highlight"><pre>    update: <span class="keyword">function</span>(tag) {
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Reflows the items to fit into the containers for the given tag.</p>             </td>             <td class="code">               <div class="highlight"><pre>    update: <span class="keyword">function</span>(tag) {
       <span class="keyword">var</span> containers = <span class="keyword">this</span>._getContainersForTag(tag),
           containerWidth = <span class="keyword">this</span>.numGridColumns / containers.length,
           itemsPerContainer = Math.ceil(<span class="keyword">this</span>.items.length / containers.length),
@@ -294,11 +293,11 @@ Takes a html list and will make it fit into the given containers</p>            
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Removes the items from the containers and puts them back into the initial list and makes sure that span classes are removed from the containers.</p>             </td>             <td class="code">               <div class="highlight"><pre>    reset: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Removes the items from the containers and puts them back into the initial list and makes sure that span classes are removed from the containers.</p>             </td>             <td class="code">               <div class="highlight"><pre>    reset: <span class="keyword">function</span>() {
       <span class="keyword">return</span> <span class="keyword">this</span>._resetItems()._resetContainers();
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Removes the items from the containers and puts them back into the initial list.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _resetItems: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Removes the items from the containers and puts them back into the initial list.</p>             </td>             <td class="code">               <div class="highlight"><pre>    _resetItems: <span class="keyword">function</span>() {
       <span class="keyword">var</span> i = <span class="number">0</span>,
           numItems = <span class="keyword">this</span>.items.length;
 
@@ -309,7 +308,7 @@ Takes a html list and will make it fit into the given containers</p>            
       <span class="keyword">return</span> <span class="keyword">this</span>;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Removes all classes from the containers</p>             </td>             <td class="code">               <div class="highlight"><pre>    _resetContainers: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Removes all classes from the containers</p>             </td>             <td class="code">               <div class="highlight"><pre>    _resetContainers: <span class="keyword">function</span>() {
       <span class="keyword">this</span>.$containers.removeClass();
       <span class="keyword">return</span> <span class="keyword">this</span>;
     }
