@@ -153,10 +153,18 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $buttons = self.$navgroups.find(<span class="string">'.grid'</span>).children();
 
+      $buttons.on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
+        <span class="keyword">return</span> !$(<span class="keyword">this</span>).hasClass(<span class="string">'has-products'</span>);
+      });
+
       $buttons.hammer().on(<span class="string">'tap'</span>, <span class="keyword">function</span>(){
 
         <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
             isActive = $<span class="keyword">this</span>.hasClass(<span class="string">'active'</span>);
+
+        <span class="keyword">if</span> ( !$<span class="keyword">this</span>.hasClass(<span class="string">'has-products'</span>) ) {
+          <span class="keyword">return</span> <span class="literal">true</span>;
+        }
 
         $buttons.removeClass(<span class="string">'active'</span>);
 
