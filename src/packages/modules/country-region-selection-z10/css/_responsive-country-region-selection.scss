@@ -5,36 +5,44 @@ $tabletMax: px-em(979);
 $phoneMax: px-em(767);
 
 @media (max-width: $tabletMax) {
-	.country-region {
-		.country-region-hdg {
-			margin: 40px 0 30px;
-		}
-		.continent {
-			margin: 40px 0 24px;
-		}
-		.matte {
-			margin-bottom: 40px;
-		}
-		.country-region-info {
-			margin-bottom: 70px;
-		}
-	}
+  .country-region {
+    .country-region-hdg {
+      margin: 40px 0 30px;
+    }
+    .continent {
+      margin: 40px 0 24px;
+    }
+    .matte {
+      margin-bottom: 40px;
+    }
+    .country-region-info {
+      margin-bottom: 70px;
+    }
+  }
 }
 
-@media (max-width: $tabletMax) {
-	.country-region {
-		.country-region-hdg {
-			margin: 30px 0 20px;
-		}
-		.continent {
-			margin: 30px 0 18px;
-			font-size: 1.125em;
-		}
-		.matte {
-			margin-bottom: 30px;
-		}
-		.country-region-info {
-			margin-bottom: 60px;
-		}
-	}
+@media (max-width: $phoneMax) {
+  .country-region {
+    .scrollable {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: scroll;
+    }
+    .country-region-hdg {
+      margin: 30px 0 20px;
+    }
+    .continent {
+      margin: 30px 0 18px;
+      font-size: 1.125em;
+    }
+    .matte {
+      margin-bottom: 30px;
+    }
+    .country-region-info {
+      margin-bottom: 60px;
+    }
+  }
 }
