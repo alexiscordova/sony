@@ -58,7 +58,14 @@ define(function(require) {
     constructor: RecentlyViewed,
 
     init: function() {
-      var self = this;
+      var self = this,
+          breakEarly = self.$el.data( 'breakEarly' ),
+          setupTabletBreakpoint = breakEarly ?
+            '(min-width: 48em) and (max-width: 74.9375em)' :
+            '(min-width: 48em) and (max-width: 61.1875em)',
+          teardownTabletBreakpoint = breakEarly ?
+            '(min-width: 75em)' :
+            '(min-width: 61.25em)';
 
       self.$wrapper = self.$el.find( '.sony-carousel-wrapper' );
       self.$carousel = self.$el.find( '.sony-carousel' );
@@ -73,12 +80,12 @@ define(function(require) {
               self._setupDesktop();
             }
           })
-          .register('(min-width: 48em) and (max-width: 61.1875em)', {
+          .register( setupTabletBreakpoint, {
             match: function() {
               self._setupTablet();
             }
           })
-          .register('(min-width: 61.25em)', {
+          .register( teardownTabletBreakpoint, {
             match: function() {
               self._teardownTablet();
             }

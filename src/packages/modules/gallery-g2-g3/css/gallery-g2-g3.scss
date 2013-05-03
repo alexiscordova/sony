@@ -303,6 +303,11 @@ $gifHeight: 60px;
 
   .btn {
     margin-bottom: 0;
+
+    i {
+      // Hack to remove dot in top left of font icon
+      -webkit-font-smoothing: antialiased;
+    }
   }
 
   .product-count-wrap {
@@ -582,11 +587,13 @@ $gifHeight: 60px;
   .tabs {
   }
 
+  $sidePadding: px-em( 8px );
   .tab {
     text-align: center;
+    padding: 0 $sidePadding;
 
     [class*="fonticon-30-"] {
-      margin: -.1875em; // 9/48
+      // margin: -.1875em; // 9/48
     }
 
     // Change the icon color on hover/active
@@ -596,10 +603,19 @@ $gifHeight: 60px;
     }
   }
 
+  .tab-inside {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: $sidePadding;
+    left: $sidePadding;
+  }
+
   // Has to be pixels because of ghost-centering
   .holder-for-icon {
-    height: 28px;
-    margin-bottom: 12px;
+    height: px-em( 28px );
+    margin-bottom: px-em( 16px );
+    margin-top: px-em( 18px );
 
     i {
       color: $gray40;
@@ -608,7 +624,6 @@ $gifHeight: 60px;
   }
 
   .tab-label {
-    white-space: nowrap;
     margin-bottom: 0;
     line-height: 1;
   }
@@ -816,7 +831,7 @@ $stickyHeaderHeight: px-em(82);
   }
 
   .detail.highlighted {
-    background: $lemon;
+    background: $swatchLemon;
 
     .p3 {
       color: $gray20;
@@ -965,6 +980,12 @@ $stickyHeaderHeight: px-em(82);
     height: 100%;
   }
 
+  .modal-inner {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+
   .modal-header {
     padding: px-em(36) 0 px-em(30);
 
@@ -985,6 +1006,12 @@ $stickyHeaderHeight: px-em(82);
     padding: px-em(15) 0;
     background: $gray80;
     @include transition( box-shadow $transitionNormal $easeNormal );
+
+    .sonytablets & {
+      // position: static;
+      // min-height: px-em(80);
+      // @include transition( none );
+    }
 
     &.body-scrolled {
       @include box-shadow( 0 6px 10px -4px $stickyShadowColor );
@@ -1039,12 +1066,17 @@ $stickyHeaderHeight: px-em(82);
     }
 
     #accessory-finder-input {
+      // Dont give me those rounded edges, jerk
+      -webkit-appearance: none;
+      border-radius: 0;
+
       width: 100%;
       height: px-em(50, 15);
       border: 0;
       margin: 0;
       padding: 0 px-em(10, 15) 0 px-em(45, 15);
       @include borderBox();
+
 
       .lt-ie9 & {
         padding-top: 10px;
