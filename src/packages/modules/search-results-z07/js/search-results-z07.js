@@ -22,7 +22,8 @@ define(function(require){
         self.loadMore();
       });
       self.$clearBtn.on({
-        click: function () {
+        click: function ( evt ) {
+          evt.preventDefault();
           self.clearSearch(event);
         }
       });

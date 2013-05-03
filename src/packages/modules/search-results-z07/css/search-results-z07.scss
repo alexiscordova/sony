@@ -24,7 +24,6 @@
 
   .media {
       margin: 0 0 15px 0;
-
   }
 
   .media,
@@ -35,14 +34,28 @@
   }
 
   .media .img {
-      float:left;
       margin-right: 16px;
+      float: left;
   }
-  
+
   .featured-result .media .img {
-    background: $gray80;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
   }
-  
+
+  .featured-result .media .media-img {
+    display: table;
+    width: 200px;
+    height: 180px;
+    text-align: center;
+    background: $gray80;
+    float: left;
+    .img {
+      float: none;
+    }
+  }
+
   .featured-result .media .img:hover {
     cursor: pointer;
     background: $gray75;
@@ -52,7 +65,7 @@
       margin-right: 3.52941%;
   }
 
-  .media .img img { display:block; }
+  .media .img img { display:inline-block; }
 
   .media .imgExt {
       float:right;
@@ -136,7 +149,7 @@
   }
 
   .featured-result {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
   }
 
   .featured-list > li{
@@ -148,13 +161,13 @@
     padding: 18px 20px 20px 20px;
     border-bottom: 1px solid #e7e9ed;
   }
-  
+
   .results-list .results-p {
     display: block;
     width: 90%;
     float: left;
   }
-  
+
   .results-list i.fonticon-10-chevron {
     float: right;
     margin: 25px 0 0 15px;
@@ -173,7 +186,7 @@
     background-color: $gray80;
     cursor: pointer;
   }
-  
+
   .results-list > li:hover i.fonticon-10-chevron {
     color: $linkBlueHover;
   }
@@ -190,7 +203,7 @@
     background-color: $gray70;
     color: $gray20;
   }
-  
+
   .search-more:hover {
     color: white;
     background-color: #83838f;
@@ -227,13 +240,13 @@
   .reviews-copy {
     margin-bottom: 10px;
   }
-  
+
   .rv-module {
     margin: 0;
   }
-  
+
   .sony-dot-nav {
-    display: none;
+    margin-top: 30px;
   }
 
   .rv-module .slimgrid {
@@ -246,9 +259,20 @@
   .sony-carousel-wrapper.grid {
     width: 100%;
   }
-  
+
   .product-name {
     color: $gray20;
+  }
+
+  .rv-module .m-container {
+    position: relative;
+  }
+
+  .rv-module .pagination-prev {
+    left: -3.55%;
+  }
+  .rv-module .pagination-next {
+    right: -3.55%;
   }
 
   .rv-module {

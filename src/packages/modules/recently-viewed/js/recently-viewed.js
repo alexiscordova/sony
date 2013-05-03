@@ -61,12 +61,17 @@ define(function(require) {
       var self = this,
           breakEarly = self.$el.data( 'breakEarly' ),
           setupTabletBreakpoint = breakEarly ?
-            '(min-width: 48em) and (max-width: 74.9375em)' :
+            '(min-width: 48em) and (max-width: 87.4375em)' :
             '(min-width: 48em) and (max-width: 61.1875em)',
           teardownTabletBreakpoint = breakEarly ?
-            '(min-width: 75em)' :
-            '(min-width: 61.25em)';
+            '(min-width: 87.5em)' :
+            '(min-width: 61.25em)',
+          desktopBreakpoint = '(min-width: 48em)',
+          mobileBreakpoint = '(max-width: 47.9375em)';
 
+      self.isTabletAndDesktopOnLoad = Modernizr.mq( setupTabletBreakpoint ) && Modernizr.mq( desktopBreakpoint );
+
+      self.$paddleWrapper = self.$el.find( self.$el.data( 'paddle-wrapper' ) );
       self.$wrapper = self.$el.find( '.sony-carousel-wrapper' );
       self.$carousel = self.$el.find( '.sony-carousel' );
       self.$favorites = self.$el.find('.js-favorite');
@@ -75,7 +80,7 @@ define(function(require) {
       if ( Modernizr.mediaqueries ) {
 
         enquire
-          .register('(min-width: 48em)', {
+          .register( desktopBreakpoint, {
             match: function() {
               self._setupDesktop();
             }
@@ -90,7 +95,7 @@ define(function(require) {
               self._teardownTablet();
             }
           })
-          .register('(max-width: 47.9375em)', {
+          .register( mobileBreakpoint, {
             match: function() {
               self._setupMobile();
             }
@@ -114,6 +119,28 @@ define(function(require) {
       self.$productNames.evenHeights();
     },
 
+    initCarousel : function() {
+      var self = this,
+          $paddleWrapper = self.$paddleWrapper.length ? self.$paddleWrapper : undefined;
+
+      // Initialize a new sony carousel
+      self.$carousel.sonyCarousel({
+        wrapper: '.sony-carousel-wrapper',
+        slides: '.sony-carousel-slide',
+        pagination: true,
+        paddles: true,
+        useSmallPaddles: true,
+        $paddleWrapper: $paddleWrapper
+      });
+
+      return self;
+    },
+
+    destroyCarousel : function() {
+      this.$carousel.sonyCarousel( 'destroy' );
+      return this;
+    },
+
     _setupDesktop : function() {
       var self = this,
           wasMobile = self.isMobile;
@@ -133,22 +160,21 @@ define(function(require) {
         setTimeout( Utilities.forceWebkitRedraw, 0 );
       }
 
-      // Initialize a new sony carousel
-      self.$carousel.sonyCarousel({
-        wrapper: '.sony-carousel-wrapper',
-        slides: '.sony-carousel-slide',
-        pagination: true,
-        paddles: true,
-        useSmallPaddles: true
-      });
+      // Avoid initializing carousel twice on load because the tablet breakpoint overlaps desktop
+      if ( self.isTabletAndDesktopOnLoad === false ) {
+        self.initCarousel();
+      }
 
+      self.isTabletAndDesktopOnLoad = false;
       self.isDesktop = true;
       self.isMobile = false;
     },
 
     _setupTablet : function() {
       var self = this;
+      self.destroyCarousel();
       self.arrangeItemsInSlides( 4 );
+      self.initCarousel();
       self.isTablet = true;
     },
 
@@ -160,7 +186,9 @@ define(function(require) {
         return;
       }
 
+      self.destroyCarousel();
       self.arrangeItemsInSlides( 6 );
+      self.initCarousel();
       self.isTablet = false;
     },
 
@@ -265,9 +293,7 @@ define(function(require) {
 
       self.$carousel
         .empty()
-        .append( frag )
-        .sonyCarousel('resetSlides')
-        .sonyCarousel('gotoNearestSlide');
+        .append( frag );
     }
   };
 
