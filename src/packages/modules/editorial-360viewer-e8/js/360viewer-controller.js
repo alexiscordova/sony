@@ -81,6 +81,7 @@ define(function(require){
     self.inMotion       = false;
     self.throttle       = 3;
     self.inViewport     = false;
+    self.moves          = 0;
     
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
@@ -127,7 +128,7 @@ define(function(require){
             }
           } else {
             self.inViewport = false;
-          }
+          } 
         }, 100);
         
         self.$controls.on( 'touch', function( event ) {
@@ -160,7 +161,7 @@ define(function(require){
         // track mousemove
         $( self.$controls ).bind( 'mousemove', function( event ) {
           self.mouseMove( event );
-        });    
+        });
       }
 
 
@@ -217,36 +218,16 @@ define(function(require){
     },
     
     touchMove: function( event ) {
-      var self    = this,
-          pageX   = event.gesture.center.pageX,
-          doMove  = false;
+      var self      = this,
+          pageX     = event.gesture.distance,
+          direction = event.gesture.direction,
+          doMove    = false;
       
-      // set a default if not already set
-      if( null === self.lastTriggerX ) {
-        self.lastTriggerX = self.lastX = pageX;
-      }
-      
-      if( pageX > ( self.lastTriggerX /* + self.dynamicBuffer */ ) ) {
-        // moving right
-        self.movingLeft   = false;
-        self.movingRight  = true;
-        doMove = true;
-        self.lastTriggerX = pageX;
-      } else if( pageX < ( self.lastTriggerX /* - self.dynamicBuffer */ ) ) {
-        // moving left
-        self.movingLeft   = true;
-        self.movingRight  = false;
-        doMove = true;
-        self.lastTriggerX = pageX;
-      }
-      
-      // shall we?
-      if( self.clicked && doMove ) {
-        var direction = self.movingLeft ? "left" : "right";
+      if( 0 === self.moves % 10 ) {
         self.move( direction );
       }
 
-      self.lastX = pageX;
+      self.moves++;
     },
     
     mouseDown: function( event ) {
@@ -297,6 +278,10 @@ define(function(require){
       }
 
       self.lastX = event.pageX;
+    },
+    
+    mobileLog: function( data ) {
+      $( '.debug' ).append( data.toString() ).append( '<br />' );
     },
     
     animateDragger: function( cycles ) {
