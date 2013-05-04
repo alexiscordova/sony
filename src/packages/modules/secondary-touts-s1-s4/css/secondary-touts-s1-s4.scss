@@ -90,6 +90,27 @@
       min-width: 30%;
     }
   }
+
+  &.content-4 {
+
+    max-width: px-em($baseWidth * 2.5);
+    width: percentage($baseWidth / 766px * 2.5);
+
+    //tablets
+    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+      max-width: percentage(400px / 463px) * 2.5;
+      width: percentage(400px / 463px * 2.5);
+    }
+
+    //phones
+    @media( max-width: px-em(480px) ){
+      h1, h2, h3, h4, h5, h6 {
+        max-width: percentage(400px / 533px * 2.5);
+      }
+      max-width: percentage(400px / 463px * 2.5);
+      width: percentage(400px / 463px * 2.5);
+    }
+  }
 }
 
 .secondary-tout {
@@ -776,6 +797,10 @@
         &.content-6 {
           @include onesonyTypeBlockWidths(300px);
         }
+
+        &.content-4 {
+          @include onesonyTypeBlockWidths(200px);
+        }
       }
 
       //shared
@@ -788,6 +813,7 @@
 
           &.light-text-dark-panel,
           &.dark-text-light-panel {
+            width: 100%;
             left: 0;
             bottom: 0;
           }
