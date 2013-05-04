@@ -179,7 +179,7 @@ mixin facebook(data)
 
     blockquote.bq5
         p= data.postCopy
-          a= data.postLink
+          a(href= data.postLink)= data.postLink
 
 mixin instagram(data)
   -images = data.images
