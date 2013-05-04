@@ -62,6 +62,10 @@ $maxChildren: 20;
         position: relative;
         top: -20px;
         color: $gray50;
+
+        .lt-ie8 & {
+          top: 0px;
+        }
       }
     }
 
@@ -96,13 +100,15 @@ $maxChildren: 20;
         text-align: right;
 
         .accesories-link {
+          position: relative;
           display: inline-block;
-          margin-bottom: 8px;
+          margin: 6px 0 8px 8px;
+          padding: 6px 0 0 34px;
 
           i {
-            position: relative;
-            top: 5px;
-            left: 2px;
+            position: absolute;
+            top: 2px;
+            left: -8px;
             color: $gray50;
           }
         }
@@ -115,6 +121,10 @@ $maxChildren: 20;
             font-size: 1.2em;
           }
         }
+      }
+
+      .mobile-links {
+        display: none;
       }
 
       .product {
