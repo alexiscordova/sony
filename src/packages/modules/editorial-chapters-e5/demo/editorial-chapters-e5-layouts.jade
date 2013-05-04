@@ -7,40 +7,64 @@ head
   include ../../../common/html/head.jade
 
 body
-  //- this module is no longer being supported
-  // h6 full white
-  // +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-white.json')
 
-  //- this module is no longer being supported
-  // h6 full gray
-  // +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-full-gray.json')
+  .container
+    h6 E5.A1
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e1-full-inner-center-example1.json')
+  hr
 
-  h6 E5 - Full Inner White
+  .container
+    h6 E5.B2
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e1-full-inner-left-example1.json')
+  hr
+
+  .container
+    h6 E5.C1
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e1-full-inner-right-example1.json')
+  hr
+
+  .container
+    h6 E5 D2 - ()
   // this module should contain chapters
-  +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/chapters-full-inner-white.json')
+  +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e5-full-inner-left-66-DL-L-example1.json')
   hr
 
-  //- E1
-  h6 E1 + E5 - Layout
-  //-+partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-layouts-e1/demo/data/textonly-left-102-D-L-lorem1.json')
-  //-+partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/chapters-full-gray.json')
-  hr
-  
-  h6 mediaright span6 gray
-  //-+partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-57-mediaright-gray.json')
+  .container
+    h6 E5 E1 - ()
+  // this module should contain chapters
+  +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e5-full-inner-right-66-LD-L-example1.json')
   hr
 
-  h6 medialeft span6 white
-  //-+partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-66-medialeft-white.json')
+  .container
+    h6 E5 F2 - ()
+  // this module should contain chapters
+  +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e5-full-inner-left-57-DL-L-example1.json')
   hr
 
-  h6 medialeft span6 grey + hotspots
-  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e10-medialeft-grey-hotspot.json')
+  .container
+    h6 E5 G1 - ()
+  // this module should contain chapters
+  +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e5-full-inner-right-75-LD-L-example1.json')
   hr
 
-  h6 mediaright span6 white + hotspots
-  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e10-mediaright-white-hotspot.json')
+  .container
+    h6 E5 H4 - ()
+  // this module should contain chapters
+  +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e5-full-inner-D-C-example1.json')
   hr
+
+  .container
+    h6 E5 I1 - ()
+  // this module should contain chapters
+  +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e5-full-inner-right-75-LD-L-example2.json')
+  hr
+
+  .container
+    h6 E5 J2 - (uses E1 partial with E5 data for chapters)
+  // this module should contain chapters
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e5-66-media-left-example1.json')
+  hr
+
 
   include ../../../common/html/foot.jade
 </html>

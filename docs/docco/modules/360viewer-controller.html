@@ -75,6 +75,7 @@ define(<span class="keyword">function</span>(require){
     self.inMotion       = <span class="literal">false</span>;
     self.throttle       = <span class="number">3</span>;
     self.inViewport     = <span class="literal">false</span>;
+    self.moves          = <span class="number">0</span>;
     
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
@@ -115,7 +116,7 @@ define(<span class="keyword">function</span>(require){
             }
           } <span class="keyword">else</span> {
             self.inViewport = <span class="literal">false</span>;
-          }
+          } 
         }, <span class="number">100</span>);
         
         self.$controls.on( <span class="string">'touch'</span>, <span class="keyword">function</span>( event ) {
@@ -145,7 +146,7 @@ define(<span class="keyword">function</span>(require){
         
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>track mousemove</p>             </td>             <td class="code">               <div class="highlight"><pre>        $( self.$controls ).bind( <span class="string">'mousemove'</span>, <span class="keyword">function</span>( event ) {
           self.mouseMove( event );
-        });    
+        });
       }
 
 
@@ -200,32 +201,16 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
     },
     
     touchMove: <span class="keyword">function</span>( event ) {
-      <span class="keyword">var</span> self    = <span class="keyword">this</span>,
-          pageX   = event.gesture.center.pageX,
-          doMove  = <span class="literal">false</span>;
+      <span class="keyword">var</span> self      = <span class="keyword">this</span>,
+          pageX     = event.gesture.distance,
+          direction = event.gesture.direction,
+          doMove    = <span class="literal">false</span>;
       
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>set a default if not already set</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">null</span> === self.lastTriggerX ) {
-        self.lastTriggerX = self.lastX = pageX;
-      }
-      
-      <span class="keyword">if</span>( pageX &gt; ( self.lastTriggerX <span class="comment">/* + self.dynamicBuffer */</span> ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>moving right</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.movingLeft   = <span class="literal">false</span>;
-        self.movingRight  = <span class="literal">true</span>;
-        doMove = <span class="literal">true</span>;
-        self.lastTriggerX = pageX;
-      } <span class="keyword">else</span> <span class="keyword">if</span>( pageX &lt; ( self.lastTriggerX <span class="comment">/* - self.dynamicBuffer */</span> ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>moving left</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.movingLeft   = <span class="literal">true</span>;
-        self.movingRight  = <span class="literal">false</span>;
-        doMove = <span class="literal">true</span>;
-        self.lastTriggerX = pageX;
-      }
-      
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>shall we?</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( self.clicked &amp;&amp; doMove ) {
-        <span class="keyword">var</span> direction = self.movingLeft ? <span class="string">"left"</span> : <span class="string">"right"</span>;
+      <span class="keyword">if</span>( <span class="number">0</span> === self.moves % <span class="number">10</span> ) {
         self.move( direction );
       }
 
-      self.lastX = pageX;
+      self.moves++;
     },
     
     mouseDown: <span class="keyword">function</span>( event ) {
@@ -250,28 +235,32 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
         
       event.preventDefault();
       
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>set a default if not already set</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">null</span> === self.lastTriggerX ) {
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>set a default if not already set</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">null</span> === self.lastTriggerX ) {
         self.lastTriggerX = self.lastX = event.pageX;
       }
       
       <span class="keyword">if</span>( event.pageX &gt; ( self.lastTriggerX + self.dynamicBuffer ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>moving right</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.movingLeft   = <span class="literal">false</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>moving right</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.movingLeft   = <span class="literal">false</span>;
         self.movingRight  = <span class="literal">true</span>;
         doMove = <span class="literal">true</span>;
         self.lastTriggerX = event.pageX;
       } <span class="keyword">else</span> <span class="keyword">if</span>( event.pageX &lt; ( self.lastTriggerX - self.dynamicBuffer ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>moving left</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.movingLeft   = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>moving left</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.movingLeft   = <span class="literal">true</span>;
         self.movingRight  = <span class="literal">false</span>;
         doMove = <span class="literal">true</span>;
         self.lastTriggerX = event.pageX;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>shall we?</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( self.clicked &amp;&amp; doMove ) {
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>shall we?</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( self.clicked &amp;&amp; doMove ) {
         <span class="keyword">var</span> direction = self.movingLeft ? <span class="string">"left"</span> : <span class="string">"right"</span>;
         self.move( direction );
       }
 
       self.lastX = event.pageX;
+    },
+    
+    mobileLog: <span class="keyword">function</span>( data ) {
+      $( <span class="string">'.debug'</span> ).append( data.toString() ).append( <span class="string">'&lt;br /&gt;'</span> );
     },
     
     animateDragger: <span class="keyword">function</span>( cycles ) {
@@ -342,23 +331,23 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
     pluck: <span class="keyword">function</span>( lastIndex ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>find by data index</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span>( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; self.$sequence.length; i++ ) {
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>find by data index</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span>( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; self.$sequence.length; i++ ) {
         <span class="keyword">if</span>( lastIndex == $( self.$sequence[i] ).data( <span class="string">'sequence-id'</span> ) ) {
           <span class="keyword">return</span> $( self.$sequence[i] );
         }
       }
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>not found</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">return</span> <span class="literal">false</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>not found</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">return</span> <span class="literal">false</span>;
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.editorial360Viewer = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           editorial360Viewer = self.data(<span class="string">'editorial360Viewer'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !editorial360Viewer ) {
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !editorial360Viewer ) {
           editorial360Viewer = <span class="keyword">new</span> Editorial360Viewer( self, options );
           self.data( <span class="string">'editorial360Viewer'</span>, editorial360Viewer );
       }
@@ -369,12 +358,12 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
     });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.editorial360Viewer.defaults = {
     options: {}
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.editorial360Viewer.settings = {
     isTouch: !!( <span class="string">'ontouchstart'</span> <span class="keyword">in</span> window ),
     isInitialized: <span class="literal">false</span>
