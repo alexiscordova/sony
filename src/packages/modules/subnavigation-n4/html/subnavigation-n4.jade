@@ -54,7 +54,7 @@ section.subnav-module(id = data.id ? data.id : false)
                   .marketing-tout.span3.m-span2
                     a(href=item.link)
                       img(src=item.imageSrc)
-                      p.t5
+                      p.t6-light
                         span !{item.message + " "}
                           span.highlight !{item.linkText}
                             i.fonticon-10-chevron-sm.l-o-d
@@ -66,7 +66,7 @@ section.subnav-module(id = data.id ? data.id : false)
                       img(src=item.imageSrc)
                     .details
                       h4.t7 !{item.label}
-                      p.l3 !{item.count} !{subcategory.title}
+                      p.l3.subnav-product-count !{item.count} !{subcategory.title}
                       p.p3.message !{item.message}
                       p.p3.price Starting at
                         strong.p2-bold !{" " + item.startingAtPrice + " "}
