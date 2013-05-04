@@ -201,6 +201,11 @@ define(function(require){
 
       // Don't snap if it's disabled
       if ( !self.snap ) {
+
+        if ( self.onlySnapAtEnds ) {
+          self.snapAtEnds();
+        }
+
         return;
       }
 
@@ -424,6 +429,22 @@ define(function(require){
       self.currentSlide = which;
 
       self.$el.trigger('SonyCarousel:gotoSlide', self.currentSlide);
+    },
+
+    snapAtEnds: function() {
+
+      var self = this,
+          lastSlide = self.$slides.length - 1;
+
+      if ( self.$slides.get(0).getBoundingClientRect().left - self.$wrapper.get(0).getBoundingClientRect().left > 0 ) {
+        self.gotoSlide(0);
+        return;
+      }
+
+      if ( self.$slides.get(lastSlide).getBoundingClientRect().right - self.$wrapper.get(0).getBoundingClientRect().right  < 0 ) {
+        self.gotoSlide(lastSlide);
+        return;
+      }
     },
 
     createPagination: function () {
