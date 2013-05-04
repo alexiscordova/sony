@@ -203,6 +203,11 @@ reset position to the nearest one.</p>             </td>             <td class="
           goToWhich;
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Don't snap if it's disabled</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.snap ) {
+
+        <span class="keyword">if</span> ( self.onlySnapAtEnds ) {
+          self.snapAtEnds();
+        }
+
         <span class="keyword">return</span>;
       }
 
@@ -418,6 +423,22 @@ Reset the carousel to its natural position and order.</p>             </td>     
       self.currentSlide = which;
 
       self.$el.trigger(<span class="string">'SonyCarousel:gotoSlide'</span>, self.currentSlide);
+    },
+
+    snapAtEnds: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          lastSlide = self.$slides.length - <span class="number">1</span>;
+
+      <span class="keyword">if</span> ( self.$slides.get(<span class="number">0</span>).getBoundingClientRect().left - self.$wrapper.get(<span class="number">0</span>).getBoundingClientRect().left &gt; <span class="number">0</span> ) {
+        self.gotoSlide(<span class="number">0</span>);
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">if</span> ( self.$slides.get(lastSlide).getBoundingClientRect().right - self.$wrapper.get(<span class="number">0</span>).getBoundingClientRect().right  &lt; <span class="number">0</span> ) {
+        self.gotoSlide(lastSlide);
+        <span class="keyword">return</span>;
+      }
     },
 
     createPagination: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
