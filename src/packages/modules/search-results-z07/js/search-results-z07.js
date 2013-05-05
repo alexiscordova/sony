@@ -50,7 +50,7 @@ define(function(require){
       self.$clearBtn.on({
         click: function(evt) {
           evt.preventDefault();
-          self.clearSearch(evy);
+          self.clearSearch(evt);
         }
       });
       self.$search.on({
