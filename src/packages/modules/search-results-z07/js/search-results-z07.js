@@ -13,7 +13,7 @@ define(function(require){
   var $ = require('jquery');
 
   var module = {
-    init: function() {
+    'init': function() {
       var searchResults = $('.search-results');
       if ( searchResults ) {
         new SearchResultsModule(searchResults);
