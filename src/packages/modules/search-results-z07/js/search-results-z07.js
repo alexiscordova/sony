@@ -26,6 +26,8 @@ define(function(require){
     self.$el = $(element);
 
     self.init();
+
+    log('SONY : SearchResults : Initialized');
   };
 
   SearchResultsModule.prototype = {

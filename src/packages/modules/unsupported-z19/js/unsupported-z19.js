@@ -27,7 +27,10 @@ define(function(require){
   var UnsupportedBrowsers = function(element) {
     var self = this;
     self.$el = $(element);
+
     self.init();
+
+    log('SONY : UnsupportedBrowsers : Initialized');
   };
 
   UnsupportedBrowsers.prototype = {

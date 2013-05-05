@@ -36,6 +36,8 @@ define(function(require){
     self.$el = $(element);
 
     self.init();
+
+    log('SONY : SenConvergence : Initialized');
   };
 
   SenConvergence.prototype = {

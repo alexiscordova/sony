@@ -19,6 +19,8 @@ define(function(require){
       $('.launch-modal').on('click', function(){
         $('#light-compare-modal').modal();
       });
+
+      log('SONY : LightCompare : Initialized');
     }
   };
 
