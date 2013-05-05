@@ -39,6 +39,9 @@ define(function(require){
   };
 
   SenConvergence.prototype = {
+
+    constructor: SenConvergence,
+
     init: function() {
       var self = this;
       self.$slides = self.$el.children();

@@ -27,9 +27,13 @@ define(function(require){
   var UnsupportedBrowsers = function(element) {
     var self = this;
     self.$el = $(element);
+    self.init();
   };
 
   UnsupportedBrowsers.prototype = {
+
+    constructor: UnsupportedBrowsers,
+
     init: function() {
       var self = this;
       self.$win = $(window);
