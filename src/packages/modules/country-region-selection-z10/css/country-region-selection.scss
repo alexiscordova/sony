@@ -5,32 +5,45 @@
 .country-region {
   .continent-sticky-header {
     top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    padding-left: 22px;
     position: fixed;
     z-index: 1000;
-    background-color: $gray80;
+    background-color: $white;
     display: none;
+    -webkit-box-shadow: 0 0.0625em 0.625em rgba(39, 43, 55, 0.25);
+    box-shadow: 0 0.0625em 0.625em rgba(39, 43, 55, 0.25);
+  }
+  .country-region-hdg {
+    margin: 50px 0 30px;
   }
 
   .matte {
       margin-top: 16px;
-      margin-bottom: 69px;
+      margin-bottom: 50px;
       background-color: $gray80;
   }
 
   .continent-sticky-header-title {
     position: relative;
+    padding: 12px 0;
   }
 
   .continent {
-      margin-top: 26px;
+      margin: 50px 0 24px;
   }
 
   .countries {
       margin-top: 20px;
       margin-bottom: 14px;
       padding-bottom: 30px;
-      border-bottom: 1px solid $gray70;
+      border-bottom: 1px solid $gray60;
       @include clearfix();
+      &:last-child {
+        border: none;
+      }
   }
 
   .countries ol {
@@ -68,13 +81,8 @@
       line-height: 16px;
   }
 
-  .scrollable {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: scroll;
+  .country-region-info {
+    margin-bottom: 80px;
   }
 
   .info-hd {

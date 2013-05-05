@@ -2,11 +2,14 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('recently-viewed')
 +includeJavascriptModule('recently-viewed')
 
-
-.rv-module
+moduleId = data.id ? data.id : false
+.rv-module(id=moduleId)
   .container
     .grid
-      h4.t6.rv-title= data.title
+      if data.config.mode == 'strip'
+        h2(class='l1')= data.title
+      else
+        h4.t6.rv-title= data.title
 
   .m-container
     .sony-carousel-wrapper
@@ -25,6 +28,7 @@ include ../../../common/html/jade-helpers.jade
                   each module in slide
                     d = locals.data( module.data )
                     - d.view = "simple"
+                    - d.rp = data.config.mode == 'strip'
                     e = { "locals" : locals, "data" : d }
                     !{locals.partial( module.type, e )}
 

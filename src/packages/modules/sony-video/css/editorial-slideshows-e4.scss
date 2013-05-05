@@ -1,0 +1,52 @@
+@import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../../../common/css/_base/mixins";
+
+.EDITORIALSLIDESHOWS {}
+
+.editorial-slidshow-container {
+  margin-bottom: 40px;
+
+  .editorial-slideshow {
+    position: relative;
+
+    .editorial-carousel-wrapper {
+      position: relative;
+      overflow: hidden;
+
+      .editorial-carousel {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        -webkit-backface-visibility: hidden;
+
+        .editorial-carousel-slide {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          float: left;
+          display: block;
+
+          img {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .t2 {
+      color: $gray20;
+    }
+
+    .p2 {
+      color: $gray40;
+    }
+
+    a.opt-link {
+      color: $linkBlue;
+      display: block;
+    }
+  }
+
+}

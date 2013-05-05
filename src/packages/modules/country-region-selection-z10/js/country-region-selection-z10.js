@@ -116,8 +116,6 @@ define(function(require){
       this.currentHeader = undefined;
       this.headerIsVisible = false;
 
-      this.$fixedHeader.css('left', $(this.$headers[0]).offset().left + 'px');
-
       return this._getHeaderOffsets();
     },
 
@@ -145,9 +143,6 @@ define(function(require){
         onScrollEnd: handler
       });
 
-      // Align fixed header with other headers
-      this.$fixedHeader.css('left', $(this.$headers[0]).offset().left + 'px');
-
       return this;
     },
 
@@ -156,6 +151,7 @@ define(function(require){
       this.$fixedHeader.hide();
 
       if (this.scroll) {
+        this.scroll.scrollTo();
         this.scroll.destroy();
       }
 
@@ -164,6 +160,9 @@ define(function(require){
 
     // Called by iScroll when a scroll event happens.
     scrollHandler: function() {
+      var self = this;
+      self.scroll.refresh();
+
       var offsetTarget = Math.abs(this.scroll.y); // iScroll.y is negative
       this.updateFixedHeader(offsetTarget);
     },

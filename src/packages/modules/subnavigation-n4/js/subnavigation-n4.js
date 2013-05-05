@@ -136,6 +136,7 @@ define(function(require){
 
       self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
         draggable: true,
+        snap: !isMobile,
         onlySnapAtEnds: isMobile,
         wrapper: '.subnav-nav-carousel-wrapper',
         slides: '.subnav-nav-carousel-slide',
@@ -153,10 +154,18 @@ define(function(require){
       var self = this,
           $buttons = self.$navgroups.find('.grid').children();
 
+      $buttons.on('click', function(){
+        return !$(this).hasClass('has-products');
+      });
+
       $buttons.hammer().on('tap', function(){
 
         var $this = $(this),
             isActive = $this.hasClass('active');
+
+        if ( !$this.hasClass('has-products') ) {
+          return true;
+        }
 
         $buttons.removeClass('active');
 

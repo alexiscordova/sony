@@ -45,13 +45,12 @@ $superDesktop: px-em(1200);
       padding: 0 12px 0 0;
     }
 
-    .m2up > div.center .toutcopy,
-    .m3up > div.center .toutcopy {
+    .tout-grid > div.center .toutcopy {
       padding: 0 8px;
     }
 
     // No body copy
-    .m2up .copy .hidden-phone {
+    .m2up-horizontal .copy p {
       display: none !important; // override important from hidden-phone display:inherit;
     }
 
@@ -85,15 +84,17 @@ $superDesktop: px-em(1200);
 }
 
 // Phone only
+$mobileSidePadding: 0 18px;
 @media (max-width: $phoneMax) {
   .editorial {
+    overflow: hidden;
 
     .no-grid-at-767{
       width: 100%;
     }
 
     .box {
-      padding: 0 18px;
+      padding: $mobileSidePadding;
 
       .link {
         margin-top: 24px;
@@ -143,17 +144,11 @@ $superDesktop: px-em(1200);
 
     .grid {
       min-height: 0;
-    }
-
-    .table-center-wrap {
-      height: auto;
-    }
-
-    .grid {
       width: 100%;
     }
 
     .table-center-wrap {
+      height: auto;
       margin-top: 0;
     }
 
@@ -176,10 +171,10 @@ $superDesktop: px-em(1200);
 
   .editorial.full-tout,
   .editorial.tout {
-    padding: 42px 0 28px;
+    padding: 24px 0 20px;
 
     .container {
-      overflow: hidden;
+      overflow: visible; // let it overflow from the edge
       padding-bottom: 2px;
     }
 
@@ -187,22 +182,28 @@ $superDesktop: px-em(1200);
       width: 100%
     }
 
-    .m2up .image-module,
-    .m3up .image-module {
-      margin-bottom: 0;
+    // All *ups
+    .tout-grid {
+    }
+
+    // yay pete and his specificity!
+    .container .tout-grid.grid .toutcopy {
+      padding: 0;
+    }
+
+    // No body copy
+    .m2up-horizontal .copy p {
+      display: none !important; // override important from hidden-phone display:inherit;
     }
 
     // Mobile 1up
     .m1up {
+      padding: $mobileSidePadding;
       max-width: none;
 
       .textright,
       .textleft {
         padding: 0;
-      }
-
-      .offset1 {
-        // margin-bottom: 30px;
       }
     }
 
@@ -218,7 +219,7 @@ $superDesktop: px-em(1200);
         float: left;
         width: 45%;
         margin-right: 5%;
-        padding: 0 18px;
+        padding: $mobileSidePadding;
       }
 
       .horizontal .image-module {
@@ -233,10 +234,6 @@ $superDesktop: px-em(1200);
 
       .horizontal .table-center-wrap {
         padding: 0 20px;
-      }
-
-      .vertical .toutcopy {
-        padding: 0 24px 0 0;
       }
     }
 
@@ -253,11 +250,7 @@ $superDesktop: px-em(1200);
         position: relative;
         width: 30%;
         margin-right: 3%;
-        padding: 0 18px;
-
-        .toutcopy {
-          padding: 0 16px 0 0;
-        }
+        padding: $mobileSidePadding;
       }
     }
   }
@@ -286,6 +279,19 @@ $superDesktop: px-em(1200);
     }
   }
 
+  // Full touts
+  .editorial.full-tout {
+
+    .box {
+      margin-bottom: 16px;
+    }
+
+    .submodule {
+      margin-top: 0;
+    }
+  }
+
+  // Touts
   .editorial.tout {
 
     // Container width combined with grid width
@@ -305,14 +311,28 @@ $superDesktop: px-em(1200);
     }
 
     // Has a 30px margin bottom from the desktop css
-    .m2up .vertical .image-module {
+    // added `.container .tout-grid` for specificity
+    .container .tout-grid .image-module {
+      margin-top: 6px;
       margin-bottom: 0;
     }
 
+    // Spacing for 3up that also has copy above it
     .box {
-      margin-bottom: 18px;
+      margin-bottom: 28px;
     }
   }
+
+  // Both full-touts and touts
+  .editorial.full-tout,
+  .editorial.tout {
+
+    // Pull nav dots up a bit
+    .sony-dot-nav {
+      margin-top: 30px;
+    }
+  }
+
 
   .editorial .toutcopy .link {
     padding-top: 0;
@@ -328,17 +348,6 @@ $superDesktop: px-em(1200);
   .editorial.full-tout .title-block,
   .editorial.tout .title-block {
     padding: 0;
-  }
-
-  .editorial.full-tout {
-
-    .box {
-      margin-bottom: 16px;
-    }
-
-    .submodule {
-      margin-top: 0;
-    }
   }
 
   .editorial .m-grid-at-767 .offset1:first-child {

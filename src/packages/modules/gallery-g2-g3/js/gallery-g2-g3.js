@@ -1,5 +1,3 @@
-/*global log*/
-
 // ------------ Sony Gallery ------------
 // Module: Gallery
 // Version: 1.0
@@ -25,6 +23,7 @@ define(function(require){
       sonyStickyTabs = require('secondary/index').sonyStickyTabs,
       sonyStickyNav = require('secondary/index').sonyStickyNav,
       jquerySimpleScroll = require('secondary/index').jquerySimpleScroll,
+      Favorites = require('secondary/index').sonyFavorites,
       rangeControl = require('secondary/jodo.rangecontrol.1.4');
 
   var module = {
@@ -91,11 +90,6 @@ define(function(require){
     self.$window.on('orientationchange', debouncedResize );
     self.$window.on('resize.gallery', debouncedResize );
 
-    // Infinite scroll?
-    if ( self.hasInfiniteScroll ) {
-      self.initInfscr();
-    }
-
     // Initialize filter dictionaries to keep track of everything
     if ( self.hasFilters ) {
       self.initFilters();
@@ -109,7 +103,12 @@ define(function(require){
     // initialized immediately
     setTimeout(function() {
       self.initSwatches();
-      self.initTooltips();
+      self.initFavorites();
+
+      // Infinite scroll has to come after initFavorites
+      if ( self.hasInfiniteScroll ) {
+        self.initInfscr();
+      }
     }, 200);
 
     self.onResize( true );
@@ -430,6 +429,7 @@ define(function(require){
       if ( typeof method === 'string' ) {
         if ( $compareBtn.hasClass( 'in' ) ) {
           $compareBtn.removeClass( 'in' );
+          $compareBtn.attr('tabindex', '-1');
 
           // Remove the saved type
           $compareBtn.removeData( 'type' );
@@ -440,6 +440,7 @@ define(function(require){
       } else {
         if ( !$compareBtn.hasClass( 'in' ) ) {
           $compareBtn.addClass( 'in' );
+          $compareBtn.attr('tabindex', '');
 
           // Save the type that was filtered
           $compareBtn.data( 'type', filterName );
@@ -817,10 +818,16 @@ define(function(require){
     onRemoveFilter : function( evt ) {
       var self = this,
           data = $(evt.target).data(),
-          filterType = self.filterTypes[ data.filterName ];
+          filterType = self.filterTypes[ data.filterName ],
+          realType = self.filterData[ data.filterName ].realType;
 
       // Remove from internal data and UI
       self.deleteFilter( data.filter, data.filterName, filterType );
+
+      if ( realType === 'color' ) {
+        self.currentFilterColor = null;
+        self.hideFilteredSwatchImages();
+      }
 
       // Remove this label
       $(evt.target).remove();
@@ -1163,7 +1170,10 @@ define(function(require){
 
           // Initialize swatches and tooltips for ajax content
           self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
-          self.initTooltips( $newElements.find('.js-favorite') );
+          self.favorites.initTooltips( $newElements.find('.js-favorite') );
+
+          // Update our favorites
+          self.$favorites = self.$grid.find('.js-favorite');
 
           // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
           setTimeout(function() {
@@ -1275,35 +1285,10 @@ define(function(require){
       return self;
     },
 
-    initTooltips : function( $favorites ) {
-      var self = this;
-
-      $favorites = $favorites || self.$favorites;
-
-      // Favorite the gallery item immediately on touch devices
-      if ( self.isTouch ) {
-        $favorites
-          .on('touchend', $.proxy( self.onFavorite, self ))
-          .on('click', false);
-
-      // Show a tooltip on hover before favoriting on desktop devices
-      } else {
-        $favorites.on('click', $.proxy( self.onFavorite, self ));
-
-        $favorites.tooltip({
-          placement: 'offsettop',
-          title: function() {
-            var $jsFavorite = $(this);
-            return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
-          },
-          template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-        });
-      }
-
-      $favorites = null;
-
-      // Update our favorites
-      self.$favorites = self.$grid.find('.js-favorite');
+    initFavorites : function() {
+      this.favorites = new Favorites( this.$grid, {
+        itemSelector: this.itemSelector
+      });
     },
 
     initFavoritesGallery : function() {
@@ -1323,8 +1308,10 @@ define(function(require){
         $('.alert').remove();
       }
 
+      // Automatically select the share input on click
       Utilities.autoSelectInputOnFocus( self.$container.find( '.share-options input' ) );
 
+      // Direct the user to the right compare page
       $compareBtn.on('click', function( evt ) {
         var $btn = $( this ),
             destination = this.href,
@@ -1339,6 +1326,27 @@ define(function(require){
       });
 
       $compareBtn = null;
+
+      // Respond to favorite events
+
+      // Favorite added
+      // self.$grid.on( 'favoriteadded', function() {
+      // });
+
+      // Favorite removed
+      self.$grid.on( 'favoriteremoved', function( evt, $item ) {
+        // Remove the gallery item from the page if it's being removed and this is a favorites gallery
+        // Also make sure this gallery item isn't the recommended tile
+        if ( self.isFavoritesGallery && !$item.hasClass( 'recommended-tile' ) ) {
+          $('.tooltip')
+            // Try to remove them
+            .tooltip('hide')
+            // Forcefully remove them
+            .remove();
+          self.shuffle.remove( $item );
+          self.updateProductCount();
+        }
+      });
     },
 
     initRecommendedTile : function() {
@@ -2453,101 +2461,6 @@ define(function(require){
       }
     },
 
-    getFavoriteContent : function( $jsFavorite, isActive ) {
-      return isActive ?
-            $jsFavorite.data('activeTitle'):
-            $jsFavorite.data('defaultTitle');
-    },
-
-    // possibly https://github.com/ScottHamper/Cookies ?
-    handleFavorite : function( $galleryItem, isAdded ) {
-      var self = this,
-          favs = [];
-
-      // Save data
-      if ( isAdded ) {
-
-        // Save to account with ajax?
-        if ( Settings.isLoggedIn ) {
-          // TODO
-          $.getJSON( 'path/to/server', { add: true } );
-
-        // Store in cookie
-        } else {
-
-          // Check to make sure the browser can parse JSON ( IE7 )
-          if ( window.JSON ) {
-            // Browser support JSON parsing
-          }
-
-          // TODO
-          // Get the cookies (string) and convert it to an array
-          // favs = JSON.parse( Cookies.get( 'favorites' ) );
-          // Add this one to it
-          // favs.push( $galleryItem.attr('data-id') );
-          // Make it a string again
-          // favs = JSON.stringify( favs );
-          // Save it
-          // Cookies.set( 'favorites', favs );
-        }
-
-      // Remove data
-      } else {
-
-        if ( Settings.isLoggedIn ) {
-          // TODO
-          $.getJSON( 'path/to/server', { add: false } );
-
-        // Remove from stored cookie
-        } else {
-
-          // Check to make sure the browser can parse JSON ( IE7 )
-          if ( window.JSON ) {
-            // Browser support JSON parsing
-          }
-
-          // TODO
-          // Remove the id from the cookie
-        }
-
-        // Remove the gallery item from the page if it's being removed and this is a favorites gallery
-        // Also make sure this gallery item isn't the recommended tile
-        if ( self.isFavoritesGallery && !$galleryItem.hasClass( 'recommended-tile' ) ) {
-          $('.tooltip')
-            // Try to remove them
-            .tooltip('hide')
-            // Forcefully remove them
-            .remove();
-          self.shuffle.remove( $galleryItem );
-          self.updateProductCount();
-        }
-
-      }
-    },
-
-    onFavorite : function( evt ) {
-      var self = this,
-          $jsFavorite = $(evt.delegateTarget),
-          isAdding = !$jsFavorite.hasClass('active'),
-          content = self.isTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding );
-
-      $jsFavorite.toggleClass('active');
-
-      // Show the tooltip if it isn't a touch device
-      if ( !self.isTouch ) {
-        $('.gallery-tooltip .tooltip-inner')
-          .html( content )
-          .tooltip('show');
-      }
-
-      // Stop event from bubbling to <a> tag
-      evt.preventDefault();
-      evt.stopPropagation();
-
-      // Pass off the gallery item and a boolean indicating that favorited state
-      self.handleFavorite( $jsFavorite.closest( self.itemSelector ), isAdding );
-    },
-
     onFiltersHide : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
       this.$filterArrow.removeClass('in');
@@ -3369,7 +3282,6 @@ define(function(require){
       // False for event objects
       isInit = isInit === true;
 
-      // console.log('resize');
       if ( !isInit && self.isModalOpen ) {
 
         setTimeout(function() {
@@ -3384,6 +3296,7 @@ define(function(require){
 
           if ( self.hasTouch ) {
             screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+            // Stop the page from scrolling behind the modal
             $('#main').css({
               height: screenHeight,
               maxHeight: screenHeight,
@@ -3391,9 +3304,13 @@ define(function(require){
             });
           }
 
-          // Set it
-          self.$modalBody.css( 'maxHeight', maxBodyHeight );
+          // Set a maximum height on the modal body so that it will scroll
+          // Sony tablet s is completely busted in the modal....
+          if ( !Settings.isSonyTabletS ) {
+            self.$modalBody.css( 'maxHeight', maxBodyHeight );
+          }
 
+          // Set an explicit height on the modal body
           if ( !isMobileSize ) {
             self.$modal.css( 'height', modalMaxes.maxModalHeight );
           } else {

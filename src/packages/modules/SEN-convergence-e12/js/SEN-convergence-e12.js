@@ -3,14 +3,22 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
-      bootstrap = require('bootstrap'),
-      sonyStickyTabs = require('secondary/index').sonyStickyTabs;
+      iQ = require('iQ'),
+      sonyTab = require('secondary/index').sonyTab;
 
   var module = {
     init: function() {
-      $('.sen-convergence .slides').each(function(index, element) {
-        var $container = $(element);
-        new SlideCrossFade($container);
+      var self = this,
+          containerSelector = '.sen-convergence .tab-pane.active .slides',
+          $container = $(containerSelector);
+
+      self.carousel = new SlideCrossFade($container);
+
+      $('.tab-pane').on('shown', function (evt) {
+        self.carousel.stop();
+        iQ.update();
+        var $container = $(containerSelector);
+        self.carousel = new SlideCrossFade($container);
       });
     }
   };
@@ -22,10 +30,11 @@ define(function(require){
   SlideCrossFade.prototype = {
     init: function($container) {
       this.$slides = $container.children();
+      this.$slides.first().show();
       this.$slides.not(':first').hide();
       this.$currentSlide = this.$slides.first();
 
-      setInterval($.proxy(this.showNextSlide, this), 3500);
+      this.interval = setInterval($.proxy(this.showNextSlide, this), 3500);
     },
 
     showNextSlide: function() {
@@ -37,6 +46,10 @@ define(function(require){
       $nextSlide.fadeIn(750);
 
       this.$currentSlide = $nextSlide;
+    },
+
+    stop: function () {
+      clearInterval(this.interval);
     }
   };
 

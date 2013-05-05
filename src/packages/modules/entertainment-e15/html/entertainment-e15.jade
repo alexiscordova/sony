@@ -1,13 +1,14 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('entertainment-e15')
 mixin benefitList(benefit)
-  .entertainment-media
-    .img.no-float
-      span.icon-holder
-        i(class= benefit.iconclass)
-    .bd
-      h2.t6= benefit.title
-      p.p3.hidden-phone= benefit.body
+  li.entertainment-benefit
+    .entertainment-media
+      .img.no-float
+        span.icon-holder
+          +iQImage(benefit.img, 'update-always')
+      .bd
+        h2.t6= benefit.title
+        p.p3.hidden-phone= benefit.body
 
 #page-inner
   .entertainment-wrapper
@@ -15,25 +16,22 @@ mixin benefitList(benefit)
       .container
         .grid
           .logo-container
-            img(src= data.logo)
+            +iQImage(data.logo.img, 'update-always')
           .entertainment-header
             h1.t1= data.header
             .mobile-img.visible-phone
-              img(src= data.img.mobile)
+              +iQImage(data.img.mobile.img, 'update-always')
             p.p2= data.subhead
         .entertainment-content
           .grid
             .container-benefits
               .tablet-img.visible-tablet
-                img(src= data.img.tablet)
+                +iQImage(data.img.tablet.img, 'update-always')
               ul.entertainment-benefits
-                li.entertainment-benefit-one
                   +benefitList(data.benefits.fees)
-                li.entertainment-benefit-two
                   +benefitList(data.benefits.stream)
-                li.entertainment-benefit-three
                   +benefitList(data.benefits.moviestogo)
               .btn-holder
                 button.btn= data.learn
             .container-media
-              img.visible-desktop(src= data.img.desktop)
+              +iQImage(data.img.desktop.img, 'visible-desktop update-always')

@@ -1,15 +1,17 @@
 .featured-result
-  h3.p3.results
+  p.p3.p3-bold.results
     span.bold-dark= data.results.count
     |  #{data.resultsTitle}
-  form.visible-phone.select-narrow
-    select
-      option= data.narrowResultsPlaceholderText
+  .sort-options.visible-phone
+    form.select-narrow
+      select
+        option= data.narrowResultsPlaceholderText
   .media
-    .img.img-lg.no-float
-      +iQImage(data.results.category.image)
+    .media-img.img-lg
+      .img.no-float
+        +iQImage(data.results.category.image)
     .bd.feature-text
-      h3.t5.title= data.results.category.title
+      p.t5.hdg-dark.title= data.results.category.title
       p.p4= data.results.category.description
       ul.featured-list
         each category in data.results.category.subcategories
@@ -19,11 +21,12 @@
 ul.results-list
   each item in data.results.items
     li
-      a(href= item.url)
-        .media
-          .img
-            +iQImage(item.image)
-          .bd
+      .media
+        .img
+          +iQImage(item.image)
+        .bd
+          .results-p
             h4.lt3
               a(href= item.url)= item.headline
             p.p4= item.body
+          i.fonticon-10-chevron

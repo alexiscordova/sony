@@ -338,33 +338,36 @@ $galleryFourColMax: px-em(979px);
   }
 
 
-  .filter-display-bar .grid {
+  .filter-display-bar {
 
     .product-count-wrap {
       margin: 0;
     }
 
-    .btn.slide-toggle,
-    .btn.btn-alt-plus {
+    .grid .btn {
       float: left;
-      margin: 20px 0 0 0;
       min-width: 0;
+      margin: 20px 0 0 0;
+      @include text-overflow();
+    }
+
+    &.btns-1 .btn {
+
+    }
+
+    // Only put a width on the container which has 2 buttons in it
+    &.btns-2 .btn {
       width: 48%;
     }
 
-    .btn.slide-toggle {
+    .grid .btn.first {
       clear: both;
-    }
-
-    .btn.btn-alt-plus {
-      margin-left: 4%;
-    }
-
-    .btn.accessory-finder {
-      margin-top: 1em;
       margin-left: 0;
     }
 
+    .grid .btn.second {
+      margin-left: 4%;
+    }
   }
 }
 
@@ -382,33 +385,6 @@ $galleryFourColMax: px-em(979px);
 // Tabs
 // -------------------------
 
-// 980-1199
-// @media (min-width: px-em(980px)) and (max-width: px-em(1199px) ) {
-//   .gallery-tabs {
-
-//     $tabWidth: px-em(114px);
-//     $tabHeight: px-em(84px);
-//     $iconMarginBottom: 12px;
-//     $tabNavTop: ($tabHeight - $navPaddleHeight) / 2;
-//     .tabs {
-//       height: $tabHeight;
-//     }
-
-//     .tab {
-//       @include wh( $tabWidth, $tabHeight );
-//     }
-
-//     .holder-for-icon {
-//       margin-bottom: $iconMarginBottom;
-//     }
-
-//     .tab-nav {
-//       top: $tabNavTop;
-//     }
-//   }
-// }
-
-// @media ( max-width: $galleryFourColMax ) {
 // 768-979
 @media ( min-width: $galleryFourColMin ) and ( max-width: $galleryFourColMax ) {
 
@@ -416,23 +392,31 @@ $galleryFourColMax: px-em(979px);
 
     $tabWidth: px-em(114px);
     $tabHeight: px-em(84px);
-    $iconMarginBottom: 10px;
+    $iconMarginBottom: px-em( 10px );
     $tabNavTop: ($tabHeight - $navPaddleHeight980) / 2;
+    $sidePadding: px-em( 4px );
     .tabs {
       height: $tabHeight;
     }
 
     .tab {
       @include wh( $tabWidth, $tabHeight );
+      padding: 0 $sidePadding;
 
       i {
         font-size: 2.6em;
       }
     }
 
+    .tab-inside {
+      right: $sidePadding;
+      left: $sidePadding;
+    }
+
     .holder-for-icon {
-      height: 26px;
+      height: px-em( 26px );
       margin-bottom: $iconMarginBottom;
+      margin-top: px-em( 14px );
     }
 
     .tab-nav {
@@ -461,23 +445,31 @@ $galleryFourColMax: px-em(979px);
 
     $tabWidth: px-em(88px);
     $tabHeight: px-em(71px);
-    $iconMarginBottom: 6px;
+    $iconMarginBottom: px-em( 16px );
     $tabNavTop: ($tabHeight - $navPaddleHeight980) / 2;
+    $sidePadding: px-em( 2px );
     .tabs {
       height: $tabHeight;
     }
 
     .tab {
       @include wh( $tabWidth, $tabHeight );
+      padding: 0 $sidePadding;
 
       i {
         font-size: 2.2em;
       }
     }
 
+    .tab-inside {
+      right: $sidePadding;
+      left: $sidePadding;
+    }
+
     .holder-for-icon {
-      height: 20px;
+      height: px-em( 20px );
       margin-bottom: $iconMarginBottom;
+      margin-top: px-em( 6px );
     }
 
     .tab-nav {

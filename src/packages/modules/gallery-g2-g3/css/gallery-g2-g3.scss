@@ -6,60 +6,6 @@
 }
 
 
-// 8888888b.                       888                   888         88888888888                888
-// 888   Y88b                      888                   888             888                    888
-// 888    888                      888                   888             888                    888
-// 888   d88P 888d888 .d88b.   .d88888 888  888  .d8888b 888888          888   .d88b.  888  888 888888
-// 8888888P"  888P"  d88""88b d88" 888 888  888 d88P"    888             888  d8P  Y8b `Y8bd8P' 888
-// 888        888    888  888 888  888 888  888 888      888             888  88888888   X88K   888
-// 888        888    Y88..88P Y88b 888 Y88b 888 Y88b.    Y88b.           888  Y8b.     .d8""8b. Y88b.
-// 888        888     "Y88P"   "Y88888  "Y88888  "Y8888P  "Y888          888   "Y8888  888  888  "Y888
-
-
-// Price text module
-.product-content {
-  margin-top: .4375em; // 7
-  line-height: 1.3;
-
-  .product-name {
-    color: $gray20;
-    margin-bottom: 0;
-  }
-
-  .product-model {
-    color: $gray40;
-    margin-bottom: 0;
-  }
-
-  .product-rating {
-    margin: .5em 0 1em;
-    color: $gray40;
-    @include text-overflow();
-  }
-
-  .price-title {
-    margin: 0;
-  }
-
-  .product-price {
-    margin-top: 1em;
-    color: $gray40;
-    @include text-overflow();
-  }
-}
-
-
-.product-meta {
-  margin: 0 0 1em;
-  padding: 0 0 0 1em;
-  list-style-type: square;
-  color: $gray40;
-
-  li {
-    margin-bottom: 2px;
-  }
-}
-
 
 //  .d8888b.           888 888
 // d88P  Y88b          888 888
@@ -357,6 +303,11 @@ $gifHeight: 60px;
 
   .btn {
     margin-bottom: 0;
+
+    i {
+      // Hack to remove dot in top left of font icon
+      -webkit-font-smoothing: antialiased;
+    }
   }
 
   .product-count-wrap {
@@ -368,7 +319,7 @@ $gifHeight: 60px;
   }
 
   // Move the first element with a button class over
-  .grid > .btn:first-of-type {
+  .grid > .btn.first {
     margin-left: 2.5em;
   }
 
@@ -377,31 +328,15 @@ $gifHeight: 60px;
     @include transition( $transitionSlowish linear )
   }
 
-  .btn-alt-plus {
-    color: $gray20;
-    background-color: $gray70;
-    border-color: $gray70;
-
-    &:hover {
-      color: $white;
-      background-color: $gray40;
-    }
-  }
-
   .grid .btn + .btn {
     margin-left: .375em;
   }
-}
-
-.accessory-finder-btn {
-
 }
 
 .filter-options {
   position: relative;
   padding-top: 1em;
   padding-bottom: 1em;
-
 }
 
 .sort-options {
@@ -652,11 +587,13 @@ $gifHeight: 60px;
   .tabs {
   }
 
+  $sidePadding: px-em( 8px );
   .tab {
     text-align: center;
+    padding: 0 $sidePadding;
 
     [class*="fonticon-30-"] {
-      margin: -.1875em; // 9/48
+      // margin: -.1875em; // 9/48
     }
 
     // Change the icon color on hover/active
@@ -666,10 +603,19 @@ $gifHeight: 60px;
     }
   }
 
+  .tab-inside {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: $sidePadding;
+    left: $sidePadding;
+  }
+
   // Has to be pixels because of ghost-centering
   .holder-for-icon {
-    height: 28px;
-    margin-bottom: 12px;
+    height: px-em( 28px );
+    margin-bottom: px-em( 16px );
+    margin-top: px-em( 18px );
 
     i {
       color: $gray40;
@@ -678,7 +624,6 @@ $gifHeight: 60px;
   }
 
   .tab-label {
-    white-space: nowrap;
     margin-bottom: 0;
     line-height: 1;
   }
@@ -709,6 +654,7 @@ $gifHeight: 60px;
 // $fluidGridWidth1200
 .gallery-compare .products {
   width: $fluidGridWidth;
+  max-width: $fluidGridWidthMax-px;
   margin: auto;
   overflow: visible;
   border-right: .0625em solid $gray70;
@@ -886,7 +832,7 @@ $stickyHeaderHeight: px-em(82);
   }
 
   .detail.highlighted {
-    background: $lemon;
+    background: $swatchLemon;
 
     .p3 {
       color: $gray20;
@@ -1035,6 +981,12 @@ $stickyHeaderHeight: px-em(82);
     height: 100%;
   }
 
+  .modal-inner {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+
   .modal-header {
     padding: px-em(36) 0 px-em(30);
 
@@ -1055,6 +1007,12 @@ $stickyHeaderHeight: px-em(82);
     padding: px-em(15) 0;
     background: $gray80;
     @include transition( box-shadow $transitionNormal $easeNormal );
+
+    .sonytablets & {
+      // position: static;
+      // min-height: px-em(80);
+      // @include transition( none );
+    }
 
     &.body-scrolled {
       @include box-shadow( 0 6px 10px -4px $stickyShadowColor );
@@ -1109,12 +1067,17 @@ $stickyHeaderHeight: px-em(82);
     }
 
     #accessory-finder-input {
+      // Dont give me those rounded edges, jerk
+      -webkit-appearance: none;
+      border-radius: 0;
+
       width: 100%;
       height: px-em(50, 15);
       border: 0;
       margin: 0;
       padding: 0 px-em(10, 15) 0 px-em(45, 15);
       @include borderBox();
+
 
       .lt-ie9 & {
         padding-top: 10px;

@@ -34,6 +34,16 @@
   // Input grid
   @include grid-input($gridColumnWidth768, $gridGutterWidth768);
 
+
+
+  .generatedcontent .styled-checkbox {
+
+    // Check mark
+    & + label:after {
+      left: px-em( 5, 12 );
+    }
+  }
+
 } // (min-width: 768px)) and (max-width: 979px))
 
 // implement the default (desktop) grid if no override class is present.
@@ -191,7 +201,8 @@
   }
 
   .btn-alt-special.btn-alt-plus i {
-    margin-top: 0;
+    margin-top: 1px;
+    margin-right: 7px;
   }
 
   .slide-toggle i {

@@ -57,9 +57,11 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
   }
 
   .wrapper-image {
-    position: relative;
-    height: 0;
-    padding-bottom: 128.5087719%;
+    @include flex-ratio-box( 209px, 269px );
+  }
+
+  .wrapper-inside {
+    @include flex-ratio-box-content();
   }
 
   // eg 23k CURRENT PLAYERS
@@ -67,11 +69,19 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
     position: absolute;
     z-index: 1;
     top: 0;
+    left: 0;
     width: 100%;
     height: $bannerHeight;
     padding: 0 0 0 1em;
-    background-color: $bannerColor;
-    background-color: rgba( $bannerColor, $bannerOpacity );
+    background: $bannerColor;
+    background: rgba( $bannerColor, $bannerOpacity );
+
+    // account for content box sizing
+    .lt-ie8 & {
+      width: 196px;
+      z-index: 10;
+      zoom: 1;
+    }
 
     span {
       color: $white;
@@ -101,13 +111,19 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
     bottom: 0;
     left: 0;
     text-align: center;
-    background-color: $overlayColor;
-    background-color: rgba( $overlayColor, $overlayOpacity );
+    background: $overlayColor;
+    background: rgba( $overlayColor, $overlayOpacity );
     @include opacity(0);
     @include transition(opacity $transitionFast $easeNormal);
 
     &.no-headline {
       top: 0;
+
+      // Make up for the banner height here, otherwise it will be centered within
+      // the image area and be different from ones with a headline
+      .ghost-center {
+        padding-top: $bannerHeight;
+      }
     }
 
     .cta {
@@ -127,10 +143,18 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
       position: absolute;
       z-index: 2;
       top: 0;
+      bottom: 0;
       left: 0;
+      right: 0;
       height: 100%;
       width: 100%;
-      background: url('../../img/editorial-carousel-e13/demo/picto-play.png') center center no-repeat;
+      color: white;
+
+      // Icon is aligned to the top of its container
+      margin-top: 24px;
+
+      // Get rid of the white dot
+      -webkit-font-smoothing: antialiased;
     }
   }
 

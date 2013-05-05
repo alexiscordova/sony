@@ -5,15 +5,23 @@ include ../../../common/html/jade-helpers.jade
 div#universal-nav.u-nav-wrapper(role='navigation')
   div.u-nav.container
     div.u-nav-head.grid
-      a#u-nav-close-btn.u-nav-close-btn(href="#", style="background-image:url(" + data.close_btn.img_src + ")")
+      a#u-nav-close-btn.u-nav-close-btn(href="#")
         | !{data.close_btn.label}
+        img.u-nav-close-btn-img(data-src=data.close_btn.img_src, width=12, height=12)
       h5.l1
         | !{data.title}
       a#u-nav-all-sites-link.u-nav-all-sites-link(href=data.all_sites_link.link)
         | !{data.all_sites_link.label}
 
     //- the row of image-heavy links
-    div.u-nav-primary.grid
+    if data.primary_columns[0].double_wide === "true"
+      - u_nav_primary_classes = "u-nav-primary u-nav-primary-3up grid"
+    else if data.primary_columns[0].double_tall === "true"
+      - u_nav_primary_classes = "u-nav-primary u-nav-primary-5up grid"
+    else 
+      - u_nav_primary_classes = "u-nav-primary u-nav-primary-6up grid"
+
+    div(class=u_nav_primary_classes)
 
       //- each column
       - col_count = 1
@@ -31,6 +39,8 @@ div#universal-nav.u-nav-wrapper(role='navigation')
           - feat_class2 = feat_class1
           if col.double_tall === "true" && j === 0
             - feat_class2 += " u-nav-primary-2high"
+          else if col.double_wide === "true" && j === 0
+            - feat_class2 += " u-nav-primary-2wide"
           else 
             if j === 0
               - feat_class2 += " u-nav-primary-row1"
@@ -42,7 +52,8 @@ div#universal-nav.u-nav-wrapper(role='navigation')
               if col.double_tall === "true" || col.double_wide === "true"
                 if data.label_tag.label != "false"
                   span.label.label-success !{data.label_tag.label}
-              img.u-nav-primary-img(src=feat.img.src, title=feat.alt)
+              span.u-nav-primary-img-wrap 
+                img.u-nav-primary-img(src="", data-src=feat.img.src, title=feat.alt)
               span.u-nav-primary-caption !{feat.caption}
 
     //- the row of text links

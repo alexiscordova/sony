@@ -2,8 +2,6 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('pdp-slideshow-d4')
 +includeJavascriptModule('pdp-slideshow-d4')
 
-- desc = 'Here are some modules with unique data:'
-
 //- Mixin for slides
 mixin pdpSlide(data)
   for slide in data.submodules
@@ -16,6 +14,8 @@ mixin pdpSlide(data)
               +iQImage(slideData.productImg)
         else if slideData.variation == 'type2'
           +iQImage(slideData.productImg)
+      else if slideData.mode == 'video'
+        +sonyVideo(slideData.video)
 
 //- Mixin for thumbnails
 mixin pdpThumbs(data)
@@ -29,12 +29,15 @@ mixin pdpThumbs(data)
           +iQImage(slideData.thumb)
 
 //- Container for header, may not need this here
-.container
-  .grid
-    h2.l1= data.config.sectionTitle
+if data.config.sectionTitle
+  .container
+    .grid
+      h2.l1= data.config.sectionTitle
+
+moduleId = data.id ? data.id : false
 
 //- Main section wrapper for slides and navigation
-section.pdp-slideshow
+section.pdp-slideshow(id=moduleId)
   .pdp-slideshow-outer
     .pdp-slideshow-inner
       +pdpSlide(data)

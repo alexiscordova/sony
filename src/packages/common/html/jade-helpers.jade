@@ -29,7 +29,9 @@ mixin iQImage( img, extraClasses, itemprop )
   //- Stop the build process from breaking on undefined images
   //- Hopefully you'll be able to find your broken image on the page!
   if !img
-    p.l3(style="color:red;") Missing image data!
+    div(style="overflow:hidden;")
+      p.l3(style="color:red;margin:0") Missing image data!
+      p.l3(style="color:red;margin:0")= 'img = ' + JSON.stringify( img )
   else
     - classes = 'iq-img'
     - extraClasses = extraClasses || false
@@ -39,6 +41,16 @@ mixin iQImage( img, extraClasses, itemprop )
     noscript
       img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
 
+//- stuff - an object with some video stuff
+mixin sonyVideo ( videoData )
+  if !videoData
+    p.l3(style='color:red;') Missing Video data!
+  else
+    div(class='player' , data-key='$421601038208546')
+     video(preload='none')
+      source(type='video/webm', src=videoData.webm.srcDesktop)
+      source(type='video/mp4', src=videoData.mp4.srcDesktop)
+      source(type='video/ogg', src=videoData.ogg.srcDesktop)
 
 //-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps
 //- +1 to dump it - gc
@@ -88,8 +100,8 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
             i(class=social.icon)
           span.social-label.p3= social.label
     li.input-holder
-      span.link-icon.ghost-center-wrap.js-no-close
-        i.fonticon-10-link.ghost-center.js-no-close
+      span.link-icon.js-no-close
+        i.fonticon-15-link.js-no-close
       input.p4(type="text", value=shortLink)
 
 

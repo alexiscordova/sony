@@ -23,6 +23,7 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
+        Favorites = require('secondary/index').sonyFavorites,
         jqueryShuffle = require('secondary/index').jqueryShuffle,
         sonyScroller = require('secondary/index').sonyScroller,
         sonyEvenHeights = require('secondary/index').sonyEvenHeights,
@@ -127,8 +128,6 @@ define(function(require){
 
       log('SONY : RelatedProducts : Initialized');
 
-
-
     };
 
     //Related Products protoype object definition
@@ -138,13 +137,10 @@ define(function(require){
       init: function(){
         var self = this;
 
-        self.mqFix();
-
         if(self.$win.width() < 569){
           self.$el.css({
             opacity: 0
           });
-          //self.log('setting opacity to 0');
         }
 
         //Initialize animation properties
@@ -166,7 +162,7 @@ define(function(require){
         self.setupLinkClicks();
 
         //Initialize tooltips
-        self.initTooltips();
+        self.initFavorites();
 
         var prodImg = self.$galleryItems.filter('.normal').find('.product-img');
 
@@ -320,63 +316,10 @@ define(function(require){
         return '[ object RelatedProducts ]';
       },
 
-
-      initTooltips : function($favorites) {
-        var self = this;
-
-        $favorites = $favorites || self.$favorites;
-
-        // Favorite the gallery item immediately on touch devices
-        if ( self.hasTouch ) {
-
-          $favorites
-            .on('touchend', $.proxy( self.onFavorite, self ))
-            .on('click', false);
-
-        // Show a tooltip on hover before favoriting on desktop devices
-        } else {
-          $favorites.on('click', $.proxy( self.onFavorite, self ));
-
-          $favorites.tooltip({
-            placement: 'offsettop',
-            title: function() {
-              var $jsFavorite = $(this);
-              return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
-            },
-            template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-          });
-        }
-
-        // Update our favorites
-        self.$favorites = self.$galleryItems.find('.js-favorite');
-      },
-
-      onFavorite : function( e ) {
-        var self = this,
-            $jsFavorite = $(e.delegateTarget),
-            isAdding = !$jsFavorite.hasClass('active'),
-            content = self.hasTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding );
-
-        $jsFavorite.toggleClass('active');
-
-       
-
-        // Show the tooltip if it isn't a touch device
-        if ( !self.hasTouch ) {
-          $('.gallery-tooltip .tooltip-inner')
-            .html( content )
-            .tooltip('show');
-        }
-
-        // Stop event from bubbling to <a> tag
-        e.preventDefault();
-        e.stopPropagation();
-      },
-
-      getFavoriteContent : function( $jsFavorite, isActive ) {
-        return isActive ?
-              $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' :
-              $jsFavorite.data('defaultTitle');
+      // Initialize the favorites inside `this.$el`
+      initFavorites: function() {
+        this.favorites = new Favorites( this.$el );
+        return this;
       },
 
       //These functions are used by the jquery.shuffle plugin
@@ -733,7 +676,7 @@ define(function(require){
 
         }));
 
-        
+
 
         self.$win.trigger('resize.rp');
 
@@ -2001,7 +1944,7 @@ define(function(require){
             if(!self.isMobileMode){
               self.$pagination.stop(true,true).fadeIn(250);
             }
-            
+
           }, totalAnimationDelay );
         }else{
           if(!self.isMobileMode){
