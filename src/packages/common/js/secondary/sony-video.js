@@ -31,9 +31,15 @@ define(function(require) {
     function init() {
 
       // private vars
-      var _videoCollection     = [],
-          _totalIntanceCount         = 0,
-          _currentPlayer       = null;
+      var _videoCollection = [],
+      _totalIntanceCount   = 0,
+      _currentPlayer       = null,
+      _fp                  = window.flowplayer;
+
+
+      _fp.conf = {
+        swf: 'swf/flowplayer.swf';
+      }
 
       // Private methods
       function toggleCurrentlyPlaying( currentPlayingAPI ){
@@ -53,7 +59,7 @@ define(function(require) {
         initVideos: function ( $videos , options ) {
           //init each instace of player
           $videos.each(function(){
-           var api = _videoCollection[ _totalIntanceCount ] =  window.flowplayer( ( $( this ).flowplayer() ).get( 0 ) );
+           var api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( this ).flowplayer() ).get( 0 ) );
 
            api.bind( 'resume' , function(e , a){
             _currentPlayer = api;
