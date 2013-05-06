@@ -38,8 +38,9 @@ define(function(require) {
 
 
       _fp.conf = {
-        swf: 'swf/flowplayer.swf';
-      }
+        swf: 'swf/flowplayer.swf',
+        key: '$104774194953913'
+      };
 
       // Private methods
       function toggleCurrentlyPlaying( currentPlayingAPI ){
