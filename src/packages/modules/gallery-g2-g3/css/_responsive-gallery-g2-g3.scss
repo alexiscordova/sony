@@ -37,16 +37,6 @@ $galleryFourColMax: px-em(979px);
         display: none;
       }
     }
-
-    .share-menu {
-      left: 0;
-      right: auto;
-
-      &:before {
-        left: 1.5em;
-        right: auto;
-      }
-    }
   }
 
   .gallery-item.recommended-tile {
@@ -367,6 +357,19 @@ $galleryFourColMax: px-em(979px);
 
     .grid .btn.second {
       margin-left: 4%;
+    }
+
+    // The hidden button takes up space, ugly transition, but who is really going to use this
+    .btn.fade {
+      height: 0;
+      padding: 0;
+      margin: 0;
+
+      &.in {
+        height: auto;
+        padding: 11px 20px 12px;
+        margin-top: 5px;
+      }
     }
   }
 }
