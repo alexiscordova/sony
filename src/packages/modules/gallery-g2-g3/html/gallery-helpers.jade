@@ -104,17 +104,18 @@ mixin filterSet( filterSet )
 mixin compareBrowseBtn( isCompareGallery, link, addFade, extraClasses )
   compareStr = isCompareGallery ? 'Browse' : 'Compare'
   classes = [ 'lt3', 'btn', 'btn-alt-special', 'btn-alt-plus', 'compare-btn' ]
+  tabIndex = addFade ? '-1' : false
 
   if addFade
     - classes.push( 'fade' )
   if extraClasses
     - classes.push( extraClasses )
 
-  a(class=classes, href=link)
+  a(class=classes, href=link, tabindex=tabIndex)
     if isCompareGallery
-      i.fonticon-10-grid-3x3
+      i.fonticon-10-browse
     else
-      i.fonticon-10-speaker
+      i.fonticon-10-compare
     | !{ compareStr }
 
 mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
@@ -221,7 +222,7 @@ mixin sorter( sortSet, text )
           //- If sort is false, or not present, we don't need to add the attribute
           - reverse = sort.reverse ? 'true' : false
           li
-            a(data-value=sort.name, data-reverse=reverse, tabindex="-1", href="#")= sort.label
+            a(data-value=sort.name, data-reverse=reverse, href="#")= sort.label
     .native-dropdown
       i.fonticon-10-arrowheads-elevator.absolutely
       select#select-sort-by.select-small
@@ -399,7 +400,7 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
               button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
                 .tab-inside
                   .holder-for-icon
-                    iconClass = 'fonticon-30-' + tab.icon
+                    iconClass = 'fonticon-40-' + tab.icon
                     i(class=iconClass)
                   h3.l2.tab-label= tab.label
         nav.tab-nav-btns

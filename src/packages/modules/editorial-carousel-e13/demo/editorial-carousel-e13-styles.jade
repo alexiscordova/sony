@@ -14,8 +14,14 @@ l = {"locals":locals}
         !{partial('packages/modules/global-header-footer/html/global-header.jade', e)}
         #main(role='main')
 
+
+          .container: .grid: h3 E13.A1
           +partial('editorial-carousel-e13/html/editorial-carousel-e13.jade', 'packages/modules/editorial-carousel-e13/demo/data/default.json')
+
+          .container: .grid: h3 E13.A2
           +partial('editorial-carousel-e13/html/editorial-carousel-e13.jade', 'packages/modules/editorial-carousel-e13/demo/data/white-bg.json')
+
+          .container: .grid: h3 E13.A3
           +partial('editorial-carousel-e13/html/editorial-carousel-e13.jade', 'packages/modules/editorial-carousel-e13/demo/data/dark-bg.json')
 
         e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-footer.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json')}
