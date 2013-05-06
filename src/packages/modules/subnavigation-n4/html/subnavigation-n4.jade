@@ -36,7 +36,7 @@ section.subnav-module(id = data.id ? data.id : false)
               p.p3 !{subcategory.message}
             .span6.general-links
               a.accesories-link.lt3(href=subcategory.accessoryLink)
-                i.fonticon-30-dongle
+                i.fonticon-40-accessories
                 | Accessories
               a.gallery-link.btn(href=subcategory.galleryLink)
                 i.fonticon-10-grid-3x3
@@ -66,10 +66,16 @@ section.subnav-module(id = data.id ? data.id : false)
                       img(src=item.imageSrc)
                     .details
                       h4.t7 !{item.label}
-                      p.l3 !{item.count} !{subcategory.title}
+                      p.l3.subnav-product-count !{item.count} !{subcategory.title}
                       p.p3.message !{item.message}
                       p.p3.price Starting at
                         strong.p2-bold !{" " + item.startingAtPrice + " "}
                         span.p5 MSRP
               - }
           - }
+
+          div.grid.no-grid-at-979.mobile-links
+            .span6.general-links
+              a.accesories-link.lt3(href=subcategory.accessoryLink)
+                i.fonticon-40-accessories
+                | Accessories

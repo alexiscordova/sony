@@ -386,7 +386,7 @@ define(function(require){
           isSelect = $target.is('select'),
           filterName,
           method,
-          $compareBtn = self.$container.find( '.filter-display-bar .btn' ).first();
+          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' ).first();
 
       // Get variables based on what kind of component we're working with
       if ( isSelect ) {
@@ -429,6 +429,7 @@ define(function(require){
       if ( typeof method === 'string' ) {
         if ( $compareBtn.hasClass( 'in' ) ) {
           $compareBtn.removeClass( 'in' );
+          $compareBtn.attr('tabindex', '-1');
 
           // Remove the saved type
           $compareBtn.removeData( 'type' );
@@ -439,6 +440,7 @@ define(function(require){
       } else {
         if ( !$compareBtn.hasClass( 'in' ) ) {
           $compareBtn.addClass( 'in' );
+          $compareBtn.attr('tabindex', '');
 
           // Save the type that was filtered
           $compareBtn.data( 'type', filterName );
@@ -1291,7 +1293,7 @@ define(function(require){
 
     initFavoritesGallery : function() {
       var self = this,
-          $compareBtn = self.$container.find( '.filter-display-bar .btn' ).first();
+          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' ).first();
 
       self.initRecommendedTile();
 
