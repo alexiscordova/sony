@@ -339,7 +339,7 @@ or the <code>value</code> attribute from <code>&lt;option&gt;</code> in the <cod
           isSelect = $target.is(<span class="string">'select'</span>),
           filterName,
           method,
-          $compareBtn = self.$container.find( <span class="string">'.filter-display-bar .btn'</span> ).first();
+          $compareBtn = self.$container.find( <span class="string">'.filter-display-bar .btn.fade'</span> ).first();
 
 </pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Get variables based on what kind of component we're working with</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( isSelect ) {
         filterName = $target.val();
@@ -1145,7 +1145,7 @@ Here is where we keep the origial type</p>             </td>             <td cla
 
     initFavoritesGallery : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $compareBtn = self.$container.find( <span class="string">'.filter-display-bar .btn'</span> ).first();
+          $compareBtn = self.$container.find( <span class="string">'.filter-display-bar .btn.fade'</span> ).first();
 
       self.initRecommendedTile();
 

@@ -176,9 +176,13 @@ define(<span class="keyword">function</span>(require) {
       <span class="keyword">if</span> ( toDesktop ) {
         $msrp.insertBefore( $price );
         self.$stickyNav.find(<span class="string">'#desktop-sticky-price'</span>).append( self.$stickyPriceText );
+        $price.addClass(<span class="string">'p1'</span>).removeClass(<span class="string">'p2'</span>);
+        self.$stickyTitle.addClass(<span class="string">'t6'</span>).removeClass(<span class="string">'t7'</span>);
       } <span class="keyword">else</span> {
         $msrp.insertAfter( $price );
         self.$stickyTitle.after( self.$stickyPriceText );
+        $price.addClass(<span class="string">'p2'</span>).removeClass(<span class="string">'p1'</span>);
+        self.$stickyTitle.addClass(<span class="string">'t7'</span>).removeClass(<span class="string">'t6'</span>);
       }
 
     },
