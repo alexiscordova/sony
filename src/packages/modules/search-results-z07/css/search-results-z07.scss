@@ -43,6 +43,7 @@
     text-align: center;
     vertical-align: middle;
     background-color: $gray80;
+    @include transition(background-color .15s ease-in);
   }
   
   .featured-result {
@@ -180,6 +181,8 @@
   .results-list > li {
     padding: 18px 20px 20px 20px;
     border-bottom: 1px solid #e7e9ed;
+    position: relative;
+    @include transition(background-color .15s ease-in);
   }
 
   .results-list .results-p {
@@ -189,9 +192,11 @@
   }
 
   .results-list i.fonticon-10-chevron {
-    float: right;
-    margin: 25px 0 0 15px;
     color: $linkBlue;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -8px;
   }
 
   .results-list > li:first-child {
