@@ -136,6 +136,7 @@ define(function(require){
 
       self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
         draggable: true,
+        snap: !isMobile,
         onlySnapAtEnds: isMobile,
         wrapper: '.subnav-nav-carousel-wrapper',
         slides: '.subnav-nav-carousel-slide',

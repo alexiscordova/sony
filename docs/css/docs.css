@@ -5492,7 +5492,7 @@ body > .simple-navbar .brand {
   margin-left: 20px;
   float: right;
   font-weight: bold;
-  color: #000;
+  color: #F0F0F0;
   font-size: 13px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.125);
   -webkit-transition: all .2s linear;
@@ -5948,7 +5948,7 @@ h2 + .grid-px-width {
 /* line 684, ../../src/packages/docs/css/docs.scss */
 .the-icons li {
   float: left;
-  width: 33%;
+  width: 49%;
   position: relative;
   min-height: 30px;
   padding: 5px 0 5px 8px;
@@ -6671,12 +6671,6 @@ form.bs-docs-example {
     position: static;
   }
 
-  /* line 1335, ../../src/packages/docs/css/docs.scss */
-  .simple-navbar-fixed-top {
-    margin-bottom: 1.65;
-    height: 60px;
-  }
-
   /* line 1339, ../../src/packages/docs/css/docs.scss */
   .simple-navbar-fixed-bottom {
     margin-top: 1.65;
@@ -6872,15 +6866,9 @@ form.bs-docs-example {
 }
 /* Tablet to desktop
 ------------------------- */
-@media (min-width: 768px) and (max-width: 979px) {
-  /* Remove any padding from the body */
-  /* line 1575, ../../src/packages/docs/css/docs.scss */
-  body {
-    padding-top: 0;
-  }
-
+@media (max-width: 979px) {
   /* Unfloat brand */
-  /* line 1579, ../../src/packages/docs/css/docs.scss */
+  /* line 1575, ../../src/packages/docs/css/docs.scss */
   body > .simple-navbar-fixed-top .brand {
     float: left;
     margin-left: 0;
@@ -6889,8 +6877,15 @@ form.bs-docs-example {
     font-size: 1.4em;
     padding-top: 2px;
   }
+}
+@media (min-width: 768px) and (max-width: 979px) {
+  /* Remove any padding from the body */
+  /* line 1587, ../../src/packages/docs/css/docs.scss */
+  body {
+    padding-top: 0;
+  }
 
-  /* line 1589, ../../src/packages/docs/css/docs.scss */
+  /* line 1592, ../../src/packages/docs/css/docs.scss */
   .simple-navbar .btn-navbar {
     display: block;
     width: auto;
@@ -6899,21 +6894,21 @@ form.bs-docs-example {
   }
 
   /* Inline-block quick links for more spacing */
-  /* line 1597, ../../src/packages/docs/css/docs.scss */
+  /* line 1600, ../../src/packages/docs/css/docs.scss */
   .quick-links li {
     display: inline-block;
     margin: 5px;
   }
 
   /* When affixed, space properly */
-  /* line 1603, ../../src/packages/docs/css/docs.scss */
+  /* line 1606, ../../src/packages/docs/css/docs.scss */
   .bs-docs-sidenav {
     top: 0;
     margin-top: 30px;
     margin-right: 0;
   }
 
-  /* line 1609, ../../src/packages/docs/css/docs.scss */
+  /* line 1612, ../../src/packages/docs/css/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
@@ -6921,23 +6916,23 @@ form.bs-docs-example {
 
   /* Widen masthead and social buttons to fill body padding */
   /* Adjust sidenav width */
-  /* line 1618, ../../src/packages/docs/css/docs.scss */
+  /* line 1621, ../../src/packages/docs/css/docs.scss */
   .bs-docs-sidenav {
     margin-top: 20px;
   }
 
-  /* line 1622, ../../src/packages/docs/css/docs.scss */
+  /* line 1625, ../../src/packages/docs/css/docs.scss */
   .bs-docs-sidenav.affix {
     top: 0;
   }
 
-  /* line 1626, ../../src/packages/docs/css/docs.scss */
+  /* line 1629, ../../src/packages/docs/css/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
   }
 
-  /* line 1631, ../../src/packages/docs/css/docs.scss */
+  /* line 1634, ../../src/packages/docs/css/docs.scss */
   .simple-navbar .btn-simple-navbar {
     display: block;
     width: auto;
@@ -6949,42 +6944,42 @@ form.bs-docs-example {
 ------------------------- */
 @media (max-width: 767px) {
   /* Remove any padding from the body */
-  /* line 1643, ../../src/packages/docs/css/docs.scss */
+  /* line 1646, ../../src/packages/docs/css/docs.scss */
   body {
     padding-top: 0;
   }
 
-  /* line 1647, ../../src/packages/docs/css/docs.scss */
+  /* line 1650, ../../src/packages/docs/css/docs.scss */
   body > .simple-navbar-fixed-top .brand {
     font-size: 1.4em;
     padding-top: 2px;
   }
 
   /* Widen masthead and social buttons to fill body padding */
-  /* line 1663, ../../src/packages/docs/css/docs.scss */
+  /* line 1666, ../../src/packages/docs/css/docs.scss */
   .masthead p,
   .masthead .btn {
     font-size: 24px;
   }
 
-  /* line 1666, ../../src/packages/docs/css/docs.scss */
+  /* line 1669, ../../src/packages/docs/css/docs.scss */
   .marketing .span4 {
     margin-bottom: 40px;
   }
 
-  /* line 1669, ../../src/packages/docs/css/docs.scss */
+  /* line 1672, ../../src/packages/docs/css/docs.scss */
   .bs-docs-social {
     margin: 0 -20px;
   }
 
   /* Sidenav */
-  /* line 1674, ../../src/packages/docs/css/docs.scss */
+  /* line 1677, ../../src/packages/docs/css/docs.scss */
   .bs-docs-sidenav {
     width: auto;
     margin-bottom: 20px;
   }
 
-  /* line 1678, ../../src/packages/docs/css/docs.scss */
+  /* line 1681, ../../src/packages/docs/css/docs.scss */
   .bs-docs-sidenav.affix {
     position: static;
     width: auto;
@@ -6992,18 +6987,18 @@ form.bs-docs-example {
   }
 
   /* Unfloat the back to top link in footer */
-  /* line 1691, ../../src/packages/docs/css/docs.scss */
+  /* line 1694, ../../src/packages/docs/css/docs.scss */
   .footer p {
     margin-bottom: 9px;
   }
 
-  /* line 1695, ../../src/packages/docs/css/docs.scss */
+  /* line 1698, ../../src/packages/docs/css/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
   }
 
-  /* line 1699, ../../src/packages/docs/css/docs.scss */
+  /* line 1702, ../../src/packages/docs/css/docs.scss */
   .simple-navbar .btn-simple-navbar {
     display: block;
     width: auto;
@@ -7015,30 +7010,30 @@ form.bs-docs-example {
 ------------------------- */
 @media (max-width: 480px) {
   /* Remove padding above jumbotron */
-  /* line 1711, ../../src/packages/docs/css/docs.scss */
+  /* line 1714, ../../src/packages/docs/css/docs.scss */
   body {
     padding-top: 0;
   }
 
   /* Change up some type stuff */
-  /* line 1716, ../../src/packages/docs/css/docs.scss */
+  /* line 1719, ../../src/packages/docs/css/docs.scss */
   h2 small {
     display: block;
   }
 
   /* Downsize the jumbotrons */
-  /* line 1721, ../../src/packages/docs/css/docs.scss */
+  /* line 1724, ../../src/packages/docs/css/docs.scss */
   .jumbotron h1 {
     font-size: 60px;
   }
 
-  /* line 1725, ../../src/packages/docs/css/docs.scss */
+  /* line 1728, ../../src/packages/docs/css/docs.scss */
   .jumbotron p,
   .jumbotron .btn {
     font-size: 20px;
   }
 
-  /* line 1728, ../../src/packages/docs/css/docs.scss */
+  /* line 1731, ../../src/packages/docs/css/docs.scss */
   .jumbotron .btn {
     display: block;
     margin: 0 auto;
@@ -7046,18 +7041,18 @@ form.bs-docs-example {
 
   /* center align subhead text like the masthead */
   /* Marketing on home */
-  /* line 1740, ../../src/packages/docs/css/docs.scss */
+  /* line 1743, ../../src/packages/docs/css/docs.scss */
   .marketing h1 {
     font-size: 40px;
   }
 
   /* center example sites */
-  /* line 1745, ../../src/packages/docs/css/docs.scss */
+  /* line 1748, ../../src/packages/docs/css/docs.scss */
   .example-sites {
     margin-left: 0;
   }
 
-  /* line 1748, ../../src/packages/docs/css/docs.scss */
+  /* line 1751, ../../src/packages/docs/css/docs.scss */
   .example-sites > li {
     float: none;
     display: block;
@@ -7066,13 +7061,13 @@ form.bs-docs-example {
     text-align: center;
   }
 
-  /* line 1755, ../../src/packages/docs/css/docs.scss */
+  /* line 1758, ../../src/packages/docs/css/docs.scss */
   .example-sites .thumbnail > img {
     max-width: 270px;
   }
 
   /* Do our best to make tables work in narrow viewports */
-  /* line 1760, ../../src/packages/docs/css/docs.scss */
+  /* line 1763, ../../src/packages/docs/css/docs.scss */
   table code {
     white-space: normal;
     word-wrap: break-word;
@@ -7080,7 +7075,7 @@ form.bs-docs-example {
   }
 
   /* Modal example */
-  /* line 1767, ../../src/packages/docs/css/docs.scss */
+  /* line 1770, ../../src/packages/docs/css/docs.scss */
   .modal-example .modal {
     position: relative;
     top: auto;
@@ -7090,34 +7085,34 @@ form.bs-docs-example {
   }
 
   /* Unfloat the back to top in footer to prevent odd text wrapping */
-  /* line 1776, ../../src/packages/docs/css/docs.scss */
+  /* line 1779, ../../src/packages/docs/css/docs.scss */
   .footer .pull-right {
     float: none;
   }
 }
 /* Space out the show-grid examples */
 @media (max-width: 767px) {
-  /* line 1784, ../../src/packages/docs/css/docs.scss */
+  /* line 1787, ../../src/packages/docs/css/docs.scss */
   .grid.no-grid-at-767.show-grid [class*="span"] {
     margin-bottom: 5px;
   }
 }
 @media (max-width: 567px) {
-  /* line 1789, ../../src/packages/docs/css/docs.scss */
+  /* line 1792, ../../src/packages/docs/css/docs.scss */
   .grid.no-grid-at-567.show-grid [class*="span"] {
     margin-bottom: 5px;
   }
 }
-/* line 1800, ../../src/packages/docs/css/docs.scss */
+/* line 1803, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch {
   margin-bottom: 20px;
 }
 
-/* line 1804, ../../src/packages/docs/css/docs.scss */
+/* line 1807, ../../src/packages/docs/css/docs.scss */
 #colors h4 {
   margin-top: 25px;
 }
-/* line 1807, ../../src/packages/docs/css/docs.scss */
+/* line 1810, ../../src/packages/docs/css/docs.scss */
 #colors .row {
   *zoom: 1;
 }
@@ -7132,12 +7127,12 @@ form.bs-docs-example {
   clear: both;
 }
 
-/* line 1812, ../../src/packages/docs/css/docs.scss */
+/* line 1815, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch-outlined {
   border: solid 1px #d2d2db;
 }
 
-/* line 1816, ../../src/packages/docs/css/docs.scss */
+/* line 1819, ../../src/packages/docs/css/docs.scss */
 [class^="docs-color-swatch--"],
 [class*=" docs-color-swatch--"] {
   display: block;
@@ -7147,7 +7142,7 @@ form.bs-docs-example {
   margin-top: 10px;
 }
 
-/* line 1824, ../../src/packages/docs/css/docs.scss */
+/* line 1827, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch p {
   color: #83838f;
   font-size: 0.6875em;
@@ -7156,310 +7151,310 @@ form.bs-docs-example {
   line-height: 1.3;
 }
 
-/* line 1830, ../../src/packages/docs/css/docs.scss */
+/* line 1833, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--black {
   background: black;
 }
 
-/* line 1831, ../../src/packages/docs/css/docs.scss */
+/* line 1834, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray05 {
   background: #1f2024;
 }
 
-/* line 1832, ../../src/packages/docs/css/docs.scss */
+/* line 1835, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray10 {
   background: #212530;
 }
 
-/* line 1833, ../../src/packages/docs/css/docs.scss */
+/* line 1836, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray20 {
   background: #2f353d;
 }
 
-/* line 1834, ../../src/packages/docs/css/docs.scss */
+/* line 1837, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray25 {
   background: #3c3c42;
 }
 
-/* line 1835, ../../src/packages/docs/css/docs.scss */
+/* line 1838, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray30 {
   background: #504d56;
 }
 
-/* line 1836, ../../src/packages/docs/css/docs.scss */
+/* line 1839, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray40 {
   background: #83838f;
 }
 
-/* line 1837, ../../src/packages/docs/css/docs.scss */
+/* line 1840, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray50 {
   background: #bcbccc;
 }
 
-/* line 1838, ../../src/packages/docs/css/docs.scss */
+/* line 1841, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray60 {
   background: #d2d2db;
 }
 
-/* line 1839, ../../src/packages/docs/css/docs.scss */
+/* line 1842, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray70 {
   background: #e4e7eb;
 }
 
-/* line 1840, ../../src/packages/docs/css/docs.scss */
+/* line 1843, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray75 {
   background: #e8edf3;
 }
 
-/* line 1841, ../../src/packages/docs/css/docs.scss */
+/* line 1844, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray80 {
   background: #f1f5f9;
 }
 
-/* line 1842, ../../src/packages/docs/css/docs.scss */
+/* line 1845, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray90 {
   background: #f3f4f6;
 }
 
-/* line 1843, ../../src/packages/docs/css/docs.scss */
+/* line 1846, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gray95 {
   background: #f8f8fa;
 }
 
-/* line 1844, ../../src/packages/docs/css/docs.scss */
+/* line 1847, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--white {
   background: white;
 }
 
-/* line 1846, ../../src/packages/docs/css/docs.scss */
+/* line 1849, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonBlue {
   background: #5887f5;
 }
 
-/* line 1847, ../../src/packages/docs/css/docs.scss */
+/* line 1850, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonBlueHover {
   background: #4572ed;
 }
 
-/* line 1848, ../../src/packages/docs/css/docs.scss */
+/* line 1851, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonBlueActive {
   background: #6694ff;
 }
 
-/* line 1849, ../../src/packages/docs/css/docs.scss */
+/* line 1852, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonOrange {
   background: #f25529;
 }
 
-/* line 1850, ../../src/packages/docs/css/docs.scss */
+/* line 1853, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonOrangeHover {
   background: #d94c25;
 }
 
-/* line 1851, ../../src/packages/docs/css/docs.scss */
+/* line 1854, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--buttonOrangeActive {
   background: #e54322;
 }
 
-/* line 1852, ../../src/packages/docs/css/docs.scss */
+/* line 1855, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--linkBlue {
   background: #4572ed;
 }
 
-/* line 1853, ../../src/packages/docs/css/docs.scss */
+/* line 1856, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--linkBlueHover {
   background: #3c4c74;
 }
 
-/* line 1854, ../../src/packages/docs/css/docs.scss */
+/* line 1857, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--linkBlueActive {
   background: #5787f4;
 }
 
-/* line 1856, ../../src/packages/docs/css/docs.scss */
+/* line 1859, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeRed {
   background: #c93434;
 }
 
-/* line 1857, ../../src/packages/docs/css/docs.scss */
+/* line 1860, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeRedHover {
   background: #b02e2e;
 }
 
-/* line 1858, ../../src/packages/docs/css/docs.scss */
+/* line 1861, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeRedActive {
   background: #e33b3b;
 }
 
-/* line 1859, ../../src/packages/docs/css/docs.scss */
+/* line 1862, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themePurple {
   background: #913f99;
 }
 
-/* line 1860, ../../src/packages/docs/css/docs.scss */
+/* line 1863, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themePurpleHover {
   background: #793480;
 }
 
-/* line 1861, ../../src/packages/docs/css/docs.scss */
+/* line 1864, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themePurpleActive {
   background: #aa49b2;
 }
 
-/* line 1862, ../../src/packages/docs/css/docs.scss */
+/* line 1865, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueLight {
   background: #31b0cc;
 }
 
-/* line 1863, ../../src/packages/docs/css/docs.scss */
+/* line 1866, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueLightHover {
   background: #2b9ab2;
 }
 
-/* line 1864, ../../src/packages/docs/css/docs.scss */
+/* line 1867, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueLightActive {
   background: #37c6e5;
 }
 
-/* line 1865, ../../src/packages/docs/css/docs.scss */
+/* line 1868, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueDark {
   background: #2763a3;
 }
 
-/* line 1866, ../../src/packages/docs/css/docs.scss */
+/* line 1869, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueDarkHover {
   background: #21548a;
 }
 
-/* line 1867, ../../src/packages/docs/css/docs.scss */
+/* line 1870, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeBlueDarkActive {
   background: #2d73bd;
 }
 
-/* line 1868, ../../src/packages/docs/css/docs.scss */
+/* line 1871, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeOrange {
   background: #e87533;
 }
 
-/* line 1869, ../../src/packages/docs/css/docs.scss */
+/* line 1872, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeOrangeHover {
   background: #cf692d;
 }
 
-/* line 1870, ../../src/packages/docs/css/docs.scss */
+/* line 1873, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeOrangeActive {
   background: #ff8138;
 }
 
-/* line 1871, ../../src/packages/docs/css/docs.scss */
+/* line 1874, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeGreen {
   background: #8bc748;
 }
 
-/* line 1872, ../../src/packages/docs/css/docs.scss */
+/* line 1875, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeGreenHover {
   background: #7aad3e;
 }
 
-/* line 1873, ../../src/packages/docs/css/docs.scss */
+/* line 1876, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--themeGreenActive {
   background: #9de051;
 }
 
-/* line 1875, ../../src/packages/docs/css/docs.scss */
+/* line 1878, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryGold {
   background: #f0b938;
 }
 
-/* line 1876, ../../src/packages/docs/css/docs.scss */
+/* line 1879, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondarySage {
   background: #92b9a4;
 }
 
-/* line 1877, ../../src/packages/docs/css/docs.scss */
+/* line 1880, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryOlive {
   background: #a2b849;
 }
 
-/* line 1878, ../../src/packages/docs/css/docs.scss */
+/* line 1881, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryMint {
   background: #22c083;
 }
 
-/* line 1879, ../../src/packages/docs/css/docs.scss */
+/* line 1882, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryAqua {
   background: #45afc9;
 }
 
-/* line 1880, ../../src/packages/docs/css/docs.scss */
+/* line 1883, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryEggplant {
   background: #975b77;
 }
 
-/* line 1881, ../../src/packages/docs/css/docs.scss */
+/* line 1884, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondaryLavender {
   background: #6e5d91;
 }
 
-/* line 1882, ../../src/packages/docs/css/docs.scss */
+/* line 1885, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondarySlate {
   background: #5887ab;
 }
 
-/* line 1883, ../../src/packages/docs/css/docs.scss */
+/* line 1886, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--secondarySlateDark {
   background: #44506e;
 }
 
-/* line 1885, ../../src/packages/docs/css/docs.scss */
+/* line 1888, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--twitterColor {
   background: #00acee;
 }
 
-/* line 1886, ../../src/packages/docs/css/docs.scss */
+/* line 1889, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--facebookColor {
   background: #3b5b99;
 }
 
-/* line 1887, ../../src/packages/docs/css/docs.scss */
+/* line 1890, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--gplusColor {
   background: #db4a39;
 }
 
-/* line 1888, ../../src/packages/docs/css/docs.scss */
+/* line 1891, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--youtubeColor {
   background: #ef3c39;
 }
 
-/* line 1889, ../../src/packages/docs/css/docs.scss */
+/* line 1892, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--flickrblue {
   background: #0063dc;
 }
 
-/* line 1890, ../../src/packages/docs/css/docs.scss */
+/* line 1893, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--flickrpink {
   background: #ff0084;
 }
 
-/* line 1891, ../../src/packages/docs/css/docs.scss */
+/* line 1894, ../../src/packages/docs/css/docs.scss */
 .docs-color-swatch--pinterestColor {
   background: #cb2027;
 }
 
-/* line 1906, ../../src/packages/docs/css/docs.scss */
+/* line 1909, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page:not(.full-size):not(.full-width) .docs-page-structure-main .container {
   max-width: 466.66667px;
 }
-/* line 1909, ../../src/packages/docs/css/docs.scss */
+/* line 1912, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page:not(.full-size):not(.full-width) .docs-page-structure-main .container.full-bleed {
   max-width: 504.66667px;
 }
-/* line 1912, ../../src/packages/docs/css/docs.scss */
+/* line 1915, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page:not(.full-size):not(.full-width) .docs-page-structure-main .container.full-bleed-no-max {
   max-width: none;
 }
 
-/* line 1918, ../../src/packages/docs/css/docs.scss */
+/* line 1921, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page {
   position: relative;
   width: 400px;
@@ -7467,27 +7462,27 @@ form.bs-docs-example {
   color: #2f353d;
   text-align: center;
 }
-/* line 1925, ../../src/packages/docs/css/docs.scss */
+/* line 1928, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-nav {
   padding: 6px 0;
   background: #bcbccc;
 }
-/* line 1929, ../../src/packages/docs/css/docs.scss */
+/* line 1932, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-footer {
   padding: 6px 0;
   background: #bcbccc;
 }
-/* line 1935, ../../src/packages/docs/css/docs.scss */
+/* line 1938, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page.overall-page-demo .docs-page-structure-main {
   padding: 100px 0;
 }
-/* line 1940, ../../src/packages/docs/css/docs.scss */
+/* line 1943, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main {
   background: #3dadfe;
   padding: 0;
   border: solid 1px #3dadfe;
 }
-/* line 1946, ../../src/packages/docs/css/docs.scss */
+/* line 1949, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .show-grid {
   margin: 2px auto;
   padding: 2px;
@@ -7495,12 +7490,12 @@ form.bs-docs-example {
   background: rgba(255, 234, 0, 0.4) !important;
   border: solid 1px rgba(255, 234, 0, 0.6);
 }
-/* line 1953, ../../src/packages/docs/css/docs.scss */
+/* line 1956, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .show-grid.slimgrid {
   background: rgba(255, 175, 0, 0.4) !important;
   border: solid 1px rgba(255, 175, 0, 0.6);
 }
-/* line 1960, ../../src/packages/docs/css/docs.scss */
+/* line 1963, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed {
   background: #6ed8ff;
@@ -7511,17 +7506,17 @@ form.bs-docs-example {
   -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
-/* line 1966, ../../src/packages/docs/css/docs.scss */
+/* line 1969, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container:first-child,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed:first-child {
   margin-top: 0;
 }
-/* line 1967, ../../src/packages/docs/css/docs.scss */
+/* line 1970, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container:last-child,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed:last-child {
   margin-bottom: 0;
 }
-/* line 1972, ../../src/packages/docs/css/docs.scss */
+/* line 1975, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container.nesting-demo-parent, .docs-page-structure-page .docs-page-structure-main .container.full-bleed.nesting-demo-parent, .docs-page-structure-page .docs-page-structure-main .container.full-bleed-no-max.nesting-demo-parent,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed.nesting-demo-parent,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed.full-bleed.nesting-demo-parent,
@@ -7529,42 +7524,42 @@ form.bs-docs-example {
   padding: 0px 0;
   margin: 1px auto;
 }
-/* line 1978, ../../src/packages/docs/css/docs.scss */
+/* line 1981, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container.nesting-demo-10,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed.nesting-demo-10 {
   padding: 10px 0 !important;
 }
-/* line 1982, ../../src/packages/docs/css/docs.scss */
+/* line 1985, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container.nesting-demo-5,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed.nesting-demo-5 {
   padding: 5px 0 !important;
 }
-/* line 1989, ../../src/packages/docs/css/docs.scss */
+/* line 1992, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main .container .container,
 .docs-page-structure-page .docs-page-structure-main .container .container.full-bleed,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed.full-bleed-no-max.nesting-demo-parent > .container.full-bleed.nesting-demo-parent,
 .docs-page-structure-page .docs-page-structure-main .container.full-bleed-no-max.nesting-demo-parent > .container.full-bleed.nesting-demo-parent {
   margin: 2px auto;
 }
-/* line 1997, ../../src/packages/docs/css/docs.scss */
+/* line 2000, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main > .container:first-child,
 .docs-page-structure-page .docs-page-structure-main > .container.full-bleed:first-child,
 .docs-page-structure-page .docs-page-structure-main > .container.full-bleed-no-max:first-child,
 .docs-page-structure-page .docs-page-structure-main > .container.full-bleed.nesting-demo-parent:first-child {
   margin-top: 0;
 }
-/* line 1998, ../../src/packages/docs/css/docs.scss */
+/* line 2001, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-page-structure-main > .container:last-child,
 .docs-page-structure-page .docs-page-structure-main > .container.full-bleed:last-child,
 .docs-page-structure-page .docs-page-structure-main > .container.full-bleed-no-max:last-child,
 .docs-page-structure-page .docs-page-structure-main > .container.full-bleed.nesting-demo-parent:last-child {
   margin-bottom: 0;
 }
-/* line 2002, ../../src/packages/docs/css/docs.scss */
+/* line 2005, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page.full-size .docs-page-structure-main {
   padding: 0 0 1px 0;
 }
-/* line 2016, ../../src/packages/docs/css/docs.scss */
+/* line 2019, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .docs-docs-page-structure-maxWidth-outline {
   position: absolute;
   border-left: solid 1px #c80000;
@@ -7576,32 +7571,32 @@ form.bs-docs-example {
   width: 1404px;
   margin-left: -702px;
 }
-/* line 2028, ../../src/packages/docs/css/docs.scss */
+/* line 2031, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page.docs-page-structure-page-max:not(.full-size) {
   width: 600px;
 }
-/* line 2031, ../../src/packages/docs/css/docs.scss */
+/* line 2034, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page.docs-page-structure-page-max .docs-docs-page-structure-maxWidth-outline {
   width: 470.66667px;
   margin-left: -235.33333px;
 }
-/* line 2038, ../../src/packages/docs/css/docs.scss */
+/* line 2041, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page .container {
   z-index: 1;
   position: relative;
 }
-/* line 2049, ../../src/packages/docs/css/docs.scss */
+/* line 2052, ../../src/packages/docs/css/docs.scss */
 .docs-page-structure-page.full-size, .docs-page-structure-page.full-width {
   width: 100%;
 }
 
 @media (max-width: 87.75em) {
-  /* line 2072, ../../src/packages/docs/css/docs.scss */
+  /* line 2075, ../../src/packages/docs/css/docs.scss */
   .docs-page-structure-page:not(.docs-page-structure-page-max) .docs-docs-page-structure-maxWidth-outline {
     display: none;
   }
 }
-/* line 2079, ../../src/packages/docs/css/docs.scss */
+/* line 2082, ../../src/packages/docs/css/docs.scss */
 .docs-container-demo {
   border: none;
   font-size: 0.875em;
@@ -7611,44 +7606,71 @@ form.bs-docs-example {
   padding: 20px 0;
   margin-bottom: 10px;
 }
-/* line 2089, ../../src/packages/docs/css/docs.scss */
+/* line 2092, ../../src/packages/docs/css/docs.scss */
 .docs-container-demo .grid {
   margin-top: 1px;
   margin-bottom: 1px;
   background: rgba(255, 234, 0, 0.4);
 }
 
-/* line 2098, ../../src/packages/docs/css/docs.scss */
+/* line 2101, ../../src/packages/docs/css/docs.scss */
 .limit-paragraph-widths p {
   max-width: 400px;
 }
-/* line 2101, ../../src/packages/docs/css/docs.scss */
+/* line 2104, ../../src/packages/docs/css/docs.scss */
 .limit-paragraph-widths p:not(.p4) {
   font-size: 0.8em;
 }
-/* line 2104, ../../src/packages/docs/css/docs.scss */
+/* line 2107, ../../src/packages/docs/css/docs.scss */
 .limit-paragraph-widths p.p4 {
   font-size: 0.7em;
 }
-/* line 2108, ../../src/packages/docs/css/docs.scss */
+/* line 2111, ../../src/packages/docs/css/docs.scss */
 .limit-paragraph-widths .jumbotron h1 {
   font-size: 40px !important;
 }
 
-/* line 2121, ../../src/packages/docs/css/docs.scss */
+/* line 2120, ../../src/packages/docs/css/docs.scss */
+#module-search {
+  width: 100%;
+  height: auto;
+  min-height: 40px;
+  border-radius: 0;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 2131, ../../src/packages/docs/css/docs.scss */
 .module-nav a {
   display: block;
   text-transform: capitalize;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-height: 50px;
+  transition: .2s ease-out !important;
 }
-/* line 2129, ../../src/packages/docs/css/docs.scss */
+/* line 2142, ../../src/packages/docs/css/docs.scss */
+.module-nav a.collapsed {
+  max-height: 0;
+  margin: 0;
+  border-width: 0;
+}
+/* line 2149, ../../src/packages/docs/css/docs.scss */
 .module-nav hr {
   margin: 1em 0;
+  overflow: hidden;
+  max-height: 50px;
+  transition: .2s ease-out;
+}
+/* line 2157, ../../src/packages/docs/css/docs.scss */
+.module-nav hr.collapsed {
+  max-height: 0;
+  margin: 0;
+  border-width: 0;
 }
 
-/* line 2141, ../../src/packages/docs/css/docs.scss */
+/* line 2172, ../../src/packages/docs/css/docs.scss */
 .NotUpdatedYet {
   background: #dcfbfa;
 }
