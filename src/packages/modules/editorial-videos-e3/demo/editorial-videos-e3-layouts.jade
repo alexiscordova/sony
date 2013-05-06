@@ -5,19 +5,35 @@ include ../../../common/html/ieconditionals.html
 head
   include ../../../common/html/head.jade
 
-body 
-  h6 full left
+body
+
+  h6 E03.A1 Large Header Center
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-videos-e3/demo/data/full-left-75-D-L-example1.json')
+  hr
+
+  h6 E03.B2 Large Header Left
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-videos-e3/demo/data/full-left-75-D-L-example1.json')
+  hr
+
+  h6 E03.C1 Large Header Right
   +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-videos-e3/demo/data/full-left-75-D-L-example1.json')
   hr
     
-  h6 mediaright span7
+  h6 E03.D2 Text-Left-Narrow & Video-Right-Wide
   +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-videos-e3/demo/data/mediaright-66-D-L-example1.json')
   hr
   
-  h6 medialeft span6
+  h6 E03.E1 Text-Right-Narrow & Video-Left-Wide
   +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-videos-e3/demo/data//medialeft-66-D-L-example1.json')
   hr
-  
+
+  h6 E03.F2 Text-Right-Medium & Video-Left-Medium
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-videos-e3/demo/data//medialeft-66-D-L-example1.json')
+  hr
+
+  h6 E01.G1 Text-Left-Medium & Video-Right-Medium
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-videos-e3/demo/data//medialeft-66-D-L-example1.json')
+  hr
   
   include ../../../common/html/foot.jade
 </html>
