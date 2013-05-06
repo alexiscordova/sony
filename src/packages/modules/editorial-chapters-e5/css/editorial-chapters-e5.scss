@@ -80,7 +80,7 @@
     li {
       padding:10px 0;
       height:48px;
-      display: inline-block;
+      display: inline-table;
       background:$white;
       color:$gray40;
       cursor:pointer;
@@ -89,7 +89,7 @@
       border:0;
       vertical-align:bottom;
       position:relative;
-      width:25%;
+      width: percentage(255/1100);
       overflow:hidden;
       @include flickerfix();
       @include box-sizing(content-box);
@@ -117,7 +117,8 @@
       position:relative;
       display:block;  
       height:48px;
-      min-width:64px;
+      width: percentage(64/177);
+      min-width: 64px;
       float:left;
       margin:0 10px;
       @include flickerfix();
@@ -137,12 +138,13 @@
     span {
       font-size:12px;
       position:relative;
+      width: percentage(177/255);
+      padding: 0 percentage(10/177) 0 0;
+      left: 10px;
+      min-width: 125px;
+      display: table-cell;
+      vertical-align: middle;
       top:-4px;
-      display:block;
-      margin-right:24px;
-
-      &.oneLine {top:12px;}
-      &.twoLine {top:4px;}
     }
   } // end .thumb-nav 
 
@@ -192,6 +194,12 @@
     i {
       display:none;
     }
+
+    span {
+      width: percentage(177/255);
+      margin-right:24px;
+    }
+    
   }
   
   &.icon-mode .thumb-nav {
@@ -208,6 +216,7 @@
     }
 
     span {
+      width: percentage(200/255);
       margin-right:24px;
     }
 
@@ -225,21 +234,21 @@
   .editorial-chapters-container {
     .image-module {height:auto;}
     
+    li {
+      width:auto;
+      padding:8px 0;
+      height:42px;
+    }
+    
     &.thumb-mode {
       .thumb-nav {
         height:62px;
-
-        li {
-          width:auto;
-          padding:8px 0;
+        img {
+          width:55px;
           height:42px;
+          margin:0 5px;
         }
-          img {
-            width:55px;
-            height:42px;
-            margin:0 5px;
-          }
-          i, span {display:none;}
+        i, span {display:none;}
       }
     }
     &.icon-mode {
@@ -250,11 +259,15 @@
           width:auto;
           height:30px;
         }
-          img, span {display:none;}
-          i {
-            top:4px;
-            margin:0 15px;
-          }
+        i {
+          top:4px;
+          margin:0 15px;
+        }
+        span {
+          width: auto;
+          left: auto;
+          right: 0;
+        }
       }
     } 
     &.text-mode {
@@ -267,15 +280,13 @@
           height:14px;
           width:auto;
         }
-          img, i {display:none;}
-          span {
-            height:14px;
-            display:block;
-            overflow:hidden;
-            margin:0 15px;
-          }
-          .oneLine,
-          .twoLine {top:0;}
+        img, i {display:none;}
+        span {
+          height:14px;
+          display:block;
+          overflow:hidden;
+          margin:0 10px;
+        }
       }
     }
     &.top-nav .thumb-nav {

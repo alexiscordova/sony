@@ -77,18 +77,13 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
-        if(!window.console){
-          window.console = {};
-          window.console.log = function(){};
-        }
-
         self.setupEvents();
         self.setupSlides();
         self.setupCarousel();
         if(self.hasThumbs){
           self.createThumbNav();
         }
-        self.$slideContainer.css( 'opacity' , 1 );
+        self.$slideContainer.fadeTo(0,1);
 
         // Re-center thumb spans if window resizes
         Environment.on('global:resizeThrottled', function(){
@@ -178,7 +173,7 @@ define(function(require){
 
         self.$thumbLabels.each(function(){
           var $span = $(this),
-            height = $span.height();
+              height = $span.height();
 
           // Loop through each label, detect height, and offset top as needed
           if (height <= 31) {
