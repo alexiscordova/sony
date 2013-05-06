@@ -36,7 +36,17 @@ define(function(require) {
           _currentPlayer       = null;
 
       // Private methods
-      function _privateMethod(){}
+      function toggleCurrentlyPlaying( currentPlayingAPI ){
+        var api = null;
+        for (var i = _videoCollection.length - 1; i >= 0; i--) {
+          api = _videoCollection[i];
+
+          if( api !== currentPlayingAPI ){
+            api.pause(); //pauses all other instances
+          }
+
+        }
+      }
 
       // Public methods and variables
       return {
@@ -44,12 +54,14 @@ define(function(require) {
         //pass your video elements as a jquery selector
         initVideos: function ( $videos , options ) {
 
-            log('initing videos' , $videos.length);
-
             //init each instace of player
             $videos.each(function(){
-              //faster :)
-             _videoCollection[_totalIntanceCount] =  $(this).flowplayer();
+             var api = _videoCollection[ _totalIntanceCount ] =  window.flowplayer( ( $( this ).flowplayer() ).get( 0 ) );
+
+             api.bind( 'resume' , function(e , a){
+              toggleCurrentlyPlaying(api);
+             } );
+
              _totalIntanceCount++;
              
             });
