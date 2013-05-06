@@ -36,24 +36,33 @@ define(function(require) {
           _currentPlayer       = null;
 
       // Private methods
-      function _privateMethod(){}
+      function toggleCurrentlyPlaying( currentPlayingAPI ){
+        var api = null;
+        for (var i = _videoCollection.length - 1; i >= 0; i--) {
+          api = _videoCollection[i];
+
+          if( api !== currentPlayingAPI && api.playing ){
+            api.pause(); //pauses all other instances
+          }
+        }
+      }
 
       // Public methods and variables
       return {
-
         //pass your video elements as a jquery selector
         initVideos: function ( $videos , options ) {
+          //init each instace of player
+          $videos.each(function(){
+           var api = _videoCollection[ _totalIntanceCount ] =  window.flowplayer( ( $( this ).flowplayer() ).get( 0 ) );
 
-            log('initing videos' , $videos.length);
+           api.bind( 'resume' , function(e , a){
+            _currentPlayer = api;
+            toggleCurrentlyPlaying(api);
+           } );
 
-            //init each instace of player
-            $videos.each(function(){
-              //faster :)
-             _videoCollection[_totalIntanceCount] =  $(this).flowplayer();
-             _totalIntanceCount++;
-             
-            });
-
+           _totalIntanceCount++;
+           
+          });
         }
       };
     }

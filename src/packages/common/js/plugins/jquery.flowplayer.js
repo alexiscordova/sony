@@ -39,12 +39,13 @@ define(function(require){
    }
 
 }($);
+
 // auto-install (any video tag with parent .flowplayer)
-$(function() {
+/*$(function() {
    if (typeof $.fn.flowplayer == 'function') {
       $("video").parent(".flowplayer").flowplayer();
    }
-});
+});*/
 
 var instances = [],
    extensions = [],

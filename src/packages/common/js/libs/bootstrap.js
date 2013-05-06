@@ -919,6 +919,7 @@
 
         this.$element
           .removeClass('in')
+          .addClass('fade-only')
           .attr('aria-hidden', true)
 
         $.support.transition && this.$element.hasClass('fade') ?
@@ -962,6 +963,7 @@
     , hideModal: function (that) {
         this.$element
           .hide()
+          .removeClass('fade-only')
           .trigger('hidden')
 
         this.backdrop()
