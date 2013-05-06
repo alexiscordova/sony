@@ -25,11 +25,35 @@ define(function(require){
   // View Controller for country / region selection
   var CountryRegionSelection = {
     init: function() {
-      this.stickyHeader = this.stickyHeader = StickyHeader.init();
+      this.$pageWrapperOuter = $('#page-wrap-outer');
+
+      if ( this.$pageWrapperOuter.length > 0 ) {
+        this.initFullPageBuild();
+        this.scrollableId = 'page-wrap-inner';
+      } else {
+        this.scrollableId = 'scrollable';
+      }
+
+      this.stickyHeader = StickyHeader.init(this.scrollableId);
       this.$countryLists = $('.countries > ol');
       this.fluidLists = this.getFluidLists();
 
       return this.bind();
+    },
+
+    initFullPageBuild : function() {
+      $('.country-region').removeClass();
+      this.$pageWrapperOuter.addClass('country-region');
+
+      $('.continent-sticky-header').appendTo(this.$pageWrapperOuter);
+
+      $('.scrollable').attr('id', '').removeClass();
+
+      this.$pageWrapperInner = $('#page-wrap-inner');
+      this.$pageWrapperInner.addClass('scrollable');
+
+      $('<div>').append(this.$pageWrapperInner.children()).appendTo(this.$pageWrapperInner);
+
     },
 
     // Binds enquire handlers to setup page for mobile, tablet and desktop.
@@ -108,7 +132,8 @@ define(function(require){
 
   // Handles continent name sticky header for mobile.
   var StickyHeader = {
-    init: function() {
+    init: function(scrollableId) {
+      this.scrollableId = scrollableId;
       this.$fixedHeader = $('.continent-sticky-header').hide();
       this.$fixedHeaderTitle = this.$fixedHeader.find('.continent-sticky-header-title');
       this.$headers = $('.continent');
@@ -138,7 +163,7 @@ define(function(require){
     enable: function() {
       // HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!
       var handler = $.proxy( this.scrollHandler, this );
-      this.scroll = new IScroll('scrollable', {
+      this.scroll = new IScroll(this.scrollableId, {
         onScrollMove: handler,
         onScrollEnd: handler
       });
