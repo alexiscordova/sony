@@ -23,11 +23,35 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>View Controller for country / region selection</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> CountryRegionSelection = {
     init: <span class="keyword">function</span>() {
-      <span class="keyword">this</span>.stickyHeader = <span class="keyword">this</span>.stickyHeader = StickyHeader.init();
+      <span class="keyword">this</span>.$pageWrapperOuter = $(<span class="string">'#page-wrap-outer'</span>);
+
+      <span class="keyword">if</span> ( <span class="keyword">this</span>.$pageWrapperOuter.length &gt; <span class="number">0</span> ) {
+        <span class="keyword">this</span>.initFullPageBuild();
+        <span class="keyword">this</span>.scrollableId = <span class="string">'page-wrap-inner'</span>;
+      } <span class="keyword">else</span> {
+        <span class="keyword">this</span>.scrollableId = <span class="string">'scrollable'</span>;
+      }
+
+      <span class="keyword">this</span>.stickyHeader = StickyHeader.init(<span class="keyword">this</span>.scrollableId);
       <span class="keyword">this</span>.$countryLists = $(<span class="string">'.countries &gt; ol'</span>);
       <span class="keyword">this</span>.fluidLists = <span class="keyword">this</span>.getFluidLists();
 
       <span class="keyword">return</span> <span class="keyword">this</span>.bind();
+    },
+
+    initFullPageBuild : <span class="keyword">function</span>() {
+      $(<span class="string">'.country-region'</span>).removeClass();
+      <span class="keyword">this</span>.$pageWrapperOuter.addClass(<span class="string">'country-region'</span>);
+
+      $(<span class="string">'.continent-sticky-header'</span>).appendTo(<span class="keyword">this</span>.$pageWrapperOuter);
+
+      $(<span class="string">'.scrollable'</span>).attr(<span class="string">'id'</span>, <span class="string">''</span>).removeClass();
+
+      <span class="keyword">this</span>.$pageWrapperInner = $(<span class="string">'#page-wrap-inner'</span>);
+      <span class="keyword">this</span>.$pageWrapperInner.addClass(<span class="string">'scrollable'</span>);
+
+      $(<span class="string">'&lt;div&gt;'</span>).append(<span class="keyword">this</span>.$pageWrapperInner.children()).appendTo(<span class="keyword">this</span>.$pageWrapperInner);
+
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Binds enquire handlers to setup page for mobile, tablet and desktop.</p>             </td>             <td class="code">               <div class="highlight"><pre>    bind : <span class="keyword">function</span>() {
@@ -97,7 +121,8 @@ define(<span class="keyword">function</span>(require){
 
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Handles continent name sticky header for mobile.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> StickyHeader = {
-    init: <span class="keyword">function</span>() {
+    init: <span class="keyword">function</span>(scrollableId) {
+      <span class="keyword">this</span>.scrollableId = scrollableId;
       <span class="keyword">this</span>.$fixedHeader = $(<span class="string">'.continent-sticky-header'</span>).hide();
       <span class="keyword">this</span>.$fixedHeaderTitle = <span class="keyword">this</span>.$fixedHeader.find(<span class="string">'.continent-sticky-header-title'</span>);
       <span class="keyword">this</span>.$headers = $(<span class="string">'.continent'</span>);
@@ -124,7 +149,7 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Enables iScroll and makes sure sticky header is correctly aligned.</p>             </td>             <td class="code">               <div class="highlight"><pre>    enable: <span class="keyword">function</span>() {
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> handler = $.proxy( <span class="keyword">this</span>.scrollHandler, <span class="keyword">this</span> );
-      <span class="keyword">this</span>.scroll = <span class="keyword">new</span> IScroll(<span class="string">'scrollable'</span>, {
+      <span class="keyword">this</span>.scroll = <span class="keyword">new</span> IScroll(<span class="keyword">this</span>.scrollableId, {
         onScrollMove: handler,
         onScrollEnd: handler
       });
