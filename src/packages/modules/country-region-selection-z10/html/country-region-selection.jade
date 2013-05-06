@@ -4,8 +4,8 @@ include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('country-region-selection-z10')
 
 .country-region
-  .continent-sticky-header
-    .continent-sticky-header-title.t6
+  .continent-sticky-header.js-sticky-fixed-header
+    .continent-sticky-header-title.t6.js-sticky-header-title
   .scrollable#scrollable
     div
       .container
@@ -21,7 +21,7 @@ include ../../../common/html/jade-helpers.jade
               - for (var i = 0; i < data.continents.length; i += 1) {
                 - var continent = data.continents[i];
 
-                li.t6.continent= continent.name
+                li.t6.continent.js-sticky-headers= continent.name
                 li.countries
 
                   div.fluid-list(data-fluid-list="desktop,tablet", rel="countryList-#{i}")

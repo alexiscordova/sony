@@ -15,75 +15,96 @@ define(function(require){
       Modernizr = require('modernizr'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      sonyIScroll = require('plugins/sony-iscroll'),
+      StickyHeader = require('secondary/index').sonyStickyHeaders,
       enquire = require('enquire');
 
   var COLUMNS_IN_GRID = 12;
   var MIN_COUNTRIES_PER_COLUMN = 5;
 
+  var module = {
+    'init': function() {
+      var countryRegion = $('.country-region');
+      if ( countryRegion ) {
+        new CountryRegionSelection(countryRegion);
+      }
+    }
+  };
 
   // View Controller for country / region selection
-  var CountryRegionSelection = {
+  var CountryRegionSelection = function(element) {
+    var self = this;
+    self.$el = $(element);
+
+    self.init();
+  };
+
+  CountryRegionSelection.prototype = {
+
+    constructor: CountryRegionSelection,
+
     init: function() {
-      this.$pageWrapperOuter = $('#page-wrap-outer');
+      var self = this;
+      self.$pageWrapperOuter = $('#page-wrap-outer');
 
-      if ( this.$pageWrapperOuter.length > 0 ) {
-        this.initFullPageBuild();
-        this.scrollableId = 'page-wrap-inner';
+      if ( self.$pageWrapperOuter.length > 0 ) {
+        self.initFullPageBuild();
+        self.scrollableId = 'page-wrap-inner';
       } else {
-        this.scrollableId = 'scrollable';
+        self.scrollableId = 'scrollable';
       }
+      self.stickyHeader = new StickyHeader(self.scrollableId);
+      self.$countryLists = $('.countries > ol');
+      self.fluidLists = self.getFluidLists();
 
-      this.stickyHeader = StickyHeader.init(this.scrollableId);
-      this.$countryLists = $('.countries > ol');
-      this.fluidLists = this.getFluidLists();
-
-      return this.bind();
+      return self.bind();
     },
 
     initFullPageBuild : function() {
-      $('.country-region').removeClass();
-      this.$pageWrapperOuter.addClass('country-region');
+      var self = this;
 
-      $('.continent-sticky-header').appendTo(this.$pageWrapperOuter);
+      $('.country-region').removeClass();
+      self.$pageWrapperOuter.addClass('country-region');
+
+      $('.continent-sticky-header').appendTo(self.$pageWrapperOuter);
 
       $('.scrollable').attr('id', '').removeClass();
 
-      this.$pageWrapperInner = $('#page-wrap-inner');
-      this.$pageWrapperInner.addClass('scrollable');
+      self.$pageWrapperInner = $('#page-wrap-inner');
+      self.$pageWrapperInner.addClass('scrollable');
 
-      $('<div>').append(this.$pageWrapperInner.children()).appendTo(this.$pageWrapperInner);
-
+      $('<div>').append(self.$pageWrapperInner.children()).appendTo(self.$pageWrapperInner);
     },
 
     // Binds enquire handlers to setup page for mobile, tablet and desktop.
     bind : function() {
+      var self = this;
 
       // Enquire doesn't exist in old IE, so make sure it's there
       if ( Modernizr.mediaqueries ) {
 
         enquire
           .register('(max-width: 47.9375em)', {
-            match : $.proxy(this.toMobile, this)
+            match : $.proxy(self.toMobile, self)
           })
           .register('(min-width: 48em) and (max-width: 61.1875em)', {
-            match : $.proxy(this.toTablet, this)
+            match : $.proxy(self.toTablet, self)
           })
           .register('(min-width: 64em)', {
-            match : $.proxy(this.toDesktop, this)
+            match : $.proxy(self.toDesktop, self)
           }, true);
       } else {
-        this.toDesktop();
+        self.toDesktop();
       }
 
-      return this;
+      return self;
     },
 
     // Gets a FluidList object for each country list.
     getFluidLists : function() {
-      var lists = [];
+      var self = this,
+          lists = [];
 
-      this.$countryLists.each(function(index, list) {
+      self.$countryLists.each(function(index, list) {
         lists.push(new FluidList(COLUMNS_IN_GRID, $(list), MIN_COUNTRIES_PER_COLUMN));
       });
 
@@ -92,151 +113,47 @@ define(function(require){
 
     // Calls reset on each FluidList
     resetFluidLists : function() {
-      var i = 0,
+      var self = this,
+          i = 0,
           numLists = this.fluidLists.length;
 
       for ( ; i < numLists; i += 1) {
-        this.fluidLists[i].reset();
+        self.fluidLists[i].reset();
       }
     },
 
     // Calls update on each FluidList
     updateFluidLists : function(tag) {
-      var i = 0,
-          numLists = this.fluidLists.length;
+      var self = this,
+          i = 0,
+          numLists = self.fluidLists.length;
 
       for ( ; i < numLists; i += 1) {
-        this.fluidLists[i].update(tag);
+        self.fluidLists[i].update(tag);
       }
     },
 
     // Called when media query matches mobile.
     toMobile : function() {
-      this.stickyHeader.enable();
-      this.resetFluidLists();
+      var self = this;
+      self.stickyHeader.enable();
+      self.resetFluidLists();
     },
 
     // Called when media query matches tablet.
     toTablet : function() {
-      this.stickyHeader.disable();
-      this.updateFluidLists('tablet');
+      var self = this;
+      self.stickyHeader.disable();
+      self.updateFluidLists('tablet');
     },
 
     // Called when media query matches desktop.
     toDesktop : function() {
-      this.stickyHeader.disable();
-      this.updateFluidLists('desktop');
-    }
-  };
-
-
-  // Handles continent name sticky header for mobile.
-  var StickyHeader = {
-    init: function(scrollableId) {
-      this.scrollableId = scrollableId;
-      this.$fixedHeader = $('.continent-sticky-header').hide();
-      this.$fixedHeaderTitle = this.$fixedHeader.find('.continent-sticky-header-title');
-      this.$headers = $('.continent');
-      this.offsets = [];
-      this.currentHeader = undefined;
-      this.headerIsVisible = false;
-
-      return this._getHeaderOffsets();
-    },
-
-    // Gets the offsets of each of the headers.
-    _getHeaderOffsets: function() {
-      var offsets = [];
-
-      this.$headers.each(function(index, header) {
-        var $header = $(header);
-        offsets.push($header.offset().top);
-      });
-
-      this.offsets = offsets;
-      this.lastScrollOffset = 0;
-
-      return this;
-    },
-
-    // Enables iScroll and makes sure sticky header is correctly aligned.
-    enable: function() {
-      // HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!
-      var handler = $.proxy( this.scrollHandler, this );
-      this.scroll = new IScroll(this.scrollableId, {
-        onScrollMove: handler,
-        onScrollEnd: handler
-      });
-
-      return this;
-    },
-
-    // Hides the fixed header and destroys the iscroll.
-    disable: function() {
-      this.$fixedHeader.hide();
-
-      if (this.scroll) {
-        this.scroll.scrollTo();
-        this.scroll.destroy();
-      }
-
-      return this;
-    },
-
-    // Called by iScroll when a scroll event happens.
-    scrollHandler: function() {
       var self = this;
-      self.scroll.refresh();
-
-      var offsetTarget = Math.abs(this.scroll.y); // iScroll.y is negative
-      this.updateFixedHeader(offsetTarget);
-    },
-
-    // Updates the fixed header with the title of the closest header.
-    updateFixedHeader: function(targetOffset) {
-      var $header,
-          headerIndex = this._indexOfClosestHeader(targetOffset);
-
-      // Only update the fixed header if the new header is different.
-      if (headerIndex !== this.currentHeader) {
-        this.currentHeader = headerIndex;
-        $header = $(this.$headers[headerIndex]);
-        this.$fixedHeaderTitle.text($header.text());
-
-        if (!this.headerIsVisible) {
-          this.$fixedHeader.stop().show();
-          this.headerIsVisible = true;
-        }
-      }
-
-      // Hide the fixed header if there is no header to display.
-      if (headerIndex === -1 && this.headerIsVisible) {
-          this.$fixedHeader.stop().hide();
-          this.headerIsVisible = false;
-      }
-    },
-
-    // Gets the index of the closest header to the target offset.
-    // Closest being the header that is not in view (a negative offset) and nearest to the target offset.
-    _indexOfClosestHeader: function (targetOffset) {
-      var headerIndex = -1,
-          i = 0,
-          numHeaders = this.$headers.length,
-          offset,
-          closestOffset;
-
-      for (; i < numHeaders; i += 1) {
-        offset = this.offsets[i] - targetOffset;
-        if (offset < 0 && (offset > closestOffset || !closestOffset)) {
-          closestOffset = offset;
-          headerIndex = i;
-        }
-      }
-
-      return headerIndex;
+      self.stickyHeader.disable();
+      self.updateFluidLists('desktop');
     }
   };
-
 
   // FluidList
   // Takes a html list and will make it fit into the given containers
@@ -369,5 +286,5 @@ define(function(require){
     }
   };
 
-  return CountryRegionSelection;
+  return module;
 });
