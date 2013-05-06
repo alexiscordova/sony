@@ -181,9 +181,13 @@ define(function(require) {
       if ( toDesktop ) {
         $msrp.insertBefore( $price );
         self.$stickyNav.find('#desktop-sticky-price').append( self.$stickyPriceText );
+        $price.addClass('p1').removeClass('p2');
+        self.$stickyTitle.addClass('t6').removeClass('t7');
       } else {
         $msrp.insertAfter( $price );
         self.$stickyTitle.after( self.$stickyPriceText );
+        $price.addClass('p2').removeClass('p1');
+        self.$stickyTitle.addClass('t7').removeClass('t6');
       }
 
     },
