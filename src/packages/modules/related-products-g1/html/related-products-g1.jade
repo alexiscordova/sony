@@ -2,11 +2,7 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('related-products-g1')
 +includeJavascriptModule('related-products-g1')
 
-- layout1 = [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
-- layout2 = [ "plate", "medium" , "normal" , "normal" , "normal" , "blank-normal"]
-- layout3 = [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
-- layout4 = ["suggested" , "suggested"]
-- layout5 = ["normal" , "normal"  , "normal" , "normal" , "normal" , "normal" , "normal" , "normal" , "normal" , "normal"]
+layouts = locals.getConfigFile("packages/modules/related-products-g1/html/layouts.json")
 
 moduleId = data.id ? data.id : false
 
@@ -20,27 +16,26 @@ div(id=moduleId)
               a.rp-tab(class='lt4 no-hover-transition' , data-rp-panel-id=tab.panelId , href='#')
                 strong= tab.title
 
-    .container(class='full-bleed-no-max rp-container-tabbed')
+    .container.rp-container-tabbed
       for tab in data.config.tabbedLayout
         if data.config.mode == 'full'
           - clss = data.config.mode
-          div(id=moduleId)
-            section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation ,  data-rp-panel-id=tab.panelId)
-              .rp-overflow
-                .rp-container
-                  j = 0
-                  for slide in data.slideContent
-                    mdata = locals.data(slide.data)
-                    .rp-slide(class=mdata.config.variation , data-variation=mdata.config.variation)
-                      .shuffle-container.slimgrid5
-                        i = 0
-                        for module in mdata.submodules
-                          d = locals.data(module.data)
-                          if d.featured
-                            - d.layout = this[mdata.config.layout][i++]
-                            - d.view = d.layout == 'blank-normal' ? 'blank' : 'basic'
-                            e = { 'locals' : locals , 'data' : d }
-                            !{locals.partial(module.type , e )}
+          section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation ,  data-rp-panel-id=tab.panelId)
+            .rp-overflow
+              .rp-container
+                j = 0
+                for slide in data.slideContent
+                  mdata = locals.data(slide.data)
+                  .rp-slide(class=mdata.config.variation , data-variation=mdata.config.variation)
+                    .shuffle-container.slimgrid5
+                      i = 0
+                      for module in mdata.submodules
+                        d = locals.data(module.data)
+                        if d.featured
+                          - d.layout = layouts[mdata.config.layout][i++]
+                          - d.view = d.layout == 'blank-normal' ? 'blank' : 'basic'
+                          e = { 'locals' : locals , 'data' : d }
+                          !{locals.partial(module.type , e )}
 
 
   else if data.config.standalone != true
@@ -49,23 +44,23 @@ div(id=moduleId)
       .container
         .grid
           h2(class='l1')= data.config.headerTitle
-      div(id=moduleId)
-        section.related-products( class=clss , data-mode=data.config.mode , data-variation=data.config.variation )
-          .rp-overflow
-            .rp-container
-              j = 0
-              for slide in data.slideContent
-                mdata = locals.data(slide.data)
-                .rp-slide(class=mdata.config.variation , data-variation=mdata.config.variation)
-                  .shuffle-container.slimgrid5
-                    i = 0
-                    for module in mdata.submodules
-                      d = locals.data(module.data)
-                      if d.featured
-                        - d.layout = this[mdata.config.layout][i++]
-                        - d.view = d.layout == 'blank-normal' ? 'blank' : 'basic'
-                        e = { 'locals' : locals , 'data' : d }
-                        !{locals.partial(module.type , e )}
+
+      section.related-products( class=clss , data-mode=data.config.mode , data-variation=data.config.variation )
+        .rp-overflow
+          .rp-container
+            j = 0
+            for slide in data.slideContent
+              mdata = locals.data(slide.data)
+              .rp-slide(class=mdata.config.variation , data-variation=mdata.config.variation)
+                .shuffle-container.slimgrid5
+                  i = 0
+                  for module in mdata.submodules
+                    d = locals.data(module.data)
+                    if d.featured
+                      - d.layout = layouts[mdata.config.layout][i++]
+                      - d.view = d.layout == 'blank-normal' ? 'blank' : 'basic'
+                      e = { 'locals' : locals , 'data' : d }
+                      !{locals.partial(module.type , e )}
 
   else if data.config.standalone == true
     if data.config.mode == 'full'
@@ -73,20 +68,20 @@ div(id=moduleId)
       .container
         .grid
           h2(class='l1')= data.config.headerTitle
-      div(id=moduleId)
-        section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation)
-          .rp-overflow
-            .rp-container
-              .rp-slide(class=data.config.variation , data-variation=data.config.variation)
-                .shuffle-container.slimgrid5
-                  i = 0
-                  for module in data.submodules
-                    d = locals.data(module.data)
-                    if d.featured
-                      - d.layout = this[data.config.layout][i++]
-                      - d.view = d.layout == 'blank-normal' ? 'blank' : 'basic'
-                      e = { 'locals' : locals , 'data' : d }
-                      !{locals.partial(module.type , e )}
+
+      section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation)
+        .rp-overflow
+          .rp-container
+            .rp-slide(class=data.config.variation , data-variation=data.config.variation)
+              .shuffle-container.slimgrid5
+                i = 0
+                for module in data.submodules
+                  d = locals.data(module.data)
+                  if d.featured
+                    - d.layout = layouts[data.config.layout][i++]
+                    - d.view = d.layout == 'blank-normal' ? 'blank' : 'basic'
+                    e = { 'locals' : locals , 'data' : d }
+                    !{locals.partial(module.type , e )}
 
     else if data.config.mode == 'suggested'
       - clss = data.config.mode
@@ -95,15 +90,14 @@ div(id=moduleId)
           h2(class='l1')= data.config.headerTitle
       .container
         .grid
-          div(id=moduleId)
-            section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation)
-              i = 0
-              for module in data.submodules
-                d = locals.data(module.data)
-                - d.layout = this[data.config.layout][i++]
-                - d.view = 'suggested'
-                e = { 'locals' : locals , 'data' : d }
-                !{locals.partial(module.type , e )}
+          section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation)
+            i = 0
+            for module in data.submodules
+              d = locals.data(module.data)
+              - d.layout = layouts[data.config.layout][i++]
+              - d.view = 'suggested'
+              e = { 'locals' : locals , 'data' : d }
+              !{locals.partial(module.type , e )}
 
     else if data.config.mode == 'strip'
       e = { 'locals' : locals , 'data' : data }
