@@ -5,7 +5,7 @@ include ../../../common/html/jade-helpers.jade
 - type = data.type
 - image = data.sequence[0].image || null
 - extraclass = image.classes || ""
-- id = data.id || ""
+- id = data.id || "e360-instance"
 - startId = id+"-0"
 - multiModule = data.multiModule || ""
 - isDark = data.dark ? "dark" : "light"
@@ -14,8 +14,8 @@ if multiModule == "true"
     bump = "multiModule"
 else
     bump = ""
-.debug
-.e360(id=data.id)
+
+.e360(id=id)
   .outer 
     if data.background === "true"
       - i = 0
