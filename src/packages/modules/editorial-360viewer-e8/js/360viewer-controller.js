@@ -223,7 +223,13 @@ define(function(require){
           direction = event.gesture.direction,
           doMove    = false;
       
-      if( 0 === self.moves % 10 ) {
+      if( Settings.isIOS ) {
+        if( 0 === self.moves % 10 ) {
+          self.move( direction );
+        }
+      } else if( Settings.isAndroid ) {
+        self.move( direction );
+      } else {
         self.move( direction );
       }
 
@@ -281,7 +287,7 @@ define(function(require){
     },
     
     mobileLog: function( data ) {
-      $( '.debug' ).append( data.toString() ).append( '<br />' );
+      $( '.e360debug' ).append( data.toString() ).append( '<br />' );
     },
     
     animateDragger: function( cycles ) {

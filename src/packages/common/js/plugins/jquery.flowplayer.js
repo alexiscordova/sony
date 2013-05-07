@@ -1255,7 +1255,7 @@ $.fn.slider2 = function(rtl) {
 
       var root = $(this),
          doc = $(document),
-         progress = root.children(":last"),
+         progress = root.children(".is-slider"),
          disabled,
          offset,
          width,
@@ -1265,6 +1265,7 @@ $.fn.slider2 = function(rtl) {
          maxValue,
          max,
          skipAnimation = false,
+         scrubber = root.children('.fp-scrubber'),
 
          /* private */
          calc = function() {
@@ -1273,7 +1274,7 @@ $.fn.slider2 = function(rtl) {
             height = root.height();
 
             /* exit from fullscreen can mess this up.*/
-            // vertical = height > width;
+            //vertical = height > width;
 
             size = vertical ? height : width;
             max = toDelta(maxValue);
@@ -1304,14 +1305,20 @@ $.fn.slider2 = function(rtl) {
             if (speed === undefined) { speed = 0; }
             if (value > 1) value = 1;
 
-            var to = (Math.round(value * 1000) / 10) + "%";
+            var to = (Math.round(value * 1000) / 10) ;
 
             if (!maxValue || value <= maxValue) {
                if (!IS_IPAD) progress.stop(); // stop() broken on iPad
                if (skipAnimation) {
-                  progress.css('width', to);
+                  progress.css('width', to + "%");
+                  //scrubber.css('left', (to - 2) + "%");
+
                } else {
-                  progress.animate(vertical ? { height: to } : { width: to }, speed, "linear");
+                  //progress.animate(vertical ? { height: to } : { width: to }, speed, "linear");
+                  progress.css('width', to + "%");
+                  //scrubber.css('left', (to - 2) + "%");
+
+                  scrubber.css('left' , (progress.width() - 4) + 'px');
                }
             }
 
@@ -1345,6 +1352,8 @@ $.fn.slider2 = function(rtl) {
             }
 
          };
+
+                 
 
       calc();
 
@@ -1412,21 +1421,22 @@ flowplayer(function(api, root) {
       <div class="ratio"/>\
       <div class="ui">\
          <div class="waiting"><em/><em/><em/></div>\
-         <a class="fullscreen"/>\
          <a class="unload"/>\
          <p class="speed"/>\
          <div class="controls">\
             <a class="play"></a>\
             <div class="timeline">\
                <div class="buffer"/>\
-               <div class="progress"/>\
+               <div class="progress is-slider"/>\
+               <div class="scrubber"/>\
             </div>\
             <div class="volume">\
                <a class="mute"></a>\
                <div class="volumeslider">\
-                  <div class="volumelevel"/>\
+                  <div class="volumelevel is-slider"/>\
                </div>\
             </div>\
+            <a class="fullscreen"/>\
          </div>\
          <div class="time">\
             <em class="elapsed">00:00</em>\
@@ -1451,6 +1461,7 @@ flowplayer(function(api, root) {
       speed = find("speed"),
       durationEl = find("duration"),
       origRatio = ratio.css("paddingTop"),
+      scrubber = find('scrubber'),
 
       // sliders
       timeline = find("timeline").slider2(api.rtl),
@@ -1604,7 +1615,7 @@ flowplayer(function(api, root) {
                hover(false)
                lastMove = new Date;
             }
-         }, 100);
+         }, 50);
 
       } else {
          root.unbind(".x");
@@ -1766,9 +1777,9 @@ flowplayer(function(api, root) {
    ');*/
 
    if (api.conf.tooltip) {
-      $(".fp-ui", root).attr("title", "Hit ? for help").on("mouseout.tip", function() {
+/*      $(".fp-ui", root).attr("title", "Hit ? for help").on("mouseout.tip", function() {
          $(this).removeAttr("title").off("mouseout.tip");
-      });
+      });*/
    }
 
    $(".fp-close", root).click(function() {
@@ -2462,7 +2473,9 @@ $.fn.fptip = function(trigger, active) {
 };
 
 }($);
-flowplayer(function(e,t){function f(e){var t=n("<a/>")[0];return t.href=e,t.hostname}function l(e){var t="co.uk,org.uk,ltd.uk,plc.uk,me.uk,br.com,cn.com,eu.com,hu.com,no.com,qc.com,sa.comse.com,se.net,us.com,uy.com,co.ac,gv.ac,or.ac,ac.ac,ac.at,co.at,gv.at,or.atasn.au,com.au,edu.au,org.au,net.au,id.au,ac.be,adm.br,adv.br,am.br,arq.br,art.brbio.br,cng.br,cnt.br,com.br,ecn.br,eng.br,esp.br,etc.br,eti.br,fm.br,fot.br,fst.brg12.br,gov.br,ind.br,inf.br,jor.br,lel.br,med.br,mil.br,net.br,nom.br,ntr.brodo.br,org.br,ppg.br,pro.br,psc.br,psi.br,rec.br,slg.br,tmp.br,tur.br,tv.br,vet.brzlg.br,ab.ca,bc.ca,mb.ca,nb.ca,nf.ca,ns.ca,nt.ca,on.ca,pe.ca,qc.ca,sk.ca,yk.caac.cn,com.cn,edu.cn,gov.cn,org.cn,bj.cn,sh.cn,tj.cn,cq.cn,he.cn,nm.cn,ln.cnjl.cn,hl.cn,js.cn,zj.cn,ah.cn,gd.cn,gx.cn,hi.cn,sc.cn,gz.cn,yn.cn,xz.cn,sn.cngs.cn,qh.cn,nx.cn,xj.cn,tw.cn,hk.cn,mo.cn,com.ec,tm.fr,com.fr,asso.fr,presse.frco.il,net.il,ac.il,k12.il,gov.il,muni.il,ac.in,co.in,org.in,ernet.in,gov.innet.in,res.in,ac.jp,co.jp,go.jp,or.jp,ne.jp,ac.kr,co.kr,go.kr,ne.kr,nm.kr,or.krasso.mc,tm.mc,com.mm,org.mm,net.mm,edu.mm,gov.mm,org.ro,store.ro,tm.ro,firm.rowww.ro,arts.ro,rec.ro,info.ro,nom.ro,nt.ro,com.sg,org.sg,net.sg,gov.sg,ac.th,co.thgo.th,mi.th,net.th,or.th,com.tr,edu.tr,gov.tr,k12.tr,net.tr,org.tr,com.tw,org.twnet.tw,ac.uk,uk.com,uk.net,gb.com,gb.net,com.hk,org.hk,net.hk,edu.hk,eu.lv,co.nzorg.nz,net.nz,maori.nz,iwi.nz,com.pt,edu.pt,com.ve,net.ve,org.ve,web.ve,info.veco.ve,net.ru,org.ru,com.hr,tv.tr,com.qa,edu.qa,gov.qa,gov.au,com.my,edu.my,gov.myco.za,com.ar,com.pl,com.ua,biz.pl,biz.tr,co.gl,co.mg,co.ms,co.vi,co.za,com.agcom.ai,com.cy,com.de,com.do,com.es,com.fj,com.gl,com.gt,com.hu,com.kg,com.kicom.lc,com.mg,com.ms,com.mt,com.mu,com.mx,com.nf,com.ng,com.ni,com.pa,com.phcom.ro,com.ru,com.sb,com.sc,com.sv,de.com,de.org,firm.in,gen.in,idv.tw,ind.ininfo.pl,info.tr,kr.com,me.uk,net.ag,net.ai,net.cn,net.do,net.gl,net.kg,net.kinet.lc,net.mg,net.mu,net.ni,net.pl,net.sb,net.sc,nom.ni,off.ai,org.ag,org.aiorg.do,org.es,org.gl,org.kg,org.ki,org.lc,org.mg,org.ms,org.nf,org.ni,org.plorg.sb,org.sc".split(",");e=e.toLowerCase();var r=e.split("."),i=r.length;if(i<2)return e;var s=r.slice(-2).join(".");return i>=3&&n.inArray(s,t)>=0?r.slice(-3).join("."):s}function c(e,t){t!="localhost"&&!parseInt(t.split(".").slice(-1))&&(t=l(t));var n=0;for(var r=t.length-1;r>=0;r--)n+=t.charCodeAt(r)*41742681301;n=(""+n).substring(0,7);for(r=0;r<e.length;r++)if(n===e[r].substring(1,8))return 1}var n=$,r=e.conf,i=r.swf.indexOf("flowplayer.org")&&r.e&&t.data("origin"),s=i?f(i):location.hostname,o=r.key;location.protocol=="file:"&&(s="localhost"),e.load.ed=1,r.hostname=s,r.origin=i||location.href,i&&t.addClass("is-embedded"),typeof o=="string"&&(o=o.split(/,\s*/));if(o&&typeof c=="function"&&c(o,s))r.logo&&t.append(n("<a>",{"class":"fp-logo",href:i}).append(n("<img/>",{src:r.logo})));else{var u=n("<a/>").attr("href","http://flowplayer.org").appendTo(t),a=n(".fp-controls",t);e.bind("pause resume finish unload",function(t){/pause|resume/.test(t.type)&&e.engine!="flash"?(u.show().css({position:"absolute",left:16,bottom:36,zIndex:99999,width:100,height:20,backgroundImage:"url("+[".png","logo","/",".net",".cloudfront","d32wqyuo10o653","//"].reverse().join("")+")"}),e.load.ed=u.is(":visible"),e.load.ed||e.pause()):u.hide()})}});
+
+//licensing
+//flowplayer(function(e,t){function f(e){var t=n("<a/>")[0];return t.href=e,t.hostname}function l(e){var t="co.uk,org.uk,ltd.uk,plc.uk,me.uk,br.com,cn.com,eu.com,hu.com,no.com,qc.com,sa.comse.com,se.net,us.com,uy.com,co.ac,gv.ac,or.ac,ac.ac,ac.at,co.at,gv.at,or.atasn.au,com.au,edu.au,org.au,net.au,id.au,ac.be,adm.br,adv.br,am.br,arq.br,art.brbio.br,cng.br,cnt.br,com.br,ecn.br,eng.br,esp.br,etc.br,eti.br,fm.br,fot.br,fst.brg12.br,gov.br,ind.br,inf.br,jor.br,lel.br,med.br,mil.br,net.br,nom.br,ntr.brodo.br,org.br,ppg.br,pro.br,psc.br,psi.br,rec.br,slg.br,tmp.br,tur.br,tv.br,vet.brzlg.br,ab.ca,bc.ca,mb.ca,nb.ca,nf.ca,ns.ca,nt.ca,on.ca,pe.ca,qc.ca,sk.ca,yk.caac.cn,com.cn,edu.cn,gov.cn,org.cn,bj.cn,sh.cn,tj.cn,cq.cn,he.cn,nm.cn,ln.cnjl.cn,hl.cn,js.cn,zj.cn,ah.cn,gd.cn,gx.cn,hi.cn,sc.cn,gz.cn,yn.cn,xz.cn,sn.cngs.cn,qh.cn,nx.cn,xj.cn,tw.cn,hk.cn,mo.cn,com.ec,tm.fr,com.fr,asso.fr,presse.frco.il,net.il,ac.il,k12.il,gov.il,muni.il,ac.in,co.in,org.in,ernet.in,gov.innet.in,res.in,ac.jp,co.jp,go.jp,or.jp,ne.jp,ac.kr,co.kr,go.kr,ne.kr,nm.kr,or.krasso.mc,tm.mc,com.mm,org.mm,net.mm,edu.mm,gov.mm,org.ro,store.ro,tm.ro,firm.rowww.ro,arts.ro,rec.ro,info.ro,nom.ro,nt.ro,com.sg,org.sg,net.sg,gov.sg,ac.th,co.thgo.th,mi.th,net.th,or.th,com.tr,edu.tr,gov.tr,k12.tr,net.tr,org.tr,com.tw,org.twnet.tw,ac.uk,uk.com,uk.net,gb.com,gb.net,com.hk,org.hk,net.hk,edu.hk,eu.lv,co.nzorg.nz,net.nz,maori.nz,iwi.nz,com.pt,edu.pt,com.ve,net.ve,org.ve,web.ve,info.veco.ve,net.ru,org.ru,com.hr,tv.tr,com.qa,edu.qa,gov.qa,gov.au,com.my,edu.my,gov.myco.za,com.ar,com.pl,com.ua,biz.pl,biz.tr,co.gl,co.mg,co.ms,co.vi,co.za,com.agcom.ai,com.cy,com.de,com.do,com.es,com.fj,com.gl,com.gt,com.hu,com.kg,com.kicom.lc,com.mg,com.ms,com.mt,com.mu,com.mx,com.nf,com.ng,com.ni,com.pa,com.phcom.ro,com.ru,com.sb,com.sc,com.sv,de.com,de.org,firm.in,gen.in,idv.tw,ind.ininfo.pl,info.tr,kr.com,me.uk,net.ag,net.ai,net.cn,net.do,net.gl,net.kg,net.kinet.lc,net.mg,net.mu,net.ni,net.pl,net.sb,net.sc,nom.ni,off.ai,org.ag,org.aiorg.do,org.es,org.gl,org.kg,org.ki,org.lc,org.mg,org.ms,org.nf,org.ni,org.plorg.sb,org.sc".split(",");e=e.toLowerCase();var r=e.split("."),i=r.length;if(i<2)return e;var s=r.slice(-2).join(".");return i>=3&&n.inArray(s,t)>=0?r.slice(-3).join("."):s}function c(e,t){t!="localhost"&&!parseInt(t.split(".").slice(-1))&&(t=l(t));var n=0;for(var r=t.length-1;r>=0;r--)n+=t.charCodeAt(r)*41742681301;n=(""+n).substring(0,7);for(r=0;r<e.length;r++)if(n===e[r].substring(1,8))return 1}var n=$,r=e.conf,i=r.swf.indexOf("flowplayer.org")&&r.e&&t.data("origin"),s=i?f(i):location.hostname,o=r.key;location.protocol=="file:"&&(s="localhost"),e.load.ed=1,r.hostname=s,r.origin=i||location.href,i&&t.addClass("is-embedded"),typeof o=="string"&&(o=o.split(/,\s*/));if(o&&typeof c=="function"&&c(o,s))r.logo&&t.append(n("<a>",{"class":"fp-logo",href:i}).append(n("<img/>",{src:r.logo})));else{var u=n("<a/>").attr("href","http://flowplayer.org").appendTo(t),a=n(".fp-controls",t);e.bind("pause resume finish unload",function(t){/pause|resume/.test(t.type)&&e.engine!="flash"?(u.show().css({position:"absolute",left:16,bottom:36,zIndex:99999,width:100,height:20}),e.load.ed=u.is(":visible"),e.load.ed||e.pause()):u.hide()})}});
 
 });
 
