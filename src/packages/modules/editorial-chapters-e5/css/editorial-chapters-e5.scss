@@ -11,9 +11,22 @@
   }
 }
 
+
+// hacky fix for width issue with e1+e5 templates 
+.container.submodule {
+  .editorial-chapters-container {
+    &.container {
+      border: 1px solid red;
+      width: 100%;
+    }
+  }
+}
+
 .editorial-chapters-container {
-  max-width:100%;
   @include clearfix();
+
+  &.container {
+  }
 
   .image-module {
     text-align:center;
