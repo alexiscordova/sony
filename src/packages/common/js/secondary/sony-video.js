@@ -40,7 +40,10 @@ define(function(require) {
       _fp.conf = {
         swf: 'swf/flowplayer.swf',
         key: '$104774194953913',
-        splash: true
+        splash: true,
+        
+        embed: false,
+        tooltip: false
       };
 
       // Private methods
