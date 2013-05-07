@@ -39,12 +39,13 @@ define(function(require){
    }
 
 }($);
+
 // auto-install (any video tag with parent .flowplayer)
-$(function() {
+/*$(function() {
    if (typeof $.fn.flowplayer == 'function') {
       $("video").parent(".flowplayer").flowplayer();
    }
-});
+});*/
 
 var instances = [],
    extensions = [],
@@ -1743,7 +1744,7 @@ flowplayer(function(api, root) {
    });
 
    // TODO: add to player-layout.html
-   root.append('\
+/*   root.append('\
       <div class="fp-help">\
          <a class="fp-close"></a>\
          <div class="fp-help-section fp-help-basics">\
@@ -1762,7 +1763,7 @@ flowplayer(function(api, root) {
             </p><p><em>1</em><em>2</em>&hellip;<em>6</em> seek to 10%, 20%, &hellip;60% </p>\
          </div>\
       </div>\
-   ');
+   ');*/
 
    if (api.conf.tooltip) {
       $(".fp-ui", root).attr("title", "Hit ? for help").on("mouseout.tip", function() {

@@ -1,6 +1,9 @@
 @import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../../../common/css/_base/mixins";
 
+$itemWidth: 255;
+$windowWidth: 1100;
+
 // if they stack a textonly module ontop of a full module
 // we need to compensate that
 .editorial.textonly {
@@ -11,13 +14,27 @@
   }
 }
 
+
+// hacky fix for width issue with e1+e5 templates 
+.container.submodule {
+  .editorial-chapters-container {
+    &.container {
+      width: 100%;
+    }
+  }
+}
+
 .editorial-chapters-container {
-  max-width:100%;
   @include clearfix();
 
   .image-module {
     text-align:center;
     height:620px;
+    @include background-size(cover);
+    background: {
+      position: center center;
+      repeat: no-repeat;
+    }
   }
 
   .editorial-chapters {
@@ -26,7 +43,7 @@
 
   .editorial-carousel-wrapper {
     position: relative;
-    overflow: hidden; // going to have to deal with it B| 
+    overflow: hidden;
   }
 
   .editorial-carousel {
@@ -78,7 +95,9 @@
     }
 
     li {
-      padding:10px 0;
+      position:relative;
+      width: percentage($itemWidth/$windowWidth);
+      padding:10px percentage(10/$windowWidth);
       height:48px;
       display: inline-block;
       background:$white;
@@ -88,8 +107,6 @@
       line-height:16px;
       border:0;
       vertical-align:bottom;
-      position:relative;
-      width:25%;
       overflow:hidden;
       @include flickerfix();
       @include box-sizing(content-box);
@@ -114,14 +131,8 @@
     } // end li
 
     img {
-      position:relative;
-      display:block;  
-      height:48px;
-      min-width:64px;
-      float:left;
-      margin:0 10px;
-      @include flickerfix();
-      @include transition();
+      width: percentage(64/$itemWidth);
+      float: left;
     }
 
     i {
@@ -134,15 +145,25 @@
       margin-bottom:20px;
     }
 
-    span {
+    // need to take in the fact there is an image
+    .label-container {
+      display: table;
+      height: 100%;
+      width: percentage(($itemWidth - 64)/$itemWidth);
+      padding-left: percentage(10/($itemWidth - 64));
+      @include box-sizing(border-box);
+    }
+
+    .nav-label {
       font-size:12px;
       position:relative;
-      top:-4px;
-      display:block;
-      margin-right:24px;
-
-      &.oneLine {top:12px;}
-      &.twoLine {top:4px;}
+      display: table-cell;
+      vertical-align: middle;
+      line-height: 1.5;
+      // IE7 jank
+      *float: left;
+      *display: block;
+      zoom: 1;
     }
   } // end .thumb-nav 
 
@@ -170,9 +191,6 @@
       top:13px;
     }
 
-    span {
-      display:inline;
-    }
   } // end &.top-nav .thumb-nav
   
   &.gray {
@@ -192,6 +210,8 @@
     i {
       display:none;
     }
+
+
   }
   
   &.icon-mode .thumb-nav {
@@ -201,16 +221,8 @@
     }
 
     i {
-      margin: {
-        left: 24px;
-        right: 10px;
-      }
+      margin-left: percentage(25/$itemWidth);
     }
-
-    span {
-      margin-right:24px;
-    }
-
   } // end &.icon-mode .thumb-nav
 
   &.text-mode .thumb-nav {
@@ -219,44 +231,75 @@
   }
 } // end .editorial-chapters-container
 
+
+
+// Media Left + Media Right Chapters!
+// ==================================
 .span5,
 .span6,
 .span7 {
   .editorial-chapters-container {
     .image-module {height:auto;}
     
+    $miniWindowWidth : 500;
+    $miniItemWidth: 150;
+
+    // only two tabs may exist at a certain time for the spans
+    li {
+      width: percentage($miniItemWidth/$miniWindowWidth);
+      padding:8px 0;
+      height:48px;
+    }
+    
+    .label-container {
+      width: percentage(130/$miniItemWidth);
+      padding-left: percentage(10/$miniItemWidth);
+    }
+
     &.thumb-mode {
       .thumb-nav {
         height:62px;
-
-        li {
-          width:auto;
-          padding:8px 0;
-          height:42px;
+        img {
+          position:absolute;
+          top:-5px;
+          bottom:0;
+          margin:auto;
+          width: percentage(60/$miniItemWidth);
+          max-width: 64px;
+          height:auto;
+          /*margin:0 5px;*/
         }
-          img {
-            width:55px;
-            height:42px;
-            margin:0 5px;
-          }
-          i, span {display:none;}
+
+        .label-container {
+          position: absolute;
+          left: percentage(60/$miniItemWidth)
+        }
       }
     }
+
     &.icon-mode {
       .thumb-nav {
         height:54px;
 
         li {
-          width:auto;
           height:30px;
         }
-          img, span {display:none;}
-          i {
-            top:4px;
-            margin:0 15px;
-          }
+        
+        i {
+          top:4px;
+          margin:0 percentage(10/$miniItemWidth);
+        }
+
+        .label-container {
+          width: percentage(100/$miniItemWidth);
+          padding-left: percentage(10/$miniItemWidth);
+        }
+        
       }
     } 
+
+    // THIS MODE DOES NOT EXIST IN THE STYLE-GUIDE
+    // optional is a text label but icon and images are mandatory
     &.text-mode {
       .thumb-nav {
         height:48px;
@@ -267,24 +310,17 @@
           height:14px;
           width:auto;
         }
-          img, i {display:none;}
-          span {
-            height:14px;
-            display:block;
-            overflow:hidden;
-            margin:0 15px;
-          }
-          .oneLine,
-          .twoLine {top:0;}
+        img, i {display:none;}
+        .nav-label {
+          height:14px;
+          display:block;
+          overflow:hidden;
+          margin:0 10px;
+        }
       }
     }
     &.top-nav .thumb-nav {
       i, img {display:none;}
-      span {
-        display:inline-block;
-        margin-left:20px;
-        top:6px;
-      }
     }
   }
 }
@@ -294,5 +330,10 @@
     .editorial-carousel-slide.active {position:relative;}
     .thumb-nav.container {width:92.5%;}
     &.top-nav .thumb-nav.container {width:auto;}
+
+    .editorial .inner {
+      margin-left: 0;
+    }
+    
   }
 }

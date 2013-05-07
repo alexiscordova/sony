@@ -77,23 +77,13 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
-        if(!window.console){
-          window.console = {};
-          window.console.log = function(){};
-        }
-
         self.setupEvents();
         self.setupSlides();
         self.setupCarousel();
         if(self.hasThumbs){
           self.createThumbNav();
         }
-        self.$slideContainer.css( 'opacity' , 1 );
-
-        // Re-center thumb spans if window resizes
-        Environment.on('global:resizeThrottled', function(){
-          self.centerThumbText();
-        });
+        self.$slideContainer.fadeTo(0,1);
       },
 
       // Main setup method for the carousel
@@ -166,29 +156,9 @@ define(function(require){
        
         $anchors.eq(0).addClass('active');
 
-        self.centerThumbText();
         if (self.$el.hasClass('text-mode')) {
           self.initScroller();
         }
-      },
-
-      // Vertically center thumb text based on height
-      centerThumbText: function(){
-        var self = this;
-
-        self.$thumbLabels.each(function(){
-          var $span = $(this),
-            height = $span.height();
-
-          // Loop through each label, detect height, and offset top as needed
-          if (height <= 31) {
-            $span.removeClass().addClass('oneLine');
-          } else if (height >= 32 && height <= 47) {
-            $span.removeClass().addClass('twoLine');
-          } else if (height >= 48) {
-            $span.removeClass();
-          }
-        });
       },
 
       // Handles when a thumbnail is chosen

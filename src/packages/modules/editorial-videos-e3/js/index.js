@@ -1,13 +1,13 @@
 
 define(function(require){
 
-  var SonyVideo = require('modules/sony-video/sony-video');
+  var EditorialVideo = require('modules/editorial-videos-e3/editorial-videos-e3');
 
   // Initialize Modules that don't require additional configuration.
-  SonyVideo.init();
+  EditorialVideo.init();
 
   // Return up a level if desired.
   return {
-    SonyVideo: SonyVideo
+    EditorialVideo: EditorialVideo
   };
 });

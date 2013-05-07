@@ -8,7 +8,7 @@
   .pdp-slideshow {
     position: relative;
     width: 100%;
-    max-height: 610px;
+    max-height: 720px;
     overflow: visible; 
     background: $gray80;
     margin-bottom: 80px;
@@ -19,18 +19,21 @@
 
     .lt-ie10 & {
       min-width: 1200px;
-      min-height: 610px;
+      min-height: 720px;
     } 
 
     .pdp-slideshow-outer {
-       @include flex-ratio-box( 1200 , 610 );
+       //@include flex-ratio-box( 1200 , 610 );
        position: relative;
+       overflow:hidden;
 
       .pdp-slideshow-inner {
-        @include flex-ratio-box-content();
-        width: 100%; // This will get set dynamically based on the number of slides
+        position: relative;
+        overflow:hidden;
+        //@include flex-ratio-box-content();
+        //width: 100%; // This will get set dynamically based on the number of slides
         width: 1000em;
-        max-height: 610px;
+        max-height: 720px;
         @include opacity(0);
         @include transition();
       }
@@ -43,6 +46,12 @@
         float: left;
         display: block;
         text-align: center;
+
+       &.type1 {
+          img {
+            max-height: 100%;
+          }
+        }
 
         &.type2 {
           img {

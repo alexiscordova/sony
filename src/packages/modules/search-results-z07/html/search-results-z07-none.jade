@@ -1,7 +1,7 @@
-.featured-result
-  p.p3.p3-bold.results
-    span.bold-dark= data.results.count
-    |  #{data.resultsTitle}
+.featured-result.no-feature-result
+  p.results
+    span.bold-dark.p3-bold= data.results.count
+    span.p3  #{data.resultsTitle}
   .sort-options.visible-phone
     form.select-narrow
       select
@@ -13,7 +13,7 @@
     .bd.feature-text
       p.p2.hdg-dark.title= data.results.category.title
       p.p4= data.results.category.description
-      ul.featured-list
+      ul.h-list.h-list-md
         each category in data.results.category.subcategories
           li.lt4
             a(href= category.url)= category.title
