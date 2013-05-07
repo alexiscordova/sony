@@ -160,7 +160,6 @@ $windowWidth: 1100;
       display: table-cell;
       vertical-align: middle;
       line-height: 1.5;
-      top:-4px;
       // IE7 jank
       *float: left;
       *display: block;
@@ -232,48 +231,75 @@ $windowWidth: 1100;
   }
 } // end .editorial-chapters-container
 
+
+
+// Media Left + Media Right Chapters!
+// ==================================
 .span5,
 .span6,
 .span7 {
   .editorial-chapters-container {
     .image-module {height:auto;}
     
+    $miniWindowWidth : 500;
+    $miniItemWidth: 150;
+
+    // only two tabs may exist at a certain time for the spans
     li {
-      width:auto;
+      width: percentage($miniItemWidth/$miniWindowWidth);
       padding:8px 0;
-      height:42px;
+      height:48px;
     }
     
+    .label-container {
+      width: percentage(130/$miniItemWidth);
+      padding-left: percentage(10/$miniItemWidth);
+    }
+
     &.thumb-mode {
       .thumb-nav {
         height:62px;
         img {
-          width:55px;
-          height:42px;
-          margin:0 5px;
+          position:absolute;
+          top:-5px;
+          bottom:0;
+          margin:auto;
+          width: percentage(60/$miniItemWidth);
+          max-width: 64px;
+          height:auto;
+          /*margin:0 5px;*/
         }
-        i, .nav-label {display:none;}
+
+        .label-container {
+          position: absolute;
+          left: percentage(60/$miniItemWidth)
+        }
       }
     }
+
     &.icon-mode {
       .thumb-nav {
         height:54px;
 
         li {
-          width:auto;
           height:30px;
         }
+        
         i {
           top:4px;
-          margin:0 15px;
+          margin:0 percentage(10/$miniItemWidth);
         }
-        span {
-          width: auto;
-          left: auto;
-          right: 0;
+
+        .label-container {
+          width: percentage(100/$miniItemWidth);
+          padding-left: percentage(10/$miniItemWidth);
         }
+        
       }
     } 
+
+    // THIS MODE DOES NOT EXIST IN THE STYLE-GUIDE
+    // optional is a text label but icon and images are mandatory
     &.text-mode {
       .thumb-nav {
         height:48px;
