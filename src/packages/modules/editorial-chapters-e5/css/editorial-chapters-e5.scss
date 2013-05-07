@@ -18,6 +18,7 @@ $windowWidth: 1100;
 // hacky fix for width issue with e1+e5 templates 
 .container.submodule {
   .editorial-chapters-container {
+    margin: 0;
     &.container {
       width: 100%;
     }
@@ -39,6 +40,7 @@ $windowWidth: 1100;
 
   .editorial-chapters {
     position: relative;
+    // design review margin: 80px 0 50px;
   }
 
   .editorial-carousel-wrapper {
@@ -244,13 +246,13 @@ $windowWidth: 1100;
     .image-module {height:auto;}
     
     $miniWindowWidth : 500;
-    $miniItemWidth: 150;
+    $miniItemWidth: 105;
 
     // only two tabs may exist at a certain time for the spans
     li {
       width: percentage($miniItemWidth/$miniWindowWidth);
       padding:8px percentage(10/$miniWindowWidth);
-      height:48px;
+      height:38px;
     }
     
     .label-container {
@@ -262,13 +264,14 @@ $windowWidth: 1100;
     &.thumb-mode {
       .thumb-nav {
         height:62px;
+
         img {
           position:absolute;
           top:-5px;
           bottom:0;
           margin:auto;
-          width: percentage(50/$miniItemWidth);
-          max-width: 64px;
+          width: percentage(40/$miniItemWidth);
+          max-width: 44px;
           height:auto;
           /*margin:0 5px;*/
         }
