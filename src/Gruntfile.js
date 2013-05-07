@@ -150,14 +150,16 @@ module.exports = function(grunt) {
         files:[
           {expand: true, cwd:'packages/common/img/',      src: ['**'], dest: '../build/debug/img/'},
           {expand: true, cwd:'packages/common/fonts/',    src: ['**'], dest: '../build/debug/fonts/'},
-          {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../build/debug/js/'}
+          {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../build/debug/js/'},
+          {expand: true, cwd:'packages/common/swf/',       src: ['**'], dest: '../build/debug/swf/'}
         ]
       },
       common_deploy:{
         files:[
           {expand: true, cwd:'packages/common/img/',      src: ['**'], dest: '../build/deploy/img/'},
           {expand: true, cwd:'packages/common/fonts/',    src: ['**'], dest: '../build/deploy/fonts/'},
-          {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../build/deploy/js/'}
+          {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../build/deploy/js/'},
+          {expand: true, cwd:'packages/common/swf/',       src: ['**'], dest: '../build/deploy/swf/'}
         ]
       },
       module_debug:{

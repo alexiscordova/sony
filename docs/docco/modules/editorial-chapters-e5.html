@@ -71,18 +71,13 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Initalize the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      init : <span class="keyword">function</span>( param ) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-        <span class="keyword">if</span>(!window.console){
-          window.console = {};
-          window.console.log = <span class="keyword">function</span>(){};
-        }
-
         self.setupEvents();
         self.setupSlides();
         self.setupCarousel();
         <span class="keyword">if</span>(self.hasThumbs){
           self.createThumbNav();
         }
-        self.$slideContainer.css( <span class="string">'opacity'</span> , <span class="number">1</span> );
+        self.$slideContainer.fadeTo(<span class="number">0</span>,<span class="number">1</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Re-center thumb spans if window resizes</p>             </td>             <td class="code">               <div class="highlight"><pre>        Environment.on(<span class="string">'global:resizeThrottled'</span>, <span class="keyword">function</span>(){
           self.centerThumbText();
@@ -164,7 +159,7 @@ define(<span class="keyword">function</span>(require){
 
         self.$thumbLabels.each(<span class="keyword">function</span>(){
           <span class="keyword">var</span> $span = $(<span class="keyword">this</span>),
-            height = $span.height();
+              height = $span.height();
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Loop through each label, detect height, and offset top as needed</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> (height &lt;= <span class="number">31</span>) {
             $span.removeClass().addClass(<span class="string">'oneLine'</span>);
