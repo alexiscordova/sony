@@ -52,6 +52,8 @@ define(function(require){
       self.isTabletMode         = false;
       self.isMobileMode         = false;
 
+      self.isFullEditorial      = self.$el.hasClass('full-bleed');
+
       self.variation            = self.$el.data('variation');
       
       // Cache some jQuery objects we'll reference later
@@ -76,13 +78,27 @@ define(function(require){
         sonyVideo.initVideos( self.$el.find('.player') );
 
 
-        //log( self.variation );
+        if(self.isFullEditorial){
+          Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
+          self.onDebouncedResize(); //call once to set size
+        }
+        
 
       },
 
       // Handles global debounced resize event
       onDebouncedResize: function(){
-        var self = this;
+        var self = this,
+        wW = self.$window.width();
+
+        if(wW > 980){
+          //this makes the header grow 1px taller for every 20px over 980w..
+          self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
+          //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
+        }else{
+          //this removes the dynamic css so it will reset back to responsive styles
+          self.$el.css('height', '');
+        }
 
       },
 

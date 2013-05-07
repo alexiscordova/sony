@@ -57,6 +57,7 @@ define(function(require){
       // HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!
       var handler = $.proxy( this.scrollHandler, this );
       this.scroll = new IScroll(this.scrollableId, {
+        momentum : true,
         onScrollMove: handler,
         onScrollEnd: handler
       });
@@ -79,7 +80,7 @@ define(function(require){
     // Called by iScroll when a scroll event happens.
     scrollHandler: function() {
       var self = this;
-      self.scroll.refresh();
+      // self.scroll.refresh();
 
       var offsetTarget = Math.abs(this.scroll.y); // iScroll.y is negative
       this.updateFixedHeader(offsetTarget);
