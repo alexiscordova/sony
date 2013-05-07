@@ -16,7 +16,6 @@
 .container.submodule {
   .editorial-chapters-container {
     &.container {
-      border: 1px solid red;
       width: 100%;
     }
   }
@@ -25,12 +24,14 @@
 .editorial-chapters-container {
   @include clearfix();
 
-  &.container {
-  }
-
   .image-module {
     text-align:center;
     height:620px;
+    @include background-size(cover);
+    background: {
+      position: center center;
+      repeat: no-repeat;
+    }
   }
 
   .editorial-chapters {
@@ -39,7 +40,7 @@
 
   .editorial-carousel-wrapper {
     position: relative;
-    overflow: hidden; // going to have to deal with it B| 
+    overflow: hidden;
   }
 
   .editorial-carousel {
