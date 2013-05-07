@@ -100,6 +100,12 @@ define(function(require){
           self.$el.css('height', '');
         }
 
+        var heightDiff = Math.abs( $('.editorial-video-container').height() - $('.fp-engine').height() );
+
+        if(heightDiff > 0){
+          self.$el.find('.fp-engine').css('top' , -heightDiff / 2 + 'px');
+        }
+
       },
 
       // Registers with Enquire JS for breakpoint firing

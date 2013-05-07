@@ -1311,11 +1311,14 @@ $.fn.slider2 = function(rtl) {
                if (!IS_IPAD) progress.stop(); // stop() broken on iPad
                if (skipAnimation) {
                   progress.css('width', to + "%");
+                  //scrubber.css('left', (to - 2) + "%");
 
                } else {
                   //progress.animate(vertical ? { height: to } : { width: to }, speed, "linear");
                   progress.css('width', to + "%");
-                  scrubber.css('left', (to - 2) + "%");
+                  //scrubber.css('left', (to - 2) + "%");
+
+                  scrubber.css('left' , (progress.width() - 4) + 'px');
                }
             }
 
