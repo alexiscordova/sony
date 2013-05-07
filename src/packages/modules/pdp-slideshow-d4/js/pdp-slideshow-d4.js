@@ -87,13 +87,6 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
-        // if(!window.console){
-        //   window.console = {};
-        //   window.console.log = function(){};
-        // }
-
-
-
         self.setupEvents();
         self.setupSlides();
         self.setupCarousel();
@@ -120,6 +113,15 @@ define(function(require){
           self.$el.css('overflow' , 'hidden');
         }else{
           self.$el.css('overflow' , 'visible');
+        }
+
+        if(wW > 980){
+          //this makes the header grow 1px taller for every 20px over 980w..
+          self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
+          //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
+        }else{
+          //this removes the dynamic css so it will reset back to responsive styles
+          self.$el.css('height', '');
         }
 
       },
