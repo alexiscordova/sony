@@ -1255,7 +1255,7 @@ $.fn.slider2 = function(rtl) {
 
       var root = $(this),
          doc = $(document),
-         progress = root.children(":last"),
+         progress = root.children(".is-slider"),
          disabled,
          offset,
          width,
@@ -1265,6 +1265,7 @@ $.fn.slider2 = function(rtl) {
          maxValue,
          max,
          skipAnimation = false,
+         scrubber = root.children('.fp-scrubber'),
 
          /* private */
          calc = function() {
@@ -1273,7 +1274,7 @@ $.fn.slider2 = function(rtl) {
             height = root.height();
 
             /* exit from fullscreen can mess this up.*/
-            // vertical = height > width;
+            //vertical = height > width;
 
             size = vertical ? height : width;
             max = toDelta(maxValue);
@@ -1304,14 +1305,17 @@ $.fn.slider2 = function(rtl) {
             if (speed === undefined) { speed = 0; }
             if (value > 1) value = 1;
 
-            var to = (Math.round(value * 1000) / 10) + "%";
+            var to = (Math.round(value * 1000) / 10) ;
 
             if (!maxValue || value <= maxValue) {
                if (!IS_IPAD) progress.stop(); // stop() broken on iPad
                if (skipAnimation) {
-                  progress.css('width', to);
+                  progress.css('width', to + "%");
+
                } else {
-                  progress.animate(vertical ? { height: to } : { width: to }, speed, "linear");
+                  //progress.animate(vertical ? { height: to } : { width: to }, speed, "linear");
+                  progress.css('width', to + "%");
+                  scrubber.css('left', (to - 2) + "%");
                }
             }
 
@@ -1345,6 +1349,8 @@ $.fn.slider2 = function(rtl) {
             }
 
          };
+
+                 
 
       calc();
 
@@ -1412,21 +1418,22 @@ flowplayer(function(api, root) {
       <div class="ratio"/>\
       <div class="ui">\
          <div class="waiting"><em/><em/><em/></div>\
-         <a class="fullscreen"/>\
          <a class="unload"/>\
          <p class="speed"/>\
          <div class="controls">\
             <a class="play"></a>\
             <div class="timeline">\
                <div class="buffer"/>\
-               <div class="progress"/>\
+               <div class="progress is-slider"/>\
+               <div class="scrubber"/>\
             </div>\
             <div class="volume">\
                <a class="mute"></a>\
                <div class="volumeslider">\
-                  <div class="volumelevel"/>\
+                  <div class="volumelevel is-slider"/>\
                </div>\
             </div>\
+            <a class="fullscreen"/>\
          </div>\
          <div class="time">\
             <em class="elapsed">00:00</em>\
@@ -1451,6 +1458,7 @@ flowplayer(function(api, root) {
       speed = find("speed"),
       durationEl = find("duration"),
       origRatio = ratio.css("paddingTop"),
+      scrubber = find('scrubber'),
 
       // sliders
       timeline = find("timeline").slider2(api.rtl),
@@ -1604,7 +1612,7 @@ flowplayer(function(api, root) {
                hover(false)
                lastMove = new Date;
             }
-         }, 100);
+         }, 50);
 
       } else {
          root.unbind(".x");
@@ -1744,7 +1752,7 @@ flowplayer(function(api, root) {
    });
 
    // TODO: add to player-layout.html
-   root.append('\
+/*   root.append('\
       <div class="fp-help">\
          <a class="fp-close"></a>\
          <div class="fp-help-section fp-help-basics">\
@@ -1763,12 +1771,12 @@ flowplayer(function(api, root) {
             </p><p><em>1</em><em>2</em>&hellip;<em>6</em> seek to 10%, 20%, &hellip;60% </p>\
          </div>\
       </div>\
-   ');
+   ');*/
 
    if (api.conf.tooltip) {
-      $(".fp-ui", root).attr("title", "Hit ? for help").on("mouseout.tip", function() {
+/*      $(".fp-ui", root).attr("title", "Hit ? for help").on("mouseout.tip", function() {
          $(this).removeAttr("title").off("mouseout.tip");
-      });
+      });*/
    }
 
    $(".fp-close", root).click(function() {

@@ -1021,7 +1021,7 @@ $stickyHeaderHeight: px-em(82);
     // Reset styles from main gallery
     .filter-container {
       position: static;
-      max-width: none;
+      max-width: $fluidGridWidthMax-px;
       margin: auto;
     }
   }
@@ -1078,6 +1078,7 @@ $stickyHeaderHeight: px-em(82);
       padding: 0 px-em(10, 15) 0 px-em(45, 15);
       @include borderBox();
 
+      color: $gray20;
 
       .lt-ie9 & {
         padding-top: 10px;
@@ -1152,8 +1153,9 @@ $stickyHeaderHeight: px-em(82);
   }
 
   .product-content {
-    padding-left: px-em(16);
     margin-top: 0;
+    padding-top: px-em( 10 );
+    padding-left: px-em(16);
     max-width: 72%;
   }
 
@@ -1179,6 +1181,7 @@ $stickyHeaderHeight: px-em(82);
 
   .product-content .product-name {
     color: $gray40;
+    margin-bottom: 12px; // this will probably need to change because accessories can still have misaligned baselines
   }
 
   .product-content .product-total {

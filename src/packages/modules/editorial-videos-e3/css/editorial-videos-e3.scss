@@ -1,6 +1,41 @@
 @import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../../../common/css/_base/mixins";
 
+.editorial-video-container {
+
+  &.full-bleed {
+    max-height: 620px;
+    overflow: hidden;
+    position: relative;
+
+    .full-bleed-video-wrap {
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      overflow: hidden;
+
+      .flowplayer {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+
+        video {
+          min-height: 100%;
+          min-width: 100%;
+          height: auto;
+          width: auto;
+        }
+      }
+    }
+
+  }
+
+}
+
 /* .EDITORIALSLIDESHOWS {}
 
 .editorial-slidshow-container {
