@@ -223,9 +223,9 @@ define(function(require){
           direction = event.gesture.direction,
           doMove    = false;
       
-      if( 0 === self.moves % 10 ) {
+      /* if( 0 === self.moves % 10 ) { */
         self.move( direction );
-      }
+      /* } */
 
       self.moves++;
     },
@@ -281,7 +281,7 @@ define(function(require){
     },
     
     mobileLog: function( data ) {
-      $( '.debug' ).append( data.toString() ).append( '<br />' );
+      $( '.e360debug' ).append( data.toString() ).append( '<br />' );
     },
     
     animateDragger: function( cycles ) {
