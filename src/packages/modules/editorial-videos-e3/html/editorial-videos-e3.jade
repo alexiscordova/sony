@@ -9,5 +9,5 @@ if data.variation == 'full-bleed'
 		div(class='full-bleed-video-wrap')
 			+sonyVideo(data.video)
 else
-	div(class='editorial-video-container' , data-variation=data.variation)
+	div(class='editorial-video-container ' + data.variation , data-variation=data.variation)
 		+sonyVideo(data.video)
