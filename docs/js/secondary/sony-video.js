@@ -31,10 +31,16 @@ define(function(require) {
     function init() {
 
       // private vars
-      var _videoCollection     = [],
-          _totalIntanceCount         = 0,
-          _currentPlayer       = null,
-          _fp = window.flowplayer;
+      var _videoCollection = [],
+      _totalIntanceCount   = 0,
+      _currentPlayer       = null,
+      _fp                  = window.flowplayer;
+
+
+      _fp.conf = {
+        swf: 'swf/flowplayer.swf',
+        key: '$104774194953913'
+      };
 
       // Private methods
       function toggleCurrentlyPlaying( currentPlayingAPI ){

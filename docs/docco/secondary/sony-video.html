@@ -29,10 +29,16 @@ define(<span class="keyword">function</span>(require) {
 
     <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span> {</span>
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>private vars</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> _videoCollection     = [],
-          _totalIntanceCount         = <span class="number">0</span>,
-          _currentPlayer       = <span class="literal">null</span>,
-          _fp = window.flowplayer;
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>private vars</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> _videoCollection = [],
+      _totalIntanceCount   = <span class="number">0</span>,
+      _currentPlayer       = <span class="literal">null</span>,
+      _fp                  = window.flowplayer;
+
+
+      _fp.conf = {
+        swf: <span class="string">'swf/flowplayer.swf'</span>,
+        key: <span class="string">'$104774194953913'</span>
+      };
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Private methods</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">toggleCurrentlyPlaying</span><span class="params">( currentPlayingAPI )</span>{</span>
         <span class="keyword">var</span> api = <span class="literal">null</span>;
