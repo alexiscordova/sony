@@ -58,6 +58,10 @@ https://bugzilla.mozilla.org/show_bug.cgi?id=381328</p>             </td>       
         Settings.$html.addClass(<span class="string">'sonytablets'</span>);
       }
 
+      <span class="keyword">if</span> ( Settings.isPS3 ) {
+        Settings.$html.addClass(<span class="string">'ps3'</span>);
+      }
+
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Overwrite the Modernizr.mq function for IE &lt; 10</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Settings.isLTIE10 ) {
         Modernizr.mq = <span class="keyword">function</span>() { <span class="keyword">return</span> <span class="literal">false</span>; };
         Modernizr.mediaqueries = <span class="literal">false</span>;
