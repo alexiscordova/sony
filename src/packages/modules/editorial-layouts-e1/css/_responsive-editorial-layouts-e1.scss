@@ -40,7 +40,10 @@ $superDesktop: px-em(1200);
   .editorial.full-tout,
   .editorial.tout {
 
-    .m2up .horizontal .table-center-wrap,
+    .m2up .horizontal .table-center-wrap {
+      padding: 0 12px;
+    }
+
     .m3up > div.left .toutcopy {
       padding: 0 12px 0 0;
     }
@@ -315,6 +318,11 @@ $mobileSidePadding: 0 18px;
     .container .tout-grid .image-module {
       margin-top: 6px;
       margin-bottom: 0;
+    }
+
+    // Cant have top margin in the m2up horizontal
+    .m2up-horizontal .tout-grid .image-module {
+      margin-top: 0;
     }
 
     // Spacing for 3up that also has copy above it
