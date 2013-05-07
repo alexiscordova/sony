@@ -62,8 +62,10 @@ mixin featured(data)
       a(href= data.articleLink)= data.linkTitle
 
 mixin users-voice(mode, data)
+  - quoteClasses = ["quote"]
   if(data.mode == "question")
     - blockquote = data.question
+    - quoteClasses.push("table-center-wrap")
   else
     - blockquote = data.quote
 
@@ -73,9 +75,13 @@ mixin users-voice(mode, data)
   if(data.mode == "question")
     +credits(mode, data)
 
-  .quote
+  div(class= quoteClasses)
     blockquote.bq3
       p= blockquote
+    
+    if(data.mode == "question")
+      .lt3
+        a(href= data.repliesLink)= data.repliesLinkTitle
 
   if(data.mode != "question")
     +credits(mode, data)
@@ -109,9 +115,6 @@ mixin author-default(mode, author)
     span= author.name
 
 mixin question-extra(data)
-  .lt3
-    a(href= data.repliesLink)= data.repliesLinkTitle
-
   .answer-btn
     a.btn.btn-small(href= data.answerLink)= data.answerLinkTitle
 
@@ -132,15 +135,12 @@ mixin top(icon, data)
 
     if (meta)
       .meta
-        p.p4
-          span.user= meta.user
-          
+        div.p4
+          div.user= meta.user
           if(meta.timestamp)
-            span.timestamp= meta.timestamp
-          
-          //- Flickr 
+            div.timestamp= meta.timestamp
           if(meta.title)
-            span.title= meta.title
+            div.title= meta.title
 
 mixin center(mode, data)
   .center.table-center-wrap
@@ -187,16 +187,18 @@ mixin instagram(data)
     .left
       .iq-img(data-src-desktop= images[1].srcDesktop, data-src-tablet= images[1].srcTablet, data-src-phone= images[1].srcPhone, data-src-desktop-highres= images[1].srcDesktopHighRes, data-src-tablet-highres= images[1].srcTabletHighRes, data-src-phone-highres= images[1].srcPhoneHighRes)
       .iq-img.last(data-src-desktop= images[2].srcDesktop, data-src-tablet= images[2].srcTablet, data-src-phone= images[2].srcPhone, data-src-desktop-highres= images[2].srcDesktopHighRes, data-src-tablet-highres= images[2].srcTabletHighRes, data-src-phone-highres= images[2].srcPhoneHighRes)
+      .iq-img.mobile-only(data-src-desktop= images[0].srcDesktop, data-src-tablet= images[0].srcTablet, data-src-phone= images[0].srcPhone, data-src-desktop-highres= images[0].srcDesktopHighRes, data-src-tablet-highres= images[0].srcTabletHighRes, data-src-phone-highres= images[0].srcPhoneHighRes)
     .right
       .iq-img(data-src-desktop= images[0].srcDesktop, data-src-tablet= images[0].srcTablet, data-src-phone= images[0].srcPhone, data-src-desktop-highres= images[0].srcDesktopHighRes, data-src-tablet-highres= images[0].srcTabletHighRes, data-src-phone-highres= images[0].srcPhoneHighRes)
 
 mixin flickrIcon()
-  .bg
-    .fonticon-10-dot
-  .left
-    .fonticon-10-dot
-  .right
-    .fonticon-10-dot
+  .icon-parts
+    .bg
+      .fonticon-10-dot
+    .left
+      .fonticon-10-dot
+    .right
+      .fonticon-10-dot
 
 mixin flickr(data)
   .flickr-container
