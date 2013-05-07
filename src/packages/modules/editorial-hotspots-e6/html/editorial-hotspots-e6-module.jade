@@ -92,15 +92,10 @@ mixin hotspotCore(hotspotData, assets, useSmall)
 - assets = data.hotspots.assets
 - image = data.hotspotContainerImage.image
 - extraclass = image.classes || ""
-- id = data.id || ""
-
-//-if data.heights
-//-  string = "#"+id +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+id+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+id+" {height: "+data.heights.phone+"}} "
-//-  style(type = "text/css")
-//-    #{string}
+- anchor = data.id || "hotspot-instance-x"
 
 if data.background == "true"
-  .image-module.hotspot-instance.track-by-background.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+  .image-module.hotspot-instance.track-by-background.iq-img(id= anchor, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
     .hspot-underlay.hidden
       .hspot-global-details-main.hidden
     .hspot-global-details-overlay.hidden.eh-transparent
@@ -109,7 +104,7 @@ if data.background == "true"
 
 else
   .image-module.hotspot-instance.track-by-asset
-    img.iq-img(id= id, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+    img.iq-img(id= anchor, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
       noscript
           img(src= image.noscriptsrc)
     - for hotstpot in data.hotspots.items

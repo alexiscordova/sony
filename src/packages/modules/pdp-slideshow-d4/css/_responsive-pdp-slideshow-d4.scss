@@ -10,25 +10,36 @@ $tabletMax: px-em(979);
 
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .pdp-slideshow {
-    height:500px;
+    height: 500px;
   }
-  
+
 }
 
 @media (max-width: $phoneMax) {
   .pdp-slideshow {
-    height:420px;
+    height: 420px;
+
+    .pagination-paddles button.pagination-next {
+      right: 2%;
+      margin-right: 0;
+    }
+
+    .pagination-paddles button.pagination-prev {
+      left: 2%;
+      margin-left: 0;
+    }
+
   }
 }
 
 @media (min-width: $phoneMin) and (max-width: $phoneMax){
   .pdp-slideshow {
-    height:420px;
+    height: 420px;
   }
 }
 @media (max-width: $subPhoneMax){
   .pdp-slideshow {
-    height:400px;
+    height: 400px;
   }
 }
 
