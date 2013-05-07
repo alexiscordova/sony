@@ -133,7 +133,10 @@ $windowWidth: 1100;
     } // end li
 
     img {
-      width: percentage(64/$itemWidth);
+      position: relative;
+      bottom: 0;
+      width: percentage(60/$itemWidth);
+      max-width: 60px;
       float: left;
     }
 
@@ -163,7 +166,6 @@ $windowWidth: 1100;
       position:relative;
       display: table-cell;
       vertical-align: middle;
-      line-height: 1.5;
       // IE7 jank
       *float: left;
       *display: block;
@@ -227,6 +229,11 @@ $windowWidth: 1100;
     i {
       margin-left: percentage(25/$itemWidth);
     }
+
+    .label-container {
+      width: percentage(($itemWidth - 84)/$itemWidth);
+    }    
+
   } // end &.icon-mode .thumb-nav
 
   &.text-mode .thumb-nav {
@@ -250,13 +257,14 @@ $windowWidth: 1100;
 
     // only two tabs may exist at a certain time for the spans
     li {
-      width: percentage($miniItemWidth/$miniWindowWidth);
+      width: auto;
+      /*width: percentage($miniItemWidth/$miniWindowWidth);*/
       padding:8px percentage(10/$miniWindowWidth);
       height:38px;
     }
     
     .label-container {
-      width: percentage(130/$miniItemWidth);
+      /*width: percentage(130/$miniItemWidth);*/
       padding-left: percentage(10/$miniItemWidth);
       top: 0;
     }
@@ -266,19 +274,20 @@ $windowWidth: 1100;
         height:62px;
 
         img {
-          position:absolute;
-          top:-5px;
-          bottom:0;
-          margin:auto;
+          /*position:absolute;*/
+          /*top:-5px;*/
+          /*bottom:0;*/
+          /*margin:auto;*/
           width: percentage(40/$miniItemWidth);
-          max-width: 44px;
-          height:auto;
+          /*max-width: 44px;*/
+          /*height:auto;*/
           /*margin:0 5px;*/
         }
 
         .label-container {
-          position: absolute;
-          left: percentage(60/$miniItemWidth);
+          width: auto;
+          /*position: absolute;*/
+          /*left: percentage(60/$miniItemWidth);*/
         }
       }
     }
@@ -297,8 +306,9 @@ $windowWidth: 1100;
         }
 
         .label-container {
-          width: percentage(100/$miniItemWidth);
-          padding-left: percentage(10/$miniItemWidth);
+          width: auto;
+          /*width: percentage(100/$miniItemWidth);*/
+          /*padding-left: percentage(10/$miniItemWidth);*/
         }
       }
     } 
