@@ -37,16 +37,6 @@ $galleryFourColMax: px-em(979px);
         display: none;
       }
     }
-
-    .share-menu {
-      left: 0;
-      right: auto;
-
-      &:before {
-        left: 1.5em;
-        right: auto;
-      }
-    }
   }
 
   .gallery-item.recommended-tile {
@@ -368,6 +358,19 @@ $galleryFourColMax: px-em(979px);
     .grid .btn.second {
       margin-left: 4%;
     }
+
+    // The hidden button takes up space, ugly transition, but who is really going to use this
+    .btn.fade {
+      height: 0;
+      padding: 0;
+      margin: 0;
+
+      &.in {
+        height: auto;
+        padding: 11px 20px 12px;
+        margin-top: 5px;
+      }
+    }
   }
 }
 
@@ -404,7 +407,7 @@ $galleryFourColMax: px-em(979px);
       padding: 0 $sidePadding;
 
       i {
-        font-size: 2.6em;
+        font-size: 3.5em;
       }
     }
 
@@ -445,7 +448,7 @@ $galleryFourColMax: px-em(979px);
 
     $tabWidth: px-em(88px);
     $tabHeight: px-em(71px);
-    $iconMarginBottom: px-em( 16px );
+    $iconMarginBottom: px-em( 12px );
     $tabNavTop: ($tabHeight - $navPaddleHeight980) / 2;
     $sidePadding: px-em( 2px );
     .tabs {
@@ -457,7 +460,7 @@ $galleryFourColMax: px-em(979px);
       padding: 0 $sidePadding;
 
       i {
-        font-size: 2.2em;
+        font-size: 3em;
       }
     }
 
@@ -469,7 +472,7 @@ $galleryFourColMax: px-em(979px);
     .holder-for-icon {
       height: px-em( 20px );
       margin-bottom: $iconMarginBottom;
-      margin-top: px-em( 6px );
+      margin-top: px-em( 10px );
     }
 
     .tab-nav {

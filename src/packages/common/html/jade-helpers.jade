@@ -41,16 +41,21 @@ mixin iQImage( img, extraClasses, itemprop )
     noscript
       img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
 
-//- stuff - an object with some video stuff
+//- Mixin for videos
 mixin sonyVideo ( videoData )
   if !videoData
     p.l3(style='color:red;') Missing Video data!
   else
-    div(class='player' , data-key='$421601038208546')
+    //- add more domain keys here if necessary don't forget to concatenate
+    - sonyKey = '$343124831096460,'
+    - odopodKey = '$421601038208546'
+    - allDomainKeys = sonyKey + odopodKey
+    div(class='player is-splash no-time play-button' , data-key=allDomainKeys , data-ratio=videoData.ratio)
      video(preload='none')
       source(type='video/webm', src=videoData.webm.srcDesktop)
-      source(type='video/mp4', src=videoData.mp4.srcDesktop)
-      source(type='video/ogg', src=videoData.ogg.srcDesktop)
+      source(type='video/mp4',  src=videoData.mp4.srcDesktop)
+      source(type='video/ogg',  src=videoData.ogg.srcDesktop)
+
 
 //-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps
 //- +1 to dump it - gc
@@ -100,8 +105,8 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
             i(class=social.icon)
           span.social-label.p3= social.label
     li.input-holder
-      span.link-icon.ghost-center-wrap.js-no-close
-        i.fonticon-10-link.ghost-center.js-no-close
+      span.link-icon.js-no-close
+        i.fonticon-15-link.js-no-close
       input.p4(type="text", value=shortLink)
 
 
@@ -115,4 +120,27 @@ mixin appendBlock(name)
   - var start = buf.length;
   block
   - buf[blocks[name]] += buf.splice(start, buf.length - start).join('');
+
+
+mixin docsLinks( listName, suffix, exclude )
+  //- Not sure why `locals` can only be used inside a mixin
+  list = locals[ listName ]()
+  href = '../build/debug/'
+  lastPageTitle = null
+
+  if exclude
+    - list.splice( list.indexOf( exclude ), 1 )
+
+  //- Sort alphabetically, regardless of case
+  - list.sort( function(a, b) { if (a.toLowerCase() < b.toLowerCase()) return -1; if (a.toLowerCase() > b.toLowerCase()) return 1; return 0; })
+
+  each name in list
+    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(' ' + suffix, '')
+    firstSpace = title.indexOf(' ')
+    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
+    if lastPageTitle != null && lastPageTitle != prefix
+      hr
+    a( href = href + name, title=title) !{ title }
+    lastPageTitle = prefix
+
 

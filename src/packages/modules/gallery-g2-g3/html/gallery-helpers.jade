@@ -113,10 +113,21 @@ mixin compareBrowseBtn( isCompareGallery, link, addFade, extraClasses )
 
   a(class=classes, href=link, tabindex=tabIndex)
     if isCompareGallery
-      i.fonticon-10-grid-3x3
+      i.fonticon-10-browse
     else
-      i.fonticon-10-speaker
+      i.fonticon-10-compare
     | !{ compareStr }
+
+mixin galleryShareMenu( shareMenu )
+  .pull-right.options-wrap
+    .share-options
+      a.js-share.share-trigger(data-toggle="dropdown", href="#")
+        span.bt3= shareMenu.shareText
+        span.plus-holder
+          i.fonticon-10-sm-bold-plus
+      +shareMenu( shareMenu.socialButtons, shareMenu.shortLink )
+      span.p5.spacer |
+    block
 
 mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
@@ -153,6 +164,9 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
 
         else if !gallery.filterSet && isFavoritesGallery
           //- Favorites gallery
+          +galleryShareMenu( gallery.shareMenu )
+            //- Sort options
+            +sorter( gallery.sortSet, sortByStr, false )
           +compareBrowseBtn( isCompareGallery, compareBrowseLink, true, 'first' )
 
         else if !gallery.filterSet && isCompareGallery
@@ -165,16 +179,11 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
 
 
         if gallery.shareMenu
-          .pull-right.options-wrap
-            .share-options
-              a.js-share.share-trigger(data-toggle="dropdown", href="#")
-                span.bt3= gallery.shareMenu.shareText
-                span.plus-holder
-                  i.fonticon-10-sm-bold-plus
-              +shareMenu( gallery.shareMenu.socialButtons, gallery.shareMenu.shortLink )
-              span.p5.spacer |
-            //- Sort options
-            +sorter( gallery.sortSet, sortByStr, false )
+          //- The share menu is used above if it's a favorites gallery
+          if gallery.filterSet || !isFavoritesGallery
+            +galleryShareMenu( gallery.shareMenu )
+              //- Sort options
+              +sorter( gallery.sortSet, sortByStr, false )
         else
           //- Sort options
           +sorter( gallery.sortSet, sortByStr )
@@ -400,7 +409,7 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
               button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
                 .tab-inside
                   .holder-for-icon
-                    iconClass = 'fonticon-30-' + tab.icon
+                    iconClass = 'fonticon-40-' + tab.icon
                     i(class=iconClass)
                   h3.l2.tab-label= tab.label
         nav.tab-nav-btns
@@ -433,7 +442,7 @@ mixin accessoryFinder( submodules, finder, type, noButton )
       .container
         .modal-inner
           .modal-header.grid
-            h4.t4#accessory-modal-title= finder.title
+            h4.t4-bold#accessory-modal-title= finder.title
 
             p.p3= finder.subtitle
             button.box-close(data-dismiss="modal", aria-hidden="true")

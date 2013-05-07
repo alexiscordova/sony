@@ -74,10 +74,9 @@
       &.dragging .handle,
       &.dragging2 .handle {
         .inner {
-          @include scale(1.1);
+          @include scale(1.07);
           background:$gray40;
         }
-          i {margin:0 3px;}
       }
     }
       .handle {
@@ -96,6 +95,7 @@
           position:absolute;
           width:46px;
           height:46px;
+          line-height:40px;
           background:$buttonOrange;
           display:block;
           text-align:center;
@@ -107,11 +107,11 @@
           @include transition(.1s ease-out);
         }
           .icons {
-            position:absolute;
-            top:50%;
-            left:50%;
+            // position:absolute;
+            // top:50%;
+            // left:50%;
             width:100px;
-            margin:-14px 0 0 -50px;
+            // margin:-14px 0 0 -50px;
           }
             i {
               display:inline-block;
@@ -149,7 +149,7 @@
           margin-top:-31px;
         }
           .icons {
-            margin:-12px 0 0 -48px;
+            // margin:-12px 0 0 -48px;
             @include rotate(90deg);
           }
     }

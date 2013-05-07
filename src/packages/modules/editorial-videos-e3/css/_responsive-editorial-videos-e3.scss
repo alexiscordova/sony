@@ -1,0 +1,46 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$subPhoneMax: px-em(479);
+$phoneMin: px-em(480);
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+
+
+@media (min-width: $tabletMin) and (max-width:$tabletMax) {
+  .editorial-video-container {
+    height: 500px;
+  }
+
+}
+
+@media (max-width: $phoneMax) {
+  .editorial-video-container {
+    height: 420px;
+
+    .pagination-paddles button.pagination-next {
+      right: 2%;
+      margin-right: 0;
+    }
+
+    .pagination-paddles button.pagination-prev {
+      left: 2%;
+      margin-left: 0;
+    }
+
+  }
+}
+
+@media (min-width: $phoneMin) and (max-width: $phoneMax){
+  .editorial-video-container {
+    height: 420px;
+  }
+}
+@media (max-width: $subPhoneMax){
+  .editorial-video-container {
+    height: 400px;
+  }
+}
+
+

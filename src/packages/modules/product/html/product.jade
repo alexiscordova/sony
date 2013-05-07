@@ -765,7 +765,7 @@ else if data.view == 'compatibility'
 
   //- Fall back to small images if tiny ones aren't available
   image = data.imgTiny ? data.imgTiny : data.imgSmall
-  totalAccessories = data.totalAccessories == null ? data.totalAccessories : 'N/A'
+  totalAccessories = data.totalAccessories != null ? data.totalAccessories : 'N/A'
 
   a.span4.compat-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
     .compat-item-inner
@@ -776,7 +776,7 @@ else if data.view == 'compatibility'
 
       span.product-content
         .product-name-wrap
-          .product-model.p2(itemprop="model")= data.model
+          .product-model.p2-bold(itemprop="model")= data.model
           .product-name.p3(itemprop="name")= data.name
           .product-total.p3
             strong.total= totalAccessories

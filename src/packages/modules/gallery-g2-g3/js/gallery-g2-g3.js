@@ -386,7 +386,7 @@ define(function(require){
           isSelect = $target.is('select'),
           filterName,
           method,
-          $compareBtn = self.$container.find( '.filter-display-bar .btn' ).first();
+          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' ).first();
 
       // Get variables based on what kind of component we're working with
       if ( isSelect ) {
@@ -1293,7 +1293,7 @@ define(function(require){
 
     initFavoritesGallery : function() {
       var self = this,
-          $compareBtn = self.$container.find( '.filter-display-bar .btn' ).first();
+          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' ).first();
 
       self.initRecommendedTile();
 

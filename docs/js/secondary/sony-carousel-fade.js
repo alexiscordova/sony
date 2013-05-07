@@ -301,13 +301,16 @@ define(function(require){
           .siblings().removeClass('active');
 
       } else {
-
         var $sibs = $destinationSlide.siblings();
 
         $sibs.fadeOut('fast', function(){
-          $destinationSlide.fadeIn('fast');
+          // still need to give classes regardless due to CSS opacity settings
+          $sibs.removeClass('active');
         });
-
+        $destinationSlide.fadeIn('fast', function(){
+          // still need to give classes regardless due to CSS opacity settings
+          $destinationSlide.addClass('active');
+        });
       }
 
       // If you've taken the carousel out of its normal flow (either with `self.jumping` or `self.looped`)

@@ -31,29 +31,51 @@ define(function(require) {
     function init() {
 
       // private vars
-      var _videoCollection     = [],
-          _totalIntanceCount         = 0,
-          _currentPlayer       = null;
+      var _videoCollection = [],
+      _totalIntanceCount   = 0,
+      _currentPlayer       = null,
+      _fp                  = window.flowplayer;
+
+
+      _fp.conf = {
+        swf: 'swf/flowplayer.swf',
+        key: '$104774194953913',
+        splash: true,
+        
+        embed: false,
+        tooltip: false
+      };
 
       // Private methods
-      function _privateMethod(){}
+      function toggleCurrentlyPlaying( currentPlayingAPI ){
+        var api = null;
+        for (var i = _videoCollection.length - 1; i >= 0; i--) {
+          api = _videoCollection[i];
+
+          if( api !== currentPlayingAPI && api.playing ){
+            api.pause(); //pauses all other instances
+          }
+        }
+      }
 
       // Public methods and variables
       return {
-
         //pass your video elements as a jquery selector
         initVideos: function ( $videos , options ) {
+          //init each instace of player
+          $videos.each(function(){
+           var api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( this ).flowplayer() ).get( 0 ) );
 
-            log('initing videos' , $videos.length);
+           api.bind( 'resume' , function(e , a){
+            _currentPlayer = api;
+            toggleCurrentlyPlaying(api);
+           } );
 
-            //init each instace of player
-            $videos.each(function(){
-              //faster :)
-             _videoCollection[_totalIntanceCount] =  $(this).flowplayer();
-             _totalIntanceCount++;
-             
-            });
+           _totalIntanceCount++;
 
+           log('Total Video instances...' , _totalIntanceCount);
+           
+          });
         }
       };
     }
