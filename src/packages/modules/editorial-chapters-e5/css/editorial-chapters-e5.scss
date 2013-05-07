@@ -147,10 +147,12 @@ $windowWidth: 1100;
 
     // need to take in the fact there is an image
     .label-container {
+      position: relative;
       display: table;
       height: 100%;
       width: percentage(($itemWidth - 64)/$itemWidth);
       padding-left: percentage(10/($itemWidth - 64));
+      top: -4px;
       @include box-sizing(border-box);
     }
 
@@ -247,13 +249,14 @@ $windowWidth: 1100;
     // only two tabs may exist at a certain time for the spans
     li {
       width: percentage($miniItemWidth/$miniWindowWidth);
-      padding:8px 0;
+      padding:8px percentage(10/$miniWindowWidth);
       height:48px;
     }
     
     .label-container {
       width: percentage(130/$miniItemWidth);
       padding-left: percentage(10/$miniItemWidth);
+      top: 0;
     }
 
     &.thumb-mode {
@@ -264,7 +267,7 @@ $windowWidth: 1100;
           top:-5px;
           bottom:0;
           margin:auto;
-          width: percentage(60/$miniItemWidth);
+          width: percentage(50/$miniItemWidth);
           max-width: 64px;
           height:auto;
           /*margin:0 5px;*/
@@ -272,21 +275,21 @@ $windowWidth: 1100;
 
         .label-container {
           position: absolute;
-          left: percentage(60/$miniItemWidth)
+          left: percentage(60/$miniItemWidth);
         }
       }
     }
 
     &.icon-mode {
       .thumb-nav {
-        height:54px;
+        height:62px;
 
         li {
-          height:30px;
+          height:48px;
         }
         
         i {
-          top:4px;
+          top:12px;
           margin:0 percentage(10/$miniItemWidth);
         }
 
@@ -294,7 +297,6 @@ $windowWidth: 1100;
           width: percentage(100/$miniItemWidth);
           padding-left: percentage(10/$miniItemWidth);
         }
-        
       }
     } 
 
