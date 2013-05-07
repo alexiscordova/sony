@@ -55,7 +55,6 @@ $tabletMax: px-em(979);
           height:14px;
           display:block;
           overflow:hidden;
-          margin:0 15px;
         }
         .oneLine,
         .twoLine {top:0;}
@@ -85,7 +84,6 @@ $tabletMax: px-em(979);
       bottom:0;
       left: 0;
       box-shadow: inset 5px 0 7px -5px #333;
-      
     }
 
     .right-shade {
@@ -116,6 +114,37 @@ $tabletMax: px-em(979);
 
     }
   }
+
+      
+  // Media Left + Media Right Chapters!
+  // ==================================
+  .span5,
+  .span6,
+  .span7 {
+    .editorial-chapters-container {
+      &.thumb-mode {
+        .thumb-nav {
+          img {        
+            position: relative;
+            top: auto;
+            bottom: auto;
+            width: 90%;
+            margin: 0 auto;
+          }
+        } // end .thumb-nav
+      } // end &.thumb-mode
+
+      &.icon-mode {
+        .thumb-nav {  
+          i {
+            top:4px;
+            margin:0 15px;
+          }     
+        } // end .thumb-nav
+      } // end $.icon-mode
+    } // end .editorial-chapters-container
+
+  } // end spans
 }
 
 @media (max-width: 410px) {
@@ -131,14 +160,14 @@ $tabletMax: px-em(979);
   .span7 .editorial-chapters-container.text-mode .thumb-nav {width:470px;}
 }
 
-@media (min-width: 910px) {
+@media (min-width: 960px) {
   .container,
   .span12 {
     & > .editorial-chapters-container {
       .slider {width:auto !important;}
     }
   }
-  
+      
 }
 
 @media (max-width: 767px) {
@@ -148,6 +177,7 @@ $tabletMax: px-em(979);
 //tablet only
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .editorial-chapters-container .image-module {height:440px;}
+
 }
 //phone only
 @media (max-width: $phoneMax) {

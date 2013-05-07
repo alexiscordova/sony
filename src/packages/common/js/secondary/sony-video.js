@@ -39,7 +39,8 @@ define(function(require) {
 
       _fp.conf = {
         swf: 'swf/flowplayer.swf',
-        key: '$104774194953913'
+        key: '$104774194953913',
+        splash: true
       };
 
       // Private methods
@@ -68,6 +69,8 @@ define(function(require) {
            } );
 
            _totalIntanceCount++;
+
+           log('Total Video instances...' , _totalIntanceCount);
            
           });
         }

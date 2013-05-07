@@ -12,7 +12,8 @@ mixin thumb-nav
           if slide.icon
             i(class=slide.icon)
           if slide.label
-            span= slide.label
+            span.label-container
+              span(class='nav-label')= slide.label
     .left-shade
     .right-shade
 
