@@ -38,13 +38,13 @@ define(function(require){
 
     self.init();
 
-    self.$images.on('iQ:imageLoaded', function(){
-      $(this).closest('.st-item').addClass('on');
-    });
-
-    self.$images.addClass('iq-img');
-
-    iQ.update(true);
+    // self.$images.on('iQ:imageLoaded', function(){
+      // $(this).closest('.st-item').addClass('on');
+    // });
+// 
+    // self.$images.addClass('iq-img');
+// 
+    // iQ.update(true);
 
     if ( self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){
 
