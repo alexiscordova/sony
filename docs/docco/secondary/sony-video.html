@@ -37,7 +37,8 @@ define(<span class="keyword">function</span>(require) {
 
       _fp.conf = {
         swf: <span class="string">'swf/flowplayer.swf'</span>,
-        key: <span class="string">'$104774194953913'</span>
+        key: <span class="string">'$104774194953913'</span>,
+        splash: <span class="literal">true</span>
       };
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Private methods</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">toggleCurrentlyPlaying</span><span class="params">( currentPlayingAPI )</span>{</span>
@@ -62,6 +63,8 @@ define(<span class="keyword">function</span>(require) {
            } );
 
            _totalIntanceCount++;
+
+           log(<span class="string">'Total Video instances...'</span> , _totalIntanceCount);
            
           });
         }
