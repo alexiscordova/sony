@@ -20,6 +20,7 @@
     <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
         iQ = require(<span class="string">'iQ'</span>),
         bootstrap = require(<span class="string">'bootstrap'</span>),
+        Modernizr = require(<span class="string">'modernizr'</span>),
         Settings = require(<span class="string">'require/sony-global-settings'</span>),
         Environment = require(<span class="string">'require/sony-global-environment'</span>),
         Favorites = require(<span class="string">'secondary/index'</span>).sonyFavorites,
@@ -2027,61 +2028,63 @@ $(<span class="keyword">function</span>() {
       <span class="string">'msTransition'</span>     : <span class="string">'MSTransitionEnd'</span>,
       <span class="string">'transition'</span>       : <span class="string">'transitionend'</span>
   },
-  transitionEndName;
-  transitionEndName = transEndEventNames[ window.Modernizr.prefixed(<span class="string">'transition'</span>) ];
+  transitionEndName = transEndEventNames[ window.Modernizr.prefixed(<span class="string">'transition'</span>) ],
+  $tabs = $(<span class="string">'.rp-tabs'</span>).find(<span class="string">'.rp-tab'</span>),
+  currentPanelId = <span class="number">1</span>,
+  $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span> + currentPanelId + <span class="string">']'</span>),
+  $productPanels = $(<span class="string">'.related-products[data-rp-panel-id]'</span>),
+  handleTabClick,
+  onOldPanelFadedOut;
 
-  <span class="keyword">var</span> $tabs = $(<span class="string">'.rp-tabs'</span>).find(<span class="string">'.rp-tab'</span>),
-      currentPanelId = <span class="number">1</span>,
-      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span> + currentPanelId + <span class="string">']'</span>),
-      $productPanels = $(<span class="string">'.related-products[data-rp-panel-id]'</span>);
-
-  $productPanels.not($currentPanel).css({
-    <span class="string">'opacity'</span> : <span class="number">0</span>,
-    <span class="string">'z-index'</span> : <span class="number">0</span>
-  });
-
-  $currentPanel.css({
-    <span class="string">'z-index'</span> : <span class="number">1</span>
-  });
-
+  $productPanels.not($currentPanel).addClass(<span class="string">'inactive invisible'</span>);
   $tabs.eq(<span class="number">0</span>).addClass(<span class="string">'active'</span>);
 
-  <span class="keyword">if</span> ($tabs.length &gt; <span class="number">0</span>) {
-    <span class="keyword">var</span> handleTabClick = <span class="keyword">function</span>(e) {
-      <span class="keyword">var</span> $tab = $(<span class="keyword">this</span>),
-      visibleObj = <span class="keyword">function</span>(visibleBool , zIndx) {
-        <span class="keyword">var</span> cssO = {<span class="string">'visibility'</span> : visibleBool === <span class="literal">true</span> ? <span class="string">'visible'</span> : <span class="string">'hidden'</span>};
-        <span class="keyword">if</span> (zIndx !== <span class="literal">undefined</span>) {
-          cssO.zIndex = zIndx;
-        }
-        <span class="keyword">return</span> cssO;
-      };
+</pre></div>             </td>           </tr>                               <tr id="section-103">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-103">&#182;</a>               </div>               <p>Not tabs, exit</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">if</span> ( !$tabs.length ) {
+    <span class="keyword">return</span>;
+  }
 
-      e.preventDefault();
-      $tabs.removeClass(<span class="string">'active'</span>);
-      $tab.addClass(<span class="string">'active'</span>);
+  onOldPanelFadedOut = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> $panel = $(<span class="keyword">this</span>);
+    $panel.addClass(<span class="string">'invisible'</span>);
+    $panel.data(<span class="string">'relatedProducts'</span>).disableShuffle();
+  };
 
-      <span class="keyword">var</span> newPanelId = $tab.data(<span class="string">'rpPanelId'</span>);
+  handleTabClick = <span class="keyword">function</span>(e) {
+    <span class="keyword">var</span> $tab = $(<span class="keyword">this</span>),
+        newPanelId = $tab.data(<span class="string">'rpPanelId'</span>),
+        $oldPanel = $currentPanel;
 
-      <span class="keyword">if</span> (newPanelId === currentPanelId) {
-        <span class="keyword">return</span>;
-      }
-      <span class="keyword">var</span> $oldPanel = $currentPanel;
-      currentPanelId = newPanelId;
-      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span>+ currentPanelId +<span class="string">']'</span>);
+    e.preventDefault();
+    $tab.addClass(<span class="string">'active'</span>).siblings().removeClass(<span class="string">'active'</span>);
 
-      $oldPanel.css(visibleObj(<span class="literal">true</span>, <span class="number">1</span>));
-      $oldPanel.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({ opacity: <span class="number">0</span> },{ duration: <span class="number">500</span> , delay: <span class="number">0</span> , complete: <span class="keyword">function</span>() {
-        $oldPanel.css(visibleObj(<span class="literal">false</span>, <span class="number">0</span>));
-        $oldPanel.data(<span class="string">'relatedProducts'</span>).disableShuffle();
-      }});
+</pre></div>             </td>           </tr>                               <tr id="section-104">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-104">&#182;</a>               </div>               <p>Clicked the same tab</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> (newPanelId === currentPanelId) {
+      <span class="keyword">return</span>;
+    }
 
-      $currentPanel.css(visibleObj(<span class="literal">true</span>, <span class="number">1</span>));
-      $currentPanel.data(<span class="string">'relatedProducts'</span>).enableShuffle();
-      $currentPanel.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({ opacity: <span class="number">1</span> },{ duration: <span class="number">500</span>});
-    };
+</pre></div>             </td>           </tr>                               <tr id="section-105">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-105">&#182;</a>               </div>               <p>Set the current panel id to the new one</p>             </td>             <td class="code">               <div class="highlight"><pre>    currentPanelId = newPanelId;
 
-    $tabs.on(window.Modernizr.touch ? <span class="string">'touchend'</span> : <span class="string">'click'</span> , handleTabClick);
+</pre></div>             </td>           </tr>                               <tr id="section-106">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-106">&#182;</a>               </div>               <p>Set the new panel</p>             </td>             <td class="code">               <div class="highlight"><pre>    $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span>+ currentPanelId +<span class="string">']'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-107">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-107">&#182;</a>               </div>               <p>Fade out old panel</p>             </td>             <td class="code">               <div class="highlight"><pre>    $oldPanel.addClass(<span class="string">'inactive'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-108">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-108">&#182;</a>               </div>               <p>Fade in current panel</p>             </td>             <td class="code">               <div class="highlight"><pre>    $currentPanel.removeClass(<span class="string">'inactive invisible'</span>);
+
+    <span class="keyword">if</span> ( Modernizr.csstransitions ) {
+      $oldPanel.one( transitionEndName, onOldPanelFadedOut );
+    } <span class="keyword">else</span> {
+      console.log( <span class="string">'proxying onOldPanelFadedOut'</span> );
+      $.proxy( onOldPanelFadedOut, $oldPanel[<span class="number">0</span>] )();
+    }
+
+    $currentPanel.data(<span class="string">'relatedProducts'</span>).enableShuffle();
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-109">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-109">&#182;</a>               </div>               <p>Since these are <a> links, they will receive click events from mobile devices</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">if</span> ( Modernizr.touch ) {
+    $tabs
+      .on(<span class="string">'click'</span>, <span class="literal">false</span>)
+      .on(<span class="string">'touchend'</span>, handleTabClick);
+  } <span class="keyword">else</span> {
+    $tabs.on(<span class="string">'click'</span> , handleTabClick);
   }
 
 });
