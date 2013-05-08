@@ -21,6 +21,7 @@ define(function(require) {
     var $ = require('jquery'),
         iQ = require('iQ'),
         bootstrap = require('bootstrap'),
+        Modernizr = require('modernizr'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         Favorites = require('secondary/index').sonyFavorites,
@@ -2129,61 +2130,70 @@ $(function() {
       'msTransition'     : 'MSTransitionEnd',
       'transition'       : 'transitionend'
   },
-  transitionEndName;
-  transitionEndName = transEndEventNames[ window.Modernizr.prefixed('transition') ];
+  transitionEndName = transEndEventNames[ window.Modernizr.prefixed('transition') ],
+  $tabs = $('.rp-tabs').find('.rp-tab'),
+  currentPanelId = 1,
+  $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
+  $productPanels = $('.related-products[data-rp-panel-id]'),
+  handleTabClick,
+  onOldPanelFadedOut;
 
-  var $tabs = $('.rp-tabs').find('.rp-tab'),
-      currentPanelId = 1,
-      $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
-      $productPanels = $('.related-products[data-rp-panel-id]');
-
-  $productPanels.not($currentPanel).css({
-    'opacity' : 0,
-    'z-index' : 0
-  });
-
-  $currentPanel.css({
-    'z-index' : 1
-  });
-
+  $productPanels.not($currentPanel).addClass('inactive invisible');
   $tabs.eq(0).addClass('active');
 
-  if ($tabs.length > 0) {
-    var handleTabClick = function(e) {
-      var $tab = $(this),
-      visibleObj = function(visibleBool , zIndx) {
-        var cssO = {'visibility' : visibleBool === true ? 'visible' : 'hidden'};
-        if (zIndx !== undefined) {
-          cssO.zIndex = zIndx;
-        }
-        return cssO;
-      };
+  // Not tabs, exit
+  if ( !$tabs.length ) {
+    return;
+  }
 
-      e.preventDefault();
-      $tabs.removeClass('active');
-      $tab.addClass('active');
+  onOldPanelFadedOut = function() {
+    var $panel = $(this);
+    $panel.addClass('invisible');
+    $panel.data('relatedProducts').disableShuffle();
+  };
 
-      var newPanelId = $tab.data('rpPanelId');
+  handleTabClick = function(e) {
+    var $tab = $(this),
+        newPanelId = $tab.data('rpPanelId'),
+        $oldPanel = $currentPanel;
 
-      if (newPanelId === currentPanelId) {
-        return;
-      }
-      var $oldPanel = $currentPanel;
-      currentPanelId = newPanelId;
-      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+    e.preventDefault();
+    $tab.addClass('active').siblings().removeClass('active');
 
-      $oldPanel.css(visibleObj(true, 1));
-      $oldPanel.stop(true,true).animate({ opacity: 0 },{ duration: 500 , delay: 0 , complete: function() {
-        $oldPanel.css(visibleObj(false, 0));
-        $oldPanel.data('relatedProducts').disableShuffle();
-      }});
+    // Clicked the same tab
+    if (newPanelId === currentPanelId) {
+      return;
+    }
 
-      $currentPanel.css(visibleObj(true, 1));
-      $currentPanel.data('relatedProducts').enableShuffle();
-      $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500});
-    };
+    // Set the current panel id to the new one
+    currentPanelId = newPanelId;
 
-    $tabs.on(window.Modernizr.touch ? 'touchend' : 'click' , handleTabClick);
+    // Set the new panel
+    $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+
+    // Fade out old panel
+    $oldPanel.addClass('inactive');
+
+    // Fade in current panel
+    $currentPanel.removeClass('inactive invisible');
+
+    if ( Modernizr.csstransitions ) {
+      $oldPanel.one( transitionEndName, onOldPanelFadedOut );
+    } else {
+      console.log( 'proxying onOldPanelFadedOut' );
+      $.proxy( onOldPanelFadedOut, $oldPanel[0] )();
+    }
+
+    $currentPanel.data('relatedProducts').enableShuffle();
+  };
+
+  // Since these are <a> links, they will receive click events from mobile devices
+  if ( Modernizr.touch ) {
+    $tabs
+      .on('click', false)
+      .on('touchend', handleTabClick);
+  } else {
+    $tabs.on('click' , handleTabClick);
   }
 
 });
