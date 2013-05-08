@@ -70,21 +70,21 @@ define(function(require){
       $('.scrollable').attr('id', '').removeClass();
 
       self.$pageWrapperInner = $('#page-wrap-inner');
-      self.$crollContainer = $('<div id="scrollcontainer">');
-      var $croll = $('<div id="scroll">').addClass('scrollable');
+      self.$scrollContainer = $('<div id="scrollcontainer">');
+      var $scroll = $('<div id="scroll">').addClass('scrollable');
 
-      self.$crollContainer.append($croll);
-      $('<div>').append(self.$pageWrapperInner.children().not('#nav-wrapper')).appendTo($croll);
+      self.$scrollContainer.append($scroll);
+      $('<div>').append(self.$pageWrapperInner.children().not('#nav-wrapper')).appendTo($scroll);
 
-      $(self.$pageWrapperInner).append(self.$crollContainer);
+      $(self.$pageWrapperInner).append(self.$scrollContainer);
     },
 
     setMobileHeight : function() {
-      var self = this;
-      var winheight = parseInt($(window).height(), 10);
-      var navheight = parseInt($('#nav-wrapper').height(), 10);
+      var self = this,
+          winheight = parseInt($(window).height(), 10),
+          navheight = parseInt($('#nav-wrapper').height(), 10);
 
-      self.$crollContainer.css({
+      self.$scrollContainer.css({
         'height': winheight - navheight +'px',
         'position': 'relative'
       });
@@ -93,7 +93,7 @@ define(function(require){
 
     resetHeight : function () {
       var self = this;
-      self.$crollContainer.css({
+      self.$scrollContainer.css({
         'height': 'auto',
         'position': 'relative'
       });
@@ -107,6 +107,10 @@ define(function(require){
       if ( Modernizr.mediaqueries ) {
 
         enquire
+          .register('(min-width: 29.9375em) and (max-width: 47.9375em)', {
+            match : $.proxy(self.accountForHeader, self),
+            unmatch : $.proxy(self.unAccountForHeader, self)
+          })
           .register('(max-width: 47.9375em)', {
             match : $.proxy(self.toMobile, self)
           })
@@ -179,6 +183,16 @@ define(function(require){
       self.stickyHeader.disable();
       self.updateFluidLists('desktop');
       self.resetHeight();
+    },
+
+    accountForHeader : function () {
+      var self = this;
+      self.$scrollContainer.height('+=10px').css('margin-top', '-10px');
+    },
+
+    unAccountForHeader : function () {
+      var self = this;
+      self.$scrollContainer.height('-=10px').css('margin-top', 'auto');
     }
   };
 
