@@ -18,6 +18,7 @@ $windowWidth: 1100;
 // hacky fix for width issue with e1+e5 templates 
 .container.submodule {
   .editorial-chapters-container {
+    margin: 0;
     &.container {
       width: 100%;
     }
@@ -39,6 +40,7 @@ $windowWidth: 1100;
 
   .editorial-chapters {
     position: relative;
+    // design review margin: 80px 0 50px;
   }
 
   .editorial-carousel-wrapper {
@@ -112,7 +114,7 @@ $windowWidth: 1100;
       @include box-sizing(content-box);
       @include opacity(75);
 
-      & + li {margin-left:-1px;}
+      & + li {margin-left:-3px;}
 
       &.active,
       &:hover {
@@ -131,13 +133,14 @@ $windowWidth: 1100;
     } // end li
 
     img {
-      width: percentage(64/$itemWidth);
+      position: relative;
+      bottom: 0;
+      width: percentage(60/$itemWidth);
+      max-width: 60px;
       float: left;
     }
 
     i {
-      font-size:20px;
-      margin-right:10px;
       line-height:16px;
       position:relative;
       top:9px;
@@ -161,7 +164,6 @@ $windowWidth: 1100;
       position:relative;
       display: table-cell;
       vertical-align: middle;
-      line-height: 1.5;
       // IE7 jank
       *float: left;
       *display: block;
@@ -223,13 +225,20 @@ $windowWidth: 1100;
     }
 
     i {
-      margin-left: percentage(25/$itemWidth);
+      margin-left: percentage(5/$itemWidth);
     }
+
+    .label-container {
+      width: percentage(($itemWidth - 44)/$itemWidth);
+    }    
+
   } // end &.icon-mode .thumb-nav
 
   &.text-mode .thumb-nav {
     img, i {display:none;}
-    span {margin:0 24px;}
+    .label-container {
+      margin: 0;
+    }
   }
 } // end .editorial-chapters-container
 
@@ -237,6 +246,8 @@ $windowWidth: 1100;
 
 // Media Left + Media Right Chapters!
 // ==================================
+// Note: Tabs here are always a `width: auto`
+//       Meaning that many items will be a static width when it comes to assets
 .span5,
 .span6,
 .span7 {
@@ -244,38 +255,34 @@ $windowWidth: 1100;
     .image-module {height:auto;}
     
     $miniWindowWidth : 500;
-    $miniItemWidth: 150;
+    $miniItemWidth: 105;
 
     // only two tabs may exist at a certain time for the spans
     li {
-      width: percentage($miniItemWidth/$miniWindowWidth);
-      padding:8px percentage(10/$miniWindowWidth);
-      height:48px;
+      width: auto;
+      /*width: percentage($miniItemWidth/$miniWindowWidth);*/
+      padding:8px 10px;
+      height:38px;
     }
     
     .label-container {
-      width: percentage(130/$miniItemWidth);
-      padding-left: percentage(10/$miniItemWidth);
+      /*width: percentage(130/$miniItemWidth);*/
+      padding: 0 percentage(5/$miniItemWidth) 0 percentage(10/$miniItemWidth);
       top: 0;
     }
 
     &.thumb-mode {
       .thumb-nav {
         height:62px;
+
         img {
-          position:absolute;
-          top:-5px;
-          bottom:0;
-          margin:auto;
-          width: percentage(50/$miniItemWidth);
-          max-width: 64px;
-          height:auto;
-          /*margin:0 5px;*/
+          width: 51px;
         }
 
         .label-container {
-          position: absolute;
-          left: percentage(60/$miniItemWidth);
+          width: auto;
+          /*position: absolute;*/
+          /*left: percentage(60/$miniItemWidth);*/
         }
       }
     }
@@ -283,28 +290,24 @@ $windowWidth: 1100;
     &.icon-mode {
       .thumb-nav {
         height:62px;
-
-        li {
-          height:48px;
-        }
         
         i {
-          top:12px;
-          margin:0 percentage(10/$miniItemWidth);
+          top:10px;
+          margin: 0;
         }
 
         .label-container {
-          width: percentage(100/$miniItemWidth);
-          padding-left: percentage(10/$miniItemWidth);
+          width: auto;
+          padding: 0 percentage(10/$miniItemWidth);
+          /*width: percentage(100/$miniItemWidth);*/
+          /*padding-left: percentage(10/$miniItemWidth);*/
         }
       }
     } 
 
-    // THIS MODE DOES NOT EXIST IN THE STYLE-GUIDE
-    // optional is a text label but icon and images are mandatory
     &.text-mode {
       .thumb-nav {
-        height:48px;
+        height:58px;
 
         li {
           line-height:14px;
@@ -312,15 +315,18 @@ $windowWidth: 1100;
           height:14px;
           width:auto;
         }
+
         img, i {display:none;}
-        .nav-label {
+
+        .label-container {
+          padding: 0 percentage(15/$miniItemWidth);
+          margin: 0;
+          white-space: nowrap;
           height:14px;
-          display:block;
-          overflow:hidden;
-          margin:0 10px;
         }
       }
-    }
+    } // end .text-mode
+
     &.top-nav .thumb-nav {
       i, img {display:none;}
     }
@@ -335,6 +341,7 @@ $windowWidth: 1100;
 
     .editorial .inner {
       margin-left: 0;
+      left: 0;
     }
     
   }

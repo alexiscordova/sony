@@ -14,7 +14,7 @@
 //      $('.related-products').relatedProducts();
 //
 //
-define(function(require){
+define(function(require) {
 
     'use strict';
 
@@ -30,21 +30,15 @@ define(function(require){
         sonyPaddles = require('secondary/index').sonyPaddles,
         sonyNavigationDots = require('secondary/index').sonyNavigationDots;
 
-    var self = {
-      'init': function() {
+    var module = {
+      init: function() {
         $('.related-products').relatedProducts();
       }
     };
 
     //Related Products Definition
-    var RelatedProducts = function(element, options){
-      var self           = this,
-      transEndEventNames = {
-        'WebkitTransition' : 'webkitTransitionEnd',
-        'MozTransition'    : 'transitionend',
-        'OTransition'      : 'oTransitionEnd',
-        'msTransition'     : 'MSTransitionEnd',
-        'transition'       : 'transitionend'};
+    var RelatedProducts = function(element, options) {
+      var self = this;
 
       //Extend Related Products instance with defaults and options
       $.extend(self , $.fn.relatedProducts.defaults , options);
@@ -78,8 +72,8 @@ define(function(require){
       self.ev                     = $({}); //event object
       self.prefixed               = Modernizr.prefixed;
       self.transitionName         = self.prefixed('transition');
-      self.isTabbedContainer      = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('rp-container-tabbed');
-      self.transitionEndName      = transEndEventNames[ self.transitionName ];
+      self.isTabbedContainer      = self.$tabbedContainer.length && self.$tabbedContainer.hasClass('rp-container-tabbed');
+      self.transitionEndName      = Settings.transEndEventName;
       self.mode                   = self.$el.data('mode').toLowerCase(); //Determine the mode of the module
       self.variation              = self.$el.data('variation').split('-')[2]; //Determine the variaion of the module
       self.numSlides              = self.$slides.length;
@@ -94,8 +88,8 @@ define(function(require){
       self.sPosition              = 0;
       self.scrollerModule         = null;
       self.shuffle                = null;
-      self.shuffleSpeed           = 250;
-      self.shuffleEasing          = 'ease-out';
+      self.shuffleSpeed           = Settings.shuffleSpeed;
+      self.shuffleEasing          = Settings.shuffleEasing;
       self.paddlesEnabled         = false;
       self.resizeTimeout          = null;
       self.startInteractionPointX = null;
@@ -109,10 +103,11 @@ define(function(require){
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
 
-      self.oldIE                  = self.isIE7orIE8 = self.$html.hasClass('lt-ie10');
+      self.oldIE                  = Settings.isLTIE10;
+      self.isIE7orIE8             = Settings.isLTIE10;
 
       self.inited                 = false;
-      self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
+      self.isResponsive           = !self.isIE7orIE8 && !Settings.isLTIE10 && self.hasMediaQueries;
       self.tileHeightSizeFix      = 0;
       self.hasInitedMobile        = false;
 
@@ -134,10 +129,10 @@ define(function(require){
     RelatedProducts.prototype = {
 
       //Inital setup of module
-      init: function(){
+      init: function() {
         var self = this;
 
-        if(self.$win.width() < 569){
+        if (self.$win.width() < 569) {
           self.$el.css({
             opacity: 0
           });
@@ -166,7 +161,7 @@ define(function(require){
 
         var prodImg = self.$galleryItems.filter('.normal').find('.product-img');
 
-        prodImg.find('.iq-img').on('imageLoaded' , function(){
+        prodImg.find('.iq-img').on('imageLoaded' , function() {
           var $img = $(this);
           $img.css({
             'max-height' : prodImg.first().height()
@@ -174,26 +169,26 @@ define(function(require){
         });
 
         // Don't do this for modes other than 3,4 and 5up
-        if(self.variation === '3up' ||
+        if (self.variation === '3up' ||
            self.variation === '4up' ||
-           self.variation === '5up'){
+           self.variation === '5up') {
             self.setSortPriorities();
             //self.log(self.variation , true);
         }
 
-        if(self.$slides.length > 1){
+        if (self.$slides.length > 1) {
           self.createNavigation();
-          if(!self.hasTouch){
+          if (!self.hasTouch) {
             self.createPaddles();
           }
-          if(self.mode != 'strip'){
+          if (self.mode != 'strip') {
             self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           }
         }else{
           self.$pagination = $({});
         }
 
-        if(self.mode != 'strip'){
+        if (self.mode != 'strip') {
           self.setSortPriorities();
           self.setupResizeListener();
           self.$win.trigger('resize.rp');
@@ -204,32 +199,32 @@ define(function(require){
       },
 
       //Fixes a bug in IE when media queries aren't available
-      mqFix: function(){
+      mqFix: function() {
         var self = this;
 
-        if( !self.hasMediaQueries && self.isIE7orIE8 || self.oldIE){
-          self.mq = function(){
+        if ( !self.hasMediaQueries && self.isIE7orIE8 || self.oldIE) {
+          self.mq = function() {
             return false;
           };
         }
 
       },
 
-      initAnimationProps: function(){
+      initAnimationProps: function() {
         var self = this;
 
-        if(self.useCSS3Transitions) {
+        if (self.useCSS3Transitions) {
             self.use3dTransform = Modernizr.csstransforms3d;
         }
 
-        if(self.useCSS3Transitions) {
+        if (self.useCSS3Transitions) {
           // some constants for CSS3
           self.TP     = 'transitionProperty';
           self.TD     = 'transitionDuration';
           self.TTF    = 'transitionTimingFunction';
           self.yProp  = self.xProp = self.prefixed ( 'transform' );
 
-          if(self.use3dTransform) {
+          if (self.use3dTransform) {
             self.tPref1 = 'translate3d(';
             self.tPref2 = 'px, ';
             self.tPref3 = 'px, 0px)';
@@ -249,10 +244,10 @@ define(function(require){
       },
 
       //Setup events
-      initEvents: function(){
+      initEvents: function() {
         var self = this;
 
-        if(Modernizr.touch) {
+        if (Modernizr.touch) {
           self.hasTouch         = true;
           self.downEvent        = 'touchstart.rp';
           self.moveEvent        = 'touchmove.rp';
@@ -271,19 +266,19 @@ define(function(require){
       },
 
       //Store gallery items orginal parent slide for teardown and rebuild
-      storeGalleryItemParentSlides: function(){
+      storeGalleryItemParentSlides: function() {
         var self = this;
 
-        self.$galleryItems.each(function(){
+        self.$galleryItems.each(function() {
           var $item = $(this);
           $item.data('slide' , $item.parent());
         });
       },
 
       //Set up outbound links to not interfere with dragging between slides
-      setupLinkClicks: function(){
+      setupLinkClicks: function() {
         var self = this;
-        self.$galleryItems.on( self.tapOrClick() , function(e){
+        self.$galleryItems.on( self.tapOrClick() , function(e) {
           var $item   = $(this),
           destination = $item.attr('href'),
           point, distanceMoved;
@@ -307,12 +302,12 @@ define(function(require){
           }
         });
 
-        self.$galleryItems.on( self.tapOrClick() , function(e){
+        self.$galleryItems.on( self.tapOrClick() , function(e) {
           e.preventDefault();
         });
       },
 
-      toString: function(){
+      toString: function() {
         return '[ object RelatedProducts ]';
       },
 
@@ -323,14 +318,14 @@ define(function(require){
       },
 
       //These functions are used by the jquery.shuffle plugin
-      initShuffleFns: function(){
+      initShuffleFns: function() {
         var self = this;
 
-        self.shuffleGutters = function (containerWidth){
+        self.shuffleGutters = function (containerWidth) {
           var gutter = 0,
               numColumns = 0;
 
-          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || Settings.isLTIE10 ) {
             gutter = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
 
             numColumns = 5;
@@ -345,17 +340,17 @@ define(function(require){
 
           self.setColumns(numColumns);
 
-          if(gutter < 0){
+          if (gutter < 0) {
             gutter = 0;
           }
 
           return gutter;
         };
 
-        self.shuffleColumns = function(containerWidth){
+        self.shuffleColumns = function(containerWidth) {
             var column = 0;
 
-            if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+            if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || Settings.isLTIE10 ) {
               column = Settings.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
             // Between Portrait tablet and phone ( 3 columns )
@@ -366,7 +361,7 @@ define(function(require){
               column = containerWidth;
             }
 
-            if(column === 0){
+            if (column === 0) {
               column = 0.001; // fixes a bug with shuffle that crashes when column width is returned as 0
             }
 
@@ -375,7 +370,7 @@ define(function(require){
 
       },
 
-      setupResizeListener: function(){
+      setupResizeListener: function() {
         var self      = this,
         resizeTimeout = null,
 
@@ -385,9 +380,9 @@ define(function(require){
         BLANK         = '.blank',
         REDRAWING     = 'redrawing';
 
-        if(self.mode !== 'suggested' && !self.oldIE){
-         self.$win.on('resize.rp', function(){
-          if(!self.isMobileMode && self.$win.width() > self.MOBILE_BREAKPOINT) {
+        if (self.mode !== 'suggested' && !self.oldIE) {
+         self.$win.on('resize.rp', function() {
+          if (!self.isMobileMode && self.$win.width() > self.MOBILE_BREAKPOINT) {
 
             self.$galleryItems.css({
               visibility : HIDDEN,
@@ -396,7 +391,7 @@ define(function(require){
             self.$pagination.hide();
             self.$el.addClass( REDRAWING );
 
-           }else if(self.hasInitedMobile){
+           }else if (self.hasInitedMobile) {
 
             self.$el.css({
               opacity : 1,
@@ -408,7 +403,7 @@ define(function(require){
               opacity : 1
             });
 
-            if(!self.isMobileMode){
+            if (!self.isMobileMode) {
               self.$pagination.show();
             }
 
@@ -427,7 +422,7 @@ define(function(require){
           });
           self.$el.removeClass( REDRAWING );
 
-          if(!self.isMobileMode){
+          if (!self.isMobileMode) {
             self.$pagination.show();
           }
 
@@ -444,12 +439,12 @@ define(function(require){
       handleResize:function() {
         var self = this;
 
-        if( self.oldIE && self.inited ){
+        if ( self.oldIE && self.inited ) {
           self.updateSlides();
           return;
         }
 
-        if( !self.inited ){
+        if ( !self.inited ) {
           self.inited = true;
         }
 
@@ -458,31 +453,31 @@ define(function(require){
         self.updateSlides();
         self.updatePaddles();
 
-        if(self.mode === 'suggested'){
+        if (self.mode === 'suggested') {
           return;
         }
 
         //Needed a way to kill this timer if multiple resizes happen
         clearTimeout( self.resizeTimeout );
-        self.resizeTimeout = setTimeout(function(){
+        self.resizeTimeout = setTimeout(function() {
 
-          self.$shuffleContainers.each(function(){
+          self.$shuffleContainers.each(function() {
             var shfflInst = $(this).data('shuffle');
 
-            if(shfflInst === undefined){
+            if (shfflInst === undefined) {
               return;
             }
 
-            setTimeout(function(){
+            setTimeout(function() {
               self.updateSliderSize();
 
-              if(self.oldIE){
+              if (self.oldIE) {
 
 
-                if( self.$html.hasClass('lt-ie8') ){
+                if ( self.$html.hasClass('lt-ie8') ) {
 
 
-                 self.$galleryItems.each(function(){
+                 self.$galleryItems.each(function() {
 
                     var $item        = $(this),
                     $itemImg         = $item.find('.product-img'),
@@ -496,13 +491,13 @@ define(function(require){
                       height : tileHeight
                     });
 
-                    if($item.hasClass('plate')){
+                    if ($item.hasClass('plate')) {
 
                       $itemImg.css({
                         height : tileHeight
                       });
 
-                    }else if( $item.hasClass('medium') ){
+                    }else if ( $item.hasClass('medium') ) {
                       $item.css({
                         height : medGalItemHeight
                       });
@@ -511,7 +506,7 @@ define(function(require){
                         height : medGalImgHeight
                       });
 
-                    }else if( $item.hasClass('normal') ){
+                    }else if ( $item.hasClass('normal') ) {
 
                       $item.css({
                         height : tileHeight
@@ -524,7 +519,7 @@ define(function(require){
 
                   });
 
-                }else if( self.$html.hasClass('lt-ie10') && !self.$html.hasClass('lt-ie8') ){
+                }else if ( Settings.isLTIE10 && !self.$html.hasClass('lt-ie8') ) {
                   self.$galleryItems.filter('.medium').find('.product-img').css({
                     height: 359
                   });
@@ -535,11 +530,11 @@ define(function(require){
                 self.updateSlides();
               }
 
-              if(!self.oldIE){
+              if (!self.oldIE) {
                 self.updateTiles();
                 shfflInst.update();
                 self.animateTiles();
-              }else if (!self.isMobileMode){
+              }else if (!self.isMobileMode) {
                 self.$pagination.show();
                 self.$pagination.stop(true,true).fadeIn(250);
               }
@@ -550,29 +545,29 @@ define(function(require){
         } , 10);
       },
 
-      log : function (){
+      log : function () {
 
         var self = this,
         strOut   = '';
 
-        for (var i = 0 ; i < arguments.length ; i ++){
+        for (var i = 0 ; i < arguments.length ; i ++) {
           strOut += arguments[i];
           strOut += i > 0 ? ' , ' : ' ';
         }
 
-        if(self.oldIE && self.DEBUG){
-          if(window.alert){
+        if (self.oldIE && self.DEBUG) {
+          if (window.alert) {
                //window.alert(strOut);
 
           }
-        }else if(self.DEBUG) {
-          if(window.console){
+        } else if ( self.DEBUG ) {
+          if (window.console) {
            //window.console.log(strOut);
           }
         }
       },
 
-      setupStripMode: function(){
+      setupStripMode: function() {
         var self       = this,
         containerWidth = self.$el.width(),
         gutterWidth    = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
@@ -594,9 +589,9 @@ define(function(require){
         });
 
         //Create the sony-scroller instance
-        setTimeout(function(){
+        setTimeout(function() {
 
-          if(self.scrollerModule !== null){
+          if (self.scrollerModule !== null) {
             self.scrollerModule.destroy();
             self.scrollerModule = null;
           }
@@ -627,7 +622,7 @@ define(function(require){
 
         self.$win.on('resize.rp', $.debounce(50 , function() {
 
-          if(self.$win.width() < 479){
+          if (self.$win.width() < 479) {
             self.scrollerModule.centerItems = true;
           }else{
             self.scrollerModule.centerItems = false;
@@ -637,7 +632,7 @@ define(function(require){
           gutterWidth        = 0,
           colWidth           = 0;
 
-          if(self.$win.width() > 767){
+          if (self.$win.width() > 767) {
             gutterWidth = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
             colWidth    = ( Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
           }else{
@@ -677,17 +672,15 @@ define(function(require){
         }));
 
 
-
         self.$win.trigger('resize.rp');
-
       },
 
-      tapOrClick: function(){
+      tapOrClick: function() {
         var self = this;
         return self.hasTouch ? self.upEvent : self.clickEvent ;
       },
 
-      createNavigation: function(){
+      createNavigation: function() {
 
         var self = this;
 
@@ -710,7 +703,7 @@ define(function(require){
           'buttonCount': self.numSlides
         });
 
-        self.$pagination.on('SonyNavDots:clicked', function(e, a){
+        self.$pagination.on('SonyNavDots:clicked', function(e, a) {
           self.currentId = a;
           self.moveTo();
         });
@@ -721,7 +714,7 @@ define(function(require){
           });
 
 
-          if( self.$html.hasClass('lt-ie9') ){
+          if ( self.$html.hasClass('lt-ie9') ) {
             var height = 0;
             self.$pagination.css('display' , 'none');
             height = self.$pagination.get(0).offsetHeight;
@@ -732,32 +725,29 @@ define(function(require){
 
 
         }));
-
-
-
       },
 
 
-      createPaddles: function(){
+      createPaddles: function() {
 
         var self = this;
 
 
         self.$el.sonyPaddles();
 
-        self.$el.on('sonyPaddles:clickLeft', function(){
+        self.$el.on('sonyPaddles:clickLeft', function() {
           self.currentId --;
-          if(self.currentId < 0){
+          if (self.currentId < 0) {
             self.currentId = 0;
           }
 
           self.moveTo();
         });
 
-        self.$el.on('sonyPaddles:clickRight', function(){
+        self.$el.on('sonyPaddles:clickRight', function() {
           self.currentId ++;
 
-          if(self.currentId >= self.$slides.length){
+          if (self.currentId >= self.$slides.length) {
             self.currentId = self.$slides.length - 1;
           }
 
@@ -771,19 +761,19 @@ define(function(require){
 
 
 
-      onPaddleNavUpdate: function(){
+      onPaddleNavUpdate: function() {
         var self = this;
 
         self.$el.sonyPaddles('showPaddle', 'right');
         self.$el.sonyPaddles('showPaddle', 'left');
 
         //check for the left paddle compatibility
-        if(self.currentId === 0){
+        if (self.currentId === 0) {
           self.$el.sonyPaddles('hidePaddle', 'left');
         }
 
         //check for right paddle compatiblity
-        if(self.currentId === self.numSlides - 1){
+        if (self.currentId === self.numSlides - 1) {
           self.$el.sonyPaddles('hidePaddle', 'right');
         }
 
@@ -791,10 +781,10 @@ define(function(require){
 
       },
 
-      togglePaddles: function (turnOn){
+      togglePaddles: function (turnOn) {
         var self = this;
 
-        if(turnOn){
+        if (turnOn) {
           self.$el.find('.pagination-paddles').show();
         }else{
           self.$el.find('.pagination-paddles').hide();
@@ -803,7 +793,7 @@ define(function(require){
 
       },
 
-      createShuffle: function(){
+      createShuffle: function() {
         var self = this;
 
         self.shuffle = self.$shuffleContainers.shuffle({
@@ -823,13 +813,13 @@ define(function(require){
       },
 
       //Stops processing of jQuery.shuffle instances that are not currently active
-      toggleShuffles: function(){
+      toggleShuffles: function() {
 /*        var self = this;
 
-        self.$shuffleContainers.each(function(i){
+        self.$shuffleContainers.each(function(i) {
           var $shfflContainer = $(this),
             sfflInst = $shfflContainer.data('shuffle');
-            if(i === self.currentId ){
+            if (i === self.currentId ) {
               sfflInst.enable();
             }else{
               sfflInst.enable();
@@ -895,10 +885,10 @@ define(function(require){
         return self;
       },
 
-      setSortPriorities: function(){
+      setSortPriorities: function() {
         var self = this;
 
-        self.$slides.each(function(){
+        self.$slides.each(function() {
 
           var $slide     = $(this),
           $items         = $slide.find('.gallery-item'),
@@ -916,28 +906,28 @@ define(function(require){
           FOUR     = 4,
           FIVE     = 5;
 
-          $items.each(function(){
+          $items.each(function() {
             var $item = $(this);
             //covers off on sorting blank tiles
-            if(slideVariation === '4up'){
-              if($item.hasClass( MEDIUM )){
+            if (slideVariation === '4up') {
+              if ($item.hasClass( MEDIUM )) {
                 $item.data( PRIORITY , FIVE );
-              }else if($item.hasClass( NORMAL ) && !hitNormalYet){
+              }else if ($item.hasClass( NORMAL ) && !hitNormalYet) {
                 $item.data( PRIORITY , TWO );
                 hitNormalYet = true;
-              }else if($item.hasClass( BLANK )){
+              }else if ($item.hasClass( BLANK )) {
                 $item.data( PRIORITY , THREE );
               }
-              else if($item.hasClass( NORMAL ) && hitNormalYet === true){
+              else if ($item.hasClass( NORMAL ) && hitNormalYet === true) {
                 $item.data( PRIORITY , FOUR );
               }
-            }else if ( slideVariation === '3up' ){
-              if($item.hasClass( MEDIUM )){
+            }else if ( slideVariation === '3up' ) {
+              if ($item.hasClass( MEDIUM )) {
                 $item.data(PRIORITY , TWO );
-              }else if($item.hasClass( NORMAL )){
+              }else if ($item.hasClass( NORMAL )) {
                 $item.data(PRIORITY , THREE );
               }
-              if($item.hasClass( BLANK )){
+              if ($item.hasClass( BLANK )) {
                  $item.data(PRIORITY , 100);
               }
             }
@@ -951,7 +941,7 @@ define(function(require){
 
         if ( isTablet && !self.sorted ) {
 
-          self.$shuffleContainers.each(function(){
+          self.$shuffleContainers.each(function() {
 
             var $shuffleContainer = $(this),
             slideVariation = $shuffleContainer.parent().data('variation').split('-')[2];
@@ -960,7 +950,7 @@ define(function(require){
               by: function($el) {
                 var priority = $el.hasClass('plate') ? 1 : $el.hasClass('medium') ? 2 : 3;
 
-                if(slideVariation == '4up' || slideVariation == '3up'){
+                if (slideVariation === '4up' || slideVariation === '3up') {
                   priority = $el.data('priority');
                 }
                 // Returning undefined to the sort plugin will cause it to revert to the original array
@@ -977,24 +967,24 @@ define(function(require){
 
       },
 
-      checkForBreakpoints: function(){
+      checkForBreakpoints: function() {
         var self = this,
         wW       = self.$win.width(),
         view     = wW > self.LANDSCAPE_BREAKPOINT ? 'desktop' : wW > self.MOBILE_BREAKPOINT ? 'tablet' : 'mobile',
         wasMobile = false;
 
         //if the browser doesnt support media queries...IE default to desktop
-        if(!Modernizr.mediaqueries || self.$html.hasClass('lt-ie10')){
+        if (!Modernizr.mediaqueries || Settings.isLTIE10) {
           view = 'desktop';
         }
 
         //self.log('checking for breakpoints...');
 
-        switch(view){
+        switch(view) {
           case 'desktop':
 
 
-            if(self.mode === 'suggested'){
+            if (self.mode === 'suggested') {
               self.$el.find('.gallery-item').addClass('span6');
               self.$el.removeClass('grid')
               .addClass('slimgrid');
@@ -1004,7 +994,7 @@ define(function(require){
             }
 
            //check if we are coming out of mobile
-            if(self.isMobileMode === true){
+            if (self.isMobileMode === true) {
               wasMobile = true;
               self.returnToFullView();
 
@@ -1013,7 +1003,7 @@ define(function(require){
 
             self.isTabletMode = self.isMobileMode = self.hasInitedMobile = false;
 
-            if(self.isDesktopMode === true){
+            if (self.isDesktopMode === true) {
               // self.log('already desktop');
               //return;
             }
@@ -1023,14 +1013,14 @@ define(function(require){
             self.$el.removeClass('rp-tablet rp-mobile')
                                     .addClass('rp-desktop');
 
-            if(self.scrollerModule !== null || wasMobile){
+            if (self.scrollerModule !== null || wasMobile) {
               //self.log('destroying scroller');
               self.scrollerModule.destroy();
               self.scrollerModule = null;
 
             }
 
-            if(self.shuffle === null || wasMobile){
+            if (self.shuffle === null || wasMobile) {
               //self.log('creating shuffle');
               self.$container.css('width' , '100%');
               self.createShuffle();
@@ -1044,7 +1034,7 @@ define(function(require){
 
             self.$el.css('margin-top' , '-20px');
 
-            if(!self.hasTouch){
+            if (!self.hasTouch) {
               self.togglePaddles(true);
             }
 
@@ -1055,7 +1045,7 @@ define(function(require){
 
             wasMobile = self.isMobileMode;
 
-            if(self.mode === 'suggested'){
+            if (self.mode === 'suggested') {
               self.$el.find('.gallery-item').addClass('span6');
               self.$el.removeClass('slimgrid')
               .addClass('grid');
@@ -1064,11 +1054,11 @@ define(function(require){
             }
 
             //check if we are coming out of mobile
-            if(self.isMobileMode === true){
+            if (self.isMobileMode === true) {
               self.returnToFullView();
             }
 
-            if(self.isTabletMode === true){
+            if (self.isTabletMode === true) {
               return;
             }
 
@@ -1078,12 +1068,12 @@ define(function(require){
             self.$el.removeClass('rp-desktop rp-mobile')
                     .addClass('rp-tablet');
 
-            if(self.scrollerModule !== null){
+            if (self.scrollerModule !== null) {
               self.scrollerModule.destroy();
               self.scrollerModule = null;
             }
 
-            if(self.shuffle === null){
+            if (self.shuffle === null) {
               self.$container.css('width' , '100%');
               self.createShuffle();
             }
@@ -1094,7 +1084,7 @@ define(function(require){
 
             self.$el.css('margin-top' , '-20px');
 
-            if(!self.hasTouch){
+            if (!self.hasTouch) {
               self.togglePaddles(true);
             }
 
@@ -1102,11 +1092,11 @@ define(function(require){
 
           case 'mobile':
 
-            if(self.isMobileMode === true){
+            if (self.isMobileMode === true) {
               return;
             }
 
-            if(self.mode === 'suggested'){
+            if (self.mode === 'suggested') {
               self.$el.find('.gallery-item').removeClass('span6');
               self.$el.removeClass('grid slimgrid');
               self.sortTagLines2up();
@@ -1120,15 +1110,15 @@ define(function(require){
                     .addClass('rp-mobile');
 
             //Destroy the shuffle instance
-            if(self.shuffle !== null){
+            if (self.shuffle !== null) {
               self.shuffle.destroy();
               self.shuffle = null;
               self.sorted = false;
 
-              self.$shuffleContainers.each(function(){
+              self.$shuffleContainers.each(function() {
                 var shfflInst = $(this).data('shuffle');
 
-                if(shfflInst !== undefined){
+                if (shfflInst !== undefined) {
                   shfflInst.destroy();
                   shfflInst = null;
                 }
@@ -1143,7 +1133,7 @@ define(function(require){
 
             iQ.update();
 
-            if(self.scrollerModule !== null){
+            if (self.scrollerModule !== null) {
               self.scrollerModule.destroy();
               self.scrollerModule = null;
             }
@@ -1171,8 +1161,8 @@ define(function(require){
       setGrabCursor:function() {
         var self = this;
 
-        if(!self.hasTouch) {
-          if(self.grabbingCursor) {
+        if (!self.hasTouch) {
+          if (self.grabbingCursor) {
             self.sliderOverflow.css('cursor', self.grabbingCursor);
           } else {
             self.sliderOverflow.removeClass('grab-cursor');
@@ -1181,60 +1171,60 @@ define(function(require){
         }
       },
 
-      updateSliderSize: function(){
+      updateSliderSize: function() {
         var self = this,
         newHeight = $('.shuffle-container').eq(0).height();
 
         //handle stuff for old IE
-        if( self.oldIE ){
+        if ( self.oldIE ) {
           self.$el.css( 'height' , 495 + 'px' );
 
           return;
         }
 
-        if(self.mode === 'suggested'){
+        if (self.mode === 'suggested') {
           return;
         }
 
         //handle resize for various layouts
-        if(self.isTabletMode === true){
-          if( newHeight === 0 ){
+        if (self.isTabletMode === true) {
+          if ( newHeight === 0 ) {
             newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.984615385 );
             //self.log('using alternate height calculatio >>> TABLET' , newHeight);
           }
 
          self.$el.css( 'height' , newHeight + 14 + 'px' );
 
-          if(!!self.isTabbedContainer){
+          if (!!self.isTabbedContainer) {
             self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 62 + 'px');
           }
           return;
         }
 
-        if(self.isMobileMode === true){
+        if (self.isMobileMode === true) {
           self.$el.css('height' , 290);
-          if(!!self.isTabbedContainer){
+          if (!!self.isTabbedContainer) {
             self.$tabbedContainer.css('height' , 290);
           }
           return;
         }
 
-        if( newHeight === 0 ){
+        if ( newHeight === 0 ) {
           newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.509803922 );
            //self.log('using alternate height calculation >>> Desktop' , newHeight);
         }
 
-        if(self.$win.width() < 1120){
+        if (self.$win.width() < 1120) {
           newHeight += 20;
         }
 /*
-        if(self.$win.width() > 1200){
+        if (self.$win.width() > 1200) {
           newHeight -= 40;
         }*/
 
         self.$el.css( 'height' , newHeight + 0 + 'px' );
 
-        if(!!self.isTabbedContainer){
+        if (!!self.isTabbedContainer) {
           self.$tabbedContainer.css('height' , newHeight + 0 + 'px');
         }
       },
@@ -1260,17 +1250,17 @@ define(function(require){
         };
       },
 
-      onDragStart : function(e){
+      onDragStart : function(e) {
         var self = this,
             point;
 
         self.dragSuccess = false;
 
-        if(self.hasTouch){
+        if (self.hasTouch) {
           var touches = e.originalEvent.touches;
-          if(touches && touches.length > 0){
+          if (touches && touches.length > 0) {
             point = touches[0];
-            if(touches.length > 1){
+            if (touches.length > 1) {
               self.multipleTouches = true;
             }
           }else{
@@ -1280,7 +1270,7 @@ define(function(require){
           point = e;
           e.preventDefault();
 
-          if(e.which !== 1){
+          if (e.which !== 1) {
             return;
           }
         }
@@ -1301,15 +1291,15 @@ define(function(require){
         self.startInteractionPointX = point.pageX;
         self.handleStartPosition = self.getPagePosition(e);
 
-        if(self.hasTouch) {
+        if (self.hasTouch) {
           self.sliderOverflow.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
         }
 
       },
 
-      renderMovement: function(point , isThumbs){
+      renderMovement: function(point , isThumbs) {
         var self = this;
-        if(self.checkedAxis) {
+        if (self.checkedAxis) {
 
           var timeStamp = self.renderMoveTime,
           deltaX        = point.pageX - self.pageX,
@@ -1327,22 +1317,22 @@ define(function(require){
 
           var pointPos = isHorizontal ? self.pageX : self.pageY;
 
-          if(mAxis === 'x' && deltaX !== 0) {
+          if (mAxis === 'x' && deltaX !== 0) {
               self.horDir = deltaX > 0 ? 1 : -1;
-          } else if(mAxis === 'y' && deltaY !== 0) {
+          } else if (mAxis === 'y' && deltaY !== 0) {
               self.verDir = deltaY > 0 ? 1 : -1;
           }
 
           var deltaPos = isHorizontal ? deltaX : deltaY;
 
-          if(!self.loop) {
-            if(self.currSlideId <= 0) {
-              if(pointPos - self.startPagePos > 0) {
+          if (!self.loop) {
+            if (self.currSlideId <= 0) {
+              if (pointPos - self.startPagePos > 0) {
                   newPos = self.currRenderPosition + deltaPos * self.lastItemFriction;
               }
             }
-            if(self.currSlideId >= self.numSlides - 1) {
-              if(pointPos - self.startPagePos < 0) {
+            if (self.currSlideId >= self.numSlides - 1) {
+              if (pointPos - self.startPagePos < 0) {
                   newPos = self.currRenderPosition + deltaPos * self.lastItemFriction ;
               }
             }
@@ -1366,7 +1356,7 @@ define(function(require){
         pos      = self.sPosition = posi;
 
         //using transforms
-        if(self.useCSS3Transitions) {
+        if (self.useCSS3Transitions) {
           var animObj                       = {};
           animObj[ self.prefixed(self.TD) ] = 0 + 'ms';
           animObj[ self.xProp ]             = self.tPref1 + (pos + self.tPref2 + 0) + self.tPref3;
@@ -1378,7 +1368,7 @@ define(function(require){
         }
       },
 
-      dragRelease: function(e, isThumbs){
+      dragRelease: function(e, isThumbs) {
         var self = this,
         totalMoveDist,
         accDist,
@@ -1400,7 +1390,7 @@ define(function(require){
         //stop listening on the document for movement
         self.$doc.off(self.moveEvent).off(self.upEvent);
 
-        if(self.hasTouch) {
+        if (self.hasTouch) {
             self.sliderOverflow.off(self.cancelEvent);
         }
 
@@ -1409,7 +1399,7 @@ define(function(require){
        // self.setGrabCursor(); // remove grabbing hand
         var orient = true;
 
-        if(!self.hasMoved) {
+        if (!self.hasMoved) {
             return;
         }
 
@@ -1417,9 +1407,9 @@ define(function(require){
         self.currMoveAxis = '';
 
         function getCorrectSpeed(newSpeed) {
-            if(newSpeed < 100) {
+            if (newSpeed < 100) {
                 return 100;
-            } else if(newSpeed > 500) {
+            } else if (newSpeed > 500) {
                 return 500;
             }
             return newSpeed;
@@ -1430,7 +1420,7 @@ define(function(require){
           newDist = Math.abs(self.sPosition  - newPos);
           self.currAnimSpeed = newDist / v0;
 
-          if(isSlow) {
+          if (isSlow) {
               self.currAnimSpeed += 250;
           }
           self.currAnimSpeed = getCorrectSpeed(self.currAnimSpeed);
@@ -1461,16 +1451,16 @@ define(function(require){
         v0 = Math.abs(accDist) / duration;
 
 
-        if( totalMoveDist > self.hasTouch ? Math.abs(self.currentContainerWidth * 0.25) : Math.abs(self.currentContainerWidth * 0.5) ){
+        if ( totalMoveDist > self.hasTouch ? Math.abs(self.currentContainerWidth * 0.25) : Math.abs(self.currentContainerWidth * 0.5) ) {
 
-          if(dragDirection === 1){
+          if (dragDirection === 1) {
             self.currentId ++;
-            if(self.currentId >= self.$slides.length){
+            if (self.currentId >= self.$slides.length) {
               self.currentId = self.$slides.length - 1;
             }
           }else{
             self.currentId --;
-           if(self.currentId < 0){
+           if (self.currentId < 0) {
             self.currentId = 0;
            }
           }
@@ -1482,20 +1472,20 @@ define(function(require){
 
       },
 
-      dragMove: function(e , isThumbs){
+      dragMove: function(e , isThumbs) {
         var self = this,
             distX = self.getPagePosition(e).x - self.handleStartPosition.x,
             distY = self.getPagePosition(e).y - self.handleStartPosition.y,
             point,
             distanceMoved;
 
-        if(self.hasTouch) {
-          if(self.lockAxis) {
+        if (self.hasTouch) {
+          if (self.lockAxis) {
               return;
           }
           var touches = e.originalEvent.touches;
-          if(touches) {
-              if(touches.length > 1) {
+          if (touches) {
+              if (touches.length > 1) {
                 return;
               } else {
                 point = touches[0];
@@ -1511,16 +1501,16 @@ define(function(require){
 
         //log( distanceMoved );
 
-        if(!self.hasMoved) {
-          if(self.useCSS3Transitions) {
+        if (!self.hasMoved) {
+          if (self.useCSS3Transitions) {
             self.$container.css( self.prefixed( self.TD ) , '0s' );
           }
-          (function animloop(){
-            if(self.isDragging) {
+          (function animloop() {
+            if (self.isDragging) {
               self.animFrame = window.requestAnimationFrame(animloop);
 
 
-              if(self.renderMoveEvent && distanceMoved > 10){
+              if (self.renderMoveEvent && distanceMoved > 10) {
 
                 self.renderMovement(self.renderMoveEvent, isThumbs);
               }
@@ -1534,27 +1524,27 @@ define(function(require){
           return;
         }
 
-       if(!self.checkedAxis) {
+       if (!self.checkedAxis) {
 
           var dir = true,
           diff    = (Math.abs(point.pageX - self.pageX) - Math.abs(point.pageY - self.pageY) ) - (dir ? -7 : 7);
 
-          if(diff > 7) {
+          if (diff > 7) {
             // horizontal movement
-            if(dir) {
+            if (dir) {
               e.preventDefault();
               self.currMoveAxis = 'x';
-            } else if(self.hasTouch) {
+            } else if (self.hasTouch) {
               //self.completeGesture();
               return;
             }
             self.checkedAxis = true;
-          } else if(diff < -7) {
+          } else if (diff < -7) {
             // ver movement
-            if(!dir) {
+            if (!dir) {
               e.preventDefault();
               self.currMoveAxis = 'y';
-            } else if(self.hasTouch) {
+            } else if (self.hasTouch) {
               //self.completeGesture();
               return;
             }
@@ -1570,30 +1560,30 @@ define(function(require){
         self.renderMoveEvent = point;
       },
 
-      updateSlides: function(){
+      updateSlides: function() {
         var self        = this,
         cw              = self.currentContainerWidth = self.$container.outerWidth(),
         animObj         = {},
         newPos          = (-self.currentId * cw),
         widthDifference = (self.$win.width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
 
-        if( widthDifference > 0 && !self.isIE7orIE8 ){
+        if ( widthDifference > 0 && !self.isIE7orIE8 ) {
           newPos += Math.ceil(widthDifference);
         }
 
-        if( self.isIE7orIE8 && self.$win.width() <= 910 ){
+        if ( self.isIE7orIE8 && self.$win.width() <= 910 ) {
           cw = 910;
           newPos = ( -self.currentId * cw );
           newPos -= (910 - self.$win.width() ) * 0.5;
-        }else if( self.isIE7orIE8 ){
+        }else if ( self.isIE7orIE8 ) {
           newPos += Math.ceil(widthDifference);
         }
 
-        if(self.mode === 'suggested'){
+        if (self.mode === 'suggested') {
           return;
         }
 
-        self.$slides.each(function(i){
+        self.$slides.each(function(i) {
 
           $(this).css({
             'left'    : i * cw + 'px'
@@ -1603,13 +1593,13 @@ define(function(require){
         });
 
 
-        if( !self.useCSS3Transitions ) {
+        if ( !self.useCSS3Transitions ) {
 
           //jquery fallback
           animObj[ self.xProp ] = newPos;
           self.$container.animate(animObj, 0);
         }else {
-          if( self.isMobileMode ){
+          if ( self.isMobileMode ) {
             return;
           }
           animObj[ self.prefixed( self.TD ) ] = 0 + 'ms';
@@ -1619,7 +1609,7 @@ define(function(require){
         }
       },
 
-      moveTo: function( velocity ){
+      moveTo: function( velocity ) {
         var self        = this,
         newPos          = -self.currentId * self.currentContainerWidth,
         animObj         = {},
@@ -1627,41 +1617,41 @@ define(function(require){
         widthDifference = ( self.$win.width() - $('.rp-slide').eq(0).outerWidth(true) ) * ( 0.5 );
 
         function getCorrectSpeed( newSpeed ) {
-            if( newSpeed < 100 ) {
+            if ( newSpeed < 100 ) {
                 return 80;
-            } else if( newSpeed > 500 ) {
+            } else if ( newSpeed > 500 ) {
                 return 400;
             }
             return newSpeed;
         }
 
-        if( self.isIE7orIE8 && self.$win.width() <= 910 ){
+        if ( self.isIE7orIE8 && self.$win.width() <= 910 ) {
           newPos =  -self.currentId * 910 ;
           newPos -= (910 - self.$win.width() ) * 0.5;
           newDist = Math.abs(self.sPosition  - newPos);
-        }else if( self.isIE7orIE8 ){
+        }else if ( self.isIE7orIE8 ) {
           newPos += Math.ceil(widthDifference);
         }
 
         self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
 
-        if( isNaN(self.currAnimSpeed) ){
+        if ( isNaN(self.currAnimSpeed) ) {
           self.currAnimSpeed = self.animationSpeed;
         }
 
-        if( widthDifference > 0 && !self.isIE7orIE8 ){
+        if ( widthDifference > 0 && !self.isIE7orIE8 ) {
           newPos += Math.ceil( widthDifference );
         }
 
         //jQuery animation fallback
-        if( !self.useCSS3Transitions ) {
+        if ( !self.useCSS3Transitions ) {
           animObj[ self.xProp ] = newPos;
           self.$container.animate( animObj, self.currAnimSpeed );
         }else{
           //css3 transition
           animObj[ self.prefixed( self.TD ) ]  = self.currAnimSpeed + 'ms';
 
-          if(self.currAnimSpeed === self.animationSpeed){
+          if (self.currAnimSpeed === self.animationSpeed) {
             animObj[ self.prefixed( self.TTF )  ] = self.css3Easing.easeOutBack;
           }else{
             animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.sonyScrollEase;
@@ -1671,7 +1661,7 @@ define(function(require){
           self.$container.css( animObj );
 
           //IQ Update
-          self.$container.one(self.transitionEndName , function(){
+          self.$container.one(self.transitionEndName , function() {
             //Shuffle optimization
             self.toggleShuffles();
             iQ.update();
@@ -1686,13 +1676,13 @@ define(function(require){
         self.ev.trigger('rpOnUpdateNav');
       },
 
-      returnToFullView: function(){
+      returnToFullView: function() {
         var self = this;
-        if(self.isDesktopMode === false){
+        if (self.isDesktopMode === false) {
           self.isDesktopMode = true;
 
 
-          self.$galleryItems.each(function(){
+          self.$galleryItems.each(function() {
             var item = $(this).removeClass('small-size mobile-item'),
                 slide = item.data('slide');
                 item.appendTo(slide);
@@ -1702,26 +1692,26 @@ define(function(require){
           self.$container.append(self.$slides);
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
 
-          if(!self.hasTouch){
+          if (!self.hasTouch) {
             self.$paddles.show();
           }
 
           //make sure slides are in the right place after re-building
-          setTimeout(function(){
+          setTimeout(function() {
             self.updateSlides();
           } , 750);
 
         }
       },
 
-      sortTagLines2up: function(){
+      sortTagLines2up: function() {
         var self = this,
             $taglines = self.$el.find('.product-tagline');
 
-        $taglines.each(function(){
+        $taglines.each(function() {
           var $line = $(this);
 
-          if( $line.height() / parseInt($line.css('line-height') , 10 ) >= 2 ){
+          if ( $line.height() / parseInt($line.css('line-height') , 10 ) >= 2 ) {
             $line.parent().addClass('two-line');
 
           }
@@ -1730,24 +1720,24 @@ define(function(require){
 
       },
 
-      disableShuffle: function(){
+      disableShuffle: function() {
         var self = this;
-        self.$shuffleContainers.each(function(){
+        self.$shuffleContainers.each(function() {
           var sffleInst = $(this).data('shuffle');
-          if(sffleInst !== undefined || sffleInst !== null){
-            if(sffleInst){
+          if (sffleInst !== undefined || sffleInst !== null) {
+            if (sffleInst) {
                sffleInst.disable();
             }
           }
         });
       },
 
-      enableShuffle: function(){
+      enableShuffle: function() {
         var self = this;
-        self.$shuffleContainers.each(function(){
+        self.$shuffleContainers.each(function() {
           var sffleInst = $(this).data('shuffle');
-          if(sffleInst !== undefined || sffleInst !== null){
-            if(sffleInst){
+          if (sffleInst !== undefined || sffleInst !== null) {
+            if (sffleInst) {
                sffleInst.enable();
             }
           }
@@ -1759,7 +1749,7 @@ define(function(require){
             wW = self.$win.width(),
             px = 'px';
 
-        if(!self.paddlesEnabled){
+        if (!self.paddlesEnabled) {
           return;
         }
 
@@ -1779,7 +1769,7 @@ define(function(require){
             top :  plateHeight,
             left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + px
           });
-        }else if(self.mq('(min-width: 569px)') && hasPlate){
+        }else if (self.mq('(min-width: 569px)') && hasPlate) {
 
           self.$rightPaddle.css({
             top :  plateHeight + 130,
@@ -1795,7 +1785,7 @@ define(function(require){
 
       },
 
-      updateTiles: function(){
+      updateTiles: function() {
         var self = this,
         isFullView = self.mq('(min-width: 981px)'),
         $mediumTile = null,
@@ -1804,14 +1794,14 @@ define(function(require){
         slideVariation = '',
         radix = 10;
 
-        if(self.isMobileMode){
+        if (self.isMobileMode) {
           $mediumTile = self.$slides.find('.gallery-item.medium .product-img').first();
           $mediumTile.css('height' , '');
 
           return;
         }
 
-        self.$slides.each(function(){
+        self.$slides.each(function() {
           var $slide = $(this);
 
           slideVariation = $slide.data('variation').split('-')[2].toLowerCase();
@@ -1820,13 +1810,13 @@ define(function(require){
           $normalTile = $slide.find('.gallery-item.normal').first();
 
           var tileHeight = $slide.find('.gallery-item.plate').first().height() +  ( self.mq('(max-width: 769px)') ? 26 : 0 ),
-              testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true),
+              // testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true),
               maxHeight = tileHeight;
 
-          if(slideVariation !== '3up'){
+          if (slideVariation !== '3up') {
 
 
-            if(slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769){
+            if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
               maxHeight = 204;
             }
 
@@ -1837,9 +1827,9 @@ define(function(require){
 
           }
 
-          switch( slideVariation ){
+          switch( slideVariation ) {
             case '5up':
-              if(isFullView){
+              if (isFullView) {
                 newHeight = $normalTile.outerHeight(true) + $normalTile.find('.product-img').height();
                 $mediumTile.css({
                   'height' : newHeight + 'px'
@@ -1853,7 +1843,7 @@ define(function(require){
             break;
 
             case '4up':
-              if(isFullView){
+              if (isFullView) {
                 newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt( $normalTile.css('marginTop'), radix );
                 $mediumTile.css({
                   'height' : newHeight + 'px'
@@ -1865,7 +1855,7 @@ define(function(require){
             break;
 
             case '3up':
-              if(isFullView){
+              if (isFullView) {
                 newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt( $normalTile.css('marginTop'), radix );
                 $mediumTile.css({
                   'height' : newHeight + 'px'
@@ -1886,12 +1876,12 @@ define(function(require){
 
       },
 
-      checkTileHeights: function(){
+      checkTileHeights: function() {
         var self = this,
         prodImg = self.$galleryItems.filter('.normal').find('.product-img'),
         newHeight = prodImg.first().height();
 
-        if(self.$win.width() < 569 || self.mode === 'strip'){
+        if (self.$win.width() < 569 || self.mode === 'strip') {
           newHeight = '100%';
         }
 
@@ -1901,18 +1891,18 @@ define(function(require){
 
       },
 
-      animateTiles: function(){
+      animateTiles: function() {
         var self = this,
         totalAnimationDelay = 0;
 
         self.$el.removeClass('redrawing');
 
-        if(self.oldIE){
+        if (self.oldIE) {
           self.$pagination.stop(true,true).fadeIn(250);
           return;
         }
 
-        self.$galleryItems.not('.blank').each(function(){
+        self.$galleryItems.not('.blank').each(function() {
 
           var $item = $(this),
           animationDelay = 0;
@@ -1923,9 +1913,9 @@ define(function(require){
 
           animationDelay = $item.hasClass('plate') ? 0 : $item.hasClass('medium') ? 25 : 2000;
 
-          if($item.hasClass('plate') === true){
+          if ($item.hasClass('plate') === true) {
             animationDelay = 0;
-          }else if($item.hasClass('medium') === true){
+          }else if ($item.hasClass('medium') === true) {
              animationDelay = 150;
           }else{
              animationDelay = 250 + Math.floor(Math.random() * 500);
@@ -1933,28 +1923,28 @@ define(function(require){
 
           totalAnimationDelay += animationDelay;
 
-          $item.stop(true,true).delay(animationDelay).animate({ opacity: 1 },{ duration: 250 , complete: function(){}});
+          $item.stop(true,true).delay(animationDelay).animate({ opacity: 1 },{ duration: 250 , complete: function() {}});
 
         });
 
         totalAnimationDelay = Math.min( 750 , totalAnimationDelay );
 
-        if( totalAnimationDelay > 0 ){
-          setTimeout( function(){
-            if(!self.isMobileMode){
+        if ( totalAnimationDelay > 0 ) {
+          setTimeout( function() {
+            if (!self.isMobileMode) {
               self.$pagination.stop(true,true).fadeIn(250);
             }
 
           }, totalAnimationDelay );
         }else{
-          if(!self.isMobileMode){
+          if (!self.isMobileMode) {
            self.$pagination.stop(true,true).fadeIn(250);
           }
         }
 
       },
 
-      initMobileBreakpoint: function(){
+      initMobileBreakpoint: function() {
         var self = this;
 
         //Cancel touch events for the 'slideshow'
@@ -1967,7 +1957,7 @@ define(function(require){
         self.$pagination.hide();
 
         //attemp to place the title plates in the first position before detaching
-        self.$slides.each(function(){
+        self.$slides.each(function() {
           var $s = $(this),
           $plate = $s.find('.plate').eq(0);
 
@@ -1996,9 +1986,9 @@ define(function(require){
         self.$el.find('.gallery-item.medium .product-img').css('height' , '');
 
         //init the scroller module
-        setTimeout(function(){
+        setTimeout(function() {
 
-          if(self.scrollerModule !== null){
+          if (self.scrollerModule !== null) {
             self.scrollerModule.destroy();
             self.scrollerModule = null;
           }
@@ -2043,7 +2033,7 @@ define(function(require){
 
       },
 
-      onScrollerEnd: function(){
+      onScrollerEnd: function() {
         var self = this;
 
         iQ.update();
@@ -2071,7 +2061,7 @@ define(function(require){
         return this;
       },
 
-      setupEasing: function(){
+      setupEasing: function() {
         var self = this;
 
         //Define easing equations
@@ -2088,10 +2078,10 @@ define(function(require){
     $.fn.relatedProducts = function(options) {
       var args = arguments;
 
-      return this.each(function(){
+      return this.each(function() {
         var self = $(this);
-        if (typeof options === "object" ||  !options) {
-          if( !self.data('relatedProducts') ) {
+        if (typeof options === 'object' || !options) {
+          if ( !self.data('relatedProducts') ) {
             self.data('relatedProducts', new RelatedProducts(self, options));
           }
         } else {
@@ -2111,7 +2101,7 @@ define(function(require){
       navigationControl: 'bullets'
     };
 
-    return self;
+    return module;
 
 });
 
@@ -2120,13 +2110,13 @@ define(function(require){
   Tab system for managing multiple
   instances of related products
 */
-$(function(){
+$(function() {
   /*
     figure out tabbed stuff here and let that
     module instantiate the related products that its bound to
   */
 
-  if($('.rp-container-tabbed').length === 0){
+  if ( !$('.rp-container-tabbed').length ) {
     $('.rp-tabs').hide();
     return;
   }
@@ -2158,12 +2148,12 @@ $(function(){
 
   $tabs.eq(0).addClass('active');
 
-  if($tabs.length > 0){
-    var handleTabClick = function(e){
+  if ($tabs.length > 0) {
+    var handleTabClick = function(e) {
       var $tab = $(this),
-      visibleObj = function(visibleBool , zIndx){
+      visibleObj = function(visibleBool , zIndx) {
         var cssO = {'visibility' : visibleBool === true ? 'visible' : 'hidden'};
-        if(zIndx !== undefined){
+        if (zIndx !== undefined) {
           cssO.zIndex = zIndx;
         }
         return cssO;
@@ -2173,17 +2163,17 @@ $(function(){
       $tabs.removeClass('active');
       $tab.addClass('active');
 
-      newPanelId = $tab.data('rpPanelId');
+      var newPanelId = $tab.data('rpPanelId');
 
-      if(newPanelId === currentPanelId) {
+      if (newPanelId === currentPanelId) {
         return;
       }
-      $oldPanel = $currentPanel;
+      var $oldPanel = $currentPanel;
       currentPanelId = newPanelId;
       $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
 
       $oldPanel.css(visibleObj(true, 1));
-      $oldPanel.stop(true,true).animate({ opacity: 0 },{ duration: 500 , delay: 0 , complete: function(){
+      $oldPanel.stop(true,true).animate({ opacity: 0 },{ duration: 500 , delay: 0 , complete: function() {
         $oldPanel.css(visibleObj(false, 0));
         $oldPanel.data('relatedProducts').disableShuffle();
       }});
