@@ -14,13 +14,14 @@ $tabletMax: px-em(979);
 
       li {
         width:auto;
-        padding:8px 0;
+        padding:8px;
         height:42px;
       }
         img {
           width:55px;
           height:42px;
-          margin:0 5px;
+          margin:0 auto;
+          float: none;
         }
         i, span {display:none;}
     }
@@ -46,18 +47,17 @@ $tabletMax: px-em(979);
 
       li {
         line-height:14px;
-        padding:15px 0;
+        padding:10px 0;
         height:14px;
         width:auto;
       }
-        img, i {display:none;}
-        span {
-          height:14px;
-          display:block;
-          overflow:hidden;
-        }
-        .oneLine,
-        .twoLine {top:0;}
+      img, i {display:none;}
+      .label-container {
+        top: 1px;
+        height:14px;
+        display:block;
+        overflow:hidden;
+      }
     }
   }
   &.top-nav .thumb-nav {
@@ -73,7 +73,6 @@ $tabletMax: px-em(979);
 .editorial-chapters-container {
 
   .thumb-nav {
-    width:100% !important;
     overflow: hidden;
 
     .left-shade,
@@ -97,6 +96,10 @@ $tabletMax: px-em(979);
 
 @media (max-width: 909px) {
   .editorial-chapters-container {
+    .container {
+      width:100% !important;
+    }
+
     @include compact-thumb-nav;
   }
 
@@ -160,13 +163,25 @@ $tabletMax: px-em(979);
   .span7 .editorial-chapters-container.text-mode .thumb-nav {width:470px;}
 }
 
-@media (min-width: 960px) {
+
+@media (min-width: 910px) {
   .container,
   .span12 {
     & > .editorial-chapters-container {
       .slider {width:auto !important;}
     }
   }
+
+  .editorial-chapters-container {
+    .thumb-nav {
+      
+      .left-shade,
+      .right-shade {
+        display:none !important; // have to use important to override element.styles
+      }
+
+    } // end .thumb-nav
+  } // end .editorial-chapters-container
       
 }
 

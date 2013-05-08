@@ -374,7 +374,6 @@ $three-up-height:400px;
 
 		} // expert-quote
 
-
 		//  _    _                            ____                 _        
 		// | |  | |                          / __ \               | |       
 		// | |  | | ___   ___  _ __  ______ | |  | | _   _   ___  | |_  ___ 
@@ -412,6 +411,7 @@ $three-up-height:400px;
 		// | |  | || | | | / _ \/ __|| __|| | / _ \ | '_ \ 
 		// | |__| || |_| ||  __/\__ \| |_ | || (_) || | | |
 		//  \___\_\ \__,_| \___||___/ \__||_| \___/ |_| |_|
+	
 		&.question{
 			padding: 0;
 
@@ -425,10 +425,10 @@ $three-up-height:400px;
 
 			.quote{
 				text-align: center;
+				height: 68%;
 			  padding: px-em(40px) px-em(30px) 0 px-em(30px);
 			} // end .quote
 		
-
 			.avatar{
 				display: inline-block;
 				margin:0;
@@ -438,13 +438,6 @@ $three-up-height:400px;
 				display: inline-block;
 				margin-left: px-em(25px); 
 			} // author
-
-			.answer-btn{
-				position: absolute;
-				bottom: 0;
-				left: 50%;
-				margin-left: -(154px/2); // 154 = button width
-			} // answer-btn
 
 		} // question
 
@@ -463,7 +456,39 @@ $three-up-height:400px;
 			float:left;
 			width:100%;
 			text-align: center;
+
+			.icon-container{
+				position: relative;
+				overflow: hidden;
+			  text-align: center;
+			} // end .icon-container
+
+			.meta{
+				margin-top: px-em(8px);
+			
+				.p4{
+					margin:0;
+				} // end p4
+
+				.user,
+				.title,
+				.timestamp{
+					display: inline-block;
+				}
+	
+				.user{
+					padding-right: px-em(10px);
+					color:$gray20;
+				} // end .user
+		
+				.timestamp{
+					color:$gray40;
+				} // end .timestamp
+
+			} // end .meta
+
 		} // top
+
 
 		.center{
 			width:100%;
@@ -506,10 +531,6 @@ $three-up-height:400px;
 		//              | |                         
 		//              |_|                                                                 
 
-		.icon-container{
-			overflow: hidden;
-		  text-align: center;
-		} // end .icon-container
 
 		.fonticon-10-dot{
 				font-size:px-em(56px); 
@@ -531,25 +552,6 @@ $three-up-height:400px;
 
 		.fonticon-15-twitter{color:$twitterColor;} // end .fonticon-15-twitter
 		.fonticon-15-facebook{color:$facebookColor;} // end .fonticon-15-facebook
-
-		.meta{
-			margin-top:8px;
-		
-			.p4{
-				margin:0;
-			} // end p4
-
-		} // end .meta
-
-		.user{
-			color:$gray20;
-		} // end .user
-
-		.timestamp{
-			padding-left:10px;
-			color:$gray40;
-		} // end .timestamp
-	
 
 		//   _____              _                   
 		//  / ____|            | |                  
@@ -580,7 +582,7 @@ $three-up-height:400px;
 		.instagram{
 			background-color: $white;
 			height:217px;
-			padding:10px;
+			padding:0;
 			overflow: hidden;
 
 			.left,
@@ -599,8 +601,12 @@ $three-up-height:400px;
 			} // left/right
 
 			.left{
-				padding-right: px-em(5px);				
-				width:percentage( 96 / 318 ); 
+				padding: px-em(10px) px-em(5px) px-em(15px) px-em(10px); // 15px on bottom to account for 5px on .last
+				width:40%; 
+
+				.mobile-only{
+					display: none;
+				}
 
 				.last{
 					margin-top: px-em(5px);
@@ -613,8 +619,9 @@ $three-up-height:400px;
 			} // left
 
 			.right{
-				padding-left: px-em(5px);				
-				width:percentage( 197 / 318 ); 
+				display: inline-block;	
+				padding: px-em(10px) px-em(10px) px-em(10px) 0;
+				width:60%; 
 
 				.iq-img{
 					height:100%;
@@ -649,13 +656,7 @@ $three-up-height:400px;
 		//              | |                         
 		//              |_|  
 		
-		.top{			
-		}// top
-
 		.icon-container{
-			position: relative;
-			overflow:hidden;
-
 			.fonticon-10-dot{
 				display: block;
 			}
@@ -724,6 +725,7 @@ $three-up-height:400px;
 			background-color: $white;
 			height:215px;
 			width:100%;
+			padding:10px px-em(10px);
 		} // .flickr-container
 
 		.top-row,
@@ -748,12 +750,14 @@ $three-up-height:400px;
 		} //iq-img
 
 		.top-row{
-			padding: px-em(10px) px-em(10px) px-em(5px) px-em(10px); 
+			padding-bottom:5px;
+			// padding: px-em(10px) px-em(10px) px-em(5px) px-em(10px); 
 		} // end .top-row
 		
 		.bottom-row{
 			display:block;
-			padding: px-em(5px) px-em(10px) px-em(10px) px-em(10px); 
+			padding:0;
+			// padding: px-em(5px) px-em(10px) px-em(10px) px-em(10px); 
 		} // end .bottom-row
 
 	} // flickr
