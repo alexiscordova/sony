@@ -102,6 +102,9 @@ define(function(require){
         // Listen for debounced resize event
         Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
 
+        //ghost ride the whip
+        self.onDebouncedResize();
+
       },
 
       // Handles global debounced resize event
@@ -123,6 +126,9 @@ define(function(require){
           //this removes the dynamic css so it will reset back to responsive styles
           self.$el.css('height', '');
         }
+
+        
+        self.$el.find('.pdp-slideshow-slide > .ghost-center-wrap').css('height' , self.$el.height() + 'px');
 
       },
 

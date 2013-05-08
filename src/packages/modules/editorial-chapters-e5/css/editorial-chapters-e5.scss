@@ -18,6 +18,7 @@ $windowWidth: 1100;
 // hacky fix for width issue with e1+e5 templates 
 .container.submodule {
   .editorial-chapters-container {
+    margin: 0;
     &.container {
       width: 100%;
     }
@@ -39,6 +40,7 @@ $windowWidth: 1100;
 
   .editorial-chapters {
     position: relative;
+    // design review margin: 80px 0 50px;
   }
 
   .editorial-carousel-wrapper {
@@ -131,7 +133,10 @@ $windowWidth: 1100;
     } // end li
 
     img {
-      width: percentage(64/$itemWidth);
+      position: relative;
+      bottom: 0;
+      width: percentage(60/$itemWidth);
+      max-width: 60px;
       float: left;
     }
 
@@ -161,7 +166,6 @@ $windowWidth: 1100;
       position:relative;
       display: table-cell;
       vertical-align: middle;
-      line-height: 1.5;
       // IE7 jank
       *float: left;
       *display: block;
@@ -225,11 +229,16 @@ $windowWidth: 1100;
     i {
       margin-left: percentage(25/$itemWidth);
     }
+
+    .label-container {
+      width: percentage(($itemWidth - 84)/$itemWidth);
+    }    
+
   } // end &.icon-mode .thumb-nav
 
   &.text-mode .thumb-nav {
     img, i {display:none;}
-    span {margin:0 24px;}
+    .label-container {margin:0 24px;}
   }
 } // end .editorial-chapters-container
 
@@ -244,17 +253,18 @@ $windowWidth: 1100;
     .image-module {height:auto;}
     
     $miniWindowWidth : 500;
-    $miniItemWidth: 150;
+    $miniItemWidth: 105;
 
     // only two tabs may exist at a certain time for the spans
     li {
-      width: percentage($miniItemWidth/$miniWindowWidth);
+      width: auto;
+      /*width: percentage($miniItemWidth/$miniWindowWidth);*/
       padding:8px percentage(10/$miniWindowWidth);
-      height:48px;
+      height:38px;
     }
     
     .label-container {
-      width: percentage(130/$miniItemWidth);
+      /*width: percentage(130/$miniItemWidth);*/
       padding-left: percentage(10/$miniItemWidth);
       top: 0;
     }
@@ -262,20 +272,22 @@ $windowWidth: 1100;
     &.thumb-mode {
       .thumb-nav {
         height:62px;
+
         img {
-          position:absolute;
-          top:-5px;
-          bottom:0;
-          margin:auto;
-          width: percentage(50/$miniItemWidth);
-          max-width: 64px;
-          height:auto;
+          /*position:absolute;*/
+          /*top:-5px;*/
+          /*bottom:0;*/
+          /*margin:auto;*/
+          width: percentage(40/$miniItemWidth);
+          /*max-width: 44px;*/
+          /*height:auto;*/
           /*margin:0 5px;*/
         }
 
         .label-container {
-          position: absolute;
-          left: percentage(60/$miniItemWidth);
+          width: auto;
+          /*position: absolute;*/
+          /*left: percentage(60/$miniItemWidth);*/
         }
       }
     }
@@ -290,12 +302,13 @@ $windowWidth: 1100;
         
         i {
           top:12px;
-          margin:0 percentage(10/$miniItemWidth);
+          margin: 0;
         }
 
         .label-container {
-          width: percentage(100/$miniItemWidth);
-          padding-left: percentage(10/$miniItemWidth);
+          width: auto;
+          /*width: percentage(100/$miniItemWidth);*/
+          /*padding-left: percentage(10/$miniItemWidth);*/
         }
       }
     } 
