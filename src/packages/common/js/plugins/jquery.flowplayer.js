@@ -1420,6 +1420,7 @@ flowplayer(function(api, root) {
    root.addClass("flowplayer").append('\
       <div class="ratio"/>\
       <div class="ui">\
+         <div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div>\
          <div class="waiting"><em/><em/><em/></div>\
          <a class="unload"/>\
          <p class="speed"/>\
@@ -1446,6 +1447,11 @@ flowplayer(function(api, root) {
          <div class="message"><h2/><p/></div>\
       </div>'.replace(/class="/g, 'class="fp-')
    );
+
+
+
+
+
 
    function find(klass) {
       return $(".fp-" + klass, root);
@@ -1610,6 +1616,8 @@ flowplayer(function(api, root) {
             lastMove = new Date;
          });
 
+         root.find('.fp-play-btn-inner').addClass('is-hover');
+
          hovertimer = setInterval(function() {
             if (new Date - lastMove > 5000) {
                hover(false)
@@ -1625,7 +1633,7 @@ flowplayer(function(api, root) {
 
    // allow dragging over the player edge
    }).bind("mouseleave", function() {
-
+      root.find('.fp-play-btn-inner').removeClass('is-hover');
       if (timelineApi.dragging || volumeApi.dragging) {
          root.addClass("is-mouseover").removeClass("is-mouseout");
       }
@@ -1637,6 +1645,12 @@ flowplayer(function(api, root) {
          return api.toggle();
       }
    });
+
+   root.find('.fp-play-btn-inner').bind("click.player", function(e) {
+      e.preventDefault();
+      return api.toggle();
+   });
+
 
    // poster -> background image
    if (conf.poster) root.css("backgroundImage", "url(" + conf.poster + ")");
@@ -1860,7 +1874,10 @@ flowplayer(function(player, root) {
    var lastClick;
 
    root.bind("mousedown.fs", function() {
-      if (+new Date - lastClick < 150 && player.ready) player.fullscreen();
+      if (+new Date - lastClick < 150 && player.ready) {
+         //player.fullscreen(); //this is dumb
+      } 
+
       lastClick = +new Date;
    });
 
