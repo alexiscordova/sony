@@ -19,6 +19,7 @@ define(<span class="keyword">function</span>(require) {
       Settings = require(<span class="string">'require/sony-global-settings'</span>),
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
       Utilities = require(<span class="string">'require/sony-global-utilities'</span>),
+      Favorites = require(<span class="string">'secondary/index'</span>).sonyFavorites,
       sonyStickyNav = require(<span class="string">'secondary/index'</span>).sonyStickyNav,
       jquerySimpleScroll = require(<span class="string">'secondary/index'</span>).jquerySimpleScroll;
 
@@ -56,7 +57,6 @@ define(<span class="keyword">function</span>(require) {
       self.$stickyNav = self.$el.find(<span class="string">'.sticky-nav'</span>);
       self.$jumpLinks = self.$el.find(<span class="string">'.jump-links a'</span>);
       self.$evenCols = self.$el.find(<span class="string">'.js-even-cols'</span>).children();
-      self.$favoriteBtn = self.$el.find(<span class="string">'.js-favorite'</span>);
       self.$shareBtn = self.$el.find(<span class="string">'.js-share'</span>);
       self.$dropdown = self.$el.find(<span class="string">'.dropdown-menu'</span>);
       self.$shareLink = self.$dropdown.find(<span class="string">'input'</span>);
@@ -69,7 +69,6 @@ define(<span class="keyword">function</span>(require) {
       self.$span1AtTablet = self.$el.find(<span class="string">'#span1-at-tablet'</span>);
       self.$span3AtTablet = self.$el.find(<span class="string">'#span3-at-tablet'</span>);
 
-      self.$favoriteBtn.on(<span class="string">'click'</span>, $.proxy( self._onFavorite, self ));
       self.$shareBtn.on(<span class="string">'click'</span>, $.proxy( self._onShare, self ));
 
       Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self._onResize, self ));
@@ -121,6 +120,8 @@ define(<span class="keyword">function</span>(require) {
         });
 
         iQ.update();
+
+        self._initFavorites();
       }, <span class="number">0</span>);
     },
 
@@ -132,10 +133,11 @@ define(<span class="keyword">function</span>(require) {
       }
     },
 
-    _onFavorite : <span class="keyword">function</span>( evt ) {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-      evt.preventDefault();
+    _initFavorites : <span class="keyword">function</span>() {
+      <span class="keyword">this</span>.favorites = <span class="keyword">new</span> Favorites( <span class="keyword">this</span>.$el, {
+        itemSelector: <span class="string">'[itemscope]'</span>,
+        tooltip: <span class="literal">false</span>
+      });
     },
 
     _onShare : <span class="keyword">function</span>( evt ) {

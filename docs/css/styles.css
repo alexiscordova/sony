@@ -235,12 +235,18 @@ body {
   transition: background-color 0.25s linear, color 0.25s linear, border-color 0.25s linear;
 }
 
-/* line 52, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 47, ../../src/packages/common/css/_base/_scaffolding.scss */
+.no-touch [class*="fonticon"] {
+  -webkit-transition: color 0.25s linear;
+  transition: color 0.25s linear;
+}
+
+/* line 56, ../../src/packages/common/css/_base/_scaffolding.scss */
 .img-rounded {
   border-radius: 6px;
 }
 
-/* line 57, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 61, ../../src/packages/common/css/_base/_scaffolding.scss */
 .img-polaroid {
   padding: 4px;
   background-color: #fff;
@@ -251,26 +257,26 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* line 68, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 72, ../../src/packages/common/css/_base/_scaffolding.scss */
 .img-circle {
   border-radius: 50%;
 }
 
 /* Debug grid styles
 -------------------------------------------------- */
-/* line 77, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 81, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid {
   margin-top: 2px;
   margin-bottom: 2px;
 }
 
-/* line 81, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 85, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid [class*="span"] {
   background-color: rgba(125, 125, 125, 0.5) !important;
   text-align: center;
 }
 
-/* line 88, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 92, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid .show-grid [class*="span"] {
   background-color: rgba(255, 125, 0, 0.9) !important;
 }
@@ -4647,6 +4653,7 @@ input[type="submit"].btn.btn-mini {
 }
 /* line 343, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu .input-holder input {
+  -webkit-appearance: none;
   display: block;
   margin: 0;
   padding-top: 0;
@@ -4657,11 +4664,11 @@ input[type="submit"].btn.btn-mini {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 359, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 361, ../../src/packages/common/css/_components/_dropdowns.scss */
 .lt-ie8 .share-menu .input-holder input {
   width: 167px;
 }
-/* line 364, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 366, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu .input-holder .link-icon {
   position: absolute;
   right: 23px;
@@ -4672,7 +4679,7 @@ input[type="submit"].btn.btn-mini {
   text-align: center;
   pointer-events: none;
 }
-/* line 376, ../../src/packages/common/css/_components/_dropdowns.scss */
+/* line 378, ../../src/packages/common/css/_components/_dropdowns.scss */
 .share-menu .input-holder i {
   color: white;
   margin-top: 5px;
@@ -8666,13 +8673,13 @@ div.slide-arrow-over {
   border: 10px solid #fff;
 }
 
-/* 
-	 _    __      __                        _____ ___     __             
-	| |  / /___  / /_  ______ ___  ___     / ___// (_)___/ /__  _____    
-	| | / / __ \/ / / / / __ `__ \/ _ \    \__ \/ / / __  / _ \/ ___/    
-	| |/ / /_/ / / /_/ / / / / / /  __/   ___/ / / / /_/ /  __/ /        
-	|___/\____/_/\__,_/_/ /_/ /_/\___/   /____/_/_/\__,_/\___/_/         
-	                                                                     
+/*
+	 _    __      __                        _____ ___     __
+	| |  / /___  / /_  ______ ___  ___     / ___// (_)___/ /__  _____
+	| | / / __ \/ / / / / __ `__ \/ _ \    \__ \/ / / __  / _ \/ ___/
+	| |/ / /_/ / / /_/ / / / / / /  __/   ___/ / / / /_/ /  __/ /
+	|___/\____/_/\__,_/_/ /_/ /_/\___/   /____/_/_/\__,_/\___/_/
+
 */
 /* line 322, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-volume {
@@ -9196,30 +9203,18 @@ div.slide-arrow-over {
 }
 
 @-webkit-keyframes pulse {
-  /* line 471, ../../src/packages/common/css/_components/_video.scss */
+  /* line 472, ../../src/packages/common/css/_components/_video.scss */
   0% {
     opacity: 0;
   }
 
-  /* line 472, ../../src/packages/common/css/_components/_video.scss */
+  /* line 473, ../../src/packages/common/css/_components/_video.scss */
   100% {
     opacity: 1;
   }
 }
 
 @-o-keyframes pulse {
-  /* line 473, ../../src/packages/common/css/_components/_video.scss */
-  0% {
-    opacity: 0;
-  }
-
-  /* line 474, ../../src/packages/common/css/_components/_video.scss */
-  100% {
-    opacity: 1;
-  }
-}
-
-@-ms-keyframes pulse {
   /* line 475, ../../src/packages/common/css/_components/_video.scss */
   0% {
     opacity: 0;
@@ -9232,111 +9227,111 @@ div.slide-arrow-over {
 }
 
 @keyframes pulse {
-  /* line 477, ../../src/packages/common/css/_components/_video.scss */
+  /* line 478, ../../src/packages/common/css/_components/_video.scss */
   0% {
     opacity: 0;
   }
 
-  /* line 478, ../../src/packages/common/css/_components/_video.scss */
+  /* line 479, ../../src/packages/common/css/_components/_video.scss */
   100% {
     opacity: 1;
   }
 }
 
-/* line 481, ../../src/packages/common/css/_components/_video.scss */
+/* line 482, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-controls {
   background-color: #333;
   background-color: rgba(51, 51, 51, 0.6);
 }
 
-/* line 482, ../../src/packages/common/css/_components/_video.scss */
+/* line 483, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.fixed-controls .fp-controls {
   background-color: #333;
 }
 
-/* line 483, ../../src/packages/common/css/_components/_video.scss */
+/* line 484, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-timeline {
   background-color: #666;
 }
 
-/* line 484, ../../src/packages/common/css/_components/_video.scss */
+/* line 485, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-buffer {
   background-color: #eee;
 }
 
-/* line 485, ../../src/packages/common/css/_components/_video.scss */
+/* line 486, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-progress {
   background-color: #00a7c8;
 }
 
-/* line 487, ../../src/packages/common/css/_components/_video.scss */
+/* line 488, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-volumeslider {
   background-color: #000;
   display: none;
 }
 
-/* line 492, ../../src/packages/common/css/_components/_video.scss */
+/* line 493, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-volumelevel {
   background-color: #fff;
 }
 
-/* line 493, ../../src/packages/common/css/_components/_video.scss */
+/* line 494, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-play {
   height: 24px;
 }
 
-/* line 494, ../../src/packages/common/css/_components/_video.scss */
+/* line 495, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.is-touch.is-mouseover .fp-progress:before {
   background-color: #00a7c8;
 }
 
-/* line 495, ../../src/packages/common/css/_components/_video.scss */
+/* line 496, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.color-light .fp-controls {
   background-color: rgba(255, 255, 255, 0.6);
 }
 
-/* line 496, ../../src/packages/common/css/_components/_video.scss */
+/* line 497, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.color-light.fixed-controls .fp-controls {
   background-color: #fff;
 }
 
-/* line 497, ../../src/packages/common/css/_components/_video.scss */
+/* line 498, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.color-light .fp-volumeslider {
   background-color: #ddd;
 }
 
-/* line 498, ../../src/packages/common/css/_components/_video.scss */
+/* line 499, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.color-light .fp-volumelevel {
   background-color: #222;
 }
 
-/* line 499, ../../src/packages/common/css/_components/_video.scss */
+/* line 500, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.color-alt .fp-progress {
   background-color: #fff;
 }
 
-/* line 500, ../../src/packages/common/css/_components/_video.scss */
+/* line 501, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.color-alt.is-touch.is-mouseover .fp-progress:before {
   background-color: #fff;
 }
 
-/* line 501, ../../src/packages/common/css/_components/_video.scss */
+/* line 502, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.color-alt .fp-buffer {
   background-color: #999;
 }
 
-/* line 502, ../../src/packages/common/css/_components/_video.scss */
+/* line 503, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.color-alt2 .fp-progress {
   background-color: #900;
 }
 
-/* line 503, ../../src/packages/common/css/_components/_video.scss */
+/* line 504, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer.color-alt2.is-touch.is-mouseover .fp-progress:before {
   background-color: #900;
 }
 
 /* custom player skin */
-/* line 506, ../../src/packages/common/css/_components/_video.scss */
+/* line 507, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer {
   width: 100%;
   background-color: #222222;
@@ -9344,27 +9339,27 @@ div.slide-arrow-over {
   /* max-width: 800px; */
 }
 
-/* line 507, ../../src/packages/common/css/_components/_video.scss */
+/* line 508, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-controls {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* line 508, ../../src/packages/common/css/_components/_video.scss */
+/* line 509, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-timeline {
   background-color: rgba(217, 217, 217, 0.5);
 }
 
-/* line 509, ../../src/packages/common/css/_components/_video.scss */
+/* line 510, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-progress {
   background-color: #ed4e23;
 }
 
-/* line 510, ../../src/packages/common/css/_components/_video.scss */
+/* line 511, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer .fp-buffer {
   background-color: #f9f9f9;
 }
 
-/* line 512, ../../src/packages/common/css/_components/_video.scss */
+/* line 513, ../../src/packages/common/css/_components/_video.scss */
 .flowplayer {
   background-image: url(../img/editorial-layouts-e1/e1-fw1-image-desktop.jpg);
 }
