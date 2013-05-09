@@ -78,7 +78,8 @@ define(function(require){
         sonyVideo.initVideos( self.$el.find('.player') );
 
 
-        if(self.isFullEditorial){
+        if( self.isFullEditorial ){
+          log( ' is full bleed...........' );
           Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
           self.onDebouncedResize(); //call once to set size
         }
@@ -93,17 +94,19 @@ define(function(require){
 
         if(wW > 980){
           //this makes the header grow 1px taller for every 20px over 980w..
-          self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
+          self.$el.css( 'height', Math.round( Math.min( 720, 560 + ( ( wW - 980 ) / 5 ) ) ) );
           //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles
-          self.$el.css('height', '');
+          self.$el.css( 'height', '' );
         }
 
-        var heightDiff = Math.abs( $('.editorial-video-container').height() - $('.fp-engine').height() );
+        var heightDiff = Math.abs( self.$el.height() - self.$el.find('.fp-engine').height() );
 
         if(heightDiff > 0){
-          self.$el.find('.fp-engine').css('top' , -heightDiff / 2 + 'px');
+          var howMany = self.$el.find('.fp-engine').css('top' , -heightDiff / 2 + 'px');
+        }else {
+          self.$el.find('.fp-engine').css('top' , '');
         }
 
       },
