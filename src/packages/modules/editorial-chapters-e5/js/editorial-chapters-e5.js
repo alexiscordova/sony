@@ -1,3 +1,5 @@
+/*jslint debug: true */
+
 // Editorial SlideShow - E4
 // ------------
 //
@@ -13,7 +15,7 @@
 
 define(function(require){
 
-    'use strict';
+   'use strict';
 
     var $ = require('jquery'),
         Modernizr = require('modernizr'),
@@ -21,6 +23,7 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
+        sonyEvenHeights = require('secondary/index').sonyEvenHeights,
         sonyCarouselFade = require('secondary/index').sonyCarouselFade,
         sonyScroller = require('secondary/index').sonyScroller;
 
@@ -54,6 +57,7 @@ define(function(require){
       self.$window              = $(window);
       self.$html                = $('html');
       self.$slides              = self.$el.find('.editorial-carousel-slide');
+      self.$slideWrapper        = self.$el.find('.editorial-carousel-wrapper');
       self.$slideContainer      = self.$el.find('.editorial-carousel');
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$slider              = self.$el.find('.slider');
@@ -61,10 +65,14 @@ define(function(require){
       self.$rightShade          = self.$el.find('.right-shade');
       self.$thumbItems          = self.$thumbNav.find('li');
       self.$thumbLabels         = self.$thumbNav.find('span');
+      self.$slideInner          = self.$slides.find('.editorial');
 
       self.hasThumbs            = self.$thumbNav.length > 0;
       self.numSlides            = self.$slides.length;
       self.currentId            = 0;
+
+      self.isDesktop = false;
+      self.isMobile = false;
 
       // Inits the module
       self.init();
@@ -84,6 +92,54 @@ define(function(require){
           self.createThumbNav();
         }
         self.$slideContainer.fadeTo(0,1);
+
+        // add enquire due to functionality difference with mobile => desktop
+        if ( Modernizr.mediaqueries ) {
+          enquire
+          .register('(min-width: 48em)', {
+            match: function() {
+              self.setupMobilePlus();
+            }
+          })
+          .register('(max-width: 47.9375em)', {
+            match: function() {
+              self.setupMobile();
+            }
+          });
+        } // end if(Modernizr.mediaqueries ) 
+      },
+
+      setupMobilePlus: function() {
+        var self = this;
+
+
+        self.isMobile = false;
+        self.isDesktop = true;
+
+        self.$window.off('resize.e5-mobile-resize');
+        self.removeWrapperStyles();
+
+      },
+
+      setupMobile: function() {
+        var self = this;
+
+        self.isMobile = true;
+        self.isDesktop = false;
+
+        self.$window.on('resize.e5-mobile-resize', $.proxy(self.getSlideHeight, self ));
+        // for some reason it $.evenHeights calculates the wrong height
+        // this is even if DomReady is true. Even if debugger; is run now
+        // the height of the tallest element will be incorrect. A setTimeout
+        // seems to fix this issue. 
+        setTimeout(function(){ self.getSlideHeight(); }, 250);
+      },
+
+      removeWrapperStyles: function() {
+        var self = this;
+
+        self.$slideWrapper.removeAttr('style');
+
       },
 
       // Main setup method for the carousel
@@ -108,6 +164,20 @@ define(function(require){
 
         iQ.update();
 
+      },
+   
+      // if its on a mobile device per slide change we need to 
+      // get the height of the container to the height of the 
+      // active slide.    
+      getSlideHeight: function() {
+        var self = this,
+            $currSlides,
+            groups;
+        
+        $currSlides = self.$slides.find('.inner');
+        groups = [$currSlides];
+
+        $.evenHeights(groups);
       },
 
       // Listens for slide changes and updates the correct thumbnail
