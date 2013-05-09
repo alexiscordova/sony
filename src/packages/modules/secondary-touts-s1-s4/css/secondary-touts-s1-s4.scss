@@ -1,114 +1,123 @@
 @import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../../../common/css/_base/mixins";
 
-@mixin onesonyTypeBlockWidths($baseWidth: 400px) {
+@mixin onesonyTypeBlockWidths($baseWidth: 400px, $cols: null) {
 
-  &.content-12 {
+  @if $cols == 12 {
 
-    max-width: px-em($baseWidth);
-    width: percentage($baseWidth / 766px);
-    min-width: px-em(295px/400px * $baseWidth);
+    &.content-12 {
 
-    @media(min-width:px-em(981px)){
-      min-width: px-em(361px/400px * $baseWidth);
-    }
+      max-width: px-em($baseWidth);
+      width: percentage($baseWidth / 766px);
+      min-width: px-em(295px/400px * $baseWidth);
 
-    //tablets
-    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-      max-width: percentage(288px / 463px);
-      width: percentage(288px / 463px);
-      min-width: percentage(400px / 3532px);
-    }
-
-    //phones
-    @media( max-width: px-em(480px) ){
-      h1, h2, h3, h4, h5, h6 {
-        max-width: percentage(400px / 533px);
+      @media(min-width:px-em(981px)){
+        min-width: px-em(361px/400px * $baseWidth);
       }
-      max-width: percentage(400px / 463px);
-      width: percentage(400px / 463px);
-      min-width: percentage(400px / 3532px);
 
-      &.align-right-center {
-        max-width: none;
+      //tablets
+      @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+        max-width: percentage(288px / 463px);
+        width: percentage(288px / 463px);
+        min-width: percentage(400px / 3532px);
+      }
+
+      //phones
+      @media( max-width: px-em(480px) ){
+        h1, h2, h3, h4, h5, h6 {
+          max-width: percentage(400px / 533px);
+        }
+        max-width: percentage(400px / 463px);
+        width: percentage(400px / 463px);
+        min-width: percentage(400px / 3532px);
+
+        &.align-right-center {
+          max-width: none;
+        }
       }
     }
-  }
 
-  &.content-8 {
+  } @else if $cols == 8 {
 
-    max-width: px-em($baseWidth);
-    width: percentage($baseWidth / 766px);
-    min-width: px-em(295px/400px * $baseWidth);
+    &.content-8 {
 
-    @media(min-width:px-em(981px)){
-      min-width: px-em(361px/400px * $baseWidth);
-    }
+      max-width: px-em($baseWidth);
+      width: percentage($baseWidth / 766px);
+      min-width: px-em(295px/400px * $baseWidth);
 
-    //tablets
-    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-      max-width: percentage(400px / 463px);
-      width: percentage(400px / 463px);
-      min-width: percentage(400px / 3532px);
-    }
-
-    //phones
-    @media( max-width: px-em(480px) ){
-      h1, h2, h3, h4, h5, h6 {
-        max-width: percentage(400px / 533px);
+      @media(min-width:px-em(981px)){
+        min-width: px-em(361px/400px * $baseWidth);
       }
-      max-width: percentage(400px / 463px);
-      width: percentage(400px / 463px);
-      min-width: percentage(400px / 3532px);
-    }
-  }
 
-  &.content-6 {
-
-    max-width: px-em($baseWidth);
-    width: percentage($baseWidth / 766px);
-    min-width: px-em(295px/400px * $baseWidth);
-
-    @media(min-width:px-em(981px)){
-      min-width: px-em(361px/400px * $baseWidth);
-    }
-
-    //tablets
-    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-      max-width: 80%;
-      width: 80%;
-      min-width: 30%;
-    }
-
-    //phones
-    @media( max-width: px-em(480px) ){
-      h1, h2, h3, h4, h5, h6 {
-        max-width: percentage(400px / 533px);
+      //tablets
+      @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+        max-width: percentage(400px / 463px);
+        width: percentage(400px / 463px);
+        min-width: percentage(400px / 3532px);
       }
-      max-width: 80%;
-      width: 80%;
-      min-width: 30%;
-    }
-  }
 
-  &.content-4 {
-
-    max-width: px-em($baseWidth * 2.5);
-    width: percentage($baseWidth / 766px * 2.5);
-
-    //tablets
-    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-      max-width: percentage(400px / 463px) * 2.5;
-      width: percentage(400px / 463px * 2.5);
-    }
-
-    //phones
-    @media( max-width: px-em(480px) ){
-      h1, h2, h3, h4, h5, h6 {
-        max-width: percentage(400px / 533px * 2.5);
+      //phones
+      @media( max-width: px-em(480px) ){
+        h1, h2, h3, h4, h5, h6 {
+          max-width: percentage(400px / 533px);
+        }
+        max-width: percentage(400px / 463px);
+        width: percentage(400px / 463px);
+        min-width: percentage(400px / 3532px);
       }
-      max-width: percentage(400px / 463px * 2.5);
-      width: percentage(400px / 463px * 2.5);
+    }
+
+  } @else if $cols == 6 {
+
+    &.content-6 {
+
+      max-width: px-em($baseWidth);
+      width: percentage($baseWidth / 766px);
+      min-width: px-em(295px/400px * $baseWidth);
+
+      @media(min-width:px-em(981px)){
+        min-width: px-em(361px/400px * $baseWidth);
+      }
+
+      //tablets
+      @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+        max-width: 80%;
+        width: 80%;
+        min-width: 30%;
+      }
+
+      //phones
+      @media( max-width: px-em(480px) ){
+        h1, h2, h3, h4, h5, h6 {
+          max-width: percentage(400px / 533px);
+        }
+        max-width: 80%;
+        width: 80%;
+        min-width: 30%;
+      }
+    }
+
+  } @else if $cols == 4 {
+
+    &.content-4 {
+
+      max-width: px-em($baseWidth * 2.5);
+      width: percentage($baseWidth / 766px * 2.5);
+
+      //tablets
+      @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+        max-width: percentage(400px / 463px) * 2.5;
+        width: percentage(400px / 463px * 2.5);
+      }
+
+      //phones
+      @media( max-width: px-em(480px) ){
+        h1, h2, h3, h4, h5, h6 {
+          max-width: percentage(400px / 533px * 2.5);
+        }
+        max-width: percentage(400px / 463px * 2.5);
+        width: percentage(400px / 463px * 2.5);
+      }
     }
   }
 }
@@ -293,30 +302,30 @@
           &.content-12 {
             right: 6.2%;
 
-            @include onesonyTypeBlockWidths(300px);
+            @include onesonyTypeBlockWidths(300px, 12);
 
             &[class*="copy"] {
-              @include onesonyTypeBlockWidths(350px);
+              @include onesonyTypeBlockWidths(350px, 12);
             }
           }
 
           &.content-8 {
             right: 6.2%;
 
-            @include onesonyTypeBlockWidths(300px);
+            @include onesonyTypeBlockWidths(300px, 8);
 
             &[class*="copy"] {
-              @include onesonyTypeBlockWidths(350px);
+              @include onesonyTypeBlockWidths(350px, 8);
             }
           }
 
           &.content-6 {
             right: 8.6%;
 
-            @include onesonyTypeBlockWidths(250px);
+            @include onesonyTypeBlockWidths(250px, 6);
 
             &[class*="copy"] {
-              @include onesonyTypeBlockWidths(250px);
+              @include onesonyTypeBlockWidths(250px, 6);
             }
           }
         }
@@ -781,7 +790,7 @@
       &[class*="align-right-"] {
 
         &.content-12 {
-          @include onesonyTypeBlockWidths(400px);
+          @include onesonyTypeBlockWidths(400px, 12);
 
           @media( min-width:px-em(768px) ){
             &[class*="align-left-center"],
@@ -792,15 +801,15 @@
         }
 
         &.content-8 {
-          @include onesonyTypeBlockWidths(400px);
+          @include onesonyTypeBlockWidths(400px, 8);
         }
 
         &.content-6 {
-          @include onesonyTypeBlockWidths(300px);
+          @include onesonyTypeBlockWidths(300px, 6);
         }
 
         &.content-4 {
-          @include onesonyTypeBlockWidths(200px);
+          @include onesonyTypeBlockWidths(200px, 4);
         }
       }
 
@@ -859,10 +868,10 @@
           left: auto;
           right: 6.2%;
 
-          @include onesonyTypeBlockWidths(300px);
+          @include onesonyTypeBlockWidths(300px, 12);
 
           &[class*="copy"] {
-            @include onesonyTypeBlockWidths(350px);
+            @include onesonyTypeBlockWidths(350px, 12);
           }
 
           //phones
@@ -881,10 +890,10 @@
           left: auto;
           right: 6.2%;
 
-          @include onesonyTypeBlockWidths(300px);
+          @include onesonyTypeBlockWidths(300px, 8);
 
           &[class*="copy"] {
-            @include onesonyTypeBlockWidths(350px);
+            @include onesonyTypeBlockWidths(350px, 8);
           }
 
           //phones
@@ -897,10 +906,10 @@
           left: auto;
           right: 8.6%;
 
-          @include onesonyTypeBlockWidths(250px);
+          @include onesonyTypeBlockWidths(250px, 6);
 
           &[class*="copy"] {
-            @include onesonyTypeBlockWidths(250px);
+            @include onesonyTypeBlockWidths(250px, 6);
           }
 
           //phones
