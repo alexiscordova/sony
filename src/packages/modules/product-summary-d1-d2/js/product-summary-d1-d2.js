@@ -19,6 +19,7 @@ define(function(require) {
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
       Utilities = require('require/sony-global-utilities'),
+      Favorites = require('secondary/index').sonyFavorites,
       sonyStickyNav = require('secondary/index').sonyStickyNav,
       jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
@@ -56,7 +57,6 @@ define(function(require) {
       self.$stickyNav = self.$el.find('.sticky-nav');
       self.$jumpLinks = self.$el.find('.jump-links a');
       self.$evenCols = self.$el.find('.js-even-cols').children();
-      self.$favoriteBtn = self.$el.find('.js-favorite');
       self.$shareBtn = self.$el.find('.js-share');
       self.$dropdown = self.$el.find('.dropdown-menu');
       self.$shareLink = self.$dropdown.find('input');
@@ -69,7 +69,6 @@ define(function(require) {
       self.$span1AtTablet = self.$el.find('#span1-at-tablet');
       self.$span3AtTablet = self.$el.find('#span3-at-tablet');
 
-      self.$favoriteBtn.on('click', $.proxy( self._onFavorite, self ));
       self.$shareBtn.on('click', $.proxy( self._onShare, self ));
 
       Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
@@ -124,6 +123,8 @@ define(function(require) {
         });
 
         iQ.update();
+
+        self._initFavorites();
       }, 0);
     },
 
@@ -135,10 +136,11 @@ define(function(require) {
       }
     },
 
-    _onFavorite : function( evt ) {
-      var self = this;
-
-      evt.preventDefault();
+    _initFavorites : function() {
+      this.favorites = new Favorites( this.$el, {
+        itemSelector: '[itemscope]',
+        tooltip: false
+      });
     },
 
     _onShare : function( evt ) {

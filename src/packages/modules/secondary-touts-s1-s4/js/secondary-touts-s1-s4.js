@@ -38,13 +38,19 @@ define(function(require){
 
     self.init();
 
-    // self.$images.on('iQ:imageLoaded', function(){
-      // $(this).closest('.st-item').addClass('on');
-    // });
-// 
-    // self.$images.addClass('iq-img');
-// 
-    // iQ.update(true);
+    self.$images.on('iQ:imageLoaded', function(){
+      $(this).closest('.st-item').addClass('on');
+    });
+
+    self.$images.addClass('iq-img');
+
+    // This is a bad-fix hack; iQ fails unpredictably if multiple modules attempt to
+    // run iQ.update() to load in their newly-created assets. This is a deep issue
+    // in iQ that will probably require a thorough refactor of that class.
+
+    setTimeout(function(){
+      iQ.update(true);
+    }, 1000);
 
     if ( self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){
 

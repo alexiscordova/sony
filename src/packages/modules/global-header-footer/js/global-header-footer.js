@@ -1,5 +1,3 @@
-/*global SONY*/
-
 // ------------ Sony Global Nav ------------
 // Module: Global Nav
 // Version: 1.0
@@ -44,7 +42,8 @@ define(function(require){
     self.$pageWrapOuter = $('#page-wrap-outer');
     self.$accountUsername = $('#nav-account-btn').find('.username');
     self.fullAccountUsername = self.$accountUsername.text();
-    self.mobileNavIScroll = false, self.mobileNavVisible = false;
+    self.mobileNavIScroll = false;
+    self.mobileNavVisible = false;
     self.mobileNavThreshold = 767;
     self.mobileFooterThreshold = 567;
     self.mouseLeaveDelay = 500;
@@ -52,9 +51,6 @@ define(function(require){
     // delay in ms
     self.mouseleaveTimer = false;
 
-    if (Modernizr.touch) {
-      self.hasTouch = true;
-    }
     // Get the right prefixed names e.g. WebkitTransitionDuration
     self.tapOrClick = self.hasTouch ? 'touchstart' : 'click';
     self.transformName = Modernizr.prefixed('transform');
@@ -86,7 +82,7 @@ define(function(require){
       if ( !Settings.isLTIE10 ) {
 
         // switch to desktop nav
-        window.enquire.register('(min-width: ' + (self.mobileNavThreshold + 1) + 'px)', {
+        enquire.register('(min-width: ' + (self.mobileNavThreshold + 1) + 'px)', {
           match : function() {
             self.initDesktopNav();
             self.resetMobileNav();
@@ -97,14 +93,14 @@ define(function(require){
 
         });
         // switch to desktop footer
-        window.enquire.register('(min-width: ' + (self.mobileFooterThreshold + 1) + 'px)', {
+        enquire.register('(min-width: ' + (self.mobileFooterThreshold + 1) + 'px)', {
           match : function() {
             self.resetMobileFooter();
           }
         });
 
         // switch to mobile nav
-        window.enquire.register('(max-width: ' + self.mobileNavThreshold + 'px)', {
+        enquire.register('(max-width: ' + self.mobileNavThreshold + 'px)', {
           match : function() {
             self.initMobileNav();
             self.resetDesktopNav();
@@ -115,7 +111,7 @@ define(function(require){
 
         });
         // switch to mobile footer
-        window.enquire.register('(max-width: ' + self.mobileFooterThreshold + 'px)', {
+        enquire.register('(max-width: ' + self.mobileFooterThreshold + 'px)', {
           match : function() {
             self.initMobileFooter();
           }
@@ -132,7 +128,7 @@ define(function(require){
 
     initDesktopNav : function() {
       var self = this;
-      
+
       // add a click event to close the currently open navmenu/navtray if you click outside of it.
       self.$pageWrapOuter.on('click touchstart focus',function(e) {
         // as long as the click wasn't on one of the nav-menu/trays, or one of their children, or one of the activeNavBtns, reset any active menus.
@@ -143,7 +139,7 @@ define(function(require){
           $('#nav-search-input').blur();
         }
       });
-      
+
       // Set up primary nav buttons
       self.$activeNavBtns.each(function() {
         var $thNavBtn = $(this), $thNavBtnTarget = $('.' + $thNavBtn.data('target')), $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
@@ -156,21 +152,21 @@ define(function(require){
         self.resetActiveNavBtn($thNavBtn);
 
         // UPDATE
-        // 
-        // On hover, add the 'selected' (or whatever) class to the button. set a 'justActivated' boolean to true, 
+        //
+        // On hover, add the 'selected' (or whatever) class to the button. set a 'justActivated' boolean to true,
         // and set a timer that so if you click before the timer is up, it doesn't toggle the menu back closed. This way
         // if the user goes to click the button, they won't get a double-toggle (hover followed by click)
-        // 
+        //
         // On click, check for the 'justActivated' boolean - if it's not true, toggle the menu state.
         // This will allow closing by way of clicking the button when the menu is open.
         // This may also mean we can just have 1 function for touch-or-click, since touch will
         // never trigger hover, it'll just be ready for the touch to toggle it.
-        // 
+        //
         // TODO: Why does search menu close
         // TODO: Clicking off the nav will close it.
-        // 
-        // 
-        // 
+        //
+        //
+        //
 
         // $(this).on(self.tapOrClick + ' focus blur', function() {
         // $(this).on(self.tapOrClick, function() {
@@ -222,35 +218,35 @@ define(function(require){
 
           // NOT touch device - set up HOVER triggers
         } else {
-  
+
           var thTrigger = 'mouseenter focus';
-          
+
           // for the search button only, we want it to trigger on click. All others on mouseenter.
           if ($thNavBtn.parent().hasClass('nav-li-search')) {
               thTrigger = 'click focus';
           }
-          
+
           $thNavBtn.on(thTrigger, function(e) {
-            
+
             var isSearchButtonActive = $thNavBtn.data('target') ==='navmenu-w-search' && self.active ? true : false;
-        
+
             // Prevent focus and click to trigger at the same time
             if (self.active) {
-              return false;                     
+              return false;
             }
             else {
               self.active = true;
             }
-            
+
             $('.nav .nav-li a.active').trigger('touchstart');
             self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
             $('#nav-search-input').blur();
-            
+
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
 
             // if this button is NOT activated,
-            if (!$thNavBtn.parent().hasClass('nav-li-selected') && !isSearchButtonActive) { 
+            if (!$thNavBtn.parent().hasClass('nav-li-selected') && !isSearchButtonActive) {
               // See if any other buttons are activated.
               var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
 
@@ -264,7 +260,7 @@ define(function(require){
 
                 // if there WAS already an active button,
               } else {
-                
+
                 // deactivate it first
                 self.resetActiveNavBtn(self.$currentOpenNavBtn);
                 var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
@@ -286,14 +282,14 @@ define(function(require){
             }
           });
           // end mouseenter
-          
+
 
           // If you mouseOut of the nav button
           $thNavBtn.on('mouseleave', function() {
-            
+
             self.active = false;
             $thNavBtn.data('hovering', false);
-  
+
             // Check to see if it was onto the navtray/navmenu.
             // Wait a few ticks to give it a chance for the hover to fire first.
 
@@ -333,14 +329,14 @@ define(function(require){
             $(this).data('hovering', false);
 
             // Remove focus from search input on mouse out in ie
-          
+
             if (Settings.isLTIE10) {
                 $('#nav-search-input').blur();
             }
             if (Settings.isLTIE9) {
                 $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
             }
-          
+
             // Check to see if it was onto this target's button.
             // Wait a few ticks to give it a chance for the hover to fire first.
             var timeout = 50;
@@ -412,19 +408,19 @@ define(function(require){
             $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
             $('.nav-li-search a').blur();
         }
- 
+
       $('.navmenu-w-visible').each(function(){
         $(this)
           .removeClass('navmenu-w-visible')
           .one(self.transitionEnd, function() {
- 
+
             var $transitionContainer = $(this).find('.reveal-transition-container');
             $transitionContainer.css('height', '');
             $(this).css({'left':'', 'right':''});
 
             // clear active class from THIS button!
             // $('.nav-li-search a').removeClass('active');
-            
+
             // setTimeout(function(){
             //   var c = $transitionContainer.attr('class');
             //   var h = $transitionContainer.outerHeight();
@@ -606,7 +602,7 @@ define(function(require){
         } else {
           // it's a nav-menu - show the menu.
           var $revealContainer = $thNavTarget.find('.reveal-transition-container');
-          var expHeight = $revealContainer.height();  
+          var expHeight = $revealContainer.height();
 
           $revealContainer.css('height', '1px');
           // wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate
@@ -619,13 +615,13 @@ define(function(require){
               $revealContainer.one(self.transitionEnd, function() {
                 // when it's done revealing, get rid of the height transition
                 $revealContainer.removeClass('transition-height');
-                // wait a tick to make sure the transition-height class is gone. 
+                // wait a tick to make sure the transition-height class is gone.
                 setTimeout(function() {
                   // reset to natural height
                   $revealContainer.css('height', '');
                   // setTimeout(function() {
                   //   var expHeight = $revealContainer.height();
-                  //   console.log("expHeight: " + expHeight);                 
+                  //   console.log("expHeight: " + expHeight);
                   // }, 1);
 
                 }, 1);
@@ -704,7 +700,11 @@ define(function(require){
     },
 
     showMobileNav : function() {
-      var self = this;
+      var self = this,
+          pageHeight,
+          $outer,
+          $inner,
+          innerHeight;
 
       self.showMobileBackdrop();
 
@@ -712,25 +712,31 @@ define(function(require){
       // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
       // page some height, so the Safari nav will hide.
       // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
-      var pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
-      // var pageHeight = parseInt(self.$window.height(), 10) + 'px';
-      // var pageHeight = parseInt( self.$window.height(),10 ) + 60 + 'px';
-      self.$pageWrapOuter.height(pageHeight);
+      pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+      // pageHeight = parseInt(self.$window.height(), 10) + 'px';
+      // pageHeight = parseInt( self.$window.height(),10 ) + 60 + 'px';
 
       if (!self.mobileNavIScroll) {
-        var $outer = $('#nav-outer-container'), $inner = $outer.find('.nav-mobile-scroller'), innerHeight = $inner.height();
+        $outer = $('#nav-outer-container');
+        $inner = $outer.find('.nav-mobile-scroller');
+        innerHeight = $inner.height();
 
-        $outer.height(pageHeight);
-        $inner.height(innerHeight);
+        $outer.css( 'height', pageHeight );
+        $inner.css( 'height', innerHeight );
 
-        setTimeout(function() {// make sure heights are already set before initializing iScroll.
+        // make sure heights are already set before initializing iScroll.
+        setTimeout(function() {
           module.initMobileNavIScroll();
-        }, 1);
+        }, 0);
       }
+
+      // Set this after `$outer` and `$inner` have been set so that all the setters are in order
+      self.$pageWrapOuter.css( 'height', pageHeight );
 
       $('#page-wrap-inner').addClass('show-mobile-menu');
       self.mobileNavVisible = true;
     },
+
     hideMobileNav : function() {
       var self = this;
       self.hideMobileBackdrop();
@@ -880,7 +886,6 @@ define(function(require){
 
   // Overrideable options
   $.fn.globalNav.options = {
-    sampleOption : 0
   };
 
   // Not overrideable
@@ -891,7 +896,9 @@ define(function(require){
 
   module.initMobileNavIScroll = function() {
     var globalNav = $('.nav-wrapper').data('globalNav');
-    // if there's alreaddy a mobileNavIScroll, refresh it.
+
+    // If there's alreaddy a mobileNavIScroll, refresh it.
+    // THIS IS HAPPENING ON EVERY KEYSTROKE!
     if (!!globalNav.mobileNavIScroll) {
       var $scroller = $('.nav-mobile-scroller');
       $scroller.css('height', '');
@@ -903,9 +910,10 @@ define(function(require){
           globalNav.mobileNavIScroll.refresh();
         },50);
       },50);
-      // if not, init it.
+
+    // No mobileNavIScroll, initialize it
     } else {
-      globalNav.mobileNavIScroll = new window.IScroll('nav-outer-container', {
+      globalNav.mobileNavIScroll = new IScroll('nav-outer-container', {
         vScroll : true,
         hScroll : false,
         hScrollbar : false,
@@ -926,6 +934,8 @@ define(function(require){
 
       });
 
+      // Update images w/o scrolling
+      iQ.update();
     }
   };
 
