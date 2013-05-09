@@ -38,24 +38,35 @@ $transitionSpeed: 1.5s;
   }
 }
 
-@media ( min-width: px-em(567) ) and (max-width: px-em(767px)) {
-
-}
-
 $transitionSpeed: 0.5s;
 
 @media ( max-width: px-em(767px) ) {
 
+
+  .editorial {
+    .submodule, .image-module {    
+      .arrow-right, .arrow-left {
+        display: none;
+      }
+    }
+    .hspot-small {
+      .arrow-right, .arrow-left {
+        display: none;
+      }
+    }
+  }
+
+
   body {
     .hspot-underlay {
+      position: fixed;
+      z-index: 5;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      position: fixed;
       background: rgb(255, 255, 255) transparent;
       background-color: rgba(255, 255, 255, 0);
-      z-index: 5;
       -o-transition:$transitionSpeed;
       -ms-transition:$transitionSpeed;
       -moz-transition:$transitionSpeed;
@@ -64,14 +75,14 @@ $transitionSpeed: 0.5s;
       opacity: 0;
     }
     .hspot-underlay-on {
+      position: fixed;
+      z-index: 5;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      position: fixed;
       background: rgb(255, 255, 255) transparent;
       background-color: rgba(255, 255, 255, 0.3);
-      z-index: 5;
       -o-transition:$transitionSpeed;
       -ms-transition:$transitionSpeed;
       -moz-transition:$transitionSpeed;
@@ -80,15 +91,15 @@ $transitionSpeed: 0.5s;
       opacity: 1;
     }
   }
+  
   .editorial {
     .submodule, .hotspot-instance {
       /* SMALL HOTSPOTS */
       .hspot-outer {
         position: absolute;
         top: 0;
-        left: 0;
-        margin-top: -20px;
         left: -15px;
+        margin-top: -20px;
         width: 42px;
         height: 42px;
         background: url('../../img/editorial-dual-viewer-e9/gray30.png');
@@ -100,18 +111,18 @@ $transitionSpeed: 0.5s;
         
         .hspot-core {
           position: absolute;
-          width: 64px;
-          height: 64px;
-          @include scale(0.5);
-          background: $buttonOrange;
           display: block;
-          text-align: center;
-          font-size: 2.0em;
+          margin: -32px 0 0 -32px;
           top: 50%;
           left: 50%;
-          margin: -32px 0 0 -32px;
+          width: 64px;
+          height: 64px;
+          background: $buttonOrange;
+          text-align: center;
+          font-size: 2.0em;
           @include border-radius(50%);
           @include transition(.1s ease-out);
+          @include scale(0.5);
           
           .icons {
             position: absolute;
@@ -146,18 +157,18 @@ $transitionSpeed: 0.5s;
         
         .hspot-core-on {
           position: absolute;
+          display:block;
           width: 64px;
           height: 64px;
-          @include scale(0.5);
-          background:$gray30;
-          display:block;
-          text-align:center;
-          font-size:2.0em;
           top:50%;
           left:50%;
           margin: -32px 0 0 -32px;
+          background:$gray30;
+          text-align:center;
+          font-size:2.0em;
           @include border-radius(50%);
           @include transition(.1s ease-out);
+          @include scale(0.5);
           
           .icons {
             position:absolute;

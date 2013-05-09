@@ -23,6 +23,11 @@ $transitionSpeed: 0.5s;
   transition: 0s;	
 }
 
+@mixing noflicker() {
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+}
 
 /*PATCH TO FIX ZINDEX ISSUE ON FULL-WIDTH-INNER*/
 .editorial.full-inner .inner { 
@@ -30,7 +35,8 @@ $transitionSpeed: 0.5s;
 }
 
 .editorial {
-  .submodule, .image-module {    
+  .submodule, .image-module {  
+    
     .arrow-right {
     	width: 0; 
     	height: 0; 
@@ -46,22 +52,22 @@ $transitionSpeed: 0.5s;
     	border-bottom: 10px solid transparent; 	
     	border-right: 10px solid #fff;
     } 
-    &.hspot-small {
-      .arrow-right {
-      	width: 0; 
-      	height: 0; 
-      	border-top: 8px solid transparent;
-      	border-bottom: 8px solid transparent;
-      	border-left: 8px solid #fff;
-      }
-      
-      .arrow-left {
-      	width: 0; 
-      	height: 0; 
-      	border-top: 8px solid transparent;
-      	border-bottom: 8px solid transparent; 	
-      	border-right: 8px solid #fff; 
-      }
+  }
+  .hspot-small {
+    .arrow-right {
+    	width: 0; 
+    	height: 0; 
+    	border-top: 8px solid transparent;
+    	border-bottom: 8px solid transparent;
+    	border-left: 8px solid #fff;
+    }
+    
+    .arrow-left {
+    	width: 0; 
+    	height: 0; 
+    	border-top: 8px solid transparent;
+    	border-bottom: 8px solid transparent; 	
+    	border-right: 8px solid #fff; 
     }
   }
 }
@@ -70,6 +76,7 @@ $transitionSpeed: 0.5s;
   .table-center-wrap .table-center, .submodule {
     .image-module {
       position: relative;
+      @include noflicker();
       
       .eh-transparent {
         @include ehsTransition();
@@ -290,7 +297,7 @@ $transitionSpeed: 0.5s;
       .arrow-right,
       .arrow-left, {
         position: absolute;
-        z-index: 3;
+        z-index: 4;
       }
       
       .arrow-right {
@@ -401,7 +408,7 @@ $transitionSpeed: 0.5s;
     /* SMALL HOTSPOTS */
     .hspot-outer.hspot-small {
       position: absolute;
-      z-index: 1;
+      z-index: auto;
       top: 0;
       left: 0;
       margin-top: -20px;
@@ -417,7 +424,7 @@ $transitionSpeed: 0.5s;
       .arrow-right,
       .arrow-left, {
         position: absolute;
-        z-index: 3;
+        z-index: 4;
       }
       
       .arrow-right {
@@ -517,7 +524,7 @@ $transitionSpeed: 0.5s;
 
 .overlay-base {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   text-align: left;
   cursor: default;
     
@@ -587,11 +594,11 @@ $transitionSpeed: 0.5s;
   }
   
   &.variant2.to-left {
-    left: -287px;
+    left: -238px;
   }
   
   &.variant2.to-right {
-    left: 57px;
+    left: 48px;
   }
   
   &.variant2 { 
