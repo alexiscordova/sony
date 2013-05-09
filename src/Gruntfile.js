@@ -417,6 +417,24 @@ module.exports = function(grunt) {
           console:false
         }
       }
+    },
+    
+    csscss:{
+      options:{
+        compass:true,
+        ignoreSassMixins:true
+      },
+      dist:{
+        src: (function(){
+          var arr = [];
+          grunt.file.expand('packages/modules/**/css').forEach(function(path){
+            arr.push(path.toString());
+          })
+          return arr;
+        })()
+      }
+      
+      
     }
     
     
