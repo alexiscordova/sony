@@ -171,12 +171,10 @@ define(function(require) {
       $( self.$els ).each(function( index, el ) {
         // bind the click, place it based on the data-x and -y coordinates, and fade em in
         // lets hide everything first, and initialize the hotspot window right top justified
-/*
         var base = $( el ).find( '.overlay-base' );
         var hasTop = base.find( '.top.is-default-on').length;
         var threeOrTwo = ( hasTop > 0 ) ? 'three' : 'two';
         self.moveTo( $( base ), 'right-top', threeOrTwo );
-*/
         self.bind( el );
         self.place( el );
       });
@@ -555,40 +553,31 @@ define(function(require) {
     },
     repositionByQuadrant: function( el, fromResize ) {
       // this function will reposition the hotspots in a simple way: by calculating what quadrant the hotspot is nested, and open the 
-      // hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a hotspot appear left of it, 
+      // hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a hotspot appear 
       var self                  = this,
-          $parentContainer       = el.parent(),
-          parentWidth            = $parentContainer.width(),
-          parentHeight           = $parentContainer.height(),
+          // "parentContainer" is vague, but the container element can be a derivative of a few different constructs, but is consistently three levels upward,
+          // for the asset tracking and one level up for background types. And so, we anonymously select the parent by hierarchy instead of identifier.
+          $parentContainer       = ( 'asset' === self.trackingMode ) ? el.parent().parent().parent() : el.parent(),  
           $hotspot               = el,
-          hotspotPosition        = $hotspot.position(),
-          $overlay               = el.find( '.overlay-base' ),
-          $top                   = $overlay.find( '.top' ),
-          topHeight              = $top.height(),
-          hasTop                 = topHeight > 0 ? true : false,
-          $middle                = $overlay.find( '.middle' ),
-          middleHeight           = $middle.outerHeight(),
-          topOffsetLow           = ( ( middleHeight * 73.26102088 ) / 100 ) + topHeight,
-          topOffsetHigh          = ( ( middleHeight * 11.11111111 ) / 100 ) + topHeight,
-          $bottom                = $overlay.find( '.footer' ),
           side                   = [],
-          quadrant               = 0;
+          quadrant               = 0,
+          hotspotPosition        = $hotspot.position();
           
           // what horizontal half are we in?
-          if( hotspotPosition.left < ( parentWidth / 2 ) ) {
+          if( hotspotPosition.left < ( parentContainer.width() / 2 ) ) {
             side[0] = 2;
           } else {
             side[0] = 4;
           }
           
           // what vertical half are we in?
-          if( hotspotPosition.top < ( parentHeight / 2 ) ) {
+          if( hotspotPosition.top < ( parentContainer.height() / 2 ) ) {
             side[1] = 6;
           } else {
             side[1] = 7;
           }
           
-          // sum up the answer, just chose 4 weights that would never sum up the same
+          // sum up the answer
           switch( ( side[ 0 ] + side[ 1 ] ) ) {
             case 8:
               quadrant = 2;
@@ -607,18 +596,16 @@ define(function(require) {
           // adjust layout classes per quadrant 
           switch( quadrant ) {
             case 1:
-            case 4:
-              // position overlay to the left of hotspot
-              $overlay.addClass( 'to-left' );
-              $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-              quadrant === 1 ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
+              
             break;
             case 2:
+              
+            break;
             case 3:
-              // add to-right
-              $overlay.addClass( 'to-right' );
-              $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-              quadrant === 2 ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
+              
+            break;
+            case 4:
+              
             break;
           }
           
@@ -920,17 +907,15 @@ define(function(require) {
       }
     },
     
-    transition: function( collection, direction ) {
-      $( collection ).each( function( index, _el ) {
-        switch(direction) {
-          case "on":
-            $( _el ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );  
-          break;
-          case "off":
-            $( _el ).removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
-          break;
-        }
-      });
+    transition: function( _el, direction ) {
+      switch(direction) {
+        case "on":
+          _el.removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        break;
+        case "off":
+          _el.removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
+        break;
+      }
     },
     
     close: function( container, hotspot, info ) {
@@ -949,11 +934,7 @@ define(function(require) {
         }
         
         // begin fade out
-        self.transition( [
-                          info.parent().find('.arrow-left'), 
-                          info.parent().find('.arrow-right'),
-                          info.find('.overlay-inner') 
-                         ], 'off' );
+        self.transition( info.find('.overlay-inner'),  'off' );
         
         // closure to allow script to set display:none when transition is complete
         var anon = function() {
@@ -996,9 +977,8 @@ define(function(require) {
         // we have to set display: block to allow DOM to calculate dimension
         info.removeClass( 'hidden' );
         
-        // reposition window per it's collision detection result
-        self.repositionByQuadrant( container );
-        //self.reposition( container );
+        // reposition window per it's collision detection
+        self.reposition( container );
         
         // fade in info window
         if( true === self.showOverlayCentered ) {
