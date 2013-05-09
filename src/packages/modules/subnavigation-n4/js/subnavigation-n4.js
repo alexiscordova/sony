@@ -55,23 +55,23 @@ define(function(require){
       if ( !Settings.$html.hasClass('lt-ie10') ){
         enquire.register("(min-width: 980px)", function() {
           self.mode = 'desktop';
-          self.renderSubcats(null, false);
-          self.renderNav();
+          self.renderSubcats(self.$activeSubcat, false);
+          self.renderNav(2);
         });
         enquire.register("(min-width: 480px) and (max-width: 979px)", function() {
           self.mode = 'tablet';
-          self.renderSubcats(null, true);
-          self.renderNav();
+          self.renderSubcats(self.$activeSubcat, true);
+          self.renderNav(3);
         });
         enquire.register("(max-width: 479px)", function() {
           self.mode = 'mobile';
-          self.renderSubcats(null, true);
-          self.renderNav();
+          self.renderSubcats(self.$activeSubcat, true);
+          self.renderNav(4);
         });
       } else {
         self.mode = 'desktop';
-        self.renderSubcats(null, false);
-        self.renderNav();
+        self.renderSubcats(self.$activeSubcat, false);
+        self.renderNav(2);
       }
 
       Environment.on('global:resizeDebounced', $.proxy(self.setTrayHeight, self));
@@ -81,8 +81,6 @@ define(function(require){
 
       var self = this,
           $grids;
-
-      $subcat = $subcat || self.$activeSubcat;
 
       if ( !$subcat ) {
         return;
@@ -101,25 +99,13 @@ define(function(require){
       self.setTrayHeight();
     },
 
-    renderNav: function() {
+    renderNav: function(columns) {
 
       var self = this,
           isMobile = (self.mode === 'mobile'),
-          newCols, currentSlide;
+          currentSlide;
 
-      switch ( self.mode ) {
-        case 'desktop':
-          newCols = 2;
-          break;
-        case 'tablet':
-          newCols = 3;
-          break;
-        case 'mobile':
-          newCols = 4;
-          break;
-      }
-
-      Utilities.reassignSpanWidths(self.$navgroups.find('.subcategory-link'), newCols);
+      Utilities.reassignSpanWidths(self.$navgroups.find('.subcategory-link'), columns);
 
       self.$navgroups = Utilities.gridApportion({
         $groups: self.$navgroups,
@@ -206,7 +192,7 @@ define(function(require){
       var self = this;
 
       if ( self.$activeSubcat ) {
-        self.$tray.css('height', self.$activeSubcat.outerHeight(true));
+        self.$tray.css('height', self.$activeSubcat.outerHeight());
       }
     }
 
