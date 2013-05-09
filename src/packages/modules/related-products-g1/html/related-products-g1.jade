@@ -61,7 +61,7 @@ mixin rpSection( data, slideContent, panelId )
 
 moduleId = data.id ? data.id : false
 mode = data.config.mode
-hasSlides = !data.config.standalone
+hasSlides = mode == 'strip' ? false : !data.config.standalone
 
 div(id=moduleId)
 

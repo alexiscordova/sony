@@ -7,6 +7,20 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 
 @mixin compact-thumb-nav {
+  .editorial {
+    // since were applying heights via editorial-chapters-e5
+    // we need to get rid of the table styling since it mainly
+    // ignores heights
+    .table-center-wrap,
+    .table-center {
+      display: block;
+    }
+    .table-center,
+    .box {
+      height: 100%;
+    }
+  }
+
   &.thumb-mode {
     .thumb-nav {
       height:62px;
@@ -14,13 +28,14 @@ $tabletMax: px-em(979);
 
       li {
         width:auto;
-        padding:8px 0;
+        padding:8px;
         height:42px;
       }
         img {
           width:55px;
           height:42px;
-          margin:0 5px;
+          margin:0 auto;
+          float: none;
         }
         i, span {display:none;}
     }
@@ -46,8 +61,8 @@ $tabletMax: px-em(979);
 
       li {
         line-height:14px;
-        padding:15px 0;
-        height:14px;
+        padding:10px 0;
+        height:24px;
         width:auto;
       }
       img, i {display:none;}
