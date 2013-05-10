@@ -9,7 +9,7 @@
 //
 // *Example Usage:*
 //
-//      $('.editorial-video').editorialVideo();
+//      $('.editorial-video').sonyVideo();
 
 define(function(require){
 
@@ -26,15 +26,15 @@ define(function(require){
 
     var self = {
       'init': function() {
-        $('.editorial-video-container').editorialVideo();
+        $('.sony-video').sonyVideo();
       }
     };
     
-    var EditorialVideo = function(element, options){
+    var SonyVideo = function(element, options){
       var self = this;
        
       // Extend
-      $.extend( self, {}, $.fn.editorialVideo.defaults, options, $.fn.editorialVideo.settings );
+      $.extend( self, {}, $.fn.sonyVideo.defaults, options, $.fn.sonyVideo.settings );
       
       // Set base element
       self.$el = $( element );
@@ -62,24 +62,30 @@ define(function(require){
       self.$window              = Settings.$window;
       self.$html                = Settings.$html;
 
+      self.videoAPI             = null;
+
       // Inits the module
       self.init();
 
     };
 
-    EditorialVideo.prototype = {
-      constructor: EditorialVideo,
+    SonyVideo.prototype = {
+      constructor: SonyVideo,
 
       // Initalize the module
       init : function( param ) {
         var self = this;
 
         //initialize videos
-        sonyVideo.initVideos( self.$el.find('.player') );
+        self.videoAPI = sonyVideo.initVideos( self.$el.find('.player') );
 
+        self.videoAPI.bind('resume' , function(){
+          if(self.isFullEditorial){
+            self.onDebouncedResize();
+          }
+        });
 
-        if( self.isFullEditorial ){
-          log( ' is full bleed...........' );
+        if(self.isFullEditorial){
           Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
           self.onDebouncedResize(); //call once to set size
         }
@@ -94,49 +100,17 @@ define(function(require){
 
         if(wW > 980){
           //this makes the header grow 1px taller for every 20px over 980w..
-          self.$el.css( 'height', Math.round( Math.min( 720, 560 + ( ( wW - 980 ) / 5 ) ) ) );
+          self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
           //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles
-          self.$el.css( 'height', '' );
+          self.$el.css('height', '');
         }
 
         var heightDiff = Math.abs( self.$el.height() - self.$el.find('.fp-engine').height() );
 
         if(heightDiff > 0){
-          var howMany = self.$el.find('.fp-engine').css('top' , -heightDiff / 2 + 'px');
-        }else {
-          self.$el.find('.fp-engine').css('top' , '');
-        }
-
-      },
-
-      // Registers with Enquire JS for breakpoint firing
-      setupBreakpoints: function(){
-        var self = this;
-        
-        if( !self.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 769px)", function() {
-          self.isMobileMode = self.isTabletMode = false;
-          self.isDesktopMode = true;
-        });
-
-        enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
-          self.isMobileMode = self.isDesktopMode = false;
-          self.isTabletMode = true;
-        });
-
-        enquire.register("(max-width: 568px)", function() {
-          self.isDesktopMode = self.isTabletMode = false;
-          self.isMobileMode = true;
-        });
-
-      }
-
-        if( self.$html.hasClass('lt-ie10') ){
-          self.isMobileMode = self.isTabletMode = false;
-          self.isDesktopMode = true;
-
+          self.$el.find('.fp-engine').css('top' , -heightDiff / 2 + 'px');
         }
 
       }
@@ -145,31 +119,31 @@ define(function(require){
     };
 
     // jQuery Plugin Definition
-    $.fn.editorialVideo = function( options ) {
+    $.fn.sonyVideo = function( options ) {
       var args = Array.prototype.slice.call( arguments, 1 );
       return this.each(function() {
         var self = $( this ),
-          editorialVideo = self.data( 'editorialVideo' );
+          sonyVideo = self.data( 'sonyVideo' );
 
         // If we don't have a stored moduleName, make a new one and save it.
-        if ( !editorialVideo ) {
-            editorialVideo = new EditorialVideo( self, options );
-            self.data( 'moduleName', editorialVideo );
+        if ( !sonyVideo ) {
+            sonyVideo = new SonyVideo( self, options );
+            self.data( 'moduleName', sonyVideo );
         }
 
         if ( typeof options === 'string' ) {
-          editorialVideo[ options ].apply( editorialVideo, args );
+          sonyVideo[ options ].apply( sonyVideo, args );
         }
       });
     };
 
     // Defaults
     // --------
-    $.fn.editorialVideo.defaults = {};
+    $.fn.sonyVideo.defaults = {};
 
     // Non override-able settings
     // --------------------------
-    $.fn.editorialVideo.settings = {};
+    $.fn.sonyVideo.settings = {};
   
     return self;
  });
