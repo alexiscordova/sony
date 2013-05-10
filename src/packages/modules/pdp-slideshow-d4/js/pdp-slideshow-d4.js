@@ -127,7 +127,7 @@ define(function(require){
           self.$el.css('height', '');
         }
 
-        
+
         self.$el.find('.pdp-slideshow-slide > .ghost-center-wrap').css('height' , self.$el.height() + 'px');
 
       },
@@ -143,7 +143,6 @@ define(function(require){
           looped: true,
           jumping: true,
           axis: 'x',
-          unit: '%',
           dragThreshold: 2,
           useCSS3: self.useCSS3,
           paddles: true,
