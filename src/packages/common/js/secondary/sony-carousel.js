@@ -171,7 +171,6 @@ define(function(require){
 
       self.$el.sonyDraggable({
         'axis': axis,
-        'unit': self.unit,
         'dragThreshold': self.dragThreshold,
         'containment': self.$wrapper,
         'useCSS3': self.useCSS3,
@@ -727,9 +726,6 @@ define(function(require){
 
     // Which direction the carousel moves in. Plugin currently only supports 'x'.
     axis: 'x',
-
-    // Unit by which sony-draggable positions the carousel. Plugin not tested for 'px'... *yet*.
-    unit: '%',
 
     // Amount of distance user must move in touch environments before the carousel begins to move
     // **and** preventDefault() is triggered. Allows for vertical scrolling before trapping the touch.

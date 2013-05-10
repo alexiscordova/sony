@@ -386,7 +386,7 @@ define(function(require){
     'axis': 'xy',
 
     // 'px' or '%' based positioning for handle / callback coords.
-    'unit': 'px',
+    'unit': '%',
 
     // Motion that must be passed on touch before dragging will start. Helpful for
     // preventing "touch-trapping" scenarios.
