@@ -209,24 +209,7 @@ define(function(require){
         return;
       }
 
-      // Snap to appropriate slides
-      if ( data.acceleration.x > 150 ) {
-
-        if ( self.currentSlide === 0 ) {
-          self.gotoNearestSlide();
-        } else {
-          self.gotoSlide(self.currentSlide - 1);
-        }
-      } else if ( data.acceleration.x < -150 ) {
-
-        if ( self.currentSlide === self.$slides.length - 1 ) {
-          self.gotoNearestSlide();
-        } else {
-          self.gotoSlide(self.currentSlide + 1);
-        }
-      } else {
-        self.gotoNearestSlide();
-      }
+      self.gotoNearestSlide();
     },
 
     getPositions: function($slideSet) {
