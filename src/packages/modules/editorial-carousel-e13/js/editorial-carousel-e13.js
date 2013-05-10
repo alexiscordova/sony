@@ -64,6 +64,7 @@ define(function(require) {
       self.$carousel.sonyCarousel({
         wrapper: '.sony-carousel-wrapper',
         slides: '.sony-carousel-slide',
+        CSS3Easing: Settings.carouselEasing,
         pagination: true,
         paddles: true,
         paginationTheme: self.$el.data('mode') === 'dark' ? 'light' : 'dark'

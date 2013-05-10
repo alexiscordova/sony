@@ -102,6 +102,7 @@ define(function(require) {
         self.$slideContainer.sonyCarousel({
           wrapper: '.editorial-carousel-wrapper',
           slides: '.editorial-carousel-slide',
+          CSS3Easing: Settings.carouselEasing,
           looped: true,
           jumping: true,
           axis: 'x',
