@@ -98,7 +98,7 @@ editorialClasses = [ "editorial", data.mode ]
 if data.variation && data.variation.background
   - editorialClasses.push( data.variation.background )
 
-div(class = editorialClasses, id = data.id ? data.id : false)
++mainElement( editorialClasses )
   if data.mode == "textonly"
     .container
       +gridstyle
@@ -107,7 +107,7 @@ div(class = editorialClasses, id = data.id ? data.id : false)
 
   else if data.mode == "full-inner"
     .container.submodule
-      +partial(data.submodules[0].type, data.submodules[0].data)
+      +partial(data.submodules[0].type, data.submodules[0].data, true)
     +boxlayout
       +copyblock(data, "t3-bold", "t7", "p3")
   else if data.mode == "full"
@@ -116,7 +116,7 @@ div(class = editorialClasses, id = data.id ? data.id : false)
         +textonlylayout
           +copyblock
     .container.submodule
-      +partial(data.submodules[0].type, data.submodules[0].data)
+      +partial(data.submodules[0].type, data.submodules[0].data, true)
 
   else if data.mode == "mediaright"
     .container
@@ -129,7 +129,7 @@ div(class = editorialClasses, id = data.id ? data.id : false)
         span = "span" + data.layout.columns[1]
         .media-element(class = span)
           +center
-            +partial(data.submodules[0].type, data.submodules[0].data)
+            +partial(data.submodules[0].type, data.submodules[0].data, true)
 
   else if data.mode == "medialeft"
     .container
@@ -137,7 +137,7 @@ div(class = editorialClasses, id = data.id ? data.id : false)
         span = "span" + data.layout.columns[0]
         .media-element(class = span)
           +center
-            +partial(data.submodules[0].type, data.submodules[0].data)
+            +partial(data.submodules[0].type, data.submodules[0].data, true)
         span = "span" + data.layout.columns[1]
         div(class = span)
           +center
@@ -170,7 +170,7 @@ div(class = editorialClasses, id = data.id ? data.id : false)
             +copyblock
       if data.submodules
         .submodule
-          +partial(data.submodules[0].type, data.submodules[0].data)
+          +partial(data.submodules[0].type, data.submodules[0].data, true)
       columnoffset = data.layout.tout.columnoffset || 0;
       offset = "offset" + columnoffset;
       +gridstyle(ups, data.mode == "tout")

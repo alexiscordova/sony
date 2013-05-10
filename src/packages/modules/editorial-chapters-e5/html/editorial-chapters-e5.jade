@@ -33,8 +33,11 @@ mixin copyblock(_copy, _title, _subtitle, _body, linkclass)
     .link
       linktextsize = copyobject.link.type == "txt" ? "lt3" : ""
       a(class = copyobject.link.type, href= copyobject.link.url)(class = linktextsize) !{copyobject.link.text}
-      
-div.editorial-chapters-container.container( class=data.config.nav_shade+' '+data.config.nav_mode+'-mode '+data.config.nav_location+'-nav')
+
+
+ecClasses = [ "editorial-chapters-container", "container", data.config.nav_shade, data.config.nav_mode+"-mode", data.config.nav_location+"-nav" ]
+
++mainElement( ecClasses )
   div(class='editorial-chapters')
     if data.config.nav_location == "top"
       +thumb-nav
@@ -43,6 +46,6 @@ div.editorial-chapters-container.container( class=data.config.nav_shade+' '+data
       div(class='editorial-carousel')
         for slide in data.submodules
           .editorial-carousel-slide
-            +partial(slide.type, slide.data)
+            +partial(slide.type, slide.data, true)
     if data.config.nav_location == "bottom"
       +thumb-nav
