@@ -61,20 +61,18 @@ $tabletMax: px-em(979);
   } 
   &.text-mode {
     .thumb-nav {
-      height:48px;
+      height:60px;
 
       li {
         line-height:14px;
         padding:10px 0;
-        height:24px;
+        height:34px;
         width:auto;
       }
       img, i {display:none;}
       .label-container {
         top: 1px;
-        height:14px;
         display:block;
-        overflow:hidden;
       }
     }
   }
@@ -182,7 +180,7 @@ $tabletMax: px-em(979);
 }
 
 
-@media (min-width: 910px) {
+@media (min-width: $tabletMax) {
   .container,
   .span12 {
     & > .editorial-chapters-container {
