@@ -62,6 +62,8 @@ define(function (require) {
   self.shuffleEasing = 'ease-out';
   self.shuffleSpeed = 250;
 
+  self.carouselEasing = 'ease-out';
+
   // Get grid percentages
   self.fiveColumns = 5;
   self.sixColumns = 6;
