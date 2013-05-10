@@ -55,23 +55,23 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">if</span> ( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
         enquire.register(<span class="string">"(min-width: 980px)"</span>, <span class="keyword">function</span>() {
           self.mode = <span class="string">'desktop'</span>;
-          self.renderSubcats(<span class="literal">null</span>, <span class="literal">false</span>);
-          self.renderNav();
+          self.renderSubcats(self.$activeSubcat, <span class="literal">false</span>);
+          self.renderNav(<span class="number">2</span>);
         });
         enquire.register(<span class="string">"(min-width: 480px) and (max-width: 979px)"</span>, <span class="keyword">function</span>() {
           self.mode = <span class="string">'tablet'</span>;
-          self.renderSubcats(<span class="literal">null</span>, <span class="literal">true</span>);
-          self.renderNav();
+          self.renderSubcats(self.$activeSubcat, <span class="literal">true</span>);
+          self.renderNav(<span class="number">3</span>);
         });
         enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
           self.mode = <span class="string">'mobile'</span>;
-          self.renderSubcats(<span class="literal">null</span>, <span class="literal">true</span>);
-          self.renderNav();
+          self.renderSubcats(self.$activeSubcat, <span class="literal">true</span>);
+          self.renderNav(<span class="number">4</span>);
         });
       } <span class="keyword">else</span> {
         self.mode = <span class="string">'desktop'</span>;
-        self.renderSubcats(<span class="literal">null</span>, <span class="literal">false</span>);
-        self.renderNav();
+        self.renderSubcats(self.$activeSubcat, <span class="literal">false</span>);
+        self.renderNav(<span class="number">2</span>);
       }
 
       Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.setTrayHeight, self));
@@ -81,8 +81,6 @@ define(<span class="keyword">function</span>(require){
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $grids;
-
-      $subcat = $subcat || self.$activeSubcat;
 
       <span class="keyword">if</span> ( !$subcat ) {
         <span class="keyword">return</span>;
@@ -101,25 +99,13 @@ define(<span class="keyword">function</span>(require){
       self.setTrayHeight();
     },
 
-    renderNav: <span class="keyword">function</span>() {
+    renderNav: <span class="keyword">function</span>(columns) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           isMobile = (self.mode === <span class="string">'mobile'</span>),
-          newCols, currentSlide;
+          currentSlide;
 
-      <span class="keyword">switch</span> ( self.mode ) {
-        <span class="keyword">case</span> <span class="string">'desktop'</span>:
-          newCols = <span class="number">2</span>;
-          <span class="keyword">break</span>;
-        <span class="keyword">case</span> <span class="string">'tablet'</span>:
-          newCols = <span class="number">3</span>;
-          <span class="keyword">break</span>;
-        <span class="keyword">case</span> <span class="string">'mobile'</span>:
-          newCols = <span class="number">4</span>;
-          <span class="keyword">break</span>;
-      }
-
-      Utilities.reassignSpanWidths(self.$navgroups.find(<span class="string">'.subcategory-link'</span>), newCols);
+      Utilities.reassignSpanWidths(self.$navgroups.find(<span class="string">'.subcategory-link'</span>), columns);
 
       self.$navgroups = Utilities.gridApportion({
         $groups: self.$navgroups,
@@ -206,7 +192,7 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       <span class="keyword">if</span> ( self.$activeSubcat ) {
-        self.$tray.css(<span class="string">'height'</span>, self.$activeSubcat.outerHeight(<span class="literal">true</span>));
+        self.$tray.css(<span class="string">'height'</span>, self.$activeSubcat.outerHeight());
       }
     }
 

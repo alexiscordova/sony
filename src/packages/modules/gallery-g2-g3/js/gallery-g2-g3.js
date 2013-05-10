@@ -2965,8 +2965,6 @@ define(function(require){
 
       offset = Math.max( x, max );
 
-      console.assert( x !== undefined );
-
       $bar.css( self.prop, self.getX( offset ) );
     },
 
@@ -3061,9 +3059,9 @@ define(function(require){
 
       // Modal pieces
       self.$modal = self.$container.find('#accessory-finder-modal');
-      self.$modalBody = self.$modal.find('.modal-body');
       self.$modalHeader = self.$modal.find('.modal-header');
       self.$modalSubhead = self.$modal.find('.modal-subhead');
+      self.$modalBody = self.$modal.find('.modal-body');
 
       // Components
       self.$grid = self.$container.find('.products');
@@ -3074,6 +3072,8 @@ define(function(require){
       self.$sortSelect = self.$container.find('.sort-options select');
       self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
       self.$searchField = self.$container.find('#accessory-finder-input');
+
+      self.useIScroll = self.hasTouch;
 
       // Initialize components
       self
@@ -3204,6 +3204,39 @@ define(function(require){
       return self;
     },
 
+    initIScroll : function() {
+      var self = this,
+          // addedHeights,
+          // wrapperHeight,
+          innerHeight,
+
+      // Let inputs be used, otherwise prevent default
+      allowInputs = function( e ) {
+        var target = e.target,
+            nodeName;
+
+        while ( target.nodeType !== 1 ) {
+          target = target.parentNode;
+        }
+
+        nodeName = target.nodeName;
+
+        if (nodeName !== 'SELECT' && nodeName !== 'INPUT' && nodeName !== 'TEXTAREA') {
+          e.preventDefault();
+        }
+      };
+
+      if ( self.innerHeight ) {
+        self.$wrapperInner.css( 'height', innerHeight );
+      }
+
+      setTimeout(function letHeightRegister() {
+        self.iscroll = new IScroll( self.$wrapper[0], {
+          onBeforeScrollStart: allowInputs
+        });
+      }, 0);
+    },
+
     swapShuffleItemClasses : function( numCols, shuffle ) {
       var self = this,
           newClass = 'span6',
@@ -3242,8 +3275,6 @@ define(function(require){
       // Get the max height of the body
       maxBodyHeight = maxModalHeight - modalHeaderHeight;
 
-      // console.log('screenHeight: ' + screenHeight, ' maxModalHeight: ' + maxModalHeight, ' modalHeaderHeight: ' + modalHeaderHeight, ' maxBodyHeight: ' + maxBodyHeight);
-
       return {
         maxModalHeight: maxModalHeight,
         maxBodyHeight: maxBodyHeight
@@ -3264,59 +3295,106 @@ define(function(require){
     onShuffleDoneLoading : function() {
       var self = this;
 
+      function iScroll() {
+        self.innerHeight = self.$wrapperInner.outerHeight();
+        self.initIScroll();
+      }
+
+      function bodyFadedIn() {
+        if ( self.useIScroll ) {
+          // I honestly have no idea why I have to wait this long to get the right measurement
+          setTimeout( iScroll, 250 );
+        }
+      }
+
+      function fadeInBody() {
+        self.$modalBody.addClass('in');
+        self.isFadedIn = true;
+
+        if ( Modernizr.csstransitions ) {
+          self.$modalBody.one( Settings.transEndEventName, bodyFadedIn );
+        } else {
+          bodyFadedIn();
+        }
+      }
+
       if ( !self.isFadedIn && !self.isLTIE9 ) {
-        setTimeout(function() {
-          self.$modalBody.addClass('in');
-          self.isFadedIn = true;
-        }, 0);
+        setTimeout( fadeInBody, 0 );
       }
     },
 
-    onResize : function( isInit ) {
+    onResize : function( isInit, isFromModalShown ) {
       var self = this,
           screenHeight,
           maxBodyHeight,
-          modalMaxes = {},
-          isMobileSize = !( Modernizr.mediaqueries ? Modernizr.mq('(min-width: 35.5em)') : true );
+          modalMaxes = {};
+
+      self.isMobileSize = !( Modernizr.mediaqueries ? Modernizr.mq('(min-width: 35.5em)') : true );
+
+      if ( self.useIScroll ) {
+        self.$wrapper = self.isMobileSize ?
+          self.$modal :
+          self.$modalBody;
+        self.$wrapperInner = self.$wrapper.children().first();
+      }
 
       // False for event objects
       isInit = isInit === true;
 
       if ( !isInit && self.isModalOpen ) {
 
-        setTimeout(function() {
+        if ( !self.isMobileSize ) {
+          // Caculate how much room the modal body has
+          modalMaxes = self.getMaxModalHeights();
+          maxBodyHeight = modalMaxes.maxBodyHeight;
 
-          if ( !isMobileSize ) {
-            // Caculate how much room the modal body has
-            modalMaxes = self.getMaxModalHeights();
-            maxBodyHeight = modalMaxes.maxBodyHeight;
-          } else {
-            maxBodyHeight = 'none';
-          }
+        } else {
+          maxBodyHeight = 'none';
+        }
 
-          if ( self.hasTouch ) {
-            screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
-            // Stop the page from scrolling behind the modal
-            $('#main').css({
-              height: screenHeight,
-              maxHeight: screenHeight,
-              overflow: 'hidden'
-            });
-          }
+        if ( self.hasTouch ) {
+          screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+          // Stop the page from scrolling behind the modal
+          $('#main').css({
+            height: screenHeight,
+            maxHeight: screenHeight,
+            overflow: 'hidden'
+          });
+        }
 
-          // Set a maximum height on the modal body so that it will scroll
-          // Sony tablet s is completely busted in the modal....
-          if ( !Settings.isSonyTabletS ) {
-            self.$modalBody.css( 'maxHeight', maxBodyHeight );
-          }
+        if ( self.useIScroll ) {
+          self.$modalBody.css( 'height', maxBodyHeight );
+        } else {
+        // Set a maximum height on the modal body so that it will scroll
+          self.$modalBody.css( 'maxHeight', maxBodyHeight );
+        }
 
-          // Set an explicit height on the modal body
-          if ( !isMobileSize ) {
-            self.$modal.css( 'height', modalMaxes.maxModalHeight );
+        // Set an explicit height on the modal body
+        if ( !self.isMobileSize ) {
+          self.$modal.css( 'height', modalMaxes.maxModalHeight );
+        } else {
+          if ( self.useIScroll ) {
+            self.$wrapper.css( 'height', screenHeight );
           } else {
             self.$modal.css( 'height', '' );
           }
-        }, 0);
+        }
+
+        // Window resized while modal is open
+        if ( !isFromModalShown ) {
+          // Destroy iscroll and rebuild it because the container that scrolls
+          // changes between mobile size and not mobile size.
+          if ( self.iscroll ) {
+            self.$wrapperInner.css( 'height', '' );
+            if ( self.isMobileSize  ) {
+              self.innerHeight = self.$wrapperInner.outerHeight();
+            }
+            self.iscroll.destroy();
+            setTimeout(function() {
+              self.initIScroll();
+            }, 0);
+          }
+        }
       }
 
       return self;
@@ -3347,7 +3425,7 @@ define(function(require){
       iQ.update();
 
       // Update max height for modal body
-      self.onResize();
+      self.onResize( false, true );
 
       // Listen for scroll events on the modal body
       if ( self.useScrollListener ) {
@@ -3362,6 +3440,10 @@ define(function(require){
       evt.stopPropagation();
 
       self.shuffle.destroy();
+
+      if ( self.iscroll ) {
+        self.iscroll.destroy();
+      }
 
       if ( self.useScrollListener ) {
         self.$modalBody.off('scroll');
@@ -3381,8 +3463,16 @@ define(function(require){
       }
 
       self.$modal.css( 'height', '' );
+      self.$modal.find('.container').css( 'height', '' );
+
+      self.$modalBody.css({
+        height: '',
+        maxHeight: ''
+      });
 
       self.$modalBody.removeClass('in');
+
+      self.innerHeight = null;
 
       // Clear out the search field
       self.$searchField.val( '' );
@@ -3423,6 +3513,8 @@ define(function(require){
     hasTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
     useScrollListener: !( Settings.isSonyTabletS || Settings.isLTIE9 || Settings.isPS3 ),
     itemSelector: '.compat-item',
+    $wrapper: null,
+    $wrapperInner: null,
     $window: Settings.$window
   };
 
@@ -3434,10 +3526,7 @@ define(function(require){
 
       // Stagger gallery initialization
       setTimeout(function() {
-        // var id = $this.attr('id').substring( 0, $this.attr('id').lastIndexOf('-') );
-        // window.console && console.time && console.time( id );
         $this.gallery( $this.data() );
-        // window.console && console.timeEnd && console.timeEnd( id );
       }, 0);
     });
 

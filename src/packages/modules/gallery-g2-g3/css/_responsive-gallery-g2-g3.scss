@@ -608,6 +608,10 @@ $galleryFourColMax: px-em(979px);
       overflow-y: auto;
     }
 
+    .touch & .modal-body {
+      overflow: visible;
+    }
+
     &.fade.in { top: 0; }
   }
 }
@@ -622,13 +626,18 @@ $galleryFourColMax: px-em(979px);
 @media ( max-width: px-em(767px) ) {
   .accessory-finder {
 
+    .touch & .container {
+      position: relative;
+      height: auto;
+    }
+
     .modal-subhead {
       height: auto;
       padding-top: px-em(13);
       padding-bottom: px-em(13);
     }
 
-    .modal-body {
+    .modal-body-inner {
       padding-top: px-em(18);
       padding-bottom: px-em(18 - 4);
     }
