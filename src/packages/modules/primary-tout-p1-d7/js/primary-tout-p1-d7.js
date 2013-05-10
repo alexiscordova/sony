@@ -81,7 +81,7 @@ define(function(require){
           Environment.on('global:resizeDebounced', $.proxy(self.fixTitleHeight, self));
         }
         
-        var btn = self.$el.find(".inner .box a, .mobile-buttons a");
+        var btn = self.$el.find('.inner .box a, .mobile-buttons a');
 
         if(btn.length > 0){
           btn.on('click', function(e){
@@ -89,11 +89,14 @@ define(function(require){
             self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('hidden');
             self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('hidden');
             //play video?
+            Environment.trigger('video:play:'+self.$el.find('.editorial-video-container').data('video_id'));
           });
           self.$el.find('.submodule .box-close').on('click', function(e){
             e.preventDefault();
             self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').removeClass('hidden');
             self.$el.find('.submodule').addClass('hidden');
+            
+            Environment.trigger('video:pause:all');
           });
         }
 

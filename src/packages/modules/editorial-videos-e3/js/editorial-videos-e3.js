@@ -75,7 +75,21 @@ define(function(require){
         var self = this;
 
         //initialize videos
-        sonyVideo.initVideos( self.$el.find('.player') );
+        var video = sonyVideo.initVideos( self.$el.find('.player') );
+        
+        self.video_id = Math.floor(Math.random()*9999999);
+        self.$el.data('video_id', self.video_id);
+        
+        Environment.on('video:pause:all', function(){
+          video.pause();
+        });
+        Environment.on('video:pause:'+self.video_id, function(){
+          video.pause();
+        });
+        Environment.on('video:play:'+self.video_id, function(){
+          video.play();
+        });
+        
 
 
         if( self.isFullEditorial ){
