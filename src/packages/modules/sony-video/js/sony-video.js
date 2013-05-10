@@ -92,6 +92,10 @@ define(function(require){
         
 
       },
+      api: function(){
+        var self = this;
+        return self.videoAPI;
+      },
 
       // Handles global debounced resize event
       onDebouncedResize: function(){
@@ -128,7 +132,7 @@ define(function(require){
         // If we don't have a stored moduleName, make a new one and save it.
         if ( !sonyVideo ) {
             sonyVideo = new SonyVideo( self, options );
-            self.data( 'moduleName', sonyVideo );
+            self.data( 'sonyVideo', sonyVideo );
         }
 
         if ( typeof options === 'string' ) {
