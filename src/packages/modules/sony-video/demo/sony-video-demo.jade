@@ -3,11 +3,17 @@ doctype 5
 include ../../../common/html/ieconditionals.html
 
 head
+  title Sony Video Demo
   include ../../../common/html/head.jade
 
 body
 
-  +partial('editorial-videos-e3/html/editorial-videos-e3.jade', 'packages/modules/editorial-videos-e3/demo/data/span7-video.json')
+  .container
+    .grid
+      h6 Sony Video Demo (Default)
+
+  +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/standard-video.json')
+
 
   include ../../../common/html/foot.jade
 </html>

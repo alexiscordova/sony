@@ -47,7 +47,7 @@ mixin rpSection( data, slideContent, panelId )
   //- Tabbed related products passes its slide content in, others need to grab it from the data
   slideContent = slideContent ? slideContent : data.slideContent
 
-  section(class=classes, data-mode=data.config.mode , data-variation=data.config.variation, data-rp-panel-id=panelId)
+  div(class=classes, data-mode=data.config.mode , data-variation=data.config.variation, data-rp-panel-id=panelId)
     .rp-overflow
       .rp-container
 
@@ -59,11 +59,10 @@ mixin rpSection( data, slideContent, panelId )
           +rpSlide( data )
 
 
-moduleId = data.id ? data.id : false
 mode = data.config.mode
 hasSlides = mode == 'strip' ? false : !data.config.standalone
 
-div(id=moduleId)
++mainElement
 
   if data.config.tabbedLayout
     +titleBlock( data )
@@ -91,7 +90,7 @@ div(id=moduleId)
 
       .container
         .grid
-          section.related-products(class=mode , data-mode=mode , data-variation=data.config.variation)
+          div.related-products(class=mode , data-mode=mode , data-variation=data.config.variation)
             +includeSubmodules( data.submodules, 'suggested' )
 
 
