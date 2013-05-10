@@ -113,37 +113,7 @@ define(function(require){
           self.$el.find('.fp-engine').css('top' , -heightDiff / 2 + 'px');
         }
 
-      },
-
-      // Registers with Enquire JS for breakpoint firing
-/*      setupBreakpoints: function(){
-        var self = this;
-        
-        if( !self.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 769px)", function() {
-          self.isMobileMode = self.isTabletMode = false;
-          self.isDesktopMode = true;
-        });
-
-        enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
-          self.isMobileMode = self.isDesktopMode = false;
-          self.isTabletMode = true;
-        });
-
-        enquire.register("(max-width: 568px)", function() {
-          self.isDesktopMode = self.isTabletMode = false;
-          self.isMobileMode = true;
-        });
-
       }
-
-        if( self.$html.hasClass('lt-ie10') ){
-          self.isMobileMode = self.isTabletMode = false;
-          self.isDesktopMode = true;
-
-        }
-
-      }*/
 
       //end prototype object
     };

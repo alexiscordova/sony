@@ -1271,7 +1271,7 @@ $.fn.slider2 = function(rtl , vert) {
          maxValue,
          max,
          skipAnimation = false,
-         scrubber = root.children('.fp-scrubber'),
+         scrubber = root.find('.fp-scrubber'),
 
 
          /* private */
@@ -1326,7 +1326,19 @@ $.fn.slider2 = function(rtl , vert) {
                   //scrubber.css('left', (to - 2) + "%");
 
                   if(scrubber){
-                     scrubber.css('left' , (progress.width() - 4) + 'px');
+                     if(vertical){
+
+                       
+                        scrubber.css('top' , '');
+                        scrubber.css('bottom' , (progress.height() - 6) + 'px');
+
+                         log( 'setup initial volume' , scrubber.css('bottom') );
+
+
+                     }else{
+                        scrubber.css('left' , (progress.width() - 4) + 'px');
+                     }
+                     
                   }
                }
             }
@@ -1444,6 +1456,7 @@ flowplayer(function(api, root) {
                <div class="volumeslider">\
                   <div class="volumeleveltrack">\
                      <div class="volumelevel is-slider"/>\
+                     <div class="scrubber"/>\
                   </div>\
                </div>\
             </div>\
@@ -1527,6 +1540,9 @@ flowplayer(function(api, root) {
       // do we need additional space for showing hour
       ((duration >= 3600) && root.addClass('is-long')) || root.removeClass('is-long');
       volumeApi.slide(api.volumeLevel);
+
+
+
 
 
    }).bind("unload", function() {
@@ -1740,11 +1756,6 @@ flowplayer(function(api, root) {
 
    volumeSlider.bind("slide", function(e, val) {
       api.volume(val);
-
-
-      log( 'New slider volume,' , val );
-
-
 
    });
 
