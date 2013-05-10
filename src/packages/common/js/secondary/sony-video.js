@@ -63,12 +63,14 @@ define(function(require) {
         //pass your video elements as a jquery selector
         initVideos: function ( $videos , options ) {
           //init each instace of player
+          var api = null;
+
           $videos.each(function(){
-           var api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( this ).flowplayer() ).get( 0 ) );
+            api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( this ).flowplayer() ).get( 0 ) );
 
            api.bind( 'resume' , function(e , a){
             _currentPlayer = api;
-            toggleCurrentlyPlaying(api);
+            //toggleCurrentlyPlaying(api);
            } );
 
            _totalIntanceCount++;
@@ -76,6 +78,8 @@ define(function(require) {
            log('Total Video instances...' , _totalIntanceCount);
            
           });
+
+          return api;
         }
       };
     }

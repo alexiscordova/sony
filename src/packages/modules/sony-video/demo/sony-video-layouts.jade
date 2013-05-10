@@ -10,17 +10,61 @@ body
 
   .container
     .grid
-      h3 Sony Video Demo (Default)
-      .span7
+      .span5
+       h6 Sony Video Demo (Full Bleed)
+  
+  +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/full-bleed-video.json')
+  
+  hr
+
+  .container
+    .grid
+      .span5
+       h6 Sony Video Demo (Default span6,span6)
+  .container
+    .grid
+      .span6
+       +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/standard-video.json')
+      .span6
+       +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/standard-video.json')
+  hr  
+
+  .container
+    .grid
+      .span5
+       h6 Sony Video Demo (Default span4)
+  .container
+    .grid
+      .span4
        +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/standard-video.json')
 
   hr
+
   .container
     .grid
-      h3 Sony Video Demo (full bleed)
+      .span5
+       h6 Sony Video Demo (Default span6.offset6)
+  .container
+    .grid
+      .span6.offset6
+       +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/standard-video.json')
 
-  +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/full-bleed-video.json')
+  hr
 
+  .container
+    .grid
+      .span5
+       h6 Sony Video Demo (Default span10.offset1)
+  .container
+    .grid
+      .span10.offset1
+       +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/standard-video.json')
+
+  hr
+  hr
+  hr
+  hr
+  hr
 
   include ../../../common/html/foot.jade
 </html>

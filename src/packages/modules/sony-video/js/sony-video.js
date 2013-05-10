@@ -62,6 +62,8 @@ define(function(require){
       self.$window              = Settings.$window;
       self.$html                = Settings.$html;
 
+      self.videoAPI             = null;
+
       // Inits the module
       self.init();
 
@@ -75,8 +77,13 @@ define(function(require){
         var self = this;
 
         //initialize videos
-        sonyVideo.initVideos( self.$el.find('.player') );
+        self.videoAPI = sonyVideo.initVideos( self.$el.find('.player') );
 
+        self.videoAPI.bind('resume' , function(){
+          if(self.isFullEditorial){
+            self.onDebouncedResize();
+          }
+        });
 
         if(self.isFullEditorial){
           Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
@@ -109,7 +116,7 @@ define(function(require){
       },
 
       // Registers with Enquire JS for breakpoint firing
-      setupBreakpoints: function(){
+/*      setupBreakpoints: function(){
         var self = this;
         
         if( !self.$html.hasClass('lt-ie10') ){
@@ -136,7 +143,7 @@ define(function(require){
 
         }
 
-      }
+      }*/
 
       //end prototype object
     };

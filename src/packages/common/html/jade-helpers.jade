@@ -50,7 +50,7 @@ mixin sonyVideo ( videoData )
     - sonyKey = '$343124831096460,'
     - odopodKey = '$421601038208546'
     - allDomainKeys = sonyKey + odopodKey
-    div(class='player is-splash no-time play-button' , data-key=allDomainKeys , data-ratio=videoData.ratio)
+    div(class='player is-splash no-time play-button no-toggle' , data-key=allDomainKeys , data-ratio=videoData.ratio)
      video(preload='none')
       source(type='video/webm', src=videoData.webm.srcDesktop)
       source(type='video/mp4',  src=videoData.mp4.srcDesktop)

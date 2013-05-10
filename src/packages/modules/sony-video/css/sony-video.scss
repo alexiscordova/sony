@@ -1,6 +1,43 @@
 @import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../../../common/css/_base/mixins";
 
+.sony-video {
+
+  &.full-bleed {
+    max-height: 620px;
+    overflow: hidden;
+    position: relative;
+
+    .full-bleed-video-wrap {
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      overflow: hidden;
+
+      .flowplayer {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+
+        video {
+          min-height: 100%;
+          min-width: 100%;
+          height: auto;
+          width: auto;
+        }
+      }
+    }
+
+  }
+
+}
+
+
+
 
 .flowplayer{position:relative;width:100%;background-size:contain;background-repeat:no-repeat;background-position:center center;display:inline-block;}
 .flowplayer *{font-weight:inherit;font-family:inherit;font-style:inherit;text-decoration:inherit;font-size:100%;padding:0;border:0;margin:0;list-style-type:none}
@@ -8,7 +45,18 @@
 .flowplayer video{width:100%}
 .flowplayer.is-ipad video{-webkit-transform:translateX(-2048px);}
 .is-ready.flowplayer.is-ipad video{-webkit-transform:translateX(0)}
-.flowplayer .fp-engine,.flowplayer .fp-ui,.flowplayer .fp-message{position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;z-index:1}
+
+.flowplayer .fp-engine,.flowplayer .fp-ui,.flowplayer .fp-message{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	cursor:pointer;
+	z-index:1;
+	overflow: hidden;
+}
+
 .flowplayer .fp-message{display:none;text-align:center;padding-top:5%;cursor:default;}
 .flowplayer .fp-message h2{font-size:120%;margin-bottom:1em}
 .flowplayer .fp-message p{color:#666;font-size:95%}
@@ -38,17 +86,17 @@
 .flowplayer .fp-subtitle p{display:inline;background-color:#333;background-color:rgba(51,51,51,0.9);color:#eee;padding:.1em .4em;font-size:16px;line-height:1.6;}
 .flowplayer .fp-subtitle p:after{content:'';clear:both}
 .flowplayer .fp-subtitle.fp-active{left:0;opacity:1;filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100)}
-.flowplayer .fp-fullscreen,.flowplayer .fp-unload,.flowplayer .fp-mute,.flowplayer .fp-embed,.flowplayer .fp-close,.flowplayer .fp-play{background-image:url(../img/video/white.png);background-size:37px 300px;}
-.is-rtl.flowplayer .fp-fullscreen,.is-rtl.flowplayer .fp-unload,.is-rtl.flowplayer .fp-mute,.is-rtl.flowplayer .fp-embed,.is-rtl.flowplayer .fp-close,.is-rtl.flowplayer .fp-play{background-image:url(../img/video/white_rtl.png)}
+.flowplayer .fp-fullscreen,.flowplayer .fp-unload,.flowplayer .fp-mute,.flowplayer .fp-embed,.flowplayer .fp-close,.flowplayer .fp-play{background-image:url(../../img/video/white.png);background-size:37px 300px;}
+.is-rtl.flowplayer .fp-fullscreen,.is-rtl.flowplayer .fp-unload,.is-rtl.flowplayer .fp-mute,.is-rtl.flowplayer .fp-embed,.is-rtl.flowplayer .fp-close,.is-rtl.flowplayer .fp-play{background-image:url(../../img/video/white_rtl.png)}
 .color-light.flowplayer .fp-fullscreen,.color-light.flowplayer .fp-unload,.color-light.flowplayer .fp-mute,.color-light.flowplayer .fp-embed,.color-light.flowplayer .fp-close,.color-light.flowplayer .fp-play{background-image:url(img/video/black.png);}
-.is-rtl.color-light.flowplayer .fp-fullscreen,.is-rtl.color-light.flowplayer .fp-unload,.is-rtl.color-light.flowplayer .fp-mute,.is-rtl.color-light.flowplayer .fp-embed,.is-rtl.color-light.flowplayer .fp-close,.is-rtl.color-light.flowplayer .fp-play{background-image:url(../img/video/black_rtl.png)}
-@media (-webkit-min-device-pixel-ratio: 2){.color-light.flowplayer .fp-fullscreen,.color-light.flowplayer .fp-unload,.color-light.flowplayer .fp-mute,.color-light.flowplayer .fp-embed,.color-light.flowplayer .fp-close,.color-light.flowplayer .fp-play{background-image:url(../img/video/black@x2.png)}
-.is-rtl.color-light.flowplayer .fp-fullscreen,.is-rtl.color-light.flowplayer .fp-unload,.is-rtl.color-light.flowplayer .fp-mute,.is-rtl.color-light.flowplayer .fp-embed,.is-rtl.color-light.flowplayer .fp-close,.is-rtl.color-light.flowplayer .fp-play{background-image:url(../img/video/black_rtl@x2.png)}
-}@media (-webkit-min-device-pixel-ratio: 2){.flowplayer .fp-fullscreen,.flowplayer .fp-unload,.flowplayer .fp-mute,.flowplayer .fp-embed,.flowplayer .fp-close,.flowplayer .fp-play{background-image:url(../img/video/white@x2.png)}
-.is-rtl.flowplayer .fp-fullscreen,.is-rtl.flowplayer .fp-unload,.is-rtl.flowplayer .fp-mute,.is-rtl.flowplayer .fp-embed,.is-rtl.flowplayer .fp-close,.is-rtl.flowplayer .fp-play{background-image:url(../img/video/white_rtl@x2.png)}
+.is-rtl.color-light.flowplayer .fp-fullscreen,.is-rtl.color-light.flowplayer .fp-unload,.is-rtl.color-light.flowplayer .fp-mute,.is-rtl.color-light.flowplayer .fp-embed,.is-rtl.color-light.flowplayer .fp-close,.is-rtl.color-light.flowplayer .fp-play{background-image:url(../../img/video/black_rtl.png)}
+@media (-webkit-min-device-pixel-ratio: 2){.color-light.flowplayer .fp-fullscreen,.color-light.flowplayer .fp-unload,.color-light.flowplayer .fp-mute,.color-light.flowplayer .fp-embed,.color-light.flowplayer .fp-close,.color-light.flowplayer .fp-play{background-image:url(../../img/video/black@x2.png)}
+.is-rtl.color-light.flowplayer .fp-fullscreen,.is-rtl.color-light.flowplayer .fp-unload,.is-rtl.color-light.flowplayer .fp-mute,.is-rtl.color-light.flowplayer .fp-embed,.is-rtl.color-light.flowplayer .fp-close,.is-rtl.color-light.flowplayer .fp-play{background-image:url(../../img/video/black_rtl@x2.png)}
+}@media (-webkit-min-device-pixel-ratio: 2){.flowplayer .fp-fullscreen,.flowplayer .fp-unload,.flowplayer .fp-mute,.flowplayer .fp-embed,.flowplayer .fp-close,.flowplayer .fp-play{background-image:url(../../img/video/white@x2.png)}
+.is-rtl.flowplayer .fp-fullscreen,.is-rtl.flowplayer .fp-unload,.is-rtl.flowplayer .fp-mute,.is-rtl.flowplayer .fp-embed,.is-rtl.flowplayer .fp-close,.is-rtl.flowplayer .fp-play{background-image:url(../../img/video/white_rtl@x2.png)}
 }.is-splash.flowplayer .fp-ui,
 .is-paused.flowplayer .fp-ui {
-	//background: url(../img/video/play-btn-lrg.png) center no-repeat;
+	//background: url(../../img/video/play-btn-lrg.png) center no-repeat;
 	/* background-size:12%; */
 
 	.fp-play-btn-lrg {
@@ -117,7 +165,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#da4c25', end
 
 
 
-          .fp-play-head {
+      .fp-play-head {
         position: absolute;
         margin: auto;
         top: 0;
@@ -140,13 +188,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#da4c25', end
 
 
 
-.is-rtl.is-splash.flowplayer .fp-ui,.is-rtl.is-paused.flowplayer .fp-ui{background:url(../img/video/play_white_rtl.png) center no-repeat;background-size:12%}
-@media (-webkit-min-device-pixel-ratio: 2){.is-splash.flowplayer .fp-ui,.is-paused.flowplayer .fp-ui{background:url(../img/video/play_white@x2.png) center no-repeat;background-size:12%}
-.is-rtl.is-splash.flowplayer .fp-ui,.is-rtl.is-paused.flowplayer .fp-ui{background:url(../img/video/play_white_rtl@x2.png) center no-repeat;background-size:12%}
-}.color-light.is-splash.flowplayer .fp-ui,.color-light.is-paused.flowplayer .fp-ui{background-image:url(../img/video/play_black.png);}
-.is-rtl.color-light.is-splash.flowplayer .fp-ui,.is-rtl.color-light.is-paused.flowplayer .fp-ui{background-image:url(../img/video/play_black_rtl.png)}
-@media (-webkit-min-device-pixel-ratio: 2){.color-light.is-splash.flowplayer .fp-ui,.color-light.is-paused.flowplayer .fp-ui{background-image:url(../img/video/play_black@x2.png);}
-.is-rtl.color-light.is-splash.flowplayer .fp-ui,.is-rtl.color-light.is-paused.flowplayer .fp-ui{background-image:url(../img/video/play_black_rtl@x2.png)}
+.is-rtl.is-splash.flowplayer .fp-ui,.is-rtl.is-paused.flowplayer .fp-ui{background:url(../../img/video/play_white_rtl.png) center no-repeat;background-size:12%}
+@media (-webkit-min-device-pixel-ratio: 2){.is-splash.flowplayer .fp-ui,.is-paused.flowplayer .fp-ui{background:url(../../img/video/play_white@x2.png) center no-repeat;background-size:12%}
+.is-rtl.is-splash.flowplayer .fp-ui,.is-rtl.is-paused.flowplayer .fp-ui{background:url(../../img/video/play_white_rtl@x2.png) center no-repeat;background-size:12%}
+}.color-light.is-splash.flowplayer .fp-ui,.color-light.is-paused.flowplayer .fp-ui{background-image:url(../../img/video/play_black.png);}
+.is-rtl.color-light.is-splash.flowplayer .fp-ui,.is-rtl.color-light.is-paused.flowplayer .fp-ui{background-image:url(../../img/video/play_black_rtl.png)}
+@media (-webkit-min-device-pixel-ratio: 2){.color-light.is-splash.flowplayer .fp-ui,.color-light.is-paused.flowplayer .fp-ui{background-image:url(../../img/video/play_black@x2.png);}
+.is-rtl.color-light.is-splash.flowplayer .fp-ui,.is-rtl.color-light.is-paused.flowplayer .fp-ui{background-image:url(../../img/video/play_black_rtl@x2.png)}
 }.is-fullscreen.flowplayer .fp-ui{background-size:auto}
 .is-seeking.flowplayer .fp-ui,.is-loading.flowplayer .fp-ui{background-image:none}
 .flowplayer .fp-logo{position:absolute;top:auto;left:15px;bottom:30px;cursor:pointer;display:none;z-index:100;}
@@ -206,7 +254,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#da4c25', end
 		display: block;
 		width: 16px;
 		height: 16px;
-		background-image: url(../img/video/scrubber.png);
+		background-image: url(../../img/video/scrubber.png);
 		background-repeat: no-repeat;
 	}
 
@@ -359,10 +407,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#da4c25', end
 
 .flowplayer .fp-volumeslider {
 	position: absolute;
-	top: -30px;
-	left: 0px;
-	width: 90px;
-	height: 5px;
+	bottom: 37px;
+	left: -11px;
+	width: 32px;
+	height: 86px;
+	display:none;
 	/* cursor: col-resize; */
 	/* float:left; */
 }
@@ -479,11 +528,30 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#da4c25', end
 .flowplayer .fp-progress{background-color:#00a7c8}
 
 .flowplayer .fp-volumeslider {
-	background-color:#000;
-	display:none; //TODO: turn back on when making actual slider component;
+	background-color: rgba(0, 0, 0, 0.4);
+
+	//display:none; //TODO: turn back on when making actual slider component;
 }
 
-.flowplayer .fp-volumelevel{background-color:#fff}
+.flowplayer .fp-volumeleveltrack { 
+	height: 66px;
+	background: #ffffff;
+	position: absolute;
+	bottom: 10px;
+	left: 14px;
+	width: 4px;
+}
+
+
+.flowplayer .fp-volumelevel { 
+  height: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background-color: #ed4f24;
+}
+
 .flowplayer .fp-play{height:24px}
 .flowplayer.is-touch.is-mouseover .fp-progress:before{background-color:#00a7c8}
 .flowplayer.color-light .fp-controls{background-color:rgba(255,255,255,0.6)}
@@ -503,4 +571,4 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#da4c25', end
  .flowplayer .fp-progress { background-color: rgba(237, 78, 35, 1)}
  .flowplayer .fp-buffer { background-color: rgba(249, 249, 249, 1)}
  // dont want to be hardocded background images for this stuff if possible
-.flowplayer { background-image: url(../img/editorial-layouts-e1/e1-fw1-image-desktop.jpg)}
+.flowplayer { background-image: url(../../img/editorial-layouts-e1/e1-fw1-image-desktop.jpg)}
