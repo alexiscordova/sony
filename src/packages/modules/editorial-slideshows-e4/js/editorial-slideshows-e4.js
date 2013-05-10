@@ -29,20 +29,20 @@ define(function(require){
         $('.editorial-slidshow-container').editorialSlideshow();
       }
     };
-    
+
     var EditorialSlideshow = function(element, options){
       var self = this;
-       
+
       // Extend
       $.extend( self, {}, $.fn.editorialSlideshow.defaults, options, $.fn.editorialSlideshow.settings );
-      
+
       // Set base element
       self.$el = $( element );
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.cssTransitions       = Modernizr.transitions;
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
@@ -51,7 +51,7 @@ define(function(require){
       self.isDesktopMode        = true; //true by default
       self.isTabletMode         = false;
       self.isMobileMode         = false;
-      
+
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
       self.$document            = $(document);
@@ -99,7 +99,7 @@ define(function(require){
       onDebouncedResize: function(){
         var self = this,
         wW = self.$window.width();
-        
+
         if(wW > 1199){
           self.$el.css('overflow' , 'hidden');
         }else{
@@ -119,7 +119,6 @@ define(function(require){
           looped: true,
           jumping: true,
           axis: 'x',
-          unit: '%',
           dragThreshold: 2,
           useCSS3: self.useCSS3,
           paddles: true,
@@ -149,7 +148,7 @@ define(function(require){
       // Registers with Enquire JS for breakpoint firing
       setupBreakpoints: function(){
         var self = this;
-        
+
         if( !self.$html.hasClass('lt-ie10') ){
         enquire.register("(min-width: 769px)", function() {
           self.isMobileMode = self.isTabletMode = false;
@@ -179,7 +178,7 @@ define(function(require){
           self.isDesktopMode = true;
           self.showThumbNav();
           self.toggleDotNav(true); //hide
-          
+
         }
 
       },
@@ -222,11 +221,11 @@ define(function(require){
         //console.log( 'Setup slides: ' , 1 );
 
       },
-      
+
       // Setup touch event types
       setupEvents: function(){
         var self = this;
-        
+
         if( self.hasTouch ){
           self.upEvent = 'touchend.pdpss';
         }else {
@@ -238,17 +237,17 @@ define(function(require){
         };
 
       },
-      
+
       // Bind events to the thumbnail navigation
       createThumbNav: function(){
         var self = this,
         $anchors = self.$thumbNav.find('a');
-        
+
         $anchors.on( self.tapOrClick() , function(e){
           e.preventDefault();
           self.onThumbSelected($(this));
         });
-       
+
         $anchors.eq(0).addClass('active');
       },
 
@@ -306,6 +305,6 @@ define(function(require){
     // Non override-able settings
     // --------------------------
     $.fn.editorialSlideshow.settings = {};
-  
+
     return self;
  });
