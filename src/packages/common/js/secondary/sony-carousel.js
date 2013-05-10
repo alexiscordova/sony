@@ -72,6 +72,7 @@ define(function(require){
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
+      hammer = require('plugins/index').hammer,
       sonyDraggable = require('secondary/sony-draggable'),
       sonyPaddles = require('secondary/sony-paddles'),
       sonyNavigationDots = require('secondary/sony-navigationdots');
@@ -177,8 +178,9 @@ define(function(require){
         'drag': iQ.update
       });
 
-      self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
-      self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
+      self.$el.hammer();
+      self.$el.on('dragstart.sonycarousel', $.proxy(self.dragStart, self));
+      self.$el.on('dragend.sonycarousel', $.proxy(self.dragEnd, self));
     },
 
     // Stop animations that were ongoing when you started to drag.
@@ -187,6 +189,7 @@ define(function(require){
 
       var self = this;
 
+      self.isDragging = true;
       self.startInteractionTime = new Date().getTime();
       self.$el.stop();
     },
@@ -194,12 +197,13 @@ define(function(require){
     // Depending on how fast you were dragging, either proceed to an adjacent slide or
     // reset position to the nearest one.
 
-    dragEnd: function(e, data) {
+    dragEnd: function(e) {
 
       var self = this,
-          goToWhich;
+          gesture = e.gesture;
 
-      // Don't snap if it's disabled
+      self.isDragging = false;
+
       if ( !self.snap ) {
 
         if ( self.onlySnapAtEnds ) {
@@ -209,7 +213,23 @@ define(function(require){
         return;
       }
 
-      self.gotoNearestSlide();
+      if ( gesture.velocityX > 0.7 ) {
+        if ( gesture.direction === 'right' ) {
+          if ( self.currentSlide === 0 ) {
+            self.gotoNearestSlide();
+          } else {
+            self.gotoSlide(self.currentSlide - 1);
+          }
+        } else if ( gesture.direction === 'left' ) {
+          if ( self.currentSlide === self.$slides.length - 1 ) {
+            self.gotoNearestSlide();
+          } else {
+            self.gotoSlide(self.currentSlide + 1);
+          }
+        }
+      } else {
+        self.gotoNearestSlide();
+      }
     },
 
     getPositions: function($slideSet) {
@@ -526,71 +546,32 @@ define(function(require){
       self.CSS3Easing = bezierStr;
     },
 
-    setSnapping: function( snapping ) {
-      var self = this,
-          $wrapper = self.$paddleWrapper || self.$wrapper;
-
-      self.snap = snapping;
-
-      if ( self.snap ) {
-        // Show paddles
-        if ( self.paddles ) {
-          $wrapper.sonyPaddles('showPaddle', 'both');
-        }
-
-        // Show dots
-        if ( self.pagination ) {
-          self.$dotnav.show();
-        }
-
-        // Snap to the nearest slide
-        self.gotoNearestSlide();
-      } else {
-        // Hide paddles
-        $wrapper.sonyPaddles('hidePaddle', 'both');
-
-        // Hide dots
-        if ( self.pagination ) {
-          self.$dotnav.hide();
-        }
-
-      }
-    },
-
-    // To prevent drags from being misinterpreted as clicks, we only redirect the user
-    // if their interaction time and movements are below certain thresholds.
+    // Uses a hammerjs `tap` delegation to the slides to allow for clickable elements
+    // within the slides; this approach allows for hammer to determine if the event
+    // was a `drag` or a `tap` and respond accordingly.
+    //
+    // self.defaultLink specifies an overall click state, which is overriden if you click on a
+    // *separate* link within the slide (closestLink, below).
     setupLinkClicks: function() {
 
       var self = this,
-          $clickContext;
+          clickContext;
 
-      if ( self.slideChildren ) {
-        $clickContext = self.$el.find(self.slideChildren);
-      } else {
-        $clickContext = self.$slides;
-      }
-
-      $clickContext.on('click.sonycarousel', function(e){
+      self.$el.on('tap.sonycarousel', self.slides, function(e){
 
         var $this = $(this),
             destination = $this.find(self.defaultLink).attr('href'),
-            closestLink = $(e.target).closest('a').attr('href');
+            closestLink = $(e.gesture.target).closest('a').attr('href');
 
-        if ( !self.isDragging ) {
-
-          if ((new Date().getTime()) - self.startInteractionTime < 150 ) {
-
-            if ( !closestLink && !destination ) {
-              return;
-            }
-
-            if ( closestLink && closestLink !== destination ) {
-              destination = closestLink;
-            }
-
-            window.location = destination;
-          }
+        if ( !closestLink && !destination ) {
+          return;
         }
+
+        if ( closestLink && closestLink !== destination ) {
+          destination = closestLink;
+        }
+
+        window.location = destination;
       });
     },
 
@@ -645,7 +626,7 @@ define(function(require){
 
       // Unbind
       Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
-      self.$el.off('sonyDraggable:dragStart sonyDraggable:dragEnd SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
+      self.$el.off('dragstart.sonycarousel dragend.sonycarousel tap.sonycarousel SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
       $clickContext.off('click.sonycarousel');
 
       // Destroy all plugins.
