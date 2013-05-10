@@ -32,25 +32,25 @@ define(function(require){
         $('.editorial-chapters-container').editorialChapters();
       }
     };
-    
+
     var EditorialChapters = function(element, options){
       var self = this;
-       
+
       // Extend
       $.extend( self, {}, $.fn.editorialChapters.defaults, options, $.fn.editorialChapters.settings );
-      
+
       // Set base element
       self.$el = $( element );
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.cssTransitions       = Modernizr.transitions;
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
-      
+
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
       self.$document            = $(document);
@@ -106,7 +106,7 @@ define(function(require){
               self.setupMobile();
             }
           });
-        } // end if(Modernizr.mediaqueries ) 
+        } // end if(Modernizr.mediaqueries )
       },
 
       setupMobilePlus: function() {
@@ -128,7 +128,6 @@ define(function(require){
         self.isDesktop = false;
 
         self.$window.on('resize.e5-mobile-resize', $.proxy(self.getSlideHeight, self ));
-
 
         // for some reason it $.evenHeights calculates the wrong height
         // this is even if DomReady is true. Even if debugger; is run now
@@ -159,7 +158,6 @@ define(function(require){
           looped: false,
           jumping: false,
           axis: 'x',
-          unit: '%',
           useCSS3: self.useCSS3,
           paddles: false,
           pagination: false,
@@ -191,14 +189,14 @@ define(function(require){
         if (sliderWidth >= minSliderWidth) { self.$slider.width(sliderWidth); }
       },
 
-      // if its on a mobile device per slide change we need to 
-      // get the height of the container to the height of the 
-      // active slide.    
+      // if its on a mobile device per slide change we need to
+      // get the height of the container to the height of the
+      // active slide.
       getSlideHeight: function() {
         var self = this,
             $currSlides,
             groups;
-        
+
         $currSlides = self.$slides.find('.inner');
         groups = [$currSlides];
 
@@ -222,11 +220,11 @@ define(function(require){
         self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
         self.$slides.width( 100 / (self.numSlides + 2) + '%' );
       },
-      
+
       // Setup touch event types
       setupEvents: function(){
         var self = this;
-        
+
         if( self.hasTouch ){
           self.upEvent = 'touchend.pdpss';
         }else {
@@ -237,18 +235,18 @@ define(function(require){
           return self.hasTouch ? self.upEvent : self.clickEvent;
         };
       },
-      
+
       // Bind events to the thumbnail navigation
       createThumbNav: function(){
         var self = this,
         $anchors = self.$thumbNav.find('li');
-        
-          
+
+
         $anchors.on( self.tapOrClick() , function(e){
           e.preventDefault();
           self.onThumbSelected($(this));
         });
-       
+
         $anchors.eq(0).addClass('active');
 
         if (self.$el.hasClass('text-mode')) {
@@ -297,16 +295,16 @@ define(function(require){
                   sliderOffset = node.offsetLeft + curTransform.m41, //real offset left
                   sliderWidth = self.$slider.width(),
                   navWidth = self.$thumbNav.width();
-              
+
               //left shadow
-              if (sliderOffset < 0) { 
+              if (sliderOffset < 0) {
                 self.$leftShade.show();
               } else {
                 self.$leftShade.hide();
               }
-    
+
               //right shadhow
-              if ( sliderOffset > ((-1 * sliderWidth) + navWidth)) { 
+              if ( sliderOffset > ((-1 * sliderWidth) + navWidth)) {
                 self.$rightShade.show();
               } else {
                 self.$rightShade.hide();
@@ -345,6 +343,6 @@ define(function(require){
     // Non override-able settings
     // --------------------------
     $.fn.editorialChapters.settings = {};
-  
+
     return self;
  });

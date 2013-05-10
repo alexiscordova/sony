@@ -4,7 +4,6 @@ include ../../../common/html/jade-helpers.jade
 
 moduleClasses = [ 'ec-module' ]
 moduleMode = false
-moduleId = data.id ? data.id : false
 
 case data.variation
   when 'a2'
@@ -13,56 +12,57 @@ case data.variation
     - moduleClasses.push( 'dark-bg' )
     moduleMode = 'dark'
 
-div(class=moduleClasses, id=moduleId, data-mode=moduleMode)
-  .container
-    .grid
-      h3.t3.ec-title= data.title
-      p.p3.ec-subtitle= data.subtitle
-      if data.link
-        p.lt3.text-center.ec-tl
-          a(href=data.link.href)= data.link.label
++mainElement
+  div(class=moduleClasses, data-mode=moduleMode)
+    .container
+      .grid
+        h3.t3.ec-title= data.title
+        p.p3.ec-subtitle= data.subtitle
+        if data.link
+          p.lt3.text-center.ec-tl
+            a(href=data.link.href)= data.link.label
 
-  .m-container
-    .sony-carousel-wrapper
-      .sony-carousel
+    .m-container
+      .sony-carousel-wrapper
+        .sony-carousel
 
-        tilesPerSlide = 4
-        slides = [ [], [], [], [], [], [] ]
-        each tile, i in data.tiles
-          index = Math.floor( i / tilesPerSlide )
-          - slides[ index ].push( tile )
+          tilesPerSlide = 4
+          slides = [ [], [], [], [], [], [] ]
+          each tile, i in data.tiles
+            index = Math.floor( i / tilesPerSlide )
+            - slides[ index ].push( tile )
 
-        each slide in slides
-          if slide.length > 0
-            .sony-carousel-slide
-              .container
-                .slimgrid
-                  each tile in slide
-                    .sony-carousel-slide-children.span3
-                      a.ec-tile(href=tile.link ? tile.link : '#')
-                        if tile.headline
-                          .headline-counter
-                            span.p3.count
-                              strong= tile.headline.currentPlayers
-                            | &nbsp;
-                            span.p5.text-uppercase
-                              strong= tile.headline.currentPlayersText
-                        .wrapper-image
-                          .wrapper-inside
-                            classes = [ 'cover', 'ghost-center-wrap' ]
-                            if !tile.headline
-                              - classes.push( 'no-headline' )
-                            div(class=classes)
-                              .ghost-center
-                                span.picto-play
-                                  span.bg-for-icon
-                                  span.picto.fonticon-30-controller
-                                span.l3.cta= tile.callToAction
-                            +iQImage( tile.img )
-                        .infos
-                          p.p3.tile-title
-                            strong= tile.infos.title
-                          p.p4.total-players
-                            strong= tile.infos.totalPlayers
-                            | &nbsp;
-                            span= tile.infos.playersText
+          each slide in slides
+            if slide.length > 0
+              .sony-carousel-slide
+                .container
+                  .slimgrid
+                    each tile in slide
+                      .sony-carousel-slide-children.span3
+                        a.ec-tile(href=tile.link ? tile.link : '#')
+                          if tile.headline
+                            .headline-counter
+                              span.p3.count
+                                strong= tile.headline.currentPlayers
+                              | &nbsp;
+                              span.p5.text-uppercase
+                                strong= tile.headline.currentPlayersText
+                          .wrapper-image
+                            .wrapper-inside
+                              classes = [ 'cover', 'ghost-center-wrap' ]
+                              if !tile.headline
+                                - classes.push( 'no-headline' )
+                              div(class=classes)
+                                .ghost-center
+                                  span.picto-play
+                                    span.bg-for-icon
+                                    span.picto.fonticon-30-controller
+                                  span.l3.cta= tile.callToAction
+                              +iQImage( tile.img )
+                          .infos
+                            p.p3.tile-title
+                              strong= tile.infos.title
+                            p.p4.total-players
+                              strong= tile.infos.totalPlayers
+                              | &nbsp;
+                              span= tile.infos.playersText
