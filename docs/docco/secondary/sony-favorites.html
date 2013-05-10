@@ -52,17 +52,19 @@ define(<span class="keyword">function</span>(require) {
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Show a tooltip on hover before favoriting on desktop devices</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
         $favorites.on(<span class="string">'click'</span>, $.proxy( self.onFavorite, self ));
 
-        $favorites.tooltip({
-          placement: <span class="string">'offsettop'</span>,
-          title: <span class="keyword">function</span>() {
-            <span class="keyword">var</span> $jsFavorite = $(<span class="keyword">this</span>);
-            <span class="keyword">return</span> self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass(<span class="string">'active'</span>) );
-          },
-          template: <span class="string">'&lt;div class="tooltip gallery-tooltip"&gt;&lt;div class="tooltip-arrow"&gt;&lt;/div&gt;&lt;div class="tooltip-inner"&gt;&lt;/div&gt;&lt;/div&gt;'</span>
-        });
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Optionally give a tooltip</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.tooltip ) {
+          $favorites.tooltip({
+            placement: <span class="string">'offsettop'</span>,
+            title: <span class="keyword">function</span>() {
+              <span class="keyword">var</span> $jsFavorite = $(<span class="keyword">this</span>);
+              <span class="keyword">return</span> self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass(<span class="string">'active'</span>) );
+            },
+            template: <span class="string">'&lt;div class="tooltip gallery-tooltip"&gt;&lt;div class="tooltip-arrow"&gt;&lt;/div&gt;&lt;div class="tooltip-inner"&gt;&lt;/div&gt;&lt;/div&gt;'</span>
+          });
+        }
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Update our favorites</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$favorites = self.$parent.find(<span class="string">'.js-favorite'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Update our favorites</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$favorites = self.$parent.find(<span class="string">'.js-favorite'</span>);
 
       <span class="keyword">return</span> self;
     },
@@ -71,20 +73,20 @@ define(<span class="keyword">function</span>(require) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $jsFavorite = $(e.delegateTarget),
           isAdding = !$jsFavorite.hasClass(<span class="string">'active'</span>),
-          content = self.hasTouch ? <span class="string">''</span> : self.getFavoriteContent( $jsFavorite, isAdding, <span class="literal">true</span> );
+          content = self.hasTouch || !self.tooltip ? <span class="string">''</span> : self.getFavoriteContent( $jsFavorite, isAdding, <span class="literal">true</span> );
 
       $jsFavorite.toggleClass(<span class="string">'active'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Show the tooltip if it isn't a touch device</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.hasTouch ) {
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Show the tooltip if it isn't a touch device</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.tooltip &amp;&amp; !self.hasTouch ) {
         $(<span class="string">'.gallery-tooltip .tooltip-inner'</span>)
           .html( content )
           .tooltip(<span class="string">'show'</span>);
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Stop event from bubbling to <a> tag</p>             </td>             <td class="code">               <div class="highlight"><pre>      e.preventDefault();
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Stop event from bubbling to <a> tag</p>             </td>             <td class="code">               <div class="highlight"><pre>      e.preventDefault();
       e.stopPropagation();
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Pass off the gallery item and a boolean indicating that favorited state</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.handleFavorite( $jsFavorite.closest( self.itemSelector ), isAdding );
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Pass off the gallery item and a boolean indicating that favorited state</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.handleFavorite( $jsFavorite.closest( self.itemSelector ), isAdding );
     },
 
     getFavoriteContent : <span class="keyword">function</span>( $jsFavorite, isActive, isClicked ) {
@@ -100,21 +102,21 @@ define(<span class="keyword">function</span>(require) {
       <span class="keyword">return</span> title;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>possibly https://github.com/ScottHamper/Cookies ?</p>             </td>             <td class="code">               <div class="highlight"><pre>    handleFavorite : <span class="keyword">function</span>( $item, isAdded ) {
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>possibly https://github.com/ScottHamper/Cookies ?</p>             </td>             <td class="code">               <div class="highlight"><pre>    handleFavorite : <span class="keyword">function</span>( $item, isAdded ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           favs = [];
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Save data</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( isAdded ) {
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Save data</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( isAdded ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Save to account with ajax?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( Settings.isLoggedIn ) {
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>TODO</p>             </td>             <td class="code">               <div class="highlight"><pre>          $.getJSON( <span class="string">'path/to/server'</span>, { add: <span class="literal">true</span> } );
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Save to account with ajax?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( Settings.isLoggedIn ) {
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>TODO</p>             </td>             <td class="code">               <div class="highlight"><pre>          $.getJSON( <span class="string">'path/to/server'</span>, { add: <span class="literal">true</span> } );
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Store in cookie</p>             </td>             <td class="code">               <div class="highlight"><pre>        } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Store in cookie</p>             </td>             <td class="code">               <div class="highlight"><pre>        } <span class="keyword">else</span> {
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Check to make sure the browser can parse JSON ( IE7 )</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( window.JSON ) {
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Browser support JSON parsing</p>             </td>             <td class="code">               <div class="highlight"><pre>          }
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Check to make sure the browser can parse JSON ( IE7 )</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( window.JSON ) {
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Browser support JSON parsing</p>             </td>             <td class="code">               <div class="highlight"><pre>          }
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>TODO
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>TODO
 Get the cookies (string) and convert it to an array
 favs = JSON.parse( Cookies.get( 'favorites' ) );
 Add this one to it
@@ -125,22 +127,22 @@ Save it
 Cookies.set( 'favorites', favs );</p>             </td>             <td class="code">               <div class="highlight"><pre>        }
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Fire event saying this has been added</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$parent.trigger( <span class="string">'favoriteadded'</span>, [ $item, self ] );
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Fire event saying this has been added</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$parent.trigger( <span class="string">'favoriteadded'</span>, [ $item, self ] );
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Remove data</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Remove data</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
 
         <span class="keyword">if</span> ( Settings.isLoggedIn ) {
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>TODO</p>             </td>             <td class="code">               <div class="highlight"><pre>          $.getJSON( <span class="string">'path/to/server'</span>, { add: <span class="literal">false</span> } );
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>TODO</p>             </td>             <td class="code">               <div class="highlight"><pre>          $.getJSON( <span class="string">'path/to/server'</span>, { add: <span class="literal">false</span> } );
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Remove from stored cookie</p>             </td>             <td class="code">               <div class="highlight"><pre>        } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Remove from stored cookie</p>             </td>             <td class="code">               <div class="highlight"><pre>        } <span class="keyword">else</span> {
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Check to make sure the browser can parse JSON ( IE7 )</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( window.JSON ) {
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Browser support JSON parsing</p>             </td>             <td class="code">               <div class="highlight"><pre>          }
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Check to make sure the browser can parse JSON ( IE7 )</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( window.JSON ) {
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Browser support JSON parsing</p>             </td>             <td class="code">               <div class="highlight"><pre>          }
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>TODO
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>TODO
 Remove the id from the cookie</p>             </td>             <td class="code">               <div class="highlight"><pre>        }
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Fire event saying this has been removed</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$parent.trigger( <span class="string">'favoriteremoved'</span>, [ $item, self ] );
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Fire event saying this has been removed</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$parent.trigger( <span class="string">'favoriteremoved'</span>, [ $item, self ] );
 
       }
 
@@ -148,11 +150,12 @@ Remove the id from the cookie</p>             </td>             <td class="code"
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Options that could be customized per module instance</p>             </td>             <td class="code">               <div class="highlight"><pre>  Favorites.options = {
-    itemSelector: <span class="string">'.gallery-item'</span>
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Options that could be customized per module instance</p>             </td>             <td class="code">               <div class="highlight"><pre>  Favorites.options = {
+    itemSelector: <span class="string">'.gallery-item'</span>,
+    tooltip: <span class="literal">true</span>
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>These are not overridable when instantiating the module</p>             </td>             <td class="code">               <div class="highlight"><pre>  Favorites.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>These are not overridable when instantiating the module</p>             </td>             <td class="code">               <div class="highlight"><pre>  Favorites.settings = {
     hasTouch: Settings.hasTouchEvents || Settings.hasPointerEvents
   };
 

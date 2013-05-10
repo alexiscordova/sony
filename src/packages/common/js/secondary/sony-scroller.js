@@ -1,12 +1,10 @@
-/*global jQuery, Modernizr, IScroll, SONY */
-
 // Generic Scroller
 // -------------------------------------------------
 //
 // * **Version:** 0.1
 // * **Modified:** 02/22/2013
 // * **Authors:** Telly Koosis, Tyler Madison, Glen Cheney
-// * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html)
+// * **Dependencies:** jQuery 1.7+, [sony-iscroll.js](sony-iscroll.html)
 //
 // *Example Usage:*
 //      TODO: add example here
@@ -18,8 +16,6 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr'),
-      iQ = require('iQ'),
       Settings = require('require/index').Settings,
       iScroll = require('plugins/sony-iscroll');
 

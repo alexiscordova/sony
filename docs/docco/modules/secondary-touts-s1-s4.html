@@ -44,7 +44,12 @@ define(<span class="keyword">function</span>(require){
 
     self.$images.addClass(<span class="string">'iq-img'</span>);
 
-    iQ.update(<span class="literal">true</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>This is a bad-fix hack; iQ fails unpredictably if multiple modules attempt to
+run iQ.update() to load in their newly-created assets. This is a deep issue
+in iQ that will probably require a thorough refactor of that class.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    setTimeout(<span class="keyword">function</span>(){
+      iQ.update(<span class="literal">true</span>);
+    }, <span class="number">1000</span>);
 
     <span class="keyword">if</span> ( self.$items.parents().hasClass(<span class="string">'no-grid-at-767'</span>) &amp;&amp; !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
 
@@ -79,7 +84,7 @@ define(<span class="keyword">function</span>(require){
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Create or restore the default slide layout.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Create or restore the default slide layout.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     renderDesktop: <span class="keyword">function</span>(which) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;

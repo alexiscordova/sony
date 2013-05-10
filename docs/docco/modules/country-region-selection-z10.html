@@ -46,7 +46,7 @@ define(<span class="keyword">function</span>(require){
 
       <span class="keyword">if</span> ( self.$pageWrapperOuter.length &gt; <span class="number">0</span> ) {
         self.initFullPageBuild();
-        self.scrollableId = <span class="string">'page-wrap-inner'</span>;
+        self.scrollableId = <span class="string">'scroll'</span>;
       } <span class="keyword">else</span> {
         self.scrollableId = <span class="string">'scrollable'</span>;
       }
@@ -68,9 +68,33 @@ define(<span class="keyword">function</span>(require){
       $(<span class="string">'.scrollable'</span>).attr(<span class="string">'id'</span>, <span class="string">''</span>).removeClass();
 
       self.$pageWrapperInner = $(<span class="string">'#page-wrap-inner'</span>);
-      self.$pageWrapperInner.addClass(<span class="string">'scrollable'</span>);
+      self.$scrollContainer = $(<span class="string">'&lt;div id="scrollcontainer"&gt;'</span>);
+      <span class="keyword">var</span> $scroll = $(<span class="string">'&lt;div id="scroll"&gt;'</span>).addClass(<span class="string">'scrollable'</span>);
 
-      $(<span class="string">'&lt;div&gt;'</span>).append(self.$pageWrapperInner.children()).appendTo(self.$pageWrapperInner);
+      self.$scrollContainer.append($scroll);
+      $(<span class="string">'&lt;div&gt;'</span>).append(self.$pageWrapperInner.children().not(<span class="string">'#nav-wrapper'</span>)).appendTo($scroll);
+
+      $(self.$pageWrapperInner).append(self.$scrollContainer);
+    },
+
+    setMobileHeight : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          winheight = parseInt($(window).height(), <span class="number">10</span>),
+          navheight = parseInt($(<span class="string">'#nav-wrapper'</span>).height(), <span class="number">10</span>);
+
+      self.$scrollContainer.css({
+        <span class="string">'height'</span>: winheight - navheight +<span class="string">'px'</span>,
+        <span class="string">'position'</span>: <span class="string">'relative'</span>
+      });
+
+    },
+
+    resetHeight : <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.$scrollContainer.css({
+        <span class="string">'height'</span>: <span class="string">'auto'</span>,
+        <span class="string">'position'</span>: <span class="string">'relative'</span>
+      });
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Binds enquire handlers to setup page for mobile, tablet and desktop.</p>             </td>             <td class="code">               <div class="highlight"><pre>    bind : <span class="keyword">function</span>() {
@@ -79,6 +103,10 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Enquire doesn't exist in old IE, so make sure it's there</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.mediaqueries ) {
 
         enquire
+          .register(<span class="string">'(min-width: 29.9375em) and (max-width: 47.9375em)'</span>, {
+            match : $.proxy(self.accountForHeader, self),
+            unmatch : $.proxy(self.unAccountForHeader, self)
+          })
           .register(<span class="string">'(max-width: 47.9375em)'</span>, {
             match : $.proxy(self.toMobile, self)
           })
@@ -130,18 +158,31 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.stickyHeader.enable();
       self.resetFluidLists();
+      self.setMobileHeight();
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Called when media query matches tablet.</p>             </td>             <td class="code">               <div class="highlight"><pre>    toTablet : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.stickyHeader.disable();
       self.updateFluidLists(<span class="string">'tablet'</span>);
+      self.resetHeight();
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Called when media query matches desktop.</p>             </td>             <td class="code">               <div class="highlight"><pre>    toDesktop : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.stickyHeader.disable();
       self.updateFluidLists(<span class="string">'desktop'</span>);
+      self.resetHeight();
+    },
+
+    accountForHeader : <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.$scrollContainer.height(<span class="string">'+=10px'</span>).css(<span class="string">'margin-top'</span>, <span class="string">'-10px'</span>);
+    },
+
+    unAccountForHeader : <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.$scrollContainer.height(<span class="string">'-=10px'</span>).css(<span class="string">'margin-top'</span>, <span class="string">'auto'</span>);
     }
   };
 
