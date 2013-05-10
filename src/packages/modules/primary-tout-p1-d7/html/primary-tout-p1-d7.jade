@@ -112,7 +112,8 @@ mixin boxlayout(_layout, _style)
             +boxclass
               block
               
-.primary-tout.container.full-bleed-no-max(class= data.mode ? data.mode : false)(class= data.theme ? data.theme : false)(id= data.id? data.id : false)
+primaryToutClasses = ['primary-tout', 'container','full-bleed-no-max',data.mode, data.theme ]
++mainElement( primaryToutClasses)
   if data.mode !== "title-plate"
     .container.full-bleed-no-max.hero-image
       e = {"locals":locals, "data":data.image}
