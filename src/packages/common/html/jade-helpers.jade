@@ -1,8 +1,11 @@
 //- single line mixin for partials
 //- +partial('example.html.jade', 'example/default.json')
 
-mixin partial(m, d)
-  e = {"locals":locals, "data":locals.data(d)}
+mixin partial(m, d, isSubmodule)
+  data = locals.data(d)
+  if isSubmodule
+    - data.isSubmodule = true
+  e = {"locals":locals, "data":data}
   !{locals.partial('packages/modules/' + m, e)}
 
 mixin includeCSS(moduleName)
@@ -20,6 +23,21 @@ mixin includeJavascriptModule(moduleName)
   if ( e.locals.javascriptModules )
     if ( e.locals.javascriptModules.indexOf(moduleName) === -1 )
       - e.locals.javascriptModules.push(moduleName)
+
+//- @param {array} classes an array of strings which will become classes on the main element
+mixin mainElement( classes )
+  moduleId = data.id ? data.id : false
+  isSubmodule = data.isSubmodule
+  classes = classes && classes.length ? classes : false
+
+  if isSubmodule
+    //- If this is a submodule, the id should already be on the main module
+    div(class=classes)
+      block
+  else
+    section(id=moduleId, class=classes)
+      block
+
 
 //- img - an object with at least: `src`, `alt`, `noscriptsrc`
 //- [extraClasses] - a string containing any extra classes to put on the img element
