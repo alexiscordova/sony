@@ -1,0 +1,12 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('sony-video')
++includeJavascriptModule('sony-video')
+
+
+if data.variation == 'full-bleed'
+	div(class='sony-video ' + data.variation , data-variation=data.variation)
+		div(class='full-bleed-video-wrap')
+			+sonyVideo(data.video)
+else
+	div(class='sony-video ' + data.variation , data-variation=data.variation)
+		+sonyVideo(data.video)
