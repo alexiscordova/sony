@@ -22,6 +22,7 @@ define(function(require) {
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
       Environment = require('require/sony-global-environment'),
+      Settings = require('require/sony-global-settings'),
       sonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {

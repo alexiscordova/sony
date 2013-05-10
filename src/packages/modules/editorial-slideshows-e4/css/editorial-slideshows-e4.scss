@@ -1,7 +1,14 @@
 @import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../../../common/css/_base/mixins";
 
-.editorial-slidshow-container {
+// Fix container inside container
+.container.submodule {
+  .editorial-slideshow-container .container {
+    width: 100%;
+  }
+}
+
+.editorial-slideshow-container {
   margin-bottom: px-em( 40px );
 
   .editorial-slideshow {
