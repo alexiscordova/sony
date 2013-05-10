@@ -396,12 +396,15 @@ get x coordinate</p>             </td>             <td class="code">            
         <span class="keyword">if</span>( <span class="literal">false</span> === $( el ).is( self.lastCenteredOverlay ) ) {
 </pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>copy HTML over to the overlay container</p>             </td>             <td class="code">               <div class="highlight"><pre>          overlayBase.html( el.find( <span class="string">'.overlay-base'</span> ).html() );
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>bind close button for this instance</p>             </td>             <td class="code">               <div class="highlight"><pre>          overlayBase.find( <span class="string">'.hspot-close'</span> ).bind( <span class="string">'click'</span>, <span class="keyword">function</span>( event ) {
+          <span class="keyword">var</span> hspotClose = <span class="keyword">function</span>( event ) {
             event.preventDefault();
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>save pointer for one more operation</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> lastOpen = el;
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>close overlay </p>             </td>             <td class="code">               <div class="highlight"><pre>            self.close( self.$lastOpen[<span class="number">0</span>], self.$lastOpen[<span class="number">1</span>], self.$lastOpen[<span class="number">2</span>] );
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>save pointer for one more operation</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> lastOpen = el;
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>close overlay </p>             </td>             <td class="code">               <div class="highlight"><pre>            overlayBase.find( <span class="string">'.hspot-close'</span> ).first().unbind( <span class="string">'click'</span>, hspotClose);
+            self.close( self.$lastOpen[<span class="number">0</span>], self.$lastOpen[<span class="number">1</span>], self.$lastOpen[<span class="number">2</span>] );
             self.reanchor( el, <span class="literal">false</span> );
-          });
+          };
+
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>bind close button for this instance</p>             </td>             <td class="code">               <div class="highlight"><pre>          overlayBase.find( <span class="string">'.hspot-close'</span> ).first().bind( <span class="string">'click'</span>, hspotClose);
 
           self.lastCenteredOverlay = el;
         }
@@ -436,6 +439,13 @@ get x coordinate</p>             </td>             <td class="code">            
         }, <span class="number">200</span>);
 </pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>stop scroll</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.disableScroll( <span class="literal">true</span> );
         
+        <span class="keyword">var</span> catchAll = <span class="keyword">function</span>( event ) {
+          event.preventDefault();
+          $( <span class="string">'.hspot-underlay-on'</span> ).unbind( <span class="string">'click'</span>, catchAll);
+          overlayBase.find( <span class="string">'.hspot-close'</span> ).click();
+        };
+        
+        $( <span class="string">'.hspot-underlay-on'</span> ).bind( <span class="string">'click'</span>, catchAll);
 
       } <span class="keyword">else</span> {
 </pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>cleanup</p>             </td>             <td class="code">               <div class="highlight"><pre>        clearTimeout( self.lastOverlayFadeout );

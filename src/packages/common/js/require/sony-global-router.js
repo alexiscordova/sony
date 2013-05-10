@@ -1,17 +1,36 @@
 
-// Sony Router Class
-// -----------------
+// Sony Router Module
+// --------------------------------------------
 //
-// * **Class:** SONY.Router
+// * **Class:** Router
+// * **Version:** 0.1
+// * **Modified:** 05/01/2013
+// * **Author:** George Pantazis
+//
+// This class is a lightweight extraction of Backbone's router object. For more information, please
+// refer to [that project's documentation](http://backbonejs.org/#Router).
+//
+// *Binding:*
+//
+// Note that when binding, the callback will fire immediately if the current
+// hash matches the provided route pattern.
+//
+//      var Router = require('require/sony-global-router');
+//
+//      Router.on('foo/bar/:a(/:b)(/:c)', function(a,b,c){
+//         console.log(a,b,c);
+//      });
+//
+// *Unbinding:*
+//
+//      Router.off('foo/bar/:a(/:b)(/:c)');
 //
 
 define(function (require) {
 
   'use strict';
 
-  var $ = require('jquery'),
-      Modernizr = require('modernizr'),
-      Environment = require('require/sony-global-environment'),
+  var Modernizr = require('modernizr'),
       Settings = require('require/sony-global-settings');
 
   var _router;
@@ -91,8 +110,6 @@ define(function (require) {
         }
       }
     },
-
-    // Check the current URL and
 
     checkUrl: function(routeData) {
 

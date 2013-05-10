@@ -21,6 +21,7 @@ define(<span class="keyword">function</span>(require) {
       Modernizr = require(<span class="string">'modernizr'</span>),
       enquire = require(<span class="string">'enquire'</span>),
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
+      Settings = require(<span class="string">'require/sony-global-settings'</span>),
       sonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel;
 
   <span class="keyword">var</span> module = {
@@ -62,6 +63,7 @@ define(<span class="keyword">function</span>(require) {
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Initialize a new sony carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousel.sonyCarousel({
         wrapper: <span class="string">'.sony-carousel-wrapper'</span>,
         slides: <span class="string">'.sony-carousel-slide'</span>,
+        CSS3Easing: Settings.carouselEasing,
         pagination: <span class="literal">true</span>,
         paddles: <span class="literal">true</span>,
         paginationTheme: self.$el.data(<span class="string">'mode'</span>) === <span class="string">'dark'</span> ? <span class="string">'light'</span> : <span class="string">'dark'</span>

@@ -34,12 +34,15 @@ include search-results-z07-helpers.jade
         if data.results.count == 0
           include search-results-z07-no-results.jade
         else
-          if data.results.type == 'category'
-            include search-results-z07-category.jade
-          else if data.results.type == 'none'
-            include search-results-z07-none.jade
-          else
-            include search-results-z07-product.jade
+          case data.results.type
+            when 'category'
+              include search-results-z07-category.jade
+            when 'none'
+              include search-results-z07-none.jade
+            when 'support'
+              include search-results-z07-support.jade
+            default
+              include search-results-z07-product.jade
 
           button.btn.btn-alt-special.btn-alt-plus.search-more
             span Load More

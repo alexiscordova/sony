@@ -86,17 +86,7 @@ define(function(require){
       // Set initial scrubber position to the middle of the viewer
       self.$scrubber.sonyDraggable('setPositions', {x: 50, y:50});
 
-      // If Dual Viewer has never been hovered over, pulse handle to hover state and back
-      self.$dualViewContainer.hover(function(){
-        if ( !self.$dualViewContainer.hasClass('hovered') ) {
-          self.$dualViewContainer.addClass('hovered');
-          self.$scrubber.addClass('dragging');
-          setTimeout(function(){
-            self.$scrubber.removeClass('dragging');
-          }, 100);
-        }
-      });
-
+ 
       self.$handle.mouseenter(function(){
         self.$scrubber.addClass('dragging2');
       });

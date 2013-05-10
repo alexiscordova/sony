@@ -6,8 +6,8 @@ moduleId = data.id ? data.id : false
 .rv-module(id=moduleId)
   .container
     .grid
-      if data.config.mode == 'strip'
-        h2(class='l1')= data.title
+      if data.config && data.config.mode == 'strip'
+        h2.l1.rv-title= data.title
       else
         h4.t6.rv-title= data.title
 

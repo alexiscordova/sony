@@ -1,15 +1,15 @@
-// Sony Video
-// -----------------------------
+// Editorial Video - E3
+// ------------
 //
-// * **Module:** Sony Video
+// * **Module:** Editorial Video - E3
 // * **Version:** 1.0a
-// * **Modified:** 04/4/2013
+// * **Modified:** 05/02/2013
 // * **Author:** Tyler Madison, George Pantazis
 // * **Dependencies:** jQuery 1.9.1+, Modernizr
 //
 // *Example Usage:*
 //
-//      $('.sony-video').sonyVideo();
+//      $('.editorial-video').sonyVideo();
 
 define(function(require){
 
@@ -21,7 +21,8 @@ define(function(require){
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        enquire = require('enquire');
+        enquire = require('enquire'),
+        sonyVideo = require('secondary/index').sonyVideo;
 
     var self = {
       'init': function() {
@@ -46,12 +47,22 @@ define(function(require){
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
+
+      self.isDesktopMode        = true; //true by default
+      self.isTabletMode         = false;
+      self.isMobileMode         = false;
+
+      self.isFullEditorial      = self.$el.hasClass('full-bleed');
+
+      self.variation            = self.$el.data('variation');
       
       // Cache some jQuery objects we'll reference later
-      self.$document            = SONY.Settings.$document;
-      self.$window              = SONY.Settings.$window;
-      self.$html                = SONY.Settings.$html;
+      self.$ev                  = $({});
+      self.$document            = Settings.$document;
+      self.$window              = Settings.$window;
+      self.$html                = Settings.$html;
 
+      self.videoAPI             = null;
 
       // Inits the module
       self.init();
@@ -64,6 +75,47 @@ define(function(require){
       // Initalize the module
       init : function( param ) {
         var self = this;
+
+        //initialize videos
+        self.videoAPI = sonyVideo.initVideos( self.$el.find('.player') );
+
+        self.videoAPI.bind('resume' , function(){
+          if(self.isFullEditorial){
+            self.onDebouncedResize();
+          }
+        });
+
+        if(self.isFullEditorial){
+          Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
+          self.onDebouncedResize(); //call once to set size
+        }
+        
+
+      },
+      api: function(){
+        var self = this;
+        return self.videoAPI;
+      },
+
+      // Handles global debounced resize event
+      onDebouncedResize: function(){
+        var self = this,
+        wW = self.$window.width();
+
+        if(wW > 980){
+          //this makes the header grow 1px taller for every 20px over 980w..
+          self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
+          //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
+        }else{
+          //this removes the dynamic css so it will reset back to responsive styles
+          self.$el.css('height', '');
+        }
+
+        var heightDiff = Math.abs( self.$el.height() - self.$el.find('.fp-engine').height() );
+
+        if(heightDiff > 0){
+          self.$el.find('.fp-engine').css('top' , -heightDiff / 2 + 'px');
+        }
 
       }
 
@@ -80,7 +132,7 @@ define(function(require){
         // If we don't have a stored moduleName, make a new one and save it.
         if ( !sonyVideo ) {
             sonyVideo = new SonyVideo( self, options );
-            self.data( 'moduleName', sonyVideo );
+            self.data( 'sonyVideo', sonyVideo );
         }
 
         if ( typeof options === 'string' ) {

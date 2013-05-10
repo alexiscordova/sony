@@ -7,6 +7,24 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 
 @mixin compact-thumb-nav {
+  .editorial {
+    // since were applying heights via editorial-chapters-e5
+    // we need to get rid of the table styling since it mainly
+    // ignores heights
+    .table-center-wrap,
+    .table-center {
+      display: block;
+    }
+    .table-center,
+    .box {
+      height: 100%;
+    }
+  }
+
+  .thumb-nav {
+    margin: -4px auto 25px;
+  }
+
   &.thumb-mode {
     .thumb-nav {
       height:62px;
@@ -14,13 +32,14 @@ $tabletMax: px-em(979);
 
       li {
         width:auto;
-        padding:8px 0;
+        padding:8px;
         height:42px;
       }
         img {
           width:55px;
           height:42px;
-          margin:0 5px;
+          margin:0 auto;
+          float: none;
         }
         i, span {display:none;}
     }
@@ -42,23 +61,19 @@ $tabletMax: px-em(979);
   } 
   &.text-mode {
     .thumb-nav {
-      height:48px;
+      height:60px;
 
       li {
         line-height:14px;
-        padding:15px 0;
-        height:14px;
+        padding:10px 0;
+        height:34px;
         width:auto;
       }
-        img, i {display:none;}
-        span {
-          height:14px;
-          display:block;
-          overflow:hidden;
-          margin:0 15px;
-        }
-        .oneLine,
-        .twoLine {top:0;}
+      img, i {display:none;}
+      .label-container {
+        top: 1px;
+        display:block;
+      }
     }
   }
   &.top-nav .thumb-nav {
@@ -71,31 +86,36 @@ $tabletMax: px-em(979);
   }
 }
 
-.thumb-nav {
-  width:100% !important;
-  overflow: hidden;
+.editorial-chapters-container {
 
-  .left-shade,
-  .right-shade {
-    display:block; 
-    width:10px;
-    position:absolute;
-    top:4px;
-    bottom:0;
-    left: 0;
-    box-shadow: inset 5px 0 7px -5px #333;
-    
-  }
+  .thumb-nav {
+    overflow: hidden;
 
-  .right-shade {
-    left:auto; 
-    box-shadow: inset -5px 0 7px -5px #333;
-    right: 0; 
-  }
-}                 
+    .left-shade,
+    .right-shade {
+      width:10px;
+      position:absolute;
+      top:4px;
+      bottom:0;
+      left: 0;
+      box-shadow: inset 5px 0 7px -5px #333;
+    }
+
+    .right-shade {
+      left:auto; 
+      box-shadow: inset -5px 0 7px -5px #333;
+      right: 0; 
+    }
+  } 
+
+}               
 
 @media (max-width: 909px) {
   .editorial-chapters-container {
+    .container {
+      width:100% !important;
+    }
+
     @include compact-thumb-nav;
   }
 
@@ -113,6 +133,37 @@ $tabletMax: px-em(979);
 
     }
   }
+
+      
+  // Media Left + Media Right Chapters!
+  // ==================================
+  .span5,
+  .span6,
+  .span7 {
+    .editorial-chapters-container {
+      &.thumb-mode {
+        .thumb-nav {
+          img {        
+            position: relative;
+            top: auto;
+            bottom: auto;
+            width: 90%;
+            margin: 0 auto;
+          }
+        } // end .thumb-nav
+      } // end &.thumb-mode
+
+      &.icon-mode {
+        .thumb-nav {  
+          i {
+            top:4px;
+            margin:0 15px;
+          }     
+        } // end .thumb-nav
+      } // end $.icon-mode
+    } // end .editorial-chapters-container
+
+  } // end spans
 }
 
 @media (max-width: 410px) {
@@ -128,14 +179,26 @@ $tabletMax: px-em(979);
   .span7 .editorial-chapters-container.text-mode .thumb-nav {width:470px;}
 }
 
-@media (min-width: 910px) {
+
+@media (min-width: $tabletMax) {
   .container,
   .span12 {
     & > .editorial-chapters-container {
       .slider {width:auto !important;}
     }
   }
-  
+
+  .editorial-chapters-container {
+    .thumb-nav {
+      
+      .left-shade,
+      .right-shade {
+        display:none !important; // have to use important to override element.styles
+      }
+
+    } // end .thumb-nav
+  } // end .editorial-chapters-container
+      
 }
 
 @media (max-width: 767px) {
@@ -145,6 +208,7 @@ $tabletMax: px-em(979);
 //tablet only
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .editorial-chapters-container .image-module {height:440px;}
+
 }
 //phone only
 @media (max-width: $phoneMax) {

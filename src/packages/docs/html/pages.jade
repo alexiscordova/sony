@@ -1,17 +1,6 @@
-mixin descriptors()
-  lastPageTitle = null;
-  pages = locals.pages()
-  for name in pages
-    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ pagebuild/, '')
-    firstSpace = title.indexOf(' ')
-    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
-    if lastPageTitle != null && lastPageTitle != prefix
-      hr
-    a( href = '../build/debug/' + name, title=title) !{ title }
-    lastPageTitle = prefix
-
-include ../../common/html/ieconditionals.html
 doctype 5
+include ../../common/html/jade-helpers.jade
+include ../../common/html/ieconditionals.html
 
 include docs-head.html
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
@@ -26,9 +15,9 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
 
   .container
     .grid.no-grid-at-767
-      .span4
+      .span6
         nav.module-nav
-          +descriptors()
+          +docsLinks( 'pages', 'pagebuild' )
 
   include docs-foot.html
 </html>

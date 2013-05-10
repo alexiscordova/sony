@@ -60,6 +60,35 @@ $one-up-height:240px;
 		} // article
 
 
+
+		// 888     888                                         888     888          d8b                   
+		// 888     888                                         888     888          Y8P                   
+		// 888     888                                         888     888                                
+		// 888     888 .d8888b   .d88b.  888d888 .d8888b       Y88b   d88P  .d88b.  888  .d8888b  .d88b.  
+		// 888     888 88K      d8P  Y8b 888P"   88K            Y88b d88P  d88""88b 888 d88P"    d8P  Y8b 
+		// 888     888 "Y8888b. 88888888 888     "Y8888b. 888888 Y88o88P   888  888 888 888      88888888 
+		// Y88b. .d88P      X88 Y8b.     888          X88         Y888P    Y88..88P 888 Y88b.    Y8b.     
+		//  "Y88888P"   88888P'  "Y8888  888      88888P'          Y8P      "Y88P"  888  "Y8888P  "Y8888
+		.users-voice{
+			
+			//   ____                     _    _               
+			//  / __ \                   | |  (_)              
+			// | |  | | _   _   ___  ___ | |_  _   ___   _ __  
+			// | |  | || | | | / _ \/ __|| __|| | / _ \ | '_ \ 
+			// | |__| || |_| ||  __/\__ \| |_ | || (_) || | | |
+			//  \___\_\ \__,_| \___||___/ \__||_| \___/ |_| |_|
+			&.question{
+				.quote{
+					height: 62%;
+				} // answer-btn
+
+			} // question
+
+		} // users-voice
+
+
+
+
 		//  .d8888b.                                           888     888          d8b                   
 		// d88P  Y88b                                          888     888          Y8P                   
 		// Y88b.                                               888     888                                
@@ -82,50 +111,49 @@ $one-up-height:240px;
 				height: 62.75%;
 			} // center
 
+			.bq4,
+			.bq5{
+				padding: 0 px-em(16px);
+			} // quotes
+
 			.instagram{
 				height:128px;
-				padding:0; // everything is now absolute positioned
 				position: relative;
-
-				.left,
-				.right{
-					position: absolute;
-					height:84%;
-					display: inline-block;
-
-				} // left/right
+				padding: 10px px-em(10px);
 
 				.left{
-					top:10px;
-					left:10px;
-					padding-right:0;
-					width:59.72327%; 
+					position: relative;
+					display: inline-block;
+					padding: 0;
+					height:100%;
+					width:100%; 
 
 					.iq-img{
-						width:48%;
+						width:31%;
 						height: 100%;
 						margin-left: 0;
 						display: inline-block;
 					} // iq-img
 
+					.mobile-only{
+						margin-left: px-em(5px); 
+						display: inline-block;
+					} // mobile-only
+
 					.last{
 						margin-top: 0;
-						margin-left: 5px;
+						margin-left: px-em(5px); 
 					} // last
 
 				} //left
 
 				.right{
-					padding-left:0;
-					top:10px;
-					right:10px;
-					width:34.27673%; 
+					display: none;
 				} //right
 
 			} // instagram
 
 		} // sonys-voice
-
 
 		// 8888888888 888 d8b          888              
 		// 888        888 Y8P          888              
@@ -151,6 +179,7 @@ $one-up-height:240px;
 
 			.flickr-container{
 				height:93px;
+				padding:10px px-em(10px);
 			}
 
 			.iq-img{
@@ -159,8 +188,7 @@ $one-up-height:240px;
 
 			.top-row{
 				height:100%;
-				padding:10px;
-
+				padding-bottom:0;
 			} // end .top-row
 			
 			.bottom-row{
@@ -172,8 +200,6 @@ $one-up-height:240px;
 	} // tcc module
 	
 } // mq 
-
-
 
 
 // //  d888                           
@@ -249,6 +275,57 @@ $one-up-height:240px;
 
 		} // article
 
+		// 888     888                                         888     888          d8b                   
+		// 888     888                                         888     888          Y8P                   
+		// 888     888                                         888     888                                
+		// 888     888 .d8888b   .d88b.  888d888 .d8888b       Y88b   d88P  .d88b.  888  .d8888b  .d88b.  
+		// 888     888 88K      d8P  Y8b 888P"   88K            Y88b d88P  d88""88b 888 d88P"    d8P  Y8b 
+		// 888     888 "Y8888b. 88888888 888     "Y8888b. 888888 Y88o88P   888  888 888 888      88888888 
+		// Y88b. .d88P      X88 Y8b.     888          X88         Y888P    Y88..88P 888 Y88b.    Y8b.     
+		//  "Y88888P"   88888P'  "Y8888  888      88888P'          Y8P      "Y88P"  888  "Y8888P  "Y8888
+		.users-voice{		
+			&.question{
+				.quote{
+					height:66%;
+				} // end .quote
+
+			} // question
+
+		} // users-voice
+
+
+		//  _______                                 
+		// |__   __|                                
+		//    | |  ___   _ __                       
+		//    | | / _ \ | '_ \                      
+		//    | || (_) || |_) |                     
+		//    |_| \___/ | .__/                      
+		//              | |                         
+		//              |_|                                                                 
+
+		.top{
+			display: table;
+
+			// .icon-container,
+			.meta{
+				display: table-cell;
+				vertical-align: middle;
+			}
+
+			.meta{
+				text-align: left;
+				margin-top: 0;
+				padding-left: px-em(10px); 
+				
+				.timestamp,
+				.title{
+					display: block;
+					padding-left: px-em(10px);
+				}
+
+			} // meta
+
+		} // top
 
 
 		//  .d8888b.                                           888     888          d8b                   
@@ -263,24 +340,19 @@ $one-up-height:240px;
 		//                              Y8b d88P                                                          
 		//                               "Y88P"
 		.sonys-voice{
-			//  _______                                 
-			// |__   __|                                
-			//    | |  ___   _ __                       
-			//    | | / _ \ | '_ \                      
-			//    | || (_) || |_) |                     
-			//    |_| \___/ | .__/                      
-			//              | |                         
-			//              |_|                                                                 
 
-			.top{
-				display: table;
-			} // top
+			// //  _______                                 
+			// // |__   __|                                
+			// //    | |  ___   _ __                       
+			// //    | | / _ \ | '_ \                      
+			// //    | || (_) || |_) |                     
+			// //    |_| \___/ | .__/                      
+			// //              | |                         
+			// //              |_|                                                                 
 
-			.icon-container,
-			.meta{
+			.icon-container{
 				display: table-cell;
 				vertical-align: middle;
-				// display: inline-block;
 			}
 
 			.icon-container{
@@ -302,12 +374,6 @@ $one-up-height:240px;
 				left:auto;
 			} // end .fonticons
 
-			.meta{
-				text-align: left;
-				margin-top: 0;
-				padding-left: px-em(10px); 
-			} // meta
-
 			//   _____              _                   
 			//  / ____|            | |                  
 			// | |      ___  _ __  | |_  ___  _ __      
@@ -325,44 +391,44 @@ $one-up-height:240px;
 
 			} // facebook
 
+			.bq4,
+			.bq5{
+				padding: 0 px-em(24px);
+			} // quotes
+
 			.instagram{
 				height:128px;
-				padding:0; // everything is now absolute positioned
 				position: relative;
-
-				.left,
-				.right{
-					position: absolute;
-					height:84%;
-					display: inline-block;
-
-				} // left/right
+				padding: 10px px-em(10px);
 
 				.left{
-					top:10px;
-					left:10px;
-					padding-right:0;
-					width:59.72327%; 
+					position: relative;
+					display: inline-block;
+					padding: 0;
+					height:100%;
+					width:100%; 
 
 					.iq-img{
-						width:48%;
+						width:32%;
 						height: 100%;
 						margin-left: 0;
 						display: inline-block;
 					} // iq-img
 
+					.mobile-only{
+						margin-left: px-em(5px); 
+						display: inline-block;
+					} // mobile-only
+
 					.last{
 						margin-top: 0;
-						margin-left: 5px;
+						margin-left: px-em(5px); 
 					} // last
 
 				} //left
 
 				.right{
-					padding-left:0;
-					top:10px;
-					right:10px;
-					width:34.27673%; 
+					display: none;
 				} //right
 
 			} // instagram
@@ -389,11 +455,9 @@ $one-up-height:240px;
 			//    |_| \___/ | .__/                      
 			//              | |                         
 			//              |_|  
-			
-
+		
 			.top{
 				display: table;
-				padding-left: 17%;
 			} // top
 
 			.icon-container,
@@ -403,17 +467,36 @@ $one-up-height:240px;
 			}
 
 			.icon-container{
-				width:15%;
+				width:43%;
 				position: relative;
 			} // end .icon-container
 
+			.icon-parts{
+				position: relative;
+				width:30%;
+				margin-left: 70%;
+			}
+
 			.meta{
-				text-align: left;
-				margin-top: 0;
-				padding-left: px-em(10px); 
+				margin: 0;
+				padding: 0;
+
+				.p4{
+					text-align: center;
+					width:55%;
+				}
+
+				.user,
+				.title{
+					padding:0;
+				}
+
+				.title{
+					display: block;
+				}
+
 			} // meta
 
-		
 			//   _____              _                   
 			//  / ____|            | |                  
 			// | |      ___  _ __  | |_  ___  _ __      
@@ -426,6 +509,7 @@ $one-up-height:240px;
 
 			.flickr-container{
 				height:93px;
+				padding:10px px-em(10px);
 			}
 
 			.iq-img{
@@ -434,8 +518,7 @@ $one-up-height:240px;
 
 			.top-row{
 				height:100%;
-				padding:10px;
-
+				padding:0;
 			} // end .top-row
 			
 			.bottom-row{

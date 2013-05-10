@@ -1,63 +1,10 @@
-mixin demos()
-  lastPageTitle = null;
-  demos = locals.demos()
-  - demos.splice( demos.indexOf("demo-x99-demo.html"), 1 )
-  - demos.sort( function(a, b) { if (a.toLowerCase() < b.toLowerCase()) return -1; if (a.toLowerCase() > b.toLowerCase()) return 1; return 0; })
-  for name in demos
-    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ demo/, '')
-    firstSpace = title.indexOf(' ')
-    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
-    if lastPageTitle != null && lastPageTitle != prefix
-      hr
-    a( href = '../build/debug/' + name, title=title) !{ title }
-    lastPageTitle = prefix
-
-
-mixin demosGenerated()
-  lastPageTitle = null;
-  generatedDemos = locals.generateddemos()
-  for name in generatedDemos
-    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ demo/, '')
-    firstSpace = title.indexOf(' ')
-    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
-    if lastPageTitle != null && lastPageTitle != prefix
-      hr
-    a( href = '../build/debug/' + name, title=title) !{ title }
-    lastPageTitle = prefix
-
-
-mixin layouts()
-  lastPageTitle = null;
-  layouts = locals.layouts()
-  - layouts.splice( layouts.indexOf("demo-x99-layouts.html"), 1 )
-  for name in layouts
-    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ layouts/, '')
-    firstSpace = title.indexOf(' ')
-    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
-    if lastPageTitle != null && lastPageTitle != prefix
-      hr
-    a( href = '../build/debug/' + name, title=title) !{ title }
-    lastPageTitle = prefix
-
-mixin demoStyles()
-  lastPageTitle = null;
-  demoStyles = locals.demostyles()
-  for name in demoStyles
-    title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(/ styles/, '')
-    firstSpace = title.indexOf(' ')
-    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
-    if lastPageTitle != null && lastPageTitle != prefix
-      hr
-    a( href = '../build/debug/' + name, title=title) !{ title }
-    lastPageTitle = prefix
-
-
-include ../../common/html/ieconditionals.html
 doctype 5
+include ../../common/html/jade-helpers.jade
+include ../../common/html/ieconditionals.html
 
 include docs-head.html
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
-    include docs-nav.html
+  include docs-nav.html
 
   header.jumbotron.subhead#overview
     .container
@@ -68,24 +15,29 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
   .container
     .grid.no-grid-at-767
       .span4
+        input(id="module-search", type="search", placeholder="Search for a module...", autofocus)
+
+  .container
+    .grid.no-grid-at-767
+      .span4
         h3 Single Module Demos
         hr
         nav.module-nav
-          +demos()
+          +docsLinks( 'demos', 'demo', 'demo-x99-demo.html' )
           hr
-          +demosGenerated()
+          +docsLinks( 'generateddemos', 'demo' )
 
       .span4
         h3 Module Modes
         hr
         nav.module-nav
-          +layouts()
+          +docsLinks( 'layouts', 'layouts', 'demo-x99-layouts.html' )
 
       .span4
         h3 Module Variations
         hr
         nav.module-nav
-          +demoStyles()
+          +docsLinks( 'demostyles', 'styles' )
 
   include docs-foot.html
 </html>

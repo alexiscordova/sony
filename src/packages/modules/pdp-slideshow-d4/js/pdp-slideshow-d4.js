@@ -59,14 +59,13 @@ define(function(require){
 
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
-      self.$document            = $(document);
-      self.$window              = $(window);
-      self.$html                = $('html');
+      self.$document            = Settings.$document;
+      self.$window              = Settings.$window;
+      self.$html                = Settings.$html;
       self.$slides              = self.$el.find( self.SLIDE_CLASS );
       self.$slideContainer      = self.$el.find( self.SLIDE_CONTAINER );
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$pagination          = null;
-
 
       self.desktopAnimSpeed     = 500;
       self.tabletAnimSpeed      = 300;
@@ -88,13 +87,6 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
-        // if(!window.console){
-        //   window.console = {};
-        //   window.console.log = function(){};
-        // }
-
-
-
         self.setupEvents();
         self.setupSlides();
         self.setupCarousel();
@@ -110,6 +102,9 @@ define(function(require){
         // Listen for debounced resize event
         Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
 
+        //ghost ride the whip
+        self.onDebouncedResize();
+
       },
 
       // Handles global debounced resize event
@@ -122,6 +117,18 @@ define(function(require){
         }else{
           self.$el.css('overflow' , 'visible');
         }
+
+        if(wW > 980){
+          //this makes the header grow 1px taller for every 20px over 980w..
+          self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
+          //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
+        }else{
+          //this removes the dynamic css so it will reset back to responsive styles
+          self.$el.css('height', '');
+        }
+
+
+        self.$el.find('.pdp-slideshow-slide > .ghost-center-wrap').css('height' , self.$el.height() + 'px');
 
       },
 
@@ -136,7 +143,6 @@ define(function(require){
           looped: true,
           jumping: true,
           axis: 'x',
-          unit: '%',
           dragThreshold: 2,
           useCSS3: self.useCSS3,
           paddles: true,

@@ -433,15 +433,18 @@ define(function(require) {
           // copy HTML over to the overlay container
           overlayBase.html( el.find( '.overlay-base' ).html() );
 
-          // bind close button for this instance
-          overlayBase.find( '.hspot-close' ).bind( 'click', function( event ) {
+          var hspotClose = function( event ) {
             event.preventDefault();
             // save pointer for one more operation
             var lastOpen = el;
             // close overlay 
+            overlayBase.find( '.hspot-close' ).first().unbind( 'click', hspotClose);
             self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
             self.reanchor( el, false );
-          });
+          };
+
+          // bind close button for this instance
+          overlayBase.find( '.hspot-close' ).first().bind( 'click', hspotClose);
 
           self.lastCenteredOverlay = el;
         }
@@ -481,6 +484,13 @@ define(function(require) {
         // stop scroll
         self.disableScroll( true );
         
+        var catchAll = function( event ) {
+          event.preventDefault();
+          $( '.hspot-underlay-on' ).unbind( 'click', catchAll);
+          overlayBase.find( '.hspot-close' ).click();
+        };
+        
+        $( '.hspot-underlay-on' ).bind( 'click', catchAll);
 
       } else {
         // cleanup

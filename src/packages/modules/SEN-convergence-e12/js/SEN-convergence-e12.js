@@ -1,57 +1,78 @@
+// SEN Convergence (SenConvergence) Module.
+// ---------------------------------------
+//
+// * **Version:** 0.1
+// * **Modified:** 05/05/2013
+// * **Author:** Chris Pickett, Sam Carlton
+// * **Dependencies:** jQuery 1.7+, iQ, Sony Tabs
+
 define(function(require){
 
   'use strict';
 
   var $ = require('jquery'),
-      bootstrap = require('bootstrap'),
-      sonyStickyTabs = require('secondary/index').sonyStickyTabs;
+      iQ = require('iQ'),
+      sonyTab = require('secondary/index').sonyTab;
 
   var module = {
-    init: function() {
-      var self = this;
+    'init': function() {
+      var self = this,
+          containerSelector = '.sen-convergence .tab-pane.active .slides',
+          $container = $(containerSelector);
 
-      $('.sen-convergence .tab-pane.active .slides').each(function(index, element) {
-        var $container = $(element);
-        self.carousel = new SlideCrossFade($container);
-      });
+      self.carousel = new SenConvergence($container);
 
-      $('.tabs').on('click', 'li', function () {
-        var $container = $('.sen-convergence .tab-pane.active .slides');
+      $('.tab-pane').on('shown', function(evt) {
         self.carousel.stop();
-        self.carousel = new SlideCrossFade($container);
+        iQ.update();
+        var $container = $(containerSelector);
+        self.carousel = new SenConvergence($container);
       });
     }
   };
 
-  var SlideCrossFade = function ($container) {
-    this.init($container);
+  var SenConvergence = function(element) {
+    var self = this;
+    self.$el = $(element);
+
+    self.init();
+
+    log('SONY : SenConvergence : Initialized');
   };
 
-  SlideCrossFade.prototype = {
-    init: function($container) {
-      this.$slides = $container.children();
-      this.$slides.not(':first').hide();
-      this.$currentSlide = this.$slides.first();
+  SenConvergence.prototype = {
 
-      this.interval = setInterval($.proxy(this.showNextSlide, this), 3500);
+    constructor: SenConvergence,
+
+    init: function() {
+      var self = this;
+      self.$slides = self.$el.children();
+
+      self.$slides.first().show();
+      self.$slides.not(':first').hide();
+
+      self.$currentSlide = self.$slides.first();
+
+      self.interval = setInterval($.proxy(self.showNextSlide, self), 3500);
     },
 
     showNextSlide: function() {
-      var currentSlideIndex = this.$slides.index(this.$currentSlide),
-          nextSlideIndex = (currentSlideIndex + 1) % this.$slides.length,
-          $nextSlide = $(this.$slides[nextSlideIndex]);
+      var self = this,
+          currentSlideIndex = self.$slides.index(self.$currentSlide),
+          nextSlideIndex = (currentSlideIndex + 1) % self.$slides.length,
+          $nextSlide = $(self.$slides[nextSlideIndex]);
 
-      this.$currentSlide.fadeOut(750);
+      self.$currentSlide.fadeOut(750);
       $nextSlide.fadeIn(750);
 
-      this.$currentSlide = $nextSlide;
+      self.$currentSlide = $nextSlide;
     },
 
-    stop: function () {
-      clearInterval(this.interval);
+    stop: function() {
+      var self = this;
+      clearInterval(self.interval);
     }
   };
 
   return module;
-
 });

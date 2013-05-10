@@ -309,6 +309,17 @@ $oneByOneImgPadding: 107.84313725490196%;
     .product-img:after {
       padding-top: 78%;
     }
+
+
+    // < ie8 doesn't support pseudo elements
+    .lt-ie8 &,
+    .ps3 & {
+      height: px-em( 148 );
+
+      .product-img {
+        height: px-em( 103 );
+      }
+    }
   }
 
   // Large tiles

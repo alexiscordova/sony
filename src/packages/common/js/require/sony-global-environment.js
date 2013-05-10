@@ -59,6 +59,10 @@ define(function (require) {
         Settings.$html.addClass('sonytablets');
       }
 
+      if ( Settings.isPS3 ) {
+        Settings.$html.addClass('ps3');
+      }
+
       // Overwrite the Modernizr.mq function for IE < 10
       if ( Settings.isLTIE10 ) {
         Modernizr.mq = function() { return false; };

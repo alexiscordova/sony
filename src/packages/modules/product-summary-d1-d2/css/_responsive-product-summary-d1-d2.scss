@@ -92,7 +92,13 @@
     .product-img {
       margin: px-em(12) px-em(10) 0 0;
       max-width: px-em(50);
+      max-width: -webkit-calc( 30% - #{px-em(10)} );
+      max-width: calc( 30% - #{px-em(10)} );
       max-height: px-em(50);
+    }
+
+    .product-img + div {
+      max-width: 70%;
     }
 
     .sticky-nav-title {

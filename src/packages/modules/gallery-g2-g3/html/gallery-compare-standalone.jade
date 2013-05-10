@@ -9,6 +9,5 @@ include gallery-helpers.jade
 .gallery-content(data-module-name=data.config.module_name, data-module-id=data.config.module_id)
   .container.gallery-title
     .grid
-      h1.t2
-        strong= data.thecompare.title
+      h1.t2= data.thecompare.title
   +compareGallery( data.submodules, data.thecompare, 'camera', data.labels )

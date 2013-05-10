@@ -13,6 +13,7 @@ define(function (require) {
     sonyNavigationDots: require('secondary/sony-navigationdots'),
     sonyPaddles: require('secondary/sony-paddles'),
     sonyScroller: require('secondary/sony-scroller'),
+    sonyStickyHeaders: require('secondary/sony-stickyheaders'),
     sonyStickyNav: require('secondary/sony-stickynav'),
     sonyStickyTabs: require('secondary/sony-stickytabs'),
     sonyTab: require('secondary/sony-tab'),

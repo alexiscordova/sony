@@ -150,14 +150,16 @@ module.exports = function(grunt) {
         files:[
           {expand: true, cwd:'packages/common/img/',      src: ['**'], dest: '../build/debug/img/'},
           {expand: true, cwd:'packages/common/fonts/',    src: ['**'], dest: '../build/debug/fonts/'},
-          {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../build/debug/js/'}
+          {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../build/debug/js/'},
+          {expand: true, cwd:'packages/common/swf/',       src: ['**'], dest: '../build/debug/swf/'}
         ]
       },
       common_deploy:{
         files:[
           {expand: true, cwd:'packages/common/img/',      src: ['**'], dest: '../build/deploy/img/'},
           {expand: true, cwd:'packages/common/fonts/',    src: ['**'], dest: '../build/deploy/fonts/'},
-          {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../build/deploy/js/'}
+          {expand: true, cwd:'packages/common/js/',       src: ['**'], dest: '../build/deploy/js/'},
+          {expand: true, cwd:'packages/common/swf/',       src: ['**'], dest: '../build/deploy/swf/'}
         ]
       },
       module_debug:{
@@ -400,7 +402,42 @@ module.exports = function(grunt) {
           })()
         }
       }
+    },
+    
+    groundskeeper:{
+      compile:{
+        files:(function(){
+          var arr = [];
+          grunt.file.expand('../build/deploy/js/modules/**/*.js').forEach(function(path){
+            arr.push({dest: path , src: path});
+          })
+          return arr;
+        })(),
+        options:{
+          console:false
+        }
+      }
+    },
+    
+    csscss:{
+      options:{
+        compass:true,
+        ignoreSassMixins:true
+      },
+      dist:{
+        src: (function(){
+          var arr = [];
+          grunt.file.expand('packages/modules/**/css').forEach(function(path){
+            arr.push(path.toString());
+          })
+          return arr;
+        })()
+      }
+      
+      
     }
+    
+    
   });
 
   //load grunt plugin tasks
@@ -411,9 +448,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-yui-compressor');
   grunt.loadNpmTasks('grunt-requirejs');
   grunt.loadNpmTasks('grunt-doccoh');
+  grunt.loadNpmTasks('grunt-groundskeeper');
 
   //define task scripts
   grunt.registerTask('default', ['build']);
@@ -575,6 +612,7 @@ module.exports = function(grunt) {
 
     if(grunt.option('deploy')){
       grunt.task.run('requirejs_deploy');
+      grunt.task.run('groundskeeper');
     }
   });
 
@@ -619,13 +657,13 @@ module.exports = function(grunt) {
 
     grunt.task.run('watch');
   });
-  
+
   grunt.registerTask('dummygen', function(module){
     if (!module) return
     // write module-variations.jade page into module/demo
-    
+
     var set = grunt.file.expand('packages/modules/'+module+'/demo/data/dummy/*.json').map(function(a){return a.split('/').pop()});
-    
+
     var file = "include ../../../common/html/jade-helpers.jade\n";
     file += "doctype 5\n";
     file += "include ../../../common/html/ieconditionals.html\n";
@@ -634,42 +672,21 @@ module.exports = function(grunt) {
     file += "  include ../../../common/html/head.jade\n";
     file += "\n";
     file += "body\n";
-    
+
     for (var i in set){
-      
+
       file += "  h6 "+set[i].split('.json')[0]+":\n";
       file += "  +partial('"+module+"/html/"+module+".jade', 'packages/modules/"+module+"/demo/data/dummy/"+set[i]+"')\n"
       file += "  hr\n";
       file += "\n";
 
     }
-    
+
     file += "  include ../../../common/html/foot.jade\n";
     file += "</html>\n";
-    
+
     grunt.file.write('packages/modules/'+module+'/demo/'+module+'-variations.jade', file);
-      
-  });
-  
-  
-  
-  
-  
-  
 
-  //*************************************
-  // The following are utility functions.
-  //*************************************
-
-  // Use in conjunction with timerEnd to test performance/load of your commands.
-  // ex. `grunt timerStart command-foo timerEnd
-
-  grunt.registerTask('timer-start', function() {
-    grunt.config('timerStartStamp', new Date());
-  });
-
-  grunt.registerTask('timer-end', function() {
-    console.log('Completed in ' + ((new Date()) - grunt.config('timerStartStamp')) / 1000 + ' seconds.')
   });
 
 };
