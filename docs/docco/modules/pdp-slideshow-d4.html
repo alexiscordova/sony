@@ -114,7 +114,7 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>this removes the dynamic css so it will reset back to responsive styles</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$el.css(<span class="string">'height'</span>, <span class="string">''</span>);
         }
 
-        
+
         self.$el.find(<span class="string">'.pdp-slideshow-slide &gt; .ghost-center-wrap'</span>).css(<span class="string">'height'</span> , self.$el.height() + <span class="string">'px'</span>);
 
       },
@@ -128,7 +128,6 @@ define(<span class="keyword">function</span>(require){
           looped: <span class="literal">true</span>,
           jumping: <span class="literal">true</span>,
           axis: <span class="string">'x'</span>,
-          unit: <span class="string">'%'</span>,
           dragThreshold: <span class="number">2</span>,
           useCSS3: self.useCSS3,
           paddles: <span class="literal">true</span>,
