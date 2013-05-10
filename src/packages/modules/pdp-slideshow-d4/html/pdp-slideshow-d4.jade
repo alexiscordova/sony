@@ -34,10 +34,8 @@ if data.config.sectionTitle
     .grid
       h2.l1= data.config.sectionTitle
 
-moduleId = data.id ? data.id : false
-
 //- Main section wrapper for slides and navigation
-section.pdp-slideshow(id=moduleId)
++mainElement( ["pdp-slideshow"] )
   .pdp-slideshow-outer
     .pdp-slideshow-inner
       +pdpSlide(data)
