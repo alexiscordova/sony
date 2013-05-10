@@ -1,5 +1,3 @@
-/*jslint debug: true */
-
 // Editorial SlideShow - E4
 // ------------
 //
