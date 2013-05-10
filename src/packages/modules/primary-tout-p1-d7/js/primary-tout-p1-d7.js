@@ -89,11 +89,13 @@ define(function(require){
             self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('hidden');
             self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('hidden');
             //play video?
+            self.$el.find('.sony-video').data('sonyVideo').api().play();
           });
           self.$el.find('.submodule .box-close').on('click', function(e){
             e.preventDefault();
             self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').removeClass('hidden');
             self.$el.find('.submodule').addClass('hidden');
+            self.$el.find('.sony-video').data('sonyVideo').api().pause();
           });
         }
 
