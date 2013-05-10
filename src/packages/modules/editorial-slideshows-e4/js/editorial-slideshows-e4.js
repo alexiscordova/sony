@@ -2,16 +2,16 @@
 // ------------
 //
 // * **Module:** Editorial Slideshow - E4
-// * **Version:** 1.0a
-// * **Modified:** 04/4/2013
-// * **Author:** Tyler Madison, George Pantazis
+// * **Version:** 1.0
+// * **Modified:** 05/09/2013
+// * **Author:** Tyler Madison, George Pantazis, Glen Cheney
 // * **Dependencies:** jQuery 1.9.1+, Modernizr
 //
 // *Example Usage:*
 //
-//      $('.editorial-slideshow').EditorialSlideshow();
+//      new EditorialSlideshow( $('.editorial-slideshow')[0] );
 
-define(function(require){
+define(function(require) {
 
     'use strict';
 
@@ -24,39 +24,36 @@ define(function(require){
         enquire = require('enquire'),
         sonyCarousel = require('secondary/index').sonyCarousel;
 
-    var self = {
-      'init': function() {
-        $('.editorial-slidshow-container').editorialSlideshow();
+    var module = {
+      init: function() {
+        $('.editorial-slidshow-container').each(function() {
+          new EditorialSlideshow( this );
+        });
       }
     };
-    
-    var EditorialSlideshow = function(element, options){
+
+    var EditorialSlideshow = function(element, options) {
       var self = this;
-       
+
       // Extend
-      $.extend( self, {}, $.fn.editorialSlideshow.defaults, options, $.fn.editorialSlideshow.settings );
-      
+      $.extend( self, {}, EditorialSlideshow.defaults, options, EditorialSlideshow.settings );
+
       // Set base element
       self.$el = $( element );
-      
+
       // Modernizr vars
-      self.hasTouch             = Modernizr.touch;
-      self.cssTransitions       = Modernizr.transitions;
-      
-      // Modernizr vars
-      self.hasTouch             = Modernizr.touch;
+      self.hasTouch             = Settings.hasTouchEvents;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
-      self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
 
       self.isDesktopMode        = true; //true by default
       self.isTabletMode         = false;
       self.isMobileMode         = false;
-      
+
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
-      self.$document            = $(document);
-      self.$window              = $(window);
-      self.$html                = $('html');
+      self.$document            = Settings.$document;
+      self.$window              = Settings.$window;
+      self.$html                = Settings.$html;
       self.$slides              = self.$el.find( '.editorial-carousel-slide' );
       self.$slideContainer      = self.$el.find( '.editorial-carousel' );
       self.$thumbNav            = self.$el.find( '' );
@@ -66,25 +63,18 @@ define(function(require){
       self.numSlides            = self.$slides.length;
       self.currentId            = 0;
 
-
       // Inits the module
       self.init();
 
+      self.$el.data( 'editorialSlideshow', self );
     };
 
     EditorialSlideshow.prototype = {
       constructor: EditorialSlideshow,
 
       // Initalize the module
-      init : function( param ) {
+      init : function() {
         var self = this;
-
-/*        if(!window.console){
-          window.console = {};
-          window.console.log = function(){};
-        }*/
-
-        //window.console.log(' new carousel... ');
 
         self.setupEvents();
         self.setupSlides();
@@ -96,20 +86,16 @@ define(function(require){
       },
 
       // Handles global debounced resize event
-      onDebouncedResize: function(){
+      onDebouncedResize: function() {
         var self = this,
-        wW = self.$window.width();
-        
-        if(wW > 1199){
-          self.$el.css('overflow' , 'hidden');
-        }else{
-          self.$el.css('overflow' , 'visible');
-        }
+            isLargeDesktop = Modernizr.mq( '(min-width: 74.9375em)' ),
+            overflow = isLargeDesktop ? 'hidden' : 'visible';
 
+        self.$el.css( 'overflow' , overflow );
       },
 
       // Main setup method for the carousel
-      setupCarousel: function(){
+      setupCarousel: function() {
         var self = this;
 
         // Using Sony Carousel for this module
@@ -121,7 +107,6 @@ define(function(require){
           axis: 'x',
           unit: '%',
           dragThreshold: 2,
-          useCSS3: self.useCSS3,
           paddles: true,
           pagination: true/*,
           $paddleWrapper: self.$el.find('.editorial-carousel-wrapper')*/
@@ -136,7 +121,7 @@ define(function(require){
       },
 
       // Listens for slide changes and updates the correct thumbnail
-      onSlideUpdate: function(e , currIndx){
+      onSlideUpdate: function(e , currIndx) {
         var self = this;
 
         self.currentId = currIndx;
@@ -147,73 +132,78 @@ define(function(require){
 
 
       // Registers with Enquire JS for breakpoint firing
-      setupBreakpoints: function(){
+      setupBreakpoints: function() {
         var self = this;
-        
-        if( !self.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 769px)", function() {
+
+        if ( !Settings.isLTIE10 ) {
+
+          // >= 768
+          enquire
+            .register('(min-width: 48em)', function() {
+              self.isMobileMode = self.isTabletMode = false;
+              self.isDesktopMode = true;
+              self.showThumbNav();
+              self.toggleDotNav(true); //hide
+            })
+
+            // >= 568 , < 768
+            .register('(min-width: 35.5em) and (max-width: 47.9375em)', function() {
+              self.isMobileMode = self.isDesktopMode = false;
+              self.isTabletMode = true;
+              self.hideThumbNav();
+              self.toggleDotNav(true); //hide
+            })
+
+            // < 568
+            .register('(max-width: 35.4375em)', function() {
+              self.isDesktopMode = self.isTabletMode = false;
+              self.isMobileMode = true;
+              self.hideThumbNav();
+              self.toggleDotNav(false); //show
+            });
+
+        }
+
+        if ( Settings.isLTIE10 ) {
           self.isMobileMode = self.isTabletMode = false;
           self.isDesktopMode = true;
           self.showThumbNav();
           self.toggleDotNav(true); //hide
-        });
 
-        enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
-          self.isMobileMode = self.isDesktopMode = false;
-          self.isTabletMode = true;
-          self.hideThumbNav();
-          self.toggleDotNav(true); //hide
-        });
-
-        enquire.register("(max-width: 568px)", function() {
-          self.isDesktopMode = self.isTabletMode = false;
-          self.isMobileMode = true;
-          self.hideThumbNav();
-          self.toggleDotNav(false); //show
-        });
-
-      }
-
-        if( self.$html.hasClass('lt-ie10') ){
-          self.isMobileMode = self.isTabletMode = false;
-          self.isDesktopMode = true;
-          self.showThumbNav();
-          self.toggleDotNav(true); //hide
-          
         }
 
       },
 
       // Toggles dot nav based on breakpoints
-      toggleDotNav: function(hide){
+      toggleDotNav: function(hide) {
         var self = this;
 
-        if(hide){
+        if ( hide ) {
           self.$pagination.css('opacity' , 0);
-        }else{
+        } else {
           self.$pagination.css('opacity' , 1);
         }
 
       },
 
       // Toggles thumb nav based on breakpoints
-      hideThumbNav: function(){
+      hideThumbNav: function() {
         var self = this;
-        if(self.$thumbNav.length > 0){
+        if (self.$thumbNav.length > 0) {
           self.$thumbNav.hide();
         }
       },
 
       // Toggles thumb nav based on breakpoints
-      showThumbNav: function(){
+      showThumbNav: function() {
         var self = this;
-        if(self.$thumbNav.length > 0){
+        if ( self.$thumbNav.length ) {
           self.$thumbNav.show();
         }
       },
 
       // Sets up slides to correct width based on how many there are
-      setupSlides: function(){
+      setupSlides: function() {
         var self = this;
 
         self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
@@ -222,39 +212,39 @@ define(function(require){
         //console.log( 'Setup slides: ' , 1 );
 
       },
-      
+
       // Setup touch event types
-      setupEvents: function(){
+      setupEvents: function() {
         var self = this;
-        
-        if( self.hasTouch ){
+
+        if ( self.hasTouch ) {
           self.upEvent = 'touchend.pdpss';
-        }else {
+        } else {
           self.clickEvent = 'click.pdpss';
         }
 
-        self.tapOrClick = function(){
+        self.tapOrClick = function() {
           return self.hasTouch ? self.upEvent : self.clickEvent;
         };
 
       },
-      
+
       // Bind events to the thumbnail navigation
-      createThumbNav: function(){
+      createThumbNav: function() {
         var self = this,
         $anchors = self.$thumbNav.find('a');
-        
-        $anchors.on( self.tapOrClick() , function(e){
+
+        $anchors.on( self.tapOrClick() , function(e) {
           e.preventDefault();
           self.onThumbSelected($(this));
         });
-       
+
         $anchors.eq(0).addClass('active');
       },
 
 
       // Handles when a thumbnail is chosen
-      onThumbSelected: function($el){
+      onThumbSelected: function($el) {
         var self = this,
         $anchors = self.$thumbNav.find('a'),
         selectedIndx =  $el.parent().index(),
@@ -270,7 +260,7 @@ define(function(require){
       },
 
       // Sets the current active thumbnail
-      setCurrentActiveThumb: function(){
+      setCurrentActiveThumb: function() {
         var self = this,
         $anchors = self.$thumbNav.find('a');
         $anchors.removeClass('active');
@@ -280,32 +270,13 @@ define(function(require){
       //end prototype object
     };
 
-    // jQuery Plugin Definition
-    $.fn.editorialSlideshow = function( options ) {
-      var args = Array.prototype.slice.call( arguments, 1 );
-      return this.each(function() {
-        var self = $( this ),
-          editorialSlideshow = self.data( 'editorialSlideshow' );
-
-        // If we don't have a stored moduleName, make a new one and save it.
-        if ( !editorialSlideshow ) {
-            editorialSlideshow = new EditorialSlideshow( self, options );
-            self.data( 'moduleName', editorialSlideshow );
-        }
-
-        if ( typeof options === 'string' ) {
-          editorialSlideshow[ options ].apply( editorialSlideshow, args );
-        }
-      });
-    };
-
     // Defaults
     // --------
-    $.fn.editorialSlideshow.defaults = {};
+    EditorialSlideshow.defaults = {};
 
     // Non override-able settings
     // --------------------------
-    $.fn.editorialSlideshow.settings = {};
-  
-    return self;
+    EditorialSlideshow.settings = {};
+
+    return module;
  });
