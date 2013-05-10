@@ -264,7 +264,7 @@ define(function(require){
             isOverflowHidden: false,
             //increase width of slider by 3 on load so scrolled items dont wrap in FF
             onRefresh: function(){
-              self.$slider.width( self.$slider.width() + 3 );
+              self.$slider.width( self.$slider.width() + 4 );
             },
             onScrollMove: function(){
               var node = self.$slider.get(0),
