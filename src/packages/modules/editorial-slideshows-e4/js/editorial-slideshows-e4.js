@@ -84,7 +84,6 @@ define(function(require) {
           looped: true,
           jumping: true,
           axis: 'x',
-          unit: '%',
           dragThreshold: 2,
           paddles: true,
           pagination: true
