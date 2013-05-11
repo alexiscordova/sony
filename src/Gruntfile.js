@@ -402,7 +402,42 @@ module.exports = function(grunt) {
           })()
         }
       }
+    },
+    
+    groundskeeper:{
+      compile:{
+        files:(function(){
+          var arr = [];
+          grunt.file.expand('../build/deploy/js/modules/**/*.js').forEach(function(path){
+            arr.push({dest: path , src: path});
+          })
+          return arr;
+        })(),
+        options:{
+          console:false
+        }
+      }
+    },
+    
+    csscss:{
+      options:{
+        compass:true,
+        ignoreSassMixins:true
+      },
+      dist:{
+        src: (function(){
+          var arr = [];
+          grunt.file.expand('packages/modules/**/css').forEach(function(path){
+            arr.push(path.toString());
+          })
+          return arr;
+        })()
+      }
+      
+      
     }
+    
+    
   });
 
   //load grunt plugin tasks
@@ -413,9 +448,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-yui-compressor');
   grunt.loadNpmTasks('grunt-requirejs');
   grunt.loadNpmTasks('grunt-doccoh');
+  grunt.loadNpmTasks('grunt-groundskeeper');
 
   //define task scripts
   grunt.registerTask('default', ['build']);
@@ -577,6 +612,7 @@ module.exports = function(grunt) {
 
     if(grunt.option('deploy')){
       grunt.task.run('requirejs_deploy');
+      grunt.task.run('groundskeeper');
     }
   });
 
@@ -651,27 +687,6 @@ module.exports = function(grunt) {
 
     grunt.file.write('packages/modules/'+module+'/demo/'+module+'-variations.jade', file);
 
-  });
-
-
-
-
-
-
-
-  //*************************************
-  // The following are utility functions.
-  //*************************************
-
-  // Use in conjunction with timerEnd to test performance/load of your commands.
-  // ex. `grunt timerStart command-foo timerEnd
-
-  grunt.registerTask('timer-start', function() {
-    grunt.config('timerStartStamp', new Date());
-  });
-
-  grunt.registerTask('timer-end', function() {
-    console.log('Completed in ' + ((new Date()) - grunt.config('timerStartStamp')) / 1000 + ' seconds.')
   });
 
 };

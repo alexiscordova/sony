@@ -41,7 +41,11 @@ body {
   // [class*="fonticon"]{
   //   @include transition( color $transitionSlowish linear );
   // }
+}
 
+// Proposed fix for above
+.no-touch [class*="fonticon"] {
+  @include transition( color $transitionSlowish linear );
 }
 
 

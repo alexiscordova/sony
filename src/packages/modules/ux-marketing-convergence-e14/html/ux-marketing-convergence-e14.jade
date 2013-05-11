@@ -5,13 +5,13 @@ include ../../../common/html/jade-helpers.jade
 - uxmcModuleClasses = ['container', 'uxmc']
 - uxmcContainerClasses = ['grid', 'uxmc-container', 'mode-'+data.mode.toLowerCase()]
 - moduleId = data.id ? data.id : false
+- isSubmodule = data.isSubmodule ? data.isSubmodule : false
 
 if(!data.header)
   //- needed to margin changes when no header
   - uxmcModuleClasses.push("no-header")
 
-section(id= moduleId)(class= uxmcModuleClasses)
-
+mixin main()
   if(data.header)
     div.grid
       p.l1 #{data.header}
@@ -50,3 +50,12 @@ section(id= moduleId)(class= uxmcModuleClasses)
           div.uxmc-dial-wrapper
             span.uxmc-dial-label #{i}
             input.uxmc-dial(type='text', value='0')
+
+
+if(!isSubmodule)
+  section(id= moduleId)(class= uxmcModuleClasses)
+    +main
+else
+  div(id= moduleId)(class= uxmcModuleClasses)
+    +main
+

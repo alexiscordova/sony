@@ -82,6 +82,7 @@ define(function(require){
     self.throttle       = 3;
     self.inViewport     = false;
     self.moves          = 0;
+    self.touchEvents    = 0;
     
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
@@ -142,6 +143,11 @@ define(function(require){
         self.$controls.on( 'drag', function( event ) {
           self.touchMove( event );
         });
+        
+        self.$controls.on( 'tap', function( event ) {
+          self.touchMove( event );
+        });
+        
         
       } else {
         // trigger UI indication (Desktop)
@@ -220,15 +226,22 @@ define(function(require){
     touchMove: function( event ) {
       var self      = this,
           pageX     = event.gesture.distance,
-          direction = event.gesture.direction,
+          direction = event.gesture.direction ? event.gesture.direction : 'left',
           doMove    = false;
       
+      event.preventDefault();
+      event.gesture.preventDefault();
+      
+      self.mobileLog( 'direction ' + direction + '\n' + 'events fired: '+ self.touchEvents++ + '\n' + 'direction: ' + pageX );
+      
       if( Settings.isIOS ) {
-        if( 0 === self.moves % 10 ) {
+        if( 0 === self.moves % 2 ) {
           self.move( direction );
         }
       } else if( Settings.isAndroid ) {
-        self.move( direction );
+        if( 0 === self.moves % 5 ) {
+          self.move( direction );
+        }
       } else {
         self.move( direction );
       }
@@ -286,8 +299,8 @@ define(function(require){
       self.lastX = event.pageX;
     },
     
-    mobileLog: function( data ) {
-      $( '.e360debug' ).append( data.toString() ).append( '<br />' );
+    mobileLog: function( data, append ) {
+      //$( '.e360debug' ).html( data.toString() + '\n' );
     },
     
     animateDragger: function( cycles ) {

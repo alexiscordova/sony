@@ -1,16 +1,37 @@
 <!DOCTYPE html>  <html> <head>   <title>sony-global-router.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="sony-global-analytics.html">                 sony-global-analytics.js               </a>                                           <a class="source" href="sony-global-environment.html">                 sony-global-environment.js               </a>                                           <a class="source" href="sony-global-router.html">                 sony-global-router.js               </a>                                           <a class="source" href="sony-global-settings.html">                 sony-global-settings.js               </a>                                           <a class="source" href="sony-global-utilities.html">                 sony-global-utilities.js               </a>                                           <a class="source" href="sony-global.html">                 sony-global.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-global-router.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Sony Router Class</h2>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Sony Router Module</h2>
 
 <ul>
-<li><strong>Class:</strong> SONY.Router</li>
-</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+<li><strong>Class:</strong> Router</li>
+<li><strong>Version:</strong> 0.1</li>
+<li><strong>Modified:</strong> 05/01/2013</li>
+<li><strong>Author:</strong> George Pantazis</li>
+</ul>
+
+<p>This class is a lightweight extraction of Backbone's router object. For more information, please
+refer to <a href="http://backbonejs.org/#Router">that project's documentation</a>.</p>
+
+<p><em>Binding:</em></p>
+
+<p>Note that when binding, the callback will fire immediately if the current
+hash matches the provided route pattern.</p>
+
+<pre><code> var Router = require('require/sony-global-router');
+
+ Router.on('foo/bar/:a(/:b)(/:c)', function(a,b,c){
+    console.log(a,b,c);
+ });
+</code></pre>
+
+<p><em>Unbinding:</em></p>
+
+<pre><code> Router.off('foo/bar/:a(/:b)(/:c)');
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
 define(<span class="function"><span class="keyword">function</span> <span class="params">(require)</span> {</span>
 
   <span class="string">'use strict'</span>;
 
-  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
-      Modernizr = require(<span class="string">'modernizr'</span>),
-      Environment = require(<span class="string">'require/sony-global-environment'</span>),
+  <span class="keyword">var</span> Modernizr = require(<span class="string">'modernizr'</span>),
       Settings = require(<span class="string">'require/sony-global-settings'</span>);
 
   <span class="keyword">var</span> _router;
@@ -91,7 +112,6 @@ define(<span class="function"><span class="keyword">function</span> <span class=
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Check the current URL and</p>             </td>             <td class="code">               <div class="highlight"><pre>
     checkUrl: <span class="keyword">function</span>(routeData) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -120,7 +140,7 @@ define(<span class="function"><span class="keyword">function</span> <span class=
       self.fragment = current;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Strips route from hash if present (x-browser smoothing).</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Strips route from hash if present (x-browser smoothing).</p>             </td>             <td class="code">               <div class="highlight"><pre>
     getFragment: <span class="keyword">function</span>(fragment) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -131,13 +151,13 @@ define(<span class="function"><span class="keyword">function</span> <span class=
       <span class="keyword">return</span> fragment.replace(self.routeStripper, <span class="string">''</span>);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Get current window hash.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Get current window hash.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     getHash: <span class="keyword">function</span>() {
       <span class="keyword">var</span> match = window.location.href.match(<span class="regexp">/#(.*)$/</span>);
       <span class="keyword">return</span> match ? match[<span class="number">1</span>] : <span class="string">''</span>;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Converts routes into regular expressions that can be used by <code>.match()</code></p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Converts routes into regular expressions that can be used by <code>.match()</code></p>             </td>             <td class="code">               <div class="highlight"><pre>
     routeToRegExp: <span class="keyword">function</span>(route) {
 
       <span class="keyword">var</span> optionalParam = <span class="regexp">/\((.*?)\)/g</span>,

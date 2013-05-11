@@ -1,0 +1,16 @@
+include ../../../common/html/jade-helpers.jade
+
+- moduleClasses = ['container', 'otherClass']
+- moduleId = data.id ? data.id : false
+- isSubmodule = data.isSubmodule ? data.isSubmodule : false
+
+mixin main()
+  div main content goes here 
+
+if(!isSubmodule)
+  section(id= moduleId)(class= moduleClasses)
+    +main
+else
+  div(id= moduleId)(class= moduleClasses)
+    +main
+

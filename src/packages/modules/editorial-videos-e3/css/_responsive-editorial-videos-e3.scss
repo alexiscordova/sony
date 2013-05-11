@@ -7,40 +7,24 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 
+.editorial-video-container.full-bleed {
 
-@media (min-width: $tabletMin) and (max-width:$tabletMax) {
-  .editorial-video-container {
+  @media (min-width: $tabletMin) and (max-width: $tabletMax) {
     height: 500px;
   }
 
-}
-
-@media (max-width: $phoneMax) {
-  .editorial-video-container {
-    height: 420px;
-
-    .pagination-paddles button.pagination-next {
-      right: 2%;
-      margin-right: 0;
-    }
-
-    .pagination-paddles button.pagination-prev {
-      left: 2%;
-      margin-left: 0;
-    }
-
-  }
-}
-
-@media (min-width: $phoneMin) and (max-width: $phoneMax){
-  .editorial-video-container {
+  @media (max-width: $phoneMax) {
     height: 420px;
   }
-}
-@media (max-width: $subPhoneMax){
-  .editorial-video-container {
+  
+  @media (min-width: $phoneMin) and (max-width: $phoneMax){
+    height: 420px;
+  }
+
+  @media (max-width: $subPhoneMax){
     height: 400px;
   }
+
 }
 
 

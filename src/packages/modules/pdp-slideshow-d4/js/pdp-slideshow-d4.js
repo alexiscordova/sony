@@ -102,6 +102,9 @@ define(function(require){
         // Listen for debounced resize event
         Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
 
+        //ghost ride the whip
+        self.onDebouncedResize();
+
       },
 
       // Handles global debounced resize event
@@ -124,6 +127,9 @@ define(function(require){
           self.$el.css('height', '');
         }
 
+
+        self.$el.find('.pdp-slideshow-slide > .ghost-center-wrap').css('height' , self.$el.height() + 'px');
+
       },
 
       // Main setup method for the carousel
@@ -137,7 +143,6 @@ define(function(require){
           looped: true,
           jumping: true,
           axis: 'x',
-          unit: '%',
           dragThreshold: 2,
           useCSS3: self.useCSS3,
           paddles: true,

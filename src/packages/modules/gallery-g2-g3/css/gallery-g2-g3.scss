@@ -1027,11 +1027,16 @@ $stickyHeaderHeight: px-em(82);
   }
 
   .modal-body {
-    padding: px-em(42) 0 px-em( 40 - 18 );
+    position: relative;
+    padding: 0;
 
     .lt-ie9 & {
       background: white;
     }
+  }
+
+  .modal-body-inner {
+    padding: px-em(42) 0 px-em( 40 - 18 );
   }
 
   // Put the sorting above the products to handle the negative margin top
