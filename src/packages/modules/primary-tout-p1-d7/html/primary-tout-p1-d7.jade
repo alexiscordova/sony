@@ -124,7 +124,7 @@ primaryToutClasses = ['primary-tout', 'container','full-bleed-no-max',data.mode,
         .container.full-bleed-no-max.submodule.hidden
           button(class= "box-close box-close-small")
             i(class="fonticon-10-x")
-          +partial(data.submodules[i].type, data.submodules[i].data)
+          +partial(data.submodules[i].type, data.submodules[i].data, true)
 
   if data.mode == "homepage"
     if data.variation.secondbox

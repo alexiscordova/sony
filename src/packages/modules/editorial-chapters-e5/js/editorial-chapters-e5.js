@@ -1,5 +1,3 @@
-/*jslint debug: true */
-
 // Editorial SlideShow - E4
 // ------------
 //
@@ -128,16 +126,21 @@ define(function(require){
         self.isDesktop = false;
 
         self.$window.on('resize.e5-mobile-resize', $.proxy(self.getSlideHeight, self ));
+
         // for some reason it $.evenHeights calculates the wrong height
         // this is even if DomReady is true. Even if debugger; is run now
         // the height of the tallest element will be incorrect. A setTimeout
-        // seems to fix this issue.
-        setTimeout(function(){ self.getSlideHeight(); }, 250);
+        // seems to fix this issue. 
+        setTimeout(function(){ 
+          self.getSlideHeight(); 
+          self.getSliderWidth();
+        }, 250);
       },
 
       removeWrapperStyles: function() {
         var self = this;
 
+        self.$slider.removeAttr('style');
         self.$slideWrapper.removeAttr('style');
 
       },
@@ -163,6 +166,25 @@ define(function(require){
 
         iQ.update();
 
+      },
+   
+      getSliderWidth: function() {
+        var self = this,
+            $currTabs,
+            sliderWidth,
+            minSliderWidth;
+
+        $currTabs = self.$slider.find('li');
+        sliderWidth = 5; // adding 5 just to be prepared for bleed
+        minSliderWidth = 100; // no slider should ever be smaller than this
+
+        $currTabs.each(function(){
+          var $el = $(this);
+          sliderWidth = (sliderWidth + $el.outerWidth());
+        });
+
+        // only if we have a slider width do we want to apply it
+        if (sliderWidth >= minSliderWidth) { self.$slider.width(sliderWidth); }
       },
 
       // if its on a mobile device per slide change we need to

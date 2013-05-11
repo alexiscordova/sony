@@ -85,6 +85,10 @@ define(<span class="keyword">function</span>(require){
         
 
       },
+      api: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        <span class="keyword">return</span> self.videoAPI;
+      },
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Handles global debounced resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>      onDebouncedResize: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -114,7 +118,7 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !sonyVideo ) {
             sonyVideo = <span class="keyword">new</span> SonyVideo( self, options );
-            self.data( <span class="string">'moduleName'</span>, sonyVideo );
+            self.data( <span class="string">'sonyVideo'</span>, sonyVideo );
         }
 
         <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
