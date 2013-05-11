@@ -4,14 +4,14 @@
 // * **Module:** PDP Slideshow - D4
 // * **Version:** 1.0a
 // * **Modified:** 04/3/2013
-// * **Author:** Tyler Madison, George Pantazis
+// * **Author:** Tyler Madison, George Pantazis, Glen Cheney
 // * **Dependencies:** jQuery 1.9.1+, Modernizr
 //
 // *Example Usage:*
 //
-//      $('.pdp-slideshow').PDPSlideShow();
+//      new PDPSlideShow( $(.pdp-slideshow')[0] )
 
-define(function(require){
+define(function(require) {
 
     'use strict';
 
@@ -26,32 +26,22 @@ define(function(require){
         sonyVideo = require('secondary/index').sonyVideo;
 
     var self = {
-      'init': function() {
-        $('.pdp-slideshow').pdpSlideShow();
+      init: function() {
+        $('.pdp-slideshow').each(function() {
+          new PDPSlideShow( this );
+        });
       }
     };
 
-    var PDPSlideShow = function(element, options){
+    var PDPSlideShow = function(element) {
       var self = this;
-
-      // Extend
-      $.extend( self, {}, $.fn.pdpSlideShow.defaults, options, $.fn.pdpSlideShow.settings );
 
       // Set base element
       self.$el = $( element );
 
-      // Modernizr vars
-      self.hasTouch             = Modernizr.touch;
-      self.cssTransitions       = Modernizr.transitions;
-
       // CLASS SELECTOR CONSTANTS
       self.SLIDE_CLASS          = '.pdp-slideshow-slide';
       self.SLIDE_CONTAINER      = '.pdp-slideshow-inner';
-
-      // Modernizr vars
-      self.hasTouch             = Modernizr.touch;
-      self.transitionDuration   = Modernizr.prefixed('transitionDuration');
-      self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
 
       self.isDesktopMode        = true; //true by default
       self.isTabletMode         = false;
@@ -59,6 +49,7 @@ define(function(require){
 
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
+      self.hasTouch             = Settings.hasTouchEvents;
       self.$document            = Settings.$document;
       self.$window              = Settings.$window;
       self.$html                = Settings.$html;
@@ -84,15 +75,15 @@ define(function(require){
       constructor: PDPSlideShow,
 
       // Initalize the module
-      init : function( param ) {
+      init : function() {
         var self = this;
 
-        self.setupEvents();
-        self.setupSlides();
-        self.setupCarousel();
-        self.setupBreakpoints();
+        self
+          .setupSlides()
+          .setupCarousel()
+          .setupBreakpoints();
 
-        if(self.hasThumbs){
+        if (self.hasThumbs) {
           self.createThumbNav();
         }
 
@@ -108,32 +99,31 @@ define(function(require){
       },
 
       // Handles global debounced resize event
-      onDebouncedResize: function(){
+      onDebouncedResize: function() {
         var self = this,
-        wW = self.$window.width();
+            // isLargeDesktop = Modernizr.mq( '(min-width: 74.9375em)' ),
+            isDesktop = !Modernizr.mediaqueries || Modernizr.mq( '(min-width: 61.25em)' ),
+            // overflow = isLargeDesktop ? 'hidden' : 'visible',
+            windowWidth,
+            slideshowHeight;
 
-        if(wW > 1199){
-          self.$el.css('overflow' , 'hidden');
-        }else{
-          self.$el.css('overflow' , 'visible');
-        }
+        // self.$el.css( 'overflow' , overflow );
 
-        if(wW > 980){
-          //this makes the header grow 1px taller for every 20px over 980w..
-          self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
+        if ( isDesktop ) {
+          windowWidth = self.$window.width();
+          slideshowHeight = Math.round( Math.min(720, 560 + ((windowWidth - 980) / 5)) );
+          // Make the header grow 1px taller for every 20px over 980w..
+          self.$el.css( 'height', slideshowHeight );
           //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
-        }else{
-          //this removes the dynamic css so it will reset back to responsive styles
+        } else {
+          // Remove the dynamic css so it will reset back to responsive styles
           self.$el.css('height', '');
         }
-
-
-        self.$el.find('.pdp-slideshow-slide > .ghost-center-wrap').css('height' , self.$el.height() + 'px');
 
       },
 
       // Main setup method for the carousel
-      setupCarousel: function(){
+      setupCarousel: function() {
         var self = this;
 
         // Using Sony Carousel for this module
@@ -144,11 +134,10 @@ define(function(require){
           jumping: true,
           axis: 'x',
           dragThreshold: 2,
-          useCSS3: self.useCSS3,
           paddles: true,
           pagination: true,
           $paddleWrapper: self.$el,
-          CSS3easingEquation: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)'
+          CSS3Easing: Settings.carouselEasing
         });
 
         self.$pagination = self.$el.find('.pagination-bullets');
@@ -157,13 +146,14 @@ define(function(require){
 
         iQ.update();
 
+        return self;
       },
 
       // Listens for slide changes and updates the correct thumbnail
-      onSlideUpdate: function(e , currIndx){
+      onSlideUpdate: function(e , currentIndex) {
         var self = this;
 
-        self.currentId = currIndx;
+        self.currentId = currentIndex;
         self.setCurrentActiveThumb();
 
         setTimeout( iQ.update , 250 );
@@ -171,135 +161,130 @@ define(function(require){
 
 
       // Registers with Enquire JS for breakpoint firing
-      setupBreakpoints: function(){
+      setupBreakpoints: function() {
         var self = this;
 
-        if( !self.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 769px)", function() {
-          self.isMobileMode = self.isTabletMode = false;
-          self.isDesktopMode = true;
+        if ( !Settings.isLTIE10 ) {
+          enquire
+            // >= 768
+            .register('(min-width: 48em)', function() {
+              self.isMobileMode = self.isTabletMode = false;
+              self.isDesktopMode = true;
+              self.showThumbNav();
+              self.toggleDotNav(true); //hide
+              self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
+            })
+
+            // >= 568, < 767
+            .register('(min-width: 35.5em) and (max-width: 47.9375em)', function() {
+              self.isMobileMode = self.isDesktopMode = false;
+              self.isTabletMode = true;
+              self.hideThumbNav();
+              self.toggleDotNav(false); //show
+              self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.tabletAnimSpeed );
+            })
+
+            // < 567
+            .register('(max-width: 35.4375em)', function() {
+              self.isDesktopMode = self.isTabletMode = false;
+              self.isMobileMode = true;
+              self.hideThumbNav();
+              self.toggleDotNav(false); //show
+              self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.mobileAnimSpeed );
+            });
+
+        // Doesn't support media queries
+        } else {
           self.showThumbNav();
           self.toggleDotNav(true); //hide
           self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
-        });
-
-        enquire.register("(min-width: 569px) and (max-width: 768px)", function() {
-          self.isMobileMode = self.isDesktopMode = false;
-          self.isTabletMode = true;
-          self.hideThumbNav();
-          self.toggleDotNav(false); //show
-          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.tabletAnimSpeed );
-        });
-
-        enquire.register("(max-width: 568px)", function() {
-          self.isDesktopMode = self.isTabletMode = false;
-          self.isMobileMode = true;
-          self.hideThumbNav();
-          self.toggleDotNav(false); //show
-          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.mobileAnimSpeed );
-        });
-
-      }
-
-        if( self.$html.hasClass('lt-ie10') ){
-          self.isMobileMode = self.isTabletMode = false;
-          self.isDesktopMode = true;
-          self.showThumbNav();
-          self.toggleDotNav(true); //hide
-          self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
-
         }
 
+        return self;
       },
 
       // Toggles dot nav based on breakpoints
-      toggleDotNav: function(hide){
+      toggleDotNav: function(hide) {
         var self = this;
 
-        if(hide){
+        if (hide) {
           self.$pagination.css('opacity' , 0);
-        }else{
+        } else {
           self.$pagination.css('opacity' , 1);
         }
 
       },
 
       // Toggles thumb nav based on breakpoints
-      hideThumbNav: function(){
+      hideThumbNav: function() {
         var self = this;
-        if(self.$thumbNav.length > 0){
+        if (self.$thumbNav.length) {
           self.$thumbNav.hide();
         }
       },
 
       // Toggles thumb nav based on breakpoints
-      showThumbNav: function(){
+      showThumbNav: function() {
         var self = this;
-        if(self.$thumbNav.length > 0){
+        if (self.$thumbNav.length) {
           self.$thumbNav.show();
         }
       },
 
       // Sets up slides to correct width based on how many there are
-      setupSlides: function(){
-        var self = this;
+      setupSlides: function() {
+        var self = this,
+            slidesWithClones = self.numSlides + 2,
+            containerWidth = (100 * slidesWithClones) + '%',
+            slideWidth = (100 / slidesWithClones) + '%';
 
-        self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
-        self.$slides.width( 100 / (self.numSlides + 2) + '%' );
-
+        self.$slideContainer.css( 'width', containerWidth );
+        self.$slides.css( 'width', slideWidth );
 
         sonyVideo.initVideos( self.$el.find('.player') );
 
-      },
-
-      // Setup touch event types
-      setupEvents: function(){
-        var self = this;
-
-        if( self.hasTouch ){
-          self.upEvent = 'touchend.pdpss';
-        }else {
-          self.clickEvent = 'click.pdpss';
-        }
-
-        self.tapOrClick = function(){
-          return self.hasTouch ? self.upEvent : self.clickEvent;
-        };
-
+        return self;
       },
 
       // Bind events to the thumbnail navigation
-      createThumbNav: function(){
+      createThumbNav: function() {
         var self = this,
         $anchors = self.$thumbNav.find('a');
 
-        $anchors.on( self.tapOrClick() , function(e){
-          e.preventDefault();
-          self.onThumbSelected($(this));
-        });
+        // Bind to the click event even on touch in order
+        // to prevent the default
+        if ( self.hasTouch ) {
+          $anchors
+            .on( 'click', false )
+            .on( Settings.END_EV, $.proxy( self.onThumbSelected, self ) );
+        } else {
+          $anchors.on( 'click', function(e) {
+            e.preventDefault();
+            self.onThumbSelected( e );
+          });
+        }
 
         $anchors.eq(0).addClass('active');
       },
 
 
       // Handles when a thumbnail is chosen
-      onThumbSelected: function($el){
+      onThumbSelected: function( evt ) {
         var self = this,
-        $anchors = self.$thumbNav.find('a'),
-        selectedIndx =  $el.parent().index(),
-        animDirection = '';
+            $el = $( evt.delegateTarget ),
+            $anchors = self.$thumbNav.find('a'),
+            selectedIndex =  $el.parent().index();
 
-        self.currentId = selectedIndx;
+        self.currentId = selectedIndex;
 
         $anchors.removeClass('active');
         $el.addClass('active');
 
         self.$slideContainer.sonyCarousel( 'gotoSlide' , self.currentId );
-
       },
 
       // Sets the current active thumbnail
-      setCurrentActiveThumb: function(){
+      setCurrentActiveThumb: function() {
         var self = this,
         $anchors = self.$thumbNav.find('a');
         $anchors.removeClass('active');
@@ -308,33 +293,6 @@ define(function(require){
 
       //end prototype object
     };
-
-    // jQuery Plugin Definition
-    $.fn.pdpSlideShow = function( options ) {
-      var args = Array.prototype.slice.call( arguments, 1 );
-      return this.each(function() {
-        var self = $( this ),
-          pdpSlideShow = self.data( 'pdpSlideShow' );
-
-        // If we don't have a stored moduleName, make a new one and save it.
-        if ( !pdpSlideShow ) {
-            pdpSlideShow = new PDPSlideShow( self, options );
-            self.data( 'moduleName', pdpSlideShow );
-        }
-
-        if ( typeof options === 'string' ) {
-          pdpSlideShow[ options ].apply( pdpSlideShow, args );
-        }
-      });
-    };
-
-    // Defaults
-    // --------
-    $.fn.pdpSlideShow.defaults = {};
-
-    // Non override-able settings
-    // --------------------------
-    $.fn.pdpSlideShow.settings = {};
 
     return self;
  });
