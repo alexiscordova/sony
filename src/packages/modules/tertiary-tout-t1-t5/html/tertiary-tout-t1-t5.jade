@@ -4,12 +4,10 @@ include ../../../common/html/jade-helpers.jade
 
 include tertiary-t1-t5-helpers.jade
 
-- moduleId = data.id ? data.id : false
-
 //- START TCC MODULE
-section.tcc-module(id= moduleId)
+- tccMainClasses = ["tcc-module"]
++mainElement(tccMainClasses)
   +header(data.header)
-
   div#three-up
     div.tcc-carousel-wrapper
       div.tcc-carousel
