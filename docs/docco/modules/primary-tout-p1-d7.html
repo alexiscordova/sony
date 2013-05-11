@@ -82,11 +82,13 @@ Settings = require('require/sony-global-settings'),</p>             </td>       
             e.preventDefault();
             self.$el.find(<span class="string">'.hero-image, .inner, .mobile-buttons-wrap'</span>).addClass(<span class="string">'hidden'</span>);
             self.$el.find(<span class="string">'.submodule'</span>).eq($(<span class="keyword">this</span>).data(<span class="string">'submodule'</span>)).removeClass(<span class="string">'hidden'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>play video?</p>             </td>             <td class="code">               <div class="highlight"><pre>          });
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>play video?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$el.find(<span class="string">'.sony-video'</span>).data(<span class="string">'sonyVideo'</span>).api().play();
+          });
           self.$el.find(<span class="string">'.submodule .box-close'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
             e.preventDefault();
             self.$el.find(<span class="string">'.hero-image, .inner, .mobile-buttons-wrap'</span>).removeClass(<span class="string">'hidden'</span>);
             self.$el.find(<span class="string">'.submodule'</span>).addClass(<span class="string">'hidden'</span>);
+            self.$el.find(<span class="string">'.sony-video'</span>).data(<span class="string">'sonyVideo'</span>).api().pause();
           });
         }
 
