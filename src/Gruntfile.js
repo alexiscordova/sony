@@ -147,11 +147,11 @@ module.exports = function(grunt) {
 
     complexity: {
       generic: {
-        src: ['packages/modules/**/*.js', 'packages/common/js/secondary/sony-*.js', 'packages/common/js/require/*.js'],
+        src: ['packages/modules/**/*.js', 'packages/common/js/secondary/sony-*.js', 'packages/common/js/require/*.js', '!packages/common/js/require/sony-global-settings.js'],
         options: {
           errorsOnly: false,
-          cyclomatic: 100,
-          halstead: 100,
+          cyclomatic: 10,
+          halstead: 25,
           maintainability: 115
         }
       }
