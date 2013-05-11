@@ -4,7 +4,7 @@
 // * **Module:** PDP Slideshow - D4
 // * **Version:** 1.0a
 // * **Modified:** 04/3/2013
-// * **Author:** Tyler Madison, George Pantazis
+// * **Author:** Tyler Madison, George Pantazis, Glen Cheney
 // * **Dependencies:** jQuery 1.9.1+, Modernizr
 //
 // *Example Usage:*
@@ -39,9 +39,6 @@ define(function(require) {
       // Set base element
       self.$el = $( element );
 
-      // Modernizr vars
-      self.hasTouch             = Settings.hasTouchEvents;
-
       // CLASS SELECTOR CONSTANTS
       self.SLIDE_CLASS          = '.pdp-slideshow-slide';
       self.SLIDE_CONTAINER      = '.pdp-slideshow-inner';
@@ -52,6 +49,7 @@ define(function(require) {
 
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
+      self.hasTouch             = Settings.hasTouchEvents;
       self.$document            = Settings.$document;
       self.$window              = Settings.$window;
       self.$html                = Settings.$html;
@@ -80,10 +78,10 @@ define(function(require) {
       init : function() {
         var self = this;
 
-        self.setupEvents();
-        self.setupSlides();
-        self.setupCarousel();
-        self.setupBreakpoints();
+        self
+          .setupSlides()
+          .setupCarousel()
+          .setupBreakpoints();
 
         if (self.hasThumbs) {
           self.createThumbNav();
@@ -103,25 +101,24 @@ define(function(require) {
       // Handles global debounced resize event
       onDebouncedResize: function() {
         var self = this,
-            isLargeDesktop = Modernizr.mq( '(min-width: 74.9375em)' ),
-            isDesktop = isLargeDesktop || Modernizr.mq( '(min-width: 61.25em)' ),
-            overflow = isLargeDesktop ? 'hidden' : 'visible',
-            windowWidth;
+            // isLargeDesktop = Modernizr.mq( '(min-width: 74.9375em)' ),
+            isDesktop = !Modernizr.mediaqueries || Modernizr.mq( '(min-width: 61.25em)' ),
+            // overflow = isLargeDesktop ? 'hidden' : 'visible',
+            windowWidth,
+            slideshowHeight;
 
-        self.$el.css( 'overflow' , overflow );
+        // self.$el.css( 'overflow' , overflow );
 
         if ( isDesktop ) {
           windowWidth = self.$window.width();
-          //this makes the header grow 1px taller for every 20px over 980w..
-          self.$el.css('height', Math.round(Math.min(720, 560 + ((windowWidth - 980) / 5))));
+          slideshowHeight = Math.round( Math.min(720, 560 + ((windowWidth - 980) / 5)) );
+          // Make the header grow 1px taller for every 20px over 980w..
+          self.$el.css( 'height', slideshowHeight );
           //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
         } else {
-          //this removes the dynamic css so it will reset back to responsive styles
+          // Remove the dynamic css so it will reset back to responsive styles
           self.$el.css('height', '');
         }
-
-
-        // self.$el.find('.pdp-slideshow-slide > .ghost-center-wrap').css('height' , self.$el.height() + 'px');
 
       },
 
@@ -149,13 +146,14 @@ define(function(require) {
 
         iQ.update();
 
+        return self;
       },
 
       // Listens for slide changes and updates the correct thumbnail
-      onSlideUpdate: function(e , currIndex) {
+      onSlideUpdate: function(e , currentIndex) {
         var self = this;
 
-        self.currentId = currIndex;
+        self.currentId = currentIndex;
         self.setCurrentActiveThumb();
 
         setTimeout( iQ.update , 250 );
@@ -167,46 +165,42 @@ define(function(require) {
         var self = this;
 
         if ( !Settings.isLTIE10 ) {
-        enquire
+          enquire
+            // >= 768
+            .register('(min-width: 48em)', function() {
+              self.isMobileMode = self.isTabletMode = false;
+              self.isDesktopMode = true;
+              self.showThumbNav();
+              self.toggleDotNav(true); //hide
+              self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
+            })
 
-          // >= 768
-          .register('(min-width: 48em)', function() {
-            self.isMobileMode = self.isTabletMode = false;
-            self.isDesktopMode = true;
-            self.showThumbNav();
-            self.toggleDotNav(true); //hide
-            self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
-          })
+            // >= 568, < 767
+            .register('(min-width: 35.5em) and (max-width: 47.9375em)', function() {
+              self.isMobileMode = self.isDesktopMode = false;
+              self.isTabletMode = true;
+              self.hideThumbNav();
+              self.toggleDotNav(false); //show
+              self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.tabletAnimSpeed );
+            })
 
-          // >= 568, < 767
-          .register('(min-width: 35.5em) and (max-width: 47.9375em)', function() {
-            self.isMobileMode = self.isDesktopMode = false;
-            self.isTabletMode = true;
-            self.hideThumbNav();
-            self.toggleDotNav(false); //show
-            self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.tabletAnimSpeed );
-          })
+            // < 567
+            .register('(max-width: 35.4375em)', function() {
+              self.isDesktopMode = self.isTabletMode = false;
+              self.isMobileMode = true;
+              self.hideThumbNav();
+              self.toggleDotNav(false); //show
+              self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.mobileAnimSpeed );
+            });
 
-          // < 567
-          .register('(max-width: 35.4375em)', function() {
-            self.isDesktopMode = self.isTabletMode = false;
-            self.isMobileMode = true;
-            self.hideThumbNav();
-            self.toggleDotNav(false); //show
-            self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.mobileAnimSpeed );
-          });
-
-      }
-
-        if ( Settings.isLTIE10 ) {
-          self.isMobileMode = self.isTabletMode = false;
-          self.isDesktopMode = true;
+        // Doesn't support media queries
+        } else {
           self.showThumbNav();
           self.toggleDotNav(true); //hide
           self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
-
         }
 
+        return self;
       },
 
       // Toggles dot nav based on breakpoints
@@ -248,22 +242,8 @@ define(function(require) {
         self.$slides.css( 'width', slideWidth );
 
         sonyVideo.initVideos( self.$el.find('.player') );
-      },
 
-      // Setup touch event types
-      setupEvents: function() {
-        var self = this;
-
-        if ( self.hasTouch ) {
-          self.upEvent = 'touchend.pdpss';
-        } else {
-          self.clickEvent = 'click.pdpss';
-        }
-
-        self.tapOrClick = function() {
-          return self.hasTouch ? self.upEvent : self.clickEvent;
-        };
-
+        return self;
       },
 
       // Bind events to the thumbnail navigation
@@ -271,29 +251,36 @@ define(function(require) {
         var self = this,
         $anchors = self.$thumbNav.find('a');
 
-        $anchors.on( self.tapOrClick() , function(e) {
-          e.preventDefault();
-          self.onThumbSelected($(this));
-        });
+        // Bind to the click event even on touch in order
+        // to prevent the default
+        if ( self.hasTouch ) {
+          $anchors
+            .on( 'click', false )
+            .on( Settings.END_EV, $.proxy( self.onThumbSelected, self ) );
+        } else {
+          $anchors.on( 'click', function(e) {
+            e.preventDefault();
+            self.onThumbSelected( e );
+          });
+        }
 
         $anchors.eq(0).addClass('active');
       },
 
 
       // Handles when a thumbnail is chosen
-      onThumbSelected: function($el) {
+      onThumbSelected: function( evt ) {
         var self = this,
-        $anchors = self.$thumbNav.find('a'),
-        selectedIndx =  $el.parent().index(),
-        animDirection = '';
+            $el = $( evt.delegateTarget ),
+            $anchors = self.$thumbNav.find('a'),
+            selectedIndex =  $el.parent().index();
 
-        self.currentId = selectedIndx;
+        self.currentId = selectedIndex;
 
         $anchors.removeClass('active');
         $el.addClass('active');
 
         self.$slideContainer.sonyCarousel( 'gotoSlide' , self.currentId );
-
       },
 
       // Sets the current active thumbnail

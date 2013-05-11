@@ -7,14 +7,43 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 
+// 1200+
+@media (min-width: px-em(1200) ) {
+  .pdp-slideshow {
+    .pdp-slideshow-slide > .ghost-center-wrap {
+      padding: 2.5% 1% 8%;
+    }
+  }
+}
 
-@media (min-width: $tabletMin) and (max-width:$tabletMax) {
+// 1400+
+@media (min-width: px-em(1400) ) {
+  .pdp-slideshow {
+
+    // Can't use ems on ghost center wrap (0 font size)
+    .pdp-slideshow-slide > .ghost-center-wrap {
+      padding: 40px 40px 110px;
+    }
+
+    .pagination-paddles button {
+      top: 50%;
+    }
+  }
+}
+
+// 768 - 979
+@media (min-width: $tabletMin) and (max-width: $tabletMax) {
   .pdp-slideshow {
     height: 500px;
+
+    .pdp-slideshow-slide > .ghost-center-wrap {
+      padding: 2.5% 2% 13%;
+    }
   }
 
 }
 
+// < 767
 @media (max-width: $phoneMax) {
   .pdp-slideshow {
     height: 420px;
@@ -29,17 +58,32 @@ $tabletMax: px-em(979);
       margin-left: 0;
     }
 
+    .sony-dot-nav {
+      margin: 0;
+    }
+
   }
 }
 
+// 480 - 767
 @media (min-width: $phoneMin) and (max-width: $phoneMax){
   .pdp-slideshow {
     height: 420px;
+
+    .pdp-slideshow-slide > .ghost-center-wrap {
+      padding: 4% 3% 6%;
+    }
   }
 }
+
+// < 479
 @media (max-width: $subPhoneMax){
   .pdp-slideshow {
     height: 400px;
+
+    .pdp-slideshow-slide > .ghost-center-wrap {
+      padding: 5% 5% 10%;
+    }
   }
 }
 
