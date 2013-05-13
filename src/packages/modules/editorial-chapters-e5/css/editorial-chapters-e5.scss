@@ -111,6 +111,7 @@ $windowWidth: 1100;
       vertical-align:bottom;
       overflow:hidden;
       @include flickerfix();
+      @include transition();
       @include box-sizing(content-box);
       @include opacity(75);
 
@@ -122,7 +123,6 @@ $windowWidth: 1100;
         color:$gray20;
        
         background:$gray80;
-        @include transition();
         @include opacity(100);
       }
 
