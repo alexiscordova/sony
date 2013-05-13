@@ -2946,10 +2946,10 @@ define(function(require){
           // Remove current grid span
           self.$grid.children( itemSelector )
             .removeClass( allSpans )
-            .filter( social )
+            .filter( promo + ',' + social )
               .addClass( mspan+6 )
               .end()
-            .not( social )
+            .filter(large + ',' + normal)
               .addClass( mspan+3 );
         }
       }
