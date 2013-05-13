@@ -110,8 +110,8 @@ $windowWidth: 1100;
       border:0;
       vertical-align:bottom;
       overflow:hidden;
-      @include flickerfix();
       @include transition();
+      @include flickerfix();
       @include box-sizing(content-box);
       @include opacity(75);
 
@@ -121,7 +121,6 @@ $windowWidth: 1100;
       &:hover {
         border-top:4px solid $linkBlue;
         color:$gray20;
-       
         background:$gray80;
         @include opacity(100);
       }
