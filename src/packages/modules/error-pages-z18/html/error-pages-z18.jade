@@ -1,7 +1,7 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('error-pages-z18')
 
-.error-pages.container
++mainElement( ['error-pages', 'container'] )
   .grid.no-grid-at-767
     .content
       .error-content-main.span8
@@ -9,10 +9,10 @@ include ../../../common/html/jade-helpers.jade
           h2.t2= data.title
           .error-content-paragraph
             p.p2= data.subtitle
-  
+
           if data.errortype == "404" || data.errortype == "500"
             a.btn(href=data.buttonLink)= data.buttonText
-  
+
           else if data.errortype == '503'
             .error-box
               p.p3= data.boxtext
