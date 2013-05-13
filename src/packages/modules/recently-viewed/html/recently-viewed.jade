@@ -2,8 +2,7 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('recently-viewed')
 +includeJavascriptModule('recently-viewed')
 
-moduleId = data.id ? data.id : false
-.rv-module(id=moduleId)
++mainElement( [ 'rv-module' ] )
   .container
     .grid
       if data.config && data.config.mode == 'strip'
