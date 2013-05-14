@@ -204,9 +204,9 @@ include product-details-d5-helpers.jade
   - textTout = bottom.textTout
   - bottomLayoutValue = 0
   - bottomElClasses = ["span6"]
-  - bottomCopyClasses = ["copy","p3"]
-
-  - btmToutClasses = ["text-tout","span6"]
+  - bottomCopyClasses = ["copy","p3","table-center"]
+  - bottomIconClasses = ["icon","table-center"]
+  - btmToutClasses = ["text-tout","span6","table-center-wrap"]
   - btmButtonClasses = ["bottom-btn","span6"]
 
   //- LOGIC
@@ -220,7 +220,6 @@ include product-details-d5-helpers.jade
   //- is there a button href?
   if (isBottomBtn)
     - bottomLayoutValue = bottomLayoutValue + 1
-
 
   //- HANDLE LAYOUT VALUES
   case bottomLayoutValue
