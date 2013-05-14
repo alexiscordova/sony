@@ -6,13 +6,15 @@
 // * **Version:** 0.1
 // * **Modified:** 03/27/2013
 // * **Author:** Steve Davis
+// * **Maintainer:** George Pantazis
 // * **Dependencies:** jQuery 1.7+
 
 define(function(require){
 
   'use strict';
 
-  var $ = require('jquery');
+  var $ = require('jquery'),
+      Router = require('require/sony-global-router');
 
   var module = {
     'init': function() {
@@ -42,18 +44,47 @@ define(function(require){
       var self = this;
       self.renderDesktop();
 
+      Router.on('footnotes(/:a)', $.proxy(self.onRouteMatch, self));
     },
 
     renderDesktop: function() {
 
       var self = this;
 
-      //On header click, slide toggle the footnotes list
       self.$el.on('click', 'h2', function(){
-        self.$el.toggleClass('open')
-          .find('.list').slideToggle(200);
+        if ( self.$el.hasClass('open') ) {
+          self.closeNav();
+        } else {
+          self.openNav();
+        }
       });
+    },
 
+    openNav: function() {
+
+      var self = this;
+
+      self.$el.addClass('open').find('.list').slideDown(200);
+    },
+
+    closeNav: function() {
+
+      var self = this;
+
+      self.$el.removeClass('open').find('.list').slideUp(200);
+    },
+
+    onRouteMatch: function(which) {
+
+      var self = this;
+
+      self.openNav();
+
+      if ( !which ) {
+        which = 1;
+      }
+
+      $(window).scrollTop(self.$el.find('li').eq(which-1).offset().top - 200);
     }
   };
 
