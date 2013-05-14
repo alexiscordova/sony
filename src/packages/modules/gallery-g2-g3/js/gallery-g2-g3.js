@@ -2936,7 +2936,7 @@ define(function(require){
 
       // Phone ( 2 columns )
       } else if ( numColumns === 2 ) {
-        if ( !self.$grid.parent().hasClass(shuffleDash+2) ) {
+        if ( !self.$grid.hasClass(shuffleDash+2) ) {
 
           // remove .slimgrid5
           self.$grid

@@ -16,10 +16,12 @@ module.exports = function(grunt) {
     defer: grunt.file.expand('packages/modules/**/js/*.js').map(function(a){return a.split('/').pop()})
   };
 
+  var prettyJade = false;
   var jadeconfig = {
 
     spawnProcesses: gruntconfig.maxProcesses,
     compileDebug: false,
+    pretty: prettyJade,
 
     data:{
       partial: function(templatePath, dataObj){
@@ -30,7 +32,7 @@ module.exports = function(grunt) {
         }
 
         if(templatePath.match(/.jade/g)){
-          return require('grunt-contrib-jade/node_modules/jade').compile(template, {filename: templatePath})(dataObj);
+          return require('grunt-contrib-jade/node_modules/jade').compile(template, {filename: templatePath, pretty: prettyJade})(dataObj);
         }else{
           return template;
         }
