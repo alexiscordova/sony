@@ -62,7 +62,7 @@ mixin toutcopy(copyobject, titleclass, subtitleclass, bodyclass, mobileclass)
     +copyblock(copyobject, titleclass, subtitleclass, bodyclass)
 
 mixin toutimage(imgdata, mobileclass)
-  if imgdata.data !== undefined
+  if imgdata.data != undefined
     - imgdata.data.mobileclass = mobileclass
     !{locals.partial('packages/modules/image/html/image.jade' , imgdata)}
 

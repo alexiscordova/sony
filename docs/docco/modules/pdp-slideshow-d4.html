@@ -125,7 +125,7 @@ define(<span class="keyword">function</span>(require) {
           CSS3Easing: Settings.carouselEasing
         });
 
-        self.$pagination = self.$el.find(<span class="string">'.pagination-bullets'</span>);
+        self.$pagination = self.$el.find(<span class="string">'.sony-dot-nav'</span>);
 
         self.$slideContainer.on(<span class="string">'SonyCarousel:gotoSlide'</span> , $.proxy( self.onSlideUpdate , self ) );
 
@@ -154,8 +154,7 @@ define(<span class="keyword">function</span>(require) {
 </blockquote>             </td>             <td class="code">               <div class="highlight"><pre>            .register(<span class="string">'(min-width: 48em)'</span>, <span class="keyword">function</span>() {
               self.isMobileMode = self.isTabletMode = <span class="literal">false</span>;
               self.isDesktopMode = <span class="literal">true</span>;
-              self.showThumbNav();
-              self.toggleDotNav(<span class="literal">true</span>); <span class="comment">//hide</span>
+              self.showThumbNav().hideDotNav();
               self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.desktopAnimSpeed );
             })
 
@@ -164,22 +163,19 @@ define(<span class="keyword">function</span>(require) {
 </blockquote>             </td>             <td class="code">               <div class="highlight"><pre>            .register(<span class="string">'(min-width: 35.5em) and (max-width: 47.9375em)'</span>, <span class="keyword">function</span>() {
               self.isMobileMode = self.isDesktopMode = <span class="literal">false</span>;
               self.isTabletMode = <span class="literal">true</span>;
-              self.hideThumbNav();
-              self.toggleDotNav(<span class="literal">false</span>); <span class="comment">//show</span>
+              self.hideThumbNav().showDotNav();
               self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.tabletAnimSpeed );
             })
 
 </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>&lt; 567</p>             </td>             <td class="code">               <div class="highlight"><pre>            .register(<span class="string">'(max-width: 35.4375em)'</span>, <span class="keyword">function</span>() {
               self.isDesktopMode = self.isTabletMode = <span class="literal">false</span>;
               self.isMobileMode = <span class="literal">true</span>;
-              self.hideThumbNav();
-              self.toggleDotNav(<span class="literal">false</span>); <span class="comment">//show</span>
+              self.hideThumbNav().showDotNav();
               self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.mobileAnimSpeed );
             });
 
 </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Doesn't support media queries</p>             </td>             <td class="code">               <div class="highlight"><pre>        } <span class="keyword">else</span> {
-          self.showThumbNav();
-          self.toggleDotNav(<span class="literal">true</span>); <span class="comment">//hide</span>
+          self.showThumbNav().hideDotNav();
           self.$slideContainer.sonyCarousel( <span class="string">'setAnimationSpeed'</span> , self.desktopAnimSpeed );
         }
 
@@ -187,28 +183,32 @@ define(<span class="keyword">function</span>(require) {
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Toggles dot nav based on breakpoints</p>             </td>             <td class="code">               <div class="highlight"><pre>      toggleDotNav: <span class="keyword">function</span>(hide) {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        <span class="keyword">this</span>.$pagination[ (hide ? <span class="string">'add'</span> : <span class="string">'remove'</span>) + <span class="string">'Class'</span> ]( <span class="string">'hidden'</span> );
 
-        <span class="keyword">if</span> (hide) {
-          self.$pagination.css(<span class="string">'opacity'</span> , <span class="number">0</span>);
-        } <span class="keyword">else</span> {
-          self.$pagination.css(<span class="string">'opacity'</span> , <span class="number">1</span>);
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+      },
+
+      hideDotNav: <span class="keyword">function</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.toggleDotNav( <span class="literal">true</span> );
+      },
+      showDotNav: <span class="keyword">function</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.toggleDotNav( <span class="literal">false</span> );
+      },
+
+      toggleThumbNav: <span class="keyword">function</span>( hide ) {
+        <span class="keyword">if</span> ( <span class="keyword">this</span>.$thumbNav.length ) {
+          <span class="keyword">this</span>.$thumbNav[ (hide ? <span class="string">'add'</span> : <span class="string">'remove'</span>) + <span class="string">'Class'</span> ]( <span class="string">'hidden'</span> );
         }
 
+        <span class="keyword">return</span> <span class="keyword">this</span>;
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Toggles thumb nav based on breakpoints</p>             </td>             <td class="code">               <div class="highlight"><pre>      hideThumbNav: <span class="keyword">function</span>() {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
-        <span class="keyword">if</span> (self.$thumbNav.length) {
-          self.$thumbNav.hide();
-        }
+        <span class="keyword">return</span> <span class="keyword">this</span>.toggleThumbNav( <span class="literal">true</span> );
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Toggles thumb nav based on breakpoints</p>             </td>             <td class="code">               <div class="highlight"><pre>      showThumbNav: <span class="keyword">function</span>() {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
-        <span class="keyword">if</span> (self.$thumbNav.length) {
-          self.$thumbNav.show();
-        }
+        <span class="keyword">return</span> <span class="keyword">this</span>.toggleThumbNav( <span class="literal">false</span> );
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Sets up slides to correct width based on how many there are</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupSlides: <span class="keyword">function</span>() {

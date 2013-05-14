@@ -140,7 +140,7 @@ define(function(require) {
           CSS3Easing: Settings.carouselEasing
         });
 
-        self.$pagination = self.$el.find('.pagination-bullets');
+        self.$pagination = self.$el.find('.sony-dot-nav');
 
         self.$slideContainer.on('SonyCarousel:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
 
@@ -170,8 +170,7 @@ define(function(require) {
             .register('(min-width: 48em)', function() {
               self.isMobileMode = self.isTabletMode = false;
               self.isDesktopMode = true;
-              self.showThumbNav();
-              self.toggleDotNav(true); //hide
+              self.showThumbNav().hideDotNav();
               self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
             })
 
@@ -179,8 +178,7 @@ define(function(require) {
             .register('(min-width: 35.5em) and (max-width: 47.9375em)', function() {
               self.isMobileMode = self.isDesktopMode = false;
               self.isTabletMode = true;
-              self.hideThumbNav();
-              self.toggleDotNav(false); //show
+              self.hideThumbNav().showDotNav();
               self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.tabletAnimSpeed );
             })
 
@@ -188,15 +186,13 @@ define(function(require) {
             .register('(max-width: 35.4375em)', function() {
               self.isDesktopMode = self.isTabletMode = false;
               self.isMobileMode = true;
-              self.hideThumbNav();
-              self.toggleDotNav(false); //show
+              self.hideThumbNav().showDotNav();
               self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.mobileAnimSpeed );
             });
 
         // Doesn't support media queries
         } else {
-          self.showThumbNav();
-          self.toggleDotNav(true); //hide
+          self.showThumbNav().hideDotNav();
           self.$slideContainer.sonyCarousel( 'setAnimationSpeed' , self.desktopAnimSpeed );
         }
 
@@ -205,30 +201,34 @@ define(function(require) {
 
       // Toggles dot nav based on breakpoints
       toggleDotNav: function(hide) {
-        var self = this;
+        this.$pagination[ (hide ? 'add' : 'remove') + 'Class' ]( 'hidden' );
 
-        if (hide) {
-          self.$pagination.css('opacity' , 0);
-        } else {
-          self.$pagination.css('opacity' , 1);
+        return this;
+      },
+
+      hideDotNav: function() {
+        return this.toggleDotNav( true );
+      },
+      showDotNav: function() {
+        return this.toggleDotNav( false );
+      },
+
+      toggleThumbNav: function( hide ) {
+        if ( this.$thumbNav.length ) {
+          this.$thumbNav[ (hide ? 'add' : 'remove') + 'Class' ]( 'hidden' );
         }
 
+        return this;
       },
 
       // Toggles thumb nav based on breakpoints
       hideThumbNav: function() {
-        var self = this;
-        if (self.$thumbNav.length) {
-          self.$thumbNav.hide();
-        }
+        return this.toggleThumbNav( true );
       },
 
       // Toggles thumb nav based on breakpoints
       showThumbNav: function() {
-        var self = this;
-        if (self.$thumbNav.length) {
-          self.$thumbNav.show();
-        }
+        return this.toggleThumbNav( false );
       },
 
       // Sets up slides to correct width based on how many there are

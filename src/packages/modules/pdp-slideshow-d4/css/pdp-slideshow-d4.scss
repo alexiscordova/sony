@@ -53,20 +53,26 @@
 
   .pdp-slideshow-slide > .ghost-center-wrap {
     height: 100%;
+  }
+
+  // Type 1 images are product shots which are not full bleed
+  .pdp-slideshow-slide.type1 > .ghost-center-wrap {
     padding: 4% 2% 11%;
   }
 
-  // Scale instead of crop
-  .pdp-slideshow-slide img {
+  // Scale instead of crop the product shots
+  .pdp-slideshow-slide.type1 img {
     max-height: 100%;
   }
 
-  .pdp-slideshow-slide.type1 .ghost-center {
+  // Type 2 images are full-bleed
+  .pdp-slideshow-slide.type2 .ghost-center {
+    width: 100%;
+    max-width: none;
+    max-height: none;
   }
 
-  .pdp-slideshow-slide.type1 img {
-  }
-
+  // Full browser width, crop the height
   .pdp-slideshow-slide.type2 img {
     width: 100%;
   }
