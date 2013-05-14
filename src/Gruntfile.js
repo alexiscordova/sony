@@ -145,6 +145,18 @@ module.exports = function(grunt) {
       }
     },
 
+    complexity: {
+      generic: {
+        src: ['packages/modules/**/*.js', 'packages/common/js/secondary/sony-*.js', 'packages/common/js/require/*.js', '!packages/common/js/require/sony-global-settings.js'],
+        options: {
+          errorsOnly: false,
+          cyclomatic: 10,
+          halstead: 25,
+          maintainability: 115
+        }
+      }
+    },
+
     copy:{
       common_debug:{
         files:[
@@ -403,7 +415,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    
+
     groundskeeper:{
       compile:{
         files:(function(){
@@ -418,7 +430,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    
+
     csscss:{
       options:{
         compass:true,
@@ -433,11 +445,11 @@ module.exports = function(grunt) {
           return arr;
         })()
       }
-      
-      
+
+
     }
-    
-    
+
+
   });
 
   //load grunt plugin tasks
@@ -446,6 +458,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-jade');
+  grunt.loadNpmTasks('grunt-complexity');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-requirejs');

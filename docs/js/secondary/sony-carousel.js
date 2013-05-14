@@ -264,17 +264,15 @@ define(function(require){
       self.gotoSlide(destination);
     },
 
-    // Go to a given slide.
-    // TODO: This is getting to be confusing. Should split it into a few methods for readability.
+    // START GOTOSLIDE UTILITY METHODS
 
-    gotoSlide: function(which, noAnim) {
+    // If this is a looped carousel, substitue the slideset with the slides *including* the edge clones,
+    // And figure out where the $destination should be set based on that.
+
+    setupLoopedCarouselSlides: function(which, $slideSet, cb) {
 
       var self = this,
-          $slideSet = self.$slides,
-          speed = ( noAnim ? 0 : self.animationSpeed ),
-          $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
-
-      // Logic for the natural ends of a carousel that has been looped
+          $destinationSlide;
 
       if ( self.looped && ( which === -1 || which >= self.$slides.length )) {
         $slideSet = self.$allSlides;
@@ -287,7 +285,15 @@ define(function(require){
         $destinationSlide = $slideSet.eq(which);
       }
 
-      // Logic for swapping slides around, to make transitions from distant slides seamless. (see: `self.jumping`)
+      cb($slideSet, $destinationSlide);
+    },
+
+    // If this is a jumped carousel, prepare the slides for the jump by swapping elements out and
+    // setting the `isJumped` option.
+
+    setupJumpedCarouselSlides: function(speed, $destinationSlide) {
+
+      var self = this;
 
       if ( self.jumping && !self.isJumped && self.$slides.filter($destinationSlide).length > 0 && speed ) {
 
@@ -313,10 +319,49 @@ define(function(require){
           }
         }
       }
+    },
 
-      if ( $destinationSlide.length === 0 ) { return; }
+    // Return the destination position. If you're in a browser that doesn't support auto margins properly,
+    // correct the value with `innerContainerMeasurement` (the container's width or height, depending on
+    // carousel orientation) before returning.
+    //
+    // The auto-margin fix should only be needed for carousels like the OSC (S2) module, which
+    // respect the grid even though they're not really in it. Refer to S2 for usage example;
+    // `sony-carousel-flex` is the required trigger class for that layout strategy.
+
+    getDestinationPosition: function($destinationSlide, innerContainerMeasurement) {
+
+      var self = this,
+          destinationPosition;
 
       destinationPosition = $destinationSlide.position()[self.posAttr];
+
+      if ( !Modernizr.jsautomargins && self.$el.hasClass('sony-carousel-flex') ) {
+        if ( self.direction === 'horizontal' ) {
+          destinationPosition -= ( innerContainerMeasurement - $destinationSlide.width() ) / 2;
+        } else {
+          destinationPosition -= ( innerContainerMeasurement - $destinationSlide.height() ) / 2;
+        }
+      }
+
+      return destinationPosition;
+    },
+
+    gotoSlide: function(which, noAnim) {
+
+      var self = this,
+          $slideSet = self.$slides,
+          speed = ( noAnim ? 0 : self.animationSpeed ),
+          $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
+
+      self.setupLoopedCarouselSlides(which, $slideSet, function($slides, $dest){
+        $slideSet = $slides;
+        $destinationSlide = $dest;
+      });
+
+      self.setupJumpedCarouselSlides(speed, $destinationSlide);
+
+      if ( $destinationSlide.length === 0 ) { return; }
 
       if ( self.direction === 'horizontal' ) {
         innerContainerMeasurement = self.$el.width();
@@ -324,20 +369,7 @@ define(function(require){
         innerContainerMeasurement = self.$el.height();
       }
 
-      // This exception is built specifically for carousels like the OSC (S2) module, which must
-      // respect the grid even though they aren't really in it. Refer to S2 for usage example;
-      // `sony-carousel-flex` is the required trigger class for that layout strategy.
-
-      if ( !Modernizr.jsautomargins ) {
-        if ( self.$el.hasClass('sony-carousel-flex') ) {
-
-          if ( self.direction === 'horizontal' ) {
-            destinationPosition -= ( innerContainerMeasurement -  $destinationSlide.width() ) / 2;
-          } else {
-            destinationPosition -= ( innerContainerMeasurement -  $destinationSlide.height() ) / 2;
-          }
-        }
-      }
+      destinationPosition = self.getDestinationPosition( $destinationSlide, innerContainerMeasurement );
 
       if ( self.useCSS3 ) {
 
