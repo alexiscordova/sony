@@ -93,25 +93,7 @@ define(function(require){
       self.currentPage = self.scroller.currPageX;
 
       // Paddle clicks
-      // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
-      if ( self.nextSelector ) {
-        self.$navNext = self.nextSelector.jquery ? self.nextSelector : self.$el.find( self.nextSelector );
-        self.$navNext.on('click', function( evt ) {
-          // Stop the mouse click from bubbling up.
-          evt.preventDefault();
-          evt.stopPropagation();
-          self.next();
-        });
-      }
-      if ( self.prevSelector ) {
-        self.$navPrev = self.prevSelector.jquery ? self.prevSelector : self.$el.find( self.prevSelector );
-        self.$navPrev.on('click', function( evt ) {
-          // Stop the mouse click from bubbling up.
-          evt.preventDefault();
-          evt.stopPropagation();
-          self.prev();
-        });
-      }
+      self._setupPaddles();
 
       self._update( true );
       self._showHideNavs( 0, self.scroller.pagesX.length - 1 );
@@ -266,6 +248,30 @@ define(function(require){
       self.$pagination.on('SonyNavDots:clicked', function(e, a){
         self.gotopage(a);
       });
+    },
+
+    _setupPaddles : function() {
+      var self = this;
+
+      // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
+      if ( self.nextSelector ) {
+        self.$navNext = self.nextSelector.jquery ? self.nextSelector : self.$el.find( self.nextSelector );
+        self.$navNext.on('click', function( evt ) {
+          // Stop the mouse click from bubbling up.
+          evt.preventDefault();
+          evt.stopPropagation();
+          self.next();
+        });
+      }
+      if ( self.prevSelector ) {
+        self.$navPrev = self.prevSelector.jquery ? self.prevSelector : self.$el.find( self.prevSelector );
+        self.$navPrev.on('click', function( evt ) {
+          // Stop the mouse click from bubbling up.
+          evt.preventDefault();
+          evt.stopPropagation();
+          self.prev();
+        });
+      }
     },
 
     _generateNavPaddles : function() {
