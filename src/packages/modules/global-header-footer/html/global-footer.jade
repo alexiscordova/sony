@@ -2,7 +2,7 @@ include ../../../common/html/jade-helpers.jade
 
 store_locator_input_default_full = "      " + sample_session_data.current_location
 
-if typeof minimal != 'undefined' && minimal == true
+if minimal && minimal == true
   - minimal_class = "footer-wrapper-minimal"
 else
   - minimal = false
