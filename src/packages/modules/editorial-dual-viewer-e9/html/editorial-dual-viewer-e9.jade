@@ -4,7 +4,7 @@ include ../../../common/html/jade-helpers.jade
 
 section(class=data.mode+' '+data.axis+' '+data.background+' '+data.edges).edv.full-bleed-no-max.m-full-bleed.container
   .edv-images
-    - for (var i = 0; i < 2 && i < data.images.length; i++)
+    - for (i = 0; i < 2 && i < data.images.length; i++)
         edvImage = data.images[i]
         figure(class='image-'+(i+1)).edv-image
           .edv-image-wrapper.iq-img(data-src-desktop=edvImage.srcDesktop, data-src-tablet=edvImage.srcTablet, data-src-phone=edvImage.srcPhone, data-src-desktop-highres=edvImage.srcDesktopHighRes, data-src-tablet-highres=edvImage.srcTabletHighRes, data-src-phone-highres=edvImage.srcPhoneHighRes)

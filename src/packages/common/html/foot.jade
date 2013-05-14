@@ -2,8 +2,7 @@ script(src="js/libs/require.js")
 
 l = {"locals": locals}
 
-
-- for ( var i in locals.javascriptModules )
+- for ( i in locals.javascriptModules )
   - locals.javascriptModules[i] = 'modules/' + locals.javascriptModules[i] + '/index'
 
 if ( locals.getEnvironments() == 'debug' )

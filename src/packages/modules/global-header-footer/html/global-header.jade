@@ -5,7 +5,7 @@ a#SkipToContentLink(href='#main', class='visuallyhidden', tabindex='1')= data.sk
 e = {"locals":locals, "data":locals.data('packages/modules/universal-nav/demo/data/default.json')}
 !{locals.partial('packages/modules/universal-nav/html/universal-nav.jade', e)}
 
-- var search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
+search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
 
 if typeof minimal != 'undefined' && minimal == true
   - minimal_class = "nav-wrapper-minimal"
@@ -43,11 +43,11 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             div.navmenu-search-section-results
               div.navmenu-search-popular-searches
                 p.l3= data.search.popular_searches.label
-                  ul.navmenu-list.navmenu-list-extended
+                ul.navmenu-list.navmenu-list-extended
 
-                    - each item, i in data.search.popular_searches.menu_items
-                      li.search-result-line
-                        a.tl(href=item.link, tabindex=(1410+i))= item.label
+                  - each item, i in data.search.popular_searches.menu_items
+                    li.search-result-line
+                      a.tl(href=item.link, tabindex=(1410+i))= item.label
 
               div.navmenu-search-results
                 ul.navmenu-list.navmenu-list-results

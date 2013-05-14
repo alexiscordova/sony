@@ -80,7 +80,10 @@ mixin popoverContent( help )
           p.p4= help.col2.text
 
     else if layout == 'text-only'
-      .p4= help.text
+      p.p4= help.text
+      if help.link
+        newWindow = help.link.newWindow ? "_blank" : false
+        a.lt4(href=help.link.url, target=newWindow)= help.link.text
 
 mixin filterSet( filterSet )
   .filter-container
@@ -102,7 +105,7 @@ mixin filterSet( filterSet )
 
 
 mixin compareBrowseBtn( isCompareGallery, link, addFade, extraClasses )
-  compareStr = isCompareGallery ? 'Browse' : 'Compare'
+  compareStr = isCompareGallery ? 'Grid' : 'Compare'
   classes = [ 'lt3', 'btn', 'btn-alt-special', 'btn-alt-plus', 'compare-btn' ]
   tabIndex = addFade ? '-1' : false
 
