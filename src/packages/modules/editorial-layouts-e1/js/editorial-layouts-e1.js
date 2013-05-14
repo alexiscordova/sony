@@ -23,38 +23,107 @@ define(function(require) {
     var module = {
       init: function() {
         if ( $('.editorial').length ) {
-          $('.editorial').editorial();
+          $('.editorial').each(function() {
+            new Editorial( this );
+          });
         }
       }
     };
 
     // Start module
-    var Editorial = function(element/*, options*/) {
-      var self = this,
-          spanRegex = /span\d+/;
+    var Editorial = function( element ) {
+      var self = this;
 
       self.$el = $(element);
-      self.$collapsibleTout = self.$el.find('.m2up, .m3up');
-      self.$touts = self.$el.find('.tout-grid .toutcopy');
 
-      self.col = self.$collapsibleTout.find('>div');
-      self.hasOffset1 = self.col.hasClass('offset1');
-      self.hasCollapsibleTout = self.$collapsibleTout.length > 0;
-      self.hasTout = self.$touts.length > 0;
-
-      // Build an array of the col spans
-      self.colSpans = [];
-      self.col.each(function() {
-        var result = spanRegex.exec( this.className ),
-            span = result[0];
-        self.colSpans.push( span );
-      });
-
-      self._init();
+      self.init();
+      self.setupBreakpoints();
     };
 
     Editorial.prototype = {
       constructor: Editorial,
+
+      init: function() {
+        var self = this,
+            spanRegex = /span\d+/;
+
+        self.$collapsibleTout = self.$el.find('.m2up, .m3up');
+        self.$touts = self.$el.find('.tout-grid .toutcopy');
+
+        self.col = self.$collapsibleTout.find('>div');
+        self.hasOffset1 = self.col.hasClass('offset1');
+
+        self.isMediaLeft = self.$el.hasClass('medialeft');
+        self.hasCollapsibleTout = self.$collapsibleTout.length > 0;
+        self.hasTout = self.$touts.length > 0;
+
+        // Build an array of the col spans
+        self.colSpans = [];
+        self.col.each(function() {
+          var result = spanRegex.exec( this.className ),
+              span = result[0];
+          self.colSpans.push( span );
+        });
+      },
+
+
+      setupBreakpoints: function() {
+        var self = this;
+
+        // If its a 2 or 3up we want to start the carousel code
+        if ( self.hasCollapsibleTout ) {
+
+          if ( !Settings.isLTIE10 ) {
+            enquire
+              .register('(min-width: 48em)', function() {
+                self.initDesktop();
+              })
+              .register('(max-width: 47.9375em)', function() {
+                self.initMobile();
+              });
+          } else {
+            self.initDesktop();
+          }
+
+          self.resizeTouts();
+          Environment.on('global:resizeDebounced', $.proxy(self.resizeTouts, self));
+        }
+
+        // Switch out p tag classes
+        if ( self.hasTout && !Settings.isLTIE10 ) {
+          enquire.register('(max-width: 29.9375em)', {
+            match: function() {
+              self.initSubMobile();
+            },
+            unmatch: function() {
+              self.teardownSubMobile();
+            }
+          });
+        }
+
+
+        // Media left elements need the text to be on top all the time
+        if ( self.isMediaLeft && !Settings.isLTIE10 ) {
+          self.$textBlock = self.$el.find('.media-element').siblings();
+          enquire.register('(max-width: 47.9375em)', {
+            match: function() {
+              self.swapMediaPositions( true );
+            },
+            unmatch: function() {
+              self.swapMediaPositions( false );
+            }
+          });
+        }
+
+
+        // If its mediaright or left fix heights on resize
+        if (self.$el.hasClass('mediaright') || self.$el.hasClass('medialeft')) {
+          self.fixMediaHeights();
+          Environment.on('global:resizeDebounced', $.proxy(self.fixMediaHeights, self));
+        }
+
+        log('SONY : Editorial : Initialized');
+      },
 
       // Fixes the min height of medialeft and mediaright on resize
       fixMediaHeights: function() {
@@ -155,68 +224,15 @@ define(function(require) {
         });
       },
 
-      _init: function() {
-        var self = this;
+      swapMediaPositions: function( toMobile ) {
+        var self = this,
+            $grid = self.$textBlock.parent(),
+            method = toMobile ? 'prepend' : 'append';
 
-        // If its a 2 or 3up we want to start the carousel code
-        if ( self.hasCollapsibleTout ) {
-
-          if ( !Settings.isLTIE10 ) {
-            enquire
-              .register('(min-width: 48em)', function() {
-                self.initDesktop();
-              })
-              .register('(max-width: 47.9375em)', function() {
-                self.initMobile();
-              });
-          } else {
-            self.initDesktop();
-          }
-
-          self.resizeTouts();
-          Environment.on('global:resizeDebounced', $.proxy(self.resizeTouts, self));
-        }
-
-        // Switch out p tag classes
-        if ( self.hasTout && !Settings.isLTIE10 ) {
-          enquire.register('(max-width: 29.9375em)', {
-            match: function() {
-              self.initSubMobile();
-            },
-            unmatch: function() {
-              self.teardownSubMobile();
-            }
-          });
-        }
-
-
-        // If its mediaright or left fix heights on resize
-        if (self.$el.hasClass('mediaright') || self.$el.hasClass('medialeft')) {
-          self.fixMediaHeights();
-          Environment.on('global:resizeDebounced', $.proxy(self.fixMediaHeights, self));
-        }
-
-        log('SONY : Editorial : Initialized');
+        self.$textBlock.detach();
+        $grid[ method ]( self.$textBlock );
       }
-    };
 
-    // Plugin definition
-    $.fn.editorial = function( options ) {
-      var args = Array.prototype.slice.call( arguments, 1 );
-      return this.each(function() {
-        var self = $(this),
-          editorial = self.data('editorial');
-
-        // If we don't have a stored moduleName, make a new one and save it
-        if ( !editorial ) {
-            editorial = new Editorial( self, options );
-            self.data( 'editorial', editorial );
-        }
-
-        if ( typeof options === 'string' ) {
-          editorial[ options ].apply( editorial, args );
-        }
-      });
     };
 
 

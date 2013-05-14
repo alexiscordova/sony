@@ -18,14 +18,14 @@ else
 //-textarea.e360debug
 //-button.infoClear clear
 .e360(id=id)
-  .outer 
-    if data.background === "true"
+  .outer
+    if data.background == "true"
       - i = 0
       - for imgData in data.sequence
-        - sequenceId = id+"-"+i 
+        - sequenceId = id+"-"+i
         if i == 0
-          hide = "" 
-        else 
+          hide = ""
+        else
           hide = "hidden"
         if data.heights
           string = "#"+ sequenceId +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+sequenceId+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+sequenceId+" {height: "+data.heights.phone+"}} "
@@ -36,14 +36,14 @@ else
     else
       - i = 0
       - for imgData in data.sequence
-        - sequenceId = id+"-"+i 
+        - sequenceId = id+"-"+i
         if i == 0
           hide = ""
-        else 
+        else
           hide = "hidden"
         img.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
           noscript
-            img(src= imgData.noscriptsrc) 
+            img(src= imgData.noscriptsrc)
         - i++
 
   .controls.container

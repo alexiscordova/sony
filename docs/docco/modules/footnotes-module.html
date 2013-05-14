@@ -6,13 +6,15 @@
 <li><strong>Version:</strong> 0.1</li>
 <li><strong>Modified:</strong> 03/27/2013</li>
 <li><strong>Author:</strong> Steve Davis</li>
+<li><strong>Maintainer:</strong> George Pantazis</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+</li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
 define(<span class="keyword">function</span>(require){
 
   <span class="string">'use strict'</span>;
 
-  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>);
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+      Router = require(<span class="string">'require/sony-global-router'</span>);
 
   <span class="keyword">var</span> module = {
     <span class="string">'init'</span>: <span class="keyword">function</span>() {
@@ -42,17 +44,51 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.renderDesktop();
 
+      Router.on(<span class="string">'footnotes(/:a)'</span>, $.proxy(self.onRouteMatch, self));
     },
 
     renderDesktop: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>On header click, slide toggle the footnotes list</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.on(<span class="string">'click'</span>, <span class="string">'h2'</span>, <span class="keyword">function</span>(){
-        self.$el.toggleClass(<span class="string">'open'</span>)
-          .find(<span class="string">'.list'</span>).slideToggle(<span class="number">200</span>);
+      self.$el.on(<span class="string">'click'</span>, <span class="string">'h2'</span>, <span class="keyword">function</span>(){
+        <span class="keyword">if</span> ( self.$el.hasClass(<span class="string">'open'</span>) ) {
+          self.closeNav();
+        } <span class="keyword">else</span> {
+          self.openNav();
+        }
       });
+    },
 
+    openNav: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$el.addClass(<span class="string">'open'</span>).find(<span class="string">'.list'</span>).slideDown(<span class="number">200</span>);
+    },
+
+    closeNav: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$el.removeClass(<span class="string">'open'</span>).find(<span class="string">'.list'</span>).slideUp(<span class="number">200</span>);
+    },
+
+    onRouteMatch: <span class="keyword">function</span>(which) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $items = self.$el.find(<span class="string">'li'</span>),
+          destinationTop;
+
+      self.openNav();
+
+      <span class="keyword">if</span> ( !which || which &gt; $items.length ) {
+        which = <span class="number">1</span>;
+      }
+
+      destinationTop = $items.eq(which-<span class="number">1</span>).offset().top;
+
+      $(window).scrollTop(destinationTop - <span class="number">200</span>);
     }
   };
 

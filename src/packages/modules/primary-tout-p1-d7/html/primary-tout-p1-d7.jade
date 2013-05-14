@@ -49,19 +49,19 @@ mixin links(_data, _extra)
         when "btn"
           a(class= e)(class= "btn", href= link.url)!= link.text
         when "video"
-          if data.mode !== "product-intro-plate"
-            e = e + " btn btn-special"
+          if data.mode != "product-intro-plate"
+            e = e + " btn"
           a(class = "video")(class= e)(href= link.url)(data-submodule = sm)
             i.fonticon-15-circle-play.l-o-d
             span!= link.text
         when "carousel"
-          if data.mode !== "product-intro-plate"
+          if data.mode != "product-intro-plate"
             e = e + " btn"
           a(class = "carousel")(class= e)(href= link.url)(data-submodule = sm)
             i.fonticon-15-popup.l-o-d
             span!= link.text
         when "text"
-          a(class= e)( href= link.url)!= link.text 
+          a(class= e)( href= link.url)!= link.text
 
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
@@ -72,7 +72,7 @@ mixin vbox()
   vert = "center"
   if data.layout
     if data.layout.valign
-      vert  = data.layout.valign 
+      vert  = data.layout.valign
   .table-center-wrap
    case vert
       when "top"
@@ -84,7 +84,7 @@ mixin vbox()
       when "bottom"
         .table-bottom
           block
-      
+
 mixin boxlayout(_layout, _style)
   layout = _layout ? _layout : data.layout
   classes = _style ? _style : data.style
@@ -92,7 +92,7 @@ mixin boxlayout(_layout, _style)
     if !data.variation.headline
       if data.variation.mobilealign
         classes = classes + " " + data.variation.mobilealign
-      else 
+      else
         classes = classes + " bottom"
   if layout.text == "left" || layout.text == "full"
     .container.inner(class= classes)
@@ -111,10 +111,10 @@ mixin boxlayout(_layout, _style)
           +vbox
             +boxclass
               block
-              
+
 primaryToutClasses = ['primary-tout', 'container','full-bleed-no-max',data.mode, data.theme ]
 +mainElement( primaryToutClasses)
-  if data.mode !== "title-plate"
+  if data.mode != "title-plate"
     .container.full-bleed-no-max.hero-image
       e = {"locals":locals, "data":data.image}
       !{locals.partial('packages/modules/image/html/image.jade' , e)}
@@ -152,7 +152,7 @@ primaryToutClasses = ['primary-tout', 'container','full-bleed-no-max',data.mode,
       if data.variation.mobilebg
         style = style + " force-mobile-bg"
       if data.variation.headline
-        style = style + " no-bg"      
+        style = style + " no-bg"
     +boxlayout(data.layout, style)
       +eyebrow
       +header
@@ -170,14 +170,14 @@ primaryToutClasses = ['primary-tout', 'container','full-bleed-no-max',data.mode,
           +links(data, "visible-phone btn")
   else if data.mode == "title-plate"
     .container.full-bleed-no-max.hero-image.cover
-      e = {"locals":locals, "data":data.image}  
+      e = {"locals":locals, "data":data.image}
       if data.variation
         if data.variation.backgroundstyle
           if data.variation.backgroundstyle == "full-bleed"
-            !{locals.partial('packages/modules/image/html/image.jade' , e)}  
+            !{locals.partial('packages/modules/image/html/image.jade' , e)}
           else
             .image-module
-      else        
+      else
         !{locals.partial('packages/modules/image/html/image.jade' , e)}
 
     +boxlayout
