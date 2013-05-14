@@ -77,19 +77,18 @@ define(function(require){
     onRouteMatch: function(which) {
 
       var self = this,
-          destinationOffset;
+          $items = self.$el.find('li'),
+          destinationTop;
 
       self.openNav();
 
-      if ( !which ) {
+      if ( !which || which > $items.length ) {
         which = 1;
       }
 
-      destinationOffset = self.$el.find('li').eq(which-1).offset();
+      destinationTop = $items.eq(which-1).offset().top;
 
-      if ( destinationOffset ) {
-        $(window).scrollTop(destinationOffset.top - 200);
-      }
+      $(window).scrollTop(destinationTop - 200);
     }
   };
 
