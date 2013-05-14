@@ -7,15 +7,12 @@ mixin pdpSlide(data)
   for slide in data.submodules
     slideData = locals.data( slide.data )
     .pdp-slideshow-slide( class= slideData.variation, data-mode=slideData.mode )
-      if slideData.mode == 'imageGallery'
-        if slideData.variation == 'type1'
-          .ghost-center-wrap
-            .ghost-center
-              +iQImage(slideData.productImg)
-        else if slideData.variation == 'type2'
-          +iQImage(slideData.productImg)
-      else if slideData.mode == 'video'
-        +sonyVideo(slideData.video)
+      .ghost-center-wrap
+        .ghost-center
+          if slideData.mode == 'imageGallery'
+            +iQImage(slideData.productImg, 'update-always')
+          else if slideData.mode == 'video'
+            +sonyVideo(slideData.video)
 
 //- Mixin for thumbnails
 mixin pdpThumbs(data)
@@ -23,7 +20,7 @@ mixin pdpThumbs(data)
   slideData = locals.data(slide.data)
   li.thumb
     a( class=data.config.variation , href='#' )
-      span(class='active-highlight')
+      span.active-highlight
       .ghost-center-wrap
         .ghost-center
           +iQImage(slideData.thumb)
@@ -34,10 +31,8 @@ if data.config.sectionTitle
     .grid
       h2.l1= data.config.sectionTitle
 
-moduleId = data.id ? data.id : false
-
 //- Main section wrapper for slides and navigation
-section.pdp-slideshow(id=moduleId)
++mainElement( ["pdp-slideshow"] )
   .pdp-slideshow-outer
     .pdp-slideshow-inner
       +pdpSlide(data)

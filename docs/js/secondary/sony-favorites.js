@@ -54,14 +54,17 @@ define(function(require) {
       } else {
         $favorites.on('click', $.proxy( self.onFavorite, self ));
 
-        $favorites.tooltip({
-          placement: 'offsettop',
-          title: function() {
-            var $jsFavorite = $(this);
-            return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
-          },
-          template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-        });
+        // Optionally give a tooltip
+        if ( self.tooltip ) {
+          $favorites.tooltip({
+            placement: 'offsettop',
+            title: function() {
+              var $jsFavorite = $(this);
+              return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
+            },
+            template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+          });
+        }
       }
 
       // Update our favorites
@@ -74,12 +77,12 @@ define(function(require) {
       var self = this,
           $jsFavorite = $(e.delegateTarget),
           isAdding = !$jsFavorite.hasClass('active'),
-          content = self.hasTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding, true );
+          content = self.hasTouch || !self.tooltip ? '' : self.getFavoriteContent( $jsFavorite, isAdding, true );
 
       $jsFavorite.toggleClass('active');
 
       // Show the tooltip if it isn't a touch device
-      if ( !self.hasTouch ) {
+      if ( self.tooltip && !self.hasTouch ) {
         $('.gallery-tooltip .tooltip-inner')
           .html( content )
           .tooltip('show');
@@ -114,30 +117,7 @@ define(function(require) {
       // Save data
       if ( isAdded ) {
 
-        // Save to account with ajax?
-        if ( Settings.isLoggedIn ) {
-          // TODO
-          $.getJSON( 'path/to/server', { add: true } );
-
-        // Store in cookie
-        } else {
-
-          // Check to make sure the browser can parse JSON ( IE7 )
-          if ( window.JSON ) {
-            // Browser support JSON parsing
-          }
-
-          // TODO
-          // Get the cookies (string) and convert it to an array
-          // favs = JSON.parse( Cookies.get( 'favorites' ) );
-          // Add this one to it
-          // favs.push( $item.attr('data-id') );
-          // Make it a string again
-          // favs = JSON.stringify( favs );
-          // Save it
-          // Cookies.set( 'favorites', favs );
-        }
-
+        self.favoriteAdded( $item, Settings.isLoggedIn );
 
         // Fire event saying this has been added
         self.$parent.trigger( 'favoriteadded', [ $item, self ] );
@@ -145,34 +125,69 @@ define(function(require) {
       // Remove data
       } else {
 
-        if ( Settings.isLoggedIn ) {
-          // TODO
-          $.getJSON( 'path/to/server', { add: false } );
-
-        // Remove from stored cookie
-        } else {
-
-          // Check to make sure the browser can parse JSON ( IE7 )
-          if ( window.JSON ) {
-            // Browser support JSON parsing
-          }
-
-          // TODO
-          // Remove the id from the cookie
-        }
+        self.favoriteRemoved( $item, Settings.isLoggedIn );
 
         // Fire event saying this has been removed
         self.$parent.trigger( 'favoriteremoved', [ $item, self ] );
-
       }
 
       return self;
-    }
+    },
+
+    favoriteAdded : function( $item, isLoggedIn ) {
+      var favs = [];
+
+      // Save to account with ajax?
+      if ( isLoggedIn ) {
+        // TODO
+        $.getJSON( 'path/to/server', { add: true } );
+
+      // Store in cookie
+      } else {
+
+        // Check to make sure the browser can parse JSON ( IE7 )
+        if ( window.JSON ) {
+          // Browser support JSON parsing
+        }
+
+        // TODO
+        // Get the cookies (string) and convert it to an array
+        // favs = JSON.parse( Cookies.get( 'favorites' ) );
+        // Add this one to it
+        // favs.push( $item.attr('data-id') );
+        // Make it a string again
+        // favs = JSON.stringify( favs );
+        // Save it
+        // Cookies.set( 'favorites', favs );
+      }
+
+    },
+
+    favoriteRemoved : function( $item, isLoggedIn ) {
+      var favs = [];
+
+      if ( isLoggedIn ) {
+        // TODO
+        $.getJSON( 'path/to/server', { add: false } );
+
+      // Remove from stored cookie
+      } else {
+
+        // Check to make sure the browser can parse JSON ( IE7 )
+        if ( window.JSON ) {
+          // Browser support JSON parsing
+        }
+
+        // TODO
+        // Remove the id from the cookie
+      }
+    },
   };
 
   // Options that could be customized per module instance
   Favorites.options = {
-    itemSelector: '.gallery-item'
+    itemSelector: '.gallery-item',
+    tooltip: true
   };
 
   // These are not overridable when instantiating the module

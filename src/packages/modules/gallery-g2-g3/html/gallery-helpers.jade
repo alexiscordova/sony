@@ -1,6 +1,6 @@
 include ../../../common/html/jade-helpers.jade
 
-- layouts = locals.getConfigFile("packages/modules/gallery-g2-g3/html/layouts.json")
+layouts = locals.getConfigFile("packages/modules/gallery-g2-g3/html/layouts.json")
 
 mixin loaderDiv()
   .relative.gallery-loader
@@ -80,7 +80,10 @@ mixin popoverContent( help )
           p.p4= help.col2.text
 
     else if layout == 'text-only'
-      .p4= help.text
+      p.p4= help.text
+      if help.link
+        newWindow = help.link.newWindow ? "_blank" : false
+        a.lt4(href=help.link.url, target=newWindow)= help.link.text
 
 mixin filterSet( filterSet )
   .filter-container
@@ -102,7 +105,7 @@ mixin filterSet( filterSet )
 
 
 mixin compareBrowseBtn( isCompareGallery, link, addFade, extraClasses )
-  compareStr = isCompareGallery ? 'Browse' : 'Compare'
+  compareStr = isCompareGallery ? 'Grid' : 'Compare'
   classes = [ 'lt3', 'btn', 'btn-alt-special', 'btn-alt-plus', 'compare-btn' ]
   tabIndex = addFade ? '-1' : false
 
@@ -404,7 +407,7 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
         .relative
           .tabs
             each tab, i in tabs
-              activeClass = i === 0 ? ' active' : ''
+              activeClass = i == 0 ? ' active' : ''
               tabClass = 'tab' + activeClass
               button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
                 .tab-inside
@@ -457,22 +460,23 @@ mixin accessoryFinder( submodules, finder, type, noButton )
               +helpPopover( finder.help, undefined, true )
 
           .modal-body.fade
-            .grid.compat-filters.filter-display-bar
-              //- Sort options
-              +sorter( finder.sortSet, finder.sortText )
+            .modal-body-inner
+              .grid.compat-filters.filter-display-bar
+                //- Sort options
+                +sorter( finder.sortSet, finder.sortText )
 
-              //- Product Count
-              span.p3.ib.product-count-wrap
-                strong.text-dark.product-count= finder.total
-                | !{ finder.productsStr }
+                //- Product Count
+                span.p3.ib.product-count-wrap
+                  strong.text-dark.product-count= finder.total
+                  | !{ finder.productsStr }
 
-            .slimgrid.no-grid-at-567.products
-              each module in submodules
-                d = locals.data(module.data)
-                if d.type == type && !d.promo
-                  - d.view = "compatibility"
-                  e = { "locals" : locals, "data" : d }
-                  !{locals.partial( module.type, e )}
+              .slimgrid.no-grid-at-567.products
+                each module in submodules
+                  d = locals.data(module.data)
+                  if d.type == type && !d.promo
+                    - d.view = "compatibility"
+                    e = { "locals" : locals, "data" : d }
+                    !{locals.partial( module.type, e )}
 
 
 

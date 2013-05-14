@@ -13,28 +13,31 @@ body
       !{partial('packages/modules/global-header-footer/html/global-header.jade', e)}
       #main(role='main')
 
-        //- D1-2
+        //- D1-2. Product Summary and Sticky Nav
         +partial('product-summary-d1-d2/html/product-summary-d1-d2.jade', 'packages/pages/data/product-summary-d1-d2/hvlf20s-pdp.json')
 
-        //- D4
+        //- D4. PDP Slideshow
         +partial('pdp-slideshow-d4/html/pdp-slideshow-d4.jade', 'packages/pages/data/pdp-slideshow-d4/hvlf20s-pdp.json')
 
-        //- E1
+        //- E1. Editorial Layout
         +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/mediaright-57-D-L-hvlf20s-01.json')
 
-        //- E1
+        //- E1. Editorial Layout
         +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/medialeft-75-D-L-hvlf20s-01.json')
 
-        //- E1
+        //- E1. Editorial Layout
         +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/medialeft-66-D-L-hvlf20s-01.json')
 
-        //- D5
+        //- D5. Product Details
         +partial('product-details-d5/html/product-details-d5.jade', 'packages/pages/data/product-details-d5/product-details-d5-HVLF20.json')
 
-        //- G1 (strip)
-        +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/strip-mode.json')
+        //- D6. Reviews and Awards
+        +partial('reviews-awards-d6/html/reviews-awards-d6.jade', 'packages/pages/data/reviews-awards-d6/pdp-hvlf20s.json')
 
-        //- D8
+        //- G1. Related Products (strip)
+        +partial('related-products-g1/html/related-products-g1.jade', 'packages/pages/data/related-products-g1/pdp-hvlf20-strip.json')
+
+        //- D8. Utility Links
         +partial('utility-links-pdp-d8/html/utility-links-pdp-d8.jade', "packages/pages/data/utility-links-pdp-d8/homepage.json")
 
       e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-footer.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json')}

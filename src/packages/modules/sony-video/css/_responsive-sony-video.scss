@@ -1,0 +1,30 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$subPhoneMax: px-em(479);
+$phoneMin: px-em(480);
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+
+.sony-video.full-bleed {
+
+  @media (min-width: $tabletMin) and (max-width: $tabletMax) {
+    height: 500px;
+  }
+
+  @media (max-width: $phoneMax) {
+    height: 420px;
+  }
+  
+  @media (min-width: $phoneMin) and (max-width: $phoneMax){
+    height: 420px;
+  }
+
+  @media (max-width: $subPhoneMax){
+    height: 400px;
+  }
+
+}
+
+

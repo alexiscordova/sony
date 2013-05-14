@@ -80,25 +80,17 @@ define(function(require) {
       if ( Modernizr.mediaqueries ) {
 
         enquire
-          .register( desktopBreakpoint, {
-            match: function() {
-              self._setupDesktop();
-            }
+          .register( desktopBreakpoint, function() {
+            self._setupDesktop();
           })
-          .register( setupTabletBreakpoint, {
-            match: function() {
-              self._setupTablet();
-            }
+          .register( setupTabletBreakpoint, function() {
+            self._setupTablet();
           })
-          .register( teardownTabletBreakpoint, {
-            match: function() {
-              self._teardownTablet();
-            }
+          .register( teardownTabletBreakpoint, function() {
+            self._teardownTablet();
           })
-          .register( mobileBreakpoint, {
-            match: function() {
-              self._setupMobile();
-            }
+          .register( mobileBreakpoint, function() {
+            self._setupMobile();
           });
 
       } else {
@@ -127,6 +119,7 @@ define(function(require) {
       self.$carousel.sonyCarousel({
         wrapper: '.sony-carousel-wrapper',
         slides: '.sony-carousel-slide',
+        CSS3Easing: Settings.carouselEasing,
         pagination: true,
         paddles: true,
         useSmallPaddles: true,
