@@ -8,17 +8,17 @@ mixin cmString(cm)
 
 mixin measurementValues(value, dir, isThin)
   - clss = [dir + "-measurement"]
-  
+
   if ((!isThin) && (dir == "vertical"))
     - clss.push('not-thin')
-  
-  div(class = clss) 
+
+  div(class = clss)
     div.measurements-container
       +cmString(value.cm)
 
       if (value.inches)
         +inchesString(value.inches)
-  
+
 mixin measurementsList(measurements)
   for m in measurements
     if(m.image.srcDesktop)
@@ -33,7 +33,7 @@ mixin measurementsList(measurements)
             +iQImage(m.image, "pd-image")
 
           if (cm)
-            +measurementValues(m.height, "vertical", isThin)  
+            +measurementValues(m.height, "vertical", isThin)
 
           if (inches)
             +measurementValues(m.width, "horizontal", isThin)
@@ -43,7 +43,7 @@ mixin featureList(list)
   ul(class=listClasses)
     each li in list
       - copyClasses = ["copy", "ghost-center"]
-     
+
       //- at least copy required
       if (li.copy)
         li
@@ -53,16 +53,16 @@ mixin featureList(list)
               - copyClasses.push("with-icon")
               p(class= iconClasses)
                 i(class= li.icon)
-            
+
             p(class= copyClasses)
               | #{li.copy}
-              
+
               if (li.link)
                 a.no-wrap(href=li.link)= li.linkLabel
-            
+
 mixin specsList( list, isHorizontal )
-  - isHorizontal = isHorizontal || false
-  - clss = isHorizontal ? 'dl-horizontal' : null
+  isHorizontal = isHorizontal ? isHorizontal : false
+  clss = isHorizontal ? 'dl-horizontal' : null
   dl(class=clss)
     each li in list
       dt.l3: strong= li.title
@@ -75,11 +75,11 @@ mixin extras(extras)
       .extra
         p.l3
           strong= extra.title
-        p.p3 !{extra.copy}        
+        p.p3 !{extra.copy}
 
 mixin bottomTout(textTout)
   div(class= btmToutClasses)
-   
+
     //- FPO IMAGE FOR NOW, THIS SHOULD BE CHANGED FROM A PATH TO A ICON CLASS AS ALL OTHERS ARE
     if (textTout.icon)
       - bottomCopyClasses.push("with-icon")

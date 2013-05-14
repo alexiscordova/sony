@@ -13,7 +13,7 @@ mixin includeCSS(moduleName)
   if (!e.locals.modulescss)
     - e.locals.modulescss = []
   if(e.locals.modulescss)
-    if (e.locals.modulescss.indexOf(moduleName) === -1)
+    if (e.locals.modulescss.indexOf(moduleName) == -1)
       - e.locals.modulescss.push(moduleName)
 
 mixin includeJavascriptModule(moduleName)
@@ -21,7 +21,7 @@ mixin includeJavascriptModule(moduleName)
   if ( !e.locals.javascriptModules )
     - e.locals.javascriptModules = []
   if ( e.locals.javascriptModules )
-    if ( e.locals.javascriptModules.indexOf(moduleName) === -1 )
+    if ( e.locals.javascriptModules.indexOf(moduleName) == -1 )
       - e.locals.javascriptModules.push(moduleName)
 
 //- @param {array} classes an array of strings which will become classes on the main element
@@ -52,8 +52,8 @@ mixin iQImage( img, extraClasses, itemprop )
       p.l3(style="color:red;margin:0")= 'img = ' + JSON.stringify( img )
   else
     - classes = 'iq-img'
-    - extraClasses = extraClasses || false
-    - itemprop = itemprop || false
+    - extraClasses = extraClasses ? extraClasses : false
+    - itemprop = itemprop ? itemprop : false
     - if ( extraClasses ) classes += ' ' + extraClasses
     img(class=classes, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes, alt=img.alt, itemprop=itemprop)
     noscript
@@ -120,7 +120,7 @@ mixin hgroup (hgobject, h1class, h2class, h3class, h4class, h5class, h6class)
 //- To be used with bootstrap's dropdown
 mixin shareMenu( socialButtons, shortLink, addCloseButton )
   //- Default to false
-  addCloseButton = addCloseButton === true
+  addCloseButton = addCloseButton == true
 
   ul.dropdown-menu.dropdown-menu-alt.share-menu.pull-right(role="menu")
     if addCloseButton

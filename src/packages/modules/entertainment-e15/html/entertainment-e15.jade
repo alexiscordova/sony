@@ -1,5 +1,6 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('entertainment-e15')
+
 mixin benefitList(benefit)
   li.entertainment-benefit
     .entertainment-media
@@ -10,28 +11,28 @@ mixin benefitList(benefit)
         h2.t6= benefit.title
         p.p3.hidden-phone= benefit.body
 
-#page-inner
-  .entertainment-wrapper
-    .container-full-bleed.entertainment
-      .container
+
++mainElement( ['entertainment-wrapper'] )
+  .container-full-bleed.entertainment
+    .container
+      .grid
+        .logo-container
+          +iQImage(data.logo.img, 'update-always')
+        .entertainment-header
+          h1.t1= data.header
+          .mobile-img.visible-phone
+            +iQImage(data.img.mobile.img, 'update-always')
+          p.p2= data.subhead
+      .entertainment-content
         .grid
-          .logo-container
-            +iQImage(data.logo.img, 'update-always')
-          .entertainment-header
-            h1.t1= data.header
-            .mobile-img.visible-phone
-              +iQImage(data.img.mobile.img, 'update-always')
-            p.p2= data.subhead
-        .entertainment-content
-          .grid
-            .container-benefits
-              .tablet-img.visible-tablet
-                +iQImage(data.img.tablet.img, 'update-always')
-              ul.entertainment-benefits
-                  +benefitList(data.benefits.fees)
-                  +benefitList(data.benefits.stream)
-                  +benefitList(data.benefits.moviestogo)
-              .btn-holder
-                button.btn= data.learn
-            .container-media
-              +iQImage(data.img.desktop.img, 'visible-desktop update-always')
+          .container-benefits
+            .tablet-img.visible-tablet
+              +iQImage(data.img.tablet.img, 'update-always')
+            ul.entertainment-benefits
+                +benefitList(data.benefits.fees)
+                +benefitList(data.benefits.stream)
+                +benefitList(data.benefits.moviestogo)
+            .btn-holder
+              button.btn= data.learn
+          .container-media
+            +iQImage(data.img.desktop.img, 'visible-desktop update-always')

@@ -404,7 +404,7 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
         .relative
           .tabs
             each tab, i in tabs
-              activeClass = i === 0 ? ' active' : ''
+              activeClass = i == 0 ? ' active' : ''
               tabClass = 'tab' + activeClass
               button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
                 .tab-inside
