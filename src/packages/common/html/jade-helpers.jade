@@ -138,14 +138,14 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
       input.p4(type="text", value=shortLink)
 
 
-- var blocks = {};
+blocks = {};
 mixin defineBlock(name)
   block
-  - var i = buf.length;
+  len = buf.length;
   - buf.push('');
-  - blocks[name] = i;
+  - blocks[name] = len;
 mixin appendBlock(name)
-  - var start = buf.length;
+  start = buf.length;
   block
   - buf[blocks[name]] += buf.splice(start, buf.length - start).join('');
 

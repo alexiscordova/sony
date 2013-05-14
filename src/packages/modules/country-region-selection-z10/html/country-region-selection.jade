@@ -18,8 +18,8 @@ include ../../../common/html/jade-helpers.jade
 
             ol.media-list.continents
 
-              - for (var i = 0; i < data.continents.length; i += 1) {
-                - var continent = data.continents[i];
+              - for (i = 0; i < data.continents.length; i += 1) {
+                continent = data.continents[i];
 
                 li.t6.continent.js-sticky-headers= continent.name
                 li.countries
@@ -31,8 +31,8 @@ include ../../../common/html/jade-helpers.jade
 
                   ol.media-list(data-fluid-list-containers="countryList-#{i}")
 
-                    - for (var j = 0; j < continent.countries.length; j += 1) {
-                      - var country = continent.countries[j];
+                    - for (j = 0; j < continent.countries.length; j += 1) {
+                      country = continent.countries[j];
 
                       li
                         a(href="#{country.url}").country
