@@ -2,6 +2,15 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('editorial-hotspots-e6')
 +includeJavascriptModule('editorial-hotspots-e6')
 
+
+mixin hotspotMobileModal(modalTarget)
+  .hotspot-modal.modal.hide.fade(id=modalTarget, tabindex="-1", role="dialog", aria-labelledby="hotspot-modal-title", aria-hidden="true")
+    .container
+      .modal-inner
+        .modal-body.grid
+          | ...
+
+
 mixin hotspotCore(hotspotData, assets, useSmall)
   size = hotspotData.size
   if useSmall
@@ -36,6 +45,8 @@ mixin hotspotCore(hotspotData, assets, useSmall)
         .overlay-base.variant1.hidden
           .overlay-inner.eh-transparent
             .overlay-close
+              button.box-close.box-close-small(data-dismiss="modal", aria-hidden="true")
+                i.fonticon-10-x
               .hspot-close.hidden
                 a(href="#")
                   img.iq-img(class=assets.closeBtn.classes)(alt=assets.closeBtn.alt, data-src-desktop= assets.closeBtn.srcDesktop, data-src-tablet= assets.closeBtn.srcTablet, data-src-phone= assets.closeBtn.srcPhone, data-src-desktop-highres= assets.closeBtn.srcDesktopHighRes, data-src-tablet-highres= assets.closeBtn.srcTabletHighRes, data-src-phone-highres= assets.closeBtn.srcPhoneHighRes)
@@ -86,22 +97,25 @@ mixin hotspotCore(hotspotData, assets, useSmall)
 - image = data.hotspotContainerImage.image
 - extraclass = image.classes || ""
 - anchor = data.id || "hotspot-instance-x"
+- modalTarget = anchor+'-modal-container'
 
-if data.background == "true"
-  .image-module.hotspot-instance.track-by-background.iq-img(id= anchor, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+  if data.background == "true"
+    .image-module.hotspot-instance.track-by-background.iq-img(id= anchor, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+      +hotspotMobileModal(modalTarget)
+      .hspot-underlay.hidden
+        .hspot-global-details-main.hidden
+      .hspot-global-details-overlay.hidden.eh-transparent
+      - for hotstpot in data.hotspots.items
+        +hotspotCore(hotstpot, assets, false)
+  
+  else
+    .image-module.hotspot-instance.track-by-asset
+      img.iq-img(id= anchor, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+        noscript
+            img(src= image.noscriptsrc)
+      - for hotstpot in data.hotspots.items
+        +hotspotCore(hotstpot, assets, true)
+      +hotspotMobileModal(modalTarget)
     .hspot-underlay.hidden
       .hspot-global-details-main.hidden
     .hspot-global-details-overlay.hidden.eh-transparent
-    - for hotstpot in data.hotspots.items
-      +hotspotCore(hotstpot, assets, false)
-
-else
-  .image-module.hotspot-instance.track-by-asset
-    img.iq-img(id= anchor, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
-      noscript
-          img(src= image.noscriptsrc)
-    - for hotstpot in data.hotspots.items
-      +hotspotCore(hotstpot, assets, true)
-  .hspot-underlay.hidden
-    .hspot-global-details-main.hidden
-  .hspot-global-details-overlay.hidden.eh-transparent
