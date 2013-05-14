@@ -76,7 +76,8 @@ define(function(require){
 
     onRouteMatch: function(which) {
 
-      var self = this;
+      var self = this,
+          destinationOffset;
 
       self.openNav();
 
@@ -84,7 +85,11 @@ define(function(require){
         which = 1;
       }
 
-      $(window).scrollTop(self.$el.find('li').eq(which-1).offset().top - 200);
+      destinationOffset = self.$el.find('li').eq(which-1).offset();
+
+      if ( destinationOffset ) {
+        $(window).scrollTop(destinationOffset.top - 200);
+      }
     }
   };
 
