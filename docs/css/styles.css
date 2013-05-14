@@ -234,49 +234,34 @@ body {
   -webkit-transition: background-color 0.25s linear, color 0.25s linear, border-color 0.25s linear;
   transition: background-color 0.25s linear, color 0.25s linear, border-color 0.25s linear;
 }
+/* line 45, ../../src/packages/common/css/_base/_scaffolding.scss */
+.no-touch a:not(.no-hover-transition) [class*="fonticon"],
+.no-touch .btn:not(.no-hover-transition) [class*="fonticon"] {
+  -webkit-transition: none;
+  transition: none;
+}
 
-/* line 47, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 51, ../../src/packages/common/css/_base/_scaffolding.scss */
 .no-touch [class*="fonticon"] {
   -webkit-transition: color 0.25s linear;
   transition: color 0.25s linear;
 }
 
-/* line 56, ../../src/packages/common/css/_base/_scaffolding.scss */
-.img-rounded {
-  border-radius: 6px;
-}
-
-/* line 61, ../../src/packages/common/css/_base/_scaffolding.scss */
-.img-polaroid {
-  padding: 4px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* line 72, ../../src/packages/common/css/_base/_scaffolding.scss */
-.img-circle {
-  border-radius: 50%;
-}
-
 /* Debug grid styles
 -------------------------------------------------- */
-/* line 81, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 85, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid {
   margin-top: 2px;
   margin-bottom: 2px;
 }
 
-/* line 85, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 89, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid [class*="span"] {
   background-color: rgba(125, 125, 125, 0.5) !important;
   text-align: center;
 }
 
-/* line 92, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 96, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid .show-grid [class*="span"] {
   background-color: rgba(255, 125, 0, 0.9) !important;
 }
@@ -7359,12 +7344,14 @@ body.modal-open {
 .popover-content {
   padding: 0 2em 2.75em;
 }
-/* line 54, ../../src/packages/common/css/_components/_popovers.scss */
-.popover-content p, .popover-content ul, .popover-content ol {
+/* line 57, ../../src/packages/common/css/_components/_popovers.scss */
+.popover-content > p,
+.popover-content ul,
+.popover-content ol {
   margin-bottom: 0;
 }
 
-/* line 59, ../../src/packages/common/css/_components/_popovers.scss */
+/* line 62, ../../src/packages/common/css/_components/_popovers.scss */
 .popover .twoup {
   *zoom: 1;
 }
@@ -7378,17 +7365,17 @@ body.modal-open {
 .popover .twoup:after {
   clear: both;
 }
-/* line 62, ../../src/packages/common/css/_components/_popovers.scss */
+/* line 65, ../../src/packages/common/css/_components/_popovers.scss */
 .popover .twoup .popover-col {
   float: left;
   width: 48%;
 }
-/* line 67, ../../src/packages/common/css/_components/_popovers.scss */
+/* line 70, ../../src/packages/common/css/_components/_popovers.scss */
 .popover .twoup .popover-col:nth-child(even) {
   margin-left: 4%;
 }
 
-/* line 73, ../../src/packages/common/css/_components/_popovers.scss */
+/* line 76, ../../src/packages/common/css/_components/_popovers.scss */
 .popover .arrow {
   position: absolute;
   display: inline-block;
@@ -7398,7 +7385,7 @@ body.modal-open {
   border-style: solid;
 }
 
-/* line 101, ../../src/packages/common/css/_components/_popovers.scss */
+/* line 104, ../../src/packages/common/css/_components/_popovers.scss */
 .popover.offsetright .arrow {
   bottom: -10px;
   left: auto;
@@ -7407,7 +7394,7 @@ body.modal-open {
   border-width: 10px 10px 0;
   border-top-color: white;
 }
-/* line 122, ../../src/packages/common/css/_components/_popovers.scss */
+/* line 125, ../../src/packages/common/css/_components/_popovers.scss */
 .popover.bottom .arrow {
   top: -10px;
   left: 50%;
