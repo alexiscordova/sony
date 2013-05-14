@@ -17,17 +17,18 @@ define(<span class="function"><span class="keyword">function</span> <span class=
 
   <span class="keyword">var</span> self = {
 
-    <span class="string">'init'</span>: <span class="keyword">function</span>() {
+    init: <span class="keyword">function</span>() {
       self.fixModernizrFalsePositives();
       self.createPubSub();
       self.createGlobalEvents();
       self.normalizeLogs();
       self.appendModernizrTests();
+      self.addDeviceClasses();
 
       log(<span class="string">'SONY : Global : Environment : Initialized'</span>);
     },
 
-    <span class="string">'appendModernizrTests'</span>: <span class="keyword">function</span>() {
+    appendModernizrTests: <span class="keyword">function</span>() {
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Before IE 9, the getStyles API would not return the pixel values of the margin if set to 'auto'.
 Also, Firefox has a longstanding issue where the pixel value of 'auto' is always zero.
@@ -53,27 +54,12 @@ https://bugzilla.mozilla.org/show_bug.cgi?id=381328</p>             </td>       
         }
 
       });
-
-      <span class="keyword">if</span> ( Settings.isSonyTabletS ) {
-        Settings.$html.addClass(<span class="string">'sonytablets'</span>);
-      }
-
-      <span class="keyword">if</span> ( Settings.isPS3 ) {
-        Settings.$html.addClass(<span class="string">'ps3'</span>);
-      }
-
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Overwrite the Modernizr.mq function for IE &lt; 10</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Settings.isLTIE10 ) {
-        Modernizr.mq = <span class="keyword">function</span>() { <span class="keyword">return</span> <span class="literal">false</span>; };
-        Modernizr.mediaqueries = <span class="literal">false</span>;
-      }
-
-
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Normalizes the console.log method.
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Normalizes the console.log method.
 use "`" key to display logs in production mode.
 http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'normalizeLogs'</span>: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    normalizeLogs: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
 
       window.log = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
         <span class="comment">/*@cc_on
@@ -110,9 +96,9 @@ http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/</p>         
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>This is a modified version of jQuery Tiny PubSub by Ben Alman
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>This is a modified version of jQuery Tiny PubSub by Ben Alman
 https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'createPubSub'</span>: <span class="keyword">function</span>() {
+    createPubSub: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> o = $({});
 
@@ -129,17 +115,17 @@ https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <
       };
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Create global events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'createGlobalEvents'</span>: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Create global events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    createGlobalEvents: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> cachedFunctions = {},
           resizeEvent = <span class="string">'onorientationchange'</span> <span class="keyword">in</span> window ? <span class="string">'orientationchange'</span> : <span class="string">'resize'</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Figure out if the window actually resized, or if IE is faking us out.
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Figure out if the window actually resized, or if IE is faking us out.
 http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer</p>             </td>             <td class="code">               <div class="highlight"><pre>
       cachedFunctions.IEResizeCheck = <span class="keyword">function</span>(cb) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If you aren't IE7/8, you may pass.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>If you aren't IE7/8, you may pass.</p>             </td>             <td class="code">               <div class="highlight"><pre>
         <span class="keyword">if</span> ( !Settings.isLTIE9 ) {
           <span class="keyword">return</span> cb();
         }
@@ -154,12 +140,12 @@ http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-interne
         }
       };
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <h2>Throttle and Debounce variations</h2>
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <h2>Throttle and Debounce variations</h2>
 
 <ul>
 <li>Any new version should be added here, then referenced in cachedFunctions.baseThrottle();</li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Default Settings.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Default Settings.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       cachedFunctions.throttledResize = $.throttle(<span class="number">500</span>, <span class="keyword">function</span>(){
         self.trigger(<span class="string">'global:resizeThrottled'</span>);
       });
@@ -168,7 +154,7 @@ http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-interne
         self.trigger(<span class="string">'global:resizeDebounced'</span>);
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Specific Events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Specific Events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       cachedFunctions.throttledResize200 = $.throttle(<span class="number">200</span>, <span class="keyword">function</span>(){
         self.trigger(<span class="string">'global:resizeThrottled-200ms'</span>);
       });
@@ -181,7 +167,7 @@ http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-interne
         self.trigger(<span class="string">'global:resizeDebouncedAtBegin-200ms'</span>);
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <h2>Base Throttle</h2>
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <h2>Base Throttle</h2>
 
 <ul>
 <li>Used to contain all of the various speeds and configurations of
@@ -205,6 +191,11 @@ window.resize.</li>
 
     fixModernizrFalsePositives : <span class="keyword">function</span>() {
 
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Overwrite the Modernizr.mq function for IE &lt; 10</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Settings.isLTIE10 ) {
+        Modernizr.mq = <span class="keyword">function</span>() { <span class="keyword">return</span> <span class="literal">false</span>; };
+        Modernizr.mediaqueries = <span class="literal">false</span>;
+      }
+
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>The sony tablet s gets a false negative on generated content (pseudo elements)</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !Modernizr.generatedcontent &amp;&amp; Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = <span class="literal">true</span>;
         Settings.$html.removeClass(<span class="string">'no-generatedcontent'</span>).addClass(<span class="string">'generatedcontent'</span>);
@@ -213,6 +204,17 @@ window.resize.</li>
       <span class="keyword">if</span> ( Settings.isLTIE8 ) {
         Modernizr.generatedcontent = <span class="literal">false</span>;
         Settings.$html.removeClass(<span class="string">'generatedcontent'</span>).addClass(<span class="string">'no-generatedcontent'</span>);
+      }
+    },
+
+    addDeviceClasses : <span class="keyword">function</span>() {
+
+      <span class="keyword">if</span> ( Settings.isSonyTabletS ) {
+        Settings.$html.addClass(<span class="string">'sonytablets'</span>);
+      }
+
+      <span class="keyword">if</span> ( Settings.isPS3 ) {
+        Settings.$html.addClass(<span class="string">'ps3'</span>);
       }
     }
 
