@@ -8,31 +8,36 @@ mixin cmString(cm)
 
 mixin measurementValues(value, dir, isThin)
   - clss = [dir + "-measurement"]
-  
+
   if ((!isThin) && (dir == "vertical"))
     - clss.push('not-thin')
-  
-  div(class = clss) 
+
+  div(class = clss)
     div.measurements-container
       +cmString(value.cm)
 
       if (value.inches)
         +inchesString(value.inches)
-  
+
 mixin measurementsList(measurements)
+  - measurementClasses = ["measurement","p4"]
+
+  if (measurements.length > 1)
+    - measurementClasses.push("multi")
+
   for m in measurements
     if(m.image.srcDesktop)
       - isThin = m.thinImage
       - cm = m.height.cm
       - inches = m.width.inches
 
-      .measurement.p4
+      div(class= measurementClasses)
         .wrapper
           .img-wrapper
             +iQImage(m.image, "pd-image")
 
           if (cm)
-            +measurementValues(m.height, "vertical", isThin)  
+            +measurementValues(m.height, "vertical", isThin)
 
           if (inches)
             +measurementValues(m.width, "horizontal", isThin)
@@ -42,7 +47,7 @@ mixin featureList(list)
   ul(class=listClasses)
     each li in list
       - copyClasses = ["copy", "ghost-center"]
-     
+
       //- at least copy required
       if (li.copy)
         li
@@ -52,13 +57,13 @@ mixin featureList(list)
               - copyClasses.push("with-icon")
               p(class= iconClasses)
                 i(class= li.icon)
-            
+
             p(class= copyClasses)
               | #{li.copy}
-              
+
               if (li.link)
                 a.no-wrap(href=li.link)= li.linkLabel
-            
+
 mixin specsList( list, isHorizontal )
   - isHorizontal = isHorizontal || false
   - clss = isHorizontal ? 'dl-horizontal' : null
@@ -74,11 +79,11 @@ mixin extras(extras)
       .extra
         p.l3
           strong= extra.title
-        p.p3 !{extra.copy}        
+        p.p3 !{extra.copy}
 
 mixin bottomTout(textTout)
   div(class= btmToutClasses)
-   
+
     if (textTout.icon)
       - bottomCopyClasses.push("with-icon")
       div(class= bottomIconClasses)
