@@ -297,32 +297,7 @@ define(function(require) {
     follow: function( el ) {
       var self       = this,
           inViewport = null;
-          
-      /*
-      if( true ) {
-        if( el ) {
-          var offsetX     = self.trackingAsset.position().left,
-              offsetY     = self.trackingAsset.position().top, 
-              percX       = $( el ).data( "x" ).replace( '%', '' ),
-              percY       = $( el ).data( "y" ).replace( '%', '' ),
-              assetW      = self.trackingAsset.width(),
-              assetH      = self.trackingAsset.height(),
-              adjustedX   = null,
-              adjustedY   = null,
-              widthOffset = 0;
-           
-              if( $( window ).width() < 768 ) {
-                widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
-              }
-           
-              // get x coordinate
-              adjustedX = ( percX * assetW ) / 100 + widthOffset;
-              adjustedY = ( percY * assetH ) / 100;
-           
-              $( el ).css( "left", adjustedX );
-              $( el ).css( "top", adjustedY );        
-        } else {
-*/
+
       if( 'asset' === self.trackingMode ) {
         self.$els.each( function( index, el) {
           var offsetX     = self.trackingAsset.position().left,
@@ -330,18 +305,20 @@ define(function(require) {
               percX       = $( el ).data( "x" ).replace( '%', '' ),
               percY       = $( el ).data( "y" ).replace( '%', '' ),
               assetW      = self.trackingAsset.width(),
-              assetH      = self.trackingAsset.height(),
+              assetH      = self.trackingAsset.innerHeight(),
               adjustedX   = null,
               adjustedY   = null,
-              widthOffset = 0;
+              widthOffset = 0,
+              heightOffset = 0;
            
               // compensate for centering in the parent node
               //if( $( window ).width() > 768 ) {
                 widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
+                heightOffset = parseInt( self.trackingAsset.parent().css( 'padding-top' ), 10 );
               //}
               // get x coordinate
               adjustedX = ( percX * assetW ) / 100 + widthOffset;
-              adjustedY = ( percY * assetH ) / 100;
+              adjustedY = ( percY * assetH ) / 100 + heightOffset;
            
               $( el ).css( "left", adjustedX );
               $( el ).css( "top", adjustedY );
@@ -480,7 +457,9 @@ define(function(require) {
         $modal.html( info.html() );
 
         $modal.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-
+        
+        $modal.find( '.box-close' ).removeClass( 'hidden' );
+        
         self.$modal.modal({
           backdrop: true,
           keyboard: true,

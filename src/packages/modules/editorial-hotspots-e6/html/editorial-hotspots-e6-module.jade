@@ -45,7 +45,7 @@ mixin hotspotCore(hotspotData, assets, useSmall)
         .overlay-base.variant1.hidden
           .overlay-inner.eh-transparent
             .overlay-close
-              button.box-close.box-close-small(data-dismiss="modal", aria-hidden="true")
+              button.box-close.box-close-small.hidden(data-dismiss="modal", aria-hidden="true")
                 i.fonticon-10-x
               .hspot-close.hidden
                 a(href="#")
@@ -72,6 +72,8 @@ mixin hotspotCore(hotspotData, assets, useSmall)
         .overlay-base.variant2.hidden
           .overlay-inner.eh-transparent
             .overlay-close
+              button.box-close.box-close-small.hidden(data-dismiss="modal", aria-hidden="true")
+                i.fonticon-10-x
               .hspot-close.hidden
                 a(href="#")
                   img.iq-img(class=assets.closeBtn.classes)(alt=assets.closeBtn.alt, data-src-desktop= assets.closeBtn.srcDesktop, data-src-tablet= assets.closeBtn.srcTablet, data-src-phone= assets.closeBtn.srcPhone, data-src-desktop-highres= assets.closeBtn.srcDesktopHighRes, data-src-tablet-highres= assets.closeBtn.srcTabletHighRes, data-src-phone-highres= assets.closeBtn.srcPhoneHighRes)
