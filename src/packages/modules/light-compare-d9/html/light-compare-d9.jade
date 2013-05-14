@@ -28,7 +28,7 @@ e = {"locals":locals, "data": data}
         .tab-container
           ul.tabs
             - each tab, i in data.tabs
-              - var klass = (i == 0 ? 'active' : '')
+              klass = (i == 0 ? 'active' : '')
               li(class= klass, data-target= tab.id, data-toggle="tab", data-hash="true")
                 a(href="#")
                   span.active-highlight
@@ -36,9 +36,9 @@ e = {"locals":locals, "data": data}
                   = tab.tabname
         - each tab, i in data.tabs
           if i == 0
-            - var klasses = "tab-pane fade in active";
+            klasses = "tab-pane fade in active";
           else
-            - var klasses = "tab-pane fade off-screen";
+            klasses = "tab-pane fade off-screen";
 
           div(id= tab.id, data-tab= tab.id, class= klasses)
             .light-compare.tab
