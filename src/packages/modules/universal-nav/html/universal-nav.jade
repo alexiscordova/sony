@@ -14,11 +14,11 @@ div#universal-nav.u-nav-wrapper(role='navigation')
         | !{data.all_sites_link.label}
 
     //- the row of image-heavy links
-    if data.primary_columns[0].double_wide === "true"
+    if data.primary_columns[0].double_wide == "true"
       - u_nav_primary_classes = "u-nav-primary u-nav-primary-3up grid"
-    else if data.primary_columns[0].double_tall === "true"
+    else if data.primary_columns[0].double_tall == "true"
       - u_nav_primary_classes = "u-nav-primary u-nav-primary-5up grid"
-    else 
+    else
       - u_nav_primary_classes = "u-nav-primary u-nav-primary-6up grid"
 
     div(class=u_nav_primary_classes)
@@ -27,7 +27,7 @@ div#universal-nav.u-nav-wrapper(role='navigation')
       - col_count = 1
       - each col, i in data.primary_columns
         - feat_class1 = "u-nav-primary-feat u-nav-primary-col" + col_count
-        if col.double_wide === "true"
+        if col.double_wide == "true"
           - feat_class1 += " span8"
           - col_count += 2
         else
@@ -37,22 +37,22 @@ div#universal-nav.u-nav-wrapper(role='navigation')
         //- For each feature per column
         - each feat, j in col.features
           - feat_class2 = feat_class1
-          if col.double_tall === "true" && j === 0
+          if col.double_tall == "true" && j == 0
             - feat_class2 += " u-nav-primary-2high"
-          else if col.double_wide === "true" && j === 0
+          else if col.double_wide == "true" && j == 0
             - feat_class2 += " u-nav-primary-2wide"
-          else 
-            if j === 0
+          else
+            if j == 0
               - feat_class2 += " u-nav-primary-row1"
-            else 
+            else
               - feat_class2 += " u-nav-primary-row2"
 
           div(class=feat_class2)
             a.u-nav-primary-link.l2(href=feat.link)
-              if col.double_tall === "true" || col.double_wide === "true"
+              if col.double_tall == "true" || col.double_wide == "true"
                 if data.label_tag.label != "false"
                   span.label.label-success !{data.label_tag.label}
-              span.u-nav-primary-img-wrap 
+              span.u-nav-primary-img-wrap
                 img.u-nav-primary-img(src="", data-src=feat.img.src, title=feat.alt)
               span.u-nav-primary-caption !{feat.caption}
 

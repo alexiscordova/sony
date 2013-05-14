@@ -2,9 +2,9 @@ include ../../../common/html/jade-helpers.jade
 
 - var store_locator_input_default_full = "      " + sample_session_data.current_location
 
-if typeof minimal !== 'undefined' && minimal === true
+if typeof minimal != 'undefined' && minimal == true
   - minimal_class = "footer-wrapper-minimal"
-else 
+else
   - minimal = false
   - minimal_class = ""
 
@@ -51,12 +51,12 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
                   ul.dropdown-hover-menu-list
 
                     - each lang, i in data.language.languages
-                      if lang.id === sample_session_data.current_lang.id
+                      if lang.id == sample_session_data.current_lang.id
                         li(class="selected")
                           a(href=lang.link)
                             span.dropdown-label-left= lang.id
                             span.dropdown-label= lang.label
-                      else 
+                      else
                         li
                           a(href=lang.link)
                             span.dropdown-label-left= lang.id
@@ -83,6 +83,6 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
 
             - each link, i in data.signature.legal_links
               a(href=link.link)= link.label
-              
+
           span.footer-copyright= data.signature.copyright
 
