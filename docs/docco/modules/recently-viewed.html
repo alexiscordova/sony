@@ -79,25 +79,17 @@ define(<span class="keyword">function</span>(require) {
       <span class="keyword">if</span> ( Modernizr.mediaqueries ) {
 
         enquire
-          .register( desktopBreakpoint, {
-            match: <span class="keyword">function</span>() {
-              self._setupDesktop();
-            }
+          .register( desktopBreakpoint, <span class="keyword">function</span>() {
+            self._setupDesktop();
           })
-          .register( setupTabletBreakpoint, {
-            match: <span class="keyword">function</span>() {
-              self._setupTablet();
-            }
+          .register( setupTabletBreakpoint, <span class="keyword">function</span>() {
+            self._setupTablet();
           })
-          .register( teardownTabletBreakpoint, {
-            match: <span class="keyword">function</span>() {
-              self._teardownTablet();
-            }
+          .register( teardownTabletBreakpoint, <span class="keyword">function</span>() {
+            self._teardownTablet();
           })
-          .register( mobileBreakpoint, {
-            match: <span class="keyword">function</span>() {
-              self._setupMobile();
-            }
+          .register( mobileBreakpoint, <span class="keyword">function</span>() {
+            self._setupMobile();
           });
 
       } <span class="keyword">else</span> {
