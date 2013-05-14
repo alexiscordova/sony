@@ -76,15 +76,19 @@ define(<span class="keyword">function</span>(require){
 
     onRouteMatch: <span class="keyword">function</span>(which) {
 
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $items = self.$el.find(<span class="string">'li'</span>),
+          destinationTop;
 
       self.openNav();
 
-      <span class="keyword">if</span> ( !which ) {
+      <span class="keyword">if</span> ( !which || which &gt; $items.length ) {
         which = <span class="number">1</span>;
       }
 
-      $(window).scrollTop(self.$el.find(<span class="string">'li'</span>).eq(which-<span class="number">1</span>).offset().top - <span class="number">200</span>);
+      destinationTop = $items.eq(which-<span class="number">1</span>).offset().top;
+
+      $(window).scrollTop(destinationTop - <span class="number">200</span>);
     }
   };
 
