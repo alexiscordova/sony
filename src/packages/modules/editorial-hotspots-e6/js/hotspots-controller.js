@@ -230,7 +230,7 @@ define(function(require) {
       self.$modal.css( 'top', newOffset+'px' );
       return; 
     },
-    
+
     onModalShown : function( evt ) {
       var self = this;
 
@@ -255,13 +255,18 @@ define(function(require) {
         });
       }
 
-      self.$modal.css( 'height', '' );
-      self.$modalBody.removeClass('in'); // need this?
+      //self.$modal.css( 'height', '' );
+      //self.$modalBody.removeClass('in'); // need this?
 
       self.isModalOpen = false;
       self.isFadedIn = false;
       
-      self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
+      if( true === self.showOverlayCentered ) {
+        self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
+      }
+      
+      $( 'body' ).find( '.modal-backdrop' ).remove();
+      
     },
 
     getMaxModalHeights : function() {
@@ -294,7 +299,7 @@ define(function(require) {
     },
 
    
-    follow: function( el ) {
+    follow: function( doShowAfterFollow ) {
       var self       = this,
           inViewport = null;
 
@@ -319,13 +324,14 @@ define(function(require) {
               // get x coordinate
               adjustedX = ( percX * assetW ) / 100 + widthOffset;
               adjustedY = ( percY * assetH ) / 100 + heightOffset;
-           
+              
+              // lets stop animation
+              /* $( el ).addClass( 'no-hs-transition' ); */
               $( el ).css( "left", adjustedX );
               $( el ).css( "top", adjustedY );
+              /* $( el ).removeClass( 'no-hs-transition' ); */
         });
       }
-        /* } 
-      }*/
     },
     
     disableScroll: function( flag ) {
@@ -468,10 +474,10 @@ define(function(require) {
 
       } else {
         //self.close( container, hotspot, info );
-        self.$modal.modal( 'hide' );
         info.removeClass( 'hidden' );
         info.find( '.overlay-base' ).removeClass( 'hidden' );
         info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        self.$modal.modal( 'hide' );
       }
     },
 
