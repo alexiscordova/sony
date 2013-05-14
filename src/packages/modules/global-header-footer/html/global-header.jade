@@ -7,7 +7,7 @@ e = {"locals":locals, "data":locals.data('packages/modules/universal-nav/demo/da
 
 search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
 
-if minimal && minimal == true
+if typeof minimal != 'undefined' && minimal == true
   - minimal_class = "nav-wrapper-minimal"
 else
   - minimal = false
