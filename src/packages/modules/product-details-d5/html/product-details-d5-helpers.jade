@@ -20,16 +20,20 @@ mixin measurementValues(value, dir, isThin)
         +inchesString(value.inches)
 
 mixin measurementsList(measurements)
+  - measurementClasses = ["measurement","p4"]
+
+  if (measurements.length > 1)
+    - measurementClasses.push("multi")
+
   for m in measurements
     if(m.image.srcDesktop)
       - isThin = m.thinImage
       - cm = m.height.cm
       - inches = m.width.inches
 
-      .measurement.p4
+      div(class= measurementClasses)
         .wrapper
           .img-wrapper
-            //- .iq-img(data-src-desktop= m.image.srcDesktop, data-src-tablet= m.image.srcTablet, data-src-phone= m.image.srcPhone, data-src-desktop-highres= m.image.srcDesktopHighRes, data-src-tablet-highres= m.image.srcTabletHighRes, data-src-phone-highres= m.image.srcPhoneHighRes)
             +iQImage(m.image, "pd-image")
 
           if (cm)
@@ -61,8 +65,8 @@ mixin featureList(list)
                 a.no-wrap(href=li.link)= li.linkLabel
 
 mixin specsList( list, isHorizontal )
-  isHorizontal = isHorizontal ? isHorizontal : false
-  clss = isHorizontal ? 'dl-horizontal' : null
+  - isHorizontal = isHorizontal || false
+  - clss = isHorizontal ? 'dl-horizontal' : null
   dl(class=clss)
     each li in list
       dt.l3: strong= li.title
@@ -80,16 +84,18 @@ mixin extras(extras)
 mixin bottomTout(textTout)
   div(class= btmToutClasses)
 
-    //- FPO IMAGE FOR NOW, THIS SHOULD BE CHANGED FROM A PATH TO A ICON CLASS AS ALL OTHERS ARE
     if (textTout.icon)
       - bottomCopyClasses.push("with-icon")
-      .icon
+      div(class= bottomIconClasses)
         img(src= textTout.icon)
 
-    div(class= bottomCopyClasses)
-      | #{textTout.copy}
-      if(textTout.link && textTout.linkLabel)
-        a.no-wrap(href= textTout.link)= textTout.linkLabel
+    if (textTout.copy)
+      div(class= bottomCopyClasses)
+        //- need another div to allow overflow to work again (not table-cell)
+        .no-overflow
+          | #{textTout.copy}
+          if(textTout.link && textTout.linkLabel)
+            a.no-wrap(href= textTout.link)= textTout.linkLabel
 
 mixin bottomButton(btn)
   if(btn.buttonLabel && btn.buttonLink)

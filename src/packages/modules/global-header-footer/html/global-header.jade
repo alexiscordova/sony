@@ -43,11 +43,11 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             div.navmenu-search-section-results
               div.navmenu-search-popular-searches
                 p.l3= data.search.popular_searches.label
-                  ul.navmenu-list.navmenu-list-extended
+                ul.navmenu-list.navmenu-list-extended
 
-                    - each item, i in data.search.popular_searches.menu_items
-                      li.search-result-line
-                        a.tl(href=item.link, tabindex=(1410+i))= item.label
+                  - each item, i in data.search.popular_searches.menu_items
+                    li.search-result-line
+                      a.tl(href=item.link, tabindex=(1410+i))= item.label
 
               div.navmenu-search-results
                 ul.navmenu-list.navmenu-list-results

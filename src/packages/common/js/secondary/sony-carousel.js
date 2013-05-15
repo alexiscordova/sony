@@ -134,7 +134,7 @@ define(function(require){
         }
       });
 
-      self.gotoSlide(0);
+      self.gotoSlide(0, true);
     },
 
     setupLoopedCarousel: function() {
