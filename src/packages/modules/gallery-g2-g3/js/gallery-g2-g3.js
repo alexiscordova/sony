@@ -2675,6 +2675,7 @@ define(function(require){
 
       // Stop click from bubbling to iScroll
       if ( isEvent ) {
+        evt.preventDefault();
         evt.stopPropagation();
       }
 
@@ -2936,7 +2937,7 @@ define(function(require){
 
       // Phone ( 2 columns )
       } else if ( numColumns === 2 ) {
-        if ( !self.$grid.parent().hasClass(shuffleDash+2) ) {
+        if ( !self.$grid.hasClass(shuffleDash+2) ) {
 
           // remove .slimgrid5
           self.$grid
@@ -2946,10 +2947,10 @@ define(function(require){
           // Remove current grid span
           self.$grid.children( itemSelector )
             .removeClass( allSpans )
-            .filter( social )
+            .filter( promo + ',' + social )
               .addClass( mspan+6 )
               .end()
-            .not( social )
+            .filter(large + ',' + normal)
               .addClass( mspan+3 );
         }
       }

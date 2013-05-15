@@ -109,7 +109,7 @@ section.raa-module(id = data.id ? data.id : false)
         aside.span12.raa-awards-wrapper
           if data.awards
             h3.l3 Awards
-            ul.raa-awards
+            ul.raa-awards(data-header="Awards")
               for item in data.awards
                 li
                   a(href=item.link)
