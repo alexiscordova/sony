@@ -34,6 +34,7 @@ define(function (require) {
   self.isAndroid = (/android/gi).test( ua );
   self.isPS3 = (/playstation 3/gi).test( ua );
   self.isSonyTabletS = (/sony tablet s/gi).test( ua );
+  self.isVita = (/vita/gi).test( ua );
   // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );
 
   self.isModern = self.$html.hasClass('modern');
