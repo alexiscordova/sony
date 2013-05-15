@@ -86,7 +86,7 @@ define(function(require){
     }
 
     // Listen for window events (debounced)
-    debouncedResize = $.debounce( 325, $.proxy( self.onResize, self ) );
+    debouncedResize = $.debounce( 325, $.proxy( self.debouncedResize, self ) );
     self.$window.on('orientationchange', debouncedResize );
     self.$window.on('resize.gallery', debouncedResize );
 
@@ -111,7 +111,7 @@ define(function(require){
       }
     }, 200);
 
-    self.onResize( true );
+    self.debouncedResize( true );
 
     // Compare mode doesn't have a shuffle plugin to execute the event
     if ( self.isCompareMode ) {
@@ -151,7 +151,7 @@ define(function(require){
       var self = this;
 
       // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
-      self.onResize( undefined, true );
+      self.debouncedResize( undefined, true );
 
       // Already enabled
       if ( self.enabled ) {
@@ -2246,11 +2246,12 @@ define(function(require){
       self.updateStickyNav();
     },
 
-    onResize : function( isInit, force ) {
+    debouncedResize : function( isInit, force ) {
       var self = this,
           windowWidth = !Settings.isLTIE9 ? null : self.$window.width(),
           windowHeight = !Settings.isLTIE9 ? null : self.$window.height(),
-          hasWindowChanged = !Settings.isLTIE9 || windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
+          hasWindowChanged = !Settings.isLTIE9 || windowWidth !== self.windowWidth || windowHeight !== self.windowHeight,
+          isSmallerThanTablet;
 
       // Make sure isInit is not an event object
       isInit = isInit === true;
@@ -2267,71 +2268,28 @@ define(function(require){
       self.windowWidth = windowWidth;
       self.windowHeight = windowHeight;
 
-      // Make all product name heights even
-      function evenTheHeights() {
-        // Only the product names need to be the same height
-        if ( !self.hasRecommendedTile ) {
-          self.$gridProductNames.evenHeights();
+      self.onResize( isInit );
+    },
 
-        // The
-        } else {
-          var groups = [ self.$gridProductNames ];
-          groups = groups.concat( self.getRecommendedTileGroups() );
-          self.$recommendedTile.find('.media-heading').css( 'height', '' );
-          $.evenHeights( groups );
-        }
-      }
+    onResize : function( isInit ) {
+      var self = this,
+          isSmallerThanTablet = Modernizr.mq('(max-width: 47.9375em)');
 
       // Don't change columns for detail galleries
       // Change the filters column layout
       if ( self.isDetailedMode || self.isCompareMode ) {
 
         // Remove heights in case they've aready been set
-        if ( Modernizr.mq('(max-width: 47.9375em)') ) {
+        if ( isSmallerThanTablet ) {
           self.$gridProductNames.css('height', '');
 
-          if ( self.hasRecommendedTile ) {
-            self.$recommendedTile.find('.media')
-              .find('.js-even-cols')
-                .css( 'height', '' )
-                .end()
-              .find('.media-heading')
-                .evenHeights();
-
-            // If there currently isn't a scroller instance, create one
-            if ( !self.scroller ) {
-              self.maxRecommendedTitleBarOffset = Math.ceil((self.$container.width() - self.$grid.width()) / 2) * -1;
-              self.scroller = self.$recommendedTile.find('.wrap').scrollerModule({
-                iscrollProps: {
-                  isOverflowHidden: false,
-                  hideScrollbar: true,
-                  fadeScrollbar: true,
-                  onScrollStart: function() {
-                    self.recommendedTileScrolled( this );
-                  },
-                  onScrollMove: function() {
-                    self.recommendedTileScrolled( this );
-                  },
-                  onScrollEnd: function() {
-                    self.recommendedTileScrolled( this );
-                  },
-                  onAnimate: function() {
-                    self.recommendedTileScrolled( this );
-                  },
-                  onAnimationEnd: function( iscroll ) {
-                    self.recommendedTileScrolled( iscroll );
-                    iQ.update();
-                  }
-                }
-              }).data( 'scrollerModule' );
-            }
-          }
+          self.onRecommendedTileResize();
 
         // Make all product name heights even
         } else {
           // Let the browser choose the best time to do this becaues it causes a layout
           if ( !self.scroller || (self.scroller && self.scroller.enabled) ) {
-            requestAnimationFrame( evenTheHeights );
+            self.evenTheHeights();
           }
 
           // If there currently is a scroller instance, destroy it
@@ -2341,17 +2299,14 @@ define(function(require){
           }
         }
 
-        self.moveFilters();
+        // Move filters around
+        self.moveFilters( isSmallerThanTablet );
 
         // Move sort options around
-        self.moveSorter();
+        self.moveSorter( isSmallerThanTablet );
 
         // Tell infinite scroll to update where it thinks it's target it
-        if ( self.hasInfiniteScroll ) {
-          setTimeout(function() {
-            self.$grid.infinitescroll('updateNavLocation');
-          }, 25);
-        }
+        self.updateInfiniteScrollPosition();
 
         // Reset the range control, but don't trigger any events
         if ( self.$rangeControl ) {
@@ -2376,8 +2331,8 @@ define(function(require){
         return;
       }
 
-      // Let the browser choose the best time to do this becaues it causes a layout
-      requestAnimationFrame( evenTheHeights );
+      // Make all product name heights even
+      self.evenTheHeights();
 
       Utilities.forceWebkitRedraw();
 
@@ -2385,6 +2340,82 @@ define(function(require){
 
       if ( self.isEditorialMode ) {
         self.sortByPriority();
+      }
+    },
+
+    onRecommendedTileResize : function() {
+      var self = this;
+
+      // Exit early if no recommended tile
+      if ( !self.hasRecommendedTile ) {
+        return self;
+      }
+
+      self.$recommendedTile.find('.media')
+        .find('.js-even-cols')
+          .css( 'height', '' )
+          .end()
+        .find('.media-heading')
+          .evenHeights();
+
+      // If there currently isn't a scroller instance, create one
+      if ( !self.scroller ) {
+        self.maxRecommendedTitleBarOffset = Math.ceil((self.$container.width() - self.$grid.width()) / 2) * -1;
+        self.scroller = self.$recommendedTile.find('.wrap').scrollerModule({
+          iscrollProps: {
+            isOverflowHidden: false,
+            hideScrollbar: true,
+            fadeScrollbar: true,
+            onScrollStart: function() {
+              self.recommendedTileScrolled( this );
+            },
+            onScrollMove: function() {
+              self.recommendedTileScrolled( this );
+            },
+            onScrollEnd: function() {
+              self.recommendedTileScrolled( this );
+            },
+            onAnimate: function() {
+              self.recommendedTileScrolled( this );
+            },
+            onAnimationEnd: function( iscroll ) {
+              self.recommendedTileScrolled( iscroll );
+              iQ.update();
+            }
+          }
+        }).data( 'scrollerModule' );
+      }
+
+      return self;
+    },
+
+    // Make all product name heights even
+    evenTheHeights : function() {
+      var self = this;
+      // Only the product names need to be the same height
+      // Let the browser choose the best time to do this becaues it causes a layout
+      requestAnimationFrame(function() {
+        if ( !self.hasRecommendedTile ) {
+          self.$gridProductNames.evenHeights();
+
+        // The
+        } else {
+          var groups = [ self.$gridProductNames ];
+          groups = groups.concat( self.getRecommendedTileGroups() );
+          self.$recommendedTile.find('.media-heading').css( 'height', '' );
+          $.evenHeights( groups );
+        }
+      });
+    },
+
+    // Tell infinite scroll to update where it thinks it's target it
+    updateInfiniteScrollPosition : function() {
+      var self = this;
+
+      if ( self.hasInfiniteScroll ) {
+        setTimeout(function() {
+          self.$grid.infinitescroll('updateNavLocation');
+        }, 25);
       }
     },
 
@@ -2419,14 +2450,14 @@ define(function(require){
       }
     },
 
-    moveSorter : function() {
+    moveSorter : function( isSmallerThanTablet ) {
       var self = this,
           $sorter,
           $container,
           $grid,
           $shares;
 
-      if ( Modernizr.mq('(max-width: 47.9375em)') ) {
+      if ( isSmallerThanTablet ) {
         if ( !self.hasSorterMoved ) {
           $sorter = self.$sortOpts.detach();
           $container = $('<div/>', { 'class' : 'container', id: 'sort-options-holder' } );
@@ -3209,8 +3240,6 @@ define(function(require){
 
     initIScroll : function() {
       var self = this,
-          // addedHeights,
-          // wrapperHeight,
           innerHeight,
 
       // Let inputs be used, otherwise prevent default
@@ -3241,8 +3270,7 @@ define(function(require){
     },
 
     swapShuffleItemClasses : function( numCols, shuffle ) {
-      var self = this,
-          newClass = 'span6',
+      var newClass = 'span6',
           oldClass = 'span4';
 
       if ( numCols === 3 ) {
