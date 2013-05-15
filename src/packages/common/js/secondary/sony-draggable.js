@@ -78,12 +78,17 @@ define(function(require){
           $this = $(e.target);
 
       if ( !Modernizr.touch ) {
+        if(e.which !== 1){
+          return;
+        }
         e.preventDefault();
       }
 
       if ( self.$el.has($this).length === 0 ) {
         return;
       }
+
+
 
       if ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
