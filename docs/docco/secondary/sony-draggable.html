@@ -78,12 +78,17 @@ cache the new interaction's start position, then bind for movement onto onScrubb
           $<span class="keyword">this</span> = $(e.target);
 
       <span class="keyword">if</span> ( !Modernizr.touch ) {
+        <span class="keyword">if</span>(e.which !== <span class="number">1</span>){
+          <span class="keyword">return</span>;
+        }
         e.preventDefault();
       }
 
       <span class="keyword">if</span> ( self.$el.has($<span class="keyword">this</span>).length === <span class="number">0</span> ) {
         <span class="keyword">return</span>;
       }
+
+
 
       <span class="keyword">if</span> ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">'0ms'</span>);
