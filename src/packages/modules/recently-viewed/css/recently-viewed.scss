@@ -16,6 +16,15 @@
     height: auto;
   }
 
+  .csstransitions & .sony-carousel-wrapper {
+    opacity: 0;
+    @include transition();
+
+    &.in {
+      opacity: 1;
+    }
+  }
+
   .sony-nav-dot {
     margin-top: px-em( 60 );
   }

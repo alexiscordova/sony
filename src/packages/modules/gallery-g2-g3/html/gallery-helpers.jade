@@ -338,9 +338,9 @@ mixin compareGallery( submodules, gallery, type, labels )
   type = type ? type : 'product'
   labels = labels ? labels : gallery.labels
 
-  label = gallery.galleryName ? gallery.galleryName : 'Compare Things'
+  label = gallery.galleryName ? gallery.galleryName : 'this is gallery.galleryName'
   legend = gallery.legend ? gallery.legend : 'this is defined in gallery.legend'
-  resetLabel = gallery.resetLabel ? gallery.resetLabel : 'do things'
+  resetLabel = gallery.resetLabel ? gallery.resetLabel : 'gallery reset label'
 
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
 
@@ -379,7 +379,7 @@ mixin compareGallery( submodules, gallery, type, labels )
         .products
           .span2.detail-labels-wrap
             .compare-sticky-header.sticky-count
-              .right-bar
+              .sticky-bar.right-bar
             .detail-labels-wrapping
               .detail-label-group
                 each label in labels
