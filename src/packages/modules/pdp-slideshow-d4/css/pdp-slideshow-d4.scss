@@ -12,6 +12,8 @@
   overflow: hidden;
   background: $gray80;
   margin-bottom: px-em( 80px );
+  @include opacity(0);
+  @include transition();
 
   .lt-ie10 & {
     min-width: px-em( 1200px );
@@ -37,8 +39,8 @@
     // @include flex-ratio-box-content();
     width: 1000em; // This will get set dynamically based on the number of slides
     max-height: px-em( 720px );
-    @include opacity(0);
-    @include transition();
+    -webkit-transition: -webkit-transform .2s ease-out;
+            transition: transform .2s ease-out;
   }
 
   // These will get set dynamically based on number of slides

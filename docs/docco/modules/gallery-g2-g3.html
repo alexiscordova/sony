@@ -2399,6 +2399,7 @@ x button on a gallery item. We'll need to add the .concealed class</p>          
       }
 
 </pre></div>             </td>           </tr>                               <tr id="section-276">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-276">&#182;</a>               </div>               <p>Stop click from bubbling to iScroll</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( isEvent ) {
+        evt.preventDefault();
         evt.stopPropagation();
       }
 
