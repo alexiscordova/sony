@@ -578,7 +578,8 @@ $.fn.flowplayer = function(opts, callback) {
       firstframe: !IS_IPHONE && !IS_IPAD && !IS_ANDROID && !IS_SILK && !IS_IPAD_CHROME && !IS_WP && !IS_ANDROID_FIREFOX,
       inlineVideo: !IS_IPHONE && !IS_SILK && !IS_WP && (!IS_ANDROID || ANDROID_VER >= 3),
       hlsDuration: !browser.safari || IS_IPAD || IS_IPHONE || IS_IPAD_CHROME,
-      seekable: !IS_IPAD && !IS_IPAD_CHROME
+      seekable: !IS_IPAD && !IS_IPAD_CHROME,
+      ipad: IS_IPAD
    });
 
    // flashVideo
@@ -1702,6 +1703,10 @@ flowplayer(function(api, root) {
       
       }
    });
+
+   if(window.flowplayer.support.ipad){
+      root.addClass('is-ipad');
+   }
 
    root.find('.fp-volumeslider').bind('mouseenter mouseleave' , function(e){
       e.preventDefault();
