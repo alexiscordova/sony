@@ -979,7 +979,8 @@ define(function(require){
         showInitialTransition: false,
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
-        buffer: 8
+        buffer: 8,
+        supported: Settings.shuffleSupport
       });
 
       self.shuffle = self.$grid.data('shuffle');
@@ -3163,6 +3164,7 @@ define(function(require){
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
         buffer: 20,
+        supported: Settings.shuffleSupport,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 
