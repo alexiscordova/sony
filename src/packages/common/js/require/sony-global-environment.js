@@ -56,6 +56,18 @@ define(function (require) {
 
       });
 
+      Modernizr.addTest("displayTable", function() {
+
+        var rules = document.createElement("div").style;
+
+        try {
+          rules.display = "table";
+          return rules.display == "table";
+        } catch (e) {
+          return false;
+        }
+      });
+
       // Does the browser support max/min widths on <table> elements? We use this extensively for
       // vertical centering via the `table-center` class, so we need to know where it fails.
       // As of writing, this occurs in Safari.
@@ -65,6 +77,10 @@ define(function (require) {
         var x = document.createElement('div'),
             y = document.createElement('div'),
             test;
+
+        if ( !Modernizr.displaytable ) {
+          return false;
+        }
 
         x.appendChild(y);
 
