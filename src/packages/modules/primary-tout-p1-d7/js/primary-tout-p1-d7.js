@@ -81,7 +81,7 @@ define(function(require){
           Environment.on('global:resizeDebounced', $.proxy(self.fixTitleHeight, self));
         }
 
-        var btn = self.$el.find(".inner .box a, .mobile-buttons a");
+        var btn = self.$el.find(".inner .box a.video, .inner .box a.carousel, .mobile-buttons a.video, .mobile-buttons a.carousel");
 
         if(btn.length > 0){
           btn.on('click', function(e){

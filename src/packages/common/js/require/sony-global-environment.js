@@ -256,6 +256,10 @@ define(function (require) {
       if ( Settings.isPS3 ) {
         Settings.$html.addClass('ps3');
       }
+
+      if ( Settings.isVita ) {
+        Settings.$html.addClass('vita');
+      }
     }
 
   };
