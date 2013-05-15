@@ -52,39 +52,29 @@ define(<span class="keyword">function</span>(require){
 
     <span class="string">'init'</span>: <span class="keyword">function</span>() {
 
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          bounds = {};
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Inititalize draggable scrubber for X axis drag</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.axis == <span class="string">'x'</span> ) {
+      bounds[self.axis] = {<span class="string">'min'</span>: <span class="number">0</span>, <span class="string">'max'</span>: <span class="number">100</span>};
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Inititalize draggable scrubber</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$scrubber.sonyDraggable({
-          <span class="string">'axis'</span>: <span class="string">'x'</span>,
-          <span class="string">'unit'</span>: <span class="string">'%'</span>,
-          <span class="string">'containment'</span>: self.$dualViewContainer,
-          <span class="string">'drag'</span>: $.proxy(self.onDrag, self),
-          <span class="string">'bounds'</span>: {<span class="string">'x'</span>: {<span class="string">'min'</span>: <span class="number">0</span>, <span class="string">'max'</span>: <span class="number">100</span>}},
-          <span class="string">'snapToBounds'</span>: <span class="number">25</span>
-        });
+      self.$scrubber.sonyDraggable({
+        <span class="string">'axis'</span>: self.axis,
+        <span class="string">'unit'</span>: <span class="string">'%'</span>,
+        <span class="string">'containment'</span>: self.$dualViewContainer,
+        <span class="string">'drag'</span>: $.proxy(self.onDrag, self),
+        <span class="string">'bounds'</span>: bounds,
+        <span class="string">'snapToBounds'</span>: <span class="number">25</span>
+      });
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Inititalize draggable scrubber for Y axis drag</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( self.axis == <span class="string">'y'</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Set initial scrubber position to the middle of the viewer</p>
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Inititalize draggable scrubber</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$scrubber.sonyDraggable({
-          <span class="string">'axis'</span>: <span class="string">'y'</span>,
-          <span class="string">'unit'</span>: <span class="string">'%'</span>,
-          <span class="string">'containment'</span>: self.$dualViewContainer,
-          <span class="string">'drag'</span>: $.proxy(self.onDrag, self),
-          <span class="string">'bounds'</span>: {<span class="string">'y'</span>: {<span class="string">'min'</span>: <span class="number">0</span>, <span class="string">'max'</span>: <span class="number">100</span>}},
-          <span class="string">'snapToBounds'</span>: <span class="number">25</span>
-        });
+<p>This <code>dragging2</code> class is garbage and should be removed.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      self.$scrubber.sonyDraggable(<span class="string">'setPositions'</span>, {x: <span class="number">50</span>, y:<span class="number">50</span>});
 
-      }
-
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Set initial scrubber position to the middle of the viewer</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$scrubber.sonyDraggable(<span class="string">'setPositions'</span>, {x: <span class="number">50</span>, y:<span class="number">50</span>});
-
- 
       self.$handle.mouseenter(<span class="keyword">function</span>(){
         self.$scrubber.addClass(<span class="string">'dragging2'</span>);
       });
-      
+
       self.$handle.mouseleave(<span class="keyword">function</span>(){
         <span class="keyword">if</span> ( !self.$scrubber.hasClass(<span class="string">'dragging'</span>) ) {
           setTimeout(<span class="keyword">function</span>(){
@@ -99,11 +89,26 @@ define(<span class="keyword">function</span>(require){
         }, <span class="number">250</span>);
       });
 
+      self.bindClicks();
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>We just need the images to be ready <em>enough</em> to provide dimensions.
+    bindClicks: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$topSlide.next().on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
+        self.$scrubber.sonyDraggable(<span class="string">'snapTo'</span>, self.axis, <span class="number">100</span>);
+      });
+
+      self.$bottomSlide.next().on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
+        self.$scrubber.sonyDraggable(<span class="string">'snapTo'</span>, self.axis, <span class="number">0</span>);
+      });
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>We just need the images to be ready <em>enough</em> to provide dimensions.
 Since the usual imagesLoaded plugin approach wasn't compatible with iQ,
-we just poll for a width until one is available.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'initTimeout'</span>: <span class="keyword">function</span>() {
+we just poll for a width until one is available.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    initTimeout: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           ready = <span class="literal">true</span>;
 
@@ -121,10 +126,10 @@ we just poll for a width until one is available.</p>             </td>          
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>As <a href="sony-draggable.html">SonyDraggable</a> returns scrubbing changes, update the top
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>As <a href="sony-draggable.html">SonyDraggable</a> returns scrubbing changes, update the top
 slide's width or height to match, and adjust the image container's width by that
 percentage's inverse to maintain the desired positioning.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'onDrag'</span>: <span class="keyword">function</span>(e) {
+    onDrag: <span class="keyword">function</span>(e) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       <span class="keyword">if</span> ( self.axis == <span class="string">'x'</span> ) {
@@ -132,7 +137,7 @@ percentage's inverse to maintain the desired positioning.</p>             </td> 
         self.$topSlide.css(<span class="string">'width'</span>, (e.position.left) + <span class="string">'%'</span>);
         self.$topSlideImageContainer.css(<span class="string">'width'</span>, <span class="number">10000</span> / (e.position.left) + <span class="string">'%'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.left &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.left &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
         (e.position.left &lt;= <span class="number">75</span>) ? self.$bottomSlide.next().fadeIn(<span class="number">200</span>) : self.$bottomSlide.next().fadeOut(<span class="number">200</span>);
 
       } <span class="keyword">else</span> <span class="keyword">if</span> ( self.axis == <span class="string">'y'</span> ) {
@@ -140,13 +145,10 @@ percentage's inverse to maintain the desired positioning.</p>             </td> 
         self.$topSlide.css(<span class="string">'height'</span>, (e.position.top) + <span class="string">'%'</span>);
         self.$topSlideImageContainer.css(<span class="string">'height'</span>, <span class="number">10000</span> / (e.position.top) + <span class="string">'%'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.top &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.top &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
         (e.position.top &lt;= <span class="number">75</span>) ? self.$bottomSlide.next().fadeIn(<span class="number">200</span>) : self.$bottomSlide.next().fadeOut(<span class="number">200</span>);
-
       }
-
     }
-
   };
 
   <span class="keyword">return</span> module;
