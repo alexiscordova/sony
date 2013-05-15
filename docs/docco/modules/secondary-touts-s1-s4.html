@@ -44,7 +44,7 @@ define(<span class="keyword">function</span>(require){
 
     self.$images.addClass(<span class="string">'iq-img'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>This is a bad-fix hack; iQ fails unpredictably if multiple modules attempt to
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>This is a hack; iQ fails unpredictably if multiple modules attempt to
 run iQ.update() to load in their newly-created assets. This is a deep issue
 in iQ that will probably require a thorough refactor of that class.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setTimeout(<span class="keyword">function</span>(){
@@ -82,6 +82,9 @@ in iQ that will probably require a thorough refactor of that class.</p>         
         $<span class="keyword">this</span>.data(<span class="string">'contentWidthContainers'</span>, $<span class="keyword">this</span>.find(<span class="string">'.content-12, .content-8, .content-6, .content-4'</span>));
         $<span class="keyword">this</span>.data(<span class="string">'originalWidth'</span>, matchedClasses[<span class="number">0</span>].split(<span class="string">'span'</span>)[<span class="number">1</span>]);
       });
+
+      self.fixCenteredContent(<span class="string">'align-right-center'</span>, <span class="string">'align-right-top'</span>);
+      self.fixCenteredContent(<span class="string">'align-left-center'</span>, <span class="string">'align-left-top'</span>);
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Create or restore the default slide layout.</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -103,6 +106,7 @@ in iQ that will probably require a thorough refactor of that class.</p>         
       });
     },
 
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Set all items to a specific column width.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     renderEvenColumns: <span class="keyword">function</span>(colPerItem) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -121,6 +125,31 @@ in iQ that will probably require a thorough refactor of that class.</p>         
              .add($<span class="keyword">this</span>)
              .removeClass(self.contentWidthClasses)
              .addClass(<span class="string">'content-'</span> + colPerItem);
+      });
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>If you're in an environment that doesn't support min/max width on
+tables, we need to find and fix table-center elements. In that
+feature-tested state, look for elements of <code>oldClass</code>, remove their
+<code>table-center</code> classes, and add a replacement <code>newClass</code>.</p>
+
+<p>This is necessary because, for example, <code>align-right-center</code> doesn't
+work without table centering, and hacking a fallback in would require
+a lot of CSS duplication. So we tell it to use <code>align-top-center</code> instead.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    fixCenteredContent: <span class="keyword">function</span>(oldClass, newClass) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $el = $(<span class="string">'.no-widthboundsontables'</span>).find(self.$el);
+
+      $el.find(<span class="string">'.'</span> + oldClass).each(<span class="keyword">function</span>(){
+
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>);
+
+        $<span class="keyword">this</span>.removeClass(<span class="string">'table-center-wrap'</span>)
+             .removeClass(oldClass)
+             .addClass(newClass);
+
+        $<span class="keyword">this</span>.find(<span class="string">'.table-center'</span>).removeClass(<span class="string">'table-center'</span>);
       });
     }
   };

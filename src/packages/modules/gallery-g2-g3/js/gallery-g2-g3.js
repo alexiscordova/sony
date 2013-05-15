@@ -2675,6 +2675,7 @@ define(function(require){
 
       // Stop click from bubbling to iScroll
       if ( isEvent ) {
+        evt.preventDefault();
         evt.stopPropagation();
       }
 
