@@ -578,7 +578,8 @@ $.fn.flowplayer = function(opts, callback) {
       firstframe: !IS_IPHONE && !IS_IPAD && !IS_ANDROID && !IS_SILK && !IS_IPAD_CHROME && !IS_WP && !IS_ANDROID_FIREFOX,
       inlineVideo: !IS_IPHONE && !IS_SILK && !IS_WP && (!IS_ANDROID || ANDROID_VER >= 3),
       hlsDuration: !browser.safari || IS_IPAD || IS_IPHONE || IS_IPAD_CHROME,
-      seekable: !IS_IPAD && !IS_IPAD_CHROME
+      seekable: !IS_IPAD && !IS_IPAD_CHROME,
+      ipad: IS_IPAD
    });
 
    // flashVideo
@@ -1240,7 +1241,7 @@ function URLResolver(videoTag) {
 // document.ondragstart = function () { return false; };
 
 // execute function every <delay> ms
-/*$.throttle = function(fn, delay) {
+$.flowplayerThrottle = function(fn, delay) {
    var locked;
 
    return function () {
@@ -1250,7 +1251,7 @@ function URLResolver(videoTag) {
          setTimeout(function () { locked = 0; }, delay);
       }
    };
-};*/
+};
 
 
 $.fn.slider2 = function(rtl , vert) {
@@ -1321,25 +1322,22 @@ $.fn.slider2 = function(rtl , vert) {
                   //scrubber.css('left', (to - 2) + "%");
 
                } else {
-                  //progress.animate(vertical ? { height: to } : { width: to }, speed, "linear");
+                  
                   progress.css(vertical ? 'height' : 'width', to + "%");
-                  //scrubber.css('left', (to - 2) + "%");
-
+                  
                   if(scrubber){
                      if(vertical){
 
-                       
-                        scrubber.css('top' , '');
+                        scrubber.css('top' , 'auto');
                         scrubber.css('bottom' , (progress.height() - 6) + 'px');
-
-                         log( 'setup initial volume' , scrubber.css('bottom') );
-
 
                      }else{
                         scrubber.css('left' , (progress.width() - 4) + 'px');
                      }
                      
                   }
+
+                  //log( progress.height() , scrubber.css('bottom') );
                }
             }
 
@@ -1374,8 +1372,8 @@ $.fn.slider2 = function(rtl , vert) {
 
          };
 
-
       calc();
+
 
       // bound dragging into document
       root.data("api", api).bind("mousedown.sld touchstart", function(e) {
@@ -1384,7 +1382,7 @@ $.fn.slider2 = function(rtl , vert) {
          if (!disabled) {
 
             // begin --> recalculate. allows dynamic resizing of the slider
-            var delayedFire = $.throttle(fire, 100);
+            var delayedFire = $.flowplayerThrottle(fire, 100);
             calc();
             api.dragging = true;
             root.addClass('is-dragging');
@@ -1441,7 +1439,6 @@ flowplayer(function(api, root) {
       <div class="ratio"/>\
       <div class="ui">\
          <div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div>\
-         <div class="waiting"><em/><em/><em/></div>\
          <a class="unload"/>\
          <p class="speed"/>\
          <div class="controls">\
@@ -1581,9 +1578,13 @@ flowplayer(function(api, root) {
    }).bind("finish resume seek", function(e) {
       root.toggleClass("is-finished", e.type == "finish");
 
+
+
    }).bind("stop", function() {
       elapsed.html(format(0));
       timelineApi.slide(0, 100);
+
+
 
    }).bind("finish", function() {
       elapsed.html(format(api.video.duration));
@@ -1680,7 +1681,15 @@ flowplayer(function(api, root) {
       e.preventDefault();
 
       if(e.type === 'mouseenter'){
-         root.find( '.fp-volumeslider' ).css( 'display' , 'block' );
+         
+
+         var sldr = root.find( '.fp-volumeslider' ).css( 'display' , 'block' ),
+         scrubber = sldr.find('.fp-scrubber'),
+         progress = sldr.find('.is-slider');
+
+         scrubber.css( 'top' , 'auto' );
+         scrubber.css( 'bottom' , ( progress.height() - 6 ) + 'px' );
+
       }
       
       if(e.type === 'mouseleave' && $(e.target).is('.fp-volume') ){
@@ -1694,6 +1703,10 @@ flowplayer(function(api, root) {
       
       }
    });
+
+   if(window.flowplayer.support.ipad){
+      root.addClass('is-ipad');
+   }
 
    root.find('.fp-volumeslider').bind('mouseenter mouseleave' , function(e){
       e.preventDefault();
