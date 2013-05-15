@@ -761,7 +761,7 @@ define(function(require){
 
     // Amount of distance user must move in touch environments before the carousel begins to move
     // **and** preventDefault() is triggered. Allows for vertical scrolling before trapping the touch.
-    dragThreshold: 10,
+    dragThreshold: Settings.isVita ? 5 : 10,
 
     // Use CSS3 transitions and transforms over jQuery animations if possible.
     useCSS3: true,
