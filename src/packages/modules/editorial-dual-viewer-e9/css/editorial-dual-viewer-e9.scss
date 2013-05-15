@@ -118,7 +118,7 @@
               margin:0;
               -webkit-font-smoothing: antialiased;
               @include transition(.1s ease-out);
-            } 
+            }
   }
 
   // Vertical scrubber
@@ -158,11 +158,13 @@
   // For images that blend in with the background color
   &.transparent-edges {
     .edv-images .edv-image .edv-image-wrapper {
-      background-size:contain;
-      background-position:center center;
+      background-size: contain;
+      background-position: 50.1% center;
     }
-    .handle {margin-top:-31px;}
-  } 
+    .handle {
+      margin-top:-31px;
+    }
+  }
 
   &.scrubber-disabled .scrubber {display:none;}
 }
@@ -256,7 +258,7 @@
     }
     .dragging .handle,
     .dragging2 .handle {background-position:-62px 0;}
-    
+
     &.y .edv-images .scrubber .handle {
       background-position:0 -62px;
     }
@@ -272,7 +274,7 @@
   }
 }
 
-// Gray background 
+// Gray background
 .gray {
   .edv .edv-images {
     .edv-image .edv-image-wrapper {background-color:$gray80;}

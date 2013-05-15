@@ -18,6 +18,7 @@ define(function(require){
   var $ = require('jquery'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
+      Utilities = require('require/sony-global-utilities'),
       sonyIScroll = require('plugins/sony-iscroll');
 
   var StickyHeader = function(scrollableId) {
@@ -57,6 +58,7 @@ define(function(require){
       // HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!
       var handler = $.proxy( this.scrollHandler, this );
       this.scroll = new IScroll(this.scrollableId, {
+        momentum : true,
         onScrollMove: handler,
         onScrollEnd: handler
       });
@@ -79,7 +81,8 @@ define(function(require){
     // Called by iScroll when a scroll event happens.
     scrollHandler: function() {
       var self = this;
-      self.scroll.refresh();
+
+      Utilities.once(self.scroll.refresh());
 
       var offsetTarget = Math.abs(this.scroll.y); // iScroll.y is negative
       this.updateFixedHeader(offsetTarget);
@@ -88,6 +91,7 @@ define(function(require){
     // Updates the fixed header with the title of the closest header.
     updateFixedHeader: function(targetOffset) {
       var $header,
+          $navWrapper = $('#nav-wrapper'),
           headerIndex = this._indexOfClosestHeader(targetOffset);
 
       // Only update the fixed header if the new header is different.
@@ -99,6 +103,7 @@ define(function(require){
         if (!this.headerIsVisible) {
           this.$fixedHeader.stop().show();
           this.headerIsVisible = true;
+          $navWrapper.css('opacity', 0);
         }
       }
 
@@ -106,6 +111,7 @@ define(function(require){
       if (headerIndex === -1 && this.headerIsVisible) {
           this.$fixedHeader.stop().hide();
           this.headerIsVisible = false;
+          $navWrapper.css('opacity', 1);
       }
     },
 

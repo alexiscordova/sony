@@ -44,7 +44,13 @@ define(function(require){
 
     self.$images.addClass('iq-img');
 
-    iQ.update(true);
+    // This is a hack; iQ fails unpredictably if multiple modules attempt to
+    // run iQ.update() to load in their newly-created assets. This is a deep issue
+    // in iQ that will probably require a thorough refactor of that class.
+
+    setTimeout(function(){
+      iQ.update(true);
+    }, 1000);
 
     if ( self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){
 
@@ -77,6 +83,9 @@ define(function(require){
         $this.data('contentWidthContainers', $this.find('.content-12, .content-8, .content-6, .content-4'));
         $this.data('originalWidth', matchedClasses[0].split('span')[1]);
       });
+
+      self.fixCenteredContent('align-right-center', 'align-right-top');
+      self.fixCenteredContent('align-left-center', 'align-left-top');
     },
 
     // Create or restore the default slide layout.
@@ -99,6 +108,8 @@ define(function(require){
       });
     },
 
+    // Set all items to a specific column width.
+
     renderEvenColumns: function(colPerItem) {
 
       var self = this;
@@ -117,6 +128,32 @@ define(function(require){
              .add($this)
              .removeClass(self.contentWidthClasses)
              .addClass('content-' + colPerItem);
+      });
+    },
+
+    // If you're in an environment that doesn't support min/max width on
+    // tables, we need to find and fix table-center elements. In that
+    // feature-tested state, look for elements of `oldClass`, remove their
+    // `table-center` classes, and add a replacement `newClass`.
+    //
+    // This is necessary because, for example, `align-right-center` doesn't
+    // work without table centering, and hacking a fallback in would require
+    // a lot of CSS duplication. So we tell it to use `align-top-center` instead.
+
+    fixCenteredContent: function(oldClass, newClass) {
+
+      var self = this,
+          $el = $('.no-widthboundsontables').find(self.$el);
+
+      $el.find('.' + oldClass).each(function(){
+
+        var $this = $(this);
+
+        $this.removeClass('table-center-wrap')
+             .removeClass(oldClass)
+             .addClass(newClass);
+
+        $this.find('.table-center').removeClass('table-center');
       });
     }
   };

@@ -4,14 +4,12 @@ include ../../../common/html/jade-helpers.jade
 
 - uxmcModuleClasses = ['container', 'uxmc']
 - uxmcContainerClasses = ['grid', 'uxmc-container', 'mode-'+data.mode.toLowerCase()]
-- moduleId = data.id ? data.id : false
 
 if(!data.header)
   //- needed to margin changes when no header
   - uxmcModuleClasses.push("no-header")
 
-section(id= moduleId)(class= uxmcModuleClasses)
-
++mainElement(uxmcModuleClasses)
   if(data.header)
     div.grid
       p.l1 #{data.header}
@@ -19,12 +17,12 @@ section(id= moduleId)(class= uxmcModuleClasses)
   div(class=uxmcContainerClasses)
     div.btn-reload-container
       span.fonticon-30-plus.btn-reload(title='Load another product to go with your ' + data.baseProduct.title)
-    
-    div.base-product     
+
+    div.base-product
       div.uxmc-image-wrapper.iq-img(data-src-desktop=data.baseProduct.img.srcDesktop, data-src-tablet=data.baseProduct.img.srcTablet, data-src-phone=data.baseProduct.img.srcPhone, data-src-desktop-highres=data.baseProduct.img.srcDesktopHighRes, data-src-tablet-highres=data.baseProduct.img.srcTabletHighRes, data-src-phone-highres=data.baseProduct.img.srcPhoneHighRes)
         //- span prevents div glitch on transition
-        span 
-    
+        span
+
     div.uxmc-carousel-wrapper
       div.uxmc-carousel
         for product in data.partnerProducts
@@ -32,21 +30,22 @@ section(id= moduleId)(class= uxmcModuleClasses)
           - slideChildClasses = ["sony-carousel-slide-children"]
           div(class= slideClasses)
             div(class= slideChildClasses)
-              
+
               if(product.topLine || product.link)
                 div.uxmc-overlay
                   if(product.topLine)
                     p.l-o-d #{product.topLine}
                   if(product.link)
                     a.l-o-d.fonticon-10-chevron--after.uxmc-link(href=product.link) #{product.linkText}
-              
+
               div.uxmc-image-wrapper.iq-img(data-src-desktop=product.img.srcDesktop, data-src-tablet=product.img.srcTablet, data-src-phone=product.img.srcPhone, data-src-desktop-highres=product.img.srcDesktopHighRes, data-src-tablet-highres=product.img.srcTabletHighRes, data-src-phone-highres=product.img.srcPhoneHighRes)
                 //- span prevents div glitch on transition
                 span
-    
+
     div.progress-indicators
       div
-        - for (var i = 1; i <= data.partnerProducts.length; i++)
+        - for (i = 1; i <= data.partnerProducts.length; i++)
           div.uxmc-dial-wrapper
             span.uxmc-dial-label #{i}
             input.uxmc-dial(type='text', value='0')
+

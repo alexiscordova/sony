@@ -157,8 +157,12 @@
   vertical-align: bottom;
 }
 
+// table-layout fixed is needed for FF and Opera
+// @see http://stackoverflow.com/questions/2923710/why-do-firefox-and-opera-ignore-max-width-inside-of-display-table-cell
+// @see https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout
 .table-center-wrap {
   display: table;
+  table-layout: fixed;
 }
 
 .table-center {

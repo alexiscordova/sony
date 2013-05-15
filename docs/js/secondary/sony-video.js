@@ -40,7 +40,9 @@ define(function(require) {
       _fp.conf = {
         swf: 'swf/flowplayer.swf',
         key: '$104774194953913',
-        splash: true
+        splash: true,
+        embed: false,
+        tooltip: false
       };
 
       // Private methods
@@ -60,19 +62,23 @@ define(function(require) {
         //pass your video elements as a jquery selector
         initVideos: function ( $videos , options ) {
           //init each instace of player
+          var api = null;
+
           $videos.each(function(){
-           var api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( this ).flowplayer() ).get( 0 ) );
+            api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( this ).flowplayer() ).get( 0 ) );
 
            api.bind( 'resume' , function(e , a){
             _currentPlayer = api;
-            toggleCurrentlyPlaying(api);
+            //toggleCurrentlyPlaying(api);
            } );
 
            _totalIntanceCount++;
 
-           log('Total Video instances...' , _totalIntanceCount);
+           //log('Total Video instances...' , _totalIntanceCount);
            
           });
+
+          return api;
         }
       };
     }

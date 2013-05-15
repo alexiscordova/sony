@@ -1,6 +1,18 @@
 @import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../../../common/css/_base/mixins";
 
+// Tabbed mode
+@media ( max-width: px-em(479) ) {
+
+  .container .rp-tabs .rp-tab {
+    width: 50%;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    @include text-overflow();
+  }
+}
+
 
 /* Related Products */
 .RELATEDPRODUCTS {}
@@ -84,7 +96,7 @@
         @media ( max-width: px-em(569px) ){
           &.plate .gallery-item-inner .product-img{ min-height: 215px; }
         }
-      }       
+      }
 
       @media (min-width: px-em(481px)) and (max-width:980px){
         &.related-products-4up {
@@ -116,21 +128,21 @@
         }
       }
 
-      @media (max-width: 481px){
+      @media (max-width: px-em(481px)){
         .gallery-item .product-img:after { content: none; }
       }
 
-      @media (  max-width: px-em( 568px ) ){ 
-        &:after { content: none; } 
+      @media (  max-width: px-em( 568px ) ){
+        &:after { content: none; }
       }
 
       .medium:after {
-       @media (min-width:481px) and (max-width: 980px ){ padding-top: 160.290023%; }
+       @media (min-width:px-em(481px)) and (max-width: px-em(980px)){ padding-top: 160.290023%; }
       }
 
       .medium .product-img:after {}
 
-      @media (min-width: 481px) and (max-width: 980px){
+      @media (min-width: px-em(481px)) and (max-width: px-em(980px)){
 
         .gallery-item:after { padding-top: 133.196078%; }
 
@@ -151,11 +163,11 @@
 
       }
 
-      @media (min-width: 569) and (max-width: 767px){
+      @media (min-width: px-em(569px)) and (max-width: px-em(767px)){
 
         .gallery-item.medium:after { padding-top: 170.196078%; }
       }
-      @media (min-width: 569) and (max-width: 640px){
+      @media (min-width: px-em(569px)) and (max-width: px-em(640px)){
 
         .gallery-item.medium:after { padding-top: 182.196078%; }
       }
@@ -164,7 +176,7 @@
   /* Bullet Nav */
   .BULLETNAV{}
 
-    @media (max-width: 568px) { margin: 0 0 53px 0; }
+    @media (max-width: px-em(568px)) { margin: 0 0 53px 0; }
 
     /* Slides */
     .RPSLIDES{}
@@ -181,19 +193,21 @@
         &.related-products-3up {
 
           .gallery-item.medium .product-img:after {
-            @media (min-width:769px) and (max-width:980px){
+            @media (min-width:px-em(769px)) and (max-width:px-em(980px)){
               padding-top: 109.92761%;
             }
           }
 
           .gallery-item.plate:after {
-            @media (min-width:769px) and (max-width:980px){ padding-top: 131.09025%; }
+            @media (min-width:px-em(769px)) and (max-width:px-em(980px)){
+              padding-top: 131.09025%;
+            }
           }
 
           //medium tile
           .gallery-item.medium {
             //481 -----------> 768
-            @media (min-width:481px) and (max-width:768px){
+            @media (min-width:px-em(481px)) and (max-width:px-em(768px)){
               .product-img {
                 &:after { padding-top: 100.52761%; }
               }
@@ -201,11 +215,11 @@
           }
 
           .gallery-item.medium .gallery-item:after {
-            @media (min-width:481px) and (max-width:768px){ padding-top: 127.99607%; }
+            @media (min-width:px-em(481px)) and (max-width:px-em(768px)){ padding-top: 127.99607%; }
           }
 
           .gallery-item.plate:after {
-            @media (min-width:481px) and (max-width:768px){ padding-top: 127.143%; }
+            @media (min-width:px-em(481px)) and (max-width:px-em(768px)){ padding-top: 127.143%; }
           }
 
         }
@@ -214,7 +228,7 @@
       //slides
   }
 
-@media (min-width: 481px) and (max-width: 768px){
+@media (min-width: px-em(481px)) and (max-width: px-em(768px)){
   .rp-grid { padding: 0; }
 }
 

@@ -5,11 +5,11 @@ a#SkipToContentLink(href='#main', class='visuallyhidden', tabindex='1')= data.sk
 e = {"locals":locals, "data":locals.data('packages/modules/universal-nav/demo/data/default.json')}
 !{locals.partial('packages/modules/universal-nav/html/universal-nav.jade', e)}
 
-- var search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
+search_input_default_full = data.search.input_default_text;// "      " + data.search.input_default_text
 
-if typeof minimal !== 'undefined' && minimal === true
+if typeof minimal != 'undefined' && minimal == true
   - minimal_class = "nav-wrapper-minimal"
-else 
+else
   - minimal = false
   - minimal_class = ""
 
@@ -23,9 +23,9 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
         a.btn.btn-mobile-cart(href=data.store.link)
           i.fonticon-10-cart
           | !{sample_session_data.cart_count}
-  
-  div#nav-outer-container.nav-outer-container 
-    //- this is just to contain all the mobile nav pieces in one container 
+
+  div#nav-outer-container.nav-outer-container
+    //- this is just to contain all the mobile nav pieces in one container
     div.nav-mobile-scroller
       //- the search menu wrapper is first for mobile so it needs to be first in the page flow. It's positioned absolute for desktop.
       div.container.navmenu-w-search-container.full-bleed-at-767
@@ -39,21 +39,21 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 input#nav-search-input(type='text', name='navSearch', role='search', value=search_input_default_full, tabindex='1401')
                 a.btn-clear-search-input.input-clear-btn(href='#')
                   i.fonticon-10-x-skinny
-            
+
             div.navmenu-search-section-results
               div.navmenu-search-popular-searches
                 p.l3= data.search.popular_searches.label
-                  ul.navmenu-list.navmenu-list-extended
+                ul.navmenu-list.navmenu-list-extended
 
-                    - each item, i in data.search.popular_searches.menu_items
-                      li.search-result-line
-                        a.tl(href=item.link, tabindex=(1410+i))= item.label
+                  - each item, i in data.search.popular_searches.menu_items
+                    li.search-result-line
+                      a.tl(href=item.link, tabindex=(1410+i))= item.label
 
               div.navmenu-search-results
                 ul.navmenu-list.navmenu-list-results
-                  
+
                   - each item, i in sample_search_results.primary_results
-                    if item.type === "regular"
+                    if item.type == "regular"
                       li.search-result-line
                         a(href=item.link, tabindex=(1450+i))
                           img(src=item.img, alt=item.headline, width='83', height='64')
@@ -62,7 +62,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                             span.search-result-descript= item.description
                           i.fonticon-10-chevron
                       hr
-                    if item.type === "icon"
+                    if item.type == "icon"
                       li.search-result-line.search-result-canned
                         a(href=item.link, tabindex=1450+i)
                           i(class=item.icon_class)
@@ -98,7 +98,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
               a.tl.navmenu-style-tl(href=data.favorites.link)
                 i.fonticon-10-favorite
                 | !{data.favorites.label}
-    
+
         //- The navtrays are before the navbar for correct ordering of the mobile nav menu
         div.navtray-w.navtray-w-fullwidth-3-4.navtray-w-electronics.navtray-w-tall#navtray-w-electronics
           div.navtray#navtrayElectronics
@@ -106,7 +106,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             div.navtray-section.navtray-section-main.navtray-section-main-w-all-btn
               h4.visible-phone= data.electronics.label
               ul.navtray-list-main
-                
+
                 - each item, i in data.electronics.menu_main.menu_items
                   li.navtray-li(class=item.class)
                     a.navtray-li-link.tl(href=item.link, tabindex=(101+i))
@@ -127,18 +127,18 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 img(src=data.electronics.menu_featured.promo.img, alt=data.electronics.menu_featured.promo.title)
                 span.p2= data.electronics.menu_featured.promo.title
                 span.p4= data.electronics.menu_featured.promo.message
-                  a(href=data.electronics.menu_featured.promo.link, tabindex='250') 
+                  a(href=data.electronics.menu_featured.promo.link, tabindex='250')
                     |  !{data.electronics.menu_featured.promo.link_text}
         div.navtray-w.navtray-w-fullwidth-3-4.navtray-w-entertainment.navtray-w-short#navtray-w-entertainment
           div.navtray#navtrayEntertainment
             div.navtray-section.navtray-section-main
               h4.visible-phone= data.entertainment.label
               ul.navtray-list-main
-               
+
                 - each item, i in data.entertainment.menu_main.menu_items
                   li.navtray-li(class=item.class)
                     a.navtray-li-link.tl(href=item.link, tabindex=(501+i))
-                      span.nav-img-w                        
+                      span.nav-img-w
                         mixin iQImage(item.img)
                       span.nav-label= item.label
 
@@ -147,7 +147,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 img(src=data.entertainment.menu_featured.promo.img, alt=data.entertainment.menu_featured.promo.title)
                 span.p2= data.entertainment.menu_featured.promo.title
                 span.p4= data.entertainment.menu_featured.promo.message
-                  a(href=data.entertainment.menu_featured.promo.link, tabindex='550') 
+                  a(href=data.entertainment.menu_featured.promo.link, tabindex='550')
                     |  !{data.entertainment.menu_featured.promo.link_text}
 
       div.navbar-outer
@@ -156,13 +156,13 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             a.brand.sprite-32a-sony-logo(href=data.logo.link, tabindex='10')
               span.hidden-text= data.logo.label
             ul.nav.nav-primary(role='navigation')
-              li.nav-li.nav-li-universal-mobile 
-                a.nav-li-link(href=data.universal.link) 
+              li.nav-li.nav-li-universal-mobile
+                a.nav-li-link(href=data.universal.link)
                   i.fonticon-10-square-neg-plus
                   | !{data.universal.label}
               if !minimal
                 li.nav-li.nav-li-store
-                  a.nav-li-link(href=data.store.link, tabindex='20') 
+                  a.nav-li-link(href=data.store.link, tabindex='20')
                     i.fonticon-10-cart
                     | !{data.store.label}
                     span.global-nav-indicator-bar
@@ -182,27 +182,27 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                     | !{data.support.label}
                     span.global-nav-indicator-bar
 
-            ul.nav.nav-utility(role='navigation') 
+            ul.nav.nav-utility(role='navigation')
               if !minimal
                 li.nav-li.nav-li-account
-                  a#nav-account-btn.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#navmenu-w-account', tabindex='1100') 
-                    if sample_session_data.logged_in === true
+                  a#nav-account-btn.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#navmenu-w-account', tabindex='1100')
+                    if sample_session_data.logged_in == true
                       span.username= sample_session_data.username
                       i.fonticon-10-arrowhead-down
-                    else 
+                    else
                       | !{data.account.label}
                       i.fonticon-10-arrowhead-down
 
                   div.navmenu-w.navmenu-w-account#navmenu-w-account
                     i.fonticon-10-arrowhead-up.nav-indicator
                     div.reveal-transition-container
-                      if sample_session_data.logged_in !== true
+                      if sample_session_data.logged_in != true
                         a.btn.btn-small.btn-login(href=data.account.menu.log_in.link)= data.account.menu.log_in.label
                       ul.navmenu-list.navmenu-list-prefixed
                         li.navmenu-line.navmenu-li-cart
                           a.tl.navmenu-style-tl(href=data.cart.link)
                             i.fonticon-10-cart
-                            | !{data.cart.label_short} 
+                            | !{data.cart.label_short}
                             span.nav-li-count
                               | !{sample_session_data.cart_count}
                         li.navmenu-line.navmenu-li-favorites
@@ -210,14 +210,14 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                             i.fonticon-10-favorite
                             | !{data.favorites.label}
                       ul.navmenu-list.navmenu-list-main
-                        
-                        if sample_session_data.logged_in === true
-                          li.navmenu-line.navmenu-li-welcome.visible-phone 
+
+                        if sample_session_data.logged_in == true
+                          li.navmenu-line.navmenu-li-welcome.visible-phone
                             | Hi !{sample_session_data.username}
 
-                        - each item, i in data.account.menu.menu_items 
+                        - each item, i in data.account.menu.menu_items
                           li.navmenu-line
-                            a.tl.navmenu-style-tl(href=item.link, tabindex=(1101+i)) 
+                            a.tl.navmenu-style-tl(href=item.link, tabindex=(1101+i))
                               i(class=item.icon_class)
                               | !{item.label}
                       if sample_session_data.logged_in == true
@@ -226,7 +226,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 li.nav-li.nav-li-favorites
                   a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href=data.favorites.link, tabindex='1200')
                     i.old-ie-cleartype-fix-gray20.fonticon-10-favorite
-                    span.visuallyhidden 
+                    span.visuallyhidden
                       | !{data.favorites.label}
               if !minimal
                 li.nav-li.nav-li-cart
