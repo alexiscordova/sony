@@ -55,6 +55,38 @@ define(function (require) {
         }
 
       });
+
+      // Does the browser support max/min widths on <table> elements? We use this extensively for
+      // vertical centering via the `table-center` class, so we need to know where it fails.
+      // As of writing, this occurs in Safari.
+
+      Modernizr.addTest('widthBoundsOnTables', function() {
+
+        var x = document.createElement('div'),
+            y = document.createElement('div'),
+            test;
+
+        x.appendChild(y);
+
+        x.style.display = 'table';
+        x.style.height = '200px';
+        x.style.maxWidth = '100px';
+        x.style.width = 'auto';
+
+        y.style.display = 'table-cell';
+        y.style.verticalAlign = 'middle';
+        y.style.height = '100px';
+
+        y.innerHTML = 'test test test test test test test test test test test';
+
+        document.documentElement.appendChild(x);
+
+        test = ( y.getBoundingClientRect().right - y.getBoundingClientRect().left === 100 );
+
+        document.documentElement.removeChild(x);
+
+        return test;
+      });
     },
 
     // Normalizes the console.log method.

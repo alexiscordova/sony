@@ -2633,7 +2633,7 @@ x button on a gallery item. We'll need to add the .concealed class</p>          
 
 
 </pre></div>             </td>           </tr>                               <tr id="section-303">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-303">&#182;</a>               </div>               <p>Phone ( 2 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( numColumns === <span class="number">2</span> ) {
-        <span class="keyword">if</span> ( !self.$grid.parent().hasClass(shuffleDash+<span class="number">2</span>) ) {
+        <span class="keyword">if</span> ( !self.$grid.hasClass(shuffleDash+<span class="number">2</span>) ) {
 
 </pre></div>             </td>           </tr>                               <tr id="section-304">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-304">&#182;</a>               </div>               <p>remove .slimgrid5</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
             .removeClass(gridClasses)
@@ -2641,10 +2641,10 @@ x button on a gallery item. We'll need to add the .concealed class</p>          
 
 </pre></div>             </td>           </tr>                               <tr id="section-305">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-305">&#182;</a>               </div>               <p>Remove current grid span</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid.children( itemSelector )
             .removeClass( allSpans )
-            .filter( social )
+            .filter( promo + <span class="string">','</span> + social )
               .addClass( mspan+<span class="number">6</span> )
               .end()
-            .not( social )
+            .filter(large + <span class="string">','</span> + normal)
               .addClass( mspan+<span class="number">3</span> );
         }
       }
