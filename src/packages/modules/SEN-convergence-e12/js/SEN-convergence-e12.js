@@ -47,12 +47,7 @@ define(function(require){
     init: function() {
       var self = this;
       self.$slides = self.$el.children();
-
-      self.$slides.first().show();
-      self.$slides.not(':first').hide();
-
       self.$currentSlide = self.$slides.first();
-
       self.interval = setInterval($.proxy(self.showNextSlide, self), 3500);
     },
 
@@ -62,10 +57,11 @@ define(function(require){
           nextSlideIndex = (currentSlideIndex + 1) % self.$slides.length,
           $nextSlide = $(self.$slides[nextSlideIndex]);
 
-      self.$currentSlide.fadeOut(750);
-      $nextSlide.fadeIn(750);
+      $nextSlide.fadeIn(750, function(){
+          self.$currentSlide.fadeOut(750);
+          self.$currentSlide = $nextSlide;
+      });
 
-      self.$currentSlide = $nextSlide;
     },
 
     stop: function() {

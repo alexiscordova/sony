@@ -80,7 +80,10 @@ mixin popoverContent( help )
           p.p4= help.col2.text
 
     else if layout == 'text-only'
-      .p4= help.text
+      p.p4= help.text
+      if help.link
+        newWindow = help.link.newWindow ? "_blank" : false
+        a.lt4(href=help.link.url, target=newWindow)= help.link.text
 
 mixin filterSet( filterSet )
   .filter-container
@@ -102,7 +105,7 @@ mixin filterSet( filterSet )
 
 
 mixin compareBrowseBtn( isCompareGallery, link, addFade, extraClasses )
-  compareStr = isCompareGallery ? 'Browse' : 'Compare'
+  compareStr = isCompareGallery ? 'Grid' : 'Compare'
   classes = [ 'lt3', 'btn', 'btn-alt-special', 'btn-alt-plus', 'compare-btn' ]
   tabIndex = addFade ? '-1' : false
 
@@ -335,9 +338,9 @@ mixin compareGallery( submodules, gallery, type, labels )
   type = type ? type : 'product'
   labels = labels ? labels : gallery.labels
 
-  label = gallery.galleryName ? gallery.galleryName : 'Compare Things'
+  label = gallery.galleryName ? gallery.galleryName : 'this is gallery.galleryName'
   legend = gallery.legend ? gallery.legend : 'this is defined in gallery.legend'
-  resetLabel = gallery.resetLabel ? gallery.resetLabel : 'do things'
+  resetLabel = gallery.resetLabel ? gallery.resetLabel : 'gallery reset label'
 
   section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
 
@@ -376,7 +379,7 @@ mixin compareGallery( submodules, gallery, type, labels )
         .products
           .span2.detail-labels-wrap
             .compare-sticky-header.sticky-count
-              .right-bar
+              .sticky-bar.right-bar
             .detail-labels-wrapping
               .detail-label-group
                 each label in labels
@@ -404,7 +407,7 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
         .relative
           .tabs
             each tab, i in tabs
-              activeClass = i === 0 ? ' active' : ''
+              activeClass = i == 0 ? ' active' : ''
               tabClass = 'tab' + activeClass
               button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
                 .tab-inside

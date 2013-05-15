@@ -95,6 +95,7 @@ hasSlides = mode == 'strip' ? false : !data.config.standalone
 
 
     else if mode == 'strip'
+      - data.isSubmodule = true
       e = { 'locals' : locals , 'data' : data }
       !{locals.partial( 'packages/modules/recently-viewed/html/recently-viewed.jade', e) }
 

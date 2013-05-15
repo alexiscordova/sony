@@ -17,17 +17,18 @@ define(<span class="function"><span class="keyword">function</span> <span class=
 
   <span class="keyword">var</span> self = {
 
-    <span class="string">'init'</span>: <span class="keyword">function</span>() {
+    init: <span class="keyword">function</span>() {
       self.fixModernizrFalsePositives();
       self.createPubSub();
       self.createGlobalEvents();
       self.normalizeLogs();
       self.appendModernizrTests();
+      self.addDeviceClasses();
 
       log(<span class="string">'SONY : Global : Environment : Initialized'</span>);
     },
 
-    <span class="string">'appendModernizrTests'</span>: <span class="keyword">function</span>() {
+    appendModernizrTests: <span class="keyword">function</span>() {
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Before IE 9, the getStyles API would not return the pixel values of the margin if set to 'auto'.
 Also, Firefox has a longstanding issue where the pixel value of 'auto' is always zero.
@@ -54,26 +55,42 @@ https://bugzilla.mozilla.org/show_bug.cgi?id=381328</p>             </td>       
 
       });
 
-      <span class="keyword">if</span> ( Settings.isSonyTabletS ) {
-        Settings.$html.addClass(<span class="string">'sonytablets'</span>);
-      }
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Does the browser support max/min widths on <table> elements? We use this extensively for
+vertical centering via the <code>table-center</code> class, so we need to know where it fails.
+As of writing, this occurs in Safari.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      Modernizr.addTest(<span class="string">'widthBoundsOnTables'</span>, <span class="keyword">function</span>() {
 
-      <span class="keyword">if</span> ( Settings.isPS3 ) {
-        Settings.$html.addClass(<span class="string">'ps3'</span>);
-      }
+        <span class="keyword">var</span> x = document.createElement(<span class="string">'div'</span>),
+            y = document.createElement(<span class="string">'div'</span>),
+            test;
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Overwrite the Modernizr.mq function for IE &lt; 10</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Settings.isLTIE10 ) {
-        Modernizr.mq = <span class="keyword">function</span>() { <span class="keyword">return</span> <span class="literal">false</span>; };
-        Modernizr.mediaqueries = <span class="literal">false</span>;
-      }
+        x.appendChild(y);
 
+        x.style.display = <span class="string">'table'</span>;
+        x.style.height = <span class="string">'200px'</span>;
+        x.style.maxWidth = <span class="string">'100px'</span>;
+        x.style.width = <span class="string">'auto'</span>;
 
+        y.style.display = <span class="string">'table-cell'</span>;
+        y.style.verticalAlign = <span class="string">'middle'</span>;
+        y.style.height = <span class="string">'100px'</span>;
+
+        y.innerHTML = <span class="string">'test test test test test test test test test test test'</span>;
+
+        document.documentElement.appendChild(x);
+
+        test = ( y.getBoundingClientRect().right - y.getBoundingClientRect().left === <span class="number">100</span> );
+
+        document.documentElement.removeChild(x);
+
+        <span class="keyword">return</span> test;
+      });
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Normalizes the console.log method.
 use "`" key to display logs in production mode.
 http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'normalizeLogs'</span>: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    normalizeLogs: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
 
       window.log = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
         <span class="comment">/*@cc_on
@@ -112,7 +129,7 @@ http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/</p>         
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>This is a modified version of jQuery Tiny PubSub by Ben Alman
 https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'createPubSub'</span>: <span class="keyword">function</span>() {
+    createPubSub: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> o = $({});
 
@@ -130,7 +147,7 @@ https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Create global events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'createGlobalEvents'</span>: <span class="keyword">function</span>() {
+    createGlobalEvents: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> cachedFunctions = {},
           resizeEvent = <span class="string">'onorientationchange'</span> <span class="keyword">in</span> window ? <span class="string">'orientationchange'</span> : <span class="string">'resize'</span>;
@@ -205,7 +222,12 @@ window.resize.</li>
 
     fixModernizrFalsePositives : <span class="keyword">function</span>() {
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>The sony tablet s gets a false negative on generated content (pseudo elements)</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !Modernizr.generatedcontent &amp;&amp; Settings.isSonyTabletS ) {
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Overwrite the Modernizr.mq function for IE &lt; 10</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Settings.isLTIE10 ) {
+        Modernizr.mq = <span class="keyword">function</span>() { <span class="keyword">return</span> <span class="literal">false</span>; };
+        Modernizr.mediaqueries = <span class="literal">false</span>;
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>The sony tablet s gets a false negative on generated content (pseudo elements)</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !Modernizr.generatedcontent &amp;&amp; Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = <span class="literal">true</span>;
         Settings.$html.removeClass(<span class="string">'no-generatedcontent'</span>).addClass(<span class="string">'generatedcontent'</span>);
       }
@@ -213,6 +235,17 @@ window.resize.</li>
       <span class="keyword">if</span> ( Settings.isLTIE8 ) {
         Modernizr.generatedcontent = <span class="literal">false</span>;
         Settings.$html.removeClass(<span class="string">'generatedcontent'</span>).addClass(<span class="string">'no-generatedcontent'</span>);
+      }
+    },
+
+    addDeviceClasses : <span class="keyword">function</span>() {
+
+      <span class="keyword">if</span> ( Settings.isSonyTabletS ) {
+        Settings.$html.addClass(<span class="string">'sonytablets'</span>);
+      }
+
+      <span class="keyword">if</span> ( Settings.isPS3 ) {
+        Settings.$html.addClass(<span class="string">'ps3'</span>);
       }
     }
 
@@ -224,7 +257,7 @@ window.resize.</li>
 
 });
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Need to find a better place for these to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Need to find a better place for these to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
 <span class="keyword">if</span> (!Array.prototype.indexOf) {
   Array.prototype.indexOf = <span class="keyword">function</span>(elt <span class="comment">/*, from*/</span>) {
 

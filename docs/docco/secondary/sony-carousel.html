@@ -139,7 +139,7 @@ define(<span class="keyword">function</span>(require){
         }
       });
 
-      self.gotoSlide(<span class="number">0</span>);
+      self.gotoSlide(<span class="number">0</span>, <span class="literal">true</span>);
     },
 
     setupLoopedCarousel: <span class="keyword">function</span>() {
@@ -266,16 +266,14 @@ reset position to the nearest one.</p>             </td>             <td class="
       self.gotoSlide(destination);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Go to a given slide.
-TODO: This is getting to be confusing. Should split it into a few methods for readability.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    gotoSlide: <span class="keyword">function</span>(which, noAnim) {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>START GOTOSLIDE UTILITY METHODS</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>If this is a looped carousel, substitue the slideset with the slides <em>including</em> the edge clones,
+And figure out where the $destination should be set based on that.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    setupLoopedCarouselSlides: <span class="keyword">function</span>(which, $slideSet, cb) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $slideSet = self.$slides,
-          speed = ( noAnim ? <span class="number">0</span> : self.animationSpeed ),
-          $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
+          $destinationSlide;
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Logic for the natural ends of a carousel that has been looped</p>             </td>             <td class="code">               <div class="highlight"><pre>
       <span class="keyword">if</span> ( self.looped &amp;&amp; ( which === -<span class="number">1</span> || which &gt;= self.$slides.length )) {
         $slideSet = self.$allSlides;
         <span class="keyword">if</span> ( which === -<span class="number">1</span> ) {
@@ -287,7 +285,15 @@ TODO: This is getting to be confusing. Should split it into a few methods for re
         $destinationSlide = $slideSet.eq(which);
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Logic for swapping slides around, to make transitions from distant slides seamless. (see: <code>self.jumping</code>)</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      cb($slideSet, $destinationSlide);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If this is a jumped carousel, prepare the slides for the jump by swapping elements out and
+setting the <code>isJumped</code> option.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    setupJumpedCarouselSlides: <span class="keyword">function</span>(speed, $destinationSlide) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
       <span class="keyword">if</span> ( self.jumping &amp;&amp; !self.isJumped &amp;&amp; self.$slides.filter($destinationSlide).length &gt; <span class="number">0</span> &amp;&amp; speed ) {
 
         <span class="keyword">var</span> positions = self.getPositions(self.$slides),
@@ -312,10 +318,48 @@ TODO: This is getting to be confusing. Should split it into a few methods for re
           }
         }
       }
+    },
 
-      <span class="keyword">if</span> ( $destinationSlide.length === <span class="number">0</span> ) { <span class="keyword">return</span>; }
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Return the destination position. If you're in a browser that doesn't support auto margins properly,
+correct the value with <code>innerContainerMeasurement</code> (the container's width or height, depending on
+carousel orientation) before returning.</p>
+
+<p>The auto-margin fix should only be needed for carousels like the OSC (S2) module, which
+respect the grid even though they're not really in it. Refer to S2 for usage example;
+<code>sony-carousel-flex</code> is the required trigger class for that layout strategy.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    getDestinationPosition: <span class="keyword">function</span>($destinationSlide, innerContainerMeasurement) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          destinationPosition;
 
       destinationPosition = $destinationSlide.position()[self.posAttr];
+
+      <span class="keyword">if</span> ( !Modernizr.jsautomargins &amp;&amp; self.$el.hasClass(<span class="string">'sony-carousel-flex'</span>) ) {
+        <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
+          destinationPosition -= ( innerContainerMeasurement - $destinationSlide.width() ) / <span class="number">2</span>;
+        } <span class="keyword">else</span> {
+          destinationPosition -= ( innerContainerMeasurement - $destinationSlide.height() ) / <span class="number">2</span>;
+        }
+      }
+
+      <span class="keyword">return</span> destinationPosition;
+    },
+
+    gotoSlide: <span class="keyword">function</span>(which, noAnim) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $slideSet = self.$slides,
+          speed = ( noAnim ? <span class="number">0</span> : self.animationSpeed ),
+          $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
+
+      self.setupLoopedCarouselSlides(which, $slideSet, <span class="keyword">function</span>($slides, $dest){
+        $slideSet = $slides;
+        $destinationSlide = $dest;
+      });
+
+      self.setupJumpedCarouselSlides(speed, $destinationSlide);
+
+      <span class="keyword">if</span> ( $destinationSlide.length === <span class="number">0</span> ) { <span class="keyword">return</span>; }
 
       <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
         innerContainerMeasurement = self.$el.width();
@@ -323,19 +367,7 @@ TODO: This is getting to be confusing. Should split it into a few methods for re
         innerContainerMeasurement = self.$el.height();
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>This exception is built specifically for carousels like the OSC (S2) module, which must
-respect the grid even though they aren't really in it. Refer to S2 for usage example;
-<code>sony-carousel-flex</code> is the required trigger class for that layout strategy.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-      <span class="keyword">if</span> ( !Modernizr.jsautomargins ) {
-        <span class="keyword">if</span> ( self.$el.hasClass(<span class="string">'sony-carousel-flex'</span>) ) {
-
-          <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
-            destinationPosition -= ( innerContainerMeasurement -  $destinationSlide.width() ) / <span class="number">2</span>;
-          } <span class="keyword">else</span> {
-            destinationPosition -= ( innerContainerMeasurement -  $destinationSlide.height() ) / <span class="number">2</span>;
-          }
-        }
-      }
+      destinationPosition = self.getDestinationPosition( $destinationSlide, innerContainerMeasurement );
 
       <span class="keyword">if</span> ( self.useCSS3 ) {
 

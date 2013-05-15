@@ -854,6 +854,7 @@ $stickyHeaderHeight: px-em(82);
 
   // Sticky headers
   .compare-sticky-header {
+    display: block;
     top: -2em;
     width: 100%;
     height: px-em(106);
@@ -894,16 +895,19 @@ $stickyHeaderHeight: px-em(82);
       @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
     }
 
-    // Gray bar on the right side of the container
-    .right-bar {
+    .sticky-bar {
       position: absolute;
       z-index: -1;
       top: 0;
-      left: 800%;
       height: px-em(106);
-      width: 187em;
       background: $white;
       @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
+    }
+
+    // Gray bar on the right side of the container
+    .right-bar {
+      left: 800%;
+      width: 187em;
     }
   }
 }

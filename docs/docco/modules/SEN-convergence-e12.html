@@ -47,12 +47,7 @@ define(<span class="keyword">function</span>(require){
     init: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.$slides = self.$el.children();
-
-      self.$slides.first().show();
-      self.$slides.not(<span class="string">':first'</span>).hide();
-
       self.$currentSlide = self.$slides.first();
-
       self.interval = setInterval($.proxy(self.showNextSlide, self), <span class="number">3500</span>);
     },
 
@@ -62,10 +57,11 @@ define(<span class="keyword">function</span>(require){
           nextSlideIndex = (currentSlideIndex + <span class="number">1</span>) % self.$slides.length,
           $nextSlide = $(self.$slides[nextSlideIndex]);
 
-      self.$currentSlide.fadeOut(<span class="number">750</span>);
-      $nextSlide.fadeIn(<span class="number">750</span>);
+      $nextSlide.fadeIn(<span class="number">750</span>, <span class="keyword">function</span>(){
+          self.$currentSlide.fadeOut(<span class="number">750</span>);
+          self.$currentSlide = $nextSlide;
+      });
 
-      self.$currentSlide = $nextSlide;
     },
 
     stop: <span class="keyword">function</span>() {
