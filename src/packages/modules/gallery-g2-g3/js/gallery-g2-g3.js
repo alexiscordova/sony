@@ -2020,7 +2020,10 @@ define(function(require){
     debouncedSetRowHeights : $.debounce( 600, function( isFromResize, isInit ) {
       var self = this,
           itemHeight,
-          gridWidth;
+          gridWidth,
+          $notHiddenItems,
+          numVisibleColumns,
+          stickyRightBarOffset;
 
       isFromResize = isFromResize === true;
 
@@ -2035,8 +2038,16 @@ define(function(require){
       self.setRowHeights( isFromResize );
 
       // Get new dimensions after the rows have been resized
-      itemHeight = self.$items.not('.hidden').first().height(),
+      $notHiddenItems = self.$items.not('.hidden');
+      numVisibleColumns = $notHiddenItems.length;
+      itemHeight = $notHiddenItems.first().height();
       gridWidth = self.$grid.width();
+      stickyRightBarOffset = gridWidth;
+
+      if ( numVisibleColumns <= 5 ) {
+        // Use the smaller of the two
+        stickyRightBarOffset = Math.min( gridWidth, self.getStickyRightBarOffset() );
+      }
 
       // Sets css
       self.setItemContainerHeight( itemHeight, gridWidth );
@@ -2045,7 +2056,7 @@ define(function(require){
       self.updateStickyNav();
 
       // Sets css
-      self.$stickyRightBar.css('left', gridWidth);
+      self.setStickyRightBarOffset( stickyRightBarOffset );
     }),
 
     setRowHeights : function() {
@@ -2140,6 +2151,14 @@ define(function(require){
         top: top,
         bottom: bottom
       };
+    },
+
+    getStickyRightBarOffset : function() {
+      return this.$detailLabelsWrap.width() + this.$compareItemsWrap.find('.compare-items-container').width();
+    },
+
+    setStickyRightBarOffset : function( offset ) {
+      this.$stickyRightBar.css( 'left', offset );
     },
 
     setTriggerPoint : function( dontUpdateStickyNav ) {
@@ -2250,8 +2269,7 @@ define(function(require){
       var self = this,
           windowWidth = !Settings.isLTIE9 ? null : self.$window.width(),
           windowHeight = !Settings.isLTIE9 ? null : self.$window.height(),
-          hasWindowChanged = !Settings.isLTIE9 || windowWidth !== self.windowWidth || windowHeight !== self.windowHeight,
-          isSmallerThanTablet;
+          hasWindowChanged = !Settings.isLTIE9 || windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
       // Make sure isInit is not an event object
       isInit = isInit === true;
@@ -2717,13 +2735,23 @@ define(function(require){
     onCompareFiltered : function() {
       var self = this,
           total = self.$items.length,
-          remaining = self.$items.filter('.filtered').length,
-          isResetDisabled = self.$compareReset.hasClass('disabled'),
-          $removeButtons = self.$grid.find('.js-remove-item'),
-          $hiddenButtons;
+          remaining = self.$items.filter('.filtered').length;
 
-      // Enable the reset button if the remaining items is not the same as the total
-      if ( total !== remaining ) {
+      self
+        // Enable the reset button if the remaining items is not the same as the total
+        .toggleCompareReset( total, remaining )
+        // Hide close button if there are only 2 left
+        .toggleRemoveButtons( remaining )
+        // Enable or disable the scroller depending on how many items are left
+        .toggleCompareScroller( remaining );
+    },
+
+    // Enable the reset button if the remaining items is not the same as the total
+    toggleCompareReset : function( totalItems, totalRemainingItems ) {
+      var self = this,
+          isResetDisabled = self.$compareReset.hasClass('disabled');
+
+      if ( totalItems !== totalRemainingItems ) {
         if ( isResetDisabled ) {
           self.$compareReset.removeClass('disabled');
         }
@@ -2734,8 +2762,16 @@ define(function(require){
         }
       }
 
-      // Hide close button if there are only 2 left
-      if ( remaining < 3 ) {
+      return self;
+    },
+
+    // Hide close button if there are only 2 left
+    toggleRemoveButtons : function( totalRemainingItems ) {
+      var self = this,
+          $removeButtons = self.$grid.find('.js-remove-item'),
+          $hiddenButtons;
+
+      if ( totalRemainingItems < 3 ) {
         $removeButtons.addClass('hidden');
 
       } else {
@@ -2745,7 +2781,14 @@ define(function(require){
         }
       }
 
-      if ( remaining ) {
+      return self;
+    },
+
+    // Enable or disable the scroller depending on how many items are left
+    toggleCompareScroller : function( totalRemainingItems ) {
+      var self = this;
+
+      if ( totalRemainingItems ) {
         // If it was disabled, enable it
         if ( !self.scroller.enabled ) {
           self.scroller.enable();
@@ -2755,7 +2798,26 @@ define(function(require){
           });
         }
         requestAnimationFrame(function() {
+          var gridWidth, stickyRightBarOffset;
+
+          // Refresh scroller so the grid gets a new width
           self.scroller.refresh();
+
+          // Get the new width
+          gridWidth = self.$grid.width();
+
+          // Offset is the grid width by default
+          stickyRightBarOffset = gridWidth;
+
+          // If there are less than 5 items visible, there could
+          // be leftover space that should be filled
+          if ( totalRemainingItems <= 5 ) {
+            stickyRightBarOffset = Math.min( gridWidth, self.getStickyRightBarOffset() );
+          }
+
+          // Set the sticky header bar to the grid width or the left offset of the grid,
+          // which ever is smaller
+          self.setStickyRightBarOffset( stickyRightBarOffset );
 
           // Maybe they haven't scrolled horizontally to see other images
           iQ.update();
@@ -2766,7 +2828,7 @@ define(function(require){
         }
       }
 
-      $removeButtons = null;
+      return this;
     },
 
     getY : function( y ) {
