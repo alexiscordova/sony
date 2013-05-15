@@ -90,8 +90,10 @@ define(function(require){
           self.onDebouncedResize(); //call once to set size
         }
         
+        iQ.update();
 
       },
+      
       api: function(){
         var self = this;
         return self.videoAPI;
