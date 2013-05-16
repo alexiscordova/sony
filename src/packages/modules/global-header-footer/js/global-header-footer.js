@@ -142,8 +142,8 @@ define(function(require){
 
       // Set up primary nav buttons (Electronics, Entertainment, Account & Search)
       self.$activeNavBtns.each(function() {
-        var $thNavBtn = $(this), 
-          $thNavBtnTarget = $('.' + $thNavBtn.data('target')), 
+        var $thNavBtn = $(this),
+          $thNavBtnTarget = $('.' + $thNavBtn.data('target')),
           $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
         $thNavBtn.on('click touchstart', function(e) {
@@ -178,7 +178,7 @@ define(function(require){
 
         // TOUCH DEVICES
         if (self.hasTouch) {
-          console.log("hasTouch = true");
+          // console.log("hasTouch = true");
 
           $thNavBtn.on('touchstart', function() {
             $('#nav-search-input').blur();
