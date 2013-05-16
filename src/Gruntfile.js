@@ -645,8 +645,6 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('jdtest', ['js', 'requirejs_deploy']);
-
   grunt.registerTask('w', function(module){
     module = module || '**';
 
