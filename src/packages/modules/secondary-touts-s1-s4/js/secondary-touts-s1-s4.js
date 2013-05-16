@@ -143,7 +143,7 @@ define(function(require){
     fixCenteredContent: function(oldClass, newClass) {
 
       var self = this,
-          $el = $('.no-widthboundsontables').find(self.$el);
+          $el = $('.no-widthboundsontables, .no-absolutepositionontables').find(self.$el);
 
       $el.find('.' + oldClass).each(function(){
 
