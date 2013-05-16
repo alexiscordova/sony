@@ -53,7 +53,20 @@ define(function (require) {
           $(x).remove();
           return false;
         }
+      });
 
+      // Test for `display: table` support.
+
+      Modernizr.addTest('displayTable', function() {
+
+        var rules = document.createElement('div').style;
+
+        try {
+          rules.display = 'table';
+          return rules.display === 'table';
+        } catch (e) {
+          return false;
+        }
       });
 
       // Does the browser support max/min widths on <table> elements? We use this extensively for
@@ -65,6 +78,10 @@ define(function (require) {
         var x = document.createElement('div'),
             y = document.createElement('div'),
             test;
+
+        if ( !Modernizr.displaytable ) {
+          return false;
+        }
 
         x.appendChild(y);
 
