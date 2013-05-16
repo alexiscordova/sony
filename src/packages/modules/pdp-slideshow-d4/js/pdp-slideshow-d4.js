@@ -69,6 +69,7 @@ define(function(require) {
       // Inits the module
       self.init();
 
+      log('SONY : PDPSlideShow : Initialized');
     };
 
     PDPSlideShow.prototype = {

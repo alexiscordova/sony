@@ -78,12 +78,17 @@ define(function(require){
           $this = $(e.target);
 
       if ( !Modernizr.touch ) {
+        if(e.which !== 1){
+          return;
+        }
         e.preventDefault();
       }
 
       if ( self.$el.has($this).length === 0 ) {
         return;
       }
+
+
 
       if ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
@@ -167,10 +172,10 @@ define(function(require){
 
       if ( self.snapToBounds && self.bounds ) {
         if ( self.axis.indexOf('x') >= 0 ) {
-          self.animateToBounds('x');
+          self.snapTo('x');
         }
         if ( self.axis.indexOf('y') >= 0 ) {
-          self.animateToBounds('y');
+          self.snapTo('y');
         }
       }
     },
@@ -200,9 +205,9 @@ define(function(require){
     },
 
     // If self.snapToBounds is specified, handle the logic for animating the scrubbed element
-    // to the nearest bounds.
+    // to the nearest bounds, or a point on that axis (if provided).
 
-    'animateToBounds': function(axis) {
+    'snapTo': function(axis, toWhere) {
 
       var self = this,
           currentPosition = self.handlePosition[axis],
@@ -214,7 +219,11 @@ define(function(require){
           destination = minMax[currentDistances.indexOf(closest)],
           newPosition;
 
-      if( currentDistances[0] > boundsDistance && currentDistances[1] > boundsDistance ) {
+      if ( toWhere !== undefined ) {
+        destination = toWhere  / 100 * pctScale;
+      }
+
+      if( currentDistances[0] > boundsDistance && currentDistances[1] > boundsDistance && toWhere === undefined ) {
         return;
       }
 
@@ -230,7 +239,7 @@ define(function(require){
       }
 
       window.requestAnimationFrame(function(){
-        self.animateToBounds(axis);
+        self.snapTo(axis, toWhere);
       });
     },
 
