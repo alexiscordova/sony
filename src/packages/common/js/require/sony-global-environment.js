@@ -104,6 +104,41 @@ define(function (require) {
 
         return test;
       });
+
+      // Does the browser's implementation of <table> correctly support absolute positioning?
+
+      Modernizr.addTest('absolutePositionOnTables', function() {
+
+        var x = document.createElement('div'),
+            y = document.createElement('div'),
+            z = document.createElement('div'),
+            test;
+
+        if ( !Modernizr.displaytable ) {
+          return false;
+        }
+
+        x.appendChild(y);
+        y.appendChild(z);
+
+        x.style.position = 'relative';
+
+        y.style.position = 'absolute';
+        y.style.width = '50%';
+
+        z.style.position = 'absolute';
+        z.style.display = 'table';
+        z.style.right = '0';
+        z.style.width = '25%';
+
+        document.documentElement.appendChild(x);
+
+        test = Math.abs(z.getBoundingClientRect().right - y.getBoundingClientRect().right) <= 1;
+
+        document.documentElement.removeChild(x);
+
+        return test;
+      });
     },
 
     // Normalizes the console.log method.
