@@ -50,11 +50,12 @@
 
     figcaption {
       position: absolute;
+      width: 240px;
       bottom: -33px;
+      display: inline-block;
       text-transform: uppercase;
-      color:$gray40;
-      display:inline-block;
-      width:240px;
+      color: $gray40;
+      cursor: pointer;
     }
     figcaption + figure + figcaption {
       right:0;
@@ -107,11 +108,9 @@
           @include transition(.1s ease-out);
         }
           .icons {
-            // position:absolute;
-            // top:50%;
-            // left:50%;
-            width:100px;
-            // margin:-14px 0 0 -50px;
+            width: 100%;
+            height: 100%;
+            display: block;
           }
             i {
               display:inline-block;
@@ -149,8 +148,8 @@
           margin-top:-31px;
         }
           .icons {
-            // margin:-12px 0 0 -48px;
             @include rotate(90deg);
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
           }
     }
   }

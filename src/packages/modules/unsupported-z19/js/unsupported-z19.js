@@ -58,6 +58,7 @@ define(function(require){
     launchModal: function(id) {
       var self = this;
       $(id).modal();
+      $(id).focus();
       self.measureModal();
     },
 
