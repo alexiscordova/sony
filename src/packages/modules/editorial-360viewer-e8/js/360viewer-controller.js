@@ -119,6 +119,7 @@ define(function(require){
         
         // animate dragger arrows when in viewport
         self.poller = setInterval( function(){
+          self.syncControlLayout();
           var _$controlStatus   = $( self.$controls ).find( '.table-center :in-viewport' );
           var inViewport = _$controlStatus.length > 0 ? true : false;
           if( inViewport ) {
@@ -141,7 +142,10 @@ define(function(require){
         });
         
         self.$controls.on( 'drag', function( event ) {
-          self.touchMove( event );
+          var direction = event.gesture.direction;
+          if( 'left' == direction || 'right' == direction ) {
+            self.touchMove( event );
+          }
         });
         
         self.$controls.on( 'tap', function( event ) {
