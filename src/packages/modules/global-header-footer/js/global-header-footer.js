@@ -47,7 +47,6 @@ define(function(require){
     self.mobileNavThreshold = 767;
     self.mobileFooterThreshold = 567;
     self.mouseLeaveDelay = 500;
-    self.active = false;
     // delay in ms
     self.mouseleaveTimer = false;
 
@@ -146,7 +145,7 @@ define(function(require){
           $thNavBtnTarget = $('.' + $thNavBtn.data('target')),
           $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
-        $thNavBtn.on('click touchstart', function(e) {
+        $thNavBtn.on('click touchstart mouseenter focus', function(e) {
           e.preventDefault();
         });
 
@@ -166,8 +165,7 @@ define(function(require){
         //
         // TODO: Why does search menu close
         // TODO: Clicking off the nav will close it.
-        //
-        //
+        // TODO: Clicking the button while this navTarget is open will close it.
         //
 
         // $(this).on(self.tapOrClick + ' focus blur', function() {
@@ -180,7 +178,7 @@ define(function(require){
         if (self.hasTouch) {
           // console.log("hasTouch = true");
 
-          $thNavBtn.on('touchstart', function() {
+          $thNavBtn.on('touchstart focus', function() {
             $('#nav-search-input').blur();
             // if this button is already activated,
             if ($thNavBtn.parent().hasClass('nav-li-selected')) {
@@ -224,43 +222,48 @@ define(function(require){
 
           // console.log("No Touch - Use Click Events");
 
-          var thTrigger = 'mouseenter focus';
+          // mouseenter focus click
+
+          // var thTrigger = 'mouseenter focus';
 
           // for the search button only, we want it to trigger on click. All others on mouseenter.
-          if ($thNavBtn.parent().hasClass('nav-li-search')) {
-              thTrigger = 'click focus';
-          }
+          // if ($thNavBtn.parent().hasClass('nav-li-search')) {
+          //     thTrigger = 'click focus';
+          // }
 
 
-          $thNavBtn.on(thTrigger, function(e) {
+          $thNavBtn.on('mouseenter', function(e) {
             // console.log("$thNavBtn.on(thTrigger): " + $thNavBtn.attr('class'));
+            e.preventDefault();
 
-            var isSearchButtonActive = $thNavBtn.data('target') ==='navmenu-w-search' && self.active ? true : false;
-            // console.log("isSearchButtonActive: " + isSearchButtonActive);
-
-            // Prevent focus and click to trigger at the same time
-            if (self.active) {
+            // $('.nav .nav-li a.active').trigger('touchstart'); huh??
+            
+            // search menu doesn't respond to hover; only click & focus.
+            if ($thNavBtn.data('target') == 'navmenu-w-search' ){
               return false;
             }
-            else {
-              self.active = true;
+
+            // check to see if it's the active button first. If you're re-hovering over the same button, just keep it open.
+            if ($thNavBtn.hasClass('active')){
+              self.resetMouseleaveTimer();
+              return false;
             }
 
-            $('.nav .nav-li a.active').trigger('touchstart');
+            // if this button isn't active, reset the active one, if there is one (fails gracefully in the function if none is active)
             self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
-            $('#nav-search-input').blur();
 
+            // just in case the search input is in focus, blur it.
+            $('#nav-search-input').blur(); 
+
+            // if we made it this far, we're hovering over something good.
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
 
             // if this button is NOT activated,
-            if (!$thNavBtn.parent().hasClass('nav-li-selected') && !isSearchButtonActive) {
+            // if (!$thNavBtn.parent().hasClass('nav-li-selected')) {
               // See if any other buttons are activated.
               var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
 
-              if(isSearchButtonActive) {
-                otherIsActive = false;
-              }
               // If there's NOT
               if (!otherIsActive) {
                 // update the Nav button & open this tray/menu immediately
@@ -287,7 +290,7 @@ define(function(require){
                 }
               }
 
-            }
+            // }
           });
           // end thTrigger triggered (mouseenter,hover,click,whatever)
 
@@ -295,7 +298,6 @@ define(function(require){
           // If you mouseOut of the nav button
           $thNavBtn.on('mouseleave', function() {
 
-            self.active = false;
             $thNavBtn.data('hovering', false);
 
             // Check to see if it was onto the navtray/navmenu.
@@ -313,16 +315,17 @@ define(function(require){
 
           });
 
-          $thNavBtnTarget.on('mouseenter focus', function() {
-            self.active = false;
+          $thNavBtnTarget.on('mouseenter', function() {
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
           });
 
+
+
+          
+
           // Activate click for tab navigation
           $thNavBtnTarget.find('a').on('focus', function() {
-
-            self.active = false;
             $thNavBtnTarget.data('hovering', true);
             $thNavBtn.trigger('mouseenter');
 
@@ -357,7 +360,6 @@ define(function(require){
               if (!$thNavBtn.data('hovering') && !$thNavBtnTarget.data('hovering')) {
                 // shut it down.
                 self.startMouseleaveTimer($thNavBtn);
-                self.active = false;
               } else {
                 self.resetMouseleaveTimer();
               }
@@ -516,7 +518,13 @@ define(function(require){
       var self = this;
 
       // reset this button
-      !!$oldNavBtn && $oldNavBtn.removeClass('active').blur().parent().removeClass('nav-li-selected');
+      // !!$oldNavBtn && $oldNavBtn.removeClass('active').blur().parent().removeClass('nav-li-selected');
+      if ($oldNavBtn.length){
+        // console.log("old nav btn exists");
+        $oldNavBtn.removeClass('active').blur().parent().removeClass('nav-li-selected');
+      } else {
+        // console.log("old nav btn DOES NOT exist");
+      }
 
       // if there's a navTray/navMenu, reset it
       if (!!$oldNavBtn.data('target')) {
