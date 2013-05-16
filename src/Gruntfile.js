@@ -641,7 +641,7 @@ module.exports = function(grunt) {
 
     if(grunt.option('deploy')){
       grunt.task.run('requirejs_deploy');
-      // grunt.task.run('groundskeeper');
+      grunt.task.run('groundskeeper');
     }
   });
 
