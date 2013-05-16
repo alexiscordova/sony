@@ -347,7 +347,7 @@ else if data.view == 'compare'
   div.span3.compare-item(data-filter-set=filterSet, itemscope, itemtype="http://schema.org/Product")
 
     //- Sticky header
-    a.compare-sticky-header(href=data.href)
+    a.compare-sticky-header.no-hover-transition(href=data.href)
       button(class="box-close box-close-small js-remove-item", aria-hidden="true")
         i.fonticon-10-x
       +iQImage( data.imgTiny )
@@ -359,7 +359,7 @@ else if data.view == 'compare'
 
     //- Image
     .product-img.ghost-center-wrap
-      .ghost-center
+      a.ghost-center(href=data.href)
         +iQImage( data.img, 'image' )
       +heart()
 
@@ -403,7 +403,7 @@ else if data.view == 'compare'
                   p.p3!= detail.value.lineTwo
                 if detail.value.lineThree
                   p.p3!= detail.value.lineThree
-              else if detail.value[0].description
+              else if detail.value.length && detail.value[0].description
                 ul.media-list
                   each value in detail.value
                     li.media

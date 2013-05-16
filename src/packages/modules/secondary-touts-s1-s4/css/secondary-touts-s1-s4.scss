@@ -204,6 +204,8 @@
       width: 100%;
       height: 100%;
       cursor: pointer;
+      zoom: 1;
+      overflow: hidden;
     }
 
     .st-flag {
@@ -238,8 +240,8 @@
 
     .st-image {
       position: absolute;
-      left: 0;
-      top: 0;
+      right: 0;
+      bottom: 0;
       width: 100%;
       height: 100%;
       background-size: cover;
@@ -945,6 +947,14 @@
           max-width: 66%;
           bottom: auto;
           margin: 0 auto;
+
+          @media (max-width: 479px) {
+            width: 100%;
+          }
+
+          > div {
+            width: auto;
+          }
         }
 
         > div {
@@ -965,7 +975,6 @@
         &.content-12 {
 
           > div {
-            width: 400px;
           }
         }
 

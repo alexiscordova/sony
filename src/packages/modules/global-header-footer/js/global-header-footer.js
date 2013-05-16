@@ -1,7 +1,7 @@
 // ------------ Sony Global Nav ------------
 // Module: Global Nav
 // Version: 1.0
-// Modified: 2012-12-17 by Christopher Mischler
+// Modified: 2013-05-14 by Christopher Mischler
 // Dependencies: jQuery 1.7+, Modernizr
 // Optional: jQuery throttle-debounce (only used on window resize)
 // -------------------------------------------------------------------------
@@ -140,9 +140,11 @@ define(function(require){
         }
       });
 
-      // Set up primary nav buttons
+      // Set up primary nav buttons (Electronics, Entertainment, Account & Search)
       self.$activeNavBtns.each(function() {
-        var $thNavBtn = $(this), $thNavBtnTarget = $('.' + $thNavBtn.data('target')), $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
+        var $thNavBtn = $(this),
+          $thNavBtnTarget = $('.' + $thNavBtn.data('target')),
+          $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
         $thNavBtn.on('click touchstart', function(e) {
           e.preventDefault();
@@ -176,6 +178,7 @@ define(function(require){
 
         // TOUCH DEVICES
         if (self.hasTouch) {
+          // console.log("hasTouch = true");
 
           $thNavBtn.on('touchstart', function() {
             $('#nav-search-input').blur();
@@ -216,8 +219,10 @@ define(function(require){
           });
           // end touchstart
 
-          // NOT touch device - set up HOVER triggers
+        // NOT touch device - set up HOVER triggers
         } else {
+
+          // console.log("No Touch - Use Click Events");
 
           var thTrigger = 'mouseenter focus';
 
@@ -226,9 +231,12 @@ define(function(require){
               thTrigger = 'click focus';
           }
 
+
           $thNavBtn.on(thTrigger, function(e) {
+            // console.log("$thNavBtn.on(thTrigger): " + $thNavBtn.attr('class'));
 
             var isSearchButtonActive = $thNavBtn.data('target') ==='navmenu-w-search' && self.active ? true : false;
+            // console.log("isSearchButtonActive: " + isSearchButtonActive);
 
             // Prevent focus and click to trigger at the same time
             if (self.active) {
@@ -281,7 +289,7 @@ define(function(require){
 
             }
           });
-          // end mouseenter
+          // end thTrigger triggered (mouseenter,hover,click,whatever)
 
 
           // If you mouseOut of the nav button
@@ -355,7 +363,7 @@ define(function(require){
               }
             }, timeout);
           });
-        }
+        } // end NOT touch device
       });
 
 

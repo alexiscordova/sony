@@ -14,7 +14,7 @@ define(function(require){
 
     var $ = require('jquery'),
         // enquire = require('enquire'),
-        // iQ = require('iQ'),
+        iQ = require('iQ'),
         // Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment');
 
@@ -37,14 +37,14 @@ define(function(require){
 
     PrimaryTout.prototype = {
       constructor: PrimaryTout,
-      
+
       fixTitleHeight: function(){
          var self = this, minh,
          hero = self.$el.find('.hero-image .image-module');
          hero.css('height', '');
-         
+
          minh = Math.max(hero.innerHeight(), self.$el.find('.inner .box').innerHeight());
-         
+
          self.$el.find('.hero-image .image-module').css('height', minh);
       },
 
@@ -75,26 +75,30 @@ define(function(require){
           self.resize();
           Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         }
-        
+
         if (self.$el.hasClass('title-plate')) {
           self.fixTitleHeight();
           Environment.on('global:resizeDebounced', $.proxy(self.fixTitleHeight, self));
         }
-        
-        var btn = self.$el.find(".inner .box a, .mobile-buttons a");
+
+        var btn = self.$el.find(".inner .box a.video, .inner .box a.carousel, .mobile-buttons a.video, .mobile-buttons a.carousel");
 
         if(btn.length > 0){
           btn.on('click', function(e){
             e.preventDefault();
-            self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('hidden');
-            self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('hidden');
-            //play video?
-            self.$el.find('.sony-video').data('sonyVideo').api().play();
+            self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('off-screen visuallyhidden');
+            self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('off-screen visuallyhidden');
+            //update for slideshow coming into view
+            iQ.update();
+            //play video if its a video button
+            if($(this).hasClass('video')){
+              self.$el.find('.sony-video').data('sonyVideo').api().play();
+            }
           });
           self.$el.find('.submodule .box-close').on('click', function(e){
             e.preventDefault();
-            self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').removeClass('hidden');
-            self.$el.find('.submodule').addClass('hidden');
+            self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').removeClass('off-screen visuallyhidden');
+            self.$el.find('.submodule').addClass('off-screen visuallyhidden');
             self.$el.find('.sony-video').data('sonyVideo').api().pause();
           });
         }

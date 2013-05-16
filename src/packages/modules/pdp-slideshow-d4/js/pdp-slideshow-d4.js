@@ -69,6 +69,7 @@ define(function(require) {
       // Inits the module
       self.init();
 
+      log('SONY : PDPSlideShow : Initialized');
     };
 
     PDPSlideShow.prototype = {
@@ -87,8 +88,8 @@ define(function(require) {
           self.createThumbNav();
         }
 
-        self.$slideContainer.css( 'opacity' , 1 );
-
+        // Fade in when the first image has loaded
+        self.fadeIn();
 
         // Listen for debounced resize event
         Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
@@ -96,6 +97,21 @@ define(function(require) {
         //ghost ride the whip
         self.onDebouncedResize();
 
+      },
+
+      fadeIn: function() {
+        var self = this,
+            $firstImage = self.$slides.find('img').first();
+
+        function fadeIn() {
+          self.$el.css( 'opacity' , 1 );
+        }
+
+        if ( $firstImage.data('hasLoaded') ) {
+          fadeIn();
+        } else {
+          $firstImage.on( 'imageLoaded', fadeIn );
+        }
       },
 
       // Handles global debounced resize event

@@ -58,51 +58,38 @@ define(function(require) {
     constructor: RecentlyViewed,
 
     init: function() {
+      var self = this;
+
+      self
+        .setVars()
+        .setupBreakpoints();
+
+      // Extra initialization needed for the module if it has favorites
+      if ( self.hasFavorites ) {
+        self.initExtendedModule();
+      }
+
+      // Fade in the module to hide the slide rearranging
+      setTimeout(function() {
+        self.$wrapper.addClass( 'in' );
+      }, 0);
+
+    },
+
+    setVars : function() {
       var self = this,
-          breakEarly = self.$el.data( 'breakEarly' ),
-          setupTabletBreakpoint = breakEarly ?
-            '(min-width: 48em) and (max-width: 87.4375em)' :
-            '(min-width: 48em) and (max-width: 61.1875em)',
-          teardownTabletBreakpoint = breakEarly ?
-            '(min-width: 87.5em)' :
-            '(min-width: 61.25em)',
-          desktopBreakpoint = '(min-width: 48em)',
-          mobileBreakpoint = '(max-width: 47.9375em)';
+          paddleWrapper = self.$el.data( 'paddleWrapper' );
 
-      self.isTabletAndDesktopOnLoad = Modernizr.mq( setupTabletBreakpoint ) && Modernizr.mq( desktopBreakpoint );
-
-      self.$paddleWrapper = self.$el.find( self.$el.data( 'paddle-wrapper' ) );
+      // If the `.rv-module` element has a data-paddle-wrapper attribute, use that
+      self.$paddleWrapper = paddleWrapper ? self.$el.find( paddleWrapper ) : undefined;
       self.$wrapper = self.$el.find( '.sony-carousel-wrapper' );
       self.$carousel = self.$el.find( '.sony-carousel' );
       self.$favorites = self.$el.find('.js-favorite');
       self.$productNames = self.$el.find( '.product-name-wrap' );
 
-      if ( Modernizr.mediaqueries ) {
+      self.hasFavorites = self.$favorites.length > 0;
 
-        enquire
-          .register( desktopBreakpoint, function() {
-            self._setupDesktop();
-          })
-          .register( setupTabletBreakpoint, function() {
-            self._setupTablet();
-          })
-          .register( teardownTabletBreakpoint, function() {
-            self._teardownTablet();
-          })
-          .register( mobileBreakpoint, function() {
-            self._setupMobile();
-          });
-
-      } else {
-        self._setupDesktop();
-      }
-
-      if ( self.$favorites.length ) {
-        self.$productNames.evenHeights();
-        new Favorites( self.$carousel );
-        Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
-      }
-
+      return self;
     },
 
     onResize : function() {
@@ -111,9 +98,19 @@ define(function(require) {
       self.$productNames.evenHeights();
     },
 
+    // If favorites exist, make them. This also assumes that the product names
+    // need to have equal heights because there should be a price under the name
+    // which should always line up with other prices
+    initExtendedModule : function() {
+      var self = this;
+
+      self.$productNames.evenHeights();
+      new Favorites( self.$carousel );
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+    },
+
     initCarousel : function() {
-      var self = this,
-          $paddleWrapper = self.$paddleWrapper.length ? self.$paddleWrapper : undefined;
+      var self = this;
 
       // Initialize a new sony carousel
       self.$carousel.sonyCarousel({
@@ -123,85 +120,15 @@ define(function(require) {
         pagination: true,
         paddles: true,
         useSmallPaddles: true,
-        $paddleWrapper: $paddleWrapper
+        $paddleWrapper: self.$paddleWrapper
       });
 
       return self;
     },
 
-    destroyCarousel : function() {
-      this.$carousel.sonyCarousel( 'destroy' );
-      return this;
-    },
-
-    _setupDesktop : function() {
-      var self = this,
-          wasMobile = self.isMobile;
-
-      if ( wasMobile ) {
-        // Destroy the scroller
-        self.$wrapper.scrollerModule('destroy');
-
-        // Remove widths set `_setupMobile`
-        self.$carousel.find('.sony-carousel-slide').css( 'width', '' );
-
-        // Remove grid classes to wrappers
-        self.$el.find('.m-container').removeClass('container');
-        self.$wrapper.removeClass('grid');
-
-        // Stop images from becoming tiny
-        setTimeout( Utilities.forceWebkitRedraw, 0 );
-      }
-
-      // Avoid initializing carousel twice on load because the tablet breakpoint overlaps desktop
-      if ( self.isTabletAndDesktopOnLoad === false ) {
-        self.initCarousel();
-      }
-
-      self.isTabletAndDesktopOnLoad = false;
-      self.isDesktop = true;
-      self.isMobile = false;
-    },
-
-    _setupTablet : function() {
-      var self = this;
-      self.destroyCarousel();
-      self.arrangeItemsInSlides( 4 );
-      self.initCarousel();
-      self.isTablet = true;
-    },
-
-    _teardownTablet : function() {
+    initScroller : function() {
       var self = this;
 
-      // Don't do anything if this isn't in tablet state
-      if ( !self.isTablet ) {
-        return;
-      }
-
-      self.destroyCarousel();
-      self.arrangeItemsInSlides( 6 );
-      self.initCarousel();
-      self.isTablet = false;
-    },
-
-    _setupMobile : function() {
-      var self = this,
-          wasDesktop = self.isDesktop;
-
-      // Destroy the carousel if there was one
-      if ( wasDesktop ) {
-        self.$carousel.sonyCarousel( 'destroy' );
-
-        // Stop images from becoming tiny
-        setTimeout( Utilities.forceWebkitRedraw, 0 );
-      }
-
-      // Add grid classes to wrappers
-      self.$el.find('.m-container').addClass('container');
-      self.$wrapper.addClass('grid');
-
-      // Initialize the new scroller
       self.$wrapper.scrollerModule({
         itemElementSelector: '.gallery-item',
         iscrollProps: {
@@ -243,6 +170,135 @@ define(function(require) {
           return contentWidth;
         }
       });
+    },
+
+    destroyCarousel : function() {
+      this.$carousel.sonyCarousel( 'destroy' );
+      return this;
+    },
+
+    setupBreakpoints : function() {
+      var self = this,
+          breakEarly = self.$el.data( 'breakEarly' ),
+          setupTabletBreakpoint = breakEarly ?
+            '(min-width: 48em) and (max-width: 87.4375em)' :
+            '(min-width: 48em) and (max-width: 61.1875em)',
+          teardownTabletBreakpoint = breakEarly ?
+            '(min-width: 87.5em)' :
+            '(min-width: 61.25em)',
+          desktopBreakpoint = '(min-width: 48em)',
+          mobileBreakpoint = '(max-width: 47.9375em)';
+
+      self.isTabletAndDesktopOnLoad = Modernizr.mq( setupTabletBreakpoint ) && Modernizr.mq( desktopBreakpoint );
+
+      if ( Modernizr.mediaqueries ) {
+
+        enquire
+          .register( desktopBreakpoint, function() {
+            self.setupDesktop();
+          })
+          .register( setupTabletBreakpoint, function() {
+            self.setupTablet();
+          })
+          .register( teardownTabletBreakpoint, function() {
+            self.teardownTablet();
+          })
+          .register( mobileBreakpoint, function() {
+            self.setupMobile();
+          });
+
+      } else {
+        self.setupDesktop();
+      }
+
+      return self;
+    },
+
+    setupDesktop : function() {
+      var self = this,
+          wasMobile = self.isMobile;
+
+      if ( wasMobile ) {
+        // Destroy the scroller
+        self.$wrapper.scrollerModule('destroy');
+
+        // Remove widths set `setupMobile`
+        self.$carousel.find('.sony-carousel-slide').css( 'width', '' );
+
+        // Remove grid classes to wrappers
+        self.$el.find('.m-container').removeClass('container');
+        self.$wrapper.removeClass('grid');
+
+        // Stop images from becoming tiny
+        setTimeout( Utilities.forceWebkitRedraw, 0 );
+      }
+
+      // Avoid initializing carousel twice on load because the tablet breakpoint overlaps desktop
+      if ( self.isTabletAndDesktopOnLoad === false ) {
+        self.initCarousel();
+      }
+
+      self.isTabletAndDesktopOnLoad = false;
+      self.isDesktop = true;
+      self.isMobile = false;
+    },
+
+    setupTablet : function() {
+      var self = this;
+
+      // Teardown the current carousel, rearrange the slides, and build a new one
+      self.destroyCarousel();
+      self.arrangeItemsInSlides( 4 );
+      self.initCarousel();
+      self.isTablet = true;
+    },
+
+    teardownTablet : function() {
+      var self = this;
+
+      // Don't do anything if this isn't in tablet state
+      if ( !self.isTablet ) {
+        return;
+      }
+
+      // Teardown the current carousel, rearrange the slides, and build a new one
+      self.destroyCarousel();
+      self.arrangeItemsInSlides( 6 );
+      self.initCarousel();
+
+      self.isTablet = false;
+    },
+
+    setupMobile : function() {
+      var self = this,
+          wasDesktop = self.isDesktop,
+          isFadedIn = !wasDesktop;
+
+      // Destroy the carousel if there was one
+      if ( wasDesktop ) {
+        self.destroyCarousel();
+
+        // Stop images from becoming tiny
+        setTimeout( Utilities.forceWebkitRedraw, 0 );
+      }
+
+      // Add grid classes to wrappers
+      self.$el.find('.m-container').addClass('container');
+      self.$wrapper.addClass('grid');
+
+      // Initialize the new scroller
+      // Having zero opacity on the .sony-carousel-wrapper causes
+      // the browser to return the wrong value for clientWidth, breaking
+      // the scroller plugin. A timeout is set to wait for the wrapper
+      // to fade in before the scroller is initialized
+      if ( isFadedIn ) {
+        self.initScroller();
+      } else {
+        // transition length is 150ms, give it a little room
+        setTimeout(function() {
+          self.initScroller();
+        }, 300);
+      }
 
       self.isDesktop = false;
       self.isMobile = true;
@@ -255,16 +311,22 @@ define(function(require) {
           $items = self.$carousel.find('.gallery-item'),
           numItems = $items.length,
           numSlides = Math.ceil( numItems / numPerSlide ),
+          allSpans = 'span2 span3 span4 span6',
+          newSpan = 'span' + ( 12 / numPerSlide ),
           i = 0,
           j,
           itemIndex, slide, container, slimgrid;
 
+      // Detach slide items from the DOM, remove their span classes and add the correct one
       $items
         .detach()
-        .removeClass( 'span2 span3 span4 span6' )
-        .addClass( 'span' + 12 / numPerSlide );
+        .removeClass( allSpans )
+        .addClass( newSpan );
 
+      // Loop the number of slides that need to be created
       for ( ; i < numSlides; i++ ) {
+
+        // Create the slide's wrapper
         slide = doc.createElement( 'div' );
         slide.className = 'sony-carousel-slide';
         container = doc.createElement( 'div' );
@@ -272,6 +334,7 @@ define(function(require) {
         slimgrid = doc.createElement( 'div' );
         slimgrid.className = 'slimgrid';
 
+        // Append slide items to the slide
         for ( j = 0 ; j < numPerSlide; j++ ) {
           itemIndex = (i * numPerSlide) + j;
           if ( $items[ itemIndex ] ) {
@@ -279,11 +342,13 @@ define(function(require) {
           }
         }
 
+        // Put everything together
         container.appendChild( slimgrid );
         slide.appendChild( container );
         frag.appendChild( slide );
       }
 
+      // Empty out the current content and replace it with the new
       self.$carousel
         .empty()
         .append( frag );

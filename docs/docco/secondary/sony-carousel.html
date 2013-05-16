@@ -139,7 +139,7 @@ define(<span class="keyword">function</span>(require){
         }
       });
 
-      self.gotoSlide(<span class="number">0</span>);
+      self.gotoSlide(<span class="number">0</span>, <span class="literal">true</span>);
     },
 
     setupLoopedCarousel: <span class="keyword">function</span>() {
@@ -731,7 +731,7 @@ Helpful if your carousel lets the user see more than a few slides at once.</p>  
 </pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Which direction the carousel moves in. Plugin currently only supports 'x'.</p>             </td>             <td class="code">               <div class="highlight"><pre>    axis: <span class="string">'x'</span>,
 
 </pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Amount of distance user must move in touch environments before the carousel begins to move
-<strong>and</strong> preventDefault() is triggered. Allows for vertical scrolling before trapping the touch.</p>             </td>             <td class="code">               <div class="highlight"><pre>    dragThreshold: <span class="number">10</span>,
+<strong>and</strong> preventDefault() is triggered. Allows for vertical scrolling before trapping the touch.</p>             </td>             <td class="code">               <div class="highlight"><pre>    dragThreshold: Settings.isVita ? <span class="number">5</span> : <span class="number">10</span>,
 
 </pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Use CSS3 transitions and transforms over jQuery animations if possible.</p>             </td>             <td class="code">               <div class="highlight"><pre>    useCSS3: <span class="literal">true</span>,
 

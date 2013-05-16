@@ -53,44 +53,30 @@ define(function(require){
 
     'init': function() {
 
-      var self = this;
+      var self = this,
+          bounds = {};
 
-      // Inititalize draggable scrubber for X axis drag
-      if ( self.axis == 'x' ) {
+      bounds[self.axis] = {'min': 0, 'max': 100};
 
-        // Inititalize draggable scrubber
-        self.$scrubber.sonyDraggable({
-          'axis': 'x',
-          'unit': '%',
-          'containment': self.$dualViewContainer,
-          'drag': $.proxy(self.onDrag, self),
-          'bounds': {'x': {'min': 0, 'max': 100}},
-          'snapToBounds': 25
-        });
-
-      // Inititalize draggable scrubber for Y axis drag
-      } else if ( self.axis == 'y' ) {
-
-        // Inititalize draggable scrubber
-        self.$scrubber.sonyDraggable({
-          'axis': 'y',
-          'unit': '%',
-          'containment': self.$dualViewContainer,
-          'drag': $.proxy(self.onDrag, self),
-          'bounds': {'y': {'min': 0, 'max': 100}},
-          'snapToBounds': 25
-        });
-
-      }
+      self.$scrubber.sonyDraggable({
+        'axis': self.axis,
+        'unit': '%',
+        'containment': self.$dualViewContainer,
+        'drag': $.proxy(self.onDrag, self),
+        'bounds': bounds,
+        'snapToBounds': 25
+      });
 
       // Set initial scrubber position to the middle of the viewer
+      //
+      // This `dragging2` class is garbage and should be removed.
+
       self.$scrubber.sonyDraggable('setPositions', {x: 50, y:50});
 
- 
       self.$handle.mouseenter(function(){
         self.$scrubber.addClass('dragging2');
       });
-      
+
       self.$handle.mouseleave(function(){
         if ( !self.$scrubber.hasClass('dragging') ) {
           setTimeout(function(){
@@ -105,12 +91,27 @@ define(function(require){
         }, 250);
       });
 
+      self.bindClicks();
+    },
+
+    bindClicks: function() {
+
+      var self = this;
+
+      self.$topSlide.next().on('click', function(){
+        self.$scrubber.sonyDraggable('snapTo', self.axis, 100);
+      });
+
+      self.$bottomSlide.next().on('click', function(){
+        self.$scrubber.sonyDraggable('snapTo', self.axis, 0);
+      });
     },
 
     // We just need the images to be ready *enough* to provide dimensions.
     // Since the usual imagesLoaded plugin approach wasn't compatible with iQ,
     // we just poll for a width until one is available.
-    'initTimeout': function() {
+
+    initTimeout: function() {
       var self = this,
           ready = true;
 
@@ -132,7 +133,7 @@ define(function(require){
     // slide's width or height to match, and adjust the image container's width by that
     // percentage's inverse to maintain the desired positioning.
 
-    'onDrag': function(e) {
+    onDrag: function(e) {
       var self = this;
 
       if ( self.axis == 'x' ) {
@@ -152,11 +153,8 @@ define(function(require){
         // If scrubber comes close to edge, hide caption for hidden image
         (e.position.top <= 25) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
         (e.position.top <= 75) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
-
       }
-
     }
-
   };
 
   return module;
