@@ -90,7 +90,7 @@ $.extend(flowplayer, {
       disabled: false,
 
       // first engine to try
-      engine: 'html5',
+      engine: $('html').hasClass('ps3') ? 'flash' : 'html5',
 
       fullscreen: window == window.top,
 

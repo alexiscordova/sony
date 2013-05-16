@@ -56,12 +56,6 @@ define(function(require){
 
       self.variation            = self.$el.data('variation');
       
-      // Cache some jQuery objects we'll reference later
-      self.$ev                  = $({});
-      self.$document            = Settings.$document;
-      self.$window              = Settings.$window;
-      self.$html                = Settings.$html;
-
       self.videoAPI             = null;
 
       // Inits the module
@@ -102,7 +96,7 @@ define(function(require){
       // Handles global debounced resize event
       onDebouncedResize: function(){
         var self = this,
-        wW = self.$window.width();
+        wW = Settings.$window.width();
 
         if(wW > 980){
           //this makes the header grow 1px taller for every 20px over 980w..

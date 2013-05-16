@@ -36,10 +36,8 @@ define(function(require) {
       _currentPlayer       = null,
       _fp                  = window.flowplayer;
 
-
       _fp.conf = {
         swf: 'swf/flowplayer.swf',
-        key: '$104774194953913',
         splash: true,
         embed: false,
         tooltip: false

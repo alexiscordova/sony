@@ -40,6 +40,10 @@ define(function(require) {
       self.$slideContainer = self.$el.find( '.editorial-carousel' );
       self.numSlides = self.$slides.length;
 
+      self.$document            = Settings.$document;
+      self.$window              = Settings.$window;
+      self.$html                = Settings.$html;
+
       // Inits the module
       self.init();
 
@@ -69,10 +73,23 @@ define(function(require) {
       onDebouncedResize: function() {
         var self = this,
             isLargeDesktop = Modernizr.mq( '(min-width: 74.9375em)' ),
-            overflow = isLargeDesktop ? 'hidden' : 'visible';
+            overflow = isLargeDesktop ? 'hidden' : 'visible',
+            wW = self.$window.width();
 
         self.$el.css( 'overflow' , overflow );
+
+        if(wW > 980){
+          //this makes the header grow 1px taller for every 20px over 980w..
+          self.$el.find('.editorial-carousel-wrapper').css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
+          //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
+        }else{
+          //this removes the dynamic css so it will reset back to responsive styles
+          self.$el.find('.editorial-carousel-wrapper').css('height', '');
+        }
+
+
       },
+
 
       // Main setup method for the carousel
       setupCarousel: function() {
