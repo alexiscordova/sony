@@ -246,6 +246,7 @@ $transitionSpeed: 0.5s;
       color: #fff;
       @include border-radius(50%);
       @include transition(.1s);
+      -webkit-transform-style: preserve-3d;
       
       .arrow-right,
       .arrow-left, {
@@ -276,16 +277,18 @@ $transitionSpeed: 0.5s;
         font-size: 2em;
         @include scale(0.5);
         @include border-radius(50%);
-        @include transition(.1s ease-out);        
-        -webkit-backface-visibility: hidden;
-        transition-property: none;
+        @include transition(.1s ease-out); 
+        -webkit-transform-style: preserve-3d;       
+/*         -webkit-backface-visibility: hidden; */
         
         .icons {
           position: absolute;
-          top: 50%;
+          top: 30%;
           left: 50%;
-          width: 100px;
           margin: -30px 0 0 -50px;
+          padding: 15px 0;
+          width: 100px;
+          height: 100px;
           
           i {
             display:inline-block;
@@ -293,6 +296,7 @@ $transitionSpeed: 0.5s;
             -webkit-font-smoothing: antialiased;
             @include rotate(0deg);
             @include transition(.1s ease-out);
+            -webkit-transform-style: preserve-3d;
             
             &.fonticon-10-plus-skinny {
               display: inline-block;
@@ -305,6 +309,8 @@ $transitionSpeed: 0.5s;
         }
         &.hspot-hover-on {
           @include scale(0.55);
+          -webkit-transform-style: preserve-3d;
+          
           background:$buttonOrangeHover;
           i {
             margin:0 3px;
@@ -326,22 +332,24 @@ $transitionSpeed: 0.5s;
         @include scale(0.5);
         @include border-radius(50%);
         @include transition(.1s ease-out);
-        -webkit-backface-visibility: hidden;
-        transition-property: none;
+        -webkit-transform-style: preserve-3d;
         
         .icons {
           position: absolute;
-          top: 50%;
+          top: 30%;
           left: 50%;
-          width: 100px;
           margin: -30px 0 0 -50px;
-          
+          padding: 15px 0;
+          width: 100px;
+          height: 100px;
+                    
           i {
             display:inline-block;
             margin:0;
-            -webkit-font-smoothing: antialiased;
+            /* -webkit-font-smoothing: antialiased; */
             @include rotate(45deg);
             @include transition(.1s ease-out);
+            -webkit-transform-style: preserve-3d;
             
             &.fonticon-10-plus-skinny {
               display: inline-block;
@@ -354,6 +362,8 @@ $transitionSpeed: 0.5s;
         }
         &.hspot-hover-on {
           @include scale(0.55);
+          -webkit-transform-style: preserve-3d;
+          
           background:$gray40;
           i {
             margin:0 3px;
@@ -377,6 +387,7 @@ $transitionSpeed: 0.5s;
       color: #fff;
       @include border-radius(50%);
       @include transition(.1s);
+      -webkit-transform-style: preserve-3d;
       
       .arrow-right,
       .arrow-left, {
@@ -405,16 +416,20 @@ $transitionSpeed: 0.5s;
         background: $buttonOrange;
         text-align: center;
         font-size: 2.0em;
+        @include rotate(0.02deg);
         @include scale(0.5);
         @include border-radius(50%);
         @include transition(.1s ease-out);
+        -webkit-transform-style: preserve-3d;
         
         .icons {
           position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 100px;
           margin: -30px 0 0 -50px;
+          padding: 10px 0;
+          top: 35%;
+          left: 65%;
+          width: 80px;
+          height: 80px;
           
           i {
             display: inline-block;
@@ -422,10 +437,13 @@ $transitionSpeed: 0.5s;
             -webkit-font-smoothing: antialiased;
             @include rotate(0deg);
             @include transition(.1s ease-out);
+            -webkit-transform-style: preserve-3d;
+            
           }
         }
         &.hspot-hover-on {
           @include scale(0.55);
+          -webkit-transform-style: preserve-3d;
           background: $buttonOrangeHover;
           
           i {
@@ -445,27 +463,34 @@ $transitionSpeed: 0.5s;
         background:$gray30;
         text-align:center;
         font-size:2.0em;
+        @include rotate(0.02deg);
         @include scale(0.5);
         @include border-radius(50%);
         @include transition(.1s ease-out);
+        -webkit-transform-style: preserve-3d;
         
         .icons {
           position:absolute;
           margin: -30px 0 0 -50px;
-          top:50%;
-          left:50%;
-          width:100px;
-
+          padding: 10px 0;
+          top: 35%;
+          left: 65%;
+          width: 80px;
+          height: 80px; 
+          
           i {
             display:inline-block;
             margin:0;
             -webkit-font-smoothing: antialiased;
             @include rotate(45deg);
             @include transition(.1s ease-out);
+            -webkit-transform-style: preserve-3d;
+            
           }
         }
         &.hspot-hover-on {
           @include scale(0.55);
+          -webkit-transform-style: preserve-3d;
           background:$gray40;
           
           i {
@@ -481,12 +506,14 @@ $transitionSpeed: 0.5s;
 /*GLOBAL OVERLAY*/
 .editorial {
   .hotspot-modal {
+    -webkit-transform-style: preserve-3d;
     .modal-body, .modal-inner {
       background-color: transparent;
       box-shadow: 0px 0px 0px transparent;
       -moz-box-shadow: 0px 0px 0px transparent;
       -webkit-box-shadow: 0px 0px 0px transparent;
       box-shadow: 0px 0px 0px transparent;
+      -webkit-transform-style: preserve-3d;      
     }
     .overlay-inner { 
       margin: 0px auto; 
