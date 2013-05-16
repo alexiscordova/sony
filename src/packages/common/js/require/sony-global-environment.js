@@ -53,16 +53,17 @@ define(function (require) {
           $(x).remove();
           return false;
         }
-
       });
 
-      Modernizr.addTest("displayTable", function() {
+      // Test for `display: table` support.
 
-        var rules = document.createElement("div").style;
+      Modernizr.addTest('displayTable', function() {
+
+        var rules = document.createElement('div').style;
 
         try {
-          rules.display = "table";
-          return rules.display == "table";
+          rules.display = 'table';
+          return rules.display === 'table';
         } catch (e) {
           return false;
         }
