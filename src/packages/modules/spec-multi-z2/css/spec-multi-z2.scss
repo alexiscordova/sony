@@ -289,11 +289,12 @@ $specBorderColor: $gray70;
 
   .spec-items-grid {
     border-right: .0625em solid $specBorderColor;
-    @include transition(box-shadow $transitionFast ease-in);
+    @include transition(box-shadow $transitionFast ease-in, border $transitionFast ease-in);
 
     &.overflowing {
-      @include box-shadow(inset -.125em 0 .1875em -.125em $transparentBlack);
+      @include box-shadow(inset -2px 0 3px -1px $stickyShadowColor);
       @include transition-timing-function(ease-out);
+      border-right-width: 0;
     }
   }
 

@@ -20,6 +20,13 @@
     min-height: px-em( 720px );
   }
 
+  // Remove bottom margin if this is a submodule
+  // Also, don't fade it in
+  .submodule & {
+    @include opacity(100);
+    margin-bottom: 0;
+  }
+
   // Move paddles up a bit so they look visually centered
   .pagination-paddles button {
     top: 48%;

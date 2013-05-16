@@ -74,7 +74,7 @@ define(<span class="keyword">function</span>(require){
           Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.fixTitleHeight, self));
         }
 
-        <span class="keyword">var</span> btn = self.$el.find(<span class="string">".inner .box a, .mobile-buttons a"</span>);
+        <span class="keyword">var</span> btn = self.$el.find(<span class="string">".inner .box a.video, .inner .box a.carousel, .mobile-buttons a.video, .mobile-buttons a.carousel"</span>);
 
         <span class="keyword">if</span>(btn.length &gt; <span class="number">0</span>){
           btn.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){

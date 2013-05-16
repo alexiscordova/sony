@@ -980,7 +980,8 @@ The buffer value is very useful when the height is a percentage of the width</p>
         keepSorted : <span class="literal">true</span>, <span class="comment">// Keep sorted when shuffling/layout</span>
         hideLayoutWithFade: <span class="literal">false</span>,
         sequentialFadeDelay: <span class="number">150</span>,
-        useTransition: <span class="literal">true</span> <span class="comment">// You don't want transitions on shuffle items? Fine, but you're weird</span>
+        useTransition: <span class="literal">true</span>, <span class="comment">// You don't want transitions on shuffle items? Fine, but you're weird</span>
+        supported: Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions, <span class="comment">// supports transitions and transforms</span>
     };
 
 </pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.settings = {
@@ -993,7 +994,6 @@ The buffer value is very useful when the height is a percentage of the width</p>
         enabled: <span class="literal">true</span>,
         destroyed: <span class="literal">false</span>,
         styleQueue: [],
-        supported: Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions, <span class="comment">// supports transitions and transforms</span>
         prefixed: Modernizr.prefixed,
         threeD: Modernizr.csstransforms3d <span class="comment">// supports 3d transforms</span>
     };
