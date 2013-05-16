@@ -610,8 +610,19 @@ define(function(require) {
         }
     },
     
+    catchAllClicks: function( event ) {
+      var self = this;
+
+      if( $( event.currentTarget ).not( self.$lastOpen[2] ) ) {
+        self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
+      }
+    },
+    
     open: function( container, hotspot, info ) {
         var self = this;
+        
+        // add off-hotspot click to close
+        $(document).click(self.catchAllClicks);
         
         // we are setting display:none when the trasition is complete, and managing the timer here
         if( self.$lastOpen && container.is( self.$lastOpen[0] ) ) {
