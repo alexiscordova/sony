@@ -11,24 +11,36 @@
     line-height: 55px;
     color: $gray20;
     @include user-select(none);
+    @include transition(color 250ms);
+
+    &:hover {
+      color: $secondarySlateDark;
+
+      i.fonticon-10-arrowhead-down {
+        color: $secondarySlateDark;
+      }
+    }
   }
 
-  i {
+  i.fonticon-10-arrowhead-down {
+    -webkit-transition: -webkit-transform 250ms, top 250ms, color 250ms;
+    -moz-transition: -mos-transform 250ms, top 250ms, color 250ms;
+    -ms-transition: -ms-transform 250ms, top 250ms, color 250ms;
+    transition: transform 250ms, top 250ms, color 250ms;
     position: relative;
     top: -2px;
-    &.fonticon-10-arrowhead-up {
-      display: none;
-    }
+    color: $gray40;
   }
 
   &.open {
 
     i.fonticon-10-arrowhead-down {
-      display: none;
-    }
+      @include rotate(-180deg);
+      top: 2px;
 
-    i.fonticon-10-arrowhead-up {
-      display: inline;
+      .lt-ie9 & {
+        top: -2px;
+      }
     }
   }
 
