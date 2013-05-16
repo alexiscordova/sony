@@ -385,6 +385,20 @@ module.exports = function(grunt) {
           fileExclusionRegExp: /css|fonts|img/,
           logLevel: 1,
           preserveLicenseComments: false,
+          optimize:'uglify2',
+          uglify2:{
+            output: {
+              beautify: false
+            },
+            compress: {
+                sequences: false,
+                global_defs: {
+                    DEBUG: false
+                }
+            },
+            warnings: false,
+            mangle: true
+          },
           modules: (function(){
             var arr = [
               {
@@ -627,9 +641,11 @@ module.exports = function(grunt) {
 
     if(grunt.option('deploy')){
       grunt.task.run('requirejs_deploy');
-      grunt.task.run('groundskeeper');
+      // grunt.task.run('groundskeeper');
     }
   });
+
+  grunt.registerTask('jdtest', ['js', 'requirejs_deploy']);
 
   grunt.registerTask('w', function(module){
     module = module || '**';
