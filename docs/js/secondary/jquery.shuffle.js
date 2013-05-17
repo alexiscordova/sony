@@ -1070,7 +1070,7 @@ define(function(require){
         hideLayoutWithFade: false,
         sequentialFadeDelay: 150,
         useTransition: true, // You don't want transitions on shuffle items? Fine, but you're weird
-        supported: Modernizr.csstransforms && Modernizr.csstransitions, // supports transitions and transforms
+        supported: Modernizr.csstransforms && Modernizr.csstransitions // supports transitions and transforms
     };
 
     // Not overrideable

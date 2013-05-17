@@ -65,6 +65,7 @@ define(function(require){
         defaultLink: '.headline a',
         useCSS3: self.useCSS3,
         paddles: true,
+        paddlePosition: 'outset',
         pagination: true
       });
 
