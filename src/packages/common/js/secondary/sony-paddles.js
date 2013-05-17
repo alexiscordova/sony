@@ -77,15 +77,15 @@ define(function(require){
       var self = this,
           paddleClass = self.useSmallPaddles ? 'nav-paddle' : 'pagination-paddle',
           $navContainer = $('<div class="pagination-paddles">'),
-          $prevPaddle = $('<button class="' + paddleClass + ' pagination-prev"><i class="fonticon-10-chevron-reverse"></i></button>'),
-          $nextPaddle = $('<button class="' + paddleClass + ' pagination-next"><i class="fonticon-10-chevron"></i></button>');
+          $prevPaddle = $('<div class="' + paddleClass + ' pagination-prev"><i class="fonticon-10-chevron-reverse"></i></div>'),
+          $nextPaddle = $('<div class="' + paddleClass + ' pagination-next"><i class="fonticon-10-chevron"></i></div>');
 
       $navContainer.append( $prevPaddle, $nextPaddle );
       self.$el.append( $navContainer );
       self.$nav = $navContainer;
 
-      self.$paddles     = self.$nav.find('button');
-      self.$leftPaddle  = self.$paddles.filter('.pagination-prev');
+      self.$paddles = self.$nav.find('.' + paddleClass);
+      self.$leftPaddle = self.$paddles.filter('.pagination-prev');
       self.$rightPaddle = self.$paddles.filter('.pagination-next');
 
       self.$leftPaddle.on('click', function() {
