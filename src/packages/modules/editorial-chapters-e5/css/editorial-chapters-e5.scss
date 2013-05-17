@@ -19,6 +19,7 @@ $windowWidth: 1100;
 .container.submodule {
   .editorial-chapters-container {
     margin: 0;
+
     &.container {
       width: 100%;
     }
@@ -27,6 +28,7 @@ $windowWidth: 1100;
 
 .editorial-chapters-container {
   @include clearfix();
+  margin: 50px auto 90px;
 
   .image-module {
     text-align:center;
@@ -84,7 +86,7 @@ $windowWidth: 1100;
     text-align:center;
     height:68px;
     z-index:1;
-    margin: -4px auto 50px;
+    margin: -4px auto 0;
     overflow: hidden;
 
     .left-shade,
@@ -103,7 +105,7 @@ $windowWidth: 1100;
       height:48px;
       display: inline-block;
       background:$white;
-      color:$gray40;
+      color:$gray20;
       cursor:pointer;
       text-align:left;
       line-height:16px;
@@ -113,16 +115,24 @@ $windowWidth: 1100;
       @include transition();
       @include flickerfix();
       @include box-sizing(content-box);
-      @include opacity(75);
 
       & + li {margin-left:-1px;}
+
+      &.active {
+        background: $gray80;
+      }
 
       &.active,
       &:hover {
         border-top:4px solid $linkBlue;
-        color:$gray20;
-        background:$gray80;
-        @include opacity(100);
+
+        img {
+          @include opacity(100);
+        }
+
+        i {
+          color: $gray20;
+        }
       }
 
       .lt-ie8 & {
@@ -137,9 +147,11 @@ $windowWidth: 1100;
       width: percentage(60/$itemWidth);
       max-width: 60px;
       float: left;
+      @include opacity(75);
     }
 
     i {
+      color: $gray40;
       line-height:16px;
       position:relative;
       top:9px;
@@ -160,6 +172,7 @@ $windowWidth: 1100;
 
     .nav-label {
       font-size:12px;
+      color: $gray20;
       position:relative;
       display: table-cell;
       vertical-align: middle;
@@ -202,7 +215,6 @@ $windowWidth: 1100;
     .thumb-nav li {
       background:$gray80;
 
-      &:hover,
       &.active {
         background:$white;
       }
@@ -251,6 +263,8 @@ $windowWidth: 1100;
 .span6,
 .span7 {
   .editorial-chapters-container {
+    margin: auto;
+
     .image-module {height:auto;}
     
     $miniWindowWidth : 500;
@@ -259,7 +273,7 @@ $windowWidth: 1100;
     // only two tabs may exist at a certain time for the spans
     li {
       width: auto;
-      /*width: percentage($miniItemWidth/$miniWindowWidth);*/
+      // width: percentage($miniItemWidth/$miniWindowWidth);
       padding:8px 10px;
       height:38px;
       @include box-sizing(content-box);
@@ -286,8 +300,8 @@ $windowWidth: 1100;
 
         .label-container {
           width: auto;
-          /*position: absolute;*/
-          /*left: percentage(60/$miniItemWidth);*/
+          // position: absolute;
+          // left: percentage(60/$miniItemWidth);
         }
       }
     }
@@ -304,8 +318,8 @@ $windowWidth: 1100;
         .label-container {
           width: auto;
           padding: 0 percentage(10/$miniItemWidth);
-          /*width: percentage(100/$miniItemWidth);*/
-          /*padding-left: percentage(10/$miniItemWidth);*/
+          // width: percentage(100/$miniItemWidth);
+          // padding-left: percentage(10/$miniItemWidth);
         }
       }
     } 
