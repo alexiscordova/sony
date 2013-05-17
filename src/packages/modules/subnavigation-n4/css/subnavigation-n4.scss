@@ -4,6 +4,12 @@
 $maxChildren: 20;
 
 .subnav-module {
+  @include transition(opacity 250ms);
+  opacity: 0;
+
+  &.active {
+    opacity: 1;
+  }
 
   header {
     padding: 27px 0 8px;

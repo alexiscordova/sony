@@ -74,6 +74,8 @@ define(function(require){
         self.renderNav(2);
       }
 
+      self.$el.addClass('active');
+
       Environment.on('global:resizeDebounced', $.proxy(self.setTrayHeight, self));
     },
 
