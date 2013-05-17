@@ -8,7 +8,7 @@
 // -------------------------------------------------------------------------
 
 var UNAV = ( function( window, document, $, undefined ){
-  
+
   'use strict';
 
   var $triggerLink,
@@ -69,7 +69,7 @@ var UNAV = ( function( window, document, $, undefined ){
     } else {
       $triggerLink.bind('click',function(e){
         e.preventDefault();
-        
+
         if ( _minBreakpointMet() ){
           if ($pageWrapOuter.hasClass('unav-open')){
             _closeUNav();
@@ -82,7 +82,7 @@ var UNAV = ( function( window, document, $, undefined ){
       $closeBtn.bind('click',function(e){
         e.preventDefault();
         _closeUNav();
-      });      
+      });
     }
 
 
@@ -133,7 +133,7 @@ var UNAV = ( function( window, document, $, undefined ){
       $('.u-nav-primary-col1.u-nav-primary-2high .u-nav-primary-img-wrap').height(uNavColWidth * x5upRatio);
       $('.u-nav-primary-col1.u-nav-primary-2wide .u-nav-primary-img-wrap').height($firstChild.outerWidth() * x3upRatio);
     }
-    
+
     $uNavPrimary.height(uNavRowHeight + "px");
     // now that we set the height of the images container, we can grab the height of the entire u-nav for our js.
 
@@ -144,7 +144,7 @@ var UNAV = ( function( window, document, $, undefined ){
       if ($firstChild.find('.u-nav-primary-img').height() > 0){
         $uNavPrimary.css('height','');
       }
-      // set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the 
+      // set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the
       $uNav.css('top','-' + uNavOuterHeight + 'px');
       if ($pageWrapOuter.hasClass('unav-open')){
         $pageWrapInner.css('margin-top', uNavOuterHeight + 'px');
@@ -236,7 +236,7 @@ var UNAV = ( function( window, document, $, undefined ){
 
   // in case Modernizr isn't available, figure out if this is a high-rez display
   // https://github.com/imulus/retinajs/blob/master/src/retina.js
-  _isRetina = function(){ 
+  _isRetina = function(){
     var mediaQuery = "(-webkit-min-device-pixel-ratio: 1.5),(min--moz-device-pixel-ratio: 1.5),(-o-min-device-pixel-ratio: 3/2),(min-resolution: 1.5dppx)";
     var root = (typeof exports == 'undefined' ? window : exports);
     if (root.devicePixelRatio > 1){
@@ -251,7 +251,7 @@ var UNAV = ( function( window, document, $, undefined ){
   },
   // needed for _isRetina to work
   // https://github.com/paulirish/matchMedia.js
-  _matchMedia = function(){ 
+  _matchMedia = function(){
     var bool,
       doc = document,
       docElem = doc.documentElement,
