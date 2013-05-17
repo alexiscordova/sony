@@ -77,8 +77,8 @@ define(function(require){
       var self = this,
           paddleClass = self.useSmallPaddles ? 'nav-paddle' : 'pagination-paddle',
           $navContainer = $('<div class="pagination-paddles">'),
-          $prevPaddle = $('<div class="' + paddleClass + ' pagination-prev"><i class="fonticon-10-chevron-reverse"></i></div>'),
-          $nextPaddle = $('<div class="' + paddleClass + ' pagination-next"><i class="fonticon-10-chevron"></i></div>');
+          $prevPaddle = $('<div class="' + paddleClass + ' ' + self.paddlePosition + ' pagination-prev"><i class="fonticon-10-chevron-reverse"></i></div>'),
+          $nextPaddle = $('<div class="' + paddleClass + ' ' + self.paddlePosition + ' pagination-next"><i class="fonticon-10-chevron"></i></div>');
 
       $navContainer.append( $prevPaddle, $nextPaddle );
       self.$el.append( $navContainer );
@@ -159,7 +159,9 @@ define(function(require){
   // --------
 
   $.fn.sonyPaddles.defaults = {
-    useSmallPaddles: false
+    useSmallPaddles: false,
+
+    paddlePosition: 'inset'
   };
 
 });

@@ -107,10 +107,24 @@ $paddleHeight: px-em( 76 );
 
     &.pagination-next {
       right: 20px;
+
+      &.outset {
+        @media (min-width: 1400px) {
+          right: 50%;
+          margin-right: -695px;
+        }
+      }
     }
 
     &.pagination-prev {
       left: 20px;
+
+      &.outset {
+        @media (min-width: 1400px) {
+          left: 50%;
+          margin-left: -695px;
+        }
+      }
     }
 
     .lt-ie9 & {
