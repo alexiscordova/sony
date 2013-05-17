@@ -15,11 +15,11 @@ if multiModule == "true"
 else
     bump = ""
 
-//-textarea.e360debug
-//-button.infoClear clear
-.e360(id=id)
+.e360(id=id).dim-the-lights
   .outer 
     if data.background === "true"
+      .loading.load-indicator.text-center
+        img.load-indicator(src="img/loader.gif", alt="Loading...")
       - i = 0
       - for imgData in data.sequence
         - sequenceId = id+"-"+i 
@@ -34,6 +34,8 @@ else
         .image-module.track-by-background.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
         - i++
     else
+      .loading.is-asset.load-indicator.text-center
+        img.load-indicator(src="img/loader.gif", alt="Loading...")
       - i = 0
       - for imgData in data.sequence
         - sequenceId = id+"-"+i 

@@ -35,13 +35,8 @@ define(function(require){
         iQ.update();
       };
 */
-      
-      // IE 10 detection
-      if ( window.atob || Settings.isLTIE10 ) {
-        $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
-      }
-      
 /*
+      
       // bind IQ to update at every breakpoint
       if( enquire ) {
         for( var i=0; i < breakpoints.length; i++ ) {
@@ -52,7 +47,12 @@ define(function(require){
           }
         }
       }
-*/
+*/      
+      // IE 10 detection
+      if ( window.atob || Settings.isLTIE10 ) {
+        $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
+      }
+
       
       // detect if there are 360 viewer constructs on the DOM
       $( '.e360' ).each( function( index, el ) {
@@ -68,7 +68,7 @@ define(function(require){
 
     // defaults
     self.$container     = $( element );
-    self.$sequence      = ( self.$container.find( '.outer div' ).length ) > 0 ? self.$container.find( '.outer div' ) : self.$container.find( '.outer img' );
+    self.$sequence      = ( self.$container.find( '.outer div' ).not( '.load-indicator').length ) > 0 ? self.$container.find( '.outer div' ).not( '.load-indicator') : self.$container.find( '.outer img' ).not( '.load-indicator');
     self.sequenceLength = self.$sequence.length;
     self.curLoaded      = 0;
     self.$controls      = self.$container.find( '.controls' );
@@ -107,6 +107,7 @@ define(function(require){
       
       // closures to manage image payload
       var lockAndLoaded = function() {
+        self.syncControlLayout();
         self.curLoaded++;
         checkLoaded();
       };
@@ -115,8 +116,10 @@ define(function(require){
       var checkLoaded = function() {
         if( self.sequenceLength == self.curLoaded ) {
           log( 'all 360 assets loaded' );
-          self.$controls.removeClass( 'hidden' );
           self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
+          self.$container.find( '.load-indicator' ).addClass( 'hidden' );
+          self.syncControlLayout();
+          self.initBehaviors();
         }        
       };
       
@@ -124,6 +127,7 @@ define(function(require){
       self.$sequence.each(function( index, el ) {
         // is the BG image loaded? 
         if( $( el ).data('hasLoaded') ) {
+          self.syncControlLayout();
           self.curLoaded++;
           checkLoaded();
         } else {
@@ -137,32 +141,21 @@ define(function(require){
               el.onload = lockAndLoaded;
             } else {
               // cached, count it against the payload
+              self.syncControlLayout();
               self.curLoaded++;
               checkLoaded();
             }
           }
         }
       });      
+
+      log('SONY : Editorial 360 Viewer : Initialized');
+    },
+    
+    initBehaviors: function() {
+      var self = this;
       
-      // bind scroll event to fire animation on the dragger
-      // 1. movement on desktop and 2. viewport on mobile
       
-      // initial animation, hey why not.
-      setTimeout(function() {
-        self.animateDragger();
-      }, 500);
-      
-      // reset the step buffer when the window changes size
-      $( window ).bind( 'resize', function( event ) {
-        self.onResize( event );
-      });
-      
-      // adjust controls to center if type is image
-      if( true === self.isImage ) {
-        self.syncControlLayout();
-      }
-            
-/*
       if( true === Modernizr.touch ) {
         // extend with touch controls
         self.$controls.hammer();
@@ -223,9 +216,27 @@ define(function(require){
           self.mouseMove( event );
         });
       }
-*/
-
-      log('SONY : Editorial 360 Viewer : Initialized');
+      
+      // bind scroll event to fire animation on the dragger
+      // 1. movement on desktop and 2. viewport on mobile
+      
+      // initial animation, hey why not.
+      setTimeout(function() {
+        self.animateDragger();
+      }, 500);
+      
+      // reset the step buffer when the window changes size
+      $( window ).bind( 'resize', function( event ) {
+        self.onResize( event );
+      });
+      
+      // adjust controls to center if type is image
+      if( true === self.isImage ) {
+        self.syncControlLayout();
+      }
+      // finally show controlls
+      self.$controls.removeClass( 'hidden' );
+      
     },
     
     easeSwipe: function( event ) {
@@ -248,8 +259,9 @@ define(function(require){
     onResize: function( event ) {
       var self = this;
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
+      self.syncControlLayout();
       if( true === self.isImage ) {
-        self.syncControlLayout();
+        
       }
     },
     
