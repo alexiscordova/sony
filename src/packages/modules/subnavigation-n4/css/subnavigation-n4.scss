@@ -48,10 +48,15 @@ $maxChildren: 20;
         border-bottom-style: none;
       }
 
-      &.active,
-      &:hover,
-      &:focus {
+      &.active {
         border-bottom-width: 4px;
+      }
+
+      .no-touch & {
+        &:hover,
+        &:focus {
+          border-bottom-width: 4px;
+        }
       }
 
       p {
