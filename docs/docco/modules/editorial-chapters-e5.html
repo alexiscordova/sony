@@ -119,8 +119,8 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>for some reason it $.evenHeights calculates the wrong height
 this is even if DomReady is true. Even if debugger; is run now
 the height of the tallest element will be incorrect. A setTimeout
-seems to fix this issue. </p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>(){ 
-          self.getSlideHeight(); 
+seems to fix this issue.</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>(){
+          self.getSlideHeight();
           self.getSliderWidth();
         }, <span class="number">250</span>);
       },
@@ -153,7 +153,7 @@ seems to fix this issue. </p>             </td>             <td class="code">   
         iQ.update();
 
       },
-   
+
       getSliderWidth: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             $currTabs,

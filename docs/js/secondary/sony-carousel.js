@@ -485,6 +485,10 @@ define(function(require){
 
       var self = this;
 
+      if ( self.$slides.length <= 1 ) {
+        return;
+      }
+
       if ( self.$dotnav ) {
         self.$dotnav.sonyNavDots('reset', {
           'buttonCount': self.$slides.length

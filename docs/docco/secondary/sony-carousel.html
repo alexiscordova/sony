@@ -481,6 +481,10 @@ Reset the carousel to its natural position and order.</p>             </td>     
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      <span class="keyword">if</span> ( self.$slides.length &lt;= <span class="number">1</span> ) {
+        <span class="keyword">return</span>;
+      }
+
       <span class="keyword">if</span> ( self.$dotnav ) {
         self.$dotnav.sonyNavDots(<span class="string">'reset'</span>, {
           <span class="string">'buttonCount'</span>: self.$slides.length
