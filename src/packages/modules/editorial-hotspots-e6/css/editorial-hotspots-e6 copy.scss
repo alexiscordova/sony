@@ -7,29 +7,29 @@ $centerRatio: (28.571428571429% / 2);
 $indicatorRatio: 14px; /* 35%; */ /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
-$transitionSpeed: 0.5s; 
+$transitionSpeed: 0.5s;
 
 /*MIXINZ*/
 @mixin ehsTransition() {
   -o-transition:$transitionSpeed;
   -ms-transition:$transitionSpeed;
   -moz-transition:$transitionSpeed;
-  -webkit-transition:$transitionSpeed; 
-  transition:$transitionSpeed;	
+  -webkit-transition:$transitionSpeed;
+  transition:$transitionSpeed;
 }
 
 @mixin ehsTransition-ltie8() {
   -ms-transition: 0s;
-  transition: 0s;	
+  transition: 0s;
 }
 
 
 /*PATCH TO FIX ZINDEX ISSUE ON FULL-WIDTH-INNER*/
-.editorial.full-inner .inner { 
+.editorial.full-inner .inner {
   z-index: 0;
 }
 /*
-.editorial .container.submodule { 
+.editorial .container.submodule {
   z-index: 0;
 }
 */
@@ -37,36 +37,36 @@ $transitionSpeed: 0.5s;
 .editorial {
   .submodule, .image-module {
     .arrow-right-small {
-    	width: 0; 
-    	height: 0; 
+    	width: 0;
+    	height: 0;
     	border-top: 8px solid transparent;
     	border-bottom: 8px solid transparent;
     	border-left: 8px solid #fff;
     }
-    
+
     .arrow-left-small {
-    	width: 0; 
-    	height: 0; 
+    	width: 0;
+    	height: 0;
     	border-top: 8px solid transparent;
-    	border-bottom: 8px solid transparent; 	
-    	border-right: 8px solid #fff; 
+    	border-bottom: 8px solid transparent;
+    	border-right: 8px solid #fff;
     }
-    
+
     .arrow-right {
-    	width: 0; 
-    	height: 0; 
+    	width: 0;
+    	height: 0;
     	border-top: 10px solid transparent;
     	border-bottom: 10px solid transparent;
     	border-left: 10px solid #fff;
     }
-    
+
     .arrow-left {
-    	width: 0; 
-    	height: 0; 
+    	width: 0;
+    	height: 0;
     	border-top: 10px solid transparent;
-    	border-bottom: 10px solid transparent; 	
-    	border-right: 10px solid #fff; 
-    } 
+    	border-bottom: 10px solid transparent;
+    	border-right: 10px solid #fff;
+    }
   }
 }
 
@@ -74,24 +74,24 @@ $transitionSpeed: 0.5s;
   .table-center-wrap .table-center, .submodule {
     .image-module {
       position: relative;
-      
+
       .eh-transparent {
         @include ehsTransition();
         opacity: 0;
       }
-      
+
       .eh-visible {
         @include ehsTransition();
         opacity: 1;
-      } 
-    } 
+      }
+    }
   }
 }
 
 /*GLOBAL OVERLAY*/
 .hspot-global-details-main {
   .overlay-inner {
-    margin: 0px auto; 
+    margin: 0px auto;
     width: 280px;
     background-color: #fff;
     .overlay-close {
@@ -104,13 +104,13 @@ $transitionSpeed: 0.5s;
       .top {
         background-color: #fff;
       }
-      
+
       .middle {
         background-color: #fff;
         padding: 30px 40px 29px 30px;
         border-bottom: 1px solid #e4e7eb;
         position: relative;
-        
+
         p.p4, p.p3 {
           margin-bottom: 7px;
           &.cHBC {
@@ -122,18 +122,18 @@ $transitionSpeed: 0.5s;
         background-color: #fff;
         padding: 18px 40px 0px 30px;
         height: 107px;
-        
+
         p.p4, p.p3 {
           font-style: italic;
           color: $secondarySlateDark;
           margin-bottom: 8px;
         }
-        
+
         blockquote.l4, blockquote.l3 {
           color: $gray40;
           position: relative;
           margin-left: 24px;
-          &:before { 
+          &:before {
             display: block;
             content: "\201C";
             font-size: 40px;
@@ -158,15 +158,15 @@ $transitionSpeed: 0.5s;
 .editorial {
   .submodule, .hotspot-instance {
     position: relative;
-    
+
     .hspot-outer.info-jump-to-top {
-      z-index: 4; 
+      z-index: 4;
     }
-    
+
     .overlay-close {
       position: relative;
     }
-    
+
     .hspot-global-details-overlay {
       position: absolute;
       top: 0px;
@@ -175,12 +175,12 @@ $transitionSpeed: 0.5s;
       height: 100%;
       background: transparent;
       z-index: 6;
-  
+
       .overlay-inner {
         margin: 0px auto;
         width: 230px;
         background-color: #fff;
-        
+
         .overlay-close {
           position: relative;
           width: 230px;
@@ -188,21 +188,21 @@ $transitionSpeed: 0.5s;
           -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
           box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
           margin-top: 27px;
-          
+
           .top {
             background-color: #fff;
           }
-          
+
           .middle {
             background-color: #fff;
             padding: 20px 30px 23px 20px;
             border-bottom: 1px solid #e4e7eb;
             position: relative;
-            
+
             .p4, .p3 {
               @include px-em--font-size--line-height(12,18);
               margin-bottom: 4px;
-              
+
               &.cHBI {
                 margin-bottom: 0;
               }
@@ -211,20 +211,20 @@ $transitionSpeed: 0.5s;
           .footer {
             background-color: #fff;
             padding: 20px 30px 20px 20px;
-            
+
             p.p4, p.p3 {
               @include px-em--font-size--line-height(12,18);
               font-style: italic;
               color: $secondarySlateDark;
               margin-bottom: 9px;
             }
-            
+
             blockquote.l4, blockquote.l3 {
               color: $gray40;
               position: relative;
               margin-left: 24px;
               @include px-em--font-size--line-height(10,16);
-              
+
               &:before {
                 display: block;
                 content: "\201C";
@@ -245,7 +245,7 @@ $transitionSpeed: 0.5s;
         }
       }
     }
-    
+
     .variant1 {
       -o-transition:0s;
       -ms-transition:0s;
@@ -256,43 +256,43 @@ $transitionSpeed: 0.5s;
         top: -160px;
         left: 58px;
       }
-        
+
       &.three-stack-left-top-justified {
         top: -160px;
         left: -287px;
       }
-      
+
       &.three-stack-right-bottom-justified {
         top: -285px;
         left: 58px;
       }
-        
+
       &.three-stack-left-bottom-justified {
         top: -284px;
         left: -288px;
       }
-      
+
       &.two-stack-right-top-justified {
         top: -15px;
         left: 58px;
       }
-        
+
       &.two-stack-left-top-justified {
         top: -15px;
         left: -288px;
       }
-      
+
       &.two-stack-right-bottom-justified {
         top: -139px;
         left: 58px;
       }
-        
+
       &.two-stack-left-bottom-justified {
         top: -139px;
-        left: -288px;        
+        left: -288px;
       }
     }
-        
+
     .variant2 {
       -o-transition:0s;
       -ms-transition:0s;
@@ -303,40 +303,40 @@ $transitionSpeed: 0.5s;
         top: -128px;
         left: 48px;
       }
-        
+
       &.three-stack-left-top-justified {
         top: -128px;
         left: -236px;
       }
-      
+
       &.three-stack-right-bottom-justified {
         top: -242px;
         left: 48px;
       }
-        
+
       &.three-stack-left-bottom-justified {
         top: -242px;
         left: -235px;
       }
-  
+
       &.two-stack-right-top-justified {
         top: -9px;
         left: 48px;
       }
-        
+
       &.two-stack-left-top-justified {
         top: -9px;
-        left: -237px;        
+        left: -237px;
       }
-      
+
       &.two-stack-right-bottom-justified {
         top: -124px;
-        left: 48px;        
+        left: 48px;
       }
-        
+
       &.two-stack-left-bottom-justified {
         top: -124px;
-        left: -237px;        
+        left: -237px;
       }
     }
   }
@@ -372,7 +372,7 @@ $transitionSpeed: 0.5s;
       color: #fff;
       @include border-radius(50%);
       @include transition(.1s);
-      
+
       .hspot-core {
         position: absolute;
         width: 80px;
@@ -387,14 +387,14 @@ $transitionSpeed: 0.5s;
         margin: -40px 0 0 -40px;
         @include border-radius(50%);
         @include transition(.1s ease-out);
-        
+
         .icons {
           position: absolute;
           top: 50%;
           left: 50%;
           width: 100px;
           margin: -30px 0 0 -50px;
-          
+
           i {
             display:inline-block;
             margin:0;
@@ -417,7 +417,7 @@ $transitionSpeed: 0.5s;
           }
         }
       }
-      
+
       .hspot-core-on {
         position: absolute;
         width: 80px;
@@ -432,14 +432,14 @@ $transitionSpeed: 0.5s;
         @include scale(0.5);
         @include border-radius(50%);
         @include transition(.1s ease-out);
-        
+
         .icons {
           position: absolute;
           top: 50%;
           left: 50%;
           width: 100px;
           margin: -30px 0 0 -50px;
-          
+
           i {
             display:inline-block;
             margin:0;
@@ -463,7 +463,7 @@ $transitionSpeed: 0.5s;
         }
       }
     }
-    
+
     /*SMALL HOTSPOTS*/
     .hspot-outer.hspot-small {
       position: absolute;
@@ -479,7 +479,7 @@ $transitionSpeed: 0.5s;
       color: #fff;
       @include border-radius(50%);
       @include transition(.1s);
-      
+
       .hspot-core {
         position: absolute;
         width: 64px;
@@ -494,14 +494,14 @@ $transitionSpeed: 0.5s;
         margin: -32px 0 0 -32px;
         @include border-radius(50%);
         @include transition(.1s ease-out);
-        
+
         .icons {
           position: absolute;
           top: 50%;
           left: 50%;
           width: 100px;
           margin: -30px 0 0 -50px;
-          
+
           i {
             display: inline-block;
             margin: 0;
@@ -513,13 +513,13 @@ $transitionSpeed: 0.5s;
         &.hspot-hover-on {
           @include scale(0.55);
           background: $buttonOrangeHover;
-          
+
           i {
             margin:0 3px;
           }
         }
       }
-      
+
       .hspot-core-on {
         position: absolute;
         width: 64px;
@@ -534,14 +534,14 @@ $transitionSpeed: 0.5s;
         margin: -32px 0 0 -32px;
         @include border-radius(50%);
         @include transition(.1s ease-out);
-        
+
         .icons {
           position:absolute;
           top:50%;
           left:50%;
           width:100px;
           margin: -30px 0 0 -50px;
-          
+
           i {
             display:inline-block;
             margin:0;
@@ -553,13 +553,13 @@ $transitionSpeed: 0.5s;
         &.hspot-hover-on {
           @include scale(0.55);
           background:$gray40;
-          
+
           i {
             margin:0 3px;
           }
         }
       }
-    } 
+    }
   }
 }
 
@@ -570,7 +570,7 @@ $transitionSpeed: 0.5s;
   position: absolute;
   cursor: default;
   text-align: left;
-  
+
   .overlay-inner {
     height: 100%;
     background-color: #fff;
@@ -578,7 +578,7 @@ $transitionSpeed: 0.5s;
     -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
     box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
   }
-  &.variant1 { 
+  &.variant1 {
     width: 280px;
     /* default right justified, left top arrow showing */
     top: -159px;
@@ -618,7 +618,7 @@ $transitionSpeed: 0.5s;
         top: 156px;
         right: -10px;
       }
-      
+
     }
     .footer {
       background-color: #fff;
@@ -646,7 +646,7 @@ $transitionSpeed: 0.5s;
       }
     }
   }
-  &.variant2 { 
+  &.variant2 {
     width: 230px;
     /* default right-top justified */
     top: -124px;
@@ -714,7 +714,7 @@ $transitionSpeed: 0.5s;
       }
     }
   }
-}  
+}
 
 /** IE **/
 
@@ -729,8 +729,8 @@ $transitionSpeed: 0.5s;
         .eh-visible {
           @include ehsTransition-ltie8();
           opacity: 1;
-        } 
-      } 
+        }
+      }
     }
     .submodule .hspot-outer, .image-module .hspot-outer {
       background: url('../../img/editorial-hotspots-e6/hotspot-fallback.png');
@@ -748,7 +748,7 @@ $transitionSpeed: 0.5s;
       .hspot-core, .hspot-core-on {
         background: transparent;
         .icons {
-          visibility: hidden;  
+          visibility: hidden;
         }
       }
     }
