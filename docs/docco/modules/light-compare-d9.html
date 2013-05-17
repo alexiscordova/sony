@@ -12,6 +12,7 @@ define(<span class="keyword">function</span>(require){
 
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
       bootstrap = require(<span class="string">'bootstrap'</span>),
+      Settings = require(<span class="string">'require/sony-global-settings'</span>),
       sonyStickyTabs = require(<span class="string">'secondary/index'</span>).sonyStickyTabs;
 
   <span class="keyword">var</span> module = {
@@ -29,7 +30,6 @@ define(<span class="keyword">function</span>(require){
     <span class="keyword">var</span> self = <span class="keyword">this</span>;
     self.$el = $(element);
     self.init();
-
     log(<span class="string">'SONY : LightCompare : Initialized'</span>);
   };
 
@@ -39,24 +39,42 @@ define(<span class="keyword">function</span>(require){
     init: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.$win = $(window);
-      self.modalID = <span class="string">'#light-compare-modal'</span>;
+      self.modalID = <span class="string">'light-compare-modal'</span>;
+      self.hasTouch = Settings.hasTouchEvents || Settings.hasPointerEvents;
+      self.useIScroll = self.hasTouch;
+      <span class="keyword">if</span> (self.useIScroll) {
+        self.initiScroll();
+      }
       self.bind();
     },
 
     bind: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      $(<span class="string">'.launch-modal'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>() {
-        self.launchModal(self.modalID);
-      });
-
+      $(<span class="string">'.launch-modal'</span>).on(<span class="string">'click'</span>, $.proxy(self.launchModal, self));
       self.$win.resize($.proxy(self.measureModal, <span class="keyword">this</span>));
+
+      <span class="keyword">if</span> (self.useIScroll) {
+        $(<span class="string">'#'</span> + self.modalID).on(<span class="string">'shown'</span>, $.proxy(self.updateiScroll, self));
+      }
     },
 
-    launchModal: <span class="keyword">function</span>(id) {
+    launchModal: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      $(id).modal();
+      $(<span class="string">'#'</span> + self.modalID).modal();
       self.measureModal();
+    },
+
+    initiScroll: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.iscroll =  <span class="keyword">new</span> IScroll(self.modalID);
+      window.iscroll = self.iscroll;
+    },
+
+    updateiScroll: <span class="keyword">function</span>(){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.iscroll.refresh();
+      self.iscroll.scrollTo();
     },
 
     measureModal: <span class="keyword">function</span>() {

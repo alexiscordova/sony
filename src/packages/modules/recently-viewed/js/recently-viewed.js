@@ -120,6 +120,7 @@ define(function(require) {
         pagination: true,
         paddles: true,
         useSmallPaddles: true,
+        paddlePosition: 'outset',
         $paddleWrapper: self.$paddleWrapper
       });
 

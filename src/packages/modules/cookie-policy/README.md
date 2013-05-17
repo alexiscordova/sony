@@ -16,19 +16,19 @@ Each module will include this document, which contains an ordered list of the fi
 
 * styles.css
 	*../../../../build/deploy/css/responsive.css
-	
+
 * responsive.css
 	*../../../../build/deploy/css/responsive.css
-	
+
 * all.css
 	*../../../../build/deploy/css/modules/all.css
-	
+
 * e13-editorial-carousel.css
 	*../../../../build/deploy/css/modules/e13-editorial-carousel.css
 
 * responsive.css
-	*../../../../build/deploy/css/responsive-modules.css	
-	
+	*../../../../build/deploy/css/responsive-modules.css
+
 == DEPLOY TAIL files ==
 
 * jquery.min.js
@@ -42,13 +42,13 @@ Each module will include this document, which contains an ordered list of the fi
 
 * require.min.js
 	*../../../../build/deploy/js/require.min.js
-	
+
 * secondary.min.js
 	*../../../../build/deploy/js/secondary.min.js
 
 * defer.min.js
 	*../../../../build/deploy/js/defer.min.js
-	
+
 == Related Source ==
 
 * e13-editorial-carousel.js
@@ -56,7 +56,7 @@ Each module will include this document, which contains an ordered list of the fi
 
 * e13-editorial-carousel.scss
 	*../../../css/scss/modules/e13-editorial-carousel.scss
-	
+
 Example JSON File(s)
 --------------------
 

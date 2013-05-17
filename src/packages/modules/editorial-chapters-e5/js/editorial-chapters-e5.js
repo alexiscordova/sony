@@ -125,9 +125,9 @@ define(function(require){
         // for some reason it $.evenHeights calculates the wrong height
         // this is even if DomReady is true. Even if debugger; is run now
         // the height of the tallest element will be incorrect. A setTimeout
-        // seems to fix this issue. 
-        setTimeout(function(){ 
-          self.getSlideHeight(); 
+        // seems to fix this issue.
+        setTimeout(function(){
+          self.getSlideHeight();
           self.getSliderWidth();
         }, 250);
       },
@@ -162,7 +162,7 @@ define(function(require){
         iQ.update();
 
       },
-   
+
       getSliderWidth: function() {
         var self = this,
             $currTabs,

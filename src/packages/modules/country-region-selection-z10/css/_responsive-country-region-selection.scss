@@ -18,10 +18,8 @@ $phoneMax: px-em(767);
         display: block;
         float: left;
         clear: left;
+        width: 100%;
       }
-    }
-    .country:hover {
-      background-color: transparent;
     }
     .matte {
       margin-bottom: 40px;
@@ -34,6 +32,23 @@ $phoneMax: px-em(767);
 
 @media (max-width: $phoneMax) {
   .country-region {
+    .countries li {
+      margin-bottom: 4px;
+      display: list-item;
+    }
+    .media {
+      line-height: 1;
+    }
+    .country {
+      display: inline-block;
+    }
+    .media-bd {
+      display: inline-block;
+      line-height: 1;
+    }
+    .country:hover {
+      background-color: transparent;
+    }
     .scrollable {
       position: absolute;
       top: 0;

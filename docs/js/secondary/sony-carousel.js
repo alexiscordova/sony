@@ -485,6 +485,10 @@ define(function(require){
 
       var self = this;
 
+      if ( self.$slides.length <= 1 ) {
+        return;
+      }
+
       if ( self.$dotnav ) {
         self.$dotnav.sonyNavDots('reset', {
           'buttonCount': self.$slides.length
@@ -528,7 +532,8 @@ define(function(require){
       self.paddlesInit = true;
 
       $wrapper.sonyPaddles({
-        useSmallPaddles: self.useSmallPaddles
+        useSmallPaddles: self.useSmallPaddles,
+        paddlePosition: self.paddlePosition
       });
 
       self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
@@ -768,6 +773,9 @@ define(function(require){
 
     // Create paddles.
     paddles: false,
+
+    // Set to `outset` to allow grid-based positioning of paddles above 1400px screen width.
+    paddlePosition: 'inset',
 
     // Will use `.nav-paddle` instead of `.pagination-paddle` for the paddle class
     useSmallPaddles: false,

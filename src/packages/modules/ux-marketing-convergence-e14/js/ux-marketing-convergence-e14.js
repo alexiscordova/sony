@@ -41,18 +41,18 @@ define(function(require){
 
     // resize event related
     self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
-    self.onResizeEvent = $.proxy(self.handleResize, self);    
+    self.onResizeEvent = $.proxy(self.handleResize, self);
     self.isResize = false;
-    
+
     // buttons & dials
-    self.$buttonReloadContainer = self.$el.find('.btn-reload-container'); 
+    self.$buttonReloadContainer = self.$el.find('.btn-reload-container');
     self.$reloadButton = self.$el.find('.btn-reload');
     self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
     self.$dials = self.$dialWrappers.find('.uxmc-dial');
     self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
 
     // carousel
-    self.$carousel = self.$el.find('.uxmc-carousel'); 
+    self.$carousel = self.$el.find('.uxmc-carousel');
     self.$carouselInstance = undefined;
     self.$carouselSlides = self.$carousel.find('.sony-carousel-slide');
     self.$carouselSlidesChildren = self.$carousel.find('.sony-carousel-slide-children');
@@ -77,14 +77,14 @@ define(function(require){
 
       self.currentPartnerProduct = 0;
 
-      self.initCarousel();  
+      self.initCarousel();
       self.setupSlideLinks();
-      
+
       self.animationLoop();
       self.setupButtons();
       self.setupDials();
 
-      // INIT SEQUENCE 
+      // INIT SEQUENCE
       if(!Settings.isLTIE9){
         self.setButtonColor(self.currentPartnerProduct); // new color for reload buton
         self.$buttonReloadContainer.addClass('on');
@@ -98,12 +98,12 @@ define(function(require){
     'handleResize' : function(){
       var self = this;
       self.isResize = true;
-      self.gotoPartnerProduct(); // reset current slide   
+      self.gotoPartnerProduct(); // reset current slide
     },
 
     'initCarousel' : function(){
       var self = this;
-      
+
       self.$carouselInstance = self.$carousel.sonyCarousel({
         direction: 'vertical',
         wrapper: '.uxmc-carousel-wrapper',
@@ -113,7 +113,7 @@ define(function(require){
         jumping:true,
         setCSS3Easing: Settings.easing.easeInOutExpo,
         animationSpeed: self.transitionTime
-      });    
+      });
     },
 
     // enable entire slide as link without reworking markup
@@ -145,9 +145,9 @@ define(function(require){
 
       var self = this;
 
-      self.$dials.simpleKnob({    
+      self.$dials.simpleKnob({
         'width': 34,
-        'height': 34,    
+        'height': 34,
         'thickness': 0.1,
         'fontSize': '1em',
         'bgColor': 'rgba(255, 255, 255, 0.5)',
@@ -205,19 +205,19 @@ define(function(require){
       }else{
 
         // new slide
-        self.fadeOutContent(); 
+        self.fadeOutContent();
 
         self.$carouselInstance.sonyCarousel('gotoSlide', which);
 
          // fade out content as slide is moving
-        self.fadeInContent(which); 
+        self.fadeInContent(which);
 
         if(!Settings.isLTIE9){
           self.setButtonColor(which); // new color for reload buton
         }
-      
+
         // update current slide after transition is complete
-        self.currentPartnerProduct = which;  
+        self.currentPartnerProduct = which;
       }
 
       iQ.update();
@@ -234,7 +234,7 @@ define(function(require){
 
     'fadeOutContent' : function(){
       var self = this;
-      
+
       self.$carouselSlidesChildren
       .removeClass("active");
     },
@@ -245,7 +245,7 @@ define(function(require){
       self.$carouselSlides
         .eq(which)
         .find(".sony-carousel-slide-children")
-        .addClass("active"); 
+        .addClass("active");
     },
 
     // Update the current progress indicator dial, reset others to zero, and timestamp the event.
@@ -277,7 +277,7 @@ define(function(require){
       }else{
         position = (new Date() - self.slideStartTime - self.transitionTime) / (self.rotationSpeed - self.transitionTime) * 100;
       }
-          
+
       if(position < 0){position = 0;}
 
       window.requestAnimationFrame( $.proxy(self.animationLoop, self) );
