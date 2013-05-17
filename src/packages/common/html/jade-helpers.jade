@@ -164,6 +164,14 @@ mixin docsLinks( listName, suffix, exclude )
 
   each name in list
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(' ' + suffix, '')
+     //- this moves the a## to the front of the word
+    codes = title.match(/\b[a-z]{1}[0-9]{1,2}\b/g);
+    if codes != null
+      title = title.replace(/\s[a-z]{1}[0-9]{1,2}\b/g, '');
+      title = codes.join(' ') + ' ' + title;
+      -console.log(title)
+
+
     firstSpace = title.indexOf(' ')
     prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
     if lastPageTitle != null && lastPageTitle != prefix

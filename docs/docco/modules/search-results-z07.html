@@ -47,9 +47,7 @@ define(<span class="keyword">function</span>(require){
     bind: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      self.$loadmore.on(<span class="string">'click'</span>, <span class="keyword">function</span>() {
-        self.loadMore();
-      });
+      self.$loadmore.on(<span class="string">'click'</span>, $.proxy(self.loadMore, self));
 
       self.$clearBtn.on({
         click: <span class="keyword">function</span>(evt) {
@@ -68,8 +66,9 @@ define(<span class="keyword">function</span>(require){
       });
     },
 
-    loadMore: <span class="keyword">function</span>(){
+    loadMore: <span class="keyword">function</span>(event) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $resultsList = $(event.target).parent().siblings(<span class="string">'.results-list'</span>),
           request;
 
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>An ajax request - use this when making a real ajax request
@@ -85,7 +84,8 @@ request = $.ajax({
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Error</p>             </td>             <td class="code">               <div class="highlight"><pre>      request.fail( $.proxy( self.updateResultsView, self ) );
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Faking it by cloning things - remove this when making a real ajax request</p>             </td>             <td class="code">               <div class="highlight"><pre>      request.resolve( self.$results.children().clone() );
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Faking it by cloning things - remove this when making a real ajax request</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$results = $resultsList;
+      request.resolve( self.$results.children().clone() );
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Assuming ajax request will return a chunk of html, which, when dataType:html

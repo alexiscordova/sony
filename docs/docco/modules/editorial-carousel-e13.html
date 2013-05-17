@@ -56,60 +56,106 @@ define(<span class="keyword">function</span>(require) {
     init: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      self.initialized = <span class="literal">false</span>;
       self.$wrapper = self.$el.find( <span class="string">'.sony-carousel-wrapper'</span> );
       self.$carousel = self.$el.find( <span class="string">'.sony-carousel'</span> );
       self.$titles = self.$el.find( <span class="string">'.tile-title'</span> );
+      self.paginationTheme = self.$el.data(<span class="string">'mode'</span>) === <span class="string">'dark'</span> ? <span class="string">'light'</span> : <span class="string">'dark'</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Initialize a new sony carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousel.sonyCarousel({
+      self
+        .setupBreakpoints()
+        .onResize();
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Listen for global resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self.onResize, self ));
+
+      self.fadeIn();
+
+      self.initialized = <span class="literal">true</span>;
+    },
+
+    fadeIn : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Fade in the carousel container (not the text)</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+        self.$el.find(<span class="string">'.m-container'</span>).addClass( <span class="string">'in'</span> );
+      }, <span class="number">0</span>);
+    },
+
+    initCarousel : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Initialize a new sony carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousel.sonyCarousel({
         wrapper: <span class="string">'.sony-carousel-wrapper'</span>,
         slides: <span class="string">'.sony-carousel-slide'</span>,
         CSS3Easing: Settings.carouselEasing,
         pagination: <span class="literal">true</span>,
         paddles: <span class="literal">true</span>,
-        paginationTheme: self.$el.data(<span class="string">'mode'</span>) === <span class="string">'dark'</span> ? <span class="string">'light'</span> : <span class="string">'dark'</span>
+        paddlePosition: <span class="string">'outset'</span>,
+        paginationTheme: self.paginationTheme
       });
+    },
+
+    updateCarousel : <span class="keyword">function</span>() {
+      <span class="keyword">this</span>.$carousel
+        .sonyCarousel(<span class="string">'resetSlides'</span>)
+        .sonyCarousel(<span class="string">'gotoNearestSlide'</span>);
+      <span class="keyword">return</span> <span class="keyword">this</span>;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Make sure that initCarousel is only called when the class hasn't finished initializing</p>             </td>             <td class="code">               <div class="highlight"><pre>    fixCarousel : <span class="keyword">function</span>( extraCondition ) {
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Default to true</p>             </td>             <td class="code">               <div class="highlight"><pre>      extraCondition = extraCondition === <span class="literal">undefined</span> ? <span class="literal">true</span> : extraCondition;
+
+      <span class="keyword">if</span> ( !<span class="keyword">this</span>.initialized &amp;&amp; extraCondition ) {
+        <span class="keyword">this</span>.initCarousel();
+      } <span class="keyword">else</span> {
+        <span class="keyword">this</span>.updateCarousel();
+      }
+
+      <span class="keyword">return</span> <span class="keyword">this</span>;
+    },
+
+    onResize : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Make all product name heights even</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">evenTheHeights</span><span class="params">()</span> {</span>
+        self.$titles.evenHeights();
+      }
+
+      requestAnimationFrame( evenTheHeights );
+
+      <span class="keyword">return</span> self;
+    },
+
+    setupBreakpoints : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          desktopBreakpoint = <span class="string">'(min-width: 48em)'</span>,
+          setupTabletBreakpoint = <span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span>,
+          teardownTabletBreakpoint = <span class="string">'(min-width: 61.25em)'</span>,
+          setupMobileBreakpoint = <span class="string">'(max-width: 47.9375em)'</span>;
+
+      self.isTabletAndDesktopOnLoad = Modernizr.mq( setupTabletBreakpoint ) &amp;&amp; Modernizr.mq( desktopBreakpoint );
 
       <span class="keyword">if</span> ( Modernizr.mediaqueries ) {
 
         enquire
-          .register(<span class="string">'(min-width: 48em)'</span>, {
-            match: <span class="keyword">function</span>() {
-              self.setupDesktop();
-            }
+          .register( desktopBreakpoint, <span class="keyword">function</span>() {
+            self.setupDesktop();
           })
-          .register(<span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span>, {
-            match: <span class="keyword">function</span>() {
-              self.setupTablet();
-            }
+          .register( setupTabletBreakpoint, <span class="keyword">function</span>() {
+            self.setupTablet();
           })
-          .register(<span class="string">'(min-width: 61.25em)'</span>, {
-            match: <span class="keyword">function</span>() {
-              self.teardownTablet();
-            }
+          .register( teardownTabletBreakpoint, <span class="keyword">function</span>() {
+            self.teardownTablet();
           })
-          .register(<span class="string">'(max-width: 47.9375em)'</span>, {
-            match: <span class="keyword">function</span>() {
-              self.setupMobile();
-            }
+          .register( setupMobileBreakpoint, <span class="keyword">function</span>() {
+            self.setupMobile();
           });
 
       } <span class="keyword">else</span> {
         self.setupDesktop();
       }
 
-      self.onResize();
-
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Listen for global resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self.onResize, self ));
-    },
-
-    onResize : <span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Make all product name heights even</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">evenTheHeights</span><span class="params">()</span> {</span>
-        self.$titles.evenHeights();
-      }
-
-      requestAnimationFrame( evenTheHeights );
+      <span class="keyword">return</span> self;
     },
 
     setupDesktop : <span class="keyword">function</span>() {
@@ -117,15 +163,18 @@ define(<span class="keyword">function</span>(require) {
           wasMobile = self.isMobile,
           stillTablet = Modernizr.mq( <span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Remove grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( wasMobile ) {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Remove grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( wasMobile ) {
         self.$el.find(<span class="string">'.m-container'</span>).removeClass(<span class="string">'container'</span>);
         self.$el.find(<span class="string">'.sony-carousel-slide'</span>).removeClass( <span class="string">'slimgrid'</span> );
         self.$wrapper.removeClass(<span class="string">'grid'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Going straight from mobile to desktop without passing tablet in between</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !stillTablet ) {
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Going straight from mobile to desktop without passing tablet in between</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !stillTablet ) {
           self.arrangeItemsInSlides( <span class="number">4</span> );
         }
       }
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Avoid initializing carousel twice on load because the tablet breakpoint overlaps desktop
+Also make sure that initCarousel is only called when the class hasn't finished initializing</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.fixCarousel( self.isTabletAndDesktopOnLoad );
 
       self.isDesktop = <span class="literal">true</span>;
       self.isMobile = <span class="literal">false</span>;
@@ -133,30 +182,39 @@ define(<span class="keyword">function</span>(require) {
 
     setupTablet : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
       self.arrangeItemsInSlides( <span class="number">3</span> );
+
+      self.fixCarousel();
+
       self.isTablet = <span class="literal">true</span>;
     },
 
     teardownTablet : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Don't do anything if this isn't in tablet state</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isTablet ) {
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Don't do anything if this isn't in tablet state</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isTablet ) {
         <span class="keyword">return</span>;
       }
 
       self.arrangeItemsInSlides( <span class="number">4</span> );
+
+      self.fixCarousel();
+
       self.isTablet = <span class="literal">false</span>;
     },
 
     setupMobile : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Add grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.m-container'</span>).addClass(<span class="string">'container'</span>);
-      self.$wrapper.addClass(<span class="string">'grid'</span>);
-
       self.arrangeItemsInSlides( <span class="number">2</span> );
 
-      self.$el.find(<span class="string">'.sony-carousel-slide'</span>).addClass( <span class="string">'slimgrid'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Add grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.m-container'</span>).addClass(<span class="string">'container'</span>);
+      self.$wrapper.addClass(<span class="string">'grid'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Mobile slides need the slimgrid where others don't</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.sony-carousel-slide'</span>).addClass( <span class="string">'slimgrid'</span> );
+
+      self.fixCarousel();
 
       self.isDesktop = <span class="literal">false</span>;
       self.isMobile = <span class="literal">true</span>;
@@ -200,9 +258,7 @@ define(<span class="keyword">function</span>(require) {
 
       self.$carousel
         .empty()
-        .append( frag )
-        .sonyCarousel(<span class="string">'resetSlides'</span>)
-        .sonyCarousel(<span class="string">'gotoNearestSlide'</span>);
+        .append( frag );
     }
   };
 
