@@ -13,7 +13,8 @@ define(function(require){
 
   var $ = require('jquery'),
     enquire = require('enquire'),
-    SonyDraggable = require('secondary/index').sonyDraggable;
+    SonyDraggable = require('secondary/index').sonyDraggable,
+    hammer = require('plugins/index').hammer;
 
   var module = {
     'init': function() {
@@ -58,6 +59,7 @@ define(function(require){
 
       bounds[self.axis] = {'min': 0, 'max': 100};
 
+      self.$scrubber.hammer();
       self.$scrubber.sonyDraggable({
         'axis': self.axis,
         'unit': '%',
@@ -68,10 +70,12 @@ define(function(require){
       });
 
       // Set initial scrubber position to the middle of the viewer
-      //
-      // This `dragging2` class is garbage and should be removed.
 
       self.$scrubber.sonyDraggable('setPositions', {x: 50, y:50});
+
+      self.$scrubber.on('release', $.proxy(self.onRelease, self));
+
+      // The below is some junk that Steve added, I need to do this in a smarter way.
 
       self.$handle.mouseenter(function(){
         self.$scrubber.addClass('dragging2');
@@ -112,6 +116,7 @@ define(function(require){
     // we just poll for a width until one is available.
 
     initTimeout: function() {
+
       var self = this,
           ready = true;
 
@@ -134,9 +139,12 @@ define(function(require){
     // percentage's inverse to maintain the desired positioning.
 
     onDrag: function(e) {
+
       var self = this;
 
-      if ( self.axis == 'x' ) {
+      self.position = e.position;
+
+      if ( self.axis === 'x' ) {
 
         self.$topSlide.css('width', (e.position.left) + '%');
         self.$topSlideImageContainer.css('width', 10000 / (e.position.left) + '%');
@@ -145,7 +153,7 @@ define(function(require){
         (e.position.left <= 25) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
         (e.position.left <= 75) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
 
-      } else if ( self.axis == 'y' ) {
+      } else if ( self.axis === 'y' ) {
 
         self.$topSlide.css('height', (e.position.top) + '%');
         self.$topSlideImageContainer.css('height', 10000 / (e.position.top) + '%');
@@ -154,6 +162,40 @@ define(function(require){
         (e.position.top <= 25) ? self.$topSlide.next().fadeOut(200) : self.$topSlide.next().fadeIn(200);
         (e.position.top <= 75) ? self.$bottomSlide.next().fadeIn(200) : self.$bottomSlide.next().fadeOut(200);
       }
+    },
+
+    // This is hammer-based release logic to ease the slider as you throw it. Should look into
+    // making it less complex, too many if/elses to cover the cases. Also abstract it back
+    // up the food chain to sony-draggable for carousels, etc.
+
+    onRelease: function(e) {
+
+      var self = this,
+          gesture = e.gesture,
+          newPosition;
+
+      if ( self.axis === 'x' ) {
+
+        newPosition = self.position.left;
+
+        if ( gesture.direction === 'left' && gesture.velocityX > 0.5 ) {
+          newPosition = newPosition + gesture.velocityX * -10;
+        } else if ( gesture.direction === 'right' && gesture.velocityX > 0.5 ) {
+          newPosition = newPosition + gesture.velocityX * 10;
+        }
+
+      } else if ( self.axis === 'y' ) {
+
+        newPosition = self.position.top;
+
+        if ( gesture.direction === 'up' && gesture.velocityY > 0.4 ) {
+          newPosition = newPosition + gesture.velocityY * -20;
+        } else if ( gesture.direction === 'down' && gesture.velocityY > 0.4 ) {
+          newPosition = newPosition + gesture.velocityY * 20;
+        }
+      }
+
+      self.$scrubber.sonyDraggable('snapTo', self.axis, newPosition);
     }
   };
 
