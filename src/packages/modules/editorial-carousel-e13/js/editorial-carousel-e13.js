@@ -22,6 +22,7 @@ define(function(require) {
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
       Environment = require('require/sony-global-environment'),
+      Settings = require('require/sony-global-settings'),
       sonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
@@ -56,51 +57,67 @@ define(function(require) {
     init: function() {
       var self = this;
 
+      self.initialized = false;
       self.$wrapper = self.$el.find( '.sony-carousel-wrapper' );
       self.$carousel = self.$el.find( '.sony-carousel' );
       self.$titles = self.$el.find( '.tile-title' );
+      self.paginationTheme = self.$el.data('mode') === 'dark' ? 'light' : 'dark';
+
+      self
+        .setupBreakpoints()
+        .onResize();
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+
+      self.fadeIn();
+
+      self.initialized = true;
+    },
+
+    fadeIn : function() {
+      var self = this;
+
+      // Fade in the carousel container (not the text)
+      setTimeout(function() {
+        self.$el.find('.m-container').addClass( 'in' );
+      }, 0);
+    },
+
+    initCarousel : function() {
+      var self = this;
 
       // Initialize a new sony carousel
       self.$carousel.sonyCarousel({
         wrapper: '.sony-carousel-wrapper',
         slides: '.sony-carousel-slide',
+        CSS3Easing: Settings.carouselEasing,
         pagination: true,
         paddles: true,
-        paginationTheme: self.$el.data('mode') === 'dark' ? 'light' : 'dark'
+        paddlePosition: 'outset',
+        paginationTheme: self.paginationTheme
       });
+    },
 
-      if ( Modernizr.mediaqueries ) {
+    updateCarousel : function() {
+      this.$carousel
+        .sonyCarousel('resetSlides')
+        .sonyCarousel('gotoNearestSlide');
+      return this;
+    },
 
-        enquire
-          .register('(min-width: 48em)', {
-            match: function() {
-              self.setupDesktop();
-            }
-          })
-          .register('(min-width: 48em) and (max-width: 61.1875em)', {
-            match: function() {
-              self.setupTablet();
-            }
-          })
-          .register('(min-width: 61.25em)', {
-            match: function() {
-              self.teardownTablet();
-            }
-          })
-          .register('(max-width: 47.9375em)', {
-            match: function() {
-              self.setupMobile();
-            }
-          });
+    // Make sure that initCarousel is only called when the class hasn't finished initializing
+    fixCarousel : function( extraCondition ) {
+      // Default to true
+      extraCondition = extraCondition === undefined ? true : extraCondition;
 
+      if ( !this.initialized && extraCondition ) {
+        this.initCarousel();
       } else {
-        self.setupDesktop();
+        this.updateCarousel();
       }
 
-      self.onResize();
-
-      // Listen for global resize
-      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+      return this;
     },
 
     onResize : function() {
@@ -112,6 +129,40 @@ define(function(require) {
       }
 
       requestAnimationFrame( evenTheHeights );
+
+      return self;
+    },
+
+    setupBreakpoints : function() {
+      var self = this,
+          desktopBreakpoint = '(min-width: 48em)',
+          setupTabletBreakpoint = '(min-width: 48em) and (max-width: 61.1875em)',
+          teardownTabletBreakpoint = '(min-width: 61.25em)',
+          setupMobileBreakpoint = '(max-width: 47.9375em)';
+
+      self.isTabletAndDesktopOnLoad = Modernizr.mq( setupTabletBreakpoint ) && Modernizr.mq( desktopBreakpoint );
+
+      if ( Modernizr.mediaqueries ) {
+
+        enquire
+          .register( desktopBreakpoint, function() {
+            self.setupDesktop();
+          })
+          .register( setupTabletBreakpoint, function() {
+            self.setupTablet();
+          })
+          .register( teardownTabletBreakpoint, function() {
+            self.teardownTablet();
+          })
+          .register( setupMobileBreakpoint, function() {
+            self.setupMobile();
+          });
+
+      } else {
+        self.setupDesktop();
+      }
+
+      return self;
     },
 
     setupDesktop : function() {
@@ -131,13 +182,21 @@ define(function(require) {
         }
       }
 
+      // Avoid initializing carousel twice on load because the tablet breakpoint overlaps desktop
+      // Also make sure that initCarousel is only called when the class hasn't finished initializing
+      self.fixCarousel( self.isTabletAndDesktopOnLoad );
+
       self.isDesktop = true;
       self.isMobile = false;
     },
 
     setupTablet : function() {
       var self = this;
+
       self.arrangeItemsInSlides( 3 );
+
+      self.fixCarousel();
+
       self.isTablet = true;
     },
 
@@ -150,19 +209,25 @@ define(function(require) {
       }
 
       self.arrangeItemsInSlides( 4 );
+
+      self.fixCarousel();
+
       self.isTablet = false;
     },
 
     setupMobile : function() {
       var self = this;
 
+      self.arrangeItemsInSlides( 2 );
+
       // Add grid classes to wrappers
       self.$el.find('.m-container').addClass('container');
       self.$wrapper.addClass('grid');
 
-      self.arrangeItemsInSlides( 2 );
-
+      // Mobile slides need the slimgrid where others don't
       self.$el.find('.sony-carousel-slide').addClass( 'slimgrid' );
+
+      self.fixCarousel();
 
       self.isDesktop = false;
       self.isMobile = true;
@@ -206,9 +271,7 @@ define(function(require) {
 
       self.$carousel
         .empty()
-        .append( frag )
-        .sonyCarousel('resetSlides')
-        .sonyCarousel('gotoNearestSlide');
+        .append( frag );
     }
   };
 

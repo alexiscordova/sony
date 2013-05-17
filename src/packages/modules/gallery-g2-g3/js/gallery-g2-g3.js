@@ -86,7 +86,7 @@ define(function(require){
     }
 
     // Listen for window events (debounced)
-    debouncedResize = $.debounce( 325, $.proxy( self.onResize, self ) );
+    debouncedResize = $.debounce( 325, $.proxy( self.debouncedResize, self ) );
     self.$window.on('orientationchange', debouncedResize );
     self.$window.on('resize.gallery', debouncedResize );
 
@@ -111,7 +111,7 @@ define(function(require){
       }
     }, 200);
 
-    self.onResize( true );
+    self.debouncedResize( true );
 
     // Compare mode doesn't have a shuffle plugin to execute the event
     if ( self.isCompareMode ) {
@@ -151,7 +151,7 @@ define(function(require){
       var self = this;
 
       // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
-      self.onResize( undefined, true );
+      self.debouncedResize( undefined, true );
 
       // Already enabled
       if ( self.enabled ) {
@@ -979,7 +979,8 @@ define(function(require){
         showInitialTransition: false,
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
-        buffer: 8
+        buffer: 8,
+        supported: Settings.shuffleSupport
       });
 
       self.shuffle = self.$grid.data('shuffle');
@@ -2019,7 +2020,10 @@ define(function(require){
     debouncedSetRowHeights : $.debounce( 600, function( isFromResize, isInit ) {
       var self = this,
           itemHeight,
-          gridWidth;
+          gridWidth,
+          $notHiddenItems,
+          numVisibleColumns,
+          stickyRightBarOffset;
 
       isFromResize = isFromResize === true;
 
@@ -2034,8 +2038,16 @@ define(function(require){
       self.setRowHeights( isFromResize );
 
       // Get new dimensions after the rows have been resized
-      itemHeight = self.$items.not('.hidden').first().height(),
+      $notHiddenItems = self.$items.not('.hidden');
+      numVisibleColumns = $notHiddenItems.length;
+      itemHeight = $notHiddenItems.first().height();
       gridWidth = self.$grid.width();
+      stickyRightBarOffset = gridWidth;
+
+      if ( numVisibleColumns <= 5 ) {
+        // Use the smaller of the two
+        stickyRightBarOffset = Math.min( gridWidth, self.getStickyRightBarOffset() );
+      }
 
       // Sets css
       self.setItemContainerHeight( itemHeight, gridWidth );
@@ -2044,7 +2056,7 @@ define(function(require){
       self.updateStickyNav();
 
       // Sets css
-      self.$stickyRightBar.css('left', gridWidth);
+      self.setStickyRightBarOffset( stickyRightBarOffset );
     }),
 
     setRowHeights : function() {
@@ -2139,6 +2151,14 @@ define(function(require){
         top: top,
         bottom: bottom
       };
+    },
+
+    getStickyRightBarOffset : function() {
+      return this.$detailLabelsWrap.width() + this.$compareItemsWrap.find('.compare-items-container').width();
+    },
+
+    setStickyRightBarOffset : function( offset ) {
+      this.$stickyRightBar.css( 'left', offset );
     },
 
     setTriggerPoint : function( dontUpdateStickyNav ) {
@@ -2245,7 +2265,7 @@ define(function(require){
       self.updateStickyNav();
     },
 
-    onResize : function( isInit, force ) {
+    debouncedResize : function( isInit, force ) {
       var self = this,
           windowWidth = !Settings.isLTIE9 ? null : self.$window.width(),
           windowHeight = !Settings.isLTIE9 ? null : self.$window.height(),
@@ -2266,71 +2286,28 @@ define(function(require){
       self.windowWidth = windowWidth;
       self.windowHeight = windowHeight;
 
-      // Make all product name heights even
-      function evenTheHeights() {
-        // Only the product names need to be the same height
-        if ( !self.hasRecommendedTile ) {
-          self.$gridProductNames.evenHeights();
+      self.onResize( isInit );
+    },
 
-        // The
-        } else {
-          var groups = [ self.$gridProductNames ];
-          groups = groups.concat( self.getRecommendedTileGroups() );
-          self.$recommendedTile.find('.media-heading').css( 'height', '' );
-          $.evenHeights( groups );
-        }
-      }
+    onResize : function( isInit ) {
+      var self = this,
+          isSmallerThanTablet = Modernizr.mq('(max-width: 47.9375em)');
 
       // Don't change columns for detail galleries
       // Change the filters column layout
       if ( self.isDetailedMode || self.isCompareMode ) {
 
         // Remove heights in case they've aready been set
-        if ( Modernizr.mq('(max-width: 47.9375em)') ) {
+        if ( isSmallerThanTablet ) {
           self.$gridProductNames.css('height', '');
 
-          if ( self.hasRecommendedTile ) {
-            self.$recommendedTile.find('.media')
-              .find('.js-even-cols')
-                .css( 'height', '' )
-                .end()
-              .find('.media-heading')
-                .evenHeights();
-
-            // If there currently isn't a scroller instance, create one
-            if ( !self.scroller ) {
-              self.maxRecommendedTitleBarOffset = Math.ceil((self.$container.width() - self.$grid.width()) / 2) * -1;
-              self.scroller = self.$recommendedTile.find('.wrap').scrollerModule({
-                iscrollProps: {
-                  isOverflowHidden: false,
-                  hideScrollbar: true,
-                  fadeScrollbar: true,
-                  onScrollStart: function() {
-                    self.recommendedTileScrolled( this );
-                  },
-                  onScrollMove: function() {
-                    self.recommendedTileScrolled( this );
-                  },
-                  onScrollEnd: function() {
-                    self.recommendedTileScrolled( this );
-                  },
-                  onAnimate: function() {
-                    self.recommendedTileScrolled( this );
-                  },
-                  onAnimationEnd: function( iscroll ) {
-                    self.recommendedTileScrolled( iscroll );
-                    iQ.update();
-                  }
-                }
-              }).data( 'scrollerModule' );
-            }
-          }
+          self.onRecommendedTileResize();
 
         // Make all product name heights even
         } else {
           // Let the browser choose the best time to do this becaues it causes a layout
           if ( !self.scroller || (self.scroller && self.scroller.enabled) ) {
-            requestAnimationFrame( evenTheHeights );
+            self.evenTheHeights();
           }
 
           // If there currently is a scroller instance, destroy it
@@ -2340,17 +2317,14 @@ define(function(require){
           }
         }
 
-        self.moveFilters();
+        // Move filters around
+        self.moveFilters( isSmallerThanTablet );
 
         // Move sort options around
-        self.moveSorter();
+        self.moveSorter( isSmallerThanTablet );
 
         // Tell infinite scroll to update where it thinks it's target it
-        if ( self.hasInfiniteScroll ) {
-          setTimeout(function() {
-            self.$grid.infinitescroll('updateNavLocation');
-          }, 25);
-        }
+        self.updateInfiniteScrollPosition();
 
         // Reset the range control, but don't trigger any events
         if ( self.$rangeControl ) {
@@ -2375,8 +2349,8 @@ define(function(require){
         return;
       }
 
-      // Let the browser choose the best time to do this becaues it causes a layout
-      requestAnimationFrame( evenTheHeights );
+      // Make all product name heights even
+      self.evenTheHeights();
 
       Utilities.forceWebkitRedraw();
 
@@ -2384,6 +2358,82 @@ define(function(require){
 
       if ( self.isEditorialMode ) {
         self.sortByPriority();
+      }
+    },
+
+    onRecommendedTileResize : function() {
+      var self = this;
+
+      // Exit early if no recommended tile
+      if ( !self.hasRecommendedTile ) {
+        return self;
+      }
+
+      self.$recommendedTile.find('.media')
+        .find('.js-even-cols')
+          .css( 'height', '' )
+          .end()
+        .find('.media-heading')
+          .evenHeights();
+
+      // If there currently isn't a scroller instance, create one
+      if ( !self.scroller ) {
+        self.maxRecommendedTitleBarOffset = Math.ceil((self.$container.width() - self.$grid.width()) / 2) * -1;
+        self.scroller = self.$recommendedTile.find('.wrap').scrollerModule({
+          iscrollProps: {
+            isOverflowHidden: false,
+            hideScrollbar: true,
+            fadeScrollbar: true,
+            onScrollStart: function() {
+              self.recommendedTileScrolled( this );
+            },
+            onScrollMove: function() {
+              self.recommendedTileScrolled( this );
+            },
+            onScrollEnd: function() {
+              self.recommendedTileScrolled( this );
+            },
+            onAnimate: function() {
+              self.recommendedTileScrolled( this );
+            },
+            onAnimationEnd: function( iscroll ) {
+              self.recommendedTileScrolled( iscroll );
+              iQ.update();
+            }
+          }
+        }).data( 'scrollerModule' );
+      }
+
+      return self;
+    },
+
+    // Make all product name heights even
+    evenTheHeights : function() {
+      var self = this;
+      // Only the product names need to be the same height
+      // Let the browser choose the best time to do this becaues it causes a layout
+      requestAnimationFrame(function() {
+        if ( !self.hasRecommendedTile ) {
+          self.$gridProductNames.evenHeights();
+
+        // The
+        } else {
+          var groups = [ self.$gridProductNames ];
+          groups = groups.concat( self.getRecommendedTileGroups() );
+          self.$recommendedTile.find('.media-heading').css( 'height', '' );
+          $.evenHeights( groups );
+        }
+      });
+    },
+
+    // Tell infinite scroll to update where it thinks it's target it
+    updateInfiniteScrollPosition : function() {
+      var self = this;
+
+      if ( self.hasInfiniteScroll ) {
+        setTimeout(function() {
+          self.$grid.infinitescroll('updateNavLocation');
+        }, 25);
       }
     },
 
@@ -2418,14 +2468,14 @@ define(function(require){
       }
     },
 
-    moveSorter : function() {
+    moveSorter : function( isSmallerThanTablet ) {
       var self = this,
           $sorter,
           $container,
           $grid,
           $shares;
 
-      if ( Modernizr.mq('(max-width: 47.9375em)') ) {
+      if ( isSmallerThanTablet ) {
         if ( !self.hasSorterMoved ) {
           $sorter = self.$sortOpts.detach();
           $container = $('<div/>', { 'class' : 'container', id: 'sort-options-holder' } );
@@ -2675,6 +2725,7 @@ define(function(require){
 
       // Stop click from bubbling to iScroll
       if ( isEvent ) {
+        evt.preventDefault();
         evt.stopPropagation();
       }
 
@@ -2684,13 +2735,23 @@ define(function(require){
     onCompareFiltered : function() {
       var self = this,
           total = self.$items.length,
-          remaining = self.$items.filter('.filtered').length,
-          isResetDisabled = self.$compareReset.hasClass('disabled'),
-          $removeButtons = self.$grid.find('.js-remove-item'),
-          $hiddenButtons;
+          remaining = self.$items.filter('.filtered').length;
 
-      // Enable the reset button if the remaining items is not the same as the total
-      if ( total !== remaining ) {
+      self
+        // Enable the reset button if the remaining items is not the same as the total
+        .toggleCompareReset( total, remaining )
+        // Hide close button if there are only 2 left
+        .toggleRemoveButtons( remaining )
+        // Enable or disable the scroller depending on how many items are left
+        .toggleCompareScroller( remaining );
+    },
+
+    // Enable the reset button if the remaining items is not the same as the total
+    toggleCompareReset : function( totalItems, totalRemainingItems ) {
+      var self = this,
+          isResetDisabled = self.$compareReset.hasClass('disabled');
+
+      if ( totalItems !== totalRemainingItems ) {
         if ( isResetDisabled ) {
           self.$compareReset.removeClass('disabled');
         }
@@ -2701,8 +2762,16 @@ define(function(require){
         }
       }
 
-      // Hide close button if there are only 2 left
-      if ( remaining < 3 ) {
+      return self;
+    },
+
+    // Hide close button if there are only 2 left
+    toggleRemoveButtons : function( totalRemainingItems ) {
+      var self = this,
+          $removeButtons = self.$grid.find('.js-remove-item'),
+          $hiddenButtons;
+
+      if ( totalRemainingItems < 3 ) {
         $removeButtons.addClass('hidden');
 
       } else {
@@ -2712,7 +2781,14 @@ define(function(require){
         }
       }
 
-      if ( remaining ) {
+      return self;
+    },
+
+    // Enable or disable the scroller depending on how many items are left
+    toggleCompareScroller : function( totalRemainingItems ) {
+      var self = this;
+
+      if ( totalRemainingItems ) {
         // If it was disabled, enable it
         if ( !self.scroller.enabled ) {
           self.scroller.enable();
@@ -2722,7 +2798,26 @@ define(function(require){
           });
         }
         requestAnimationFrame(function() {
+          var gridWidth, stickyRightBarOffset;
+
+          // Refresh scroller so the grid gets a new width
           self.scroller.refresh();
+
+          // Get the new width
+          gridWidth = self.$grid.width();
+
+          // Offset is the grid width by default
+          stickyRightBarOffset = gridWidth;
+
+          // If there are less than 5 items visible, there could
+          // be leftover space that should be filled
+          if ( totalRemainingItems <= 5 ) {
+            stickyRightBarOffset = Math.min( gridWidth, self.getStickyRightBarOffset() );
+          }
+
+          // Set the sticky header bar to the grid width or the left offset of the grid,
+          // which ever is smaller
+          self.setStickyRightBarOffset( stickyRightBarOffset );
 
           // Maybe they haven't scrolled horizontally to see other images
           iQ.update();
@@ -2733,7 +2828,7 @@ define(function(require){
         }
       }
 
-      $removeButtons = null;
+      return this;
     },
 
     getY : function( y ) {
@@ -2936,7 +3031,7 @@ define(function(require){
 
       // Phone ( 2 columns )
       } else if ( numColumns === 2 ) {
-        if ( !self.$grid.parent().hasClass(shuffleDash+2) ) {
+        if ( !self.$grid.hasClass(shuffleDash+2) ) {
 
           // remove .slimgrid5
           self.$grid
@@ -2946,10 +3041,10 @@ define(function(require){
           // Remove current grid span
           self.$grid.children( itemSelector )
             .removeClass( allSpans )
-            .filter( social )
+            .filter( promo + ',' + social )
               .addClass( mspan+6 )
               .end()
-            .not( social )
+            .filter(large + ',' + normal)
               .addClass( mspan+3 );
         }
       }
@@ -2964,8 +3059,6 @@ define(function(require){
           offset = Math.max( x, 0 );
 
       offset = Math.max( x, max );
-
-      console.assert( x !== undefined );
 
       $bar.css( self.prop, self.getX( offset ) );
     },
@@ -3061,9 +3154,9 @@ define(function(require){
 
       // Modal pieces
       self.$modal = self.$container.find('#accessory-finder-modal');
-      self.$modalBody = self.$modal.find('.modal-body');
       self.$modalHeader = self.$modal.find('.modal-header');
       self.$modalSubhead = self.$modal.find('.modal-subhead');
+      self.$modalBody = self.$modal.find('.modal-body');
 
       // Components
       self.$grid = self.$container.find('.products');
@@ -3074,6 +3167,8 @@ define(function(require){
       self.$sortSelect = self.$container.find('.sort-options select');
       self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
       self.$searchField = self.$container.find('#accessory-finder-input');
+
+      self.useIScroll = self.hasTouch;
 
       // Initialize components
       self
@@ -3162,6 +3257,7 @@ define(function(require){
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
         buffer: 20,
+        supported: Settings.shuffleSupport,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 
@@ -3204,9 +3300,39 @@ define(function(require){
       return self;
     },
 
-    swapShuffleItemClasses : function( numCols, shuffle ) {
+    initIScroll : function() {
       var self = this,
-          newClass = 'span6',
+          innerHeight,
+
+      // Let inputs be used, otherwise prevent default
+      allowInputs = function( e ) {
+        var target = e.target,
+            nodeName;
+
+        while ( target.nodeType !== 1 ) {
+          target = target.parentNode;
+        }
+
+        nodeName = target.nodeName;
+
+        if (nodeName !== 'SELECT' && nodeName !== 'INPUT' && nodeName !== 'TEXTAREA') {
+          e.preventDefault();
+        }
+      };
+
+      if ( self.innerHeight ) {
+        self.$wrapperInner.css( 'height', innerHeight );
+      }
+
+      setTimeout(function letHeightRegister() {
+        self.iscroll = new IScroll( self.$wrapper[0], {
+          onBeforeScrollStart: allowInputs
+        });
+      }, 0);
+    },
+
+    swapShuffleItemClasses : function( numCols, shuffle ) {
+      var newClass = 'span6',
           oldClass = 'span4';
 
       if ( numCols === 3 ) {
@@ -3242,8 +3368,6 @@ define(function(require){
       // Get the max height of the body
       maxBodyHeight = maxModalHeight - modalHeaderHeight;
 
-      // console.log('screenHeight: ' + screenHeight, ' maxModalHeight: ' + maxModalHeight, ' modalHeaderHeight: ' + modalHeaderHeight, ' maxBodyHeight: ' + maxBodyHeight);
-
       return {
         maxModalHeight: maxModalHeight,
         maxBodyHeight: maxBodyHeight
@@ -3264,59 +3388,106 @@ define(function(require){
     onShuffleDoneLoading : function() {
       var self = this;
 
+      function iScroll() {
+        self.innerHeight = self.$wrapperInner.outerHeight();
+        self.initIScroll();
+      }
+
+      function bodyFadedIn() {
+        if ( self.useIScroll ) {
+          // I honestly have no idea why I have to wait this long to get the right measurement
+          setTimeout( iScroll, 250 );
+        }
+      }
+
+      function fadeInBody() {
+        self.$modalBody.addClass('in');
+        self.isFadedIn = true;
+
+        if ( Modernizr.csstransitions ) {
+          self.$modalBody.one( Settings.transEndEventName, bodyFadedIn );
+        } else {
+          bodyFadedIn();
+        }
+      }
+
       if ( !self.isFadedIn && !self.isLTIE9 ) {
-        setTimeout(function() {
-          self.$modalBody.addClass('in');
-          self.isFadedIn = true;
-        }, 0);
+        setTimeout( fadeInBody, 0 );
       }
     },
 
-    onResize : function( isInit ) {
+    onResize : function( isInit, isFromModalShown ) {
       var self = this,
           screenHeight,
           maxBodyHeight,
-          modalMaxes = {},
-          isMobileSize = !( Modernizr.mediaqueries ? Modernizr.mq('(min-width: 35.5em)') : true );
+          modalMaxes = {};
+
+      self.isMobileSize = !( Modernizr.mediaqueries ? Modernizr.mq('(min-width: 35.5em)') : true );
+
+      if ( self.useIScroll ) {
+        self.$wrapper = self.isMobileSize ?
+          self.$modal :
+          self.$modalBody;
+        self.$wrapperInner = self.$wrapper.children().first();
+      }
 
       // False for event objects
       isInit = isInit === true;
 
       if ( !isInit && self.isModalOpen ) {
 
-        setTimeout(function() {
+        if ( !self.isMobileSize ) {
+          // Caculate how much room the modal body has
+          modalMaxes = self.getMaxModalHeights();
+          maxBodyHeight = modalMaxes.maxBodyHeight;
 
-          if ( !isMobileSize ) {
-            // Caculate how much room the modal body has
-            modalMaxes = self.getMaxModalHeights();
-            maxBodyHeight = modalMaxes.maxBodyHeight;
-          } else {
-            maxBodyHeight = 'none';
-          }
+        } else {
+          maxBodyHeight = 'none';
+        }
 
-          if ( self.hasTouch ) {
-            screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
-            // Stop the page from scrolling behind the modal
-            $('#main').css({
-              height: screenHeight,
-              maxHeight: screenHeight,
-              overflow: 'hidden'
-            });
-          }
+        if ( self.hasTouch ) {
+          screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+          // Stop the page from scrolling behind the modal
+          $('#main').css({
+            height: screenHeight,
+            maxHeight: screenHeight,
+            overflow: 'hidden'
+          });
+        }
 
-          // Set a maximum height on the modal body so that it will scroll
-          // Sony tablet s is completely busted in the modal....
-          if ( !Settings.isSonyTabletS ) {
-            self.$modalBody.css( 'maxHeight', maxBodyHeight );
-          }
+        if ( self.useIScroll ) {
+          self.$modalBody.css( 'height', maxBodyHeight );
+        } else {
+        // Set a maximum height on the modal body so that it will scroll
+          self.$modalBody.css( 'maxHeight', maxBodyHeight );
+        }
 
-          // Set an explicit height on the modal body
-          if ( !isMobileSize ) {
-            self.$modal.css( 'height', modalMaxes.maxModalHeight );
+        // Set an explicit height on the modal body
+        if ( !self.isMobileSize ) {
+          self.$modal.css( 'height', modalMaxes.maxModalHeight );
+        } else {
+          if ( self.useIScroll ) {
+            self.$wrapper.css( 'height', screenHeight );
           } else {
             self.$modal.css( 'height', '' );
           }
-        }, 0);
+        }
+
+        // Window resized while modal is open
+        if ( !isFromModalShown ) {
+          // Destroy iscroll and rebuild it because the container that scrolls
+          // changes between mobile size and not mobile size.
+          if ( self.iscroll ) {
+            self.$wrapperInner.css( 'height', '' );
+            if ( self.isMobileSize  ) {
+              self.innerHeight = self.$wrapperInner.outerHeight();
+            }
+            self.iscroll.destroy();
+            setTimeout(function() {
+              self.initIScroll();
+            }, 0);
+          }
+        }
       }
 
       return self;
@@ -3347,7 +3518,7 @@ define(function(require){
       iQ.update();
 
       // Update max height for modal body
-      self.onResize();
+      self.onResize( false, true );
 
       // Listen for scroll events on the modal body
       if ( self.useScrollListener ) {
@@ -3362,6 +3533,10 @@ define(function(require){
       evt.stopPropagation();
 
       self.shuffle.destroy();
+
+      if ( self.iscroll ) {
+        self.iscroll.destroy();
+      }
 
       if ( self.useScrollListener ) {
         self.$modalBody.off('scroll');
@@ -3381,8 +3556,16 @@ define(function(require){
       }
 
       self.$modal.css( 'height', '' );
+      self.$modal.find('.container').css( 'height', '' );
+
+      self.$modalBody.css({
+        height: '',
+        maxHeight: ''
+      });
 
       self.$modalBody.removeClass('in');
+
+      self.innerHeight = null;
 
       // Clear out the search field
       self.$searchField.val( '' );
@@ -3423,6 +3606,8 @@ define(function(require){
     hasTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
     useScrollListener: !( Settings.isSonyTabletS || Settings.isLTIE9 || Settings.isPS3 ),
     itemSelector: '.compat-item',
+    $wrapper: null,
+    $wrapperInner: null,
     $window: Settings.$window
   };
 
@@ -3434,10 +3619,7 @@ define(function(require){
 
       // Stagger gallery initialization
       setTimeout(function() {
-        // var id = $this.attr('id').substring( 0, $this.attr('id').lastIndexOf('-') );
-        // window.console && console.time && console.time( id );
         $this.gallery( $this.data() );
-        // window.console && console.timeEnd && console.timeEnd( id );
       }, 0);
     });
 

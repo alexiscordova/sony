@@ -276,35 +276,38 @@ blockquote p{
     line-height:0; /* make sure it doesn't affect the real content. */
   }
 }
+.bq1-bold p, .bq2-bold p, .bq3-bold p, .bq4-bold p, .bq5-bold p, .bq6-bold p {
+  @include fontItalic;
+}
 blockquote.colorful p { color: $secondarySlate; }
 blockquote.colorful-dark p { color: $secondarySlateDark; }
-.bq1 p{
+.bq1 p, .bq1-bold p{
   @include px-em--font-size--line-height(44,50);
   margin-bottom: 24px;
   &:first-child { text-indent:-16px; }
 }
-.bq2 p,
+.bq2 p, .bq2-bold p,
 blockquote p{
   @include px-em--font-size--line-height(26,34);
   margin-bottom: 16px;
   &:first-child { text-indent:-10px; }
 }
-.bq3 p{
+.bq3 p, .bq3-bold p{
   @include px-em--font-size--line-height(22,30);
   margin-bottom: 16px;
   &:first-child { text-indent:-8px; }
 }
-.bq4 p{
+.bq4 p, .bq4-bold p{
   @include px-em--font-size--line-height(18,26);
   margin-bottom: 16px;
   &:first-child { text-indent:-7px; }
 }
-.bq5 p{
+.bq5 p, .bq5-bold p{
   @include px-em--font-size--line-height(15,22);
   margin-bottom: 12px;
   &:first-child { text-indent:-6px; }
 }
-.bq6 p{
+.bq6 p, .bq6-bold p{
   @include px-em--font-size--line-height(13,20);
   margin-bottom: 12px;
   &:first-child { text-indent:-5px; }
@@ -565,112 +568,6 @@ address {
 
 
 
-
-
-
-.testing {}
-  // Type Tests -- These will be deleted once testing is complete.
-
-  // .SST-Roman-ttf {
-  //   font-family: "SST-Roman-ttf", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  //   font-size:15px;
-  //   line-height:1;
-  // }
-  // .SST-Roman-otf {
-  //   font-family: "SST-Roman-otf", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  //   font-size:15px;
-  //   line-height:1;
-  // }
-  // .SST-Roman-woff {
-  //   font-family: "SST-Roman-woff", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  //   font-size:15px;
-  //   line-height:1;
-  // }
-
-
-
-
-  // .SST-Roman {
-  //   @include fontRegular;
-  // }
-  // .SST-Italic {
-  //   @include fontItalic;
-  // }
-  // .SST-Light {
-  //   @include fontLight;
-  // }
-  // .SST-Light-Italic {
-  //   @include fontLightItalic;
-  // }
-  // .SST-Medium {
-  //   @include fontMedium;
-  // }
-  // .SST-Medium-Italic {
-  //   @include fontMediumItalic;
-  // }
-  // .SST-Bold {
-  //   @include fontBold;
-  // }
-  // .SST-Bold-Italic {
-  //   @include fontBoldItalic;
-  // }
-
-
-
-
-// .SST-Roman {
-//   font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-//   font-weight: normal;
-//   font-style: normal;
-// }
-
-// .SST-Italic {
-//   font-family: "SST W01 Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-//   font-weight: normal;
-//   font-style: normal;
-// }
-
-// .SST-Light {
-//   font-family: "SST W01 Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-//   font-weight: normal;
-//   font-style: normal;
-// }
-
-// .SST-Light-Italic {
-//   font-family: "SST W01 Light Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-//   font-weight: normal;
-//   font-style: normal;
-// }
-
-// .SST-Medium {
-//   font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-//   font-weight: normal;
-//   font-style: normal;
-// }
-
-// .SST-Medium-Italic {
-//   font-family: "SST W01 Medium Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-//   font-weight: normal;
-//   font-style: normal;
-// }
-
-// .SST-Bold {
-//   font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-//   font-weight: normal;
-//   font-style: normal;
-// }
-
-// .SST-Bold-Italic {
-//   font-family: "SST W01 Bold Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-//   font-weight: normal;
-//   font-style: normal;
-// }
 
 
 

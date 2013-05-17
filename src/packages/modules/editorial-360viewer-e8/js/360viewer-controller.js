@@ -14,7 +14,7 @@
 define(function(require){
 
   'use strict';
- 
+
   // provisions
   var $ = require( 'jquery' ),
       iQ = require( 'iQ' ),
@@ -28,32 +28,12 @@ define(function(require){
 
   var self = {
     'init': function() {
-/*
-      // setup breakpoints
-      var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
-      var breakpointReactor = function( e ) { 
-        iQ.update();
-      };
-*/
-/*
-      
-      // bind IQ to update at every breakpoint
-      if( enquire ) {
-        for( var i=0; i < breakpoints.length; i++ ) {
-          if( 0 === i ) {
-            enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-          } else {
-            enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-          }
-        }
-      }
-*/      
+     
       // IE 10 detection
       if ( window.atob || Settings.isLTIE10 ) {
         $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
       }
 
-      
       // detect if there are 360 viewer constructs on the DOM
       $( '.e360' ).each( function( index, el ) {
         // for each instance, initialize
@@ -88,10 +68,10 @@ define(function(require){
     self.inViewport     = false;
     self.moves          = 0;
     self.touchEvents    = 0;
-    
+
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
-    
+
   };
 
   Editorial360Viewer.prototype = {
@@ -154,8 +134,7 @@ define(function(require){
     
     initBehaviors: function() {
       var self = this;
-      
-      
+
       if( true === Modernizr.touch ) {
         // extend with touch controls
         self.$controls.hammer();
@@ -173,44 +152,44 @@ define(function(require){
             }
           } else {
             self.inViewport = false;
-          } 
+          }
         }, 100);
-        
+
         self.$controls.on( 'touch', function( event ) {
           self.touchDown( event );
         });
-        
+
         self.$controls.on( 'release', function( event ) {
           self.touchUp( event );
         });
-        
+
         self.$controls.on( 'drag', function( event ) {
           var direction = event.gesture.direction;
           if( 'left' == direction || 'right' == direction ) {
             self.touchMove( event );
           }
         });
-        
+
         self.$controls.on( 'tap', function( event ) {
           self.touchMove( event );
         });
-        
-        
+
+
       } else {
         // trigger UI indication (Desktop)
         $( window ).bind( 'scroll', function( event ) {
           self.onScroll( event );
         });
-        
+
         // setup controller interactions
         self.$controls.bind( 'mousedown', function( event ) {
           self.mouseDown( event );
         });
-  
+
         self.$controls.bind( 'mouseup', function( event ) {
-          self.mouseUp( event );      
+          self.mouseUp( event );
         });
-        
+
         // track mousemove
         $( self.$controls ).bind( 'mousemove', function( event ) {
           self.mouseMove( event );
@@ -238,10 +217,10 @@ define(function(require){
       self.$controls.removeClass( 'hidden' );
       
     },
-    
+
     easeSwipe: function( event ) {
       var self = this;
-      // is the swipe greater than one movement 
+      // is the swipe greater than one movement
       // where  (container.width / sequence.length-1) / 3 = one step
       var assetWidth      = $( self.$sequence[self.curIndex] ).width(),
           swipeDistance   = event.gesture.distance,
@@ -249,13 +228,13 @@ define(function(require){
           stepSize        = ( assetWidth / sequenceLength ) / self.throttle,
           shouldEase      = ( 0 < ( swipeDistance - stepSize ) ) ? ( swipeDistance - stepSize ) : false;
     },
-    
+
     syncControlLayout: function() {
       var self = this;
       var _assetWidth = $( self.$sequence[self.curIndex] ).width();
       self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
     },
-    
+
     onResize: function( event ) {
       var self = this;
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
@@ -264,7 +243,7 @@ define(function(require){
         
       }
     },
-    
+
     onScroll: function( event ) {
       var self = this;
       if( false === self.inMotion) {
@@ -275,29 +254,29 @@ define(function(require){
         self.syncControlLayout();
       }
     },
-    
+
     touchDown: function( event ) {
       // Montana to Rice!
       var self = this;
       self.clicked = true;
     },
-    
+
     touchUp: function( event ) {
       var self = this;
       self.clicked = false;
     },
-    
+
     touchMove: function( event ) {
       var self      = this,
           pageX     = event.gesture.distance,
           direction = event.gesture.direction ? event.gesture.direction : 'left',
           doMove    = false;
-      
+
       event.preventDefault();
       event.gesture.preventDefault();
-      
+
       self.mobileLog( 'direction ' + direction + '\n' + 'events fired: '+ self.touchEvents++ + '\n' + 'direction: ' + pageX );
-      
+
       if( Settings.isIOS ) {
         if( 0 === self.moves % 2 ) {
           self.move( direction );
@@ -312,7 +291,7 @@ define(function(require){
 
       self.moves++;
     },
-    
+
     mouseDown: function( event ) {
       var self = this;
       event.preventDefault();
@@ -328,18 +307,18 @@ define(function(require){
       $(document.body).removeClass('unselectable');
       self.clicked = false;
     },
-    
+
     mouseMove: function( event ) {
       var self    = this,
           doMove  = false;
-        
+
       event.preventDefault();
-      
+
       // set a default if not already set
       if( null === self.lastTriggerX ) {
         self.lastTriggerX = self.lastX = event.pageX;
       }
-      
+
       if( event.pageX > ( self.lastTriggerX + self.dynamicBuffer ) ) {
         // moving right
         self.movingLeft   = false;
@@ -362,54 +341,54 @@ define(function(require){
 
       self.lastX = event.pageX;
     },
-    
+
     mobileLog: function( data, append ) {
       //$( '.e360debug' ).html( data.toString() + '\n' );
     },
-    
+
     animateDragger: function( cycles ) {
       var self = this;
-      
+
       $( self.$leftArrow ).animate({
         opacity: 0
       });
-      
+
       $( self.$rightArrow ).animate({
-        opacity: 0        
+        opacity: 0
       });
-      
+
       $( self.$controlCenter ).animate({
         marginLeft: "+26px",
         marginRight: "+26px"
       }, 499, function(event) {
         self.resetAnimation();
       });
-      
+
     },
-    
+
     resetAnimation: function() {
       var self = this;
-      
+
       $( self.$leftArrow ).css( {
         opacity: 1
       });
-      
+
       $( self.$rightArrow ).css( {
         opacity: 1
       });
-      
-      $( self.$controlCenter ).css( { 
-        marginLeft : "18px", 
-        marginRight : "18px" 
+
+      $( self.$controlCenter ).css( {
+        marginLeft : "18px",
+        marginRight : "18px"
       });
-      
+
       self.inMotion = false;
     },
-    
+
     move: function( direction ) {
       var self      = this,
           lastIndex = self.curIndex;
-      
+
       switch( direction ) {
         case "left":
           if( 0 === self.curIndex ) {
@@ -418,7 +397,7 @@ define(function(require){
             self.curIndex--;
           }
         break;
-        
+
         case "right":
           if( self.curIndex == self.sequenceLength-1 ) {
             self.curIndex = 0;
@@ -431,10 +410,10 @@ define(function(require){
       self.pluck( lastIndex ).addClass( 'hidden' );
       self.pluck( self.curIndex ).removeClass( 'hidden' );
     },
-    
+
     pluck: function( lastIndex ) {
       var self = this;
-      
+
       // find by data index
       for( var i = 0; i < self.$sequence.length; i++ ) {
         if( lastIndex == $( self.$sequence[i] ).data( 'sequence-id' ) ) {
@@ -481,7 +460,7 @@ define(function(require){
     isTouch: !!( 'ontouchstart' in window ),
     isInitialized: false
   };
-  
+
   return self;
-  
+
 });

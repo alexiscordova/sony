@@ -493,33 +493,40 @@ define(function(require){
     _onScroll : function( iscroll ) {
       var self = this,
           isIScroll = iscroll !== undefined && iscroll.y !== undefined,
-          scrollTop = isIScroll ? iscroll.y * -1 : self.$window.scrollTop(),
-          x, maxScrollX;
+          scrollTop = isIScroll ? iscroll.y * -1 : self.$window.scrollTop();
 
       // Add/remove a class to show the items have been scrolled horizontally
       if ( isIScroll ) {
-        x = iscroll.x;
-        maxScrollX = iscroll.maxScrollX + 3;
-
-        // Overflow left
-        if ( x < -3 && !self.$detailLabelsWrap.hasClass('overflowing') ) {
-          self.$detailLabelsWrap.addClass('overflowing');
-        } else if ( x >= -3 && self.$detailLabelsWrap.hasClass('overflowing') ) {
-          self.$detailLabelsWrap.removeClass('overflowing');
-        }
-
-        // Overflow right
-        if ( x > maxScrollX && !self.$specItemsGrid.hasClass('overflowing') ) {
-          self.$specItemsGrid.addClass('overflowing');
-        } else if ( x <= maxScrollX && self.$specItemsGrid.hasClass('overflowing') ) {
-          self.$specItemsGrid.removeClass('overflowing');
-        }
-
-        // We haven't scrolled vertically, exit the function
-        return;
+        // We haven't scrolled vertically, exit the function after setting classes
+        return self._setOverflowClasses( iscroll.x, iscroll.maxScrollX + 3 );
       }
 
       // Open/close sticky headers
+      self._updateStickyHeaders( scrollTop );
+    },
+
+    _setOverflowClasses : function( x, maxScrollX ) {
+      var self = this,
+          overflowClass = 'overflowing';
+
+      // Overflow left
+      if ( x < -3 && !self.$detailLabelsWrap.hasClass( overflowClass ) ) {
+        self.$detailLabelsWrap.addClass( overflowClass );
+      } else if ( x >= -3 && self.$detailLabelsWrap.hasClass( overflowClass ) ) {
+        self.$detailLabelsWrap.removeClass( overflowClass );
+      }
+
+      // Overflow right
+      if ( x > maxScrollX && !self.$specItemsGrid.hasClass( overflowClass ) ) {
+        self.$specItemsGrid.addClass( overflowClass );
+      } else if ( x <= maxScrollX && self.$specItemsGrid.hasClass( overflowClass ) ) {
+        self.$specItemsGrid.removeClass( overflowClass );
+      }
+    },
+
+    _updateStickyHeaders : function( scrollTop ) {
+      var self = this;
+
       if ( self.showStickyHeaders && !self.isMobile && scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
         if ( !self.$stickyHeaders.hasClass('open') ) {
           self.$stickyHeaders.addClass('open');

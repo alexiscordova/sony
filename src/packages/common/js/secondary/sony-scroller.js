@@ -1,12 +1,10 @@
-/*global jQuery, Modernizr, IScroll, SONY */
-
 // Generic Scroller
 // -------------------------------------------------
 //
 // * **Version:** 0.1
 // * **Modified:** 02/22/2013
 // * **Authors:** Telly Koosis, Tyler Madison, Glen Cheney
-// * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html)
+// * **Dependencies:** jQuery 1.7+, [sony-iscroll.js](sony-iscroll.html)
 //
 // *Example Usage:*
 //      TODO: add example here
@@ -18,8 +16,6 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr'),
-      iQ = require('iQ'),
       Settings = require('require/index').Settings,
       iScroll = require('plugins/sony-iscroll');
 
@@ -97,25 +93,7 @@ define(function(require){
       self.currentPage = self.scroller.currPageX;
 
       // Paddle clicks
-      // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
-      if ( self.nextSelector ) {
-        self.$navNext = self.nextSelector.jquery ? self.nextSelector : self.$el.find( self.nextSelector );
-        self.$navNext.on('click', function( evt ) {
-          // Stop the mouse click from bubbling up.
-          evt.preventDefault();
-          evt.stopPropagation();
-          self.next();
-        });
-      }
-      if ( self.prevSelector ) {
-        self.$navPrev = self.prevSelector.jquery ? self.prevSelector : self.$el.find( self.prevSelector );
-        self.$navPrev.on('click', function( evt ) {
-          // Stop the mouse click from bubbling up.
-          evt.preventDefault();
-          evt.stopPropagation();
-          self.prev();
-        });
-      }
+      self._setupPaddles();
 
       self._update( true );
       self._showHideNavs( 0, self.scroller.pagesX.length - 1 );
@@ -270,6 +248,30 @@ define(function(require){
       self.$pagination.on('SonyNavDots:clicked', function(e, a){
         self.gotopage(a);
       });
+    },
+
+    _setupPaddles : function() {
+      var self = this;
+
+      // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
+      if ( self.nextSelector ) {
+        self.$navNext = self.nextSelector.jquery ? self.nextSelector : self.$el.find( self.nextSelector );
+        self.$navNext.on('click', function( evt ) {
+          // Stop the mouse click from bubbling up.
+          evt.preventDefault();
+          evt.stopPropagation();
+          self.next();
+        });
+      }
+      if ( self.prevSelector ) {
+        self.$navPrev = self.prevSelector.jquery ? self.prevSelector : self.$el.find( self.prevSelector );
+        self.$navPrev.on('click', function( evt ) {
+          // Stop the mouse click from bubbling up.
+          evt.preventDefault();
+          evt.stopPropagation();
+          self.prev();
+        });
+      }
     },
 
     _generateNavPaddles : function() {

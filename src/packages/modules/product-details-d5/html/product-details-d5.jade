@@ -4,12 +4,10 @@ include ../../../common/html/jade-helpers.jade
 
 include product-details-d5-helpers.jade
 
-- moduleId = data.id ? data.id : false
-
-
 //- PRODCUT DETAILS MODULE START
 - productDetailsClasses = ["pd-module","container"]
-section(class= productDetailsClasses)(id= moduleId)
++mainElement(productDetailsClasses)
+
 
   //- 88888888888  .d88888b.  8888888b.
   //-     888     d88P" "Y88b 888   Y88b
@@ -206,9 +204,9 @@ section(class= productDetailsClasses)(id= moduleId)
   - textTout = bottom.textTout
   - bottomLayoutValue = 0
   - bottomElClasses = ["span6"]
-  - bottomCopyClasses = ["copy","p3"]
-
-  - btmToutClasses = ["text-tout","span6"]
+  - bottomCopyClasses = ["copy","p3","table-center"]
+  - bottomIconClasses = ["icon","table-center"]
+  - btmToutClasses = ["text-tout","span6","table-center-wrap"]
   - btmButtonClasses = ["bottom-btn","span6"]
 
   //- LOGIC
@@ -222,7 +220,6 @@ section(class= productDetailsClasses)(id= moduleId)
   //- is there a button href?
   if (isBottomBtn)
     - bottomLayoutValue = bottomLayoutValue + 1
-
 
   //- HANDLE LAYOUT VALUES
   case bottomLayoutValue

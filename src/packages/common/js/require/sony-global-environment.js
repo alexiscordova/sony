@@ -17,17 +17,18 @@ define(function (require) {
 
   var self = {
 
-    'init': function() {
+    init: function() {
       self.fixModernizrFalsePositives();
       self.createPubSub();
       self.createGlobalEvents();
       self.normalizeLogs();
       self.appendModernizrTests();
+      self.addDeviceClasses();
 
       log('SONY : Global : Environment : Initialized');
     },
 
-    'appendModernizrTests': function() {
+    appendModernizrTests: function() {
 
       // Before IE 9, the getStyles API would not return the pixel values of the margin if set to 'auto'.
       // Also, Firefox has a longstanding issue where the pixel value of 'auto' is always zero.
@@ -52,31 +53,99 @@ define(function (require) {
           $(x).remove();
           return false;
         }
-
       });
 
-      if ( Settings.isSonyTabletS ) {
-        Settings.$html.addClass('sonytablets');
-      }
+      // Test for `display: table` support.
 
-      if ( Settings.isPS3 ) {
-        Settings.$html.addClass('ps3');
-      }
+      Modernizr.addTest('displayTable', function() {
 
-      // Overwrite the Modernizr.mq function for IE < 10
-      if ( Settings.isLTIE10 ) {
-        Modernizr.mq = function() { return false; };
-        Modernizr.mediaqueries = false;
-      }
+        var rules = document.createElement('div').style;
 
+        try {
+          rules.display = 'table';
+          return rules.display === 'table';
+        } catch (e) {
+          return false;
+        }
+      });
 
+      // Does the browser support max/min widths on <table> elements? We use this extensively for
+      // vertical centering via the `table-center` class, so we need to know where it fails.
+      // As of writing, this occurs in Safari.
+
+      Modernizr.addTest('widthBoundsOnTables', function() {
+
+        var x = document.createElement('div'),
+            y = document.createElement('div'),
+            test;
+
+        if ( !Modernizr.displaytable ) {
+          return false;
+        }
+
+        x.appendChild(y);
+
+        x.style.display = 'table';
+        x.style.height = '200px';
+        x.style.maxWidth = '100px';
+        x.style.width = 'auto';
+
+        y.style.display = 'table-cell';
+        y.style.verticalAlign = 'middle';
+        y.style.height = '100px';
+
+        y.innerHTML = 'test test test test test test test test test test test';
+
+        document.documentElement.appendChild(x);
+
+        test = ( y.getBoundingClientRect().right - y.getBoundingClientRect().left === 100 );
+
+        document.documentElement.removeChild(x);
+
+        return test;
+      });
+
+      // Does the browser's implementation of <table> correctly support absolute positioning?
+
+      Modernizr.addTest('absolutePositionOnTables', function() {
+
+        var x = document.createElement('div'),
+            y = document.createElement('div'),
+            z = document.createElement('div'),
+            test;
+
+        if ( !Modernizr.displaytable ) {
+          return false;
+        }
+
+        x.appendChild(y);
+        y.appendChild(z);
+
+        x.style.position = 'relative';
+
+        y.style.position = 'absolute';
+        y.style.width = '50%';
+
+        z.style.position = 'absolute';
+        z.style.display = 'table';
+        z.style.right = '0';
+        z.style.width = '25%';
+
+        document.documentElement.appendChild(x);
+
+        test = Math.abs(z.getBoundingClientRect().right - y.getBoundingClientRect().right) <= 1;
+
+        document.documentElement.removeChild(x);
+
+        return test;
+      });
     },
 
     // Normalizes the console.log method.
     // use "`" key to display logs in production mode.
     // http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
 
-    'normalizeLogs': function () {
+    normalizeLogs: function () {
 
       window.log = function () {
         /*@cc_on
@@ -116,7 +185,7 @@ define(function (require) {
     // This is a modified version of jQuery Tiny PubSub by Ben Alman
     // https://github.com/cowboy/jquery-tiny-pubsub
 
-    'createPubSub': function() {
+    createPubSub: function() {
 
       var o = $({});
 
@@ -135,7 +204,7 @@ define(function (require) {
 
     // Create global events.
 
-    'createGlobalEvents': function() {
+    createGlobalEvents: function() {
 
       var cachedFunctions = {},
           resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
@@ -212,6 +281,12 @@ define(function (require) {
 
     fixModernizrFalsePositives : function() {
 
+      // Overwrite the Modernizr.mq function for IE < 10
+      if ( Settings.isLTIE10 ) {
+        Modernizr.mq = function() { return false; };
+        Modernizr.mediaqueries = false;
+      }
+
       // The sony tablet s gets a false negative on generated content (pseudo elements)
       if ( !Modernizr.generatedcontent && Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = true;
@@ -221,6 +296,21 @@ define(function (require) {
       if ( Settings.isLTIE8 ) {
         Modernizr.generatedcontent = false;
         Settings.$html.removeClass('generatedcontent').addClass('no-generatedcontent');
+      }
+    },
+
+    addDeviceClasses : function() {
+
+      if ( Settings.isSonyTabletS ) {
+        Settings.$html.addClass('sonytablets');
+      }
+
+      if ( Settings.isPS3 ) {
+        Settings.$html.addClass('ps3');
+      }
+
+      if ( Settings.isVita ) {
+        Settings.$html.addClass('vita');
       }
     }
 

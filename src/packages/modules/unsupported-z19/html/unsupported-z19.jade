@@ -18,7 +18,7 @@ a.launch-modal(href="#") Launch Unsupported Browser Modal
           .unsupported-bd-alt
             p.p3= data.subtitle.mobile
           .container.full-bleed.browser-list
-            - for (var i = 0; i < data.browser.length; i += 2) {
+            - for (i = 0; i < data.browser.length; i += 2) {
               .grid
                 .span6
                   a(href="#", tabindex=(0)).browser-link
@@ -38,5 +38,5 @@ a.launch-modal(href="#") Launch Unsupported Browser Modal
                         .media-bd.p3= data.download
             - }
 
-          a.lt3.link-proceed= data.proceed
-          a.btn.btn-medium= data.proceed
+          a(href="#", tabindex=(0)).lt3.link-proceed= data.proceed
+          a(href="#", tabindex=(0)).btn.btn-medium= data.proceed

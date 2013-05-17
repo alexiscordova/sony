@@ -65,8 +65,6 @@ define(function(require){
         self.$win.on(_endEvents(self.id), $.proxy(self.onScrubEnd, self));
       }
 
-      self.throttledSetAcceleration = $.throttle(500, $.proxy(self.setAcceleration, self));
-
       self.setDimensions();
       self.setPositions();
     },
@@ -80,12 +78,17 @@ define(function(require){
           $this = $(e.target);
 
       if ( !Modernizr.touch ) {
+        if(e.which !== 1){
+          return;
+        }
         e.preventDefault();
       }
 
       if ( self.$el.has($this).length === 0 ) {
         return;
       }
+
+
 
       if ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
@@ -146,7 +149,6 @@ define(function(require){
 
       // Periodically query the user's position to see how much they've moved recently.
 
-      self.throttledSetAcceleration(e);
       self.setPositions();
     },
 
@@ -162,24 +164,18 @@ define(function(require){
 
       if ( !self.isScrubbing ) { return; }
 
-      // Do a final check on acceleration before returning data in dragEnd.
-
-      self.setAcceleration(e);
-
       self.isScrubbing = self.hasPassedThreshold = false;
 
-      self.$el.trigger('sonyDraggable:dragEnd', {
-        'acceleration': self.acceleration
-      });
+      self.$el.trigger('sonyDraggable:dragEnd', {});
 
       self.$el.removeClass('dragging');
 
       if ( self.snapToBounds && self.bounds ) {
         if ( self.axis.indexOf('x') >= 0 ) {
-          self.animateToBounds('x');
+          self.snapTo('x');
         }
         if ( self.axis.indexOf('y') >= 0 ) {
-          self.animateToBounds('y');
+          self.snapTo('y');
         }
       }
     },
@@ -208,27 +204,10 @@ define(function(require){
       };
     },
 
-    // Periodically queried to determine the dragging acceleration on x/y axes.
-
-    'setAcceleration': function(e) {
-
-      var self = this,
-          newPosition = self.getPagePosition(e);
-
-      if ( !self.lastPagePosition ) {
-        self.acceleration = {'x': 0, 'y': 0};
-      } else {
-        self.acceleration.x = newPosition.x - self.lastPagePosition.x;
-        self.acceleration.y = newPosition.y - self.lastPagePosition.y;
-      }
-
-      self.lastPagePosition = newPosition;
-    },
-
     // If self.snapToBounds is specified, handle the logic for animating the scrubbed element
-    // to the nearest bounds.
+    // to the nearest bounds, or a point on that axis (if provided).
 
-    'animateToBounds': function(axis) {
+    'snapTo': function(axis, toWhere) {
 
       var self = this,
           currentPosition = self.handlePosition[axis],
@@ -240,7 +219,11 @@ define(function(require){
           destination = minMax[currentDistances.indexOf(closest)],
           newPosition;
 
-      if( currentDistances[0] > boundsDistance && currentDistances[1] > boundsDistance ) {
+      if ( toWhere !== undefined ) {
+        destination = toWhere  / 100 * pctScale;
+      }
+
+      if( currentDistances[0] > boundsDistance && currentDistances[1] > boundsDistance && toWhere === undefined ) {
         return;
       }
 
@@ -256,7 +239,7 @@ define(function(require){
       }
 
       window.requestAnimationFrame(function(){
-        self.animateToBounds(axis);
+        self.snapTo(axis, toWhere);
       });
     },
 
@@ -269,25 +252,18 @@ define(function(require){
     'setPositions': function(overridePosition){
 
       var self = this,
-          newX = 0,
-          newY = 0;
+          newX, newY,
+          outputX = 0,
+          outputY = 0;
 
       if ( self.unit === 'px' ) {
-        if ( self.axis.indexOf('x') >= 0 ) {
-          newX = self.handlePosition.x;
-        }
-        if ( self.axis.indexOf('y') >= 0 ) {
-          newY = self.handlePosition.y;
-        }
+        newX = self.handlePosition.x;
+        newY = self.handlePosition.y;
       }
 
       if ( self.unit === '%' ) {
-        if ( self.axis.indexOf('x') >= 0 ) {
-          newX = ((self.handlePosition.x) / self.containmentWidth * 100);
-        }
-        if ( self.axis.indexOf('y') >= 0 ) {
-          newY = ((self.handlePosition.y) / self.containmentHeight * 100);
-        }
+        newX = ((self.handlePosition.x) / self.containmentWidth * 100);
+        newY = ((self.handlePosition.y) / self.containmentHeight * 100);
       }
 
       if ( self.bounds ) {
@@ -296,27 +272,31 @@ define(function(require){
       }
 
       if ( overridePosition ) {
-        if ( self.axis.indexOf('x') >= 0 ) {
-          newX = overridePosition.x;
-        }
-        if ( self.axis.indexOf('y') >= 0 ) {
-          newY = overridePosition.y;
-        }
+        newX = overridePosition.x;
+        newY = overridePosition.y;
+      }
+
+      if ( self.axis.indexOf('x') >= 0 ) {
+        outputX = newX;
+      }
+
+      if ( self.axis.indexOf('y') >= 0 ) {
+        outputY = newY;
       }
 
       if ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed('transform'), 'translate(' + newX + self.unit + ',' + newY + self.unit + ')');
+        self.$el.css(Modernizr.prefixed('transform'), 'translate(' + outputX + self.unit + ',' + outputY + self.unit + ')');
       } else {
         self.$el.css({
-          'left': newX + self.unit,
-          'top': newY + self.unit
+          'left': outputX + self.unit,
+          'top': outputY + self.unit
         });
       }
 
       self.drag({
         'position': {
-          'left': newX,
-          'top': newY
+          'left': outputX,
+          'top': outputY
         }
       });
     },
@@ -415,11 +395,11 @@ define(function(require){
     'axis': 'xy',
 
     // 'px' or '%' based positioning for handle / callback coords.
-    'unit': 'px',
+    'unit': '%',
 
     // Motion that must be passed on touch before dragging will start. Helpful for
     // preventing "touch-trapping" scenarios.
-    'dragThreshold': undefined,
+    'dragThreshold': null,
 
     // Initial position of handle.
     'handlePosition': {
@@ -428,11 +408,11 @@ define(function(require){
     },
 
     // Set boundaries in the form of `{x:0, y:100}`, in self.unit measurements.
-    'bounds': undefined,
+    'bounds': null,
 
     // If scrubber is released within this distance of a bounds (in self.unit measurements),
     // Animates the scrubber to that bounds. Requires `bounds`.
-    'snapToBounds': undefined,
+    'snapToBounds': null,
 
     // Use CSS3 Transforms and Transitions for dragging.
     'useCSS3': false,

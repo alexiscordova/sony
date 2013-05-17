@@ -95,19 +95,22 @@ define(function(require){
     _onScroll : function() {
       var self = this;
 
+      if ( self.isTicking ) {
+        return;
+      }
+
       // IE8 still has sticky open sometimes at the top
       function update() {
         self._updateStickyNav();
       }
 
-      if ( !self.isTicking ) {
-        self.isTicking = true;
-        self.lastScrollY = self.$window.scrollTop();
-        if ( !Modernizr.raf ) {
-          update();
-        } else {
-          window.requestAnimationFrame( update );
-        }
+      self.isTicking = true;
+      self.lastScrollY = self.$window.scrollTop();
+
+      if ( !Modernizr.raf ) {
+        update();
+      } else {
+        window.requestAnimationFrame( update );
       }
 
     },

@@ -21,6 +21,7 @@ define(function(require) {
     var $ = require('jquery'),
         iQ = require('iQ'),
         bootstrap = require('bootstrap'),
+        Modernizr = require('modernizr'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         Favorites = require('secondary/index').sonyFavorites,
@@ -172,8 +173,8 @@ define(function(require) {
         if (self.variation === '3up' ||
            self.variation === '4up' ||
            self.variation === '5up') {
-            self.setSortPriorities();
-            //self.log(self.variation , true);
+           self.setSortPriorities();
+           //console.log(self.variation , true);
         }
 
         if (self.$slides.length > 1) {
@@ -181,20 +182,20 @@ define(function(require) {
           if (!self.hasTouch) {
             self.createPaddles();
           }
-          if (self.mode != 'strip') {
+          if (self.mode !== 'strip') {
             self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           }
-        }else{
+        } else {
           self.$pagination = $({});
         }
 
-        if (self.mode != 'strip') {
+        if (self.mode !== 'strip') {
           self.setSortPriorities();
           self.setupResizeListener();
           self.$win.trigger('resize.rp');
         }else {
           self.setupStripMode();
-          //self.log('setting up strip mode...');
+          //console.log('setting up strip mode...');
         }
       },
 
@@ -357,7 +358,7 @@ define(function(require) {
             } else if ( self.mq('(min-width: 569px)') ) {
               column = Settings.COLUMN_WIDTH_SLIM * containerWidth;
             // Default
-            }else{
+            } else {
               column = containerWidth;
             }
 
@@ -372,7 +373,7 @@ define(function(require) {
 
       setupResizeListener: function() {
         var self      = this,
-        resizeTimeout = null,
+        // resizeTimeout = null,
 
         //Some value constants
         VISIBLE       = 'visible',
@@ -391,7 +392,7 @@ define(function(require) {
             self.$pagination.hide();
             self.$el.addClass( REDRAWING );
 
-           }else if (self.hasInitedMobile) {
+           } else if (self.hasInitedMobile) {
 
             self.$el.css({
               opacity : 1,
@@ -430,7 +431,7 @@ define(function(require) {
 
         self.$pagination.hide();
 
-       // self.log('setting up resize listener...');
+       // console.log('setting up resize listener...');
 
         self.$win.on( 'resize.rp', $.debounce( 100 , $.proxy(self.handleResize , self)) );
 
@@ -474,7 +475,7 @@ define(function(require) {
               if (self.oldIE) {
 
 
-                if ( self.$html.hasClass('lt-ie8') ) {
+                if ( Settings.isLTIE8 ) {
 
 
                  self.$galleryItems.each(function() {
@@ -483,7 +484,7 @@ define(function(require) {
                     $itemImg         = $item.find('.product-img'),
                     tileHeight       = 225,
                     galImageHeight   = 140,
-                    medGalImgWidth   = 355,
+                    // medGalImgWidth   = 355,
                     medGalImgHeight  = 385,
                     medGalItemHeight = 600;
 
@@ -497,7 +498,7 @@ define(function(require) {
                         height : tileHeight
                       });
 
-                    }else if ( $item.hasClass('medium') ) {
+                    } else if ( $item.hasClass('medium') ) {
                       $item.css({
                         height : medGalItemHeight
                       });
@@ -506,7 +507,7 @@ define(function(require) {
                         height : medGalImgHeight
                       });
 
-                    }else if ( $item.hasClass('normal') ) {
+                    } else if ( $item.hasClass('normal') ) {
 
                       $item.css({
                         height : tileHeight
@@ -519,7 +520,7 @@ define(function(require) {
 
                   });
 
-                }else if ( Settings.isLTIE10 && !self.$html.hasClass('lt-ie8') ) {
+                } else if ( Settings.isLTIE10 && !Settings.isLTIE8 ) {
                   self.$galleryItems.filter('.medium').find('.product-img').css({
                     height: 359
                   });
@@ -534,7 +535,7 @@ define(function(require) {
                 self.updateTiles();
                 shfflInst.update();
                 self.animateTiles();
-              }else if (!self.isMobileMode) {
+              } else if (!self.isMobileMode) {
                 self.$pagination.show();
                 self.$pagination.stop(true,true).fadeIn(250);
               }
@@ -543,28 +544,6 @@ define(function(require) {
 
           });
         } , 10);
-      },
-
-      log : function () {
-
-        var self = this,
-        strOut   = '';
-
-        for (var i = 0 ; i < arguments.length ; i ++) {
-          strOut += arguments[i];
-          strOut += i > 0 ? ' , ' : ' ';
-        }
-
-        if (self.oldIE && self.DEBUG) {
-          if (window.alert) {
-               //window.alert(strOut);
-
-          }
-        } else if ( self.DEBUG ) {
-          if (window.console) {
-           //window.console.log(strOut);
-          }
-        }
       },
 
       setupStripMode: function() {
@@ -624,7 +603,7 @@ define(function(require) {
 
           if (self.$win.width() < 479) {
             self.scrollerModule.centerItems = true;
-          }else{
+          } else {
             self.scrollerModule.centerItems = false;
           }
 
@@ -635,7 +614,7 @@ define(function(require) {
           if (self.$win.width() > 767) {
             gutterWidth = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
             colWidth    = ( Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
-          }else{
+          } else {
             gutterWidth = 12.745098039215685;
             colWidth    = 119.80392156862746;
           }
@@ -786,7 +765,7 @@ define(function(require) {
 
         if (turnOn) {
           self.$el.find('.pagination-paddles').show();
-        }else{
+        } else {
           self.$el.find('.pagination-paddles').hide();
         }
 
@@ -821,7 +800,7 @@ define(function(require) {
             sfflInst = $shfflContainer.data('shuffle');
             if (i === self.currentId ) {
               sfflInst.enable();
-            }else{
+            } else {
               sfflInst.enable();
             }
         });*/
@@ -831,10 +810,10 @@ define(function(require) {
         var self               = this,
         allSpans               = 'span1 span2 span3 span4 span6',
         shuffleDash            = 'shuffle-',
-        gridClasses            = [ shuffleDash + 3, shuffleDash + 4, shuffleDash + 5, 'grid-small' ].join(' '),
+        // gridClasses            = [ shuffleDash + 3, shuffleDash + 4, shuffleDash + 5, 'grid-small' ].join(' '),
         itemSelector           = '.gallery-item',
-        grid5                  = 'slimgrid5',
-        slimgrid               = 'slimgrid',
+        grid                   = 'slimgrid',
+        grid5                  = grid+5,
         span                   = 'span',
         large                  = '.large',
         promo                  = '.promo',
@@ -846,8 +825,8 @@ define(function(require) {
         if ( numColumns === 5 ) {
           if ( !self.$container.hasClass( shuffleDash + 5 ) ) {
 
-            self.$shuffleContainers.removeClass('slimgrid')
-            .addClass('slimgrid5');
+            self.$shuffleContainers.removeClass( grid )
+            .addClass( grid5 );
 
             self.$shuffleContainers.children(itemSelector)
               .removeClass(allSpans)// Remove current grid span
@@ -866,8 +845,8 @@ define(function(require) {
 
           if ( !self.$shuffleContainers.hasClass( shuffleDash + 4 ) ) {
 
-            self.$shuffleContainers.removeClass('slimgrid5')
-            .addClass('slimgrid');
+            self.$shuffleContainers.removeClass( grid5 )
+            .addClass( grid );
 
             self.$shuffleContainers.children(itemSelector)
               .removeClass(allSpans)// Remove current grid span
@@ -900,7 +879,7 @@ define(function(require) {
           MEDIUM   = 'medium',
           NORMAL   = 'normal',
           BLANK    = 'blank',
-          ONE      = 1,
+          // ONE      = 1,
           TWO      = 2,
           THREE    = 3,
           FOUR     = 4,
@@ -912,19 +891,19 @@ define(function(require) {
             if (slideVariation === '4up') {
               if ($item.hasClass( MEDIUM )) {
                 $item.data( PRIORITY , FIVE );
-              }else if ($item.hasClass( NORMAL ) && !hitNormalYet) {
+              } else if ($item.hasClass( NORMAL ) && !hitNormalYet) {
                 $item.data( PRIORITY , TWO );
                 hitNormalYet = true;
-              }else if ($item.hasClass( BLANK )) {
+              } else if ($item.hasClass( BLANK )) {
                 $item.data( PRIORITY , THREE );
               }
               else if ($item.hasClass( NORMAL ) && hitNormalYet === true) {
                 $item.data( PRIORITY , FOUR );
               }
-            }else if ( slideVariation === '3up' ) {
+            } else if ( slideVariation === '3up' ) {
               if ($item.hasClass( MEDIUM )) {
                 $item.data(PRIORITY , TWO );
-              }else if ($item.hasClass( NORMAL )) {
+              } else if ($item.hasClass( NORMAL )) {
                 $item.data(PRIORITY , THREE );
               }
               if ($item.hasClass( BLANK )) {
@@ -978,7 +957,7 @@ define(function(require) {
           view = 'desktop';
         }
 
-        //self.log('checking for breakpoints...');
+        //console.log('checking for breakpoints...');
 
         switch(view) {
           case 'desktop':
@@ -998,15 +977,10 @@ define(function(require) {
               wasMobile = true;
               self.returnToFullView();
 
-              //self.log('was mobile');
+              //console.log('was mobile');
             }
 
             self.isTabletMode = self.isMobileMode = self.hasInitedMobile = false;
-
-            if (self.isDesktopMode === true) {
-              // self.log('already desktop');
-              //return;
-            }
 
             self.isDesktopMode = true;
 
@@ -1014,14 +988,14 @@ define(function(require) {
                                     .addClass('rp-desktop');
 
             if (self.scrollerModule !== null || wasMobile) {
-              //self.log('destroying scroller');
+              //console.log('destroying scroller');
               self.scrollerModule.destroy();
               self.scrollerModule = null;
 
             }
 
             if (self.shuffle === null || wasMobile) {
-              //self.log('creating shuffle');
+              //console.log('creating shuffle');
               self.$container.css('width' , '100%');
               self.createShuffle();
 
@@ -1140,7 +1114,7 @@ define(function(require) {
 
             self.initMobileBreakpoint();
 
-            //self.log('initing mobile');
+            //console.log('initing mobile');
 
             self.togglePaddles(false);
 
@@ -1190,7 +1164,7 @@ define(function(require) {
         if (self.isTabletMode === true) {
           if ( newHeight === 0 ) {
             newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.984615385 );
-            //self.log('using alternate height calculatio >>> TABLET' , newHeight);
+            //console.log('using alternate height calculatio >>> TABLET' , newHeight);
           }
 
          self.$el.css( 'height' , newHeight + 14 + 'px' );
@@ -1211,16 +1185,12 @@ define(function(require) {
 
         if ( newHeight === 0 ) {
           newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.509803922 );
-           //self.log('using alternate height calculation >>> Desktop' , newHeight);
+           //console.log('using alternate height calculation >>> Desktop' , newHeight);
         }
 
         if (self.$win.width() < 1120) {
           newHeight += 20;
         }
-/*
-        if (self.$win.width() > 1200) {
-          newHeight -= 40;
-        }*/
 
         self.$el.css( 'height' , newHeight + 0 + 'px' );
 
@@ -1263,10 +1233,10 @@ define(function(require) {
             if (touches.length > 1) {
               self.multipleTouches = true;
             }
-          }else{
+          } else {
             return;
           }
-        }else{
+        } else {
           point = e;
           e.preventDefault();
 
@@ -1458,14 +1428,14 @@ define(function(require) {
             if (self.currentId >= self.$slides.length) {
               self.currentId = self.$slides.length - 1;
             }
-          }else{
+          } else {
             self.currentId --;
            if (self.currentId < 0) {
             self.currentId = 0;
            }
           }
           self.moveTo(v0);
-        }else{
+        } else {
           //return to current
           returnToCurrent(true, v0);
         }
@@ -1499,7 +1469,7 @@ define(function(require) {
 
         distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
 
-        //log( distanceMoved );
+        //console.log( distanceMoved );
 
         if (!self.hasMoved) {
           if (self.useCSS3Transitions) {
@@ -1575,7 +1545,7 @@ define(function(require) {
           cw = 910;
           newPos = ( -self.currentId * cw );
           newPos -= (910 - self.$win.width() ) * 0.5;
-        }else if ( self.isIE7orIE8 ) {
+        } else if ( self.isIE7orIE8 ) {
           newPos += Math.ceil(widthDifference);
         }
 
@@ -1629,7 +1599,7 @@ define(function(require) {
           newPos =  -self.currentId * 910 ;
           newPos -= (910 - self.$win.width() ) * 0.5;
           newDist = Math.abs(self.sPosition  - newPos);
-        }else if ( self.isIE7orIE8 ) {
+        } else if ( self.isIE7orIE8 ) {
           newPos += Math.ceil(widthDifference);
         }
 
@@ -1647,13 +1617,13 @@ define(function(require) {
         if ( !self.useCSS3Transitions ) {
           animObj[ self.xProp ] = newPos;
           self.$container.animate( animObj, self.currAnimSpeed );
-        }else{
+        } else {
           //css3 transition
           animObj[ self.prefixed( self.TD ) ]  = self.currAnimSpeed + 'ms';
 
           if (self.currAnimSpeed === self.animationSpeed) {
             animObj[ self.prefixed( self.TTF )  ] = self.css3Easing.easeOutBack;
-          }else{
+          } else {
             animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.sonyScrollEase;
           }
 
@@ -1769,7 +1739,7 @@ define(function(require) {
             top :  plateHeight,
             left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + px
           });
-        }else if (self.mq('(min-width: 569px)') && hasPlate) {
+        } else if (self.mq('(min-width: 569px)') && hasPlate) {
 
           self.$rightPaddle.css({
             top :  plateHeight + 130,
@@ -1834,7 +1804,7 @@ define(function(require) {
                 $mediumTile.css({
                   'height' : newHeight + 'px'
                 });
-              }else{
+              } else {
                 newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt( $normalTile.css('marginTop'), radix );
                 $mediumTile.css({
                   'height' : newHeight + 'px'
@@ -1848,7 +1818,7 @@ define(function(require) {
                 $mediumTile.css({
                   'height' : newHeight + 'px'
                 });
-              }else{
+              } else {
                 newHeight = $normalTile.outerHeight(true) + $normalTile.find('.product-img').height();
                 $mediumTile.css('height' , newHeight);
               }
@@ -1860,7 +1830,7 @@ define(function(require) {
                 $mediumTile.css({
                   'height' : newHeight + 'px'
                 });
-              }else{
+              } else {
                 $mediumTile.css('height' , '');
               }
             break;
@@ -1915,9 +1885,9 @@ define(function(require) {
 
           if ($item.hasClass('plate') === true) {
             animationDelay = 0;
-          }else if ($item.hasClass('medium') === true) {
+          } else if ($item.hasClass('medium') === true) {
              animationDelay = 150;
-          }else{
+          } else {
              animationDelay = 250 + Math.floor(Math.random() * 500);
           }
 
@@ -1936,7 +1906,7 @@ define(function(require) {
             }
 
           }, totalAnimationDelay );
-        }else{
+        } else {
           if (!self.isMobileMode) {
            self.$pagination.stop(true,true).fadeIn(250);
           }
@@ -2129,61 +2099,70 @@ $(function() {
       'msTransition'     : 'MSTransitionEnd',
       'transition'       : 'transitionend'
   },
-  transitionEndName;
-  transitionEndName = transEndEventNames[ window.Modernizr.prefixed('transition') ];
+  transitionEndName = transEndEventNames[ window.Modernizr.prefixed('transition') ],
+  $tabs = $('.rp-tabs').find('.rp-tab'),
+  currentPanelId = 1,
+  $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
+  $productPanels = $('.related-products[data-rp-panel-id]'),
+  handleTabClick,
+  onOldPanelFadedOut;
 
-  var $tabs = $('.rp-tabs').find('.rp-tab'),
-      currentPanelId = 1,
-      $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
-      $productPanels = $('.related-products[data-rp-panel-id]');
-
-  $productPanels.not($currentPanel).css({
-    'opacity' : 0,
-    'z-index' : 0
-  });
-
-  $currentPanel.css({
-    'z-index' : 1
-  });
-
+  $productPanels.not($currentPanel).addClass('inactive invisible');
   $tabs.eq(0).addClass('active');
 
-  if ($tabs.length > 0) {
-    var handleTabClick = function(e) {
-      var $tab = $(this),
-      visibleObj = function(visibleBool , zIndx) {
-        var cssO = {'visibility' : visibleBool === true ? 'visible' : 'hidden'};
-        if (zIndx !== undefined) {
-          cssO.zIndex = zIndx;
-        }
-        return cssO;
-      };
+  // Not tabs, exit
+  if ( !$tabs.length ) {
+    return;
+  }
 
-      e.preventDefault();
-      $tabs.removeClass('active');
-      $tab.addClass('active');
+  onOldPanelFadedOut = function() {
+    var $panel = $(this);
+    $panel.addClass('invisible');
+    $panel.data('relatedProducts').disableShuffle();
+  };
 
-      var newPanelId = $tab.data('rpPanelId');
+  handleTabClick = function(e) {
+    var $tab = $(this),
+        newPanelId = $tab.data('rpPanelId'),
+        $oldPanel = $currentPanel;
 
-      if (newPanelId === currentPanelId) {
-        return;
-      }
-      var $oldPanel = $currentPanel;
-      currentPanelId = newPanelId;
-      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+    e.preventDefault();
+    $tab.addClass('active').siblings().removeClass('active');
 
-      $oldPanel.css(visibleObj(true, 1));
-      $oldPanel.stop(true,true).animate({ opacity: 0 },{ duration: 500 , delay: 0 , complete: function() {
-        $oldPanel.css(visibleObj(false, 0));
-        $oldPanel.data('relatedProducts').disableShuffle();
-      }});
+    // Clicked the same tab
+    if (newPanelId === currentPanelId) {
+      return;
+    }
 
-      $currentPanel.css(visibleObj(true, 1));
-      $currentPanel.data('relatedProducts').enableShuffle();
-      $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500});
-    };
+    // Set the current panel id to the new one
+    currentPanelId = newPanelId;
 
-    $tabs.on(window.Modernizr.touch ? 'touchend' : 'click' , handleTabClick);
+    // Set the new panel
+    $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+
+    // Fade out old panel
+    $oldPanel.addClass('inactive');
+
+    // Fade in current panel
+    $currentPanel.removeClass('inactive invisible');
+
+    if ( Modernizr.csstransitions ) {
+      $oldPanel.one( transitionEndName, onOldPanelFadedOut );
+    } else {
+      console.log( 'proxying onOldPanelFadedOut' );
+      $.proxy( onOldPanelFadedOut, $oldPanel[0] )();
+    }
+
+    $currentPanel.data('relatedProducts').enableShuffle();
+  };
+
+  // Since these are <a> links, they will receive click events from mobile devices
+  if ( Modernizr.touch ) {
+    $tabs
+      .on('click', false)
+      .on('touchend', handleTabClick);
+  } else {
+    $tabs.on('click' , handleTabClick);
   }
 
 });

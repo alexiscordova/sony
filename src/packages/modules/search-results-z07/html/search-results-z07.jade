@@ -4,7 +4,7 @@ include search-results-z07-helpers.jade
 +includeCSS('search-results-z07')
 +includeJavascriptModule('search-results-z07')
 
-.search-results
+section.search-results
   .bar-tone
     .container
       .slimgrid.no-grid-at-767
@@ -45,8 +45,10 @@ include search-results-z07-helpers.jade
               include search-results-z07-product.jade
 
           button.btn.btn-alt-special.btn-alt-plus.search-more
-            span Load More
+            span
               i.fonticon-10-sm-bold-plus
+              | Load More
+
 
       .span3.offset1.hidden-phone
         .result-sidebar

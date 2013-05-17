@@ -256,6 +256,7 @@ $.fn.flowplayer = function(opts, callback) {
             if (api.ready && api.paused && !api.disabled) {
                engine.resume();
 
+
                // Firefox (+others?) does not fire "resume" after finish
                if (api.finished) {
                   api.trigger("resume");
@@ -577,7 +578,8 @@ $.fn.flowplayer = function(opts, callback) {
       firstframe: !IS_IPHONE && !IS_IPAD && !IS_ANDROID && !IS_SILK && !IS_IPAD_CHROME && !IS_WP && !IS_ANDROID_FIREFOX,
       inlineVideo: !IS_IPHONE && !IS_SILK && !IS_WP && (!IS_ANDROID || ANDROID_VER >= 3),
       hlsDuration: !browser.safari || IS_IPAD || IS_IPHONE || IS_IPAD_CHROME,
-      seekable: !IS_IPAD && !IS_IPAD_CHROME
+      seekable: !IS_IPAD && !IS_IPAD_CHROME,
+      ipad: IS_IPAD
    });
 
    // flashVideo
@@ -961,6 +963,10 @@ flowplayer.engine.html5 = function(player, root) {
                   position: 'absolute',
                   top: '-9999em'
                });
+            }else{
+               videoTag.css({
+                  top: '0'
+               });
             }
 
             if (track.length) videoTag.append(track.attr("default", ""));
@@ -1012,6 +1018,7 @@ flowplayer.engine.html5 = function(player, root) {
       },
 
       resume: function() {
+
          api.play();
       },
 
@@ -1234,7 +1241,7 @@ function URLResolver(videoTag) {
 // document.ondragstart = function () { return false; };
 
 // execute function every <delay> ms
-/*$.throttle = function(fn, delay) {
+$.flowplayerThrottle = function(fn, delay) {
    var locked;
 
    return function () {
@@ -1244,10 +1251,10 @@ function URLResolver(videoTag) {
          setTimeout(function () { locked = 0; }, delay);
       }
    };
-};*/
+};
 
 
-$.fn.slider2 = function(rtl) {
+$.fn.slider2 = function(rtl , vert) {
 
    var IS_IPAD = /iPad/.test(navigator.userAgent) && !/CriOS/.test(navigator.userAgent);
 
@@ -1255,17 +1262,18 @@ $.fn.slider2 = function(rtl) {
 
       var root = $(this),
          doc = $(document),
-         progress = root.children(".is-slider"),
+         progress = root.find(".is-slider"),
          disabled,
          offset,
          width,
          height,
-         vertical,
+         vertical = vert,
          size,
          maxValue,
          max,
          skipAnimation = false,
-         scrubber = root.children('.fp-scrubber'),
+         scrubber = root.find('.fp-scrubber'),
+
 
          /* private */
          calc = function() {
@@ -1311,11 +1319,25 @@ $.fn.slider2 = function(rtl) {
                if (!IS_IPAD) progress.stop(); // stop() broken on iPad
                if (skipAnimation) {
                   progress.css('width', to + "%");
+                  //scrubber.css('left', (to - 2) + "%");
 
                } else {
-                  //progress.animate(vertical ? { height: to } : { width: to }, speed, "linear");
-                  progress.css('width', to + "%");
-                  scrubber.css('left', (to - 2) + "%");
+                  
+                  progress.css(vertical ? 'height' : 'width', to + "%");
+                  
+                  if(scrubber){
+                     if(vertical){
+
+                        scrubber.css('top' , 'auto');
+                        scrubber.css('bottom' , (progress.height() - 6) + 'px');
+
+                     }else{
+                        scrubber.css('left' , (progress.width() - 4) + 'px');
+                     }
+                     
+                  }
+
+                  //log( progress.height() , scrubber.css('bottom') );
                }
             }
 
@@ -1350,9 +1372,8 @@ $.fn.slider2 = function(rtl) {
 
          };
 
-                 
-
       calc();
+
 
       // bound dragging into document
       root.data("api", api).bind("mousedown.sld touchstart", function(e) {
@@ -1361,7 +1382,7 @@ $.fn.slider2 = function(rtl) {
          if (!disabled) {
 
             // begin --> recalculate. allows dynamic resizing of the slider
-            var delayedFire = $.throttle(fire, 100);
+            var delayedFire = $.flowplayerThrottle(fire, 100);
             calc();
             api.dragging = true;
             root.addClass('is-dragging');
@@ -1417,7 +1438,7 @@ flowplayer(function(api, root) {
    root.addClass("flowplayer").append('\
       <div class="ratio"/>\
       <div class="ui">\
-         <div class="waiting"><em/><em/><em/></div>\
+         <div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div>\
          <a class="unload"/>\
          <p class="speed"/>\
          <div class="controls">\
@@ -1430,19 +1451,18 @@ flowplayer(function(api, root) {
             <div class="volume">\
                <a class="mute"></a>\
                <div class="volumeslider">\
-                  <div class="volumelevel is-slider"/>\
+                  <div class="volumeleveltrack">\
+                     <div class="volumelevel is-slider"/>\
+                     <div class="scrubber"/>\
+                  </div>\
                </div>\
             </div>\
             <a class="fullscreen"/>\
          </div>\
-         <div class="time">\
-            <em class="elapsed">00:00</em>\
-            <em class="remaining"/>\
-            <em class="duration">00:00</em>\
-         </div>\
          <div class="message"><h2/><p/></div>\
       </div>'.replace(/class="/g, 'class="fp-')
    );
+
 
    function find(klass) {
       return $(".fp-" + klass, root);
@@ -1466,9 +1486,9 @@ flowplayer(function(api, root) {
 
       volume = find("volume"),
       fullscreen = find("fullscreen"),
-      volumeSlider = find("volumeslider").slider2(api.rtl),
+      volumeSlider = find("volumeslider").slider2(api.rtl , true),
       volumeApi = volumeSlider.data("api"),
-      noToggle = root.is(".fixed-controls, .no-toggle");
+      noToggle = root.is(".fixed-controls, .no-toggle") || window.flowplayer.support.ipad;
 
    timelineApi.disableAnimation(root.hasClass('is-touch'));
 
@@ -1514,6 +1534,9 @@ flowplayer(function(api, root) {
       volumeApi.slide(api.volumeLevel);
 
 
+
+
+
    }).bind("unload", function() {
       if (!origRatio) ratio.css("paddingTop", "");
 
@@ -1550,9 +1573,13 @@ flowplayer(function(api, root) {
    }).bind("finish resume seek", function(e) {
       root.toggleClass("is-finished", e.type == "finish");
 
+
+
    }).bind("stop", function() {
       elapsed.html(format(0));
       timelineApi.slide(0, 100);
+
+
 
    }).bind("finish", function() {
       elapsed.html(format(api.video.duration));
@@ -1607,6 +1634,8 @@ flowplayer(function(api, root) {
             lastMove = new Date;
          });
 
+         root.find('.fp-play-btn-inner').addClass('is-hover');
+
          hovertimer = setInterval(function() {
             if (new Date - lastMove > 5000) {
                hover(false)
@@ -1622,7 +1651,7 @@ flowplayer(function(api, root) {
 
    // allow dragging over the player edge
    }).bind("mouseleave", function() {
-
+      root.find('.fp-play-btn-inner').removeClass('is-hover');
       if (timelineApi.dragging || volumeApi.dragging) {
          root.addClass("is-mouseover").removeClass("is-mouseout");
       }
@@ -1634,6 +1663,68 @@ flowplayer(function(api, root) {
          return api.toggle();
       }
    });
+
+   root.find('.fp-play-btn-inner').bind("click.player", function(e) {
+      e.preventDefault();
+      return api.toggle();
+   });
+
+   var isHoverOverVolumeSlider = false,
+   mouseleaveTimeout;
+
+   root.find('.fp-volume').bind('mouseenter mouseleave' , function(e){
+      e.preventDefault();
+
+      if(e.type === 'mouseenter'){
+         
+
+         var sldr = root.find( '.fp-volumeslider' ).css( 'display' , 'block' ),
+         scrubber = sldr.find('.fp-scrubber'),
+         progress = sldr.find('.is-slider');
+
+         scrubber.css( 'top' , 'auto' );
+         scrubber.css( 'bottom' , ( progress.height() - 6 ) + 'px' );
+
+      }
+      
+      if(e.type === 'mouseleave' && $(e.target).is('.fp-volume') ){
+         clearTimeout(mouseleaveTimeout);
+         
+         mouseleaveTimeout = setTimeout(function(){
+            if(!isHoverOverVolumeSlider){
+               root.find( '.fp-volumeslider' ).css( 'display' , 'none' );
+            }
+         } , 100);
+      
+      }
+   });
+
+   if(window.flowplayer.support.ipad){
+      root.addClass('is-ipad').addClass('no-toggle');
+   }
+
+   root.find('.fp-volumeslider').bind('mouseenter mouseleave' , function(e){
+      e.preventDefault();
+
+      if(e.type === 'mouseenter'){
+         isHoverOverVolumeSlider = true;
+      }else{
+         isHoverOverVolumeSlider = false;
+
+         clearTimeout(mouseleaveTimeout);
+         
+         mouseleaveTimeout = setTimeout(function(){
+            if(!isHoverOverVolumeSlider){
+               root.find( '.fp-volumeslider' ).css( 'display' , 'none' );
+            }
+         } , 100);
+         
+      }
+
+   });
+
+
+
 
    // poster -> background image
    if (conf.poster) root.css("backgroundImage", "url(" + conf.poster + ")");
@@ -1673,6 +1764,7 @@ flowplayer(function(api, root) {
 
    volumeSlider.bind("slide", function(e, val) {
       api.volume(val);
+
    });
 
    // times
@@ -1857,7 +1949,10 @@ flowplayer(function(player, root) {
    var lastClick;
 
    root.bind("mousedown.fs", function() {
-      if (+new Date - lastClick < 150 && player.ready) player.fullscreen();
+      if (+new Date - lastClick < 150 && player.ready) {
+         //player.fullscreen(); //this is dumb
+      } 
+
       lastClick = +new Date;
    });
 
@@ -2470,7 +2565,9 @@ $.fn.fptip = function(trigger, active) {
 };
 
 }($);
-flowplayer(function(e,t){function f(e){var t=n("<a/>")[0];return t.href=e,t.hostname}function l(e){var t="co.uk,org.uk,ltd.uk,plc.uk,me.uk,br.com,cn.com,eu.com,hu.com,no.com,qc.com,sa.comse.com,se.net,us.com,uy.com,co.ac,gv.ac,or.ac,ac.ac,ac.at,co.at,gv.at,or.atasn.au,com.au,edu.au,org.au,net.au,id.au,ac.be,adm.br,adv.br,am.br,arq.br,art.brbio.br,cng.br,cnt.br,com.br,ecn.br,eng.br,esp.br,etc.br,eti.br,fm.br,fot.br,fst.brg12.br,gov.br,ind.br,inf.br,jor.br,lel.br,med.br,mil.br,net.br,nom.br,ntr.brodo.br,org.br,ppg.br,pro.br,psc.br,psi.br,rec.br,slg.br,tmp.br,tur.br,tv.br,vet.brzlg.br,ab.ca,bc.ca,mb.ca,nb.ca,nf.ca,ns.ca,nt.ca,on.ca,pe.ca,qc.ca,sk.ca,yk.caac.cn,com.cn,edu.cn,gov.cn,org.cn,bj.cn,sh.cn,tj.cn,cq.cn,he.cn,nm.cn,ln.cnjl.cn,hl.cn,js.cn,zj.cn,ah.cn,gd.cn,gx.cn,hi.cn,sc.cn,gz.cn,yn.cn,xz.cn,sn.cngs.cn,qh.cn,nx.cn,xj.cn,tw.cn,hk.cn,mo.cn,com.ec,tm.fr,com.fr,asso.fr,presse.frco.il,net.il,ac.il,k12.il,gov.il,muni.il,ac.in,co.in,org.in,ernet.in,gov.innet.in,res.in,ac.jp,co.jp,go.jp,or.jp,ne.jp,ac.kr,co.kr,go.kr,ne.kr,nm.kr,or.krasso.mc,tm.mc,com.mm,org.mm,net.mm,edu.mm,gov.mm,org.ro,store.ro,tm.ro,firm.rowww.ro,arts.ro,rec.ro,info.ro,nom.ro,nt.ro,com.sg,org.sg,net.sg,gov.sg,ac.th,co.thgo.th,mi.th,net.th,or.th,com.tr,edu.tr,gov.tr,k12.tr,net.tr,org.tr,com.tw,org.twnet.tw,ac.uk,uk.com,uk.net,gb.com,gb.net,com.hk,org.hk,net.hk,edu.hk,eu.lv,co.nzorg.nz,net.nz,maori.nz,iwi.nz,com.pt,edu.pt,com.ve,net.ve,org.ve,web.ve,info.veco.ve,net.ru,org.ru,com.hr,tv.tr,com.qa,edu.qa,gov.qa,gov.au,com.my,edu.my,gov.myco.za,com.ar,com.pl,com.ua,biz.pl,biz.tr,co.gl,co.mg,co.ms,co.vi,co.za,com.agcom.ai,com.cy,com.de,com.do,com.es,com.fj,com.gl,com.gt,com.hu,com.kg,com.kicom.lc,com.mg,com.ms,com.mt,com.mu,com.mx,com.nf,com.ng,com.ni,com.pa,com.phcom.ro,com.ru,com.sb,com.sc,com.sv,de.com,de.org,firm.in,gen.in,idv.tw,ind.ininfo.pl,info.tr,kr.com,me.uk,net.ag,net.ai,net.cn,net.do,net.gl,net.kg,net.kinet.lc,net.mg,net.mu,net.ni,net.pl,net.sb,net.sc,nom.ni,off.ai,org.ag,org.aiorg.do,org.es,org.gl,org.kg,org.ki,org.lc,org.mg,org.ms,org.nf,org.ni,org.plorg.sb,org.sc".split(",");e=e.toLowerCase();var r=e.split("."),i=r.length;if(i<2)return e;var s=r.slice(-2).join(".");return i>=3&&n.inArray(s,t)>=0?r.slice(-3).join("."):s}function c(e,t){t!="localhost"&&!parseInt(t.split(".").slice(-1))&&(t=l(t));var n=0;for(var r=t.length-1;r>=0;r--)n+=t.charCodeAt(r)*41742681301;n=(""+n).substring(0,7);for(r=0;r<e.length;r++)if(n===e[r].substring(1,8))return 1}var n=$,r=e.conf,i=r.swf.indexOf("flowplayer.org")&&r.e&&t.data("origin"),s=i?f(i):location.hostname,o=r.key;location.protocol=="file:"&&(s="localhost"),e.load.ed=1,r.hostname=s,r.origin=i||location.href,i&&t.addClass("is-embedded"),typeof o=="string"&&(o=o.split(/,\s*/));if(o&&typeof c=="function"&&c(o,s))r.logo&&t.append(n("<a>",{"class":"fp-logo",href:i}).append(n("<img/>",{src:r.logo})));else{var u=n("<a/>").attr("href","http://flowplayer.org").appendTo(t),a=n(".fp-controls",t);e.bind("pause resume finish unload",function(t){/pause|resume/.test(t.type)&&e.engine!="flash"?(u.show().css({position:"absolute",left:16,bottom:36,zIndex:99999,width:100,height:20,backgroundImage:"url("+[".png","logo","/",".net",".cloudfront","d32wqyuo10o653","//"].reverse().join("")+")"}),e.load.ed=u.is(":visible"),e.load.ed||e.pause()):u.hide()})}});
+
+//licensing
+flowplayer(function(e,t){function f(e){var t=n("<a/>")[0];return t.href=e,t.hostname}function l(e){var t="co.uk,org.uk,ltd.uk,plc.uk,me.uk,br.com,cn.com,eu.com,hu.com,no.com,qc.com,sa.comse.com,se.net,us.com,uy.com,co.ac,gv.ac,or.ac,ac.ac,ac.at,co.at,gv.at,or.atasn.au,com.au,edu.au,org.au,net.au,id.au,ac.be,adm.br,adv.br,am.br,arq.br,art.brbio.br,cng.br,cnt.br,com.br,ecn.br,eng.br,esp.br,etc.br,eti.br,fm.br,fot.br,fst.brg12.br,gov.br,ind.br,inf.br,jor.br,lel.br,med.br,mil.br,net.br,nom.br,ntr.brodo.br,org.br,ppg.br,pro.br,psc.br,psi.br,rec.br,slg.br,tmp.br,tur.br,tv.br,vet.brzlg.br,ab.ca,bc.ca,mb.ca,nb.ca,nf.ca,ns.ca,nt.ca,on.ca,pe.ca,qc.ca,sk.ca,yk.caac.cn,com.cn,edu.cn,gov.cn,org.cn,bj.cn,sh.cn,tj.cn,cq.cn,he.cn,nm.cn,ln.cnjl.cn,hl.cn,js.cn,zj.cn,ah.cn,gd.cn,gx.cn,hi.cn,sc.cn,gz.cn,yn.cn,xz.cn,sn.cngs.cn,qh.cn,nx.cn,xj.cn,tw.cn,hk.cn,mo.cn,com.ec,tm.fr,com.fr,asso.fr,presse.frco.il,net.il,ac.il,k12.il,gov.il,muni.il,ac.in,co.in,org.in,ernet.in,gov.innet.in,res.in,ac.jp,co.jp,go.jp,or.jp,ne.jp,ac.kr,co.kr,go.kr,ne.kr,nm.kr,or.krasso.mc,tm.mc,com.mm,org.mm,net.mm,edu.mm,gov.mm,org.ro,store.ro,tm.ro,firm.rowww.ro,arts.ro,rec.ro,info.ro,nom.ro,nt.ro,com.sg,org.sg,net.sg,gov.sg,ac.th,co.thgo.th,mi.th,net.th,or.th,com.tr,edu.tr,gov.tr,k12.tr,net.tr,org.tr,com.tw,org.twnet.tw,ac.uk,uk.com,uk.net,gb.com,gb.net,com.hk,org.hk,net.hk,edu.hk,eu.lv,co.nzorg.nz,net.nz,maori.nz,iwi.nz,com.pt,edu.pt,com.ve,net.ve,org.ve,web.ve,info.veco.ve,net.ru,org.ru,com.hr,tv.tr,com.qa,edu.qa,gov.qa,gov.au,com.my,edu.my,gov.myco.za,com.ar,com.pl,com.ua,biz.pl,biz.tr,co.gl,co.mg,co.ms,co.vi,co.za,com.agcom.ai,com.cy,com.de,com.do,com.es,com.fj,com.gl,com.gt,com.hu,com.kg,com.kicom.lc,com.mg,com.ms,com.mt,com.mu,com.mx,com.nf,com.ng,com.ni,com.pa,com.phcom.ro,com.ru,com.sb,com.sc,com.sv,de.com,de.org,firm.in,gen.in,idv.tw,ind.ininfo.pl,info.tr,kr.com,me.uk,net.ag,net.ai,net.cn,net.do,net.gl,net.kg,net.kinet.lc,net.mg,net.mu,net.ni,net.pl,net.sb,net.sc,nom.ni,off.ai,org.ag,org.aiorg.do,org.es,org.gl,org.kg,org.ki,org.lc,org.mg,org.ms,org.nf,org.ni,org.plorg.sb,org.sc".split(",");e=e.toLowerCase();var r=e.split("."),i=r.length;if(i<2)return e;var s=r.slice(-2).join(".");return i>=3&&n.inArray(s,t)>=0?r.slice(-3).join("."):s}function c(e,t){t!="localhost"&&!parseInt(t.split(".").slice(-1))&&(t=l(t));var n=0;for(var r=t.length-1;r>=0;r--)n+=t.charCodeAt(r)*41742681301;n=(""+n).substring(0,7);for(r=0;r<e.length;r++)if(n===e[r].substring(1,8))return 1}var n=$,r=e.conf,i=r.swf.indexOf("flowplayer.org")&&r.e&&t.data("origin"),s=i?f(i):location.hostname,o=r.key;location.protocol=="file:"&&(s="localhost"),e.load.ed=1,r.hostname=s,r.origin=i||location.href,i&&t.addClass("is-embedded"),typeof o=="string"&&(o=o.split(/,\s*/));if(o&&typeof c=="function"&&c(o,s))r.logo&&t.append(n("<a>",{"class":"fp-logo",href:i}).append(n("<img/>",{src:r.logo})));else{var u=n("<a/>").attr("href","http://flowplayer.org").appendTo(t),a=n(".fp-controls",t);e.bind("pause resume finish unload",function(t){/pause|resume/.test(t.type)&&e.engine!="flash"?(u.show().css({position:"absolute",left:16,bottom:36,zIndex:99999,width:100,height:20}),e.load.ed=u.is(":visible"),e.load.ed||e.pause()):u.hide()})}});
 
 });
 

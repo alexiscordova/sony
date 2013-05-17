@@ -5,26 +5,26 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
-// VARS 
+// VARS
 $three-up-height:400px;
 
-//  .d8888b.                                   .d88  .d8888b.   .d8888b.   .d8888b.        88b.   
-// d88P  Y88b                                 d88P" d88P  Y88b d88P  Y88b d88P  Y88b       "Y88b  
-//      .d88P                                d88P   888    888 Y88b. d88P 888    888         Y88b 
-//     8888"         888  888 88888b.        888    Y88b. d888  "Y88888"  888    888   888    888 
-//      "Y8b.        888  888 888 "88b       888     "Y888P888 .d8P""Y8b. 888    888 8888888  888 
-// 888    888 888888 888  888 888  888       Y88b          888 888    888 888    888   888   d88P 
-// Y88b  d88P        Y88b 888 888 d88P        Y88b. Y88b  d88P Y88b  d88P Y88b  d88P       .d88P  
-//  "Y8888P"          "Y88888 88888P"          "Y88  "Y8888P"   "Y8888P"   "Y8888P"        88P"   
-//                            888                                                                 
-//                            888                                                                 
-//                            888                                                                 
+//  .d8888b.                                   .d88  .d8888b.   .d8888b.   .d8888b.        88b.
+// d88P  Y88b                                 d88P" d88P  Y88b d88P  Y88b d88P  Y88b       "Y88b
+//      .d88P                                d88P   888    888 Y88b. d88P 888    888         Y88b
+//     8888"         888  888 88888b.        888    Y88b. d888  "Y88888"  888    888   888    888
+//      "Y8b.        888  888 888 "88b       888     "Y888P888 .d8P""Y8b. 888    888 8888888  888
+// 888    888 888888 888  888 888  888       Y88b          888 888    888 888    888   888   d88P
+// Y88b  d88P        Y88b 888 888 d88P        Y88b. Y88b  d88P Y88b  d88P Y88b  d88P       .d88P
+//  "Y8888P"          "Y88888 88888P"          "Y88  "Y8888P"   "Y8888P"   "Y8888P"        88P"
+//                            888
+//                            888
+//                            888
 
 .tcc-module{
 	position: relative;
   text-align: center;
   background-color:$gray80;
-  margin:0; // for the module since it can be placed anywhere on the page. 
+  margin:0; // for the module since it can be placed anywhere on the page.
   padding:30px 0 66px;
 
 	.tcc-header{
@@ -33,39 +33,40 @@ $three-up-height:400px;
 		padding-bottom: 20px;
 		border-bottom: 3px solid $gray70;
 
-		[class*="span"]{
-			overflow:hidden;
-		}
+		// [class*="span"]{
+		// 	overflow:hidden;
+		// }
 
     .tcc-header-title{
     	text-align: left;
-      margin:0; 
+      margin:0;
     } // end .tcc-header-title
 
     .tcc-header-link{
       text-align: right;
       margin:0;
+      white-space: nowrap;
       padding-top: 10px;
     } // end .tcc-header-link
-	
+
 	} // end .tcc-header
 
 
-	//  .d8888b.                                                       888 
-	// d88P  Y88b                                                      888 
-	// 888    888                                                      888 
-	// 888         8888b.  888d888  .d88b.  888  888 .d8888b   .d88b.  888 
-	// 888            "88b 888P"   d88""88b 888  888 88K      d8P  Y8b 888 
-	// 888    888 .d888888 888     888  888 888  888 "Y8888b. 88888888 888 
-	// Y88b  d88P 888  888 888     Y88..88P Y88b 888      X88 Y8b.     888 
-	//  "Y8888P"  "Y888888 888      "Y88P"   "Y88888  88888P'  "Y8888  888 
+	//  .d8888b.                                                       888
+	// d88P  Y88b                                                      888
+	// 888    888                                                      888
+	// 888         8888b.  888d888  .d88b.  888  888 .d8888b   .d88b.  888
+	// 888            "88b 888P"   d88""88b 888  888 88K      d8P  Y8b 888
+	// 888    888 .d888888 888     888  888 888  888 "Y8888b. 88888888 888
+	// Y88b  d88P 888  888 888     Y88..88P Y88b 888      X88 Y8b.     888
+	//  "Y8888P"  "Y888888 888      "Y88P"   "Y88888  88888P'  "Y8888  888
 	#three-up,
 	#two-up,
 	#one-up{
 		height:$three-up-height;
 	}
 
-	.tcc-carousel-wrapper{		
+	.tcc-carousel-wrapper{
 		overflow:hidden;
 		position: relative;
 		width: 100%;
@@ -78,7 +79,7 @@ $three-up-height:400px;
 		height:100%;
 	} // tcc-carousel
 
-	.sony-carousel-slide{		
+	.sony-carousel-slide{
 		-webkit-transform: translateZ(0);
 		float: left;
 		width: 5%;
@@ -96,19 +97,19 @@ $three-up-height:400px;
 
 	} // .sony-carousel-slide
 
-	.sony-carousel-slide-children{		
+	.sony-carousel-slide-children{
 		height:100%;
 	} // sony-carousel-slide-children
 
 
-		//        d8888         888    d8b          888          
-		//       d88888         888    Y8P          888          
-		//      d88P888         888                 888          
-		//     d88P 888 888d888 888888 888  .d8888b 888  .d88b.  
-		//    d88P  888 888P"   888    888 d88P"    888 d8P  Y8b 
-		//   d88P   888 888     888    888 888      888 88888888 
-		//  d8888888888 888     Y88b.  888 Y88b.    888 Y8b.     
-		// d88P     888 888      "Y888 888  "Y8888P 888  "Y8888 
+		//        d8888         888    d8b          888
+		//       d88888         888    Y8P          888
+		//      d88P888         888                 888
+		//     d88P 888 888d888 888888 888  .d8888b 888  .d88b.
+		//    d88P  888 888P"   888    888 d88P"    888 d8P  Y8b
+		//   d88P   888 888     888    888 888      888 88888888
+		//  d8888888888 888     Y88b.  888 Y88b.    888 Y8b.
+		// d88P     888 888      "Y888 888  "Y8888P 888  "Y8888
 		.article{
 			.p4,
 			.p2{
@@ -118,46 +119,46 @@ $three-up-height:400px;
 
 			// Title
 			.p2{
-				max-height: 45px; // two lines
+				height: 45px; // "two lines"
 				color:$titleBlack;
 			} // end p2
 
 			// Description
 			.p4{
+				height: 75px; // "four lines"
 				color:$gray40;
-				max-height: 75px; // four lines
 			} // end p4
 
 			.tcc-copy{
 				margin-top:30px;
-				padding:0 px-em(20px) px-em(20px) px-em(20px); 
+				padding:0 px-em(20px) px-em(20px) px-em(20px);
 			} // tcc-copy
 
 			.img-container{
 				position: relative;
-				
+
 				img{
 					width: 100%;
 				} // img
 
 			} // img-container
 
-			//  _____          __               _  _   
-			// |  __ \        / _|             | || |  
-			// | |  | |  ___ | |_  __ _  _   _ | || |_ 
+			//  _____          __               _  _
+			// |  __ \        / _|             | || |
+			// | |  | |  ___ | |_  __ _  _   _ | || |_
 			// | |  | | / _ \|  _|/ _` || | | || || __|
-			// | |__| ||  __/| | | (_| || |_| || || |_ 
+			// | |__| ||  __/| | | (_| || |_| || || |_
 			// |_____/  \___||_|  \__,_| \__,_||_| \__|
-			
+
 			&.default{
 				@include fadeoutOnHover(img);
 				position: relative;
 			} // default
 
 
-			//  _   _                      
-			// | \ | |                     
-			// |  \| |  ___ __      __ ___ 
+			//  _   _
+			// | \ | |
+			// |  \| |  ___ __      __ ___
 			// | . ` | / _ \\ \ /\ / // __|
 			// | |\  ||  __/ \ V  V / \__ \
 			// |_| \_| \___|  \_/\_/  |___/
@@ -171,7 +172,7 @@ $three-up-height:400px;
 						position:absolute;
 						top:0;
 						right:0;
-						background-color:rgba($gray10, 0.95);	
+						background-color:rgba($gray10, 0.95);
 						color:$white;
 						padding:px-em(10px);
 					} // l3-light (date)
@@ -181,17 +182,17 @@ $three-up-height:400px;
 			} // news
 
 
-			//  ______                   _   
-			// |  ____|                 | |  
-			// | |__ __   __ ___  _ __  | |_ 
+			//  ______                   _
+			// |  ____|                 | |
+			// | |__ __   __ ___  _ __  | |_
 			// |  __|\ \ / // _ \| '_ \ | __|
-			// | |____\ V /|  __/| | | || |_ 
+			// | |____\ V /|  __/| | | || |_
 			// |______|\_/  \___||_| |_| \__|
 			&.event{
 				@include fadeoutOnHover(img);
 				position: relative;
 				.img-container{
-				
+
 					.attendance{
 						-webkit-backface-visibility:hidden; // prevents flickering on transition
 						position: absolute;
@@ -199,8 +200,9 @@ $three-up-height:400px;
 						bottom:0;
 						right:0;
 						left:0;
-						height:100%;
-						width:100%;
+
+						// height:100%;
+						// width:100%;
 						opacity:0.95;
 						padding:12% 36%;
 
@@ -217,12 +219,12 @@ $three-up-height:400px;
 						} // end details
 
 					} // end attendence
-					
+
 				} // end img-container
 
 			} // event
 
-			//  ______            _                          _ 
+			//  ______            _                          _
 			// |  ____|          | |                        | |
 			// | |__  ___   __ _ | |_  _   _  _ __  ___   __| |
 			// |  __|/ _ \ / _` || __|| | | || '__|/ _ \ / _` |
@@ -256,16 +258,15 @@ $three-up-height:400px;
 						margin: 0;
 						text-align: left;
 
-						.lt-ie9 & {
-							width:85.5%;
-							margin-left:27px;
-				    } // END IE8 and BELOW
+						.lt-ie8 & {
+							width:78.5%;
+				    } // END IE7 and BELOW
 
 					} // copy
-					
+
 					.t5-light{
 						overflow:hidden;
-						max-height: 57px;
+						height: 57px;
 						margin:0;
 					} // p
 
@@ -283,11 +284,11 @@ $three-up-height:400px;
 							color: $white;
 
 							&:hover, &:active, &:focus, &.active{
-								color: $gray40;    
+								color: $gray40;
 							} // pseudo
 
 						} // a
- 
+
 					} // light-text
 
 					.dark-box{
@@ -297,23 +298,25 @@ $three-up-height:400px;
 			} // featured
 
 		} // end article
-	
 
-	// 888     888                                         888     888          d8b                   
-	// 888     888                                         888     888          Y8P                   
-	// 888     888                                         888     888                                
-	// 888     888 .d8888b   .d88b.  888d888 .d8888b       Y88b   d88P  .d88b.  888  .d8888b  .d88b.  
-	// 888     888 88K      d8P  Y8b 888P"   88K            Y88b d88P  d88""88b 888 d88P"    d8P  Y8b 
-	// 888     888 "Y8888b. 88888888 888     "Y8888b. 888888 Y88o88P   888  888 888 888      88888888 
-	// Y88b. .d88P      X88 Y8b.     888          X88         Y888P    Y88..88P 888 Y88b.    Y8b.     
+
+	// 888     888                                         888     888          d8b
+	// 888     888                                         888     888          Y8P
+	// 888     888                                         888     888
+	// 888     888 .d8888b   .d88b.  888d888 .d8888b       Y88b   d88P  .d88b.  888  .d8888b  .d88b.
+	// 888     888 88K      d8P  Y8b 888P"   88K            Y88b d88P  d88""88b 888 d88P"    d8P  Y8b
+	// 888     888 "Y8888b. 88888888 888     "Y8888b. 888888 Y88o88P   888  888 888 888      88888888
+	// Y88b. .d88P      X88 Y8b.     888          X88         Y888P    Y88..88P 888 Y88b.    Y8b.
 	//  "Y88888P"   88888P'  "Y8888  888      88888P'          Y8P      "Y88P"  888  "Y8888P  "Y8888
 	.users-voice{
 		$paddingBottom: px-em(28px);
-		$paddingLeft: px-em(40px);
+		//$paddingLeft: px-em(40px);
+		$paddingLeft: px-em(36px);
 
 		position: relative;
-		padding: px-em(30px) px-em(40px) $paddingBottom $paddingLeft;
-		
+		//padding: px-em(30px) px-em(40px) $paddingBottom $paddingLeft;
+		padding: $paddingBottom $paddingLeft;
+
 		.title,
 		.quote{
 			text-align: left;
@@ -337,22 +340,22 @@ $three-up-height:400px;
 			} // p4
 
 		} // end .author
-		
+
 		.avatar{
-		  margin-bottom: px-em(15px); 
+		  margin-bottom: px-em(15px);
 		} // end .avatar
 
-		//  ______                           _             ____                 _        
-		// |  ____|                         | |           / __ \               | |       
-		// | |__   __  __ _ __    ___  _ __ | |_  ______ | |  | | _   _   ___  | |_  ___ 
+		//  ______                           _             ____                 _
+		// |  ____|                         | |           / __ \               | |
+		// | |__   __  __ _ __    ___  _ __ | |_  ______ | |  | | _   _   ___  | |_  ___
 		// |  __|  \ \/ /| '_ \  / _ \| '__|| __||______|| |  | || | | | / _ \ | __|/ _ \
 		// | |____  >  < | |_) ||  __/| |   | |_         | |__| || |_| || (_) || |_|  __/
 		// |______|/_/\_\| .__/  \___||_|    \__|         \___\_\ \__,_| \___/  \__|\___|
-		//               | |                                                             
-		//               |_|                                                             
+		//               | |
+		//               |_|
 		&.expert-quote{
 			background-color:rgba($gray10,0.95);
-			
+
 			.lt-ie9 & {
 				background-color:$gray10;
 	    } // END IE8 and BELOW
@@ -363,8 +366,8 @@ $three-up-height:400px;
 
 			.quote{
 				p{
-					color:$white;	
-				} // blockquote > p 
+					color:$white;
+				} // blockquote > p
 
 			} // quote
 
@@ -374,9 +377,9 @@ $three-up-height:400px;
 
 		} // expert-quote
 
-		//  _    _                            ____                 _        
-		// | |  | |                          / __ \               | |       
-		// | |  | | ___   ___  _ __  ______ | |  | | _   _   ___  | |_  ___ 
+		//  _    _                            ____                 _
+		// | |  | |                          / __ \               | |
+		// | |  | | ___   ___  _ __  ______ | |  | | _   _   ___  | |_  ___
 		// | |  | |/ __| / _ \| '__||______|| |  | || | | | / _ \ | __|/ _ \
 		// | |__| |\__ \|  __/| |           | |__| || |_| || (_) || |_|  __/
 		//  \____/ |___/ \___||_|            \___\_\ \__,_| \___/  \__|\___|
@@ -395,23 +398,23 @@ $three-up-height:400px;
 			} // quote
 
 			.author{
-			
+
 				.handle{
-					padding-right: px-em(10px); 
+					padding-right: px-em(10px);
 				} // handle
-			
+
 			} // author
 
 		} // user-quote
 
-		
-		//   ____                     _    _               
-		//  / __ \                   | |  (_)              
-		// | |  | | _   _   ___  ___ | |_  _   ___   _ __  
-		// | |  | || | | | / _ \/ __|| __|| | / _ \ | '_ \ 
+
+		//   ____                     _    _
+		//  / __ \                   | |  (_)
+		// | |  | | _   _   ___  ___ | |_  _   ___   _ __
+		// | |  | || | | | / _ \/ __|| __|| | / _ \ | '_ \
 		// | |__| || |_| ||  __/\__ \| |_ | || (_) || | | |
 		//  \___\_\ \__,_| \___||___/ \__||_| \___/ |_| |_|
-	
+
 		&.question{
 			padding: 0;
 
@@ -428,7 +431,7 @@ $three-up-height:400px;
 				height: 68%;
 			  padding: px-em(40px) px-em(30px) 0 px-em(30px);
 			} // end .quote
-		
+
 			.avatar{
 				display: inline-block;
 				margin:0;
@@ -436,7 +439,7 @@ $three-up-height:400px;
 
 			.author{
 				display: inline-block;
-				margin-left: px-em(25px); 
+				margin-left: px-em(25px);
 			} // author
 
 		} // question
@@ -444,14 +447,14 @@ $three-up-height:400px;
 	} // users-voice
 
 
-	//  _______                  __   _____              _                    __  ____          _    _                    
-	// |__   __|                / /  / ____|            | |                  / / |  _ \        | |  | |                   
-	//    | |  ___   _ __      / /  | |      ___  _ __  | |_  ___  _ __     / /  | |_) |  ___  | |_ | |_  ___   _ __ ___  
-	//    | | / _ \ | '_ \    / /   | |     / _ \| '_ \ | __|/ _ \| '__|   / /   |  _ <  / _ \ | __|| __|/ _ \ | '_ ` _ \ 
+	//  _______                  __   _____              _                    __  ____          _    _
+	// |__   __|                / /  / ____|            | |                  / / |  _ \        | |  | |
+	//    | |  ___   _ __      / /  | |      ___  _ __  | |_  ___  _ __     / /  | |_) |  ___  | |_ | |_  ___   _ __ ___
+	//    | | / _ \ | '_ \    / /   | |     / _ \| '_ \ | __|/ _ \| '__|   / /   |  _ <  / _ \ | __|| __|/ _ \ | '_ ` _ \
 	//    | || (_) || |_) |  / /    | |____|  __/| | | || |_|  __/| |     / /    | |_) || (_) || |_ | |_| (_) || | | | | |
 	//    |_| \___/ | .__/  /_/      \_____|\___||_| |_| \__|\___||_|    /_/     |____/  \___/  \__| \__|\___/ |_| |_| |_|
-	//              | |                                                                                                   
-	//              |_|                                                                                                   
+	//              | |
+	//              |_|
 		.top{
 			float:left;
 			width:100%;
@@ -465,7 +468,7 @@ $three-up-height:400px;
 
 			.meta{
 				margin-top: px-em(8px);
-			
+
 				.p4{
 					margin:0;
 				} // end p4
@@ -475,12 +478,12 @@ $three-up-height:400px;
 				.timestamp{
 					display: inline-block;
 				}
-	
+
 				.user{
 					padding-right: px-em(10px);
 					color:$gray20;
 				} // end .user
-		
+
 				.timestamp{
 					color:$gray40;
 				} // end .timestamp
@@ -492,8 +495,9 @@ $three-up-height:400px;
 
 		.center{
 			width:100%;
+			float:left;
 		} // center
-		
+
 		.content{
 			width:100%;
 		} // content
@@ -507,33 +511,34 @@ $three-up-height:400px;
 		} // bottom
 
 
-	//  .d8888b.                                           888     888          d8b                   
-	// d88P  Y88b                                          888     888          Y8P                   
-	// Y88b.                                               888     888                                
-	//  "Y888b.    .d88b.  88888b.  888  888 .d8888b       Y88b   d88P  .d88b.  888  .d8888b  .d88b.  
-	//     "Y88b. d88""88b 888 "88b 888  888 88K            Y88b d88P  d88""88b 888 d88P"    d8P  Y8b 
-	//       "888 888  888 888  888 888  888 "Y8888b. 888888 Y88o88P   888  888 888 888      88888888 
-	// Y88b  d88P Y88..88P 888  888 Y88b 888      X88         Y888P    Y88..88P 888 Y88b.    Y8b.     
-	//  "Y8888P"   "Y88P"  888  888  "Y88888  88888P'          Y8P      "Y88P"  888  "Y8888P  "Y8888  
-	//                                   888                                                          
-	//                              Y8b d88P                                                          
-	//                               "Y88P"                                                           
+	//  .d8888b.                                           888     888          d8b
+	// d88P  Y88b                                          888     888          Y8P
+	// Y88b.                                               888     888
+	//  "Y888b.    .d88b.  88888b.  888  888 .d8888b       Y88b   d88P  .d88b.  888  .d8888b  .d88b.
+	//     "Y88b. d88""88b 888 "88b 888  888 88K            Y88b d88P  d88""88b 888 d88P"    d8P  Y8b
+	//       "888 888  888 888  888 888  888 "Y8888b. 888888 Y88o88P   888  888 888 888      88888888
+	// Y88b  d88P Y88..88P 888  888 Y88b 888      X88         Y888P    Y88..88P 888 Y88b.    Y8b.
+	//  "Y8888P"   "Y88P"  888  888  "Y88888  88888P'          Y8P      "Y88P"  888  "Y8888P  "Y8888
+	//                                   888
+	//                              Y8b d88P
+	//                               "Y88P"
 	.sonys-voice{
 		position: relative;
 
 
-		//  _______                                 
-		// |__   __|                                
-		//    | |  ___   _ __                       
-		//    | | / _ \ | '_ \                      
-		//    | || (_) || |_) |                     
-		//    |_| \___/ | .__/                      
-		//              | |                         
-		//              |_|                                                                 
+		//  _______
+		// |__   __|
+		//    | |  ___   _ __
+		//    | | / _ \ | '_ \
+		//    | || (_) || |_) |
+		//    |_| \___/ | .__/
+		//              | |
+		//              |_|
 
 
 		.fonticon-10-dot{
-				font-size:px-em(56px); 
+				// border:1px solid red;
+				font-size:px-em(56px);
 				width:100%;
 				color:$white;
 				z-index: 1;
@@ -542,9 +547,9 @@ $three-up-height:400px;
 		.fonticon-15-facebook,
 		.fonticon-15-twitter,
 		.fonticon-15-instagram {
-			// font-size: px-em(26px);
+			// border:1px solid red;
 			position: absolute;
-			top: px-em(10px); 
+			top: px-em(10px);
 			left: 0;
 			z-index: 2;
 			width:100%;
@@ -553,12 +558,12 @@ $three-up-height:400px;
 		.fonticon-15-twitter{color:$twitterColor;} // end .fonticon-15-twitter
 		.fonticon-15-facebook{color:$facebookColor;} // end .fonticon-15-facebook
 
-		//   _____              _                   
-		//  / ____|            | |                  
-		// | |      ___  _ __  | |_  ___  _ __      
-		// | |     / _ \| '_ \ | __|/ _ \| '__|     
-		// | |____|  __/| | | || |_|  __/| |        
-		//  \_____|\___||_| |_| \__|\___||_|        
+		//   _____              _
+		//  / ____|            | |
+		// | |      ___  _ __  | |_  ___  _ __
+		// | |     / _ \| '_ \ | __|/ _ \| '__|
+		// | |____|  __/| | | || |_|  __/| |
+		//  \_____|\___||_| |_| \__|\___||_|
 		.center{
 			height: 69.75%;
 		} // center
@@ -566,16 +571,16 @@ $three-up-height:400px;
 		.bq4{
 			p{
 				color:$secondarySlateDark;
-			} //p 
+			} //p
 
 		}// bq4
-		
+
 		.bq5{
-			margin-top: px-em(22px); 
+			margin-top: px-em(22px);
 			p{
 				margin-bottom:0;
 				color:$secondarySlateDark;
-			} //p 
+			} //p
 
 		} //bq5
 
@@ -584,6 +589,16 @@ $three-up-height:400px;
 			height:217px;
 			padding:0;
 			overflow: hidden;
+
+			.lt-ie8 & {
+				margin-top:20%;
+				height:auto;
+	    } // END IE7 and BELOW
+
+
+			.lt-ie8 & {
+				position: relative;
+			} // END IE7 and BELOW
 
 			.left,
 			.right{
@@ -597,36 +612,66 @@ $three-up-height:400px;
 					background-position: center center;
 					background-repeat: no-repeat;
 				} //iq-img
-
 			} // left/right
 
 			.left{
 				padding: px-em(10px) px-em(5px) px-em(15px) px-em(10px); // 15px on bottom to account for 5px on .last
-				width:40%; 
+				width:40%;
+
+				.lt-ie8 & {
+					float:left;
+					width:100%;
+					height:auto;
+		    } // END IE7 and BELOW
 
 				.mobile-only{
 					display: none;
+
+					.lt-ie8 & {
+						float:left;
+						display: block;
+			    } // END IE7 and BELOW
 				}
 
 				.last{
 					margin-top: px-em(5px);
+						.lt-ie8 & {
+							margin-top:0;
+			    } // END IE7 and BELOW
 				} // last
 
 				.iq-img{
-					height:50%;				
-				}// iq-img
+					height:50%;
 
+					.lt-ie8 & {
+						float:left;
+						width:30%;
+						height:96px;
+						margin-left:5px;
+
+						&:first-child{
+							margin-left: 0;
+						}
+
+			    } // END IE7 and BELOW
+
+				}// iq-img
 			} // left
 
 			.right{
-				display: inline-block;	
+				display: inline-block;
+
+				.lt-ie8 & {
+					display: none;
+				} // END IE7 and BELOW
+
 				padding: px-em(10px) px-em(10px) px-em(10px) 0;
-				width:60%; 
+				width:60%;
 
 				.iq-img{
 					height:100%;
 				}// iq-img
-				
+
 			} // right
 
 		} // instagram
@@ -635,44 +680,68 @@ $three-up-height:400px;
 
 
 
-	// 8888888888 888 d8b          888              
-	// 888        888 Y8P          888              
-	// 888        888              888              
-	// 8888888    888 888  .d8888b 888  888 888d888 
-	// 888        888 888 d88P"    888 .88P 888P"   
-	// 888        888 888 888      888888K  888     
-	// 888        888 888 Y88b.    888 "88b 888     
-	// 888        888 888  "Y8888P 888  888 888     
+	// 8888888888 888 d8b          888
+	// 888        888 Y8P          888
+	// 888        888              888
+	// 8888888    888 888  .d8888b 888  888 888d888
+	// 888        888 888 d88P"    888 .88P 888P"
+	// 888        888 888 888      888888K  888
+	// 888        888 888 Y88b.    888 "88b 888
+	// 888        888 888  "Y8888P 888  888 888
 
-	.flickr{		
+	.flickr{
 		position: relative;
 
-		//  _______                                 
-		// |__   __|                                
-		//    | |  ___   _ __                       
-		//    | | / _ \ | '_ \                      
-		//    | || (_) || |_) |                     
-		//    |_| \___/ | .__/                      
-		//              | |                         
-		//              |_|  
-		
+		//  _______
+		// |__   __|
+		//    | |  ___   _ __
+		//    | | / _ \ | '_ \
+		//    | || (_) || |_) |
+		//    |_| \___/ | .__/
+		//              | |
+		//              |_|
+
 		.icon-container{
+			position: relative;
+
 			.fonticon-10-dot{
 				display: block;
-			}
+			} // fonticon-10-dot
 
-			.bg{				
+			.bg{
 				width:100%;
 				height:100%;
 				color:$white;
 				font-size:2.8em;
+				z-index: 1;
 			} // bg
+
+			.flickrDots{
+				position: absolute;
+				top: 7px;
+				left: 0;
+				right:0;
+				bottom: 0;
+				z-index: 2;
+
+				.lt-ie8 & {
+					top: 15px;
+					left: 44%;
+		    } // END IE7 and BELOW
+
+			}
 
 			.left,
 			.right{
-				position: absolute;
-				top:px-em(14px);
 				width:50%;
+				display:inline-block;
+
+				.lt-ie8 & {
+					width:10%;
+					display:block;
+					float:left;
+		    } // END IE7 and BELOW
+
 
 				.fonticon-10-dot{
 					font-size: 0.84em;
@@ -680,14 +749,12 @@ $three-up-height:400px;
 
 			} //left/right
 
-			.left{ 				
-				left:0;
+			.left{
 				text-align: right;
 				color:$flickrBlueColor;
 			} // left
-			
-			.right{				
-				right:0;
+
+			.right{
 				text-align: left;
 				color:$flickrPinkColor;
 			 } // right
@@ -695,8 +762,8 @@ $three-up-height:400px;
 		} // icon-container
 
 		.meta{
-		  margin-top: px-em(8px); 
-		  
+		  margin-top: px-em(8px);
+
 		  .p4{
 		  	margin-bottom:0;
 		  } // p4
@@ -707,17 +774,21 @@ $three-up-height:400px;
 		  } // user
 
 		} // end .meta
-		
-		
-		
-		//   _____              _                   
-		//  / ____|            | |                  
-		// | |      ___  _ __  | |_  ___  _ __      
-		// | |     / _ \| '_ \ | __|/ _ \| '__|     
-		// | |____|  __/| | | || |_|  __/| |        
-		//  \_____|\___||_| |_| \__|\___||_|        
+
+
+
+		//   _____              _
+		//  / ____|            | |
+		// | |      ___  _ __  | |_  ___  _ __
+		// | |     / _ \| '_ \ | __|/ _ \| '__|
+		// | |____|  __/| | | || |_|  __/| |
+		//  \_____|\___||_| |_| \__|\___||_|
 		.center{
 			height: 71.55%;
+
+			.lt-ie8 & {
+				height: 75px;
+	    } // END IE7 and BELOW
 		} // center
 
 
@@ -736,28 +807,36 @@ $three-up-height:400px;
 
 		.iq-img{
 			display: inline-block;
-			width:31.33333%;
+			width:31.63333%;
 			margin-left:5px;
 			height:100%;
 			background-size: cover;
 			background-position: center center;
 			background-repeat: no-repeat;
 
+			.lt-ie8 & {
+				float:left;
+	    } // END IE7 and BELOW
+
 			&:first-child{
 				margin-left:0;
 			}
-		
+
 		} //iq-img
 
 		.top-row{
 			padding-bottom:5px;
-			// padding: px-em(10px) px-em(10px) px-em(5px) px-em(10px); 
+			// padding: px-em(10px) px-em(10px) px-em(5px) px-em(10px);
 		} // end .top-row
-		
+
 		.bottom-row{
 			display:block;
 			padding:0;
-			// padding: px-em(5px) px-em(10px) px-em(10px) px-em(10px); 
+
+			.lt-ie8 & {
+				float:left;
+	    } // END IE7 and BELOW
+
 		} // end .bottom-row
 
 	} // flickr

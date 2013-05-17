@@ -91,18 +91,21 @@ define(<span class="keyword">function</span>(require){
     _onScroll : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      <span class="keyword">if</span> ( self.isTicking ) {
+        <span class="keyword">return</span>;
+      }
+
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>IE8 still has sticky open sometimes at the top</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">update</span><span class="params">()</span> {</span>
         self._updateStickyNav();
       }
 
-      <span class="keyword">if</span> ( !self.isTicking ) {
-        self.isTicking = <span class="literal">true</span>;
-        self.lastScrollY = self.$window.scrollTop();
-        <span class="keyword">if</span> ( !Modernizr.raf ) {
-          update();
-        } <span class="keyword">else</span> {
-          window.requestAnimationFrame( update );
-        }
+      self.isTicking = <span class="literal">true</span>;
+      self.lastScrollY = self.$window.scrollTop();
+
+      <span class="keyword">if</span> ( !Modernizr.raf ) {
+        update();
+      } <span class="keyword">else</span> {
+        window.requestAnimationFrame( update );
       }
 
     },

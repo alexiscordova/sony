@@ -4,6 +4,12 @@
 $maxChildren: 20;
 
 .subnav-module {
+  @include transition(opacity 250ms);
+  opacity: 0;
+
+  &.active {
+    opacity: 1;
+  }
 
   header {
     padding: 27px 0 8px;
@@ -48,10 +54,15 @@ $maxChildren: 20;
         border-bottom-style: none;
       }
 
-      &.active,
-      &:hover,
-      &:focus {
+      &.active {
         border-bottom-width: 4px;
+      }
+
+      .no-touch & {
+        &:hover,
+        &:focus {
+          border-bottom-width: 4px;
+        }
       }
 
       p {
@@ -76,12 +87,12 @@ $maxChildren: 20;
   }
 
   .subnav-tray {
-    @include transition(height 600ms ease-out);
+    @include transition(height 350ms ease-out);
     position: relative;
     overflow: hidden;
 
     .subcategory {
-      @include transition(opacity 400ms ease-out);
+      @include transition(opacity 350ms ease-out);
       @include opacity(0);
       position: absolute;
       top: 0;
@@ -128,8 +139,18 @@ $maxChildren: 20;
       }
 
       .product {
+        position: relative;
         margin-bottom: 60px;
         margin-top: 40px;
+
+        i {
+          position: absolute;
+          top: 50%;
+          right: 0;
+          display: none;
+          margin-top: -0.5em;
+          font-size: 1.8em;
+        }
 
         .subnav-product-count {
           color: $buttonBlue;

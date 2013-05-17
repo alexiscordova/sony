@@ -19,6 +19,7 @@ define(function(require) {
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
       Utilities = require('require/sony-global-utilities'),
+      Favorites = require('secondary/index').sonyFavorites,
       sonyStickyNav = require('secondary/index').sonyStickyNav,
       jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
@@ -53,10 +54,35 @@ define(function(require) {
     init: function() {
       var self = this;
 
+      self.setVars();
+
+      Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
+
+      // Save the short text value
+      self.$textSwaps.each(function() {
+        var $this = $(this),
+            data = $this.data();
+
+        data.shortText = $this.text();
+        data.currentKey = 'shortText';
+      });
+
+      self.setupBreakpoints();
+
+      self._onResize();
+
+      // Setup that can be deferred
+      setTimeout(function() {
+        self.lazyInit();
+      }, 0);
+    },
+
+    setVars : function() {
+      var self = this;
+
       self.$stickyNav = self.$el.find('.sticky-nav');
       self.$jumpLinks = self.$el.find('.jump-links a');
       self.$evenCols = self.$el.find('.js-even-cols').children();
-      self.$favoriteBtn = self.$el.find('.js-favorite');
       self.$shareBtn = self.$el.find('.js-share');
       self.$dropdown = self.$el.find('.dropdown-menu');
       self.$shareLink = self.$dropdown.find('input');
@@ -69,19 +95,11 @@ define(function(require) {
       self.$span1AtTablet = self.$el.find('#span1-at-tablet');
       self.$span3AtTablet = self.$el.find('#span3-at-tablet');
 
-      self.$favoriteBtn.on('click', $.proxy( self._onFavorite, self ));
       self.$shareBtn.on('click', $.proxy( self._onShare, self ));
+    },
 
-      Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
-
-      // Save the short text value
-      self.$textSwaps.each(function() {
-        var $this = $(this),
-            data = $this.data();
-
-        data.shortText = $this.text();
-        data.currentKey = 'shortText';
-      });
+    setupBreakpoints : function() {
+      var self = this;
 
       if ( Modernizr.mediaqueries ) {
 
@@ -109,22 +127,26 @@ define(function(require) {
       } else {
         self._setupDesktop();
       }
+    },
 
-      self._onResize();
+    lazyInit : function() {
+      var self = this;
 
-      // Setup that can be deferred
-      setTimeout(function() {
-        Utilities.autoSelectInputOnFocus( self.$shareLink );
+      Utilities.autoSelectInputOnFocus( self.$shareLink );
 
-        // Init sticky nav
-        self.$stickyNav.stickyNav({
-          $jumpLinks: self.$jumpLinks,
-          offset: 0,
-          offsetTarget: self.$el.next()
-        });
+      // Init sticky nav
+      self.$stickyNav.stickyNav({
+        $jumpLinks: self.$jumpLinks,
+        offset: 0,
+        offsetTarget: self.$el.next()
+      });
 
-        iQ.update();
-      }, 0);
+      // Scroll to a hash if it's present
+      $.simplescroll.initial();
+
+      iQ.update();
+
+      self._initFavorites();
     },
 
     _onResize : function() {
@@ -135,10 +157,11 @@ define(function(require) {
       }
     },
 
-    _onFavorite : function( evt ) {
-      var self = this;
-
-      evt.preventDefault();
+    _initFavorites : function() {
+      this.favorites = new Favorites( this.$el, {
+        itemSelector: '[itemscope]',
+        tooltip: false
+      });
     },
 
     _onShare : function( evt ) {
