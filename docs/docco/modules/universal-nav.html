@@ -7,7 +7,7 @@ Modified: 2013-04-26 by Christopher Mischler</p>
 
 <h2>Dependencies: jQuery 1.4+</h2>             </td>             <td class="code">               <div class="highlight"><pre>
 <span class="keyword">var</span> UNAV = ( <span class="keyword">function</span>( window, document, $, <span class="literal">undefined</span> ){
-  
+
   <span class="string">'use strict'</span>;
 
   <span class="keyword">var</span> $triggerLink,
@@ -68,7 +68,7 @@ This will allow versions older than 1.7 to work without using depreciated functi
     } <span class="keyword">else</span> {
       $triggerLink.bind(<span class="string">'click'</span>,<span class="keyword">function</span>(e){
         e.preventDefault();
-        
+
         <span class="keyword">if</span> ( _minBreakpointMet() ){
           <span class="keyword">if</span> ($pageWrapOuter.hasClass(<span class="string">'unav-open'</span>)){
             _closeUNav();
@@ -81,7 +81,7 @@ This will allow versions older than 1.7 to work without using depreciated functi
       $closeBtn.bind(<span class="string">'click'</span>,<span class="keyword">function</span>(e){
         e.preventDefault();
         _closeUNav();
-      });      
+      });
     }
 
 
@@ -128,7 +128,7 @@ So based on the image aspect ratio, what height should the images, &amp; the who
       $(<span class="string">'.u-nav-primary-col1.u-nav-primary-2high .u-nav-primary-img-wrap'</span>).height(uNavColWidth * x5upRatio);
       $(<span class="string">'.u-nav-primary-col1.u-nav-primary-2wide .u-nav-primary-img-wrap'</span>).height($firstChild.outerWidth() * x3upRatio);
     }
-    
+
     $uNavPrimary.height(uNavRowHeight + <span class="string">"px"</span>);
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>now that we set the height of the images container, we can grab the height of the entire u-nav for our js.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setTimeout(<span class="keyword">function</span>(){
@@ -137,7 +137,7 @@ So based on the image aspect ratio, what height should the images, &amp; the who
 delays just to make sure the new heights are set before the next step.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ($firstChild.find(<span class="string">'.u-nav-primary-img'</span>).height() &gt; <span class="number">0</span>){
         $uNavPrimary.css(<span class="string">'height'</span>,<span class="string">''</span>);
       }
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the </p>             </td>             <td class="code">               <div class="highlight"><pre>      $uNav.css(<span class="string">'top'</span>,<span class="string">'-'</span> + uNavOuterHeight + <span class="string">'px'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>set the height to make sure there aren't rounding errors, where 'top' and 'height' are 1px off, and you can see a little of the</p>             </td>             <td class="code">               <div class="highlight"><pre>      $uNav.css(<span class="string">'top'</span>,<span class="string">'-'</span> + uNavOuterHeight + <span class="string">'px'</span>);
       <span class="keyword">if</span> ($pageWrapOuter.hasClass(<span class="string">'unav-open'</span>)){
         $pageWrapInner.css(<span class="string">'margin-top'</span>, uNavOuterHeight + <span class="string">'px'</span>);
       }
@@ -224,7 +224,7 @@ via http://stackoverflow.com/questions/7264899/detect-css-transitions-using-java
   },
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>in case Modernizr isn't available, figure out if this is a high-rez display
-https://github.com/imulus/retinajs/blob/master/src/retina.js</p>             </td>             <td class="code">               <div class="highlight"><pre>  _isRetina = <span class="keyword">function</span>(){ 
+https://github.com/imulus/retinajs/blob/master/src/retina.js</p>             </td>             <td class="code">               <div class="highlight"><pre>  _isRetina = <span class="keyword">function</span>(){
     <span class="keyword">var</span> mediaQuery = <span class="string">"(-webkit-min-device-pixel-ratio: 1.5),(min--moz-device-pixel-ratio: 1.5),(-o-min-device-pixel-ratio: 3/2),(min-resolution: 1.5dppx)"</span>;
     <span class="keyword">var</span> root = (<span class="keyword">typeof</span> exports == <span class="string">'undefined'</span> ? window : exports);
     <span class="keyword">if</span> (root.devicePixelRatio &gt; <span class="number">1</span>){
@@ -238,7 +238,7 @@ https://github.com/imulus/retinajs/blob/master/src/retina.js</p>             </t
     <span class="keyword">return</span> <span class="literal">false</span>;
   },
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>needed for _isRetina to work
-https://github.com/paulirish/matchMedia.js</p>             </td>             <td class="code">               <div class="highlight"><pre>  _matchMedia = <span class="keyword">function</span>(){ 
+https://github.com/paulirish/matchMedia.js</p>             </td>             <td class="code">               <div class="highlight"><pre>  _matchMedia = <span class="keyword">function</span>(){
     <span class="keyword">var</span> bool,
       doc = document,
       docElem = doc.documentElement,
