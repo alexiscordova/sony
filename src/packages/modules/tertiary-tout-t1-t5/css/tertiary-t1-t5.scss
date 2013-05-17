@@ -200,8 +200,9 @@ $three-up-height:400px;
 						bottom:0;
 						right:0;
 						left:0;
-						height:100%;
-						width:100%;
+
+						// height:100%;
+						// width:100%;
 						opacity:0.95;
 						padding:12% 36%;
 
@@ -257,10 +258,9 @@ $three-up-height:400px;
 						margin: 0;
 						text-align: left;
 
-						.lt-ie9 & {
-							width:85.5%;
-							margin-left:27px;
-				    } // END IE8 and BELOW
+						.lt-ie8 & {
+							width:78.5%;
+				    } // END IE7 and BELOW
 
 					} // copy
 
@@ -590,6 +590,16 @@ $three-up-height:400px;
 			padding:0;
 			overflow: hidden;
 
+			.lt-ie8 & {
+				margin-top:20%;
+				height:auto;
+	    } // END IE7 and BELOW
+
+
+			.lt-ie8 & {
+				position: relative;
+			} // END IE7 and BELOW
+
 			.left,
 			.right{
 				display: inline-block;
@@ -602,29 +612,59 @@ $three-up-height:400px;
 					background-position: center center;
 					background-repeat: no-repeat;
 				} //iq-img
-
 			} // left/right
 
 			.left{
 				padding: px-em(10px) px-em(5px) px-em(15px) px-em(10px); // 15px on bottom to account for 5px on .last
 				width:40%;
 
+				.lt-ie8 & {
+					float:left;
+					width:100%;
+					height:auto;
+		    } // END IE7 and BELOW
+
 				.mobile-only{
 					display: none;
+
+					.lt-ie8 & {
+						float:left;
+						display: block;
+			    } // END IE7 and BELOW
 				}
 
 				.last{
 					margin-top: px-em(5px);
+						.lt-ie8 & {
+							margin-top:0;
+			    } // END IE7 and BELOW
 				} // last
 
 				.iq-img{
 					height:50%;
-				}// iq-img
 
+					.lt-ie8 & {
+						float:left;
+						width:30%;
+						height:96px;
+						margin-left:5px;
+
+						&:first-child{
+							margin-left: 0;
+						}
+
+			    } // END IE7 and BELOW
+
+				}// iq-img
 			} // left
 
 			.right{
 				display: inline-block;
+
+				.lt-ie8 & {
+					display: none;
+				} // END IE7 and BELOW
+
 				padding: px-em(10px) px-em(10px) px-em(10px) 0;
 				width:60%;
 
@@ -683,12 +723,25 @@ $three-up-height:400px;
 				right:0;
 				bottom: 0;
 				z-index: 2;
+
+				.lt-ie8 & {
+					top: 15px;
+					left: 44%;
+		    } // END IE7 and BELOW
+
 			}
 
 			.left,
 			.right{
 				width:50%;
 				display:inline-block;
+
+				.lt-ie8 & {
+					width:10%;
+					display:block;
+					float:left;
+		    } // END IE7 and BELOW
+
 
 				.fonticon-10-dot{
 					font-size: 0.84em;
@@ -732,6 +785,10 @@ $three-up-height:400px;
 		//  \_____|\___||_| |_| \__|\___||_|
 		.center{
 			height: 71.55%;
+
+			.lt-ie8 & {
+				height: 75px;
+	    } // END IE7 and BELOW
 		} // center
 
 
@@ -750,13 +807,16 @@ $three-up-height:400px;
 
 		.iq-img{
 			display: inline-block;
-			// width:31.33333%;
 			width:31.63333%;
 			margin-left:5px;
 			height:100%;
 			background-size: cover;
 			background-position: center center;
 			background-repeat: no-repeat;
+
+			.lt-ie8 & {
+				float:left;
+	    } // END IE7 and BELOW
 
 			&:first-child{
 				margin-left:0;
@@ -772,7 +832,11 @@ $three-up-height:400px;
 		.bottom-row{
 			display:block;
 			padding:0;
-			// padding: px-em(5px) px-em(10px) px-em(10px) px-em(10px);
+
+			.lt-ie8 & {
+				float:left;
+	    } // END IE7 and BELOW
+
 		} // end .bottom-row
 
 	} // flickr
