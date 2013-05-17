@@ -74,6 +74,8 @@ define(<span class="keyword">function</span>(require){
         self.renderNav(<span class="number">2</span>);
       }
 
+      self.$el.addClass(<span class="string">'active'</span>);
+
       Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.setTrayHeight, self));
     },
 
