@@ -2,7 +2,8 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('editorial-dual-viewer-e9')
 +includeJavascriptModule('editorial-dual-viewer-e9')
 
-section(class=data.mode+' '+data.axis+' '+data.background+' '+data.edges).edv.full-bleed-no-max.m-full-bleed.container
+editorialClasses = ['edv', 'full-bleed-no-max', 'm-full-bleed', 'container', data.mode, data.axis, data.background, data.edges]
++mainElement( editorialClasses )
   .edv-images
     - for (i = 0; i < 2 && i < data.images.length; i++)
         edvImage = data.images[i]
