@@ -1,14 +1,13 @@
   <!--[if lt IE 9]>
-    <link rel="stylesheet" href="fonts/fonts-eot.css">
+    <link rel="stylesheet" href="http://fonts.sony.net/shf/fonts-eot.css">
     <link rel="stylesheet" href="fonts/icons-eot.css">
   <![endif]-->
   
   <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
-      // Android needs otf fonts & ttf icon-fonts; everybody else is good with woff.
-      var fontType = navigator.userAgent.toLowerCase().match(/android|vita|playstation/g) !== null ? "otf" : "woff";
-      var fontIconType = fontType === "otf" ? "ttf" : fontType; // fontIcons are ttf instead of otf.
-      document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-fonts-"+fontType+".css'%3E"));
-      document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-icons-"+fontIconType+".css'%3E"));
+      // Android needs ttf fonts; everybody else is good with woff.
+      var fontType = navigator.userAgent.toLowerCase().match(/android|vita|playstation/g) !== null ? "ttf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='http://fonts.sony.net/shf/b64-fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-icons-"+fontType+".css'%3E"));
     </script>
   <!--<![endif]-->

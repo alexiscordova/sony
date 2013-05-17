@@ -82,6 +82,10 @@ $paddleHeight: px-em( 76 );
     .lt-ie9 & {
       display: block;
     }
+
+    .lt-ie8 & {
+      display: none;
+    }
   }
 
   button {
@@ -97,6 +101,7 @@ $paddleHeight: px-em( 76 );
     background-color: rgba($gray10, .4);
     border-radius: .1875em;
     opacity: 0;
+    z-index: 1;
     @include transition();
 
     &.on {

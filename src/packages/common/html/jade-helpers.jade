@@ -1,8 +1,11 @@
 //- single line mixin for partials
 //- +partial('example.html.jade', 'example/default.json')
 
-mixin partial(m, d)
-  e = {"locals":locals, "data":locals.data(d)}
+mixin partial(m, d, isSubmodule)
+  data = locals.data(d)
+  if isSubmodule
+    - data.isSubmodule = true
+  e = {"locals":locals, "data":data}
   !{locals.partial('packages/modules/' + m, e)}
 
 mixin includeCSS(moduleName)
@@ -10,7 +13,7 @@ mixin includeCSS(moduleName)
   if (!e.locals.modulescss)
     - e.locals.modulescss = []
   if(e.locals.modulescss)
-    if (e.locals.modulescss.indexOf(moduleName) === -1)
+    if (e.locals.modulescss.indexOf(moduleName) == -1)
       - e.locals.modulescss.push(moduleName)
 
 mixin includeJavascriptModule(moduleName)
@@ -18,8 +21,23 @@ mixin includeJavascriptModule(moduleName)
   if ( !e.locals.javascriptModules )
     - e.locals.javascriptModules = []
   if ( e.locals.javascriptModules )
-    if ( e.locals.javascriptModules.indexOf(moduleName) === -1 )
+    if ( e.locals.javascriptModules.indexOf(moduleName) == -1 )
       - e.locals.javascriptModules.push(moduleName)
+
+//- @param {array} classes an array of strings which will become classes on the main element
+mixin mainElement( classes )
+  moduleId = data.id ? data.id : false
+  isSubmodule = data.isSubmodule
+  classes = classes && classes.length ? classes : false
+
+  if isSubmodule
+    //- If this is a submodule, the id should already be on the main module
+    div(class=classes)
+      block
+  else
+    section(id=moduleId, class=classes)
+      block
+
 
 //- img - an object with at least: `src`, `alt`, `noscriptsrc`
 //- [extraClasses] - a string containing any extra classes to put on the img element
@@ -34,8 +52,8 @@ mixin iQImage( img, extraClasses, itemprop )
       p.l3(style="color:red;margin:0")= 'img = ' + JSON.stringify( img )
   else
     - classes = 'iq-img'
-    - extraClasses = extraClasses || false
-    - itemprop = itemprop || false
+    - extraClasses = extraClasses ? extraClasses : false
+    - itemprop = itemprop ? itemprop : false
     - if ( extraClasses ) classes += ' ' + extraClasses
     img(class=classes, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes, alt=img.alt, itemprop=itemprop)
     noscript
@@ -50,11 +68,21 @@ mixin sonyVideo ( videoData )
     - sonyKey = '$343124831096460,'
     - odopodKey = '$421601038208546'
     - allDomainKeys = sonyKey + odopodKey
-    div(class='player is-splash no-time play-button' , data-key=allDomainKeys , data-ratio=videoData.ratio)
-     video(preload='none')
-      source(type='video/webm', src=videoData.webm.srcDesktop)
-      source(type='video/mp4',  src=videoData.mp4.srcDesktop)
-      source(type='video/ogg',  src=videoData.ogg.srcDesktop)
+    - isIQPoster  = videoData.poster ? true : false
+    if (isIQPoster == true)
+      div(class='player is-splash no-time play-button iq-img'  , data-key=allDomainKeys , data-ratio=videoData.ratio , data-src-desktop=videoData.poster.srcDesktop, data-src-tablet=videoData.poster.srcTablet, data-src-phone=videoData.poster.srcPhone, data-src-desktop-highres=videoData.poster.srcDesktopHighRes, data-src-tablet-highres=videoData.poster.srcTabletHighRes, data-src-phone-highres=videoData.poster.srcPhoneHighRes)
+       video(preload='none')
+        //- source(type='video/webm', src=videoData.webm.srcDesktop)
+        source(type='video/mp4',  src=videoData.mp4.srcDesktop)
+        //- source(type='video/ogg',  src=videoData.ogg.srcDesktop)
+        source(type='video/flash',src=videoData.mp4.srcDesktop)
+    else
+      div(class='player is-splash no-time play-button'  , data-key=allDomainKeys , data-ratio=videoData.ratio)
+       video(preload='none')
+        //- source(type='video/webm', src=videoData.webm.srcDesktop)
+        source(type='video/mp4',  src=videoData.mp4.srcDesktop)
+        //- source(type='video/ogg',  src=videoData.ogg.srcDesktop)
+        source(type='video/flash',src=videoData.mp4.srcDesktop)
 
 
 //-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps
@@ -92,7 +120,7 @@ mixin hgroup (hgobject, h1class, h2class, h3class, h4class, h5class, h6class)
 //- To be used with bootstrap's dropdown
 mixin shareMenu( socialButtons, shortLink, addCloseButton )
   //- Default to false
-  addCloseButton = addCloseButton === true
+  addCloseButton = addCloseButton == true
 
   ul.dropdown-menu.dropdown-menu-alt.share-menu.pull-right(role="menu")
     if addCloseButton
@@ -110,14 +138,14 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
       input.p4(type="text", value=shortLink)
 
 
-- var blocks = {};
+blocks = {};
 mixin defineBlock(name)
   block
-  - var i = buf.length;
+  len = buf.length;
   - buf.push('');
-  - blocks[name] = i;
+  - blocks[name] = len;
 mixin appendBlock(name)
-  - var start = buf.length;
+  start = buf.length;
   block
   - buf[blocks[name]] += buf.splice(start, buf.length - start).join('');
 

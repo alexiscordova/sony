@@ -45,6 +45,7 @@ define(function(require){
     self.isResize = false;
     
     // buttons & dials
+    self.$buttonReloadContainer = self.$el.find('.btn-reload-container'); 
     self.$reloadButton = self.$el.find('.btn-reload');
     self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
     self.$dials = self.$dialWrappers.find('.uxmc-dial');
@@ -86,7 +87,7 @@ define(function(require){
       // INIT SEQUENCE 
       if(!Settings.isLTIE9){
         self.setButtonColor(self.currentPartnerProduct); // new color for reload buton
-        $('.btn-reload-container').addClass('on');
+        self.$buttonReloadContainer.addClass('on');
       }
 
       self.fadeInContent(self.currentPartnerProduct); // show content
@@ -103,7 +104,7 @@ define(function(require){
     'initCarousel' : function(){
       var self = this;
       
-      self.$carouselInstance = $('.uxmc-carousel').sonyCarousel({
+      self.$carouselInstance = self.$carousel.sonyCarousel({
         direction: 'vertical',
         wrapper: '.uxmc-carousel-wrapper',
         slides: '.sony-carousel-slide',
@@ -147,7 +148,6 @@ define(function(require){
       self.$dials.simpleKnob({    
         'width': 34,
         'height': 34,    
-        // 'thickness': 0.15,
         'thickness': 0.1,
         'fontSize': '1em',
         'bgColor': 'rgba(255, 255, 255, 0.5)',

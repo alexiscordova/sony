@@ -34,6 +34,7 @@ define(function (require) {
   self.isAndroid = (/android/gi).test( ua );
   self.isPS3 = (/playstation 3/gi).test( ua );
   self.isSonyTabletS = (/sony tablet s/gi).test( ua );
+  self.isVita = (/vita/gi).test( ua );
   // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );
 
   self.isModern = self.$html.hasClass('modern');
@@ -61,6 +62,16 @@ define(function (require) {
 
   self.shuffleEasing = 'ease-out';
   self.shuffleSpeed = 250;
+  self.shuffleSupport = Modernizr.csstransitions && Modernizr.csstransforms;
+
+  // Make the PS3 use absolute positioning, otherwise it breaks the 5 way controller input
+  // See https://nuruncode.atlassian.net/browse/SGFE-574
+  // This likely only happens when the `.shuffle-item`s are anchor elements combined with transforms
+  if ( self.isPS3 ) {
+    self.shuffleSupport = false;
+  }
+
+  self.carouselEasing = 'ease-out';
 
   // Get grid percentages
   self.fiveColumns = 5;

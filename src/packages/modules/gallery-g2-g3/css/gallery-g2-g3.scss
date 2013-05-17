@@ -854,6 +854,7 @@ $stickyHeaderHeight: px-em(82);
 
   // Sticky headers
   .compare-sticky-header {
+    display: block;
     top: -2em;
     width: 100%;
     height: px-em(106);
@@ -894,16 +895,19 @@ $stickyHeaderHeight: px-em(82);
       @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
     }
 
-    // Gray bar on the right side of the container
-    .right-bar {
+    .sticky-bar {
       position: absolute;
       z-index: -1;
       top: 0;
-      left: 800%;
       height: px-em(106);
-      width: 187em;
       background: $white;
       @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
+    }
+
+    // Gray bar on the right side of the container
+    .right-bar {
+      left: 800%;
+      width: 187em;
     }
   }
 }
@@ -982,9 +986,8 @@ $stickyHeaderHeight: px-em(82);
   }
 
   .modal-inner {
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .modal-header {
@@ -1008,12 +1011,6 @@ $stickyHeaderHeight: px-em(82);
     background: $gray80;
     @include transition( box-shadow $transitionNormal $easeNormal );
 
-    .sonytablets & {
-      // position: static;
-      // min-height: px-em(80);
-      // @include transition( none );
-    }
-
     &.body-scrolled {
       @include box-shadow( 0 6px 10px -4px $stickyShadowColor );
     }
@@ -1027,11 +1024,16 @@ $stickyHeaderHeight: px-em(82);
   }
 
   .modal-body {
-    padding: px-em(42) 0 px-em( 40 - 18 );
+    position: relative;
+    padding: 0;
 
     .lt-ie9 & {
       background: white;
     }
+  }
+
+  .modal-body-inner {
+    padding: px-em(42) 0 px-em( 40 - 18 );
   }
 
   // Put the sorting above the products to handle the negative margin top
