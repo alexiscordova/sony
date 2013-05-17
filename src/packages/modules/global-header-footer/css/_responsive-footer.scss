@@ -109,17 +109,30 @@
 @media (min-width: px-em(568px)) and (max-width: px-em(979px)) {
 
 .footer-wrapper{
+
   .grid.no-grid-at-567{
+
     .footer-contact.span6{
-      padding-right: px-em(4px);
-      > p{
+      position: relative;
+      padding: {
+        top: 25px;
+        right: px-em(4px);
+      }
+
+      > p {
+        top: 0;
+        right: 0;
+        width: 120%;
+        position: absolute;
         display:block;
         margin-bottom:px-em(3px);
-        a{
-          margin-right:0; 
-        }
-        a:first-child{
+
+        a {
           margin-right: px-em(25px);      
+
+          &:last-child {
+            margin-right: 0;
+          }
         }
       }
     }
