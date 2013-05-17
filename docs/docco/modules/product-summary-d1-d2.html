@@ -54,6 +54,30 @@ define(<span class="keyword">function</span>(require) {
     init: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      self.setVars();
+
+      Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self._onResize, self ));
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Save the short text value</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$textSwaps.each(<span class="keyword">function</span>() {
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+            data = $<span class="keyword">this</span>.data();
+
+        data.shortText = $<span class="keyword">this</span>.text();
+        data.currentKey = <span class="string">'shortText'</span>;
+      });
+
+      self.setupBreakpoints();
+
+      self._onResize();
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Setup that can be deferred</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+        self.lazyInit();
+      }, <span class="number">0</span>);
+    },
+
+    setVars : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
       self.$stickyNav = self.$el.find(<span class="string">'.sticky-nav'</span>);
       self.$jumpLinks = self.$el.find(<span class="string">'.jump-links a'</span>);
       self.$evenCols = self.$el.find(<span class="string">'.js-even-cols'</span>).children();
@@ -70,16 +94,10 @@ define(<span class="keyword">function</span>(require) {
       self.$span3AtTablet = self.$el.find(<span class="string">'#span3-at-tablet'</span>);
 
       self.$shareBtn.on(<span class="string">'click'</span>, $.proxy( self._onShare, self ));
+    },
 
-      Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self._onResize, self ));
-
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Save the short text value</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$textSwaps.each(<span class="keyword">function</span>() {
-        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
-            data = $<span class="keyword">this</span>.data();
-
-        data.shortText = $<span class="keyword">this</span>.text();
-        data.currentKey = <span class="string">'shortText'</span>;
-      });
+    setupBreakpoints : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       <span class="keyword">if</span> ( Modernizr.mediaqueries ) {
 
@@ -107,22 +125,24 @@ define(<span class="keyword">function</span>(require) {
       } <span class="keyword">else</span> {
         self._setupDesktop();
       }
+    },
 
-      self._onResize();
+    lazyInit : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Setup that can be deferred</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
-        Utilities.autoSelectInputOnFocus( self.$shareLink );
+      Utilities.autoSelectInputOnFocus( self.$shareLink );
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Init sticky nav</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$stickyNav.stickyNav({
-          $jumpLinks: self.$jumpLinks,
-          offset: <span class="number">0</span>,
-          offsetTarget: self.$el.next()
-        });
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Init sticky nav</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$stickyNav.stickyNav({
+        $jumpLinks: self.$jumpLinks,
+        offset: <span class="number">0</span>,
+        offsetTarget: self.$el.next()
+      });
 
-        iQ.update();
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Scroll to a hash if it's present</p>             </td>             <td class="code">               <div class="highlight"><pre>      $.simplescroll.initial();
 
-        self._initFavorites();
-      }, <span class="number">0</span>);
+      iQ.update();
+
+      self._initFavorites();
     },
 
     _onResize : <span class="keyword">function</span>() {
@@ -143,9 +163,9 @@ define(<span class="keyword">function</span>(require) {
     _onShare : <span class="keyword">function</span>( evt ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Uses a modal instead of dropdown</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isMobile ) {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Uses a modal instead of dropdown</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isMobile ) {
         evt.preventDefault();
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Don't let the dropdown handler receive this event</p>             </td>             <td class="code">               <div class="highlight"><pre>        evt.stopImmediatePropagation();
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Don't let the dropdown handler receive this event</p>             </td>             <td class="code">               <div class="highlight"><pre>        evt.stopImmediatePropagation();
 
         self.$modal.modal( {backdropClass: <span class="string">'dark'</span>} );
       }
@@ -200,7 +220,7 @@ define(<span class="keyword">function</span>(require) {
       self.isMobile = <span class="literal">false</span>;
       self.isDesktop = <span class="literal">true</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Hide dropdown or modal if it's active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._hideShareDialog( <span class="literal">true</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Hide dropdown or modal if it's active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._hideShareDialog( <span class="literal">true</span> );
 
       self._swapTexts( <span class="literal">true</span> );
       self._swapDomElements( <span class="literal">true</span> );
@@ -220,7 +240,7 @@ define(<span class="keyword">function</span>(require) {
 
 
       <span class="keyword">if</span> ( self.isTablet ) {
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Spans need to be reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$span1AtTablet
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Spans need to be reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$span1AtTablet
           .add( self.$span3AtTablet )
             .removeClass(<span class="string">'span1 span3'</span>)
             .addClass(<span class="string">'span2'</span>);
@@ -237,13 +257,13 @@ define(<span class="keyword">function</span>(require) {
       self.isMobile = <span class="literal">true</span>;
       self.isDesktop = <span class="literal">false</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Hide dropdown or modal if it's active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._hideShareDialog( <span class="literal">false</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Hide dropdown or modal if it's active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._hideShareDialog( <span class="literal">false</span> );
 
       self._swapTexts( <span class="literal">false</span> );
       self._swapDomElements( <span class="literal">false</span> );
 
       <span class="keyword">if</span> ( wasDesktop ) {
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If this was originally setup desktop, there will be heights set on the columns</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$evenCols.css(<span class="string">'height'</span>, <span class="string">''</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If this was originally setup desktop, there will be heights set on the columns</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$evenCols.css(<span class="string">'height'</span>, <span class="string">''</span>);
         self._teardownTablet();
       }
     }

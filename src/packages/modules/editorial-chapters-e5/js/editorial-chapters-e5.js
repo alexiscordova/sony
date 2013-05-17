@@ -42,18 +42,13 @@ define(function(require){
 
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
-      self.cssTransitions       = Modernizr.transitions;
-
-      // Modernizr vars
-      self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
+      self.cssTransitions       = Modernizr.transitions;
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
 
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
-      self.$document            = $(document);
-      self.$window              = $(window);
-      self.$html                = $('html');
+      self.$window              = Settings.$window;
       self.$slides              = self.$el.find('.editorial-carousel-slide');
       self.$slideWrapper        = self.$el.find('.editorial-carousel-wrapper');
       self.$slideContainer      = self.$el.find('.editorial-carousel');

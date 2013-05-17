@@ -241,27 +241,27 @@ body {
   transition: none;
 }
 
-/* line 51, ../../src/packages/common/css/_base/_scaffolding.scss */
-.no-touch [class*="fonticon"] {
+/* line 50, ../../src/packages/common/css/_base/_scaffolding.scss */
+html.no-touch.csstransitions [class*="fonticon"] {
   -webkit-transition: color 0.25s linear;
   transition: color 0.25s linear;
 }
 
 /* Debug grid styles
 -------------------------------------------------- */
-/* line 85, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 84, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid {
   margin-top: 2px;
   margin-bottom: 2px;
 }
 
-/* line 89, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 88, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid [class*="span"] {
   background-color: rgba(125, 125, 125, 0.5) !important;
   text-align: center;
 }
 
-/* line 96, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 95, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid .show-grid [class*="span"] {
   background-color: rgba(255, 125, 0, 0.9) !important;
 }
@@ -1045,7 +1045,7 @@ body {
 /* line 64, ../../src/packages/common/css/_base/_fonticons.scss */
 .fonticon-10-chevron-sm,
 .fonticon-10-chevron-sm--after {
-  margin: 0 -0.125em;
+  margin: 0 -.125em;
 }
 
 /* line 74, ../../src/packages/common/css/_base/_fonticons.scss */
@@ -3362,7 +3362,7 @@ p .btn-special, td .btn-special {
 /* line 160, ../../src/packages/common/css/_base/_buttons.scss */
 .btn-square i {
   line-height: 0;
-  margin: -0.125em;
+  margin: -.125em;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -4107,8 +4107,8 @@ input[type="submit"].btn.btn-mini {
 [class*=" swatch-"]:after {
   top: 50%;
   left: 50%;
-  margin-left: -0.5em;
-  margin-top: -0.5625em;
+  margin-left: -.5em;
+  margin-top: -.5625em;
   color: white;
   -webkit-font-smoothing: antialiased;
 }
@@ -4625,7 +4625,7 @@ input[type="submit"].btn.btn-mini {
 .share-menu:before {
   content: '';
   position: absolute;
-  top: -0.8125em;
+  top: -.8125em;
   right: 1.5em;
   width: 0;
   height: 0;
@@ -5342,7 +5342,7 @@ input[type="submit"].btn.btn-mini {
 }
 /* line 519, ../../src/packages/common/css/_components/_navbar.scss */
 .lt-ie10 .navmenu-w-search .reveal-transition-container {
-  overflow: visible!important;
+  overflow: visible !important;
   min-height: 100%;
   height: 110%;
   position: relative;
@@ -6447,13 +6447,13 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   padding: 5px 20px;
 }
 
-/* line 12, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 6, ../../src/packages/common/css/_components/_pagination.scss */
 .sony-dot-nav {
   position: relative;
   margin-top: 40px;
 }
 
-/* line 17, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 11, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets {
   position: absolute;
   z-index: 35;
@@ -6467,11 +6467,11 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   -webkit-transition: opacity 0.2s;
   transition: opacity 0.2s;
 }
-/* line 30, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 24, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets.pagination-bullets-on, .pagination-bullets.on {
   opacity: 1;
 }
-/* line 34, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 28, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet {
   display: inline-block;
   margin-left: 0.3125em;
@@ -6482,56 +6482,59 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   transition: 0.2s ease-out;
   -webkit-font-smoothing: antialiased;
 }
-/* line 44, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 38, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-light .pagination-bullets .pagination-bullet {
   color: #83838f;
 }
-/* line 48, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 42, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-light .pagination-bullets .pagination-bullet:hover, .pagination-light .pagination-bullets .pagination-bullet.bullet-selected {
   color: #e4e7eb;
 }
-/* line 53, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 47, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet .fonticon-10-dot {
   font-size: 0.8em;
 }
-/* line 57, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 51, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet:first-child {
   margin-left: 0;
 }
-/* line 63, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 57, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet:hover,
 .pagination-bullets .bullet-selected {
   color: #2f353d;
 }
 
-/* line 68, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 65, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
+  position: absolute;
+  top: 50%;
+  width: 100%;
   opacity: 0;
-  height: 0;
-  z-index: 999;
 }
-/* line 70, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 72, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles {
   display: none;
 }
-/* line 79, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 76, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles.show-paddles {
   opacity: 1;
 }
-/* line 82, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 79, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles.show-paddles {
   display: block;
 }
-/* line 86, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 83, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie8 .pagination-paddles.show-paddles {
   display: none;
 }
-/* line 91, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-paddles button {
+/* line 89, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle,
+.pagination-paddles .pagination-paddle {
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
   position: absolute;
-  top: 50%;
   width: 3em;
   height: 4.75em;
   display: block;
@@ -6542,67 +6545,80 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   background-color: rgba(33, 37, 48, 0.4);
   border-radius: .1875em;
   opacity: 0;
-  z-index: 1;
-  -webkit-transition: 0.2s ease-out;
-  transition: 0.2s ease-out;
+  z-index: 999;
 }
-/* line 107, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-paddles button.on {
+/* line 104, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle.on,
+.pagination-paddles .pagination-paddle.on {
   opacity: 1;
 }
-/* line 111, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-paddles button.pagination-next {
-  right: 3.55%;
-  margin-right: -1.5em;
+/* line 108, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle.pagination-next,
+.pagination-paddles .pagination-paddle.pagination-next {
+  right: 20px;
 }
-/* line 117, ../../src/packages/common/css/_components/_pagination.scss */
-.lt-ie10 .pagination-paddles button.pagination-next {
-  right: 50%;
-  margin-right: -31.875em;
+@media (min-width: 1400px) {
+  /* line 111, ../../src/packages/common/css/_components/_pagination.scss */
+  .pagination-paddles .nav-paddle.pagination-next.outset,
+  .pagination-paddles .pagination-paddle.pagination-next.outset {
+    right: 50%;
+    margin-right: -695px;
+  }
 }
-/* line 123, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-paddles button.pagination-prev {
-  left: 3.55%;
-  margin-left: -1.5em;
+/* line 119, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle.pagination-prev,
+.pagination-paddles .pagination-paddle.pagination-prev {
+  left: 20px;
 }
-/* line 129, ../../src/packages/common/css/_components/_pagination.scss */
-.lt-ie10 .pagination-paddles button.pagination-prev {
-  left: 50%;
-  margin-left: -31.875em;
+@media (min-width: 1400px) {
+  /* line 122, ../../src/packages/common/css/_components/_pagination.scss */
+  .pagination-paddles .nav-paddle.pagination-prev.outset,
+  .pagination-paddles .pagination-paddle.pagination-prev.outset {
+    left: 50%;
+    margin-left: -695px;
+  }
 }
-/* line 135, ../../src/packages/common/css/_components/_pagination.scss */
-.lt-ie9 .pagination-paddles button {
+/* line 130, ../../src/packages/common/css/_components/_pagination.scss */
+.lt-ie9 .pagination-paddles .nav-paddle, .lt-ie9
+.pagination-paddles .pagination-paddle {
   zoom: 1;
 }
-/* line 139, ../../src/packages/common/css/_components/_pagination.scss */
-.touch .pagination-paddles button {
+/* line 134, ../../src/packages/common/css/_components/_pagination.scss */
+.touch .pagination-paddles .nav-paddle, .touch
+.pagination-paddles .pagination-paddle {
   display: none;
 }
-/* line 144, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-paddles button:hover, .pagination-paddles button:focus {
+/* line 139, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle:hover, .pagination-paddles .nav-paddle:focus,
+.pagination-paddles .pagination-paddle:hover,
+.pagination-paddles .pagination-paddle:focus {
   background-color: #2f353d;
   background-color: rgba(33, 37, 48, 0.8);
   outline: none;
   cursor: pointer;
 }
-/* line 151, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-paddles button i {
-  vertical-align: middle;
+/* line 146, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle i,
+.pagination-paddles .pagination-paddle i {
+  -webkit-font-smoothing: antialiased;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -0.6em 0 0 -0.6em;
   color: white;
   font-size: 0.9375em;
-  margin-left: .0625em;
-  margin-top: -0.125em;
-  -webkit-font-smoothing: antialiased;
 }
-/* line 162, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-paddles button i.fonticon-10-chevron-reverse {
-  margin-left: 0;
-  margin-right: 0.0625em;
+/* line 158, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .show-paddles .nav-paddle,
+.pagination-paddles .show-paddles .pagination-paddle {
+  opacity: 1;
 }
 
-/* line 194, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 171, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle,
 .nav-paddle {
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
   display: block;
   border: none;
   background-color: #d2d2db;
@@ -6612,20 +6628,29 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   height: 3.25em;
   margin-top: -1.625em;
   padding: 0;
-  -webkit-transition: 0.2s ease-out;
-  transition: 0.2s ease-out;
 }
-/* line 206, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 183, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle i,
+.nav-paddle i {
+  -webkit-font-smoothing: antialiased;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -0.6em 0 0 -0.6em;
+  color: white;
+  font-size: 0.9375em;
+}
+/* line 193, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles .nav-paddle, .lt-ie9
 .nav-paddle {
   zoom: 1;
 }
-/* line 210, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 197, ../../src/packages/common/css/_components/_pagination.scss */
 .touch .pagination-paddles .nav-paddle, .touch
 .nav-paddle {
   display: none;
 }
-/* line 215, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 202, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle:hover, .pagination-paddles .nav-paddle:focus,
 .nav-paddle:hover,
 .nav-paddle:focus {
@@ -6633,74 +6658,6 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   background-color: rgba(33, 37, 48, 0.8);
   outline: none;
   cursor: pointer;
-}
-/* line 222, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-paddles .nav-paddle i,
-.nav-paddle i {
-  vertical-align: middle;
-  color: white;
-  font-size: 0.9375em;
-  margin-left: .0625em;
-  margin-top: -0.125em;
-  -webkit-font-smoothing: antialiased;
-}
-/* line 233, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-paddles .nav-paddle i.fonticon-10-chevron-reverse,
-.nav-paddle i.fonticon-10-chevron-reverse {
-  margin-left: 0;
-  margin-right: 0.0625em;
-}
-
-/* line 241, ../../src/packages/common/css/_components/_pagination.scss */
-.paddle-trigger .nav-paddle {
-  opacity: 0;
-}
-
-/* line 247, ../../src/packages/common/css/_components/_pagination.scss */
-.paddle-trigger:hover .nav-paddle,
-.paddle-trigger .nav-paddle:focus {
-  opacity: 1;
-}
-
-/* line 259, ../../src/packages/common/css/_components/_pagination.scss */
-.rp-nav .paddle {
-  position: absolute;
-  top: 50%;
-  display: block;
-  width: 50px;
-  height: 86px;
-  margin: -100px 0;
-  border-radius: 2px;
-  color: white;
-  font-size: 1.4em;
-  background-color: #d2d2db;
-  background-color: rgba(33, 37, 48, 0.4);
-  -webkit-transition: 0.3s ease-in;
-  transition: 0.3s ease-in;
-  cursor: pointer;
-  -webkit-font-smoothing: antialiased;
-}
-/* line 276, ../../src/packages/common/css/_components/_pagination.scss */
-.rp-nav .paddle:hover {
-  background-color: #2f353d;
-  background-color: rgba(33, 37, 48, 0.8);
-}
-/* line 281, ../../src/packages/common/css/_components/_pagination.scss */
-.rp-nav .paddle i {
-  width: 15px;
-  height: 15px;
-  margin-top: 33px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-/* line 288, ../../src/packages/common/css/_components/_pagination.scss */
-.rp-nav .paddle.left {
-  left: 10px;
-}
-/* line 292, ../../src/packages/common/css/_components/_pagination.scss */
-.rp-nav .paddle.right {
-  right: 10px;
 }
 
 /* line 30, ../../src/packages/common/css/_components/_universal-nav.scss */
@@ -9388,7 +9345,7 @@ textarea,
 
 /* line 42, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links {
-  margin-left: -0.375em;
+  margin-left: -.375em;
   margin-bottom: 0;
   *zoom: 1;
 }
@@ -10117,7 +10074,7 @@ ul.jump-links .active a {
   position: absolute;
   z-index: -1;
   top: 0;
-  right: -0.1875em;
+  right: -.1875em;
   width: 2000px;
   height: 100%;
   background: #f3f4f6;
