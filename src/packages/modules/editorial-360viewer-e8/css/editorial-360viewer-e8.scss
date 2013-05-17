@@ -1,6 +1,15 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
+$transitionSpeed: 0.5s; 
+
+@mixin ehsTransition() {
+  -o-transition:$transitionSpeed;
+  -ms-transition:$transitionSpeed;
+  -moz-transition:$transitionSpeed;
+  -webkit-transition:$transitionSpeed; 
+  transition:$transitionSpeed;	
+}
 
 .unselectable * {
   -webkit-user-select: none;
@@ -8,6 +17,16 @@
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+
+.dim-the-lights {
+  @include ehsTransition();
+  opacity: 0.45;
+}
+
+.light-em-up {
+  @include ehsTransition();
+  opacity: 1;  
 }
 
 .e360debug {

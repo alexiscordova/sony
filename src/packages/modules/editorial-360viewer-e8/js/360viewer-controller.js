@@ -5,7 +5,7 @@
 // * **Version:** 0.1
 // * **Modified:** 04/19/2013
 // * **Author:** Brian Kenny
-// * **Dependencies:** jQuery 1.7+, Modernizr
+// * **Dependencies:** jQuery 1.7+, Boostrap, Modernizr, Enquire, hammerJS, viewport
 //
 // *Example Usage:*
 //
@@ -28,17 +28,20 @@ define(function(require){
 
   var self = {
     'init': function() {
+/*
       // setup breakpoints
       var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
       var breakpointReactor = function( e ) { 
         iQ.update();
       };
+*/
       
       // IE 10 detection
       if ( window.atob || Settings.isLTIE10 ) {
         $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
       }
       
+/*
       // bind IQ to update at every breakpoint
       if( enquire ) {
         for( var i=0; i < breakpoints.length; i++ ) {
@@ -49,6 +52,7 @@ define(function(require){
           }
         }
       }
+*/
       
       // detect if there are 360 viewer constructs on the DOM
       $( '.e360' ).each( function( index, el ) {
@@ -65,12 +69,13 @@ define(function(require){
     // defaults
     self.$container     = $( element );
     self.$sequence      = ( self.$container.find( '.outer div' ).length ) > 0 ? self.$container.find( '.outer div' ) : self.$container.find( '.outer img' );
+    self.sequenceLength = self.$sequence.length;
+    self.curLoaded      = 0;
     self.$controls      = self.$container.find( '.controls' );
     self.$controlCenter = self.$controls.find( '.instructions' );
     self.$leftArrow     = self.$controls.find( '.left-arrow' );
     self.$rightArrow    = self.$controls.find( '.right-arrow' );
     self.isImage        = $( self.$sequence[0] ).is( 'img' ) ? true : false;
-    self.sequenceLength = self.$sequence.length;
     self.dynamicBuffer  = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
     self.curIndex       = 0;
     self.movingLeft     = false;
@@ -94,7 +99,51 @@ define(function(require){
 
     init : function( param ) {
       var self = this;
-
+      
+      // lets start by hiding the controllers until things are loaded and fading down the image
+      // to give users a nicer set of visual queues
+      self.$controls.addClass( 'hidden' );
+      self.$container.addClass( 'dim-the-lights' );
+      
+      // closures to manage image payload
+      var lockAndLoaded = function() {
+        self.curLoaded++;
+        checkLoaded();
+      };
+      
+      // checks the payload against the loaded image
+      var checkLoaded = function() {
+        if( self.sequenceLength == self.curLoaded ) {
+          log( 'all 360 assets loaded' );
+          self.$controls.removeClass( 'hidden' );
+          self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
+        }        
+      };
+      
+      // if not, manage the payload by exposing a loader
+      self.$sequence.each(function( index, el ) {
+        // is the BG image loaded? 
+        if( $( el ).data('hasLoaded') ) {
+          self.curLoaded++;
+          checkLoaded();
+        } else {
+          // its not a preloaded background
+          if( $( el ).is( 'div' ) ) {
+            $( el ).on( 'iQ:imageLoaded', lockAndLoaded );
+          } else {
+            // check if the inline images are cached
+            if( false === this.complete ) {
+              // not cached, listen for load event
+              el.onload = lockAndLoaded;
+            } else {
+              // cached, count it against the payload
+              self.curLoaded++;
+              checkLoaded();
+            }
+          }
+        }
+      });      
+      
       // bind scroll event to fire animation on the dragger
       // 1. movement on desktop and 2. viewport on mobile
       
@@ -113,10 +162,11 @@ define(function(require){
         self.syncControlLayout();
       }
             
+/*
       if( true === Modernizr.touch ) {
         // extend with touch controls
         self.$controls.hammer();
-        
+
         // animate dragger arrows when in viewport
         self.poller = setInterval( function(){
           self.syncControlLayout();
@@ -173,9 +223,7 @@ define(function(require){
           self.mouseMove( event );
         });
       }
-
-
-
+*/
 
       log('SONY : Editorial 360 Viewer : Initialized');
     },
