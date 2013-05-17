@@ -46,9 +46,11 @@ define(function(require){
     self.mobileNavVisible = false;
     self.mobileNavThreshold = 767;
     self.mobileFooterThreshold = 567;
-    self.mouseLeaveDelay = 500;
-    // delay in ms
-    self.mouseleaveTimer = false;
+    self.closeDelay = 500;
+    self.closeDelaySearch = 2000;
+    self.closeTimer = false;
+    self.openDelay = 200;
+    self.openTimer = false;
 
     // Get the right prefixed names e.g. WebkitTransitionDuration
     self.tapOrClick = self.hasTouch ? 'touchstart' : 'click';
@@ -233,7 +235,6 @@ define(function(require){
 
 
           $thNavBtn.on('mouseenter', function(e) {
-            // console.log("$thNavBtn.on(thTrigger): " + $thNavBtn.attr('class'));
             e.preventDefault();
 
             // $('.nav .nav-li a.active').trigger('touchstart'); huh??
@@ -243,9 +244,12 @@ define(function(require){
               return false;
             }
 
+            $(this).data('hovering', true);
+            self.resetMouseleaveTimer();
+
             // check to see if it's the active button first. If you're re-hovering over the same button, just keep it open.
             if ($thNavBtn.hasClass('active')){
-              self.resetMouseleaveTimer();
+              console.log("This button is already active.");
               return false;
             }
 
@@ -253,118 +257,107 @@ define(function(require){
             self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
 
             // just in case the search input is in focus, blur it.
-            $('#nav-search-input').blur(); 
+            $('#nav-search-input').blur();
 
-            // if we made it this far, we're hovering over something good.
-            $(this).data('hovering', true);
-            self.resetMouseleaveTimer();
 
-            // if this button is NOT activated,
-            // if (!$thNavBtn.parent().hasClass('nav-li-selected')) {
-              // See if any other buttons are activated.
-              var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
+            // See if any other buttons are activated.
+            var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
 
-              // If there's NOT
-              if (!otherIsActive) {
-                // update the Nav button & open this tray/menu immediately
-                self.setActiveNavBtn($thNavBtn);
+            // If there's NOT
+            if (!otherIsActive) {
+              // update the Nav button & open this tray/menu immediately
+              self.setActiveNavBtn($thNavBtn);
 
-                // if there WAS already an active button,
+              // if there WAS already an active button,
+            } else {
+
+              // deactivate it first
+              self.resetActiveNavBtn(self.$currentOpenNavBtn);
+              var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
+
+              // if the open target was a navtray,
+              if ($oldNavTarget.hasClass('navtray-w')) {
+                // delay opening the new one until the old tray has a chance to close.
+                setTimeout(function() {
+                  self.setActiveNavBtn($thNavBtn);
+                }, 250);
               } else {
-
-                // deactivate it first
-                self.resetActiveNavBtn(self.$currentOpenNavBtn);
-                var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
-
-                // if the open target was a navtray,
-                if ($oldNavTarget.hasClass('navtray-w')) {
-                  // delay opening the new one until the old tray has a chance to close.
-                  setTimeout(function() {
-                    self.setActiveNavBtn($thNavBtn);
-                  }, 250);
-                } else {
-                  // update the Nav button & open the new tray after just a short delay for the old menu to fade out.
-                  setTimeout(function() {
-                    self.setActiveNavBtn($thNavBtn);
-                  }, 150);
-                }
+                // update the Nav button & open the new tray after just a short delay for the old menu to fade out.
+                setTimeout(function() {
+                  self.setActiveNavBtn($thNavBtn);
+                }, 150);
               }
-
-            // }
-          });
-          // end thTrigger triggered (mouseenter,hover,click,whatever)
-
+            }
+          }); // end $thNavBtn.on('mouseenter')
 
           // If you mouseOut of the nav button
-          $thNavBtn.on('mouseleave', function() {
-
+          $thNavBtn.on('mouseleave', function(e) {
+            e.preventDefault();
             $thNavBtn.data('hovering', false);
 
             // Check to see if it was onto the navtray/navmenu.
             // Wait a few ticks to give it a chance for the hover to fire first.
-
             setTimeout(function() {
               // if you're not hovering over the target,
               if (!$thNavBtnTarget.data('hovering')) {
-                // shut it down.
+                // start the countdown to shut it down.
                 self.startMouseleaveTimer($thNavBtn);
               } else {
+                // if you ARE hovering over the target, clear the mouseLeaveTimer.
                 self.resetMouseleaveTimer();
               }
-            }, 25);
+            }, 5);
+          }); // end $thNavBtn.on('mouseleave')
 
-          });
 
-          $thNavBtnTarget.on('mouseenter', function() {
+          $thNavBtnTarget.on('mouseenter', function(e) {
+            e.preventDefault();
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
-          });
-
-
-
-          
-
-          // Activate click for tab navigation
-          $thNavBtnTarget.find('a').on('focus', function() {
-            $thNavBtnTarget.data('hovering', true);
-            $thNavBtn.trigger('mouseenter');
-
-            if (!($thNavBtnTarget.hasClass('navtray-w-visible') || $thNavBtnTarget.hasClass('navmenu-w-visible'))) {
-              $thNavBtn.focus();
-            }
-          });
+          }); // end $thNavBtnTarget.on('mouseenter')
 
           // If you mouseOut of the target
-          $thNavBtnTarget.on('mouseleave', function() {
-
+          $thNavBtnTarget.on('mouseleave', function(e) {
+            e.preventDefault();
             $(this).data('hovering', false);
 
             // Remove focus from search input on mouse out in ie
-
             if (Settings.isLTIE10) {
-                $('#nav-search-input').blur();
+              $('#nav-search-input').blur();
             }
             if (Settings.isLTIE9) {
-                $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
+              $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible');
             }
 
             // Check to see if it was onto this target's button.
             // Wait a few ticks to give it a chance for the hover to fire first.
-            var timeout = 50;
-            if(this.id === 'navmenu-w-search') {
-              timeout = 2000;
+            var timeout = self.closeDelay;
+            if(this.id == 'navmenu-w-search') {
+              timeout = self.closeDelaySearch; // the search menu gets a longer timeout.
             }
 
             setTimeout(function() {
               // if you're not hovering over the target's button
-              if (!$thNavBtn.data('hovering') && !$thNavBtnTarget.data('hovering')) {
+              if (!$thNavBtn.data('hovering')) {
                 // shut it down.
                 self.startMouseleaveTimer($thNavBtn);
               } else {
                 self.resetMouseleaveTimer();
               }
             }, timeout);
+          }); // end $thNavBtnTarget.on('mouseleave')
+
+
+          // Activate click for tab navigation
+          $thNavBtnTarget.find('a').on('focus', function() {
+            // $thNavBtnTarget.data('hovering', true);
+            // $thNavBtn.trigger('mouseenter');
+
+            // if (!($thNavBtnTarget.hasClass('navtray-w-visible') || $thNavBtnTarget.hasClass('navmenu-w-visible'))) {
+            //   $thNavBtn.focus();
+            // }
           });
+
         } // end NOT touch device
       });
 
@@ -492,22 +485,25 @@ define(function(require){
       // self.$accountBtn
     },
 
-    startMouseleaveTimer : function($thNavBtn) {
-      var self = this;
-      if ($('mouseleaveTimerActive').length) {
+
+    startMouseleaveTimer : function($thNavBtn,customDelay) {
+      var self = this,
+        delay = customDelay > 0 ? customDelay : self.closeDelay;
+      if ($('closeTimerActive').length) {
         self.resetMouseleaveTimer();
       }
-      $thNavBtn.addClass('mouseleaveTimerActive');
-      self.mouseleaveTimer = setTimeout(function() {
+      $thNavBtn.addClass('closeTimerActive');
+      self.closeTimer = setTimeout(function() {
         self.resetActiveNavBtn($thNavBtn);
         self.resetMouseleaveTimer();
-      }, self.mouseLeaveDelay);
+      }, customDelay);
     },
     resetMouseleaveTimer : function() {
       var self = this;
-      clearTimeout(self.mouseleaveTimer);
-      $('.mouseleaveTimerActive').removeClass('mouseleaveTimerActive');
+      clearTimeout(self.closeTimer);
+      $('.closeTimerActive').removeClass('closeTimerActive');
     },
+
 
     setActiveNavBtn : function($btn) {
       var self = this;
@@ -537,6 +533,7 @@ define(function(require){
         }
       }
     },
+
 
     slideNavTray : function($navTray, opening) {
       var self = this, startHeight, endHeight, expandedHeight = $navTray.outerHeight();
