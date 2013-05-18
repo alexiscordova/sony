@@ -22,21 +22,6 @@ define(function(require) {
 
   var self = {
     'init': function() {
-      /*  !! DISABLED SINCE IQ IS EXPENSIVE AND WE'RE NOT WORRIED ABOUT ADAPTIVE IMAGES WHEN THE BROWSER RESIZES
-      var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
-      var breakpointReactor = function( e ) {
-        //iQ.update();
-      };
-      
-      if( enquire ) {
-        for( var i=0; i < breakpoints.length; i++ ) {
-          if( 0 === i ) {
-            enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-          } else {
-            enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-          }
-        }
-      } */
       
       // detect if there are any hotspot containers present
       $( '.hotspot-instance' ).each( function( index, el ) {
@@ -58,11 +43,6 @@ define(function(require) {
     self.$container                     = $( element );
     // collection of hotspots we must initialize
     self.$els                           = self.$container.find( ".hspot-outer" );
-    
-/*
-    // COORDINATES AND HOTSPOT STATUS COLLECTION
-    self.$hotspotData                    = [];
-*/
     
     // LAST OPEN
     self.$lastOpen                       = null;
@@ -119,7 +99,7 @@ define(function(require) {
         self.trackingAsset = moduleHandle;
       } else {
         self.trackingMode = 'asset';
-        self.trackingAsset = $( moduleHandle.children( '.iq-img' )[0] );
+        self.trackingAsset = $( moduleHandle.children( '.iq-img' )[ 0 ] );
       }
       
       // when the tracking item changes it's opacity, we trigger the initial flyon animation for the hotspot
@@ -228,7 +208,7 @@ define(function(require) {
           newOffset    = 0;
       newOffset = ( windowHeight / 2 ) - ( modalHeight / 2 );
       self.$modal.css( 'top', newOffset+'px' );
-      return; 
+      return;
     },
 
     onModalShown : function( evt ) {
@@ -371,9 +351,8 @@ define(function(require) {
       });
       
     },
-    
+
     place: function( el ) {
-    
       var self = this;
       if( 'background' === self.trackingMode ) {
         
@@ -386,7 +365,7 @@ define(function(require) {
         self.follow( el ); 
       }
     },
-    
+
     show: function( el ) {
       var self        = this,
           offsetTime  = 400; 
@@ -542,16 +521,30 @@ define(function(require) {
           switch( quadrant ) {
             case 1:
             case 4:
-              // position overlay to the left of hotspot
-              $overlay.addClass( 'to-left' );
-              $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+              if( $hotspot.hasClass( 'override-right' ) ) {
+                // has override behavior
+                // position overlay to the right of hotspot
+                $overlay.addClass( 'to-right' );
+                $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );                
+              } else {
+                // position overlay to the left of hotspot
+                $overlay.addClass( 'to-left' );
+                $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );                
+              }
               quadrant === 1 ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
             break;
             case 2:
             case 3:
-              // add to-right
-              $overlay.addClass( 'to-right' );
-              $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+              if( $hotspot.hasClass( 'override-left' ) ) {
+                // has override behavior
+                // position overlay to the left of hotspot
+                $overlay.addClass( 'to-left' );
+                $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );               
+              } else {
+                // position overlay to the right of hotspot
+                $overlay.addClass( 'to-right' );
+                $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+              }
               quadrant === 2 ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
             break;
           }
@@ -612,10 +605,12 @@ define(function(require) {
     
     catchAllClicks: function( event ) {
       var self = this;
+/*
 
       if( $( event.currentTarget ).not( self.$lastOpen[2] ) ) {
         self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
       }
+*/
     },
     
     open: function( container, hotspot, info ) {
