@@ -44,6 +44,8 @@ define(function(require) {
       self.init();
 
       self.$el.data( 'editorialSlideshow', self );
+
+      log('SONY : EditorialSlideshow : Initialized');
     };
 
     EditorialSlideshow.prototype = {

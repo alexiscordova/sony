@@ -1069,7 +1069,8 @@ define(function(require){
         keepSorted : true, // Keep sorted when shuffling/layout
         hideLayoutWithFade: false,
         sequentialFadeDelay: 150,
-        useTransition: true // You don't want transitions on shuffle items? Fine, but you're weird
+        useTransition: true, // You don't want transitions on shuffle items? Fine, but you're weird
+        supported: Modernizr.csstransforms && Modernizr.csstransitions // supports transitions and transforms
     };
 
     // Not overrideable
@@ -1083,7 +1084,6 @@ define(function(require){
         enabled: true,
         destroyed: false,
         styleQueue: [],
-        supported: Modernizr.csstransforms && Modernizr.csstransitions, // supports transitions and transforms
         prefixed: Modernizr.prefixed,
         threeD: Modernizr.csstransforms3d // supports 3d transforms
     };

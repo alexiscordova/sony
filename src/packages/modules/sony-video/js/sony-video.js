@@ -29,20 +29,20 @@ define(function(require){
         $('.sony-video').sonyVideo();
       }
     };
-    
+
     var SonyVideo = function(element, options){
       var self = this;
-       
+
       // Extend
       $.extend( self, {}, $.fn.sonyVideo.defaults, options, $.fn.sonyVideo.settings );
-      
+
       // Set base element
       self.$el = $( element );
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.cssTransitions       = Modernizr.transitions;
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
@@ -55,7 +55,7 @@ define(function(require){
       self.isFullEditorial      = self.$el.hasClass('full-bleed');
 
       self.variation            = self.$el.data('variation');
-      
+
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
       self.$document            = Settings.$document;
@@ -89,9 +89,11 @@ define(function(require){
           Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
           self.onDebouncedResize(); //call once to set size
         }
-        
+
+        iQ.update();
 
       },
+
       api: function(){
         var self = this;
         return self.videoAPI;
@@ -148,6 +150,6 @@ define(function(require){
     // Non override-able settings
     // --------------------------
     $.fn.sonyVideo.settings = {};
-  
+
     return self;
  });

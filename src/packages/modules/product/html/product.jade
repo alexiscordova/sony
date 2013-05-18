@@ -359,7 +359,7 @@ else if data.view == 'compare'
 
     //- Image
     .product-img.ghost-center-wrap
-      .ghost-center
+      a.ghost-center(href=data.href)
         +iQImage( data.img, 'image' )
       +heart()
 
@@ -709,11 +709,13 @@ else if data.view == 'summary'
             +iQImage( data.imgSmall, '', 'image' )
 
       .span6.product-details
-        a.l2.link-color(href=titleHref)= titleLabel
-        h2.t5.product-title(itemprop="name")= data.title
-        +iQImage( data.img, 'm-product-img pull-right', 'image' )
+        a.l2.link-color(href=titleHref)
+          i.fonticon-10-chevron-reverse
+          !{ titleLabel }
+        h2.t6.product-title(itemprop="name")= data.title
         p.product-model.p5
           span(itemprop="model")= data.model
+        +iQImage( data.img, 'm-product-img pull-right', 'image' )
 
         +productRating( data.rating.stars, data.rating.reviews )
 

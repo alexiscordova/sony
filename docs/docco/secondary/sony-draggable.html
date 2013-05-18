@@ -78,12 +78,17 @@ cache the new interaction's start position, then bind for movement onto onScrubb
           $<span class="keyword">this</span> = $(e.target);
 
       <span class="keyword">if</span> ( !Modernizr.touch ) {
+        <span class="keyword">if</span>(e.which !== <span class="number">1</span>){
+          <span class="keyword">return</span>;
+        }
         e.preventDefault();
       }
 
       <span class="keyword">if</span> ( self.$el.has($<span class="keyword">this</span>).length === <span class="number">0</span> ) {
         <span class="keyword">return</span>;
       }
+
+
 
       <span class="keyword">if</span> ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">'0ms'</span>);
@@ -161,10 +166,10 @@ cache the new interaction's start position, then bind for movement onto onScrubb
 
       <span class="keyword">if</span> ( self.snapToBounds &amp;&amp; self.bounds ) {
         <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'x'</span>) &gt;= <span class="number">0</span> ) {
-          self.animateToBounds(<span class="string">'x'</span>);
+          self.snapTo(<span class="string">'x'</span>);
         }
         <span class="keyword">if</span> ( self.axis.indexOf(<span class="string">'y'</span>) &gt;= <span class="number">0</span> ) {
-          self.animateToBounds(<span class="string">'y'</span>);
+          self.snapTo(<span class="string">'y'</span>);
         }
       }
     },
@@ -192,8 +197,8 @@ cache the new interaction's start position, then bind for movement onto onScrubb
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If self.snapToBounds is specified, handle the logic for animating the scrubbed element
-to the nearest bounds.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'animateToBounds'</span>: <span class="keyword">function</span>(axis) {
+to the nearest bounds, or a point on that axis (if provided).</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'snapTo'</span>: <span class="keyword">function</span>(axis, toWhere) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           currentPosition = self.handlePosition[axis],
@@ -205,7 +210,11 @@ to the nearest bounds.</p>             </td>             <td class="code">      
           destination = minMax[currentDistances.indexOf(closest)],
           newPosition;
 
-      <span class="keyword">if</span>( currentDistances[<span class="number">0</span>] &gt; boundsDistance &amp;&amp; currentDistances[<span class="number">1</span>] &gt; boundsDistance ) {
+      <span class="keyword">if</span> ( toWhere !== <span class="literal">undefined</span> ) {
+        destination = toWhere  / <span class="number">100</span> * pctScale;
+      }
+
+      <span class="keyword">if</span>( currentDistances[<span class="number">0</span>] &gt; boundsDistance &amp;&amp; currentDistances[<span class="number">1</span>] &gt; boundsDistance &amp;&amp; toWhere === <span class="literal">undefined</span> ) {
         <span class="keyword">return</span>;
       }
 
@@ -221,7 +230,7 @@ to the nearest bounds.</p>             </td>             <td class="code">      
       }
 
       window.requestAnimationFrame(<span class="keyword">function</span>(){
-        self.animateToBounds(axis);
+        self.snapTo(axis, toWhere);
       });
     },
 

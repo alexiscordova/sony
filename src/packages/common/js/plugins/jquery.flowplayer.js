@@ -578,7 +578,8 @@ $.fn.flowplayer = function(opts, callback) {
       firstframe: !IS_IPHONE && !IS_IPAD && !IS_ANDROID && !IS_SILK && !IS_IPAD_CHROME && !IS_WP && !IS_ANDROID_FIREFOX,
       inlineVideo: !IS_IPHONE && !IS_SILK && !IS_WP && (!IS_ANDROID || ANDROID_VER >= 3),
       hlsDuration: !browser.safari || IS_IPAD || IS_IPHONE || IS_IPAD_CHROME,
-      seekable: !IS_IPAD && !IS_IPAD_CHROME
+      seekable: !IS_IPAD && !IS_IPAD_CHROME,
+      ipad: IS_IPAD
    });
 
    // flashVideo
@@ -1458,11 +1459,6 @@ flowplayer(function(api, root) {
             </div>\
             <a class="fullscreen"/>\
          </div>\
-         <div class="time">\
-            <em class="elapsed">00:00</em>\
-            <em class="remaining"/>\
-            <em class="duration">00:00</em>\
-         </div>\
          <div class="message"><h2/><p/></div>\
       </div>'.replace(/class="/g, 'class="fp-')
    );
@@ -1492,7 +1488,7 @@ flowplayer(function(api, root) {
       fullscreen = find("fullscreen"),
       volumeSlider = find("volumeslider").slider2(api.rtl , true),
       volumeApi = volumeSlider.data("api"),
-      noToggle = root.is(".fixed-controls, .no-toggle");
+      noToggle = root.is(".fixed-controls, .no-toggle") || window.flowplayer.support.ipad;
 
    timelineApi.disableAnimation(root.hasClass('is-touch'));
 
@@ -1702,6 +1698,10 @@ flowplayer(function(api, root) {
       
       }
    });
+
+   if(window.flowplayer.support.ipad){
+      root.addClass('is-ipad').addClass('no-toggle');
+   }
 
    root.find('.fp-volumeslider').bind('mouseenter mouseleave' , function(e){
       e.preventDefault();

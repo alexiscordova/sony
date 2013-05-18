@@ -4,6 +4,12 @@
 $maxChildren: 20;
 
 .subnav-module {
+  @include transition(opacity 250ms);
+  opacity: 0;
+
+  &.active {
+    opacity: 1;
+  }
 
   header {
     padding: 27px 0 8px;
@@ -29,7 +35,8 @@ $maxChildren: 20;
     }
 
     .grid {
-      text-align: center;
+      // Commenting out per client request, pending all parties agreeing that this is acceptable I'll delete.
+      // text-align: center;
     }
 
     .subcategory-link {
@@ -48,10 +55,15 @@ $maxChildren: 20;
         border-bottom-style: none;
       }
 
-      &.active,
-      &:hover,
-      &:focus {
+      &.active {
         border-bottom-width: 4px;
+      }
+
+      .no-touch & {
+        &:hover,
+        &:focus {
+          border-bottom-width: 4px;
+        }
       }
 
       p {
@@ -128,8 +140,18 @@ $maxChildren: 20;
       }
 
       .product {
+        position: relative;
         margin-bottom: 60px;
         margin-top: 40px;
+
+        i {
+          position: absolute;
+          top: 50%;
+          right: 0;
+          display: none;
+          margin-top: -0.5em;
+          font-size: 1.8em;
+        }
 
         .subnav-product-count {
           color: $buttonBlue;

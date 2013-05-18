@@ -21,11 +21,12 @@ mixin header(data)
       .tcc-header.grid.no-grid-at-479
         .span6
           p.tcc-header-title.l1 #{data.title}
-        
+
         if( data.link )
+          - link = data.link
           .span3.offset3
             p.tcc-header-link.lt3
-              a(href= #{data.link}) #{data.linkText}
+              a(href= link)= data.linkText
 
 mixin article(mode, data)
   if(mode == "featured")
@@ -78,7 +79,7 @@ mixin users-voice(mode, data)
   div(class= quoteClasses)
     blockquote.bq3
       p= blockquote
-    
+
     if(data.mode == "question")
       .lt3
         a(href= data.repliesLink)= data.repliesLinkTitle
@@ -195,10 +196,11 @@ mixin flickrIcon()
   .icon-parts
     .bg
       .fonticon-10-dot
-    .left
-      .fonticon-10-dot
-    .right
-      .fonticon-10-dot
+    .flickrDots
+      .left
+        .fonticon-10-dot
+      .right
+        .fonticon-10-dot
 
 mixin flickr(data)
   .flickr-container

@@ -5,8 +5,10 @@ $specItemWidth980: 11.4375em; // 183
 $specLabelWidth980: 7.125em; // 114
 
 // 3 visible columns
-$specItemWidth768: 11.625em; // 186
-$specLabelWidth768: 5.625em; // 90
+// Can't add up to > 650 for 3 * width + labelWidth
+// and width * 3 <= (650 - labelWidth)
+$specItemWidth768: px-em( 188 );
+$specLabelWidth768: px-em( 85 );
 
 
 // 888b     d888          888 888    d8b

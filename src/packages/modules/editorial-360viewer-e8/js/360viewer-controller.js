@@ -5,7 +5,7 @@
 // * **Version:** 0.1
 // * **Modified:** 04/19/2013
 // * **Author:** Brian Kenny
-// * **Dependencies:** jQuery 1.7+, Modernizr
+// * **Dependencies:** jQuery 1.7+, Boostrap, Modernizr, Enquire, hammerJS, viewport
 //
 // *Example Usage:*
 //
@@ -14,7 +14,7 @@
 define(function(require){
 
   'use strict';
- 
+
   // provisions
   var $ = require( 'jquery' ),
       iQ = require( 'iQ' ),
@@ -28,28 +28,12 @@ define(function(require){
 
   var self = {
     'init': function() {
-      // setup breakpoints
-      var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
-      var breakpointReactor = function( e ) { 
-        iQ.update();
-      };
-      
+     
       // IE 10 detection
       if ( window.atob || Settings.isLTIE10 ) {
         $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
       }
-      
-      // bind IQ to update at every breakpoint
-      if( enquire ) {
-        for( var i=0; i < breakpoints.length; i++ ) {
-          if( 0 === i ) {
-            enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-          } else {
-            enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-          }
-        }
-      }
-      
+
       // detect if there are 360 viewer constructs on the DOM
       $( '.e360' ).each( function( index, el ) {
         // for each instance, initialize
@@ -64,13 +48,14 @@ define(function(require){
 
     // defaults
     self.$container     = $( element );
-    self.$sequence      = ( self.$container.find( '.outer div' ).length ) > 0 ? self.$container.find( '.outer div' ) : self.$container.find( '.outer img' );
+    self.$sequence      = ( self.$container.find( '.outer div' ).not( '.load-indicator').length ) > 0 ? self.$container.find( '.outer div' ).not( '.load-indicator') : self.$container.find( '.outer img' ).not( '.load-indicator');
+    self.sequenceLength = self.$sequence.length;
+    self.curLoaded      = 0;
     self.$controls      = self.$container.find( '.controls' );
     self.$controlCenter = self.$controls.find( '.instructions' );
     self.$leftArrow     = self.$controls.find( '.left-arrow' );
     self.$rightArrow    = self.$controls.find( '.right-arrow' );
     self.isImage        = $( self.$sequence[0] ).is( 'img' ) ? true : false;
-    self.sequenceLength = self.$sequence.length;
     self.dynamicBuffer  = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
     self.curIndex       = 0;
     self.movingLeft     = false;
@@ -83,10 +68,10 @@ define(function(require){
     self.inViewport     = false;
     self.moves          = 0;
     self.touchEvents    = 0;
-    
+
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
-    
+
   };
 
   Editorial360Viewer.prototype = {
@@ -94,7 +79,123 @@ define(function(require){
 
     init : function( param ) {
       var self = this;
+      
+      // lets start by hiding the controllers until things are loaded and fading down the image
+      // to give users a nicer set of visual queues
+      self.$controls.addClass( 'hidden' );
+      self.$container.addClass( 'dim-the-lights' );
+      
+      // closures to manage image payload
+      var lockAndLoaded = function() {
+        self.syncControlLayout();
+        self.curLoaded++;
+        checkLoaded();
+      };
+      
+      // checks the payload against the loaded image
+      var checkLoaded = function() {
+        if( self.sequenceLength == self.curLoaded ) {
+          log( 'all 360 assets loaded' );
+          self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
+          self.$container.find( '.load-indicator' ).addClass( 'hidden' );
+          self.syncControlLayout();
+          self.initBehaviors();
+        }        
+      };
+      
+      // if not, manage the payload by exposing a loader
+      self.$sequence.each(function( index, el ) {
+        // is the BG image loaded? 
+        if( $( el ).data('hasLoaded') ) {
+          self.syncControlLayout();
+          self.curLoaded++;
+          checkLoaded();
+        } else {
+          // its not a preloaded background
+          if( $( el ).is( 'div' ) ) {
+            $( el ).on( 'iQ:imageLoaded', lockAndLoaded );
+          } else {
+            // check if the inline images are cached
+            if( false === this.complete ) {
+              // not cached, listen for load event
+              el.onload = lockAndLoaded;
+            } else {
+              // cached, count it against the payload
+              self.syncControlLayout();
+              self.curLoaded++;
+              checkLoaded();
+            }
+          }
+        }
+      });      
 
+      log('SONY : Editorial 360 Viewer : Initialized');
+    },
+    
+    initBehaviors: function() {
+      var self = this;
+
+      if( true === Modernizr.touch ) {
+        // extend with touch controls
+        self.$controls.hammer();
+
+        // animate dragger arrows when in viewport
+        self.poller = setInterval( function(){
+          self.syncControlLayout();
+          var _$controlStatus   = $( self.$controls ).find( '.table-center :in-viewport' );
+          var inViewport = _$controlStatus.length > 0 ? true : false;
+          if( inViewport ) {
+            if( !self.inViewport ) {
+              self.inMotion = true;
+              self.animateDragger();
+              self.inViewport = true;
+            }
+          } else {
+            self.inViewport = false;
+          }
+        }, 100);
+
+        self.$controls.on( 'touch', function( event ) {
+          self.touchDown( event );
+        });
+
+        self.$controls.on( 'release', function( event ) {
+          self.touchUp( event );
+        });
+
+        self.$controls.on( 'drag', function( event ) {
+          var direction = event.gesture.direction;
+          if( 'left' == direction || 'right' == direction ) {
+            self.touchMove( event );
+          }
+        });
+
+        self.$controls.on( 'tap', function( event ) {
+          self.touchMove( event );
+        });
+
+
+      } else {
+        // trigger UI indication (Desktop)
+        $( window ).bind( 'scroll', function( event ) {
+          self.onScroll( event );
+        });
+
+        // setup controller interactions
+        self.$controls.bind( 'mousedown', function( event ) {
+          self.mouseDown( event );
+        });
+
+        self.$controls.bind( 'mouseup', function( event ) {
+          self.mouseUp( event );
+        });
+
+        // track mousemove
+        $( self.$controls ).bind( 'mousemove', function( event ) {
+          self.mouseMove( event );
+        });
+      }
+      
       // bind scroll event to fire animation on the dragger
       // 1. movement on desktop and 2. viewport on mobile
       
@@ -112,73 +213,14 @@ define(function(require){
       if( true === self.isImage ) {
         self.syncControlLayout();
       }
-            
-      if( true === Modernizr.touch ) {
-        // extend with touch controls
-        self.$controls.hammer();
-        
-        // animate dragger arrows when in viewport
-        self.poller = setInterval( function(){
-          var _$controlStatus   = $( self.$controls ).find( '.table-center :in-viewport' );
-          var inViewport = _$controlStatus.length > 0 ? true : false;
-          if( inViewport ) {
-            if( !self.inViewport ) {
-              self.inMotion = true;
-              self.animateDragger();
-              self.inViewport = true;
-            }
-          } else {
-            self.inViewport = false;
-          } 
-        }, 100);
-        
-        self.$controls.on( 'touch', function( event ) {
-          self.touchDown( event );
-        });
-        
-        self.$controls.on( 'release', function( event ) {
-          self.touchUp( event );
-        });
-        
-        self.$controls.on( 'drag', function( event ) {
-          self.touchMove( event );
-        });
-        
-        self.$controls.on( 'tap', function( event ) {
-          self.touchMove( event );
-        });
-        
-        
-      } else {
-        // trigger UI indication (Desktop)
-        $( window ).bind( 'scroll', function( event ) {
-          self.onScroll( event );
-        });
-        
-        // setup controller interactions
-        self.$controls.bind( 'mousedown', function( event ) {
-          self.mouseDown( event );
-        });
-  
-        self.$controls.bind( 'mouseup', function( event ) {
-          self.mouseUp( event );      
-        });
-        
-        // track mousemove
-        $( self.$controls ).bind( 'mousemove', function( event ) {
-          self.mouseMove( event );
-        });
-      }
-
-
-
-
-      log('SONY : Editorial 360 Viewer : Initialized');
+      // finally show controlls
+      self.$controls.removeClass( 'hidden' );
+      
     },
-    
+
     easeSwipe: function( event ) {
       var self = this;
-      // is the swipe greater than one movement 
+      // is the swipe greater than one movement
       // where  (container.width / sequence.length-1) / 3 = one step
       var assetWidth      = $( self.$sequence[self.curIndex] ).width(),
           swipeDistance   = event.gesture.distance,
@@ -186,21 +228,22 @@ define(function(require){
           stepSize        = ( assetWidth / sequenceLength ) / self.throttle,
           shouldEase      = ( 0 < ( swipeDistance - stepSize ) ) ? ( swipeDistance - stepSize ) : false;
     },
-    
+
     syncControlLayout: function() {
       var self = this;
       var _assetWidth = $( self.$sequence[self.curIndex] ).width();
       self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
     },
-    
+
     onResize: function( event ) {
       var self = this;
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
+      self.syncControlLayout();
       if( true === self.isImage ) {
-        self.syncControlLayout();
+        
       }
     },
-    
+
     onScroll: function( event ) {
       var self = this;
       if( false === self.inMotion) {
@@ -211,29 +254,29 @@ define(function(require){
         self.syncControlLayout();
       }
     },
-    
+
     touchDown: function( event ) {
       // Montana to Rice!
       var self = this;
       self.clicked = true;
     },
-    
+
     touchUp: function( event ) {
       var self = this;
       self.clicked = false;
     },
-    
+
     touchMove: function( event ) {
       var self      = this,
           pageX     = event.gesture.distance,
           direction = event.gesture.direction ? event.gesture.direction : 'left',
           doMove    = false;
-      
+
       event.preventDefault();
       event.gesture.preventDefault();
-      
+
       self.mobileLog( 'direction ' + direction + '\n' + 'events fired: '+ self.touchEvents++ + '\n' + 'direction: ' + pageX );
-      
+
       if( Settings.isIOS ) {
         if( 0 === self.moves % 2 ) {
           self.move( direction );
@@ -248,7 +291,7 @@ define(function(require){
 
       self.moves++;
     },
-    
+
     mouseDown: function( event ) {
       var self = this;
       event.preventDefault();
@@ -264,18 +307,18 @@ define(function(require){
       $(document.body).removeClass('unselectable');
       self.clicked = false;
     },
-    
+
     mouseMove: function( event ) {
       var self    = this,
           doMove  = false;
-        
+
       event.preventDefault();
-      
+
       // set a default if not already set
       if( null === self.lastTriggerX ) {
         self.lastTriggerX = self.lastX = event.pageX;
       }
-      
+
       if( event.pageX > ( self.lastTriggerX + self.dynamicBuffer ) ) {
         // moving right
         self.movingLeft   = false;
@@ -298,54 +341,54 @@ define(function(require){
 
       self.lastX = event.pageX;
     },
-    
+
     mobileLog: function( data, append ) {
       //$( '.e360debug' ).html( data.toString() + '\n' );
     },
-    
+
     animateDragger: function( cycles ) {
       var self = this;
-      
+
       $( self.$leftArrow ).animate({
         opacity: 0
       });
-      
+
       $( self.$rightArrow ).animate({
-        opacity: 0        
+        opacity: 0
       });
-      
+
       $( self.$controlCenter ).animate({
         marginLeft: "+26px",
         marginRight: "+26px"
       }, 499, function(event) {
         self.resetAnimation();
       });
-      
+
     },
-    
+
     resetAnimation: function() {
       var self = this;
-      
+
       $( self.$leftArrow ).css( {
         opacity: 1
       });
-      
+
       $( self.$rightArrow ).css( {
         opacity: 1
       });
-      
-      $( self.$controlCenter ).css( { 
-        marginLeft : "18px", 
-        marginRight : "18px" 
+
+      $( self.$controlCenter ).css( {
+        marginLeft : "18px",
+        marginRight : "18px"
       });
-      
+
       self.inMotion = false;
     },
-    
+
     move: function( direction ) {
       var self      = this,
           lastIndex = self.curIndex;
-      
+
       switch( direction ) {
         case "left":
           if( 0 === self.curIndex ) {
@@ -354,7 +397,7 @@ define(function(require){
             self.curIndex--;
           }
         break;
-        
+
         case "right":
           if( self.curIndex == self.sequenceLength-1 ) {
             self.curIndex = 0;
@@ -367,10 +410,10 @@ define(function(require){
       self.pluck( lastIndex ).addClass( 'hidden' );
       self.pluck( self.curIndex ).removeClass( 'hidden' );
     },
-    
+
     pluck: function( lastIndex ) {
       var self = this;
-      
+
       // find by data index
       for( var i = 0; i < self.$sequence.length; i++ ) {
         if( lastIndex == $( self.$sequence[i] ).data( 'sequence-id' ) ) {
@@ -417,7 +460,7 @@ define(function(require){
     isTouch: !!( 'ontouchstart' in window ),
     isInitialized: false
   };
-  
+
   return self;
-  
+
 });

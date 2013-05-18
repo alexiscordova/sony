@@ -7,7 +7,7 @@ $centerRatio: (28.571428571429% / 2);
 $indicatorRatio: 14px; /* 35%; */ /* 14px / 40px = 35% */
 $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
-$transitionSpeed: 0.5s; 
+$transitionSpeed: 0.5s;
 
 /* MIXINZ */
 
@@ -21,7 +21,7 @@ $transitionSpeed: 0.5s;
 
 @mixin ehsTransition-ltie8() {
   -ms-transition: 0s;
-  transition: 0s;	
+  transition: 0s;
 }
 
 @mixin noflicker() {
@@ -46,38 +46,38 @@ $transitionSpeed: 0.5s;
 /* MAIN MODULE STYLES */
 
 .editorial {
-  .submodule, .image-module {  
+  .submodule, .image-module {
     .arrow-right {
-    	width: 0; 
-    	height: 0; 
+    	width: 0;
+    	height: 0;
     	border-top: 10px solid transparent;
     	border-bottom: 10px solid transparent;
     	border-left: 10px solid #fff;
     }
-    
+
     .arrow-left {
-    	width: 0; 
-    	height: 0; 
+    	width: 0;
+    	height: 0;
     	border-top: 10px solid transparent;
-    	border-bottom: 10px solid transparent; 	
+    	border-bottom: 10px solid transparent;
     	border-right: 10px solid #fff;
-    } 
+    }
   }
   .hspot-small {
     .arrow-right {
-    	width: 0; 
-    	height: 0; 
+    	width: 0;
+    	height: 0;
     	border-top: 8px solid transparent;
     	border-bottom: 8px solid transparent;
     	border-left: 8px solid #fff;
     }
-    
+
     .arrow-left {
-    	width: 0; 
-    	height: 0; 
+    	width: 0;
+    	height: 0;
     	border-top: 8px solid transparent;
-    	border-bottom: 8px solid transparent; 	
-    	border-right: 8px solid #fff; 
+    	border-bottom: 8px solid transparent;
+    	border-right: 8px solid #fff;
     }
   }
 }
@@ -86,7 +86,7 @@ $transitionSpeed: 0.5s;
   .table-center-wrap .table-center, .submodule {
     .image-module {
       position: relative;
-      
+
       .eh-transparent {
         @include ehsTransition();
         opacity: 0;
@@ -94,7 +94,7 @@ $transitionSpeed: 0.5s;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
         filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
       }
-      
+
       .eh-visible {
         @include ehsTransition();
         opacity: 1;
@@ -102,7 +102,7 @@ $transitionSpeed: 0.5s;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
         filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
       }
-      
+
       .no-movement {
         -o-transition: opacity 0.5s, top 0s, left 0s;
         -ms-transition: opacity 0.5s, top 0s, left 0s;
@@ -110,7 +110,7 @@ $transitionSpeed: 0.5s;
         -webkit-transition: opacity 0.5s, top 0s, left 0s;
         transition: opacity 0.5s, top 0s, left 0s;
       }
-    } 
+    }
   }
 }
 
@@ -118,15 +118,15 @@ $transitionSpeed: 0.5s;
 .editorial {
   .submodule, .hotspot-instance {
     position: relative;
-    
+
     .hspot-outer.info-jump-to-top {
-      z-index: 4; 
+      z-index: 4;
     }
-    
+
     .overlay-close {
       position: relative;
     }
-    
+
     .hspot-global-details-overlay {
       position: absolute;
       top: 0px;
@@ -135,7 +135,7 @@ $transitionSpeed: 0.5s;
       height: 100%;
       background: transparent;
       z-index: 6;
-  
+
       .overlay-inner {
         margin: 0px auto;
         width: 230px;
@@ -158,11 +158,11 @@ $transitionSpeed: 0.5s;
             padding: 20px 30px 23px 20px;
             border-bottom: 1px solid #e4e7eb;
             position: relative;
-            
+
             .p4, .p3 {
               @include px-em--font-size--line-height(12,18);
               margin-bottom: 4px;
-              
+
               &.cHBI {
                 margin-bottom: 0;
               }
@@ -171,20 +171,20 @@ $transitionSpeed: 0.5s;
           .footer {
             background-color: #fff;
             padding: 20px 30px 20px 20px;
-            
+
             p.p4, p.p3 {
               @include px-em--font-size--line-height(12,18);
               font-style: italic;
               color: $secondarySlateDark;
               margin-bottom: 9px;
             }
-            
+
             blockquote.l4, blockquote.l3 {
               color: $gray40;
               position: relative;
               margin-left: 24px;
               @include px-em--font-size--line-height(10,16);
-              
+
               &:before {
                 display: block;
                 content: "\201C";
@@ -205,7 +205,7 @@ $transitionSpeed: 0.5s;
         }
       }
     }
-    
+
     .variant1, .variant2 {
       -o-transition:0s;
       -ms-transition:0s;
@@ -229,7 +229,7 @@ $transitionSpeed: 0.5s;
 
 
 /* HOTSPOT DEFINITION */
-.editorial { 
+.editorial {
   .submodule, .hotspot-instance {
     /* LARGE HOTSPOTS */
     .hspot-outer {
@@ -247,17 +247,17 @@ $transitionSpeed: 0.5s;
       @include border-radius(50%);
       @include transition(.1s);
       -webkit-transform-style: preserve-3d;
-      
+
       .arrow-right,
       .arrow-left, {
         position: absolute;
         z-index: 4;
       }
-      
+
       .arrow-right {
         top: 16px;
         left: -7px;
-      }        
+      }
       .arrow-left {
         top: 16px;
         left: 47px;
@@ -297,11 +297,10 @@ $transitionSpeed: 0.5s;
             @include rotate(0deg);
             @include transition(.1s ease-out);
             -webkit-transform-style: preserve-3d;
-            
             &.fonticon-10-plus-skinny {
               display: inline-block;
             }
-            
+
             &.fonticon-10-sm-bold-plus, &.fonticon-10-plus-sm {
               display: none;
             }
@@ -317,7 +316,7 @@ $transitionSpeed: 0.5s;
           }
         }
       }
-      
+
       .hspot-core-on {
         position: absolute;
         display: block;
@@ -333,7 +332,7 @@ $transitionSpeed: 0.5s;
         @include border-radius(50%);
         @include transition(.1s ease-out);
         -webkit-transform-style: preserve-3d;
-        
+
         .icons {
           position: absolute;
           top: 30%;
@@ -342,7 +341,7 @@ $transitionSpeed: 0.5s;
           padding: 15px 0;
           width: 100px;
           height: 100px;
-                    
+
           i {
             display:inline-block;
             margin:0;
@@ -350,11 +349,11 @@ $transitionSpeed: 0.5s;
             @include rotate(45deg);
             @include transition(.1s ease-out);
             -webkit-transform-style: preserve-3d;
-            
+
             &.fonticon-10-plus-skinny {
               display: inline-block;
             }
-            
+
             &.fonticon-10-sm-bold-plus, &.fonticon-10-plus-sm {
               display: none;
             }
@@ -371,7 +370,7 @@ $transitionSpeed: 0.5s;
         }
       }
     }
-    
+
     /* SMALL HOTSPOTS */
     .hspot-outer.hspot-small {
       position: absolute;
@@ -388,22 +387,22 @@ $transitionSpeed: 0.5s;
       @include border-radius(50%);
       @include transition(.1s);
       -webkit-transform-style: preserve-3d;
-      
+
       .arrow-right,
       .arrow-left, {
         position: absolute;
         z-index: 4;
       }
-      
+
       .arrow-right {
         top: 13px;
         left: -8px;
-      }        
+      }
       .arrow-left {
         top: 13px;
         left: 40px;
       }
-      
+
       .hspot-core {
         position: absolute;
         display: block;
@@ -421,7 +420,7 @@ $transitionSpeed: 0.5s;
         @include border-radius(50%);
         @include transition(.1s ease-out);
         -webkit-transform-style: preserve-3d;
-        
+
         .icons {
           position: absolute;
           margin: -30px 0 0 -50px;
@@ -430,7 +429,7 @@ $transitionSpeed: 0.5s;
           left: 65%;
           width: 80px;
           height: 80px;
-          
+
           i {
             display: inline-block;
             margin: 0;
@@ -445,16 +444,16 @@ $transitionSpeed: 0.5s;
           @include scale(0.55);
           -webkit-transform-style: preserve-3d;
           background: $buttonOrangeHover;
-          
+
           i {
             margin:0 3px;
           }
         }
       }
-      
+
       .hspot-core-on {
         position: absolute;
-        display:block; 
+        display:block;
         margin: -32px 0 0 -32px;
         top:50%;
         left:50%;
@@ -468,7 +467,7 @@ $transitionSpeed: 0.5s;
         @include border-radius(50%);
         @include transition(.1s ease-out);
         -webkit-transform-style: preserve-3d;
-        
+
         .icons {
           position:absolute;
           margin: -30px 0 0 -50px;
@@ -492,13 +491,13 @@ $transitionSpeed: 0.5s;
           @include scale(0.55);
           -webkit-transform-style: preserve-3d;
           background:$gray40;
-          
+
           i {
             margin:0 3px;
           }
         }
       }
-    } 
+    }
   }
 }
 
@@ -515,11 +514,11 @@ $transitionSpeed: 0.5s;
       box-shadow: 0px 0px 0px transparent;
       -webkit-transform-style: preserve-3d;      
     }
-    .overlay-inner { 
-      margin: 0px auto; 
+    .overlay-inner {
+      margin: 0px auto;
       width: 280px;
       background-color: #fff;
-      
+
       .overlay-close {
         position: relative;
         width: 280px;
@@ -528,17 +527,17 @@ $transitionSpeed: 0.5s;
         box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
         margin-top: 1em;
         text-align: left;
-        
+
         .top {
           background-color: #fff;
         }
-        
+
         .middle {
           background-color: #fff;
           padding: 30px 40px 29px 30px;
           border-bottom: 1px solid #e4e7eb;
           position: relative;
-          
+
           p.p4, p.p3 {
             margin-bottom: 7px;
             &.cHBC {
@@ -546,24 +545,24 @@ $transitionSpeed: 0.5s;
             }
           }
         }
-        
+
         .footer {
           background-color: #fff;
           padding: 18px 40px 0px 30px;
           height: 107px;
-          
+
           p.p4, p.p3 {
             font-style: italic;
             color: $secondarySlateDark;
             margin-bottom: 8px;
           }
-          
+
           blockquote.l4, blockquote.l3 {
             color: $gray40;
             position: relative;
             margin-left: 24px;
-            
-            &:before { 
+
+            &:before {
               display: block;
               content: "\201C";
               font-size: 40px;
@@ -594,46 +593,46 @@ $transitionSpeed: 0.5s;
   z-index: 3;
   text-align: left;
   cursor: default;
-    
+
   .overlay-inner {
     height: 100%;
     background-color: #fff;
     -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
     -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
     box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-    
+
   }
 
   &.variant1.to-left {
     left: -287px;
   }
-  
+
   &.variant1.to-right {
     left: 57px;
   }
-  
-  &.variant1 { 
+
+  &.variant1 {
     width: 280px;
-    
+
     .top {
       background-color: #fff;
     }
-    
+
     .middle {
       position: relative;
       padding: 30px 40px 29px 30px;
       border-bottom: 1px solid #e4e7eb;
       background-color: #fff;
-      
+
       .p3 {
         margin-bottom: 7px;
-        
+
         &.cHBC {
           margin-bottom: 0;
         }
       }
     }
-    
+
     .footer {
       padding: 18px 40px 0px 30px;
       height: 107px;
@@ -660,16 +659,16 @@ $transitionSpeed: 0.5s;
       }
     }
   }
-  
+
   &.variant2.to-left {
     left: -238px;
   }
-  
+
   &.variant2.to-right {
     left: 48px;
   }
-  
-  &.variant2 { 
+
+  &.variant2 {
     width: 230px;
     /* default right-top justified */
     top: -124px;
@@ -737,7 +736,7 @@ $transitionSpeed: 0.5s;
       }
     }
   }
-}  
+}
 
 /** IE **/
 
@@ -752,8 +751,8 @@ $transitionSpeed: 0.5s;
         .eh-visible {
           @include ehsTransition-ltie8();
           opacity: 1;
-        } 
-      } 
+        }
+      }
     }
     .submodule .hspot-outer, .image-module .hspot-outer {
       background: url('../../img/editorial-hotspots-e6/hotspot-fallback.png');
@@ -771,7 +770,7 @@ $transitionSpeed: 0.5s;
       .hspot-core, .hspot-core-on {
         background: transparent;
         .icons {
-          visibility: hidden;  
+          visibility: hidden;
         }
       }
     }

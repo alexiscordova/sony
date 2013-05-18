@@ -29,16 +29,12 @@ $maximumChildren: 20;
   > .grid {
     margin-top: -10px;
     padding-top: 26px;
-
-    &:first-of-type {
-      border-top: 3px solid $gray70;
-    }
   }
 }
 
 .raa-user-reviews {
 
-  .pagination-paddles button {
+  .pagination-paddles .nav-paddle {
     top: 47%;
 
     &.pagination-prev {
@@ -96,6 +92,7 @@ $maximumChildren: 20;
   .raa-breakdown,
   .raa-social-mention aside {
     width: 355px;
+    max-width: 100%;
     margin: 0 auto;
     text-align: center;
 
@@ -191,7 +188,7 @@ $maximumChildren: 20;
 
 .raa-expert-reviews {
 
-  .pagination-paddles button {
+  .pagination-paddles .nav-paddle {
     top: 47%;
 
     &.pagination-prev {
@@ -211,8 +208,9 @@ $maximumChildren: 20;
 
   .reviews {
     position: relative;
-    min-height: 236px;
+    min-height: 216px;
     margin: 16px 0 35px;
+    padding: 0 0 20px;
     overflow: hidden;
     background-color: $gray80;
 
@@ -355,9 +353,13 @@ $maximumChildren: 20;
 
   .raa-expert-review {
     width: (98% / $maximumChildren);
-    padding: 32px 24px;
+    padding: 32px 0;
     margin: 0 1% / $maximumChildren;
     background-color: $gray80;
+
+    > div {
+      padding: 0 24px;
+    }
 
     blockquote {
       margin: px-em(12px) 0 px-em(18px);

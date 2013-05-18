@@ -181,7 +181,7 @@ define(function(require) {
         // TODO
         // Remove the id from the cookie
       }
-    },
+    }
   };
 
   // Options that could be customized per module instance
