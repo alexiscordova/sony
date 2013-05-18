@@ -5,7 +5,7 @@
 // * **Version:** 0.1
 // * **Modified:** 04/19/2013
 // * **Author:** Brian Kenny
-// * **Dependencies:** jQuery 1.7+, Modernizr
+// * **Dependencies:** jQuery 1.7+, Boostrap, Modernizr, Enquire, hammerJS, viewport
 //
 // *Example Usage:*
 //
@@ -28,26 +28,10 @@ define(function(require){
 
   var self = {
     'init': function() {
-      // setup breakpoints
-      var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
-      var breakpointReactor = function( e ) {
-        iQ.update();
-      };
-
+     
       // IE 10 detection
       if ( window.atob || Settings.isLTIE10 ) {
         $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
-      }
-
-      // bind IQ to update at every breakpoint
-      if( enquire ) {
-        for( var i=0; i < breakpoints.length; i++ ) {
-          if( 0 === i ) {
-            enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-          } else {
-            enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-          }
-        }
       }
 
       // detect if there are 360 viewer constructs on the DOM
@@ -64,13 +48,14 @@ define(function(require){
 
     // defaults
     self.$container     = $( element );
-    self.$sequence      = ( self.$container.find( '.outer div' ).length ) > 0 ? self.$container.find( '.outer div' ) : self.$container.find( '.outer img' );
+    self.$sequence      = ( self.$container.find( '.outer div' ).not( '.load-indicator').length ) > 0 ? self.$container.find( '.outer div' ).not( '.load-indicator') : self.$container.find( '.outer img' ).not( '.load-indicator');
+    self.sequenceLength = self.$sequence.length;
+    self.curLoaded      = 0;
     self.$controls      = self.$container.find( '.controls' );
     self.$controlCenter = self.$controls.find( '.instructions' );
     self.$leftArrow     = self.$controls.find( '.left-arrow' );
     self.$rightArrow    = self.$controls.find( '.right-arrow' );
     self.isImage        = $( self.$sequence[0] ).is( 'img' ) ? true : false;
-    self.sequenceLength = self.$sequence.length;
     self.dynamicBuffer  = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
     self.curIndex       = 0;
     self.movingLeft     = false;
@@ -94,24 +79,61 @@ define(function(require){
 
     init : function( param ) {
       var self = this;
-
-      // bind scroll event to fire animation on the dragger
-      // 1. movement on desktop and 2. viewport on mobile
-
-      // initial animation, hey why not.
-      setTimeout(function() {
-        self.animateDragger();
-      }, 500);
-
-      // reset the step buffer when the window changes size
-      $( window ).bind( 'resize', function( event ) {
-        self.onResize( event );
-      });
-
-      // adjust controls to center if type is image
-      if( true === self.isImage ) {
+      
+      // lets start by hiding the controllers until things are loaded and fading down the image
+      // to give users a nicer set of visual queues
+      self.$controls.addClass( 'hidden' );
+      self.$container.addClass( 'dim-the-lights' );
+      
+      // closures to manage image payload
+      var lockAndLoaded = function() {
         self.syncControlLayout();
-      }
+        self.curLoaded++;
+        checkLoaded();
+      };
+      
+      // checks the payload against the loaded image
+      var checkLoaded = function() {
+        if( self.sequenceLength == self.curLoaded ) {
+          log( 'all 360 assets loaded' );
+          self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
+          self.$container.find( '.load-indicator' ).addClass( 'hidden' );
+          self.syncControlLayout();
+          self.initBehaviors();
+        }        
+      };
+      
+      // if not, manage the payload by exposing a loader
+      self.$sequence.each(function( index, el ) {
+        // is the BG image loaded? 
+        if( $( el ).data('hasLoaded') ) {
+          self.syncControlLayout();
+          self.curLoaded++;
+          checkLoaded();
+        } else {
+          // its not a preloaded background
+          if( $( el ).is( 'div' ) ) {
+            $( el ).on( 'iQ:imageLoaded', lockAndLoaded );
+          } else {
+            // check if the inline images are cached
+            if( false === this.complete ) {
+              // not cached, listen for load event
+              el.onload = lockAndLoaded;
+            } else {
+              // cached, count it against the payload
+              self.syncControlLayout();
+              self.curLoaded++;
+              checkLoaded();
+            }
+          }
+        }
+      });      
+
+      log('SONY : Editorial 360 Viewer : Initialized');
+    },
+    
+    initBehaviors: function() {
+      var self = this;
 
       if( true === Modernizr.touch ) {
         // extend with touch controls
@@ -119,6 +141,7 @@ define(function(require){
 
         // animate dragger arrows when in viewport
         self.poller = setInterval( function(){
+          self.syncControlLayout();
           var _$controlStatus   = $( self.$controls ).find( '.table-center :in-viewport' );
           var inViewport = _$controlStatus.length > 0 ? true : false;
           if( inViewport ) {
@@ -141,7 +164,10 @@ define(function(require){
         });
 
         self.$controls.on( 'drag', function( event ) {
-          self.touchMove( event );
+          var direction = event.gesture.direction;
+          if( 'left' == direction || 'right' == direction ) {
+            self.touchMove( event );
+          }
         });
 
         self.$controls.on( 'tap', function( event ) {
@@ -169,11 +195,27 @@ define(function(require){
           self.mouseMove( event );
         });
       }
-
-
-
-
-      log('SONY : Editorial 360 Viewer : Initialized');
+      
+      // bind scroll event to fire animation on the dragger
+      // 1. movement on desktop and 2. viewport on mobile
+      
+      // initial animation, hey why not.
+      setTimeout(function() {
+        self.animateDragger();
+      }, 500);
+      
+      // reset the step buffer when the window changes size
+      $( window ).bind( 'resize', function( event ) {
+        self.onResize( event );
+      });
+      
+      // adjust controls to center if type is image
+      if( true === self.isImage ) {
+        self.syncControlLayout();
+      }
+      // finally show controlls
+      self.$controls.removeClass( 'hidden' );
+      
     },
 
     easeSwipe: function( event ) {
@@ -196,8 +238,9 @@ define(function(require){
     onResize: function( event ) {
       var self = this;
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
+      self.syncControlLayout();
       if( true === self.isImage ) {
-        self.syncControlLayout();
+        
       }
     },
 
