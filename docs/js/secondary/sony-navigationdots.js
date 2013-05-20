@@ -60,13 +60,10 @@ define(function(require){
 
       self.$navContainer = $('<div/>').addClass('pagination-bullets on');
       self.$buttonTemplate = $('<div/>').addClass('pagination-bullet');
-      self.$buttonIcon = $('<i/>').addClass('fonticon-10-dot');
 
       if ( self.theme === 'light' ) {
         self.$el.addClass('pagination-light');
       }
-
-      self.$buttonTemplate.append(self.$buttonIcon);
 
       self.reset(self);
     },

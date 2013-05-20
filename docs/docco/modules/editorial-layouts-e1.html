@@ -124,8 +124,10 @@ define(<span class="keyword">function</span>(require) {
         <span class="keyword">if</span> ($(window).outerWidth() &lt;= <span class="number">767</span>) {
           minh = <span class="string">'auto'</span>;
         } <span class="keyword">else</span> {
+          self.$el.find(<span class="string">'.grid, .grid &gt; div'</span>).css(<span class="string">'height'</span>, <span class="string">'auto'</span>);
           minh = Math.max(
-            self.$el.find(<span class="string">'.grid'</span>).css(<span class="string">'min-height'</span>).replace(<span class="regexp">/[^-\d\.]/g</span>, <span class="string">''</span>),
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>dunno why this isn't working on google tv keeps coming up as 1064px... hardcoding for now
+self.$el.find('.grid').css('min-height').replace(/[^-\d.]/g, ''),</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="number">560</span>,
             self.$el.find(<span class="string">'.media-element .table-center'</span>).children().first().height()
           );
           minh += <span class="string">'px'</span>;
@@ -137,12 +139,12 @@ define(<span class="keyword">function</span>(require) {
       resizeTouts: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Fixes horizontal 2 up layout wraping</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> tc = $(<span class="string">'.editorial.tout .m2up .horizontal .table-center-wrap'</span>).parent();
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Fixes horizontal 2 up layout wraping</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> tc = $(<span class="string">'.editorial.tout .m2up .horizontal .table-center-wrap'</span>).parent();
         <span class="keyword">if</span> (tc.length) {
           tc.css(<span class="string">'width'</span>, tc.parent().width() - tc.prev().width() -<span class="number">2</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
 
         <span class="keyword">if</span> (heightGroup.length) {
           <span class="keyword">if</span> ( Modernizr.mq( <span class="string">'(min-width: 48em)'</span> ) ) {
@@ -188,10 +190,10 @@ define(<span class="keyword">function</span>(require) {
               $link = $tout.find( <span class="string">'a'</span> ),
               link = $link[<span class="number">0</span>];
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Save current class name to re apply it when this breakpoint no longer matches</p>             </td>             <td class="code">               <div class="highlight"><pre>          $p.data( <span class="string">'className'</span>, p.className );
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Save current class name to re apply it when this breakpoint no longer matches</p>             </td>             <td class="code">               <div class="highlight"><pre>          $p.data( <span class="string">'className'</span>, p.className );
           $link.data( <span class="string">'className'</span>, link.className );
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Switch class to <code>.p4</code></p>             </td>             <td class="code">               <div class="highlight"><pre>          p.className = <span class="string">'p4'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Switch class to <code>.p4</code></p>             </td>             <td class="code">               <div class="highlight"><pre>          p.className = <span class="string">'p4'</span>;
           link.className = <span class="string">'lt4'</span>;
         });
       },
@@ -206,7 +208,7 @@ define(<span class="keyword">function</span>(require) {
               linkClassName = $link.data( <span class="string">'className'</span> ),
               pClassName = $p.data( <span class="string">'className'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Revert class name back to what it was before</p>             </td>             <td class="code">               <div class="highlight"><pre>          p.className = pClassName;
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Revert class name back to what it was before</p>             </td>             <td class="code">               <div class="highlight"><pre>          p.className = pClassName;
           link.className = linkClassName;
         });
       },
