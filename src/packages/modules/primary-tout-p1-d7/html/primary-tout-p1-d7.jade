@@ -15,7 +15,7 @@ mixin eyebrow(_data)
 
 mixin header(_data)
   d = _data ? _data : data
-  h = locals.smallmark(d.headline)
+  h = d.headline ? locals.smallmark(d.headline) : ""
   if d.variation
     if d.variation.quote
       blockquote.bq1
