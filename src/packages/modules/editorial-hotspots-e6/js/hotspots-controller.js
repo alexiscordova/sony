@@ -18,7 +18,9 @@ define(function(require) {
       enquire = require('enquire'),
       Settings = require( 'require/sony-global-settings' ),
       Environment = require( 'require/sony-global-environment' ),
-      Utilities = require( 'require/sony-global-utilities' );
+      Utilities = require( 'require/sony-global-utilities' ),
+      // this keeps track of the last open hotspot globally
+      openHotspot = null;
 
   var self = {
     'init': function() {
@@ -87,6 +89,8 @@ define(function(require) {
     constructor: HotspotsController,
     init : function() {
       var self = this;
+
+      $( self.$container ).on( 'cleanOpenHotspots', self.close );
 
       // inject the underlay node near the top of the dom tree
       var underlayNode = $( '.hspot-underlay' ).get( 0 );
@@ -405,7 +409,7 @@ define(function(require) {
         if( self.$lastOpen && !container.is( self.$lastOpen ) ) {
           self.reset();
         }
-         self.open( container, hotspot, info );
+        self.open( container, hotspot, info );
       }
     },
 
@@ -416,42 +420,53 @@ define(function(require) {
           $modal        = self.$modal.find( '.modal-body' );
 
       if( placeInModal ) {
-        info.addClass( 'hidden' );
-        // defer trigger modal
-        setTimeout(function() {
+      
+        // two open hotspots trying to go modal is not pretty, lets avoid that
+        /* if( self.$container.is( openHotspot[0] ) ) { */
+          // this is the last open hotspot and should go modal when reaching the breakpoint
+          info.addClass( 'hidden' );
+          // defer trigger modal
+          setTimeout(function() {
+  
+            maxBodyHeight = 'none';
+  
+            if ( true /* self.hasTouch */ ) {
+              screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+              // Stop the page from scrolling behind the modal
+              $( 'body' ).css({
+                height: screenHeight,
+                maxHeight: screenHeight,
+                overflow: 'hidden'
+              });
+            }
+  
+            // Set a maximum height on the modal body so that it will scroll
+            // Sony tablet s is completely busted in the modal....
+            if ( !Settings.isSonyTabletS ) {
+              self.$modalBody.css( 'maxHeight', maxBodyHeight );
+            }
+  
+            self.$modal.css( 'height', '' );
+          }, 0);
+  
+          $modal.html( info.html() );
+  
+          $modal.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+  
+          $modal.find( '.box-close' ).removeClass( 'hidden' );
+  
+          self.$modal.modal({
+            backdrop: true,
+            keyboard: true,
+            show: true
+          });
 
-          maxBodyHeight = 'none';
-
-          if ( true /* self.hasTouch */ ) {
-            screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
-            // Stop the page from scrolling behind the modal
-            $( 'body' ).css({
-              height: screenHeight,
-              maxHeight: screenHeight,
-              overflow: 'hidden'
-            });
-          }
-
-          // Set a maximum height on the modal body so that it will scroll
-          // Sony tablet s is completely busted in the modal....
-          if ( !Settings.isSonyTabletS ) {
-            self.$modalBody.css( 'maxHeight', maxBodyHeight );
-          }
-
-          self.$modal.css( 'height', '' );
-        }, 0);
-
-        $modal.html( info.html() );
-
-        $modal.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-
-        $modal.find( '.box-close' ).removeClass( 'hidden' );
-
-        self.$modal.modal({
-          backdrop: true,
-          keyboard: true,
-          show: true
-        });
+/*
+        } else {
+          // since this is a rare, responsive condition, keep it clean and close any open hotspots
+          self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
+        }
+*/
 
       } else {
         //self.close( container, hotspot, info );
@@ -566,10 +581,10 @@ define(function(require) {
       });
     },
 
-    close: function( container, hotspot, info ) {
+    close: function( container, hotspot, info, fromReset ) {
         var self = this;
         
-        self.inTransition = true;
+        self.inTransition = ( self.$lastOpen[1].is( hotspot ) && !fromReset )  ? true : false;
         
         // we are setting display:none when the trasition is complete, and managing the timer here
         self.cleanTimer();
@@ -622,7 +637,7 @@ define(function(require) {
     open: function( container, hotspot, info ) {
       var self = this;
       
-      if( !self.inTransition ) {
+      if( !self.inTransition  ) {
         
         // add off-hotspot click to close
         // $(document).click(self.catchAllClicks);
@@ -633,8 +648,8 @@ define(function(require) {
         }
 
         // save last open state
-        self.$lastOpen = new Array( container, hotspot, info );
-
+        self.$lastOpen = openHotspot = new Array( container, hotspot, info );
+        
         // add data- info to this hotspot
         container.data( 'state', 'open' ).addClass( 'info-jump-to-top' );
 
@@ -665,7 +680,7 @@ define(function(require) {
 
     reset: function( container ) {
       var self = this;
-      self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
+      self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ], true );
     },
 
     defaultPositions: function() {
