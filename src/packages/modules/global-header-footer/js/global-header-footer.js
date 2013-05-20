@@ -6,7 +6,7 @@
 // Optional: jQuery throttle-debounce (only used on window resize)
 // -------------------------------------------------------------------------
 
-define(function(require){
+define(function(require) {
 
   'use strict';
 
@@ -78,7 +78,12 @@ define(function(require){
       self.isMobileNav = false;
 
       // Setting up enquire listeners.
-      // These fire the first time they're hit (page-load), and if the breakpoint becomes active during browser resize.
+      self.initBreakpoints();
+    },
+
+    // These fire the first time they're hit (page-load), and if the breakpoint becomes active during browser resize.
+    initBreakpoints : function() {
+      var self = this;
 
       if ( !Settings.isLTIE10 ) {
 
@@ -134,7 +139,7 @@ define(function(require){
       self.$pageWrapOuter.on('click touchstart focus',function(e) {
         // as long as the click wasn't on one of the nav-menu/trays, or one of their children, or one of the activeNavBtns, reset any active menus.
         var clickIsInNavItem = $(e.target).hasClass('navtray-w') || $(e.target).hasClass('navmenu-w') || $(e.target).hasClass('nav-dropdown-toggle') || $(e.target).parents('.navtray-w,.navmenu-w,nav-dropdown-toggle, .nav').length > 0;
-        if (!clickIsInNavItem){
+        if (!clickIsInNavItem) {
           $('.nav .nav-li a.active').trigger('touchstart');
           self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
           $('#nav-search-input').blur();
@@ -178,7 +183,7 @@ define(function(require){
 
         // TOUCH DEVICES
         if (self.hasTouch) {
-          // console.log("hasTouch = true");
+          console.log("hasTouch = true");
 
           $thNavBtn.on('touchstart focus', function() {
             $('#nav-search-input').blur();
@@ -222,7 +227,7 @@ define(function(require){
         // NOT touch device - set up HOVER triggers
         } else {
 
-          // console.log("No Touch - Use Click Events");
+          console.log("No Touch - Use Click Events");
 
           // mouseenter focus click
 
@@ -238,9 +243,9 @@ define(function(require){
             e.preventDefault();
 
             // $('.nav .nav-li a.active').trigger('touchstart'); huh??
-            
+
             // search menu doesn't respond to hover; only click & focus.
-            if ($thNavBtn.data('target') == 'navmenu-w-search' ){
+            if ($thNavBtn.data('target') === 'navmenu-w-search' ) {
               return false;
             }
 
@@ -248,8 +253,8 @@ define(function(require){
             self.resetMouseleaveTimer();
 
             // check to see if it's the active button first. If you're re-hovering over the same button, just keep it open.
-            if ($thNavBtn.hasClass('active')){
-              console.log("This button is already active.");
+            if ($thNavBtn.hasClass('active')) {
+              console.log('This button is already active.');
               return false;
             }
 
@@ -332,7 +337,7 @@ define(function(require){
             // Check to see if it was onto this target's button.
             // Wait a few ticks to give it a chance for the hover to fire first.
             var timeout = self.closeDelay;
-            if(this.id == 'navmenu-w-search') {
+            if (this.id === 'navmenu-w-search') {
               timeout = self.closeDelaySearch; // the search menu gets a longer timeout.
             }
 
@@ -363,7 +368,7 @@ define(function(require){
 
 
       self.resizeAccountUsername();
-      Environment.on('global:resizeDebounced-200ms', function(){
+      Environment.on('global:resizeDebounced-200ms', function() {
         self.resizeAccountUsername();
       });
     }, // end initDesktopNav
@@ -412,7 +417,7 @@ define(function(require){
             $('.nav-li-search a').blur();
         }
 
-      $('.navmenu-w-visible').each(function(){
+      $('.navmenu-w-visible').each(function() {
         $(this)
           .removeClass('navmenu-w-visible')
           .one(self.transitionEnd, function() {
@@ -424,7 +429,7 @@ define(function(require){
             // clear active class from THIS button!
             // $('.nav-li-search a').removeClass('active');
 
-            // setTimeout(function(){
+            // setTimeout(function() {
             //   var c = $transitionContainer.attr('class');
             //   var h = $transitionContainer.outerHeight();
             //   console.log("c: " + c + ", h: " + h);
@@ -440,35 +445,35 @@ define(function(require){
 
       var $nbi = self.$navbar.children('.grid');
 
-      if (isTooLong()){
-        shortenUsername();
-      }
-
-      function isTooLong(){
+      function isTooLong() {
         var navbarWidth = $nbi.outerWidth();
         var navbarContentsWidth = 0;
-        $nbi.children().each(function(){
+        $nbi.children().each(function() {
           navbarContentsWidth += parseInt($(this).outerWidth(true),10);
         });
         return navbarWidth - navbarContentsWidth < self.usernameSpace ? true : false;
       }
 
-      function shortenUsername(){
+      function shortenUsername() {
         var currentUsername = self.$accountUsername.text();
         // take 1 letter off the end of the username
         var shortUsername = currentUsername.substring(0,currentUsername.length-1);
         self.$accountUsername.html(shortUsername);
         // loop through, taking 1 letter off at a time, until it's either short enough, or down to just minUsernameLength letters.
-        if (shortUsername.length > self.minUsernameLength && isTooLong()){
+        if (shortUsername.length > self.minUsernameLength && isTooLong()) {
           shortenUsername();
         } else {
           // only shorten it if it's cut off more than 2 letters; otherwise the ellipses makes it so it's not any shorter anyway.
-          if ( shortUsername.length < (self.fullAccountUsername.length - 2) ){
-            self.$accountUsername.html(shortUsername + "&hellip;");
+          if ( shortUsername.length < (self.fullAccountUsername.length - 2) ) {
+            self.$accountUsername.html(shortUsername + '&hellip;');
           } else {
             self.$accountUsername.html(self.fullAccountUsername);
           }
         }
+      }
+
+      if (isTooLong()) {
+        shortenUsername();
       }
 
       // check to see if the Account Button still has enough room to display the entire username; and if not, cut it down.
@@ -515,11 +520,11 @@ define(function(require){
 
       // reset this button
       // !!$oldNavBtn && $oldNavBtn.removeClass('active').blur().parent().removeClass('nav-li-selected');
-      if ($oldNavBtn.length){
-        // console.log("old nav btn exists");
+      if ($oldNavBtn.length) {
+        console.log('old nav btn exists');
         $oldNavBtn.removeClass('active').blur().parent().removeClass('nav-li-selected');
       } else {
-        // console.log("old nav btn DOES NOT exist");
+        console.log('old nav btn DOES NOT exist');
       }
 
       // if there's a navTray/navMenu, reset it
@@ -754,7 +759,7 @@ define(function(require){
       var self = this;
       self.hideMobileBackdrop();
 
-      if (self.mobileNavVisible){
+      if (self.mobileNavVisible) {
         $('#page-wrap-inner').one(self.transitionEnd, function() {
           // wait until the $('#page-wrap-inner') is done animating closed before destroying the iScroll.
           module.destroyMobileNavIScroll();
@@ -795,7 +800,7 @@ define(function(require){
       var self = this;
 
       // init the country-selector popup menu -- disabled.
-      // $('#country-selector').on('mouseenter mouseleave',function(){
+      // $('#country-selector').on('mouseenter mouseleave',function() {
       //   var pageContainerWidth = $(this).closest('.grid-footer').width();
       //   $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
       // });
@@ -915,11 +920,11 @@ define(function(require){
     if (!!globalNav.mobileNavIScroll) {
       var $scroller = $('.nav-mobile-scroller');
       $scroller.css('height', '');
-      setTimeout(function(){
+      setTimeout(function() {
         var scrollerHeight = $scroller.outerHeight();
         $scroller.css('height', scrollerHeight);
 
-        setTimeout(function(){
+        setTimeout(function() {
           globalNav.mobileNavIScroll.refresh();
         },50);
       },50);

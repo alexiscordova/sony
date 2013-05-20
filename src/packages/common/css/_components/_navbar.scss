@@ -9,13 +9,13 @@
 // This has been modified just for Sony Global Nav
 // If you need to use the regular Bootstrap nav module, use simple-nav.
 
-// .nav-wrapper extends the full width of the browser, 
+// .nav-wrapper extends the full width of the browser,
 // even when the navbar is at a set width for a particular breakpoint.
-// 
+//
 // All widths and sizes that change at breakpoints are in _responsive-navbar.scss
 //  -- even their default values, so it's all kept together.
 
-.nav-wrapper{ // encompasses the entire nav, including the navbar and navtrays, to 100% width of the page.
+.nav-wrapper { // encompasses the entire nav, including the navbar and navtrays, to 100% width of the page.
   background:$navbarBackground;
 
   // Brand: website name
@@ -23,9 +23,9 @@
   .sprite-32a-sony-logo { // desktop version (inside navbar)
     float: left;
     display: block;
-    margin:16px 0 0;
-    overflow:hidden;
-    -webkit-transform:translate3d(0,0,0); // flicker fix on iPad
+    margin: 16px 0 0;
+    overflow: hidden;
+    -webkit-transform: translate3d(0,0,0); // flicker fix on iPad
   }
 }
 
@@ -34,8 +34,8 @@
   color: $navbarText;
   position: relative;
   z-index: 200;
-  
-  &.container{
+
+  &.container {
     // max-width: $navMaxWidth;
   }
 
@@ -50,8 +50,8 @@
   }
 
   .btn-mobile-nav,
-  .btn-mobile-cart{ // only visible on mobile
-    display:none;
+  .btn-mobile-cart { // only visible on mobile
+    display: none;
   }
 
   .btn-mobile-cart {
@@ -75,26 +75,26 @@
   }
 
   .fonticon-10-arrowhead-down,
-  .fonticon-10-arrowhead-up{
+  .fonticon-10-arrowhead-up {
     color:$gray40;
   }
-  .nav-li-link{    
-    -webkit-backface-visibility:hidden; // fixes phantom blue select box
-    &:hover, &:active, &:focus, &.active{
+  .nav-li-link {
+    -webkit-backface-visibility: hidden; // fixes phantom blue select box
+    &:hover, &:active, &:focus, &.active {
       .fonticon-10-arrowhead-down,
-      .fonticon-10-arrowhead-up{
-        color:$white; 
+      .fonticon-10-arrowhead-up {
+        color:$white;
       }
     }
   }
 
-  .nav-li-favorites .nav-li-link:hover i{
+  .nav-li-favorites .nav-li-link:hover i {
     color:$buttonOrangeHover;
   }
-  .nav-li-universal .nav-li-linkBtn{
-    .fonticon-10-arrowhead-up{
+  .nav-li-universal .nav-li-linkBtn {
+    .fonticon-10-arrowhead-up {
       margin-left: 4px;
-      position:relative;
+      position: relative;
       top:-1px;
     }
   }
@@ -169,8 +169,8 @@
 
 
 
-.navbar-mobile.container{
-  width:100%;
+.navbar-mobile.container {
+  width: 100%;
 }
 
 
@@ -186,17 +186,17 @@
 // -----------------------------------------
 // RESPONSIVE DEFAULTS: 980px - 1199px;
 // -----------------------------------------
-//  .d8888b.   .d8888b.   .d8888b.                         d888    d888   .d8888b.   .d8888b.                    
-// d88P  Y88b d88P  Y88b d88P  Y88b                       d8888   d8888  d88P  Y88b d88P  Y88b                   
-// 888    888 Y88b. d88P 888    888                         888     888  888    888 888    888                   
-// Y88b. d888  "Y88888"  888    888 88888b.  888  888       888     888  Y88b. d888 Y88b. d888 88888b.  888  888 
-//  "Y888P888 .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       888     888   "Y888P888  "Y888P888 888 "88b `Y8bd8P' 
-//        888 888    888 888    888 888  888   X88K  888888 888     888         888        888 888  888   X88K   
-// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888     888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b. 
-//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888     8888888 8888888 "Y8888P"   "Y8888P"  88888P"  888  888 
-//                                  888                                                        888               
-//                                  888                                                        888               
-//                                  888                              
+//  .d8888b.   .d8888b.   .d8888b.                         d888    d888   .d8888b.   .d8888b.
+// d88P  Y88b d88P  Y88b d88P  Y88b                       d8888   d8888  d88P  Y88b d88P  Y88b
+// 888    888 Y88b. d88P 888    888                         888     888  888    888 888    888
+// Y88b. d888  "Y88888"  888    888 88888b.  888  888       888     888  Y88b. d888 Y88b. d888 88888b.  888  888
+//  "Y888P888 .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       888     888   "Y888P888  "Y888P888 888 "88b `Y8bd8P'
+//        888 888    888 888    888 888  888   X88K  888888 888     888         888        888 888  888   X88K
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888     888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888     8888888 8888888 "Y8888P"   "Y8888P"  88888P"  888  888
+//                                  888                                                        888
+//                                  888                                                        888
+//                                  888
 // -----------------------------------------
 
 .navbar-outer {
@@ -205,7 +205,7 @@
   z-index: 222;
 }
 .nav-wrapper,
-.navbar{
+.navbar {
   height: $navbarHeight;
 }
 .navtray-w {
@@ -214,9 +214,9 @@
 .navmenu-w {
   top: $navbarHeight;
 }
-.nav{
-  .btn-mobile-cart{
-    display:none;
+.nav {
+  .btn-mobile-cart {
+    display: none;
   }
 }
 
@@ -225,31 +225,31 @@
   position: relative;
 }
 
-.nav-primary{
-  margin-left:2%;
+.nav-primary {
+  margin-left: 2%;
 
-  .nav-li{
+  .nav-li {
     margin: 0 0 0 px-em(10);
 
-    &.nav-li-electronics{
+    &.nav-li-electronics {
       margin-left: px-em(13);
     }
   }
-  .nav-li-link{
+  .nav-li-link {
     line-height:$navbarLineHeight;
     padding: 0 5px 4px;
-    &:hover, &:active, &:focus, &.active{
+    &:hover, &:active, &:focus, &.active {
       color: $navbarLinkColor;
     }
 
-    .lbl{
-      padding:0 4px;
+    .lbl {
+      padding: 0 4px;
     }
   }
 }
 .nav-li-store,
-.nav-li-support{
-  .nav-li-link{
+.nav-li-support {
+  .nav-li-link {
     font-size:$font_15_16;
   }
 }
@@ -261,13 +261,13 @@
   font-size: px-em(15);
   color:$navbarLinkColor;
 
-  .fonticon-10-arrowhead-down{
-      position:relative;
+  .fonticon-10-arrowhead-down {
+      position: relative;
       top:-2px;
       margin-bottom: -5px;
       margin-left: px-em(4);
       margin-right:-2px;
-      overflow:hidden;
+      overflow: hidden;
   }
 }
 
@@ -280,12 +280,12 @@
   }
 }
 
-.nav-li-linkBtn{
+.nav-li-linkBtn {
   @include fontMedium;
   font-size: px-em(11);
 
   .fonticon-10-arrowhead-up,
-  .fonticon-10-search{
+  .fonticon-10-search {
     font-size: px-em(16,11);
   }
 
@@ -296,66 +296,66 @@
   line-height: 1;
   @include border-radius(1px);
 
-  background-color: $navbarBackground; 
+  background-color: $navbarBackground;
   border-color: $navbarBackground;
 
   &:hover,
   &:active,
   &:focus,
-  &.active{
+  &.active {
     background-color: $navbarLinkBtnBgHover;
     border-color: $navbarLinkBtnBgHover;
     color:$navbarLinkColorHover;
   }
-  
-  .nav-li-count{
-    display:inline-block;
+
+  .nav-li-count {
+    display: inline-block;
     @include fonticon-text-px-to-em(12px);
     @include fontMedium;
-    margin-top:2px;
-    margin-left:3px;
+    margin-top: 2px;
+    margin-left: 3px;
   }
 
   [class^="fonticon-10-"],
   [class*=" fonticon-10-"]{
     margin: 0;
-    -webkit-font-smoothing:antialiased;
-    // overflow:hidden;
+    -webkit-font-smoothing: antialiased;
+    // overflow: hidden;
   }
 }
 
-.nav-primary{
+.nav-primary {
   .nav-li-store .fonticon-10-cart,
   .nav-li-support .fonticon-10-support,
-  .nav-li-universal-mobile{
-    display:none;
+  .nav-li-universal-mobile {
+    display: none;
   }
 }
 
-.nav-li-account{
-  .nav-li-link.nav-dropdown-toggle{
+.nav-li-account {
+  .nav-li-link.nav-dropdown-toggle {
     font-size: px-em(11px);
-    padding-right:6px;
-    padding-top:10px;
-    -webkit-backface-visibility:hidden; // fix rogue focus rectangle
+    padding-right: 6px;
+    padding-top: 10px;
+    -webkit-backface-visibility: hidden; // fix rogue focus rectangle
 
-    .fonticon-10-arrowhead-down{
-      margin-left:3px;
-      position:relative;
+    .fonticon-10-arrowhead-down {
+      margin-left: 3px;
+      position: relative;
       top:-2px;
       font-size: px-em(16,10.5);
     }
   }
 }
 .nav-li-favorites .nav-li-link {
-  padding:8px 7px 0 8px;
-  font-size:1em;
+  padding: 8px 7px 0 8px;
+  font-size: 1em;
 }
-.nav-li-cart .nav-li-link{
-  padding:9px 9px 0 8px;
-  font-size:1em;
-  i{
-    position:relative;
+.nav-li-cart .nav-li-link {
+  padding: 9px 9px 0 8px;
+  font-size: 1em;
+  i {
+    position: relative;
     top:-1px;
   }
 }
@@ -368,13 +368,13 @@
   margin-bottom: 0;
   -webkit-backface-visibility: hidden;
 
-  .fonticon-10-search{
-    padding-left:6px;
+  .fonticon-10-search {
+    padding-left: 6px;
   }
 
   &:hover,
   &:active,
-  &.active{
+  &.active {
     background-color: $linkColor;
     border-color: $linkColor;
     color:$navbarLinkColor;
@@ -387,43 +387,43 @@
   &:hover,
   &:active,
   &:focus,
-  &.active{
+  &.active {
     background:$navbarTertiaryColor;
     border-color:$navbarTertiaryColor;
   }
 }
 
-.navtray-w-tall:after{ // background gray under the right side -- just needs to cover up the right margin
+.navtray-w-tall:after { // background gray under the right side -- just needs to cover up the right margin
   //left:$navTrayDividerPosition;
 }
 
-.navtray{
-  width:100%;
+.navtray {
+  width: 100%;
 
-  .nav-view-all-tl{
-    display:block;
+  .nav-view-all-tl {
+    display: block;
     width: 200px;
-    margin:20px auto 0;
-    text-align:center;
+    margin: 20px auto 0;
+    text-align: center;
   }
 } // end .navtray
 
 
 
-  
 
 
-.navtray-section-main{ // section left
-  padding-top:50px;
+
+.navtray-section-main { // section left
+  padding-top: 50px;
   width: $navTrayDividerPosition;
 
   .navtray-w-short &{
     min-height: 260px;
   }
 
-  .navtray-list-main{
+  .navtray-list-main {
     margin: 0 4.0% 1.0% 4.0%;
-    overflow:hidden;
+    overflow: hidden;
 
     .navtray-li {
       width: 24.8%;
@@ -431,57 +431,57 @@
 
     .navtray-li-link {
       margin: 2% 3.3% 0 0;
-      padding:20px 0 0 0;
-      -webkit-backface-visibility:hidden; // images jump on hover otherwise
+      padding: 20px 0 0 0;
+      -webkit-backface-visibility: hidden; // images jump on hover otherwise
       height: 170px; /* only for non-responsive browsers - is overridden for responsive, which is good, because it's too high */
       .navtray-w-short & {
-        padding-top:25px;
+        padding-top: 25px;
       }
 
       &:hover,
       &:active,
-      &:focus{
+      &:focus {
         background:$grayLightFieldSmall;
       }
       .nav-img-w img {
-        width:83%;
+        width: 83%;
       }
     }
 
     &:after { // HR
-      width:98.4%;
-      height:1px;
+      width: 98.4%;
+      height: 1px;
     }
   }
 } // end .navtray-section-main
 
 
-.navtray-section-featured{ // section right
-  padding-top:47px;
-  &.navtray-section-featured-short{
-    padding-top:0;
+.navtray-section-featured { // section right
+  padding-top: 47px;
+  &.navtray-section-featured-short {
+    padding-top: 0;
   }
-  width: (100-$navTrayDividerPosition); 
+  width: (100-$navTrayDividerPosition);
   padding-left: 3.6%;
-  .navtray-secondary-promo{
+  .navtray-secondary-promo {
     max-width: 218px;
     margin-top: 32px;
-    margin-right:11%;
+    margin-right: 11%;
 
-    img{
-      padding-bottom:px-em(9);
+    img {
+      padding-bottom: px-em(9);
     }
     .p2,
-    .p3{
-      // padding:3px 15px 0 0;
+    .p3 {
+      // padding: 3px 15px 0 0;
     }
-    .p2{
-      margin-bottom:px-em(5);
+    .p2 {
+      margin-bottom: px-em(5);
     }
-    .p4{
-      display:inline-block;
+    .p4 {
+      display: inline-block;
       line-height: 1.3;
-      padding-right:px-em(27);
+      padding-right: px-em(27);
     }
   }
 }
@@ -495,7 +495,7 @@
 
 
 
-.navmenu-w{ 
+.navmenu-w {
   z-index: 190;
   position: absolute;
   overflow: visible;
@@ -503,62 +503,62 @@
   @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
   @include border-bottom-radius(2px);
 
-  .fonticon-10-arrowhead-up.nav-indicator{
+  .fonticon-10-arrowhead-up.nav-indicator {
   }
 }
 
 
-.navmenu-w-search{
+.navmenu-w-search {
   @include hideshow-navmenu-hide(left);
   .lt-ie10 &{
     height: 100%;
     overflow: visible;
   }
-  .reveal-transition-container{
-    overflow:hidden;
+  .reveal-transition-container {
+    overflow: hidden;
     .lt-ie10 &{
-      overflow:visible!important;
+      overflow: visible!important;
       min-height: 100%;
       height: 110%;
       position: relative;
     }
   }
-  .fonticon-10-arrowhead-up.nav-indicator{
-    right:17px;
+  .fonticon-10-arrowhead-up.nav-indicator {
+    right: 17px;
   }
-  .btn-clear-search-input{
+  .btn-clear-search-input {
     right: 30px;
     top: 22px;
   }
-  .fonticon-10-search{
+  .fonticon-10-search {
     top: 25px;
     left: 46px;
   }
 }
 
-.navmenu-w-account{
+.navmenu-w-account {
   @include hideshow-navmenu-hide(left);
 
-  .fonticon-10-arrowhead-up.nav-indicator{
+  .fonticon-10-arrowhead-up.nav-indicator {
     left: 25px;
   }
 
-  .reveal-transition-container{
+  .reveal-transition-container {
     width: 215px;
     padding: 11px 0 9px;
-    overflow:hidden;
+    overflow: hidden;
     background:$white;
-    
-    .navmenu-list-prefixed{
-      // border-bottom:solid 1px $grayLightish;
-      // padding-bottom:6px;
-      display:none;
+
+    .navmenu-list-prefixed {
+      // border-bottom: solid 1px $grayLightish;
+      // padding-bottom: 6px;
+      display: none;
     }
   }
 }
 
 
-.nav-wrapper.nav-wrapper-minimal .btn-mobile-nav{
-  // position:relative;
+.nav-wrapper.nav-wrapper-minimal .btn-mobile-nav {
+  // position: relative;
   // left:-999px; // still want to use its height for the nav..?
 }
