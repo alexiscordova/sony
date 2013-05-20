@@ -898,6 +898,7 @@ define(function(require) {
         // after it's collapsed, add the transition-height class for animating later.
         setTimeout(function() {
           $thFootSection.addClass('transition-height');
+          Environment.trigger('SONY:Footer:mobileFooterSecCollapsed');
         }, 1);
         // NOT on page init, collapse it normally.
       } else {
