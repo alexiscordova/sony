@@ -9,6 +9,7 @@ include ../../../common/html/jade-helpers.jade
 - startId = id+"-0"
 - multiModule = data.multiModule || ""
 - isDark = data.dark ? "dark" : "light"
+- lod = isDark ? "l-o-d" : ""
 
 if multiModule == "true"
     bump = "multiModule"
@@ -52,7 +53,7 @@ else
     .grid.no-grid-at-767
       .span12
         .table-center-wrap
-          .table-center(class=isDark)(class=bump)
+          .table-center(class=isDark)(class=bump)(class=lod)
             i.left-arrow.fonticon-10-chevron-reverse
-            span.instructions.l3(class=isDark) DRAG
+            span.instructions.l3(class=isDark)(class=lod) DRAG
             i.right-arrow.fonticon-10-chevron
