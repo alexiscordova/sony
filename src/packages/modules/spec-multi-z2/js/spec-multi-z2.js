@@ -209,7 +209,7 @@ define(function(require){
           vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          momentum: true,
+          momentum: !( Settings.isVita ),
           bounce: false,
           onScrollMove : function() {
             self._onScroll( this );

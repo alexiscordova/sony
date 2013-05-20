@@ -67,11 +67,11 @@ define(<span class="keyword">function</span>(require){
 
       self.setupPaddles();
 
-      self.$el.on(<span class="string">'mouseover.sonyPaddles'</span>, <span class="keyword">function</span>(){
+      self.$el.on(<span class="string">'mouseenter.sonyPaddles'</span>, <span class="keyword">function</span>(){
         self.$nav.addClass(<span class="string">'show-paddles'</span>);
       });
 
-      self.$el.on(<span class="string">'mouseout.sonyPaddles'</span>, <span class="keyword">function</span>(){
+      self.$el.on(<span class="string">'mouseleave.sonyPaddles'</span>, <span class="keyword">function</span>(){
         self.$nav.removeClass(<span class="string">'show-paddles'</span>);
       });
     },

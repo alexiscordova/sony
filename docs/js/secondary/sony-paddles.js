@@ -63,11 +63,11 @@ define(function(require){
 
       self.setupPaddles();
 
-      self.$el.on('mouseover.sonyPaddles', function(){
+      self.$el.on('mouseenter.sonyPaddles', function(){
         self.$nav.addClass('show-paddles');
       });
 
-      self.$el.on('mouseout.sonyPaddles', function(){
+      self.$el.on('mouseleave.sonyPaddles', function(){
         self.$nav.removeClass('show-paddles');
       });
     },

@@ -203,8 +203,8 @@ which is shorthand for event.preventDefault(); event.stopPropagation();</p>     
           vScroll: <span class="literal">false</span>,
           hScrollbar: <span class="literal">false</span>,
           vScrollbar: <span class="literal">false</span>,
-          momentum: <span class="literal">true</span>,
-          bounce: <span class="literal">true</span>,
+          momentum: self.useMomentum,
+          bounce: self.useBounce,
           onScrollStart: <span class="keyword">function</span>() {
             self.isClickCanceled = <span class="literal">false</span>;
             self.$tabs.off(<span class="string">'.stickytabs'</span>);
@@ -294,8 +294,8 @@ You'll need to call <code>.stickyTabs()</code> again to get them back.</p>      
           vScroll: <span class="literal">false</span>,
           hScrollbar: <span class="literal">false</span>,
           vScrollbar: <span class="literal">false</span>,
-          momentum: !( Settings.isLTIE9 ),
-          bounce: !( Settings.isLTIE9 ),
+          momentum: self.useMomentum,
+          bounce: self.useBounce,
           onScrollStart: <span class="keyword">function</span>() {
             self.isClickCanceled = <span class="literal">false</span>;
             self.$tabs.off(<span class="string">'.stickytabs'</span>);
@@ -412,6 +412,8 @@ You'll need to call <code>.stickyTabs()</code> again to get them back.</p>      
     tabWidth: <span class="number">0</span>,
     overlap: <span class="number">0</span>,
     isStickyTabs: <span class="literal">false</span>,
+    useBounce: !( Settings.isVita || Settings.isLTIE9 ),
+    useMomentum: !( Settings.isVita || Settings.isLTIE9 ),
     isTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
     prop: Modernizr.csstransforms ? <span class="string">'transform'</span> : <span class="string">'left'</span>,
     valStart : Modernizr.csstransforms ? <span class="string">'translate('</span> : <span class="string">''</span>,
