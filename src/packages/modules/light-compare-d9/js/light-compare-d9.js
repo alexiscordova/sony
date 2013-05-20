@@ -48,9 +48,11 @@ define(function(require){
 
       var supportsOrientationChange = "onorientationchange" in window,
       orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-      window.addEventListener(orientationEvent, function() {
-        self.measureModal();
-      }, false);
+      if (window.addEventListener) {
+        window.addEventListener(orientationEvent, function() {
+          self.measureModal();
+        }, false);
+      }
 
       self.bind();
     },
