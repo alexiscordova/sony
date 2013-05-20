@@ -26,36 +26,33 @@ $paddleHeight: px-em( 76 );
   }
 
   .pagination-bullet {
+    height: 9px;
+    width: 9px;
     display: inline-block;
     margin-left: $bulletMargin;
-    color: $gray50;
+    background-color: $gray50;
+    border-radius: 9px;
     cursor: pointer;
-    font-size: $bulletSize;
     @include transition();
-
     -webkit-font-smoothing: antialiased;
 
     .pagination-light & {
-      color: $gray40;
+      background-color: $gray40;
 
       &:hover,
       &.bullet-selected {
-        color: $gray70;
+        background-color: $gray70;
       }
     }
 
-    .fonticon-10-dot {
-      font-size: 0.8em;
-    }
-
     &:first-child {
-        margin-left: 0;
+      margin-left: 0;
     }
   }
 
   .pagination-bullet:hover,
   .bullet-selected {
-    color: $gray20;
+    background-color: $gray20;
   }
 }
 
