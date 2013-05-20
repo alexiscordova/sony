@@ -71,6 +71,7 @@ define(function(require) {
     self.trackOpacityTimer               = null;
     self.canShowHotspots                 = false;
     self.curAnimationCount               = 0;
+    self.inTransition                    = false;
     // MODAL
     self.$modal                          = self.$container.find( '.hotspot-modal' );
     self.$modalBody                      = self.$modal.find( '.modal-body' );
@@ -567,6 +568,9 @@ define(function(require) {
 
     close: function( container, hotspot, info ) {
         var self = this;
+        
+        self.inTransition = true;
+        
         // we are setting display:none when the trasition is complete, and managing the timer here
         self.cleanTimer();
 
@@ -590,6 +594,7 @@ define(function(require) {
         // closure to hide overlays after they fade out
         var anon = function() {
           info.addClass( 'hidden' );
+          self.inTransition = false;
         };
 
         // fire a timer that will set the display to none when the element is closed.
@@ -615,10 +620,12 @@ define(function(require) {
     },
     
     open: function( container, hotspot, info ) {
-        var self = this;
+      var self = this;
+      
+      if( !self.inTransition ) {
         
         // add off-hotspot click to close
-        $(document).click(self.catchAllClicks);
+        // $(document).click(self.catchAllClicks);
         
         // we are setting display:none when the trasition is complete, and managing the timer here
         if( self.$lastOpen && container.is( self.$lastOpen[0] ) ) {
@@ -642,8 +649,9 @@ define(function(require) {
         info.removeClass( 'hidden' );
 
         // reposition window per it's collision detection result
-        self.repositionByQuadrant( container );
         //self.reposition( container );
+        self.repositionByQuadrant( container );
+        
 
         // fade in info window
         if( true === self.showOverlayCentered ) {
@@ -652,6 +660,7 @@ define(function(require) {
         } else {
           info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
         }
+      }
     },
 
     reset: function( container ) {
