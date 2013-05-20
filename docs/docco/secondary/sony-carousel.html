@@ -481,6 +481,10 @@ Reset the carousel to its natural position and order.</p>             </td>     
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      <span class="keyword">if</span> ( self.$slides.length &lt;= <span class="number">1</span> ) {
+        <span class="keyword">return</span>;
+      }
+
       <span class="keyword">if</span> ( self.$dotnav ) {
         self.$dotnav.sonyNavDots(<span class="string">'reset'</span>, {
           <span class="string">'buttonCount'</span>: self.$slides.length
@@ -524,7 +528,8 @@ Reset the carousel to its natural position and order.</p>             </td>     
       self.paddlesInit = <span class="literal">true</span>;
 
       $wrapper.sonyPaddles({
-        useSmallPaddles: self.useSmallPaddles
+        useSmallPaddles: self.useSmallPaddles,
+        paddlePosition: self.paddlePosition
       });
 
       self.$el.on(<span class="string">'SonyCarousel:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
@@ -737,15 +742,17 @@ Helpful if your carousel lets the user see more than a few slides at once.</p>  
 
 </pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>Create paddles.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paddles: <span class="literal">false</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Will use <code>.nav-paddle</code> instead of <code>.pagination-paddle</code> for the paddle class</p>             </td>             <td class="code">               <div class="highlight"><pre>    useSmallPaddles: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Set to <code>outset</code> to allow grid-based positioning of paddles above 1400px screen width.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paddlePosition: <span class="string">'inset'</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>If element is specified, insert pagination into that element instead of using the default position.</p>             </td>             <td class="code">               <div class="highlight"><pre>    $dotNavWrapper: <span class="literal">undefined</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>Will use <code>.nav-paddle</code> instead of <code>.pagination-paddle</code> for the paddle class</p>             </td>             <td class="code">               <div class="highlight"><pre>    useSmallPaddles: <span class="literal">false</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>If element is specified, insert paddles into that element instead of using the default position.</p>             </td>             <td class="code">               <div class="highlight"><pre>    $paddleWrapper: <span class="literal">undefined</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>If element is specified, insert pagination into that element instead of using the default position.</p>             </td>             <td class="code">               <div class="highlight"><pre>    $dotNavWrapper: <span class="literal">undefined</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>Create dot pagination, which is inserted after self.$el.</p>             </td>             <td class="code">               <div class="highlight"><pre>    pagination: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>If element is specified, insert paddles into that element instead of using the default position.</p>             </td>             <td class="code">               <div class="highlight"><pre>    $paddleWrapper: <span class="literal">undefined</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Use <code>light</code> or <code>dark</code> bullets for pagination.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paginationTheme: <span class="string">'dark'</span>
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Create dot pagination, which is inserted after self.$el.</p>             </td>             <td class="code">               <div class="highlight"><pre>    pagination: <span class="literal">false</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Use <code>light</code> or <code>dark</code> bullets for pagination.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paginationTheme: <span class="string">'dark'</span>
   };
 
 });

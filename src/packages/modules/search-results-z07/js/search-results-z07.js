@@ -47,9 +47,7 @@ define(function(require){
     bind: function() {
       var self = this;
 
-      self.$loadmore.on('click', function() {
-        self.loadMore();
-      });
+      self.$loadmore.on('click', $.proxy(self.loadMore, self));
 
       self.$clearBtn.on({
         click: function(evt) {
@@ -68,8 +66,9 @@ define(function(require){
       });
     },
 
-    loadMore: function(){
+    loadMore: function(event) {
       var self = this,
+          $resultsList = $(event.target).parent().siblings('.results-list'),
           request;
 
       // An ajax request - use this when making a real ajax request
@@ -90,6 +89,7 @@ define(function(require){
       request.fail( $.proxy( self.updateResultsView, self ) );
 
       // Faking it by cloning things - remove this when making a real ajax request
+      self.$results = $resultsList;
       request.resolve( self.$results.children().clone() );
     },
 
