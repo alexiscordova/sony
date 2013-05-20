@@ -50,6 +50,9 @@ module.exports = function(grunt) {
         plusify : function(str){
           return str.replace(/\[\+\]/g , '<i class="fonticon-30-plus"></i>');
         },
+        smallmark : function(str){
+          return str.replace(/\(r\)|®/g, '<span class="small-mark">&reg;</span>').replace(/\(tm\)|™/g, '<span class="small-mark">&trade;</span>');
+        },
         // modulescss:function(){
           // return c.modulecss;
         // },
