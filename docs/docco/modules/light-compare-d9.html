@@ -45,6 +45,13 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">if</span> (self.useIScroll) {
         self.initiScroll();
       }
+
+      <span class="keyword">var</span> supportsOrientationChange = <span class="string">"onorientationchange"</span> <span class="keyword">in</span> window,
+      orientationEvent = supportsOrientationChange ? <span class="string">"orientationchange"</span> : <span class="string">"resize"</span>;
+      window.addEventListener(orientationEvent, <span class="keyword">function</span>() {
+        self.measureModal();
+      }, <span class="literal">false</span>);
+
       self.bind();
     },
 

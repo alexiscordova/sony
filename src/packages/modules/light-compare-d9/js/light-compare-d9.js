@@ -45,6 +45,13 @@ define(function(require){
       if (self.useIScroll) {
         self.initiScroll();
       }
+
+      var supportsOrientationChange = "onorientationchange" in window,
+      orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+      window.addEventListener(orientationEvent, function() {
+        self.measureModal();
+      }, false);
+
       self.bind();
     },
 
