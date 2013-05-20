@@ -41,12 +41,16 @@ $span4-width-1200: 30.98039%;
 $span8-width-1200: 65.4902%;
 $gutter-width-1200: 3.52941%;
 
+$textlink-margin-left: 1.17647%;
+$textlinkspan-width: 21.6%;
+$textlink-gutter-width: 2.52101%;
+
 
 
 .u-nav-wrapper{
   @include fontRegular;
 	line-height: 1.65;
-	font-color: $gray20;
+	color: $gray20;
 
 	img{
 		border:none;
@@ -152,6 +156,15 @@ $gutter-width-1200: 3.52941%;
 		color: white;
 		vertical-align: baseline;
 		white-space: nowrap;
+	}
+
+	.u-nav-secondary{
+		padding-left:$textlink-margin-left;
+	}
+	.u-nav-secondary-li{
+		float:left;
+		width:$textlinkspan-width;
+		margin-left:$textlink-gutter-width;
 	}
 }
 
