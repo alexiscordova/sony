@@ -35,6 +35,8 @@ define(function(require){
       this.currentHeader = undefined;
       this.headerIsVisible = false;
 
+      Environment.on('SONY:Footer:mobileFooterSecCollapsed', $.proxy(this.refresh, this));
+
       return this._getHeaderOffsets();
     },
 
@@ -76,6 +78,12 @@ define(function(require){
       }
 
       return this;
+    },
+
+    refresh: function() {
+      if (this.scroll) {
+        this.scroll.refresh();
+      }
     },
 
     // Called by iScroll when a scroll event happens.
