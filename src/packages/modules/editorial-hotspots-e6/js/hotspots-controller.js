@@ -93,9 +93,11 @@ define(function(require) {
       $( self.$container ).on( 'cleanOpenHotspots', self.close );
 
       // inject the underlay node near the top of the dom tree
+/*
       var underlayNode = $( '.hspot-underlay' ).get( 0 );
       $( '.hspot-underlay' ).detach();
       $( 'body' ).append( underlayNode );
+*/
 
       // detect what type of tracking we need to bind the instance to
       var moduleHandle = self.$container.parent().find( '.image-module' );
@@ -618,10 +620,12 @@ define(function(require) {
         // set the open status to zilch
         self.$lastOpen = null;
 
+/*
         // kill the underlay if we're in minified mode
         if( true === self.showOverlayCentered ) {
           $( '.hspot-underlay' ).addClass( 'hidden' );
         }
+*/
     },
 
     catchAllClicks: function( event ) {
