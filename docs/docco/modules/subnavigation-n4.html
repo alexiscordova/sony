@@ -51,27 +51,38 @@ define(<span class="keyword">function</span>(require){
     constructor: Subnavigation,
 
     init: <span class="keyword">function</span>() {
+
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       <span class="keyword">if</span> ( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
         enquire.register(<span class="string">"(min-width: 980px)"</span>, <span class="keyword">function</span>() {
           self.mode = <span class="string">'desktop'</span>;
-          self.renderSubcats(self.$activeSubcat, <span class="literal">false</span>);
+          self.subcatCols = <span class="number">3</span>;
+          self.renderSubcats(self.$activeSubcat, <span class="number">3</span>);
           self.renderNav(<span class="number">2</span>);
         });
-        enquire.register(<span class="string">"(min-width: 480px) and (max-width: 979px)"</span>, <span class="keyword">function</span>() {
+        enquire.register(<span class="string">"(min-width: 768px) and (max-width: 979px)"</span>, <span class="keyword">function</span>() {
           self.mode = <span class="string">'tablet'</span>;
-          self.renderSubcats(self.$activeSubcat, <span class="literal">true</span>);
+          self.subcatCols = <span class="number">4</span>;
+          self.renderSubcats(self.$activeSubcat, <span class="number">4</span>);
+          self.renderNav(<span class="number">3</span>);
+        });
+        enquire.register(<span class="string">"(min-width: 480px) and (max-width: 767px)"</span>, <span class="keyword">function</span>() {
+          self.mode = <span class="string">'tablet-small'</span>;
+          self.subcatCols = <span class="number">6</span>;
+          self.renderSubcats(self.$activeSubcat, <span class="number">6</span>);
           self.renderNav(<span class="number">3</span>);
         });
         enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
           self.mode = <span class="string">'mobile'</span>;
-          self.renderSubcats(self.$activeSubcat, <span class="literal">true</span>);
+          self.subcatCols = <span class="number">12</span>;
+          self.renderSubcats(self.$activeSubcat, <span class="number">12</span>);
           self.renderNav(<span class="number">4</span>);
         });
       } <span class="keyword">else</span> {
         self.mode = <span class="string">'desktop'</span>;
-        self.renderSubcats(self.$activeSubcat, <span class="literal">false</span>);
+        self.subcatCols = <span class="number">3</span>;
+        self.renderSubcats(self.$activeSubcat, <span class="number">3</span>);
         self.renderNav(<span class="number">2</span>);
       }
 
@@ -82,7 +93,7 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Render a subcategory; this is done on-demand so that we don't needlessly
 compute every subcat on pageload / resize.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    renderSubcats: <span class="keyword">function</span>($subcat, mobile) {
+    renderSubcats: <span class="keyword">function</span>($subcat, columns) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $grids;
@@ -91,14 +102,13 @@ compute every subcat on pageload / resize.</p>             </td>             <td
         <span class="keyword">return</span>;
       }
 
+      Utilities.reassignSpanWidths($subcat.find(<span class="string">'.product, .marketing-tout, .subnav-accessories'</span>), columns);
+
       $grids = $subcat.find(<span class="string">'.subnav-product-grid'</span>);
 
       $grids = Utilities.gridApportion({
-        $groups: $grids,
-        mobile: mobile
+        $groups: $grids
       });
-
-      $grids[ mobile ? <span class="string">'addClass'</span> : <span class="string">'removeClass'</span> ](<span class="string">'m-grid-override'</span>);
 
       self.$activeSubcat = $subcat;
       self.setTrayHeight();
@@ -191,7 +201,7 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $subcat = self.$el.find(<span class="string">'#subcategory-'</span> + which);
 
-      self.renderSubcats($subcat, self.mode !== <span class="string">'desktop'</span>);
+      self.renderSubcats($subcat, self.subcatCols);
 
       self.$subcats.removeClass(<span class="string">'active'</span>);
 

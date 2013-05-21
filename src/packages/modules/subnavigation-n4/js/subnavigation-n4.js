@@ -51,27 +51,38 @@ define(function(require){
     constructor: Subnavigation,
 
     init: function() {
+
       var self = this;
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
         enquire.register("(min-width: 980px)", function() {
           self.mode = 'desktop';
-          self.renderSubcats(self.$activeSubcat, false);
+          self.subcatCols = 3;
+          self.renderSubcats(self.$activeSubcat, 3);
           self.renderNav(2);
         });
-        enquire.register("(min-width: 480px) and (max-width: 979px)", function() {
+        enquire.register("(min-width: 768px) and (max-width: 979px)", function() {
           self.mode = 'tablet';
-          self.renderSubcats(self.$activeSubcat, true);
+          self.subcatCols = 4;
+          self.renderSubcats(self.$activeSubcat, 4);
+          self.renderNav(3);
+        });
+        enquire.register("(min-width: 480px) and (max-width: 767px)", function() {
+          self.mode = 'tablet-small';
+          self.subcatCols = 6;
+          self.renderSubcats(self.$activeSubcat, 6);
           self.renderNav(3);
         });
         enquire.register("(max-width: 479px)", function() {
           self.mode = 'mobile';
-          self.renderSubcats(self.$activeSubcat, true);
+          self.subcatCols = 12;
+          self.renderSubcats(self.$activeSubcat, 12);
           self.renderNav(4);
         });
       } else {
         self.mode = 'desktop';
-        self.renderSubcats(self.$activeSubcat, false);
+        self.subcatCols = 3;
+        self.renderSubcats(self.$activeSubcat, 3);
         self.renderNav(2);
       }
 
@@ -83,7 +94,7 @@ define(function(require){
     // Render a subcategory; this is done on-demand so that we don't needlessly
     // compute every subcat on pageload / resize.
 
-    renderSubcats: function($subcat, mobile) {
+    renderSubcats: function($subcat, columns) {
 
       var self = this,
           $grids;
@@ -92,14 +103,13 @@ define(function(require){
         return;
       }
 
+      Utilities.reassignSpanWidths($subcat.find('.product, .marketing-tout, .subnav-accessories'), columns);
+
       $grids = $subcat.find('.subnav-product-grid');
 
       $grids = Utilities.gridApportion({
-        $groups: $grids,
-        mobile: mobile
+        $groups: $grids
       });
-
-      $grids[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
 
       self.$activeSubcat = $subcat;
       self.setTrayHeight();
@@ -197,7 +207,7 @@ define(function(require){
       var self = this,
           $subcat = self.$el.find('#subcategory-' + which);
 
-      self.renderSubcats($subcat, self.mode !== 'desktop');
+      self.renderSubcats($subcat, self.subcatCols);
 
       self.$subcats.removeClass('active');
 
