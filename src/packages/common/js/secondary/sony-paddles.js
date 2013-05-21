@@ -70,6 +70,14 @@ define(function(require){
       self.$el.on('mouseleave.sonyPaddles', function(){
         self.$nav.removeClass('show-paddles');
       });
+
+      self.$paddles.on('focus', function() {
+        $(this).show().addClass('on');
+      });
+
+      self.$paddles.on('blur', function() {
+        $(this).hide().removeClass('on');
+      });
     },
 
     'setupPaddles': function(){
@@ -77,8 +85,8 @@ define(function(require){
       var self = this,
           paddleClass = self.useSmallPaddles ? 'nav-paddle' : 'pagination-paddle',
           $navContainer = $('<div class="pagination-paddles">'),
-          $prevPaddle = $('<div class="' + paddleClass + ' ' + self.paddlePosition + ' pagination-prev"><i class="fonticon-10-chevron-reverse"></i></div>'),
-          $nextPaddle = $('<div class="' + paddleClass + ' ' + self.paddlePosition + ' pagination-next"><i class="fonticon-10-chevron"></i></div>');
+          $prevPaddle = $('<a href="#" class="' + paddleClass + ' ' + self.paddlePosition + ' pagination-prev"><i class="fonticon-10-chevron-reverse"></i></a>'),
+          $nextPaddle = $('<a href="#" class="' + paddleClass + ' ' + self.paddlePosition + ' pagination-next"><i class="fonticon-10-chevron"></i></a>');
 
       $navContainer.append( $prevPaddle, $nextPaddle );
       self.$el.append( $navContainer );
@@ -88,11 +96,13 @@ define(function(require){
       self.$leftPaddle = self.$paddles.filter('.pagination-prev');
       self.$rightPaddle = self.$paddles.filter('.pagination-next');
 
-      self.$leftPaddle.on('click', function() {
+      self.$leftPaddle.on('click', function(e) {
+        e.preventDefault();
         self.$el.trigger('sonyPaddles:clickLeft');
       });
 
-      self.$rightPaddle.on('click', function() {
+      self.$rightPaddle.on('click', function(e) {
+        e.preventDefault();
         self.$el.trigger('sonyPaddles:clickRight');
       });
     },
