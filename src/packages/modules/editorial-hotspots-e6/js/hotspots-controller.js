@@ -213,8 +213,11 @@ define(function(require) {
           windowHeight = self.getMaxModalHeights().maxBodyHeight,
           modalHeight  = self.$modal.height(),
           newOffset    = 0;
-      newOffset = ( windowHeight / 2 ) - ( modalHeight / 2 );
-      self.$modal.css( 'top', newOffset+'px' );
+      
+        //newOffset = ( windowHeight / 2 ) - ( modalHeight / 2 );
+        //self.$modal.css( 'top', newOffset+'px' );
+      
+      self.$modal.css( 'top', '0px' );
       return;
     },
 
