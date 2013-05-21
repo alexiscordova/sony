@@ -63,20 +63,22 @@ define(function(require){
 
       self.setupPaddles();
 
+      self.$paddles.on('blur', function() {
+        self.$nav.removeClass('show-paddles');
+        $(this).removeClass('on');
+      });
+
+      self.$paddles.on('focus', function() {
+        self.$nav.addClass('show-paddles');
+        $(this).addClass('on');
+      });
+
       self.$el.on('mouseenter.sonyPaddles', function(){
         self.$nav.addClass('show-paddles');
       });
 
       self.$el.on('mouseleave.sonyPaddles', function(){
         self.$nav.removeClass('show-paddles');
-      });
-
-      self.$paddles.on('focus', function() {
-        $(this).show().addClass('on');
-      });
-
-      self.$paddles.on('blur', function() {
-        $(this).hide().removeClass('on');
       });
     },
 
