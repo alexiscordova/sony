@@ -1,9 +1,9 @@
 define(function(require){
-  
-  
-  
-  var $ = require('jquery'),
-  Settings = require('require/sony-global-settings');
+
+  var $       = require('jquery'),
+  Settings    = require('require/sony-global-settings'),
+  IS_PS3      = Settings.isPS3,
+  IS_GOOGLETV = Settings.isGoogleTV;
 
 /*!
 
@@ -740,7 +740,7 @@ flowplayer.engine.flash = function(player, root) {
 
             var debug = true;
 
-            if( $('html').hasClass('ps3') || debug || Settings.isGoogleTV){
+            if(IS_PS3 || debug || IS_GOOGLETV){
                conf.swf = conf.swfFallback;
             }
 
@@ -750,7 +750,9 @@ flowplayer.engine.flash = function(player, root) {
 
             api = objectTag[0];
 
-            root.find('.fp-ui').css('visibility' , 'hidden');
+            if(IS_PS3 || debug || IS_GOOGLETV){
+               root.find('.fp-ui').css('visibility' , 'hidden');
+            }
 
 
             // throw error if no loading occurs
@@ -806,9 +808,11 @@ flowplayer.engine.flash = function(player, root) {
 
 
       unload: function() {
-
-         root.find('.fp-ui').css('visibility' , 'visible');
-
+         
+         if(IS_PS3 || debug || IS_GOOGLETV){
+            root.find('.fp-ui').css('visibility' , 'visible');
+         }
+         
          api && api.__unload && api.__unload();
          delete $[callbackId];
          $("object", root).remove();
