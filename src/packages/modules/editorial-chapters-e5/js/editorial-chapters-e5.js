@@ -256,7 +256,12 @@ define(function(require){
 
         self.currentId = selectedIndex;
 
-        $anchors.removeClass('active');
+        // need to set a tmeout of 100ms so we can 
+        // fix a flicker bug on mobile devices
+        setTimeout(function() {
+          $anchors.removeClass('active');
+        },100);       
+
         $el.addClass('active');
 
         self.$slideContainer.sonyCarouselFade( 'gotoSlide' , self.currentId );
