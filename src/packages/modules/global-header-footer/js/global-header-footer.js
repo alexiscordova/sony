@@ -23,7 +23,7 @@ define(function(require) {
   var module = {
     init: function() {
       $('#nav-wrapper').globalNav();
-      console.clear();
+      // console.clear();
     }
   };
 
@@ -47,11 +47,24 @@ define(function(require) {
     self.mobileNavVisible = false;
     self.mobileNavThreshold = 767;
     self.mobileFooterThreshold = 567;
-    self.closeDelay = 500;
-    self.closeDelaySearch = 2000;
     self.closeTimer = false;
-    self.openDelay = 200;
-    self.openTimer = false;
+
+    // A simple delay, in milliseconds, before the "out" function is called.
+    // If the user mouses back over the element before the timeout has expired the
+    // "out" function will not be called (nor will the "over" function be called).
+    // This is primarily to protect against sloppy/human mousing trajectories that
+    // temporarily (and unintentionally) take the user off of the target element... giving them time to return.
+    self.closeDelay = 400;
+    self.closeDelaySearch = 2000;
+
+    // The number of milliseconds hoverIntent waits between reading/comparing
+    // mouse coordinates. When the user's mouse first enters the element
+    // its coordinates are recorded. The soonest the "over" function can be
+    // called is after a single polling interval. Setting the polling interval
+    // higher will increase the delay before the first possible "over" call,
+    // but also increases the time to the next point of comparison.
+    self.openDelay = 100;
+    // self.openTimer = false;
 
     // Get the right prefixed names e.g. WebkitTransitionDuration
     self.tapOrClick = self.hasTouch ? 'touchstart' : 'click';
@@ -142,15 +155,23 @@ define(function(require) {
       // Set up primary nav buttons (Electronics, Entertainment, Account & Search)
       self.$activeNavBtns.each(function() {
         var $thNavBtn = $(this),
-          $thNavBtnTarget = $('.' + $thNavBtn.data('target')),
-          $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
+          $thNavBtnTarget = $('.' + $thNavBtn.data('target'));
+          // $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
         $thNavBtn.on('click touchstart mouseenter focus', function(e) {
           e.preventDefault();
         });
 
         // init
-        self.resetActiveNavBtn($thNavBtn);
+        self.resetActiveNavBtn( $thNavBtn );
+        // Save a reference to its trigger
+        $thNavBtn.data({
+          hovering: false
+        });
+        $thNavBtnTarget.data({
+          $navBtn: $thNavBtn,
+          hovering: false
+        });
 
         // UPDATE
         //
@@ -176,14 +197,14 @@ define(function(require) {
 
         // TOUCH DEVICES
         if (self.hasTouch) {
-          console.log('hasTouch = true');
+          // console.log('hasTouch = true');
 
-          $thNavBtn.on( 'touchstart focus', null, self, self.onNavBtnTouchFocus ); // end touchstart
+          $thNavBtn.on( 'touchstart focus', $.proxy( self.onNavBtnTouchFocus ) ); // end touchstart
 
         // NOT touch device - set up HOVER triggers
         } else {
 
-          console.log('No Touch - Use Click Events');
+          // console.log('No Touch - Use Click Events');
 
           // mouseenter focus click
 
@@ -195,11 +216,19 @@ define(function(require) {
           // }
 
 
-          $thNavBtn.on( 'mouseenter', null, self, self.onNavBtnMouseEnter ); // end $thNavBtn.on('mouseenter')
-          $thNavBtn.on( 'mouseleave', null, self, self.onNavBtnMouseLeave ); // end $thNavBtn.on('mouseleave')
-          $thNavBtnTarget.on( 'mouseenter', null, self, self.onNavBtnTargetMouseEnter ); // end $thNavBtnTarget.on('mouseenter')
-          $thNavBtnTarget.on( 'mouseleave', null, { globalNav: self, $thNavBtn: $thNavBtn }, self.onNavBtnTargetMouseLeave ); // end $thNavBtnTarget.on('mouseleave')
-
+          // $thNavBtn.hoverIntent( $.proxy( self.onNavBtnMouseEnter, self ), $.proxy( self.onNavBtnMouseLeave, self ) );
+          $thNavBtn.hoverIntent({
+            over: $.proxy( self.onNavBtnMouseEnter, self ),
+            out: $.proxy( self.onNavBtnMouseLeave, self ),
+            interval: self.openDelay,
+            timeout: self.closeDelay
+          });
+          $thNavBtnTarget.hoverIntent({
+            over: $.proxy( self.onNavBtnTargetMouseEnter, self ),
+            out: $.proxy( self.onNavBtnTargetMouseLeave, self ),
+            interval: self.openDelay,
+            timeout: self.closeDelay
+          });
 
           // Activate click for tab navigation
           // $thNavBtnTarget.find('a').on('focus', function() {
@@ -259,11 +288,11 @@ define(function(require) {
       // or one of the activeNavBtns, reset any active menus.
       var self = this,
           $target = $( e.target ),
-          clickIsInNavItem = $target.hasClass('navtray-w') || $target.hasClass('navmenu-w') || $target.hasClass('nav-dropdown-toggle') || $target.parents('.navtray-w,.navmenu-w,nav-dropdown-toggle, .nav').length > 0;
+          isClickOnNavItem = $target.hasClass('navtray-w') || $target.hasClass('navmenu-w') || $target.hasClass('nav-dropdown-toggle') || $target.parents('.navtray-w,.navmenu-w,nav-dropdown-toggle, .nav').length > 0;
 
-      console.log('onPageWrapOuterPress', 'clickIsInNavItem: ', clickIsInNavItem );
+      // console.log('onPageWrapOuterPress', 'isClickOnNavItem: ', isClickOnNavItem );
 
-      if (!clickIsInNavItem) {
+      if ( !isClickOnNavItem ) {
         $('.nav .nav-li a.active').trigger('touchstart');
         self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
         $('#nav-search-input').blur();
@@ -313,13 +342,15 @@ define(function(require) {
       }
     },
 
+    // This sometimes is not triggered if the mouse is moved fast enough between two dropdowns
+    // Which therefore doesn't trigger its tray
     onNavBtnMouseEnter : function( e ) {
-      var self = e.data,
-          $navBtn = $( this ),
+      var self = this,
+          $navBtn = $( e.delegateTarget ),
           btnData = $navBtn.data(),
           isTargetSearchMenu = btnData.target === 'navmenu-w-search';
 
-      e.preventDefault();
+      // e.preventDefault();
 
       // search menu doesn't respond to hover; only click & focus.
       if ( isTargetSearchMenu ) {
@@ -330,7 +361,8 @@ define(function(require) {
       btnData.hovering = true;
 
       // Clear the mouse timer
-      self.resetMouseleaveTimer();
+      // console.log('%c[NAVBTN ENTER] ' + $navBtn[0].getAttribute('href'), 'font-size:16px;color:#9B59B6;');
+      // self.resetMouseleaveTimer();
 
       // Check to see if it's the active button first.
       // Keep tray/menu open if it's the same button
@@ -345,39 +377,55 @@ define(function(require) {
     },
 
     onNavBtnMouseLeave : function( e ) {
-      var self = e.data,
-          $navBtn = $( this ),
+      var self = this,
+          $navBtn = $( e.delegateTarget ),
           btnData = $navBtn.data(),
           $target = $( '.' + btnData.target );
 
       e.preventDefault();
 
+      // console.log('%c[NAVBTN LEAVE] ' + $navBtn[0].getAttribute('href'), 'font-size:16px;color:#8E44AD;');
       // No longer hovering flag
       btnData.hovering = false;
 
+      // In a timeout so that the mouse enter for the target
+      // is called before this function
+      setTimeout(function checkItOut() {
+        var isTargetHovered = $target.data('hovering');
+        // console.log('isTargetHovered:', isTargetHovered);
+        // If the mouse didn't go to the tray that opened, close it
+        if ( !isTargetHovered ) {
+          self.resetActiveNavBtn( $navBtn );
+        }
+      }, 5);
+
       // Check to see if it was onto the navtray/navmenu.
       // Wait a few ticks to give it a chance for the hover to fire first.
-      setTimeout(function() {
-        self.checkHoverStatus( $navBtn, $target );
-      }, 5);
+      // setTimeout(function() {
+      //   self.checkHoverStatus( $navBtn, $target );
+      // }, 5);
     },
 
     onNavBtnTargetMouseEnter : function( e ) {
-      var self = e.data;
+      var self = this,
+          $navBtn = $( e.delegateTarget );
 
       e.preventDefault();
-      $(this).data('hovering', true);
+      $navBtn.data('hovering', true);
+      // console.log('target enter, reset timer');
       self.resetMouseleaveTimer();
     },
 
     onNavBtnTargetMouseLeave : function( e ) {
-      var self = e.data.globalNav,
-          $navBtn = e.data.$thNavBtn,
-          $this = $( this ),
+      var self = this,
+          // $navBtn = e.data.$thNavBtn,
+          $target = $( e.delegateTarget ),
+          $navBtn = $target.data('$navBtn'),
+          isNavBtnHovered = $navBtn.data('hovering'),
           timeout;
 
       e.preventDefault();
-      $this.data('hovering', false);
+      $target.data('hovering', false);
 
       // Remove focus from search input on mouse out in ie
       if (Settings.isLTIE10) {
@@ -395,9 +443,11 @@ define(function(require) {
         timeout = self.closeDelaySearch;
       }
 
-      setTimeout(function() {
-        self.checkHoverStatus( $navBtn, $this );
-      }, timeout);
+      // Close this tray/menu if its nav button isn't hovered
+      if ( !isNavBtnHovered ) {
+        // console.log('nav button is not hovered, expire timer and close tray/menu');
+        self.mouseTimerExpired( $navBtn );
+      }
     },
 
     // Checks what is hovered, and starts the timer or resets it
@@ -406,7 +456,7 @@ define(function(require) {
           // The nav tray should close if neither its button, nor itself are currently hovered
           shouldClose = !( $btn.data('hovering') || $target.data('hovering') );
 
-      console.log('shouldClose:', shouldClose);
+      // console.log('shouldClose:', shouldClose);
       // start the countdown to shut it down.
       if ( shouldClose ) {
         self.startMouseleaveTimer( $btn );
@@ -421,21 +471,22 @@ define(function(require) {
       var self = this;
 
       if (Settings.isLTIE10) {
-          $('#nav-search-input').blur();
+        $('#nav-search-input').blur();
       }
       if (Settings.isLTIE9) {
-          $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
-          $('.nav-li-search a').blur();
+        $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
+        $('.nav-li-search a').blur();
       }
 
       $('.navmenu-w-visible').each(function() {
         $(this)
           .removeClass('navmenu-w-visible')
           .one(self.transitionEnd, function() {
+            var $navmenu = $( this ),
+                $transitionContainer = $navmenu.find('.reveal-transition-container');
 
-            var $transitionContainer = $(this).find('.reveal-transition-container');
-            $transitionContainer.css('height', '');
-            $(this).css({'left':'', 'right':''});
+            $transitionContainer.css( 'height', '' );
+            $navmenu.css({ left: '', right: '' });
 
             // clear active class from THIS button!
             // $('.nav-li-search a').removeClass('active');
@@ -504,12 +555,13 @@ define(function(require) {
 
     startMouseleaveTimer : function( $navBtn ) {
       var self = this,
-        delay = self.closeDelay;
+        delay = self.closeDelay + 25;
 
       // Clear the current timer if it exists
+      // console.log('start timer (reset it first)');
       self.resetMouseleaveTimer();
 
-      console.log('TIMER +++ SET');
+      // console.log('TIMER +++ SET');
       // If this timer expires, the current nav button and tray/menu will be reset
       self.closeTimer = setTimeout(function closeTimer() {
         self.mouseTimerExpired( $navBtn );
@@ -518,14 +570,16 @@ define(function(require) {
     resetMouseleaveTimer : function() {
       if ( this.closeTimer ) {
         clearTimeout( this.closeTimer );
-        console.log('TIMER +++ CLEARED');
+        // console.groupCollapsed('TIMER +++ CLEARED');
+        // console.trace();
+        // console.groupEnd();
       }
     },
     // Reset nav button and tray/menu
     mouseTimerExpired : function( $navBtn ) {
       var self = this;
 
-      console.log('TIMER +++ EXPIRED');
+      // console.log('TIMER +++ EXPIRED');
       self.resetActiveNavBtn( $navBtn );
       self.resetMouseleaveTimer();
       self.$currentOpenNavBtn = false;
@@ -534,69 +588,87 @@ define(function(require) {
 
     // Save the currently open nav button
     setActiveNavBtn : function( $btn ) {
-      console.log('---------------------------- set', $btn[0].getAttribute('href'));
-      var self = this,
-          $currentBtn = self.$currentOpenNavBtn,
-          isAnotherOpen = !( $currentBtn === false || ($currentBtn.jquery && $currentBtn.is( $btn )) ),
-          previousDeferred = self.dfdTrayMenu,
-          isPreviousDeferredPending = !!previousDeferred && previousDeferred.state() === 'pending';
+      // console.log('%c[SET]' + $btn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:#3498DB;');
+      var self = this;
+          // $currentBtn = self.$currentOpenNavBtn,
+          // isAnotherOpen = !( $currentBtn === false || ($currentBtn.jquery && $currentBtn.is( $btn )) ),
+          // $activeBtn = self.$activeNavBtns.filter('.active'),
+          // isAnotherOpen = $activeBtn.length > 0 && !$activeBtn.is( $btn ),
+          // previousDeferred = self.dfdTrayMenu,
+          // isPreviousDeferredPending = !!previousDeferred && previousDeferred.state() === 'pending';
 
       // What to do next
-      function complete() {
-        self.activateNavBtn( $btn );
-        self.$currentOpenNavBtn = $btn;
-      }
+      // function complete() {
+      //   self.activateNavBtn( $btn );
+      //   self.$currentOpenNavBtn = $btn;
+      // }
+      // complete();
+      self.activateNavBtn( $btn );
+      self.$currentOpenNavBtn = $btn;
 
       // The previous deferred (tray hide/show) has been rejected
       // Caused by this function being called again before the other
       // was finished animating
-      function reject() {
-        console.log('REJECTED');
-      }
+      // function reject( globalNav, $currentBtn ) {
+      //   // console.log('REJECTED');
+      //   if ( globalNav.$currentBtn.is( $currentBtn ) ) {
+      //     // console.log('globalNav\'s current button is the one which was rejected');
+      //   }
+      // }
 
-      console.log( 'isAnotherOpen: ', isAnotherOpen, 'isPreviousDeferredPending: ', isPreviousDeferredPending );
+      // console.log( 'isAnotherOpen: ', isAnotherOpen, 'isPreviousDeferredPending: ', isPreviousDeferredPending );
 
-      if ( isPreviousDeferredPending ) {
-        console.log('rejecting');
-        previousDeferred.reject();
-      }
+      // if ( isPreviousDeferredPending ) {
+      //   // ( content [, args] )
+      //   if ( self.dfdTimerId ) {
+      //     clearTimeout( self.dfdTimerId );
+      //   }
+      //   previousDeferred.reject();
+      // }
 
       // Need to close the other first
       // Use a deferred object to wait for it to complete
-      if ( isAnotherOpen ) {
-        // Save a reference to this dfd object and close $currentBtn
-        self.dfdTrayMenu = self.resetActiveNavBtn( $currentBtn );
-        $.when( self.dfdTrayMenu )
-          .done( complete )
-          .fail( reject );
-      } else {
-        complete();
-      }
+      // if ( isAnotherOpen ) {
+      //   // Save a reference to this dfd object and close $currentBtn
+      //   // self.dfdTrayMenu = self.resetActiveNavBtn( $currentBtn );
+      //   self.dfdTrayMenu = self.resetActiveNavBtn( $activeBtn );
+      //   $.when( self.dfdTrayMenu )
+      //     .done( complete )
+      //     .fail( reject );
+      // } else {
+      //   complete();
+      // }
+
     },
 
     // Blur this nav button, and remove the active class
     // Also reset the tray or menu if it has one
     resetActiveNavBtn : function( $oldNavBtn ) {
       var self = this,
-          dfd = new $.Deferred(),
+          // dfd = new $.Deferred(),
           hasLength = $oldNavBtn.length > 0,
           navBtnTarget = $oldNavBtn.data('target'),
           hasTarget = !!navBtnTarget,
           isTray,
-          $navTarget,
-          timeout;
+          $navTarget;
+          // timeout;
+
+      // console.log('%c[RESET] ' + ($oldNavBtn.length > 0 && $oldNavBtn[0].getAttribute('href')), 'font-size:14px;color:#2ECC71;' );
 
       // reset this button
       if ( hasLength ) {
-        console.log('reset ---------', $oldNavBtn[0].getAttribute('href'));
-        $oldNavBtn.removeClass('active').blur().parent().removeClass('nav-li-selected');
+        $oldNavBtn
+          .removeClass('active')
+          .blur()
+          .parent()
+            .removeClass('nav-li-selected');
       }
 
       // if there's a navTray/navMenu, reset it
       if ( hasTarget ) {
         $navTarget = $( '.' + navBtnTarget );
         isTray = $navTarget.hasClass('navtray-w');
-        timeout = isTray ? 250 : 150;
+        // timeout = isTray ? 250 : 150;
 
         // Is a tray, slide it up
         if ( isTray ) {
@@ -607,18 +679,19 @@ define(function(require) {
           self.resetActiveNavMenu();
         }
 
-        setTimeout(function() {
-          console.log('resetActiveNavBtn :: deferred resolved after %dms', timeout);
-          dfd.resolve();
-        }, timeout);
+        // self.dfdTimerId = setTimeout(function() {
+        //   // console.log('RESET ' + $oldNavBtn[0].getAttribute('href') + ' RESOLVED' );
+        //   dfd.resolve();
+        // }, timeout);
 
       // If there's no target, resolve the deferred right away
-      } else {
-        dfd.resolve();
       }
+      // else {
+      //   dfd.resolve();
+      // }
 
       // Don't return the promise here, so that it can be rejected elsewhere
-      return dfd;
+      // return dfd;
     },
 
 
@@ -691,7 +764,7 @@ define(function(require) {
           $navTarget,
           isTray;
 
-      console.log('activate --------', $newNavBtn[0].getAttribute('href') );
+      // console.log('%c[ACTIVATE] ' + $newNavBtn[0].getAttribute('href'), 'font-size:14px;color:#E74C3C;' );
 
       //.removeClass('no-transition')
       $newNavBtn
@@ -725,7 +798,12 @@ define(function(require) {
       // $navTarget.one(self.transitionEnd, function() {
       //   iQ.update(true);
       // });
-      $target.one( self.transitionEnd, iQ.update );
+
+      if ( Modernizr.csstransitions ) {
+        $target.one( self.transitionEnd, iQ.update );
+      } else {
+        iQ.update();
+      }
 
       // first get the tray's natural height, which it should have offscreen.
       // expand the tray. When it's done, set it to position:relative and natural heights.
