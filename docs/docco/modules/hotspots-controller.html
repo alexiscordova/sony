@@ -94,9 +94,11 @@ define(<span class="keyword">function</span>(require) {
     init : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>inject the underlay node near the top of the dom tree</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> underlayNode = $( <span class="string">'.hspot-underlay'</span> ).get( <span class="number">0</span> );
-      $( <span class="string">'.hspot-underlay'</span> ).detach();
-      $( <span class="string">'body'</span> ).append( underlayNode );
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>inject the underlay node near the top of the dom tree</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*
+      var underlayNode = $( '.hspot-underlay' ).get( 0 );
+      $( '.hspot-underlay' ).detach();
+      $( 'body' ).append( underlayNode );
+*/</span>
 
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>detect what type of tracking we need to bind the instance to</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> moduleHandle = self.$container.parent().find( <span class="string">'.image-module'</span> );
       <span class="keyword">if</span>( moduleHandle.hasClass( <span class="string">'track-by-background'</span> ) ) {
@@ -545,13 +547,15 @@ hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a
 
 </pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>set the open status to zilch</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastOpen = <span class="literal">null</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>kill the underlay if we're in minified mode</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
-          $( <span class="string">'.hspot-underlay'</span> ).addClass( <span class="string">'hidden'</span> );
+<span class="comment">/*
+</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>kill the underlay if we're in minified mode</p>             </td>             <td class="code">               <div class="highlight"><pre>        if( true === self.showOverlayCentered ) {
+          $( '.hspot-underlay' ).addClass( 'hidden' );
         }
+*/
     },
 
-    open: <span class="keyword">function</span>( container, hotspot, info ) {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+    open: function( container, hotspot, info ) {
+        var self = this;
 
 </pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( self.$lastOpen &amp;&amp; container.is( self.$lastOpen[<span class="number">0</span>] ) ) {
           self.cleanTimer();
