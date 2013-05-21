@@ -6,11 +6,17 @@ $windowWidth: 1100;
 
 // if they stack a textonly module ontop of a full module
 // we need to compensate that
-.editorial.textonly {
-
-  & + .editorial-chapters-container  {
-    margin: -50px 0 0;
-    padding: 0 0 50px;
+.editorial {
+  &.full {
+    .box .link {
+      margin: 0;
+    }
+  }
+  &.textonly {
+    & + .editorial-chapters-container  {
+      margin: -50px 0 0;
+      padding: 0 0 50px;
+    }
   }
 }
 
