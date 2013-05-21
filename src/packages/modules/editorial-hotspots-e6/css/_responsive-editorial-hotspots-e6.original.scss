@@ -6,7 +6,6 @@ $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
 $transitionSpeed: 1.5s;
 
-
 @media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
   .editorial {
     .submodule {
@@ -39,122 +38,24 @@ $transitionSpeed: 1.5s;
   }
 }
 
-$transitionSpeed: 0.5s;
-
-@media ( min-width: px-em(1px) ) and ( max-width: px-em(9999px) ) {
-
-  /*GLOBAL OVERLAY*/
-  .editorial {
-    .hotspot-modal {
-      .modal-body, .modal-inner {
-        background-color: transparent;
-        box-shadow: 0px 0px 0px transparent;
-        -moz-box-shadow: 0px 0px 0px transparent;
-        -webkit-box-shadow: 0px 0px 0px transparent;
-        box-shadow: 0px 0px 0px transparent;
-      }
-      .overlay-inner {
-        margin: 0px auto;
-        width: 280px;
-        background-color: #fff;
-
-        .overlay-close {
-          position: relative;
-          width: 280px;
-          -moz-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-          -webkit-box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-          box-shadow: 0 0 30px rgba(39, 43, 55, 0.15);
-          margin-top: 1em;
-          text-align: left;
-
-          .top {
-            background-color: #fff;
-          }
-
-          .middle {
-            background-color: #fff;
-            padding: 30px 40px 29px 30px;
-            border-bottom: 1px solid #e4e7eb;
-            position: relative;
-
-            p.p4, p.p3 {
-              margin-bottom: 7px;
-              &.cHBC {
-                margin-bottom: 0;
-              }
-            }
-          }
-
-          .footer {
-            background-color: #fff;
-            padding: 18px 40px 0px 30px;
-            height: 107px;
-
-            p.p4, p.p3 {
-              font-style: italic;
-              color: $secondarySlateDark;
-              margin-bottom: 8px;
-            }
-
-            blockquote.l4, blockquote.l3 {
-              color: $gray40;
-              position: relative;
-              margin-left: 24px;
-
-              &:before {
-                display: block;
-                content: "\201C";
-                font-size: 40px;
-                font-family: Georgia;
-                position: absolute;
-                left: -24px;
-                top: -13px;
-                color: $secondarySlateDark;
-              }
-            }
-          }
-          .hspot-close, .box-close {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-          }
-        }
-      }
-    }
-  }
-
+@media ( min-width: px-em(567) ) and (max-width: px-em(767px)) {
 
 }
 
+$transitionSpeed: 0.5s;
+
 @media ( max-width: px-em(767px) ) {
 
-
-
-  .editorial {
-    .submodule, .image-module {
-      .arrow-right, .arrow-left {
-        display: none;
-      }
-    }
-    .hspot-small {
-      .arrow-right, .arrow-left {
-        display: none;
-      }
-    }
-  }
-
-
-/*
   body {
     .hspot-underlay {
-      position: fixed;
-      z-index: 5;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      position: fixed;
       background: rgb(255, 255, 255) transparent;
       background-color: rgba(255, 255, 255, 0);
+      z-index: 5;
       -o-transition:$transitionSpeed;
       -ms-transition:$transitionSpeed;
       -moz-transition:$transitionSpeed;
@@ -163,14 +64,14 @@ $transitionSpeed: 0.5s;
       opacity: 0;
     }
     .hspot-underlay-on {
-      position: fixed;
-      z-index: 5;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      position: fixed;
       background: rgb(255, 255, 255) transparent;
       background-color: rgba(255, 255, 255, 0.3);
+      z-index: 5;
       -o-transition:$transitionSpeed;
       -ms-transition:$transitionSpeed;
       -moz-transition:$transitionSpeed;
@@ -179,16 +80,15 @@ $transitionSpeed: 0.5s;
       opacity: 1;
     }
   }
-*/
-
   .editorial {
     .submodule, .hotspot-instance {
       /* SMALL HOTSPOTS */
       .hspot-outer {
         position: absolute;
         top: 0;
-        left: -15px;
+        left: 0;
         margin-top: -20px;
+        left: -15px;
         width: 42px;
         height: 42px;
         background: url('../../img/editorial-dual-viewer-e9/gray30.png');
@@ -200,18 +100,18 @@ $transitionSpeed: 0.5s;
 
         .hspot-core {
           position: absolute;
-          display: block;
-          margin: -32px 0 0 -32px;
-          top: 50%;
-          left: 50%;
           width: 64px;
           height: 64px;
+          @include scale(0.5);
           background: $buttonOrange;
+          display: block;
           text-align: center;
           font-size: 2.0em;
+          top: 50%;
+          left: 50%;
+          margin: -32px 0 0 -32px;
           @include border-radius(50%);
           @include transition(.1s ease-out);
-          @include scale(0.5);
 
           .icons {
             position: absolute;
@@ -246,18 +146,18 @@ $transitionSpeed: 0.5s;
 
         .hspot-core-on {
           position: absolute;
-          display:block;
           width: 64px;
           height: 64px;
+          @include scale(0.5);
+          background:$gray30;
+          display:block;
+          text-align:center;
+          font-size:2.0em;
           top:50%;
           left:50%;
           margin: -32px 0 0 -32px;
-          background:$gray30;
-          text-align:center;
-          font-size:2.0em;
           @include border-radius(50%);
           @include transition(.1s ease-out);
-          @include scale(0.5);
 
           .icons {
             position:absolute;

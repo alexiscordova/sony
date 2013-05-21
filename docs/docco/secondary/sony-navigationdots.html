@@ -63,10 +63,13 @@ define(<span class="keyword">function</span>(require){
 
       self.$navContainer = $(<span class="string">'&lt;div/&gt;'</span>).addClass(<span class="string">'pagination-bullets on'</span>);
       self.$buttonTemplate = $(<span class="string">'&lt;div/&gt;'</span>).addClass(<span class="string">'pagination-bullet'</span>);
+      self.$buttonIcon = $(<span class="string">'&lt;i/&gt;'</span>).addClass(<span class="string">'fonticon-10-dot'</span>);
 
       <span class="keyword">if</span> ( self.theme === <span class="string">'light'</span> ) {
         self.$el.addClass(<span class="string">'pagination-light'</span>);
       }
+
+      self.$buttonTemplate.append(self.$buttonIcon);
 
       self.reset(self);
     },
