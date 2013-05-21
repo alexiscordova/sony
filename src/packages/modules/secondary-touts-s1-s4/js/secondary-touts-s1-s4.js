@@ -167,7 +167,7 @@ define(function(require){
       var self = this,
           clickContext;
 
-      self.$el.hammer().on('tap.secondarytouts', '.st-item', function(e){
+      self.$el.hammer().on('tap.secondarytouts', '.st-item:not(.carousel)', function(e){
 
         var $this = $(this),
             destination = $this.find('.primary-link').attr('href'),
