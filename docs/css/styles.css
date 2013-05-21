@@ -6487,35 +6487,37 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   display: inline-block;
   margin-left: 0.3125em;
   color: #bcbccc;
+  color: rgba(47, 53, 61, 0.4);
   cursor: pointer;
   font-size: 0.75em;
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
   -webkit-font-smoothing: antialiased;
 }
-/* line 38, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 39, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-light .pagination-bullets .pagination-bullet {
   color: #83838f;
+  color: rgba(228, 231, 235, 0.4);
 }
-/* line 42, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 44, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-light .pagination-bullets .pagination-bullet:hover, .pagination-light .pagination-bullets .pagination-bullet.bullet-selected {
   color: #e4e7eb;
 }
-/* line 47, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 49, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet .fonticon-10-dot {
   font-size: 0.8em;
 }
-/* line 51, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 53, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet:first-child {
   margin-left: 0;
 }
-/* line 57, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 59, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet:hover,
 .pagination-bullets .bullet-selected {
   color: #2f353d;
 }
 
-/* line 65, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 67, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
@@ -6524,23 +6526,23 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   width: 100%;
   opacity: 0;
 }
-/* line 72, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 74, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles {
   display: none;
 }
-/* line 76, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 78, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles.show-paddles {
   opacity: 1;
 }
-/* line 79, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 81, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles.show-paddles {
   display: block;
 }
-/* line 83, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 85, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie8 .pagination-paddles.show-paddles {
   display: none;
 }
-/* line 89, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 91, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle,
 .pagination-paddles .pagination-paddle {
   -webkit-transition: 0.2s ease-out;
@@ -6558,48 +6560,54 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   opacity: 0;
   z-index: 999;
 }
-/* line 104, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-paddles .nav-paddle.on,
-.pagination-paddles .pagination-paddle.on {
+/* line 107, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle.on, .pagination-paddles .nav-paddle:focus,
+.pagination-paddles .pagination-paddle.on,
+.pagination-paddles .pagination-paddle:focus {
   opacity: 1;
 }
-/* line 108, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 111, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle.pagination-next,
 .pagination-paddles .pagination-paddle.pagination-next {
   right: 20px;
 }
 @media (min-width: 1400px) {
-  /* line 111, ../../src/packages/common/css/_components/_pagination.scss */
+  /* line 114, ../../src/packages/common/css/_components/_pagination.scss */
   .pagination-paddles .nav-paddle.pagination-next.outset,
   .pagination-paddles .pagination-paddle.pagination-next.outset {
     right: 50%;
     margin-right: -695px;
   }
 }
-/* line 119, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 121, ../../src/packages/common/css/_components/_pagination.scss */
+.pagination-paddles .nav-paddle.pagination-next i,
+.pagination-paddles .pagination-paddle.pagination-next i {
+  margin-left: -0.5em;
+}
+/* line 126, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle.pagination-prev,
 .pagination-paddles .pagination-paddle.pagination-prev {
   left: 20px;
 }
 @media (min-width: 1400px) {
-  /* line 122, ../../src/packages/common/css/_components/_pagination.scss */
+  /* line 129, ../../src/packages/common/css/_components/_pagination.scss */
   .pagination-paddles .nav-paddle.pagination-prev.outset,
   .pagination-paddles .pagination-paddle.pagination-prev.outset {
     left: 50%;
     margin-left: -695px;
   }
 }
-/* line 130, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 137, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles .nav-paddle, .lt-ie9
 .pagination-paddles .pagination-paddle {
   zoom: 1;
 }
-/* line 134, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 141, ../../src/packages/common/css/_components/_pagination.scss */
 .touch .pagination-paddles .nav-paddle, .touch
 .pagination-paddles .pagination-paddle {
   display: none;
 }
-/* line 139, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 146, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle:hover, .pagination-paddles .nav-paddle:focus,
 .pagination-paddles .pagination-paddle:hover,
 .pagination-paddles .pagination-paddle:focus {
@@ -6608,7 +6616,7 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   outline: none;
   cursor: pointer;
 }
-/* line 146, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 153, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle i,
 .pagination-paddles .pagination-paddle i {
   -webkit-font-smoothing: antialiased;
@@ -6619,13 +6627,13 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   color: white;
   font-size: 0.9375em;
 }
-/* line 158, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 165, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .show-paddles .nav-paddle,
 .pagination-paddles .show-paddles .pagination-paddle {
   opacity: 1;
 }
 
-/* line 171, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 178, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle,
 .nav-paddle {
   -webkit-transition: 0.2s ease-out;
@@ -6640,28 +6648,28 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   margin-top: -1.625em;
   padding: 0;
 }
-/* line 183, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 190, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle i,
 .nav-paddle i {
   -webkit-font-smoothing: antialiased;
   position: absolute;
   left: 50%;
   top: 50%;
-  margin: -0.6em 0 0 -0.6em;
+  margin: -0.6em 0 0 -0.55em;
   color: white;
   font-size: 0.9375em;
 }
-/* line 193, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 200, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles .nav-paddle, .lt-ie9
 .nav-paddle {
   zoom: 1;
 }
-/* line 197, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 204, ../../src/packages/common/css/_components/_pagination.scss */
 .touch .pagination-paddles .nav-paddle, .touch
 .nav-paddle {
   display: none;
 }
-/* line 202, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 209, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle:hover, .pagination-paddles .nav-paddle:focus,
 .nav-paddle:hover,
 .nav-paddle:focus {
