@@ -23,7 +23,6 @@ define(function(require) {
   var module = {
     init: function() {
       $('#nav-wrapper').globalNav();
-      console.clear();
     }
   };
 
