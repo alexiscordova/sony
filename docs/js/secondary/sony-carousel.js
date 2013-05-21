@@ -101,7 +101,6 @@ define(function(require){
       var self = this;
 
       self.resetSlides( true );
-      self.setupLinkClicks();
 
       if ( self.direction === 'vertical' ) {
         self.posAttr = 'top';
@@ -139,7 +138,8 @@ define(function(require){
 
     setupLoopedCarousel: function() {
 
-      var self = this;
+      var self = this,
+          $clonedSlides = $();
 
       self.$allSlides = self.$slides;
 
@@ -156,8 +156,12 @@ define(function(require){
 
         self.$el.append($frontSlide).prepend($backSlide);
 
-        self.$allSlides = self.$allSlides.add($frontSlide).add($backSlide);
+        $clonedSlides = $clonedSlides.add($frontSlide).add($backSlide);
       }
+
+      self.$allSlides = self.$allSlides.add($clonedSlides);
+
+      $clonedSlides.find('a').removeAttr('href');
     },
 
     setupDraggable: function() {
@@ -582,35 +586,6 @@ define(function(require){
       self.CSS3Easing = bezierStr;
     },
 
-    // Uses a hammerjs `tap` delegation to the slides to allow for clickable elements
-    // within the slides; this approach allows for hammer to determine if the event
-    // was a `drag` or a `tap` and respond accordingly.
-    //
-    // self.defaultLink specifies an overall click state, which is overriden if you click on a
-    // *separate* link within the slide (closestLink, below).
-    setupLinkClicks: function() {
-
-      var self = this,
-          clickContext;
-
-      self.$el.on('tap.sonycarousel', self.slides, function(e){
-
-        var $this = $(this),
-            destination = $this.find(self.defaultLink).attr('href'),
-            closestLink = $(e.gesture.target).closest('a').attr('href');
-
-        if ( !closestLink && !destination ) {
-          return;
-        }
-
-        if ( closestLink && closestLink !== destination ) {
-          destination = closestLink;
-        }
-
-        window.location = destination;
-      });
-    },
-
     resetSlides: function( isInit ) {
 
       var self = this,
@@ -624,10 +599,6 @@ define(function(require){
 
       self.$slides = self.$el.find(self.slides).not(self.cloneClass);
 
-      if ( !isInit ) {
-        self.setupLinkClicks();
-      }
-
       if ( self.looped ) {
         self.setupLoopedCarousel();
       }
@@ -639,6 +610,10 @@ define(function(require){
       if ( self.pagination ) {
         self.createPagination();
       }
+
+      self.$el.find('a').on('focus', function(e){
+        self.gotoSlide(self.$slides.index($(this).closest(self.$slides)));
+      });
     },
 
     // Reset the style attribute for the properties we might have manipulated.

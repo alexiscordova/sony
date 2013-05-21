@@ -26,33 +26,38 @@ $paddleHeight: px-em( 76 );
   }
 
   .pagination-bullet {
-    height: 9px;
-    width: 9px;
     display: inline-block;
     margin-left: $bulletMargin;
-    background-color: $gray50;
-    border-radius: 9px;
+    color: $gray50;
+    color: rgba($gray20, .4);
     cursor: pointer;
+    font-size: $bulletSize;
     @include transition();
+
     -webkit-font-smoothing: antialiased;
 
     .pagination-light & {
-      background-color: $gray40;
+      color: $gray40;
+      color: rgba($gray70, .4);
 
       &:hover,
       &.bullet-selected {
-        background-color: $gray70;
+        color: $gray70;
       }
     }
 
+    .fonticon-10-dot {
+      font-size: 0.8em;
+    }
+
     &:first-child {
-      margin-left: 0;
+        margin-left: 0;
     }
   }
 
   .pagination-bullet:hover,
   .bullet-selected {
-    background-color: $gray20;
+    color: $gray20;
   }
 }
 
@@ -98,7 +103,8 @@ $paddleHeight: px-em( 76 );
     opacity: 0;
     z-index: 999;
 
-    &.on {
+    &.on,
+    &:focus {
       opacity: 1;
     }
 
@@ -110,6 +116,10 @@ $paddleHeight: px-em( 76 );
           right: 50%;
           margin-right: -695px;
         }
+      }
+
+      i {
+        margin-left: -0.5em;
       }
     }
 
@@ -182,7 +192,7 @@ $paddleHeight: px-em( 76 );
     position: absolute;
     left: 50%;
     top: 50%;
-    margin: -0.6em 0 0 -0.6em;
+    margin: -0.6em 0 0 -0.55em;
     color: $white;
     font-size: $font_15_16;
   }

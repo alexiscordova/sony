@@ -29,7 +29,14 @@ section.subnav-module(id = data.id ? data.id : false)
 
     for subcategory in data.subcategories
       - if ( subcategory.products )
-        section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))
+
+        - if ( subcategory.accessories ) {
+          - accessoryListClass = 'has-accessory-list'
+        - } else {
+          - accessoryListClass = 'no-accessory-list'
+        - }
+
+        section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))(class=accessoryListClass)
           div.grid.no-grid-at-979
             .span6
               h3.t3-bold !{subcategory.title}
@@ -39,27 +46,19 @@ section.subnav-module(id = data.id ? data.id : false)
                 i.fonticon-40-accessories
                 | Accessories
               a.gallery-link.btn(href=subcategory.galleryLink)
-                i.fonticon-10-grid-3x3.l-o-d
+                i.fonticon-10-grid-3x3
                 | View All !{subcategory.title}
 
           - subcategoryLength = subcategory.products.length
+
           - if ( subcategory.marketingTout ) subcategoryLength++
+          - if ( subcategory.accessories ) subcategoryLength++
 
           - for ( i = 0; i < subcategoryLength; i = i + 4 ) {
             .subnav-product-grid.grid.no-grid-at-479
               - for ( j = i; j < i + 4 && j < subcategoryLength; j++ ) {
 
-                if subcategory.marketingTout && j == subcategoryLength - 1
-                  - item = subcategory.marketingTout
-                  .marketing-tout.span3.m-span2
-                    a(href=item.link)
-                      img(src=item.imageSrc)
-                      p.t6-light
-                        span !{item.message + " "}
-                          span.highlight !{item.linkText}
-                            i.fonticon-10-chevron-sm.l-o-d
-
-                else
+                if subcategory.products[j]
                   - item = subcategory.products[j]
                   a.product.span3.m-span2(href=item.galleryLink)
                     div.image
@@ -72,6 +71,27 @@ section.subnav-module(id = data.id ? data.id : false)
                         strong.p2-bold !{" " + item.startingAtPrice + " "}
                         span.p5 MSRP
                     i.fonticon-10-chevron
+
+                else if subcategory.marketingTout && !subcategory.accessories || subcategory.marketingTout && j != subcategoryLength - 1
+                  - item = subcategory.marketingTout
+                  .marketing-tout.span3.m-span2
+                    a(href=item.link)
+                      img(src=item.imageSrc)
+                      p.t6-light
+                        span !{item.message + " "}
+                          span.highlight !{item.linkText}
+                            i.fonticon-10-chevron-sm.l-o-d
+
+                else if subcategory.accessories
+                  .subnav-accessories.span3.m-span2
+                    div
+                      h6.l2 Accessories
+                      ul
+                        - for ( i = 0; i < subcategory.accessories.length; i = i + 1 ) {
+                          - accessory = subcategory.accessories[i]
+                          li
+                            a.p3(href=accessory.link)= accessory.title
+                        - }
               - }
           - }
 

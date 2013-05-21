@@ -18,12 +18,25 @@ define(function(require) {
       enquire = require('enquire'),
       Settings = require( 'require/sony-global-settings' ),
       Environment = require( 'require/sony-global-environment' ),
-      Utilities = require( 'require/sony-global-utilities' ),
-      // this keeps track of the last open hotspot globally
-      openHotspot = null;
+      Utilities = require( 'require/sony-global-utilities' );
 
   var self = {
     'init': function() {
+      /*  !! DISABLED SINCE IQ IS EXPENSIVE AND WE'RE NOT WORRIED ABOUT ADAPTIVE IMAGES WHEN THE BROWSER RESIZES
+      var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
+      var breakpointReactor = function( e ) {
+        //iQ.update();
+      };
+
+      if( enquire ) {
+        for( var i=0; i < breakpoints.length; i++ ) {
+          if( 0 === i ) {
+            enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+          } else {
+            enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
+          }
+        }
+      } */
 
       // detect if there are any hotspot containers present
       $( '.hotspot-instance' ).each( function( index, el ) {
@@ -45,6 +58,11 @@ define(function(require) {
     self.$container                     = $( element );
     // collection of hotspots we must initialize
     self.$els                           = self.$container.find( ".hspot-outer" );
+
+/*
+    // COORDINATES AND HOTSPOT STATUS COLLECTION
+    self.$hotspotData                    = [];
+*/
 
     // LAST OPEN
     self.$lastOpen                       = null;
@@ -73,7 +91,6 @@ define(function(require) {
     self.trackOpacityTimer               = null;
     self.canShowHotspots                 = false;
     self.curAnimationCount               = 0;
-    self.inTransition                    = false;
     // MODAL
     self.$modal                          = self.$container.find( '.hotspot-modal' );
     self.$modalBody                      = self.$modal.find( '.modal-body' );
@@ -90,8 +107,6 @@ define(function(require) {
     init : function() {
       var self = this;
 
-      $( self.$container ).on( 'cleanOpenHotspots', self.close );
-
       // inject the underlay node near the top of the dom tree
 /*
       var underlayNode = $( '.hspot-underlay' ).get( 0 );
@@ -106,7 +121,7 @@ define(function(require) {
         self.trackingAsset = moduleHandle;
       } else {
         self.trackingMode = 'asset';
-        self.trackingAsset = $( moduleHandle.children( '.iq-img' )[ 0 ] );
+        self.trackingAsset = $( moduleHandle.children( '.iq-img' )[0] );
       }
 
       // when the tracking item changes it's opacity, we trigger the initial flyon animation for the hotspot
@@ -414,7 +429,7 @@ define(function(require) {
         if( self.$lastOpen && !container.is( self.$lastOpen ) ) {
           self.reset();
         }
-        self.open( container, hotspot, info );
+         self.open( container, hotspot, info );
       }
     },
 
@@ -425,53 +440,42 @@ define(function(require) {
           $modal        = self.$modal.find( '.modal-body' );
 
       if( placeInModal ) {
-      
-        // two open hotspots trying to go modal is not pretty, lets avoid that
-        /* if( self.$container.is( openHotspot[0] ) ) { */
-          // this is the last open hotspot and should go modal when reaching the breakpoint
-          info.addClass( 'hidden' );
-          // defer trigger modal
-          setTimeout(function() {
-  
-            maxBodyHeight = 'none';
-  
-            if ( true /* self.hasTouch */ ) {
-              screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
-              // Stop the page from scrolling behind the modal
-              $( 'body' ).css({
-                height: screenHeight,
-                maxHeight: screenHeight,
-                overflow: 'hidden'
-              });
-            }
-  
-            // Set a maximum height on the modal body so that it will scroll
-            // Sony tablet s is completely busted in the modal....
-            if ( !Settings.isSonyTabletS ) {
-              self.$modalBody.css( 'maxHeight', maxBodyHeight );
-            }
-  
-            self.$modal.css( 'height', '' );
-          }, 0);
-  
-          $modal.html( info.html() );
-  
-          $modal.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-  
-          $modal.find( '.box-close' ).removeClass( 'hidden' );
-  
-          self.$modal.modal({
-            backdrop: true,
-            keyboard: true,
-            show: true
-          });
+        info.addClass( 'hidden' );
+        // defer trigger modal
+        setTimeout(function() {
 
-/*
-        } else {
-          // since this is a rare, responsive condition, keep it clean and close any open hotspots
-          self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
-        }
-*/
+          maxBodyHeight = 'none';
+
+          if ( true /* self.hasTouch */ ) {
+            screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+            // Stop the page from scrolling behind the modal
+            $( 'body' ).css({
+              height: screenHeight,
+              maxHeight: screenHeight,
+              overflow: 'hidden'
+            });
+          }
+
+          // Set a maximum height on the modal body so that it will scroll
+          // Sony tablet s is completely busted in the modal....
+          if ( !Settings.isSonyTabletS ) {
+            self.$modalBody.css( 'maxHeight', maxBodyHeight );
+          }
+
+          self.$modal.css( 'height', '' );
+        }, 0);
+
+        $modal.html( info.html() );
+
+        $modal.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+
+        $modal.find( '.box-close' ).removeClass( 'hidden' );
+
+        self.$modal.modal({
+          backdrop: true,
+          keyboard: true,
+          show: true
+        });
 
       } else {
         //self.close( container, hotspot, info );
@@ -543,30 +547,16 @@ define(function(require) {
           switch( quadrant ) {
             case 1:
             case 4:
-              if( $hotspot.hasClass( 'override-right' ) ) {
-                // has override behavior
-                // position overlay to the right of hotspot
-                $overlay.addClass( 'to-right' );
-                $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );                
-              } else {
-                // position overlay to the left of hotspot
-                $overlay.addClass( 'to-left' );
-                $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );                
-              }
+              // position overlay to the left of hotspot
+              $overlay.addClass( 'to-left' );
+              $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
               quadrant === 1 ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
             break;
             case 2:
             case 3:
-              if( $hotspot.hasClass( 'override-left' ) ) {
-                // has override behavior
-                // position overlay to the left of hotspot
-                $overlay.addClass( 'to-left' );
-                $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );               
-              } else {
-                // position overlay to the right of hotspot
-                $overlay.addClass( 'to-right' );
-                $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-              }
+              // add to-right
+              $overlay.addClass( 'to-right' );
+              $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
               quadrant === 2 ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
             break;
           }
@@ -586,11 +576,8 @@ define(function(require) {
       });
     },
 
-    close: function( container, hotspot, info, fromReset ) {
+    close: function( container, hotspot, info ) {
         var self = this;
-        
-        self.inTransition = ( self.$lastOpen[1].is( hotspot ) && !fromReset )  ? true : false;
-        
         // we are setting display:none when the trasition is complete, and managing the timer here
         self.cleanTimer();
 
@@ -614,7 +601,6 @@ define(function(require) {
         // closure to hide overlays after they fade out
         var anon = function() {
           info.addClass( 'hidden' );
-          self.inTransition = false;
         };
 
         // fire a timer that will set the display to none when the element is closed.
@@ -631,32 +617,17 @@ define(function(require) {
 */
     },
 
-    catchAllClicks: function( event ) {
-      var self = this;
-/*
-
-      if( $( event.currentTarget ).not( self.$lastOpen[2] ) ) {
-        self.close( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2] );
-      }
-*/
-    },
-    
     open: function( container, hotspot, info ) {
-      var self = this;
-      
-      if( !self.inTransition  ) {
-        
-        // add off-hotspot click to close
-        // $(document).click(self.catchAllClicks);
-        
+        var self = this;
+
         // we are setting display:none when the trasition is complete, and managing the timer here
         if( self.$lastOpen && container.is( self.$lastOpen[0] ) ) {
           self.cleanTimer();
         }
 
         // save last open state
-        self.$lastOpen = openHotspot = new Array( container, hotspot, info );
-        
+        self.$lastOpen = new Array( container, hotspot, info );
+
         // add data- info to this hotspot
         container.data( 'state', 'open' ).addClass( 'info-jump-to-top' );
 
@@ -671,9 +642,8 @@ define(function(require) {
         info.removeClass( 'hidden' );
 
         // reposition window per it's collision detection result
-        //self.reposition( container );
         self.repositionByQuadrant( container );
-        
+        //self.reposition( container );
 
         // fade in info window
         if( true === self.showOverlayCentered ) {
@@ -682,12 +652,11 @@ define(function(require) {
         } else {
           info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
         }
-      }
     },
 
     reset: function( container ) {
       var self = this;
-      self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ], true );
+      self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
     },
 
     defaultPositions: function() {

@@ -86,6 +86,8 @@ define(function(require){
 
       self.fixCenteredContent('align-right-center', 'align-right-top');
       self.fixCenteredContent('align-left-center', 'align-left-top');
+
+      self.setupLinkClicks();
     },
 
     // Create or restore the default slide layout.
@@ -154,6 +156,32 @@ define(function(require){
              .addClass(newClass);
 
         $this.find('.table-center').removeClass('table-center');
+      });
+    },
+
+    // `.primary-link` specifies an overall click state, which is overriden if you click on a
+    // *separate* link within the slide (closestLink, below).
+
+    setupLinkClicks: function() {
+
+      var self = this,
+          clickContext;
+
+      self.$el.hammer().on('tap.secondarytouts', '.st-item:not(.carousel)', function(e){
+
+        var $this = $(this),
+            destination = $this.find('.primary-link').attr('href'),
+            closestLink = $(e.gesture.target).closest('a').attr('href');
+
+        if ( !closestLink && !destination ) {
+          return;
+        }
+
+        if ( closestLink && closestLink !== destination ) {
+          destination = closestLink;
+        }
+
+        window.location = destination;
       });
     }
   };

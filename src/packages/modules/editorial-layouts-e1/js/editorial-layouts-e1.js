@@ -132,11 +132,8 @@ define(function(require) {
         if ($(window).outerWidth() <= 767) {
           minh = 'auto';
         } else {
-          self.$el.find('.grid, .grid > div').css('height', 'auto');
           minh = Math.max(
-            //dunno why this isn't working on google tv keeps coming up as 1064px... hardcoding for now
-            //self.$el.find('.grid').css('min-height').replace(/[^-\d\.]/g, ''),
-            560,
+            self.$el.find('.grid').css('min-height').replace(/[^-\d\.]/g, ''),
             self.$el.find('.media-element .table-center').children().first().height()
           );
           minh += 'px';
