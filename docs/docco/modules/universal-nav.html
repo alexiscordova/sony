@@ -61,12 +61,14 @@ This will allow versions older than 1.7 to work without using depreciated functi
         }
       }
     });
-
-    $closeBtn[ ON ](<span class="string">'click'</span>,<span class="keyword">function</span>(e) {
+    $triggerLink[ ON ](<span class="string">'focus'</span>,<span class="keyword">function</span>(e) {
+      console.log(<span class="string">"u-nav focus"</span>);
       e.preventDefault();
-      _closeUNav();
+      <span class="keyword">if</span> ( _minBreakpointMet() &amp;&amp; !$pageWrapOuter.hasClass(<span class="string">'unav-open'</span>)) {
+        console.log(<span class="string">"u-nav conditions met"</span>);
+        _openUNav();
+      }
     });
-
 
     $closeBtn[ ON ](<span class="string">'click'</span>,<span class="keyword">function</span>(e) {
       e.preventDefault();
