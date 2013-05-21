@@ -58,6 +58,10 @@ define(function(require){
       
       self.videoAPI             = null;
 
+      self.$engine              = self.$el.find('.fp-engine');
+
+      self.isFullScreen         = false;
+
       // Inits the module
       self.init();
 
@@ -77,6 +81,19 @@ define(function(require){
           if(self.isFullEditorial){
             self.onDebouncedResize();
           }
+        });
+
+        self.videoAPI.bind('fullscreen fullscreen-exit' , function(e){
+
+          //log( 'Video API FullScreen event >' , e.type );
+          if(e.type === 'fullscreen'){
+            self.isFullScreen = true;
+            self.onDebouncedResize();
+          }else {
+            self.isFullScreen = false;
+            self.onDebouncedResize();
+          }
+
         });
 
         if(self.isFullEditorial){
@@ -101,16 +118,19 @@ define(function(require){
         if(wW > 980){
           //this makes the header grow 1px taller for every 20px over 980w..
           self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
-          //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles
           self.$el.css('height', '');
         }
 
-        var heightDiff = Math.abs( self.$el.height() - self.$el.find('.fp-engine').height() );
+        var heightDiff = Math.abs( self.$el.height() - self.$engine.height() );
 
-        if(heightDiff > 0){
-          self.$el.find('.fp-engine').css('top' , -heightDiff / 2 + 'px');
+        if( heightDiff > 0 ){
+          self.$engine.css('top' , -heightDiff / 2 + 'px');
+        }
+
+        if(self.isFullScreen){
+          self.$engine.css('top' , 0);
         }
 
       }

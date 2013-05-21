@@ -1,8 +1,9 @@
 define(function(require){
-  
-  
-  
-  var $ = require('jquery');
+
+  var $       = require('jquery'),
+  Settings    = require('require/sony-global-settings'),
+  IS_PS3      = Settings.isPS3,
+  IS_GOOGLETV = Settings.isGoogleTV;
 
 /*!
 
@@ -149,8 +150,11 @@ var playerCount = 1;
 // jQuery plugin
 $.fn.flowplayer = function(opts, callback) {
 
-   if (typeof opts == 'string') opts = { swf: opts }
-   if ($.isFunction(opts)) { callback = opts; opts = {} }
+   if (typeof opts == 'string') {
+      opts = { swf: opts };
+   }
+
+   if ($.isFunction(opts)) { callback = opts; opts = {}; }
 
    return !opts && this.data("flowplayer") || this.each(function() {
 
@@ -167,7 +171,9 @@ $.fn.flowplayer = function(opts, callback) {
          var preload = videoTag.attr('preload');
          videoTag.remove();
          videoTag = $('<video />').addClass('fp-engine').appendTo(root).attr('preload', preload);
-         if (typeof conf.playlist[0] === 'string') videoTag.attr('src', conf.playlist[0]);
+         if (typeof conf.playlist[0] === 'string') {
+            videoTag.attr('src', conf.playlist[0]);
+         }
          else {
             $.each(conf.playlist[0], function(i, plObj) {
                for (var type in plObj) {
@@ -183,7 +189,7 @@ $.fn.flowplayer = function(opts, callback) {
 
       //stop old instance
       var oldApi = root.data('flowplayer');
-      if (oldApi) oldApi.unload();
+      if (oldApi) {oldApi.unload();}
 
       root.data('fp-player_id', root.data('fp-player_id') || playerCount++);
 
@@ -191,10 +197,9 @@ $.fn.flowplayer = function(opts, callback) {
          storage = window.localStorage || storage;
       } catch(e) {}
 
-      var isRTL = (this.currentStyle && this.currentStyle['direction'] === 'rtl')
-         || (window.getComputedStyle && window.getComputedStyle(this, null).getPropertyValue('direction') === 'rtl');
+      var isRTL = (this.currentStyle && this.currentStyle.direction === 'rtl') || (window.getComputedStyle && window.getComputedStyle(this, null).getPropertyValue('direction') === 'rtl');
 
-      if (isRTL) root.addClass('is-rtl');
+      if (isRTL) {root.addClass('is-rtl');}
 
       /*** API ***/
       var api = oldApi || {
@@ -219,7 +224,7 @@ $.fn.flowplayer = function(opts, callback) {
          // methods
          load: function(video, callback) {
 
-            if (api.error || api.loading || api.disabled) return;
+            if (api.error || api.loading || api.disabled) {return;}
 
             // resolve URL
             video = urlResolver.resolve(video);
@@ -233,8 +238,8 @@ $.fn.flowplayer = function(opts, callback) {
                   engine.load(video);
 
                   // callback
-                  if ($.isFunction(video)) callback = video;
-                  if (callback) root.one("ready", callback);
+                  if ($.isFunction(video)) {callback = video;}
+                  if (callback) {root.one("ready", callback);}
                } else {
                   api.loading = false;
                }
@@ -285,7 +290,7 @@ $.fn.flowplayer = function(opts, callback) {
                }
                time = lastSeekPosition = Math.min(Math.max(time, 0), api.video.duration).toFixed(1);
                engine.seek(time);
-               if ($.isFunction(callback)) root.one("seek", callback);
+               if ($.isFunction(callback)) {root.one("seek", callback);}
             }
             return api;
          },
@@ -303,7 +308,7 @@ $.fn.flowplayer = function(opts, callback) {
          },
 
          mute: function(flag) {
-            if (flag === undefined) flag = !api.muted;
+            if (flag === undefined) {flag = !api.muted;}
             storage.muted = api.muted = flag;
             storage.volume = !isNaN(storage.volume) ? storage.volume : conf.volume; // make sure storage has volume
             api.volume(flag ? 0 : storage.volume, true);
@@ -314,7 +319,7 @@ $.fn.flowplayer = function(opts, callback) {
          volume: function(level, skipStore) {
             if (api.ready) {
               level = Math.min(Math.max(level, 0), 1);
-              if (!skipStore) storage.volume = level;
+              if (!skipStore) {storage.volume = level;}
               engine.volume(level);
             }
 
@@ -331,7 +336,7 @@ $.fn.flowplayer = function(opts, callback) {
                }
 
                engine.speed(val);
-               if (callback) root.one("speed", callback);
+               if (callback) {root.one("speed", callback);}
             }
 
             return api;
@@ -362,7 +367,7 @@ $.fn.flowplayer = function(opts, callback) {
          },
 
          disable: function(flag) {
-            if (flag === undefined) flag = !api.disabled;
+            if (flag === undefined) {flag = !api.disabled;}
 
             if (flag != api.disabled) {
                api.disabled = flag;
@@ -397,7 +402,7 @@ $.fn.flowplayer = function(opts, callback) {
             // conf
             $.each(['autoplay', 'loop', 'preload', 'poster'], function(i, key) {
                var val = videoTag.attr(key);
-               if (val !== undefined) conf[key] = val ? val : true;
+               if (val !== undefined) {conf[key] = val ? val : true;}
             });
 
             // splash
@@ -415,7 +420,7 @@ $.fn.flowplayer = function(opts, callback) {
 
             // 1. use the configured engine
             engine = flowplayer.engine[conf.engine];
-            if (engine) engine = engine(api, root);
+            if (engine) {engine = engine(api, root);}
 
             if (engine.pick(urlResolver.initialSources)) {
                api.engine = conf.engine;
@@ -425,7 +430,7 @@ $.fn.flowplayer = function(opts, callback) {
                $.each(flowplayer.engine, function(name, impl) {
                   if (name != conf.engine) {
                      engine = this(api, root);
-                     if (engine.pick(urlResolver.initialSources)) api.engine = name;
+                     if (engine.pick(urlResolver.initialSources)) {api.engine = name;}
                      return false;
                   }
                });
@@ -435,13 +440,13 @@ $.fn.flowplayer = function(opts, callback) {
             instances.push(api);
 
             // no engine
-            if (!api.engine) return api.trigger("error", { code: flowplayer.support.flashVideo ? 5 : 10 });
+            if (!api.engine) {return api.trigger("error", { code: flowplayer.support.flashVideo ? 5 : 10 });}
 
             // start
             conf.splash ? api.unload() : api.load();
 
             // disabled
-            if (conf.disabled) api.disable();
+            if (conf.disabled) {api.disable();}
 
             // initial callback
             root.one("ready", callback);
@@ -453,7 +458,7 @@ $.fn.flowplayer = function(opts, callback) {
             if (conf.splash) {
                $(".flowplayer").filter(".is-ready, .is-loading").not(root).each(function() {
                   var api = $(this).data("flowplayer");
-                  if (api.conf.splash) api.unload();
+                  if (api.conf.splash) {api.unload();}
                });
             }
 
@@ -471,16 +476,16 @@ $.fn.flowplayer = function(opts, callback) {
                api.loading = false;
             }
 
-            if (conf.splash) root.one("progress", notLoading);
-            else notLoading();
+            if (conf.splash) {root.one("progress", notLoading);}
+            else {notLoading();}
 
             // saved state
-            if (api.muted) api.mute(true);
-            else api.volume(api.volumeLevel);
+            if (api.muted) {api.mute(true);}
+            else {api.volume(api.volumeLevel);}
 
 
          }).bind("unload", function(e) {
-            if (conf.splash) videoTag.remove();
+            if (conf.splash) {videoTag.remove();}
             root.removeClass("is-loading");
             api.loading = false;
 
@@ -501,8 +506,8 @@ $.fn.flowplayer = function(opts, callback) {
 
          }).bind("volume", function(e, api, level) {
             api.volumeLevel = Math.round(level * 100) / 100;
-            if (!api.muted) storage.volume = level;
-            else if (level) api.mute(false);
+            if (!api.muted) {storage.volume = level;}
+            else if (level) {api.mute(false);}
 
 
          }).bind("beforeseek seek", function(e) {
@@ -528,11 +533,21 @@ $.fn.flowplayer = function(opts, callback) {
             // CSS classes
             root.toggleClass("is-paused", api.paused).toggleClass("is-playing", api.playing);
 
+/*            if(api.$fpui){
+
+               api.$fpui.prependTo(root);
+            }*/
+
+           // console.log('ready pause resume unload finish stop');
+
             // sanity check
-            if (!api.load.ed) api.pause();
+            if (!api.load.ed) {api.pause();}
 
          }).bind("finish", function(e) {
             api.finished = true;
+
+            //console.log('finish');
+
 
          }).bind("error", function() {
             videoTag.remove();
@@ -588,7 +603,7 @@ $.fn.flowplayer = function(opts, callback) {
          navigator.plugins["Shockwave Flash"].description;
 
       ver = ver.split(/\D+/);
-      if (ver.length && !ver[0]) ver = ver.slice(1);
+      if (ver.length && !ver[0]) {ver = ver.slice(1);}
 
       s.flashVideo = ver[0] > 9 || ver[0] == 9 && ver[3] >= 115;
 
@@ -605,7 +620,7 @@ $.fn.flowplayer = function(opts, callback) {
       var vendors = ['','Webkit','Moz','O','ms','Khtml'], el = $("<p/>")[0];
 
       for (var i = 0; i < vendors.length; i++) {
-         if (el.style[vendors[i] + 'AnimationName'] !== 'undefined') return true;
+         if (el.style[vendors[i] + 'AnimationName'] !== 'undefined') {return true;}
       }
    })();
 
@@ -678,11 +693,11 @@ flowplayer.engine.flash = function(player, root) {
 
             // always pick video/flash first
             var flash = $.grep(sources, function(source) { return source.type == 'flash'; })[0];
-            if (flash) return flash;
+            if (flash) {return flash;}
 
             for (var i = 0, source; i < sources.length; i++) {
                source = sources[i];
-               if (/mp4|flv/.test(source.type)) return source;
+               if (/mp4|flv/.test(source.type)) {return source;}
             }
          }
       },
@@ -694,11 +709,11 @@ flowplayer.engine.flash = function(player, root) {
             is_absolute = /^https?:/.test(url);
 
          // html5 tag not needed (pause needed for firefox)
-         if (html5Tag.length > 0 && flowplayer.support.video) html5Tag[0].pause();
+         if (html5Tag.length > 0 && flowplayer.support.video) {html5Tag[0].pause();}
          html5Tag.remove();
 
          // convert to absolute
-         if (!is_absolute && !conf.rtmp) url = $("<img/>").attr("src", url)[0].src;
+         if (!is_absolute && !conf.rtmp) {url = $("<img/>").attr("src", url)[0].src;}
 
          if (api) {
             api.__play(url);
@@ -716,18 +731,29 @@ flowplayer.engine.flash = function(player, root) {
                opts.origin = root.data("origin");
             }
 
-            if (is_absolute) delete conf.rtmp;
+            if (is_absolute) {delete conf.rtmp;}
 
             // optional conf
             $.each(['key', 'autoplay', 'preload', 'rtmp', 'loop', 'debug', 'preload', 'splash'], function(i, key) {
-               if (conf[key]) opts[key] = conf[key];
+               if (conf[key]) {opts[key] = conf[key];}
             });
+
+            var debug = true;
+
+            if(IS_PS3 || debug || IS_GOOGLETV){
+               conf.swf = conf.swfFallback;
+            }
 
             objectTag = embed(conf.swf, opts);
 
             objectTag.prependTo(root);
 
             api = objectTag[0];
+
+            if(IS_PS3 || debug || IS_GOOGLETV){
+               root.find('.fp-ui').css('visibility' , 'hidden');
+            }
+
 
             // throw error if no loading occurs
             setTimeout(function() {
@@ -741,7 +767,7 @@ flowplayer.engine.flash = function(player, root) {
             // listen
             $[callbackId] = function(type, arg) {
 
-               if (conf.debug && type != "status") console.log("--", type, arg);
+               if (conf.debug && type != "status") {console.log("--", type, arg);}
 
                var event = $.Event(type);
 
@@ -762,14 +788,14 @@ flowplayer.engine.flash = function(player, root) {
                         video.buffer = arg.buffer / video.bytes * video.duration;
                         player.trigger("buffer", video.buffer);
 
-                     } else if (video.buffered) player.trigger("buffered");
+                     } else if (video.buffered) {player.trigger("buffered");}
 
                      break;
 
                }
 
                // add some delay to that player is truly ready after an event
-               setTimeout(function() { player.trigger(event, arg); }, 1)
+               setTimeout(function() { player.trigger(event, arg); }, 1);
 
             };
 
@@ -782,10 +808,17 @@ flowplayer.engine.flash = function(player, root) {
 
 
       unload: function() {
+         
+         if(IS_PS3 || debug || IS_GOOGLETV){
+            root.find('.fp-ui').css('visibility' , 'visible');
+         }
+         
          api && api.__unload && api.__unload();
          delete $[callbackId];
          $("object", root).remove();
+
          api = 0;
+
       }
 
    };
@@ -897,12 +930,14 @@ function round(val) {
 }
 
 function getType(type) {
-   return /mpegurl/i.test(type) ? "application/x-mpegurl" : "video/" + type;
+   return (/mpegurl/i).test(type) ? "application/x-mpegurl" : "video/" + type;
 }
 
 function canPlay(type) {
-   if (!/^(video|application)/.test(type))
+   if (!(/^(video|application)/).test(type)){
       type = getType(type);
+   }
+
    return !!VIDEO.canPlayType(type).replace("no", '');
 }
 
@@ -926,7 +961,7 @@ var createVideoTag = function(video) {
                preload: 'none',
                'x-webkit-airplay': 'allow'
             }));
-}
+};
 
 flowplayer.engine.html5 = function(player, root) {
 
@@ -944,10 +979,10 @@ flowplayer.engine.html5 = function(player, root) {
          if (support.video) {
             if (conf.videoTypePreference) {
                var mp4source = findFromSourcesByType(sources, conf.videoTypePreference);
-               if (mp4source) return mp4source;
+               if (mp4source) {return mp4source;}
             }
             for (var i = 0, source; i < sources.length; i++) {
-               if (canPlay(sources[i].type)) return sources[i];
+               if (canPlay(sources[i].type)) {return sources[i];}
             }
          }
       },
@@ -969,9 +1004,9 @@ flowplayer.engine.html5 = function(player, root) {
                });
             }
 
-            if (track.length) videoTag.append(track.attr("default", ""));
+            if (track.length) {videoTag.append(track.attr("default", ""));}
 
-            if (conf.loop) videoTag.attr("loop", "loop");
+            if (conf.loop) {videoTag.attr("loop", "loop");}
 
             api = videoTag[0];
 
@@ -1009,8 +1044,8 @@ flowplayer.engine.html5 = function(player, root) {
          listen(api, $("source", videoTag).add(videoTag), video);
 
          // iPad (+others?) demands load()
-         if (conf.preload != 'none' || !support.zeropreload || !support.dataload) api.load();
-         if (conf.splash) api.load();
+         if (conf.preload != 'none' || !support.zeropreload || !support.dataload) {api.load();}
+         if (conf.splash) {api.load();}
       },
 
       pause: function() {
@@ -1038,7 +1073,7 @@ flowplayer.engine.html5 = function(player, root) {
 
       unload: function() {
          $("video.fp-engine", root).remove();
-         if (!support.cachedVideoTag) videoTagCache = null;
+         if (!support.cachedVideoTag) {videoTagCache = null;}
          timer = clearInterval(timer);
          api = 0;
       }
@@ -1048,12 +1083,12 @@ flowplayer.engine.html5 = function(player, root) {
    function listen(api, sources, video) {
       // listen only once
 
-      if (api.listeners && api.listeners.hasOwnProperty(root.data('fp-player_id'))) return;
+      if (api.listeners && api.listeners.hasOwnProperty(root.data('fp-player_id'))) {return;}
       (api.listeners || (api.listeners = {}))[root.data('fp-player_id')] = true;
 
       sources.bind("error", function(e) {
          try {
-            if (e.originalEvent && $(e.originalEvent.originalTarget).is('img')) return e.preventDefault();
+            if (e.originalEvent && $(e.originalEvent.originalTarget).is('img')) {return e.preventDefault();}
             if (canPlay($(e.target).attr("type"))) {
                player.trigger("error", { code: 4 });
             }
@@ -1076,10 +1111,10 @@ flowplayer.engine.html5 = function(player, root) {
                }, 10000);
             }
 
-            if (conf.debug && !/progress/.test(flow)) console.log(type, "->", flow, e);
+            if (conf.debug && !(/progress/).test(flow)) {console.log(type, "->", flow, e);}
 
             // no events if player not ready
-            if (!player.ready && !/ready|error/.test(flow) || !flow || !$("video", root).length) { return; }
+            if (!player.ready && !(/ready|error/).test(flow) || !flow || !$("video", root).length) { return; }
 
             var event = $.Event(flow), arg;
 
@@ -1140,7 +1175,7 @@ flowplayer.engine.html5 = function(player, root) {
 
                case "progress": case "seek":
 
-                  var dur = player.video.duration
+                  var dur = player.video.duration;
 
                   if (api.currentTime > 0) {
                      arg = Math.max(api.currentTime, 0);
@@ -1149,6 +1184,8 @@ flowplayer.engine.html5 = function(player, root) {
                   } else if (flow == 'progress') {
                      return;
                   }
+
+                  break;
 
 
                case "speed":
@@ -1200,12 +1237,12 @@ function URLResolver(videoTag) {
       sources.push(parseSource($(this)));
    });
 
-   if (!sources.length) sources.push(parseSource(videoTag));
+   if (!sources.length) { sources.push(parseSource(videoTag)); }
 
    self.initialSources = sources;
 
    self.resolve = function(video) {
-      if (!video) return { sources: sources };
+      if (!video) {return { sources: sources };}
 
       if ($.isArray(video)) {
 
@@ -1234,7 +1271,7 @@ function URLResolver(videoTag) {
       return video;
    };
 
-};
+}
 /* A minimal jQuery Slider plugin with all goodies */
 
 // skip IE policies
@@ -1304,19 +1341,19 @@ $.fn.slider2 = function(rtl , vert) {
             delta = Math.max(0, Math.min(max || size, delta));
 
             var value = delta / size;
-            if (vertical) value = 1 - value;
-            if (rtl) value = 1 - value;
+            if (vertical) {value = 1 - value;}
+            if (rtl) {value = 1 - value;}
             return move(value, 0, true);
          },
 
          move = function(value, speed) {
             if (speed === undefined) { speed = 0; }
-            if (value > 1) value = 1;
+            if (value > 1) {value = 1;}
 
             var to = (Math.round(value * 1000) / 10) ;
 
             if (!maxValue || value <= maxValue) {
-               if (!IS_IPAD) progress.stop(); // stop() broken on iPad
+               if (!IS_IPAD) {progress.stop();} // stop() broken on iPad
                if (skipAnimation) {
                   progress.css('width', to + "%");
                   //scrubber.css('left', (to - 2) + "%");
@@ -1361,7 +1398,7 @@ $.fn.slider2 = function(rtl , vert) {
 
             slide: function(value, speed, fireEvent) {
                calc();
-               if (fireEvent) fire(value);
+               if (fireEvent) {fire(value);}
                move(value, speed);
             },
 
@@ -1435,33 +1472,7 @@ flowplayer(function(api, root) {
       support = flowplayer.support,
       hovertimer;
    root.find('.fp-ratio,.fp-ui').remove();
-   root.addClass("flowplayer").append('\
-      <div class="ratio"/>\
-      <div class="ui">\
-         <div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div>\
-         <a class="unload"/>\
-         <p class="speed"/>\
-         <div class="controls">\
-            <a class="play"></a>\
-            <div class="timeline">\
-               <div class="buffer"/>\
-               <div class="progress is-slider"/>\
-               <div class="scrubber"/>\
-            </div>\
-            <div class="volume">\
-               <a class="mute"></a>\
-               <div class="volumeslider">\
-                  <div class="volumeleveltrack">\
-                     <div class="volumelevel is-slider"/>\
-                     <div class="scrubber"/>\
-                  </div>\
-               </div>\
-            </div>\
-            <a class="fullscreen"/>\
-         </div>\
-         <div class="message"><h2/><p/></div>\
-      </div>'.replace(/class="/g, 'class="fp-')
-   );
+   root.addClass("flowplayer").append('<div class="ratio"/><div class="ui"><div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div><a class="unload"/><p class="speed"/><div class="controls"><a class="play"></a><div class="timeline"><div class="buffer"/><div class="progress is-slider"/><div class="scrubber"/></div><div class="volume"><a class="mute"></a><div class="volumeslider"><div class="volumeleveltrack"><div class="volumelevel is-slider"/><div class="scrubber"/></div></div></div><a class="fullscreen"/></div><div class="message"><h2/><p/></div></div>'.replace(/class="/g, 'class="fp-'));
 
 
    function find(klass) {
@@ -1495,9 +1506,9 @@ flowplayer(function(api, root) {
    // aspect ratio
    function setRatio(val) {
       if ((root.css('width') === '0px' || root.css('height') === '0px') || val !== flowplayer.defaults.ratio) {
-         if (!parseInt(origRatio, 10)) ratio.css("paddingTop", val * 100 + "%");
+         if (!parseInt(origRatio, 10)) {ratio.css("paddingTop", val * 100 + "%");}
       }
-      if (!support.inlineBlock) $("object", root).height(root.height());
+      if (!support.inlineBlock) {$("object", root).height(root.height());}
    }
 
    function hover(flag) {
@@ -1505,13 +1516,13 @@ flowplayer(function(api, root) {
    }
 
    // loading...
-   if (!support.animation) waiting.html("<p>loading &hellip;</p>");
+   if (!support.animation) {waiting.html("<p>loading &hellip;</p>");}
 
    setRatio(conf.ratio);
 
    // no fullscreen in IFRAME
    try {
-      if (!conf.fullscreen) fullscreen.remove();
+      if (!conf.fullscreen) {fullscreen.remove();}
 
    } catch (e) {
       fullscreen.remove();
@@ -1533,25 +1544,21 @@ flowplayer(function(api, root) {
       ((duration >= 3600) && root.addClass('is-long')) || root.removeClass('is-long');
       volumeApi.slide(api.volumeLevel);
 
-
-
-
-
    }).bind("unload", function() {
-      if (!origRatio) ratio.css("paddingTop", "");
+      if (!origRatio) {ratio.css("paddingTop", "");}
 
    // buffer
    }).bind("buffer", function() {
       var video = api.video,
          max = video.buffer / video.duration;
 
-      if (!video.seekable && support.seekable) timelineApi.max(max);
-      if (max < 1) buffer.css("width", (max * 100) + "%");
-      else buffer.css({ width: '100%' });
+      if (!video.seekable && support.seekable) {timelineApi.max(max);}
+      if (max < 1) {buffer.css("width", (max * 100) + "%");}
+      else {buffer.css({ width: '100%' });}
 
    }).bind("speed", function(e, api, val) {
       speed.text(val + "x").addClass("fp-hilite");
-      setTimeout(function() { speed.removeClass("fp-hilite") }, 1000);
+      setTimeout(function() { speed.removeClass("fp-hilite"); }, 1000);
 
    }).bind("buffered", function() {
       buffer.css({ width: '100%' });
@@ -1573,18 +1580,18 @@ flowplayer(function(api, root) {
    }).bind("finish resume seek", function(e) {
       root.toggleClass("is-finished", e.type == "finish");
 
-
-
    }).bind("stop", function() {
       elapsed.html(format(0));
       timelineApi.slide(0, 100);
 
-
+      console.log('stop');
 
    }).bind("finish", function() {
       elapsed.html(format(api.video.duration));
       timelineApi.slide(1, 100);
       root.removeClass("is-seeking");
+
+      console.log('finish');
 
    // misc
    }).bind("beforeseek", function() {
@@ -1619,7 +1626,7 @@ flowplayer(function(api, root) {
 
    // hover
    }).bind("mouseenter mouseleave", function(e) {
-      if (noToggle) return;
+      if (noToggle) {return;}
 
       var is_over = e.type == "mouseenter",
          lastMove;
@@ -1638,7 +1645,7 @@ flowplayer(function(api, root) {
 
          hovertimer = setInterval(function() {
             if (new Date - lastMove > 5000) {
-               hover(false)
+               hover(false);
                lastMove = new Date;
             }
          }, 50);
@@ -1723,11 +1730,8 @@ flowplayer(function(api, root) {
 
    });
 
-
-
-
    // poster -> background image
-   if (conf.poster) root.css("backgroundImage", "url(" + conf.poster + ")");
+   if (conf.poster) {root.css("backgroundImage", "url(" + conf.poster + ")");}
 
    var bc = root.css("backgroundColor"),
       has_bg = root.css("backgroundImage") != "none" || bc && bc != "rgba(0, 0, 0, 0)" && bc != "transparent";
@@ -1788,7 +1792,7 @@ $(document).bind("keydown.fp", function(e) {
       key = e.which,
       conf = el && el.conf;
 
-   if (!el || !conf.keyboard || el.disabled) return;
+   if (!el || !conf.keyboard || el.disabled) {return;}
 
    // help dialog (shift key not truly required)
    if ($.inArray(key, [63, 187, 191, 219]) != -1) {
@@ -1808,13 +1812,13 @@ $(document).bind("keydown.fp", function(e) {
 
       // slow motion / fast forward
       if (e.shiftKey) {
-         if (key == 39) el.speed(true);
-         else if (key == 37) el.speed(false);
+         if (key == 39) {el.speed(true);}
+         else if (key == 37) {el.speed(false);}
          return;
       }
 
       // 1, 2, 3, 4 ..
-      if (key < 58 && key > 47) return el.seekTo(key - 48);
+      if (key < 58 && key > 47) {return el.seekTo(key - 48);}
 
       switch (key) {
          case 38: case 75: el.volume(el.volumeLevel + 0.15); break;        // volume up
@@ -1835,12 +1839,12 @@ $(document).bind("keydown.fp", function(e) {
 flowplayer(function(api, root) {
 
    // no keyboard configured
-   if (!api.conf.keyboard) return;
+   if (!api.conf.keyboard) {return;}
 
    // hover
    root.bind("mouseenter mouseleave", function(e) {
       focused = !api.disabled && e.type == 'mouseenter' ? api : 0;
-      if (focused) focusedRoot = root;
+      if (focused) {focusedRoot = root;}
    });
 
    // TODO: add to player-layout.html
@@ -1901,7 +1905,7 @@ $(document).bind(FS_NATIVE_SUPPORT ? "fullscreenchange" : VENDOR + "fullscreench
 
 flowplayer(function(player, root) {
 
-   if (!player.conf.fullscreen) return;
+   if (!player.conf.fullscreen) {return;}
 
    var win = $(window),
       fsSeek = {pos: 0, play: false},
@@ -1911,11 +1915,11 @@ flowplayer(function(player, root) {
 
    player.fullscreen = function(flag) {
 
-      if (player.disabled) return;
+      if (player.disabled) {return;}
 
-      if (flag === undefined) flag = !player.isFullscreen;
+      if (flag === undefined) {flag = !player.isFullscreen;}
 
-      if (flag) scrollTop = win.scrollTop();
+      if (flag) {scrollTop = win.scrollTop();}
 
       if (FS_SUPPORT) {
 
@@ -1938,9 +1942,10 @@ flowplayer(function(player, root) {
          }
 
       } else {
-         if (player.engine === "flash" && player.conf.rtmp)
+         if (player.engine === "flash" && player.conf.rtmp){
             fsSeek = {pos: player.video.time, play: player.playing};
-         player.trigger(flag ? FS_ENTER : FS_EXIT, [player])
+         }
+         player.trigger(flag ? FS_ENTER : FS_EXIT, [player]);
       }
 
       return player;
@@ -1999,9 +2004,9 @@ flowplayer(function(player, root) {
 
 
    player.play = function(i) {
-      if (i === undefined) player.resume();
-      if (typeof i === 'number' && !player.conf.playlist[i]) return player;
-      else if (typeof i != 'number') player.load.apply(null, arguments);
+      if (i === undefined) {player.resume();}
+      if (typeof i === 'number' && !player.conf.playlist[i]) {return player;}
+      else if (typeof i != 'number') {player.load.apply(null, arguments);}
       player.unbind('resume.fromfirst'); // Don't start from beginning if clip explicitely chosen
       player.load(typeof player.conf.playlist[i] === 'string' ?
          player.conf.playlist[i].toString() :
@@ -2029,7 +2034,7 @@ flowplayer(function(player, root) {
       if (sources && sources.length) {
          for (i = 0; i < sources.length; i++) {
             var found = indexForVideo(sources[i].src);
-            if (found != -1) return found;
+            if (found != -1) {return found;}
          }
       }
       return -1;
@@ -2125,6 +2130,7 @@ flowplayer(function(player, root) {
          if (toPlay != -1) {
             player.play(toPlay);
          }
+
       });
 
       // playlist wide cuepoint support
@@ -2148,13 +2154,11 @@ flowplayer(function(player, root) {
          video.is_last = api.video.is_last = is_last;
 
          // cuepoints
-         if (has_cuepoints) player.cuepoints = el.data("cuepoints");
-
+         if (has_cuepoints) {player.cuepoints = el.data("cuepoints");}
 
       // without namespace callback called only once. unknown rason.
       }).bind("unload.pl", function() {
          active().toggleClass(klass);
-
       });
 
    }
@@ -2177,13 +2181,13 @@ flowplayer(function(player, root) {
 
    function setClass(index) {
       root[0].className = root[0].className.replace(CUE_RE, " ");
-      if (index >= 0) root.addClass("cue" + index);
+      if (index >= 0) {root.addClass("cue" + index);}
    }
 
    player.bind("progress", function(e, api, time) {
 
       // avoid throwing multiple times
-      if (lastTime && time - lastTime < 0.015) return lastTime = time;
+      if (lastTime && time - lastTime < 0.015) {return lastTime = time;}
       lastTime = time;
 
       var cues = player.cuepoints || [];
@@ -2191,8 +2195,8 @@ flowplayer(function(player, root) {
       for (var i = 0, cue; i < cues.length; i++) {
 
          cue = cues[i];
-         if (!isNaN(cue)) cue = { time: cue };
-         if (cue.time < 0) cue.time = player.video.duration + cue.time;
+         if (!isNaN(cue)) {cue = { time: cue };}
+         if (cue.time < 0) {cue.time = player.video.duration + cue.time;}
          cue.index = i;
 
          // progress_interval / 2 = 0.125
@@ -2222,7 +2226,7 @@ flowplayer(function(player, root) {
          $.each(cues, function(i, cue) {
 
             var time = cue.time || cue;
-            if (time < 0) time = duration + cue;
+            if (time < 0) {time = duration + cue;}
 
             var el = $("<a/>").addClass("fp-cuepoint fp-cuepoint" + i)
                .css("left", (time / duration * 100) + "%");
@@ -2251,7 +2255,7 @@ flowplayer(function(player, root, engine) {
       player.subtitles = track.length && track[0].track;
 
       // use native when supported
-      if (conf.nativesubtitles && conf.engine == 'html5') return;
+      if (conf.nativesubtitles && conf.engine == 'html5') {return;}
    }
 
    // avoid duplicate loads
@@ -2261,7 +2265,7 @@ flowplayer(function(player, root, engine) {
 
    function seconds(timecode) {
       var els = timecode.split(':');
-      if (els.length == 2) els.unshift(0);
+      if (els.length == 2) {els.unshift(0);}
       return els[0] * 60 * 60 + els[1] * 60 + parseFloat(els[2].replace(',','.'));
    }
 
@@ -2269,7 +2273,7 @@ flowplayer(function(player, root, engine) {
 
    var url = track.attr("src");
 
-   if (!url) return;
+   if (!url) {return;}
 
    $.get(url, function(txt) {
 
@@ -2284,7 +2288,7 @@ flowplayer(function(player, root, engine) {
 
             // text
             text = "<p>" + lines[++i] + "</p><br/>";
-            while ($.trim(lines[++i]) && i < lines.length) text +=  "<p>" + lines[i] + "</p><br/>";
+            while ($.trim(lines[++i]) && i < lines.length) {text +=  "<p>" + lines[i] + "</p><br/>";}
 
             // entry
             entry = {
@@ -2333,8 +2337,8 @@ flowplayer(function(player, root, engine) {
          var entry = cue.subtitle;
 
          if (entry && currentPoint != cue.index) {
-            if (time >= cue.time && time <= entry.endTime) player.trigger("cuepoint", cue);
-            else wrap.removeClass("fp-active");
+            if (time >= cue.time && time <= entry.endTime) {player.trigger("cuepoint", cue);}
+            else {wrap.removeClass("fp-active");}
          }
 
       });
@@ -2352,9 +2356,9 @@ flowplayer(function(player, root) {
    if (id) {
 
       // load Analytics script if needed
-      if (typeof _gat == 'undefined') $.getScript("//google-analytics.com/ga.js");
+      if (typeof _gat == 'undefined') { $.getScript("//google-analytics.com/ga.js"); }
 
-      function track(e) {
+      var track = function(e) {
 
          if (time && typeof _gat != 'undefined') {
             var tracker = _gat._getTracker(id),
@@ -2372,7 +2376,7 @@ flowplayer(function(player, root) {
             time = 0;
          }
 
-      }
+      };
 
       player.bind("load unload", track).bind("progress", function() {
 
@@ -2443,7 +2447,7 @@ if (flowplayer.support.touch || isIeMobile) {
       if (player.conf.native_fullscreen && ($.browser.webkit || $.browser.safari)) {
          player.fullscreen = function() {
             $('video', root)[0].webkitEnterFullScreen();
-         }
+         };
       }
 
 
@@ -2476,13 +2480,12 @@ if (flowplayer.support.touch || isIeMobile) {
 flowplayer(function(player, root) {
 
    // no embedding
-   if (player.conf.embed === false) return;
+   if (player.conf.embed === false) {return;}
 
    var conf = player.conf,
       ui = $(".fp-ui", root),
       trigger = $("<a/>", { "class": "fp-embed", title: 'Copy to your site'}).appendTo(ui),
-      target = $("<div/>", { 'class': 'fp-embed-code'})
-         .append("<label>Paste this HTML code on your site to embed.</label><textarea/>").appendTo(ui),
+      target = $("<div/>", { 'class': 'fp-embed-code'}).append("<label>Paste this HTML code on your site to embed.</label><textarea/>").appendTo(ui),
       area = $("textarea", target);
 
    player.embedCode = function() {
@@ -2495,7 +2498,7 @@ flowplayer(function(player, root) {
 
       // configuration
       $.each(['origin', 'analytics', 'logo', 'key', 'rtmp'], function(i, key) {
-         if (conf[key]) el.attr("data-" + key, conf[key]);
+         if (conf[key]) {el.attr("data-" + key, conf[key]);}
       });
 
       // sources
@@ -2507,7 +2510,7 @@ flowplayer(function(player, root) {
       if ($.isPlainObject(conf.embed)) {
          scriptAttrs['data-swf'] = conf.embed.swf;
          scriptAttrs['data-library'] = conf.embed.library;
-         scriptAttrs['src'] = conf.embed.script || scriptAttrs['src'];
+         scriptAttrs.src = conf.embed.script || scriptAttrs.src;
          if (conf.embed.skin) { scriptAttrs['data-skin'] = conf.embed.skin; }
       }
 
@@ -2550,11 +2553,13 @@ $.fn.fptip = function(trigger, active) {
          if (root.hasClass(active)) {
 
             $(document).bind("keydown.st", function(e) {
-               if (e.which == 27) close();
+               if (e.which == 27) {
+                  close();
+               }
 
             // click:close
             }).bind("click.st", function(e) {
-               if (!$(e.target).parents("." + active).length) close();
+               if (!$(e.target).parents("." + active).length) {close();}
             });
          }
 
@@ -2566,8 +2571,48 @@ $.fn.fptip = function(trigger, active) {
 
 }($);
 
-//licensing
-flowplayer(function(e,t){function f(e){var t=n("<a/>")[0];return t.href=e,t.hostname}function l(e){var t="co.uk,org.uk,ltd.uk,plc.uk,me.uk,br.com,cn.com,eu.com,hu.com,no.com,qc.com,sa.comse.com,se.net,us.com,uy.com,co.ac,gv.ac,or.ac,ac.ac,ac.at,co.at,gv.at,or.atasn.au,com.au,edu.au,org.au,net.au,id.au,ac.be,adm.br,adv.br,am.br,arq.br,art.brbio.br,cng.br,cnt.br,com.br,ecn.br,eng.br,esp.br,etc.br,eti.br,fm.br,fot.br,fst.brg12.br,gov.br,ind.br,inf.br,jor.br,lel.br,med.br,mil.br,net.br,nom.br,ntr.brodo.br,org.br,ppg.br,pro.br,psc.br,psi.br,rec.br,slg.br,tmp.br,tur.br,tv.br,vet.brzlg.br,ab.ca,bc.ca,mb.ca,nb.ca,nf.ca,ns.ca,nt.ca,on.ca,pe.ca,qc.ca,sk.ca,yk.caac.cn,com.cn,edu.cn,gov.cn,org.cn,bj.cn,sh.cn,tj.cn,cq.cn,he.cn,nm.cn,ln.cnjl.cn,hl.cn,js.cn,zj.cn,ah.cn,gd.cn,gx.cn,hi.cn,sc.cn,gz.cn,yn.cn,xz.cn,sn.cngs.cn,qh.cn,nx.cn,xj.cn,tw.cn,hk.cn,mo.cn,com.ec,tm.fr,com.fr,asso.fr,presse.frco.il,net.il,ac.il,k12.il,gov.il,muni.il,ac.in,co.in,org.in,ernet.in,gov.innet.in,res.in,ac.jp,co.jp,go.jp,or.jp,ne.jp,ac.kr,co.kr,go.kr,ne.kr,nm.kr,or.krasso.mc,tm.mc,com.mm,org.mm,net.mm,edu.mm,gov.mm,org.ro,store.ro,tm.ro,firm.rowww.ro,arts.ro,rec.ro,info.ro,nom.ro,nt.ro,com.sg,org.sg,net.sg,gov.sg,ac.th,co.thgo.th,mi.th,net.th,or.th,com.tr,edu.tr,gov.tr,k12.tr,net.tr,org.tr,com.tw,org.twnet.tw,ac.uk,uk.com,uk.net,gb.com,gb.net,com.hk,org.hk,net.hk,edu.hk,eu.lv,co.nzorg.nz,net.nz,maori.nz,iwi.nz,com.pt,edu.pt,com.ve,net.ve,org.ve,web.ve,info.veco.ve,net.ru,org.ru,com.hr,tv.tr,com.qa,edu.qa,gov.qa,gov.au,com.my,edu.my,gov.myco.za,com.ar,com.pl,com.ua,biz.pl,biz.tr,co.gl,co.mg,co.ms,co.vi,co.za,com.agcom.ai,com.cy,com.de,com.do,com.es,com.fj,com.gl,com.gt,com.hu,com.kg,com.kicom.lc,com.mg,com.ms,com.mt,com.mu,com.mx,com.nf,com.ng,com.ni,com.pa,com.phcom.ro,com.ru,com.sb,com.sc,com.sv,de.com,de.org,firm.in,gen.in,idv.tw,ind.ininfo.pl,info.tr,kr.com,me.uk,net.ag,net.ai,net.cn,net.do,net.gl,net.kg,net.kinet.lc,net.mg,net.mu,net.ni,net.pl,net.sb,net.sc,nom.ni,off.ai,org.ag,org.aiorg.do,org.es,org.gl,org.kg,org.ki,org.lc,org.mg,org.ms,org.nf,org.ni,org.plorg.sb,org.sc".split(",");e=e.toLowerCase();var r=e.split("."),i=r.length;if(i<2)return e;var s=r.slice(-2).join(".");return i>=3&&n.inArray(s,t)>=0?r.slice(-3).join("."):s}function c(e,t){t!="localhost"&&!parseInt(t.split(".").slice(-1))&&(t=l(t));var n=0;for(var r=t.length-1;r>=0;r--)n+=t.charCodeAt(r)*41742681301;n=(""+n).substring(0,7);for(r=0;r<e.length;r++)if(n===e[r].substring(1,8))return 1}var n=$,r=e.conf,i=r.swf.indexOf("flowplayer.org")&&r.e&&t.data("origin"),s=i?f(i):location.hostname,o=r.key;location.protocol=="file:"&&(s="localhost"),e.load.ed=1,r.hostname=s,r.origin=i||location.href,i&&t.addClass("is-embedded"),typeof o=="string"&&(o=o.split(/,\s*/));if(o&&typeof c=="function"&&c(o,s))r.logo&&t.append(n("<a>",{"class":"fp-logo",href:i}).append(n("<img/>",{src:r.logo})));else{var u=n("<a/>").attr("href","http://flowplayer.org").appendTo(t),a=n(".fp-controls",t);e.bind("pause resume finish unload",function(t){/pause|resume/.test(t.type)&&e.engine!="flash"?(u.show().css({position:"absolute",left:16,bottom:36,zIndex:99999,width:100,height:20}),e.load.ed=u.is(":visible"),e.load.ed||e.pause()):u.hide()})}});
+    //licensing
+    flowplayer(function(e, t) {
+        function f(e) {
+            var t = n("<a/>")[0];
+            return t.href = e, t.hostname;
+        }
+        function l(e) {
+            var t = "co.uk,org.uk,ltd.uk,plc.uk,me.uk,br.com,cn.com,eu.com,hu.com,no.com,qc.com,sa.comse.com,se.net,us.com,uy.com,co.ac,gv.ac,or.ac,ac.ac,ac.at,co.at,gv.at,or.atasn.au,com.au,edu.au,org.au,net.au,id.au,ac.be,adm.br,adv.br,am.br,arq.br,art.brbio.br,cng.br,cnt.br,com.br,ecn.br,eng.br,esp.br,etc.br,eti.br,fm.br,fot.br,fst.brg12.br,gov.br,ind.br,inf.br,jor.br,lel.br,med.br,mil.br,net.br,nom.br,ntr.brodo.br,org.br,ppg.br,pro.br,psc.br,psi.br,rec.br,slg.br,tmp.br,tur.br,tv.br,vet.brzlg.br,ab.ca,bc.ca,mb.ca,nb.ca,nf.ca,ns.ca,nt.ca,on.ca,pe.ca,qc.ca,sk.ca,yk.caac.cn,com.cn,edu.cn,gov.cn,org.cn,bj.cn,sh.cn,tj.cn,cq.cn,he.cn,nm.cn,ln.cnjl.cn,hl.cn,js.cn,zj.cn,ah.cn,gd.cn,gx.cn,hi.cn,sc.cn,gz.cn,yn.cn,xz.cn,sn.cngs.cn,qh.cn,nx.cn,xj.cn,tw.cn,hk.cn,mo.cn,com.ec,tm.fr,com.fr,asso.fr,presse.frco.il,net.il,ac.il,k12.il,gov.il,muni.il,ac.in,co.in,org.in,ernet.in,gov.innet.in,res.in,ac.jp,co.jp,go.jp,or.jp,ne.jp,ac.kr,co.kr,go.kr,ne.kr,nm.kr,or.krasso.mc,tm.mc,com.mm,org.mm,net.mm,edu.mm,gov.mm,org.ro,store.ro,tm.ro,firm.rowww.ro,arts.ro,rec.ro,info.ro,nom.ro,nt.ro,com.sg,org.sg,net.sg,gov.sg,ac.th,co.thgo.th,mi.th,net.th,or.th,com.tr,edu.tr,gov.tr,k12.tr,net.tr,org.tr,com.tw,org.twnet.tw,ac.uk,uk.com,uk.net,gb.com,gb.net,com.hk,org.hk,net.hk,edu.hk,eu.lv,co.nzorg.nz,net.nz,maori.nz,iwi.nz,com.pt,edu.pt,com.ve,net.ve,org.ve,web.ve,info.veco.ve,net.ru,org.ru,com.hr,tv.tr,com.qa,edu.qa,gov.qa,gov.au,com.my,edu.my,gov.myco.za,com.ar,com.pl,com.ua,biz.pl,biz.tr,co.gl,co.mg,co.ms,co.vi,co.za,com.agcom.ai,com.cy,com.de,com.do,com.es,com.fj,com.gl,com.gt,com.hu,com.kg,com.kicom.lc,com.mg,com.ms,com.mt,com.mu,com.mx,com.nf,com.ng,com.ni,com.pa,com.phcom.ro,com.ru,com.sb,com.sc,com.sv,de.com,de.org,firm.in,gen.in,idv.tw,ind.ininfo.pl,info.tr,kr.com,me.uk,net.ag,net.ai,net.cn,net.do,net.gl,net.kg,net.kinet.lc,net.mg,net.mu,net.ni,net.pl,net.sb,net.sc,nom.ni,off.ai,org.ag,org.aiorg.do,org.es,org.gl,org.kg,org.ki,org.lc,org.mg,org.ms,org.nf,org.ni,org.plorg.sb,org.sc".split(",");
+            e = e.toLowerCase();
+            var r = e.split("."), i = r.length;
+            if (i < 2){
+                return e;
+            }
+            var s = r.slice(-2).join(".");
+            return i >= 3 && n.inArray(s, t) >= 0 ? r.slice(-3).join(".") : s;
+        }
+        function c(e, t) {
+            t != "localhost" && !parseInt(t.split(".").slice(-1), null) && (t = l(t));
+            var n = 0;
+            for (var r = t.length - 1; r >= 0; r--){
+                n += t.charCodeAt(r) * 41742681301;
+            }
+                
+            n = ("" + n).substring(0, 7);
+            for (r = 0; r < e.length; r++){
+                if (n === e[r].substring(1, 8)){
+                    return 1;
+                }
+            }
+
+        }
+        var n = $, r = e.conf, i = r.swf.indexOf("flowplayer.org") && r.e && t.data("origin"), s = i ? f(i) : location.hostname, o = r.key;
+        location.protocol == "file:" && (s = "localhost"), e.load.ed = 1, r.hostname = s, r.origin = i || location.href, i && t.addClass("is-embedded"), typeof o == "string" && (o = o.split(/,\s*/));
+        if (o && typeof c == "function" && c(o, s)){
+            r.logo && t.append(n("<a>", {"class": "fp-logo",href: i}).append(n("<img/>", {src: r.logo})));
+        }else {
+            var u = n("<a/>").attr("href", "http://flowplayer.org").appendTo(t), a = n(".fp-controls", t);
+            e.bind("pause resume finish unload", function(t) {
+                (/pause|resume/).test(t.type) && e.engine != "flash" ? (u.show().css({position: "absolute",left: 16,bottom: 36,zIndex: 99999,width: 100,height: 20}), e.load.ed = u.is(":visible"), e.load.ed || e.pause()) : u.hide();
+            });
+        }
+    });
 
 });
 

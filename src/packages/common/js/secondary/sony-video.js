@@ -20,7 +20,7 @@ define(function(require) {
 
   var $ = require('jquery'),
       Environment = require('require/sony-global-environment'),
-      flowplayer = require('plugins/index').flowplayer,
+      flowplayer = require('plugins/jquery.flowplayer'),
       Settings = require('require/sony-global-settings');
 
   var SonyVideo = (function () {
@@ -37,10 +37,13 @@ define(function(require) {
       _fp                  = window.flowplayer;
 
       _fp.conf = {
+        //swf: 'swf/flowplayer.swf',
+        swfFallback: 'swf/playa.swf',
         swf: 'swf/flowplayer.swf',
         splash: true,
         embed: false,
-        tooltip: false
+        tooltip: false,
+        engine: 'html5'
       };
 
       // Private methods
