@@ -5,7 +5,19 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
-$desktopMed: px-em(1100);
+$desktopMed: px-em(1099);
+$desktopMax: px-em(1100);
+
+@media (min-width:$desktopMax) {
+  .entertainment-wrapper {
+    .entertainment-media {
+      margin: 0 0 42px 0;
+      .bd {
+        min-height: auto;
+      }
+    }
+  }
+}
 
 @media (max-width:$desktopMed) {
   .entertainment-wrapper {
@@ -17,6 +29,9 @@ $desktopMed: px-em(1100);
     }
     .entertainment-media {
       margin: 0 0 9px 0;
+      .bd {
+        min-height: auto;
+      }
       img {
         float: left;
         margin-right: 21px;
@@ -99,11 +114,7 @@ $desktopMed: px-em(1100);
     .entertainment .btn-holder {
       width: 100%;
       position: relative;
-    }
-
-    .entertainment .btn-holder .btn {
-      margin: 0 auto;
-      display: block;
+      text-align: center;
     }
 
     .tablet-full-width {
@@ -116,6 +127,9 @@ $desktopMed: px-em(1100);
   .entertainment-wrapper {
     .entertainment {
       padding: 36px 0 58px 0;
+      .btn-holder {
+        text-align: left;
+      }
     }
 
     .logo-container {

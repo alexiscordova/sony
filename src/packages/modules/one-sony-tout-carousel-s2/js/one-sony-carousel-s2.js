@@ -62,9 +62,9 @@ define(function(require){
         wrapper: '.st-container',
         slides: '.st-content',
         slideChildren: '.st-item',
-        defaultLink: '.headline a',
         useCSS3: self.useCSS3,
         paddles: true,
+        paddlePosition: 'outset',
         pagination: true
       });
 

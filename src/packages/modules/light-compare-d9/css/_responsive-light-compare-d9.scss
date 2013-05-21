@@ -6,16 +6,17 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
 
+
 @media (max-height: 34.375em) {
   .modal-light-compare {
     &.modal {
+      &.fade.in {
+        top: 50%;
+      }
       .container,
       .grid {
         height: auto;
       }
-    }
-    .tab-container {
-      position: fixed;
     }
   }
 }

@@ -24,7 +24,7 @@ define(function(require){
 
   AlertModule = function( elem, options ) {
 
-    // Map optional configs if they exist  
+    // Map optional configs if they exist
     this.options = options ? $.extend({}, defaults, options) : defaults;
     options = this.options;
 
@@ -43,8 +43,8 @@ define(function(require){
   AlertModule.prototype = {
 
     constructor: AlertModule,
-    
-    // display the alert 
+
+    // display the alert
     _displayAlert: function() {
       var self = this;
 
@@ -54,18 +54,18 @@ define(function(require){
 
     },
 
-    
+
     // Method checks if there is an option to fade out or not
     // then will run that functionality, and close the alert box
     // followed by a delay to remove the alert box from the DOM.
 
     _closeAlert: function(event) {
-      var el = event.target, 
+      var el = event.target,
           self = this,
           $currTarget = $(el).closest(self.options.alertSelector);
-      
+
       event.preventDefault();
-      
+
       // did we define if we should fade the element out?
       if ( self.fadeOut ) {
         $currTarget.addClass('invisible');
@@ -80,12 +80,12 @@ define(function(require){
         $currTarget.addClass('collapsed');
         self._removeAlert($currTarget);
       }
-      
+
     },
 
     // removes the alert from the DOM
     _removeAlert: function(el) {
-      var self = this, 
+      var self = this,
           $currTarget = el;
 
       setTimeout(function() {

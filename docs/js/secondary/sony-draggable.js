@@ -207,7 +207,7 @@ define(function(require){
     // If self.snapToBounds is specified, handle the logic for animating the scrubbed element
     // to the nearest bounds, or a point on that axis (if provided).
 
-    'snapTo': function(axis, toWhere) {
+    'snapTo': function(axis, toWhere, snapId) {
 
       var self = this,
           currentPosition = self.handlePosition[axis],
@@ -219,15 +219,23 @@ define(function(require){
           destination = minMax[currentDistances.indexOf(closest)],
           newPosition;
 
+      // != is intentional, need type cooersion here.
+      if ( snapId != self.snapId ) {
+        return;
+      }
+
+      self.snapId = snapId = snapId || Math.random();
+
       if ( toWhere !== undefined ) {
         destination = toWhere  / 100 * pctScale;
       }
 
       if( currentDistances[0] > boundsDistance && currentDistances[1] > boundsDistance && toWhere === undefined ) {
+        self.snapId = null;
         return;
       }
 
-      newPosition = Math.floor( (2/3 * currentPosition + 1/3 * destination) );
+      newPosition = Math.floor( (4/5 * currentPosition + 1/5 * destination) );
 
       if ( currentPosition !== newPosition ) {
         self.handlePosition[axis] = newPosition;
@@ -235,11 +243,12 @@ define(function(require){
       } else {
         self.handlePosition[axis] = destination;
         self.setPositions();
+        self.snapId = null;
         return;
       }
 
       window.requestAnimationFrame(function(){
-        self.snapTo(axis, toWhere);
+        self.snapTo(axis, toWhere, snapId);
       });
     },
 

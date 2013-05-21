@@ -67,11 +67,21 @@ define(<span class="keyword">function</span>(require){
 
       self.setupPaddles();
 
-      self.$el.on(<span class="string">'mouseover.sonyPaddles'</span>, <span class="keyword">function</span>(){
+      self.$paddles.on(<span class="string">'blur'</span>, <span class="keyword">function</span>() {
+        self.$nav.removeClass(<span class="string">'show-paddles'</span>);
+        $(<span class="keyword">this</span>).removeClass(<span class="string">'on'</span>);
+      });
+
+      self.$paddles.on(<span class="string">'focus'</span>, <span class="keyword">function</span>() {
+        self.$nav.addClass(<span class="string">'show-paddles'</span>);
+        $(<span class="keyword">this</span>).addClass(<span class="string">'on'</span>);
+      });
+
+      self.$el.on(<span class="string">'mouseenter.sonyPaddles'</span>, <span class="keyword">function</span>(){
         self.$nav.addClass(<span class="string">'show-paddles'</span>);
       });
 
-      self.$el.on(<span class="string">'mouseout.sonyPaddles'</span>, <span class="keyword">function</span>(){
+      self.$el.on(<span class="string">'mouseleave.sonyPaddles'</span>, <span class="keyword">function</span>(){
         self.$nav.removeClass(<span class="string">'show-paddles'</span>);
       });
     },
@@ -81,22 +91,24 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           paddleClass = self.useSmallPaddles ? <span class="string">'nav-paddle'</span> : <span class="string">'pagination-paddle'</span>,
           $navContainer = $(<span class="string">'&lt;div class="pagination-paddles"&gt;'</span>),
-          $prevPaddle = $(<span class="string">'&lt;button class="'</span> + paddleClass + <span class="string">' pagination-prev"&gt;&lt;i class="fonticon-10-chevron-reverse"&gt;&lt;/i&gt;&lt;/button&gt;'</span>),
-          $nextPaddle = $(<span class="string">'&lt;button class="'</span> + paddleClass + <span class="string">' pagination-next"&gt;&lt;i class="fonticon-10-chevron"&gt;&lt;/i&gt;&lt;/button&gt;'</span>);
+          $prevPaddle = $(<span class="string">'&lt;a href="#" class="'</span> + paddleClass + <span class="string">' '</span> + self.paddlePosition + <span class="string">' pagination-prev"&gt;&lt;i class="fonticon-10-chevron-reverse"&gt;&lt;/i&gt;&lt;/a&gt;'</span>),
+          $nextPaddle = $(<span class="string">'&lt;a href="#" class="'</span> + paddleClass + <span class="string">' '</span> + self.paddlePosition + <span class="string">' pagination-next"&gt;&lt;i class="fonticon-10-chevron"&gt;&lt;/i&gt;&lt;/a&gt;'</span>);
 
       $navContainer.append( $prevPaddle, $nextPaddle );
       self.$el.append( $navContainer );
       self.$nav = $navContainer;
 
-      self.$paddles     = self.$nav.find(<span class="string">'button'</span>);
-      self.$leftPaddle  = self.$paddles.filter(<span class="string">'.pagination-prev'</span>);
+      self.$paddles = self.$nav.find(<span class="string">'.'</span> + paddleClass);
+      self.$leftPaddle = self.$paddles.filter(<span class="string">'.pagination-prev'</span>);
       self.$rightPaddle = self.$paddles.filter(<span class="string">'.pagination-next'</span>);
 
-      self.$leftPaddle.on(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+      self.$leftPaddle.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e) {
+        e.preventDefault();
         self.$el.trigger(<span class="string">'sonyPaddles:clickLeft'</span>);
       });
 
-      self.$rightPaddle.on(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+      self.$rightPaddle.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e) {
+        e.preventDefault();
         self.$el.trigger(<span class="string">'sonyPaddles:clickRight'</span>);
       });
     },
@@ -161,7 +173,9 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.sonyPaddles.defaults = {
-    useSmallPaddles: <span class="literal">false</span>
+    useSmallPaddles: <span class="literal">false</span>,
+
+    paddlePosition: <span class="string">'inset'</span>
   };
 
 });
