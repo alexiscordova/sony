@@ -130,7 +130,16 @@ define(function(require) {
     },
 
     lazyInit : function() {
-      var self = this;
+      var self = this,
+          $stickyImg = self.$stickyNav.find('.iq-img');
+
+      if ( $stickyImg.length ) {
+        if ( $stickyImg.data('hasLoaded') ) {
+          Utilities.forceWebkitRedraw();
+        } else {
+          $stickyImg.on( 'imageLoaded', Utilities.forceWebkitRedraw );
+        }
+      }
 
       Utilities.autoSelectInputOnFocus( self.$shareLink );
 
