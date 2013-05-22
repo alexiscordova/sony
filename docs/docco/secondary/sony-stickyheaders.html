@@ -29,6 +29,7 @@ define(<span class="keyword">function</span>(require){
     init: <span class="keyword">function</span>(scrollableId) {
       <span class="keyword">this</span>.scrollableId = scrollableId;
       <span class="keyword">this</span>.$headers = $(<span class="string">'.js-sticky-headers'</span>);
+      <span class="keyword">this</span>.$scrollable = $(<span class="string">'#'</span> + <span class="keyword">this</span>.scrollableId);
       <span class="keyword">this</span>.$fixedHeader = $(<span class="string">'.js-sticky-fixed-header'</span>).hide();
       <span class="keyword">this</span>.$fixedHeaderTitle = <span class="keyword">this</span>.$fixedHeader.find(<span class="string">'.js-sticky-header-title'</span>);
       <span class="keyword">this</span>.offsets = [];
@@ -55,12 +56,17 @@ define(<span class="keyword">function</span>(require){
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Enables iScroll and makes sure sticky header is correctly aligned.</p>             </td>             <td class="code">               <div class="highlight"><pre>    enable: <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> handler = $.proxy( <span class="keyword">this</span>.scrollHandler, <span class="keyword">this</span> );
-      <span class="keyword">this</span>.scroll = <span class="keyword">new</span> IScroll(<span class="keyword">this</span>.scrollableId, {
-        momentum : <span class="literal">true</span>,
-        onScrollMove: handler,
-        onScrollEnd: handler
-      });
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">this</span>.$scrollable.css(<span class="string">'position'</span>, <span class="string">'absolute'</span>);
+      <span class="keyword">var</span> handler = $.proxy( <span class="keyword">this</span>.scrollHandler, <span class="keyword">this</span> );
+
+      setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        <span class="keyword">this</span>.scroll = <span class="keyword">new</span> IScroll(<span class="keyword">this</span>.scrollableId, {
+          momentum : <span class="literal">true</span>,
+          onScrollMove: handler,
+          onScrollEnd: handler
+        });
+        window.iscroll = <span class="keyword">this</span>.scroll;
+      }.bind(<span class="keyword">this</span>), <span class="number">10</span>);
 
       <span class="keyword">return</span> <span class="keyword">this</span>;
     },
@@ -72,6 +78,8 @@ define(<span class="keyword">function</span>(require){
         <span class="keyword">this</span>.scroll.scrollTo();
         <span class="keyword">this</span>.scroll.destroy();
       }
+
+      <span class="keyword">this</span>.$scrollable.css(<span class="string">'position'</span>, <span class="string">'relative'</span>);
 
       <span class="keyword">return</span> <span class="keyword">this</span>;
     },
