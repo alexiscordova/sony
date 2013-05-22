@@ -250,19 +250,19 @@ define(function(require){
       // Handles when a thumbnail is chosen
       onThumbSelected: function($el){
         var self = this,
-        $anchors = self.$thumbNav.find('li'),
         selectedIndex =  $el.index(),
+        $anchors = self.$thumbNav.find('li').not(':eq(' + selectedIndex + ')'),
         animDirection = '';
 
         self.currentId = selectedIndex;
 
         // need to set a tmeout of 100ms so we can 
         // fix a flicker bug on mobile devices
-        setTimeout(function() {
-          $anchors.removeClass('active');
-        },100);       
-
         $el.addClass('active');
+        
+        setTimeout(function(){
+          $anchors.removeClass('active');
+        },100);
 
         self.$slideContainer.sonyCarouselFade( 'gotoSlide' , self.currentId );
       },
@@ -273,15 +273,16 @@ define(function(require){
             $chapterTabs,
             $currTab;
 
-        $chapterTabs = self.$thumbNav.find('li');
-        $currTab = $chapterTabs.eq( self.currentId );
+        $chapterTabs = self.$thumbNav.find('li').not(':eq(' + self.currentId + ')');
+        $currTab = self.$thumbNav.find('li').eq( self.currentId );
 
         // need to set a tmeout of 100ms so we can 
         // fix a flicker bug on mobile devices
-        setTimeout(function() {
+        $currTab.addClass('active');
+        setTimeout(function(){
           $chapterTabs.removeClass('active');
-          $currTab.addClass('active');
-        },100);       
+        },100);
+        
       },
 
       initScroller: function(){
