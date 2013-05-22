@@ -233,8 +233,8 @@ define(function(require){
           vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          momentum: self.useMomentum,
-          bounce: self.useBounce,
+          momentum: true,
+          bounce: true,
           onScrollStart: function() {
             self.isClickCanceled = false;
             self.$tabs.off('.stickytabs');
@@ -330,8 +330,8 @@ define(function(require){
           vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          momentum: self.useMomentum,
-          bounce: self.useBounce,
+          momentum: !( Settings.isLTIE9 ),
+          bounce: !( Settings.isLTIE9 ),
           onScrollStart: function() {
             self.isClickCanceled = false;
             self.$tabs.off('.stickytabs');
@@ -454,8 +454,6 @@ define(function(require){
     tabWidth: 0,
     overlap: 0,
     isStickyTabs: false,
-    useBounce: !( Settings.isVita || Settings.isLTIE9 ),
-    useMomentum: !( Settings.isVita || Settings.isLTIE9 ),
     isTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
     prop: Modernizr.csstransforms ? 'transform' : 'left',
     valStart : Modernizr.csstransforms ? 'translate(' : '',
