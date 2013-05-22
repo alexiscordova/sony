@@ -189,6 +189,7 @@ $maxChildren: 20;
         margin-bottom: 40px;
 
         img {
+          @include transition(opacity 0.25s linear);
           width: 100%;
         }
 
@@ -202,9 +203,26 @@ $maxChildren: 20;
             color: $white;
           }
         }
+
+        i {
+          @include transition(left 0.25s linear);
+          position: relative;
+        }
+
+        &:hover {
+
+          i {
+            left: px-em(2px);
+          }
+
+          img {
+            opacity: 0.9;
+          }
+        }
       }
 
-      .subnav-accessories {
+      .subnav-accessories > div {
+        margin-bottom: 40px;
         padding: 33px 30px;
         background: $gray80;
 
