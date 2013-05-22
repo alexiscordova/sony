@@ -29,6 +29,7 @@ define(function(require){
     init: function(scrollableId) {
       this.scrollableId = scrollableId;
       this.$headers = $('.js-sticky-headers');
+      this.$scrollable = $('#' + this.scrollableId);
       this.$fixedHeader = $('.js-sticky-fixed-header').hide();
       this.$fixedHeaderTitle = this.$fixedHeader.find('.js-sticky-header-title');
       this.offsets = [];
@@ -58,12 +59,17 @@ define(function(require){
     // Enables iScroll and makes sure sticky header is correctly aligned.
     enable: function() {
       // HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!
+      this.$scrollable.css('position', 'absolute');
       var handler = $.proxy( this.scrollHandler, this );
-      this.scroll = new IScroll(this.scrollableId, {
-        momentum : true,
-        onScrollMove: handler,
-        onScrollEnd: handler
-      });
+
+      setTimeout(function () {
+        this.scroll = new IScroll(this.scrollableId, {
+          momentum : true,
+          onScrollMove: handler,
+          onScrollEnd: handler
+        });
+        window.iscroll = this.scroll;
+      }.bind(this), 10);
 
       return this;
     },
@@ -76,6 +82,8 @@ define(function(require){
         this.scroll.scrollTo();
         this.scroll.destroy();
       }
+
+      this.$scrollable.css('position', 'relative');
 
       return this;
     },
