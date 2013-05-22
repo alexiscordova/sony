@@ -79,7 +79,7 @@ define(function(require){
 
     init : function( param ) {
       var self = this;
-      
+      alert('adgadgadg');
       // lets start by hiding the controllers until things are loaded and fading down the image
       // to give users a nicer set of visual queues
       self.$controls.addClass( 'hidden' );
@@ -258,11 +258,13 @@ define(function(require){
     touchDown: function( event ) {
       // Montana to Rice!
       var self = this;
+      $(document.body).addClass('unselectable');
       self.clicked = true;
     },
 
     touchUp: function( event ) {
       var self = this;
+      $(document.body).removeClass('unselectable');
       self.clicked = false;
     },
 
