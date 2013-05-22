@@ -95,7 +95,7 @@ define(function(require) {
     self.$modal                          = self.$container.find( '.hotspot-modal' );
     self.$modalBody                      = self.$modal.find( '.modal-body' );
     self.isModalOpen                     = true;
-    self.hasTouch                        = Settings.hasTouchEvents || Settings.hasPointerEvents;
+    self.hasTouch                        = Settings.hasTouchEvents;
 
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
@@ -228,8 +228,11 @@ define(function(require) {
           windowHeight = self.getMaxModalHeights().maxBodyHeight,
           modalHeight  = self.$modal.height(),
           newOffset    = 0;
-      newOffset = ( windowHeight / 2 ) - ( modalHeight / 2 );
-      self.$modal.css( 'top', newOffset+'px' );
+      
+        //newOffset = ( windowHeight / 2 ) - ( modalHeight / 2 );
+        //self.$modal.css( 'top', newOffset+'px' );
+      
+      self.$modal.css( 'top', '0px' );
       return;
     },
 

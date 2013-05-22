@@ -138,7 +138,8 @@ define(function(require){
 
     setupLoopedCarousel: function() {
 
-      var self = this;
+      var self = this,
+          $clonedSlides = $();
 
       self.$allSlides = self.$slides;
 
@@ -155,8 +156,12 @@ define(function(require){
 
         self.$el.append($frontSlide).prepend($backSlide);
 
-        self.$allSlides = self.$allSlides.add($frontSlide).add($backSlide);
+        $clonedSlides = $clonedSlides.add($frontSlide).add($backSlide);
       }
+
+      self.$allSlides = self.$allSlides.add($clonedSlides);
+
+      $clonedSlides.find('a').removeAttr('href');
     },
 
     setupDraggable: function() {
@@ -605,6 +610,10 @@ define(function(require){
       if ( self.pagination ) {
         self.createPagination();
       }
+
+      self.$el.find('a').on('focus', function(e){
+        self.gotoSlide(self.$slides.index($(this).closest(self.$slides)));
+      });
     },
 
     // Reset the style attribute for the properties we might have manipulated.
@@ -628,7 +637,7 @@ define(function(require){
 
       // Unbind
       Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
-      self.$el.off('dragstart.sonycarousel dragend.sonycarousel tap.sonycarousel SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
+      self.$el.off('dragstart.sonycarousel dragend.sonycarousel SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
       $clickContext.off('click.sonycarousel');
 
       // Destroy all plugins.

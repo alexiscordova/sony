@@ -149,6 +149,10 @@ mixin appendBlock(name)
   block
   - buf[blocks[name]] += buf.splice(start, buf.length - start).join('');
 
+mixin scrollToTop()
+  .scroll-to-top.container.full-bleed.opacity0
+      a(href="#")
+        i.fonticon-10-back-to-top
 
 mixin docsLinks( listName, suffix, exclude )
   //- Not sure why `locals` can only be used inside a mixin
