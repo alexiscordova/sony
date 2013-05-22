@@ -13,7 +13,8 @@ define(function(require){
     var $ = require('jquery'),
         Settings = require('require/sony-global-settings'),
         Utilities = require('require/sony-global-utilities'),
-        Environment = require('require/sony-global-environment');
+        Environment = require('require/sony-global-environment'),
+        throttleDebounce = require('plugins/index').throttleDebounce;
 
     var module = {
       init: function() {
@@ -30,6 +31,7 @@ define(function(require){
 
       self.$el = $(element);
       self.$window = Settings.$window;
+      self.$document = Settings.$document;
       self._init();
     };
 
@@ -39,21 +41,24 @@ define(function(require){
       update: function(){
         var self = this;
         var top = self.$window.scrollTop();
-
-        console.log(top, self.$el);
         //if position of footer > scrolltop + viewport height //ie in view put it inline
         self.$el.toggleClass('fixed', self.$el.next().offset().top > top + Settings.windowHeight);
 
         //if scrolltop > 400 remove opacity0
         self.$el.toggleClass('opacity0', top < 400);
+
       },
 
       _init: function(){
         var self = this;
         if(Settings.isModern){
           self.update();
-          Environment.on('global:resizeDebounced', $.proxy(self.update, self));
-          self.$window.on('scroll', $.proxy( self.update, self ));
+          var throttleUpdate = $.throttle(100, $.proxy( self.update, self ));
+
+          Environment.on('global:resizeDebounced', throttleUpdate);
+          self.$window.on('scroll', throttleUpdate);
+          self.$document.on('touchmove gesturechange', throttleUpdate);
+
         }else{
           self.$el.removeClass('opacity0');
         }
