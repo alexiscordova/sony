@@ -73,7 +73,7 @@ mixin hotspotCore(hotspotData, assets, useSmall)
                   a.lt4(href=hotspotData.link.url) #{hotspotData.link.copy}
                 - imageLeft = assets.small.arrowLeft.image
                 - imageRight = assets.small.arrowRight.image
-                .arrow-left-top.arrow-left-small 
+                .arrow-left-top.arrow-left-small
                   img.hidden.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
                 .arrow-left-bottom.arrow-left-small.hidden
                   img.hidden.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
@@ -95,7 +95,7 @@ mixin hotspotCore(hotspotData, assets, useSmall)
 - anchor = data.id || "hotspot-instance-x"
 
 if data.background == "true"
-  .image-module.hotspot-instance.track-by-background.iq-img(id= anchor, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
+  .image-module.hotspot-instance.track-by-background.iq-img(id= anchor, class= extraclass, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
     .hspot-underlay.hidden
       .hspot-global-details-main.hidden
     .hspot-global-details-overlay.hidden.eh-transparent

@@ -2,6 +2,15 @@
   .rv-module {
     margin: px-em( 30 ) 0 px-em( 40 );
 
+    .sony-carousel {
+      width: 2000px; // js will override this
+    }
+
+    .sony-carousel .sony-carousel-slide {
+      -webkit-transform: none;
+      width: 900px; // js will override this
+    }
+
     // Needs to be specific enough to override the mobile grid
     .sony-carousel .slimgrid .gallery-item {
       width: px-em( 132 );
@@ -18,9 +27,9 @@
 
     .sony-carousel-wrapper {
       overflow: visible;
+      @include clearfix(); // Have clearfix before the .grid class is added
     }
 
-    .sony-carousel .sony-carousel-slide,
     .sony-carousel .container,
     .sony-carousel .slimgrid {
       width: auto;

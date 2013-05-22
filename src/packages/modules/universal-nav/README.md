@@ -41,12 +41,6 @@ Each module will include this document, which contains an ordered list of the fi
 
 == SOURCE HEAD files ==
 
-* b64-icons-ttf.css
-	* ../../../fonts/b64-icons-ttf.css
-* b64-icons-woff.css
-	* ../../../fonts/b64-icons-woff.css
-* icons-eot.css
-	* ../../../fonts/icons-eot.css
 * styles.scss
   * ../../../css/scss/styles.scss
 * responsive.scss

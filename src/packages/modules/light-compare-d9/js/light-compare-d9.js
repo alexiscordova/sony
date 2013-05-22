@@ -12,6 +12,7 @@ define(function(require){
 
   var $ = require('jquery'),
       bootstrap = require('bootstrap'),
+      Settings = require('require/sony-global-settings'),
       sonyStickyTabs = require('secondary/index').sonyStickyTabs;
 
   var module = {
@@ -29,7 +30,6 @@ define(function(require){
     var self = this;
     self.$el = $(element);
     self.init();
-
     log('SONY : LightCompare : Initialized');
   };
 
@@ -39,24 +39,51 @@ define(function(require){
     init: function() {
       var self = this;
       self.$win = $(window);
-      self.modalID = '#light-compare-modal';
+      self.modalID = 'light-compare-modal';
+      self.hasTouch = Settings.hasTouchEvents || Settings.hasPointerEvents;
+      self.useIScroll = self.hasTouch;
+      if (self.useIScroll) {
+        self.initiScroll();
+      }
+
+      var supportsOrientationChange = "onorientationchange" in window,
+      orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+      if (window.addEventListener) {
+        window.addEventListener(orientationEvent, function() {
+          self.measureModal();
+        }, false);
+      }
+
       self.bind();
     },
 
     bind: function() {
       var self = this;
 
-      $('.launch-modal').on('click', function() {
-        self.launchModal(self.modalID);
-      });
-
+      $('.launch-modal').on('click', $.proxy(self.launchModal, self));
       self.$win.resize($.proxy(self.measureModal, this));
+
+      if (self.useIScroll) {
+        $('#' + self.modalID).on('shown', $.proxy(self.updateiScroll, self));
+      }
     },
 
-    launchModal: function(id) {
+    launchModal: function() {
       var self = this;
-      $(id).modal();
+      $('#' + self.modalID).modal();
       self.measureModal();
+    },
+
+    initiScroll: function() {
+      var self = this;
+      self.iscroll =  new IScroll(self.modalID);
+      window.iscroll = self.iscroll;
+    },
+
+    updateiScroll: function(){
+      var self = this;
+      self.iscroll.refresh();
+      self.iscroll.scrollTo();
     },
 
     measureModal: function() {

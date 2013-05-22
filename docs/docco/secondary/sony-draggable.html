@@ -198,7 +198,7 @@ cache the new interaction's start position, then bind for movement onto onScrubb
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If self.snapToBounds is specified, handle the logic for animating the scrubbed element
 to the nearest bounds, or a point on that axis (if provided).</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'snapTo'</span>: <span class="keyword">function</span>(axis, toWhere) {
+    <span class="string">'snapTo'</span>: <span class="keyword">function</span>(axis, toWhere, snapId) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           currentPosition = self.handlePosition[axis],
@@ -210,15 +210,22 @@ to the nearest bounds, or a point on that axis (if provided).</p>             </
           destination = minMax[currentDistances.indexOf(closest)],
           newPosition;
 
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>!= is intentional, need type cooersion here.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( snapId != self.snapId ) {
+        <span class="keyword">return</span>;
+      }
+
+      self.snapId = snapId = snapId || Math.random();
+
       <span class="keyword">if</span> ( toWhere !== <span class="literal">undefined</span> ) {
         destination = toWhere  / <span class="number">100</span> * pctScale;
       }
 
       <span class="keyword">if</span>( currentDistances[<span class="number">0</span>] &gt; boundsDistance &amp;&amp; currentDistances[<span class="number">1</span>] &gt; boundsDistance &amp;&amp; toWhere === <span class="literal">undefined</span> ) {
+        self.snapId = <span class="literal">null</span>;
         <span class="keyword">return</span>;
       }
 
-      newPosition = Math.floor( (<span class="number">2</span>/<span class="number">3</span> * currentPosition + <span class="number">1</span>/<span class="number">3</span> * destination) );
+      newPosition = Math.floor( (<span class="number">4</span>/<span class="number">5</span> * currentPosition + <span class="number">1</span>/<span class="number">5</span> * destination) );
 
       <span class="keyword">if</span> ( currentPosition !== newPosition ) {
         self.handlePosition[axis] = newPosition;
@@ -226,15 +233,16 @@ to the nearest bounds, or a point on that axis (if provided).</p>             </
       } <span class="keyword">else</span> {
         self.handlePosition[axis] = destination;
         self.setPositions();
+        self.snapId = <span class="literal">null</span>;
         <span class="keyword">return</span>;
       }
 
       window.requestAnimationFrame(<span class="keyword">function</span>(){
-        self.snapTo(axis, toWhere);
+        self.snapTo(axis, toWhere, snapId);
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Reposition the handle based on mouse movement, or may be called at init for initial placement.
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Reposition the handle based on mouse movement, or may be called at init for initial placement.
 Also broadcasts the new position via the self.drag() callback.</p>
 
 <p>Optionally, provide an override argument in the form of <code>{x: 0, y: 0}</code>
@@ -291,7 +299,7 @@ to overwrite the scrubber's current position.</p>             </td>             
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Caches important dimensions and positions.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Caches important dimensions and positions.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'setDimensions'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -309,7 +317,7 @@ to overwrite the scrubber's current position.</p>             </td>             
       offsetCorrectionX += self.$containment.get(<span class="number">0</span>).getBoundingClientRect().left;
       offsetCorrectionY += self.$containment.get(<span class="number">0</span>).getBoundingClientRect().top;
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>This exception is built specifically for carousels like the OSC (S2) module, which must
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>This exception is built specifically for carousels like the OSC (S2) module, which must
 respect the grid even though they aren't really in it. Refer to S2 for usage example;
 <code>sony-carousel-flex</code> is the required trigger class for that layout stategy.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       <span class="keyword">if</span> ( !Modernizr.jsautomargins ) {
@@ -325,7 +333,7 @@ respect the grid even though they aren't really in it. Refer to S2 for usage exa
 
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Allows other classes to reset the handle's position if needed, by calling:</p>
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Allows other classes to reset the handle's position if needed, by calling:</p>
 
 <pre><code> $('#foo').sonyDraggable('setBounds', {...});
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -374,29 +382,29 @@ respect the grid even though they aren't really in it. Refer to S2 for usage exa
     });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.sonyDraggable.defaults = {
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Define the axes along which the handle may be dragged.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'axis'</span>: <span class="string">'xy'</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Define the axes along which the handle may be dragged.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'axis'</span>: <span class="string">'xy'</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>'px' or '%' based positioning for handle / callback coords.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'unit'</span>: <span class="string">'%'</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>'px' or '%' based positioning for handle / callback coords.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'unit'</span>: <span class="string">'%'</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Motion that must be passed on touch before dragging will start. Helpful for
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Motion that must be passed on touch before dragging will start. Helpful for
 preventing "touch-trapping" scenarios.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'dragThreshold'</span>: <span class="literal">null</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Initial position of handle.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'handlePosition'</span>: {
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Initial position of handle.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'handlePosition'</span>: {
       <span class="string">'x'</span>: <span class="number">0</span>,
       <span class="string">'y'</span>: <span class="number">0</span>
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Set boundaries in the form of <code>{x:0, y:100}</code>, in self.unit measurements.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'bounds'</span>: <span class="literal">null</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Set boundaries in the form of <code>{x:0, y:100}</code>, in self.unit measurements.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'bounds'</span>: <span class="literal">null</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>If scrubber is released within this distance of a bounds (in self.unit measurements),
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>If scrubber is released within this distance of a bounds (in self.unit measurements),
 Animates the scrubber to that bounds. Requires <code>bounds</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'snapToBounds'</span>: <span class="literal">null</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Use CSS3 Transforms and Transitions for dragging.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'useCSS3'</span>: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Use CSS3 Transforms and Transitions for dragging.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'useCSS3'</span>: <span class="literal">false</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Callback for drag motion, may be used to reposition other elements.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'drag'</span>: <span class="keyword">function</span>(){}
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Callback for drag motion, may be used to reposition other elements.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'drag'</span>: <span class="keyword">function</span>(){}
   };
 
 });

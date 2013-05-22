@@ -19,7 +19,8 @@ define(function(require){
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
-      SonyCarousel = require('secondary/index').sonyCarousel;
+      SonyCarousel = require('secondary/index').sonyCarousel,
+      throttleDebounce = require('plugins/index').throttleDebounce;
 
   var module = {
     'init': function() {
@@ -50,34 +51,50 @@ define(function(require){
     constructor: Subnavigation,
 
     init: function() {
+
       var self = this;
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
         enquire.register("(min-width: 980px)", function() {
           self.mode = 'desktop';
-          self.renderSubcats(self.$activeSubcat, false);
+          self.subcatCols = 3;
+          self.renderSubcats(self.$activeSubcat, 3);
           self.renderNav(2);
         });
-        enquire.register("(min-width: 480px) and (max-width: 979px)", function() {
+        enquire.register("(min-width: 768px) and (max-width: 979px)", function() {
           self.mode = 'tablet';
-          self.renderSubcats(self.$activeSubcat, true);
+          self.subcatCols = 4;
+          self.renderSubcats(self.$activeSubcat, 4);
+          self.renderNav(3);
+        });
+        enquire.register("(min-width: 480px) and (max-width: 767px)", function() {
+          self.mode = 'tablet-small';
+          self.subcatCols = 6;
+          self.renderSubcats(self.$activeSubcat, 6);
           self.renderNav(3);
         });
         enquire.register("(max-width: 479px)", function() {
           self.mode = 'mobile';
-          self.renderSubcats(self.$activeSubcat, true);
+          self.subcatCols = 12;
+          self.renderSubcats(self.$activeSubcat, 12);
           self.renderNav(4);
         });
       } else {
         self.mode = 'desktop';
-        self.renderSubcats(self.$activeSubcat, false);
+        self.subcatCols = 3;
+        self.renderSubcats(self.$activeSubcat, 3);
         self.renderNav(2);
       }
+
+      self.$el.addClass('active');
 
       Environment.on('global:resizeDebounced', $.proxy(self.setTrayHeight, self));
     },
 
-    renderSubcats: function($subcat, mobile) {
+    // Render a subcategory; this is done on-demand so that we don't needlessly
+    // compute every subcat on pageload / resize.
+
+    renderSubcats: function($subcat, columns) {
 
       var self = this,
           $grids;
@@ -86,18 +103,20 @@ define(function(require){
         return;
       }
 
+      Utilities.reassignSpanWidths($subcat.find('.product, .marketing-tout, .subnav-accessories'), columns);
+
       $grids = $subcat.find('.subnav-product-grid');
 
       $grids = Utilities.gridApportion({
-        $groups: $grids,
-        mobile: mobile
+        $groups: $grids
       });
-
-      $grids[ mobile ? 'addClass' : 'removeClass' ]('m-grid-override');
 
       self.$activeSubcat = $subcat;
       self.setTrayHeight();
     },
+
+    // Render and re-bind the nav, and recreate the appropriate carousel if on
+    // mobile vs. desktop.
 
     renderNav: function(columns) {
 
@@ -135,48 +154,67 @@ define(function(require){
       self.bindNav();
     },
 
+    // Bind click/tap events against nav for opening, closing, and navigating to a new URL.
+
     bindNav: function() {
 
       var self = this,
-          $buttons = self.$navgroups.find('.grid').children();
+          $buttons = self.$navgroups.find('.grid').children(),
+          debouncedeNavTap;
 
       $buttons.on('click', function(){
         return !$(this).hasClass('has-products');
       });
 
-      $buttons.hammer().on('tap', function(){
+      // Because it is possible for certian devices (Vita, known) to rapidly fire
+      // `tap` events, we must debounce it slightly to prevent overruns.
 
-        var $this = $(this),
-            isActive = $this.hasClass('active');
-
-        if ( !$this.hasClass('has-products') ) {
-          return true;
-        }
-
-        $buttons.removeClass('active');
-
-        if ( !$this.parents().hasClass('dragging') ) {
-          if ( isActive ) {
-            self.closeTray();
-          } else {
-            $this.addClass('active');
-            self.openSubcat($this.data('subcategory'));
-          }
-        }
+      debouncedeNavTap = $.debounce(200, true, function(e){
+        self.onNavTap(e, $buttons);
       });
+
+      $buttons.hammer().on('tap', debouncedeNavTap);
     },
+
+    // Open or close nav depending on whether the currently tapped item is active.
+
+    onNavTap: function(e, $buttons) {
+
+      var self = this,
+          $this = $(e.currentTarget),
+          isActive = $this.hasClass('active');
+
+      if ( !$this.hasClass('has-products') ) {
+        return true;
+      }
+
+      $buttons.removeClass('active');
+
+      if ( !$this.parents().hasClass('dragging') ) {
+        if ( isActive ) {
+          self.closeTray();
+        } else {
+          $this.addClass('active');
+          self.openSubcat($this.data('subcategory'));
+        }
+      }
+    },
+
+    // Open the subnav at a given position.
 
     openSubcat: function(which) {
 
       var self = this,
           $subcat = self.$el.find('#subcategory-' + which);
 
-      self.renderSubcats($subcat, self.mode !== 'desktop');
+      self.renderSubcats($subcat, self.subcatCols);
 
       self.$subcats.removeClass('active');
 
       $subcat.addClass('active');
     },
+
+    // Close the subnav.
 
     closeTray: function() {
 
@@ -186,6 +224,9 @@ define(function(require){
       self.$tray.css('height', 0);
       self.$activeSubcat = null;
     },
+
+    // Set the tray height. May need to tap into `imagesLoaded` to get the
+    // correct height.
 
     setTrayHeight: function() {
 

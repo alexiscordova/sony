@@ -173,8 +173,8 @@ define(function(require) {
         if (self.variation === '3up' ||
            self.variation === '4up' ||
            self.variation === '5up') {
-            self.setSortPriorities();
-            //self.log(self.variation , true);
+           self.setSortPriorities();
+           //console.log(self.variation , true);
         }
 
         if (self.$slides.length > 1) {
@@ -195,7 +195,7 @@ define(function(require) {
           self.$win.trigger('resize.rp');
         }else {
           self.setupStripMode();
-          //self.log('setting up strip mode...');
+          //console.log('setting up strip mode...');
         }
       },
 
@@ -431,7 +431,7 @@ define(function(require) {
 
         self.$pagination.hide();
 
-       // self.log('setting up resize listener...');
+       // console.log('setting up resize listener...');
 
         self.$win.on( 'resize.rp', $.debounce( 100 , $.proxy(self.handleResize , self)) );
 
@@ -545,28 +545,6 @@ define(function(require) {
           });
         } , 10);
       },
-
-      // log : function () {
-
-      //   var self = this,
-      //   strOut   = '';
-
-      //   for (var i = 0 ; i < arguments.length ; i ++) {
-      //     strOut += arguments[i];
-      //     strOut += i > 0 ? ' , ' : ' ';
-      //   }
-
-      //   if (self.oldIE && self.DEBUG) {
-      //     if (window.alert) {
-      //          //window.alert(strOut);
-
-      //     }
-      //   } else if ( self.DEBUG ) {
-      //     if (window.console) {
-      //      //window.console.log(strOut);
-      //     }
-      //   }
-      // },
 
       setupStripMode: function() {
         var self       = this,
@@ -979,7 +957,7 @@ define(function(require) {
           view = 'desktop';
         }
 
-        //self.log('checking for breakpoints...');
+        //console.log('checking for breakpoints...');
 
         switch(view) {
           case 'desktop':
@@ -999,15 +977,10 @@ define(function(require) {
               wasMobile = true;
               self.returnToFullView();
 
-              //self.log('was mobile');
+              //console.log('was mobile');
             }
 
             self.isTabletMode = self.isMobileMode = self.hasInitedMobile = false;
-
-            if (self.isDesktopMode === true) {
-              // self.log('already desktop');
-              //return;
-            }
 
             self.isDesktopMode = true;
 
@@ -1015,14 +988,14 @@ define(function(require) {
                                     .addClass('rp-desktop');
 
             if (self.scrollerModule !== null || wasMobile) {
-              //self.log('destroying scroller');
+              //console.log('destroying scroller');
               self.scrollerModule.destroy();
               self.scrollerModule = null;
 
             }
 
             if (self.shuffle === null || wasMobile) {
-              //self.log('creating shuffle');
+              //console.log('creating shuffle');
               self.$container.css('width' , '100%');
               self.createShuffle();
 
@@ -1141,7 +1114,7 @@ define(function(require) {
 
             self.initMobileBreakpoint();
 
-            //self.log('initing mobile');
+            //console.log('initing mobile');
 
             self.togglePaddles(false);
 
@@ -1191,7 +1164,7 @@ define(function(require) {
         if (self.isTabletMode === true) {
           if ( newHeight === 0 ) {
             newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.984615385 );
-            //self.log('using alternate height calculatio >>> TABLET' , newHeight);
+            //console.log('using alternate height calculatio >>> TABLET' , newHeight);
           }
 
          self.$el.css( 'height' , newHeight + 14 + 'px' );
@@ -1212,16 +1185,12 @@ define(function(require) {
 
         if ( newHeight === 0 ) {
           newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.509803922 );
-           //self.log('using alternate height calculation >>> Desktop' , newHeight);
+           //console.log('using alternate height calculation >>> Desktop' , newHeight);
         }
 
         if (self.$win.width() < 1120) {
           newHeight += 20;
         }
-/*
-        if (self.$win.width() > 1200) {
-          newHeight -= 40;
-        }*/
 
         self.$el.css( 'height' , newHeight + 0 + 'px' );
 
@@ -1500,7 +1469,7 @@ define(function(require) {
 
         distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
 
-        //log( distanceMoved );
+        //console.log( distanceMoved );
 
         if (!self.hasMoved) {
           if (self.useCSS3Transitions) {

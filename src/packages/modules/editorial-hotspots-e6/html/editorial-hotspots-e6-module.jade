@@ -7,7 +7,7 @@ mixin hotspotMobileModal(modalTarget)
   .hotspot-modal.modal.hide.fade(id=modalTarget, tabindex="-1", role="dialog", aria-labelledby="hotspot-modal-title", aria-hidden="true")
     .container
       .modal-inner
-        .modal-body.grid
+        .modal-body.slim-grid
           | ...
 
 
@@ -24,7 +24,7 @@ mixin hotspotCore(hotspotData, assets, useSmall)
       .arrow-left.eh-transparent
         img.hidden.iq-img(class=imageLeft.classes)(alt=imageLeft.alt, data-src-desktop= imageLeft.srcDesktop, data-src-tablet= imageLeft.srcTablet, data-src-phone= imageLeft.srcPhone, data-src-desktop-highres= imageLeft.srcDesktopHighRes, data-src-tablet-highres= imageLeft.srcTabletHighRes, data-src-phone-highres= imageLeft.srcPhoneHighRes)
       .arrow-right.eh-transparent
-        img.hidden.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)        
+        img.hidden.iq-img(class=imageRight.classes)(alt=imageRight.alt, data-src-desktop= imageRight.srcDesktop, data-src-tablet= imageRight.srcTablet, data-src-phone= imageRight.srcPhone, data-src-desktop-highres= imageRight.srcDesktopHighRes, data-src-tablet-highres= imageRight.srcTabletHighRes, data-src-phone-highres= imageRight.srcPhoneHighRes)
     else
       imageLeft = assets.large.arrowLeft.image
       imageRight = assets.large.arrowRight.image
@@ -109,7 +109,7 @@ mixin hotspotCore(hotspotData, assets, useSmall)
       .hspot-global-details-overlay.hidden.eh-transparent
       - for hotstpot in data.hotspots.items
         +hotspotCore(hotstpot, assets, false)
-  
+
   else
     .image-module.hotspot-instance.track-by-asset
       img.iq-img(id= anchor, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)

@@ -42,18 +42,13 @@ define(function(require){
 
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
-      self.cssTransitions       = Modernizr.transitions;
-
-      // Modernizr vars
-      self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
+      self.cssTransitions       = Modernizr.transitions;
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
 
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
-      self.$document            = $(document);
-      self.$window              = $(window);
-      self.$html                = $('html');
+      self.$window              = Settings.$window;
       self.$slides              = self.$el.find('.editorial-carousel-slide');
       self.$slideWrapper        = self.$el.find('.editorial-carousel-wrapper');
       self.$slideContainer      = self.$el.find('.editorial-carousel');
@@ -130,9 +125,9 @@ define(function(require){
         // for some reason it $.evenHeights calculates the wrong height
         // this is even if DomReady is true. Even if debugger; is run now
         // the height of the tallest element will be incorrect. A setTimeout
-        // seems to fix this issue. 
-        setTimeout(function(){ 
-          self.getSlideHeight(); 
+        // seems to fix this issue.
+        setTimeout(function(){
+          self.getSlideHeight();
           self.getSliderWidth();
         }, 250);
       },
@@ -167,7 +162,7 @@ define(function(require){
         iQ.update();
 
       },
-   
+
       getSliderWidth: function() {
         var self = this,
             $currTabs,
@@ -261,7 +256,12 @@ define(function(require){
 
         self.currentId = selectedIndex;
 
-        $anchors.removeClass('active');
+        // need to set a tmeout of 100ms so we can 
+        // fix a flicker bug on mobile devices
+        setTimeout(function() {
+          $anchors.removeClass('active');
+        },100);       
+
         $el.addClass('active');
 
         self.$slideContainer.sonyCarouselFade( 'gotoSlide' , self.currentId );
@@ -269,9 +269,19 @@ define(function(require){
 
       // Sets the current active thumbnail
       setCurrentActiveThumb: function(){
-        var self = this;
-        self.$thumbNav.find('li').removeClass('active')
-          .eq( self.currentId ).addClass('active');
+        var self = this, 
+            $chapterTabs,
+            $currTab;
+
+        $chapterTabs = self.$thumbNav.find('li');
+        $currTab = $chapterTabs.eq( self.currentId );
+
+        // need to set a tmeout of 100ms so we can 
+        // fix a flicker bug on mobile devices
+        setTimeout(function() {
+          $chapterTabs.removeClass('active');
+          $currTab.addClass('active');
+        },100);       
       },
 
       initScroller: function(){

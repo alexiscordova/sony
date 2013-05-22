@@ -17,19 +17,19 @@
 
       //tablets
       @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-        max-width: percentage(288px / 463px);
-        width: percentage(288px / 463px);
+        max-width: 50%;
+        width: 50%;
         min-width: percentage(400px / 3532px);
       }
 
       //phones
       @media( max-width: px-em(480px) ){
         h1, h2, h3, h4, h5, h6 {
-          max-width: percentage(400px / 533px);
+          max-width: percentage(440px / 533px);
         }
-        max-width: percentage(400px / 463px);
-        width: percentage(400px / 463px);
-        min-width: percentage(400px / 3532px);
+        max-width: percentage(440px / 463px);
+        width: percentage(440px / 463px);
+        min-width: percentage(440px / 3532px);
 
         &.align-right-center {
           max-width: none;
@@ -204,6 +204,8 @@
       width: 100%;
       height: 100%;
       cursor: pointer;
+      zoom: 1;
+      overflow: hidden;
     }
 
     .st-flag {
@@ -238,8 +240,8 @@
 
     .st-image {
       position: absolute;
-      left: 0;
-      top: 0;
+      right: 0;
+      bottom: 0;
       width: 100%;
       height: 100%;
       background-size: cover;
