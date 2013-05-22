@@ -256,7 +256,12 @@ define(function(require){
 
         self.currentId = selectedIndex;
 
-        $anchors.removeClass('active');
+        // need to set a tmeout of 100ms so we can 
+        // fix a flicker bug on mobile devices
+        setTimeout(function() {
+          $anchors.removeClass('active');
+        },100);       
+
         $el.addClass('active');
 
         self.$slideContainer.sonyCarouselFade( 'gotoSlide' , self.currentId );
@@ -264,9 +269,19 @@ define(function(require){
 
       // Sets the current active thumbnail
       setCurrentActiveThumb: function(){
-        var self = this;
-        self.$thumbNav.find('li').removeClass('active')
-          .eq( self.currentId ).addClass('active');
+        var self = this, 
+            $chapterTabs,
+            $currTab;
+
+        $chapterTabs = self.$thumbNav.find('li');
+        $currTab = $chapterTabs.eq( self.currentId );
+
+        // need to set a tmeout of 100ms so we can 
+        // fix a flicker bug on mobile devices
+        setTimeout(function() {
+          $chapterTabs.removeClass('active');
+          $currTab.addClass('active');
+        },100);       
       },
 
       initScroller: function(){

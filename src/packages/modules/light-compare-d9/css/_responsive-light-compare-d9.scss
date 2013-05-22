@@ -6,12 +6,23 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
 
+
 @media (max-height: 34.375em) {
   .modal-light-compare {
     &.modal {
       .container,
       .grid {
         height: auto;
+      }
+    }
+  }
+}
+
+@media (max-height: 34.375em) and (min-width: $phoneMax) {
+  .modal-light-compare {
+    &.modal {
+      &.fade.in {
+        top: 50%;
       }
     }
   }
