@@ -23,7 +23,7 @@ define(function(require) {
   var module = {
     init: function() {
       $('#nav-wrapper').globalNav();
-      // console.clear();
+      console.clear();
     }
   };
 
@@ -237,8 +237,8 @@ define(function(require) {
               interval: self.openDelay,
               timeout: self.closeDelay
             });
-            $thNavBtn.on( 'focus', $.proxy( self.onNavBtnFocus, self ) );
-            $thNavBtn.on( 'blur', $.proxy( self.onNavBtnBlur, self ) );
+            // $thNavBtn.on( 'focus', $.proxy( self.onNavBtnFocus, self ) );
+            // $thNavBtn.on( 'blur', $.proxy( self.onNavBtnBlur, self ) );
           }
 
           // Activate click for tab navigation
@@ -254,25 +254,8 @@ define(function(require) {
         } // end NOT touch device
       });
 
-      // Event triggered when anything inside the nav gets focus
-      self.$container.on('focus', '*', function() {
-        // is this a nav button?
-
-          // is it a nav button with a dropdown?
-            // is this currently open?
-              // do nothing?
-              // else open
-
-          // else
-            // Is there an open tray?
-              // Close it
-
-        // Is it inside a tray/menu?
-          // Is there a tray currently open?
-            // Close it
-          // Open its parent tray/menu
-
-      });
+      // Event triggered when any anchor link inside the nav gets focus
+      self.setupFocusPath();
 
       self.resizeAccountUsername();
       Environment.on('global:resizeDebounced-200ms', function() {
@@ -328,6 +311,86 @@ define(function(require) {
         self.isSearchOpen = false;
         $('#nav-search-input').blur();
       }
+    },
+
+    // Logic for what to do when links inside the nav receive focus
+    setupFocusPath : function() {
+      var self = this,
+          $navBtns = self.$container.find('.nav-li-link');
+
+      self.$container.on('focus', 'a', function() {
+        var $focused = $( this ),
+            $currentBtn = self.$currentOpenNavBtn,
+            isNavBtn = $focused.is( $navBtns ),
+            isNavBtnWithTarget = isNavBtn && $focused.is( self.$activeNavBtns ),
+            isThisTrayMenuOpen = isNavBtnWithTarget && $focused.is( $currentBtn ),
+            isATrayMenuOpen = $currentBtn !== false,
+            $closestTarget, $closestTargetsBtn;
+
+        // Is this a nav button?
+        if ( isNavBtn ) {
+          // Is it a nav button with a dropdown?
+          if ( isNavBtnWithTarget ) {
+            // console.log('is nav button with a tray/menu', 'isThisTrayMenuOpen:', isThisTrayMenuOpen, 'isATrayMenuOpen:', isATrayMenuOpen);
+
+            // There is an open tray/menu and it's not this one, close it
+            if ( isATrayMenuOpen && !isThisTrayMenuOpen ) {
+              // console.log('tray is open and its not this one');
+              self.closeActiveNavBtn();
+            }
+
+            // The focused nav button's tray/menu is not open, so open it
+            if ( !isThisTrayMenuOpen ) {
+              // console.log('this tray isn\'t open, open it');
+              self.setActiveNavBtn( $focused );
+            }
+
+          // Is there an open tray?
+          } else if ( isATrayMenuOpen ) {
+            // Close it
+            // console.log('close active nav button');
+            self.closeActiveNavBtn();
+          }
+          // else {
+          //   // console.log('is nav button, but nothing to do');
+          // }
+
+        // Not a nav button, is it inside a tray/menu?
+        } else {
+          $closestTarget = $focused.closest('.navtray-w, .navmenu-w');
+
+          // Does this focused item have a parent which is a nav tray or menu
+          if ( $closestTarget.length > 0 ) {
+            // Get the tray/menu's nav button, and recheck if its tray/menu is open
+            $closestTargetsBtn = $closestTarget.data('$navBtn');
+            isThisTrayMenuOpen = isATrayMenuOpen && $currentBtn && $currentBtn.is( $closestTargetsBtn );
+            // console.log('[NOT NAVBTN] isThisTrayMenuOpen:', isThisTrayMenuOpen, 'isATrayMenuOpen:', isATrayMenuOpen);
+
+            // Is there a tray currently open?
+            if ( isATrayMenuOpen && !isThisTrayMenuOpen ) {
+              // console.log('a menu is open (and it\'s not this one), close it');
+              // Close it
+              self.closeActiveNavBtn();
+              // Open the new one
+              self.setActiveNavBtn( $closestTargetsBtn );
+
+            // Open its parent tray/menu
+            } else if ( !isThisTrayMenuOpen ) {
+              // Open the new one
+              self.setActiveNavBtn( $closestTargetsBtn );
+            }
+            // else {
+            //   // console.log('should be focused on menu item inside tray which doesnt need any action');
+            // }
+
+          // Anchor isn't inside a tray/menu, nor is it a nav button
+          }
+          // else {
+          //   // console.log( 'whatamidoing', this );
+          // }
+        }
+
+      });
     },
 
     onNavBtnTouchFocus : function( e ) {
@@ -472,12 +535,12 @@ define(function(require) {
       // is called before this function
       setTimeout(function checkItOut() {
         var isTargetHovered = $target.data('hovering');
-        // console.log('isTargetHovered:', isTargetHovered);
+        console.log('isTargetHovered:', isTargetHovered);
         // If the mouse didn't go to the tray that opened, close it
         if ( !isTargetHovered ) {
           self.resetActiveNavBtn( $navBtn );
         }
-      }, 5);
+      }, 50);
     },
 
     onNavBtnTargetMouseEnter : function( e ) {
@@ -517,7 +580,7 @@ define(function(require) {
 
       // Close this tray/menu if its nav button isn't hovered
       if ( !isNavBtnHovered ) {
-        // console.log('nav button is not hovered, expire timer and close tray/menu');
+        console.log('nav button is not hovered, expire timer and close tray/menu');
         self.mouseTimerExpired( $navBtn );
       }
     },
@@ -674,6 +737,8 @@ define(function(require) {
       if ( isAnotherOpen ) {
         console.log('%c[CLOSE ACTTIVE]' + $activeBtn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:rgb(0,172,238);');
         self.resetActiveNavBtn( $activeBtn );
+        // self.resetMouseleaveTimer();
+        self.$currentOpenNavBtn = false;
       }
 
 
