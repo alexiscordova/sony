@@ -101,7 +101,6 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Enquire doesn't exist in old IE, so make sure it's there</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.mediaqueries ) {
-
         enquire
           .register(<span class="string">'(min-width: 29.9375em) and (max-width: 47.9375em)'</span>, {
             match : $.proxy(self.accountForHeader, self),
@@ -177,12 +176,12 @@ define(<span class="keyword">function</span>(require){
 
     accountForHeader : <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      self.$scrollContainer.height(<span class="string">'+=10px'</span>).css(<span class="string">'margin-top'</span>, <span class="string">'-10px'</span>);
+      self.$scrollContainer.height(<span class="string">'+=20px'</span>).css(<span class="string">'margin-top'</span>, <span class="string">'-10px'</span>);
     },
 
     unAccountForHeader : <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      self.$scrollContainer.height(<span class="string">'-=10px'</span>).css(<span class="string">'margin-top'</span>, <span class="string">'auto'</span>);
+      self.$scrollContainer.height(<span class="string">'-=20px'</span>).css(<span class="string">'margin-top'</span>, <span class="string">'auto'</span>);
     }
   };
 
