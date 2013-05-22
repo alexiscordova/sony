@@ -34,7 +34,7 @@ define(function(require) {
     self.usernameSpace = 40;
     self.minUsernameLength = 6;
     self.searchMenu = {};
-    self.hasTouch = Settings.hasTouchEvents || Settings.hasPointerEvents;
+    self.hasTouch = Settings.hasTouchEvents;
     self.$html = Settings.$html;
     self.$window = Settings.$window;
     self.$container = $container;
@@ -178,13 +178,13 @@ define(function(require) {
 
         // TOUCH DEVICES
         if ( self.hasTouch ) {
-          console.log('init hammer');
+          // console.log('init hammer');
           // Use hammer.js to detect taps
           $thNavBtn.hammer().on('tap', $.proxy( self.onNavBtnTap, self ) );
 
         // NOT touch device - set up HOVER triggers
         } else {
-          console.log('init hover intent');
+          // console.log('init hover intent');
 
           // Search menu appears on click instead of hover
           if ( isSearchMenu ) {
@@ -447,7 +447,7 @@ define(function(require) {
           btnData = $navBtn.data(),
           $target = $( '.' + btnData.target );
 
-      console.log('%c[NAVBTN LEAVE] ' + $navBtn[0].getAttribute('href'), 'font-size:16px;color:#8E44AD;');
+      // console.log('%c[NAVBTN LEAVE] ' + $navBtn[0].getAttribute('href'), 'font-size:16px;color:#8E44AD;');
       // No longer hovering flag
       btnData.hovering = false;
 
