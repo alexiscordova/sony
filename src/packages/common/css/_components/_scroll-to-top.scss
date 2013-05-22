@@ -1,0 +1,42 @@
+.scroll-to-top{
+  @include translate3d(0,0,0);
+  z-index:$zindexScrollToTop;
+  position:relative;
+  margin-top:px-em(-80px);
+  margin-bottom:px-em(50px);
+  @include transition(opacity $transitionSlow);
+
+  &.fixed{
+    position:fixed;
+    right:0;
+    left:0;
+    bottom:50px;
+    margin: 0 auto;
+    pointer:cursor;
+  }
+  a{
+    margin-right:20px;
+    float:right;
+    display: block;
+    width: 2.5em;
+    height: 2em;
+    line-height: 2em;
+    border: none;
+    border-radius: .125em;
+    padding: 0;
+    background-color: $gray10;
+    background-color: rgba($gray10, .4);
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    @include transition();
+    &:hover {
+      background-color: $gray20;
+      background-color: rgba($gray10, .8);
+    }
+    i {
+      color: $white;
+      -webkit-font-smoothing: antialiased;
+    }
+  }
+}
