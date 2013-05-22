@@ -48,14 +48,23 @@ define(<span class="keyword">function</span>(require) {
     };
 
     EditorialSlideshow.prototype = {
+
       constructor: EditorialSlideshow,
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Initalize the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      init : <span class="keyword">function</span>() {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      init : <span class="keyword">function</span>() {
 
-        self
-          .setupSlides()
-          .setupCarousel();
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+            $firstImage = self.$el.find(<span class="string">'.iq-img'</span>).first();
+
+        self.setupSlides();
+
+        <span class="keyword">if</span> ( $firstImage.data(<span class="string">'hasLoaded'</span>) === <span class="literal">true</span> ) {
+          self.setupCarousel();
+        } <span class="keyword">else</span> {
+          $firstImage.on(<span class="string">'imageLoaded'</span>, <span class="keyword">function</span>(){
+            self.setupCarousel();
+          });
+        }
 
         self.$slideContainer.css( <span class="string">'opacity'</span> , <span class="number">1</span> );
 
@@ -63,7 +72,8 @@ define(<span class="keyword">function</span>(require) {
         Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self.onDebouncedResize, self ));
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Handles global debounced resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>      onDebouncedResize: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Handles global debounced resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      onDebouncedResize: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             isLargeDesktop = Modernizr.mq( <span class="string">'(min-width: 74.9375em)'</span> ),
             overflow = isLargeDesktop ? <span class="string">'hidden'</span> : <span class="string">'visible'</span>;
@@ -71,10 +81,11 @@ define(<span class="keyword">function</span>(require) {
         self.$el.css( <span class="string">'overflow'</span> , overflow );
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Main setup method for the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupCarousel: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Main setup method for the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      setupCarousel: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Using Sony Carousel for this module</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slideContainer.sonyCarousel({
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Using Sony Carousel for this module</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slideContainer.sonyCarousel({
           wrapper: <span class="string">'.editorial-carousel-wrapper'</span>,
           slides: <span class="string">'.editorial-carousel-slide'</span>,
           CSS3Easing: Settings.carouselEasing,
@@ -86,12 +97,11 @@ define(<span class="keyword">function</span>(require) {
           pagination: <span class="literal">true</span>
         });
 
-        iQ.update();
-
         <span class="keyword">return</span> self;
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Sets up slides to correct width based on how many there are</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupSlides: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Sets up slides to correct width based on how many there are.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      setupSlides: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             slidesWithClones = self.numSlides + <span class="number">2</span>,
             containerWidth = (<span class="number">100</span> * slidesWithClones) + <span class="string">'%'</span>,
