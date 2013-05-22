@@ -427,7 +427,7 @@ define(function(require) {
       $navBtn.data( 'hovering', true );
 
       // Clear the mouse timer
-      console.log('%c[NAVBTN ENTER] ' + $navBtn[0].getAttribute('href'), 'font-size:16px;color:#9B59B6;');
+      // console.log('%c[NAVBTN ENTER] ' + $navBtn[0].getAttribute('href'), 'font-size:16px;color:#9B59B6;');
 
       // Check to see if it's the active button first.
       // Keep tray/menu open if it's the same button
