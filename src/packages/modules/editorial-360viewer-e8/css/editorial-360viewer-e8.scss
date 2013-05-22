@@ -43,6 +43,21 @@ $transitionSpeed: 0.5s;
 
 .e360 {
   position: relative;  
+  .hidden360panel {
+/*
+    visibility: hidden;
+    top: 0px;
+    left: -9999px;
+*/
+  }
+  .visible360panel {
+/*
+    visibility: visible;
+    top: 0px;
+    left: 0px;
+*/
+  }
+
   .loading {
     position: absolute;
     top: 50%;
@@ -50,7 +65,8 @@ $transitionSpeed: 0.5s;
     margin: -30px 0 0 -30px;
   }
 
-  div.image-module {
+  div.image-module { 
+    height: 560px;
     background-position: center center;
     background-size: cover;
   }
@@ -61,6 +77,7 @@ $transitionSpeed: 0.5s;
       text-align: center;
     }
   }
+
   .controls {
     cursor: move;
     cursor: url(https://mail.google.com/mail/images/2/openhand.cur) 8 8, move;
