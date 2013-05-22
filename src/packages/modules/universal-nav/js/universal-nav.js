@@ -64,12 +64,14 @@ var UNAV = ( function( window, document, $, undefined ) {
         }
       }
     });
-
-    $closeBtn[ ON ]('click',function(e) {
+    $triggerLink[ ON ]('focus',function(e) {
+      console.log("u-nav focus");
       e.preventDefault();
-      _closeUNav();
+      if ( _minBreakpointMet() && !$pageWrapOuter.hasClass('unav-open')) {
+        console.log("u-nav conditions met");
+        _openUNav();
+      }
     });
-
 
     $closeBtn[ ON ]('click',function(e) {
       e.preventDefault();

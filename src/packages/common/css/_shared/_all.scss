@@ -94,6 +94,23 @@ ul.jump-links {
 
 // Sticky nav
 .sticky-nav {
+
+
+  // NOTE: PS3 BUG
+  // right now the PS3 is exploding whenever it detects `-webkit-transform`
+  // and will not render any of the children inside the parent. Probably
+  // has to deal with z-indexing. I tried over-riding the transform with
+  // some default values however, the PS3 will not render the elements
+  // even with default overrides. 
+  .ps3 & {
+    border: 2px solid green;
+    @include transition(none);
+    -webkit-transform: translate(0,0);
+    transform: translate(0,0);
+    -webkit-transform-style: flat;
+    /*@include translate(0, 0);*/
+  }
+  
   position: fixed;
   // z-index: 20; // above features
   z-index: 200; // Safari, what are you doing???
@@ -104,13 +121,13 @@ ul.jump-links {
   @include box-shadow(0 .0625em .625em $stickyShadowColor);
   @include translate(0, -2em);
   -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
-          transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
+  transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
 
   // Stop safari from making the sticky nav transparent
   -webkit-backface-visibility: hidden;
-     -moz-backface-visibility: hidden;
-      -ms-backface-visibility: hidden;
-          backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
 
   &.open {
     left: 0;

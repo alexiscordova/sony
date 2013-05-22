@@ -1,4 +1,4 @@
-This is the static manifest file for the Tertiary Tout (T1 - T5) module. 
+This is the static manifest file for the Tertiary Tout (T1 - T5) module.
 
 
 # Document Overview
@@ -8,9 +8,9 @@ Each module will include this document, which contains an ordered list of the fi
 
 The Tertiary Tout module consists of three internal content blocks (contentBlocks).  Each content block has different modes.  Each mode has different combinations of elements associated with it. The data relationship of each content block is detailed below.
 
-## Notes & Assumptions 
+## Notes & Assumptions
 
-+ Container Type 'title' should not be readily changeable to enforce consistency per container type. 
++ Container Type 'title' should not be readily changeable to enforce consistency per container type.
 + The Tertiary Tout assumes there will always be 3 elements ("content blocks"), no more and no less.
 + The order in which 'contentBlocks' are listed in the json file (top > down) will/should be the order the elements are rendered to the page (left > right).
 
@@ -33,7 +33,7 @@ _The tertiary tout module has three distinct content types:_
 + article
 + usersVoice
 + sonysVoice
-+ flickr	
++ flickr
 
 ### Content Block Modes (moduleMode)
 _Each contentBlock type has various modes:_
@@ -106,7 +106,7 @@ b. title (r)
 c. bodyCopy (o)
 d. link (o)
 e. eventMeta (o)
-	
+
 
 ### Compatible Modules per Container Type
 
@@ -139,7 +139,7 @@ _Modules:_
 
 Each module should contain at least one example JSON file. Additional JSON files that cover the template variables that could be populated in the module (even though some variations may not use all of them) will also be listed here.
 
-For more information on how json elements relate to each other, including required or optional values, please see the data relationships section of this document. 
+For more information on how json elements relate to each other, including required or optional values, please see the data relationships section of this document.
 
 	+ id
 		type: string
@@ -174,7 +174,7 @@ For more information on how json elements relate to each other, including requir
 				- article
 				- usersVoice
 				- sonysVoice
-				- flickr	
+				- flickr
 
 		+ mode
 			type: string
@@ -196,7 +196,7 @@ For more information on how json elements relate to each other, including requir
 
 			+ src
 				type: string
-				description: path to image 
+				description: path to image
 
 			+ alt
 				type: string
@@ -220,7 +220,7 @@ For more information on how json elements relate to each other, including requir
 
 			+ title
 				type: string
-				description: short title used for meta display	
+				description: short title used for meta display
 
 		+ author
 			type: object
@@ -256,19 +256,19 @@ For more information on how json elements relate to each other, including requir
 
 		+ articleAttendence
 			type: string
-			description: a valid number	
+			description: a valid number
 
 		+ articleAttendence
 			type: string
-			description: a valid number	
+			description: a valid number
 
 		+ quote
-			type: string 
+			type: string
 			description: if specific to twitter then limited to 140 characters
 
 		+ quoteLink
 			type: string
-			description: valid url, link in quote 
+			description: valid url, link in quote
 
 		+ socialBtnLink
 			type: string
@@ -280,7 +280,7 @@ For more information on how json elements relate to each other, including requir
 
 		+ postLink
 			type: string
-			description: a valid url	
+			description: a valid url
 
 
 		+ question
@@ -299,15 +299,21 @@ For more information on how json elements relate to each other, including requir
 #### JSON EXAMPLES
 The json definitions can be seen used in these json example files:
 
-+ *packages/modules/tertiary-tout-t1-t5/demo/data/tertiary-t1-t5/**article-t2-a-c-d.json***
-+ *packages/modules/tertiary-tout-t1-t5/demo/data/tertiary-t1-t5/**article-t2-b.json***
-+ *packages/modules/tertiary-tout-t1-t5/demo/data/tertiary-t1-t5/**sonys-voice-t4-a-b-c.json***
-+ *packages/modules/tertiary-tout-t1-t5/demo/data/tertiary-t1-t5/**users-voice-t3-a-b-c.json***
-+ *packages/modules/tertiary-tout-t1-t5/demo/data/tertiary-t1-t5/**flickr-t5-a.json***
-+ *packages/modules/tertiary-tout-t1-t5/demo/data/tertiary-t1-t5/**homepage-en.json***
-	
-	
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t1.a1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t2.a1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t2.b1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t2.c1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t2.d1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t3.a1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t3.b1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t3.c1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t4.a1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t4.b1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t4.c1.json***
++ *packages/modules/tertiary-tout-t1-t5/demo/data/dummy/t5.a1.json***
+
+
 # Submodule Information ReadMe
 ---
 
-This module does not support submodules. 
+This module does not support submodules.

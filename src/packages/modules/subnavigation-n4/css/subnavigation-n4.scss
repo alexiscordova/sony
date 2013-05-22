@@ -35,8 +35,7 @@ $maxChildren: 20;
     }
 
     .grid {
-      // Commenting out per client request, pending all parties agreeing that this is acceptable I'll delete.
-      // text-align: center;
+      text-align: center;
     }
 
     .subcategory-link {
@@ -190,6 +189,7 @@ $maxChildren: 20;
         margin-bottom: 40px;
 
         img {
+          @include transition(opacity 0.25s linear);
           width: 100%;
         }
 
@@ -202,6 +202,55 @@ $maxChildren: 20;
           .highlight {
             color: $white;
           }
+        }
+
+        i {
+          @include transition(left 0.25s linear);
+          position: relative;
+        }
+
+        &:hover {
+
+          i {
+            left: px-em(2px);
+          }
+
+          img {
+            opacity: 0.9;
+          }
+        }
+      }
+
+      .subnav-accessories > div {
+        margin-bottom: 40px;
+        padding: 33px 30px;
+        background: $gray80;
+
+        a {
+          color: $linkBlue;
+
+          &:hover {
+           color: $linkBlueHover;
+          }
+        }
+
+        ul {
+          margin: 0;
+
+          .p3 {
+            line-height: 1;
+            margin-bottom: 14px;
+          }
+          li {
+            line-height: 1.5em;
+          }
+          li:last-child {
+            margin-bottom: 0;
+          }
+        }
+
+        .l2 {
+          margin-bottom: 5px;
         }
       }
     }

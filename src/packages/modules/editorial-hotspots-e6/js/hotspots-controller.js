@@ -108,9 +108,11 @@ define(function(require) {
       var self = this;
 
       // inject the underlay node near the top of the dom tree
+/*
       var underlayNode = $( '.hspot-underlay' ).get( 0 );
       $( '.hspot-underlay' ).detach();
       $( 'body' ).append( underlayNode );
+*/
 
       // detect what type of tracking we need to bind the instance to
       var moduleHandle = self.$container.parent().find( '.image-module' );
@@ -226,8 +228,11 @@ define(function(require) {
           windowHeight = self.getMaxModalHeights().maxBodyHeight,
           modalHeight  = self.$modal.height(),
           newOffset    = 0;
-      newOffset = ( windowHeight / 2 ) - ( modalHeight / 2 );
-      self.$modal.css( 'top', newOffset+'px' );
+      
+        //newOffset = ( windowHeight / 2 ) - ( modalHeight / 2 );
+        //self.$modal.css( 'top', newOffset+'px' );
+      
+      self.$modal.css( 'top', '0px' );
       return;
     },
 
@@ -604,10 +609,12 @@ define(function(require) {
         // set the open status to zilch
         self.$lastOpen = null;
 
+/*
         // kill the underlay if we're in minified mode
         if( true === self.showOverlayCentered ) {
           $( '.hspot-underlay' ).addClass( 'hidden' );
         }
+*/
     },
 
     open: function( container, hotspot, info ) {
