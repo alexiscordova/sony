@@ -18,12 +18,12 @@ define(function(require) {
       Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
+      Hammer = require('plugins/index').hammer,
       formActions = require('secondary/form-actions');
 
   var module = {
     init: function() {
       $('#nav-wrapper').globalNav();
-      console.clear();
     }
   };
 
@@ -34,6 +34,7 @@ define(function(require) {
     self.usernameSpace = 40;
     self.minUsernameLength = 6;
     self.searchMenu = {};
+    self.hasTouch = Settings.hasTouchEvents || Settings.hasPointerEvents;
     self.$html = Settings.$html;
     self.$window = Settings.$window;
     self.$container = $container;
@@ -159,7 +160,6 @@ define(function(require) {
         var $thNavBtn = $(this),
             $thNavBtnTarget = $('.' + $thNavBtn.data('target')),
             isSearchMenu = $thNavBtnTarget.hasClass('navmenu-w-search');
-          // $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
         $thNavBtn.on('click touchstart mouseenter focus', function(e) {
           e.preventDefault();
@@ -176,54 +176,20 @@ define(function(require) {
           hovering: false
         });
 
-        // UPDATE
-        //
-        // On hover, add the 'selected' (or whatever) class to the button. set a 'justActivated' boolean to true,
-        // and set a timer that so if you click before the timer is up, it doesn't toggle the menu back closed. This way
-        // if the user goes to click the button, they won't get a double-toggle (hover followed by click)
-        //
-        // On click, check for the 'justActivated' boolean - if it's not true, toggle the menu state.
-        // This will allow closing by way of clicking the button when the menu is open.
-        // This may also mean we can just have 1 function for touch-or-click, since touch will
-        // never trigger hover, it'll just be ready for the touch to toggle it.
-        //
-        // TODO: Why does search menu close
-        // TODO: Clicking off the nav will close it.
-        // TODO: Clicking the button while this navTarget is open will close it.
-        //
-
-        // $(this).on(self.tapOrClick + ' focus blur', function() {
-        // $(this).on(self.tapOrClick, function() {
-        // $(this).on('touchstart mouseenter', function() {
-
-
-
         // TOUCH DEVICES
-        if (self.hasTouch) {
-          // console.log('hasTouch = true');
-
-          $thNavBtn.on( 'touchstart focus', $.proxy( self.onNavBtnTouchFocus ) ); // end touchstart
+        if ( self.hasTouch ) {
+          console.log('init hammer');
+          // Use hammer.js to detect taps
+          $thNavBtn.hammer().on('tap', $.proxy( self.onNavBtnTap, self ) );
 
         // NOT touch device - set up HOVER triggers
         } else {
-
-          // console.log('No Touch - Use Click Events');
-
-          // mouseenter focus click
-
-          // var thTrigger = 'mouseenter focus';
-
-          // for the search button only, we want it to trigger on click. All others on mouseenter.
-          // if ($thNavBtn.parent().hasClass('nav-li-search')) {
-          //     thTrigger = 'click focus';
-          // }
+          console.log('init hover intent');
 
           // Search menu appears on click instead of hover
           if ( isSearchMenu ) {
             $thNavBtn.on( 'mousedown', $.proxy( self.onSearchNavMouseDown, self ) );
-            $thNavBtn.on( 'focus', $.proxy( self.onSearchNavFocus, self ) );
             $thNavBtn.on( 'click', $.proxy( self.onSearchNavBtnClick, self ) );
-            // $thNavBtn.on( 'blur', $.proxy( self.closeSearch, self ) );
           } else {
             $thNavBtn.hoverIntent({
               over: $.proxy( self.onNavBtnMouseEnter, self ),
@@ -237,24 +203,13 @@ define(function(require) {
               interval: self.openDelay,
               timeout: self.closeDelay
             });
-            // $thNavBtn.on( 'focus', $.proxy( self.onNavBtnFocus, self ) );
-            // $thNavBtn.on( 'blur', $.proxy( self.onNavBtnBlur, self ) );
           }
-
-          // Activate click for tab navigation
-          // $thNavBtnTarget.find('a').on('focus', function() {
-            // $thNavBtnTarget.data('hovering', true);
-            // $thNavBtn.trigger('mouseenter');
-
-            // if (!($thNavBtnTarget.hasClass('navtray-w-visible') || $thNavBtnTarget.hasClass('navmenu-w-visible'))) {
-            //   $thNavBtn.focus();
-            // }
-          // });
 
         } // end NOT touch device
       });
 
       // Event triggered when any anchor link inside the nav gets focus
+      // Should this only be done for no-touch?
       self.setupFocusPath();
 
       self.resizeAccountUsername();
@@ -306,14 +261,17 @@ define(function(require) {
       // console.log('onPageWrapOuterPress', 'isClickOnNavItem: ', isClickOnNavItem );
 
       if ( !isClickOnNavItem ) {
-        $('.nav .nav-li a.active').trigger('touchstart');
-        self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
+        // $('.nav .nav-li a.active').trigger('touchstart');
+        // self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
+        self.closeActiveNavBtn();
         self.isSearchOpen = false;
         $('#nav-search-input').blur();
       }
     },
 
     // Logic for what to do when links inside the nav receive focus
+    // Firefox on mac only focuses inputs... http://stackoverflow.com/q/11704828/373422
+    // Safari only focuses on inputs too: http://stackoverflow.com/a/1914496/373422
     setupFocusPath : function() {
       var self = this,
           $navBtns = self.$container.find('.nav-li-link');
@@ -326,6 +284,12 @@ define(function(require) {
             isThisTrayMenuOpen = isNavBtnWithTarget && $focused.is( $currentBtn ),
             isATrayMenuOpen = $currentBtn !== false,
             $closestTarget, $closestTargetsBtn;
+
+        // Mouse down causes focus, trigger the focus and click. Can't have that.
+        if ( self.isMouseDown ) {
+          // console.log('mouse down, exit');
+          return;
+        }
 
         // Is this a nav button?
         if ( isNavBtn ) {
@@ -393,74 +357,6 @@ define(function(require) {
       });
     },
 
-    onNavBtnTouchFocus : function( e ) {
-      var self = e.data,
-          $thNavBtn = $( this );
-
-      $('#nav-search-input').blur();
-
-      // if this button is already activated,
-      if ($thNavBtn.parent().hasClass('nav-li-selected')) {
-        // just hide/reset it.
-        self.resetActiveNavBtn(self.$currentOpenNavBtn);
-        self.$currentOpenNavBtn = false;
-
-      // if this button isn't already activated,
-      } else {
-        // See if any other buttons are activated. If there's NOT
-        var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
-
-        if (!otherIsActive) {
-          // update the Nav button & open the new tray/menu immediately
-          self.setActiveNavBtn($thNavBtn);
-
-          // if there WAS already an active button,
-        } else {
-          // deactivate it first
-          self.resetActiveNavBtn(self.$currentOpenNavBtn);
-          var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
-
-          // if the open target was a navtray,
-          if ($oldNavTarget.hasClass('navtray-w')) {
-            // delay opening the new one until the old tray has a chance to close.
-            setTimeout(function() {
-              self.setActiveNavBtn($thNavBtn);
-            }, 350);
-          } else {
-            // update the Nav button & open the new tray after just a short delay for the old menu to fade out.
-            setTimeout(function() {
-              self.setActiveNavBtn($thNavBtn);
-            }, 150);
-          }
-        }
-      }
-    },
-
-    onNavBtnFocus : function( e ) {
-      var self = this;
-
-      // Same thing happens
-      self.closeActiveNavBtn( $(e.delegateTarget) );
-      self.onNavBtnMouseEnter( e );
-    },
-
-    onNavBtnBlur : function( e ) {
-      // var self = this;
-
-      // setTimeout(function() {
-
-      // }, 50);
-    },
-
-    onSearchNavFocus : function() {
-      var self = this;
-
-      // Clicking also causes focus, make sure the user isn't in the middle of clicking
-      if ( !self.isMouseDown ) {
-        self.openSearch();
-      }
-    },
-
     onSearchNavMouseDown : function() {
       this.isMouseDown = true;
     },
@@ -478,7 +374,6 @@ define(function(require) {
 
     openSearch : function() {
       if ( !this.isSearchOpen ) {
-        console.trace();
         this.setActiveNavBtn( this.$searchBtn );
         this.isSearchOpen = true;
       }
@@ -486,17 +381,43 @@ define(function(require) {
 
     closeSearch : function() {
       if ( this.isSearchOpen ) {
-        console.trace();
         this.resetActiveNavBtn( this.$searchBtn );
         this.isSearchOpen = false;
       }
     },
 
+    onNavBtnTap : function( evt ) {
+      var self = this,
+          $currentBtn = self.$currentOpenNavBtn,
+          $navBtn = $( evt.delegateTarget ),
+          isATrayMenuOpen = $currentBtn !== false,
+          isThisTrayMenuOpen = isATrayMenuOpen && $navBtn.is( $currentBtn );
+
+          // do i need this?
+      // $('#nav-search-input').blur();
+
+      // This tray/menu is open, close it
+      if ( isThisTrayMenuOpen ) {
+        // console.log( 'this tray menu is open already. Close it.' );
+        self.closeActiveNavBtn();
+
+      // A tray/menu is open, but it's not this one. Close the old, open the new.
+      } else if ( isATrayMenuOpen && !isThisTrayMenuOpen ) {
+        // console.log( 'A tray is open and its not this one. Close the old, open the new' );
+        self.closeActiveNavBtn();
+        self.setActiveNavBtn( $navBtn );
+
+      // Nothing is open, do it!
+      } else if ( !isATrayMenuOpen ) {
+        // console.log('nothing is open, open it.');
+        self.setActiveNavBtn( $navBtn );
+      }
+
+    },
+
     onNavBtnMouseEnter : function( e ) {
       var self = this,
           $navBtn = $( e.delegateTarget );
-          // btnData = $navBtn.data(),
-          // isTargetSearchMenu = btnData.target === 'navmenu-w-search';
 
       if ( self.isSearchOpen ) {
         self.closeSearch();
@@ -507,7 +428,6 @@ define(function(require) {
 
       // Clear the mouse timer
       console.log('%c[NAVBTN ENTER] ' + $navBtn[0].getAttribute('href'), 'font-size:16px;color:#9B59B6;');
-      // self.resetMouseleaveTimer();
 
       // Check to see if it's the active button first.
       // Keep tray/menu open if it's the same button
@@ -535,7 +455,7 @@ define(function(require) {
       // is called before this function
       setTimeout(function checkItOut() {
         var isTargetHovered = $target.data('hovering');
-        console.log('isTargetHovered:', isTargetHovered);
+        // console.log('isTargetHovered:', isTargetHovered);
         // If the mouse didn't go to the tray that opened, close it
         if ( !isTargetHovered ) {
           self.resetActiveNavBtn( $navBtn );
@@ -580,27 +500,10 @@ define(function(require) {
 
       // Close this tray/menu if its nav button isn't hovered
       if ( !isNavBtnHovered ) {
-        console.log('nav button is not hovered, expire timer and close tray/menu');
+        // console.log('nav button is not hovered, expire timer and close tray/menu');
         self.mouseTimerExpired( $navBtn );
       }
     },
-
-    // Checks what is hovered, and starts the timer or resets it
-    // checkHoverStatus : function( $btn, $target ) {
-    //   var self = this,
-    //       // The nav tray should close if neither its button, nor itself are currently hovered
-    //       shouldClose = !( $btn.data('hovering') || $target.data('hovering') );
-
-    //   // console.log('shouldClose:', shouldClose);
-    //   // start the countdown to shut it down.
-    //   if ( shouldClose ) {
-    //     self.startMouseleaveTimer( $btn );
-
-    //   // if you ARE hovering over the target, clear the mouseLeaveTimer.
-    //   } else {
-    //     self.resetMouseleaveTimer();
-    //   }
-    // },
 
     resetActiveNavMenu : function() {
       var self = this;
@@ -720,66 +623,29 @@ define(function(require) {
       self.$currentOpenNavBtn = false;
     },
 
+    // Checks for open navs and closes them
     closeActiveNavBtn : function( $exceptBtn ) {
       var self = this,
           $activeBtn,
           isAnotherOpen;
-          // $currentBtn = self.$currentOpenNavBtn,
-          // isAnotherOpen = !( $currentBtn === false || ($currentBtn.jquery && $currentBtn.is( $btn )) ),
-          // previousDeferred = self.dfdTrayMenu,
-          // isPreviousDeferredPending = !!previousDeferred && previousDeferred.state() === 'pending';
 
       // Close open navs if requested (eg search menu)
       $activeBtn = self.$activeNavBtns.filter('.active');
       isAnotherOpen = $activeBtn.length > 0 && !$activeBtn.is( $exceptBtn );
 
-      console.log('isAnotherOpen:', isAnotherOpen);
+      // console.log('isAnotherOpen:', isAnotherOpen);
       if ( isAnotherOpen ) {
-        console.log('%c[CLOSE ACTTIVE]' + $activeBtn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:rgb(0,172,238);');
+        // console.log('%c[CLOSE ACTTIVE]' + $activeBtn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:rgb(0,172,238);');
         self.resetActiveNavBtn( $activeBtn );
         // self.resetMouseleaveTimer();
         self.$currentOpenNavBtn = false;
       }
-
-
-      // The previous deferred (tray hide/show) has been rejected
-      // Caused by this function being called again before the other
-      // was finished animating
-      // function reject( globalNav, $currentBtn ) {
-      //   // console.log('REJECTED');
-      //   if ( globalNav.$currentBtn.is( $currentBtn ) ) {
-      //     // console.log('globalNav\'s current button is the one which was rejected');
-      //   }
-      // }
-
-      // console.log( 'isAnotherOpen: ', isAnotherOpen, 'isPreviousDeferredPending: ', isPreviousDeferredPending );
-
-      // if ( isPreviousDeferredPending ) {
-      //   // ( content [, args] )
-      //   if ( self.dfdTimerId ) {
-      //     clearTimeout( self.dfdTimerId );
-      //   }
-      //   previousDeferred.reject();
-      // }
-
-      // Need to close the other first
-      // Use a deferred object to wait for it to complete
-      // if ( isAnotherOpen ) {
-      //   // Save a reference to this dfd object and close $currentBtn
-      //   // self.dfdTrayMenu = self.resetActiveNavBtn( $currentBtn );
-      //   self.dfdTrayMenu = self.resetActiveNavBtn( $activeBtn );
-      //   $.when( self.dfdTrayMenu )
-      //     .done( complete )
-      //     .fail( reject );
-      // } else {
-      //   complete();
-      // }
     },
 
     // Save the currently open nav button
     setActiveNavBtn : function( $btn ) {
       var self = this;
-      console.log('%c[SET]' + $btn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:#3498DB;');
+      // console.log('%c[SET]' + $btn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:#3498DB;');
 
       self.activateNavBtn( $btn );
       self.$currentOpenNavBtn = $btn;
@@ -795,9 +661,8 @@ define(function(require) {
           hasTarget = !!navBtnTarget,
           isTray,
           $navTarget;
-          // timeout;
 
-      console.log('%c[RESET] ' + ($oldNavBtn.length > 0 && $oldNavBtn[0].getAttribute('href')), 'font-size:14px;color:#2ECC71;' );
+      // console.log('%c[RESET] ' + ($oldNavBtn.length > 0 && $oldNavBtn[0].getAttribute('href')), 'font-size:14px;color:#2ECC71;' );
 
       // reset this button
       if ( hasLength ) {
@@ -812,7 +677,6 @@ define(function(require) {
       if ( hasTarget ) {
         $navTarget = $( '.' + navBtnTarget );
         isTray = $navTarget.hasClass('navtray-w');
-        // timeout = isTray ? 250 : 150;
 
         // Is a tray, slide it up
         if ( isTray ) {
@@ -822,20 +686,7 @@ define(function(require) {
         } else {
           self.resetActiveNavMenu();
         }
-
-        // self.dfdTimerId = setTimeout(function() {
-        //   // console.log('RESET ' + $oldNavBtn[0].getAttribute('href') + ' RESOLVED' );
-        //   dfd.resolve();
-        // }, timeout);
-
-      // If there's no target, resolve the deferred right away
       }
-      // else {
-      //   dfd.resolve();
-      // }
-
-      // Don't return the promise here, so that it can be rejected elsewhere
-      // return dfd;
     },
 
 
@@ -908,7 +759,7 @@ define(function(require) {
           $navTarget,
           isTray;
 
-      console.log('%c[ACTIVATE] ' + $newNavBtn[0].getAttribute('href'), 'font-size:14px;color:#E74C3C;' );
+      // console.log('%c[ACTIVATE] ' + $newNavBtn[0].getAttribute('href'), 'font-size:14px;color:#E74C3C;' );
 
       //.removeClass('no-transition')
       $newNavBtn
@@ -1258,16 +1109,6 @@ define(function(require) {
     });
   };
   // end $.fn.globalNav
-
-  // Overrideable options
-  $.fn.globalNav.options = {
-  };
-
-  // Not overrideable
-  $.fn.globalNav.settings = {
-    hasTouch : Settings.hasTouchEvents || Settings.hasPointerEvents,
-    isInitialized : false
-  };
 
   module.initMobileNavIScroll = function() {
     var globalNav = $('.nav-wrapper').data('globalNav');
