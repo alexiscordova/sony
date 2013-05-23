@@ -133,12 +133,13 @@ define(function(require) {
       var self = this,
           $stickyImg = self.$stickyNav.find('.iq-img');
 
-      if ( $stickyImg.length ) {
-        if ( $stickyImg.data('hasLoaded') ) {
+      function stickyNavImgLoaded() {
+        // Throw it in a timeout to be sure the image has loaded,
+        // and the sticky nav has a new height
+        setTimeout(function() {
           Utilities.forceWebkitRedraw();
-        } else {
-          $stickyImg.on( 'imageLoaded', Utilities.forceWebkitRedraw );
-        }
+          self.$stickyNav.stickyNav('refreshOffset');
+        }, 0);
       }
 
       Utilities.autoSelectInputOnFocus( self.$shareLink );
@@ -150,6 +151,14 @@ define(function(require) {
         offsetTarget: self.$el.next(),
         scrollToTopOnClick: true
       });
+
+      if ( $stickyImg.length ) {
+        if ( $stickyImg.data('hasLoaded') ) {
+          stickyNavImgLoaded();
+        } else {
+          $stickyImg.on( 'imageLoaded', stickyNavImgLoaded );
+        }
+      }
 
       // Scroll to a hash if it's present
       $.simplescroll.initial();

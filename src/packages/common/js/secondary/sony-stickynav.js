@@ -43,11 +43,14 @@ define(function(require){
 
       self.hasJumpLinks = self.$jumpLinks && self.$jumpLinks.length > 0;
 
-      self._setTriggerPoint();
+      self.refreshTriggerPoint();
 
       // Bind to window scroll and resize
       self.$window.on('scroll', $.proxy( self._onScroll, self ));
       Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
+
+      // When the universal nav is opened or closed, the trigger point needs adjustment
+      Settings.$document.on('universal-nav-open-finished universal-nav-closed-finished', $.proxy( self.refreshTriggerPoint, self ));
 
       // Setup links that scroll within the page
       if ( self.hasJumpLinks ) {
@@ -66,7 +69,7 @@ define(function(require){
       }
 
       setTimeout(function() {
-        self._setOffset();
+        self.refreshOffset();
 
         // Make sure there's something to “spy” on
         if ( self.hasJumpLinks ) {
@@ -136,9 +139,7 @@ define(function(require){
     },
 
     _onResize : function() {
-      this
-        ._setTriggerPoint()
-        ._setOffset();
+      this.refresh();
 
       // Update the positions for the scroll spy
       if ( this.hasJumpLinks ) {
@@ -148,7 +149,7 @@ define(function(require){
       }
     },
 
-    _setTriggerPoint : function() {
+    refreshTriggerPoint : function() {
       var self = this,
       $offsetTarget, triggerPoint;
 
@@ -164,33 +165,39 @@ define(function(require){
           if ( triggerPoint < 100 ) {
             triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
           }
-          self.updateTriggerOffset( triggerPoint );
+          self.setTriggerOffset( triggerPoint );
 
 
         }, 50);
       }
 
-      self.updateTriggerOffset( triggerPoint );
+      self.setTriggerOffset( triggerPoint );
 
       return self;
     },
 
-    _setOffset : function() {
+    refreshOffset : function() {
       var self = this,
           navHeight = self.$el.outerHeight(),
           offset = self.offset + navHeight;
 
 
-      self.updateOffset( offset );
+      self.setOffset( offset );
 
       return self;
     },
 
-    updateTriggerOffset : function( newOffset ) {
+    refresh : function() {
+      return this
+        .refreshTriggerPoint()
+        .refreshOffset();
+    },
+
+    setTriggerOffset : function( newOffset ) {
       this.stickyTriggerOffset = newOffset;
     },
 
-    updateOffset : function( newOffset ) {
+    setOffset : function( newOffset ) {
       var scrollspy = Settings.$body.data('scrollspy');
       this.targetOffset = newOffset;
       if ( scrollspy ) {
