@@ -74,59 +74,47 @@ $(window).on('beforeunload', function() {
 
 
 $.extend(flowplayer, {
-
    version: '5.4.1',
-
    engine: {},
-
    conf: {},
-
    support: {},
-
    defaults: {
-
       debug: false,
-
+      
       // true = forced playback
       disabled: false,
-
+      
       // first engine to try
-      engine: $('html').hasClass('ps3') ? 'flash' : 'html5',
+      engine: 'html5',
 
       fullscreen: window == window.top,
-
+      
       // keyboard shortcuts
       keyboard: true,
-
+      
       // default aspect ratio
       ratio: 9 / 16,
-
+      
       // scale flash object to video's aspect ratio in normal mode?
       flashfit: false,
-
       rtmp: 0,
-
       splash: false,
-
       swf: "//releases.flowplayer.org/5.4.1/commercial/flowplayer.swf",
-
       speeds: [0.25, 0.5, 1, 1.5, 2],
-
       tooltip: true,
-
+      
       // initial volume level
       volume: typeof localStorage == "object" && !isNaN(localStorage.volume) ? localStorage.volume || 1 : 1,
-
+      
       // http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html#error-codes
       errors: [
-
          // video exceptions
          '',
          'Video loading aborted',
          'Network error',
          'Video not properly encoded',
          'Video file not found',
-
+         
          // player exceptions
          'Unsupported video',
          'Skin not found',
@@ -139,9 +127,7 @@ $.extend(flowplayer, {
          'http://get.adobe.com/flashplayer/'
       ],
       playlist: []
-
    }
-
 });
 
 // keep track of players
@@ -167,6 +153,11 @@ $.fn.flowplayer = function(opts, callback) {
          lastSeekPosition,
          engine;
 
+         if(IS_PS3){
+            ////window.alert('ok, now we are getting somewhere');
+            urlResolver = new URLResolver (root);
+         }
+
       if (conf.playlist.length) { // Create initial video tag if called without
          var preload = videoTag.attr('preload');
          videoTag.remove();
@@ -186,6 +177,8 @@ $.fn.flowplayer = function(opts, callback) {
          urlResolver = new URLResolver(videoTag);
 
       }
+
+      //window.alert('gets passed urlResolver instantiation...');
 
       //stop old instance
       var oldApi = root.data('flowplayer');
@@ -224,11 +217,21 @@ $.fn.flowplayer = function(opts, callback) {
          // methods
          load: function(video, callback) {
 
+            //window.alert('About to call video = urlResolver.resolve(video)');
             if (api.error || api.loading || api.disabled) {return;}
 
-            // resolve URL
             video = urlResolver.resolve(video);
+
+            //window.alert('Resolved video now about to exend and pick engine again......');
+            //window.alert( video.sources );
+
             $.extend(video, engine.pick(video.sources));
+
+            if(IS_PS3){
+               video.src = video.sources[0];
+            }
+
+            //window.alert(video.src);
 
             if (video.src) {
                var e = $.Event("load");
@@ -249,6 +252,7 @@ $.fn.flowplayer = function(opts, callback) {
          },
 
          pause: function(fn) {
+
             if (api.ready && !api.seeking && !api.disabled && !api.loading) {
                engine.pause();
                api.one("pause", fn);
@@ -260,7 +264,6 @@ $.fn.flowplayer = function(opts, callback) {
 
             if (api.ready && api.paused && !api.disabled) {
                engine.resume();
-
 
                // Firefox (+others?) does not fire "resume" after finish
                if (api.finished) {
@@ -378,6 +381,8 @@ $.fn.flowplayer = function(opts, callback) {
 
       };
 
+      //window.alert('getting passed API definition');
+
       api.conf = $.extend(api.conf, conf);
 
 
@@ -399,6 +404,8 @@ $.fn.flowplayer = function(opts, callback) {
       if (!root.data('flowplayer')) { // Only bind once
          root.bind("boot", function() {
 
+            //window.alert('DAS BOOOOOOOOOOOOT````````');
+
             // conf
             $.each(['autoplay', 'loop', 'preload', 'poster'], function(i, key) {
                var val = videoTag.attr(key);
@@ -419,11 +426,26 @@ $.fn.flowplayer = function(opts, callback) {
             });
 
             // 1. use the configured engine
-            engine = flowplayer.engine[conf.engine];
+            
+
+            if(IS_PS3){
+               var e = 'flash';
+               engine = flowplayer.engine[e];
+
+               //window.alert('Configuring with flash engine....w000t');
+            }else{
+               engine = flowplayer.engine[conf.engine];
+            }
+
             if (engine) {engine = engine(api, root);}
 
             if (engine.pick(urlResolver.initialSources)) {
                api.engine = conf.engine;
+
+               if(IS_PS3){
+                  api.engine = 'flash';
+                  //window.alert('setting api version to flash as well...IS PS3');
+               }
 
             // 2. failed -> try another
             } else {
@@ -434,6 +456,8 @@ $.fn.flowplayer = function(opts, callback) {
                      return false;
                   }
                });
+
+               //window.alert('Ehhh, looks like its failing here....');
             }
 
             // instances
@@ -450,6 +474,9 @@ $.fn.flowplayer = function(opts, callback) {
 
             // initial callback
             root.one("ready", callback);
+
+
+            //window.alert('so we got passed booting...');
 
 
          }).bind("load", function(e, api, video) {
@@ -554,6 +581,10 @@ $.fn.flowplayer = function(opts, callback) {
          });
       }
 
+      //window.alert('About to boot after setup...');
+
+      //window.alert('Triggering boot API:' + api + ' Root:' + root);
+
       // boot
       root.trigger("boot", [api, root]).data("flowplayer", api);
 
@@ -607,6 +638,10 @@ $.fn.flowplayer = function(opts, callback) {
 
       s.flashVideo = ver[0] > 9 || ver[0] == 9 && ver[3] >= 115;
 
+      if(IS_PS3){
+         s.flashVideo = ver[0] > 9 || ver[0] == 9 && ver[2] >= 115;
+      }
+
    } catch (ignored) {}
    try {
       s.video = !!video.canPlayType;
@@ -618,12 +653,10 @@ $.fn.flowplayer = function(opts, callback) {
    // animation
    s.animation = (function() {
       var vendors = ['','Webkit','Moz','O','ms','Khtml'], el = $("<p/>")[0];
-
       for (var i = 0; i < vendors.length; i++) {
          if (el.style[vendors[i] + 'AnimationName'] !== 'undefined') {return true;}
       }
    })();
-
 
 
 }();
@@ -637,7 +670,8 @@ function embed(swf, flashvars) {
    var id = "obj" + ("" + Math.random()).slice(2, 15),
       tag = '<object class="fp-engine" id="' + id+ '" name="' + id + '" ';
 
-   tag += $.browser.msie ? 'classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' :
+   //clsid:d27cdb6e-ae6d-11cf-96b8-444553540000
+   tag += $.browser.msie ? 'clsid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">' :
       ' data="' + swf  + '" type="application/x-shockwave-flash">';
 
    var opts = {
@@ -691,18 +725,28 @@ flowplayer.engine.flash = function(player, root) {
 
          if (flowplayer.support.flashVideo) {
 
+            if(IS_PS3){
+               //window.alert( 'Returning source: ' + sources[0] );
+               return sources[0];
+            }
+
             // always pick video/flash first
             var flash = $.grep(sources, function(source) { return source.type == 'flash'; })[0];
             if (flash) {return flash;}
 
             for (var i = 0, source; i < sources.length; i++) {
                source = sources[i];
-               if (/mp4|flv/.test(source.type)) {return source;}
+
+               if (/mp4|flv/.test(source.type)) {
+                  return source;
+               }
             }
          }
       },
 
       load: function(video) {
+
+         //window.alert('Calling LOAD OR WHAAAAT!!!!!!!!!!');
 
          var html5Tag = $("video", root),
             url = video.src.replace(/&amp;/g, '%26').replace(/&/g, '%26').replace(/=/g, '%3D'),
@@ -719,6 +763,8 @@ flowplayer.engine.flash = function(player, root) {
             api.__play(url);
 
          } else {
+
+
 
             callbackId = "fp" + ("" + Math.random()).slice(3, 15);
 
@@ -738,9 +784,7 @@ flowplayer.engine.flash = function(player, root) {
                if (conf[key]) {opts[key] = conf[key];}
             });
 
-            var debug = true;
-
-            if(IS_PS3 || debug || IS_GOOGLETV){
+            if(IS_PS3 || IS_GOOGLETV){
                conf.swf = conf.swfFallback;
             }
 
@@ -750,10 +794,9 @@ flowplayer.engine.flash = function(player, root) {
 
             api = objectTag[0];
 
-            if(IS_PS3 || debug || IS_GOOGLETV){
+            if(IS_PS3 || IS_GOOGLETV){
                root.find('.fp-ui').css('visibility' , 'hidden');
             }
-
 
             // throw error if no loading occurs
             setTimeout(function() {
@@ -809,7 +852,7 @@ flowplayer.engine.flash = function(player, root) {
 
       unload: function() {
          
-         if(IS_PS3 || debug || IS_GOOGLETV){
+         if(IS_PS3 || IS_GOOGLETV){
             root.find('.fp-ui').css('visibility' , 'visible');
          }
          
@@ -988,6 +1031,8 @@ flowplayer.engine.html5 = function(player, root) {
       },
 
       load: function(video) {
+
+         ////window.alert('calling this load method ehhhh?.....');
 
          if (conf.splash && !api) {
 
@@ -1237,12 +1282,25 @@ function URLResolver(videoTag) {
       sources.push(parseSource($(this)));
    });
 
+   if(sources.length === 0){
+      sources[0] = videoTag.data('fallbackSrc');
+      //window.alert('Going to use the fallbacksrc' + sources[0]);
+   }
+
    if (!sources.length) { sources.push(parseSource(videoTag)); }
 
    self.initialSources = sources;
 
+   //window.alert('initial sources set...');
+
    self.resolve = function(video) {
-      if (!video) {return { sources: sources };}
+      
+      if (!video) {
+         
+         return { sources: sources };
+      }
+
+
 
       if ($.isArray(video)) {
 
@@ -2600,7 +2658,6 @@ $.fn.fptip = function(trigger, active) {
                     return 1;
                 }
             }
-
         }
         var n = $, r = e.conf, i = r.swf.indexOf("flowplayer.org") && r.e && t.data("origin"), s = i ? f(i) : location.hostname, o = r.key;
         location.protocol == "file:" && (s = "localhost"), e.load.ed = 1, r.hostname = s, r.origin = i || location.href, i && t.addClass("is-embedded"), typeof o == "string" && (o = o.split(/,\s*/));

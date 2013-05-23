@@ -67,6 +67,7 @@ define(function(require) {
 
           $videos.each(function(){
             api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( this ).flowplayer() ).get( 0 ) );
+            
 
            api.bind( 'resume' , function(e , a){
             _currentPlayer = api;

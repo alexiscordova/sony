@@ -58,7 +58,7 @@ define(function(require){
       
       self.videoAPI             = null;
 
-      self.$engine              = self.$el.find('.fp-engine');
+      self.$engine              = null;
 
       self.isFullScreen         = false;
 
@@ -115,6 +115,9 @@ define(function(require){
         var self = this,
         wW = Settings.$window.width();
 
+        self.$engine = self.$el.find('.fp-engine');
+        
+
         if(wW > 980){
           //this makes the header grow 1px taller for every 20px over 980w..
           self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
@@ -127,9 +130,12 @@ define(function(require){
 
         if( heightDiff > 0 ){
           self.$engine.css('top' , -heightDiff / 2 + 'px');
+
+          //console.log('setting this shit to' , -heightDiff / 2 + 'px');
         }
 
         if(self.isFullScreen){
+          //console.log(self.isFullScreen);
           self.$engine.css('top' , 0);
         }
 
