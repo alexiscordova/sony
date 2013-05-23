@@ -29,7 +29,7 @@ define(function(require) {
     init: function() {
       var $module = $('.ec-module');
 
-      if ( $module.length ) {
+      if ( $module.length >0) {
         $module.each(function() {
           new EditorialCarousel( this );
         });
@@ -63,16 +63,13 @@ define(function(require) {
       self.$titles = self.$el.find( '.tile-title' );
       self.paginationTheme = self.$el.data('mode') === 'dark' ? 'light' : 'dark';
 
-      self
-        .setupBreakpoints()
-        .onResize();
+      self.setupBreakpoints();
+      self.onResize();
 
       // Listen for global resize
       Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
 
       self.fadeIn();
-
-      self.initialized = true;
     },
 
     fadeIn : function() {
@@ -84,40 +81,27 @@ define(function(require) {
       }, 0);
     },
 
-    initCarousel : function() {
+    updateCarousel : function() {
       var self = this;
 
-      // Initialize a new sony carousel
-      self.$carousel.sonyCarousel({
-        wrapper: '.sony-carousel-wrapper',
-        slides: '.sony-carousel-slide',
-        CSS3Easing: Settings.carouselEasing,
-        pagination: true,
-        paddles: true,
-        paddlePosition: 'outset',
-        paginationTheme: self.paginationTheme
-      });
-    },
-
-    updateCarousel : function() {
-      this.$carousel
-        .sonyCarousel('resetSlides')
-        .sonyCarousel('gotoNearestSlide');
-      return this;
-    },
-
-    // Make sure that initCarousel is only called when the class hasn't finished initializing
-    fixCarousel : function( extraCondition ) {
-      // Default to true
-      extraCondition = extraCondition === undefined ? true : extraCondition;
-
-      if ( !this.initialized && extraCondition ) {
-        this.initCarousel();
-      } else {
-        this.updateCarousel();
+      if ( !self.initialized ) {
+        // Initialize a new sony carousel
+        self.$carousel.sonyCarousel({
+          wrapper: '.sony-carousel-wrapper',
+          slides: '.sony-carousel-slide',
+          CSS3Easing: Settings.carouselEasing,
+          pagination: true,
+          paddles: true,
+          paddlePosition: 'outset',
+          paginationTheme: self.paginationTheme
+        });
+        self.initialized = true;
+      }else{
+        //update existing carousel
+        self.$carousel
+          .sonyCarousel('resetSlides')
+          .sonyCarousel('gotoNearestSlide');
       }
-
-      return this;
     },
 
     onResize : function() {
@@ -139,8 +123,6 @@ define(function(require) {
           setupTabletBreakpoint = '(min-width: 48em) and (max-width: 61.1875em)',
           teardownTabletBreakpoint = '(min-width: 61.25em)',
           setupMobileBreakpoint = '(max-width: 47.9375em)';
-
-      self.isTabletAndDesktopOnLoad = Modernizr.mq( setupTabletBreakpoint ) && Modernizr.mq( desktopBreakpoint );
 
       if ( Modernizr.mediaqueries ) {
 
@@ -168,7 +150,7 @@ define(function(require) {
     setupDesktop : function() {
       var self = this,
           wasMobile = self.isMobile,
-          stillTablet = Modernizr.mq( '(min-width: 48em) and (max-width: 61.1875em)' );
+          stillTablet = Modernizr.mq( '(max-width: 61.1875em) and (min-width: 48em)' );
 
       // Remove grid classes to wrappers
       if ( wasMobile ) {
@@ -182,9 +164,7 @@ define(function(require) {
         }
       }
 
-      // Avoid initializing carousel twice on load because the tablet breakpoint overlaps desktop
-      // Also make sure that initCarousel is only called when the class hasn't finished initializing
-      self.fixCarousel( self.isTabletAndDesktopOnLoad );
+      self.updateCarousel();
 
       self.isDesktop = true;
       self.isMobile = false;
@@ -195,7 +175,7 @@ define(function(require) {
 
       self.arrangeItemsInSlides( 3 );
 
-      self.fixCarousel();
+      self.updateCarousel();
 
       self.isTablet = true;
     },
@@ -210,7 +190,7 @@ define(function(require) {
 
       self.arrangeItemsInSlides( 4 );
 
-      self.fixCarousel();
+      self.updateCarousel();
 
       self.isTablet = false;
     },
@@ -227,7 +207,7 @@ define(function(require) {
       // Mobile slides need the slimgrid where others don't
       self.$el.find('.sony-carousel-slide').addClass( 'slimgrid' );
 
-      self.fixCarousel();
+      self.updateCarousel();
 
       self.isDesktop = false;
       self.isMobile = true;

@@ -13,11 +13,20 @@ define(function(require){
 
   var $ = require('jquery'),
     enquire = require('enquire'),
+    Settings = require('require/sony-global-settings'),
     SonyDraggable = require('secondary/index').sonyDraggable,
     hammer = require('plugins/index').hammer;
 
   var module = {
     'init': function() {
+
+      // Do not initialize if you're a PS3, since that system doesn't work
+      // well with the touch events.
+
+      if ( Settings.isPS3 ) {
+        return;
+      }
+
       $('.edv').each(function(){
         new EditorialDualViewer(this);
       });
@@ -56,6 +65,8 @@ define(function(require){
 
       var self = this,
           bounds = {};
+
+      self.$scrubber.show();
 
       bounds[self.axis] = {'min': 0, 'max': 100};
 
