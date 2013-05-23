@@ -51,18 +51,18 @@ var UNAV = ( function( window, document, $, undefined ) {
     isHighRes = _isRetina();
     hasCssTransitions = _browserCssTransitionDetect();
 
-    // $(document).on("universal-nav-open",function(e){
-    //   console.log("universal-nav-open");
-    // });
-    // $(document).on("universal-nav-open-finished",function(e){
-    //   console.log("universal-nav-open-finished");
-    // });
-    // $(document).on("universal-nav-close",function(e){
-    //   console.log("universal-nav-close");
-    // });
-    // $(document).on("universal-nav-close-finished",function(e){
-    //   console.log("universal-nav-close-finished");
-    // });
+    $(document).on("universal-nav-open",function(e){
+      console.log("universal-nav-open");
+    });
+    $(document).on("universal-nav-open-finished",function(e){
+      console.log("universal-nav-open-finished");
+    });
+    $(document).on("universal-nav-close",function(e){
+      console.log("universal-nav-close");
+    });
+    $(document).on("universal-nav-close-finished",function(e){
+      console.log("universal-nav-close-finished");
+    });
 
     // -----------------------------
     // EVENT LISTENERS
@@ -215,16 +215,17 @@ var UNAV = ( function( window, document, $, undefined ) {
     _setUpPrimaryLinks($uNavPrimary.children().length);
 
     $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
-    
+    var triggered = false;
 
     if (hasCssTransitions) {
       $pageWrapInner
-      .css('margin-top', uNavOuterHeight + 'px')
-      .one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
-        // only trigger it for the page-wrap-inner transition ending, not any descendents.
-        if ($(e.target).attr('id') == "page-wrap-inner"){
-          $(document).trigger("universal-nav-open-finished");
-        }
+        .css('margin-top', uNavOuterHeight + 'px')
+        .one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
+          // only trigger it for the page-wrap-inner transition ending, not any descendents.
+          if (!triggered){
+            $(document).trigger("universal-nav-open-finished");
+            triggered = true;
+          }
       });
     } else {
       $pageWrapInner.animate({ 'marginTop': uNavOuterHeight + 'px'}, 400, function() {
@@ -239,7 +240,6 @@ var UNAV = ( function( window, document, $, undefined ) {
     $(document).trigger("universal-nav-close");
     $pageWrapOuter.removeClass('unav-open');
     if (hasCssTransitions) {
-      console.log("_closeUNav hasCssTransitions");
       $pageWrapInner.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
         // only trigger it for the page-wrap-inner transition ending, not any descendents.
         if ($(e.target).attr('id') == "page-wrap-inner"){
