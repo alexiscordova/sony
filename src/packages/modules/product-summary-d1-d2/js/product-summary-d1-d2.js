@@ -147,7 +147,8 @@ define(function(require) {
       self.$stickyNav.stickyNav({
         $jumpLinks: self.$jumpLinks,
         offset: 0,
-        offsetTarget: self.$el.next()
+        offsetTarget: self.$el.next(),
+        scrollToTopOnClick: true
       });
 
       // Scroll to a hash if it's present
@@ -168,8 +169,7 @@ define(function(require) {
 
     _initFavorites : function() {
       this.favorites = new Favorites( this.$el, {
-        itemSelector: '[itemscope]',
-        tooltip: false
+        itemSelector: '[itemscope]'
       });
     },
 
