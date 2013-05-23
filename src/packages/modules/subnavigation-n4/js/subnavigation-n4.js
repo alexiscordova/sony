@@ -20,7 +20,8 @@ define(function(require){
       Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
       SonyCarousel = require('secondary/index').sonyCarousel,
-      throttleDebounce = require('plugins/index').throttleDebounce;
+      throttleDebounce = require('plugins/index').throttleDebounce,
+      viewport = require( 'plugins/index' ).viewport;
 
   var module = {
     'init': function() {
@@ -87,8 +88,6 @@ define(function(require){
       }
 
       self.$el.addClass('active');
-
-      Environment.on('global:resizeDebounced', $.proxy(self.setTrayHeight, self));
     },
 
     // Render a subcategory; this is done on-demand so that we don't needlessly
@@ -112,7 +111,12 @@ define(function(require){
       });
 
       self.$activeSubcat = $subcat;
+
       self.setTrayHeight();
+
+      self.trayHeightInterval = setInterval(function(){
+        self.setTrayHeight();
+      }, 1000);
     },
 
     // Render and re-bind the nav, and recreate the appropriate carousel if on
@@ -223,16 +227,17 @@ define(function(require){
       self.$subcats.removeClass('active');
       self.$tray.css('height', 0);
       self.$activeSubcat = null;
+
+      clearInterval(self.trayHeightInterval);
     },
 
-    // Set the tray height. May need to tap into `imagesLoaded` to get the
-    // correct height.
+    // Set the tray height.
 
     setTrayHeight: function() {
 
       var self = this;
 
-      if ( self.$activeSubcat ) {
+      if ( self.$activeSubcat && self.$activeSubcat.is(':in-viewport') ) {
         self.$tray.css('height', self.$activeSubcat.outerHeight());
       }
     }
