@@ -111,6 +111,8 @@ compute every subcat on pageload / resize.</p>             </td>             <td
 
       self.$activeSubcat = $subcat;
 
+      self.setTrayHeight();
+
       self.trayHeightInterval = setInterval(<span class="keyword">function</span>(){
         self.setTrayHeight();
       }, <span class="number">1000</span>);
@@ -222,13 +224,12 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
       clearInterval(self.trayHeightInterval);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Set the tray height. May need to tap into <code>imagesLoaded</code> to get the
-correct height.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Set the tray height.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setTrayHeight: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      <span class="keyword">if</span> ( self.$activeSubcat ) {
+      <span class="keyword">if</span> ( self.$activeSubcat &amp;&amp; self.$activeSubcat.is(<span class="string">':in-viewport'</span>) ) {
         self.$tray.css(<span class="string">'height'</span>, self.$activeSubcat.outerHeight());
       }
     }
