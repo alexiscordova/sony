@@ -51,7 +51,7 @@ define(function(require){
       Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
 
       // When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy
-      Settings.$document.on('universal-nav-open-finished universal-nav-closed-finished', debouncedRefresh );
+      Settings.$document.on('universal-nav-open-finished universal-nav-close-finished', debouncedRefresh );
       // Images loading can create more space on the page and invalidate the scrollspy offsets
       $('.iq-img').on('imageLoaded', debouncedRefresh );
 
