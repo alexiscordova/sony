@@ -53,15 +53,23 @@ define(function(require) {
     };
 
     EditorialSlideshow.prototype = {
+
       constructor: EditorialSlideshow,
 
-      // Initalize the module
       init : function() {
-        var self = this;
 
-        self
-          .setupSlides()
-          .setupCarousel();
+        var self = this,
+            $firstImage = self.$el.find('.iq-img').first();
+
+        self.setupSlides();
+
+        if ( $firstImage.data('hasLoaded') === true ) {
+          self.setupCarousel();
+        } else {
+          $firstImage.on('imageLoaded', function(){
+            self.setupCarousel();
+          });
+        }
 
         self.$slideContainer.css( 'opacity' , 1 );
 
@@ -70,6 +78,7 @@ define(function(require) {
       },
 
       // Handles global debounced resize event
+
       onDebouncedResize: function() {
         var self = this,
             isLargeDesktop = Modernizr.mq( '(min-width: 74.9375em)' ),
@@ -92,6 +101,7 @@ define(function(require) {
 
 
       // Main setup method for the carousel
+
       setupCarousel: function() {
         var self = this;
 
@@ -108,12 +118,11 @@ define(function(require) {
           pagination: true
         });
 
-        iQ.update();
-
         return self;
       },
 
-      // Sets up slides to correct width based on how many there are
+      // Sets up slides to correct width based on how many there are.
+
       setupSlides: function() {
         var self = this,
             slidesWithClones = self.numSlides + 2,

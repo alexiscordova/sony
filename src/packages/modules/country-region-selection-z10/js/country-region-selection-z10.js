@@ -105,7 +105,6 @@ define(function(require){
 
       // Enquire doesn't exist in old IE, so make sure it's there
       if ( Modernizr.mediaqueries ) {
-
         enquire
           .register('(min-width: 29.9375em) and (max-width: 47.9375em)', {
             match : $.proxy(self.accountForHeader, self),
@@ -187,12 +186,12 @@ define(function(require){
 
     accountForHeader : function () {
       var self = this;
-      self.$scrollContainer.height('+=10px').css('margin-top', '-10px');
+      self.$scrollContainer.height('+=20px').css('margin-top', '-10px');
     },
 
     unAccountForHeader : function () {
       var self = this;
-      self.$scrollContainer.height('-=10px').css('margin-top', 'auto');
+      self.$scrollContainer.height('-=20px').css('margin-top', 'auto');
     }
   };
 

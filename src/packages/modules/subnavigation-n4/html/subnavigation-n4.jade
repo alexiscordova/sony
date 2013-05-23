@@ -29,7 +29,14 @@ section.subnav-module(id = data.id ? data.id : false)
 
     for subcategory in data.subcategories
       - if ( subcategory.products )
-        section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))
+
+        - if ( subcategory.accessories ) {
+          - accessoryListClass = 'has-accessory-list'
+        - } else {
+          - accessoryListClass = 'no-accessory-list'
+        - }
+
+        section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))(class=accessoryListClass)
           div.grid.no-grid-at-979
             .span6
               h3.t3-bold !{subcategory.title}

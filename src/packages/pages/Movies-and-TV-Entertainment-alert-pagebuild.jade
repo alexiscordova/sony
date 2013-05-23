@@ -15,7 +15,7 @@ body
 
         //- Cookie Alert
         +partial("cookie-policy/html/cookie-policy.jade", "packages/pages/data/cookie-policy/cookie-policy-example.json")
-        
+
         //- D7. Title Plate
         +partial("primary-tout-p1-d7/html/primary-tout-p1-d7.jade", "packages/pages/data/primary-tout-p1-d7/gallery-L-L-cybershot.json")
 
@@ -33,6 +33,8 @@ body
 
         //- G1. Related Products
         +partial('related-products-g1/html/related-products-g1.jade', 'packages/modules/related-products-g1/demo/data/4up-purple-color.json')
+
+      +scrollToTop
 
       e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-footer.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json')}
       !{partial('packages/modules/global-header-footer/html/global-footer.jade', e)}

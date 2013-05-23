@@ -454,7 +454,7 @@ define(function(require){
     tabWidth: 0,
     overlap: 0,
     isStickyTabs: false,
-    isTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
+    isTouch: Settings.hasTouchEvents,
     prop: Modernizr.csstransforms ? 'transform' : 'left',
     valStart : Modernizr.csstransforms ? 'translate(' : '',
     valEnd : Modernizr.csstransforms ? 'px,0)' : 'px'

@@ -9,7 +9,7 @@ $indicatorOffset: 15%;
 $indicatorRotateSpeed: .25s;
 $transitionSpeed: 0.5s;
 
-/* MIXINZ */
+/*  MIXINZ  */
 
 @mixin ehsTransition() {
   -o-transition: opacity 0.5s, top 0s, left 0s;
@@ -278,7 +278,7 @@ $transitionSpeed: 0.5s;
         @include border-radius(50%);
         @include transition(.1s ease-out);
         -webkit-backface-visibility: hidden;
-        transition-property: none;
+        /* transition-property: none; */
 
         .icons {
           position: absolute;
@@ -293,6 +293,7 @@ $transitionSpeed: 0.5s;
             -webkit-font-smoothing: antialiased;
             @include rotate(0deg);
             @include transition(.1s ease-out);
+            -webkit-transition-property: all;
 
             &.fonticon-10-plus-skinny {
               display: inline-block;
@@ -327,7 +328,7 @@ $transitionSpeed: 0.5s;
         @include border-radius(50%);
         @include transition(.1s ease-out);
         -webkit-backface-visibility: hidden;
-        transition-property: none;
+        /* transition-property: none; */
 
         .icons {
           position: absolute;
@@ -342,7 +343,8 @@ $transitionSpeed: 0.5s;
             -webkit-font-smoothing: antialiased;
             @include rotate(45deg);
             @include transition(.1s ease-out);
-
+            -webkit-transition-property: all;
+            
             &.fonticon-10-plus-skinny {
               display: inline-block;
             }
