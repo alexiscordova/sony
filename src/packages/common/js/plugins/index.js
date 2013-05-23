@@ -12,6 +12,7 @@ define(function (require) {
     bez: require('plugins/jquery.bez'),
     hammer: require('plugins/jquery.hammer'),
     flowplayer: require('plugins/jquery.flowplayer'),
-    hoverIntent: require('plugins/jquery.hoverIntent')
+    hoverIntent: require('plugins/jquery.hoverIntent'),
+    viewport: require('plugins/jquery.viewport')
   };
 });
