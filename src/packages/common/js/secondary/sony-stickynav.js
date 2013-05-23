@@ -39,15 +39,21 @@ define(function(require){
 
     _init : function() {
       var self = this,
-          $body = Settings.$body;
+          $body = Settings.$body,
+          debouncedRefresh = $.debounce( 100, $.proxy( self.refresh, self ) );
 
       self.hasJumpLinks = self.$jumpLinks && self.$jumpLinks.length > 0;
 
-      self._setTriggerPoint( true );
+      self.refreshTriggerPoint();
 
       // Bind to window scroll and resize
       self.$window.on('scroll', $.proxy( self._onScroll, self ));
       Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
+
+      // When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy
+      Settings.$document.on('universal-nav-open-finished universal-nav-close-finished', debouncedRefresh );
+      // Images loading can create more space on the page and invalidate the scrollspy offsets
+      $('.iq-img').on('imageLoaded', debouncedRefresh );
 
       // Setup links that scroll within the page
       if ( self.hasJumpLinks ) {
@@ -66,14 +72,14 @@ define(function(require){
       }
 
       setTimeout(function() {
-        self._setOffset();
+        self.refreshOffset();
 
         // Make sure there's something to “spy” on
         if ( self.hasJumpLinks ) {
           // Set up twitter bootstrap scroll spy
           $body.scrollspy({
             target: '.sticky-nav',
-            offset: self.targetOffset + 1
+            offset: self.targetOffset
           });
         }
 
@@ -136,19 +142,10 @@ define(function(require){
     },
 
     _onResize : function() {
-      this
-        ._setTriggerPoint()
-        ._setOffset();
-
-      // Update the positions for the scroll spy
-      if ( this.hasJumpLinks ) {
-        Settings.$body
-          .scrollspy('refresh')
-          .scrollspy('process');
-      }
+      this.refresh();
     },
 
-    _setTriggerPoint : function( isInit ) {
+    refreshTriggerPoint : function() {
       var self = this,
       $offsetTarget, triggerPoint;
 
@@ -164,36 +161,56 @@ define(function(require){
           if ( triggerPoint < 100 ) {
             triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
           }
-          self.updateTriggerOffset( triggerPoint );
+          self.setTriggerOffset( triggerPoint );
 
 
         }, 50);
       }
 
-      self.updateTriggerOffset( triggerPoint );
+      self.setTriggerOffset( triggerPoint );
 
       return self;
     },
 
-    _setOffset : function() {
+    refreshOffset : function() {
       var self = this,
           navHeight = self.$el.outerHeight(),
           offset = self.offset + navHeight;
 
 
-      self.updateOffset( offset );
+      self.setOffset( offset );
 
       return self;
     },
 
-    updateTriggerOffset : function( newOffset ) {
+    refresh : function() {
+      this
+        .refreshTriggerPoint()
+        .refreshOffset();
+
+      // Update the positions for the scroll spy
+      if ( this.hasJumpLinks ) {
+        Settings.$body
+          .scrollspy('refresh')
+          .scrollspy('process');
+      }
+
+      return this;
+    },
+
+    setTriggerOffset : function( newOffset ) {
       this.stickyTriggerOffset = newOffset;
     },
 
-    updateOffset : function( newOffset ) {
+    setOffset : function( newOffset ) {
       var scrollspy = Settings.$body.data('scrollspy');
+
       this.targetOffset = newOffset;
       if ( scrollspy ) {
+        // Sony Google TV has problems
+        if ( Settings.isGoogleTV ) {
+          newOffset += 5;
+        }
         scrollspy.options.offset = newOffset;
       }
     }

@@ -46,6 +46,10 @@ define(function(require){
         targetOffset -= screenHeight - (totalHeight - targetOffset);
       }
 
+      // It's possible to get decimals for offsets; to make sure the window scrolls to the target,
+      // It needs to be rounded up
+      targetOffset = Math.ceil( targetOffset );
+
       if ( self.showHash ) {
         self._showHash( selector, $target );
       }
