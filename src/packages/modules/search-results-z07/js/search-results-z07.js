@@ -69,7 +69,7 @@ define(function(require){
 
     loadMore: function(event) {
       var self = this,
-          $resultsList = $(event.target).parent().siblings('.results-list'),
+          $resultsList = $(event.currentTarget).parent().siblings('.results-list'),
           request;
 
       // An ajax request - use this when making a real ajax request
