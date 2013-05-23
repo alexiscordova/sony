@@ -28,7 +28,6 @@ define(function(require){
 
   var self = {
     'init': function() {
-     
       // IE 10 detection
       if ( window.atob || Settings.isLTIE10 ) {
         $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
@@ -286,6 +285,10 @@ define(function(require){
         if( 0 === self.moves % 5 ) {
           self.move( direction );
         }
+      } else if( Settings.isVita ) {
+        if( 0 === self.moves % 5 ) {
+          self.move( direction );
+        }        
       } else {
         self.move( direction );
       }
