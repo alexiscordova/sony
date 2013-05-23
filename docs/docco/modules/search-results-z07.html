@@ -40,6 +40,7 @@ define(<span class="keyword">function</span>(require){
       self.$results = self.$el.find(<span class="string">'.results-list'</span>);
       self.$clearBtn = self.$el.find(<span class="string">'.clear-search'</span>);
       self.$search = self.$el.find(<span class="string">'input.search'</span>);
+      self.$searchIcon = self.$el.find(<span class="string">'.search-label'</span>);
       self.initialSearchValue = self.$search.val();
       self.bind();
     },
@@ -99,6 +100,7 @@ is specified, jQuery wraps it in a jQuery object already</p>             </td>  
 
       <span class="keyword">if</span> ( toBlank ) {
         self.$search.first().focus().val(<span class="string">''</span>);
+        self.$searchIcon.addClass(<span class="string">'hidden'</span>);
       }
     },
 
@@ -106,6 +108,7 @@ is specified, jQuery wraps it in a jQuery object already</p>             </td>  
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       <span class="keyword">if</span> ( self.$search.val() === <span class="string">''</span> ) {
         self.$search.val( self.initialSearchValue );
+        self.$searchIcon.removeClass(<span class="string">'hidden'</span>);
       }
     }
   };
