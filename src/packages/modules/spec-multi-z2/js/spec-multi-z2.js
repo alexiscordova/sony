@@ -361,7 +361,7 @@ define(function(require){
       if ( !isFromResize ) {
         self.stickyNavHeight = self.$stickyNav.outerHeight();
         self.stickyOffset = self._getStickyHeaderOffset();
-        self.$stickyNav.stickyNav('updateTriggerOffset', self.stickyOffset.top);
+        self.$stickyNav.stickyNav('setTriggerOffset', self.stickyOffset.top);
       }
 
       // Refresh iScroll
@@ -485,7 +485,7 @@ define(function(require){
         self.stickyNavHeight = self.$stickyNav.outerHeight();
         self.stickyOffset = self._getStickyHeaderOffset();
         if ( !isInit ) {
-          self.$stickyNav.stickyNav('updateTriggerOffset', self.stickyOffset.top);
+          self.$stickyNav.stickyNav('setTriggerOffset', self.stickyOffset.top);
         }
       }, 100);
     },
