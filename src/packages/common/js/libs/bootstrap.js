@@ -1353,7 +1353,7 @@
   , title: ''
   , delay: 0
   , html: true
-  , offsetFromLeft: -31
+  , offsetFromLeft: -32
   }
 
 }(window.jQuery);

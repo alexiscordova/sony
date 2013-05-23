@@ -43,7 +43,7 @@ define(function(require){
 
       self.hasJumpLinks = self.$jumpLinks && self.$jumpLinks.length > 0;
 
-      self._setTriggerPoint( true );
+      self._setTriggerPoint();
 
       // Bind to window scroll and resize
       self.$window.on('scroll', $.proxy( self._onScroll, self ));
@@ -148,7 +148,7 @@ define(function(require){
       }
     },
 
-    _setTriggerPoint : function( isInit ) {
+    _setTriggerPoint : function() {
       var self = this,
       $offsetTarget, triggerPoint;
 

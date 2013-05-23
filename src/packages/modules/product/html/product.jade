@@ -65,7 +65,7 @@ mixin iQColorImages( colors )
 
 
 mixin heart
-  - heartClass = 'favorite-holder js-favorite'
+  heartClass = 'favorite-holder js-favorite'
   - if ( data.isFavorited ) heartClass += ' active'
 
   inactiveTitle = 'Add to Favorites'
@@ -745,7 +745,7 @@ else if data.view == 'summary'
         a.btn.btn-large.btn-block(href=data.storeLink)= buyText
 
         .relative.be-social
-          a.ib.js-favorite(href="#")
+          a.ib.js-prevent-default.nothingtoseehere(href="#")
             span.bt3= data.favoriteText
             +heart()
           a.ib.js-share.share-trigger(data-toggle="dropdown", href="#")

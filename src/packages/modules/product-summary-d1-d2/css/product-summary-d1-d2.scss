@@ -93,6 +93,7 @@
   // want, but the font and padding are different :\
   .btn {
     background: $btnSpecialBackground;
+    margin-bottom: 4px;
 
     &:hover {
       background: $btnSpecialBackgroundHover;
@@ -135,9 +136,14 @@
     }
   }
 
-  .favorite-holder i {
-    padding: 0 0 0 px-em(8, 13);
+  .favorite-holder {
+    margin-left: -3px;
   }
+
+  // Setting padding on the icon misaligns the tooltip
+  // .favorite-holder i {
+  //   padding: 0 0 0 px-em(8, 13);
+  // }
 
   .be-social {
     position: absolute;
@@ -148,17 +154,25 @@
   }
 
   .share-trigger {
-    margin-left: 1.25em;
+    margin-left: 2px;
   }
 
+  // The label is not part of what triggers the favoriting (although it should be)
+  // The mixins and scripts were never built that way
+  .be-social .nothingtoseehere {
+    cursor: default;
+  }
+
+  // "Favorite" and "Share"
   .be-social > a .bt3 {
-    color: $gray20;
+    color: $gray40;
+    @include transition( color $transitionSlowish linear );
   }
 
   // be social links active/hover color
   .open .share-trigger > span,
   .no-touch & .price-content a:hover > span {
-    color: $linkColorHover;
+    color: $secondarySlateDark;
   }
 
   // icon default color
@@ -170,7 +184,7 @@
   // Icon active/hover
   .open .share-trigger > span i,
   .no-touch & .price-content a:hover .fonticon-10-arrowhead-down {
-    color: $linkColorHover;
+    color: $secondarySlateDark;
   }
 
 }
