@@ -211,7 +211,6 @@ define(function(require){
         if ( Settings.isGoogleTV ) {
           newOffset += 5;
         }
-        debugLog('new scrollspy offset = ' + newOffset);
         scrollspy.options.offset = newOffset;
       }
     }
