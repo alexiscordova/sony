@@ -1,16 +1,15 @@
 define(function(require){
 
   var $       = require('jquery'),
-  Settings    = require('require/sony-global-settings'),
-  IS_PS3      = Settings.isPS3,
-  IS_GOOGLETV = Settings.isGoogleTV;
+  IS_PS3      = (/playstation 3/gi).test(navigator.userAgent),
+  IS_GOOGLETV = (/googletv/gi).test(navigator.userAgent);
 
 /*!
 
    Flowplayer Unlimited v5.4.1 () | flowplayer.org/license
 
 */
-!function($) { 
+!function($) {
 
 /*
    jQuery.browser for 1.9+
@@ -80,21 +79,21 @@ $.extend(flowplayer, {
    support: {},
    defaults: {
       debug: false,
-      
+
       // true = forced playback
       disabled: false,
-      
+
       // first engine to try
       engine: 'html5',
 
       fullscreen: window == window.top,
-      
+
       // keyboard shortcuts
       keyboard: true,
-      
+
       // default aspect ratio
       ratio: 9 / 16,
-      
+
       // scale flash object to video's aspect ratio in normal mode?
       flashfit: false,
       rtmp: 0,
@@ -102,10 +101,10 @@ $.extend(flowplayer, {
       swf: "//releases.flowplayer.org/5.4.1/commercial/flowplayer.swf",
       speeds: [0.25, 0.5, 1, 1.5, 2],
       tooltip: true,
-      
+
       // initial volume level
       volume: typeof localStorage == "object" && !isNaN(localStorage.volume) ? localStorage.volume || 1 : 1,
-      
+
       // http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html#error-codes
       errors: [
          // video exceptions
@@ -114,7 +113,7 @@ $.extend(flowplayer, {
          'Network error',
          'Video not properly encoded',
          'Video file not found',
-         
+
          // player exceptions
          'Unsupported video',
          'Skin not found',
@@ -426,7 +425,7 @@ $.fn.flowplayer = function(opts, callback) {
             });
 
             // 1. use the configured engine
-            
+
 
             if(IS_PS3){
                var e = 'flash';
@@ -851,11 +850,11 @@ flowplayer.engine.flash = function(player, root) {
 
 
       unload: function() {
-         
+
          if(IS_PS3 || IS_GOOGLETV){
             root.find('.fp-ui').css('visibility' , 'visible');
          }
-         
+
          api && api.__unload && api.__unload();
          delete $[callbackId];
          $("object", root).remove();
@@ -1294,9 +1293,9 @@ function URLResolver(videoTag) {
    //window.alert('initial sources set...');
 
    self.resolve = function(video) {
-      
+
       if (!video) {
-         
+
          return { sources: sources };
       }
 
@@ -1417,9 +1416,9 @@ $.fn.slider2 = function(rtl , vert) {
                   //scrubber.css('left', (to - 2) + "%");
 
                } else {
-                  
+
                   progress.css(vertical ? 'height' : 'width', to + "%");
-                  
+
                   if(scrubber){
                      if(vertical){
 
@@ -1429,7 +1428,7 @@ $.fn.slider2 = function(rtl , vert) {
                      }else{
                         scrubber.css('left' , (progress.width() - 4) + 'px');
                      }
-                     
+
                   }
 
                   //log( progress.height() , scrubber.css('bottom') );
@@ -1741,7 +1740,7 @@ flowplayer(function(api, root) {
       e.preventDefault();
 
       if(e.type === 'mouseenter'){
-         
+
 
          var sldr = root.find( '.fp-volumeslider' ).css( 'display' , 'block' ),
          scrubber = sldr.find('.fp-scrubber'),
@@ -1751,16 +1750,16 @@ flowplayer(function(api, root) {
          scrubber.css( 'bottom' , ( progress.height() - 6 ) + 'px' );
 
       }
-      
+
       if(e.type === 'mouseleave' && $(e.target).is('.fp-volume') ){
          clearTimeout(mouseleaveTimeout);
-         
+
          mouseleaveTimeout = setTimeout(function(){
             if(!isHoverOverVolumeSlider){
                root.find( '.fp-volumeslider' ).css( 'display' , 'none' );
             }
          } , 100);
-      
+
       }
    });
 
@@ -1777,13 +1776,13 @@ flowplayer(function(api, root) {
          isHoverOverVolumeSlider = false;
 
          clearTimeout(mouseleaveTimeout);
-         
+
          mouseleaveTimeout = setTimeout(function(){
             if(!isHoverOverVolumeSlider){
                root.find( '.fp-volumeslider' ).css( 'display' , 'none' );
             }
          } , 100);
-         
+
       }
 
    });
@@ -2014,7 +2013,7 @@ flowplayer(function(player, root) {
    root.bind("mousedown.fs", function() {
       if (+new Date - lastClick < 150 && player.ready) {
          //player.fullscreen(); //this is dumb
-      } 
+      }
 
       lastClick = +new Date;
    });
@@ -2651,7 +2650,7 @@ $.fn.fptip = function(trigger, active) {
             for (var r = t.length - 1; r >= 0; r--){
                 n += t.charCodeAt(r) * 41742681301;
             }
-                
+
             n = ("" + n).substring(0, 7);
             for (r = 0; r < e.length; r++){
                 if (n === e[r].substring(1, 8)){
