@@ -60,6 +60,7 @@ define(<span class="keyword">function</span>(require) {
 
           $videos.each(<span class="keyword">function</span>(){
             api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( <span class="keyword">this</span> ).flowplayer() ).get( <span class="number">0</span> ) );
+            
 
            api.bind( <span class="string">'resume'</span> , <span class="keyword">function</span>(e , a){
             _currentPlayer = api;
