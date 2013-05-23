@@ -46,6 +46,11 @@ define(function(require){
       self.cssTransitions       = Modernizr.transitions;
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
 
+      // Basic selectors
+      self.$doc                   = Settings.$document;
+      self.$win                   = Settings.$window;
+      self.$html                  = Settings.$html;
+      
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
       self.$window              = Settings.$window;
@@ -64,6 +69,11 @@ define(function(require){
       self.numSlides            = self.$slides.length;
       self.currentId            = 0;
 
+      // touch defaults
+      self.startInteractionPointX = null;
+      self.lastTouch            = null;
+      self.handleStartPosition  = null;
+
       self.isDesktop = false;
       self.isMobile = false;
 
@@ -79,8 +89,13 @@ define(function(require){
         var self = this;
 
         self.setupEvents();
+        
         self.setupSlides();
+        
         self.setupCarousel();
+        
+        //self.setupLinkClicks();
+
         if(self.hasThumbs){
           self.createThumbNav();
         }
@@ -100,8 +115,46 @@ define(function(require){
             }
           });
         } // end if(Modernizr.mediaqueries )
+
+        self.$thumbNav.on(self.downEvent, function(e) { self.dragStart(e); });
+        
+      },
+      
+      // Sets up slides to correct width based on how many there are
+      setupSlides: function(){
+        var self = this;
+
+        self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
+        self.$slides.width( 100 / (self.numSlides + 2) + '%' );
       },
 
+      // Setup touch event types
+      setupEvents: function(){
+        var self = this;
+
+        
+        if (Modernizr.touch) {
+          self.hasTouch         = true;
+          self.downEvent        = 'touchstart.rp';
+          self.moveEvent        = 'touchmove.rp';
+          self.upEvent          = 'touchend.pdpss';
+          self.cancelEvent      = 'touchcancel.rp';
+          self.lastItemFriction = 0.5;
+        } else {
+          self.hasTouch = false;
+          self.lastItemFriction = 0.2;
+          self.downEvent   = 'mousedown.rp';
+          self.moveEvent   = 'mousemove.rp';
+          self.upEvent     = 'mouseup.rp';
+          self.cancelEvent = 'mouseup.rp';
+          self.clickEvent = 'click.pdpss';
+        }  
+
+        self.tapOrClick = function(){
+          return self.hasTouch ? self.upEvent : self.clickEvent;
+        };
+      },
+              
       setupMobilePlus: function() {
         var self = this;
 
@@ -130,6 +183,96 @@ define(function(require){
           self.getSlideHeight();
           self.getSliderWidth();
         }, 250);
+      },
+
+      dragStart: function(e) {
+        var self = this,
+            point;
+        
+        if (self.hasTouch) {
+          var touches = e.originalEvent.touches;
+          if (touches && touches.length > 0) {
+            point = touches[0];
+            if (touches.length > 1) {
+              self.multipleTouches = true;
+            }
+          } else {
+            return;
+          }
+        } else {
+          point = e;
+          e.preventDefault();
+
+          if (e.which !== 1) {
+            return;
+          }
+        }              
+
+        // reset the distance moved since its a new start
+        self.distanceMoved = null;
+        self.handleStartPosition = self.getPagePosition(e);
+        self.startInteractionPointX = point.pageX;        
+
+        self.$doc.on(self.moveEvent , $.proxy(self.dragMove , self)).on(self.upEvent , $.proxy(self.dragEnd, self));
+
+      },
+
+      dragMove: function(e) {
+        var self = this,
+            distX = self.getPagePosition(e).x - self.handleStartPosition.x,
+            distY = self.getPagePosition(e).y - self.handleStartPosition.y,
+            point,
+            distanceMoved;
+            
+        // some really gross logic
+        if (self.hasTouch) {
+          if (self.lockAxis) {
+            return;
+          }
+          var touches = e.originalEvent.touches;
+          if (touches) {
+            if (touches.length > 1) {
+              return;
+            } else {
+              point = touches[0];
+            }
+          } else {
+            return;
+          }
+        } else {
+          point = e;
+        }    
+
+        self.distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
+
+      },
+
+      dragEnd: function(e) {
+        var self = this;
+
+        //stop listening on the document for movement
+        self.$doc.off(self.moveEvent).off(self.upEvent);
+      },
+
+      getPagePosition: function(e) {
+
+        var self = this;
+
+        if ( !e.pageX && !e.originalEvent ) {
+          return;
+        }
+
+        self.lastTouch = self.lastTouch || {};
+
+        // Cache position for touchmove/touchstart, as touchend doesn't provide it.
+        if ( e.type === 'touchmove' || e.type === 'touchstart' ) {
+          self.lastTouch = e.originalEvent.touches[0];
+        }
+
+        return {
+          'x': (e.pageX || self.lastTouch.pageX),
+          'y': (e.pageY || self.lastTouch.pageY)
+        };
       },
 
       removeWrapperStyles: function() {
@@ -206,36 +349,13 @@ define(function(require){
         iQ.update();
       },
 
-      // Sets up slides to correct width based on how many there are
-      setupSlides: function(){
-        var self = this;
-
-        self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
-        self.$slides.width( 100 / (self.numSlides + 2) + '%' );
-      },
-
-      // Setup touch event types
-      setupEvents: function(){
-        var self = this;
-
-        if( self.hasTouch ){
-          self.upEvent = 'touchend.pdpss';
-        }else {
-          self.clickEvent = 'click.pdpss';
-        }
-
-        self.tapOrClick = function(){
-          return self.hasTouch ? self.upEvent : self.clickEvent;
-        };
-      },
-
       // Bind events to the thumbnail navigation
       createThumbNav: function(){
         var self = this,
         $anchors = self.$thumbNav.find('li');
 
-
         $anchors.on( self.tapOrClick() , function(e){
+          if (self.distanceMoved >= 25) { return; }
           e.preventDefault();
           self.onThumbSelected($(this));
         });
