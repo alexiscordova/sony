@@ -1525,8 +1525,8 @@
           })
           .sort(function (a, b) { return a[0] - b[0] })
           .each(function () {
-            self.offsets.push(this[0])
-            self.targets.push(this[1])
+            self.offsets.push( Math.floor( this[0]) )
+            self.targets.push( this[1] )
           })
       }
 
@@ -1545,10 +1545,9 @@
         }
 
         for (i = offsets.length; i--;) {
-          activeTarget != targets[i]
-            && scrollTop >= offsets[i]
-            && (!offsets[i + 1] || scrollTop < offsets[i + 1])
-            && this.activate( targets[i] )
+          if ( activeTarget != targets[i] && scrollTop >= offsets[i] && (!offsets[i + 1] || scrollTop < offsets[i + 1])) {
+            this.activate( targets[i] )
+          }
         }
       }
 

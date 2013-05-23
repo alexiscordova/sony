@@ -163,12 +163,12 @@ define(function(require) {
       // Scroll to a hash if it's present
       $.simplescroll.initial();
 
-      iQ.update();
-
       // Prevent default on .js-prevent-default
       self.$el.find('.js-prevent-default').on( 'click', false );
 
       self._initFavorites();
+
+      iQ.update();
     },
 
     _onResize : function() {

@@ -39,7 +39,8 @@ define(function(require){
 
     _init : function() {
       var self = this,
-          $body = Settings.$body;
+          $body = Settings.$body,
+          debouncedRefresh = $.debounce( 100, $.proxy( self.refresh, self ) );
 
       self.hasJumpLinks = self.$jumpLinks && self.$jumpLinks.length > 0;
 
@@ -49,8 +50,10 @@ define(function(require){
       self.$window.on('scroll', $.proxy( self._onScroll, self ));
       Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
 
-      // When the universal nav is opened or closed, the trigger point needs adjustment
-      Settings.$document.on('universal-nav-open-finished universal-nav-closed-finished', $.proxy( self.refreshTriggerPoint, self ));
+      // When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy
+      Settings.$document.on('universal-nav-open-finished universal-nav-closed-finished', debouncedRefresh );
+      // Images loading can create more space on the page and invalidate the scrollspy offsets
+      $('.iq-img').on('imageLoaded', debouncedRefresh );
 
       // Setup links that scroll within the page
       if ( self.hasJumpLinks ) {
@@ -76,7 +79,7 @@ define(function(require){
           // Set up twitter bootstrap scroll spy
           $body.scrollspy({
             target: '.sticky-nav',
-            offset: self.targetOffset + 1
+            offset: self.targetOffset
           });
         }
 
@@ -140,13 +143,6 @@ define(function(require){
 
     _onResize : function() {
       this.refresh();
-
-      // Update the positions for the scroll spy
-      if ( this.hasJumpLinks ) {
-        Settings.$body
-          .scrollspy('refresh')
-          .scrollspy('process');
-      }
     },
 
     refreshTriggerPoint : function() {
@@ -188,9 +184,18 @@ define(function(require){
     },
 
     refresh : function() {
-      return this
+      this
         .refreshTriggerPoint()
         .refreshOffset();
+
+      // Update the positions for the scroll spy
+      if ( this.hasJumpLinks ) {
+        Settings.$body
+          .scrollspy('refresh')
+          .scrollspy('process');
+      }
+
+      return this;
     },
 
     setTriggerOffset : function( newOffset ) {
@@ -199,8 +204,14 @@ define(function(require){
 
     setOffset : function( newOffset ) {
       var scrollspy = Settings.$body.data('scrollspy');
+
       this.targetOffset = newOffset;
       if ( scrollspy ) {
+        // Sony Google TV has problems
+        if ( Settings.isGoogleTV ) {
+          newOffset += 5;
+        }
+        debugLog('new scrollspy offset = ' + newOffset);
         scrollspy.options.offset = newOffset;
       }
     }
