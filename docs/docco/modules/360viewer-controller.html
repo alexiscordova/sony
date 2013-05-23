@@ -75,7 +75,6 @@ define(<span class="keyword">function</span>(require){
 
     init : <span class="keyword">function</span>( param ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>lets start by hiding the controllers until things are loaded and fading down the image
 to give users a nicer set of visual queues</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$controls.addClass( <span class="string">'hidden'</span> );
       self.$container.addClass( <span class="string">'dim-the-lights'</span> );
@@ -233,11 +232,13 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
 
     touchDown: <span class="keyword">function</span>( event ) {
 </pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Montana to Rice!</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      $(document.body).addClass(<span class="string">'unselectable'</span>);
       self.clicked = <span class="literal">true</span>;
     },
 
     touchUp: <span class="keyword">function</span>( event ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      $(document.body).removeClass(<span class="string">'unselectable'</span>);
       self.clicked = <span class="literal">false</span>;
     },
 

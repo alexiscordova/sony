@@ -40,7 +40,7 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.$win = $(window);
       self.modalID = <span class="string">'light-compare-modal'</span>;
-      self.hasTouch = Settings.hasTouchEvents || Settings.hasPointerEvents;
+      self.hasTouch = Settings.hasTouchEvents;
       self.useIScroll = self.hasTouch;
       <span class="keyword">if</span> (self.useIScroll) {
         self.initiScroll();
