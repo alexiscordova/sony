@@ -51,6 +51,19 @@ var UNAV = ( function( window, document, $, undefined ) {
     isHighRes = _isRetina();
     hasCssTransitions = _browserCssTransitionDetect();
 
+    // $(document).on("universal-nav-open",function(e){
+    //   console.log("universal-nav-open");
+    // });
+    // $(document).on("universal-nav-open-finished",function(e){
+    //   console.log("universal-nav-open-finished");
+    // });
+    // $(document).on("universal-nav-close",function(e){
+    //   console.log("universal-nav-close");
+    // });
+    // $(document).on("universal-nav-close-finished",function(e){
+    //   console.log("universal-nav-close-finished");
+    // });
+
     // -----------------------------
     // EVENT LISTENERS
     // -----------------------------
@@ -196,33 +209,51 @@ var UNAV = ( function( window, document, $, undefined ) {
 
 
   _openUNav = function() {
+    $(document).trigger("universal-nav-open");
+
     !imagesInited && _initialLoadImages();
     _setUpPrimaryLinks($uNavPrimary.children().length);
 
-    setTimeout(function() {
-      $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
-      if (hasCssTransitions) {
-        $pageWrapInner.css('margin-top', uNavOuterHeight + 'px');
-      } else {
-        $pageWrapInner.animate({ 'marginTop': uNavOuterHeight + 'px'}, 400);
-      }
+    $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
+    
 
-      $triggerLink.blur();
-    }, 1);
+    if (hasCssTransitions) {
+      $pageWrapInner
+      .css('margin-top', uNavOuterHeight + 'px')
+      .one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
+        // only trigger it for the page-wrap-inner transition ending, not any descendents.
+        if ($(e.target).attr('id') == "page-wrap-inner"){
+          $(document).trigger("universal-nav-open-finished");
+        }
+      });
+    } else {
+      $pageWrapInner.animate({ 'marginTop': uNavOuterHeight + 'px'}, 400, function() {
+        $(document).trigger("universal-nav-open-finished");
+      });
+    }
+
+    $triggerLink.blur();
   },
 
   _closeUNav = function() {
+    $(document).trigger("universal-nav-close");
     $pageWrapOuter.removeClass('unav-open');
     if (hasCssTransitions) {
-
-      $pageWrapInner.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function() {
-        $pageWrapOuter.removeClass('unav-open-until-transition-end');
-        $triggerLink.add($closeBtn).blur();
+      console.log("_closeUNav hasCssTransitions");
+      $pageWrapInner.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
+        // only trigger it for the page-wrap-inner transition ending, not any descendents.
+        if ($(e.target).attr('id') == "page-wrap-inner"){
+          $(document).trigger("universal-nav-close-finished");
+          $pageWrapOuter.removeClass('unav-open-until-transition-end');
+          $triggerLink.add($closeBtn).blur();
+        }
       });
 
       $pageWrapInner.css('margin-top', '0px');
     } else {
+      console.log("_closeUNav !hasCssTransitions");
       $pageWrapInner.animate({ 'marginTop': '0px'}, 400,  function() {
+        $(document).trigger("universal-nav-close-finished");
         $pageWrapOuter.removeClass('unav-open-until-transition-end');
         $triggerLink.add($closeBtn).blur();
       });
