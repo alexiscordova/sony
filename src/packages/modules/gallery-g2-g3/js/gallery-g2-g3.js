@@ -2167,7 +2167,7 @@ define(function(require){
       self.stickyNavHeight = self.$stickyNav.outerHeight();
       self.stickyOffset = self.getStickyHeaderOffset();
       if ( !dontUpdateStickyNav ) {
-        self.$stickyNav.stickyNav('updateTriggerOffset', self.stickyOffset.top);
+        self.$stickyNav.stickyNav('setTriggerOffset', self.stickyOffset.top);
       }
 
       return self;

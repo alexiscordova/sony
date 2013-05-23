@@ -227,7 +227,11 @@
     color: $linkBlueHover;
   }
 
-  .results-list > li:hover a {
+  .results-list > li:hover .lt3 a {
+    color: $linkBlueHover;
+  }
+
+  .results-list > li a:hover {
     color: $linkBlueHover;
   }
 
@@ -344,11 +348,33 @@
     }
   }
 
-  .touch & .sort-options .dropdown,
-  .no-touch & .sort-options .native-dropdown {
+  .touch & .sort-options .dropdown {
     display: none;
-    position: relative;
-    cursor: pointer;
+  }
+
+  .sort-options {
+    .native-dropdown {
+      display: none;
+      position: relative;
+      cursor: pointer;
+      select {
+        margin-bottom: 0;
+        height: 36px;
+        -webkit-appearance: none;
+        padding: 0 26px 0 12px;
+        border-radius: 0;
+        line-height: 1.5;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .absolutely {
+        position: absolute;
+        top: 55%;
+        margin-top: -8px;
+        right: 12px;
+        pointer-events: none;
+      }
+    }
   }
 
   .footer-search ul {
