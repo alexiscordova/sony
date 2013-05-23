@@ -102,7 +102,9 @@ define(function(require){
     // Swatches and tooltips are triggered on hover, so they don't need to be
     // initialized immediately
     setTimeout(function() {
-      self.initSwatches();
+      if ( !self.hasTouch ) {
+        self.initSwatches();
+      }
       self.initFavorites();
 
       // Infinite scroll has to come after initFavorites
@@ -936,7 +938,7 @@ define(function(require){
 
         // iscroll props get mixed in
         iscrollProps: {
-          snap: !self.isTouch,
+          snap: !self.hasTouch,
           hScroll: true,
           vScroll: false,
           hScrollbar: false,
@@ -1251,6 +1253,11 @@ define(function(require){
     },
 
     loadSwatchImages : function() {
+      // Don't load them on touch
+      if ( this.hasTouch ) {
+        return;
+      }
+
       var $newIQImgs = this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
 
       if ( $newIQImgs.length ) {
@@ -1731,8 +1738,8 @@ define(function(require){
       $minOutput = $output.find('.range-output-min .val'),
       $maxOutput = $output.find('.range-output-max .val'),
 
-      delay = self.isTouch ? 1000 : 750,
-      method = self.isTouch ? 'debounce' : 'throttle',
+      delay = self.hasTouch ? 1000 : 750,
+      method = self.hasTouch ? 'debounce' : 'throttle',
       debouncedFilter = $[ method ]( delay, function() {
         self.filter();
       });
@@ -3115,7 +3122,7 @@ define(function(require){
     isInitialized: false,
     isFilteringInitialized: false,
     isCompareToolOpen: false,
-    isTouch: Settings.hasTouchEvents,
+    hasTouch: Settings.hasTouchEvents,
     isTicking: false,
     showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE10 || Settings.isPS3 ),
     lastScrollY: 0,
