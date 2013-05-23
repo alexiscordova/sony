@@ -20,7 +20,8 @@ define(<span class="keyword">function</span>(require){
       Utilities = require(<span class="string">'require/sony-global-utilities'</span>),
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
       SonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel,
-      throttleDebounce = require(<span class="string">'plugins/index'</span>).throttleDebounce;
+      throttleDebounce = require(<span class="string">'plugins/index'</span>).throttleDebounce,
+      viewport = require( <span class="string">'plugins/index'</span> ).viewport;
 
   <span class="keyword">var</span> module = {
     <span class="string">'init'</span>: <span class="keyword">function</span>() {
@@ -87,8 +88,6 @@ define(<span class="keyword">function</span>(require){
       }
 
       self.$el.addClass(<span class="string">'active'</span>);
-
-      Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.setTrayHeight, self));
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Render a subcategory; this is done on-demand so that we don't needlessly
@@ -111,7 +110,10 @@ compute every subcat on pageload / resize.</p>             </td>             <td
       });
 
       self.$activeSubcat = $subcat;
-      self.setTrayHeight();
+
+      self.trayHeightInterval = setInterval(<span class="keyword">function</span>(){
+        self.setTrayHeight();
+      }, <span class="number">1000</span>);
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Render and re-bind the nav, and recreate the appropriate carousel if on
@@ -216,6 +218,8 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
       self.$subcats.removeClass(<span class="string">'active'</span>);
       self.$tray.css(<span class="string">'height'</span>, <span class="number">0</span>);
       self.$activeSubcat = <span class="literal">null</span>;
+
+      clearInterval(self.trayHeightInterval);
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Set the tray height. May need to tap into <code>imagesLoaded</code> to get the

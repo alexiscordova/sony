@@ -24,11 +24,11 @@ define(<span class="keyword">function</span>(require){
       Environment = require( <span class="string">'require/sony-global-environment'</span> ),
       Utilities   = require( <span class="string">'require/sony-global-utilities'</span> ),
       hammer      = require( <span class="string">'plugins/index'</span> ).hammer,
-      viewport    = require( <span class="string">'secondary/jquery.viewport'</span> );
+      viewport    = require( <span class="string">'plugins/index'</span> ).viewport;
 
   <span class="keyword">var</span> self = {
     <span class="string">'init'</span>: <span class="keyword">function</span>() {
-     
+
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>IE 10 detection</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( window.atob || Settings.isLTIE10 ) {
         $( self.$controls ).find( <span class="string">'.table-center-wrap'</span> ).addClass( <span class="string">'ltie'</span> );
       }
@@ -78,13 +78,13 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>lets start by hiding the controllers until things are loaded and fading down the image
 to give users a nicer set of visual queues</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$controls.addClass( <span class="string">'hidden'</span> );
       self.$container.addClass( <span class="string">'dim-the-lights'</span> );
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>closures to manage image payload</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> lockAndLoaded = <span class="keyword">function</span>() {
         self.syncControlLayout();
         self.curLoaded++;
         checkLoaded();
       };
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>checks the payload against the loaded image</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> checkLoaded = <span class="keyword">function</span>() {
         <span class="keyword">if</span>( self.sequenceLength == self.curLoaded ) {
           log( <span class="string">'all 360 assets loaded'</span> );
@@ -92,11 +92,11 @@ to give users a nicer set of visual queues</p>             </td>             <td
           self.$container.find( <span class="string">'.load-indicator'</span> ).addClass( <span class="string">'hidden'</span> );
           self.syncControlLayout();
           self.initBehaviors();
-        }        
+        }
       };
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>if not, manage the payload by exposing a loader</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sequence.each(<span class="keyword">function</span>( index, el ) {
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>is the BG image loaded? </p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( $( el ).data(<span class="string">'hasLoaded'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>is the BG image loaded?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( $( el ).data(<span class="string">'hasLoaded'</span>) ) {
           self.syncControlLayout();
           self.curLoaded++;
           checkLoaded();
@@ -113,11 +113,11 @@ to give users a nicer set of visual queues</p>             </td>             <td
             }
           }
         }
-      });      
+      });
 
       log(<span class="string">'SONY : Editorial 360 Viewer : Initialized'</span>);
     },
-    
+
     initBehaviors: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -176,22 +176,22 @@ to give users a nicer set of visual queues</p>             </td>             <td
           self.mouseMove( event );
         });
       }
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>bind scroll event to fire animation on the dragger
-1. movement on desktop and 2. viewport on mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>      
+1. movement on desktop and 2. viewport on mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
 </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>initial animation, hey why not.</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
         self.animateDragger();
       }, <span class="number">500</span>);
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>reset the step buffer when the window changes size</p>             </td>             <td class="code">               <div class="highlight"><pre>      $( window ).bind( <span class="string">'resize'</span>, <span class="keyword">function</span>( event ) {
         self.onResize( event );
       });
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>adjust controls to center if type is image</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">true</span> === self.isImage ) {
         self.syncControlLayout();
       }
 </pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>finally show controlls</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$controls.removeClass( <span class="string">'hidden'</span> );
-      
+
     },
 
     easeSwipe: <span class="keyword">function</span>( event ) {
@@ -215,7 +215,7 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
       self.syncControlLayout();
       <span class="keyword">if</span>( <span class="literal">true</span> === self.isImage ) {
-        
+
       }
     },
 
