@@ -112,6 +112,8 @@ define(function(require){
 
       self.$activeSubcat = $subcat;
 
+      self.setTrayHeight();
+
       self.trayHeightInterval = setInterval(function(){
         self.setTrayHeight();
       }, 1000);
@@ -229,14 +231,13 @@ define(function(require){
       clearInterval(self.trayHeightInterval);
     },
 
-    // Set the tray height. May need to tap into `imagesLoaded` to get the
-    // correct height.
+    // Set the tray height.
 
     setTrayHeight: function() {
 
       var self = this;
 
-      if ( self.$activeSubcat ) {
+      if ( self.$activeSubcat && self.$activeSubcat.is(':in-viewport') ) {
         self.$tray.css('height', self.$activeSubcat.outerHeight());
       }
     }
