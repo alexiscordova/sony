@@ -63,6 +63,7 @@ $desktopMin: px-em(980);
 
     .bar-tone {
       margin-bottom: 10px;
+      height: 100px;
       .l3 {
         margin-top: 20px;
         margin-bottom: 10px;
@@ -108,9 +109,12 @@ $desktopMin: px-em(980);
     .results-list > li:first-child {
       border-top: 1px solid #e7e9ed;
     }
-
+    
+    .results-list i.fonticon-10-chevron {
+      right: 2px;
+    }
     .results-list .results-p {
-      width: 73%;
+      width: 100%;
     }
 
     .results-list .bd {
@@ -143,12 +147,19 @@ $desktopMin: px-em(980);
 @media (max-width:$phone) {
   .search-results {
     .bar-tone {
+      height: 100px;
       .search {
           width: 79%;
       }
       .search-left {
         width: 87%;
       }
+    }
+    .results-list i.fonticon-10-chevron {
+      right: 2px;
+    }
+    .results-list .results-p {
+      width: 100%;
     }
   }
 }

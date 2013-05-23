@@ -29,20 +29,20 @@ define(function(require){
         $('.sony-video').sonyVideo();
       }
     };
-
+    
     var SonyVideo = function(element, options){
       var self = this;
-
+       
       // Extend
       $.extend( self, {}, $.fn.sonyVideo.defaults, options, $.fn.sonyVideo.settings );
-
+      
       // Set base element
       self.$el = $( element );
-
+      
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.cssTransitions       = Modernizr.transitions;
-
+      
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
@@ -55,14 +55,12 @@ define(function(require){
       self.isFullEditorial      = self.$el.hasClass('full-bleed');
 
       self.variation            = self.$el.data('variation');
-
-      // Cache some jQuery objects we'll reference later
-      self.$ev                  = $({});
-      self.$document            = Settings.$document;
-      self.$window              = Settings.$window;
-      self.$html                = Settings.$html;
-
+      
       self.videoAPI             = null;
+
+      self.$engine              = null;
+
+      self.isFullScreen         = false;
 
       // Inits the module
       self.init();
@@ -85,15 +83,28 @@ define(function(require){
           }
         });
 
+        self.videoAPI.bind('fullscreen fullscreen-exit' , function(e){
+
+          //log( 'Video API FullScreen event >' , e.type );
+          if(e.type === 'fullscreen'){
+            self.isFullScreen = true;
+            self.onDebouncedResize();
+          }else {
+            self.isFullScreen = false;
+            self.onDebouncedResize();
+          }
+
+        });
+
         if(self.isFullEditorial){
           Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
           self.onDebouncedResize(); //call once to set size
         }
-
+        
         iQ.update();
 
       },
-
+      
       api: function(){
         var self = this;
         return self.videoAPI;
@@ -102,21 +113,30 @@ define(function(require){
       // Handles global debounced resize event
       onDebouncedResize: function(){
         var self = this,
-        wW = self.$window.width();
+        wW = Settings.$window.width();
+
+        self.$engine = self.$el.find('.fp-engine');
+        
 
         if(wW > 980){
           //this makes the header grow 1px taller for every 20px over 980w..
           self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
-          //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles
           self.$el.css('height', '');
         }
 
-        var heightDiff = Math.abs( self.$el.height() - self.$el.find('.fp-engine').height() );
+        var heightDiff = Math.abs( self.$el.height() - self.$engine.height() );
 
-        if(heightDiff > 0){
-          self.$el.find('.fp-engine').css('top' , -heightDiff / 2 + 'px');
+        if( heightDiff > 0 ){
+          self.$engine.css('top' , -heightDiff / 2 + 'px');
+
+          //console.log('setting this shit to' , -heightDiff / 2 + 'px');
+        }
+
+        if(self.isFullScreen){
+          //console.log(self.isFullScreen);
+          self.$engine.css('top' , 0);
         }
 
       }
@@ -150,6 +170,6 @@ define(function(require){
     // Non override-able settings
     // --------------------------
     $.fn.sonyVideo.settings = {};
-
+  
     return self;
  });

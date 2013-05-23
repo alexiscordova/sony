@@ -83,7 +83,7 @@ define(<span class="keyword">function</span>(require) {
 </pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>MODAL</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$modal                          = self.$container.find( <span class="string">'.hotspot-modal'</span> );
     self.$modalBody                      = self.$modal.find( <span class="string">'.modal-body'</span> );
     self.isModalOpen                     = <span class="literal">true</span>;
-    self.hasTouch                        = Settings.hasTouchEvents || Settings.hasPointerEvents;
+    self.hasTouch                        = Settings.hasTouchEvents;
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>EXTEND THIS OBJECT TO BE A JQUERY PLUGIN</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();

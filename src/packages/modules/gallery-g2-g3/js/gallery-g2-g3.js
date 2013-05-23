@@ -2167,7 +2167,7 @@ define(function(require){
       self.stickyNavHeight = self.$stickyNav.outerHeight();
       self.stickyOffset = self.getStickyHeaderOffset();
       if ( !dontUpdateStickyNav ) {
-        self.$stickyNav.stickyNav('updateTriggerOffset', self.stickyOffset.top);
+        self.$stickyNav.stickyNav('setTriggerOffset', self.stickyOffset.top);
       }
 
       return self;
@@ -3115,9 +3115,9 @@ define(function(require){
     isInitialized: false,
     isFilteringInitialized: false,
     isCompareToolOpen: false,
-    isTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
+    isTouch: Settings.hasTouchEvents,
     isTicking: false,
-    showStickyHeaders: !( Settings.hasTouchEvents || Settings.hasPointerEvents || Settings.isLTIE10 || Settings.isPS3 ),
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE10 || Settings.isPS3 ),
     lastScrollY: 0,
     sorted: false,
     currentFilterColor: null,
@@ -3603,7 +3603,7 @@ define(function(require){
     isTicking: false,
     isFadedIn: false,
     isModalOpen: false,
-    hasTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
+    hasTouch: Settings.hasTouchEvents,
     useScrollListener: !( Settings.isSonyTabletS || Settings.isLTIE9 || Settings.isPS3 ),
     itemSelector: '.compat-item',
     $wrapper: null,

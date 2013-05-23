@@ -24,11 +24,11 @@ define(function(require){
       Environment = require( 'require/sony-global-environment' ),
       Utilities   = require( 'require/sony-global-utilities' ),
       hammer      = require( 'plugins/index' ).hammer,
-      viewport    = require( 'secondary/jquery.viewport' );
+      viewport    = require( 'plugins/index' ).viewport;
 
   var self = {
     'init': function() {
-     
+
       // IE 10 detection
       if ( window.atob || Settings.isLTIE10 ) {
         $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
@@ -83,14 +83,14 @@ define(function(require){
       // to give users a nicer set of visual queues
       self.$controls.addClass( 'hidden' );
       self.$container.addClass( 'dim-the-lights' );
-      
+
       // closures to manage image payload
       var lockAndLoaded = function() {
         self.syncControlLayout();
         self.curLoaded++;
         checkLoaded();
       };
-      
+
       // checks the payload against the loaded image
       var checkLoaded = function() {
         if( self.sequenceLength == self.curLoaded ) {
@@ -99,12 +99,12 @@ define(function(require){
           self.$container.find( '.load-indicator' ).addClass( 'hidden' );
           self.syncControlLayout();
           self.initBehaviors();
-        }        
+        }
       };
-      
+
       // if not, manage the payload by exposing a loader
       self.$sequence.each(function( index, el ) {
-        // is the BG image loaded? 
+        // is the BG image loaded?
         if( $( el ).data('hasLoaded') ) {
           self.syncControlLayout();
           self.curLoaded++;
@@ -126,11 +126,11 @@ define(function(require){
             }
           }
         }
-      });      
+      });
 
       log('SONY : Editorial 360 Viewer : Initialized');
     },
-    
+
     initBehaviors: function() {
       var self = this;
 
@@ -194,27 +194,27 @@ define(function(require){
           self.mouseMove( event );
         });
       }
-      
+
       // bind scroll event to fire animation on the dragger
       // 1. movement on desktop and 2. viewport on mobile
-      
+
       // initial animation, hey why not.
       setTimeout(function() {
         self.animateDragger();
       }, 500);
-      
+
       // reset the step buffer when the window changes size
       $( window ).bind( 'resize', function( event ) {
         self.onResize( event );
       });
-      
+
       // adjust controls to center if type is image
       if( true === self.isImage ) {
         self.syncControlLayout();
       }
       // finally show controlls
       self.$controls.removeClass( 'hidden' );
-      
+
     },
 
     easeSwipe: function( event ) {
@@ -239,7 +239,7 @@ define(function(require){
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
       self.syncControlLayout();
       if( true === self.isImage ) {
-        
+
       }
     },
 

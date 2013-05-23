@@ -637,7 +637,7 @@ define(function(require){
 
       // Unbind
       Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
-      self.$el.off('dragstart.sonycarousel dragend.sonycarousel tap.sonycarousel SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
+      self.$el.off('dragstart.sonycarousel dragend.sonycarousel SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
       $clickContext.off('click.sonycarousel');
 
       // Destroy all plugins.
