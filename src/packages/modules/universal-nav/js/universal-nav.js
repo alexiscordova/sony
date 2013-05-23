@@ -6,6 +6,9 @@
 // Modified: 2013-04-26 by Christopher Mischler
 // Dependencies: jQuery 1.4+
 // -------------------------------------------------------------------------
+// 
+// Events broadcast on $(document): universal-nav-open, universal-nav-open-finished, universal-nav-close, universal-nav-close-finished
+// 
 
 var UNAV = ( function( window, document, $, undefined ) {
 

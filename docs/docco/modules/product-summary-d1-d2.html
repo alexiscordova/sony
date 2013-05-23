@@ -128,21 +128,41 @@ define(<span class="keyword">function</span>(require) {
     },
 
     lazyInit : <span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $stickyImg = self.$stickyNav.find(<span class="string">'.iq-img'</span>);
+
+      <span class="function"><span class="keyword">function</span> <span class="title">stickyNavImgLoaded</span><span class="params">()</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Throw it in a timeout to be sure the image has loaded,
+and the sticky nav has a new height</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>() {
+          Utilities.forceWebkitRedraw();
+          self.$stickyNav.stickyNav(<span class="string">'refreshOffset'</span>);
+        }, <span class="number">0</span>);
+      }
 
       Utilities.autoSelectInputOnFocus( self.$shareLink );
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Init sticky nav</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$stickyNav.stickyNav({
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Init sticky nav</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$stickyNav.stickyNav({
         $jumpLinks: self.$jumpLinks,
         offset: <span class="number">0</span>,
-        offsetTarget: self.$el.next()
+        offsetTarget: self.$el.next(),
+        scrollToTopOnClick: <span class="literal">true</span>
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Scroll to a hash if it's present</p>             </td>             <td class="code">               <div class="highlight"><pre>      $.simplescroll.initial();
+      <span class="keyword">if</span> ( $stickyImg.length ) {
+        <span class="keyword">if</span> ( $stickyImg.data(<span class="string">'hasLoaded'</span>) ) {
+          stickyNavImgLoaded();
+        } <span class="keyword">else</span> {
+          $stickyImg.on( <span class="string">'imageLoaded'</span>, stickyNavImgLoaded );
+        }
+      }
 
-      iQ.update();
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Scroll to a hash if it's present</p>             </td>             <td class="code">               <div class="highlight"><pre>      $.simplescroll.initial();
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Prevent default on .js-prevent-default</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.js-prevent-default'</span>).on( <span class="string">'click'</span>, <span class="literal">false</span> );
 
       self._initFavorites();
+
+      iQ.update();
     },
 
     _onResize : <span class="keyword">function</span>() {
@@ -155,17 +175,16 @@ define(<span class="keyword">function</span>(require) {
 
     _initFavorites : <span class="keyword">function</span>() {
       <span class="keyword">this</span>.favorites = <span class="keyword">new</span> Favorites( <span class="keyword">this</span>.$el, {
-        itemSelector: <span class="string">'[itemscope]'</span>,
-        tooltip: <span class="literal">false</span>
+        itemSelector: <span class="string">'[itemscope]'</span>
       });
     },
 
     _onShare : <span class="keyword">function</span>( evt ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Uses a modal instead of dropdown</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isMobile ) {
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Uses a modal instead of dropdown</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isMobile ) {
         evt.preventDefault();
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Don't let the dropdown handler receive this event</p>             </td>             <td class="code">               <div class="highlight"><pre>        evt.stopImmediatePropagation();
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Don't let the dropdown handler receive this event</p>             </td>             <td class="code">               <div class="highlight"><pre>        evt.stopImmediatePropagation();
 
         self.$modal.modal( {backdropClass: <span class="string">'dark'</span>} );
       }
@@ -220,7 +239,7 @@ define(<span class="keyword">function</span>(require) {
       self.isMobile = <span class="literal">false</span>;
       self.isDesktop = <span class="literal">true</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Hide dropdown or modal if it's active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._hideShareDialog( <span class="literal">true</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Hide dropdown or modal if it's active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._hideShareDialog( <span class="literal">true</span> );
 
       self._swapTexts( <span class="literal">true</span> );
       self._swapDomElements( <span class="literal">true</span> );
@@ -240,7 +259,7 @@ define(<span class="keyword">function</span>(require) {
 
 
       <span class="keyword">if</span> ( self.isTablet ) {
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Spans need to be reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$span1AtTablet
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Spans need to be reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$span1AtTablet
           .add( self.$span3AtTablet )
             .removeClass(<span class="string">'span1 span3'</span>)
             .addClass(<span class="string">'span2'</span>);
@@ -257,13 +276,13 @@ define(<span class="keyword">function</span>(require) {
       self.isMobile = <span class="literal">true</span>;
       self.isDesktop = <span class="literal">false</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Hide dropdown or modal if it's active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._hideShareDialog( <span class="literal">false</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Hide dropdown or modal if it's active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._hideShareDialog( <span class="literal">false</span> );
 
       self._swapTexts( <span class="literal">false</span> );
       self._swapDomElements( <span class="literal">false</span> );
 
       <span class="keyword">if</span> ( wasDesktop ) {
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If this was originally setup desktop, there will be heights set on the columns</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$evenCols.css(<span class="string">'height'</span>, <span class="string">''</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>If this was originally setup desktop, there will be heights set on the columns</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$evenCols.css(<span class="string">'height'</span>, <span class="string">''</span>);
         self._teardownTablet();
       }
     }
