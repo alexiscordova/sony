@@ -40,6 +40,7 @@ define(function(require){
       self.$results = self.$el.find('.results-list');
       self.$clearBtn = self.$el.find('.clear-search');
       self.$search = self.$el.find('input.search');
+      self.$searchIcon = self.$el.find('.search-label');
       self.initialSearchValue = self.$search.val();
       self.bind();
     },
@@ -105,6 +106,7 @@ define(function(require){
 
       if ( toBlank ) {
         self.$search.first().focus().val('');
+        self.$searchIcon.addClass('hidden');
       }
     },
 
@@ -113,6 +115,7 @@ define(function(require){
       var self = this;
       if ( self.$search.val() === '' ) {
         self.$search.val( self.initialSearchValue );
+        self.$searchIcon.removeClass('hidden');
       }
     }
   };

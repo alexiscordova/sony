@@ -17,8 +17,8 @@ define(<span class="keyword">function</span>(require){
 
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
       Settings = require(<span class="string">'require/sony-global-settings'</span>),
-      Environment = require(<span class="string">'require/sony-global-environment'</span>),
       Utilities = require(<span class="string">'require/sony-global-utilities'</span>),
+      Environment = require(<span class="string">'require/sony-global-environment'</span>),
       sonyIScroll = require(<span class="string">'plugins/sony-iscroll'</span>);
 
   <span class="keyword">var</span> StickyHeader = <span class="keyword">function</span>(scrollableId) {
@@ -59,14 +59,17 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">this</span>.$scrollable.css(<span class="string">'position'</span>, <span class="string">'absolute'</span>);
       <span class="keyword">var</span> handler = $.proxy( <span class="keyword">this</span>.scrollHandler, <span class="keyword">this</span> );
 
-      setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      setTimeout($.proxy(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
         <span class="keyword">this</span>.scroll = <span class="keyword">new</span> IScroll(<span class="keyword">this</span>.scrollableId, {
           momentum : <span class="literal">true</span>,
+          hScroll: <span class="literal">false</span>,
+          hScrollbar: <span class="literal">false</span>,
           onScrollMove: handler,
           onScrollEnd: handler
         });
-        window.iscroll = <span class="keyword">this</span>.scroll;
-      }.bind(<span class="keyword">this</span>), <span class="number">10</span>);
+
+        <span class="keyword">this</span>.scroll.scrollTo();
+      }, <span class="keyword">this</span>), <span class="number">10</span>);
 
       <span class="keyword">return</span> <span class="keyword">this</span>;
     },
@@ -92,8 +95,6 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Called by iScroll when a scroll event happens.</p>             </td>             <td class="code">               <div class="highlight"><pre>    scrollHandler: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-      Utilities.once(self.scroll.refresh());
 
       <span class="keyword">var</span> offsetTarget = Math.abs(<span class="keyword">this</span>.scroll.y); <span class="comment">// iScroll.y is negative</span>
       <span class="keyword">this</span>.updateFixedHeader(offsetTarget);
