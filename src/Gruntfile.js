@@ -721,12 +721,15 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('brutalize', function(JSONPath, jadePath, depth){
+  grunt.registerTask('brutalize', function(module, depth){
 
     var fs = require('fs'),
         _ = require('underscore'),
         JSONBrutalize = require('json-brutalize'),
         done = this.async();
+
+    var jadePath = 'packages/modules/' + module + '/demo/test.jade',
+        JSONPath = 'packages/modules/' + module + '/demo/data/test.json';
 
     fs.readFile(JSONPath, 'utf8', function (err, data) {
 
