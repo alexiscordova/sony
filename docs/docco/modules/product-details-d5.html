@@ -37,7 +37,7 @@ define(<span class="keyword">function</span>(require){
     self.$measurementImages = self.$imageWrappers.find(<span class="string">".pd-image"</span>);
     self.$horzMeasurements = self.$el.find(<span class="string">".horizontal-measurement"</span>);
     self.$vertMeasurements = self.$el.find(<span class="string">".vertical-measurement"</span>);
-    self.$measurements = self.$horzMeasurements.add(self.$vertMeasurements);
+    self.$dimensions = self.$horzMeasurements.add(self.$vertMeasurements);
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>DEFAULTS</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.mImageWidths = [];
     self.mImageHeights = [];
@@ -100,10 +100,9 @@ register listener for global debounce to call method <strong>after</strong> debo
     },
 
     showMeasurements : <span class="keyword">function</span>(){
-      <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $measurements = self.$measurements;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      $measurements.each(<span class="keyword">function</span>() {
+      self.$dimensions.each(<span class="keyword">function</span>() {
         $(<span class="keyword">this</span>).addClass(<span class="string">'on'</span>);
       });
     },
@@ -120,45 +119,73 @@ register listener for global debounce to call method <strong>after</strong> debo
 
     setMeasurementDimensions : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $measurements = self.$vertMeasurements.add(self.$horzMeasurements);
+          isSmallVImage, isSmallHImage,
+          theMarginTop, theMarginLeft, top,
+          $el, dir, $theImage, $unitContainer, $measurementParent, $unitContainerHeight, $unitContainerWidth, theImageWidth, theImageHeight, isThinImage;
 
-        $measurements.each(<span class="keyword">function</span>(index) {
-          <span class="keyword">var</span> dir = $(<span class="keyword">this</span>).hasClass(<span class="string">"vertical-measurement"</span>) ? <span class="string">"v"</span> : <span class="string">"h"</span>,
-              imgIndex = self.$imageWrappers.index($(<span class="keyword">this</span>).parent().find(<span class="string">".img-wrapper"</span>)),
-              $mContainer = $(<span class="keyword">this</span>).find(<span class="string">".measurements-container"</span>),
-              theWidth = dir === <span class="string">"v"</span> ? $mContainer.outerWidth(<span class="literal">true</span>) : self.mImageWidths[imgIndex],
-              theHeight = dir === <span class="string">"v"</span> ? self.mImageHeights[imgIndex] : $mContainer.outerHeight(<span class="literal">true</span>),
-              top = <span class="number">50</span>,
-              theMarginTop, theMarginLeft;
+      isThinImage = isSmallVImage = isSmallHImage = <span class="literal">false</span>;
+      theMarginTop = theMarginLeft = top = <span class="number">0</span>;
+      $el = dir = $theImage = $unitContainer = $measurementParent = $unitContainerHeight = $unitContainerWidth = theImageWidth = theImageHeight = <span class="literal">undefined</span>;
 
-             <span class="keyword">if</span>(dir === <span class="string">"v"</span>) {
+      self.$dimensions.each(<span class="keyword">function</span>(index) {
+        $el = $(<span class="keyword">this</span>),
+        dir = $el.hasClass(<span class="string">"vertical-measurement"</span>) ? <span class="string">"v"</span> : <span class="string">"h"</span>;
+        $unitContainer = $el.find(<span class="string">".units-container"</span>);
+        $measurementParent = $unitContainer.closest(<span class="string">"div.measurement"</span>);
+        $theImage = $measurementParent.find(<span class="string">".img-wrapper img"</span>);
+        $unitContainerHeight = $unitContainer.innerHeight();
+        $unitContainerWidth = $unitContainer.innerWidth();
+        theImageWidth = dir === <span class="string">"v"</span> ? $unitContainerWidth : $theImage.outerWidth();
+        theImageHeight = dir === <span class="string">"v"</span> ? $theImage.outerHeight() : $unitContainerHeight;
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>if the vertical measurement > image then split measurement height in half instead</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span>($mContainer.innerHeight() &gt; theHeight){
-                theMarginTop = <span class="number">0</span>;
-                top = <span class="number">0</span>;
-              }<span class="keyword">else</span>{
-                theMarginTop = -($mContainer.innerHeight() / <span class="number">2</span>);
-              }
+        <span class="keyword">if</span>($el.closest(<span class="string">"div.top-wrapper"</span>).hasClass(<span class="string">"is-thin"</span>)){
+          isThinImage = <span class="literal">true</span>;
+        }
 
-              theMarginLeft = <span class="number">0</span>;
+        <span class="keyword">if</span>(dir === <span class="string">"v"</span>) {
+          <span class="keyword">if</span>(theImageHeight &gt;= $unitContainerHeight){
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>center vertically</p>             </td>             <td class="code">               <div class="highlight"><pre>            theMarginTop = -($unitContainerHeight / <span class="number">2</span>);
+            top = <span class="string">"50%"</span>;
+          }<span class="keyword">else</span>{
+            isSmallVImage = <span class="literal">true</span>;
+            $measurementParent.addClass(<span class="string">"small-v-image"</span>);
+          }
 
-             } <span class="keyword">else</span> <span class="keyword">if</span> (dir === <span class="string">"h"</span>){
-                theMarginTop = <span class="number">0</span>;
-                top = <span class="number">0</span>;
-                theMarginLeft = -($mContainer.innerWidth() / <span class="number">2</span>);
-             }
+          theMarginLeft = isThinImage ? <span class="number">0</span> : theMarginLeft;
 
-            $(<span class="keyword">this</span>).css({
-              <span class="string">"height"</span>:theHeight,
-              <span class="string">"width"</span>:theWidth
-            });
+        }<span class="keyword">else</span> <span class="keyword">if</span> (dir === <span class="string">"h"</span>){
+          <span class="keyword">if</span>(theImageWidth &gt;= $unitContainerWidth){
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>center horiz</p>             </td>             <td class="code">               <div class="highlight"><pre>            theMarginLeft = -($unitContainerWidth / <span class="number">2</span>);
+          }<span class="keyword">else</span>{
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>if the image is too small enforce 50px</p>             </td>             <td class="code">               <div class="highlight"><pre>            $measurementParent.addClass(<span class="string">"small-h-image"</span>);
+            isSmallHImage = <span class="literal">true</span>;
+          }
+        }
 
-            $mContainer.css({
-              <span class="string">"top"</span> : top + <span class="string">'%'</span>,
-              <span class="string">"marginTop"</span> : theMarginTop,
-              <span class="string">"marginLeft"</span> : theMarginLeft
-            });
-        });
+        <span class="keyword">if</span>((!isSmallHImage) || (!isSmallVImage)){
+          self.setHeightWidth( $el, theImageWidth, theImageHeight );
+          self.setMarginsTop( $unitContainer, top, theMarginTop, theMarginLeft );
+        }
+      });
+    },
+
+    setHeightWidth : <span class="keyword">function</span>( $el, w, h ){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      $el.css({
+        <span class="string">"height"</span>:h,
+        <span class="string">"width"</span>:w,
+        <span class="string">"min-height"</span>:h,
+        <span class="string">"min-width"</span>:w,
+      });
+    },
+
+    setMarginsTop : <span class="keyword">function</span>($el, top, mTop, mLeft){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      $el.css({
+        <span class="string">"top"</span> : top,
+        <span class="string">"marginTop"</span> : mTop,
+        <span class="string">"marginLeft"</span> : mLeft
+      });
     }
   };
 

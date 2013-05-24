@@ -16,6 +16,7 @@ define(function(require){
    'use strict';
 
     var $ = require('jquery'),
+        Router = require('require/sony-global-router'),
         Modernizr = require('modernizr'),
         iQ = require('iQ'),
         bootstrap = require('bootstrap'),
@@ -67,12 +68,18 @@ define(function(require){
 
       self.hasThumbs            = self.$thumbNav.length > 0;
       self.numSlides            = self.$slides.length;
+      self.moduleId             = self.$el.attr('id');
       self.currentId            = 0;
 
       // touch defaults
       self.startInteractionPointX = null;
       self.lastTouch            = null;
       self.handleStartPosition  = null;
+
+      // deep linking vars
+      self.location             = window.location;
+      self.history              = window.history;
+      self.initFromhash         = false;
 
       self.isDesktop = false;
       self.isMobile = false;
@@ -115,6 +122,9 @@ define(function(require){
             }
           });
         } // end if(Modernizr.mediaqueries )
+
+        // initialize the router for deep linking
+        Router.on('chapter-'+self.moduleId+'(/:a)', $.proxy(self.directFromHash, self));
 
         self.$thumbNav.on(self.downEvent, function(e) { self.dragStart(e); });
         
@@ -182,6 +192,7 @@ define(function(require){
         setTimeout(function(){
           self.getSlideHeight();
           self.getSliderWidth();
+          if (self.$el.hasClass('text-mode')) { self.initScroller(); }    
         }, 250);
       },
 
@@ -244,7 +255,6 @@ define(function(require){
         }    
 
         self.distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
-
       },
 
       dragEnd: function(e) {
@@ -303,7 +313,6 @@ define(function(require){
         self.$slideContainer.on('SonyCarouselFade:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
 
         iQ.update();
-
       },
 
       getSliderWidth: function() {
@@ -362,9 +371,6 @@ define(function(require){
 
         $anchors.eq(0).addClass('active');
 
-        if (self.$el.hasClass('text-mode')) {
-          self.initScroller();
-        }
       },
 
       // Handles when a thumbnail is chosen
@@ -387,6 +393,46 @@ define(function(require){
         self.$slideContainer.sonyCarouselFade( 'gotoSlide' , self.currentId );
       },
 
+      // Runs when a tab is updated and changes the hash
+      updateHash: function(location, currentId) {
+        var self = this, 
+            href,
+            fragment;
+
+        // if we don't have a module id we dont want to continue
+        if (!self.moduleId) { return; }
+
+        href = location.href.replace(/(javascript:|#).*$/, '');
+        fragment = 'chapter-' + self.moduleId + '/' + currentId;
+        location.replace(href + '#' + fragment);
+      },
+
+      // Runs when a hash change is detected and will direct users to the proper tab
+      directFromHash: function() {
+        var self = this, 
+            hash,
+            chapterId,
+            $chapterTabs,
+            $chapterEl;
+
+        // if we have already initialized from hash return
+        if (self.initFromhash) { return; }
+
+        hash = Router.getHash();
+        chapterId = hash.replace(/.*?(\d+)[^\d]*$/,'$1');
+        $chapterTabs = self.$thumbNav.find('li');
+
+        // only if the chapter id is less than the length of actual tabs
+        // i.e `chapter-100` will probably not exist
+        if (chapterId < $chapterTabs.length) {
+          $chapterEl = $chapterTabs.eq(chapterId);
+          self.onThumbSelected($chapterEl);
+        }
+
+        // we should never run the method again unless script inits again
+        self.initFromhash = true;
+      },
+
       // Sets the current active thumbnail
       setCurrentActiveThumb: function(){
         var self = this, 
@@ -403,6 +449,8 @@ define(function(require){
           $chapterTabs.removeClass('active');
         },100);
         
+        // update the hash after we got the correct slide transition
+        self.updateHash(self.location, self.currentId);        
       },
 
       initScroller: function(){

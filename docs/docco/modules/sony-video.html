@@ -50,14 +50,11 @@ define(<span class="keyword">function</span>(require){
       self.isMobileMode         = <span class="literal">false</span>;
 
       self.isFullEditorial      = self.$el.hasClass(<span class="string">'full-bleed'</span>);
-
       self.variation            = self.$el.data(<span class="string">'variation'</span>);
-      
       self.videoAPI             = <span class="literal">null</span>;
+      self.isFullScreen         = <span class="literal">false</span>;
 
       self.$engine              = <span class="literal">null</span>;
-
-      self.isFullScreen         = <span class="literal">false</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Inits the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
 
@@ -82,9 +79,22 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>log( 'Video API FullScreen event >' , e.type );</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(e.type === <span class="string">'fullscreen'</span>){
             self.isFullScreen = <span class="literal">true</span>;
             self.onDebouncedResize();
+
+            <span class="keyword">if</span>(Settings.isLTIE10){
+              $(<span class="string">'body'</span>).css({
+                <span class="string">'overflow'</span> : <span class="string">'hidden'</span>
+              });
+            }
+
           }<span class="keyword">else</span> {
             self.isFullScreen = <span class="literal">false</span>;
             self.onDebouncedResize();
+
+            <span class="keyword">if</span>(Settings.isLTIE10){
+              $(<span class="string">'body'</span>).css({
+                <span class="string">'overflow'</span> : <span class="string">''</span>
+              });
+            }
           }
 
         });
@@ -108,20 +118,29 @@ define(<span class="keyword">function</span>(require){
         wW = Settings.$window.width();
 
         self.$engine = self.$el.find(<span class="string">'.fp-engine'</span>);
-        
+
 
         <span class="keyword">if</span>(wW &gt; <span class="number">980</span>){
 </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>this makes the header grow 1px taller for every 20px over 980w..</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$el.css(<span class="string">'height'</span>, Math.round(Math.min(<span class="number">720</span>, <span class="number">560</span> + ((wW - <span class="number">980</span>) / <span class="number">5</span>))));
+          self.$el.css(<span class="string">'height'</span>, Math.round(Math.min(<span class="number">640</span>, <span class="number">520</span> + ((wW - <span class="number">980</span>) / <span class="number">5</span>))));
         }<span class="keyword">else</span>{
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>this removes the dynamic css so it will reset back to responsive styles</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$el.css(<span class="string">'height'</span>, <span class="string">''</span>);
+
+          <span class="keyword">if</span>(Settings.isLTIE10){
+            self.$el.css(<span class="string">'height'</span>, <span class="string">'560px'</span>);
+          }
         }
 
         <span class="keyword">var</span> heightDiff = Math.abs( self.$el.height() - self.$engine.height() );
 
         <span class="keyword">if</span>( heightDiff &gt; <span class="number">0</span> ){
+
           self.$engine.css(<span class="string">'top'</span> , -heightDiff / <span class="number">2</span> + <span class="string">'px'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>console.log('setting this shit to' , -heightDiff / 2 + 'px');</p>             </td>             <td class="code">               <div class="highlight"><pre>        }
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>console.log('setting this shit to' , -heightDiff / 2 + 'px');</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(Settings.isLTIE10){
+            self.$engine.css(<span class="string">'top'</span> , <span class="string">'0'</span>);
+          }
+        }
 
         <span class="keyword">if</span>(self.isFullScreen){
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>console.log(self.isFullScreen);</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$engine.css(<span class="string">'top'</span> , <span class="number">0</span>);
