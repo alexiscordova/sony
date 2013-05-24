@@ -629,7 +629,7 @@ define(function(require){
     isStickyTabs: false,
     isScroller: false,
     isMobile: false,
-    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isPS3 || Settings.isLTIE9 ),
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isPS3 || Settings.isLTIE9 || Settings.hasPointerEvents ),
     stickyOffset: { top: 0, bottom: 0}
   };
 
