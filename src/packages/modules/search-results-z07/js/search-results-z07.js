@@ -53,7 +53,7 @@ define(function(require){
       self.$clearBtn.on({
         click: function(evt) {
           evt.preventDefault();
-          self.clearSearch(evt);
+          self.resetSearch(true);
         }
       });
 
@@ -68,8 +68,9 @@ define(function(require){
     },
 
     loadMore: function(event) {
+
       var self = this,
-          $resultsList = $(event.target).parent().siblings('.results-list'),
+          $resultsList = $(event.currentTarget).parent().siblings('.results-list'),
           request;
 
       // An ajax request - use this when making a real ajax request
@@ -111,9 +112,9 @@ define(function(require){
     },
 
     // If the search field is blank, reset it to the initial value
-    resetSearch: function() {
+    resetSearch: function(force) {
       var self = this;
-      if ( self.$search.val() === '' ) {
+      if ( self.$search.val() === '' || force === true) {
         self.$search.val( self.initialSearchValue );
         self.$searchIcon.removeClass('hidden');
       }

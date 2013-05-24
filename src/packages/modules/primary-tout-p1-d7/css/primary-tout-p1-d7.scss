@@ -20,6 +20,9 @@
     position:relative;
     z-index:2;
     margin: 0; // gets margin: -1px; from .visuallyhidden, which causes the module to jump up 1px.
+    &.visuallyhidden {
+      height: 0; // setting margin back to -1px creates the problem the above comment fixes
+    }
     .box-close{
       top:12px;
       right:14px;
@@ -288,6 +291,7 @@
 .lt-ie10{
   .primary-tout{
     text-align:center;
+    //?
     &.product-intro-plate{
       .inner{
         margin-left:0;

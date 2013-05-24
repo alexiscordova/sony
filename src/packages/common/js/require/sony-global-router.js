@@ -46,6 +46,10 @@ define(function (require) {
 
     'off': function(route) {
       _router.removeRoute(route);
+    },
+
+    'getHash': function() {
+      return _router.getHash();
     }
   };
 
