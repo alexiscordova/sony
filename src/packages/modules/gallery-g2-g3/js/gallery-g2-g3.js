@@ -387,8 +387,7 @@ define(function(require){
           $target = $(evt.target),
           isSelect = $target.is('select'),
           filterName,
-          method,
-          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' ).first();
+          method;
 
       // Get variables based on what kind of component we're working with
       if ( isSelect ) {
@@ -427,27 +426,50 @@ define(function(require){
 
       self.updateProductCount();
 
-      // method is `all`, hide the compare button
-      if ( typeof method === 'string' ) {
-        if ( $compareBtn.hasClass( 'in' ) ) {
-          $compareBtn.removeClass( 'in' );
-          $compareBtn.attr('tabindex', '-1');
+      self.toggleCompareButton( typeof method === 'string', filterName );
+    },
 
-          // Remove the saved type
-          $compareBtn.removeData( 'type' );
-        }
+    toggleCompareButton : function( toAll, filterName ) {
+      var self = this,
+          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' ).first();
+
+      // method is `all`, hide the compare button
+      if ( toAll || filterName === self.accessoryFilterName ) {
+        self.hideCompareButton( $compareBtn );
 
       // method is a function, meaning the items are filtered,
       // show the compare button
       } else {
-        if ( !$compareBtn.hasClass( 'in' ) ) {
-          $compareBtn.addClass( 'in' );
-          $compareBtn.attr('tabindex', '');
 
-          // Save the type that was filtered
-          $compareBtn.data( 'type', filterName );
+        // Has to be > than 2 because one of the items is the recommended tile
+        if ( self.shuffle.visibleItems > 2 ) {
+          self.showCompareButton( $compareBtn, filterName );
+
+        // Less than 2 comparable items in the gallery, hide the button
+        } else {
+          self.hideCompareButton( $compareBtn );
         }
 
+      }
+    },
+
+    showCompareButton : function( $btn, filterName ) {
+      if ( !$btn.hasClass( 'in' ) ) {
+        $btn.addClass( 'in' );
+        $btn.attr('tabindex', '');
+
+        // Save the type that was filtered
+        $btn.data( 'type', filterName );
+      }
+    },
+
+    hideCompareButton : function( $btn ) {
+      if ( $btn.hasClass( 'in' ) ) {
+        $btn.removeClass( 'in' );
+        $btn.attr('tabindex', '-1');
+
+        // Remove the saved type
+        $btn.removeData( 'type' );
       }
     },
 
@@ -3133,6 +3155,7 @@ define(function(require){
     secondLastFilterGroup: null,
     secondLastFilterStatuses: null,
     maxRecommendedTitleBarOffset: 0,
+    accessoryFilterName: 'accessory',
     loadingGif: Settings.loaderPath
   };
 
