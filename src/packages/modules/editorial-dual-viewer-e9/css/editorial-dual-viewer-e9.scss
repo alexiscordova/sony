@@ -168,7 +168,10 @@
         }
           .icons {
             @include rotate(90deg);
-            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+
+            .lt-ie9 & {
+              filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+            }
           }
     }
   }
