@@ -728,8 +728,8 @@ module.exports = function(grunt) {
         JSONBrutalize = require('json-brutalize'),
         done = this.async();
 
-    var jadePath = 'packages/modules/' + module + '/demo/test.jade',
-        JSONPath = 'packages/modules/' + module + '/demo/data/test.json';
+    var jadePath = 'packages/modules/' + module + '/tests/test.jade',
+        JSONPath = 'packages/modules/' + module + '/tests/test.json';
 
     fs.readFile(JSONPath, 'utf8', function (err, data) {
 
