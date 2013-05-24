@@ -21,6 +21,7 @@ var UNAV = ( function( window, document, $, undefined ) {
     $uNavPrimary,
     $firstChild,
     $closeBtn,
+    $tabableElements,
     $window,
     imagesInited,
     imagesLoaded,
@@ -48,6 +49,7 @@ var UNAV = ( function( window, document, $, undefined ) {
     $uNavPrimary = $uNav.find('.u-nav-primary');
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $('#u-nav-close-btn');
+    $tabableElements = $uNav.find($('[tabindex]'));
     isHighRes = false;
     imagesInited = false;
     imagesLoaded = false;
@@ -94,6 +96,29 @@ var UNAV = ( function( window, document, $, undefined ) {
     $closeBtn[ ON ]('click',function(e) {
       e.preventDefault();
       _closeUNav();
+    });
+
+    $tabableElements.add($triggerLink)[ ON ]('focus',function(e) {
+      $(e.target).addClass('unav-focused');
+
+      if (!$pageWrapOuter.hasClass('unav-open')) {
+        _openUNav();
+      }
+
+      if ($(e.target).hasClass('u-nav-last-tabindex') && $pageWrapOuter.hasClass('unav-open')){
+        _closeUNav();
+      }
+    });
+
+    $tabableElements.add($triggerLink)[ ON ]('blur',function(e) {
+      $(e.target).removeClass('unav-focused');
+      // give the focus a moment to add the focused class before checking to see if it exists.
+      setTimeout(function(){
+        // if nothing inside uNav has focus, close it.
+        if ($('.unav-focused').length < 1){
+          _closeUNav();
+        }
+      },50);
     });
 
 
@@ -237,23 +262,6 @@ var UNAV = ( function( window, document, $, undefined ) {
         $(document).trigger("universal-nav-open-finished");
       });
     }
-
-    // $closeBtn.focus();
-
-    // if the u-nav or its children lose focus, close it.
-    console.log("$uNav: " , $uNav);
-    $uNav.focusout(function(e){
-      
-      console.log("event" , e);
-      console.log("$(document.activeElement)[0]: " , $(document.activeElement)[0]);
-      
-      // console.log("focusout $uNav[0]:" + $uNav[0] + ", $(document.activeElement)[0]: " + $(document.activeElement)[0]);
-      if ($pageWrapOuter.hasClass('unav-open')){
-        if (!$.contains($uNav[0],$(document.activeElement)[0])){
-          // _closeUNav(true);
-        }
-      }
-    });
   },
 
   _closeUNav = function(autoFocus) {
