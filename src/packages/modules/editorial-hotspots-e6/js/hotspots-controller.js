@@ -91,6 +91,8 @@ define(function(require) {
     self.trackOpacityTimer               = null;
     self.canShowHotspots                 = false;
     self.curAnimationCount               = 0;
+    self.id                              = null;
+    self.variant                         = null;
     // MODAL
     self.$modal                          = self.$container.find( '.hotspot-modal' );
     self.$modalBody                      = self.$modal.find( '.modal-body' );
@@ -113,16 +115,30 @@ define(function(require) {
       $( '.hspot-underlay' ).detach();
       $( 'body' ).append( underlayNode );
 */
-
+            
       // detect what type of tracking we need to bind the instance to
       var moduleHandle = self.$container.parent().find( '.image-module' );
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
-        self.trackingMode = 'background';
-        self.trackingAsset = moduleHandle;
+        self.trackingMode   = 'background';
+        self.trackingAsset  = moduleHandle;
+        self.variant        = 'variant1';
       } else {
-        self.trackingMode = 'asset';
-        self.trackingAsset = $( moduleHandle.children( '.iq-img' )[0] );
+        self.trackingMode   = 'asset';
+        self.trackingAsset  = $( moduleHandle.children( '.iq-img' )[0] );
+        self.variant        = 'variant2';
       }
+      
+      self.id = self.trackingAsset.attr( 'id' );
+
+      // IE7 zindex fix
+      if( Settings.isLTIE8 ) { 
+        self.hotspotId = self.id+"-hotspot";
+        $( Settings.$body ).append( '<div class="ltie8-hotspot '+self.variant+'" id="'+self.hotspotId+'" />' );
+        $( Settings.$body ).append( '<div class="ltie8-hotspot-arrow-left-'+self.variant+' hidden" id="'+self.hotspotId+'-arrow-left" />' );
+        $( Settings.$body ).append( '<div class="ltie8-hotspot-arrow-right-'+self.variant+' hidden" id="'+self.hotspotId+'-arrow-right" />' );
+      }
+
+
 
       // when the tracking item changes it's opacity, we trigger the initial flyon animation for the hotspot
       self.trackOpacity = function() {
@@ -331,10 +347,8 @@ define(function(require) {
               adjustedY = ( percY * assetH ) / 100 + heightOffset;
 
               // lets stop animation
-              /* $( el ).addClass( 'no-hs-transition' ); */
               $( el ).css( "left", adjustedX );
               $( el ).css( "top", adjustedY );
-              /* $( el ).removeClass( 'no-hs-transition' ); */
         });
       }
     },
@@ -591,12 +605,19 @@ define(function(require) {
           hotspot.parent().removeClass( 'ie-on' );
         }
 
+
+        if( Settings.isLTIE8 ) {
+          $( Settings.$body ).find( '#'+self.hotspotId ).html( '' );
+          $( '#'+self.hotspotId+'-arrow-left' ).addClass( 'hidden' );
+          $( '#'+self.hotspotId+'-arrow-right' ).addClass( 'hidden' );
+        }
+        
         // begin fade out
         self.transition([
-                          info.parent().find('.arrow-left'),
-                          info.parent().find('.arrow-right'),
-                          info.find('.overlay-inner')
-                        ], 'off' );
+          info.parent().find('.arrow-left'),
+          info.parent().find('.arrow-right'),
+          info.find('.overlay-inner')
+        ], 'off' );
 
         // closure to hide overlays after they fade out
         var anon = function() {
@@ -609,12 +630,6 @@ define(function(require) {
         // set the open status to zilch
         self.$lastOpen = null;
 
-/*
-        // kill the underlay if we're in minified mode
-        if( true === self.showOverlayCentered ) {
-          $( '.hspot-underlay' ).addClass( 'hidden' );
-        }
-*/
     },
 
     open: function( container, hotspot, info ) {
@@ -650,7 +665,33 @@ define(function(require) {
           //$( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           self.reanchor( container, hotspot, info, true );
         } else {
-          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+          if( Settings.isLTIE8 ) {
+            // turn on the window
+            info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+            // get the global handle for iE7
+            var $ieHackAttack = $( Settings.$body ).find( '#'+self.hotspotId );
+            // apply the offset window value 
+            $ieHackAttack.css({
+              'left': info.offset().left,
+              'top': info.offset().top
+            });
+            $ieHackAttack.html( info.html() );
+            // orient the correct arrow and turn it on
+            var $arrow, $arrow_global;
+            if( info.hasClass( 'to-right' ) ) {
+              $arrow_global = $( '#'+self.hotspotId+'-arrow-left' );
+              $arrow = $( hotspot ).parent().find( '.arrow-left' );
+            } else {
+              $arrow_global = $( '#'+self.hotspotId+'-arrow-right' );
+              $arrow = $( hotspot ).parent().find( '.arrow-right' );
+            }
+            $arrow_global.removeClass( 'hidden' ).css({
+              'left': $arrow.offset().left,
+              'top': $arrow.offset().top
+            });
+          } else {
+            info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ); 
+          }
         }
     },
 
