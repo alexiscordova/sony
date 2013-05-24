@@ -721,4 +721,84 @@ module.exports = function(grunt) {
 
   });
 
+  grunt.registerTask('brutalize', function(module, depth){
+
+    var fs = require('fs'),
+        _ = require('underscore'),
+        JSONBrutalize = require('json-brutalize'),
+        done = this.async();
+
+    var jadePath = 'packages/modules/' + module + '/tests/test.jade',
+        JSONPath = 'packages/modules/' + module + '/tests/test.json';
+
+    fs.readFile(JSONPath, 'utf8', function (err, data) {
+
+      if (err) {
+        done(false);
+      }
+
+      var originalJSON = JSON.parse(data),
+          brutalized = JSONBrutalize.generate(originalJSON, depth),
+          failcount = 0,
+          errors = [],
+          totaltests = brutalized.length,
+          i = 0;
+
+      var brutalizeIterator = function(which) {
+
+        var red, reset;
+
+        red   = '\033[31m';
+        reset = '\033[0m';
+
+        if ( !brutalized[which] ) {
+          fs.writeFile(JSONPath, JSON.stringify(originalJSON, undefined, 2), function(err) {
+            if(err) {
+              done(false);
+            } else {
+              console.log('Passed ' + (totaltests - failcount) + '/' + totaltests + ' tests.');
+              console.log('unique errors: ' + _.uniq(errors).length);
+              done(true);
+              return;
+            }
+          });
+        } else {
+          fs.writeFile(JSONPath, JSON.stringify(brutalized[which]), function(err) {
+            if(err) {
+              done(false);
+            } else {
+
+              fs.readFile(jadePath, 'utf8', function (err, data) {
+                if (err) {
+                  done(false);
+                }
+
+                try {
+                  require('grunt-contrib-jade/node_modules/jade').compile(data, {
+                    'filename': jadePath
+                  })(jadeconfig.data);
+                } catch (e) {
+
+                  console.log(red + 'FAILED ON:' + reset);
+                  console.log('\n');
+                  console.log(JSON.stringify(brutalized[which], undefined, 2));
+                  console.log('\n');
+                  console.log(red + e + reset);
+                  console.log('\n');
+
+                  failcount++;
+                  errors.push(e.toString());
+                }
+
+                brutalizeIterator(i++);
+              });
+            }
+          });
+        }
+      }
+
+      brutalizeIterator(i);
+    });
+  });
+
 };

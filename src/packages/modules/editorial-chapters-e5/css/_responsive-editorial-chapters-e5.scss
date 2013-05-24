@@ -6,6 +6,85 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 
+@mixin tablet-thumb-nav {
+  .editorial {
+    // since were applying heights via editorial-chapters-e5
+    // we need to get rid of the table styling since it mainly
+    // ignores heights
+    .table-center-wrap,
+    .table-center {
+      display: block;
+    }
+    .table-center,
+    .box {
+      height: 100%;
+    }
+  }
+
+  .thumb-nav {
+    margin: -4px auto 0;
+  }
+
+  &.thumb-mode {
+    .thumb-nav {
+      height:62px;
+      width:100%;
+
+      li {
+        width:auto;
+        padding:8px;
+        height:42px;
+      }
+        img {
+          width:56px;
+          margin:0 auto;
+          float: none;
+        }
+        i, span {display:none;}
+    }
+  }
+  &.icon-mode {
+    .thumb-nav {
+      height:54px;
+
+      li {
+        width:auto;
+        height:30px;
+      }
+        img, span {display:none;}
+        i {
+          top:4px;
+          margin:0 15px;
+        }
+    }
+  }
+  &.text-mode {
+    .thumb-nav {
+      height:60px;
+
+      li {
+        line-height:14px;
+        padding:10px 0;
+        height:34px;
+      }
+      img, i {display:none;}
+      .label-container {
+        top: 1px;
+        display:block;
+      }
+    }
+  }
+  &.top-nav .thumb-nav {
+    i, img {display:none;}
+    span {
+      display:inline-block;
+      margin-left:20px;
+      top:6px;
+    }
+  }
+
+}
+
 @mixin compact-thumb-nav {
   .editorial {
     // since were applying heights via editorial-chapters-e5
@@ -117,7 +196,7 @@ $tabletMax: px-em(979);
       width:100% !important;
     }
 
-    @include compact-thumb-nav;
+    @include tablet-thumb-nav;
   }
 
   .editorial.textonly {
@@ -219,5 +298,8 @@ $tabletMax: px-em(979);
 }
 //phone only
 @media (max-width: $phoneMax) {
-  .editorial-chapters-container .image-module {height:320px;}
+  .editorial-chapters-container {
+    @include compact-thumb-nav;
+    .image-module {height:320px;}
+  }
 }

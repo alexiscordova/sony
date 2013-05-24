@@ -130,7 +130,17 @@ define(function(require) {
     },
 
     lazyInit : function() {
-      var self = this;
+      var self = this,
+          $stickyImg = self.$stickyNav.find('.iq-img');
+
+      function stickyNavImgLoaded() {
+        // Throw it in a timeout to be sure the image has loaded,
+        // and the sticky nav has a new height
+        setTimeout(function() {
+          Utilities.forceWebkitRedraw();
+          self.$stickyNav.stickyNav('refreshOffset');
+        }, 0);
+      }
 
       Utilities.autoSelectInputOnFocus( self.$shareLink );
 
@@ -138,15 +148,27 @@ define(function(require) {
       self.$stickyNav.stickyNav({
         $jumpLinks: self.$jumpLinks,
         offset: 0,
-        offsetTarget: self.$el.next()
+        offsetTarget: self.$el.next(),
+        scrollToTopOnClick: true
       });
+
+      if ( $stickyImg.length ) {
+        if ( $stickyImg.data('hasLoaded') ) {
+          stickyNavImgLoaded();
+        } else {
+          $stickyImg.on( 'imageLoaded', stickyNavImgLoaded );
+        }
+      }
 
       // Scroll to a hash if it's present
       $.simplescroll.initial();
 
-      iQ.update();
+      // Prevent default on .js-prevent-default
+      self.$el.find('.js-prevent-default').on( 'click', false );
 
       self._initFavorites();
+
+      iQ.update();
     },
 
     _onResize : function() {
@@ -159,8 +181,7 @@ define(function(require) {
 
     _initFavorites : function() {
       this.favorites = new Favorites( this.$el, {
-        itemSelector: '[itemscope]',
-        tooltip: false
+        itemSelector: '[itemscope]'
       });
     },
 

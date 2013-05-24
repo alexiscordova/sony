@@ -102,10 +102,8 @@ define(<span class="keyword">function</span>(require) {
       <span class="keyword">return</span> <span class="keyword">this</span>;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Make sure that initCarousel is only called when the class hasn't finished initializing</p>             </td>             <td class="code">               <div class="highlight"><pre>    fixCarousel : <span class="keyword">function</span>( extraCondition ) {
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Default to true</p>             </td>             <td class="code">               <div class="highlight"><pre>      extraCondition = extraCondition === <span class="literal">undefined</span> ? <span class="literal">true</span> : extraCondition;
-
-      <span class="keyword">if</span> ( !<span class="keyword">this</span>.initialized &amp;&amp; extraCondition ) {
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Make sure that initCarousel is only called when the class hasn't finished initializing</p>             </td>             <td class="code">               <div class="highlight"><pre>    fixCarousel : <span class="keyword">function</span>() {
+      <span class="keyword">if</span> ( !<span class="keyword">this</span>.initialized ) {
         <span class="keyword">this</span>.initCarousel();
       } <span class="keyword">else</span> {
         <span class="keyword">this</span>.updateCarousel();
@@ -117,7 +115,7 @@ define(<span class="keyword">function</span>(require) {
     onResize : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Make all product name heights even</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">evenTheHeights</span><span class="params">()</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Make all product name heights even</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">evenTheHeights</span><span class="params">()</span> {</span>
         self.$titles.evenHeights();
       }
 
@@ -163,19 +161,21 @@ define(<span class="keyword">function</span>(require) {
           wasMobile = self.isMobile,
           stillTablet = Modernizr.mq( <span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Remove grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( wasMobile ) {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Remove grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( wasMobile ) {
         self.$el.find(<span class="string">'.m-container'</span>).removeClass(<span class="string">'container'</span>);
         self.$el.find(<span class="string">'.sony-carousel-slide'</span>).removeClass( <span class="string">'slimgrid'</span> );
         self.$wrapper.removeClass(<span class="string">'grid'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Going straight from mobile to desktop without passing tablet in between</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !stillTablet ) {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Going straight from mobile to desktop without passing tablet in between</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !stillTablet ) {
           self.arrangeItemsInSlides( <span class="number">4</span> );
         }
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Avoid initializing carousel twice on load because the tablet breakpoint overlaps desktop
-Also make sure that initCarousel is only called when the class hasn't finished initializing</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.fixCarousel( self.isTabletAndDesktopOnLoad );
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Avoid initializing carousel twice on load because the tablet breakpoint overlaps desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isTabletAndDesktopOnLoad !== <span class="literal">true</span> ) {
+        self.fixCarousel();
+      }
 
+      self.isTabletAndDesktopOnLoad = <span class="literal">false</span>;
       self.isDesktop = <span class="literal">true</span>;
       self.isMobile = <span class="literal">false</span>;
     },
@@ -193,7 +193,7 @@ Also make sure that initCarousel is only called when the class hasn't finished i
     teardownTablet : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Don't do anything if this isn't in tablet state</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isTablet ) {
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Don't do anything if this isn't in tablet state</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isTablet ) {
         <span class="keyword">return</span>;
       }
 
@@ -209,10 +209,10 @@ Also make sure that initCarousel is only called when the class hasn't finished i
 
       self.arrangeItemsInSlides( <span class="number">2</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Add grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.m-container'</span>).addClass(<span class="string">'container'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Add grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.m-container'</span>).addClass(<span class="string">'container'</span>);
       self.$wrapper.addClass(<span class="string">'grid'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Mobile slides need the slimgrid where others don't</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.sony-carousel-slide'</span>).addClass( <span class="string">'slimgrid'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Mobile slides need the slimgrid where others don't</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.sony-carousel-slide'</span>).addClass( <span class="string">'slimgrid'</span> );
 
       self.fixCarousel();
 

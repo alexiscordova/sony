@@ -18,7 +18,6 @@
 
 @media (max-width: px-em(767)) {
   .editorial-slideshow-container {
-    // height: 420px;
 
     .pagination-paddles button.pagination-next {
       right: 2%;
@@ -36,3 +35,34 @@
 
   }
 }
+
+
+$subPhoneMax: px-em(479);
+$phoneMin: px-em(480);
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+
+.editorial-carousel-wrapper {
+
+  max-height: 720px;
+
+  @media (min-width: $tabletMin) and (max-width: $tabletMax) {
+    height: 500px;
+  }
+
+  @media (max-width: $phoneMax) {
+    height: 420px;
+  }
+  
+  @media (min-width: $phoneMin) and (max-width: $phoneMax){
+    height: 420px;
+  }
+
+  @media (max-width: $subPhoneMax){
+    height: 400px;
+  }
+
+}
+
+

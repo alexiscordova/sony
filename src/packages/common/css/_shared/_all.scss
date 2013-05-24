@@ -94,25 +94,7 @@ ul.jump-links {
 
 // Sticky nav
 .sticky-nav {
-
-
-  // NOTE: PS3 BUG
-  // right now the PS3 is exploding whenever it detects `-webkit-transform`
-  // and will not render any of the children inside the parent. Probably
-  // has to deal with z-indexing. I tried over-riding the transform with
-  // some default values however, the PS3 will not render the elements
-  // even with default overrides. 
-  .ps3 & {
-    border: 2px solid green;
-    @include transition(none);
-    -webkit-transform: translate(0,0);
-    transform: translate(0,0);
-    -webkit-transform-style: flat;
-    /*@include translate(0, 0);*/
-  }
-  
   position: fixed;
-  // z-index: 20; // above features
   z-index: 200; // Safari, what are you doing???
   top: 0;
   left: -999em;
@@ -134,6 +116,25 @@ ul.jump-links {
     @include translate(0, 0);
     @include transition-delay(0s);
     @include transition-timing-function(ease-out);
+  }
+
+  // NOTE: PS3 BUG
+  // right now the PS3 is exploding whenever it detects `-webkit-transform`
+  // and will not render any of the children inside the parent. Probably
+  // has to deal with z-indexing. I tried over-riding the transform with
+  // some default values however, the PS3 will not render the elements
+  // even with default overrides.
+  .ps3 & {
+    border: 2px solid green;
+    @include transition(none);
+    -webkit-transform-style: flat;
+    -webkit-transform: none;
+    transform: none;
+
+    &.open {
+      -webkit-transform: none;
+      transform: none;
+    }
   }
 
   // Disable box shadow if the sticky headers are visible
@@ -494,6 +495,13 @@ $oneByOneImgPadding: 107.84313725490196%;
     //     height: 11.3125em; // 181
     //   }
     // }
+
+    // Fix for opera. Opera likes rules and the W3C hasn't specified what should
+    // happen in this situation. Firefox too. The <img>'s parent has max-height:100%;
+    // and that's fine, but the <img> also has max-height:100%; and extends past the container!
+    img {
+      max-height: 190px;
+    }
 
     &:after {
       padding-top: 78.19025522041764%;

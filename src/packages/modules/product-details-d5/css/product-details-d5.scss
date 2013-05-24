@@ -251,75 +251,143 @@
 	$measurementPadding:8px;
 
 	.measurements{
-		display: inline-block;
 		overflow: hidden;
 
 		.measurement{
 		  margin-bottom:0;
 		  margin-right:0;
-		  float:left;
+		  min-width: 225px;
+
+			.units-container{
+				background-color:$gray80;
+				position: absolute;
+				top:0;
+				left:0;
+				z-index: 2;
+			} // .units-container
+
 
 		  &.multi{
-		  	margin-right: px-em(30px);
-				margin-bottom:23px;
-		  }
-		} // end .measurement
+				margin-top:23px;
 
-		.img-wrapper{
-			float:left;
-			position: relative;
-		}
+				&:first-child{
+					margin-top:0;
+				} // first-child
+		  } // multi
 
-		.inches{
-			color:$gray40;
-		}
+			.top-wrapper{
+				position: relative;
+				overflow: hidden;
+				// border: 1px solid green;
 
-		.centimeters{
-			@include fontMedium;
-			color:$gray10;
-		}
+				&.is-thin{
+					.vertical-measurement{
+						&:after{
+							content:'';
+							display:none;
+						} // :after
 
-		.inches,
-		.centimeters{
-			margin:0;
-		}
+					} // vertical-measurement
 
-		.measurements-container{
-			background-color:$gray80;
-			position: absolute;
-			top:0;
-			left:0;
-			z-index: 2;
-		} // .measurements-container
+				} // is-thin
 
-		.vertical-measurement{
-			@include clearfix();
-			position: relative;
-			float:left;
-			text-align: center;
-			padding-left:0;
+			} // top wrapper
 
-			.measurements-container{
-				top:50%;
-				padding:$measurementPadding 0;
-			} //.vertical-measurement > .measurements-container
+			.img-wrapper{
+				position: relative;
+				float:left;
+			} // img-wrapper
 
-			&.not-thin{
-				margin-left: px-em(24px);
+			&.small-v-image{
+				.top-wrapper{
+					display: table;
+					table-layout: fixed;
+				} // top-wrapper
 
-				&:after{
-	  				content:'';
-	          display:block;
-	          border-left:1px solid $gray50;
-	   				position: absolute;
-	   				left:50%;
-	   				top:0;
-	   				width:100%;
-	   				height:100%;
-	   				z-index:1;
+				.img-wrapper{
+					display: table-cell;
+					vertical-align: middle;
+					float:none;
+				} // img-wrapper
+
+				.vertical-measurement{
+					display: table-cell;
+					vertical-align: middle;
+					float:none;
+					padding-left: px-em(10px);
+
+					.units-container{
+						padding-left:0;
+						padding-right: px-em(2px); // slight nudge over
+						padding-bottom:0;
+						padding-top:0;
+						top:0;
+						margin-left: 0;
+						position: relative;
+					} // .horizontal-measurement > .units-container
+
+					&:after{
+		        display:none;
 					} // :after
 
-			} // not-thin
+				}// horiz measurement
+			} // small-v-image
+
+			&.small-h-image{
+
+				.top-wrapper{
+					text-align: center;
+				} // top-wrapper
+
+				.img-wrapper{
+					width: 50px;
+				} // img-wrapper
+
+				.horizontal-measurement{
+					width:50px;
+					height:auto;
+
+					.units-container{
+						padding-left:0;
+						padding-right:0;
+						padding-bottom:0;
+						left:0;
+						position: relative;
+						display: block;
+					} // .horizontal-measurement > .units-container
+
+					&:after{
+		        display:none;
+					} // :after
+
+				}// horiz measurement
+			} // small-h-image
+
+		} // end .measurement
+
+
+		.vertical-measurement{
+			float:left;
+			position: relative;
+			text-align: center;
+			margin-left: px-em(10px);
+
+			.units-container{
+				top:50%;
+				padding:$measurementPadding 0;
+			} //.vertical-measurement > .units-container
+
+			&:after{
+  				content:'';
+          display:block;
+          border-left:1px solid $gray50;
+   				position: absolute;
+   				left:50%;
+   				top:0;
+   				width:100%;
+   				height:100%;
+   				z-index:1;
+				} // :after
 
 		} // vertical-measurement
 
@@ -328,11 +396,12 @@
 			position: relative;
 			text-align: center;
 			display:block;
+			overflow: hidden;
 
-			.measurements-container{
-				padding:26px px-em($measurementPadding) 0 px-em($measurementPadding);
+			.units-container{
+				padding:8px px-em($measurementPadding) 0 px-em($measurementPadding);
 				left:50%;
-			} // .horizontal-measurement > .measurements-container
+			} // .horizontal-measurement > .units-container
 
 			&:after{
   				content:'';
@@ -340,14 +409,27 @@
           border-top:1px solid $gray50;
    				position: absolute;
    				left:0;
-   				top:70%;
+   				top:50%;
    				width:100%;
    				height:100%;
    				z-index:1;
-
 				} // :after
-
 		} // .horizontal-measurement
+
+		.inches{
+			color:$gray40;
+		} // inches
+
+		.centimeters{
+			@include fontMedium;
+			color:$gray10;
+		} // centimeters
+
+		.inches,
+		.centimeters{
+			margin:0;
+		} // inches and centimeters
+
 
 	} // .measurements
 

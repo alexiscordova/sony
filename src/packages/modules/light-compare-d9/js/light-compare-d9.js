@@ -40,7 +40,7 @@ define(function(require){
       var self = this;
       self.$win = $(window);
       self.modalID = 'light-compare-modal';
-      self.hasTouch = Settings.hasTouchEvents || Settings.hasPointerEvents;
+      self.hasTouch = Settings.hasTouchEvents;
       self.useIScroll = self.hasTouch;
       if (self.useIScroll) {
         self.initiScroll();

@@ -97,7 +97,7 @@ define(function(require) {
     self.$modal                          = self.$container.find( '.hotspot-modal' );
     self.$modalBody                      = self.$modal.find( '.modal-body' );
     self.isModalOpen                     = true;
-    self.hasTouch                        = Settings.hasTouchEvents || Settings.hasPointerEvents;
+    self.hasTouch                        = Settings.hasTouchEvents;
 
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
