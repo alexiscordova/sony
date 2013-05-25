@@ -230,8 +230,6 @@ $.fn.flowplayer = function(opts, callback) {
                video.src = video.sources[0];
             }
 
-            //window.alert(video.src);
-
             if (video.src) {
                var e = $.Event("load");
                root.trigger(e, [api, video, engine]);
@@ -670,7 +668,9 @@ function embed(swf, flashvars) {
       tag = '<object class="fp-engine" id="' + id+ '" name="' + id + '" ';
 
    //clsid:d27cdb6e-ae6d-11cf-96b8-444553540000
-   tag += $.browser.msie ? 'clsid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">' :
+   //clsid:d27cdb6e-ae6d-11cf-96b8-444553540000
+   //classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000
+   tag += $.browser.msie ? 'classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' :
       ' data="' + swf  + '" type="application/x-shockwave-flash">';
 
    var opts = {
@@ -783,9 +783,11 @@ flowplayer.engine.flash = function(player, root) {
                if (conf[key]) {opts[key] = conf[key];}
             });
 
-            if(IS_PS3 || IS_GOOGLETV){
+            if(IS_PS3){
                conf.swf = conf.swfFallback;
             }
+
+
 
             objectTag = embed(conf.swf, opts);
 
@@ -1018,9 +1020,11 @@ flowplayer.engine.html5 = function(player, root) {
    return self = {
 
       pick: function(sources) {
+      
          if (support.video) {
             if (conf.videoTypePreference) {
                var mp4source = findFromSourcesByType(sources, conf.videoTypePreference);
+
                if (mp4source) {return mp4source;}
             }
             for (var i = 0, source; i < sources.length; i++) {
@@ -1088,8 +1092,13 @@ flowplayer.engine.html5 = function(player, root) {
          listen(api, $("source", videoTag).add(videoTag), video);
 
          // iPad (+others?) demands load()
-         if (conf.preload != 'none' || !support.zeropreload || !support.dataload) {api.load();}
-         if (conf.splash) {api.load();}
+         if (conf.preload != 'none' || !support.zeropreload || !support.dataload) {
+            api.load();
+         }
+
+         if (conf.splash) {
+            api.load();
+         }
       },
 
       pause: function() {
@@ -1281,9 +1290,8 @@ function URLResolver(videoTag) {
       sources.push(parseSource($(this)));
    });
 
-   if(sources.length === 0){
-      sources[0] = videoTag.data('fallbackSrc');
-      //window.alert('Going to use the fallbacksrc' + sources[0]);
+   if(sources.length === 0 && IS_PS3 ){
+      sources[0] = videoTag.data('fallbackSrc');  
    }
 
    if (!sources.length) { sources.push(parseSource(videoTag)); }
@@ -1295,11 +1303,8 @@ function URLResolver(videoTag) {
    self.resolve = function(video) {
 
       if (!video) {
-
          return { sources: sources };
       }
-
-
 
       if ($.isArray(video)) {
 
@@ -1641,14 +1646,14 @@ flowplayer(function(api, root) {
       elapsed.html(format(0));
       timelineApi.slide(0, 100);
 
-      console.log('stop');
+      //console.log('stop');
 
    }).bind("finish", function() {
       elapsed.html(format(api.video.duration));
       timelineApi.slide(1, 100);
       root.removeClass("is-seeking");
 
-      console.log('finish');
+      //console.log('finish');
 
    // misc
    }).bind("beforeseek", function() {
@@ -2065,11 +2070,12 @@ flowplayer(function(player, root) {
       if (typeof i === 'number' && !player.conf.playlist[i]) {return player;}
       else if (typeof i != 'number') {player.load.apply(null, arguments);}
       player.unbind('resume.fromfirst'); // Don't start from beginning if clip explicitely chosen
-      player.load(typeof player.conf.playlist[i] === 'string' ?
-         player.conf.playlist[i].toString() :
-         player.conf.playlist[i].map(function(item) { return $.extend({}, item); })
-      );
+      
+      //console.log( 'player.conf.playlist',player.conf.playlist );
+      //this was throwing an error on the player.conf.playlist map function
+      //player.load(typeof player.conf.playlist[i] === 'string' ? player.conf.playlist[i].toString() : player.conf.playlist[i].map(function(item) { return $.extend({}, item); }));
       return player;
+
    };
 
    var indexForVideo = function(src,sources) {
@@ -2170,9 +2176,12 @@ flowplayer(function(player, root) {
       });
    }
 
+
    if (els().length) {
+      
       if (!playlistInitialized) {
          player.conf.playlist = [];
+
          els().each(function() {
             var src = $(this).attr('href');
             player.conf.playlist.push(src);

@@ -21,6 +21,7 @@ var UNAV = ( function( window, document, $, undefined ) {
     $uNavPrimary,
     $firstChild,
     $closeBtn,
+    $tabableElements,
     $window,
     imagesInited,
     imagesLoaded,
@@ -31,6 +32,7 @@ var UNAV = ( function( window, document, $, undefined ) {
     uNavOuterHeight,
     isHighRes,
     hasCssTransitions,
+    wasJustTriggered,
 
     // At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().
     // This will allow versions older than 1.7 to work without using depreciated functions in version 1.7+
@@ -47,25 +49,27 @@ var UNAV = ( function( window, document, $, undefined ) {
     $uNavPrimary = $uNav.find('.u-nav-primary');
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $('#u-nav-close-btn');
+    $tabableElements = $uNav.find($('[tabindex]'));
     isHighRes = false;
     imagesInited = false;
     imagesLoaded = false;
     xUp = $uNavPrimary.children().length;
     isHighRes = _isRetina();
     hasCssTransitions = _browserCssTransitionDetect();
+    wasJustTriggered = false;
 
-    $(document).on("universal-nav-open",function(e){
-      console.log("universal-nav-open");
-    });
-    $(document).on("universal-nav-open-finished",function(e){
-      console.log("universal-nav-open-finished");
-    });
-    $(document).on("universal-nav-close",function(e){
-      console.log("universal-nav-close");
-    });
-    $(document).on("universal-nav-close-finished",function(e){
-      console.log("universal-nav-close-finished");
-    });
+    // $(document).on("universal-nav-open",function(e){
+    //   console.log("universal-nav-open");
+    // });
+    // $(document).on("universal-nav-open-finished",function(e){
+    //   console.log("universal-nav-open-finished");
+    // });
+    // $(document).on("universal-nav-close",function(e){
+    //   console.log("universal-nav-close");
+    // });
+    // $(document).on("universal-nav-close-finished",function(e){
+    //   console.log("universal-nav-close-finished");
+    // });
 
     // -----------------------------
     // EVENT LISTENERS
@@ -81,10 +85,10 @@ var UNAV = ( function( window, document, $, undefined ) {
       }
     });
     $triggerLink[ ON ]('focus',function(e) {
-      console.log("u-nav focus");
+      // console.log("u-nav focus");
       e.preventDefault();
-      if ( _minBreakpointMet() && !$pageWrapOuter.hasClass('unav-open')) {
-        console.log("u-nav conditions met");
+      if ( _minBreakpointMet() && !$pageWrapOuter.hasClass('unav-open') && !wasJustTriggered) {
+        // console.log("u-nav conditions met");
         _openUNav();
       }
     });
@@ -92,6 +96,29 @@ var UNAV = ( function( window, document, $, undefined ) {
     $closeBtn[ ON ]('click',function(e) {
       e.preventDefault();
       _closeUNav();
+    });
+
+    $tabableElements.add($triggerLink)[ ON ]('focus',function(e) {
+      $(e.target).addClass('unav-focused');
+
+      if (!$pageWrapOuter.hasClass('unav-open')) {
+        _openUNav();
+      }
+
+      if ($(e.target).hasClass('u-nav-last-tabindex') && $pageWrapOuter.hasClass('unav-open')){
+        _closeUNav();
+      }
+    });
+
+    $tabableElements.add($triggerLink)[ ON ]('blur',function(e) {
+      $(e.target).removeClass('unav-focused');
+      // give the focus a moment to add the focused class before checking to see if it exists.
+      setTimeout(function(){
+        // if nothing inside uNav has focus, close it.
+        if ($('.unav-focused').length < 1){
+          _closeUNav();
+        }
+      },50);
     });
 
 
@@ -235,11 +262,9 @@ var UNAV = ( function( window, document, $, undefined ) {
         $(document).trigger("universal-nav-open-finished");
       });
     }
-
-    $triggerLink.blur();
   },
 
-  _closeUNav = function() {
+  _closeUNav = function(autoFocus) {
     $(document).trigger("universal-nav-close");
     $pageWrapOuter.removeClass('unav-open');
     if (hasCssTransitions) {
@@ -248,7 +273,15 @@ var UNAV = ( function( window, document, $, undefined ) {
         if ($(e.target).attr('id') == "page-wrap-inner"){
           $(document).trigger("universal-nav-close-finished");
           $pageWrapOuter.removeClass('unav-open-until-transition-end');
-          $triggerLink.add($closeBtn).blur();
+          wasJustTriggered = true;
+          setTimeout(function(){
+            wasJustTriggered = false;
+          },100);
+
+          if (!autoFocus){
+            // focus on the last possible element within the u-nav, so the next tab will go to the next logical element on the page.
+            $('#u-nav-last-tabindex').focus();
+          }
         }
       });
 
@@ -258,7 +291,14 @@ var UNAV = ( function( window, document, $, undefined ) {
       $pageWrapInner.animate({ 'marginTop': '0px'}, 400,  function() {
         $(document).trigger("universal-nav-close-finished");
         $pageWrapOuter.removeClass('unav-open-until-transition-end');
-        $triggerLink.add($closeBtn).blur();
+        wasJustTriggered = true;
+        setTimeout(function(){
+          wasJustTriggered = false;
+        },100);
+
+        if (!autoFocus){
+          $triggerLink.focus();
+        }
       });
     }
   },

@@ -42,13 +42,12 @@ define(function(require){
       $(this).closest('.st-item').addClass('on');
     });
 
-    self.$images.addClass('iq-img');
-
     // This is a hack; iQ fails unpredictably if multiple modules attempt to
     // run iQ.update() to load in their newly-created assets. This is a deep issue
     // in iQ that will probably require a thorough refactor of that class.
 
     setTimeout(function(){
+      self.$el.find('.st-image').addClass('iq-img');
       iQ.update(true);
     }, 1000);
 

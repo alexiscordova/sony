@@ -11,10 +11,16 @@
   	height: 281px; */
   }
 
+
+
   &.full-bleed {
     max-height: 720px;
     overflow: hidden;
     position: relative;
+
+/* 	  .lt-ie9 & {
+	  	max-width: 1200px;
+	  }  */   
 
     .full-bleed-video-wrap {
       bottom: 0;
@@ -42,6 +48,10 @@
           min-width: 100%;
           height: auto;
           width: auto;
+
+/* 				  .lt-ie9 & {
+				  	max-width: 1200px;
+				  }  */          
         }
       }
     }
@@ -108,6 +118,12 @@
 	//background: url(../../img/video/play-btn-lrg.png) center no-repeat;
 	/* background-size:12%; */
 
+		.lt-ie10 &{
+			background: url(../../img/video/play-btn-lrg.png) center no-repeat;
+	/* background-size:12%; */
+		}
+
+
 	.fp-play-btn-lrg {
 
 		display: block;
@@ -117,6 +133,12 @@
 .flowplayer {
 
 .fp-play-btn-lrg {
+
+			.lt-ie10 &{
+				display:none;
+				visibility: hidden;
+			}
+
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -131,7 +153,7 @@
       background: rgba(47 , 53 , 61, 0.15);
       cursor: pointer;
 
-      & .lt-ie10{
+      .lt-ie10 & {
       	background: none;
       }
 
@@ -544,6 +566,7 @@
 .flowplayer .fp-progress{background-color:#00a7c8}
 
 .flowplayer .fp-volumeslider {
+	background-color: rgb(0, 0, 0);
 	background-color: rgba(0, 0, 0, 0.4);
 
 	//display:none; //TODO: turn back on when making actual slider component;
