@@ -129,16 +129,6 @@ define(function(require) {
       }
       
       self.id = self.trackingAsset.attr( 'id' );
-        
-        var $searchAnchor = self.$container.parent().parent(),
-            hasInner      = $searchAnchor.hasClass( 'full-inner' ),
-            $top          = $searchAnchor.find( '.container' ).not( '.inner' ).find( 'div.image-module' ),
-            $temp         = $searchAnchor.find( '.container.inner' );
-        if( true === hasInner ) {
-          // reparent the full-inner html behind the hotspots, lets play nice kids...
-          $top.prepend( $temp.remove() );
-        }
-
 
       // IE7 zindex fix
       if( Settings.isLTIE8 ) {
@@ -148,6 +138,14 @@ define(function(require) {
         $( Settings.$body ).append( '<div class="ltie8-hotspot-arrow-left-'+self.variant+' hidden" id="'+self.hotspotId+'-arrow-left" />' );
         $( Settings.$body ).append( '<div class="ltie8-hotspot-arrow-right-'+self.variant+' hidden" id="'+self.hotspotId+'-arrow-right" />' );
         // in the case of full-inner, reparent the hotspots globally in the case of this blend of editorials
+        var $searchAnchor = self.$container.parent().parent(),
+            hasInner      = $searchAnchor.hasClass( 'full-inner' ),
+            $top          = $searchAnchor.find( '.container' ).not( '.inner' ).find( 'div.image-module' ),
+            $temp         = $searchAnchor.find( '.container.inner' );
+        if( true === hasInner ) {
+          // reparent the full-inner html behind the hotspots, lets play nice kids...
+          $top.prepend( $temp.remove() );
+        }
       }
 
 
