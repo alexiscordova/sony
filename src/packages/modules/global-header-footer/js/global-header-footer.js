@@ -56,8 +56,9 @@ define(function(require) {
     // If the user mouses back over the element before the timeout has expired the
     // "out" function will not be called (nor will the "over" function be called).
     // This is primarily to protect against sloppy/human mousing trajectories that
-    // temporarily (and unintentionally) take the user off of the target element... giving them time to return.
-    self.closeDelay = 400;
+    // temporarily (and unintentionally) take the user off of the target element... 
+    // giving them time to return.
+    self.closeDelay = 160;
     self.closeDelaySearch = 2000;
 
     // The number of milliseconds hoverIntent waits between reading/comparing
@@ -66,7 +67,7 @@ define(function(require) {
     // called is after a single polling interval. Setting the polling interval
     // higher will increase the delay before the first possible "over" call,
     // but also increases the time to the next point of comparison.
-    self.openDelay = 100;
+    self.openDelay = 30;
     // self.openTimer = false;
 
     // Get the right prefixed names e.g. WebkitTransitionDuration

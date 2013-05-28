@@ -32,7 +32,7 @@
   border: none;
   *border: 0; // Remove the border to prevent IE7's black border on input:focus
 
-  -webkit-font-smoothing:antialiased;
+  -webkit-font-smoothing:subpixel-antialiased; // override any parent styles (like .l-o-d) from setting the button text to antialiased. It can still always be overridden on a specific button if necessary.
 
   &:hover, &:active, &:focus, &.active{
     color: $btnText;
