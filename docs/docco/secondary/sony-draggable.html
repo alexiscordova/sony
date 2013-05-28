@@ -35,7 +35,8 @@ define(<span class="keyword">function</span>(require){
   <span class="keyword">var</span> _id = <span class="number">0</span>,
       _startEvents = <span class="keyword">function</span>(id){ <span class="keyword">return</span> <span class="string">'mousedown.sonyDraggable-'</span> + id + <span class="string">' touchstart.sonyDraggable-'</span> + id; },
       _endEvents = <span class="keyword">function</span>(id){ <span class="keyword">return</span> <span class="string">'mouseup.sonyDraggable-'</span> + id + <span class="string">' touchend.sonyDraggable-'</span> + id; },
-      _moveEvents = <span class="keyword">function</span>(id){ <span class="keyword">return</span> <span class="string">'mousemove.sonyDraggable-'</span> + id + <span class="string">' touchmove.sonyDraggable-'</span> + id; };
+      _moveEvents = <span class="keyword">function</span>(id){ <span class="keyword">return</span> <span class="string">'mousemove.sonyDraggable-'</span> + id + <span class="string">' touchmove.sonyDraggable-'</span> + id; },
+      transformName = Modernizr.prefixed(<span class="string">'transform'</span>);
 
   <span class="keyword">var</span> SonyDraggable = <span class="keyword">function</span>($element, options){
 
@@ -139,7 +140,9 @@ cache the new interaction's start position, then bind for movement onto onScrubb
 
       e.preventDefault();
 
-      self.$el.addClass(<span class="string">'dragging'</span>);
+      <span class="keyword">if</span> ( !self.$el.hasClass(<span class="string">'dragging'</span>) ) {
+        self.$el.addClass(<span class="string">'dragging'</span>);
+      }
       self.handlePosition.x = self.scrubberLeft + distX;
       self.handlePosition.y = self.scrubberTop + distY;
 
@@ -283,7 +286,7 @@ to overwrite the scrubber's current position.</p>             </td>             
       }
 
       <span class="keyword">if</span> ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + outputX + self.unit + <span class="string">','</span> + outputY + self.unit + <span class="string">')'</span>);
+        self.$el.css(transformName, <span class="string">'translate('</span> + outputX + self.unit + <span class="string">','</span> + outputY + self.unit + <span class="string">')'</span>);
       } <span class="keyword">else</span> {
         self.$el.css({
           <span class="string">'left'</span>: outputX + self.unit,
