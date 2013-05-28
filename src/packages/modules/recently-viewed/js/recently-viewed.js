@@ -116,7 +116,7 @@ define(function(require) {
       self.$carousel.sonyCarousel({
         wrapper: '.sony-carousel-wrapper',
         slides: '.sony-carousel-slide',
-        CSS3Easing: Settings.carouselEasing,
+        CSS3Easing: Settings.easing.easeOut,
         pagination: true,
         paddles: true,
         useSmallPaddles: true,
