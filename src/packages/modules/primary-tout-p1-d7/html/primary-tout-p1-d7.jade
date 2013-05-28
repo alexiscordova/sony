@@ -4,7 +4,7 @@ include ../../../common/html/jade-helpers.jade
 
 mixin eyebrow(_data)
   d = _data ? _data : data
-  t = (data.mode == "product-intro-plate") ? "t7" : "l3"
+  t = (data.mode != "title-plate") ? "t7" : "l3"
   if d.eyebrow
     if d.eyebrow.link
       a.eyebrow(href= d.eyebrow.link)(class = t)

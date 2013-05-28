@@ -89,8 +89,6 @@ define(function(require){
         return;
       }
 
-
-
       if ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
       }
