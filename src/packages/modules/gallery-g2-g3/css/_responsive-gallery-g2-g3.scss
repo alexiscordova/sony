@@ -26,16 +26,16 @@ $galleryFourColMax: px-em(979px);
   }
 
 
-  .gallery-favorites {
+  .gallery-title {
 
-    .options-wrap {
-      .share-options {
-        margin-top: 0;
-      }
+    .title {
+      margin-bottom: 10px;
+    }
 
-      .spacer {
-        display: none;
-      }
+    .share-options {
+      margin-top: 0;
+      float: right;
+      top: 22px; // magic number
     }
   }
 
@@ -301,9 +301,14 @@ $galleryFourColMax: px-em(979px);
   }
 
   .sort-options {
+    display: block;
     margin-top: 0;
     float: none;
     clear: both;
+
+    .gallery & {
+      margin-left: 0;
+    }
 
     .native-dropdown select {
       height: 31px;
@@ -321,14 +326,19 @@ $galleryFourColMax: px-em(979px);
       display: block;
     }
 
-    .filter-label {
+    .gallery & .filter-label {
       display: block;
+      margin-top: 0;
       margin-bottom: 6px;
     }
   }
 
 
   .filter-display-bar {
+
+    .content-right {
+      width: 100%;
+    }
 
     .product-count-wrap {
       margin: 0;
@@ -341,26 +351,23 @@ $galleryFourColMax: px-em(979px);
       @include text-overflow();
     }
 
-    &.btns-1 .btn {
-
-    }
-
-    // Only put a width on the container which has 2 buttons in it
-    &.btns-2 .btn {
-      width: 48%;
-    }
-
     .grid .btn.first {
       clear: both;
       margin-left: 0;
+      width: 100%;
     }
 
-    .grid .btn.second {
+    .grid .content-right .btn {
+      width: 48%;
+      padding-left: 20px;
+      text-align: left;
+    }
+    .grid .content-right .btn + .btn {
       margin-left: 4%;
     }
 
     // The hidden button takes up space, ugly transition, but who is really going to use this
-    .btn.fade {
+    .grid .btn.fade {
       height: 0;
       padding: 0;
       margin: 0;
@@ -368,7 +375,7 @@ $galleryFourColMax: px-em(979px);
       &.in {
         height: auto;
         padding: 11px 20px 12px;
-        margin-top: 5px;
+        margin-top: 13px;
       }
     }
   }

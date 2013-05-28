@@ -153,7 +153,7 @@ define(function(require) {
           paddles: true,
           pagination: true,
           $paddleWrapper: self.$el,
-          CSS3Easing: Settings.carouselEasing
+          CSS3Easing: Settings.easing.easeOut
         });
 
         self.$pagination = self.$el.find('.sony-dot-nav');
