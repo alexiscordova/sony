@@ -118,6 +118,7 @@ define(function(require) {
         // switch to desktop footer
         enquire.register('(min-width: ' + (self.mobileFooterThreshold + 1) + 'px)', {
           match : function() {
+            self.$html.removeClass('bp-footer-mobile').addClass('bp-footer-desktop');
             self.resetMobileFooter();
           }
         });
@@ -133,9 +134,10 @@ define(function(require) {
           }
 
         });
-        // switch to mobile footer
+        // switch to mobile footer 
         enquire.register('(max-width: ' + self.mobileFooterThreshold + 'px)', {
           match : function() {
+            self.$html.removeClass('bp-footer-desktop').addClass('bp-footer-mobile');
             self.initMobileFooter();
           }
 
