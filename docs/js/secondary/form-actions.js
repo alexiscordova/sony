@@ -21,8 +21,8 @@ define(function(require){
       var $formActionsInit = $('body').formActions(),
 
       $formActions = $formActionsInit.data('formActions');
-      $formActions.initInput($('#store-locator-search-input'));
-      $formActions.initInput($('#nav-search-input'));
+      $formActions.initInput($('#nav-search-input'),true);
+      $formActions.initInput($('#store-locator-search-input'),false);
       // $formActions.initTouchToggles($('.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'));
       $formActions.initTouchToggles($('.dropdown-hover-toggle'));
     }
@@ -52,9 +52,10 @@ define(function(require){
 
         if ($input.val() === inputObj.watermarkText){
           $input.val('');
+          $input.parent().addClass('child-input-active');
 
           // don't hide search icon on mobile
-          if (!$('html').hasClass('bp-nav-mobile')){
+          if (!($('html').hasClass('bp-nav-mobile') && inputObj.$inputGroup.hasClass('navmenu-search-section-input'))){
             inputObj.$inputIcon.hide();
           }
         }
@@ -62,6 +63,7 @@ define(function(require){
         if ($input.val() === ''){
           $input.val(inputObj.watermarkText);
           inputObj.$inputIcon.show();
+          $input.parent().removeClass('child-input-active');
         }
       }).on('mouseup keyup change cut paste', module.onSearchInputChange);
 
@@ -101,7 +103,6 @@ define(function(require){
 
         case 'store-locator-search-input':
           // need to call this after the search results have been returned & are displayed (because that'll change the height of the iscroll).
-          // need a global way to talk between modules
           // if (!$('html').hasClass('bp-nav-mobile')){
           //   Environment.trigger('SONY:Navigation:initMobileNavIScroll');
           // }

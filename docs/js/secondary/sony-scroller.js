@@ -613,7 +613,7 @@ define(function(require){
     paginationClass: 'pagination-bullet',
     paddleTrigger:  'paddle-trigger',
     resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize',
-    navTemplate: '<nav class="nav-paddles"><button class="nav-paddle nav-paddle-prev"><i class="fonticon-10-chevron-reverse"></i></button><button class="nav-paddle nav-paddle-next"><i class="fonticon-10-chevron"></i></button></nav>'
+    navTemplate: '<nav class="nav-paddles"><a href="#" class="nav-paddle nav-paddle-prev"><i class="fonticon-10-chevron-reverse"></i></a><a href="#" class="nav-paddle nav-paddle-next"><i class="fonticon-10-chevron"></i></a></nav>'
   };
 
 });
