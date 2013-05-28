@@ -35,6 +35,7 @@ define(function (require) {
   self.isAndroid = (/android/gi).test( ua );
   self.isPS3 = (/playstation 3/gi).test( ua );
   self.isSonyTabletS = (/sony tablet s/gi).test( ua );
+  self.isSonyTabletP = (/sony tablet p/gi).test( ua );
   self.isVita = (/vita/gi).test( ua );
   self.isGoogleTV = (/GoogleTV/gi).test( ua ); // Only detects SGTV's prior to Jellybean Android 4.2.2
   // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );
