@@ -35,6 +35,7 @@ define(function (require) {
   self.isAndroid = (/android/gi).test( ua );
   self.isPS3 = (/playstation 3/gi).test( ua );
   self.isSonyTabletS = (/sony tablet s/gi).test( ua );
+  self.isSonyTabletP = (/sony tablet p/gi).test( ua );
   self.isVita = (/vita/gi).test( ua );
   self.isGoogleTV = (/GoogleTV/gi).test( ua ); // Only detects SGTV's prior to Jellybean Android 4.2.2
   // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );
@@ -73,8 +74,6 @@ define(function (require) {
     self.shuffleSupport = false;
   }
 
-  self.carouselEasing = 'ease-out';
-
   // Get grid percentages
   self.fiveColumns = 5;
   self.sixColumns = 6;
@@ -111,6 +110,7 @@ define(function (require) {
     'easeOutSine': '0.39, 0.575, 0.565, 1',
     'easeInOutSine': '0.445, 0.05, 0.55, 0.95',
     'easeInQuad':  '0.55, 0.085, 0.68, 0.53',
+    'easeOut':     'ease-out',
     'easeOutQuad': '0.250, 0.460, 0.450, 0.940',
     'easeOutExpo': '0.190, 1.000, 0.220, 1.000',
     'easeOutCubic':'0.215, 0.610, 0.355, 1.000',
@@ -125,6 +125,7 @@ define(function (require) {
     'easeOutSine':    $.bez(self.easing.easeOutSine),
     'easeInOutSine':  $.bez(self.easing.easeInOutSine),
     'easeInQuad':     $.bez(self.easing.easeInQuad),
+    'easeOut':        $.bez(self.easing.easeOut),
     'easeOutQuad':    $.bez(self.easing.easeOutQuad),
     'easeOutExpo':    $.bez(self.easing.easeOutExpo),
     'easeOutCubic':   $.bez(self.easing.easeOutCubic),
