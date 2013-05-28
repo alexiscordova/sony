@@ -74,9 +74,11 @@ var UNAV = ( function( window, document, $, undefined ) {
     // -----------------------------
     // EVENT LISTENERS
     // -----------------------------
-    $triggerLink[ ON ]('click',function(e) {
+    $triggerLink[ ON ]('click focus',function(e) {
       e.preventDefault();
-      if ( _minBreakpointMet() ) {
+      $(e.target).addClass('unav-focused'); 
+
+      if ( _minBreakpointMet() && !wasJustTriggered) {
         if ($pageWrapOuter.hasClass('unav-open')) {
           _closeUNav();
         } else {
@@ -84,24 +86,13 @@ var UNAV = ( function( window, document, $, undefined ) {
         }
       }
     });
-    $triggerLink[ ON ]('focus',function(e) {
-      // console.log("u-nav focus");
-      e.preventDefault();
-      if ( _minBreakpointMet() && !$pageWrapOuter.hasClass('unav-open') && !wasJustTriggered) {
-        // console.log("u-nav conditions met");
-        _openUNav();
-      }
-    });
 
-    $closeBtn[ ON ]('click',function(e) {
+    $tabableElements[ ON ]('focus',function(e) {
       e.preventDefault();
-      _closeUNav();
-    });
 
-    $tabableElements.add($triggerLink)[ ON ]('focus',function(e) {
       $(e.target).addClass('unav-focused');
 
-      if (!$pageWrapOuter.hasClass('unav-open')) {
+      if (!$pageWrapOuter.hasClass('unav-open') && _minBreakpointMet() && !wasJustTriggered) {
         _openUNav();
       }
 
@@ -118,7 +109,12 @@ var UNAV = ( function( window, document, $, undefined ) {
         if ($('.unav-focused').length < 1){
           _closeUNav();
         }
-      },50);
+      },25);
+    });
+
+    $closeBtn[ ON ]('click',function(e) {
+      e.preventDefault();
+      _closeUNav();
     });
 
 
@@ -203,8 +199,11 @@ var UNAV = ( function( window, document, $, undefined ) {
     setTimeout(function() {
 
       // load the close btn icon first.
-      var $closeBtnImg = $('#u-nav-close-btn .u-nav-close-btn-img'),
-        closeBtnImgSrcStr = isHighRes ? $closeBtnImg.attr('data-src-desktop-highres') : $closeBtnImg.attr('data-src-desktop');
+      var $closeBtnImg = $('#u-nav-close-btn .u-nav-close-btn-img');
+      var closeBtnImgSrcStr = $closeBtnImg.attr('data-src-desktop');
+      if (isHighRes){
+        closeBtnImgSrcStr = $closeBtnImg.attr('data-src-desktop-highres');
+      }
       $closeBtnImg.attr('src', closeBtnImgSrcStr);
 
 
@@ -212,10 +211,11 @@ var UNAV = ( function( window, document, $, undefined ) {
         imagesLoadedCount = 0;
 
       $uNavPrimaryImages.each(function() {
-        var $thImg = $(this),
-          srcStr = isHighRes ? $thImg.attr('data-src-desktop-highres') : $thImg.attr('data-src-desktop');
-
-        console.log("srcStr: " + srcStr);
+        var $thImg = $(this);
+        var srcStr = $thImg.attr('data-src-desktop');
+        if (isHighRes){
+          srcStr = $thImg.attr('data-src-desktop-highres');
+        } 
 
         $thImg.attr('src', srcStr);
         $thImg[ ON ]('load', function() {
@@ -235,6 +235,12 @@ var UNAV = ( function( window, document, $, undefined ) {
 
 
   _openUNav = function() {
+
+    wasJustTriggered = true;
+    setTimeout(function(){
+      wasJustTriggered = false;
+    },50);
+
     $(document).trigger("universal-nav-open");
 
     !imagesInited && _initialLoadImages();
@@ -272,7 +278,7 @@ var UNAV = ( function( window, document, $, undefined ) {
           wasJustTriggered = true;
           setTimeout(function(){
             wasJustTriggered = false;
-          },100);
+          },50);
 
           if (!autoFocus){
             // focus on the last possible element within the u-nav, so the next tab will go to the next logical element on the page.
@@ -290,7 +296,7 @@ var UNAV = ( function( window, document, $, undefined ) {
         wasJustTriggered = true;
         setTimeout(function(){
           wasJustTriggered = false;
-        },100);
+        },50);
 
         if (!autoFocus){
           $triggerLink.focus();
