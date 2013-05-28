@@ -107,6 +107,7 @@ but also increases the time to the next point of comparison.</p>             </t
         });
 </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>switch to desktop footer</p>             </td>             <td class="code">               <div class="highlight"><pre>        enquire.register(<span class="string">'(min-width: '</span> + (self.mobileFooterThreshold + <span class="number">1</span>) + <span class="string">'px)'</span>, {
           match : <span class="keyword">function</span>() {
+            self.$html.removeClass(<span class="string">'bp-footer-mobile'</span>).addClass(<span class="string">'bp-footer-desktop'</span>);
             self.resetMobileFooter();
           }
         });
@@ -121,8 +122,9 @@ but also increases the time to the next point of comparison.</p>             </t
           }
 
         });
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>switch to mobile footer</p>             </td>             <td class="code">               <div class="highlight"><pre>        enquire.register(<span class="string">'(max-width: '</span> + self.mobileFooterThreshold + <span class="string">'px)'</span>, {
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>switch to mobile footer </p>             </td>             <td class="code">               <div class="highlight"><pre>        enquire.register(<span class="string">'(max-width: '</span> + self.mobileFooterThreshold + <span class="string">'px)'</span>, {
           match : <span class="keyword">function</span>() {
+            self.$html.removeClass(<span class="string">'bp-footer-desktop'</span>).addClass(<span class="string">'bp-footer-mobile'</span>);
             self.initMobileFooter();
           }
 
