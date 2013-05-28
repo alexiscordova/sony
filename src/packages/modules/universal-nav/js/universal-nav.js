@@ -204,22 +204,18 @@ var UNAV = ( function( window, document, $, undefined ) {
 
       // load the close btn icon first.
       var $closeBtnImg = $('#u-nav-close-btn .u-nav-close-btn-img'),
-      closeBtnImgSrcStr = $closeBtnImg.attr('data-src');
-      if (isHighRes) {
-        closeBtnImgSrcStr = closeBtnImgSrcStr.replace(".","@2x.");
-      }
+        closeBtnImgSrcStr = isHighRes ? $closeBtnImg.attr('data-src-desktop-highres') : $closeBtnImg.attr('data-src-desktop');
       $closeBtnImg.attr('src', closeBtnImgSrcStr);
 
 
-      var $uNavPrimaryImages = $uNavPrimary.find('img[data-src]'),
+      var $uNavPrimaryImages = $uNavPrimary.find('.u-nav-primary-img'),
         imagesLoadedCount = 0;
 
       $uNavPrimaryImages.each(function() {
         var $thImg = $(this),
-          srcStr = $thImg.attr('data-src');
-        if (isHighRes) {
-          srcStr = srcStr.replace(".","@2x.");
-        }
+          srcStr = isHighRes ? $thImg.attr('data-src-desktop-highres') : $thImg.attr('data-src-desktop');
+
+        console.log("srcStr: " + srcStr);
 
         $thImg.attr('src', srcStr);
         $thImg[ ON ]('load', function() {
