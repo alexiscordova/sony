@@ -4,7 +4,7 @@ include ../../../common/html/jade-helpers.jade
 
 mixin eyebrow(_data)
   d = _data ? _data : data
-  t= if data.mode == "product-intro-plate" ? "t7" : "l3"
+  t = (data.mode == "product-intro-plate") ? "t7" : "l3"
   if d.eyebrow
     if d.eyebrow.link
       a.eyebrow(href= d.eyebrow.link)(class = t)
@@ -12,7 +12,7 @@ mixin eyebrow(_data)
         | !{locals.plusify(d.eyebrow.text)}
 
     else
-      h2.l3.eyebrow!= locals.plusify(d.eyebrow.text)
+      h2.eyebrow(class = t)!= locals.plusify(d.eyebrow.text)
 
 mixin header(_data)
   d = _data ? _data : data
