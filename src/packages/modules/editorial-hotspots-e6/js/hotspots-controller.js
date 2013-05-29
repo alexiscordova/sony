@@ -97,6 +97,7 @@ define(function(require) {
     self.$modalBody                      = self.$modal.find( '.modal-body' );
     self.isModalOpen                     = true;
     self.hasTouch                        = Settings.hasTouchEvents;
+    self.isChapter                       = (self.$container.closest('.editorial-chapters-container').length) ? true : false;
 
     self.isDesktop = false;
     self.isMobile = false;
@@ -577,48 +578,48 @@ define(function(require) {
           // position overlay to the left of hotspot
           $overlay.addClass( 'to-left' );
           $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-          if (quadrant === 1) {
-            // also check if it fits within the parentHeight 
-            if (overlayOffset >= 0) {
-              console.warn('4 a',overlayOffset);
-              $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' );
-            } else {
-              console.warn('4 b',overlayOffset);
+          // NOTE:
+          // If we are running inside a chapter module we need to caclulate different top values
+          if( self.isChapter ) {
+            if (quadrant === 1) {
+              // also check if it fits within the parentHeight 
+              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
+            } else { 
+              // also check if it fits within the parentHeight 
+              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetLow - (overlayOffset/2) )+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
+            }
+          // ELSE we run default top values
+          } else {
+            if (quadrant === 1) {
               $overlay.css( 'top', '-'+topOffsetHigh+'px' );
-            }
-          } else { 
-            // also check if it fits within the parentHeight 
-            if (overlayOffset >= 0) {
-              console.warn('4 c',overlayOffset);
-              $overlay.css( 'top', '-'+( topOffsetLow - (overlayOffset/2) )+'px' );
-            } else {
-              console.warn('4 d',overlayOffset);
+            } else { 
+              // also check if it fits within the parentHeight 
               $overlay.css( 'top', '-'+topOffsetLow+'px' );
-            }
-          }
+            }    
+          } // end if(isChapters)
         break;
         case 2:
         case 3:
           // add to-right
           $overlay.addClass( 'to-right' );
           $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-          if (quadrant === 2) {
-            if (overlayOffset >= 0) {
-              console.warn('3 a',overlayOffset);
-              $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ) )+'px' );
+
+          // NOTE:
+          // If we are running inside a chapter module we need to caclulate different top values
+          if ( self.isChapter ) {
+            if (quadrant === 2) {
+              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ) )+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
             } else {
-              console.warn('3 b',overlayOffset);
-              $overlay.css( 'top', '-'+topOffsetHigh+'px' );
+              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetLow - (overlayOffset + 50 ) )+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
             }
+          // ELSE we run default top values
           } else {
-            if (overlayOffset >= 0) {
-              console.warn('3 c',overlayOffset);
-              $overlay.css( 'top', '-'+( topOffsetLow - (overlayOffset + 50 ) )+'px' );
+            if (quadrant === 2) {
+              $overlay.css( 'top', '-'+topOffsetHigh+'px' );
             } else {
-              console.warn('3 d',overlayOffset);
-             $overlay.css( 'top', '-'+topOffsetLow+'px' );
+              $overlay.css( 'top', '-'+topOffsetLow+'px' );
             }
-          }
+          } // end if(isChapters)
         break;
       }
 
