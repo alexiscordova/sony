@@ -62,6 +62,19 @@ $windowWidth: 1100;
     overflow: hidden;
   }
 
+  // hotspots spcific we need to adjust overflow issues
+  &.hotspots {
+    .editorial-carousel-wrapper {
+      overflow: visible;
+    }
+      
+    .thumb-nav {
+      top: -4px;
+    }
+
+  }
+  
+
   .editorial-carousel {
     position: relative;
     width: 100%;
@@ -358,6 +371,17 @@ $windowWidth: 1100;
 
     &.top-nav .thumb-nav {
       i, img {display:none;}
+    }
+  }
+
+  // hotspots spcific we need to adjust overflow issues
+  .hotspots {
+
+    .editorial-carousel-wrapper {
+      overflow: hidden;
+    }
+    .thumb-nav {
+      top: auto;
     }
   }
 }

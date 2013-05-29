@@ -47,5 +47,7 @@ ecClasses = [ "editorial-chapters-container", "container", data.config.nav_shade
         for slide in data.submodules
           .editorial-carousel-slide
             +partial(slide.type, slide.data, true)
+    if hotspots 
+      div.clearfix
     if data.config.nav_location == "bottom"
       +thumb-nav

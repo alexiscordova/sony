@@ -33,6 +33,7 @@ body
     h6 E5 E1 - ()
   // this module should contain chapters
   +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e5-full-inner-right-66-LD-L-example1.json')
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-hotspots-e6/demo/data/e6.e1.container.json')
   hr
 
   .container
@@ -75,6 +76,16 @@ body
     h6 E5 K1 - (uses E1 partial with E5 data for chapters)
   // this module should contain chapters
   +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e5-75-media-left-example2.json')
+  hr
+
+  .container
+    h6 E10 A1 
+  +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e5-full-inner-right-75-LD-L-hotspots-example1.json')
+  hr
+
+  .container
+    h6 E10 B1 
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-chapters-e5/demo/data/layout-e10-medialeft-grey-hotspot.json')
   hr
 
   include ../../../common/html/foot.jade
