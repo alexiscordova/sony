@@ -64,20 +64,26 @@ define(function(require){
       self.setupPaddles();
 
       self.$paddles.on('blur', function() {
-        self.$nav.removeClass('show-paddles');
-        $(this).removeClass('on');
+        if ( !self.isHovered ) {
+          self.$nav.removeClass('show-paddles');
+          $(this).removeClass('on');
+        }
       });
 
       self.$paddles.on('focus', function() {
-        self.$nav.addClass('show-paddles');
-        $(this).addClass('on');
+        if ( !self.isHovered ) {
+          self.$nav.addClass('show-paddles');
+          $(this).addClass('on');
+        }
       });
 
       self.$el.on('mouseenter.sonyPaddles', function(){
+        self.isHovered = true;
         self.$nav.addClass('show-paddles');
       });
 
       self.$el.on('mouseleave.sonyPaddles', function(){
+        self.isHovered = false;
         self.$nav.removeClass('show-paddles');
       });
     },

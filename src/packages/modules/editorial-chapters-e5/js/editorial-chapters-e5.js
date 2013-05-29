@@ -174,7 +174,7 @@ define(function(require){
 
         self.$window.off('resize.e5-mobile-resize');
         self.removeWrapperStyles();
-
+        self.$win.trigger('resize');
       },
 
       setupMobile: function() {

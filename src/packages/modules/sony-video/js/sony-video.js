@@ -153,10 +153,11 @@ define(function(require){
           }
         }
 
-        if(self.isFullScreen){
+        if(self.isFullScreen || Settings.isSonyTabletS){
           //console.log(self.isFullScreen);
           self.$engine.css('top' , 0);
         }
+
 
       }
 
