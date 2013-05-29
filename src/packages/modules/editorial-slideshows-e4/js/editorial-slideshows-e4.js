@@ -40,6 +40,9 @@ define(function(require) {
       self.$slideContainer = self.$el.find( '.editorial-carousel' );
       self.numSlides = self.$slides.length;
 
+      // If the $slideContainer is in a span6, consider it "small" for styling purposes.
+      self.isSmall = ( self.$slideContainer.parents('.span6').length > 0 );
+
       self.$document            = Settings.$document;
       self.$window              = Settings.$window;
       self.$html                = Settings.$html;
@@ -114,6 +117,7 @@ define(function(require) {
           axis: 'x',
           dragThreshold: 2,
           paddles: true,
+          useSmallPaddles: self.isSmall,
           pagination: true
         });
 
