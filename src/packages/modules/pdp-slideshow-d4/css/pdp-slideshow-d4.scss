@@ -19,6 +19,16 @@
     min-width: px-em( 1200px );
     min-height: px-em( 720px );
   }
+  .lt-ie9 & {
+    min-width: px-em(980px);
+  }
+
+  // Remove bottom margin if this is a submodule
+  // Also, don't fade it in
+  .submodule & {
+    @include opacity(100);
+    margin-bottom: 0;
+  }
 
   // Move paddles up a bit so they look visually centered
   .pagination-paddles button {
@@ -39,6 +49,7 @@
     // @include flex-ratio-box-content();
     width: 1000em; // This will get set dynamically based on the number of slides
     max-height: px-em( 720px );
+    -webkit-backface-visibility: hidden;
     -webkit-transition: -webkit-transform .2s ease-out;
             transition: transform .2s ease-out;
   }
@@ -49,17 +60,24 @@
     float: left;
     display: block;
     width: 100%;
-    height: 100%;
+    height: inherit;
     text-align: center;
   }
 
-  .pdp-slideshow-slide > .ghost-center-wrap {
-    height: 100%;
+  .pdp-slideshow-slide .pdp-slide-inner {
+    height: inherit;
+    width: 100%; // display:table doesn't take up 100% by default
   }
 
   // Type 1 images are product shots which are not full bleed
-  .pdp-slideshow-slide.type1 > .ghost-center-wrap {
+  .pdp-slideshow-slide.type1 .pdp-slide-inner {
     padding: 4% 2% 11%;
+  }
+
+  .pdp-slideshow-slide {
+    img {
+      -webkit-backface-visibility: hidden;
+    }
   }
 
   // Scale instead of crop the product shots

@@ -116,10 +116,10 @@ define(function(require) {
       self.$carousel.sonyCarousel({
         wrapper: '.sony-carousel-wrapper',
         slides: '.sony-carousel-slide',
-        CSS3Easing: Settings.carouselEasing,
         pagination: true,
         paddles: true,
         useSmallPaddles: true,
+        paddlePosition: 'outset',
         $paddleWrapper: self.$paddleWrapper
       });
 
@@ -271,11 +271,12 @@ define(function(require) {
 
     setupMobile : function() {
       var self = this,
-          wasDesktop = self.isDesktop;
+          wasDesktop = self.isDesktop,
+          isFadedIn = !wasDesktop;
 
       // Destroy the carousel if there was one
       if ( wasDesktop ) {
-        self.$carousel.sonyCarousel( 'destroy' );
+        self.destroyCarousel();
 
         // Stop images from becoming tiny
         setTimeout( Utilities.forceWebkitRedraw, 0 );
@@ -286,7 +287,18 @@ define(function(require) {
       self.$wrapper.addClass('grid');
 
       // Initialize the new scroller
-      self.initScroller();
+      // Having zero opacity on the .sony-carousel-wrapper causes
+      // the browser to return the wrong value for clientWidth, breaking
+      // the scroller plugin. A timeout is set to wait for the wrapper
+      // to fade in before the scroller is initialized
+      if ( isFadedIn ) {
+        self.initScroller();
+      } else {
+        // transition length is 150ms, give it a little room
+        setTimeout(function() {
+          self.initScroller();
+        }, 300);
+      }
 
       self.isDesktop = false;
       self.isMobile = true;

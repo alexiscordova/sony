@@ -101,7 +101,6 @@ define(function(require){
       var self = this;
 
       self.resetSlides( true );
-      self.setupLinkClicks();
 
       if ( self.direction === 'vertical' ) {
         self.posAttr = 'top';
@@ -139,7 +138,8 @@ define(function(require){
 
     setupLoopedCarousel: function() {
 
-      var self = this;
+      var self = this,
+          $clonedSlides = $();
 
       self.$allSlides = self.$slides;
 
@@ -156,8 +156,12 @@ define(function(require){
 
         self.$el.append($frontSlide).prepend($backSlide);
 
-        self.$allSlides = self.$allSlides.add($frontSlide).add($backSlide);
+        $clonedSlides = $clonedSlides.add($frontSlide).add($backSlide);
       }
+
+      self.$allSlides = self.$allSlides.add($clonedSlides);
+
+      $clonedSlides.find('a').removeAttr('href');
     },
 
     setupDraggable: function() {
@@ -485,6 +489,10 @@ define(function(require){
 
       var self = this;
 
+      if ( self.$slides.length <= 1 ) {
+        return;
+      }
+
       if ( self.$dotnav ) {
         self.$dotnav.sonyNavDots('reset', {
           'buttonCount': self.$slides.length
@@ -528,7 +536,8 @@ define(function(require){
       self.paddlesInit = true;
 
       $wrapper.sonyPaddles({
-        useSmallPaddles: self.useSmallPaddles
+        useSmallPaddles: self.useSmallPaddles,
+        paddlePosition: self.paddlePosition
       });
 
       self.$el.on('SonyCarousel:gotoSlide', function(e, which) {
@@ -577,35 +586,6 @@ define(function(require){
       self.CSS3Easing = bezierStr;
     },
 
-    // Uses a hammerjs `tap` delegation to the slides to allow for clickable elements
-    // within the slides; this approach allows for hammer to determine if the event
-    // was a `drag` or a `tap` and respond accordingly.
-    //
-    // self.defaultLink specifies an overall click state, which is overriden if you click on a
-    // *separate* link within the slide (closestLink, below).
-    setupLinkClicks: function() {
-
-      var self = this,
-          clickContext;
-
-      self.$el.on('tap.sonycarousel', self.slides, function(e){
-
-        var $this = $(this),
-            destination = $this.find(self.defaultLink).attr('href'),
-            closestLink = $(e.gesture.target).closest('a').attr('href');
-
-        if ( !closestLink && !destination ) {
-          return;
-        }
-
-        if ( closestLink && closestLink !== destination ) {
-          destination = closestLink;
-        }
-
-        window.location = destination;
-      });
-    },
-
     resetSlides: function( isInit ) {
 
       var self = this,
@@ -619,10 +599,6 @@ define(function(require){
 
       self.$slides = self.$el.find(self.slides).not(self.cloneClass);
 
-      if ( !isInit ) {
-        self.setupLinkClicks();
-      }
-
       if ( self.looped ) {
         self.setupLoopedCarousel();
       }
@@ -634,6 +610,10 @@ define(function(require){
       if ( self.pagination ) {
         self.createPagination();
       }
+
+      self.$el.find('a').on('focus', function(e){
+        self.gotoSlide(self.$slides.index($(this).closest(self.$slides)));
+      });
     },
 
     // Reset the style attribute for the properties we might have manipulated.
@@ -657,7 +637,7 @@ define(function(require){
 
       // Unbind
       Environment.off('global:resizeDebounced-200ms.SonyCarousel-' + self.id);
-      self.$el.off('dragstart.sonycarousel dragend.sonycarousel tap.sonycarousel SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
+      self.$el.off('dragstart.sonycarousel dragend.sonycarousel SonyCarousel:gotoSlide ' + Settings.transEndEventName + '.slideMoveEnd');
       $clickContext.off('click.sonycarousel');
 
       // Destroy all plugins.
@@ -761,13 +741,16 @@ define(function(require){
 
     // Amount of distance user must move in touch environments before the carousel begins to move
     // **and** preventDefault() is triggered. Allows for vertical scrolling before trapping the touch.
-    dragThreshold: 10,
+    dragThreshold: Settings.isVita ? 5 : 10,
 
     // Use CSS3 transitions and transforms over jQuery animations if possible.
     useCSS3: true,
 
     // Create paddles.
     paddles: false,
+
+    // Set to `outset` to allow grid-based positioning of paddles above 1400px screen width.
+    paddlePosition: 'inset',
 
     // Will use `.nav-paddle` instead of `.pagination-paddle` for the paddle class
     useSmallPaddles: false,

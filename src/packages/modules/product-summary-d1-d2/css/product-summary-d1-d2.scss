@@ -5,7 +5,6 @@
 .ps-module {
 
   .product-img-wrap {
-    padding-top: px-em(16);
 
     .ghost-center-wrap {
       height: 100%;
@@ -36,20 +35,24 @@
   }
 
   .link-color {
-    color: $linkBlue;
+    color: $gray40;
 
     &:hover {
-      color: $secondarySlateDark;
+      color: $gray20;
+    }
+
+    i {
+      // .l3 class is 11px
+      font-size: px-em( 9, 11 );
+      // margin-left: -13px;
+      margin-right: 1px;
+      vertical-align: 0.2em;
     }
   }
 
   .product-title {
     margin-top: -2px;
     margin-bottom: 0;
-  }
-
-  .product-model span:last-child {
-    padding-left: 4px;
   }
 
   .product-attributes {
@@ -90,6 +93,7 @@
   // want, but the font and padding are different :\
   .btn {
     background: $btnSpecialBackground;
+    margin-bottom: 4px;
 
     &:hover {
       background: $btnSpecialBackgroundHover;
@@ -132,9 +136,14 @@
     }
   }
 
-  .favorite-holder i {
-    padding: 0 0 0 px-em(8, 13);
+  .favorite-holder {
+    margin-left: -3px;
   }
+
+  // Setting padding on the icon misaligns the tooltip
+  // .favorite-holder i {
+  //   padding: 0 0 0 px-em(8, 13);
+  // }
 
   .be-social {
     position: absolute;
@@ -145,17 +154,25 @@
   }
 
   .share-trigger {
-    margin-left: 1.25em;
+    margin-left: 2px;
   }
 
+  // The label is not part of what triggers the favoriting (although it should be)
+  // The mixins and scripts were never built that way
+  .be-social .nothingtoseehere {
+    cursor: default;
+  }
+
+  // "Favorite" and "Share"
   .be-social > a .bt3 {
-    color: $gray20;
+    color: $gray40;
+    @include transition( color $transitionSlowish linear );
   }
 
   // be social links active/hover color
   .open .share-trigger > span,
   .no-touch & .price-content a:hover > span {
-    color: $linkColorHover;
+    color: $secondarySlateDark;
   }
 
   // icon default color
@@ -166,10 +183,8 @@
 
   // Icon active/hover
   .open .share-trigger > span i,
-  .active .fonticon-10-favorite,
-  .no-touch & .price-content a:hover .fonticon-10-arrowhead-down,
-  .no-touch & .price-content a:hover .fonticon-10-favorite {
-    color: $linkColorHover;
+  .no-touch & .price-content a:hover .fonticon-10-arrowhead-down {
+    color: $secondarySlateDark;
   }
 
 }
@@ -179,7 +194,6 @@
   .product-img {
     overflow: hidden;
     margin-top: px-em(6);
-    margin-bottom: px-em(6);
     max-height: px-em(60);
 
     max-width: px-em(96);
@@ -198,8 +212,8 @@
   }
 
   .sticky-nav-title {
-    margin-top: px-em(22, 18);
-    margin-bottom: px-em(12, 18);
+    margin-top: px-em(18, 18);
+    margin-bottom: px-em(36, 18);
     line-height: .9;
   }
 

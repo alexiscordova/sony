@@ -29,11 +29,15 @@ define(function (require) {
   self.$html = $(document.documentElement);
   self.$body = $(document.body);
 
+  // Because sometimes there's no way to feature test it
   self.isIPhone = (/iphone|ipod/gi).test( ua );
   self.isIOS = (/iphone|ipod|ipad/gi).test( ua );
   self.isAndroid = (/android/gi).test( ua );
   self.isPS3 = (/playstation 3/gi).test( ua );
   self.isSonyTabletS = (/sony tablet s/gi).test( ua );
+  self.isSonyTabletP = (/sony tablet p/gi).test( ua );
+  self.isVita = (/vita/gi).test( ua );
+  self.isGoogleTV = (/GoogleTV/gi).test( ua ); // Only detects SGTV's prior to Jellybean Android 4.2.2
   // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );
 
   self.isModern = self.$html.hasClass('modern');
@@ -61,8 +65,14 @@ define(function (require) {
 
   self.shuffleEasing = 'ease-out';
   self.shuffleSpeed = 250;
+  self.shuffleSupport = Modernizr.csstransitions && Modernizr.csstransforms;
 
-  self.carouselEasing = 'ease-out';
+  // Make the PS3 use absolute positioning, otherwise it breaks the 5 way controller input
+  // See https://nuruncode.atlassian.net/browse/SGFE-574
+  // This likely only happens when the `.shuffle-item`s are anchor elements combined with transforms
+  if ( self.isPS3 ) {
+    self.shuffleSupport = false;
+  }
 
   // Get grid percentages
   self.fiveColumns = 5;
@@ -100,6 +110,7 @@ define(function (require) {
     'easeOutSine': '0.39, 0.575, 0.565, 1',
     'easeInOutSine': '0.445, 0.05, 0.55, 0.95',
     'easeInQuad':  '0.55, 0.085, 0.68, 0.53',
+    'easeOut':     'ease-out',
     'easeOutQuad': '0.250, 0.460, 0.450, 0.940',
     'easeOutExpo': '0.190, 1.000, 0.220, 1.000',
     'easeOutCubic':'0.215, 0.610, 0.355, 1.000',
@@ -114,6 +125,7 @@ define(function (require) {
     'easeOutSine':    $.bez(self.easing.easeOutSine),
     'easeInOutSine':  $.bez(self.easing.easeInOutSine),
     'easeInQuad':     $.bez(self.easing.easeInQuad),
+    'easeOut':        $.bez(self.easing.easeOut),
     'easeOutQuad':    $.bez(self.easing.easeOutQuad),
     'easeOutExpo':    $.bez(self.easing.easeOutExpo),
     'easeOutCubic':   $.bez(self.easing.easeOutCubic),

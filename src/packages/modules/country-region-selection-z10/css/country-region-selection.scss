@@ -3,6 +3,10 @@
 @import "country-region-selection-flags";
 
 .country-region {
+  .nav-wrapper {
+    position: relative;
+    z-index: 1;
+  }
   .continent-sticky-header {
     top: 0;
     left: 0;
@@ -67,9 +71,24 @@
       color: $gray20;
   }
 
-  .media,
+  .media {
+    overflow: visible;
+  }
+
   .media-bd {
-      overflow: hidden;
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+
+    & {
+        *zoom: 1;
+    }
   }
 
   .media-img {
@@ -78,7 +97,7 @@
   }
 
   .media-bd {
-      line-height: 16px;
+      line-height: 1.3;
   }
 
   .country-region-info {

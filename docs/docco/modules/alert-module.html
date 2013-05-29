@@ -21,7 +21,7 @@ define(<span class="keyword">function</span>(require){
 
   AlertModule = <span class="keyword">function</span>( elem, options ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Map optional configs if they exist  </p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">this</span>.options = options ? $.extend({}, defaults, options) : defaults;
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Map optional configs if they exist</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">this</span>.options = options ? $.extend({}, defaults, options) : defaults;
     options = <span class="keyword">this</span>.options;
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>define our variables</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">this</span>.fadeOut = options.fadeOut;
@@ -35,8 +35,8 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h2>AlertModule Constructor</h2>             </td>             <td class="code">               <div class="highlight"><pre>  AlertModule.prototype = {
 
     constructor: AlertModule,
-    
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>display the alert </p>             </td>             <td class="code">               <div class="highlight"><pre>    _displayAlert: <span class="keyword">function</span>() {
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>display the alert</p>             </td>             <td class="code">               <div class="highlight"><pre>    _displayAlert: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       setTimeout(<span class="keyword">function</span>() {
@@ -45,17 +45,17 @@ define(<span class="keyword">function</span>(require){
 
     },
 
-    
+
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Method checks if there is an option to fade out or not
 then will run that functionality, and close the alert box
 followed by a delay to remove the alert box from the DOM.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     _closeAlert: <span class="keyword">function</span>(event) {
-      <span class="keyword">var</span> el = event.target, 
+      <span class="keyword">var</span> el = event.target,
           self = <span class="keyword">this</span>,
           $currTarget = $(el).closest(self.options.alertSelector);
-      
+
       event.preventDefault();
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>did we define if we should fade the element out?</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.fadeOut ) {
         $currTarget.addClass(<span class="string">'invisible'</span>);
 
@@ -68,11 +68,11 @@ followed by a delay to remove the alert box from the DOM.</p>             </td> 
         $currTarget.addClass(<span class="string">'collapsed'</span>);
         self._removeAlert($currTarget);
       }
-      
+
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>removes the alert from the DOM</p>             </td>             <td class="code">               <div class="highlight"><pre>    _removeAlert: <span class="keyword">function</span>(el) {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>, 
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $currTarget = el;
 
       setTimeout(<span class="keyword">function</span>() {

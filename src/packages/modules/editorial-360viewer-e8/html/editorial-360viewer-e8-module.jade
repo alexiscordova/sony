@@ -9,17 +9,18 @@ include ../../../common/html/jade-helpers.jade
 - startId = id+"-0"
 - multiModule = data.multiModule || ""
 - isDark = data.dark ? "dark" : "light"
+- lod = isDark ? "l-o-d" : ""
 
 if multiModule == "true"
     bump = "multiModule"
 else
     bump = ""
 
-//-textarea.e360debug
-//-button.infoClear clear
-.e360(id=id)
-  .outer
-    if data.background == "true"
+.e360(id=id).dim-the-lights
+  .outer 
+    if data.background === "true"
+      .loading.load-indicator.text-center
+        img.load-indicator(src="img/loader.gif", alt="Loading...")
       - i = 0
       - for imgData in data.sequence
         - sequenceId = id+"-"+i
@@ -27,13 +28,11 @@ else
           hide = ""
         else
           hide = "hidden"
-        if data.heights
-          string = "#"+ sequenceId +" {height:" +data.heights.desktop+"} @media (min-width: 48em) and (max-width: 61.1875em) {#"+sequenceId+" {height: "+data.heights.tablet+"}} @media (max-width: 47.9999em) { #"+sequenceId+" {height: "+data.heights.phone+"}} "
-          style(type = "text/css")
-            #{string}
-        .image-module.track-by-background.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+        .image-module.track-by-background.iq-img.no-fade(id= sequenceId, class= extraclass, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
         - i++
     else
+      .loading.is-asset.load-indicator.text-center
+        img.load-indicator(src="img/loader.gif", alt="Loading...")
       - i = 0
       - for imgData in data.sequence
         - sequenceId = id+"-"+i
@@ -50,7 +49,7 @@ else
     .grid.no-grid-at-767
       .span12
         .table-center-wrap
-          .table-center(class=isDark)(class=bump)
+          .table-center(class=isDark)(class=bump)(class=lod)
             i.left-arrow.fonticon-10-chevron-reverse
-            span.instructions.l3(class=isDark) DRAG
+            span.instructions.l3(class=isDark)(class=lod) DRAG
             i.right-arrow.fonticon-10-chevron

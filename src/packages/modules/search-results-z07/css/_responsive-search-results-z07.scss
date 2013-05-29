@@ -10,9 +10,22 @@ $desktopMin: px-em(980);
 
 @media (max-width:$tabletMax) {
   .search-results {
+    .featured-list > li {
+      float: none;
+      width: 100%;
+    }
     .results-list .results-p {
       width: 86%;
     }
+    .bar-tone {
+      .search-left {
+        width: 90%;
+      }
+      .search {
+        width: 89%;
+      }
+    }
+
   }
 
 }
@@ -31,7 +44,7 @@ $desktopMin: px-em(980);
       }
      }
     }
-  
+
     .media .no-float .img {
       margin-bottom: 0;
     }
@@ -42,14 +55,15 @@ $desktopMin: px-em(980);
     .featured-result .media .media-img {
       width: 100%;
       float: none;
-    }   
+    }
 
     .featured-result .media .img img {
       margin: 0 auto;
     }
-  
+
     .bar-tone {
       margin-bottom: 10px;
+      height: 100px;
       .l3 {
         margin-top: 20px;
         margin-bottom: 10px;
@@ -58,45 +72,51 @@ $desktopMin: px-em(980);
         margin-bottom: 30px;
       }
       .search-left {
-        width: 90%;
+        width: 92%;
       }
       .search {
-        width: 80%;
+        width: 88%;
       }
     }
-  
+
     .search-suggestions {
       margin-bottom: 23px;
     }
-  
+
     .featured-result .results {
       margin-bottom: 10px;
     }
-  
+
     .featured-result .title {
       margin-bottom: 5px;
     }
-  
+
     .featured-result {
       margin-bottom: 22px
     }
-  
+
     .select-narrow {
       margin-bottom: 8px;
     }
-  
+
     .results-list > li {
       padding: 20px 0 30px 0;
+      &:hover {
+        background-color: transparent;
+      }
     }
-  
+
     .results-list > li:first-child {
       border-top: 1px solid #e7e9ed;
     }
     
-    .results-list .results-p {
-      width: 73%;
+    .results-list i.fonticon-10-chevron {
+      right: 2px;
     }
-    
+    .results-list .results-p {
+      width: 100%;
+    }
+
     .results-list .bd {
       padding-right: 25px;
     }
@@ -105,37 +125,41 @@ $desktopMin: px-em(980);
       width: 100%;
       text-align: center;
     }
-    
+
     .search-more span {
       display: inline-block;
     }
-  
+
     .related-searches {
       padding: 25px 0 50px 0;
     }
-  
+
     .related-searches ul {
       margin: 0;
-    }
-    .h-list-md > * + *  {
-      margin-left: 10px
     }
     .accessories-list {
       margin-bottom: 50px;
     }
-    
+
   }
 }
 
 @media (max-width:$phone) {
   .search-results {
     .bar-tone {
+      height: 100px;
       .search {
-          width: 60%;
+          width: 79%;
       }
       .search-left {
-        width: 85%;
+        width: 87%;
       }
+    }
+    .results-list i.fonticon-10-chevron {
+      right: 2px;
+    }
+    .results-list .results-p {
+      width: 100%;
     }
   }
 }

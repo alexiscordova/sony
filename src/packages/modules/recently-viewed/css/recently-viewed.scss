@@ -16,9 +16,13 @@
     height: auto;
   }
 
+  // Having zero opacity on the .sony-carousel-wrapper causes
+  // the browser to return the wrong value for clientWidth, breaking
+  // the scroller plugin. In js, there is a timer waiting for the wrapper
+  // to fade in before scroller is initialized.
   .csstransitions & .sony-carousel-wrapper {
     opacity: 0;
-    @include transition();
+    @include transition( opacity .15s $easeNormal );
 
     &.in {
       opacity: 1;

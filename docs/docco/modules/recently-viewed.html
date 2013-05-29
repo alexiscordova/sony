@@ -110,10 +110,11 @@ which should always line up with other prices</p>             </td>             
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Initialize a new sony carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousel.sonyCarousel({
         wrapper: <span class="string">'.sony-carousel-wrapper'</span>,
         slides: <span class="string">'.sony-carousel-slide'</span>,
-        CSS3Easing: Settings.carouselEasing,
+        CSS3Easing: Settings.easing.easeOut,
         pagination: <span class="literal">true</span>,
         paddles: <span class="literal">true</span>,
         useSmallPaddles: <span class="literal">true</span>,
+        paddlePosition: <span class="string">'outset'</span>,
         $paddleWrapper: self.$paddleWrapper
       });
 
@@ -252,10 +253,11 @@ which should always line up with other prices</p>             </td>             
 
     setupMobile : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          wasDesktop = self.isDesktop;
+          wasDesktop = self.isDesktop,
+          isFadedIn = !wasDesktop;
 
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Destroy the carousel if there was one</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( wasDesktop ) {
-        self.$carousel.sonyCarousel( <span class="string">'destroy'</span> );
+        self.destroyCarousel();
 
 </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Stop images from becoming tiny</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout( Utilities.forceWebkitRedraw, <span class="number">0</span> );
       }
@@ -263,7 +265,17 @@ which should always line up with other prices</p>             </td>             
 </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Add grid classes to wrappers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(<span class="string">'.m-container'</span>).addClass(<span class="string">'container'</span>);
       self.$wrapper.addClass(<span class="string">'grid'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Initialize the new scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.initScroller();
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Initialize the new scroller
+Having zero opacity on the .sony-carousel-wrapper causes
+the browser to return the wrong value for clientWidth, breaking
+the scroller plugin. A timeout is set to wait for the wrapper
+to fade in before the scroller is initialized</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( isFadedIn ) {
+        self.initScroller();
+      } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>transition length is 150ms, give it a little room</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>() {
+          self.initScroller();
+        }, <span class="number">300</span>);
+      }
 
       self.isDesktop = <span class="literal">false</span>;
       self.isMobile = <span class="literal">true</span>;
@@ -282,33 +294,33 @@ which should always line up with other prices</p>             </td>             
           j,
           itemIndex, slide, container, slimgrid;
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Detach slide items from the DOM, remove their span classes and add the correct one</p>             </td>             <td class="code">               <div class="highlight"><pre>      $items
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Detach slide items from the DOM, remove their span classes and add the correct one</p>             </td>             <td class="code">               <div class="highlight"><pre>      $items
         .detach()
         .removeClass( allSpans )
         .addClass( newSpan );
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Loop the number of slides that need to be created</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> ( ; i &lt; numSlides; i++ ) {
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Loop the number of slides that need to be created</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> ( ; i &lt; numSlides; i++ ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Create the slide's wrapper</p>             </td>             <td class="code">               <div class="highlight"><pre>        slide = doc.createElement( <span class="string">'div'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Create the slide's wrapper</p>             </td>             <td class="code">               <div class="highlight"><pre>        slide = doc.createElement( <span class="string">'div'</span> );
         slide.className = <span class="string">'sony-carousel-slide'</span>;
         container = doc.createElement( <span class="string">'div'</span> );
         container.className = <span class="string">'container'</span>;
         slimgrid = doc.createElement( <span class="string">'div'</span> );
         slimgrid.className = <span class="string">'slimgrid'</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Append slide items to the slide</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">for</span> ( j = <span class="number">0</span> ; j &lt; numPerSlide; j++ ) {
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Append slide items to the slide</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">for</span> ( j = <span class="number">0</span> ; j &lt; numPerSlide; j++ ) {
           itemIndex = (i * numPerSlide) + j;
           <span class="keyword">if</span> ( $items[ itemIndex ] ) {
             slimgrid.appendChild( $items[ itemIndex ] );
           }
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Put everything together</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.appendChild( slimgrid );
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Put everything together</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.appendChild( slimgrid );
         slide.appendChild( container );
         frag.appendChild( slide );
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Empty out the current content and replace it with the new</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousel
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Empty out the current content and replace it with the new</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousel
         .empty()
         .append( frag );
     }

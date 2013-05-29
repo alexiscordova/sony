@@ -181,7 +181,7 @@ define(function(require) {
         // TODO
         // Remove the id from the cookie
       }
-    },
+    }
   };
 
   // Options that could be customized per module instance
@@ -192,7 +192,7 @@ define(function(require) {
 
   // These are not overridable when instantiating the module
   Favorites.settings = {
-    hasTouch: Settings.hasTouchEvents || Settings.hasPointerEvents
+    hasTouch: Settings.hasTouchEvents
   };
 
   return Favorites;

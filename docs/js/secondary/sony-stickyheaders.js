@@ -17,8 +17,8 @@ define(function(require){
 
   var $ = require('jquery'),
       Settings = require('require/sony-global-settings'),
-      Environment = require('require/sony-global-environment'),
       Utilities = require('require/sony-global-utilities'),
+      Environment = require('require/sony-global-environment'),
       sonyIScroll = require('plugins/sony-iscroll');
 
   var StickyHeader = function(scrollableId) {
@@ -29,11 +29,14 @@ define(function(require){
     init: function(scrollableId) {
       this.scrollableId = scrollableId;
       this.$headers = $('.js-sticky-headers');
+      this.$scrollable = $('#' + this.scrollableId);
       this.$fixedHeader = $('.js-sticky-fixed-header').hide();
       this.$fixedHeaderTitle = this.$fixedHeader.find('.js-sticky-header-title');
       this.offsets = [];
       this.currentHeader = undefined;
       this.headerIsVisible = false;
+
+      Environment.on('SONY:Footer:mobileFooterSecCollapsed', $.proxy(this.refresh, this));
 
       return this._getHeaderOffsets();
     },
@@ -56,12 +59,20 @@ define(function(require){
     // Enables iScroll and makes sure sticky header is correctly aligned.
     enable: function() {
       // HEY! function.bind doesn't exist in IE8/7. Don't use it without a polyfill!
+      this.$scrollable.css('position', 'absolute');
       var handler = $.proxy( this.scrollHandler, this );
-      this.scroll = new IScroll(this.scrollableId, {
-        momentum : true,
-        onScrollMove: handler,
-        onScrollEnd: handler
-      });
+
+      setTimeout($.proxy(function () {
+        this.scroll = new IScroll(this.scrollableId, {
+          momentum : true,
+          hScroll: false,
+          hScrollbar: false,
+          onScrollMove: handler,
+          onScrollEnd: handler
+        });
+
+        this.scroll.scrollTo();
+      }, this), 10);
 
       return this;
     },
@@ -75,14 +86,20 @@ define(function(require){
         this.scroll.destroy();
       }
 
+      this.$scrollable.css('position', 'relative');
+
       return this;
+    },
+
+    refresh: function() {
+      if (this.scroll) {
+        this.scroll.refresh();
+      }
     },
 
     // Called by iScroll when a scroll event happens.
     scrollHandler: function() {
       var self = this;
-
-      Utilities.once(self.scroll.refresh());
 
       var offsetTarget = Math.abs(this.scroll.y); // iScroll.y is negative
       this.updateFixedHeader(offsetTarget);

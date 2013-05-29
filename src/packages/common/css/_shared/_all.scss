@@ -78,6 +78,7 @@ ul.jump-links {
     @include box-shadow(inset 0 -#{$highlightBarHeight} 0 $btnBackground);
   }
 
+  // Sony Tablet S supports box shadow, but not inset box shadow
   .no-boxshadow & a,
   .sonytablets & a {
     @include box-shadow(none);
@@ -95,7 +96,6 @@ ul.jump-links {
 // Sticky nav
 .sticky-nav {
   position: fixed;
-  // z-index: 20; // above features
   z-index: 200; // Safari, what are you doing???
   top: 0;
   left: -999em;
@@ -104,19 +104,38 @@ ul.jump-links {
   @include box-shadow(0 .0625em .625em $stickyShadowColor);
   @include translate(0, -2em);
   -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
-          transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
+  transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
 
   // Stop safari from making the sticky nav transparent
   -webkit-backface-visibility: hidden;
-     -moz-backface-visibility: hidden;
-      -ms-backface-visibility: hidden;
-          backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
 
   &.open {
     left: 0;
     @include translate(0, 0);
     @include transition-delay(0s);
     @include transition-timing-function(ease-out);
+  }
+
+  // NOTE: PS3 BUG
+  // right now the PS3 is exploding whenever it detects `-webkit-transform`
+  // and will not render any of the children inside the parent. Probably
+  // has to deal with z-indexing. I tried over-riding the transform with
+  // some default values however, the PS3 will not render the elements
+  // even with default overrides.
+  .ps3 & {
+    border: 2px solid green;
+    @include transition(none);
+    -webkit-transform-style: flat;
+    -webkit-transform: none;
+    transform: none;
+
+    &.open {
+      -webkit-transform: none;
+      transform: none;
+    }
   }
 
   // Disable box shadow if the sticky headers are visible
@@ -144,6 +163,7 @@ ul.jump-links {
 
 // Price text module
 .product-content {
+  display: block;
   margin-top: .4375em; // 7
   line-height: 1.3;
 
@@ -478,6 +498,13 @@ $oneByOneImgPadding: 107.84313725490196%;
     //   }
     // }
 
+    // Fix for opera. Opera likes rules and the W3C hasn't specified what should
+    // happen in this situation. Firefox too. The <img>'s parent has max-height:100%;
+    // and that's fine, but the <img> also has max-height:100%; and extends past the container!
+    img {
+      max-height: 190px;
+    }
+
     &:after {
       padding-top: 78.19025522041764%;
     }
@@ -662,6 +689,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   }
 
   .img-wrap {
+    display: block;
     float: left;
     height: 100%;
   }
@@ -715,7 +743,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 .gallery-detailed {
 
   .gallery-item:after {
-    padding-top: 140%;
+    padding-top: 141%;
   }
 
   .lt-ie8 & .gallery-item {
@@ -786,7 +814,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   // Show a little shadow representing content behind the label column
   &.overflowing:before {
-    @include box-shadow(.125em 0 .1875em -.0625em $transparentBlack);
+    @include box-shadow(.125em 0 .1875em -.0625em $stickyShadowColor);
     @include transition-timing-function(ease-out);
   }
 }

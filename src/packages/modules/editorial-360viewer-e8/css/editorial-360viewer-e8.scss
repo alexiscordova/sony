@@ -1,6 +1,15 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
+$transitionSpeed: 0.5s; 
+
+@mixin ehsTransition() {
+  -o-transition:$transitionSpeed;
+  -ms-transition:$transitionSpeed;
+  -moz-transition:$transitionSpeed;
+  -webkit-transition:$transitionSpeed; 
+  transition:$transitionSpeed;	
+}
 
 .unselectable * {
   -webkit-user-select: none;
@@ -8,6 +17,16 @@
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+
+.dim-the-lights {
+  @include ehsTransition();
+  opacity: 0.45;
+}
+
+.light-em-up {
+  @include ehsTransition();
+  opacity: 1;  
 }
 
 .e360debug {
@@ -24,18 +43,43 @@
 
 .e360 {
   position: relative;  
-  div.image-module {
+  .hidden360panel {
+/*
+    visibility: hidden;
+    top: 0px;
+    left: -9999px;
+*/
+  }
+  .visible360panel {
+/*
+    visibility: visible;
+    top: 0px;
+    left: 0px;
+*/
+  }
+
+  .loading {
+    position: absolute;
+    top: 50%;
+    padding-left: 50%;
+    margin: -30px 0 0 -30px;
+  }
+
+  div.image-module { 
+    height: 560px;
     background-position: center center;
     background-size: cover;
   }
-  
+
   .outer {
     position: relative;
     .image-module-360 {
       text-align: center;
     }
-  } 
+  }
+
   .controls {
+    cursor: move;
     cursor: url(https://mail.google.com/mail/images/2/openhand.cur) 8 8, move;
     position: absolute;
     top: 0;
@@ -46,9 +90,9 @@
     background:#000;
     background:rgba(0,0,0,0);
     filter:alpha(opacity=0);
-    
+
     &.hasNav {
-      bottom: 110px;  
+      bottom: 110px;
     }
     &.isSmall {
       bottom: 36px;
@@ -88,6 +132,7 @@
 */
     }
     &.is-dragging {
+      cursor: move;
       cursor: grabbing;
       cursor: -webkit-grabbing;
       cursor: -moz-grabbing;

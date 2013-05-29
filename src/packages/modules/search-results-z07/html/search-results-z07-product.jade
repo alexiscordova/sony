@@ -1,5 +1,5 @@
 include ../../../common/html/jade-helpers.jade
-+includeCSS('search-results')
++includeCSS('search-results-z07')
 +includeCSS('recently-viewed')
 +includeJavascriptModule('recently-viewed')
 
@@ -18,8 +18,8 @@ include ../../../common/html/jade-helpers.jade
             li
               a(data-value=sort.name, tabindex="-1", href="#")= sort.label
       .native-dropdown
-        select
-        option.select-small= data.narrowResultsSet[0].label
+        i.fonticon-10-arrowheads-elevator.absolutely
+        select.select-small
           each sort in data.narrowResultsSet
             option(value=sort.name)= sort.label
 

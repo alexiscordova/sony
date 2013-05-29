@@ -34,8 +34,22 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
     margin-bottom: px-em( 12 );
   }
 
+  // Fade in to hide slide rearrangement
+  .csstransitions & .m-container {
+    opacity: 0;
+    @include transition( opacity $transitionFast $easeNormal );
+
+    &.in {
+      opacity: 1;
+    }
+  }
+
   .sony-carousel-wrapper {
     height: auto;
+
+    .sony-carousel-slide-children {
+      overflow: hidden;
+    }
   }
 
   .sony-dot-nav {
@@ -50,7 +64,7 @@ $bannerHeight: 26px; // can't be ems because i'm using ghost-centering
 
     img {
       display: block;
-      max-height: 100%;
+      // max-height: 100%; // Images don't show up in iOS with this...
       width: 100%;
       margin: auto;
     }

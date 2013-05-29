@@ -42,12 +42,11 @@ define(<span class="keyword">function</span>(require){
       $(<span class="keyword">this</span>).closest(<span class="string">'.st-item'</span>).addClass(<span class="string">'on'</span>);
     });
 
-    self.$images.addClass(<span class="string">'iq-img'</span>);
-
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>This is a hack; iQ fails unpredictably if multiple modules attempt to
 run iQ.update() to load in their newly-created assets. This is a deep issue
 in iQ that will probably require a thorough refactor of that class.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setTimeout(<span class="keyword">function</span>(){
+      self.$el.find(<span class="string">'.st-image'</span>).addClass(<span class="string">'iq-img'</span>);
       iQ.update(<span class="literal">true</span>);
     }, <span class="number">1000</span>);
 
@@ -85,6 +84,8 @@ in iQ that will probably require a thorough refactor of that class.</p>         
 
       self.fixCenteredContent(<span class="string">'align-right-center'</span>, <span class="string">'align-right-top'</span>);
       self.fixCenteredContent(<span class="string">'align-left-center'</span>, <span class="string">'align-left-top'</span>);
+
+      self.setupLinkClicks();
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Create or restore the default slide layout.</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -139,7 +140,7 @@ a lot of CSS duplication. So we tell it to use <code>align-top-center</code> ins
     fixCenteredContent: <span class="keyword">function</span>(oldClass, newClass) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $el = $(<span class="string">'.no-widthboundsontables'</span>).find(self.$el);
+          $el = $(<span class="string">'.no-widthboundsontables, .no-absolutepositionontables'</span>).find(self.$el);
 
       $el.find(<span class="string">'.'</span> + oldClass).each(<span class="keyword">function</span>(){
 
@@ -150,6 +151,31 @@ a lot of CSS duplication. So we tell it to use <code>align-top-center</code> ins
              .addClass(newClass);
 
         $<span class="keyword">this</span>.find(<span class="string">'.table-center'</span>).removeClass(<span class="string">'table-center'</span>);
+      });
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p><code>.primary-link</code> specifies an overall click state, which is overriden if you click on a
+<em>separate</em> link within the slide (closestLink, below).</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    setupLinkClicks: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          clickContext;
+
+      self.$el.hammer().on(<span class="string">'tap.secondarytouts'</span>, <span class="string">'.st-item:not(.carousel)'</span>, <span class="keyword">function</span>(e){
+
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+            destination = $<span class="keyword">this</span>.find(<span class="string">'.primary-link'</span>).attr(<span class="string">'href'</span>),
+            closestLink = $(e.gesture.target).closest(<span class="string">'a'</span>).attr(<span class="string">'href'</span>);
+
+        <span class="keyword">if</span> ( !closestLink &amp;&amp; !destination ) {
+          <span class="keyword">return</span>;
+        }
+
+        <span class="keyword">if</span> ( closestLink &amp;&amp; closestLink !== destination ) {
+          destination = closestLink;
+        }
+
+        window.location = destination;
       });
     }
   };

@@ -85,7 +85,7 @@ define(function(require){
           navheight = parseInt($('#nav-wrapper').height(), 10);
 
       self.$scrollContainer.css({
-        'height': winheight - navheight +'px',
+        'height': winheight - navheight + 10 +'px',
         'position': 'relative'
       });
 
@@ -105,14 +105,13 @@ define(function(require){
 
       // Enquire doesn't exist in old IE, so make sure it's there
       if ( Modernizr.mediaqueries ) {
-
         enquire
+          .register('(max-width: 47.9375em)', {
+            match : $.proxy(self.toMobile, self)
+          })
           .register('(min-width: 29.9375em) and (max-width: 47.9375em)', {
             match : $.proxy(self.accountForHeader, self),
             unmatch : $.proxy(self.unAccountForHeader, self)
-          })
-          .register('(max-width: 47.9375em)', {
-            match : $.proxy(self.toMobile, self)
           })
           .register('(min-width: 48em) and (max-width: 61.1875em)', {
             match : $.proxy(self.toTablet, self)
@@ -123,6 +122,8 @@ define(function(require){
       } else {
         self.toDesktop();
       }
+
+      $(window).on('orientationchange', $.proxy(self.setMobileHeight, self));
 
       return self;
     },
@@ -192,7 +193,7 @@ define(function(require){
 
     unAccountForHeader : function () {
       var self = this;
-      self.$scrollContainer.height('-=10px').css('margin-top', 'auto');
+      // self.$scrollContainer.height('-=30px').css('margin-top', 'auto');
     }
   };
 

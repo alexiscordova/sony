@@ -19,6 +19,10 @@
   .submodule{
     position:relative;
     z-index:2;
+    margin: 0; // gets margin: -1px; from .visuallyhidden, which causes the module to jump up 1px.
+    &.visuallyhidden {
+      height: 0; // setting margin back to -1px creates the problem the above comment fixes
+    }
     .box-close{
       top:12px;
       right:14px;
@@ -36,6 +40,15 @@
   }
   .table-center-wrap{
     width:100%;
+  }
+
+  .dark-text-trans-box{
+    h1, h2, h3, h4, h5, h6{
+      color:$gray10;
+    }
+    p{
+      color:$gray10;
+    }
   }
 
   .inner{
@@ -80,25 +93,26 @@
         margin-bottom:37px;
         line-height:20px;
       }
-      i{
-        font-size:1em;
-        &.fonticon-30-plus{
+      i.fonticon-30-plus{
+          font-size:1em;
           margin: 0px .15em;
-        }
       }
       a.btn{
         margin-right:20px;
         margin-top:8px;
         i.fonticon-15-circle-play{
-          margin: 0px .2em 0 -.3em;
+          margin: 0 5px 0 -6px;
+          font-size:1.8em;
+          top:1px;
+          position:relative;
         }
         &.video{
-          background:$themeOrange;
+          background:$buttonOrange;
           &:hover{
-            background: $themeOrangeHover;
+            background: $buttonOrangeHover;
           };
           &:active{
-            background: $themeOrangeActive;
+            background: $buttonOrangeActive;
           };
         }
       }
@@ -172,22 +186,47 @@
     .image-module{
       height:560px;
     }
-    .dark-text-light-box,
-    .dark-text-trans-box{
-      .eyebrow{
+    .dark-text-light-box{
+     .eyebrow{
         color: $gray40;
       }
+    }
+    .dark-text-light-box,
+    .dark-text-trans-box{
+      .t2{
+       color: $gray10;
+      }
+
       a{
         color:$gray10;
+        i{
+         color: $linkBlue;
+        }
         &:hover{
-          color:$gray20;
+           color: $gray40;
+          i{
+            color: $gray40;
+          }
         }
       }
     }
-    .light-text-dark-box,
-    .light-text-trans-box{
+    .light-text-dark-box{
       .eyebrow{
         color: $gray50;
+      }
+    }
+    .light-text-trans-box,
+    .light-text-dark-box{
+      a{
+        i{
+          color: $linkBlue;
+        }
+        &:hover{
+          color: $gray50;
+          i{
+            color: $gray50;
+          }
+        }
       }
     }
     .inner .box{
@@ -205,11 +244,8 @@
         display:block;
         margin-bottom:4px;
         i{
+          font-size:1.6em;
           margin-right:.3em;
-          color: $linkBlue;
-        }
-        span{
-          font-size:px-em(12);
         }
       }
 
@@ -242,9 +278,17 @@
 
     .inner .box{
       padding:49px 52px 58px 0;
-      .eyebrow{
-        font-size:px-em(12);
-        letter-spacing:1px;
+      a{
+        color:$white;
+        &:hover{
+         color:$gray60;
+        }
+        i.fonticon-10-chevron-reverse{
+          @include transition(none);
+          font-size:0.6875em;
+          margin-right:3px;
+          vertical-align:0.2em;
+        }
       }
       h1{
         margin-bottom:10px;
@@ -254,22 +298,6 @@
       .p3{
         margin-bottom:30px;
       }
-      a i{
-         font-size:0.75em;
-          margin-left:-13px;
-          margin-right:3px;
-          vertical-align:0.2em;
-      }
-    }
-
-  }
-
-}
-.lt-ie8 {
-  .table-center{
-    margin-top: 40px;
-    .box {
-      margin-top:0;
     }
   }
 }
@@ -277,28 +305,45 @@
 .lt-ie10{
   .primary-tout{
     text-align:center;
-    &.product-intro-plate{
-      .inner{
-        margin-left:0;
-      }
+  }
+}
+.lt-ie9{
+  .primary-tout{
+    width:980px;
+    margin:0 auto;
+    .submodule{
+     width:980px;
+     margin:0 auto;
+    }
+    .inner .box i{
+      line-height:1;
+      margin-right:5px;
     }
   }
 }
-.lt-ie9 .primary-tout .inner .box i{
- line-height:1;
- margin-right:5px;
-}
-.lt-ie8 .primary-tout .inner .box i{
-  margin-right:6px;
-}
+
 .lt-ie8{
   .primary-tout{
+    .table-center{
+      margin-top: 40px;
+      .box {
+        margin-top:0;
+      }
+    }
     .inner{
       position:absolute;
       top:0;
       margin-left:-490px;
       left:auto;
       right:auto;
+      .box i{
+        margin-right:6px;
+      }
+    }
+    &.product-intro-plate{
+      .inner{
+        margin-left:0;
+      }
     }
   }
 }

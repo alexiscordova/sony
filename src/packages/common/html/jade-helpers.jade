@@ -60,24 +60,31 @@ mixin iQImage( img, extraClasses, itemprop )
       img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
 
 //- Mixin for videos
-mixin sonyVideo ( videoData )
+mixin sonyVideo ( videoData, extraClasses )
+  classes = [ 'player', 'is-splash', 'no-time', 'play-button' ]
+
+  if extraClasses
+    - classes.push( extraClasses )
+
   if !videoData
     p.l3(style='color:red;') Missing Video data!
+
   else
     //- add more domain keys here if necessary don't forget to concatenate
     - sonyKey = '$343124831096460,'
     - odopodKey = '$421601038208546'
     - allDomainKeys = sonyKey + odopodKey
     - isIQPoster  = videoData.poster ? true : false
-    if (isIQPoster == true)
-      div(class='player is-splash no-time play-button iq-img no-toggle'  , data-key=allDomainKeys , data-ratio=videoData.ratio , data-src-desktop=videoData.poster.srcDesktop, data-src-tablet=videoData.poster.srcTablet, data-src-phone=videoData.poster.srcPhone, data-src-desktop-highres=videoData.poster.srcDesktopHighRes, data-src-tablet-highres=videoData.poster.srcTabletHighRes, data-src-phone-highres=videoData.poster.srcPhoneHighRes)
+    if isIQPoster
+      - classes.push( 'iq-img', 'update-always' )
+      div(class=classes, data-fallback-src=videoData.mp4.srcDesktop, data-key=allDomainKeys, data-ratio=videoData.ratio, data-src-desktop=videoData.poster.srcDesktop, data-src-tablet=videoData.poster.srcTablet, data-src-phone=videoData.poster.srcPhone, data-src-desktop-highres=videoData.poster.srcDesktopHighRes, data-src-tablet-highres=videoData.poster.srcTabletHighRes, data-src-phone-highres=videoData.poster.srcPhoneHighRes)
        video(preload='none')
         //- source(type='video/webm', src=videoData.webm.srcDesktop)
         source(type='video/mp4',  src=videoData.mp4.srcDesktop)
         //- source(type='video/ogg',  src=videoData.ogg.srcDesktop)
         source(type='video/flash',src=videoData.mp4.srcDesktop)
     else
-      div(class='player is-splash no-time play-button no-toggle'  , data-key=allDomainKeys , data-ratio=videoData.ratio)
+      div(class=classes, data-fallback-src=videoData.mp4.srcDesktop, data-key=allDomainKeys, data-ratio=videoData.ratio)
        video(preload='none')
         //- source(type='video/webm', src=videoData.webm.srcDesktop)
         source(type='video/mp4',  src=videoData.mp4.srcDesktop)
@@ -149,6 +156,10 @@ mixin appendBlock(name)
   block
   - buf[blocks[name]] += buf.splice(start, buf.length - start).join('');
 
+mixin scrollToTop()
+  .scroll-to-top.container.full-bleed.opacity0
+      a(href="#")
+        i.fonticon-10-back-to-top
 
 mixin docsLinks( listName, suffix, exclude )
   //- Not sure why `locals` can only be used inside a mixin
@@ -160,15 +171,21 @@ mixin docsLinks( listName, suffix, exclude )
     - list.splice( list.indexOf( exclude ), 1 )
 
   //- Sort alphabetically, regardless of case
-  - list.sort( function(a, b) { if (a.toLowerCase() < b.toLowerCase()) return -1; if (a.toLowerCase() > b.toLowerCase()) return 1; return 0; })
+  - list.sort( function(a, b) { codea = a.match(/\b[a-z]{1}[0-9]{1,2}\b/); a = codea ? codea[0] :a; codeb = b.match(/\b[a-z]{1}[0-9]{1,2}\b/); b = codeb ? codeb[0] :b; if (a.toLowerCase() < b.toLowerCase()) return -1; if (a.toLowerCase() > b.toLowerCase()) return 1; return 0; })
 
   each name in list
     title = name.replace(/.html/g, '').replace(/-/g, ' ').replace(' ' + suffix, '')
-    firstSpace = title.indexOf(' ')
-    prefix = firstSpace > -1 ? title.substring( 0, firstSpace ) : title
-    if lastPageTitle != null && lastPageTitle != prefix
+     //- this moves the a## to the front of the word
+    codes = title.match(/\b[a-z]{1}[0-9]{1,2}\b/g);
+    if codes != null
+      title = title.replace(/\s[a-z]{1}[0-9]{1,2}\b/g, '');
+      title = codes.join(' ') + ' ' + title;
+
+
+    prefix = title.match(/^[a-z]{1}[0-9]/) ? title.substring( 0, 1 ) : title.match(/^\w+/)[0]
+    if lastprefix != null && lastprefix != prefix
       hr
     a( href = href + name, title=title) !{ title }
-    lastPageTitle = prefix
+    lastprefix = prefix
 
 

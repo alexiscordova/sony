@@ -25,6 +25,11 @@ body {
   width: 100%;
   position: relative;
   @include transition( margin-top $transitionSlower $easeOutNav 0s );
+
+  // Prevent IE7 from improperly inheriting widths on very-wide DOM elements, such as carousels.
+  .lt-ie8 & {
+    overflow-x: hidden;
+  }
 }
 
 
@@ -47,8 +52,7 @@ body {
   }
 }
 
-// Proposed fix for above
-.no-touch [class*="fonticon"] {
+html.no-touch.csstransitions [class*="fonticon"] {
   @include transition( color $transitionSlowish linear );
 }
 

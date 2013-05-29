@@ -53,7 +53,20 @@ define(function (require) {
           $(x).remove();
           return false;
         }
+      });
 
+      // Test for `display: table` support.
+
+      Modernizr.addTest('displayTable', function() {
+
+        var rules = document.createElement('div').style;
+
+        try {
+          rules.display = 'table';
+          return rules.display === 'table';
+        } catch (e) {
+          return false;
+        }
       });
 
       // Does the browser support max/min widths on <table> elements? We use this extensively for
@@ -65,6 +78,10 @@ define(function (require) {
         var x = document.createElement('div'),
             y = document.createElement('div'),
             test;
+
+        if ( !Modernizr.displaytable ) {
+          return false;
+        }
 
         x.appendChild(y);
 
@@ -82,6 +99,41 @@ define(function (require) {
         document.documentElement.appendChild(x);
 
         test = ( y.getBoundingClientRect().right - y.getBoundingClientRect().left === 100 );
+
+        document.documentElement.removeChild(x);
+
+        return test;
+      });
+
+      // Does the browser's implementation of <table> correctly support absolute positioning?
+
+      Modernizr.addTest('absolutePositionOnTables', function() {
+
+        var x = document.createElement('div'),
+            y = document.createElement('div'),
+            z = document.createElement('div'),
+            test;
+
+        if ( !Modernizr.displaytable ) {
+          return false;
+        }
+
+        x.appendChild(y);
+        y.appendChild(z);
+
+        x.style.position = 'relative';
+
+        y.style.position = 'absolute';
+        y.style.width = '50%';
+
+        z.style.position = 'absolute';
+        z.style.display = 'table';
+        z.style.right = '0';
+        z.style.width = '25%';
+
+        document.documentElement.appendChild(x);
+
+        test = Math.abs(z.getBoundingClientRect().right - y.getBoundingClientRect().right) <= 1;
 
         document.documentElement.removeChild(x);
 
@@ -235,6 +287,14 @@ define(function (require) {
         Modernizr.mediaqueries = false;
       }
 
+      // Sony Tablet P does not support box shadow nor inset box shadow
+      // http://quirksmode.org/css/backgrounds-borders/boxshadow.html
+      // http://www.elektronotdienst-nuernberg.de/bugs/box-shadow_inset.html
+      if ( Settings.isSonyTabletP ) {
+        Modernizr.boxshadow = false;
+        Settings.$html.removeClass('boxshadow').addClass('no-boxshadow');
+      }
+
       // The sony tablet s gets a false negative on generated content (pseudo elements)
       if ( !Modernizr.generatedcontent && Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = true;
@@ -253,8 +313,16 @@ define(function (require) {
         Settings.$html.addClass('sonytablets');
       }
 
+      if ( Settings.isSonyTabletP ) {
+        Settings.$html.addClass('sonytabletp');
+      }
+
       if ( Settings.isPS3 ) {
         Settings.$html.addClass('ps3');
+      }
+
+      if ( Settings.isVita ) {
+        Settings.$html.addClass('vita');
       }
     }
 

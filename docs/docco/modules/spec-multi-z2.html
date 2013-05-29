@@ -336,7 +336,7 @@ Also, there is a sticky header that needs to be excluded: add 1 more</p>        
 because the heights have changed.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !isFromResize ) {
         self.stickyNavHeight = self.$stickyNav.outerHeight();
         self.stickyOffset = self._getStickyHeaderOffset();
-        self.$stickyNav.stickyNav(<span class="string">'updateTriggerOffset'</span>, self.stickyOffset.top);
+        self.$stickyNav.stickyNav(<span class="string">'setTriggerOffset'</span>, self.stickyOffset.top);
       }
 
 </pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Refresh iScroll</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.iscroll ) {
@@ -446,7 +446,7 @@ spec products after a big resize</p>             </td>             <td class="co
         self.stickyNavHeight = self.$stickyNav.outerHeight();
         self.stickyOffset = self._getStickyHeaderOffset();
         <span class="keyword">if</span> ( !isInit ) {
-          self.$stickyNav.stickyNav(<span class="string">'updateTriggerOffset'</span>, self.stickyOffset.top);
+          self.$stickyNav.stickyNav(<span class="string">'setTriggerOffset'</span>, self.stickyOffset.top);
         }
       }, <span class="number">100</span>);
     },
@@ -580,7 +580,7 @@ spec products after a big resize</p>             </td>             <td class="co
     isStickyTabs: <span class="literal">false</span>,
     isScroller: <span class="literal">false</span>,
     isMobile: <span class="literal">false</span>,
-    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isPS3 || Settings.isLTIE9 ),
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isPS3 || Settings.isLTIE9 || Settings.hasPointerEvents ),
     stickyOffset: { top: <span class="number">0</span>, bottom: <span class="number">0</span>}
   };
 

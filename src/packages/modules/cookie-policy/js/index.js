@@ -6,7 +6,7 @@ define(function(require){
 
   // Initialize the Alert Module. Without any options will open all alerts
   // within the page. You can call specific alerts using the alertSelector
-  // option. 
+  // option.
   //
   // ex. $.fn.AlertModule({
   //   alertSelector : '#mySpecialAlertName'

@@ -15,7 +15,7 @@ define(function(require){
     var $ = require('jquery'),
         // enquire = require('enquire'),
         iQ = require('iQ'),
-        // Settings = require('require/sony-global-settings'),
+        Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment');
 
     var module = {
@@ -81,13 +81,15 @@ define(function(require){
           Environment.on('global:resizeDebounced', $.proxy(self.fixTitleHeight, self));
         }
 
-        var btn = self.$el.find(".inner .box a, .mobile-buttons a");
+        var btn = self.$el.find(".inner .box a.video, .inner .box a.carousel, .mobile-buttons a.video, .mobile-buttons a.carousel");
 
         if(btn.length > 0){
           btn.on('click', function(e){
             e.preventDefault();
-            self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('off-screen visuallyhidden');
-            self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('off-screen visuallyhidden');
+            if(!Settings.isIPhone){
+              self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('off-screen visuallyhidden');
+              self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('off-screen visuallyhidden');
+            }
             //update for slideshow coming into view
             iQ.update();
             //play video if its a video button
