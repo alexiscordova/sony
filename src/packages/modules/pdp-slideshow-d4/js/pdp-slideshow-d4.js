@@ -146,8 +146,7 @@ define(function(require) {
           dragThreshold: 2,
           paddles: true,
           pagination: true,
-          $paddleWrapper: self.$el,
-          CSS3Easing: Settings.easing.easeOut
+          $paddleWrapper: self.$el
         });
 
         self.$pagination = self.$el.find('.sony-dot-nav');

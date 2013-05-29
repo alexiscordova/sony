@@ -852,7 +852,7 @@ as its looped through</p>             </td>             <td class="code">       
           vScroll: <span class="literal">false</span>,
           hScrollbar: <span class="literal">false</span>,
           vScrollbar: <span class="literal">false</span>,
-          momentum: <span class="literal">true</span>,
+          momentum: self.useMomentum,
           bounce: <span class="literal">false</span>,
           onScrollMove : <span class="keyword">function</span>() {
             self.updateStickyNav( <span class="keyword">this</span> );
@@ -2154,6 +2154,8 @@ Change the filters column layout</p>             </td>             <td class="co
 </pre></div>             </td>           </tr>                               <tr id="section-260">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-260">&#182;</a>               </div>               <p>If there currently isn't a scroller instance, create one</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.scroller ) {
         self.scroller = self.$recommendedTile.find(<span class="string">'.wrap'</span>).scrollerModule({
           iscrollProps: {
+            bounce: self.useBounce,
+            momentum: self.useMomentum,
             isOverflowHidden: <span class="literal">false</span>,
             hideScrollbar: <span class="literal">true</span>,
             fadeScrollbar: <span class="literal">true</span>,
@@ -2823,6 +2825,8 @@ which ever is smaller</p>             </td>             <td class="code">       
     isCompareToolOpen: <span class="literal">false</span>,
     hasTouch: Settings.hasTouchEvents,
     isTicking: <span class="literal">false</span>,
+    useBounce: !( Settings.isVita || Settings.isLTIE9 ),
+    useMomentum: !( Settings.isVita || Settings.isLTIE9 ),
     showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE10 || Settings.isPS3 ),
     lastScrollY: <span class="number">0</span>,
     sorted: <span class="literal">false</span>,
