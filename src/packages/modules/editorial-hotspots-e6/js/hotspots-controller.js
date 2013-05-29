@@ -1,4 +1,5 @@
 /*global define, Modernizr, log*/
+/*jshint debug:true */
 
 // ------------ Sony Editorial Hotspots ------------
 // Module: Editorial Hotspots E6
@@ -98,7 +99,11 @@ define(function(require) {
     self.$modalBody                      = self.$modal.find( '.modal-body' );
     self.isModalOpen                     = true;
     self.hasTouch                        = Settings.hasTouchEvents;
+    self.isChapter                       = (self.$container.closest('.editorial-chapters-container').length) ? true : false;
 
+    self.isDesktop = false;
+    self.isMobile = false;
+    
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -205,6 +210,9 @@ define(function(require) {
       // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
       if( enquire ) {
         enquire.register( "(max-width: 767px)" , function() {
+          self.isMobile = true;
+          self.isDesktop = false;
+          
           self.showOverlayCentered = true;
           self.follow();
           if( self.$lastOpen ) {
@@ -213,6 +221,9 @@ define(function(require) {
         }).listen();
 
         enquire.register( "(min-width: 768px)" , function() {
+          self.isMobile = false;
+          self.isDesktop = true;
+          
           self.showOverlayCentered = false;
           self.follow();
           if( self.$lastOpen ) {
@@ -517,9 +528,13 @@ define(function(require) {
           $parentContainer       = el.parent(),
           parentWidth            = $parentContainer.width(),
           parentHeight           = $parentContainer.height(),
+          parentObj              = { "h" : parentHeight, "w" : parentWidth, "el" : $parentContainer },
           $hotspot               = el,
           hotspotPosition        = $hotspot.position(),
           $overlay               = el.find( '.overlay-base' ),
+          overlayHeight          = $overlay.height(),
+          overlayWidth           = $overlay.width(),
+          overlayObj             = { "h" : overlayHeight, "w" : overlayWidth, "el" : $overlay },
           variantSmall           = $overlay.hasClass( 'variant2' ) ? true : false,
           $top                   = $overlay.find( '.top' ),
           topHeight              = $top.height(),
@@ -534,57 +549,146 @@ define(function(require) {
           topOffsetHighSm        = ( ( middleHeight * 10.71428571 ) / 100 ) + topHeight,
           topOffsetLow           = variantSmall ? topOffsetLowSm : topOffsetLowLg,
           topOffsetHigh          = variantSmall ? topOffsetHighSm : topOffsetHighLg,
+          overlayOffset          = 0,
           side                   = [],
           quadrant               = 0;
 
-          // what horizontal half are we in?
-          if( hotspotPosition.left < ( parentWidth / 2 ) ) {
-            side[0] = 2;
+      // what horizontal half are we in?
+      if( hotspotPosition.left < ( parentWidth / 2 ) ) {
+        side[0] = 2;
+      } else {
+        side[0] = 4;
+      }
+
+      console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', 
+                  '\n OFFSET HIGH -> ', topOffsetHigh, 
+                  '\n OFFSET LOW -> ', topOffsetLow,
+                  '\n hotspotPosition.top ->', hotspotPosition.top,
+                  '\n parentHeight ->', parentHeight,
+                  '\n overlayHeight ->', overlayHeight,
+                  '\n CRAZY MATH =>', ((hotspotPosition.top - parentHeight) + overlayHeight)
+                 ); 
+
+      // what vertical half are we in?
+      if( hotspotPosition.top < ( parentHeight / 2 ) ) {
+        side[1] = 6;
+      } else {
+        side[1] = 7;
+      }
+
+      // sum up the answer, just chose 4 weights that would never sum up the same
+      switch( ( side[ 0 ] + side[ 1 ] ) ) {
+        case 8:
+          quadrant = 2;
+        break;
+        case 10:
+          quadrant = 1;
+        break;
+        case 9:
+          quadrant = 3;
+        break;
+        case 11:
+          quadrant = 4;
+        break;
+      }
+
+      // will it fit? 
+      overlayOffset = ((hotspotPosition.top - parentHeight) + overlayHeight);
+
+      // adjust layout classes per quadrant
+      switch( quadrant ) {
+        case 1:
+        case 4:
+          // position overlay to the left of hotspot
+          $overlay.addClass( 'to-left' );
+          $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+          // NOTE:
+          // If we are running inside a chapter module we need to caclulate different top values
+          if( self.isChapter ) {
+            if (quadrant === 1) {
+              // also check if it fits within the parentHeight 
+              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
+            } else { 
+              // also check if it fits within the parentHeight 
+              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetLow - (overlayOffset/2) )+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
+            }
+          // ELSE we run default top values
           } else {
-            side[0] = 4;
-          }
+            if (quadrant === 1) {
+              $overlay.css( 'top', '-'+topOffsetHigh+'px' );
+            } else { 
+              // also check if it fits within the parentHeight 
+              $overlay.css( 'top', '-'+topOffsetLow+'px' );
+            }    
+          } // end if(isChapters)
+        break;
+        case 2:
+        case 3:
+          // add to-right
+          $overlay.addClass( 'to-right' );
+          $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
 
-          // what vertical half are we in?
-          if( hotspotPosition.top < ( parentHeight / 2 ) ) {
-            side[1] = 6;
+          // NOTE:
+          // If we are running inside a chapter module we need to caclulate different top values
+          if ( self.isChapter ) {
+            if (quadrant === 2) {
+              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ) )+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
+            } else {
+              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetLow - (overlayOffset + 50 ) )+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
+            }
+          // ELSE we run default top values
           } else {
-            side[1] = 7;
-          }
+            if (quadrant === 2) {
+              $overlay.css( 'top', '-'+topOffsetHigh+'px' );
+            } else {
+              $overlay.css( 'top', '-'+topOffsetLow+'px' );
+            }
+          } // end if(isChapters)
+        break;
+      }
 
-          // sum up the answer, just chose 4 weights that would never sum up the same
-          switch( ( side[ 0 ] + side[ 1 ] ) ) {
-            case 8:
-              quadrant = 2;
-            break;
-            case 10:
-              quadrant = 1;
-            break;
-            case 9:
-              quadrant = 3;
-            break;
-            case 11:
-              quadrant = 4;
-            break;
-          }
+      console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', $parentContainer.get(0), $overlay.get(0)); 
+    },
 
-          // adjust layout classes per quadrant
-          switch( quadrant ) {
-            case 1:
-            case 4:
-              // position overlay to the left of hotspot
-              $overlay.addClass( 'to-left' );
-              $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-              quadrant === 1 ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
-            break;
-            case 2:
-            case 3:
-              // add to-right
-              $overlay.addClass( 'to-right' );
-              $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-              quadrant === 2 ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
-            break;
-          }
+    // determines if the overlay fits within the parent or does not
+    checkIfFits: function( overlay, parent, rd) {
+      var self = this,
+          round = rd,
+          overlayObj = overlay,
+          overlayHeight = overlayObj.h,
+          overlayWidth = overlayObj.w,
+          overlayEl = $(overlay.el),
+          $overlay = overlayObj.el,
+          parentObj = parent,
+          parentHeight = parentObj.h,
+          parentWidth = parentObj.w,
+          $parent = parentObj.el;
 
+      if (self.isMobile) {
+        return false;
+      }
+
+      if ( overlayHeight >= parentHeight ) {
+        console.warn('[[HOTSPOT CONTROLLER -- overlay doesnt fit]]');
+        // if it doesnt fit check if we can make it any shorter? 
+        switch(round) {
+          case 0:
+            if (overlayEl.hasClass('variant2')) { 
+              overlayEl.find('.top.is-default-on').hide();
+            }
+          break;
+          case 1:
+            debugger;
+            if (overlayEl.hasClass('variant2')) { 
+              overlayEl.find('.footer.is-default-on').hide();
+            }
+          break;
+        }
+        return false;
+      } else {
+        console.log('[[HOTSPOT CONTROLLER -- overlay fits]]');
+        return true;
+      }
     },
 
     transition: function( collection, direction ) {
@@ -643,66 +747,84 @@ define(function(require) {
     },
 
     open: function( container, hotspot, info ) {
-        var self = this;
+      info.removeClass('hidden'); // need to get the elements values
 
-        // we are setting display:none when the trasition is complete, and managing the timer here
-        if( self.$lastOpen && container.is( self.$lastOpen[0] ) ) {
-          self.cleanTimer();
-        }
+      var self = this,
+          $parentContainer       = container.parent(),
+          parentWidth            = $parentContainer.width(),
+          parentHeight           = $parentContainer.height(),
+          parentObj              = { "h" : parentHeight, "w" : parentWidth, "el" : $parentContainer },
+          $hotspot               = hotspot,
+          hotspotPosition        = $hotspot.position(),
+          overlayHeight          = info.height(),
+          overlayWidth           = info.width(),
+          overlayObj             = { "h" : overlayHeight, "w" : overlayWidth, "el" : info };
+      
+      info.addClass('hidden'); // need to get the elements values
 
-        // save last open state
-        self.$lastOpen = new Array( container, hotspot, info );
+      // we are setting display:none when the trasition is complete, and managing the timer here
+      if( self.$lastOpen && container.is( self.$lastOpen[0] ) ) {
+        self.cleanTimer();
+      }
 
-        // add data- info to this hotspot
-        container.data( 'state', 'open' ).addClass( 'info-jump-to-top' );
+      console.log('[[HOTSPOTS CONTROLLER -- open]]');
+      // save last open state
+      self.$lastOpen = new Array( container, hotspot, info );
 
-        // perform CSS transitions
-        hotspot.removeClass( 'hspot-core' ).addClass( 'hspot-core-on' );
+      // add data- info to this hotspot
+      container.data( 'state', 'open' ).addClass( 'info-jump-to-top' );
 
-        if( Settings.isLTIE8 || Settings.isLTIE9 ) {
-          hotspot.parent().addClass( 'ie-on' );
-        }
+      // perform CSS transitions
+      hotspot.removeClass( 'hspot-core' ).addClass( 'hspot-core-on' );
 
-        // we have to set display: block to allow DOM to calculate dimension
-        info.removeClass( 'hidden' );
+      if( Settings.isLTIE8 || Settings.isLTIE9 ) {
+        hotspot.parent().addClass( 'ie-on' );
+      }
 
-        // reposition window per it's collision detection result
-        self.repositionByQuadrant( container );
-        //self.reposition( container );
+      // we have to set display: block to allow DOM to calculate dimension
+      info.removeClass( 'hidden' );
 
-        // fade in info window
-        if( true === self.showOverlayCentered ) {
-          //$( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-          self.reanchor( container, hotspot, info, true );
-        } else {
-          if( Settings.isLTIE8 ) {
-            // turn on the window
-            info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-            // get the global handle for iE7
-            var $ieHackAttack = $( Settings.$body ).find( '#'+self.hotspotId );
-            // apply the offset window value 
-            $ieHackAttack.css({
-              'left': info.offset().left,
-              'top': info.offset().top
-            });
-            $ieHackAttack.html( info.html() );
-            // orient the correct arrow and turn it on
-            var $arrow, $arrow_global;
-            if( info.hasClass( 'to-right' ) ) {
-              $arrow_global = $( '#'+self.hotspotId+'-arrow-left' );
-              $arrow = $( hotspot ).parent().find( '.arrow-left' );
-            } else {
-              $arrow_global = $( '#'+self.hotspotId+'-arrow-right' );
-              $arrow = $( hotspot ).parent().find( '.arrow-right' );
-            }
-            $arrow_global.removeClass( 'hidden' ).css({
-              'left': $arrow.offset().left,
-              'top': $arrow.offset().top
-            });
+      // we should really check if the hotspot fits within the parent first
+      self.checkIfFits( overlayObj, parentObj, 0);
+
+      // reposition window per it's collision detection result
+      self.repositionByQuadrant( container );
+
+      //self.reposition( container );
+
+      // fade in info window
+      if( true === self.showOverlayCentered ) {
+        //$( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+        self.reanchor( container, hotspot, info, true );
+      } else {
+        if( Settings.isLTIE8 ) {
+          // turn on the window
+          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
+          // get the global handle for iE7
+          var $ieHackAttack = $( Settings.$body ).find( '#'+self.hotspotId );
+          // apply the offset window value 
+          $ieHackAttack.css({
+            'left': info.offset().left,
+            'top': info.offset().top
+          });
+          $ieHackAttack.html( info.html() );
+          // orient the correct arrow and turn it on
+          var $arrow, $arrow_global;
+          if( info.hasClass( 'to-right' ) ) {
+            $arrow_global = $( '#'+self.hotspotId+'-arrow-left' );
+            $arrow = $( hotspot ).parent().find( '.arrow-left' );
           } else {
-            info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ); 
+            $arrow_global = $( '#'+self.hotspotId+'-arrow-right' );
+            $arrow = $( hotspot ).parent().find( '.arrow-right' );
           }
+          $arrow_global.removeClass( 'hidden' ).css({
+            'left': $arrow.offset().left,
+            'top': $arrow.offset().top
+          });
+        } else {
+          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ); 
         }
+      }
     },
 
     reset: function( container ) {
