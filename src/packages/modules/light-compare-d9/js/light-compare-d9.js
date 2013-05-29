@@ -134,11 +134,11 @@ define(function(require){
 
       var supportsOrientationChange = "onorientationchange" in window,
       orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-
-      window.addEventListener(orientationEvent, function() {
-        self.measureModal();
-      }, false);
-
+      if (window.addEventListener) {
+        window.addEventListener(orientationEvent, function() {
+          self.measureModal();
+        }, false);
+      }
 
       self.bind();
     },
@@ -459,6 +459,7 @@ define(function(require){
     // Sets the current active thumbnail
     setCurrentActiveThumb: function(){
 
+      console.log('setting active thumb');
       var self = this,
           $chapterTabs,
           $currTab;
@@ -469,17 +470,10 @@ define(function(require){
       // need to set a tmeout of 100ms so we can
       // fix a flicker bug on mobile devices
       $currTab.addClass('active');
-        iQ.update();
       setTimeout(function(){
         $chapterTabs.removeClass('active');
       },100);
 
-        self.launchModal();
-        self.updateiScroll();
-
-        var t = setTimeout(function(){
-          self.updateiScroll();
-        }, 1000);
       // update the hash after we got the correct slide transition
       self.updateHash(self.location, self.currentId);
     },
@@ -543,9 +537,6 @@ define(function(require){
     measureModal: function() {
       var self = this,
           width = self.$win.width();
-          $('.modal-light-compare').css({
-            'width': width + 'px'
-          });
 
       if ( width > 767 ) {
         var bodyheight = self.$el.find('.modal-body').get(0).clientHeight;
