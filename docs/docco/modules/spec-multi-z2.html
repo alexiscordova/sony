@@ -4,7 +4,7 @@
 Module: Full Specs Multi
 Version: 1.0
 Author: Glen Cheney
-Date: 02/22/13</p>
+Date: 05/28/13</p>
 
 <h2>Dependencies: jQuery 1.7+, Modernizr</h2>             </td>             <td class="code">               <div class="highlight"><pre>
 define(<span class="keyword">function</span>(require){
@@ -195,7 +195,7 @@ to make up for its lack of document space</p>             </td>             <td 
           vScroll: <span class="literal">false</span>,
           hScrollbar: <span class="literal">false</span>,
           vScrollbar: <span class="literal">false</span>,
-          momentum: <span class="literal">true</span>,
+          momentum: !( Settings.isVita ),
           bounce: <span class="literal">false</span>,
           onScrollMove : <span class="keyword">function</span>() {
             self._onScroll( <span class="keyword">this</span> );
@@ -580,7 +580,7 @@ spec products after a big resize</p>             </td>             <td class="co
     isStickyTabs: <span class="literal">false</span>,
     isScroller: <span class="literal">false</span>,
     isMobile: <span class="literal">false</span>,
-    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isPS3 || Settings.isLTIE9 ),
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isPS3 || Settings.isLTIE9 || Settings.hasPointerEvents ),
     stickyOffset: { top: <span class="number">0</span>, bottom: <span class="number">0</span>}
   };
 

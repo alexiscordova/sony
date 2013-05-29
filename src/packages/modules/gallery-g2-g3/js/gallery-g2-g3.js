@@ -89,6 +89,8 @@ define(function(require){
     debouncedResize = $.debounce( 325, $.proxy( self.debouncedResize, self ) );
     self.$window.on('orientationchange', debouncedResize );
     self.$window.on('resize.gallery', debouncedResize );
+    // Stop the active/current <a> button in the filter display bar from doing anything
+    self.$container.find('.compare-btn.active').on( 'click', false );
 
     // Initialize filter dictionaries to keep track of everything
     if ( self.hasFilters ) {
@@ -431,7 +433,7 @@ define(function(require){
 
     toggleCompareButton : function( toAll, filterName ) {
       var self = this,
-          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' ).first();
+          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' );
 
       // method is `all`, hide the compare button
       if ( toAll || filterName === self.accessoryFilterName ) {
@@ -965,7 +967,7 @@ define(function(require){
           vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          momentum: true,
+          momentum: self.useMomentum,
           bounce: false,
           onScrollMove : function() {
             self.updateStickyNav( this );
@@ -1323,7 +1325,7 @@ define(function(require){
 
     initFavoritesGallery : function() {
       var self = this,
-          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' ).first();
+          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' );
 
       self.initRecommendedTile();
 
@@ -1339,7 +1341,7 @@ define(function(require){
       }
 
       // Automatically select the share input on click
-      Utilities.autoSelectInputOnFocus( self.$container.find( '.share-options input' ) );
+      Utilities.autoSelectInputOnFocus( self.$container.parent().find( '.share-options input' ) );
 
       // Direct the user to the right compare page
       $compareBtn.on('click', function( evt ) {
@@ -1349,7 +1351,7 @@ define(function(require){
 
         evt.preventDefault();
 
-        if ( type ) {
+        if ( type && destination ) {
           destination += '?type=' + type;
           window.location = destination;
         }
@@ -2405,11 +2407,15 @@ define(function(require){
         .find('.media-heading')
           .evenHeights();
 
+      // Update even if scroller has already been initialized
+      self.maxRecommendedTitleBarOffset = Math.ceil((self.$container.width() - self.$grid.width()) / 2) * -1;
+
       // If there currently isn't a scroller instance, create one
       if ( !self.scroller ) {
-        self.maxRecommendedTitleBarOffset = Math.ceil((self.$container.width() - self.$grid.width()) / 2) * -1;
         self.scroller = self.$recommendedTile.find('.wrap').scrollerModule({
           iscrollProps: {
+            bounce: self.useBounce,
+            momentum: self.useMomentum,
             isOverflowHidden: false,
             hideScrollbar: true,
             fadeScrollbar: true,
@@ -2532,7 +2538,7 @@ define(function(require){
           if ( $shares.length ) {
             $sorter.insertAfter( $shares );
           } else {
-            $sorter.appendTo( self.$container.find('.slide-toggle-parent .grid') );
+            $sorter.appendTo( self.$container.find('.slide-toggle-parent .grid .content-right') );
           }
           self.$container.find('#sort-options-holder').remove();
           self.hasSorterMoved = false;
@@ -3146,6 +3152,8 @@ define(function(require){
     isCompareToolOpen: false,
     hasTouch: Settings.hasTouchEvents,
     isTicking: false,
+    useBounce: !( Settings.isVita || Settings.isLTIE9 ),
+    useMomentum: !( Settings.isVita || Settings.isLTIE9 ),
     showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE10 || Settings.isPS3 ),
     lastScrollY: 0,
     sorted: false,

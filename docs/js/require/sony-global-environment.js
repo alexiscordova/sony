@@ -287,6 +287,14 @@ define(function (require) {
         Modernizr.mediaqueries = false;
       }
 
+      // Sony Tablet P does not support box shadow nor inset box shadow
+      // http://quirksmode.org/css/backgrounds-borders/boxshadow.html
+      // http://www.elektronotdienst-nuernberg.de/bugs/box-shadow_inset.html
+      if ( Settings.isSonyTabletP ) {
+        Modernizr.boxshadow = false;
+        Settings.$html.removeClass('boxshadow').addClass('no-boxshadow');
+      }
+
       // The sony tablet s gets a false negative on generated content (pseudo elements)
       if ( !Modernizr.generatedcontent && Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = true;
@@ -303,6 +311,10 @@ define(function (require) {
 
       if ( Settings.isSonyTabletS ) {
         Settings.$html.addClass('sonytablets');
+      }
+
+      if ( Settings.isSonyTabletP ) {
+        Settings.$html.addClass('sonytabletp');
       }
 
       if ( Settings.isPS3 ) {

@@ -126,9 +126,6 @@ define(function(require){
                     'border': 'none'
                 });
             }
-            if ( th.hideHandle && th.hideAmbit ) {
-                console.warn('**HEY!** $handle and $ambit can\'t both be false!');
-            }
 
 
             // As long as $ambit isn't false (null, true, a jQuery obj), we need one.

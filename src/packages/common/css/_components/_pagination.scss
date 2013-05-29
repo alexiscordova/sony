@@ -1,5 +1,5 @@
-$bulletSize: px-em(12px);
-$bulletMargin: px-em(5px);
+$dotMargin: px-em(5px);
+$dotSize: px-em(8px);
 $paddleWidth: px-em( 48 );
 $paddleHeight: px-em( 76 );
 
@@ -26,28 +26,30 @@ $paddleHeight: px-em( 76 );
   }
 
   .pagination-bullet {
+    width: $dotSize;
+    height: $dotSize;
     display: inline-block;
-    margin-left: $bulletMargin;
-    color: $gray50;
-    color: rgba($gray20, .4);
+    margin-left: $dotMargin;
+    background-color: $gray50;
+    background-color: rgba($gray20, .4);
+    border-radius: $dotSize / 2;
     cursor: pointer;
-    font-size: $bulletSize;
     @include transition();
+
+    .lt-ie8 & {
+      display: inline;
+    }
 
     -webkit-font-smoothing: antialiased;
 
     .pagination-light & {
-      color: $gray40;
-      color: rgba($gray70, .4);
+      background-color: $gray40;
+      background-color: rgba($gray70, .4);
 
       &:hover,
       &.bullet-selected {
-        color: $gray70;
+        background-color: $gray70;
       }
-    }
-
-    .fonticon-10-dot {
-      font-size: 0.8em;
     }
 
     &:first-child {
@@ -57,7 +59,7 @@ $paddleHeight: px-em( 76 );
 
   .pagination-bullet:hover,
   .bullet-selected {
-    color: $gray20;
+    background-color: $gray20;
   }
 }
 
