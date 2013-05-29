@@ -56,8 +56,9 @@ define(function(require) {
     // If the user mouses back over the element before the timeout has expired the
     // "out" function will not be called (nor will the "over" function be called).
     // This is primarily to protect against sloppy/human mousing trajectories that
-    // temporarily (and unintentionally) take the user off of the target element... giving them time to return.
-    self.closeDelay = 400;
+    // temporarily (and unintentionally) take the user off of the target element... 
+    // giving them time to return.
+    self.closeDelay = 160;
     self.closeDelaySearch = 2000;
 
     // The number of milliseconds hoverIntent waits between reading/comparing
@@ -66,7 +67,7 @@ define(function(require) {
     // called is after a single polling interval. Setting the polling interval
     // higher will increase the delay before the first possible "over" call,
     // but also increases the time to the next point of comparison.
-    self.openDelay = 100;
+    self.openDelay = 30;
     // self.openTimer = false;
 
     // Get the right prefixed names e.g. WebkitTransitionDuration
@@ -881,8 +882,23 @@ define(function(require) {
         $carrot.css('left',carrotLeftPos+'px');
       }
     },
-
     // MOBILE NAV
+
+    prepMobileNav : function() {
+      // console.log("prepMobileNav");
+      var self = this,
+      $outer = $('#nav-outer-container'),
+      $inner = $outer.find('.nav-mobile-scroller'),
+      innerHeight = $inner.height(),
+      pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+
+      $outer.css( 'height', pageHeight );
+      $inner.css( 'height', innerHeight );
+
+      // Set this after `$outer` and `$inner` have been set so that all the setters are in order
+      self.$pageWrapOuter.css( 'height', pageHeight );
+    },
+
     initMobileNav : function() {
       var self = this;
 
@@ -916,8 +932,26 @@ define(function(require) {
           }, 0);
         }
       });
+      
+      Environment.on('global:resizeDebounced', $.proxy(self.resizeUpdateMobileNav,self));
 
     }, // end initMobileNav
+
+    resizeUpdateMobileNav : function() {
+      var self = this;
+      // console.log("resizeUpdateMobileNav");
+      // only call if the mobile nav is open. otherwise prep gets called and sets a height to the rest of the page.
+      if ($('#page-wrap-inner').hasClass('show-mobile-menu')){
+        self.prepMobileNav();
+
+        // make sure heights are already set before initializing iScroll.
+        setTimeout(function() {
+          module.initMobileNavIScroll();
+        },10);
+      }
+    },
+
+
     resetMobileNav : function() {
 
       var self = this;
@@ -927,43 +961,23 @@ define(function(require) {
     },
 
     showMobileNav : function() {
-      var self = this,
-          pageHeight,
-          $outer,
-          $inner,
-          innerHeight;
+      // console.log("showMobileNav");
+      var self = this;
 
       self.showMobileBackdrop();
 
-      // Since the page-wrap-inner is going to be fixed, the browser will see the page as having no height.
-      // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
-      // page some height, so the Safari nav will hide.
-      // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
-      pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
-      // pageHeight = parseInt(self.$window.height(), 10) + 'px';
-      // pageHeight = parseInt( self.$window.height(),10 ) + 60 + 'px';
-
       if (!self.mobileNavIScroll) {
-        $outer = $('#nav-outer-container');
-        $inner = $outer.find('.nav-mobile-scroller');
-        innerHeight = $inner.height();
+        $('#page-wrap-inner').addClass('show-mobile-menu');
+        self.mobileNavVisible = true;
 
-        $outer.css( 'height', pageHeight );
-        $inner.css( 'height', innerHeight );
+        self.prepMobileNav();
 
         // make sure heights are already set before initializing iScroll.
         setTimeout(function() {
           module.initMobileNavIScroll();
-        }, 0);
+        },10);
       }
-
-      // Set this after `$outer` and `$inner` have been set so that all the setters are in order
-      self.$pageWrapOuter.css( 'height', pageHeight );
-
-      $('#page-wrap-inner').addClass('show-mobile-menu');
-      self.mobileNavVisible = true;
     },
-
     hideMobileNav : function() {
       var self = this;
       self.hideMobileBackdrop();
@@ -1043,8 +1057,8 @@ define(function(require) {
         $thFootSection.css('height', '').removeClass('collapsed transition-height');
         $(this).off(self.tapOrClick);
       });
-
     }, // end resetMobileFooter
+
 
     collapseMobileFooterSec : function($thFootSection, isPageInit) {
       var self = this;
@@ -1113,10 +1127,13 @@ define(function(require) {
   // end $.fn.globalNav
 
   module.initMobileNavIScroll = function() {
+
+    // console.log("initMobileNavIScroll");
+
     var globalNav = $('.nav-wrapper').data('globalNav');
 
     // If there's alreaddy a mobileNavIScroll, refresh it.
-    // THIS IS HAPPENING ON EVERY KEYSTROKE!
+    // THIS IS HAPPENING ON EVERY KEYSTROKE! --??
     if (!!globalNav.mobileNavIScroll) {
       var $scroller = $('.nav-mobile-scroller');
       $scroller.css('height', '');
@@ -1126,6 +1143,7 @@ define(function(require) {
 
         setTimeout(function() {
           globalNav.mobileNavIScroll.refresh();
+          globalNav.mobileNavIScroll.scrollTo();
         },50);
       },50);
 
@@ -1148,6 +1166,10 @@ define(function(require) {
           if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
             e.preventDefault();
           }
+        },
+        onScrollMove: function() {
+          // iQ throttles itself.
+          iQ.update();
         }
 
       });

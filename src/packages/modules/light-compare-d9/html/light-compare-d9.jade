@@ -24,29 +24,28 @@ e = {"locals":locals, "data": data}
         button.box-close(data-dismiss="modal", aria-hidden="true")
           i.fonticon-10-x-skinny.l-o-d
       .modal-body
-        .tab-container
-          ul.tabs
-            - each tab, i in data.tabs
-              klass = (i == 0 ? 'active' : '')
-              li(class= klass, data-target= tab.id, data-toggle="tab", data-hash="true")
-                a(href="#")
-                  span.active-highlight
-                  i.fonticon.fonticon-10-square-neg-plus
-                  = tab.tabname
-        - each tab, i in data.tabs
-          if i == 0
-            klasses = "tab-pane fade in active";
-          else
-            klasses = "tab-pane fade off-screen";
+        .compare-carousel-container.icon-mode
+          .compare-carousel-wrapper
+            .compare-carousel
+              - each tab, i in data.tabs
+                .compare-carousel-slide
+                  .light-compare-content.tab
+                    .mobile-hd.visible-phone
+                      h1.t5.mobile-hd-txt= tab.title
+                    .light-compare-hd
+                      h3.t3-bold= tab.subtitle
+                      p.p3= tab.tagline
+                    .image-module
+                      +iQImage(tab.img, 'update-always')
 
-          div(id= tab.id, data-tab= tab.id, class= klasses)
-            .light-compare-content.tab
-              .mobile-hd.visible-phone
-                h1.t5.mobile-hd-txt= tab.title
-              .light-compare-hd
-                h3.t3-bold= tab.subtitle
-                p.p3= tab.tagline
-              .image-module
-                +iQImage(tab.img, 'update-always')
+          ul.thumb-nav.container
+            .slider
+              - each tab, i in data.tabs
+                klass = (i == 0 ? 'active' : '')
+                li
+                  i.fonticon.fonticon-10-square-neg-plus
+                  span.label-container
+                    span.nav-label.p4-bold= tab.tabname
+
 
 

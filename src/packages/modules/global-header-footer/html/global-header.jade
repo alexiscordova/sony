@@ -200,13 +200,13 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                         a.btn.btn-small.btn-login(href=data.account.menu.log_in.link)= data.account.menu.log_in.label
                       ul.navmenu-list.navmenu-list-prefixed
                         li.navmenu-line.navmenu-li-cart
-                          a.tl.navmenu-style-tl(href=data.cart.link)
+                          a.tl.navmenu-style-tl(href=data.cart.link, tabindex='1101')
                             i.fonticon-10-cart
                             | !{data.cart.label_short}
-                            span.nav-li-count
+                            //- span.nav-li-count
                               | !{sample_session_data.cart_count}
                         li.navmenu-line.navmenu-li-favorites
-                          a.tl.navmenu-style-tl(href=data.favorites.link)
+                          a.tl.navmenu-style-tl(href=data.favorites.link, tabindex='1102')
                             i.fonticon-10-favorite
                             | !{data.favorites.label}
                       ul.navmenu-list.navmenu-list-main
@@ -217,7 +217,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
                         - each item, i in data.account.menu.menu_items
                           li.navmenu-line
-                            a.tl.navmenu-style-tl(href=item.link, tabindex=(1101+i))
+                            a.tl.navmenu-style-tl(href=item.link, tabindex=(1110+i))
                               i(class=item.icon_class)
                               | !{item.label}
                       if sample_session_data.logged_in == true

@@ -45,6 +45,8 @@ define(<span class="keyword">function</span>(require) {
 
     self.isDesktop = <span class="literal">false</span>;
     self.isMobile = <span class="literal">false</span>;
+    self.useBounce = !( Settings.isVita || Settings.isLTIE9 );
+    self.useMomentum = !( Settings.isVita || Settings.isLTIE9 );
 
     self.$el = $( element );
     self.init();
@@ -110,7 +112,6 @@ which should always line up with other prices</p>             </td>             
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Initialize a new sony carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousel.sonyCarousel({
         wrapper: <span class="string">'.sony-carousel-wrapper'</span>,
         slides: <span class="string">'.sony-carousel-slide'</span>,
-        CSS3Easing: Settings.carouselEasing,
         pagination: <span class="literal">true</span>,
         paddles: <span class="literal">true</span>,
         useSmallPaddles: <span class="literal">true</span>,
@@ -127,6 +128,8 @@ which should always line up with other prices</p>             </td>             
       self.$wrapper.scrollerModule({
         itemElementSelector: <span class="string">'.gallery-item'</span>,
         iscrollProps: {
+          bounce: self.useBounce,
+          momentum: self.useMomentum,
           hScrollbar: <span class="literal">false</span>,
           isOverflowHidden: <span class="literal">false</span>,
           onAnimationEnd: iQ.update
