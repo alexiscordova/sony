@@ -967,7 +967,7 @@ define(function(require){
           vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          momentum: true,
+          momentum: self.useMomentum,
           bounce: false,
           onScrollMove : function() {
             self.updateStickyNav( this );
@@ -2414,6 +2414,8 @@ define(function(require){
       if ( !self.scroller ) {
         self.scroller = self.$recommendedTile.find('.wrap').scrollerModule({
           iscrollProps: {
+            bounce: self.useBounce,
+            momentum: self.useMomentum,
             isOverflowHidden: false,
             hideScrollbar: true,
             fadeScrollbar: true,
@@ -3150,6 +3152,8 @@ define(function(require){
     isCompareToolOpen: false,
     hasTouch: Settings.hasTouchEvents,
     isTicking: false,
+    useBounce: !( Settings.isVita || Settings.isLTIE9 ),
+    useMomentum: !( Settings.isVita || Settings.isLTIE9 ),
     showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE10 || Settings.isPS3 ),
     lastScrollY: 0,
     sorted: false,

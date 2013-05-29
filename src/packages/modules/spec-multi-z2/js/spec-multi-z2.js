@@ -4,7 +4,7 @@
 // Module: Full Specs Multi
 // Version: 1.0
 // Author: Glen Cheney
-// Date: 02/22/13
+// Date: 05/28/13
 // Dependencies: jQuery 1.7+, Modernizr
 // --------------------------------------
 
@@ -209,7 +209,7 @@ define(function(require){
           vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          momentum: true,
+          momentum: !( Settings.isVita ),
           bounce: false,
           onScrollMove : function() {
             self._onScroll( this );
