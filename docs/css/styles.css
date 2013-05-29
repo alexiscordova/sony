@@ -227,21 +227,25 @@ body {
   -webkit-transition: margin-top 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
   transition: margin-top 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
 }
+/* line 30, ../../src/packages/common/css/_base/_scaffolding.scss */
+.lt-ie8 .page-wrap-inner {
+  overflow-x: hidden;
+}
 
-/* line 34, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 39, ../../src/packages/common/css/_base/_scaffolding.scss */
 .no-touch a:not(.no-hover-transition),
 .no-touch .btn:not(.no-hover-transition) {
   -webkit-transition: background-color 0.25s linear, color 0.25s linear, border-color 0.25s linear;
   transition: background-color 0.25s linear, color 0.25s linear, border-color 0.25s linear;
 }
-/* line 45, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 50, ../../src/packages/common/css/_base/_scaffolding.scss */
 .no-touch a:not(.no-hover-transition) [class*="fonticon"],
 .no-touch .btn:not(.no-hover-transition) [class*="fonticon"] {
   -webkit-transition: none;
   transition: none;
 }
 
-/* line 50, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 55, ../../src/packages/common/css/_base/_scaffolding.scss */
 html.no-touch.csstransitions [class*="fonticon"] {
   -webkit-transition: color 0.25s linear;
   transition: color 0.25s linear;
@@ -249,19 +253,19 @@ html.no-touch.csstransitions [class*="fonticon"] {
 
 /* Debug grid styles
 -------------------------------------------------- */
-/* line 84, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 89, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid {
   margin-top: 2px;
   margin-bottom: 2px;
 }
 
-/* line 88, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 93, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid [class*="span"] {
   background-color: rgba(125, 125, 125, 0.5) !important;
   text-align: center;
 }
 
-/* line 95, ../../src/packages/common/css/_base/_scaffolding.scss */
+/* line 100, ../../src/packages/common/css/_base/_scaffolding.scss */
 .show-grid .show-grid [class*="span"] {
   background-color: rgba(255, 125, 0, 0.9) !important;
 }
@@ -2498,17 +2502,17 @@ blockquote p:first-child {
 }
 
 /* line 401, ../../src/packages/common/css/_base/_type.scss */
-.light-text-dark-box a,
-.light-text-trans-box a {
+.light-text-dark-box a:not(.btn),
+.light-text-trans-box a:not(.btn) {
   color: white;
   -webkit-font-smoothing: antialiased;
 }
 /* line 404, ../../src/packages/common/css/_base/_type.scss */
-.light-text-dark-box a:hover, .light-text-dark-box a:active, .light-text-dark-box a:focus, .light-text-dark-box a.active,
-.light-text-trans-box a:hover,
-.light-text-trans-box a:active,
-.light-text-trans-box a:focus,
-.light-text-trans-box a.active {
+.light-text-dark-box a:not(.btn):hover, .light-text-dark-box a:not(.btn):active, .light-text-dark-box a:not(.btn):focus, .light-text-dark-box a:not(.btn).active,
+.light-text-trans-box a:not(.btn):hover,
+.light-text-trans-box a:not(.btn):active,
+.light-text-trans-box a:not(.btn):focus,
+.light-text-trans-box a:not(.btn).active {
   color: #e4e7eb;
 }
 
@@ -3241,7 +3245,7 @@ input.search-query {
   background: #5887f5;
   border: none;
   *border: 0;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 /* line 20, ../../src/packages/common/css/_base/_buttons.scss */
 p .btn, td .btn {
@@ -6516,40 +6520,42 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
 }
 /* line 28, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet {
+  width: 0.5em;
+  height: 0.5em;
   display: inline-block;
   margin-left: 0.3125em;
-  color: #bcbccc;
-  color: rgba(47, 53, 61, 0.4);
+  background-color: #bcbccc;
+  background-color: rgba(47, 53, 61, 0.4);
+  border-radius: 0.25em;
   cursor: pointer;
-  font-size: 0.75em;
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
   -webkit-font-smoothing: antialiased;
 }
 /* line 39, ../../src/packages/common/css/_components/_pagination.scss */
+.lt-ie8 .pagination-bullets .pagination-bullet {
+  display: inline;
+}
+/* line 45, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-light .pagination-bullets .pagination-bullet {
-  color: #83838f;
-  color: rgba(228, 231, 235, 0.4);
+  background-color: #83838f;
+  background-color: rgba(228, 231, 235, 0.4);
 }
-/* line 44, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 50, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-light .pagination-bullets .pagination-bullet:hover, .pagination-light .pagination-bullets .pagination-bullet.bullet-selected {
-  color: #e4e7eb;
+  background-color: #e4e7eb;
 }
-/* line 49, ../../src/packages/common/css/_components/_pagination.scss */
-.pagination-bullets .pagination-bullet .fonticon-10-dot {
-  font-size: 0.8em;
-}
-/* line 53, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 55, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet:first-child {
   margin-left: 0;
 }
-/* line 59, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 61, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-bullets .pagination-bullet:hover,
 .pagination-bullets .bullet-selected {
-  color: #2f353d;
+  background-color: #2f353d;
 }
 
-/* line 67, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 69, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
@@ -6558,23 +6564,23 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   width: 100%;
   opacity: 0;
 }
-/* line 74, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 76, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles {
   display: none;
 }
-/* line 78, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 80, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles.show-paddles {
   opacity: 1;
 }
-/* line 81, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 83, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles.show-paddles {
   display: block;
 }
-/* line 85, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 87, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie8 .pagination-paddles.show-paddles {
   display: none;
 }
-/* line 91, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 93, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle,
 .pagination-paddles .pagination-paddle {
   -webkit-transition: 0.2s ease-out;
@@ -6593,54 +6599,54 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   opacity: 0;
   z-index: 999;
 }
-/* line 108, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 110, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle.on, .pagination-paddles .nav-paddle:focus,
 .pagination-paddles .pagination-paddle.on,
 .pagination-paddles .pagination-paddle:focus {
   opacity: 1;
 }
-/* line 112, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 114, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle.pagination-next,
 .pagination-paddles .pagination-paddle.pagination-next {
   right: 20px;
 }
 @media (min-width: 1400px) {
-  /* line 115, ../../src/packages/common/css/_components/_pagination.scss */
+  /* line 117, ../../src/packages/common/css/_components/_pagination.scss */
   .pagination-paddles .nav-paddle.pagination-next.outset,
   .pagination-paddles .pagination-paddle.pagination-next.outset {
     right: 50%;
     margin-right: -695px;
   }
 }
-/* line 122, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 124, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle.pagination-next i,
 .pagination-paddles .pagination-paddle.pagination-next i {
   margin-left: -0.5em;
 }
-/* line 127, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 129, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle.pagination-prev,
 .pagination-paddles .pagination-paddle.pagination-prev {
   left: 20px;
 }
 @media (min-width: 1400px) {
-  /* line 130, ../../src/packages/common/css/_components/_pagination.scss */
+  /* line 132, ../../src/packages/common/css/_components/_pagination.scss */
   .pagination-paddles .nav-paddle.pagination-prev.outset,
   .pagination-paddles .pagination-paddle.pagination-prev.outset {
     left: 50%;
     margin-left: -695px;
   }
 }
-/* line 138, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 140, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles .nav-paddle, .lt-ie9
 .pagination-paddles .pagination-paddle {
   zoom: 1;
 }
-/* line 142, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 144, ../../src/packages/common/css/_components/_pagination.scss */
 .touch .pagination-paddles .nav-paddle, .touch
 .pagination-paddles .pagination-paddle {
   display: none;
 }
-/* line 147, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 149, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle:hover, .pagination-paddles .nav-paddle:focus,
 .pagination-paddles .pagination-paddle:hover,
 .pagination-paddles .pagination-paddle:focus {
@@ -6649,7 +6655,7 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   outline: none;
   cursor: pointer;
 }
-/* line 154, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 156, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle i,
 .pagination-paddles .pagination-paddle i {
   -webkit-font-smoothing: antialiased;
@@ -6660,13 +6666,13 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   color: white;
   font-size: 0.9375em;
 }
-/* line 166, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 168, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .show-paddles .nav-paddle,
 .pagination-paddles .show-paddles .pagination-paddle {
   opacity: 1;
 }
 
-/* line 179, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 181, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle,
 .nav-paddle {
   -webkit-transition: 0.2s ease-out;
@@ -6681,7 +6687,7 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   margin-top: -1.625em;
   padding: 0;
 }
-/* line 191, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 193, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle i,
 .nav-paddle i {
   -webkit-font-smoothing: antialiased;
@@ -6692,17 +6698,17 @@ a.footer-social-youtube:hover, a.footer-social-youtube:active, a.footer-social-y
   color: white;
   font-size: 0.9375em;
 }
-/* line 201, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 203, ../../src/packages/common/css/_components/_pagination.scss */
 .lt-ie9 .pagination-paddles .nav-paddle, .lt-ie9
 .nav-paddle {
   zoom: 1;
 }
-/* line 205, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 207, ../../src/packages/common/css/_components/_pagination.scss */
 .touch .pagination-paddles .nav-paddle, .touch
 .nav-paddle {
   display: none;
 }
-/* line 210, ../../src/packages/common/css/_components/_pagination.scss */
+/* line 212, ../../src/packages/common/css/_components/_pagination.scss */
 .pagination-paddles .nav-paddle:hover, .pagination-paddles .nav-paddle:focus,
 .nav-paddle:hover,
 .nav-paddle:focus {
