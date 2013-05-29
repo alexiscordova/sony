@@ -54,7 +54,8 @@ define(<span class="keyword">function</span>(require) {
 If the user mouses back over the element before the timeout has expired the
 "out" function will not be called (nor will the "over" function be called).
 This is primarily to protect against sloppy/human mousing trajectories that
-temporarily (and unintentionally) take the user off of the target element... giving them time to return.</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.closeDelay = <span class="number">400</span>;
+temporarily (and unintentionally) take the user off of the target element... 
+giving them time to return.</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.closeDelay = <span class="number">160</span>;
     self.closeDelaySearch = <span class="number">2000</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>The number of milliseconds hoverIntent waits between reading/comparing
@@ -62,7 +63,7 @@ mouse coordinates. When the user's mouse first enters the element
 its coordinates are recorded. The soonest the "over" function can be
 called is after a single polling interval. Setting the polling interval
 higher will increase the delay before the first possible "over" call,
-but also increases the time to the next point of comparison.</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.openDelay = <span class="number">100</span>;
+but also increases the time to the next point of comparison.</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.openDelay = <span class="number">30</span>;
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>self.openTimer = false;</p>             </td>             <td class="code">               <div class="highlight"><pre>
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Get the right prefixed names e.g. WebkitTransitionDuration</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.tapOrClick = self.hasTouch ? <span class="string">'touchstart'</span> : <span class="string">'click'</span>;
     self.transformName = Modernizr.prefixed(<span class="string">'transform'</span>);
@@ -107,6 +108,7 @@ but also increases the time to the next point of comparison.</p>             </t
         });
 </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>switch to desktop footer</p>             </td>             <td class="code">               <div class="highlight"><pre>        enquire.register(<span class="string">'(min-width: '</span> + (self.mobileFooterThreshold + <span class="number">1</span>) + <span class="string">'px)'</span>, {
           match : <span class="keyword">function</span>() {
+            self.$html.removeClass(<span class="string">'bp-footer-mobile'</span>).addClass(<span class="string">'bp-footer-desktop'</span>);
             self.resetMobileFooter();
           }
         });
@@ -121,8 +123,9 @@ but also increases the time to the next point of comparison.</p>             </t
           }
 
         });
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>switch to mobile footer</p>             </td>             <td class="code">               <div class="highlight"><pre>        enquire.register(<span class="string">'(max-width: '</span> + self.mobileFooterThreshold + <span class="string">'px)'</span>, {
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>switch to mobile footer </p>             </td>             <td class="code">               <div class="highlight"><pre>        enquire.register(<span class="string">'(max-width: '</span> + self.mobileFooterThreshold + <span class="string">'px)'</span>, {
           match : <span class="keyword">function</span>() {
+            self.$html.removeClass(<span class="string">'bp-footer-desktop'</span>).addClass(<span class="string">'bp-footer-mobile'</span>);
             self.initMobileFooter();
           }
 

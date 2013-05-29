@@ -60,24 +60,31 @@ mixin iQImage( img, extraClasses, itemprop )
       img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
 
 //- Mixin for videos
-mixin sonyVideo ( videoData )
+mixin sonyVideo ( videoData, extraClasses )
+  classes = [ 'player', 'is-splash', 'no-time', 'play-button' ]
+
+  if extraClasses
+    - classes.push( extraClasses )
+
   if !videoData
     p.l3(style='color:red;') Missing Video data!
+
   else
     //- add more domain keys here if necessary don't forget to concatenate
     - sonyKey = '$343124831096460,'
     - odopodKey = '$421601038208546'
     - allDomainKeys = sonyKey + odopodKey
     - isIQPoster  = videoData.poster ? true : false
-    if (isIQPoster == true)
-      div(class='player is-splash no-time play-button iq-img'  , data-fallback-src=videoData.mp4.srcDesktop, data-key=allDomainKeys , data-ratio=videoData.ratio , data-src-desktop=videoData.poster.srcDesktop, data-src-tablet=videoData.poster.srcTablet, data-src-phone=videoData.poster.srcPhone, data-src-desktop-highres=videoData.poster.srcDesktopHighRes, data-src-tablet-highres=videoData.poster.srcTabletHighRes, data-src-phone-highres=videoData.poster.srcPhoneHighRes)
+    if isIQPoster
+      - classes.push( 'iq-img', 'update-always' )
+      div(class=classes, data-fallback-src=videoData.mp4.srcDesktop, data-key=allDomainKeys, data-ratio=videoData.ratio, data-src-desktop=videoData.poster.srcDesktop, data-src-tablet=videoData.poster.srcTablet, data-src-phone=videoData.poster.srcPhone, data-src-desktop-highres=videoData.poster.srcDesktopHighRes, data-src-tablet-highres=videoData.poster.srcTabletHighRes, data-src-phone-highres=videoData.poster.srcPhoneHighRes)
        video(preload='none')
         //- source(type='video/webm', src=videoData.webm.srcDesktop)
         source(type='video/mp4',  src=videoData.mp4.srcDesktop)
         //- source(type='video/ogg',  src=videoData.ogg.srcDesktop)
         source(type='video/flash',src=videoData.mp4.srcDesktop)
     else
-      div(class='player is-splash no-time play-button'  , data-key=allDomainKeys , data-ratio=videoData.ratio)
+      div(class=classes, data-fallback-src=videoData.mp4.srcDesktop, data-key=allDomainKeys, data-ratio=videoData.ratio)
        video(preload='none')
         //- source(type='video/webm', src=videoData.webm.srcDesktop)
         source(type='video/mp4',  src=videoData.mp4.srcDesktop)
