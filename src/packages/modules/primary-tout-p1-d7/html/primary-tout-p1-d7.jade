@@ -54,13 +54,15 @@ mixin links(_data, _extra)
           a(class= e)(class= "btn", href= link.url)!= link.text
         when "video"
           if data.mode != "product-intro-plate"
-            e = e + " btn video"
+            e = e + " btn"
+          e = e + " video"
           a(class= e)(href= link.url)(data-submodule = sm)
             i.fonticon-15-circle-play.l-o-d
             span!= link.text
         when "carousel"
           if data.mode != "product-intro-plate"
-            e = e + " btn carousel"
+            e = e + " btn"
+          e = e + " carousel"
           a(class= e)(href= link.url)(data-submodule = sm)
             i.fonticon-15-popup.l-o-d
             span!= link.text

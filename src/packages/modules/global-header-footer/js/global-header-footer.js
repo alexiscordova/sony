@@ -940,12 +940,15 @@ define(function(require) {
     resizeUpdateMobileNav : function() {
       var self = this;
       // console.log("resizeUpdateMobileNav");
-      self.prepMobileNav();
+      // only call if the mobile nav is open. otherwise prep gets called and sets a height to the rest of the page.
+      if ($('#page-wrap-inner').hasClass('show-mobile-menu')){
+        self.prepMobileNav();
 
-      // make sure heights are already set before initializing iScroll.
-      setTimeout(function() {
-        module.initMobileNavIScroll();
-      },10);
+        // make sure heights are already set before initializing iScroll.
+        setTimeout(function() {
+          module.initMobileNavIScroll();
+        },10);
+      }
     },
 
 
@@ -958,6 +961,7 @@ define(function(require) {
     },
 
     showMobileNav : function() {
+      // console.log("showMobileNav");
       var self = this;
 
       self.showMobileBackdrop();
