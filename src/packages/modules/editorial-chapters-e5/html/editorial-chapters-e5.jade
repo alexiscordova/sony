@@ -1,6 +1,7 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('editorial-chapters-e5')
 +includeJavascriptModule('editorial-chapters-e5')
+hotspots = data.config.contians_hotspots ? "hotspots" : "wut"
 
 mixin thumb-nav
   ul.thumb-nav.container
@@ -34,8 +35,7 @@ mixin copyblock(_copy, _title, _subtitle, _body, linkclass)
       linktextsize = copyobject.link.type == "txt" ? "lt3" : ""
       a(class = copyobject.link.type, href= copyobject.link.url)(class = linktextsize) !{copyobject.link.text}
 
-
-ecClasses = [ "editorial-chapters-container", "container", data.config.nav_shade, data.config.nav_mode+"-mode", data.config.nav_location+"-nav" ]
+ecClasses = [ "editorial-chapters-container", "container", data.config.nav_shade, data.config.nav_mode+"-mode", data.config.nav_location+"-nav", hotspots ]
 
 +mainElement( ecClasses )
   div(class='editorial-chapters')
