@@ -305,7 +305,10 @@ $tabletMax: px-em(979);
       .editorial-chapters-container,
       .editorial-carousel-wrapper {
         overflow: visible;
-        z-index: 1050;
+
+        .editorial-carousel-slide.active {
+          z-index: auto;
+        }
       }
       .thumb-nav {
         position: static;
