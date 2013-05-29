@@ -467,8 +467,9 @@ p{ @extend .p2; }
 // -------------------------
 
 .page-header {
-  padding-bottom: $baseLineHeight * 0.45;
-  margin: $baseLineHeight 0 ($baseLineHeight * 1.5);
+  // $baseLineHeight has no units - invalid css value
+  // padding-bottom: $baseLineHeight * 0.45;
+  // margin: $baseLineHeight 0 ($baseLineHeight * 1.5);
   border-bottom: 1px solid $grayLightFieldSmall;
 }
 
