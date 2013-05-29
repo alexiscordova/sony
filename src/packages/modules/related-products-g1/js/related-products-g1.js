@@ -131,7 +131,8 @@ define(function(require) {
 
       //Inital setup of module
       init: function() {
-        var self = this;
+        var self = this,
+        prodImg = self.$galleryItems.filter('.normal').find('.product-img');
 
         if (self.$win.width() < 569) {
           self.$el.css({
@@ -158,9 +159,7 @@ define(function(require) {
         self.setupLinkClicks();
 
         //Initialize tooltips
-        self.initFavorites();
-
-        var prodImg = self.$galleryItems.filter('.normal').find('.product-img');
+        self.initFavorites(); 
 
         prodImg.find('.iq-img').on('imageLoaded' , function() {
           var $img = $(this);

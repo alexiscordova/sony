@@ -50,8 +50,6 @@
     width: 1000em; // This will get set dynamically based on the number of slides
     max-height: px-em( 720px );
     -webkit-backface-visibility: hidden;
-    -webkit-transition: -webkit-transform .2s ease-out;
-            transition: transform .2s ease-out;
   }
 
   // These will get set dynamically based on number of slides
@@ -78,6 +76,7 @@
     img {
       -webkit-backface-visibility: hidden;
     }
+
   }
 
   // Scale instead of crop the product shots
@@ -90,7 +89,16 @@
     width: 100%;
     max-width: none;
     max-height: none;
+
+
   }
+
+  .pdp-slideshow-slide.type2 .flowplayer { 
+    max-width: 704px;
+  }
+
+
+
 
   // Full browser width, crop the height
   .pdp-slideshow-slide.type2 img {

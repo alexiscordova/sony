@@ -46,6 +46,8 @@ define(function(require) {
 
     self.isDesktop = false;
     self.isMobile = false;
+    self.useBounce = !( Settings.isVita || Settings.isLTIE9 );
+    self.useMomentum = !( Settings.isVita || Settings.isLTIE9 );
 
     self.$el = $( element );
     self.init();
@@ -132,6 +134,8 @@ define(function(require) {
       self.$wrapper.scrollerModule({
         itemElementSelector: '.gallery-item',
         iscrollProps: {
+          bounce: self.useBounce,
+          momentum: self.useMomentum,
           hScrollbar: false,
           isOverflowHidden: false,
           onAnimationEnd: iQ.update
