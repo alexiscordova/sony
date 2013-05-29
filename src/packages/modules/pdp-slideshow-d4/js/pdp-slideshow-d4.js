@@ -153,6 +153,7 @@ define(function(require) {
           paddles: true,
           pagination: true,
           $paddleWrapper: self.$el,
+          paddlePosition: 'outset',
           CSS3Easing: Settings.carouselEasing
         });
 
