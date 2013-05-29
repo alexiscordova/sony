@@ -143,6 +143,7 @@ define(function(require) {
           axis: 'x',
           dragThreshold: 2,
           paddles: true,
+          paddlePosition: 'outset',
           pagination: true,
           $paddleWrapper: self.$el
         });
