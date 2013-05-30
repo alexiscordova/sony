@@ -1006,7 +1006,8 @@ define(function(require){
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
         buffer: 8,
-        supported: Settings.shuffleSupport
+        supported: Settings.shuffleSupport,
+        useTransition: !( Settings.isPS3 )
       });
 
       self.shuffle = self.$grid.data('shuffle');
@@ -3296,6 +3297,7 @@ define(function(require){
         sequentialFadeDelay: 60,
         buffer: 20,
         supported: Settings.shuffleSupport,
+        useTransition: !( Settings.isPS3 ),
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 
