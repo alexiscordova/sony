@@ -159,7 +159,7 @@ define(function(require) {
         self.setupLinkClicks();
 
         //Initialize tooltips
-        self.initFavorites(); 
+        self.initFavorites();
 
         prodImg.find('.iq-img').on('imageLoaded' , function() {
           var $img = $(this);
@@ -1572,7 +1572,7 @@ define(function(require) {
             return;
           }
           animObj[ self.prefixed( self.TD ) ] = 0 + 'ms';
-          animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.easeOutBack;
+          animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.sonyScrollEase;
           animObj[ self.xProp ] = self.tPref1 + ( newPos + self.tPref2 + 0) + self.tPref3;
           self.$container.css( animObj );
         }
@@ -1621,7 +1621,7 @@ define(function(require) {
           animObj[ self.prefixed( self.TD ) ]  = self.currAnimSpeed + 'ms';
 
           if (self.currAnimSpeed === self.animationSpeed) {
-            animObj[ self.prefixed( self.TTF )  ] = self.css3Easing.easeOutBack;
+            animObj[ self.prefixed( self.TTF )  ] = self.css3Easing.sonyScrollEase;
           } else {
             animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.sonyScrollEase;
           }
@@ -2035,10 +2035,7 @@ define(function(require) {
 
         //Define easing equations
         self.css3Easing = {
-            easeOutSine     : 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
-            easeInOutSine   : 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
-            easeOutBack     : 'cubic-bezier(0.595, -0.160, 0.255, 1.140)',
-            sonyScrollEase  : 'cubic-bezier(0.33,0.66,0.66,1)'
+            sonyScrollEase  : 'cubic-bezier(0.000, 1.035, 0.400, 0.985)'
         };
       }
     };
