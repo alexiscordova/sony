@@ -58,7 +58,7 @@ define(function(require){
 
     setTimeout(function(){
       self.$el.find('.st-image').addClass('iq-img');
-      iQ.updateNew();
+      iQ.reset();
       self.$el.trigger('SecondaryTouts:ready');
     }, 1000);
 
