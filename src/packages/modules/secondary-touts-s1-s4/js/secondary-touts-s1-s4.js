@@ -58,7 +58,8 @@ define(function(require){
 
     setTimeout(function(){
       self.$el.find('.st-image').addClass('iq-img');
-      iQ.update(true);
+      iQ.reset();
+      self.$el.trigger('SecondaryTouts:ready');
     }, 1000);
 
     if ( self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){

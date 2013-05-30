@@ -803,7 +803,7 @@ define(function(require) {
 
       // Force an iQ check whenever the navs expand.
       // $navTarget.one(self.transitionEnd, function() {
-      //   iQ.update(true);
+      //   iQ.reset();
       // });
 
       if ( Modernizr.csstransitions ) {

@@ -158,6 +158,18 @@ define(function(require){
           self.$engine.css('top' , 0);
         }
 
+        if(wW < 567){
+          self.$el.find('.fp-ratio').css({
+            'padding-top': self.$el.find('.player').data('ratio') * 100 + '%'
+          });
+
+          //self.$el.css('height' , 'auto');
+        }else{
+          self.$el.find('.fp-ratio').css({
+            'padding-top': ''
+          });
+        }
+
 
       }
 
