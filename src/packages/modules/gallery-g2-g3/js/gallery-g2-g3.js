@@ -1206,7 +1206,7 @@ define(function(require){
           // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
           setTimeout(function() {
 
-            // This also calls iQ.update( true )
+            // This also calls iQ.reset();
             self.loadSwatchImages();
 
             if ( self.currentFilterColor ) {
@@ -1215,7 +1215,7 @@ define(function(require){
 
             // This is silly. Maybe a new method for iQ. iQ.refresh()
             setTimeout(function() {
-              iQ.update( true );
+              iQ.reset();
             }, 300);
           }, 15);
       }
@@ -1286,7 +1286,7 @@ define(function(require){
       var $newIQImgs = this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
 
       if ( $newIQImgs.length ) {
-        iQ.update( true );
+        iQ.reset();
       }
 
       return this;

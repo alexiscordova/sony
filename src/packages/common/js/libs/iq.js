@@ -622,7 +622,7 @@ define(function(require) {
   // Because iQ.update() is throttled, we need a separate function for update(true).
   // If not, calls to iQ.update() may overwrite iQ.update(true) in the debouncer function.
 
-  iQ.updateNew = debounce(function(){
+  iQ.reset = debounce(function(){
     updateImages(true);
   }, throttleSpeed);
 
