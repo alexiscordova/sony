@@ -22,6 +22,7 @@ var UNAV = ( function( window, document, $, undefined ) {
     $firstChild,
     $closeBtn,
     $tabableElements,
+    $lastTabIndexElement,
     $window,
     imagesInited,
     imagesLoaded,
@@ -32,11 +33,11 @@ var UNAV = ( function( window, document, $, undefined ) {
     uNavOuterHeight,
     isHighRes,
     hasCssTransitions,
-    wasJustTriggered,
 
     // At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().
     // This will allow versions older than 1.7 to work without using depreciated functions in version 1.7+
     ON = $.isFunction( $.fn.on ) ? 'on' : 'bind',
+    OFF = $.isFunction( $.fn.off ) ? 'off' : 'unbind',
 
   _init = function($_triggerLink, $_pageWrapInner, $_pageWrapOuter, _minBreakpoint) {
 
@@ -50,13 +51,13 @@ var UNAV = ( function( window, document, $, undefined ) {
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $('#u-nav-close-btn');
     $tabableElements = $uNav.find($('[tabindex]'));
+    $lastTabIndexElement = $('#u-nav-last-tabindex');
     isHighRes = false;
     imagesInited = false;
     imagesLoaded = false;
     xUp = $uNavPrimary.children().length;
     isHighRes = _isRetina();
     hasCssTransitions = _browserCssTransitionDetect();
-    wasJustTriggered = false;
 
     // $(document).on("universal-nav-open",function(e){
     //   console.log("universal-nav-open");
@@ -76,46 +77,68 @@ var UNAV = ( function( window, document, $, undefined ) {
     // -----------------------------
     $triggerLink[ ON ]('click focus',function(e) {
       e.preventDefault();
-      $(e.target).addClass('unav-focused'); 
+      // console.log("$triggerLink[ ON ]('click focus')");
 
-      if ( _minBreakpointMet() && !wasJustTriggered) {
+      $triggerLink.addClass('unav-focused');
+
+      if ( _minBreakpointMet()) {
+        // console.log("##minBreakpointMet");
         if ($pageWrapOuter.hasClass('unav-open')) {
+          // console.log("hasClass(unav-open)");
           _closeUNav();
         } else {
+          // console.log("NOT hasClass(unav-open)");
+          _openUNav();
+        }
+      }
+    });
+    $triggerLink[ ON ]('blur',function(e) {
+      e.preventDefault();
+      $triggerLink.removeClass('unav-focused');
+    });
+
+    $tabableElements[ ON ]('focus',function(e) {
+      e.preventDefault();
+      // console.log("$tabableElements[ ON ]('focus')");
+
+      $(e.target).addClass('unav-focused');
+
+      if ($(e.target).attr('id') == "u-nav-last-tabindex"){
+        if (!$pageWrapOuter.hasClass('unav-open') && _minBreakpointMet()){
           _openUNav();
         }
       }
     });
 
-    $tabableElements[ ON ]('focus',function(e) {
-      e.preventDefault();
+    $tabableElements[ ON ]('blur',function(e) {
+      // console.log("$tabableElements[ ON ]('blur')");
+      // console.log("$lastTabIndexElement: " + $lastTabIndexElement);
 
-      $(e.target).addClass('unav-focused');
-
-      if (!$pageWrapOuter.hasClass('unav-open') && _minBreakpointMet() && !wasJustTriggered) {
-        _openUNav();
-      }
-
-      if ($(e.target).hasClass('u-nav-last-tabindex') && $pageWrapOuter.hasClass('unav-open')){
-        _closeUNav();
-      }
-    });
-
-    $tabableElements.add($triggerLink)[ ON ]('blur',function(e) {
       $(e.target).removeClass('unav-focused');
-      // give the focus a moment to add the focused class before checking to see if it exists.
-      setTimeout(function(){
-        // if nothing inside uNav has focus, close it.
-        if ($('.unav-focused').length < 1){
-          _closeUNav();
-        }
-      },25);
+
+      if ($(e.target).attr('id') == "u-nav-last-tabindex"){
+        // give the focus a moment to add the focused class before checking to see if it exists.
+        setTimeout(function(){
+          // if you just tabbed off of the last-tabindex link, and nothing inside uNav has focus (cuz this one just got blurred), close the u-nav.
+          if ($('.unav-focused').length < 1){
+            // console.log("#### Tabbed past the end!");
+            _closeUNav();
+          }
+        },25);
+      }
     });
 
     $closeBtn[ ON ]('click',function(e) {
       e.preventDefault();
       _closeUNav();
     });
+
+
+
+
+
+
+
 
 
     // Rolling our own quick & dirrty throttle.
@@ -134,8 +157,6 @@ var UNAV = ( function( window, document, $, undefined ) {
       _setUpPrimaryLinks();
     }
   },
-
-
 
   _setUpPrimaryLinks = function() {
     var x5upRatio,
@@ -236,28 +257,28 @@ var UNAV = ( function( window, document, $, undefined ) {
 
   _openUNav = function() {
 
-    wasJustTriggered = true;
-    setTimeout(function(){
-      wasJustTriggered = false;
-    },50);
-
     $(document).trigger("universal-nav-open");
 
     !imagesInited && _initialLoadImages();
     _setUpPrimaryLinks($uNavPrimary.children().length);
 
     $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
-    var triggered = false;
+    // var triggered = false;
 
     if (hasCssTransitions) {
+      // console.log("??? uNavOuterHeight: " + uNavOuterHeight);
+
       $pageWrapInner
-        .css('margin-top', uNavOuterHeight + 'px')
-        .one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
-          // only trigger it for the page-wrap-inner transition ending, not any descendents.
-          if (!triggered){
-            $(document).trigger("universal-nav-open-finished");
-            triggered = true;
-          }
+      .css('margin-top', uNavOuterHeight + 'px')
+      [ ON ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
+        // console.log("$(e.target): " , $(e.target), e.delegateTarget);
+
+        // if ($(e.delegateTarget).is($(e.target)) && !triggered){
+        if ($(e.delegateTarget).is($(e.target))){
+          // triggered = true;
+          $(document).trigger("universal-nav-open-finished");
+          $pageWrapInner[ OFF ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend');
+        }
       });
     } else {
       $pageWrapInner.animate({ 'marginTop': uNavOuterHeight + 'px'}, 400, function() {
@@ -266,41 +287,42 @@ var UNAV = ( function( window, document, $, undefined ) {
     }
   },
 
-  _closeUNav = function(autoFocus) {
+  _closeUNav = function() {
     $(document).trigger("universal-nav-close");
-    $pageWrapOuter.removeClass('unav-open');
-    if (hasCssTransitions) {
-      $pageWrapInner.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
-        // only trigger it for the page-wrap-inner transition ending, not any descendents.
-        if ($(e.target).attr('id') == "page-wrap-inner"){
-          $(document).trigger("universal-nav-close-finished");
-          $pageWrapOuter.removeClass('unav-open-until-transition-end');
-          wasJustTriggered = true;
-          setTimeout(function(){
-            wasJustTriggered = false;
-          },50);
 
-          if (!autoFocus){
-            // focus on the last possible element within the u-nav, so the next tab will go to the next logical element on the page.
-            $('#u-nav-last-tabindex').focus();
-          }
+    // var triggered = false;
+
+    var unavClose_ScrollToTop_int = setInterval(function(){
+      // console.log("$('#nav-wrapper').offset().top: " + $('#nav-wrapper').offset().top);
+      // console.log("$(document).scrollTop(): " + $(document).scrollTop());
+      var topOfNavOffset = $(document).scrollTop() - $('#nav-wrapper').offset().top;
+      console.log("topOfNavOffset: " + topOfNavOffset);
+      if (topOfNavOffset < 5){
+        window.scrollTo(0, $('#nav-wrapper').offset().top);
+      }
+    },2);
+
+    if (hasCssTransitions) {
+      $pageWrapInner
+      .css('margin-top', '0px')
+      [ ON ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
+        // console.log("$(e.target): " , e.target, e.delegateTarget);
+
+        // if ($(e.delegateTarget).is($(e.target)) && !triggered){
+        if ($(e.delegateTarget).is($(e.target))){
+          // triggered = true;
+          clearInterval(unavClose_ScrollToTop_int);
+          $(document).trigger("universal-nav-close-finished");
+          $pageWrapOuter.removeClass('unav-open unav-open-until-transition-end');
+          $pageWrapInner.css('margin-top', '')[ OFF ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend');
         }
       });
-
-      $pageWrapInner.css('margin-top', '0px');
     } else {
-      console.log("_closeUNav !hasCssTransitions");
       $pageWrapInner.animate({ 'marginTop': '0px'}, 400,  function() {
+        clearInterval(unavClose_ScrollToTop_int);
         $(document).trigger("universal-nav-close-finished");
-        $pageWrapOuter.removeClass('unav-open-until-transition-end');
-        wasJustTriggered = true;
-        setTimeout(function(){
-          wasJustTriggered = false;
-        },50);
-
-        if (!autoFocus){
-          $triggerLink.focus();
-        }
+        $pageWrapOuter.removeClass('unav-open-until-transition-end unav-open');
+        $pageWrapInner.css('margin-top', '');
       });
     }
   },
