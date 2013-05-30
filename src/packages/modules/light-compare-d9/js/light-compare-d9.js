@@ -132,14 +132,6 @@ define(function(require){
         self.initiScroll();
       }
 
-      var supportsOrientationChange = "onorientationchange" in window,
-      orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-
-      window.addEventListener(orientationEvent, function() {
-        self.measureModal();
-      }, false);
-
-
       self.bind();
     },
 
@@ -474,12 +466,8 @@ define(function(require){
         $chapterTabs.removeClass('active');
       },100);
 
-        self.launchModal();
         self.updateiScroll();
 
-        var t = setTimeout(function(){
-          self.updateiScroll();
-        }, 1000);
       // update the hash after we got the correct slide transition
       self.updateHash(self.location, self.currentId);
     },
@@ -526,6 +514,19 @@ define(function(require){
       var self = this;
       $('#' + self.modalID).modal();
       self.measureModal();
+      self.orientationChange();
+    },
+
+    orientationChange: function() {
+      var self = this;
+
+      var supportsOrientationChange = "orientationchange" in window,
+      orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+
+      window.addEventListener(orientationEvent, function() {
+        self.measureModal();
+      }, false);
+
     },
 
     initiScroll: function() {
@@ -558,6 +559,9 @@ define(function(require){
       } else {
         self.resetModal();
       }
+      var t = setTimeout(function(){
+        self.updateiScroll();
+      }, 1000);
     },
 
     positionModal: function(width, height) {
@@ -575,6 +579,7 @@ define(function(require){
         'margin-top': '',
         'margin-left': ''
       });
+
     }
   };
 

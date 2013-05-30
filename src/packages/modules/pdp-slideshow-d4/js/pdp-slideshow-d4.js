@@ -93,8 +93,6 @@ define(function(require) {
         // Listen for debounced resize event
         Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
 
-        //ghost ride the whip
-        self.onDebouncedResize();
 
       },
 

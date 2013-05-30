@@ -45,6 +45,7 @@ $transitionSpeed: 0.5s;
 
 /* MAIN MODULE STYLES */
 
+.editorial-chapters-container,
 .editorial {
   .submodule, .image-module {
     .arrow-right {
@@ -82,45 +83,48 @@ $transitionSpeed: 0.5s;
   }
 }
 
+.editorial-chapters-container,
 .editorial {
+
+  .eh-transparent {
+    @include ehsTransition();
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  }
+
+  .eh-visible {
+    @include ehsTransition();
+    opacity: 1;
+    filter: alpha(opacity=100);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  }
+
+  .no-movement {
+    -o-transition: opacity 0.5s, top 0s, left 0s;
+    -ms-transition: opacity 0.5s, top 0s, left 0s;
+    -moz-transition: opacity 0.5s, top 0s, left 0s;
+    -webkit-transition: opacity 0.5s, top 0s, left 0s;
+    transition: opacity 0.5s, top 0s, left 0s;
+  }
+
   .table-center-wrap .table-center, .submodule {
     .image-module {
       position: relative;
-
-      .eh-transparent {
-        @include ehsTransition();
-        opacity: 0;
-        filter: alpha(opacity=0);
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-      }
-
-      .eh-visible {
-        @include ehsTransition();
-        opacity: 1;
-        filter: alpha(opacity=100);
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-      }
-
-      .no-movement {
-        -o-transition: opacity 0.5s, top 0s, left 0s;
-        -ms-transition: opacity 0.5s, top 0s, left 0s;
-        -moz-transition: opacity 0.5s, top 0s, left 0s;
-        -webkit-transition: opacity 0.5s, top 0s, left 0s;
-        transition: opacity 0.5s, top 0s, left 0s;
-      }
     }
   }
 }
 
 /* UTILS */
+.editorial-chapters-container,
 .editorial {
   .submodule, .hotspot-instance {
     position: relative;
 
     .hspot-outer.info-jump-to-top {
-      z-index: 4;
+      /*z-index: 4;*/
     }
 
     .overlay-close {
@@ -217,6 +221,7 @@ $transitionSpeed: 0.5s;
 }
 /*CONTAINER DEFINITIONS*/
 
+.editorial-chapters-container,
 .editorial {
   /* FULL-WIDTH-HEADER-LEFT */
   &.full-bleed-header-left{
@@ -229,12 +234,13 @@ $transitionSpeed: 0.5s;
 
 
 /* HOTSPOT DEFINITION */
+.editorial-chapters-container,
 .editorial {
   .submodule, .hotspot-instance {
     /* LARGE HOTSPOTS */
     .hspot-outer {
       position: absolute;
-      z-index: 1;
+      /*z-index: 1;*/
       top: 0;
       left: 0;
       margin-top: -43px;
@@ -479,8 +485,9 @@ $transitionSpeed: 0.5s;
   }
 }
 
- 
-/* DETAILS WINDOW : GLOBAL OVERLAY */
+
+/*GLOBAL OVERLAY*/
+.editorial-chapters-container,
 .editorial {
   .hotspot-modal {
     .modal-body, .modal-inner {
@@ -562,9 +569,9 @@ $transitionSpeed: 0.5s;
 
 
 
-/* DETAILS WINDOW : STANDARD */
+/* DETAILS WINDOW */
 
-.overlay-base, .ltie8-hotspot {
+.overlay-base {
   position: absolute;
   z-index: 3;
   text-align: left;
@@ -717,6 +724,7 @@ $transitionSpeed: 0.5s;
 /** IE **/
 
 .no-borderradius {
+  .editorial-chapters-container,
   .editorial {
     .table-center-wrap .table-center, .submodule {
       .image-module {
@@ -732,11 +740,9 @@ $transitionSpeed: 0.5s;
     }
     .submodule .hspot-outer, .image-module .hspot-outer {
       background: url('../../img/editorial-hotspots-e6/hotspot-fallback.png');
-      filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=ie8-logo.png,sizingMethod='crop');
     }
     .image-module .hspot-outer.hspot-small {
       background: url('../../img/editorial-hotspots-e6/hotspot-fallback-small.png');
-      filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=ie8-logo.png,sizingMethod='crop');
     }
     .submodule .hspot-outer.ie-on, .image-module .hspot-outer.ie-on {
       background-position: -50px 0;
@@ -756,40 +762,8 @@ $transitionSpeed: 0.5s;
 }
 
 // IE7
-.ltie8-hotspot-arrow-left-variant1, 
-.ltie8-hotspot-arrow-right-variant1, 
-.ltie8-hotspot-arrow-left-variant2, 
-.ltie8-hotspot-arrow-right-variant2 {
-  position: absolute;
-  width: 0;
-  height: 0;
-}
-
-.ltie8-hotspot-arrow-left-variant1 {
-  	border-top: 10px solid transparent;
-  	border-bottom: 10px solid transparent;
-  	border-right: 10px solid #fff;
-}
-
-.ltie8-hotspot-arrow-right-variant1 {
-  	border-top: 10px solid transparent;
-  	border-bottom: 10px solid transparent;
-  	border-left: 10px solid #fff;
-}
-
-.ltie8-hotspot-arrow-left-variant2 {
-	border-top: 8px solid transparent;
-	border-bottom: 8px solid transparent;
-	border-right: 8px solid #fff;
-}
-
-.ltie8-hotspot-arrow-right-variant2 {
-	border-top: 8px solid transparent;
-	border-bottom: 8px solid transparent;
-	border-left: 8px solid #fff;
-}
-
 .lt-ie8 {
+  .editorial-chapters-container,
   .editorial {
     .submodule .hspot-outer {
       padding:0;
