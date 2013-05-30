@@ -153,10 +153,23 @@ define(function(require){
           }
         }
 
-        if(self.isFullScreen){
+        if(self.isFullScreen || Settings.isSonyTabletS){
           //console.log(self.isFullScreen);
           self.$engine.css('top' , 0);
         }
+
+        if(wW < 567){
+          self.$el.find('.fp-ratio').css({
+            'padding-top': self.$el.find('.player').data('ratio') * 100 + '%'
+          });
+
+          //self.$el.css('height' , 'auto');
+        }else{
+          self.$el.find('.fp-ratio').css({
+            'padding-top': ''
+          });
+        }
+
 
       }
 

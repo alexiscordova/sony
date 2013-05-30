@@ -174,7 +174,7 @@ define(function(require){
 
         self.$window.off('resize.e5-mobile-resize');
         self.removeWrapperStyles();
-
+        self.$win.trigger('resize');
       },
 
       setupMobile: function() {
@@ -192,7 +192,18 @@ define(function(require){
         setTimeout(function(){
           self.getSlideHeight();
           self.getSliderWidth();
-          if (self.$el.hasClass('text-mode')) { self.initScroller(); }    
+          if (self.$el.hasClass('text-mode')) { 
+            self.initScroller(); 
+            // show slider shades if needed
+            var node = self.$slider.get(0),
+                curTransform = new WebKitCSSMatrix(window.getComputedStyle(node).webkitTransform),
+                sliderOffset = node.offsetLeft + curTransform.m41, //real offset left
+                sliderWidth = self.$slider.width(),
+                navWidth = self.$thumbNav.width();
+
+            (sliderOffset < 0) ? self.$leftShade.show() : self.$leftShade.hide();
+            (sliderOffset > ((-1 * sliderWidth) + navWidth)) ? self.$rightShade.show() : self.$rightShade.hide();
+          }
         }, 250);
       },
 

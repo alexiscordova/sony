@@ -84,25 +84,25 @@ define(function(require){
 
       self.$scrubber.sonyDraggable('setPositions', {x: 50, y:50});
 
-      self.$scrubber.on('release', $.proxy(self.onRelease, self));
+      self.$scrubber.on('dragend', $.proxy(self.onRelease, self));
 
       // The below is some junk that Steve added, I need to do this in a smarter way.
 
       self.$handle.mouseenter(function(){
-        self.$scrubber.addClass('dragging2');
+        self.$scrubber.addClass('hover');
       });
 
       self.$handle.mouseleave(function(){
         if ( !self.$scrubber.hasClass('dragging') ) {
           setTimeout(function(){
-            self.$scrubber.removeClass('dragging2');
+            self.$scrubber.removeClass('hover');
           }, 250);
         }
       });
 
       self.$scrubber.on('sonyDraggable:dragEnd', function(){
         setTimeout(function(){
-          self.$scrubber.removeClass('dragging dragging2');
+          self.$scrubber.removeClass('dragging hover');
         }, 250);
       });
 

@@ -39,21 +39,13 @@ define(function(require){
 
     _init : function() {
       var self = this,
-          $body = Settings.$body,
-          debouncedRefresh = $.debounce( 100, $.proxy( self.refresh, self ) );
+          $body = Settings.$body;
 
       self.hasJumpLinks = self.$jumpLinks && self.$jumpLinks.length > 0;
 
       self.refreshTriggerPoint();
 
-      // Bind to window scroll and resize
-      self.$window.on('scroll', $.proxy( self._onScroll, self ));
-      Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
-
-      // When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy
-      Settings.$document.on('universal-nav-open-finished universal-nav-close-finished', debouncedRefresh );
-      // Images loading can create more space on the page and invalidate the scrollspy offsets
-      $('.iq-img').on('imageLoaded', debouncedRefresh );
+      self._subscribeToEvents();
 
       // Setup links that scroll within the page
       if ( self.hasJumpLinks ) {
@@ -85,6 +77,27 @@ define(function(require){
 
         self._onScroll();
       }, 100);
+    },
+
+    _subscribeToEvents : function() {
+      var self = this,
+          debouncedRefresh = $.debounce( 100, $.proxy( self.refreshWithTimeout, self ) ),
+          closeStickyNav = $.proxy( self._closeStickyNav, self );
+
+
+      // Bind to window scroll and resize
+      self.$window.on('scroll', $.proxy( self._onScroll, self ));
+      Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
+
+      // When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy
+      Settings.$document.on('universal-nav-open-finished universal-nav-close-finished', debouncedRefresh );
+
+      // Immediately close the sticky nav when u-nav button is clicked
+      Settings.$document.on('universal-nav-open universal-nav-close', closeStickyNav );
+
+
+      // Images loading can create more space on the page and invalidate the scrollspy offsets
+      $('.iq-img').on('imageLoaded', debouncedRefresh );
     },
 
     _initJumpLinks : function() {
@@ -127,18 +140,26 @@ define(function(require){
 
       // Open the stick nav if it's past the trigger
       if ( st >= self.stickyTriggerOffset ) {
-        if ( !self.$el.hasClass('open') ) {
-          self.$el.addClass('open');
-        }
+        self._openStickyNav();
 
       // Close the sticky nav if it's past the trigger
       } else {
-        if ( self.$el.hasClass('open') ) {
-          self.$el.removeClass('open');
-        }
+        self._closeStickyNav();
       }
 
       self.isTicking = false;
+    },
+
+    _closeStickyNav : function() {
+      if ( this.$el.hasClass('open') ) {
+        this.$el.removeClass('open');
+      }
+    },
+
+    _openStickyNav : function() {
+      if ( !this.$el.hasClass('open') ) {
+        this.$el.addClass('open');
+      }
     },
 
     _onResize : function() {
@@ -181,6 +202,13 @@ define(function(require){
       self.setOffset( offset );
 
       return self;
+    },
+
+    refreshWithTimeout : function() {
+      var self = this;
+      setTimeout(function refreshTimeout() {
+        self.refresh();
+      }, 0);
     },
 
     refresh : function() {

@@ -21,6 +21,8 @@ var UNAV = ( function( window, document, $, undefined ) {
     $uNavPrimary,
     $firstChild,
     $closeBtn,
+    $tabableElements,
+    $lastTabIndexElement,
     $window,
     imagesInited,
     imagesLoaded,
@@ -35,6 +37,7 @@ var UNAV = ( function( window, document, $, undefined ) {
     // At least jQuery 1.7 is needed to use $.on() - if using an older version, change them to $.bind().
     // This will allow versions older than 1.7 to work without using depreciated functions in version 1.7+
     ON = $.isFunction( $.fn.on ) ? 'on' : 'bind',
+    OFF = $.isFunction( $.fn.off ) ? 'off' : 'unbind',
 
   _init = function($_triggerLink, $_pageWrapInner, $_pageWrapOuter, _minBreakpoint) {
 
@@ -47,6 +50,8 @@ var UNAV = ( function( window, document, $, undefined ) {
     $uNavPrimary = $uNav.find('.u-nav-primary');
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $('#u-nav-close-btn');
+    $tabableElements = $uNav.find($('[tabindex]'));
+    $lastTabIndexElement = $('#u-nav-last-tabindex');
     isHighRes = false;
     imagesInited = false;
     imagesLoaded = false;
@@ -54,38 +59,72 @@ var UNAV = ( function( window, document, $, undefined ) {
     isHighRes = _isRetina();
     hasCssTransitions = _browserCssTransitionDetect();
 
-    $(document).on("universal-nav-open",function(e){
-      console.log("universal-nav-open");
-    });
-    $(document).on("universal-nav-open-finished",function(e){
-      console.log("universal-nav-open-finished");
-    });
-    $(document).on("universal-nav-close",function(e){
-      console.log("universal-nav-close");
-    });
-    $(document).on("universal-nav-close-finished",function(e){
-      console.log("universal-nav-close-finished");
-    });
+    // $(document).on("universal-nav-open",function(e){
+    //   console.log("universal-nav-open");
+    // });
+    // $(document).on("universal-nav-open-finished",function(e){
+    //   console.log("universal-nav-open-finished");
+    // });
+    // $(document).on("universal-nav-close",function(e){
+    //   console.log("universal-nav-close");
+    // });
+    // $(document).on("universal-nav-close-finished",function(e){
+    //   console.log("universal-nav-close-finished");
+    // });
 
     // -----------------------------
     // EVENT LISTENERS
     // -----------------------------
-    $triggerLink[ ON ]('click',function(e) {
+    $triggerLink[ ON ]('click focus',function(e) {
       e.preventDefault();
-      if ( _minBreakpointMet() ) {
+      // console.log("$triggerLink[ ON ]('click focus')");
+
+      $triggerLink.addClass('unav-focused');
+
+      if ( _minBreakpointMet()) {
+        // console.log("##minBreakpointMet");
         if ($pageWrapOuter.hasClass('unav-open')) {
+          // console.log("hasClass(unav-open)");
           _closeUNav();
         } else {
+          // console.log("NOT hasClass(unav-open)");
           _openUNav();
         }
       }
     });
-    $triggerLink[ ON ]('focus',function(e) {
-      console.log("u-nav focus");
+    $triggerLink[ ON ]('blur',function(e) {
       e.preventDefault();
-      if ( _minBreakpointMet() && !$pageWrapOuter.hasClass('unav-open')) {
-        console.log("u-nav conditions met");
-        _openUNav();
+      $triggerLink.removeClass('unav-focused');
+    });
+
+    $tabableElements[ ON ]('focus',function(e) {
+      e.preventDefault();
+      // console.log("$tabableElements[ ON ]('focus')");
+
+      $(e.target).addClass('unav-focused');
+
+      if ($(e.target).attr('id') == "u-nav-last-tabindex"){
+        if (!$pageWrapOuter.hasClass('unav-open') && _minBreakpointMet()){
+          _openUNav();
+        }
+      }
+    });
+
+    $tabableElements[ ON ]('blur',function(e) {
+      // console.log("$tabableElements[ ON ]('blur')");
+      // console.log("$lastTabIndexElement: " + $lastTabIndexElement);
+
+      $(e.target).removeClass('unav-focused');
+
+      if ($(e.target).attr('id') == "u-nav-last-tabindex"){
+        // give the focus a moment to add the focused class before checking to see if it exists.
+        setTimeout(function(){
+          // if you just tabbed off of the last-tabindex link, and nothing inside uNav has focus (cuz this one just got blurred), close the u-nav.
+          if ($('.unav-focused').length < 1){
+            // console.log("#### Tabbed past the end!");
+            _closeUNav();
+          }
+        },25);
       }
     });
 
@@ -93,6 +132,13 @@ var UNAV = ( function( window, document, $, undefined ) {
       e.preventDefault();
       _closeUNav();
     });
+
+
+
+
+
+
+
 
 
     // Rolling our own quick & dirrty throttle.
@@ -111,8 +157,6 @@ var UNAV = ( function( window, document, $, undefined ) {
       _setUpPrimaryLinks();
     }
   },
-
-
 
   _setUpPrimaryLinks = function() {
     var x5upRatio,
@@ -176,23 +220,23 @@ var UNAV = ( function( window, document, $, undefined ) {
     setTimeout(function() {
 
       // load the close btn icon first.
-      var $closeBtnImg = $('#u-nav-close-btn .u-nav-close-btn-img'),
-      closeBtnImgSrcStr = $closeBtnImg.attr('data-src');
-      if (isHighRes) {
-        closeBtnImgSrcStr = closeBtnImgSrcStr.replace(".","@2x.");
+      var $closeBtnImg = $('#u-nav-close-btn .u-nav-close-btn-img');
+      var closeBtnImgSrcStr = $closeBtnImg.attr('data-src-desktop');
+      if (isHighRes){
+        closeBtnImgSrcStr = $closeBtnImg.attr('data-src-desktop-highres');
       }
       $closeBtnImg.attr('src', closeBtnImgSrcStr);
 
 
-      var $uNavPrimaryImages = $uNavPrimary.find('img[data-src]'),
+      var $uNavPrimaryImages = $uNavPrimary.find('.u-nav-primary-img'),
         imagesLoadedCount = 0;
 
       $uNavPrimaryImages.each(function() {
-        var $thImg = $(this),
-          srcStr = $thImg.attr('data-src');
-        if (isHighRes) {
-          srcStr = srcStr.replace(".","@2x.");
-        }
+        var $thImg = $(this);
+        var srcStr = $thImg.attr('data-src-desktop');
+        if (isHighRes){
+          srcStr = $thImg.attr('data-src-desktop-highres');
+        } 
 
         $thImg.attr('src', srcStr);
         $thImg[ ON ]('load', function() {
@@ -212,53 +256,73 @@ var UNAV = ( function( window, document, $, undefined ) {
 
 
   _openUNav = function() {
+
     $(document).trigger("universal-nav-open");
 
     !imagesInited && _initialLoadImages();
     _setUpPrimaryLinks($uNavPrimary.children().length);
 
     $pageWrapOuter.addClass('unav-open unav-open-until-transition-end');
-    var triggered = false;
+    // var triggered = false;
 
     if (hasCssTransitions) {
+      // console.log("??? uNavOuterHeight: " + uNavOuterHeight);
+
       $pageWrapInner
-        .css('margin-top', uNavOuterHeight + 'px')
-        .one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
-          // only trigger it for the page-wrap-inner transition ending, not any descendents.
-          if (!triggered){
-            $(document).trigger("universal-nav-open-finished");
-            triggered = true;
-          }
+      .css('margin-top', uNavOuterHeight + 'px')
+      [ ON ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
+        // console.log("$(e.target): " , $(e.target), e.delegateTarget);
+
+        // if ($(e.delegateTarget).is($(e.target)) && !triggered){
+        if ($(e.delegateTarget).is($(e.target))){
+          // triggered = true;
+          $(document).trigger("universal-nav-open-finished");
+          $pageWrapInner[ OFF ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend');
+        }
       });
     } else {
       $pageWrapInner.animate({ 'marginTop': uNavOuterHeight + 'px'}, 400, function() {
         $(document).trigger("universal-nav-open-finished");
       });
     }
-
-    $triggerLink.blur();
   },
 
   _closeUNav = function() {
     $(document).trigger("universal-nav-close");
-    $pageWrapOuter.removeClass('unav-open');
+
+    // var triggered = false;
+
+    var unavClose_ScrollToTop_int = setInterval(function(){
+      // console.log("$('#nav-wrapper').offset().top: " + $('#nav-wrapper').offset().top);
+      // console.log("$(document).scrollTop(): " + $(document).scrollTop());
+      var topOfNavOffset = $(document).scrollTop() - $('#nav-wrapper').offset().top;
+      // console.log("topOfNavOffset: " + topOfNavOffset);
+      // if (topOfNavOffset < 5){
+      //   window.scrollTo(0, $('#nav-wrapper').offset().top);
+      // }
+    },2);
+
     if (hasCssTransitions) {
-      $pageWrapInner.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
-        // only trigger it for the page-wrap-inner transition ending, not any descendents.
-        if ($(e.target).attr('id') == "page-wrap-inner"){
+      $pageWrapInner
+      .css('margin-top', '0px')
+      [ ON ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
+        // console.log("$(e.target): " , e.target, e.delegateTarget);
+
+        // if ($(e.delegateTarget).is($(e.target)) && !triggered){
+        if ($(e.delegateTarget).is($(e.target))){
+          // triggered = true;
+          clearInterval(unavClose_ScrollToTop_int);
           $(document).trigger("universal-nav-close-finished");
-          $pageWrapOuter.removeClass('unav-open-until-transition-end');
-          $triggerLink.add($closeBtn).blur();
+          $pageWrapOuter.removeClass('unav-open unav-open-until-transition-end');
+          $pageWrapInner.css('margin-top', '')[ OFF ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend');
         }
       });
-
-      $pageWrapInner.css('margin-top', '0px');
     } else {
-      console.log("_closeUNav !hasCssTransitions");
       $pageWrapInner.animate({ 'marginTop': '0px'}, 400,  function() {
+        clearInterval(unavClose_ScrollToTop_int);
         $(document).trigger("universal-nav-close-finished");
-        $pageWrapOuter.removeClass('unav-open-until-transition-end');
-        $triggerLink.add($closeBtn).blur();
+        $pageWrapOuter.removeClass('unav-open-until-transition-end unav-open');
+        $pageWrapInner.css('margin-top', '');
       });
     }
   },

@@ -462,7 +462,7 @@ We saved their function to this reference so we could have our own onAnimationEn
         self.$nav.remove();
 
 </pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>We added a paddle trigger class to one of the parents, lets find the parent and remove it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.addPaddleTrigger ) {
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>$().closest search the current element and then up the tree until it finds the selector</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$el.closest( self.paddleTrigger ).removeClass( self.paddleTrigger);
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>$().closest search the current element and then up the tree until it finds the selector</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$el.closest( self.paddleTrigger ).removeClass( self.paddleTrigger );
         }
       }
 
@@ -556,7 +556,7 @@ We saved their function to this reference so we could have our own onAnimationEn
     paginationClass: <span class="string">'pagination-bullet'</span>,
     paddleTrigger:  <span class="string">'paddle-trigger'</span>,
     resizeEvent: <span class="string">'onorientationchange'</span> <span class="keyword">in</span> window ? <span class="string">'orientationchange'</span> : <span class="string">'resize'</span>,
-    navTemplate: <span class="string">'&lt;nav class="nav-paddles"&gt;&lt;button class="nav-paddle nav-paddle-prev"&gt;&lt;i class="fonticon-10-chevron-reverse"&gt;&lt;/i&gt;&lt;/button&gt;&lt;button class="nav-paddle nav-paddle-next"&gt;&lt;i class="fonticon-10-chevron"&gt;&lt;/i&gt;&lt;/button&gt;&lt;/nav&gt;'</span>
+    navTemplate: <span class="string">'&lt;nav class="nav-paddles"&gt;&lt;a href="#" class="nav-paddle nav-paddle-prev no-hover-transition"&gt;&lt;i class="fonticon-10-chevron-reverse"&gt;&lt;/i&gt;&lt;/a&gt;&lt;a href="#" class="nav-paddle nav-paddle-next no-hover-transition"&gt;&lt;i class="fonticon-10-chevron"&gt;&lt;/i&gt;&lt;/a&gt;&lt;/nav&gt;'</span>
   };
 
 });

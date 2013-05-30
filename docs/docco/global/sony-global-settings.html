@@ -34,6 +34,7 @@ define(<span class="function"><span class="keyword">function</span> <span class=
   self.isAndroid = (<span class="regexp">/android/gi</span>).test( ua );
   self.isPS3 = (<span class="regexp">/playstation 3/gi</span>).test( ua );
   self.isSonyTabletS = (<span class="regexp">/sony tablet s/gi</span>).test( ua );
+  self.isSonyTabletP = (<span class="regexp">/sony tablet p/gi</span>).test( ua );
   self.isVita = (<span class="regexp">/vita/gi</span>).test( ua );
   self.isGoogleTV = (<span class="regexp">/GoogleTV/gi</span>).test( ua ); <span class="comment">// Only detects SGTV's prior to Jellybean Android 4.2.2</span>
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -69,8 +70,6 @@ This likely only happens when the <code>.shuffle-item</code>s are anchor element
     self.shuffleSupport = <span class="literal">false</span>;
   }
 
-  self.carouselEasing = <span class="string">'ease-out'</span>;
-
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Get grid percentages</p>             </td>             <td class="code">               <div class="highlight"><pre>  self.fiveColumns = <span class="number">5</span>;
   self.sixColumns = <span class="number">6</span>;
   self.twelveColumns = <span class="number">12</span>;
@@ -102,6 +101,7 @@ This likely only happens when the <code>.shuffle-item</code>s are anchor element
     <span class="string">'easeOutSine'</span>: <span class="string">'0.39, 0.575, 0.565, 1'</span>,
     <span class="string">'easeInOutSine'</span>: <span class="string">'0.445, 0.05, 0.55, 0.95'</span>,
     <span class="string">'easeInQuad'</span>:  <span class="string">'0.55, 0.085, 0.68, 0.53'</span>,
+    <span class="string">'easeOut'</span>:     <span class="string">'ease-out'</span>,
     <span class="string">'easeOutQuad'</span>: <span class="string">'0.250, 0.460, 0.450, 0.940'</span>,
     <span class="string">'easeOutExpo'</span>: <span class="string">'0.190, 1.000, 0.220, 1.000'</span>,
     <span class="string">'easeOutCubic'</span>:<span class="string">'0.215, 0.610, 0.355, 1.000'</span>,
@@ -116,6 +116,7 @@ This likely only happens when the <code>.shuffle-item</code>s are anchor element
     <span class="string">'easeOutSine'</span>:    $.bez(self.easing.easeOutSine),
     <span class="string">'easeInOutSine'</span>:  $.bez(self.easing.easeInOutSine),
     <span class="string">'easeInQuad'</span>:     $.bez(self.easing.easeInQuad),
+    <span class="string">'easeOut'</span>:        $.bez(self.easing.easeOut),
     <span class="string">'easeOutQuad'</span>:    $.bez(self.easing.easeOutQuad),
     <span class="string">'easeOutExpo'</span>:    $.bez(self.easing.easeOutExpo),
     <span class="string">'easeOutCubic'</span>:   $.bez(self.easing.easeOutCubic),

@@ -54,7 +54,7 @@ mixin colorSwatches( colors, showOnlyChild, isMicroSwatch )
       span(class=theClass, data-color=colour, itemprop="color")= colour
 
 
-//- .iq-img select must be added with javascript later and then iQ.update(true)
+//- .iq-img select must be added with javascript later and then iQ.reset()
 mixin iQColorImages( colors )
   if colors && colors.length > 1
     each img in colors
@@ -108,28 +108,41 @@ mixin productRating( rating, reviews, reviewsText )
     meta(itemprop="ratingValue", content=rating)
 
 
-mixin priceBlock( product, onlyName )
+mixin priceBlock( product, onlyName, href )
   startingAtText = 'Starting at '
   msrp = 'MSRP'
+  isLink = href != null
 
-  .product-content
-    .product-name-wrap
-      .product-name.p3
-        strong= data.name
+  if isLink
+    a.product-content(href=href)
+      .product-name-wrap
+        .product-name.p3
+          strong= data.name
 
-    if ( !onlyName )
-      .product-price
-        span.price-prefix.p5= startingAtText
-        span.price.p2
-          strong= '$' + data.price + '&nbsp;'
-        span.msrp.p5= msrp
+      if ( !onlyName )
+        .product-price
+          span.price-prefix.p5= startingAtText
+          span.price.p2
+            strong= '$' + data.price + '&nbsp;'
+          span.msrp.p5= msrp
+  else
+    .product-content
+      .product-name-wrap
+        .product-name.p3
+          strong= data.name
+
+      if ( !onlyName )
+        .product-price
+          span.price-prefix.p5= startingAtText
+          span.price.p2
+            strong= '$' + data.price + '&nbsp;'
+          span.msrp.p5= msrp
+
 
 //- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
 
 mixin productQuote( quote )
-
-  - if ( !quote.url ) quote.url = false
-
+  url = quote.url ? quote.url : false
   medium = quote.medium
   iconClass = ''
   iconClasses = []
@@ -145,12 +158,15 @@ mixin productQuote( quote )
 
   .quote.ghost-center-wrap
     figure.ghost-center
-      blockquote.bq6(cite=quote.url)
+      blockquote.bq6-bold(cite=url)
         p= quote.text
       figcaption
         span.social-icon.ghost-center-wrap
           i(class=iconClasses)
-        span.author.p4= quote.screenname
+        if url
+          a(class="author p4", href=url, target="_blank")= quote.screenname
+        else
+          span(class="author p4")= quote.screenname
 
 
 
@@ -175,16 +191,18 @@ mixin basicGalleryItem( layout, priority, href )
   //- Add .gallery-item, .basic, and .m-span3 (for 2 up on mobile)
   klass = 'gallery-item basic m-span3 ' + klass
 
-  if layout == 'plate' || layout == 'blank-normal'
+  if layout == 'plate' || layout == 'blank-normal' || layout == 'social'
     div(class=klass, data-priority=priority)
       block
   else
-    a(class=klass, data-priority=priority, href=href ? href : '#')
+    a(class=klass, data-priority=priority, href=href)
       block
 
 
 if data.view == 'basic'
-  +basicGalleryItem( data.layout, data.priority, data.href )
+  href = data.href ? data.href : '#'
+
+  +basicGalleryItem( data.layout, data.priority, href )
     .gallery-item-inner
       if data.label
         span.label.label-success= data.label
@@ -240,7 +258,7 @@ if data.view == 'basic'
       else if data.layout == 'social'
         .product-img
           .product-img-wrap
-            .img-wrap.ghost-center-wrap
+            a.img-wrap.ghost-center-wrap(href=href)
               .ghost-center
                 +iQImage( data.imgSmall )
             +productQuote( data.quote )
@@ -248,7 +266,7 @@ if data.view == 'basic'
           if data.img && data.img.colors
             +colorSwatches( data.img.colors )
           +heart()
-        +priceBlock( data )
+        +priceBlock( data, undefined, href )
 
       else
         .product-img

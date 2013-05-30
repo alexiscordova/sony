@@ -5,7 +5,6 @@
   .navtray-w == .navtray-wrapper
 */
 .navtray-w{ // 100% width for trays to reach edges of browser
-  z-index:180;
   position: absolute;
   overflow:hidden;
   left: 0;
@@ -19,14 +18,20 @@
   @include box-shadow(0px 0px 10px 0px $stickyShadowColor);
   @include transition(top $navtrayCloseSpeed ease-in 0.125s, left 0s linear $navtrayCloseSpeed);
 }
-.navtray-w-short{
-  @include transition(top $navtrayShortCloseSpeed ease-in 0.1s, left 0s linear $navtrayShortCloseSpeed);      
+.navtray-w-tall{
+  z-index:181;
+  @include transition(top $navtrayShortCloseSpeed ease-in 0.1s, left 0s linear $navtrayShortCloseSpeed); 
 }
-  // -webkit-transform: translate3d(0, 0, 0); // fix janky animation
+.navtray-w-short{
+  z-index:180;
+  @include transition(top $navtrayShortCloseSpeed ease-in 0.1s, left 0s linear $navtrayShortCloseSpeed); 
+}
 
-.navtray-w-visible{
+.navtray-w-visible,
+.navtray-w-tall.navtray-w-visible,
+.navtray-w-short.navtray-w-visible{
   left:0;
-  top: $navbarHeight - 1; // minus 1 for a little overlap under the navbar - otherwise sometimes you can see half a pixel peek out
+  top: $navbarHeight;
   opacity:1;
 
   @include transition(top $navtrayOpenSpeed $easeOutNav 0.13s, left 0s linear 0s);  

@@ -3,7 +3,7 @@
 //
 // * **Module:** PDP Slideshow - D4
 // * **Version:** 1.0a
-// * **Modified:** 04/3/2013
+// * **Modified:** 05/28/2013
 // * **Author:** Tyler Madison, George Pantazis, Glen Cheney
 // * **Dependencies:** jQuery 1.9.1+, Modernizr
 //
@@ -48,7 +48,6 @@ define(function(require) {
       self.isMobileMode         = false;
 
       // Cache some jQuery objects we'll reference later
-      self.$ev                  = $({});
       self.hasTouch             = Settings.hasTouchEvents;
       self.$document            = Settings.$document;
       self.$window              = Settings.$window;
@@ -94,8 +93,6 @@ define(function(require) {
         // Listen for debounced resize event
         Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
 
-        //ghost ride the whip
-        self.onDebouncedResize();
 
       },
 
@@ -117,25 +114,20 @@ define(function(require) {
       // Handles global debounced resize event
       onDebouncedResize: function() {
         var self = this,
-            // isLargeDesktop = Modernizr.mq( '(min-width: 74.9375em)' ),
             isDesktop = !Modernizr.mediaqueries || Modernizr.mq( '(min-width: 61.25em)' ),
-            // overflow = isLargeDesktop ? 'hidden' : 'visible',
             windowWidth,
-            slideshowHeight;
-
-        // self.$el.css( 'overflow' , overflow );
+            slideshowHeight = '';
 
         if ( isDesktop ) {
-          windowWidth = self.$window.width();
-          slideshowHeight = Math.round( Math.min(720, 560 + ((windowWidth - 980) / 5)) );
+          windowWidth = self.$window.width(),
           // Make the header grow 1px taller for every 20px over 980w..
-          self.$el.css( 'height', slideshowHeight );
-          //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
-        } else {
-          // Remove the dynamic css so it will reset back to responsive styles
-          self.$el.css('height', '');
+          slideshowHeight = 560 + ((windowWidth - 980) / 5);
+          slideshowHeight = Math.round( Math.min( 720, slideshowHeight ) );
+          // $('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
         }
 
+        // On mobile, the dynamic height is reset back to nothing
+        self.$el.css( 'height', slideshowHeight );
       },
 
       // Main setup method for the carousel
@@ -146,14 +138,14 @@ define(function(require) {
         self.$slideContainer.sonyCarousel({
           wrapper: '.pdp-slideshow-outer',
           slides: '.pdp-slideshow-slide',
-          looped: true,
-          jumping: true,
+          looped: !Settings.isPS3,
+          jumping: !Settings.isPS3,
           axis: 'x',
           dragThreshold: 2,
           paddles: true,
+          paddlePosition: 'outset',
           pagination: true,
-          $paddleWrapper: self.$el,
-          CSS3Easing: Settings.carouselEasing
+          $paddleWrapper: self.$el
         });
 
         self.$pagination = self.$el.find('.sony-dot-nav');
@@ -171,6 +163,10 @@ define(function(require) {
 
         self.currentId = currentIndex;
         self.setCurrentActiveThumb();
+
+        //shut off any players
+        
+
 
         setTimeout( iQ.update , 250 );
       },

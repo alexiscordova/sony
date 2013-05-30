@@ -126,18 +126,13 @@ $gifHeight: 60px;
   }
 }
 
-.gallery-favorites {
+.gallery-title {
+  position: relative;
+  z-index: 50;
 
   .share-options {
     position: relative;
-    margin-top: px-em( 6 );
-
-    .spacer {
-      display: inline-block;
-      margin-right: px-em( 10 );
-      margin-left: px-em( 6 );
-      color: $gray50;
-    }
+    margin-top: 26px; // magic number
 
     i.fonticon-10-sm-bold-plus {
       padding-left: 5px;
@@ -149,15 +144,14 @@ $gifHeight: 60px;
     }
   }
 
-  .options-wrap .sort-options,
-  .options-wrap .share-options,
+  .share-options,
   .share-trigger {
     display: inline-block;
   }
+}
 
-  .options-wrap .sort-options {
-    float: none;
-  }
+.gallery-favorites {
+
 }
 
 // Recommended Tile
@@ -325,11 +319,40 @@ $gifHeight: 60px;
 
   // Needs to be more specific than the style in scaffolding because opacity needs to be transitioned
   .grid .compare-btn {
-    @include transition( $transitionSlowish linear )
+    color: $gray20;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    background-color: $gray70;
+    @include transition( $transitionSlowish linear );
+
+    &:hover,
+    &:focus {
+      background-color: $gray80;
+    }
+
+    &:active,
+    &.active {
+      color: $white;
+      background-color: $gray20;
+    }
+
+    &.active {
+      cursor: default;
+    }
+
+    // &.active:focus,
+    // &.active:hover {
+    //   background-color: $gray30;
+    // }
   }
 
   .grid .btn + .btn {
     margin-left: .375em;
+  }
+
+  .compare-btn i {
+    font-size: 16px;
+    padding-right: 8px;
   }
 }
 
@@ -339,8 +362,12 @@ $gifHeight: 60px;
   padding-bottom: 1em;
 }
 
-.sort-options {
-  margin-top: .25em;
+.gallery-content .sort-options {
+  margin-left: px-em( 14 );
+}
+
+.gallery-content .sort-options .filter-label {
+  margin: -8px 0 0;
 }
 
 .sort-options .native-dropdown {
@@ -523,13 +550,6 @@ $gifHeight: 60px;
 
 .filter-container + .filter-container {
   margin-top: 2.75em;
-}
-
-.sort-options .filter-label {
-  display: inline-block;
-  vertical-align: baseline;
-  padding-right: 8px; // has a font-size set on it
-  margin: 0;
 }
 
 // Setting a min height on this will push the trigger point for infinite scroll down
@@ -718,7 +738,6 @@ $gifHeight: 60px;
 
 $compareBorder: .0625em solid $gray70;
 .gallery-compare {
-  overflow: hidden;
 
   .detail-label-group,
   .detail-group {
@@ -742,6 +761,12 @@ $compareBorder: .0625em solid $gray70;
   .detail-label {
     padding: 1.125em 1em 0 0;
   }
+}
+
+// Default paddles set this top position:absolute; and top:50%;
+.compare-nav-container {
+  position: static;
+  top: auto;
 }
 
 // Holds labels and compare-items
@@ -1026,6 +1051,7 @@ $stickyHeaderHeight: px-em(82);
   .modal-body {
     position: relative;
     padding: 0;
+    height: 100%;
 
     .lt-ie9 & {
       background: white;
@@ -1040,11 +1066,6 @@ $stickyHeaderHeight: px-em(82);
   .compat-filters {
     position: relative;
     z-index: 2;
-  }
-
-  .product-count-wrap {
-    float: left;
-    margin-top: px-em(11);
   }
 
   .products {

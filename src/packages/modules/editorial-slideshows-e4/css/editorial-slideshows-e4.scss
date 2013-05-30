@@ -2,14 +2,29 @@
 @import "../../../common/css/_base/mixins";
 
 // Fix container inside container
-.container.submodule {
+.container {
+  .editorial-slideshow-container {
+    margin-bottom: 0;
+  }
   .editorial-slideshow-container .container {
     width: 100%;
   }
 }
 
+// When this module is inside a media-element (editorial), it's height should be auto
+.media-element .editorial-carousel-wrapper {
+  height: auto;
+}
+
 .editorial-slideshow-container {
-  margin-bottom: px-em( 40px );
+
+  &.full {
+    margin-bottom: px-em( 40px );
+  }
+
+  &.normal {
+    margin-bottom: 0;
+  }
 
   .editorial-slideshow {
     position: relative;

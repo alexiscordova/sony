@@ -121,7 +121,7 @@
 
         @media (max-width: px-em(481px)) {
           .promo-title { position: static; }
-          .text-count { position: absolute; }
+          .text-count { display: none; }
         }
       }
 
@@ -136,6 +136,10 @@
 
       @media (max-width: px-em(481px)){
         .gallery-item .product-img:after { content: none; }
+        &.suggested .gallery-item .product-img:after { content: ''; }
+        &.suggested .gallery-item .gallery-item-inner {
+          position: static;
+        }
       }
 
       @media (  max-width: px-em( 568px ) ){
