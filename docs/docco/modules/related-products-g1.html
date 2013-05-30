@@ -121,7 +121,8 @@
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Related Products protoype object definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    RelatedProducts.prototype = {
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Inital setup of module</p>             </td>             <td class="code">               <div class="highlight"><pre>      init: <span class="keyword">function</span>() {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+        prodImg = self.$galleryItems.filter(<span class="string">'.normal'</span>).find(<span class="string">'.product-img'</span>);
 
         <span class="keyword">if</span> (self.$win.width() &lt; <span class="number">569</span>) {
           self.$el.css({
@@ -141,9 +142,7 @@
 
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Setup link clicks</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setupLinkClicks();
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Initialize tooltips</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.initFavorites();
-
-        <span class="keyword">var</span> prodImg = self.$galleryItems.filter(<span class="string">'.normal'</span>).find(<span class="string">'.product-img'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Initialize tooltips</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.initFavorites(); 
 
         prodImg.find(<span class="string">'.iq-img'</span>).on(<span class="string">'imageLoaded'</span> , <span class="keyword">function</span>() {
           <span class="keyword">var</span> $img = $(<span class="keyword">this</span>);
