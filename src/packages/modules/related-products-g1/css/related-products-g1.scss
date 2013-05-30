@@ -78,11 +78,17 @@
     direction: ltr;
     overflow: hidden;
 
+    &.suggested {
+      height: auto;
+    }
+
     &.strip {
       height: 230px;
       margin:0;
 
-      .gallery-item.normal .product-img img { max-height: 100%; }
+      .gallery-item.normal .product-img img { 
+        max-height: 100%; 
+      }
 
       .nav-paddles {
 
@@ -329,6 +335,8 @@
       .gallery-item:after { content: ''; }
 
       .gallery-item .product-img:after { content: ''; }
+
+      
 
       .gallery-item.normal .product-img img { max-height: 155px; }
 
