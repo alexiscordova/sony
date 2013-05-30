@@ -161,6 +161,8 @@ define(<span class="keyword">function</span>(require){
 
         self.$el.append($frontSlide).prepend($backSlide);
 
+        iQ.update(<span class="literal">true</span>);
+
         $clonedSlides = $clonedSlides.add($frontSlide).add($backSlide);
       }
 
@@ -395,7 +397,7 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
             <span class="keyword">return</span>;
           }
 
-          iQ.update(<span class="literal">true</span>);
+          iQ.update();
           self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
           self.$el.off(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
         });
@@ -421,7 +423,7 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
         self.$el.animate(props, {
           <span class="string">'duration'</span>: speed,
           <span class="string">'complete'</span>: <span class="keyword">function</span>(){
-            iQ.update(<span class="literal">true</span>);
+            iQ.update();
             self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
           }
         });
@@ -445,9 +447,10 @@ Reset the carousel to its natural position and order.</p>             </td>     
             });
           }
 
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Given the jump of a looped carousel, we must update before and after the swap.</p>             </td>             <td class="code">               <div class="highlight"><pre>          iQ.update();
           self.gotoSlide( self.isJumped ? which : destinationRedirect, <span class="literal">true</span> );
+          iQ.update();
 
-          iQ.update(<span class="literal">true</span>);
           self.isJumped = <span class="literal">false</span>;
         });
 
@@ -558,7 +561,7 @@ Reset the carousel to its natural position and order.</p>             </td>     
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Update animation speed, in ms.</p>
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Update animation speed, in ms.</p>
 
 <pre><code> $('#foo').sonyCarousel('setAnimationSpeed', 100);
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre>    setAnimationSpeed: <span class="keyword">function</span>(newSpeed){
@@ -568,7 +571,7 @@ Reset the carousel to its natural position and order.</p>             </td>     
       self.animationSpeed = newSpeed;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Update CSS3 Easing equation.</p>
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Update CSS3 Easing equation.</p>
 
 <pre><code> $('#foo').sonyCarousel('setCSS3Easing', 'ease-in');
  $('#foo').sonyCarousel('setCSS3Easing',
@@ -586,7 +589,7 @@ Reset the carousel to its natural position and order.</p>             </td>     
           $clickContext;
 
       <span class="keyword">if</span> ( !isInit ) {
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Remove the event because we're going to subscribe to it again</p>             </td>             <td class="code">               <div class="highlight"><pre>        $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides;
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Remove the event because we're going to subscribe to it again</p>             </td>             <td class="code">               <div class="highlight"><pre>        $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides;
         $clickContext.off(<span class="string">'click.sonycarousel'</span>);
       }
 
@@ -609,7 +612,7 @@ Reset the carousel to its natural position and order.</p>             </td>     
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Reset the style attribute for the properties we might have manipulated.
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Reset the style attribute for the properties we might have manipulated.
 Destroy the plugins we've initialized as part of the carousel.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     destroy: <span class="keyword">function</span>() {
 
@@ -624,13 +627,13 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
 
       containerStyles[ self.posAttr ] = <span class="string">''</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Reset styles.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.css( containerStyles );
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Reset styles.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.css( containerStyles );
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id);
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Unbind</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.off(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id);
       self.$el.off(<span class="string">'dragstart.sonycarousel dragend.sonycarousel SonyCarousel:gotoSlide '</span> + Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
       $clickContext.off(<span class="string">'click.sonycarousel'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Destroy all plugins.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.draggable ) {
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Destroy all plugins.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.draggable ) {
         self.$el.sonyDraggable(<span class="string">'destroy'</span>);
       }
 
@@ -646,11 +649,11 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
         self.$dotnav = <span class="literal">null</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Remove data from element, allowing for later reinit.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.removeData(<span class="string">'sonyCarousel'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Remove data from element, allowing for later reinit.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.removeData(<span class="string">'sonyCarousel'</span>);
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.sonyCarousel = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
@@ -673,62 +676,62 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
     });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.sonyCarousel.defaults = {
 
     direction: <span class="string">'horizontal'</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p><strong>Required</strong>: Selector for the <code>overflow:hidden;</code> element that wraps the draggable object.
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p><strong>Required</strong>: Selector for the <code>overflow:hidden;</code> element that wraps the draggable object.
 Accessed by .parent() method.</p>             </td>             <td class="code">               <div class="highlight"><pre>    wrapper: <span class="literal">undefined</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p><strong>Required</strong>: Selector for the individual slides within the carousel, used for
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p><strong>Required</strong>: Selector for the individual slides within the carousel, used for
 positioning, snapping, and pagination.</p>             </td>             <td class="code">               <div class="highlight"><pre>    slides: <span class="literal">undefined</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>If a selector is specified, gotoSlide will look for this on the last slide
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>If a selector is specified, gotoSlide will look for this on the last slide
 and not reveal unneccesary whitespace to the right of the last matched element.</p>             </td>             <td class="code">               <div class="highlight"><pre>    slideChildren: <span class="literal">undefined</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>If a selector is specified, the matched anchor's href will be the default click for any point
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>If a selector is specified, the matched anchor's href will be the default click for any point
 in the slideChildren set.</p>             </td>             <td class="code">               <div class="highlight"><pre>    defaultLink: <span class="literal">undefined</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Should this be draggable? True for most carousels, so default on.</p>             </td>             <td class="code">               <div class="highlight"><pre>    draggable: <span class="literal">true</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Should this be draggable? True for most carousels, so default on.</p>             </td>             <td class="code">               <div class="highlight"><pre>    draggable: <span class="literal">true</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Should this carousel seamlessly loop from end to end?</p>             </td>             <td class="code">               <div class="highlight"><pre>    looped: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Should this carousel seamlessly loop from end to end?</p>             </td>             <td class="code">               <div class="highlight"><pre>    looped: <span class="literal">false</span>,
 
     snap: <span class="literal">true</span>,
 
     onlySnapAtEnds: <span class="literal">false</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Should the carousel jump directly to the next slide in either direction?</p>             </td>             <td class="code">               <div class="highlight"><pre>    jumping: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Should the carousel jump directly to the next slide in either direction?</p>             </td>             <td class="code">               <div class="highlight"><pre>    jumping: <span class="literal">false</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>If this is a looped carousel, how many clones should be on either side to create the infinite illusion?
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>If this is a looped carousel, how many clones should be on either side to create the infinite illusion?
 Helpful if your carousel lets the user see more than a few slides at once.</p>             </td>             <td class="code">               <div class="highlight"><pre>    edgeSlides: <span class="number">1</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Default class for edgeSlides.</p>             </td>             <td class="code">               <div class="highlight"><pre>    cloneClass: <span class="string">'sony-carousel-edge-clone'</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Default class for edgeSlides.</p>             </td>             <td class="code">               <div class="highlight"><pre>    cloneClass: <span class="string">'sony-carousel-edge-clone'</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Speed of slide animation, in ms.</p>             </td>             <td class="code">               <div class="highlight"><pre>    animationSpeed: <span class="number">500</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>Speed of slide animation, in ms.</p>             </td>             <td class="code">               <div class="highlight"><pre>    animationSpeed: <span class="number">500</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>default CSS3 easing equation</p>             </td>             <td class="code">               <div class="highlight"><pre>    CSS3Easing: <span class="string">'cubic-bezier(0.000, 1.035, 0.400, 0.985)'</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>default CSS3 easing equation</p>             </td>             <td class="code">               <div class="highlight"><pre>    CSS3Easing: <span class="string">'cubic-bezier(0.000, 1.035, 0.400, 0.985)'</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Which direction the carousel moves in. Plugin currently only supports 'x'.</p>             </td>             <td class="code">               <div class="highlight"><pre>    axis: <span class="string">'x'</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Which direction the carousel moves in. Plugin currently only supports 'x'.</p>             </td>             <td class="code">               <div class="highlight"><pre>    axis: <span class="string">'x'</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Amount of distance user must move in touch environments before the carousel begins to move
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Amount of distance user must move in touch environments before the carousel begins to move
 <strong>and</strong> preventDefault() is triggered. Allows for vertical scrolling before trapping the touch.</p>             </td>             <td class="code">               <div class="highlight"><pre>    dragThreshold: Settings.isVita ? <span class="number">5</span> : <span class="number">10</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Use CSS3 transitions and transforms over jQuery animations if possible.</p>             </td>             <td class="code">               <div class="highlight"><pre>    useCSS3: <span class="literal">true</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Use CSS3 transitions and transforms over jQuery animations if possible.</p>             </td>             <td class="code">               <div class="highlight"><pre>    useCSS3: <span class="literal">true</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Create paddles.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paddles: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>Create paddles.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paddles: <span class="literal">false</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>Set to <code>outset</code> to allow grid-based positioning of paddles above 1400px screen width.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paddlePosition: <span class="string">'inset'</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Set to <code>outset</code> to allow grid-based positioning of paddles above 1400px screen width.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paddlePosition: <span class="string">'inset'</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Will use <code>.nav-paddle</code> instead of <code>.pagination-paddle</code> for the paddle class</p>             </td>             <td class="code">               <div class="highlight"><pre>    useSmallPaddles: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>Will use <code>.nav-paddle</code> instead of <code>.pagination-paddle</code> for the paddle class</p>             </td>             <td class="code">               <div class="highlight"><pre>    useSmallPaddles: <span class="literal">false</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>If element is specified, insert pagination into that element instead of using the default position.</p>             </td>             <td class="code">               <div class="highlight"><pre>    $dotNavWrapper: <span class="literal">undefined</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>If element is specified, insert pagination into that element instead of using the default position.</p>             </td>             <td class="code">               <div class="highlight"><pre>    $dotNavWrapper: <span class="literal">undefined</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>If element is specified, insert paddles into that element instead of using the default position.</p>             </td>             <td class="code">               <div class="highlight"><pre>    $paddleWrapper: <span class="literal">undefined</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>If element is specified, insert paddles into that element instead of using the default position.</p>             </td>             <td class="code">               <div class="highlight"><pre>    $paddleWrapper: <span class="literal">undefined</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>Create dot pagination, which is inserted after self.$el.</p>             </td>             <td class="code">               <div class="highlight"><pre>    pagination: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Create dot pagination, which is inserted after self.$el.</p>             </td>             <td class="code">               <div class="highlight"><pre>    pagination: <span class="literal">false</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Use <code>light</code> or <code>dark</code> bullets for pagination.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paginationTheme: <span class="string">'dark'</span>
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Use <code>light</code> or <code>dark</code> bullets for pagination.</p>             </td>             <td class="code">               <div class="highlight"><pre>    paginationTheme: <span class="string">'dark'</span>
   };
 
 });

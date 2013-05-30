@@ -123,14 +123,6 @@ define(<span class="keyword">function</span>(require){
         self.initiScroll();
       }
 
-      <span class="keyword">var</span> supportsOrientationChange = <span class="string">"onorientationchange"</span> <span class="keyword">in</span> window,
-      orientationEvent = supportsOrientationChange ? <span class="string">"orientationchange"</span> : <span class="string">"resize"</span>;
-
-      window.addEventListener(orientationEvent, <span class="keyword">function</span>() {
-        self.measureModal();
-      }, <span class="literal">false</span>);
-
-
       self.bind();
     },
 
@@ -441,7 +433,6 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
         $chapterTabs.removeClass(<span class="string">'active'</span>);
       },<span class="number">100</span>);
 
-        self.launchModal();
         self.updateiScroll();
 
         <span class="keyword">var</span> t = setTimeout(<span class="keyword">function</span>(){
@@ -489,6 +480,19 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       $(<span class="string">'#'</span> + self.modalID).modal();
       self.measureModal();
+      self.orientationChange();
+    },
+
+    orientationChange: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">var</span> supportsOrientationChange = <span class="string">"onorientationchange"</span> <span class="keyword">in</span> window,
+      orientationEvent = supportsOrientationChange ? <span class="string">"orientationchange"</span> : <span class="string">"resize"</span>;
+
+      window.addEventListener(orientationEvent, <span class="keyword">function</span>() {
+        self.measureModal();
+      }, <span class="literal">false</span>);
+
     },
 
     initiScroll: <span class="keyword">function</span>() {

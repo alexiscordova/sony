@@ -362,11 +362,11 @@ $gifHeight: 60px;
   padding-bottom: 1em;
 }
 
-.gallery .sort-options {
+.gallery-content .sort-options {
   margin-left: px-em( 14 );
 }
 
-.gallery .sort-options .filter-label {
+.gallery-content .sort-options .filter-label {
   margin: -8px 0 0;
 }
 
@@ -738,7 +738,6 @@ $gifHeight: 60px;
 
 $compareBorder: .0625em solid $gray70;
 .gallery-compare {
-  overflow: hidden;
 
   .detail-label-group,
   .detail-group {
@@ -762,6 +761,12 @@ $compareBorder: .0625em solid $gray70;
   .detail-label {
     padding: 1.125em 1em 0 0;
   }
+}
+
+// Default paddles set this top position:absolute; and top:50%;
+.compare-nav-container {
+  position: static;
+  top: auto;
 }
 
 // Holds labels and compare-items
@@ -1060,11 +1065,6 @@ $stickyHeaderHeight: px-em(82);
   .compat-filters {
     position: relative;
     z-index: 2;
-  }
-
-  .product-count-wrap {
-    float: left;
-    margin-top: px-em(11);
   }
 
   .products {
