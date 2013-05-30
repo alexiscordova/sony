@@ -104,9 +104,7 @@ define(function(require){
     // Swatches and tooltips are triggered on hover, so they don't need to be
     // initialized immediately
     setTimeout(function() {
-      if ( !self.hasTouch ) {
-        self.initSwatches();
-      }
+      self.initSwatches();
       self.initFavorites();
 
       // Infinite scroll has to come after initFavorites
@@ -1214,9 +1212,9 @@ define(function(require){
             }
 
             // This is silly. Maybe a new method for iQ. iQ.refresh()
-            setTimeout(function() {
-              iQ.reset();
-            }, 300);
+            // setTimeout(function() {
+            //   iQ.reset();
+            // }, 300);
           }, 15);
       }
 
@@ -1241,14 +1239,17 @@ define(function(require){
 
       $collection = $collection || self.$grid.find('.mini-swatch[data-color]');
       $collection.each(function() {
-          var $swatch = $(this),
-              hidden = 'hidden',
-              color = $swatch.data('color'),
-              $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
-              $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
+        var $swatch = $(this),
+            hidden = 'hidden',
+            color = $swatch.data('color'),
+            $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
+            $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
 
-          $swatch.on('click', false);
+        $swatch.on('click', false);
 
+        // Only bind mouse enter and mouse leave events to non-touch environments
+        // Otherwise when they're tapped, it counts as a hover, changes the swatch, and sticks
+        if ( !self.hasTouch ) {
           $swatch.hover(function() {
             // Mouse over, hide the main image, show the swatch image
             if ( self.currentFilterColor ) {
@@ -1268,8 +1269,9 @@ define(function(require){
               $productImg.removeClass( hidden );
             }
           });
+        }
 
-          $swatch = null;
+        $swatch = null;
       });
 
       $collection = null;
@@ -1278,11 +1280,6 @@ define(function(require){
     },
 
     loadSwatchImages : function() {
-      // Don't load them on touch
-      if ( this.hasTouch ) {
-        return;
-      }
-
       var $newIQImgs = this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
 
       if ( $newIQImgs.length ) {
