@@ -119,6 +119,7 @@
      height: 100%;
      overflow:hidden;
 
+
      .lt-ie8 & {
        width: 49.5%;
      }
@@ -158,6 +159,7 @@
         opacity: 0;
         -webkit-backface-visibility: hidden;
         @include transition(opacity .75s $easeNormal);
+        @include fadeoutOnHover(".uxmc-image-wrapper");
 
         &.active{
           -webkit-backface-visibility: hidden;
