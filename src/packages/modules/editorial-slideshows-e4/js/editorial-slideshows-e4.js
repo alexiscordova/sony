@@ -90,6 +90,10 @@ define(function(require) {
 
         self.$el.css( 'overflow' , overflow );
 
+        if(self.$el.hasClass('normal')){
+          return;
+        }
+
         if(wW > 980){
           //this makes the header grow 1px taller for every 20px over 980w..
           self.$el.find('.editorial-carousel-wrapper').css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));

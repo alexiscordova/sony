@@ -711,7 +711,9 @@ define(function(require) {
         var self = this;
 
 
-        self.$el.sonyPaddles();
+        self.$el.sonyPaddles({
+          paddlePosition: 'outset'
+        });
 
         self.$el.on('sonyPaddles:clickLeft', function() {
           self.currentId --;

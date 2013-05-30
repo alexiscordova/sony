@@ -43,26 +43,29 @@ $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 
-.editorial-carousel-wrapper {
+.editorial-slideshow-container.full {
 
-  max-height: 720px;
+  .editorial-carousel-wrapper {
 
-  @media (min-width: $tabletMin) and (max-width: $tabletMax) {
-    height: 500px;
+    max-height: 720px;
+
+    @media (min-width: $tabletMin) and (max-width: $tabletMax) {
+      height: 500px;
+    }
+
+    @media (max-width: $phoneMax) {
+      height: 420px;
+    }
+    
+    @media (min-width: $phoneMin) and (max-width: $phoneMax){
+      height: 420px;
+    }
+
+    @media (max-width: $subPhoneMax){
+      height: 400px;
+    }
+
   }
-
-  @media (max-width: $phoneMax) {
-    height: 420px;
-  }
-  
-  @media (min-width: $phoneMin) and (max-width: $phoneMax){
-    height: 420px;
-  }
-
-  @media (max-width: $subPhoneMax){
-    height: 400px;
-  }
-
 }
 
 
