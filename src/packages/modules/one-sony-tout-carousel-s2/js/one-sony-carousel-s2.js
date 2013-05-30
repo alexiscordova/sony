@@ -114,7 +114,7 @@ define(function(require){
 
       self.$innerContainer.sonyCarousel('resetSlides');
 
-      iQ.updateNew();
+      iQ.reset();
     },
 
     // Splits the default layout into slides with children each of column width
@@ -138,7 +138,7 @@ define(function(require){
 
       self.$innerContainer.sonyCarousel('resetSlides');
 
-      iQ.updateNew();
+      iQ.reset();
     }
 
   };
