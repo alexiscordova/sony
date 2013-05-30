@@ -89,6 +89,8 @@ define(function(require){
         'position': 'relative'
       });
 
+      self.stickyHeader.refresh();
+
     },
 
     resetHeight : function () {
@@ -123,7 +125,12 @@ define(function(require){
         self.toDesktop();
       }
 
-      $(window).on('orientationchange', $.proxy(self.setMobileHeight, self));
+      //$(window).on('orientationchange', $.proxy(self.setMobileHeight, self));
+      var supportsOrientationChange = "orientationchange" in window,
+          orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+      window.addEventListener(orientationEvent, function() {
+          self.setMobileHeight();
+      }, false);
 
       return self;
     },

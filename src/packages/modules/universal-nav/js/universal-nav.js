@@ -296,10 +296,10 @@ var UNAV = ( function( window, document, $, undefined ) {
       // console.log("$('#nav-wrapper').offset().top: " + $('#nav-wrapper').offset().top);
       // console.log("$(document).scrollTop(): " + $(document).scrollTop());
       var topOfNavOffset = $(document).scrollTop() - $('#nav-wrapper').offset().top;
-      console.log("topOfNavOffset: " + topOfNavOffset);
-      if (topOfNavOffset < 5){
-        window.scrollTo(0, $('#nav-wrapper').offset().top);
-      }
+      // console.log("topOfNavOffset: " + topOfNavOffset);
+      // if (topOfNavOffset < 5){
+      //   window.scrollTo(0, $('#nav-wrapper').offset().top);
+      // }
     },2);
 
     if (hasCssTransitions) {
