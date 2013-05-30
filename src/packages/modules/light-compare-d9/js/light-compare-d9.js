@@ -468,9 +468,6 @@ define(function(require){
 
         self.updateiScroll();
 
-        var t = setTimeout(function(){
-          self.updateiScroll();
-        }, 1000);
       // update the hash after we got the correct slide transition
       self.updateHash(self.location, self.currentId);
     },
@@ -523,7 +520,7 @@ define(function(require){
     orientationChange: function() {
       var self = this;
 
-      var supportsOrientationChange = "onorientationchange" in window,
+      var supportsOrientationChange = "orientationchange" in window,
       orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
 
       window.addEventListener(orientationEvent, function() {
@@ -562,6 +559,9 @@ define(function(require){
       } else {
         self.resetModal();
       }
+      var t = setTimeout(function(){
+        self.updateiScroll();
+      }, 1000);
     },
 
     positionModal: function(width, height) {
@@ -579,6 +579,7 @@ define(function(require){
         'margin-top': '',
         'margin-left': ''
       });
+
     }
   };
 
