@@ -942,11 +942,17 @@ $default-transition-delay    : 0s;
 
 // Opacity
 @mixin opacity($opacity) {
+
   opacity: $opacity / 100;
-  filter: alpha(opacity=$opacity);
+
+  .no-opacity & {
+    @if ( $opacity == 0 ){
+      visibility: hidden;
+    } @else {
+      visibility: visible;
+    }
+  }
 }
-
-
 
 // BACKGROUNDS
 // --------------------------------------------------
