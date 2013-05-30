@@ -889,7 +889,8 @@ as its looped through</p>             </td>             <td class="code">       
         hideLayoutWithFade: <span class="literal">true</span>,
         sequentialFadeDelay: <span class="number">60</span>,
         buffer: <span class="number">8</span>,
-        supported: Settings.shuffleSupport
+        supported: Settings.shuffleSupport,
+        useTransition: !( Settings.isPS3 )
       });
 
       self.shuffle = self.$grid.data(<span class="string">'shuffle'</span>);
@@ -2958,6 +2959,7 @@ which ever is smaller</p>             </td>             <td class="code">       
         sequentialFadeDelay: <span class="number">60</span>,
         buffer: <span class="number">20</span>,
         supported: Settings.shuffleSupport,
+        useTransition: !( Settings.isPS3 ),
         columnWidth: <span class="keyword">function</span>( containerWidth ) {
           <span class="keyword">var</span> column = containerWidth;
 
