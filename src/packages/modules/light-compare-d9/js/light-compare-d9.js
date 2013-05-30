@@ -132,14 +132,6 @@ define(function(require){
         self.initiScroll();
       }
 
-      var supportsOrientationChange = "onorientationchange" in window,
-      orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-
-      window.addEventListener(orientationEvent, function() {
-        self.measureModal();
-      }, false);
-
-
       self.bind();
     },
 
@@ -474,7 +466,6 @@ define(function(require){
         $chapterTabs.removeClass('active');
       },100);
 
-        self.launchModal();
         self.updateiScroll();
 
         var t = setTimeout(function(){
@@ -526,6 +517,19 @@ define(function(require){
       var self = this;
       $('#' + self.modalID).modal();
       self.measureModal();
+      self.orientationChange();
+    },
+
+    orientationChange: function() {
+      var self = this;
+
+      var supportsOrientationChange = "onorientationchange" in window,
+      orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+
+      window.addEventListener(orientationEvent, function() {
+        self.measureModal();
+      }, false);
+
     },
 
     initiScroll: function() {

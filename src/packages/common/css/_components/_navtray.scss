@@ -26,13 +26,12 @@
   z-index:180;
   @include transition(top $navtrayShortCloseSpeed ease-in 0.1s, left 0s linear $navtrayShortCloseSpeed); 
 }
-  // -webkit-transform: translate3d(0, 0, 0); // fix janky animation
 
 .navtray-w-visible,
 .navtray-w-tall.navtray-w-visible,
 .navtray-w-short.navtray-w-visible{
   left:0;
-  top: $navbarHeight - 1; // minus 1 for a little overlap under the navbar - otherwise sometimes you can see half a pixel peek out
+  top: $navbarHeight;
   opacity:1;
 
   @include transition(top $navtrayOpenSpeed $easeOutNav 0.13s, left 0s linear 0s);  
