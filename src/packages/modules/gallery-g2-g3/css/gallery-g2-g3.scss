@@ -738,7 +738,6 @@ $gifHeight: 60px;
 
 $compareBorder: .0625em solid $gray70;
 .gallery-compare {
-  overflow: hidden;
 
   .detail-label-group,
   .detail-group {
@@ -762,6 +761,12 @@ $compareBorder: .0625em solid $gray70;
   .detail-label {
     padding: 1.125em 1em 0 0;
   }
+}
+
+// Default paddles set this top position:absolute; and top:50%;
+.compare-nav-container {
+  position: static;
+  top: auto;
 }
 
 // Holds labels and compare-items
