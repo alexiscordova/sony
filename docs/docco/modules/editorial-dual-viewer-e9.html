@@ -81,7 +81,7 @@ well with the touch events.</p>             </td>             <td class="code"> 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Set initial scrubber position to the middle of the viewer</p>             </td>             <td class="code">               <div class="highlight"><pre>
       self.$scrubber.sonyDraggable(<span class="string">'setPositions'</span>, {x: <span class="number">50</span>, y:<span class="number">50</span>});
 
-      self.$scrubber.on(<span class="string">'release'</span>, $.proxy(self.onRelease, self));
+      self.$scrubber.on(<span class="string">'dragend'</span>, $.proxy(self.onRelease, self));
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>The below is some junk that Steve added, I need to do this in a smarter way.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       self.$handle.mouseenter(<span class="keyword">function</span>(){

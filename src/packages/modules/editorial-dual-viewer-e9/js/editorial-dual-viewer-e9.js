@@ -84,7 +84,7 @@ define(function(require){
 
       self.$scrubber.sonyDraggable('setPositions', {x: 50, y:50});
 
-      self.$scrubber.on('release', $.proxy(self.onRelease, self));
+      self.$scrubber.on('dragend', $.proxy(self.onRelease, self));
 
       // The below is some junk that Steve added, I need to do this in a smarter way.
 

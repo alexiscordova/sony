@@ -110,7 +110,7 @@ define(function (require) {
     },
 
     scrollToTop: function() {
-      $.simplescroll();
+      $('html,body').animate({ scrollTop: 0 }, 400, 'swing');
     },
 
     // Swap two jQuery elements.

@@ -17,6 +17,16 @@ define(function(require){
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings');
 
+  // This key-value mapping is used to show default values (as key) and their
+  // desired mobile equivalents (as the matching values). Assigned to relevant
+  // elements by `setupAlternateSizes`.
+
+  var mobileSizeAlternates = {
+    'align-left-center': 'align-left-bottom',
+    'align-right-center': 'align-left-bottom',
+    'align-center-center': 'align-left-top'
+  };
+
   var module = {
     'init': function() {
       $('.secondary-tout').each(function(){
@@ -55,9 +65,11 @@ define(function(require){
 
       enquire.register("(min-width: 768px)", function() {
         self.renderDesktop();
+        self.assignDefaultLayouts();
       });
       enquire.register("(max-width: 767px)", function() {
         self.renderEvenColumns(12);
+        self.assignMobileLayouts();
       });
 
     } else {
@@ -87,6 +99,7 @@ define(function(require){
       self.fixCenteredContent('align-left-center', 'align-left-top');
 
       self.setupLinkClicks();
+      self.setupAlternateSizes();
     },
 
     // Create or restore the default slide layout.
@@ -129,6 +142,55 @@ define(function(require){
              .add($this)
              .removeClass(self.contentWidthClasses)
              .addClass('content-' + colPerItem);
+      });
+    },
+
+    // Given the `mobileSizeAlternates keyval mapping, cache any mapped value
+    // with its original and mobile layouts, and push matched elements into
+    // an object for later access by the enquire callbacks.
+
+    setupAlternateSizes: function() {
+
+      var self = this;
+
+      self.$itemsEvaluatedOnResize = $();
+
+      for ( var i in mobileSizeAlternates ) {
+
+        var $matched = self.$el.find('.' + i);
+
+        self.$itemsEvaluatedOnResize = self.$itemsEvaluatedOnResize.add($matched);
+
+        $matched.data('originalLayout', i);
+        $matched.data('mobileLayout', mobileSizeAlternates[i]);
+      }
+    },
+
+    // At the mobile breakpoint, remove `originalLayout` classes assigned by `setupAlternateSizes()`
+    // and assign `mobileLayout` classes.
+
+    assignMobileLayouts: function() {
+
+      var self = this;
+
+      self.$itemsEvaluatedOnResize.each(function(){
+        var $this = $(this);
+
+        $this.removeClass($this.data('originalLayout')).addClass($this.data('mobileLayout'));
+      });
+    },
+
+    // At the mobile breakpoint, remove `mobileLayout` classes assigned by `setupAlternateSizes()`
+    // and assign `originalLayout` classes.
+
+    assignDefaultLayouts: function() {
+
+      var self = this;
+
+      self.$itemsEvaluatedOnResize.each(function(){
+        var $this = $(this);
+
+        $this.removeClass($this.data('mobileLayout')).addClass($this.data('originalLayout'));
       });
     },
 

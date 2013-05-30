@@ -40,11 +40,13 @@ define(<span class="keyword">function</span>(require) {
       self.$slideContainer = self.$el.find( <span class="string">'.editorial-carousel'</span> );
       self.numSlides = self.$slides.length;
 
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>If the $slideContainer is in a span6, consider it "small" for styling purposes.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.isSmall = ( self.$slideContainer.parents(<span class="string">'.span6'</span>).length &gt; <span class="number">0</span> );
+
       self.$document            = Settings.$document;
       self.$window              = Settings.$window;
       self.$html                = Settings.$html;
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Inits the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Inits the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
 
       self.$el.data( <span class="string">'editorialSlideshow'</span>, self );
 
@@ -76,7 +78,7 @@ define(<span class="keyword">function</span>(require) {
         Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self.onDebouncedResize, self ));
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Handles global debounced resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Handles global debounced resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>
       onDebouncedResize: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             isLargeDesktop = Modernizr.mq( <span class="string">'(min-width: 74.9375em)'</span> ),
@@ -86,35 +88,35 @@ define(<span class="keyword">function</span>(require) {
         self.$el.css( <span class="string">'overflow'</span> , overflow );
 
         <span class="keyword">if</span>(wW &gt; <span class="number">980</span>){
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>this makes the header grow 1px taller for every 20px over 980w..</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$el.find(<span class="string">'.editorial-carousel-wrapper'</span>).css(<span class="string">'height'</span>, Math.round(Math.min(<span class="number">720</span>, <span class="number">560</span> + ((wW - <span class="number">980</span>) / <span class="number">5</span>))));
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));</p>             </td>             <td class="code">               <div class="highlight"><pre>        }<span class="keyword">else</span>{
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>this removes the dynamic css so it will reset back to responsive styles</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$el.find(<span class="string">'.editorial-carousel-wrapper'</span>).css(<span class="string">'height'</span>, <span class="string">''</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>this makes the header grow 1px taller for every 20px over 980w..</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$el.find(<span class="string">'.editorial-carousel-wrapper'</span>).css(<span class="string">'height'</span>, Math.round(Math.min(<span class="number">720</span>, <span class="number">560</span> + ((wW - <span class="number">980</span>) / <span class="number">5</span>))));
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));</p>             </td>             <td class="code">               <div class="highlight"><pre>        }<span class="keyword">else</span>{
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>this removes the dynamic css so it will reset back to responsive styles</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$el.find(<span class="string">'.editorial-carousel-wrapper'</span>).css(<span class="string">'height'</span>, <span class="string">''</span>);
         }
 
 
       },
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Main setup method for the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Main setup method for the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>
       setupCarousel: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Using Sony Carousel for this module</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slideContainer.sonyCarousel({
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Using Sony Carousel for this module</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slideContainer.sonyCarousel({
           wrapper: <span class="string">'.editorial-carousel-wrapper'</span>,
           slides: <span class="string">'.editorial-carousel-slide'</span>,
-          CSS3Easing: Settings.easing.easeOut,
           looped: <span class="literal">true</span>,
           jumping: <span class="literal">true</span>,
           axis: <span class="string">'x'</span>,
           dragThreshold: <span class="number">2</span>,
           paddles: <span class="literal">true</span>,
+          useSmallPaddles: self.isSmall,
           pagination: <span class="literal">true</span>
         });
 
         <span class="keyword">return</span> self;
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Sets up slides to correct width based on how many there are.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Sets up slides to correct width based on how many there are.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       setupSlides: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             slidesWithClones = self.numSlides + <span class="number">2</span>,

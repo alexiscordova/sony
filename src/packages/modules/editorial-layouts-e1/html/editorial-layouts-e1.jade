@@ -80,7 +80,7 @@ mixin copyblock(_copy, _title, _subtitle, _body, linkclass)
       p(class = bodyclass) !{copyobject.body}
   if copyobject.link
     .link
-      linktextsize = copyobject.link.type == "txt" ? "lt3" : ""
+      linktextsize = copyobject.link.type == "text" ? "lt2" : ""
       a(class = copyobject.link.type, href= copyobject.link.url)(class = linktextsize) !{copyobject.link.text}
 
 mixin textonlylayout(_layout)
