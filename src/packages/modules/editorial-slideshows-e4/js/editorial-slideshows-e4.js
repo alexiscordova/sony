@@ -66,7 +66,7 @@ define(function(require) {
 
         self.setupSlides();
 
-        if ( $firstImage.data('hasLoaded') === true ) {
+        if ( $firstImage.data('hasLoaded') ) {
           self.setupCarousel();
         } else {
           $firstImage.on('imageLoaded', function(){
@@ -84,27 +84,27 @@ define(function(require) {
 
       onDebouncedResize: function() {
         var self = this,
-            isLargeDesktop = Modernizr.mq( '(min-width: 74.9375em)' ),
-            overflow = isLargeDesktop ? 'hidden' : 'visible',
-            wW = self.$window.width();
+            isDesktop = !Modernizr.mediaqueries || Modernizr.mq( '(min-width: 61.25em)' ),
+            // isLargeDesktop = isDesktop && Modernizr.mq( '(min-width: 74.9375em)' ),
+            // overflow = isLargeDesktop ? 'hidden' : 'visible',
+            windowWidth,
+            slideshowHeight = '';
 
-        self.$el.css( 'overflow' , overflow );
-
-        if(wW > 980){
-          //this makes the header grow 1px taller for every 20px over 980w..
-          self.$el.find('.editorial-carousel-wrapper').css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
-          //$('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
-        }else{
-          //this removes the dynamic css so it will reset back to responsive styles
-          self.$el.find('.editorial-carousel-wrapper').css('height', '');
+        if ( !self.isSmall && isDesktop ) {
+          windowWidth = self.$window.width(),
+          // Make the header grow 1px taller for every 20px over 980w..
+          slideshowHeight = 560 + ((windowWidth - 980) / 5);
+          slideshowHeight = Math.round( Math.min( 720, slideshowHeight ) );
+          // $('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
         }
 
-
+        // On mobile, the dynamic height is reset back to nothing
+        // self.$el.css( 'overflow' , overflow );
+        self.$el.find('.editorial-carousel-wrapper').css( 'height', slideshowHeight );
       },
 
 
       // Main setup method for the carousel
-
       setupCarousel: function() {
         var self = this;
 
@@ -125,7 +125,6 @@ define(function(require) {
       },
 
       // Sets up slides to correct width based on how many there are.
-
       setupSlides: function() {
         var self = this,
             slidesWithClones = self.numSlides + 2,
