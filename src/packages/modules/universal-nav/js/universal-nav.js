@@ -292,6 +292,16 @@ var UNAV = ( function( window, document, $, undefined ) {
 
     // var triggered = false;
 
+    var unavClose_ScrollToTop_int = setInterval(function(){
+      // console.log("$('#nav-wrapper').offset().top: " + $('#nav-wrapper').offset().top);
+      // console.log("$(document).scrollTop(): " + $(document).scrollTop());
+      var topOfNavOffset = $(document).scrollTop() - $('#nav-wrapper').offset().top;
+      console.log("topOfNavOffset: " + topOfNavOffset);
+      if (topOfNavOffset < 5){
+        window.scrollTo(0, $('#nav-wrapper').offset().top);
+      }
+    },2);
+
     if (hasCssTransitions) {
       $pageWrapInner
       .css('margin-top', '0px')
@@ -301,6 +311,7 @@ var UNAV = ( function( window, document, $, undefined ) {
         // if ($(e.delegateTarget).is($(e.target)) && !triggered){
         if ($(e.delegateTarget).is($(e.target))){
           // triggered = true;
+          clearInterval(unavClose_ScrollToTop_int);
           $(document).trigger("universal-nav-close-finished");
           $pageWrapOuter.removeClass('unav-open unav-open-until-transition-end');
           $pageWrapInner.css('margin-top', '')[ OFF ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend');
@@ -308,6 +319,7 @@ var UNAV = ( function( window, document, $, undefined ) {
       });
     } else {
       $pageWrapInner.animate({ 'marginTop': '0px'}, 400,  function() {
+        clearInterval(unavClose_ScrollToTop_int);
         $(document).trigger("universal-nav-close-finished");
         $pageWrapOuter.removeClass('unav-open-until-transition-end unav-open');
         $pageWrapInner.css('margin-top', '');
