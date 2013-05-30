@@ -43,7 +43,9 @@ define(function(require){
     self.currentSlide = 0;
     self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
 
-    self.init();
+    self.$el.on('SecondaryTouts:ready', function() {
+      self.init();
+    });
 
     log('SONY : OneSonyCarousel : Initialized');
   };
@@ -69,7 +71,6 @@ define(function(require){
       });
 
       self.$cachedSlides = self.$slides.detach();
-
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find('.st-item').remove();
 
@@ -99,7 +100,7 @@ define(function(require){
 
       var self = this;
 
-      self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });
+      self.$innerContainer.on(Settings.transEndEventName, iQ.update);
     },
 
     // Create or restore the default slide layout.
@@ -112,6 +113,8 @@ define(function(require){
       self.$innerContainer.empty().append($newSlides);
 
       self.$innerContainer.sonyCarousel('resetSlides');
+
+      iQ.updateNew();
     },
 
     // Splits the default layout into slides with children each of column width
@@ -134,6 +137,8 @@ define(function(require){
       }
 
       self.$innerContainer.sonyCarousel('resetSlides');
+
+      iQ.updateNew();
     }
 
   };
