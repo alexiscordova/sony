@@ -682,7 +682,7 @@ It does NOT account for 2 products -> 1 product</p>             </td>           
           filterName = <span class="string">''</span>,
           filterValues = [],
           filterValue = <span class="string">''</span>,
-          i = <span class="number">0</span>;
+          i;
 
       self.lastFilterGroup = <span class="literal">null</span>;
       self.secondLastFilterGroup = <span class="literal">null</span>;
@@ -704,7 +704,7 @@ It does NOT account for 2 products -> 1 product</p>             </td>           
           } <span class="keyword">else</span> {
 </pre></div>             </td>           </tr>                               <tr id="section-98">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-98">&#182;</a>               </div>               <p>Get the filter values without a reference because we want to delete parts of the array
 as its looped through</p>             </td>             <td class="code">               <div class="highlight"><pre>            filterValues = $.extend([], self.filters[ filterType ][ filterName ]);
-            <span class="keyword">for</span> ( ; i &lt; filterValues.length; i++ ) {
+            <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; filterValues.length; i++ ) {
               filterValue = filterValues[ i ];
 </pre></div>             </td>           </tr>                               <tr id="section-99">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-99">&#182;</a>               </div>               <p>Remove from internal data and UI</p>             </td>             <td class="code">               <div class="highlight"><pre>              self.deleteFilter( filterValue, filterName, filterType );
             }
