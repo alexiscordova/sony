@@ -153,6 +153,14 @@
         aside {
           left: 6%;
           bottom: 6.2%;
+
+          &.has-mini-promo,
+          &.has-mini-promo.has-copy {
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: none;
+          }
         }
 
         .st-social-count {
@@ -160,6 +168,21 @@
           right: 20px;
           width: 110px;
           height: 110px;
+        }
+
+        .mini-promo {
+          display: block;
+          background-color: $gray10;
+
+          .mini-promo-image-container {
+
+            .play-button {
+            }
+          }
+
+          .mini-promo-caption {
+            color: $white;
+          }
         }
       }
 
