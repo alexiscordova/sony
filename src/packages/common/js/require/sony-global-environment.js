@@ -24,8 +24,14 @@ define(function (require) {
       self.normalizeLogs();
       self.appendModernizrTests();
       self.addDeviceClasses();
+      self.loadFonts();
 
       log('SONY : Global : Environment : Initialized');
+    },
+
+    loadFonts: function(){
+      var protocol = ('https:'==document.location.protocol?'https:':'http:');
+      $('head').append('<link rel="stylesheet" href="' + protocol + '//fast.fonts.com/t/1.css?apiType=css&projectid=2f9c337f-0594-48e7-899e-7b595b9b9840">');
     },
 
     appendModernizrTests: function() {

@@ -5,7 +5,7 @@ layouts = locals.getConfigFile("packages/modules/gallery-g2-g3/html/layouts.json
 mixin loaderDiv()
   .relative.gallery-loader
     .loading.text-center
-      img(src="img/loader.gif", alt="Loading...")
+      img(class="global-loader", src="img/loader.gif", alt="Loading...")
 
 mixin filterColor( filterSet )
   ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
