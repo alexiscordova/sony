@@ -17,8 +17,7 @@ mixin pdpSlide(data)
         if slideData.mode == 'imageGallery'
           +iQImage(slideData.productImg, 'ghost-center update-always')
         else if slideData.mode == 'video'
-          div(class='sony-video ' + data.variation , data-variation=data.variation)
-            +sonyVideo( slideData.video, 'ghost-center' )
+          +sonyVideo( slideData.video, 'ghost-center' )
 
 //- Mixin for thumbnails
 mixin pdpThumbs(data)
