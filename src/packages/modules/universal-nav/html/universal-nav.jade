@@ -13,8 +13,9 @@ div#universal-nav.u-nav-wrapper(role='navigation')
   div.u-nav.container
     div.u-nav-head.grid
       a#u-nav-close-btn.u-nav-close-btn(href="#",tabindex=tab_index++)
-        | !{data.close_btn.label}
-        img.u-nav-close-btn-img(src="", data-src-desktop=data.close_btn.srcDesktop, data-src-desktop-highres=data.close_btn.srcDesktopHighRes, width=12, height=12)
+        span.u-nav-close-btn-label !{data.close_btn.label}
+        span.u-nav-close-btn-img-container
+          img.u-nav-close-btn-img(src="", data-src-desktop=data.close_btn.srcDesktop, data-src-desktop-highres=data.close_btn.srcDesktopHighRes, width=12, height=12)
       //- - tab_index++
       h5.l1
         | !{data.title}
