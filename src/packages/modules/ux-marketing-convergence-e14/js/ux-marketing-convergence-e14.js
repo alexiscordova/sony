@@ -193,7 +193,7 @@ define(function(require){
       var self = this,
           isMobile = Modernizr.mq('(max-width:'+ self.mobileNavThreshold +'px)');
 
-      console.log( 'isMobile? »' , isMobile);
+      //console.log( 'isMobile? »' , isMobile);
       self.dialStyles = isMobile ? self.dialInitMobile : self.dialInit;
     },
 
