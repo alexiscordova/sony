@@ -56,7 +56,8 @@ run iQ.update() to load in their newly-created assets. This is a deep issue
 in iQ that will probably require a thorough refactor of that class.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setTimeout(<span class="keyword">function</span>(){
       self.$el.find(<span class="string">'.st-image'</span>).addClass(<span class="string">'iq-img'</span>);
-      iQ.update(<span class="literal">true</span>);
+      iQ.reset();
+      self.$el.trigger(<span class="string">'SecondaryTouts:ready'</span>);
     }, <span class="number">1000</span>);
 
     <span class="keyword">if</span> ( self.$items.parents().hasClass(<span class="string">'no-grid-at-767'</span>) &amp;&amp; !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){

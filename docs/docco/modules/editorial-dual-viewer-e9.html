@@ -85,20 +85,20 @@ well with the touch events.</p>             </td>             <td class="code"> 
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>The below is some junk that Steve added, I need to do this in a smarter way.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       self.$handle.mouseenter(<span class="keyword">function</span>(){
-        self.$scrubber.addClass(<span class="string">'dragging2'</span>);
+        self.$scrubber.addClass(<span class="string">'hover'</span>);
       });
 
       self.$handle.mouseleave(<span class="keyword">function</span>(){
         <span class="keyword">if</span> ( !self.$scrubber.hasClass(<span class="string">'dragging'</span>) ) {
           setTimeout(<span class="keyword">function</span>(){
-            self.$scrubber.removeClass(<span class="string">'dragging2'</span>);
+            self.$scrubber.removeClass(<span class="string">'hover'</span>);
           }, <span class="number">250</span>);
         }
       });
 
       self.$scrubber.on(<span class="string">'sonyDraggable:dragEnd'</span>, <span class="keyword">function</span>(){
         setTimeout(<span class="keyword">function</span>(){
-          self.$scrubber.removeClass(<span class="string">'dragging dragging2'</span>);
+          self.$scrubber.removeClass(<span class="string">'dragging hover'</span>);
         }, <span class="number">250</span>);
       });
 

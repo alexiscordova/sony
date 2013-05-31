@@ -56,6 +56,7 @@ define(function(require) {
       self.$slideContainer      = self.$el.find( self.SLIDE_CONTAINER );
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$pagination          = null;
+      self.$videoPlayers        = self.$el.find('.sony-video');
 
       self.desktopAnimSpeed     = 500;
       self.tabletAnimSpeed      = 300;
@@ -138,11 +139,12 @@ define(function(require) {
         self.$slideContainer.sonyCarousel({
           wrapper: '.pdp-slideshow-outer',
           slides: '.pdp-slideshow-slide',
-          looped: true,
-          jumping: true,
+          looped: !Settings.isPS3,
+          jumping: !Settings.isPS3,
           axis: 'x',
           dragThreshold: 2,
           paddles: true,
+          paddlePosition: 'outset',
           pagination: true,
           $paddleWrapper: self.$el
         });
@@ -162,6 +164,11 @@ define(function(require) {
 
         self.currentId = currentIndex;
         self.setCurrentActiveThumb();
+
+        //shut off any video players when changing slides
+        if(self.$videoPlayers.length){
+          self.$videoPlayers.data('sonyVideo').api().pause();
+        }
 
         setTimeout( iQ.update , 250 );
       },
@@ -247,8 +254,6 @@ define(function(require) {
 
         self.$slideContainer.css( 'width', containerWidth );
         self.$slides.css( 'width', slideWidth );
-
-        sonyVideo.initVideos( self.$el.find('.player') );
 
         return self;
       },

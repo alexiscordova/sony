@@ -56,7 +56,7 @@ define(function(require) {
     // If the user mouses back over the element before the timeout has expired the
     // "out" function will not be called (nor will the "over" function be called).
     // This is primarily to protect against sloppy/human mousing trajectories that
-    // temporarily (and unintentionally) take the user off of the target element... 
+    // temporarily (and unintentionally) take the user off of the target element...
     // giving them time to return.
     self.closeDelay = 160;
     self.closeDelaySearch = 2000;
@@ -135,7 +135,7 @@ define(function(require) {
           }
 
         });
-        // switch to mobile footer 
+        // switch to mobile footer
         enquire.register('(max-width: ' + self.mobileFooterThreshold + 'px)', {
           match : function() {
             self.$html.removeClass('bp-footer-desktop').addClass('bp-footer-mobile');
@@ -214,6 +214,8 @@ define(function(require) {
       // Event triggered when any anchor link inside the nav gets focus
       // Should this only be done for no-touch?
       self.setupFocusPath();
+
+      self.preSetNavTrayImageHeights();
 
       self.resizeAccountUsername();
       Environment.on('global:resizeDebounced-200ms', function() {
@@ -511,33 +513,42 @@ define(function(require) {
     resetActiveNavMenu : function() {
       var self = this;
 
-      if (Settings.isLTIE10) {
+      if ( Settings.isLTIE10 ) {
         $('#nav-search-input').blur();
       }
-      if (Settings.isLTIE9) {
+
+      if ( Settings.isLTIE9 ) {
         $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
         $('.nav-li-search a').blur();
       }
 
+      function next( $navmenu ) {
+        var $transitionContainer = $navmenu.find('.reveal-transition-container');
+
+        $transitionContainer.css( 'height', '' );
+        $navmenu.css({ left: '', right: '' });
+      }
+
+      // Each visible nav menu
       $('.navmenu-w-visible').each(function() {
-        $(this)
-          .removeClass('navmenu-w-visible')
-          .one(self.transitionEnd, function() {
-            var $navmenu = $( this ),
-                $transitionContainer = $navmenu.find('.reveal-transition-container');
+        var $navmenu = $( this );
 
-            $transitionContainer.css( 'height', '' );
-            $navmenu.css({ left: '', right: '' });
+        // Trigger transition
+        $navmenu.removeClass('navmenu-w-visible');
 
-            // clear active class from THIS button!
-            // $('.nav-li-search a').removeClass('active');
+        // If transitions, wait for the transition to end,
+        if ( Modernizr.csstransitions ) {
+          $navmenu.one(self.transitionEnd, function() {
+            next( $( this ) );
+          });
 
-            // setTimeout(function() {
-            //   var c = $transitionContainer.attr('class');
-            //   var h = $transitionContainer.outerHeight();
-            //   console.log("c: " + c + ", h: " + h);
-            // },5);
-        });
+        // otherwise do it right away
+        } else {
+          next( $navmenu );
+        }
+
+        // Release for IE
+        $navmenu = null;
       });
     },
 
@@ -794,7 +805,7 @@ define(function(require) {
 
       // Force an iQ check whenever the navs expand.
       // $navTarget.one(self.transitionEnd, function() {
-      //   iQ.update(true);
+      //   iQ.reset();
       // });
 
       if ( Modernizr.csstransitions ) {
@@ -885,9 +896,12 @@ define(function(require) {
     // MOBILE NAV
 
     prepMobileNav : function() {
-      // console.log("prepMobileNav");
-      var self = this,
-      $outer = $('#nav-outer-container'),
+      console.log("prepMobileNav");
+      var self = this;
+
+      self.preSetNavTrayImageHeights();
+
+      var $outer = $('#nav-outer-container'),
       $inner = $outer.find('.nav-mobile-scroller'),
       innerHeight = $inner.height(),
       pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
@@ -895,8 +909,30 @@ define(function(require) {
       $outer.css( 'height', pageHeight );
       $inner.css( 'height', innerHeight );
 
-      // Set this after `$outer` and `$inner` have been set so that all the setters are in order
+      // Set this after '$outer' and '$inner' have been set so that all the setters are in order
       self.$pageWrapOuter.css( 'height', pageHeight );
+    },
+
+    preSetNavTrayImageHeights : function() {
+
+      var navTrayImgRato = 0.556;
+      // if this is the first time opening the nav, the images aren't loaded yet. This means we don't know how tall the whole
+      // nav is going to be, so we have to estimate / fake it.
+      var $navTrayImageWraps = $('#navtrayElectronics').add($('#navtrayEntertainment')).find('.nav-img-w');
+      $navTrayImageWraps.each(function(){
+        var $thImg = $(this).find('img');
+        if (!$thImg.attr('src')){
+
+          // set its height based on its width & the target ratio, so the entire menu will be the correct height even before the images are loaded.
+          var calcHeight = $thImg.width() * navTrayImgRato;
+          $thImg.height(calcHeight);
+
+          // then listen for when the image is loaded, and remove the custom height so it can flex on resize.
+          $thImg.on('load', function() {
+            $thImg.css('height', '');
+          });
+        }
+      });
     },
 
     initMobileNav : function() {
@@ -932,7 +968,7 @@ define(function(require) {
           }, 0);
         }
       });
-      
+
       Environment.on('global:resizeDebounced', $.proxy(self.resizeUpdateMobileNav,self));
 
     }, // end initMobileNav

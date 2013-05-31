@@ -76,7 +76,7 @@ it inline using the JS, here, so that it works out of the box with just the JS p
       <span class="keyword">if</span> ( self.useCSS3 ) {
 
         self.$el.on(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>, <span class="keyword">function</span>(){
-          iQ.update(<span class="literal">true</span>);
+          iQ.reset();
           self.$el.trigger(<span class="string">'SonyCarousel:AnimationComplete'</span>);
           self.$el.off(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>);
         });

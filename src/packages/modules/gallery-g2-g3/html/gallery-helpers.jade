@@ -147,6 +147,11 @@ mixin galleryShareMenu( shareMenu )
         i.fonticon-10-sm-bold-plus
     +shareMenu( shareMenu.socialButtons, shareMenu.shortLink )
 
+mixin productCount( text, total )
+  div.pull-left.p3.product-count-wrap
+    strong.text-dark.product-count= total
+    | !{ text }
+
 mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
   productsStr = gallery.productsStr ? gallery.productsStr : 'Products'
@@ -166,9 +171,7 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
       div(class=gridClass)
 
         //- Product Count
-        div.pull-left.p3.product-count-wrap
-          strong.text-dark.product-count= gallery.total
-          | !{ productsStr }
+        +productCount( productsStr, gallery.total )
 
         //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
@@ -481,13 +484,12 @@ mixin accessoryFinder( submodules, finder, type, noButton )
           .modal-body.fade
             .modal-body-inner
               .grid.compat-filters.filter-display-bar
-                //- Sort options
-                +sorter( finder.sortSet, finder.sortText )
-
                 //- Product Count
-                span.p3.ib.product-count-wrap
-                  strong.text-dark.product-count= finder.total
-                  | !{ finder.productsStr }
+                +productCount( finder.productsStr, finder.total )
+
+                .pull-right
+                  //- Sort options
+                  +sorter( finder.sortSet, finder.sortText )
 
               .slimgrid.no-grid-at-567.products
                 each module in submodules

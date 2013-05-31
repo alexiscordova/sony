@@ -104,9 +104,7 @@ define(function(require){
     // Swatches and tooltips are triggered on hover, so they don't need to be
     // initialized immediately
     setTimeout(function() {
-      if ( !self.hasTouch ) {
-        self.initSwatches();
-      }
+      self.initSwatches();
       self.initFavorites();
 
       // Infinite scroll has to come after initFavorites
@@ -778,7 +776,7 @@ define(function(require){
           filterName = '',
           filterValues = [],
           filterValue = '',
-          i = 0;
+          i;
 
       self.lastFilterGroup = null;
       self.secondLastFilterGroup = null;
@@ -804,7 +802,7 @@ define(function(require){
             // Get the filter values without a reference because we want to delete parts of the array
             // as its looped through
             filterValues = $.extend([], self.filters[ filterType ][ filterName ]);
-            for ( ; i < filterValues.length; i++ ) {
+            for ( i = 0; i < filterValues.length; i++ ) {
               filterValue = filterValues[ i ];
               // Remove from internal data and UI
               self.deleteFilter( filterValue, filterName, filterType );
@@ -1006,7 +1004,8 @@ define(function(require){
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
         buffer: 8,
-        supported: Settings.shuffleSupport
+        supported: Settings.shuffleSupport,
+        useTransition: !( Settings.isPS3 )
       });
 
       self.shuffle = self.$grid.data('shuffle');
@@ -1205,7 +1204,7 @@ define(function(require){
           // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
           setTimeout(function() {
 
-            // This also calls iQ.update( true )
+            // This also calls iQ.reset();
             self.loadSwatchImages();
 
             if ( self.currentFilterColor ) {
@@ -1213,9 +1212,9 @@ define(function(require){
             }
 
             // This is silly. Maybe a new method for iQ. iQ.refresh()
-            setTimeout(function() {
-              iQ.update( true );
-            }, 300);
+            // setTimeout(function() {
+            //   iQ.reset();
+            // }, 300);
           }, 15);
       }
 
@@ -1240,14 +1239,17 @@ define(function(require){
 
       $collection = $collection || self.$grid.find('.mini-swatch[data-color]');
       $collection.each(function() {
-          var $swatch = $(this),
-              hidden = 'hidden',
-              color = $swatch.data('color'),
-              $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
-              $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
+        var $swatch = $(this),
+            hidden = 'hidden',
+            color = $swatch.data('color'),
+            $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
+            $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
 
-          $swatch.on('click', false);
+        $swatch.on('click', false);
 
+        // Only bind mouse enter and mouse leave events to non-touch environments
+        // Otherwise when they're tapped, it counts as a hover, changes the swatch, and sticks
+        if ( !self.hasTouch ) {
           $swatch.hover(function() {
             // Mouse over, hide the main image, show the swatch image
             if ( self.currentFilterColor ) {
@@ -1267,8 +1269,9 @@ define(function(require){
               $productImg.removeClass( hidden );
             }
           });
+        }
 
-          $swatch = null;
+        $swatch = null;
       });
 
       $collection = null;
@@ -1277,15 +1280,10 @@ define(function(require){
     },
 
     loadSwatchImages : function() {
-      // Don't load them on touch
-      if ( this.hasTouch ) {
-        return;
-      }
-
       var $newIQImgs = this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
 
       if ( $newIQImgs.length ) {
-        iQ.update( true );
+        iQ.reset();
       }
 
       return this;
@@ -3296,6 +3294,7 @@ define(function(require){
         sequentialFadeDelay: 60,
         buffer: 20,
         supported: Settings.shuffleSupport,
+        useTransition: !( Settings.isPS3 ),
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 

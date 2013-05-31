@@ -5,7 +5,7 @@
 .rp-container-tabbed {
   position: relative;
 
-  .lt-ie9 & {
+  .lt-ie10 & {
     height: 495px;
   }
 
@@ -25,49 +25,56 @@
       visibility: hidden !important;
     }
 
-    .lt-ie9 &.invisible {
+    .lt-ie10 &.invisible {
       left: -9999px;
     }
   }
 
 }
 
-// Tabs
-.TABS{}
-  .rp-tabs {
-    margin: 60px 0 23px 0;
-    padding: 0 0 0 0;
-    max-height: 62px;
+.rp-tabs {
+  margin: 60px 0 23px 0;
+  padding: 0 0 0 0;
+  max-height: 62px;
 
-    .rp-tab {
-      background-color: $gray90;
-      color: $gray40;
-      display: inline-block;
-      padding: 16px 18px;
-      padding-left:  40px;
-      padding-right: 40px;
-      @include transition(box-shadow 0.15s ease-in);
-
-      &:first-child {
-         padding-left:  40px;
-         padding-right: 40px;
-      }
-
-      &.active {
-        color: $gray20;
-        box-shadow: inset 0 -4px 0 $linkBlue;
-      }
-
-      &:hover {
-        color: $gray20;
-        box-shadow: inset 0 -4px 0 $linkBlue;
-      };
-    }
-
+  $totalHeight: 18px;
+  $highlightBarHeight: 4px;
+  $whitespaceHeight: $totalHeight - $highlightBarHeight;
+  .rp-tab {
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 16px 40px $totalHeight;
+    color: $gray40;
+    background-color: $gray90;
+    @include box-shadow(inset 0 0 0 $btnBackground);
+    @include transition($transitionFast $easeNormal);
   }
-  //end tabs
 
-/* Related Products */
+  .boxshadow.no-touch & .rp-tab:hover,
+  .boxshadow & .rp-tab.active {
+    color: $gray20;
+    @include box-shadow(inset 0 -#{$highlightBarHeight} 0 $btnBackground);
+  }
+
+  // Sony Tablet S supports box shadow, but not inset box shadow
+  .no-boxshadow & .rp-tab,
+  .sonytablets & .rp-tab {
+    @include box-shadow(none);
+    padding-bottom: $totalHeight;
+    border-bottom: 0 solid $btnBackground;
+  }
+
+  .no-boxshadow.no-touch & .rp-tab:hover,
+  .no-boxshadow & .rp-tab.active,
+  .sonytablets & .rp-tab.active {
+    padding-bottom: $totalHeight - $highlightBarHeight;
+    border-bottom-width: $highlightBarHeight;
+  }
+
+}
+//end tabs
+
+// Related Products
 .RELATEDPRODUCTS {}
   .related-products {
     position: relative;
@@ -78,11 +85,17 @@
     direction: ltr;
     overflow: hidden;
 
+    &.suggested {
+      height: auto;
+    }
+
     &.strip {
       height: 230px;
       margin:0;
 
-      .gallery-item.normal .product-img img { max-height: 100%; }
+      .gallery-item.normal .product-img img {
+        max-height: 100%;
+      }
 
       .nav-paddles {
 
@@ -330,6 +343,8 @@
       .gallery-item:after { content: ''; }
 
       .gallery-item .product-img:after { content: ''; }
+
+
 
       .gallery-item.normal .product-img img { max-height: 155px; }
 

@@ -126,11 +126,12 @@ define(<span class="keyword">function</span>(require) {
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Using Sony Carousel for this module</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slideContainer.sonyCarousel({
           wrapper: <span class="string">'.pdp-slideshow-outer'</span>,
           slides: <span class="string">'.pdp-slideshow-slide'</span>,
-          looped: <span class="literal">true</span>,
-          jumping: <span class="literal">true</span>,
+          looped: !Settings.isPS3,
+          jumping: !Settings.isPS3,
           axis: <span class="string">'x'</span>,
           dragThreshold: <span class="number">2</span>,
           paddles: <span class="literal">true</span>,
+          paddlePosition: <span class="string">'outset'</span>,
           pagination: <span class="literal">true</span>,
           $paddleWrapper: self.$el
         });
@@ -149,6 +150,9 @@ define(<span class="keyword">function</span>(require) {
 
         self.currentId = currentIndex;
         self.setCurrentActiveThumb();
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>shut off any players</p>             </td>             <td class="code">               <div class="highlight"><pre>        
+
 
         setTimeout( iQ.update , <span class="number">250</span> );
       },
