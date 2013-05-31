@@ -1,10 +1,10 @@
 .scroll-to-top{
   @include translate3d(0,0,0);
+  @include transition(opacity $transitionSlow);
   z-index:$zindexScrollToTop;
   position:relative;
   margin-top:px-em(-80px);
   margin-bottom:px-em(50px);
-  @include transition(opacity $transitionSlow);
 
   &.fixed{
     position:fixed;
