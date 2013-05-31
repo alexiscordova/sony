@@ -301,7 +301,8 @@ define(function (require) {
         Settings.$html.removeClass('no-generatedcontent').addClass('generatedcontent');
       }
 
-      if ( Settings.isLTIE8 ) {
+      // IE7 getting false positive
+      if ( Modernizr.generatedcontent && Settings.isLTIE8 ) {
         Modernizr.generatedcontent = false;
         Settings.$html.removeClass('generatedcontent').addClass('no-generatedcontent');
       }

@@ -1760,6 +1760,9 @@ define(function(require){
       $minOutput = $output.find('.range-output-min .val'),
       $maxOutput = $output.find('.range-output-max .val'),
 
+      // Var to only call requestAnimationFrame once per frame
+      isTicking = false,
+
       delay = self.hasTouch ? 1000 : 750,
       method = self.hasTouch ? 'debounce' : 'throttle',
       debouncedFilter = $[ method ]( delay, function() {
@@ -1768,6 +1771,24 @@ define(function(require){
 
       function getPrice( percent ) {
         return Math.round( diff * (percent / 100) ) + MIN_PRICE;
+      }
+
+      function slid() {
+        if ( isTicking ) {
+          return;
+        }
+
+        var args = Array.prototype.slice.call( arguments, 0 );
+        isTicking = true;
+
+        // Only use rAF if it's native
+        if ( Modernizr.raf ) {
+          requestAnimationFrame( function updateWrap() {
+            update.apply( null, args );
+          });
+        } else {
+          update.apply( null, args );
+        }
       }
 
       // Range control update callback
@@ -1797,6 +1818,8 @@ define(function(require){
           // Throttle filtering (especially on touch)
           debouncedFilter();
         }
+
+        isTicking = false;
       }
 
       // Show what's happening with the range control
@@ -1837,7 +1860,7 @@ define(function(require){
       });
 
       // On handle slid, update. Register after initialized so it's not called during initialization
-      self.$rangeControl.on('slid.rangecontrol', update);
+      self.$rangeControl.on( 'slid.rangecontrol', slid );
 
       self.filterValues[ filterName ] = { min: true, max: true };
 
