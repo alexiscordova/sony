@@ -108,7 +108,7 @@ define(<span class="keyword">function</span>(require) {
       $( 'body' ).append( underlayNode );
 */</span>
             
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>detect what type of tracking we need to bind the instance to</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> moduleHandle = self.$container.parent().find( <span class="string">'.image-module'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>detect what type of tracking we need to bind the instance to</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> moduleHandle = self.$container.closest( <span class="string">'.image-module'</span> );
       <span class="keyword">if</span>( moduleHandle.hasClass( <span class="string">'track-by-background'</span> ) ) {
         self.trackingMode   = <span class="string">'background'</span>;
         self.trackingAsset  = moduleHandle;
@@ -118,7 +118,7 @@ define(<span class="keyword">function</span>(require) {
         self.trackingAsset  = $( moduleHandle.children( <span class="string">'.iq-img'</span> )[<span class="number">0</span>] );
         self.variant        = <span class="string">'variant2'</span>;
       }
-      
+
       self.id = self.trackingAsset.attr( <span class="string">'id'</span> );
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>IE7 zindex fix</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( Settings.isLTIE8 ) {
@@ -134,8 +134,6 @@ define(<span class="keyword">function</span>(require) {
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>reparent the full-inner html behind the hotspots, lets play nice kids...</p>             </td>             <td class="code">               <div class="highlight"><pre>          $top.prepend( $temp.remove() );
         }
       }
-
-
 
 </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>when the tracking item changes it's opacity, we trigger the initial flyon animation for the hotspot</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.trackOpacity = <span class="keyword">function</span>() {
         <span class="keyword">switch</span>( self.trackingAsset.css( <span class="string">'opacity'</span> ) ) {
@@ -319,7 +317,8 @@ self.$modalBody.removeClass('in'); // need this?</p>             </td>          
               heightOffset = <span class="number">0</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>compensate for centering in the parent node
-if( $( window ).width() > 768 ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>                widthOffset = ( self.trackingAsset.parent().width() - assetW ) / <span class="number">2</span>;
+if( $( window ).width() > 768 ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>
+                widthOffset = ( self.trackingAsset.parent().width() - assetW ) / <span class="number">2</span>;
                 heightOffset = parseInt( self.trackingAsset.parent().css( <span class="string">'padding-top'</span> ), <span class="number">10</span> );
 </pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>}
 get x coordinate</p>             </td>             <td class="code">               <div class="highlight"><pre>              adjustedX = ( percX * assetW ) / <span class="number">100</span> + widthOffset;
@@ -759,16 +758,17 @@ save last open state</p>             </td>             <td class="code">        
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
-        hotspotsController = self.data(<span class="string">'hotspotsController'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>If we don't have a stored tertiaryModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !hotspotsController ) {
-            hotspotsController = <span class="keyword">new</span> HotspotsController( self, options );
-            self.data( <span class="string">'hotspotsController'</span>, hotspotsController );
-        }
+      hotspotsController = self.data(<span class="string">'hotspotsController'</span>);
 
-        <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
-          hotspotsController[ options ].apply( hotspotsController, args );
-        }
-      });
+</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>If we don't have a stored tertiaryModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !hotspotsController ) {
+        hotspotsController = <span class="keyword">new</span> HotspotsController( self, options );
+        self.data( <span class="string">'hotspotsController'</span>, hotspotsController );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        hotspotsController[ options ].apply( hotspotsController, args );
+      }
+    });
   };
 
 </pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>Defaults options for the module</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.hotspotsController.defaults = {
