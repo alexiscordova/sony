@@ -157,6 +157,10 @@ define(function(require){
       }else{
         self.$dials.simpleKnob(self.dialStyles).trigger('configure', self.dialStyles);
       }
+
+      // self.$dials.simpleKnob().trigger("clear").hide();
+      // self.$dials.simpleKnob(self.dialStyles).trigger('configure', self.dialStyles).show();
+
     },
 
     'handleResize' : function(breakpoint){
