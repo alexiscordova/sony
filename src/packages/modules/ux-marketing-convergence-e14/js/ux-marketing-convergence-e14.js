@@ -157,10 +157,6 @@ define(function(require){
       }else{
         self.$dials.simpleKnob(self.dialStyles).trigger('configure', self.dialStyles);
       }
-
-      // self.$dials.simpleKnob().trigger("clear").hide();
-      // self.$dials.simpleKnob(self.dialStyles).trigger('configure', self.dialStyles).show();
-
     },
 
     'handleResize' : function(breakpoint){
@@ -174,19 +170,6 @@ define(function(require){
       self.dialsINIT();
 
       self.turnDialON($activeDial);
-
-      // console.log( 'self.$progressIndicators init»' , self.$progressIndicators.attr("class"));
-      // // console.log( 'self.$progressIndicators.hasClass("on") »' , self.$progressIndicators.hasClass("on"));
-      // if(self.$progressIndicators.hasClass("on")){
-      //   console.log( 'self.$progressIndicators  had ON »' , self.$progressIndicators.attr("class"));
-      //   self.$progressIndicators.removeClass("on");
-      //   console.log( 'self.$progressIndicators  removed ON »' , self.$progressIndicators.attr("class"));
-      // }
-
-
-      // self.$progressIndicators.addClass("on");
-      // console.log( 'self.$progressIndicators  turned  ON »' , self.$progressIndicators.attr("class"));
-
     },
 
     'setDialStyles' : function(){
@@ -250,8 +233,16 @@ define(function(require){
         // go to the correct slide
         self.gotoPartnerProduct();
       }).on('mouseover', function(e){
+
+        // don't do anything if current dial is active....
+
+        // console.log( 'this »' , $(this).index());
+        // console.log( 'active dial »' , self.$activeDial.index());
+
         // on state
         self.turnDialON( $(this) );
+
+
       }).on('mouseout', function(e){
         // off state
         self.turnDialOFF( $(this) );
