@@ -24,8 +24,14 @@ define(<span class="function"><span class="keyword">function</span> <span class=
       self.normalizeLogs();
       self.appendModernizrTests();
       self.addDeviceClasses();
+      self.loadFonts();
 
       log(<span class="string">'SONY : Global : Environment : Initialized'</span>);
+    },
+
+    loadFonts: <span class="keyword">function</span>(){
+      <span class="keyword">var</span> protocol = (<span class="string">'https:'</span>==document.location.protocol?<span class="string">'https:'</span>:<span class="string">'http:'</span>);
+      $(<span class="string">'head'</span>).append(<span class="string">'&lt;link rel="stylesheet" href="'</span> + protocol + <span class="string">'//fast.fonts.com/t/1.css?apiType=css&amp;projectid=2f9c337f-0594-48e7-899e-7b595b9b9840"&gt;'</span>);
     },
 
     appendModernizrTests: <span class="keyword">function</span>() {

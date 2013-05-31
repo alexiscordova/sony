@@ -15,60 +15,60 @@
 //                                 888                                                                   888
 @media (min-width: 568px) and (max-width: 767px) {
   $slideHeightTablet: 260px;
-  body {
+  .uxmc {
+   // border:3px solid silver;
+    &.no-header{
+       margin-bottom: px-em(30px);
+       margin-top: px-em(30px);
+    }
+  } // uxmc
 
-      .uxmc {
-        &.no-header{
-           margin-bottom: px-em(30px);
-           margin-top: px-em(30px);
-        }
-      }
+ .uxmc-container {
+   position: relative;
+   height: $slideHeightTablet*2;
+   overflow: hidden;
 
-     .uxmc-container {
-       position: relative;
-       height: $slideHeightTablet*2;
-       overflow: hidden;
+   .base-product{
+     float: none;
+     width: 100%;
+     height: 50%;
+   } // base-product
 
-       .base-product{
-         float: none;
-         width: 100%;
-         height: 50%;
-       }
+    .uxmc-carousel-wrapper {
+      height:50%;
+      width: 100%;
+    } // uxmc-carousel-wrapper
 
-      .uxmc-carousel-wrapper {
-        height:50%;
-        width: 100%;
-      }
+     .uxmc-overlay {
+       margin: 0 0 19px 24px;
+       font-size: px-em(15px);
+     } // uxmc-overlay
 
-       .uxmc-overlay {
-         margin: 0 0 19px 24px;
-         font-size: px-em(15px);
-       }
+   .btn-reload-container{
+     padding: 10px px-em(7px) 5px;
+   } // btn-reload-container
 
-       .btn-reload-container{
-         padding: 10px px-em(7px) 5px;
-       }
+   .btn-reload {
+     font-size: px-em(40px);
+   } // btn-reload
 
-       .btn-reload {
-         font-size: px-em(40px);
-       }
+   .progress-indicators {
+      @include scale(1);
+      right: 5.5%;
+      height:$slideHeightTablet;
 
-       .progress-indicators {
-          @include scale(1);
-          right: 5.5%;
-          height:$slideHeightTablet;
+      $dialSize: 24px;
+      .uxmc-dial-wrapper {
+         position: relative;
+         width: $dialSize;
+         height: $dialSize;
+         margin: 8px 0;
+      } // uxmc dial wrapper
 
-          $dialSize: 24px;
-          .uxmc-dial-wrapper {
-             // border:1px solid blue;
-             position: relative;
-             width: $dialSize;
-             height: $dialSize;
-             margin: 8px 0;
-          }
-       }
-     }
-   }
+   } // progress indicator
+
+ } // uxmc-container
+
 } // END min-width 480px and max-width 567px
 
 
@@ -89,60 +89,59 @@
 
 @media (max-width: px-em(567px)) {
   $slideHeightPhone:220px;
-  body {
+  .uxmc {
+    //border:3px solid green;
+    &.no-header{
+       margin-bottom: px-em(22px);
+       margin-top: px-em(22px);
+    }
+  }
 
-    .uxmc {
-      &.no-header{
-         margin-bottom: px-em(22px);
-         margin-top: px-em(22px);
-      }
+  .uxmc-container {
+    position: relative;
+    height: $slideHeightPhone*2;
+    overflow: hidden;
+
+    .uxmc-carousel-wrapper {
+      height:50%;
+      width: 100%;
     }
 
-    .uxmc-container {
-      position: relative;
-      height: $slideHeightPhone*2;
-      overflow: hidden;
+    .base-product {
+      float: none;
+      width: 100%;
+      height: $slideHeightPhone;
+    }
 
-      .uxmc-carousel-wrapper {
-        height:50%;
-        width: 100%;
-      }
+    .uxmc-overlay {
+      margin: 0 0 19px 24px;
+      font-size: px-em(15px);
+    }
 
-      .base-product {
-        float: none;
-        width: 100%;
-        height: $slideHeightPhone;
-      }
-
-      .uxmc-overlay {
-        margin: 0 0 19px 24px;
-        font-size: px-em(15px);
-      }
-
-      .btn-reload-container{
+    .btn-reload-container{
         margin: px-em(-24px) 0 0 px-em(-24px);
         padding: 10px px-em(7px) 5px;
       }
 
-       .btn-reload {
-         font-size: px-em(32px);
-       }
+     .btn-reload {
+       font-size: px-em(32px);
+     } // btn-reload
 
-      .progress-indicators {
-        @include scale(1);
-        right: 5.5%;
-        height: $slideHeightPhone;
+    .progress-indicators {
+      @include scale(1);
+      right: 5.5%;
+      height: $slideHeightPhone;
 
-        $dialSize: 20px;
-        .uxmc-dial-wrapper {
-           // border:1px solid yellow;
-           position: relative;
-           width: $dialSize;
-           height: $dialSize;
-           margin: 8px 0;
-        }
+      $dialSize: 20px;
+      .uxmc-dial-wrapper {
+          position: relative;
+          width: $dialSize;
+          height: $dialSize;
+          margin: 8px 0;
+      } // uxmc-dial-wrapper
 
-      }
-    }
-  }
+    } // progress-indicator
+
+  } // uxmc-container
+
 } // END max-width: 567px

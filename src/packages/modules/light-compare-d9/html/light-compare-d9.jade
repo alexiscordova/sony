@@ -43,7 +43,7 @@ e = {"locals":locals, "data": data}
               - each tab, i in data.tabs
                 klass = (i == 0 ? 'active' : '')
                 li
-                  i.fonticon.fonticon-10-square-neg-plus
+                  i.fonticon(class=tab.iconClass)
                   span.label-container
                     span.nav-label.p4-bold= tab.tabname
 
