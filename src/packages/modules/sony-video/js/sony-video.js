@@ -71,6 +71,9 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
+
+
+
         //initialize videos
         self.videoAPI = sonyVideo.initVideos( self.$el.find('.player') );
 
@@ -105,6 +108,11 @@ define(function(require){
           }
 
         });
+
+
+        if(self.$el.hasClass('normal')){
+          self.$el.find('.fp-play-btn-lrg').removeClass('fp-play-btn-lrg').addClass('fp-play-btn-sml');
+        }
 
         if(self.isFullEditorial){
           Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
