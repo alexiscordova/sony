@@ -776,7 +776,7 @@ define(function(require){
           filterName = '',
           filterValues = [],
           filterValue = '',
-          i = 0;
+          i;
 
       self.lastFilterGroup = null;
       self.secondLastFilterGroup = null;
@@ -802,7 +802,7 @@ define(function(require){
             // Get the filter values without a reference because we want to delete parts of the array
             // as its looped through
             filterValues = $.extend([], self.filters[ filterType ][ filterName ]);
-            for ( ; i < filterValues.length; i++ ) {
+            for ( i = 0; i < filterValues.length; i++ ) {
               filterValue = filterValues[ i ];
               // Remove from internal data and UI
               self.deleteFilter( filterValue, filterName, filterType );
