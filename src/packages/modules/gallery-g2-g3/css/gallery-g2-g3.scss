@@ -474,7 +474,7 @@ $gifHeight: 60px;
     margin-bottom: 20px;
   }
 
-  // Fix webkit flicker bug
+  // Fix webkit flicker bug: promote buttons to their own layer
   .btn-square {
     @include translate3d(0,0,0);
   }
@@ -1103,6 +1103,18 @@ $stickyHeaderHeight: px-em(82);
       @include borderBox();
 
       color: $gray20;
+
+      &::-webkit-input-placeholder {
+       text-overflow: ellipsis !important; // need to override inline style of "clip"
+      }
+
+      &::-moz-placeholder {
+       text-overflow: ellipsis !important; // need to override inline style of "clip"
+      }
+
+      &:-ms-input-placeholder {
+       text-overflow: ellipsis !important; // need to override inline style of "clip"
+      }
 
       .lt-ie9 & {
         padding-top: 10px;
