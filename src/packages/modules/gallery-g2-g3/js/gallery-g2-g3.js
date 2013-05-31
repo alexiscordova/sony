@@ -3413,7 +3413,8 @@ define(function(require){
           modalHeaderHeight,
           maxBodyHeight;
 
-      screenHeight = self.$window.height();
+      // iOS reports the wrong window height with jQuery
+      screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
 
       // 90% of the available height
       maxModalHeight = 0.9 * screenHeight;
