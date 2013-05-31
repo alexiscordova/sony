@@ -215,6 +215,8 @@ define(function(require) {
       // Should this only be done for no-touch?
       self.setupFocusPath();
 
+      self.preSetNavTrayImageHeights();
+
       self.resizeAccountUsername();
       Environment.on('global:resizeDebounced-200ms', function() {
         self.resizeAccountUsername();
@@ -894,9 +896,12 @@ define(function(require) {
     // MOBILE NAV
 
     prepMobileNav : function() {
-      // console.log("prepMobileNav");
-      var self = this,
-      $outer = $('#nav-outer-container'),
+      console.log("prepMobileNav");
+      var self = this;
+
+      self.preSetNavTrayImageHeights();
+
+      var $outer = $('#nav-outer-container'),
       $inner = $outer.find('.nav-mobile-scroller'),
       innerHeight = $inner.height(),
       pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
@@ -904,8 +909,30 @@ define(function(require) {
       $outer.css( 'height', pageHeight );
       $inner.css( 'height', innerHeight );
 
-      // Set this after `$outer` and `$inner` have been set so that all the setters are in order
+      // Set this after '$outer' and '$inner' have been set so that all the setters are in order
       self.$pageWrapOuter.css( 'height', pageHeight );
+    },
+
+    preSetNavTrayImageHeights : function() {
+
+      var navTrayImgRato = 0.556;
+      // if this is the first time opening the nav, the images aren't loaded yet. This means we don't know how tall the whole
+      // nav is going to be, so we have to estimate / fake it.
+      var $navTrayImageWraps = $('#navtrayElectronics').add($('#navtrayEntertainment')).find('.nav-img-w');
+      $navTrayImageWraps.each(function(){
+        var $thImg = $(this).find('img');
+        if (!$thImg.attr('src')){
+
+          // set its height based on its width & the target ratio, so the entire menu will be the correct height even before the images are loaded.
+          var calcHeight = $thImg.width() * navTrayImgRato;
+          $thImg.height(calcHeight);
+
+          // then listen for when the image is loaded, and remove the custom height so it can flex on resize.
+          $thImg.on('load', function() {
+            $thImg.css('height', '');
+          });
+        }
+      });
     },
 
     initMobileNav : function() {

@@ -54,6 +54,7 @@ define(<span class="keyword">function</span>(require) {
       self.$slideContainer      = self.$el.find( self.SLIDE_CONTAINER );
       self.$thumbNav            = self.$el.find(<span class="string">'.thumb-nav'</span>);
       self.$pagination          = <span class="literal">null</span>;
+      self.$videoPlayers        = self.$el.find(<span class="string">'.sony-video'</span>);
 
       self.desktopAnimSpeed     = <span class="number">500</span>;
       self.tabletAnimSpeed      = <span class="number">300</span>;
@@ -151,8 +152,9 @@ define(<span class="keyword">function</span>(require) {
         self.currentId = currentIndex;
         self.setCurrentActiveThumb();
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>shut off any players</p>             </td>             <td class="code">               <div class="highlight"><pre>        
-
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>shut off any video players when changing slides</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.$videoPlayers.length){
+          self.$videoPlayers.data(<span class="string">'sonyVideo'</span>).api().pause();
+        }
 
         setTimeout( iQ.update , <span class="number">250</span> );
       },
@@ -233,8 +235,6 @@ define(<span class="keyword">function</span>(require) {
 
         self.$slideContainer.css( <span class="string">'width'</span>, containerWidth );
         self.$slides.css( <span class="string">'width'</span>, slideWidth );
-
-        sonyVideo.initVideos( self.$el.find(<span class="string">'.player'</span>) );
 
         <span class="keyword">return</span> self;
       },
