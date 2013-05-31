@@ -1480,6 +1480,7 @@ $.fn.slider2 = function(rtl , vert) {
 
          if (!disabled) {
 
+            
             // begin --> recalculate. allows dynamic resizing of the slider
             var delayedFire = $.flowplayerThrottle(fire, 100);
             calc();
@@ -2298,6 +2299,7 @@ flowplayer(function(player, root) {
                .css("left", (time / duration * 100) + "%");
 
             el.appendTo(timeline).mousedown(function() {
+               
                player.seek(time);
 
                // preventDefault() doesn't work

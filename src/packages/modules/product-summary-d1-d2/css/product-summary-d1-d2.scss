@@ -3,6 +3,19 @@
 
 
 .ps-module {
+  position: relative;
+  z-index: $zindexStickyNav;
+
+  // Bottom border behind main module
+  // &:after {
+  //   content: '';
+  //   position: absolute;
+  //   bottom: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 1px;
+  //   background: red;
+  // }
 
   .product-img-wrap {
 
@@ -129,7 +142,7 @@
 
     i {
       position: relative;
-      top: -(px-em(2));
+      top: -(px-em(1));
       vertical-align: baseline;
       padding: 0 0 0 px-em(8, 16);
       // margin-right: -(px-em( 4 ));
@@ -171,19 +184,19 @@
 
   // be social links active/hover color
   .open .share-trigger > span,
-  .no-touch & .price-content a:hover > span {
+  .no-touch & .share-trigger:hover > span {
     color: $secondarySlateDark;
   }
 
   // icon default color
   .fonticon-10-favorite,
-  .fonticon-10-arrowhead-down {
+  .fonticon-10-sm-bold-plus {
     color: $gray50;
   }
 
   // Icon active/hover
   .open .share-trigger > span i,
-  .no-touch & .price-content a:hover .fonticon-10-arrowhead-down {
+  .no-touch & .price-content a:hover .fonticon-10-sm-bold-plus {
     color: $secondarySlateDark;
   }
 

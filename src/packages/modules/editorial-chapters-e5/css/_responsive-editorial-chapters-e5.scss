@@ -190,7 +190,8 @@ $tabletMax: px-em(979);
 
 @media (max-width: 909px) {
   .editorial-chapters-container {
-    margin: 24px auto 32px;
+    margin: 0 auto;
+    padding: 24px auto 32px;
 
     .container {
       width:100% !important;
@@ -273,7 +274,8 @@ $tabletMax: px-em(979);
   }
 
   .editorial-chapters-container {
-    margin: 32px auto 60px;
+    margin: 0 auto;
+    padding: 32px 0 60px;
 
     .thumb-nav {
 
@@ -300,6 +302,18 @@ $tabletMax: px-em(979);
 @media (max-width: $phoneMax) {
   .editorial-chapters-container {
     @include compact-thumb-nav;
+
+    &.hotspots {
+      .editorial-chapters-container,
+      .editorial-carousel-wrapper {
+        overflow: visible;
+
+        .editorial-carousel-slide.active {
+          z-index: auto;
+        }
+      }
+    }
+
     .image-module {height:320px;}
   }
 }

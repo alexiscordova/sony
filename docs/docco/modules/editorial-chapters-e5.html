@@ -161,7 +161,7 @@ define(<span class="keyword">function</span>(require){
 
         self.$window.off(<span class="string">'resize.e5-mobile-resize'</span>);
         self.removeWrapperStyles();
-
+        self.$win.trigger(<span class="string">'resize'</span>);
       },
 
       setupMobile: <span class="keyword">function</span>() {
@@ -178,7 +178,17 @@ the height of the tallest element will be incorrect. A setTimeout
 seems to fix this issue.</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>(){
           self.getSlideHeight();
           self.getSliderWidth();
-          <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'text-mode'</span>)) { self.initScroller(); }    
+          <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'text-mode'</span>)) { 
+            self.initScroller(); 
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>show slider shades if needed</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> node = self.$slider.get(<span class="number">0</span>),
+                curTransform = <span class="keyword">new</span> WebKitCSSMatrix(window.getComputedStyle(node).webkitTransform),
+                sliderOffset = node.offsetLeft + curTransform.m41, <span class="comment">//real offset left</span>
+                sliderWidth = self.$slider.width(),
+                navWidth = self.$thumbNav.width();
+
+            (sliderOffset &lt; <span class="number">0</span>) ? self.$leftShade.show() : self.$leftShade.hide();
+            (sliderOffset &gt; ((-<span class="number">1</span> * sliderWidth) + navWidth)) ? self.$rightShade.show() : self.$rightShade.hide();
+          }
         }, <span class="number">250</span>);
       },
 
@@ -205,7 +215,7 @@ seems to fix this issue.</p>             </td>             <td class="code">    
           }
         }              
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>reset the distance moved since its a new start</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.distanceMoved = <span class="literal">null</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>reset the distance moved since its a new start</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.distanceMoved = <span class="literal">null</span>;
         self.handleStartPosition = self.getPagePosition(e);
         self.startInteractionPointX = point.pageX;        
 
@@ -220,7 +230,7 @@ seems to fix this issue.</p>             </td>             <td class="code">    
             point,
             distanceMoved;
             
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>some really gross logic</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.hasTouch) {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>some really gross logic</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.hasTouch) {
           <span class="keyword">if</span> (self.lockAxis) {
             <span class="keyword">return</span>;
           }
@@ -244,7 +254,7 @@ seems to fix this issue.</p>             </td>             <td class="code">    
       dragEnd: <span class="keyword">function</span>(e) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>stop listening on the document for movement</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$doc.off(self.moveEvent).off(self.upEvent);
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>stop listening on the document for movement</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$doc.off(self.moveEvent).off(self.upEvent);
       },
 
       getPagePosition: <span class="keyword">function</span>(e) {
@@ -257,7 +267,7 @@ seems to fix this issue.</p>             </td>             <td class="code">    
 
         self.lastTouch = self.lastTouch || {};
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Cache position for touchmove/touchstart, as touchend doesn't provide it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( e.type === <span class="string">'touchmove'</span> || e.type === <span class="string">'touchstart'</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Cache position for touchmove/touchstart, as touchend doesn't provide it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( e.type === <span class="string">'touchmove'</span> || e.type === <span class="string">'touchstart'</span> ) {
           self.lastTouch = e.originalEvent.touches[<span class="number">0</span>];
         }
 
@@ -275,10 +285,10 @@ seems to fix this issue.</p>             </td>             <td class="code">    
 
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Main setup method for the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupCarousel: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Main setup method for the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupCarousel: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Using Sony Carousel for this module</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slideContainer.sonyCarouselFade({
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Using Sony Carousel for this module</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slideContainer.sonyCarouselFade({
           wrapper: <span class="string">'.editorial-carousel-wrapper'</span>,
           slides: <span class="string">'.editorial-carousel-slide'</span>,
           looped: <span class="literal">false</span>,
@@ -310,10 +320,10 @@ seems to fix this issue.</p>             </td>             <td class="code">    
           sliderWidth = (sliderWidth + $el.outerWidth());
         });
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>only if we have a slider width do we want to apply it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (sliderWidth &gt;= minSliderWidth) { self.$slider.width(sliderWidth); }
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>only if we have a slider width do we want to apply it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (sliderWidth &gt;= minSliderWidth) { self.$slider.width(sliderWidth); }
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>if its on a mobile device per slide change we need to
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>if its on a mobile device per slide change we need to
 get the height of the container to the height of the
 active slide.</p>             </td>             <td class="code">               <div class="highlight"><pre>      getSlideHeight: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -326,7 +336,7 @@ active slide.</p>             </td>             <td class="code">               
         $.evenHeights(groups);
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Listens for slide changes and updates the correct thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>      onSlideUpdate: <span class="keyword">function</span>(e , currIndx){
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Listens for slide changes and updates the correct thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>      onSlideUpdate: <span class="keyword">function</span>(e , currIndx){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
         self.currentId = currIndx;
@@ -335,7 +345,7 @@ active slide.</p>             </td>             <td class="code">               
         iQ.update();
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Bind events to the thumbnail navigation</p>             </td>             <td class="code">               <div class="highlight"><pre>      createThumbNav: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Bind events to the thumbnail navigation</p>             </td>             <td class="code">               <div class="highlight"><pre>      createThumbNav: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $anchors = self.$thumbNav.find(<span class="string">'li'</span>);
 
@@ -349,7 +359,7 @@ active slide.</p>             </td>             <td class="code">               
 
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>      onThumbSelected: <span class="keyword">function</span>($el){
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>      onThumbSelected: <span class="keyword">function</span>($el){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
         selectedIndex =  $el.index(),
         $anchors = self.$thumbNav.find(<span class="string">'li'</span>).not(<span class="string">':eq('</span> + selectedIndex + <span class="string">')'</span>),
@@ -357,7 +367,7 @@ active slide.</p>             </td>             <td class="code">               
 
         self.currentId = selectedIndex;
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>need to set a tmeout of 100ms so we can 
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>need to set a tmeout of 100ms so we can 
 fix a flicker bug on mobile devices</p>             </td>             <td class="code">               <div class="highlight"><pre>        $el.addClass(<span class="string">'active'</span>);
         
         setTimeout(<span class="keyword">function</span>(){
@@ -367,41 +377,41 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
         self.$slideContainer.sonyCarouselFade( <span class="string">'gotoSlide'</span> , self.currentId );
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Runs when a tab is updated and changes the hash</p>             </td>             <td class="code">               <div class="highlight"><pre>      updateHash: <span class="keyword">function</span>(location, currentId) {
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Runs when a tab is updated and changes the hash</p>             </td>             <td class="code">               <div class="highlight"><pre>      updateHash: <span class="keyword">function</span>(location, currentId) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>, 
             href,
             fragment;
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>if we don't have a module id we dont want to continue</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (!self.moduleId) { <span class="keyword">return</span>; }
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>if we don't have a module id we dont want to continue</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (!self.moduleId) { <span class="keyword">return</span>; }
 
         href = location.href.replace(<span class="regexp">/(javascript:|#).*$/</span>, <span class="string">''</span>);
         fragment = <span class="string">'chapter-'</span> + self.moduleId + <span class="string">'/'</span> + currentId;
         location.replace(href + <span class="string">'#'</span> + fragment);
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Runs when a hash change is detected and will direct users to the proper tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      directFromHash: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Runs when a hash change is detected and will direct users to the proper tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      directFromHash: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>, 
             hash,
             chapterId,
             $chapterTabs,
             $chapterEl;
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>if we have already initialized from hash return</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.initFromhash) { <span class="keyword">return</span>; }
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>if we have already initialized from hash return</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.initFromhash) { <span class="keyword">return</span>; }
 
         hash = Router.getHash();
         chapterId = hash.replace(<span class="regexp">/.*?(\d+)[^\d]*$/</span>,<span class="string">'$1'</span>);
         $chapterTabs = self.$thumbNav.find(<span class="string">'li'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>only if the chapter id is less than the length of actual tabs
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>only if the chapter id is less than the length of actual tabs
 i.e <code>chapter-100</code> will probably not exist</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (chapterId &lt; $chapterTabs.length) {
           $chapterEl = $chapterTabs.eq(chapterId);
           self.onThumbSelected($chapterEl);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>we should never run the method again unless script inits again</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.initFromhash = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>we should never run the method again unless script inits again</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.initFromhash = <span class="literal">true</span>;
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>      setCurrentActiveThumb: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>      setCurrentActiveThumb: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>, 
             $chapterTabs,
             $currTab;
@@ -409,13 +419,13 @@ i.e <code>chapter-100</code> will probably not exist</p>             </td>      
         $chapterTabs = self.$thumbNav.find(<span class="string">'li'</span>).not(<span class="string">':eq('</span> + self.currentId + <span class="string">')'</span>);
         $currTab = self.$thumbNav.find(<span class="string">'li'</span>).eq( self.currentId );
 
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>need to set a tmeout of 100ms so we can 
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>need to set a tmeout of 100ms so we can 
 fix a flicker bug on mobile devices</p>             </td>             <td class="code">               <div class="highlight"><pre>        $currTab.addClass(<span class="string">'active'</span>);
         setTimeout(<span class="keyword">function</span>(){
           $chapterTabs.removeClass(<span class="string">'active'</span>);
         },<span class="number">100</span>);
         
-</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>update the hash after we got the correct slide transition</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.updateHash(self.location, self.currentId);        
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>update the hash after we got the correct slide transition</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.updateHash(self.location, self.currentId);        
       },
 
       initScroller: <span class="keyword">function</span>(){
@@ -427,7 +437,7 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
             hScrollbar: <span class="literal">false</span>,
             vScrollbar: <span class="literal">false</span>,
             isOverflowHidden: <span class="literal">false</span>,
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>increase width of slider by 1 on load so scrolled items dont wrap in FF</p>             </td>             <td class="code">               <div class="highlight"><pre>            onRefresh: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>increase width of slider by 1 on load so scrolled items dont wrap in FF</p>             </td>             <td class="code">               <div class="highlight"><pre>            onRefresh: <span class="keyword">function</span>(){
               self.$slider.width( self.$slider.width() + <span class="number">5</span> );
             },
             onScrollMove: <span class="keyword">function</span>(){
@@ -437,13 +447,13 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
                   sliderWidth = self.$slider.width(),
                   navWidth = self.$thumbNav.width();
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>left shadow</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span> (sliderOffset &lt; <span class="number">0</span>) {
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>left shadow</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span> (sliderOffset &lt; <span class="number">0</span>) {
                 self.$leftShade.show();
               } <span class="keyword">else</span> {
                 self.$leftShade.hide();
               }
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>right shadhow</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span> ( sliderOffset &gt; ((-<span class="number">1</span> * sliderWidth) + navWidth)) {
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>right shadhow</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span> ( sliderOffset &gt; ((-<span class="number">1</span> * sliderWidth) + navWidth)) {
                 self.$rightShade.show();
               } <span class="keyword">else</span> {
                 self.$rightShade.hide();
@@ -453,15 +463,15 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
         });
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };
 
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>jQuery Plugin Definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>jQuery Plugin Definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters = <span class="keyword">function</span>( options ) {
       <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> self = $( <span class="keyword">this</span> ),
           editorialChapters = self.data( <span class="string">'editorialChapters'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !editorialChapters ) {
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !editorialChapters ) {
             editorialChapters = <span class="keyword">new</span> EditorialChapters( self, options );
             self.data( <span class="string">'moduleName'</span>, editorialChapters );
         }
@@ -472,9 +482,9 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.defaults = {};
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.defaults = {};
 
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.settings = {};
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.editorialChapters.settings = {};
 
     <span class="keyword">return</span> self;
  });

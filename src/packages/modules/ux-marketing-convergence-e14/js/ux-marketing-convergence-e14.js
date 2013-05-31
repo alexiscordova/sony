@@ -8,6 +8,7 @@
 // * **Author:** George Pantazis, Telly Koosis
 // * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html), [SonyCarousel](sony-carousel.html)
 
+
 define(function(require){
 
   'use strict';
@@ -15,6 +16,7 @@ define(function(require){
   var $ = require('jquery'),
       iQ = require('iQ'),
       Modernizr = require('modernizr'),
+      enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
       SimpleKnob = require('secondary/jquery.simpleknob'),
@@ -38,6 +40,8 @@ define(function(require){
     self.$html = $(document.documentElement);
     self.$el = $(element);
     self.isInit = true;
+    self.mobileNavThreshold = 567;
+    self.isMobile = Modernizr.mq('(max-width:'+ self.mobileNavThreshold +'px)') ? true : false;
 
     // resize event related
     self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
@@ -45,13 +49,43 @@ define(function(require){
     self.isResize = false;
 
     // buttons & dials
+    self.dialInit = {
+      'width': 24,
+      'height': 24,
+      'thickness': 0.3,
+      'bgColor': 'rgba(255, 255, 255, 0.5)',
+      'fgColor': '#fff'
+    };
+
+    self.dialInitMobile = {
+      'width': 20,
+      'height': 20,
+      'thickness': 0.3,
+      'bgColor': 'rgba(255, 255, 255, 0.5)',
+      'fgColor': '#fff'
+    };
+
+    self.dialOn = {
+      'thickness': 1.0,
+      'bgColor': 'rgba(255, 255, 255, 1.0)'
+    };
+
+    self.dialOff = {
+      'thickness': 0.3,
+      'bgColor': 'rgba(255, 255, 255, 0.5)'
+    };
+
+    // self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
+    self.isAutomatic = true;
+    self.rAF = undefined;
+    self.dialStyles = undefined;//self.isMobile ? self.dialInitMobile : self.dialInit;
     self.$buttonReloadContainer = self.$el.find('.btn-reload-container');
     self.$reloadButton = self.$el.find('.btn-reload');
     self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
     self.$dials = self.$dialWrappers.find('.uxmc-dial');
-    self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
 
     // carousel
+    self.currentPartnerProduct = 0; // default
     self.$carousel = self.$el.find('.uxmc-carousel');
     self.$carouselInstance = undefined;
     self.$carouselSlides = self.$carousel.find('.sony-carousel-slide');
@@ -75,30 +109,51 @@ define(function(require){
 
       var self = this;
 
-      self.currentPartnerProduct = 0;
-
+      // create caoursel
       self.initCarousel();
+
+      //  attach click event to entire slide
       self.setupSlideLinks();
 
-      self.animationLoop();
-      self.setupButtons();
+      // set up knob dials (init, mousedown, mouseover, mouseoff)
       self.setupDials();
 
-      // INIT SEQUENCE
+      // resgister for resize
+      enquire.register('(min-width: 568px)', function() {
+        //console.log( 'is tablet/desktop »');
+        self.dialStyles = self.dialInit;
+        self.dialsINIT();
+      });
+
+      enquire.register('(max-width: 567px)', function() {
+        //console.log( ' is mobile »');
+        self.dialStyles = self.dialInitMobile;
+        self.dialsINIT();
+      });
+
+      // start requestAnimationFrame
+      self.animationLoop();
+
       if(!Settings.isLTIE9){
         self.setButtonColor(self.currentPartnerProduct); // new color for reload buton
         self.$buttonReloadContainer.addClass('on');
       }
 
-      self.fadeInContent(self.currentPartnerProduct); // show content
-      self.resetDials(); // start animation
-      self.resetPartnerCarouselInterval(); // start timer
+      // show content
+      self.fadeInContent(self.currentPartnerProduct);
+
+      // start animation
+      self.resetDials();
+
+      // start timer
+      self.resetPartnerCarouselInterval();
     },
 
     'handleResize' : function(){
       var self = this;
       self.isResize = true;
-      self.gotoPartnerProduct(); // reset current slide
+      //self.turnDialON($(self.$dials.eq(self.currentPartnerProduct)));
+      // self.gotoPartnerProduct(); // reset current slide
     },
 
     'initCarousel' : function(){
@@ -127,62 +182,81 @@ define(function(require){
       });
     },
 
-    'setupButtons': function() {
-
-      var self = this;
-
-      self.$reloadButton.on('click', function(e){
-
-        e.preventDefault();
-
-        self.gotoPartnerProduct();
-        self.resetPartnerCarouselInterval();
-      });
-    },
-
     // Setup simpleKnob dials, setup behaviors for hover/click.
     'setupDials': function() {
 
       var self = this;
 
-      self.$dials.simpleKnob({
-        'width': 34,
-        'height': 34,
-        'thickness': 0.1,
-        'fontSize': '1em',
-        'bgColor': 'rgba(255, 255, 255, 0.5)',
-        'fgColor': '#fff'
-      }).css('display', 'block');
-
-      self.$dialLabels.on('mousedown', function(e){
-
+      self.$dialWrappers.on('mousedown', function(e){
         e.preventDefault();
+        self.isAutomatic = false;
 
-        var position = self.$dials.index($(this).parent().find(self.$dials));
+        var position = $(this).index();
+        self.currentPartnerProduct = position - 1;
 
-        if ( position === self.currentPartnerProduct ) {
-          self.resetDials();
-        } else {
-          self.currentPartnerProduct = position - 1;
-          self.gotoPartnerProduct();
-        }
+        // stop timer and rAF
+        self.killAutomation();
 
-        self.resetPartnerCarouselInterval();
+        // reset the knobs
+        self.turnDialOFF(self.$dialWrappers);
 
+        // activate the one clicked
+        self.turnDialON($(this));
+
+        // go to the correct slide
+        self.gotoPartnerProduct();
       }).on('mouseover', function(e){
-
-        $(this).parent().find(self.$dials).not(self.$activeDial).val(100).trigger('change');
-
+        // on state
+        self.turnDialON( $(this) );
       }).on('mouseout', function(e){
-
-        $(this).parent().find(self.$dials).not(self.$activeDial).val(0).trigger('change');
-
+        // off state
+        self.turnDialOFF( $(this) );
       });
+    },
+
+    'dialsINIT' : function(){
+      var self = this;
+      if(self.isInit){
+        self.$dials.simpleKnob(self.dialStyles).show();
+      }else{
+        self.$dials.simpleKnob(self.dialStyles).show().trigger('configure', self.dialStyles);
+      }
+    },
+
+    'turnDialOFF' : function($el){
+      var self = this,
+          $inputs = self.$dialWrappers.find("input.uxmc-dial");
+
+      // set active dail at tiem of click
+      self.$activeDial = self.$dials.eq(self.currentPartnerProduct);
+
+      // dynamically update knob
+      // set dial to 0 and stroke back to normal size
+      self.$dials.not(self.$activeDial).val(0).trigger('change').trigger('configure', self.dialOff);
+    },
+
+    'turnDialON' : function($el){
+      var self = this,
+          $input = $el.find("input.uxmc-dial");
+
+      self.turnDialOFF();
+
+      // dynamically update knob
+      $input.trigger('configure', self.dialOn);
+    },
+
+    'killAutomation' : function(){
+      var self = this;
+      if ( self.partnerCarouselInterval ) {
+        clearInterval(self.partnerCarouselInterval);
+      }
+
+      // kill requestAnimationFrame
+      window.cancelAnimationFrame(self.rAF);
     },
 
     // Timer to trigger carousel rotation. Subsequent calls reset the timer's interval.
     'resetPartnerCarouselInterval': function() {
-
       var self = this;
 
       if ( self.partnerCarouselInterval ) {
@@ -197,7 +271,7 @@ define(function(require){
     'gotoPartnerProduct': function() {
       var self = this,
           newSlideColor,
-          which = self.currentPartnerProduct === self.$carouselSlides.length - 1  ?  0 : self.currentPartnerProduct + 1;
+          which = self.currentPartnerProduct === self.$carouselSlides.length - 1  ?  0 : self.currentPartnerProduct + 1; // loop to first from last
 
       if(self.isResize){
         which = self.currentPartnerProduct;
@@ -207,6 +281,7 @@ define(function(require){
         // new slide
         self.fadeOutContent();
 
+        // sonyCarousel api call
         self.$carouselInstance.sonyCarousel('gotoSlide', which);
 
          // fade out content as slide is moving
@@ -221,7 +296,11 @@ define(function(require){
       }
 
       iQ.update();
-      self.resetDials();
+
+      // only if slides are still automated
+      if(self.isAutomatic){
+        self.resetDials();
+      }
     },
 
     'setButtonColor' : function(which){
@@ -255,18 +334,17 @@ define(function(require){
       var self = this;
 
       self.$activeDial = self.$dials.eq(self.currentPartnerProduct);
-      self.$activeDialLabel = self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels);
-
+      //self.$activeDialLabel = self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels);
       self.$dials.not(self.$activeDial).val(0).trigger('change');
+
       self.slideStartTime = new Date();
 
-      self.$dialLabels.removeClass('active');
-      self.$activeDialLabel.addClass('active');
+      // self.$dialLabels.removeClass('active');
+      // self.$activeDialLabel.addClass('active');
     },
 
     // Animations that should occur as the window is ready to paint.
     'animationLoop': function() {
-
       var self = this,
           position;
 
@@ -280,7 +358,7 @@ define(function(require){
 
       if(position < 0){position = 0;}
 
-      window.requestAnimationFrame( $.proxy(self.animationLoop, self) );
+      self.rAF = window.requestAnimationFrame( $.proxy(self.animationLoop, self) );
 
       if ( self.$activeDial ) {
         self.$activeDial.val( position ).trigger('change');

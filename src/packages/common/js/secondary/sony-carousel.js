@@ -156,6 +156,8 @@ define(function(require){
 
         self.$el.append($frontSlide).prepend($backSlide);
 
+        iQ.reset();
+
         $clonedSlides = $clonedSlides.add($frontSlide).add($backSlide);
       }
 
@@ -398,7 +400,7 @@ define(function(require){
             return;
           }
 
-          iQ.update(true);
+          iQ.update();
           self.$el.trigger('SonyCarousel:AnimationComplete');
           self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
         });
@@ -424,7 +426,7 @@ define(function(require){
         self.$el.animate(props, {
           'duration': speed,
           'complete': function(){
-            iQ.update(true);
+            iQ.update();
             self.$el.trigger('SonyCarousel:AnimationComplete');
           }
         });
@@ -449,9 +451,11 @@ define(function(require){
             });
           }
 
+          // Given the jump of a looped carousel, we must update before and after the swap.
+          iQ.update();
           self.gotoSlide( self.isJumped ? which : destinationRedirect, true );
+          iQ.update();
 
-          iQ.update(true);
           self.isJumped = false;
         });
 

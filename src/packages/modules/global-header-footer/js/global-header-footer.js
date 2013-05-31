@@ -56,7 +56,7 @@ define(function(require) {
     // If the user mouses back over the element before the timeout has expired the
     // "out" function will not be called (nor will the "over" function be called).
     // This is primarily to protect against sloppy/human mousing trajectories that
-    // temporarily (and unintentionally) take the user off of the target element... 
+    // temporarily (and unintentionally) take the user off of the target element...
     // giving them time to return.
     self.closeDelay = 160;
     self.closeDelaySearch = 2000;
@@ -135,7 +135,7 @@ define(function(require) {
           }
 
         });
-        // switch to mobile footer 
+        // switch to mobile footer
         enquire.register('(max-width: ' + self.mobileFooterThreshold + 'px)', {
           match : function() {
             self.$html.removeClass('bp-footer-desktop').addClass('bp-footer-mobile');
@@ -511,33 +511,42 @@ define(function(require) {
     resetActiveNavMenu : function() {
       var self = this;
 
-      if (Settings.isLTIE10) {
+      if ( Settings.isLTIE10 ) {
         $('#nav-search-input').blur();
       }
-      if (Settings.isLTIE9) {
+
+      if ( Settings.isLTIE9 ) {
         $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
         $('.nav-li-search a').blur();
       }
 
+      function next( $navmenu ) {
+        var $transitionContainer = $navmenu.find('.reveal-transition-container');
+
+        $transitionContainer.css( 'height', '' );
+        $navmenu.css({ left: '', right: '' });
+      }
+
+      // Each visible nav menu
       $('.navmenu-w-visible').each(function() {
-        $(this)
-          .removeClass('navmenu-w-visible')
-          .one(self.transitionEnd, function() {
-            var $navmenu = $( this ),
-                $transitionContainer = $navmenu.find('.reveal-transition-container');
+        var $navmenu = $( this );
 
-            $transitionContainer.css( 'height', '' );
-            $navmenu.css({ left: '', right: '' });
+        // Trigger transition
+        $navmenu.removeClass('navmenu-w-visible');
 
-            // clear active class from THIS button!
-            // $('.nav-li-search a').removeClass('active');
+        // If transitions, wait for the transition to end,
+        if ( Modernizr.csstransitions ) {
+          $navmenu.one(self.transitionEnd, function() {
+            next( $( this ) );
+          });
 
-            // setTimeout(function() {
-            //   var c = $transitionContainer.attr('class');
-            //   var h = $transitionContainer.outerHeight();
-            //   console.log("c: " + c + ", h: " + h);
-            // },5);
-        });
+        // otherwise do it right away
+        } else {
+          next( $navmenu );
+        }
+
+        // Release for IE
+        $navmenu = null;
       });
     },
 
@@ -794,7 +803,7 @@ define(function(require) {
 
       // Force an iQ check whenever the navs expand.
       // $navTarget.one(self.transitionEnd, function() {
-      //   iQ.update(true);
+      //   iQ.reset();
       // });
 
       if ( Modernizr.csstransitions ) {
@@ -932,7 +941,7 @@ define(function(require) {
           }, 0);
         }
       });
-      
+
       Environment.on('global:resizeDebounced', $.proxy(self.resizeUpdateMobileNav,self));
 
     }, // end initMobileNav
