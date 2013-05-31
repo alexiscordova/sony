@@ -54,7 +54,7 @@ mixin colorSwatches( colors, showOnlyChild, isMicroSwatch )
       span(class=theClass, data-color=colour, itemprop="color")= colour
 
 
-//- .iq-img select must be added with javascript later and then iQ.update(true)
+//- .iq-img select must be added with javascript later and then iQ.reset()
 mixin iQColorImages( colors )
   if colors && colors.length > 1
     each img in colors
@@ -128,7 +128,7 @@ mixin priceBlock( product, onlyName, href )
   else
     .product-content
       .product-name-wrap
-        .product-name.p3
+        .product-name.p4
           strong= data.name
 
       if ( !onlyName )
@@ -769,7 +769,7 @@ else if data.view == 'summary'
           a.ib.js-share.share-trigger(data-toggle="dropdown", href="#")
             span.bt3= data.shareText
             span.arrow-holder
-              i.fonticon-10-arrowhead-down
+              i.fonticon-10-sm-bold-plus
           +shareMenu( data.socialButtons, data.shortLink )
 
   #share-tool.share-tool.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")

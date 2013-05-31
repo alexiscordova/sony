@@ -181,7 +181,8 @@ define(function(require) {
 
     _initFavorites : function() {
       this.favorites = new Favorites( this.$el, {
-        itemSelector: '[itemscope]'
+        itemSelector: '[itemscope]',
+        tooltip: false
       });
     },
 

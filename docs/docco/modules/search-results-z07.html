@@ -60,10 +60,12 @@ define(<span class="keyword">function</span>(require){
       self.$search.on({
         click: <span class="keyword">function</span>() {
           self.clearSearch();
+          self.activateSearch();
         },
         blur: <span class="keyword">function</span>() {
           self.resetSearch();
         }
+
       });
     },
 
@@ -105,11 +107,17 @@ is specified, jQuery wraps it in a jQuery object already</p>             </td>  
       }
     },
 
+    activateSearch: <span class="keyword">function</span>(){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.$search.addClass(<span class="string">'active-search-input'</span>);
+    },
+
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>If the search field is blank, reset it to the initial value</p>             </td>             <td class="code">               <div class="highlight"><pre>    resetSearch: <span class="keyword">function</span>(force) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       <span class="keyword">if</span> ( self.$search.val() === <span class="string">''</span> || force === <span class="literal">true</span>) {
         self.$search.val( self.initialSearchValue );
         self.$searchIcon.removeClass(<span class="string">'hidden'</span>);
+        self.$search.removeClass(<span class="string">'active-search-input'</span>);
       }
     }
   };
