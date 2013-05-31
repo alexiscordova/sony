@@ -29,7 +29,7 @@ define(function(require){
   var module = {
 
     init: function() {
-      if ( $('.gallery').length > 0 || $('.af-module').length > 0 ) {
+      if ( $('.gallery').length > 0 || $('.af-module').length > 0 || $('.js-product-strip').length > 0 ) {
 
         // Register for tab show(n) events here because not all tabs are galleries
         $('[data-tab]')
@@ -1878,29 +1878,28 @@ define(function(require){
       return false;
     },
 
-    // setRangeValue : function( min, max ) {
-    //   var self = this,
-    //       rangeControl = self.$rangeControl.data('rangeControl'),
-    //       minPos = 0,
-    //       maxPos = 0,
-    //       diff = self.MAX_PRICE - self.MIN_PRICE,
-    //       railSize = rangeControl.railSize,
+    setRangeValue : function( min, max ) {
+      var self = this,
+          rangeControl = self.$rangeControl.data('rangeControl'),
+          minPos = 0,
+          maxPos = 0,
+          diff = self.MAX_PRICE - self.MIN_PRICE,
+          railSize = rangeControl.railSize,
 
-    //   priceToRangePosition = function( price ) {
-    //     return ( ( price - self.MIN_PRICE ) / diff ) * railSize;
-    //   };
+      priceToRangePosition = function( price ) {
+        return ( ( price - self.MIN_PRICE ) / diff ) * railSize;
+      };
 
-    //   if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
-    //     minPos = priceToRangePosition( min );
-    //     rangeControl.slideToPos( minPos, rangeControl.$minHandle );
-    //   }
+      if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
+        minPos = priceToRangePosition( min );
+        rangeControl.slideToPos( minPos, rangeControl.$minHandle );
+      }
 
-    //   if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
-    //     // console.assert( max > min, 'uh oh. Max higher than min.' );
-    //     maxPos = priceToRangePosition( max );
-    //     rangeControl.slideToPos( maxPos );
-    //   }
-    // },
+      if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
+        maxPos = priceToRangePosition( max );
+        rangeControl.slideToPos( maxPos );
+      }
+    },
 
 
     getSortObject : function( evt, $btnText, byIndex ) {
@@ -3671,10 +3670,15 @@ define(function(require){
     $window: Settings.$window
   };
 
+
+
   module.initializer = function( $pane ) {
+    var $galleries = $pane.find('.gallery'),
+        $accessoryFinders = $pane.find('.af-module'),
+        $productStrips = $pane.find('.js-product-strip');
 
     // Initialize galleries
-    $pane.find('.gallery').each(function() {
+    $galleries.each(function() {
       var $this = $(this);
 
       // Stagger gallery initialization
@@ -3684,14 +3688,83 @@ define(function(require){
     });
 
     // Instantiate accessory finders
-    $pane.find('.af-module').each(function( i, el ) {
+    $accessoryFinders.each(function( i, el ) {
       setTimeout(function() {
         new AccessoryFinder( el );
       }, 0);
     });
+
+    // Instantiate product strips
+    if ( $productStrips.length ) {
+      new ProductStrip( $productStrips );
+    }
+
+    // Release for IE
+    $galleries = $accessoryFinders = $productStrips = null;
   };
 
-  module.onGalleryTabAlreadyShown = function( evt ) {
+  var ProductStrip = function( $strips ) {
+    var self = this;
+
+    $.extend( self, ProductStrip.settings );
+
+    self.$strips = $strips;
+
+    // Defer initialization
+    setTimeout(function() {
+      self.init();
+      self.$strips.data( 'productStrip', self );
+
+      log('SONY : ProductStrip : Initialized');
+    }, 0);
+
+  };
+
+  ProductStrip.prototype = {
+    constructor: ProductStrip,
+
+    init : function() {
+      var self = this;
+
+      self.productNames = [];
+      self.$strips.each(function() {
+        var $toBeEven = $(this).find('.product-name-wrap');
+        self.productNames.push( $toBeEven );
+      });
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+
+      // Size the heights
+      self
+        .initFavorites()
+        .onResize();
+
+
+      return self;
+    },
+
+    initFavorites : function() {
+      this.favorites = new Favorites( this.$strips, {
+        itemSelector: this.itemSelector
+      });
+
+      return this;
+    },
+
+    onResize : function() {
+      var self = this;
+      requestAnimationFrame(function() {
+        $.evenHeights( self.productNames );
+      });
+    }
+  };
+
+  ProductStrip.settings = {
+    itemSelector: '.gallery-item'
+  };
+
+  module.onGalleryTabAlreadyShown = function() {
     module.initializer( $( this ) );
     setTimeout( iQ.update, 0 );
   };
