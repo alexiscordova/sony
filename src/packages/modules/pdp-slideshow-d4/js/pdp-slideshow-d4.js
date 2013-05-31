@@ -138,11 +138,12 @@ define(function(require) {
         self.$slideContainer.sonyCarousel({
           wrapper: '.pdp-slideshow-outer',
           slides: '.pdp-slideshow-slide',
-          looped: true,
-          jumping: true,
+          looped: !Settings.isPS3,
+          jumping: !Settings.isPS3,
           axis: 'x',
           dragThreshold: 2,
           paddles: true,
+          paddlePosition: 'outset',
           pagination: true,
           $paddleWrapper: self.$el
         });
@@ -162,6 +163,10 @@ define(function(require) {
 
         self.currentId = currentIndex;
         self.setCurrentActiveThumb();
+
+        //shut off any players
+        
+
 
         setTimeout( iQ.update , 250 );
       },

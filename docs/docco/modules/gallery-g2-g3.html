@@ -90,9 +90,7 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Swatches and tooltips are triggered on hover, so they don't need to be
 initialized immediately</p>             </td>             <td class="code">               <div class="highlight"><pre>    setTimeout(<span class="keyword">function</span>() {
-      <span class="keyword">if</span> ( !self.hasTouch ) {
-        self.initSwatches();
-      }
+      self.initSwatches();
       self.initFavorites();
 
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Infinite scroll has to come after initFavorites</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.hasInfiniteScroll ) {
@@ -889,7 +887,8 @@ as its looped through</p>             </td>             <td class="code">       
         hideLayoutWithFade: <span class="literal">true</span>,
         sequentialFadeDelay: <span class="number">60</span>,
         buffer: <span class="number">8</span>,
-        supported: Settings.shuffleSupport
+        supported: Settings.shuffleSupport,
+        useTransition: !( Settings.isPS3 )
       });
 
       self.shuffle = self.$grid.data(<span class="string">'shuffle'</span>);
@@ -1059,16 +1058,16 @@ Here is where we keep the origial type</p>             </td>             <td cla
 
 </pre></div>             </td>           </tr>                               <tr id="section-146">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-146">&#182;</a>               </div>               <p>Add the .iq-img class to hidden swatch images, then tell iQ to update itself</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>() {
 
-</pre></div>             </td>           </tr>                               <tr id="section-147">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-147">&#182;</a>               </div>               <p>This also calls iQ.update( true )</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.loadSwatchImages();
+</pre></div>             </td>           </tr>                               <tr id="section-147">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-147">&#182;</a>               </div>               <p>This also calls iQ.reset();</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.loadSwatchImages();
 
             <span class="keyword">if</span> ( self.currentFilterColor ) {
               self.displayFilteredSwatchImages();
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-148">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-148">&#182;</a>               </div>               <p>This is silly. Maybe a new method for iQ. iQ.refresh()</p>             </td>             <td class="code">               <div class="highlight"><pre>            setTimeout(<span class="keyword">function</span>() {
-              iQ.update( <span class="literal">true</span> );
-            }, <span class="number">300</span>);
-          }, <span class="number">15</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-148">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-148">&#182;</a>               </div>               <p>This is silly. Maybe a new method for iQ. iQ.refresh()
+setTimeout(function() {
+  iQ.reset();
+}, 300);</p>             </td>             <td class="code">               <div class="highlight"><pre>          }, <span class="number">15</span>);
       }
 
       self.$grid.infinitescroll({
@@ -1091,23 +1090,25 @@ Here is where we keep the origial type</p>             </td>             <td cla
 
       $collection = $collection || self.$grid.find(<span class="string">'.mini-swatch[data-color]'</span>);
       $collection.each(<span class="keyword">function</span>() {
-          <span class="keyword">var</span> $swatch = $(<span class="keyword">this</span>),
-              hidden = <span class="string">'hidden'</span>,
-              color = $swatch.data(<span class="string">'color'</span>),
-              $productImg = $swatch.closest(<span class="string">'.product-img'</span>).find(<span class="string">'.js-product-imgs .js-product-img-main'</span>),
-              $swatchImg = $swatch.closest(<span class="string">'.product-img'</span>).find(<span class="string">'.js-product-imgs [data-color="'</span> + color + <span class="string">'"]'</span>);
+        <span class="keyword">var</span> $swatch = $(<span class="keyword">this</span>),
+            hidden = <span class="string">'hidden'</span>,
+            color = $swatch.data(<span class="string">'color'</span>),
+            $productImg = $swatch.closest(<span class="string">'.product-img'</span>).find(<span class="string">'.js-product-imgs .js-product-img-main'</span>),
+            $swatchImg = $swatch.closest(<span class="string">'.product-img'</span>).find(<span class="string">'.js-product-imgs [data-color="'</span> + color + <span class="string">'"]'</span>);
 
-          $swatch.on(<span class="string">'click'</span>, <span class="literal">false</span>);
+        $swatch.on(<span class="string">'click'</span>, <span class="literal">false</span>);
 
+</pre></div>             </td>           </tr>                               <tr id="section-150">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-150">&#182;</a>               </div>               <p>Only bind mouse enter and mouse leave events to non-touch environments
+Otherwise when they're tapped, it counts as a hover, changes the swatch, and sticks</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !self.hasTouch ) {
           $swatch.hover(<span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-150">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-150">&#182;</a>               </div>               <p>Mouse over, hide the main image, show the swatch image</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.currentFilterColor ) {
+</pre></div>             </td>           </tr>                               <tr id="section-151">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-151">&#182;</a>               </div>               <p>Mouse over, hide the main image, show the swatch image</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.currentFilterColor ) {
               $swatchImg.siblings(<span class="string">':not(.hidden)'</span>).addClass( hidden );
             } <span class="keyword">else</span> {
               $productImg.addClass( hidden );
             }
             $swatchImg.removeClass( hidden );
           }, <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-151">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-151">&#182;</a>               </div>               <p>Mouse out, hide the swatch image, show the main image</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.currentFilterColor !== color ) {
+</pre></div>             </td>           </tr>                               <tr id="section-152">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-152">&#182;</a>               </div>               <p>Mouse out, hide the swatch image, show the main image</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.currentFilterColor !== color ) {
               $swatchImg.addClass( hidden );
             }
             <span class="keyword">if</span> ( self.currentFilterColor ) {
@@ -1116,8 +1117,9 @@ Here is where we keep the origial type</p>             </td>             <td cla
               $productImg.removeClass( hidden );
             }
           });
+        }
 
-          $swatch = <span class="literal">null</span>;
+        $swatch = <span class="literal">null</span>;
       });
 
       $collection = <span class="literal">null</span>;
@@ -1126,14 +1128,10 @@ Here is where we keep the origial type</p>             </td>             <td cla
     },
 
     loadSwatchImages : <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-152">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-152">&#182;</a>               </div>               <p>Don't load them on touch</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( <span class="keyword">this</span>.hasTouch ) {
-        <span class="keyword">return</span>;
-      }
-
       <span class="keyword">var</span> $newIQImgs = <span class="keyword">this</span>.$grid.find(<span class="string">'.js-product-imgs img:not(.iq-img)'</span>).addClass(<span class="string">'iq-img'</span>);
 
       <span class="keyword">if</span> ( $newIQImgs.length ) {
-        iQ.update( <span class="literal">true</span> );
+        iQ.reset();
       }
 
       <span class="keyword">return</span> <span class="keyword">this</span>;
@@ -2958,6 +2956,7 @@ which ever is smaller</p>             </td>             <td class="code">       
         sequentialFadeDelay: <span class="number">60</span>,
         buffer: <span class="number">20</span>,
         supported: Settings.shuffleSupport,
+        useTransition: !( Settings.isPS3 ),
         columnWidth: <span class="keyword">function</span>( containerWidth ) {
           <span class="keyword">var</span> column = containerWidth;
 

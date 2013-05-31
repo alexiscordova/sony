@@ -123,7 +123,7 @@ define(function(require) {
 */
             
       // detect what type of tracking we need to bind the instance to
-      var moduleHandle = self.$container.parent().find( '.image-module' );
+      var moduleHandle = self.$container.closest( '.image-module' );
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
         self.trackingMode   = 'background';
         self.trackingAsset  = moduleHandle;
@@ -133,7 +133,7 @@ define(function(require) {
         self.trackingAsset  = $( moduleHandle.children( '.iq-img' )[0] );
         self.variant        = 'variant2';
       }
-      
+
       self.id = self.trackingAsset.attr( 'id' );
 
       // IE7 zindex fix
@@ -153,8 +153,6 @@ define(function(require) {
           $top.prepend( $temp.remove() );
         }
       }
-
-
 
       // when the tracking item changes it's opacity, we trigger the initial flyon animation for the hotspot
       self.trackOpacity = function() {
@@ -361,6 +359,7 @@ define(function(require) {
 
               // compensate for centering in the parent node
               //if( $( window ).width() > 768 ) {
+
                 widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
                 heightOffset = parseInt( self.trackingAsset.parent().css( 'padding-top' ), 10 );
               //}
@@ -851,17 +850,18 @@ define(function(require) {
     var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
       var self = $(this),
-        hotspotsController = self.data('hotspotsController');
-        // If we don't have a stored tertiaryModule, make a new one and save it
-        if ( !hotspotsController ) {
-            hotspotsController = new HotspotsController( self, options );
-            self.data( 'hotspotsController', hotspotsController );
-        }
+      hotspotsController = self.data('hotspotsController');
 
-        if ( typeof options === 'string' ) {
-          hotspotsController[ options ].apply( hotspotsController, args );
-        }
-      });
+      // If we don't have a stored tertiaryModule, make a new one and save it
+      if ( !hotspotsController ) {
+        hotspotsController = new HotspotsController( self, options );
+        self.data( 'hotspotsController', hotspotsController );
+      }
+
+      if ( typeof options === 'string' ) {
+        hotspotsController[ options ].apply( hotspotsController, args );
+      }
+    });
   };
 
   // Defaults options for the module

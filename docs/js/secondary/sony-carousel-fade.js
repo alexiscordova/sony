@@ -78,7 +78,7 @@ define(function(require){
       if ( self.useCSS3 ) {
 
         self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(){
-          iQ.update(true);
+          iQ.reset();
           self.$el.trigger('SonyCarousel:AnimationComplete');
           self.$el.off(Settings.transEndEventName + '.slideMoveEnd');
         });

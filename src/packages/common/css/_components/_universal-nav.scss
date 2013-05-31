@@ -70,12 +70,12 @@ $textlink-gutter-width-768: 2.92%;
   	margin-bottom:13px;
 	}
 	.u-nav-close-btn{
+		display:inline-block;
 		font-family: "SST W01 Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		font-weight: normal;
 		font-style: normal;
 		font-size: px-em(12);
-		letter-spacing: 0.0625em;
 		padding: 9px 13px 10px 13px;
 		color: #fff;
 		background-color: rgb(146,149,153);
@@ -96,7 +96,21 @@ $textlink-gutter-width-768: 2.92%;
   		position:relative;
   		top:-1px;
   	}
+
+
+
+		.lt-ie9 & {
+			display:block;
+			
+			.u-nav-close-btn-img{
+				float:right;
+				top:5px;
+			}
+		}
 	}
+
+
+
 	h5.l1{
 		clear: both;
 		margin: 0;

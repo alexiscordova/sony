@@ -18,11 +18,17 @@ $tabletMax: px-em(979);
   }
 
   @media (min-width: $phoneMin) and (max-width: $phoneMax){
-    height: 420px;
+    height: 400px;
   }
 
   @media (max-width: $subPhoneMax){
-    height: 400px;
+    height: auto;
+    .full-bleed-video-wrap {
+      position: static;
+      .flowplayer {
+        position: static;
+      }
+    }
   }
 
 }
