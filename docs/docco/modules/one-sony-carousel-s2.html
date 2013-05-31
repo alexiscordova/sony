@@ -43,7 +43,9 @@ define(<span class="keyword">function</span>(require){
     self.currentSlide = <span class="number">0</span>;
     self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
 
-    self.init();
+    self.$el.on(<span class="string">'SecondaryTouts:ready'</span>, <span class="keyword">function</span>() {
+      self.init();
+    });
 
     log(<span class="string">'SONY : OneSonyCarousel : Initialized'</span>);
   };
@@ -69,7 +71,6 @@ define(<span class="keyword">function</span>(require){
       });
 
       self.$cachedSlides = self.$slides.detach();
-
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find(<span class="string">'.st-item'</span>).remove();
 
@@ -99,7 +100,7 @@ define(<span class="keyword">function</span>(require){
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      self.$innerContainer.on(Settings.transEndEventName, <span class="keyword">function</span>(){ iQ.update(<span class="literal">true</span>); });
+      self.$innerContainer.on(Settings.transEndEventName, iQ.update);
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Create or restore the default slide layout.</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -111,6 +112,8 @@ define(<span class="keyword">function</span>(require){
       self.$innerContainer.empty().append($newSlides);
 
       self.$innerContainer.sonyCarousel(<span class="string">'resetSlides'</span>);
+
+      iQ.reset();
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Splits the default layout into slides with children each of column width
@@ -132,6 +135,8 @@ set at colPerItem, which must divide evenly into 12.</p>             </td>      
       }
 
       self.$innerContainer.sonyCarousel(<span class="string">'resetSlides'</span>);
+
+      iQ.reset();
     }
 
   };

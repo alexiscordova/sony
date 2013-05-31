@@ -676,7 +676,7 @@ var elemHeight = $navTray.find('.navtray').height();</p>             </td>      
 
 </pre></div>             </td>           </tr>                               <tr id="section-128">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-128">&#182;</a>               </div>               <p>Force an iQ check whenever the navs expand.
 $navTarget.one(self.transitionEnd, function() {
-  iQ.update(true);
+  iQ.reset();
 });</p>             </td>             <td class="code">               <div class="highlight"><pre>
       <span class="keyword">if</span> ( Modernizr.csstransitions ) {
         $target.one( self.transitionEnd, iQ.update );
