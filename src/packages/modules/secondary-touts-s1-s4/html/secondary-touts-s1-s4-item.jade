@@ -86,17 +86,18 @@ article
         span.t4 !{likeCount}
         span.l3 people like this
 
-  if item.counter
-    .counter(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)
-      - counterText = item.counter.total + ' ' + item.counter.text
-      h3.l2= counterText
-
-aside
+aside(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)
   if item.miniPromo
-    a.mini-promo(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
+    a.mini-promo(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
       div.mini-promo-image-container
         .play-button
           i.fonticon-10-video-play
         img(src=item.miniPromo.imgSrc)
       div.mini-promo-caption.p4
         | !{item.miniPromo.caption}
+
+  if item.counter
+    .counter(class=item.typeLayout)
+      - counterText = item.counter.total + ' ' + item.counter.text
+      h3.l2= counterText
+
