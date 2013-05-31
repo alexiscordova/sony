@@ -234,6 +234,8 @@ define(function(require){
         self.gotoPartnerProduct();
       }).on('mouseover', function(e){
 
+        // don't do anything if current dial is active....
+
         // console.log( 'this »' , $(this).index());
         // console.log( 'active dial »' , self.$activeDial.index());
 
