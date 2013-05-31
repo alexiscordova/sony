@@ -60,10 +60,12 @@ define(function(require){
       self.$search.on({
         click: function() {
           self.clearSearch();
+          self.activateSearch();
         },
         blur: function() {
           self.resetSearch();
         }
+
       });
     },
 
@@ -111,12 +113,18 @@ define(function(require){
       }
     },
 
+    activateSearch: function(){
+      var self = this;
+      self.$search.addClass('active-search-input');
+    },
+
     // If the search field is blank, reset it to the initial value
     resetSearch: function(force) {
       var self = this;
       if ( self.$search.val() === '' || force === true) {
         self.$search.val( self.initialSearchValue );
         self.$searchIcon.removeClass('hidden');
+        self.$search.removeClass('active-search-input');
       }
     }
   };

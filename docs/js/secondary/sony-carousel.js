@@ -156,7 +156,7 @@ define(function(require){
 
         self.$el.append($frontSlide).prepend($backSlide);
 
-        iQ.update(true);
+        iQ.reset();
 
         $clonedSlides = $clonedSlides.add($frontSlide).add($backSlide);
       }
