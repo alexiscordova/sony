@@ -347,7 +347,10 @@
         display: inline-block;
         overflow: hidden;
         background-color: $gray10;
-        background-color: rgba($gray10, 0.95);
+
+        .rgba & {
+          background-color: rgba($gray10, 0.95);
+        }
 
         .no-touch & {
           &:hover {
@@ -373,10 +376,13 @@
             height: 28px;
             line-height: 28px;
             margin: -14px 0 0 -14px;
-            background-color: rgba($gray10, 0.75);
             border-radius: 14px;
             font-size: 0.8em;
             text-align: center;
+
+            .rgba & {
+              background-color: rgba($gray10, 0.95);
+            }
 
             i {
               color: #fff;
@@ -403,7 +409,10 @@
 
         &.mini-promo-layout-light {
           background-color: $gray90;
-          background-color: rgba($gray90, 0.95);
+
+          .rgba & {
+            background-color: rgba($gray90, 0.95);
+          }
 
           .mini-promo-caption {
             color: $gray10;
