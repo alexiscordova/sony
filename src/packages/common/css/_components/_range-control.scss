@@ -63,15 +63,20 @@ $handleHighlightColor: $buttonOrange;
       margin-left: -14px;
     }
 
-    // Make handles larger on touch
-    // .csstransforms.touch & {
-    //   @include scale(1.4);
-    //   @include box-shadow(0 0 0 3px $transparentBlack);
-    // }
+    // Make handles larger on touch. Arc S and Tablet S have severe problems getting touch events
+    .csstransforms.touch & {
+      @include transform( scale(1.4) translateZ(0) );
+      @include box-shadow(0 0 0 3px $transparentBlack);
+    }
+
+    // Promote to its own layer
+    .csstransforms & {
+      @include transform( translateZ(0) );
+    }
 
     .csstransforms &.grabbed,
     .csstransforms &:hover {
-      @include scale(1.7);
+      @include transform( scale(1.7) translateZ(0) );
       @include box-shadow(0 0 0 3px $transparentBlack);
     }
 
@@ -126,11 +131,11 @@ $handleHighlightColor: $buttonOrange;
 }
 
 .range-output-min {
-  @include translate(4px, 0);
+  @include transform( translate(4px, 0) translateZ(0) );
 }
 
 .range-output-max {
-  @include translate(-6px, 0);
+  @include transform( translate(-6px, 0) translateZ(0) );
 }
 
 .grabbing-min .range-output-min,

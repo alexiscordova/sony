@@ -29,7 +29,7 @@ define(function(require){
   var module = {
 
     init: function() {
-      if ( $('.gallery').length > 0 || $('.af-module').length > 0 ) {
+      if ( $('.gallery').length > 0 || $('.af-module').length > 0 || $('.js-product-strip').length > 0 ) {
 
         // Register for tab show(n) events here because not all tabs are galleries
         $('[data-tab]')
@@ -1760,6 +1760,9 @@ define(function(require){
       $minOutput = $output.find('.range-output-min .val'),
       $maxOutput = $output.find('.range-output-max .val'),
 
+      // Var to only call requestAnimationFrame once per frame
+      isTicking = false,
+
       delay = self.hasTouch ? 1000 : 750,
       method = self.hasTouch ? 'debounce' : 'throttle',
       debouncedFilter = $[ method ]( delay, function() {
@@ -1768,6 +1771,24 @@ define(function(require){
 
       function getPrice( percent ) {
         return Math.round( diff * (percent / 100) ) + MIN_PRICE;
+      }
+
+      function slid() {
+        if ( isTicking ) {
+          return;
+        }
+
+        var args = Array.prototype.slice.call( arguments, 0 );
+        isTicking = true;
+
+        // Only use rAF if it's native
+        if ( Modernizr.raf ) {
+          requestAnimationFrame( function updateWrap() {
+            update.apply( null, args );
+          });
+        } else {
+          update.apply( null, args );
+        }
       }
 
       // Range control update callback
@@ -1797,6 +1818,8 @@ define(function(require){
           // Throttle filtering (especially on touch)
           debouncedFilter();
         }
+
+        isTicking = false;
       }
 
       // Show what's happening with the range control
@@ -1837,7 +1860,7 @@ define(function(require){
       });
 
       // On handle slid, update. Register after initialized so it's not called during initialization
-      self.$rangeControl.on('slid.rangecontrol', update);
+      self.$rangeControl.on( 'slid.rangecontrol', slid );
 
       self.filterValues[ filterName ] = { min: true, max: true };
 
@@ -1855,29 +1878,28 @@ define(function(require){
       return false;
     },
 
-    // setRangeValue : function( min, max ) {
-    //   var self = this,
-    //       rangeControl = self.$rangeControl.data('rangeControl'),
-    //       minPos = 0,
-    //       maxPos = 0,
-    //       diff = self.MAX_PRICE - self.MIN_PRICE,
-    //       railSize = rangeControl.railSize,
+    setRangeValue : function( min, max ) {
+      var self = this,
+          rangeControl = self.$rangeControl.data('rangeControl'),
+          minPos = 0,
+          maxPos = 0,
+          diff = self.MAX_PRICE - self.MIN_PRICE,
+          railSize = rangeControl.railSize,
 
-    //   priceToRangePosition = function( price ) {
-    //     return ( ( price - self.MIN_PRICE ) / diff ) * railSize;
-    //   };
+      priceToRangePosition = function( price ) {
+        return ( ( price - self.MIN_PRICE ) / diff ) * railSize;
+      };
 
-    //   if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
-    //     minPos = priceToRangePosition( min );
-    //     rangeControl.slideToPos( minPos, rangeControl.$minHandle );
-    //   }
+      if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
+        minPos = priceToRangePosition( min );
+        rangeControl.slideToPos( minPos, rangeControl.$minHandle );
+      }
 
-    //   if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
-    //     // console.assert( max > min, 'uh oh. Max higher than min.' );
-    //     maxPos = priceToRangePosition( max );
-    //     rangeControl.slideToPos( maxPos );
-    //   }
-    // },
+      if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
+        maxPos = priceToRangePosition( max );
+        rangeControl.slideToPos( maxPos );
+      }
+    },
 
 
     getSortObject : function( evt, $btnText, byIndex ) {
@@ -3391,7 +3413,8 @@ define(function(require){
           modalHeaderHeight,
           maxBodyHeight;
 
-      screenHeight = self.$window.height();
+      // iOS reports the wrong window height with jQuery
+      screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
 
       // 90% of the available height
       maxModalHeight = 0.9 * screenHeight;
@@ -3648,10 +3671,15 @@ define(function(require){
     $window: Settings.$window
   };
 
+
+
   module.initializer = function( $pane ) {
+    var $galleries = $pane.find('.gallery'),
+        $accessoryFinders = $pane.find('.af-module'),
+        $productStrips = $pane.find('.js-product-strip');
 
     // Initialize galleries
-    $pane.find('.gallery').each(function() {
+    $galleries.each(function() {
       var $this = $(this);
 
       // Stagger gallery initialization
@@ -3661,14 +3689,83 @@ define(function(require){
     });
 
     // Instantiate accessory finders
-    $pane.find('.af-module').each(function( i, el ) {
+    $accessoryFinders.each(function( i, el ) {
       setTimeout(function() {
         new AccessoryFinder( el );
       }, 0);
     });
+
+    // Instantiate product strips
+    if ( $productStrips.length ) {
+      new ProductStrip( $productStrips );
+    }
+
+    // Release for IE
+    $galleries = $accessoryFinders = $productStrips = null;
   };
 
-  module.onGalleryTabAlreadyShown = function( evt ) {
+  var ProductStrip = function( $strips ) {
+    var self = this;
+
+    $.extend( self, ProductStrip.settings );
+
+    self.$strips = $strips;
+
+    // Defer initialization
+    setTimeout(function() {
+      self.init();
+      self.$strips.data( 'productStrip', self );
+
+      log('SONY : ProductStrip : Initialized');
+    }, 0);
+
+  };
+
+  ProductStrip.prototype = {
+    constructor: ProductStrip,
+
+    init : function() {
+      var self = this;
+
+      self.productNames = [];
+      self.$strips.each(function() {
+        var $toBeEven = $(this).find('.product-name-wrap');
+        self.productNames.push( $toBeEven );
+      });
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+
+      // Size the heights
+      self
+        .initFavorites()
+        .onResize();
+
+
+      return self;
+    },
+
+    initFavorites : function() {
+      this.favorites = new Favorites( this.$strips, {
+        itemSelector: this.itemSelector
+      });
+
+      return this;
+    },
+
+    onResize : function() {
+      var self = this;
+      requestAnimationFrame(function() {
+        $.evenHeights( self.productNames );
+      });
+    }
+  };
+
+  ProductStrip.settings = {
+    itemSelector: '.gallery-item'
+  };
+
+  module.onGalleryTabAlreadyShown = function() {
     module.initializer( $( this ) );
     setTimeout( iQ.update, 0 );
   };
