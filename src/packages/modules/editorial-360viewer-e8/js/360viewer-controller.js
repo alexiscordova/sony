@@ -102,8 +102,8 @@ define(function(require){
         }
       };
 
-      setTimeout(function() {
-        // if not, manage the payload by exposing a loader
+      // if not, manage the payload by exposing a loader
+      self.$sequence.each(function( index ) {
         var el = $(this);
         // is the BG image loaded?
         if(  el.data('hasLoaded') ) {
