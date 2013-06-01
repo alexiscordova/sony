@@ -1,0 +1,53 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('editorial-chapters-e5')
++includeJavascriptModule('editorial-chapters-e5')
+hotspots = data.config.contians_hotspots ? "hotspots" : ""
+
+mixin thumb-nav
+  ul.thumb-nav.container
+    .slider
+      for slide in data.submodules
+        li
+          if slide.thumb
+            +iQImage(slide.thumb)
+          if slide.icon
+            i(class=slide.icon)
+          if slide.label
+            span.label-container
+              span(class='nav-label p4-bold')= slide.label
+    .left-shade
+    .right-shade
+
+mixin copyblock(_copy, _title, _subtitle, _body, linkclass)
+  copyobject = _copy ? _copy : data
+  titleclass = _title ? _title : "t2"
+  subtitleclass = _subtitle ? _subtitle : "t6"
+  bodyclass = _body ? _body : "p2"
+  .copy
+    if copyobject.title
+      h2(class = titleclass) !{copyobject.title}
+    if copyobject.subtitle
+      h3(class = subtitleclass) !{copyobject.subtitle}
+    if copyobject.body
+      p(class = bodyclass) !{copyobject.body}
+  if copyobject.link
+    .link
+      linktextsize = copyobject.link.type == "txt" ? "lt3" : ""
+      a(class = copyobject.link.type, href= copyobject.link.url)(class = linktextsize) !{copyobject.link.text}
+
+ecClasses = [ "editorial-chapters-container", "container", data.config.nav_shade, data.config.nav_mode+"-mode", data.config.nav_location+"-nav", hotspots ]
+
++mainElement( ecClasses )
+  div(class='editorial-chapters')
+    if data.config.nav_location == "top"
+      +thumb-nav
+    div(class='editorial-carousel-wrapper')
+      h3 = data.submodules
+      div(class='editorial-carousel')
+        for slide in data.submodules
+          .editorial-carousel-slide
+            +partial(slide.type, slide.data, true)
+    if hotspots 
+      div.clearfix
+    if data.config.nav_location == "bottom"
+      +thumb-nav

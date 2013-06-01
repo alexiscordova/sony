@@ -102,17 +102,18 @@ define(function(require){
         }
       };
 
-      // if not, manage the payload by exposing a loader
-      self.$sequence.each(function( index, el ) {
+      setTimeout(function() {
+        // if not, manage the payload by exposing a loader
+        var el = $(this);
         // is the BG image loaded?
-        if( $( el ).data('hasLoaded') ) {
+        if(  el.data('hasLoaded') ) {
           self.syncControlLayout();
           self.curLoaded++;
           checkLoaded();
         } else {
           // its not a preloaded background
-          if( $( el ).is( 'div' ) ) {
-            $( el ).on( 'iQ:imageLoaded', lockAndLoaded );
+          if( el.is( 'div' ) ) {
+            el.on( 'iQ:imageLoaded', lockAndLoaded );
           } else {
             // check if the inline images are cached
             if( false === this.complete ) {
