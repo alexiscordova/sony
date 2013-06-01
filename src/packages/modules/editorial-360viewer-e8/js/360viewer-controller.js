@@ -102,31 +102,37 @@ define(function(require){
         }
       };
 
-      // if not, manage the payload by exposing a loader
-      self.$sequence.each(function( index, el ) {
-        // is the BG image loaded?
-        if( $( el ).data('hasLoaded') ) {
-          self.syncControlLayout();
-          self.curLoaded++;
-          checkLoaded();
-        } else {
-          // its not a preloaded background
-          if( $( el ).is( 'div' ) ) {
-            $( el ).on( 'iQ:imageLoaded', lockAndLoaded );
+      setTimeout(function() {
+        // if not, manage the payload by exposing a loader
+        self.$sequence.each(function( index ) {
+          var el = $(this);
+
+          console.log(el.data('hasLoaded'));
+          console.log('inside each sequence');
+          // is the BG image loaded?
+          if(  el.data('hasLoaded') ) {
+            self.syncControlLayout();
+            self.curLoaded++;
+            checkLoaded();
           } else {
-            // check if the inline images are cached
-            if( false === this.complete ) {
-              // not cached, listen for load event
-              el.onload = lockAndLoaded;
+            // its not a preloaded background
+            if( el.is( 'div' ) ) {
+              el.on( 'iQ:imageLoaded', lockAndLoaded );
             } else {
-              // cached, count it against the payload
-              self.syncControlLayout();
-              self.curLoaded++;
-              checkLoaded();
+              // check if the inline images are cached
+              if( false === this.complete ) {
+                // not cached, listen for load event
+                el.onload = lockAndLoaded;
+              } else {
+                // cached, count it against the payload
+                self.syncControlLayout();
+                self.curLoaded++;
+                checkLoaded();
+              }
             }
           }
-        }
-      });
+        });
+      },10000);
 
       log('SONY : Editorial 360 Viewer : Initialized');
     },
