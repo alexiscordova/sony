@@ -138,7 +138,7 @@ define(function(require) {
       self.$stickyNav.stickyNav({
         $jumpLinks: self.$jumpLinks,
         offset: 0,
-        offsetTarget: self.$el.next(),
+        offsetTarget: $.proxy( self.getStickyNavTriggerMark, self ),
         scrollToTopOnClick: true
       });
 
@@ -159,6 +159,10 @@ define(function(require) {
       self._initFavorites();
 
       iQ.update();
+    },
+
+    getStickyNavTriggerMark : function() {
+      return this.$el.next().offset().top - this.$stickyNav.outerHeight();
     },
 
     _onResize : function() {
