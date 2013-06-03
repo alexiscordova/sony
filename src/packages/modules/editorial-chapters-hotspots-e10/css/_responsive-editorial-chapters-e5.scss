@@ -8,17 +8,6 @@ $tabletMax: px-em(979);
 
 @mixin tablet-thumb-nav {
   .editorial {
-    // since were applying heights via editorial-chapters-e5
-    // we need to get rid of the table styling since it mainly
-    // ignores heights
-    .table-center-wrap,
-    .table-center {
-      display: block;
-    }
-    .table-center,
-    .box {
-      height: 100%;
-    }
   }
 
   .thumb-nav {
@@ -176,12 +165,12 @@ $tabletMax: px-em(979);
       top:4px;
       bottom:0;
       left: 0;
-      box-shadow: inset 5px 0 7px -5px #333;
+      box-shadow: inset 5px 0 10px -5px rgba(39,43,55,0.25);
     }
 
     .right-shade {
-      left:auto;
-      box-shadow: inset -5px 0 7px -5px #333;
+      left:auto;  
+      box-shadow: inset -5px 0 10px -5px rgba(39,43,55,0.25);
       right: 0;
     }
   }
@@ -214,7 +203,6 @@ $tabletMax: px-em(979);
 
     }
   }
-
 
   // Media Left + Media Right Chapters!
   // ==================================
@@ -316,4 +304,36 @@ $tabletMax: px-em(979);
 
     .image-module {height:320px;}
   }
+
+  // Media Left + Media Right Chapters!
+  // ==================================
+  .span5,
+  .span6,
+  .span7 {
+    .editorial-chapters-container {
+      &.thumb-mode {
+        li {
+          height: 36px;
+        }
+
+        .thumb-nav {
+          img {
+            max-width: 48px;
+          }
+        } // end .thumb-nav
+
+      } // end &.thumb-mode
+
+      &.icon-mode {
+        .thumb-nav {
+          i {
+            top:4px;
+            margin:0 15px;
+          }
+        } // end .thumb-nav
+      } // end $.icon-mode
+    } // end .editorial-chapters-container
+
+  } // end spans
+  
 }
