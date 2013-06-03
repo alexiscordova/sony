@@ -465,9 +465,9 @@ define(function(require){
       setTimeout(function(){
         $chapterTabs.removeClass('active');
       },100);
-
+      if (self.iscroll) {
         self.updateiScroll();
-
+      }
       // update the hash after we got the correct slide transition
       self.updateHash(self.location, self.currentId);
     },

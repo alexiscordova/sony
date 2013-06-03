@@ -432,9 +432,9 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
       setTimeout(<span class="keyword">function</span>(){
         $chapterTabs.removeClass(<span class="string">'active'</span>);
       },<span class="number">100</span>);
-
+      <span class="keyword">if</span> (self.iscroll) {
         self.updateiScroll();
-
+      }
 </pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>update the hash after we got the correct slide transition</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.updateHash(self.location, self.currentId);
     },
 
