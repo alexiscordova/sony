@@ -11,7 +11,7 @@ include ../../../common/html/jade-helpers.jade
   .container
 
     .grid.spec-title-wrap
-      a.l2.spec-title-link(href=data.titleLink.href)= data.titleLink.label
+      +breadcrumbLink( data.titleLink.href, data.titleLink.label )
       .sony-recommends
         span.p3 Sony Recommends
         i.fonticon-60-win8.win8-logo
