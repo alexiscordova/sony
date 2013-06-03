@@ -58,15 +58,6 @@ define(function(require) {
 
       Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
 
-      // Save the short text value
-      self.$textSwaps.each(function() {
-        var $this = $(this),
-            data = $this.data();
-
-        data.shortText = $this.text();
-        data.currentKey = 'shortText';
-      });
-
       self.setupBreakpoints();
 
       self._onResize();
@@ -86,7 +77,6 @@ define(function(require) {
       self.$shareBtn = self.$el.find('.js-share');
       self.$dropdown = self.$el.find('.dropdown-menu');
       self.$shareLink = self.$dropdown.find('input');
-      self.$textSwaps = self.$el.find('[data-long-text]');
       self.$blockBtns = self.$el.find('.btn-block');
       self.$stickyTitle = self.$stickyNav.find('.sticky-nav-title');
       self.$stickyPriceText = self.$stickyNav.find('.price-text');
@@ -199,21 +189,6 @@ define(function(require) {
       }
     },
 
-    _swapTexts : function( toLong ) {
-      var self = this,
-          key = (toLong ? 'long' : 'short') + 'Text';
-
-      self.$textSwaps.each(function() {
-        var $this = $(this),
-            data = $this.data();
-
-        if ( key !== data.currentKey ) {
-          $this.text( data[ key ] );
-          data.currentKey = key;
-        }
-      });
-    },
-
     _swapDomElements : function( toDesktop ) {
       var self = this,
           $price,
@@ -250,8 +225,6 @@ define(function(require) {
 
       // Hide dropdown or modal if it's active
       self._hideShareDialog( true );
-
-      self._swapTexts( true );
       self._swapDomElements( true );
     },
 
@@ -289,8 +262,6 @@ define(function(require) {
 
       // Hide dropdown or modal if it's active
       self._hideShareDialog( false );
-
-      self._swapTexts( false );
       self._swapDomElements( false );
 
       if ( wasDesktop ) {
