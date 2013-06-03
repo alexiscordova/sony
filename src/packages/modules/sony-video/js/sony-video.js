@@ -58,6 +58,7 @@ define(function(require){
       self.isFullScreen         = false;
 
       self.$engine              = null;
+      self.$player              = self.$el.find('.player').eq(0);
 
       // Inits the module
       self.init();
@@ -71,11 +72,12 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
-
-
+        if(Settings.isLTIE8){
+          self.$player.addClass( 'no-toggle is-mouseover' );
+        }
 
         //initialize videos
-        self.videoAPI = sonyVideo.initVideos( self.$el.find('.player') );
+        self.videoAPI = sonyVideo.initVideos( self.$player );
 
         self.videoAPI.bind('resume' , function(){
           if(self.isFullEditorial){

@@ -67,6 +67,11 @@ define(<span class="keyword">function</span>(require){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
 
+        <span class="keyword">if</span>(Settings.isLTIE8){
+
+          self.$el.find(<span class="string">'.player'</span>).addClass( <span class="string">'no-toggle is-mouseover'</span> );
+
+        }
 
 
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>initialize videos</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.videoAPI = sonyVideo.initVideos( self.$el.find(<span class="string">'.player'</span>) );
