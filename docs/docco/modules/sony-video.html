@@ -55,6 +55,7 @@ define(<span class="keyword">function</span>(require){
       self.isFullScreen         = <span class="literal">false</span>;
 
       self.$engine              = <span class="literal">null</span>;
+      self.$player              = self.$el.find(<span class="string">'.player'</span>).eq(<span class="number">0</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Inits the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
 
@@ -66,10 +67,11 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Initalize the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      init : <span class="keyword">function</span>( param ) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+        <span class="keyword">if</span>(Settings.isLTIE8){
+          self.$player.addClass( <span class="string">'no-toggle is-mouseover'</span> );
+        }
 
-
-
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>initialize videos</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.videoAPI = sonyVideo.initVideos( self.$el.find(<span class="string">'.player'</span>) );
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>initialize videos</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.videoAPI = sonyVideo.initVideos( self.$player );
 
         self.videoAPI.bind(<span class="string">'resume'</span> , <span class="keyword">function</span>(){
           <span class="keyword">if</span>(self.isFullEditorial){
