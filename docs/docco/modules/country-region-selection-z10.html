@@ -75,6 +75,10 @@ define(<span class="keyword">function</span>(require){
       $(<span class="string">'&lt;div&gt;'</span>).append(self.$pageWrapperInner.children().not(<span class="string">'#nav-wrapper'</span>)).appendTo($scroll);
 
       $(self.$pageWrapperInner).append(self.$scrollContainer);
+
+      <span class="keyword">var</span> $universalNav = $(<span class="string">'#universal-nav'</span>);
+
+      $universalNav.detach().insertBefore(<span class="string">'#nav-wrapper'</span>);
     },
 
     setMobileHeight : <span class="keyword">function</span>() {
