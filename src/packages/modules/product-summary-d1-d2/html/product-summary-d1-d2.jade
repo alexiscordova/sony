@@ -7,6 +7,7 @@ include ../../../common/html/jade-helpers.jade
   //- Here we're using a submodule because it has the mixins defined already in the file
   module = data.submodules[0]
   productData = locals.data(module.data)
+  buyText = data.buyText ? data.buyText : '--buyText--'
   - productData.view = 'summary'
 
   - productData.collectionLabel = data.titleLink.label
@@ -16,7 +17,7 @@ include ../../../common/html/jade-helpers.jade
   - productData.startingAtText = data.startingAtText
   - productData.msrp = data.msrp
   - productData.priceUnit = data.priceUnit
-  - productData.buyText = data.buyText
+  - productData.buyText = buyText
   - productData.socialButtons = data.socialButtons
   - productData.shortLink = data.shortLink
 
@@ -54,5 +55,5 @@ include ../../../common/html/jade-helpers.jade
               strong.text-dark !{ data.priceUnit + productData.price }
 
         .span2.m-span1.buy-btn
-          a.btn.btn-block.pull-right(data-long-text=data.buyText, href=productData.storeLink)= data.buyTextShort
+          a.btn.btn-block.pull-right(href=productData.storeLink)= buyText
 

@@ -144,6 +144,12 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
         i.fonticon-15-link.js-no-close
       input.p4(type="text", value=shortLink)
 
+//- Link with a chevron
+mixin breadcrumbLink( href, label )
+  a.l3.breadcrumb-link(href=href)
+    i.fonticon-10-chevron-reverse
+    !{ label }
+
 
 blocks = {};
 mixin defineBlock(name)

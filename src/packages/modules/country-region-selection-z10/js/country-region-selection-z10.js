@@ -77,6 +77,10 @@ define(function(require){
       $('<div>').append(self.$pageWrapperInner.children().not('#nav-wrapper')).appendTo($scroll);
 
       $(self.$pageWrapperInner).append(self.$scrollContainer);
+
+      var $universalNav = $('#universal-nav');
+
+      $universalNav.detach().insertBefore('#nav-wrapper');
     },
 
     setMobileHeight : function() {
@@ -128,10 +132,11 @@ define(function(require){
       //$(window).on('orientationchange', $.proxy(self.setMobileHeight, self));
       var supportsOrientationChange = "orientationchange" in window,
           orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-      window.addEventListener(orientationEvent, function() {
-          self.setMobileHeight();
-      }, false);
-
+      if (window.addEventListener) {
+        window.addEventListener(orientationEvent, function() {
+            self.setMobileHeight();
+        }, false);
+      }
       return self;
     },
 
