@@ -157,6 +157,8 @@ $.fn.flowplayer = function(opts, callback) {
             urlResolver = new URLResolver (root);
          }
 
+      //console.log( 'is loading', root.hasClass('is-loading') );
+
       if (conf.playlist.length) { // Create initial video tag if called without
          var preload = videoTag.attr('preload');
          videoTag.remove();
@@ -240,6 +242,7 @@ $.fn.flowplayer = function(opts, callback) {
                   // callback
                   if ($.isFunction(video)) {callback = video;}
                   if (callback) {root.one("ready", callback);}
+
                } else {
                   api.loading = false;
                }
@@ -1698,7 +1701,7 @@ flowplayer(function(api, root) {
       hover(is_over);
 
       if (is_over) {
-
+         root.trigger('over.flowplayer');
          root.bind("pause.x mousemove.x volume.x", function() {
             hover(true);
             lastMove = new Date;
