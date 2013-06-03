@@ -15,14 +15,15 @@
   display: inline-block;
   @include size( px-em(40px), px-em(42px) );
   @include box-shadow(0 1px 0 $gray50);
-  // @include transition($transitionSlow ease-out);
+
+  // important is because the default font icon transition will override this...
   -webkit-transition:
     -webkit-transform $transitionSlow $easeNormal $transitionSlow,
     box-shadow $transitionSlow $easeNormal $transitionSlow,
     background $transitionSlow $easeNormal $transitionSlow,
     color $transitionSlow $easeNormal $transitionSlow,
     width $transitionSlow $easeNormal 0s,
-    margin $transitionSlow $easeNormal 0s
+    margin $transitionSlow $easeNormal 0s !important
   ;
   transition:
     transform $transitionSlow $easeNormal $transitionSlow,
@@ -30,7 +31,7 @@
     background $transitionSlow $easeNormal $transitionSlow,
     color $transitionSlow $easeNormal $transitionSlow,
     width $transitionSlow $easeNormal 0s,
-    margin $transitionSlow $easeNormal 0s
+    margin $transitionSlow $easeNormal 0s !important
   ;
 
   &:hover {
@@ -45,7 +46,7 @@
   &:after {
     position: absolute;
     opacity: 0;
-    @include transition(opacity $transitionNormal $easeNormal);
+    @include transition(opacity $transitionNormal $easeNormal !important);
   }
 
   .no-opacity &:before,
@@ -108,7 +109,7 @@
       background $transitionSlow $easeNormal,
       color $transitionSlow $easeNormal,
       width $transitionSlow $easeNormal $transitionSlow,
-      margin $transitionSlow $easeNormal $transitionSlow
+      margin $transitionSlow $easeNormal $transitionSlow !important
     ;
     transition:
       transform $transitionSlow $easeNormal,
@@ -116,7 +117,7 @@
       background $transitionSlow $easeNormal,
       color $transitionSlow $easeNormal,
       width $transitionSlow $easeNormal $transitionSlow,
-      margin $transitionSlow $easeNormal $transitionSlow
+      margin $transitionSlow $easeNormal $transitionSlow !important
     ;
 
     // border: 1px solid $gray20;
