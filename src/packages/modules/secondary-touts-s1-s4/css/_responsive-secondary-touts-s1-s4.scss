@@ -86,6 +86,10 @@
 
       .st-item {
         height: 260px;
+
+        .st-item-content.light-text-trans-panel p {
+          display: none;
+        }
       }
     }
   }
@@ -123,6 +127,19 @@
         .st-item-content {
           left: 6%;
 
+          &.align-left-top,
+          &.align-right-top {
+            top: 6.8%;
+          }
+
+          &.align-left-bottom,
+          &.align-right-bottom {
+
+            &.has-counter {
+              bottom: 16%;
+            }
+          }
+
           &.align-center-center,
           &.align-center-bottom  {
             left: 0;
@@ -133,14 +150,16 @@
           }
         }
 
-        .counter,
-        .mini-promo {
+        aside {
+          left: 6%;
+          bottom: 6.2%;
 
-          &.content-12,
-          &.content-8,
-          &.content-6,
-          &.content-4 {
-            left: 6%;
+          &.has-mini-promo,
+          &.has-mini-promo.has-copy {
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: none;
           }
         }
 
@@ -149,6 +168,37 @@
           right: 20px;
           width: 110px;
           height: 110px;
+        }
+
+        .mini-promo {
+          display: block;
+          background-color: $gray10;
+          background-color: rgba($gray10, 0.95);
+
+          &.mini-promo-layout-light {
+            background-color: $gray10;
+            background-color: rgba($gray10, 0.95);
+          }
+
+          .mini-promo-image-container {
+            width: 64px;
+            height: 36px;
+            margin: 10px;
+
+            .play-button {
+              width: 22px;
+              height: 22px;
+              margin: -11px 0 0 -11px;
+              font-size: 0.5em;
+              line-height: 22px;
+            }
+          }
+
+          .mini-promo-caption {
+            height: 56px;
+            line-height: 56px;
+            color: $white;
+          }
         }
       }
 

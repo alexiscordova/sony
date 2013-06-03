@@ -41,11 +41,11 @@ define(function(require){
     self.$el = $(element);
     self.isInit = true;
     self.mobileNavThreshold = 567;
-    self.isMobile = Modernizr.mq('(max-width:'+ self.mobileNavThreshold +'px)') ? true : false;
+    // self.isMobile = Modernizr.mq('(max-width:'+ self.mobileNavThreshold +'px)');
 
     // resize event related
-    self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
-    self.onResizeEvent = $.proxy(self.handleResize, self);
+    //self.debounceEvent = 'global:resizeDebounced-200ms.uxmc';
+    //self.onResizeEvent = $.proxy(self.handleResize, self);
     self.isResize = false;
 
     // buttons & dials
@@ -78,7 +78,8 @@ define(function(require){
     // self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
     self.isAutomatic = true;
     self.rAF = undefined;
-    self.dialStyles = undefined;//self.isMobile ? self.dialInitMobile : self.dialInit;
+    self.dialStyles = undefined;
+    self.$progressIndicators = self.$el.find('.progress-indicators');
     self.$buttonReloadContainer = self.$el.find('.btn-reload-container');
     self.$reloadButton = self.$el.find('.btn-reload');
     self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
@@ -92,9 +93,9 @@ define(function(require){
     self.$carouselSlidesChildren = self.$carousel.find('.sony-carousel-slide-children');
 
     // LISTEN
-    if(!Settings.isLTIE10){
-      Environment.on(self.debounceEvent, $.proxy(self.onResizeEvent, self));
-    }
+    // if(!Settings.isLTIE10){
+    //   Environment.on(self.debounceEvent, $.proxy(self.onResizeEvent, self));
+    // }
 
     self.init();
 
@@ -118,18 +119,16 @@ define(function(require){
       // set up knob dials (init, mousedown, mouseover, mouseoff)
       self.setupDials();
 
-      // resgister for resize
-      enquire.register('(min-width: 568px)', function() {
-        //console.log( 'is tablet/desktop »');
-        self.dialStyles = self.dialInit;
-        self.dialsINIT();
-      });
+      if( !Settings.$html.hasClass('lt-ie10') ){
+        // resgister for resize
+        enquire.register('(min-width: 568px)', function() {
+          self.handleResize();
+        });
 
-      enquire.register('(max-width: 567px)', function() {
-        //console.log( ' is mobile »');
-        self.dialStyles = self.dialInitMobile;
-        self.dialsINIT();
-      });
+        enquire.register('(max-width: 567px)', function() {
+          self.handleResize();
+        });
+      }
 
       // start requestAnimationFrame
       self.animationLoop();
@@ -149,11 +148,36 @@ define(function(require){
       self.resetPartnerCarouselInterval();
     },
 
-    'handleResize' : function(){
+    'dialsINIT' : function(){
       var self = this;
+
+      // tear down knobs and redo
+      if(self.isInit){
+        self.$dials.simpleKnob(self.dialStyles).show();
+      }else{
+        self.$dials.simpleKnob(self.dialStyles).trigger('configure', self.dialStyles);
+      }
+    },
+
+    'handleResize' : function(breakpoint){
+      var self = this,
+          $activeDial = self.$dials.eq(self.currentPartnerProduct);
+
       self.isResize = true;
-      //self.turnDialON($(self.$dials.eq(self.currentPartnerProduct)));
-      // self.gotoPartnerProduct(); // reset current slide
+
+      self.setDialStyles();
+
+      self.dialsINIT();
+
+      self.turnDialON($activeDial);
+    },
+
+    'setDialStyles' : function(){
+      var self = this,
+          isMobile = Modernizr.mq('(max-width:'+ self.mobileNavThreshold +'px)');
+
+      //console.log( 'isMobile? »' , isMobile);
+      self.dialStyles = isMobile ? self.dialInitMobile : self.dialInit;
     },
 
     'initCarousel' : function(){
@@ -187,6 +211,9 @@ define(function(require){
 
       var self = this;
 
+      self.setDialStyles();
+      self.dialsINIT();
+
       self.$dialWrappers.on('mousedown', function(e){
         e.preventDefault();
         self.isAutomatic = false;
@@ -206,21 +233,20 @@ define(function(require){
         // go to the correct slide
         self.gotoPartnerProduct();
       }).on('mouseover', function(e){
+
+        // don't do anything if current dial is active....
+
+        // console.log( 'this »' , $(this).index());
+        // console.log( 'active dial »' , self.$activeDial.index());
+
         // on state
         self.turnDialON( $(this) );
+
+
       }).on('mouseout', function(e){
         // off state
         self.turnDialOFF( $(this) );
       });
-    },
-
-    'dialsINIT' : function(){
-      var self = this;
-      if(self.isInit){
-        self.$dials.simpleKnob(self.dialStyles).show();
-      }else{
-        self.$dials.simpleKnob(self.dialStyles).show().trigger('configure', self.dialStyles);
-      }
     },
 
     'turnDialOFF' : function($el){

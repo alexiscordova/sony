@@ -5,7 +5,7 @@ layouts = locals.getConfigFile("packages/modules/gallery-g2-g3/html/layouts.json
 mixin loaderDiv()
   .relative.gallery-loader
     .loading.text-center
-      img(src="img/loader.gif", alt="Loading...")
+      img(class="global-loader", src="img/loader.gif", alt="Loading...")
 
 mixin filterColor( filterSet )
   ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
@@ -508,7 +508,7 @@ mixin productStrips( submodules, strips, type )
   section
     .container
       each strip in strips
-        .slimgrid5.m-grid-at-767.product-strip-wrap
+        .slimgrid5.m-grid-at-767.product-strip-wrap.js-product-strip
           .product-strip-header.clearfix
             h2.t6.product-strip-heading.pull-left= strip.title
             if strip.callout
