@@ -17,10 +17,10 @@ else
     bump = ""
 
 .e360(id=id).dim-the-lights
-  .outer 
+  .outer
     if data.background === "true"
       .loading.load-indicator.text-center
-        img.load-indicator(src="img/loader.gif", alt="Loading...")
+        img.global-loader.load-indicator(src="img/loader.gif", alt="Loading...")
       - i = 0
       - for imgData in data.sequence
         - sequenceId = id+"-"+i
@@ -32,7 +32,7 @@ else
         - i++
     else
       .loading.is-asset.load-indicator.text-center
-        img.load-indicator(src="img/loader.gif", alt="Loading...")
+        img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
       - i = 0
       - for imgData in data.sequence
         - sequenceId = id+"-"+i
@@ -46,10 +46,7 @@ else
         - i++
 
   .controls.container
-    .grid.no-grid-at-767
-      .span12
-        .table-center-wrap
-          .table-center(class=isDark)(class=bump)(class=lod)
-            i.left-arrow.fonticon-10-chevron-reverse
-            span.instructions.l3(class=isDark)(class=lod) DRAG
-            i.right-arrow.fonticon-10-chevron
+    .drag-controls(class=isDark)(class=bump)(class=lod)
+      i.left-arrow.fonticon-10-chevron-reverse
+      span.instructions.l3(class=isDark)(class=lod) DRAG
+      i.right-arrow.fonticon-10-chevron

@@ -56,6 +56,7 @@ define(function(require) {
       self.$slideContainer      = self.$el.find( self.SLIDE_CONTAINER );
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$pagination          = null;
+      self.$videoPlayers        = self.$el.find('.sony-video');
 
       self.desktopAnimSpeed     = 500;
       self.tabletAnimSpeed      = 300;
@@ -164,9 +165,10 @@ define(function(require) {
         self.currentId = currentIndex;
         self.setCurrentActiveThumb();
 
-        //shut off any players
-        
-
+        //shut off any video players when changing slides
+        if(self.$videoPlayers.length){
+          self.$videoPlayers.data('sonyVideo').api().pause();
+        }
 
         setTimeout( iQ.update , 250 );
       },
@@ -252,8 +254,6 @@ define(function(require) {
 
         self.$slideContainer.css( 'width', containerWidth );
         self.$slides.css( 'width', slideWidth );
-
-        sonyVideo.initVideos( self.$el.find('.player') );
 
         return self;
       },
