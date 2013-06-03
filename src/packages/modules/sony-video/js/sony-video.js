@@ -72,6 +72,11 @@ define(function(require){
         var self = this;
 
 
+        if(Settings.isLTIE8){
+
+          self.$el.find('.player').addClass( 'no-toggle is-mouseover' );
+
+        }
 
 
         //initialize videos
