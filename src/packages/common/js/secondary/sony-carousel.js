@@ -178,6 +178,7 @@ define(function(require){
       self.$el.sonyDraggable({
         'axis': axis,
         'dragThreshold': self.dragThreshold,
+        'nonDraggableChildren': self.nonDraggableChildren,
         'containment': self.$wrapper,
         'useCSS3': self.useCSS3,
         'drag': iQ.update
@@ -716,6 +717,9 @@ define(function(require){
 
     // Should this be draggable? True for most carousels, so default on.
     draggable: true,
+
+    // Set a valid selector to define children of hte carousel that should *not* trigger a drag.
+    nonDraggableChildren: undefined,
 
     // Should this carousel seamlessly loop from end to end?
     looped: false,
