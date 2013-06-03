@@ -146,7 +146,8 @@ define(function(require) {
           paddles: true,
           paddlePosition: 'outset',
           pagination: true,
-          $paddleWrapper: self.$el
+          $paddleWrapper: self.$el,
+          nonDraggableChildren: '.sony-video'
         });
 
         self.$pagination = self.$el.find('.sony-dot-nav');
