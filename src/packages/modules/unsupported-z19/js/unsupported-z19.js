@@ -52,6 +52,10 @@ define(function(require){
         self.launchModal(self.modalID);
       });
 
+      $('.link-proceed').on('click', function(){
+        self.closeModal();
+      });
+
       self.$win.resize($.proxy(self.measureModal, this));
     },
 
@@ -88,6 +92,11 @@ define(function(require){
         'margin-top': -height / 2,
         'margin-left': -width / 2
       });
+    },
+
+    closeModal: function(){
+      var self = this;
+      $(self.modalID).modal('hide');
     },
 
     resetModal: function() {
