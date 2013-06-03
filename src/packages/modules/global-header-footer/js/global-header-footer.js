@@ -896,7 +896,7 @@ define(function(require) {
     // MOBILE NAV
 
     prepMobileNav : function() {
-      console.log("prepMobileNav");
+      // console.log("prepMobileNav");
       var self = this;
 
       self.preSetNavTrayImageHeights();
@@ -1074,16 +1074,30 @@ define(function(require) {
         // on init, the footers should collapse.
         self.collapseMobileFooterSec($thFootSection, true);
 
-        $(this).on(self.tapOrClick, function() {
 
-          if ($thFootSection.hasClass('collapsed')) {
-            // collapsed height - expand it.
-            self.expandMobileFooterSec($thFootSection);
-          } else {
-            self.collapseMobileFooterSec($thFootSection);
-          }
-        });
+
+        // TOUCH DEVICES
+        if ( self.hasTouch ) {
+          // console.log('init hammer');
+          // Use hammer.js to detect taps
+          $(this).hammer().on('tap', function() {
+            self.toggleMobileFooterSec($thFootSection);
+          });
+        } else {
+          // NO TOUCH
+          $(this).on('click', function() {
+            self.toggleMobileFooterSec($thFootSection);
+          });
+        }
       });
+    },
+    toggleMobileFooterSec : function($thFootSection) {
+      var self = this;
+      if ($thFootSection.hasClass('collapsed')) {
+        self.expandMobileFooterSec($thFootSection);
+      } else {
+        self.collapseMobileFooterSec($thFootSection);
+      }
     },
     resetMobileFooter : function() {
       var self = this;
@@ -1124,6 +1138,10 @@ define(function(require) {
             $thFootSection.height(self.footerNavCollapseHeight).addClass('collapsed');
           }, 1);
         }, 1);
+
+        if ( self.hasTouch && $thFootSection.hasClass('footer-store-locator') && $('#store-locator-search-input').is(':focus')) {
+          $('#store-locator-search-input').blur();
+        }
       }
     },
     expandMobileFooterSec : function($thFootSection) {

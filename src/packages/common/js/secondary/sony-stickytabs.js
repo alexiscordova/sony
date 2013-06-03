@@ -456,7 +456,7 @@ define(function(require){
     isStickyTabs: false,
     useBounce: !( Settings.isVita || Settings.isLTIE9 ),
     useMomentum: !( Settings.isVita || Settings.isLTIE9 ),
-    isTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
+    isTouch: Settings.hasTouchEvents,
     prop: Modernizr.csstransforms ? 'transform' : 'left',
     valStart : Modernizr.csstransforms ? 'translate(' : '',
     valEnd : Modernizr.csstransforms ? 'px,0)' : 'px'

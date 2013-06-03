@@ -1538,7 +1538,7 @@ flowplayer(function(api, root) {
       support = flowplayer.support,
       hovertimer;
    root.find('.fp-ratio,.fp-ui').remove();
-   root.addClass("flowplayer").append('<div class="ratio"/><div class="ui"><div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div><a class="unload"/><p class="speed"/><div class="controls"><a class="play"></a><div class="timeline"><div class="buffer"/><div class="progress is-slider"/><div class="scrubber"/></div><div class="volume"><a class="mute"></a><div class="volumeslider"><div class="volumeleveltrack"><div class="volumelevel is-slider"/><div class="scrubber"/></div></div></div><a class="fullscreen"/></div><div class="message"><h2/><p/></div></div>'.replace(/class="/g, 'class="fp-'));
+   root.addClass("flowplayer").append('<div class="ratio"/><div class="ui"><div class="waiting"></div><div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div><a class="unload"/><p class="speed"/><div class="controls"><a class="play"></a><div class="timeline"><div class="buffer"/><div class="progress is-slider"/><div class="scrubber"/></div><div class="volume"><a class="mute"></a><div class="volumeslider"><div class="volumeleveltrack"><div class="volumelevel is-slider"/><div class="scrubber"/></div></div></div><a class="fullscreen"/></div><div class="message"><h2/><p/></div></div>'.replace(/class="/g, 'class="fp-'));
 
 
    function find(klass) {
@@ -1582,7 +1582,7 @@ flowplayer(function(api, root) {
    }
 
    // loading...
-   if (!support.animation) {waiting.html("<p>loading &hellip;</p>");}
+   if (!support.animation) {waiting.html("");}
 
    setRatio(conf.ratio);
 

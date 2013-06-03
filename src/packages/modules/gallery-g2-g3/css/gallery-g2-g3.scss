@@ -313,6 +313,14 @@ $gifHeight: 60px;
     padding-right: px-em(2, 13);
   }
 
+  // Text should be allowed to overflow, but having a width
+  // keeps the filter button from jumping back and forth when the
+  // product string changes length
+  .product-str {
+    display: inline-block;
+    width: 54px; // magic number
+  }
+
   // Move the first element with a button class over
   .grid > .btn.first {
     margin-left: 2.5em;
@@ -748,9 +756,10 @@ $compareBorder: .0625em solid $gray70;
   .detail-labels-wrap {
     border-right: $compareBorder;
 
+    // IE8 transparent not working
     &:before {
       width: 100%;
-      background-color: transparent;
+      background-color: $white;
     }
   }
 
