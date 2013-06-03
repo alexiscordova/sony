@@ -1,3 +1,5 @@
+/*jshint debug:true */
+
 // Module Title
 // ------------
 //
@@ -68,6 +70,7 @@ define(function(require){
     self.inViewport     = false;
     self.moves          = 0;
     self.touchEvents    = 0;
+    self.$win           = Settings.$window;
 
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
@@ -84,52 +87,136 @@ define(function(require){
       self.$controls.addClass( 'hidden' );
       self.$container.addClass( 'dim-the-lights' );
 
-      // closures to manage image payload
-      var lockAndLoaded = function() {
-        self.syncControlLayout();
-        self.curLoaded++;
-        checkLoaded();
-      };
-
-      // checks the payload against the loaded image
-      var checkLoaded = function() {
-        if( self.sequenceLength == self.curLoaded ) {
-          log( 'all 360 assets loaded' );
-          self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
-          self.$container.find( '.load-indicator' ).addClass( 'hidden' );
-          self.syncControlLayout();
-          self.initBehaviors();
-        }
-      };
-
       // if not, manage the payload by exposing a loader
-      self.$sequence.each(function( index ) {
-        var el = $(this);
-        // is the BG image loaded?
-        if(  el.data('hasLoaded') ) {
-          self.syncControlLayout();
-          self.curLoaded++;
-          checkLoaded();
-        } else {
-          // its not a preloaded background
-          if( el.is( 'div' ) ) {
-            el.on( 'iQ:imageLoaded', lockAndLoaded );
-          } else {
-            // check if the inline images are cached
-            if( false === this.complete ) {
-              // not cached, listen for load event
-              el.onload = lockAndLoaded;
-            } else {
-              // cached, count it against the payload
-              self.syncControlLayout();
-              self.curLoaded++;
-              checkLoaded();
-            }
-          }
-        }
-      });
+      console.log('checking for the sequence');
+
+      // since IE and iQ are not getting along we need to delay this a bit
+      // heres the idea, we show the loading screen and then one by one with a
+      // setTimeout and a $win.resize() we can fire iQ. ?? seems legit?
+
+      self.loadSequence();
 
       log('SONY : Editorial 360 Viewer : Initialized');
+    },
+
+    lockAndLoaded: function() {
+      var self = this;
+
+      self.syncControlLayout();
+      self.curLoaded++;
+      self.checkLoaded();
+    },   
+
+    // checks the payload against the loaded image
+    checkLoaded: function() {
+      var self = this;
+
+      if( self.sequenceLength == self.curLoaded ) {
+        log( 'all 360 assets loaded' );
+        self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
+        self.$container.find( '.load-indicator' ).addClass( 'hidden' );
+        self.syncControlLayout();
+        self.initBehaviors();
+      }
+    },
+
+    syncControlLayout: function() {
+      var self = this;
+      var _assetWidth = $( self.$sequence[self.curIndex] ).width();
+      self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
+    },
+
+    // this will load the sequence of images
+    loadSequence: function() {
+      var self = this,
+          sequenceLength = self.$sequence.length,
+          _i = 0,
+          delayLoad;
+
+      self.$sequence.addClass('hidden');
+
+
+      // since IE is being dumb we need to make a special loop for it with a
+      // delay. The delay will be a setimeout of a specific period. Then we
+      // can unhide the image, run a window resize to fire iQ and then we can
+      // hide the image again. It's a bit jank but will work for IE7. or
+      // thisispete, can modify iQ to work with IE7. /shrugs
+      if (Settings.isLTIE8) {
+        delayLoad = function() {
+          setTimeout(function () {
+            var $currSequence = self.$sequence.eq(_i),
+                $nextSequence = self.$sequence.eq(_i + 1),
+                $lastSequence = self.$sequence.eq(_i - 1) ? self.$sequence.eq(_i - 1) : undefined;
+
+            $currSequence.removeClass('hidden');
+            $lastSequence.addClass('hidden');
+            self.$win.trigger('resize');
+
+            $.proxy(self.lockAndLoaded, self);  
+            self.curLoaded++;
+            self.syncControlLayout();
+            self.checkLoaded();
+              
+            _i++; 
+
+            console.log($currSequence, $lastSequence);
+            if (_i < sequenceLength) {
+              delayLoad();
+            }
+
+          }, 500);
+        };
+
+        delayLoad();
+      } else {
+
+        self.$sequence.each(function( index ) {
+          var el = $(this);
+
+          // remove the hidden class
+          self.$sequence.eq(index).removeClass('hidden');
+
+          //console.log(JSON.stringify(el.data()));
+          //console.log('inside each sequence');
+          //$.inspect(el.data());
+
+          // is the BG image loaded?
+          if(  el.data('hasLoaded') ) {
+            self.syncControlLayout();
+            self.curLoaded++;
+            self.checkLoaded();
+          } else {
+            // its not a preloaded background
+            if( el.is( 'div' ) ) {
+              el.removeClass('hidden');
+              self.$win.trigger('resize'); 
+              el.on( 'iQ:imageLoaded', $.proxy(self.lockAndLoaded, self) );
+
+              console.log('IE should hit this numerous times 3');
+
+              el.addClass('hidden');
+              console.log('added hidden class to el');
+            } else {
+              // check if the inline images are cached
+              if( false === this.complete ) {
+                // not cached, listen for load event
+                el.onload = self.lockAndLoaded;
+              } else {
+                // cached, count it against the payload
+                self.syncControlLayout();
+                self.curLoaded++;
+                self.checkLoaded();
+              }
+            }
+          }
+        });
+
+        // now show the first sequence again
+        self.$sequence.eq(0).removeClass('hidden');
+          
+      } // end LTIE8 
+
+      
     },
 
     initBehaviors: function() {
@@ -227,12 +314,6 @@ define(function(require){
           sequenceLength  = sequence.length - 1,
           stepSize        = ( assetWidth / sequenceLength ) / self.throttle,
           shouldEase      = ( 0 < ( swipeDistance - stepSize ) ) ? ( swipeDistance - stepSize ) : false;
-    },
-
-    syncControlLayout: function() {
-      var self = this;
-      var _assetWidth = $( self.$sequence[self.curIndex] ).width();
-      self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
     },
 
     onResize: function( event ) {
@@ -429,6 +510,18 @@ define(function(require){
 
   // jQuery Plugin Definition
   // ------------------------
+  $.extend({
+    inspect: function (obj, n) {
+      n = n || "this";
+      for (var p in obj) {
+        if ($.isPlainObject(obj[p])) {
+          $.inspect(obj[p], n + "." + p);
+          return;
+        }
+        console.log(n + "." + p.toString() + " = " + obj[p]);
+      }
+    }
+  });
 
   $.fn.editorial360Viewer = function( options ) {
     var args = Array.prototype.slice.call( arguments, 1 );
