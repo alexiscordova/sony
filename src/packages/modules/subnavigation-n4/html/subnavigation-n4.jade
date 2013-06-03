@@ -47,7 +47,11 @@ section.subnav-module(id = data.id ? data.id : false)
                 | Accessories
               a.gallery-link.btn(href=subcategory.galleryLink)
                 i.fonticon-10-grid-3x3
-                | View All !{subcategory.title}
+                - if ( subcategory.title == 'Accessories' ) {
+                  | View All Accessories
+                - } else {
+                  | View All !{subcategory.title} Accessories
+                - }
 
           - subcategoryLength = subcategory.products.length
 

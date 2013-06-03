@@ -3262,6 +3262,11 @@ define(function(require){
     initModal : function() {
       var self = this;
 
+      // Stop modal `show` event from bubbling to tabs, causing tabs to switch
+      self.$modal.on( 'show hide', function( evt ) {
+        evt.stopPropagation();
+      });
+
       // Listen for modal events
       self.$modal.on( 'shown', $.proxy( self.onModalShown, self ) );
       self.$modal.on( 'hidden', $.proxy( self.onModalClosed, self ) );
