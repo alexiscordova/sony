@@ -128,94 +128,52 @@ define(function(require){
 
     // this will load the sequence of images
     loadSequence: function() {
-      var self = this,
-          sequenceLength = self.$sequence.length,
-          _i = 0,
-          delayLoad;
+      var self = this;
 
-      self.$sequence.addClass('hidden');
+      self.$sequence.addClass('visuallyhidden');
 
+      self.$sequence.each(function( index ) {
+        var el = $(this);
 
-      // since IE is being dumb we need to make a special loop for it with a
-      // delay. The delay will be a setimeout of a specific period. Then we
-      // can unhide the image, run a window resize to fire iQ and then we can
-      // hide the image again. It's a bit jank but will work for IE7. or
-      // thisispete, can modify iQ to work with IE7. /shrugs
-      if (Settings.isLTIE8) {
-        delayLoad = function() {
-          setTimeout(function () {
-            var $currSequence = self.$sequence.eq(_i),
-                $nextSequence = self.$sequence.eq(_i + 1),
-                $lastSequence = self.$sequence.eq(_i - 1) ? self.$sequence.eq(_i - 1) : undefined;
+        // remove the hidden class
+        self.$sequence.eq(index).removeClass('visuallyhidden');
 
-            $currSequence.removeClass('hidden');
-            $lastSequence.addClass('hidden');
-            self.$win.trigger('resize');
+        // so iQ can catch on
+        self.$win.trigger('resize'); 
 
-            $.proxy(self.lockAndLoaded, self);  
-            self.curLoaded++;
-            self.syncControlLayout();
-            self.checkLoaded();
-              
-            _i++; 
+        //console.log(JSON.stringify(el.data()));
+        //console.log('inside each sequence');
+        $.inspect(el.data());
 
-            console.log($currSequence, $lastSequence);
-            if (_i < sequenceLength) {
-              delayLoad();
-            }
-
-          }, 500);
-        };
-
-        delayLoad();
-      } else {
-
-        self.$sequence.each(function( index ) {
-          var el = $(this);
-
-          // remove the hidden class
-          self.$sequence.eq(index).removeClass('hidden');
-
-          //console.log(JSON.stringify(el.data()));
-          //console.log('inside each sequence');
-          //$.inspect(el.data());
-
-          // is the BG image loaded?
-          if(  el.data('hasLoaded') ) {
-            self.syncControlLayout();
-            self.curLoaded++;
-            self.checkLoaded();
+        // now we can hide the element again?
+        self.$sequence.eq(index).addClass('visuallyhidden');
+        
+        // is the BG image loaded?
+        if(  el.data('hasLoaded') ) {
+          self.syncControlLayout();
+          self.curLoaded++;
+          self.checkLoaded();
+        } else {
+          // its not a preloaded background
+          if( el.is( 'div' ) ) {
+            el.on( 'iQ:imageLoaded', $.proxy(self.lockAndLoaded, self) );
           } else {
-            // its not a preloaded background
-            if( el.is( 'div' ) ) {
-              el.removeClass('hidden');
-              self.$win.trigger('resize'); 
-              el.on( 'iQ:imageLoaded', $.proxy(self.lockAndLoaded, self) );
-
-              console.log('IE should hit this numerous times 3');
-
-              el.addClass('hidden');
-              console.log('added hidden class to el');
+            // check if the inline images are cached
+            if( false === this.complete ) {
+              // not cached, listen for load event
+              el.onload = self.lockAndLoaded;
             } else {
-              // check if the inline images are cached
-              if( false === this.complete ) {
-                // not cached, listen for load event
-                el.onload = self.lockAndLoaded;
-              } else {
-                // cached, count it against the payload
-                self.syncControlLayout();
-                self.curLoaded++;
-                self.checkLoaded();
-              }
+              // cached, count it against the payload
+              self.syncControlLayout();
+              self.curLoaded++;
+              self.checkLoaded();
             }
           }
-        });
+        }
+      });
 
-        // now show the first sequence again
-        self.$sequence.eq(0).removeClass('hidden');
-          
-      } // end LTIE8 
-
+      // now show the first sequence again
+      self.$sequence.eq(0).removeClass('visuallyhidden');
       
     },
 
@@ -490,8 +448,8 @@ define(function(require){
         break;
       }
 
-      self.pluck( lastIndex ).addClass( 'hidden' );
-      self.pluck( self.curIndex ).removeClass( 'hidden' );
+      self.pluck( lastIndex ).addClass( 'visuallyhidden' );
+      self.pluck( self.curIndex ).removeClass( 'visuallyhidden' );
     },
 
     pluck: function( lastIndex ) {
