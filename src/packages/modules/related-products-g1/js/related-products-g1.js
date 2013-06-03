@@ -2135,6 +2135,8 @@ define(function(require) {
       }
 
       $currentPanel.data('relatedProducts').enableShuffle();
+
+      iQ.update();
     };
 
     // Since these are <a> links, they will receive click events from mobile devices
