@@ -89,6 +89,14 @@ define(function(require){
         return;
       }
 
+      // Need to return if this is a child element that should not trigger a drag.
+
+      if ( self.nonDraggableChildren ) {
+        if ( $(e.target).closest(self.nonDraggableChildren).length > 0 || $(e.target).is(self.nonDraggableChildren) ) {
+          return;
+        }
+      }
+
       if ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
       }
@@ -406,6 +414,9 @@ define(function(require){
 
     // 'px' or '%' based positioning for handle / callback coords.
     'unit': '%',
+
+    // Pass a valid selector to set children of the element that *won't* trigger a scrub.
+    'nonDraggableChildren': '',
 
     // Motion that must be passed on touch before dragging will start. Helpful for
     // preventing "touch-trapping" scenarios.
