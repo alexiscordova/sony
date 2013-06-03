@@ -223,7 +223,8 @@ define(function(require){
       self.$sortSelect = self.$container.find('.sort-options select');
       self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
       self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
-      self.$productCount = self.$container.find('.product-count');
+      self.$productCount = self.$container.find('.js-product-count');
+      self.$productStr = self.$container.find('.js-product-str');
       self.$activeFilters = self.$container.find('.active-filters');
       self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
       self.$favorites = self.$grid.find('.js-favorite');
@@ -273,6 +274,12 @@ define(function(require){
         self.ySuffix = 'px';
         self.xPrefix = '';
         self.xSuffix = 'px';
+      }
+
+      // Get singular and plural forms of "products"
+      if ( !self.isEditorialMode ) {
+        self.plural = self.$productStr.data('plural');
+        self.singular = self.$productStr.data('singular');
       }
     },
 
@@ -474,7 +481,6 @@ define(function(require){
     },
 
     // Updates the count displayed at the top left, above the products.
-    // It does NOT account for 2 products -> 1 product
     updateProductCount : function() {
       var self = this,
           count = self.shuffle ? self.shuffle.visibleItems : self.$items.length;
@@ -482,6 +488,16 @@ define(function(require){
       // The recommended gallery tile is actually a gallery item
       if ( self.hasRecommendedTile ) {
         count -= 1;
+      }
+
+      // Turn 1 Products -> 1 Product
+      // and 2 Product -> 2 Products
+      if ( count === 1 && self.isPlural ) {
+        self.$productStr.text( self.singular );
+        self.isPlural = false;
+      } else if ( count !== 1 && !self.isPlural ) {
+        self.$productStr.text( self.plural );
+        self.isPlural = true;
       }
 
       self.$productCount.text( count );
@@ -3210,6 +3226,23 @@ define(function(require){
     init : function() {
       var self = this;
 
+      // Initialize components
+      self
+        .setVars()
+        .onResize( true )
+        .initPopover()
+        .initModal()
+        .initSorting()
+        .initSearch();
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+    },
+
+    setVars : function() {
+      var self = this;
+
+
       // Modal pieces
       self.$modal = self.$container.find('#accessory-finder-modal');
       self.$modalHeader = self.$modal.find('.modal-header');
@@ -3219,25 +3252,20 @@ define(function(require){
       // Components
       self.$grid = self.$container.find('.products');
       self.$items = self.$grid.find( self.itemSelector );
-      self.$productCount = self.$container.find('.product-count');
+      self.$productCount = self.$container.find('.js-product-count');
+      self.$productStr = self.$container.find('.js-product-str');
       self.$popoverTriggers = self.$container.find('.js-popover-trigger');
       self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
       self.$sortSelect = self.$container.find('.sort-options select');
       self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
       self.$searchField = self.$container.find('#accessory-finder-input');
 
+      self.plural = self.$productStr.data('plural');
+      self.singular = self.$productStr.data('singular');
+
       self.useIScroll = self.hasTouch;
 
-      // Initialize components
-      self
-        .onResize( true )
-        .initPopover()
-        .initModal()
-        .initSorting()
-        .initSearch();
-
-      // Listen for global resize
-      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+      return self;
     },
 
     initPopover: function() {
