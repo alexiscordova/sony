@@ -16,9 +16,9 @@ define(function(require){
    'use strict';
 
     var $ = require('jquery'),
+        iQ = require( 'iQ' ),
         Router = require('require/sony-global-router'),
         Modernizr = require('modernizr'),
-        iQ = require('iQ'),
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
@@ -69,7 +69,12 @@ define(function(require){
       self.hasThumbs            = self.$thumbNav.length > 0;
       self.numSlides            = self.$slides.length;
       self.moduleId             = self.$el.attr('id');
+      self.transitonDelay       = 5000,
       self.currentId            = 0;
+
+      // to keep track of slide indexes
+      self.prevIndex            = 0;
+      self.currIndex            = 0;
 
       // touch defaults
       self.startInteractionPointX = null;
@@ -318,6 +323,7 @@ define(function(require){
           useCSS3: self.useCSS3,
           paddles: false,
           pagination: false,
+          chapters : true,
           draggable: false
         });
 
@@ -361,10 +367,24 @@ define(function(require){
 
       // Listens for slide changes and updates the correct thumbnail
       onSlideUpdate: function(e , currIndx){
-        var self = this;
+        var self = this, 
+            $currSlide,
+            $prevSlide,
+            $currSlideImg,
+            $nextSlideImg;
 
         self.currentId = currIndx;
+
+        $currSlide = self.$slides.eq(currIndx);
+        $currSlideImg = $currSlide.find('.image-module');
+        $nextSlideImg = (currIndx + 1) >= self.$slides.length ? self.$slides.eq(0).find('.image-module') : self.$slides.eq(currIndx + 1).find('.image-module'); 
+        
+        // we need to solve an issue of all images being loaded on DomReady
         self.setCurrentActiveThumb();
+        $currSlideImg.addClass('unhide');
+        $nextSlideImg.addClass('unhide');
+
+        // also we can run positinoning after the CSS transitions are done
 
         iQ.update();
       },
