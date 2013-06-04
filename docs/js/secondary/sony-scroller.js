@@ -17,6 +17,7 @@ define(function(require){
 
   var $ = require('jquery'),
       Settings = require('require/index').Settings,
+      Utilities = require('require/index').Utilities,
       iScroll = require('plugins/sony-iscroll');
 
   var ScrollerModule = function( $element, options ) {
@@ -251,7 +252,10 @@ define(function(require){
     },
 
     _setupPaddles : function() {
-      var self = this;
+      var self = this,
+          className = self.$el[0].className;
+
+      self.cssClassName = className ? '.' + className.split(' ').join('.') : undefined;
 
       // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
       if ( self.nextSelector ) {
@@ -374,6 +378,8 @@ define(function(require){
         } else {
           self.$navNext.removeClass( theClass );
         }
+
+        Utilities.forceFontIconRedraw( self.cssClassName );
       }
     },
 

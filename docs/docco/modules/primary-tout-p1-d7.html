@@ -80,7 +80,7 @@ define(<span class="keyword">function</span>(require){
         <span class="keyword">if</span>(btn.length &gt; <span class="number">0</span>){
           btn.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
             e.preventDefault();
-            <span class="keyword">if</span>(!Settings.isIPhone){
+            <span class="keyword">if</span>(!Settings.isIPhone || $(<span class="keyword">this</span>).hasClass(<span class="string">'carousel'</span>)){
               self.$el.find(<span class="string">'.hero-image, .inner, .mobile-buttons-wrap'</span>).addClass(<span class="string">'off-screen visuallyhidden'</span>);
               self.$el.find(<span class="string">'.submodule'</span>).eq($(<span class="keyword">this</span>).data(<span class="string">'submodule'</span>)).removeClass(<span class="string">'off-screen visuallyhidden'</span>);
             }
