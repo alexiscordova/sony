@@ -71,7 +71,11 @@ mixin rpSection( data, slideContent, panelId )
 mode = data.config.mode
 hasSlides = mode == 'strip' ? false : !data.config.standalone
 
-+mainElement
+classes = ['rp-section']
+if data.config.backgroundVariation
+  - classes.push(data.config.backgroundVariation)
+
++mainElement(classes)
 
   if data.config.tabbedLayout
     +titleBlock( data )
