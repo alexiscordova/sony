@@ -54,7 +54,6 @@ define(function (require) {
 
         // Set a new timer
         self.iconRedrawID = setTimeout(function redraw() {
-          console.log('redraw icons: ' + selector);
           var head = document.getElementsByTagName('head')[0],
               style = document.createElement('style');
 
@@ -63,7 +62,6 @@ define(function (require) {
           head.appendChild(style);
 
           setTimeout(function(){
-            console.log('stylesheet removed');
             head.removeChild( style );
           }, 0);
         }, 100);
