@@ -26,6 +26,48 @@ define(function (require) {
       document.body.removeChild(tempStyleSheet);
     },
 
+    // Force a redraw of all element with a font icon
+    // Use the `selector` param to only redraw from a certain parent
+    //
+    // http://stackoverflow.com/questions/9809351/ie8-css-font-face-fonts-only-working-for-before-content-on-over-and-sometimes
+    // http://andymcfee.com/2012/04/icon-fonts-pseudo-elements-and-ie8/
+    // https://github.com/FortAwesome/Font-Awesome/issues/194
+    // https://github.com/FortAwesome/Font-Awesome/issues/354
+
+    forceFontIconRedraw: function( selector ) {
+      var before = '[class*="fonticon-"]:before',
+          after = '[class*="fonticon-"]:after{content:none !important}',
+          comma = ',';
+
+      if ( selector ) {
+        before = selector + ' ' + before;
+        after = selector + ' ' + after;
+      }
+
+      // Make sure only IE8 gets this
+      if ( Settings.isLTIE9 && !Settings.isLTIE8 ) {
+
+        // Clear the timer so two+ don't fire
+        if ( self.iconRedrawID ) {
+          clearTimeout( self.iconRedrawID );
+        }
+
+        // Set a new timer
+        self.iconRedrawID = setTimeout(function redraw() {
+          var head = document.getElementsByTagName('head')[0],
+              style = document.createElement('style');
+
+          style.type = 'text/css';
+          style.styleSheet.cssText = before + comma + after;
+          head.appendChild(style);
+
+          setTimeout(function(){
+            head.removeChild( style );
+          }, 0);
+        }, 100);
+      }
+    },
+
     // Converts pixel value to an em value (including unit) at a given context.
     // Default context for this application is 16.
 
