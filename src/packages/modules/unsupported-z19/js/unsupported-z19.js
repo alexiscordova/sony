@@ -52,7 +52,7 @@ define(function(require){
         self.launchModal(self.modalID);
       });
 
-      $('.link-proceed').on('click', function(){
+      $('.close-modal').on('click', function(){
         self.closeModal();
       });
 
