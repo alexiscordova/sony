@@ -1,3 +1,5 @@
+/*jshint debug:true */
+
 // Editorial SlideShow - E4
 // ------------
 //
@@ -311,7 +313,16 @@ define(function(require){
 
       // Main setup method for the carousel
       setupCarousel: function(){
-        var self = this;
+        var self = this,
+            currIndx,
+            $currSlide,
+            $currSlideImg,
+            $nextSlideImg;
+
+        currIndx = 0;
+        $currSlide = self.$slides.eq(currIndx);
+        $currSlideImg = $currSlide.find('.image-module');
+        $nextSlideImg = (currIndx + 1) >= self.$slides.length ? self.$slides.eq(0).find('.image-module') : self.$slides.eq(currIndx + 1).find('.image-module'); 
 
         // Using Sony Carousel for this module
         self.$slideContainer.sonyCarouselFade({
@@ -328,6 +339,12 @@ define(function(require){
         });
 
         self.$slideContainer.on('SonyCarouselFade:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
+
+        // we need to solve an issue of all images being loaded on DomReady
+        self.setCurrentActiveThumb();
+        $currSlideImg.addClass('unhide');
+        $nextSlideImg.addClass('unhide');
+        
 
         iQ.update();
       },
@@ -554,3 +571,5 @@ define(function(require){
 
     return self;
  });
+
+
