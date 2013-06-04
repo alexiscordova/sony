@@ -5,11 +5,20 @@ include ../../../common/html/jade-helpers.jade
 layouts = locals.getConfigFile("packages/modules/related-products-g1/html/layouts.json")
 
 
-mixin includeSubmodules( submodules, view )
+mixin includeSubmodules( submodules, config, view )
+  blankIndex = layouts[config.layout].indexOf('blank-normal')
+
+  if blankIndex > -1
+    - submodules.splice( blankIndex, 0, {type:'packages/modules/product/html/product.jade'} )
+
   i = 0
   each module in submodules
-    moduleData = locals.data(module.data)
-    - moduleData.layout = layouts[data.config.layout][i++]
+    if module.data
+      moduleData = locals.data(module.data)
+    else 
+      moduleData = {}
+
+    - moduleData.layout = layouts[config.layout][i++]
 
     if view
       - moduleData.view = view
@@ -37,7 +46,7 @@ mixin titleBlock( data )
 mixin rpSlide( data )
   .rp-slide(class=data.config.variation, data-variation=data.config.variation)
     .shuffle-container.slimgrid5
-      +includeSubmodules( data.submodules )
+      +includeSubmodules( data.submodules, data.config )
 
 
 mixin rpSection( data, slideContent, panelId )
@@ -91,7 +100,7 @@ hasSlides = mode == 'strip' ? false : !data.config.standalone
       .container
         .grid
           div.related-products(class=mode , data-mode=mode , data-variation=data.config.variation)
-            +includeSubmodules( data.submodules, 'suggested' )
+            +includeSubmodules( data.submodules, data.config, 'suggested' )
 
 
     else if mode == 'strip'
