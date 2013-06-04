@@ -289,21 +289,15 @@ define(function (require) {
 
     gridApportion: function(options) {
 
-      if ( !options.$groups ) {
-        return;
-      }
-
       var $groups = options.$groups,
-          isMobile = options.mobile,
-          hasGridSelector = options.gridSelector,
-
+          spanClass = options.mobile ? 'm-span' : 'span',
           $container = $groups.first().clone(),
-          $appendContainer = hasGridSelector ? $container.find(options.gridSelector).empty() : $container.empty(),
+          $appendContainer = options.gridSelector ? $container.find(options.gridSelector).empty() : $container.empty(),
           compiledGrids = [],
           $workingAppendContainer = $container.clone(),
-          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer,
-          roomRemaining = isMobile ? 6 : 12,
-          $mSpans = $groups.find(isMobile ? '[class*="m-span"]' : '[class*="span"]');
+          $workingGrid = options.gridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer,
+          roomRemaining = options.mobile ? 6 : 12,
+          $mSpans = $groups.find('[class*="'+spanClass+'"]');
 
       $mSpans.each(function(i){
 
@@ -311,27 +305,29 @@ define(function (require) {
             classes = this.className.split(' '),
             spanCount;
 
-        for ( var j = 0; j < classes.length; j++ ) {
-          if ( classes[j].indexOf(isMobile ? 'm-span' : 'span') === 0 && classes[j].indexOf('m-span-at') === -1) {
-            spanCount = classes[j].split(isMobile ? 'm-span' : 'span')[1] * 1;
-          }
-        }
+        // Find the class that starts with `spanClass` and get the appropriate span count.
+
+        spanCount = classes.filter(function(elem, index, array){
+          return (elem.indexOf(spanClass) === 0 && elem.indexOf('m-span-at') === -1);
+        })[0].split(spanClass)[1] * 1;
+
+        // If there isn't enough room in this grid, push the working container to `compiledGrids` and start a new one.
 
         if ( roomRemaining < spanCount ) {
           compiledGrids.push($workingAppendContainer.clone().get(0));
           $workingAppendContainer = $container.clone();
-          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer;
-          roomRemaining = isMobile ? 6 : 12;
+          $workingGrid = options.gridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer;
+          roomRemaining = options.mobile ? 6 : 12;
         }
 
         $workingGrid.append($this);
         roomRemaining -= spanCount;
-
-        if ( i === $mSpans.length - 1 ) {
-          compiledGrids.push($workingAppendContainer.clone().get(0));
-          $workingAppendContainer = $workingGrid = null;
-        }
       });
+
+      // Done with loop. Push remaining working elements into the compiled grids and garbage collect.
+
+      compiledGrids.push($workingAppendContainer.clone().get(0));
+      $workingAppendContainer = $workingGrid = null;
 
       $groups.not($groups.first()).remove();
       $groups.first().replaceWith($(compiledGrids));
