@@ -96,9 +96,6 @@ define(function(require){
         $this.data('originalWidth', matchedClasses[0].split('span')[1]);
       });
 
-      self.fixCenteredContent('align-right-center', 'align-right-top');
-      self.fixCenteredContent('align-left-center', 'align-left-top');
-
       self.setupLinkClicks();
       self.setupAlternateSizes();
     },
@@ -192,32 +189,6 @@ define(function(require){
         var $this = $(this);
 
         $this.removeClass($this.data('mobileLayout')).addClass($this.data('originalLayout'));
-      });
-    },
-
-    // If you're in an environment that doesn't support min/max width on
-    // tables, we need to find and fix table-center elements. In that
-    // feature-tested state, look for elements of `oldClass`, remove their
-    // `table-center` classes, and add a replacement `newClass`.
-    //
-    // This is necessary because, for example, `align-right-center` doesn't
-    // work without table centering, and hacking a fallback in would require
-    // a lot of CSS duplication. So we tell it to use `align-top-center` instead.
-
-    fixCenteredContent: function(oldClass, newClass) {
-
-      var self = this,
-          $el = $('.no-widthboundsontables, .no-absolutepositionontables').find(self.$el);
-
-      $el.find('.' + oldClass).each(function(){
-
-        var $this = $(this);
-
-        $this.removeClass('table-center-wrap')
-             .removeClass(oldClass)
-             .addClass(newClass);
-
-        $this.find('.table-center').removeClass('table-center');
       });
     },
 
