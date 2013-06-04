@@ -157,9 +157,9 @@ var UNAV = ( function( window, document, $, undefined ) {
 
     if ( _minBreakpointMet() ) {
       _setUpPrimaryLinks();
-      if ($('html').hasClass('lt-ie9')){
-        _setUpCloseBtnOldIE();
-      }
+    }
+    if ($('html').hasClass('lt-ie9')){
+      _setUpCloseBtnOldIE();
     }
   },
 
@@ -346,10 +346,8 @@ var UNAV = ( function( window, document, $, undefined ) {
     // alert("_setUpCloseBtnOldIE");
     var $closeBtn = $('#u-nav-close-btn'),
       labelWidth = $closeBtn.find('.u-nav-close-btn-label').outerWidth(true),
-      iconWidth = $closeBtn.find('.u-nav-close-btn-img').outerWidth(true),
-      paddingWidth = parseInt($closeBtn.css('padding-left'),10) + parseInt($closeBtn.css('padding-right'),10),
-      buttonWidth = labelWidth + iconWidth - paddingWidth;
-    $closeBtn.find('.u-nav-close-btn-img').css({'margin-left':0});
+      iconWidth = $closeBtn.find('.u-nav-close-btn-img-container').outerWidth(true),
+      buttonWidth = labelWidth + iconWidth + 1;
     $closeBtn.width(buttonWidth);
   },
 

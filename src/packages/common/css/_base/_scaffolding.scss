@@ -27,7 +27,9 @@ body {
 
   // Prevent IE7 from improperly inheriting widths on very-wide DOM elements, such as carousels.
   .lt-ie8 & {
-    overflow-x: hidden;
+    // overflow-x: hidden; // --Nope! Can't use this, it makes the universal nav disappear since it's inside but appears above .page-wrap-inner.
+    -ms-overflow-x: hidden; // --This doesn't screw up the universal nav; but does it do anything?
+    -ms-overflow-y: visible;
   }
 }
 

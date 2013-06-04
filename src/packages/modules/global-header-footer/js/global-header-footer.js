@@ -58,7 +58,7 @@ define(function(require) {
     // This is primarily to protect against sloppy/human mousing trajectories that
     // temporarily (and unintentionally) take the user off of the target element...
     // giving them time to return.
-    self.closeDelay = 160;
+    self.closeDelay = 200;
     self.closeDelaySearch = 2000;
 
     // The number of milliseconds hoverIntent waits between reading/comparing
@@ -421,6 +421,7 @@ define(function(require) {
     },
 
     onNavBtnMouseEnter : function( e ) {
+      // console.log("onNavBtnMouseEnter: ", e.target);
       var self = this,
           $navBtn = $( e.delegateTarget );
 
@@ -447,6 +448,7 @@ define(function(require) {
     },
 
     onNavBtnMouseLeave : function( e ) {
+      // console.log("onNavBtnMouseLeave: ", e.target);
       var self = this,
           $navBtn = $( e.delegateTarget ),
           btnData = $navBtn.data(),
@@ -469,6 +471,7 @@ define(function(require) {
     },
 
     onNavBtnTargetMouseEnter : function( e ) {
+      // console.log("onNavBtnTargetMouseEnter: ", e.target);
       var self = this,
           $navBtn = $( e.delegateTarget );
 
@@ -478,6 +481,7 @@ define(function(require) {
     },
 
     onNavBtnTargetMouseLeave : function( e ) {
+      // console.log("onNavBtnTargetMouseLeave: ", e.target);
       var self = this,
           // $navBtn = e.data.$thNavBtn,
           $target = $( e.delegateTarget ),
@@ -495,7 +499,6 @@ define(function(require) {
         $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible');
       }
 
-      // Check to see if it was onto this target's button.
       timeout = self.closeDelay;
 
       // The search menu gets a longer timeout.
@@ -919,19 +922,26 @@ define(function(require) {
       // if this is the first time opening the nav, the images aren't loaded yet. This means we don't know how tall the whole
       // nav is going to be, so we have to estimate / fake it.
       var $navTrayImageWraps = $('#navtrayElectronics').add($('#navtrayEntertainment')).find('.nav-img-w');
+      // breaking this into 2 loops to avoid layout thrashing.
+      var $navTrayImageWrapsNoSrc = $();
       $navTrayImageWraps.each(function(){
         var $thImg = $(this).find('img');
         if (!$thImg.attr('src')){
 
           // set its height based on its width & the target ratio, so the entire menu will be the correct height even before the images are loaded.
           var calcHeight = $thImg.width() * navTrayImgRato;
-          $thImg.height(calcHeight);
-
-          // then listen for when the image is loaded, and remove the custom height so it can flex on resize.
-          $thImg.on('load', function() {
-            $thImg.css('height', '');
-          });
+          $thImg.data('customHeight',calcHeight);
+          $navTrayImageWrapsNoSrc = $navTrayImageWrapsNoSrc.add($thImg);
         }
+      });
+      $navTrayImageWrapsNoSrc.each(function(){
+        var $thImg = $(this);
+        $thImg.height($thImg.data('customHeight'));
+
+        // then listen for when the image is loaded, and remove the custom height so it can flex on resize.
+        $thImg.on('load', function() {
+          $thImg.css('height', '');
+        });
       });
     },
 
