@@ -204,7 +204,7 @@
   background: $navbarBackground;
   position: relative;
   z-index: 222;
-  -webkit-transform: translate3d(0,0,0);
+  -webkit-transform: translate3d(0,0,0); // needed for Android, otherwise the navtrays, which have translate3d, will half-appear in front of the navbar.
 }
 .nav-wrapper{
   z-index: $zindexGlobalNav;
@@ -246,7 +246,12 @@
     &:hover, &:active, &:focus, &.active {
       color: $navbarLinkColor;
     }
-
+    // freakin' Android, trying to figure out why these links don't trigger a touchstart SOMETIMES. 
+    -webkit-transform:translate3d(0,0,0); 
+    -webkit-backface-visibility:hidden;
+    -webkit-perspective: 1000;
+    -webkit-transform: translateZ(0);
+    z-index:5000;
     .lbl {
       padding: 0 4px;
     }
