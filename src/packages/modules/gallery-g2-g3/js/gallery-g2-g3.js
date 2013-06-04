@@ -3801,6 +3801,8 @@ define(function(require){
   module.onGalleryTabAlreadyShown = function() {
     module.initializer( $( this ) );
     setTimeout( iQ.update, 0 );
+    // Force IE8 to redraw icons
+    Utilities.forceFontIconRedraw( '#main' );
   };
 
   // Event triggered when the previous tab/pane is about to be hidden
@@ -3896,6 +3898,9 @@ define(function(require){
     if ( !$galleries.length ) {
       module.hideGalleryLoader();
     }
+
+    // Finally, force IE8 to redraw icons
+    Utilities.forceFontIconRedraw( '#main' );
 
     $galleries = null;
     $pane = null;
