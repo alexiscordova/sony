@@ -48,11 +48,11 @@ body
         //- D8
         +partial('utility-links-pdp-d8/html/utility-links-pdp-d8.jade', "packages/pages/data/utility-links-pdp-d8/homepage.json")
 
-        //- Footnotes
-        +partial("footnotes/html/footnotes.jade", "packages/modules/footnotes/demo/data/homepage-en.json")
-
         //- Recently Viewed
         +partial('recently-viewed/html/recently-viewed.jade', 'packages/pages/data/recently-viewed/ex645-pdp.json')
+
+        //- Footnotes
+        +partial("footnotes/html/footnotes.jade", "packages/modules/footnotes/demo/data/homepage-en.json")
 
       e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-footer.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json')}
       !{partial('packages/modules/global-header-footer/html/global-footer.jade', e)}
