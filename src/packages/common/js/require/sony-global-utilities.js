@@ -235,6 +235,14 @@ define(function (require) {
       $input = null;
     },
 
+    // Provided a group of $spans, all of which have a class of `span12`, `span6`, etc.,
+    // Reassign their column width with `toWhat` columns.
+    // If "reset" is passed for `toWhat`, use the `default-spanX` class to reassign
+    // the columns to a preset default value.
+    //
+    // *TODO*: We should cache the initial span count automatically to remove
+    // the need for `default-span`.
+
     reassignSpanWidths: function($spans, toWhat) {
 
       var newSpan = toWhat;
@@ -245,20 +253,16 @@ define(function (require) {
             classes = this.className.split(' '),
             defaultSpan, currentSpan;
 
-        for ( var j = 0; j < classes.length; j++ ) {
-
-          var classStr = classes[j];
-
-          if ( classStr.search('default-span') === 0  ) {
-            defaultSpan = classStr.split('span')[1];
-          }
-
-          if ( classStr.search('span') === 0  ) {
-            currentSpan = classStr.split('span')[1];
-          }
-        }
+        currentSpan = classes.filter(function(elem){
+          return elem.indexOf('span') === 0;
+        }).shift().split('span').pop() * 1;
 
         if ( toWhat === 'reset' ) {
+
+          defaultSpan = classes.filter(function(elem){
+            return elem.indexOf('default-span') === 0;
+          }).shift().split('default-span').pop() * 1;
+
           newSpan = defaultSpan;
         }
 
@@ -309,7 +313,7 @@ define(function (require) {
 
         spanCount = classes.filter(function(elem, index, array){
           return (elem.indexOf(spanClass) === 0 && elem.indexOf('m-span-at') === -1);
-        })[0].split(spanClass)[1] * 1;
+        }).shift().split(spanClass).pop() * 1;
 
         // If there isn't enough room in this grid, push the working container to `compiledGrids` and start a new one.
 
