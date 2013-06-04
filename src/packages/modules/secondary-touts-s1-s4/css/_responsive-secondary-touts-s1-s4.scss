@@ -16,6 +16,11 @@
 
       .st-item {
         height: 320px;
+
+        .st-item-content.align-left-top,
+        .st-item-content.align-right-top {
+          top: 8%;
+        }
       }
     }
   }
@@ -86,7 +91,8 @@
       .st-item {
         height: 260px;
 
-        .st-item-content.light-text-trans-panel p {
+        .st-item-content.light-text-trans-panel p,
+        .st-item-content.dark-text-trans-panel p {
           display: none;
         }
       }
@@ -128,14 +134,14 @@
 
           &.align-left-top,
           &.align-right-top {
-            top: 6.8%;
+            top: 4.8%;
           }
 
           &.align-left-bottom,
           &.align-right-bottom {
 
             &.has-counter {
-              bottom: 16%;
+              bottom: 12%;
             }
           }
 
@@ -147,11 +153,15 @@
               font-size: $font_18_16;
             }
           }
+
+          .ghost-center {
+            display: block;
+          }
         }
 
         aside {
           left: 6%;
-          bottom: 6.2%;
+          bottom: 5%;
 
           &.has-mini-promo,
           &.has-mini-promo.has-copy {
