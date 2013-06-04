@@ -106,9 +106,9 @@ mixin productRating( rating, reviews, reviewsText, reviewsLink )
     span.lt4.reviews-text
       | !{ prefix }
       if hasReviewLink
-        a.review-text(href=reviewsLink)
+        a(href=reviewsLink)
           span(itemprop="ratingCount")= reviews
-          | !{ reviewsText }
+          span.review-text= reviewsText
       else
         span(itemprop="ratingCount")= reviews
         span.review-text= reviewsText
