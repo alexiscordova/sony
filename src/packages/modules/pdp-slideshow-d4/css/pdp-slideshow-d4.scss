@@ -15,6 +15,10 @@
   @include opacity(0);
   @include transition();
 
+  &.active {
+    @include opacity(100);
+  }
+
   .lt-ie10 & {
     min-width: px-em( 1200px );
     min-height: px-em( 720px );
@@ -93,7 +97,7 @@
 
   }
 
-  .pdp-slideshow-slide.type2 .flowplayer { 
+  .pdp-slideshow-slide.type2 .flowplayer {
     max-width: 704px;
   }
 

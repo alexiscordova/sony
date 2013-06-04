@@ -21,7 +21,7 @@ mixin header(_data)
     if d.variation.quote
       blockquote.bq1
         p!= d.quote
-      p.p3!= d.byline
+      p.l2-bold!= d.byline
     else if d.variation.headertext == "smaller"
       h1.t2!= h
     else
@@ -130,7 +130,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
     if data.submodules.length > 0
       for sub, i in data.submodules
         .submodule.off-screen.visuallyhidden(class = data.links[i].type)
-          button(class= "box-close box-close-small")
+          button(class= "box-close box-close-alt")
             i(class="fonticon-10-x")
           +partial(data.submodules[i].type, data.submodules[i].data, true)
 

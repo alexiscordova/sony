@@ -50,7 +50,8 @@ $textlink-gutter-width-768: 2.92%;
 
 .u-nav-wrapper{
 	visibility:hidden; // hide visually unless it's open(ing) or closing. This avoids the occasional 1px bar at the top of the page due to rounding (I assume)
-	z-index:0;
+	z-index:1;
+	*zoom:1;
 }
 .unav-open .u-nav-wrapper,
 .unav-open-until-transition-end .u-nav-wrapper{
@@ -90,8 +91,7 @@ $textlink-gutter-width-768: 2.92%;
   	  color: #fff;
 			background-color: rgba(47,53,61,1);
   	}
-
-  	.u-nav-close-btn-img{
+  	.u-nav-close-btn-img-container{
   		margin-left:24px;
   		position:relative;
   		top:-1px;
@@ -102,9 +102,19 @@ $textlink-gutter-width-768: 2.92%;
 		.lt-ie9 & {
 			display:block;
 			
-			.u-nav-close-btn-img{
-				float:right;
+  		.u-nav-close-btn-label{
+	  		float:left;
+  		}
+  		.u-nav-close-btn-img-container{
+	  		display:block;
+	  		margin-left:0;
+	  		width:32px;
+	  		height:12px;
+	  		float:left;
 				top:5px;
+  			.u-nav-close-btn-img{
+  				float:right;
+  			}
 			}
 		}
 	}
@@ -125,6 +135,7 @@ $textlink-gutter-width-768: 2.92%;
 	.u-nav-primary{
 		position: relative;
 		overflow: hidden;
+		*zoom:1;
 		[class*="span"]{
   		float:none;
   		margin-left:0;
@@ -199,6 +210,7 @@ $textlink-gutter-width-768: 2.92%;
 	.u-nav-secondary{
 		box-sizing:border-box;
 		overflow:hidden;
+		*zoom:1;
 		background:#fff;
 		margin-top: 48px;
 		padding-top:15px;
