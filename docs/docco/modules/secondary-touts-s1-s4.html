@@ -94,9 +94,6 @@ in iQ that will probably require a thorough refactor of that class.</p>         
         $<span class="keyword">this</span>.data(<span class="string">'originalWidth'</span>, matchedClasses[<span class="number">0</span>].split(<span class="string">'span'</span>)[<span class="number">1</span>]);
       });
 
-      self.fixCenteredContent(<span class="string">'align-right-center'</span>, <span class="string">'align-right-top'</span>);
-      self.fixCenteredContent(<span class="string">'align-left-center'</span>, <span class="string">'align-left-top'</span>);
-
       self.setupLinkClicks();
       self.setupAlternateSizes();
     },
@@ -188,32 +185,7 @@ and assign <code>originalLayout</code> classes.</p>             </td>           
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>If you're in an environment that doesn't support min/max width on
-tables, we need to find and fix table-center elements. In that
-feature-tested state, look for elements of <code>oldClass</code>, remove their
-<code>table-center</code> classes, and add a replacement <code>newClass</code>.</p>
-
-<p>This is necessary because, for example, <code>align-right-center</code> doesn't
-work without table centering, and hacking a fallback in would require
-a lot of CSS duplication. So we tell it to use <code>align-top-center</code> instead.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    fixCenteredContent: <span class="keyword">function</span>(oldClass, newClass) {
-
-      <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $el = $(<span class="string">'.no-widthboundsontables, .no-absolutepositionontables'</span>).find(self.$el);
-
-      $el.find(<span class="string">'.'</span> + oldClass).each(<span class="keyword">function</span>(){
-
-        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>);
-
-        $<span class="keyword">this</span>.removeClass(<span class="string">'table-center-wrap'</span>)
-             .removeClass(oldClass)
-             .addClass(newClass);
-
-        $<span class="keyword">this</span>.find(<span class="string">'.table-center'</span>).removeClass(<span class="string">'table-center'</span>);
-      });
-    },
-
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p><code>.primary-link</code> specifies an overall click state, which is overriden if you click on a
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p><code>.primary-link</code> specifies an overall click state, which is overriden if you click on a
 <em>separate</em> link within the slide (closestLink, below).</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setupLinkClicks: <span class="keyword">function</span>() {
 
