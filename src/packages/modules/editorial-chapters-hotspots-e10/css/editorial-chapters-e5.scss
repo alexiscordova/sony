@@ -90,15 +90,35 @@ $windowWidth: 1100;
     position: relative;
     width: 100%;
     height: 100%;
-    display: block;
     float:left;
     @include opacity(0);
     @include transition();
 
+    .image-module {
+      position: absolute;
+      left: -9999em;
+
+      //we need to unhide one elemnt on load 
+      // so it show the slideshow atleast
+      &.unhide {
+        position: relative;
+        left: auto;
+      }
+    }     
+
     &.active {
-      position:absolute;
-      z-index:1;
+      display: block;
       @include opacity(100);
+      @include transition();
+
+      .image-module {
+        position: relative;
+        left: auto;
+      }
+    }
+
+    &.posActive {
+      position:absolute;
     }
 
     .container {
@@ -106,6 +126,7 @@ $windowWidth: 1100;
     }
 
   } // end .editorial-carousel-slide
+
 
   .thumb-nav {
     position:relative;
