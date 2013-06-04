@@ -128,7 +128,7 @@ mixin priceBlock( product, onlyName, href )
   else
     .product-content
       .product-name-wrap
-        .product-name.p4
+        .product-name.p3
           strong= data.name
 
       if ( !onlyName )
@@ -713,7 +713,7 @@ else if data.view == 'summary'
   startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
   msrp = data.msrp ? data.msrp : 'MSRP'
   priceUnit = data.priceUnit ? data.priceUnit : '$'
-  buyText = data.buyText ? data.buyText : 'Buy Now'
+  buyText = data.buyText ? data.buyText : '--buyText--'
 
   hasSwatches = data.img && data.img.colors && data.img.colors.length > 1
   hasAttributeList = !!attributeList.length
@@ -727,9 +727,7 @@ else if data.view == 'summary'
             +iQImage( data.imgSmall, '', 'image' )
 
       .span6.product-details
-        a.l3.link-color(href=titleHref)
-          i.fonticon-10-chevron-reverse
-          !{ titleLabel }
+        +breadcrumbLink( titleHref, titleLabel )
         h2.t6.product-title(itemprop="name")= data.title
         p.product-model.p5
           span(itemprop="model")= data.model

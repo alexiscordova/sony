@@ -27,7 +27,7 @@ else
         if i == 0
           hide = ""
         else
-          hide = "hidden"
+          hide = "visuallyhidden"
         .image-module.track-by-background.iq-img.no-fade(id= sequenceId, class= extraclass, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
         - i++
     else
@@ -39,17 +39,14 @@ else
         if i == 0
           hide = ""
         else
-          hide = "hidden"
+          hide = "visuallyhidden"
         img.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
           noscript
             img(src= imgData.noscriptsrc)
         - i++
 
   .controls.container
-    .grid.no-grid-at-767
-      .span12
-        .table-center-wrap
-          .table-center(class=isDark)(class=bump)(class=lod)
-            i.left-arrow.fonticon-10-chevron-reverse
-            span.instructions.l3(class=isDark)(class=lod) DRAG
-            i.right-arrow.fonticon-10-chevron
+    .drag-controls(class=isDark)(class=bump)(class=lod)
+      i.left-arrow.fonticon-10-chevron-reverse
+      span.instructions.l3(class=isDark)(class=lod) DRAG
+      i.right-arrow.fonticon-10-chevron

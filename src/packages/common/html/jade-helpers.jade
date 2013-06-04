@@ -77,19 +77,15 @@ mixin sonyVideo ( videoData, extraClasses )
     - isIQPoster  = videoData.poster ? true : false
     if isIQPoster
       - classes.push( 'iq-img', 'update-always' )
-      div(class=classes, data-fallback-src=videoData.mp4.srcDesktop, data-key=allDomainKeys, data-ratio=videoData.ratio, data-src-desktop=videoData.poster.srcDesktop, data-src-tablet=videoData.poster.srcTablet, data-src-phone=videoData.poster.srcPhone, data-src-desktop-highres=videoData.poster.srcDesktopHighRes, data-src-tablet-highres=videoData.poster.srcTabletHighRes, data-src-phone-highres=videoData.poster.srcPhoneHighRes)
+      div(class=classes, data-fallback-src=videoData.mp4, data-key=allDomainKeys, data-ratio=videoData.ratio, data-src-desktop=videoData.poster.srcDesktop, data-src-tablet=videoData.poster.srcTablet, data-src-phone=videoData.poster.srcPhone, data-src-desktop-highres=videoData.poster.srcDesktopHighRes, data-src-tablet-highres=videoData.poster.srcTabletHighRes, data-src-phone-highres=videoData.poster.srcPhoneHighRes)
        video(preload='none')
-        //- source(type='video/webm', src=videoData.webm.srcDesktop)
-        source(type='video/mp4',  src=videoData.mp4.srcDesktop)
-        //- source(type='video/ogg',  src=videoData.ogg.srcDesktop)
-        source(type='video/flash',src=videoData.mp4.srcDesktop)
+        source(type='video/mp4',  src=videoData.mp4)
+        source(type='video/flash',src=videoData.mp4)
     else
-      div(class=classes, data-fallback-src=videoData.mp4.srcDesktop, data-key=allDomainKeys, data-ratio=videoData.ratio)
+      div(class=classes, data-fallback-src=videoData.mp4, data-key=allDomainKeys, data-ratio=videoData.ratio)
        video(preload='none')
-        //- source(type='video/webm', src=videoData.webm.srcDesktop)
-        source(type='video/mp4',  src=videoData.mp4.srcDesktop)
-        //- source(type='video/ogg',  src=videoData.ogg.srcDesktop)
-        source(type='video/flash',src=videoData.mp4.srcDesktop)
+        source(type='video/mp4',  src=videoData.mp4)
+        source(type='video/flash',src=videoData.mp4)
 
 
 //-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps
@@ -143,6 +139,12 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
       span.link-icon.js-no-close
         i.fonticon-15-link.js-no-close
       input.p4(type="text", value=shortLink)
+
+//- Link with a chevron
+mixin breadcrumbLink( href, label )
+  a.l3.breadcrumb-link(href=href)
+    i.fonticon-10-chevron-reverse
+    !{ label }
 
 
 blocks = {};

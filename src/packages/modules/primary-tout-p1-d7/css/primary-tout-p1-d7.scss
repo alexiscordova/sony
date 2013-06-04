@@ -23,9 +23,24 @@
     &.visuallyhidden {
       height: 0; // setting margin back to -1px creates the problem the above comment fixes
     }
-    .box-close{
+    .box-close-alt{
       top:12px;
       right:14px;
+      background: $gray40;
+      background:$closeBox;
+      &:hover {
+        background: $gray20;
+        background:$closeBoxHover;
+      }
+      width: 2.5em;
+      height: 2.5em;
+      i{
+        font-size:1.25em;
+      }
+      @include transition();
+      &.close-hide{
+        opacity: 0;
+      }
     }
     .sony-video{
        @include translate3d(0,0,0);
@@ -310,6 +325,10 @@
     .submodule{
      width:980px;
      margin:0 auto;
+    }
+    .close-hide{
+      display: none !important;
+      visibility: hidden;
     }
     .inner .box i{
       line-height:1;

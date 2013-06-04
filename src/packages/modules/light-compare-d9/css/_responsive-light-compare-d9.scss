@@ -218,13 +218,40 @@ $desktopMin: px-em(980);
 }
 @media (min-width: 868px) and (max-width: 967px) {
   .span7 .compare-carousel-container.text-mode .thumb-nav {width:470px;}
+  .modal-light-compare {
+    .compare-carousel-container {
+      .image-module {
+        height: 290px;
+      }
+    }
+  }
 }
 
-@media (max-height: 34.375em) and (min-width: $phoneMax) {
+@media (max-width: 1120px) {
   .modal-light-compare {
-    &.modal {
-      &.fade.in {
-        top: 50%;
+    .compare-carousel-container {
+      .image-module {
+        height: 360px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .modal-light-compare {
+    .compare-carousel-container {
+      .image-module {
+        height: 320px;
+      }
+    }
+  }
+}
+
+@media (max-width: 860px) {
+  .modal-light-compare {
+    .compare-carousel-container {
+      .image-module {
+        height: 270px;
       }
     }
   }
@@ -283,12 +310,20 @@ $desktopMin: px-em(980);
   .modal-light-compare {
     height: 100%;
     overflow: auto;
-    &.fade.in {
+    &.modal.fade.in {
       top: 0;
       left: 0;
     }
-    .image-module {
-      text-align: center;
+    &.modal.fade-only {
+      left: 0;
+      top: 0;
+    }
+    .compare-carousel-container {
+      .image-module {
+        text-align: center;
+        display: block;
+        height: auto;
+      }
     }
     .container,
     .grid {

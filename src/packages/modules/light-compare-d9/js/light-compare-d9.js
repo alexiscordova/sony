@@ -465,9 +465,9 @@ define(function(require){
       setTimeout(function(){
         $chapterTabs.removeClass('active');
       },100);
-
+      
         self.updateiScroll();
-
+      
       // update the hash after we got the correct slide transition
       self.updateHash(self.location, self.currentId);
     },
@@ -537,8 +537,10 @@ define(function(require){
 
     updateiScroll: function(){
       var self = this;
-      self.iscroll.refresh();
-      self.iscroll.scrollTo();
+      if (self.iscroll) {
+        self.iscroll.refresh();
+        self.iscroll.scrollTo();
+      }
     },
 
     measureModal: function() {

@@ -5,18 +5,29 @@
 @media ( max-width: px-em(479) ) {
 
   .container .rp-tabs .rp-tab {
-    width: 50%;
+    width: 33%;
     padding-left: 0;
     padding-right: 0;
     text-align: center;
     @include text-overflow();
   }
+
 }
 
 
 /* Related Products */
 .RELATEDPRODUCTS {}
   .related-products {
+
+
+    &.rp-mobile {
+      width: 86.5%;
+      position: absolute;
+      top: auto;
+      left: 6.6%;
+    }
+
+
 
     .shuffle-container {
 
@@ -120,8 +131,11 @@
         }
 
         @media (max-width: px-em(481px)) {
+          .text-promo-title {
+            width: 175px;
+          }
           .promo-title { position: static; }
-          .text-count { display: none; }
+          //.text-count { display: none; }
         }
       }
 
