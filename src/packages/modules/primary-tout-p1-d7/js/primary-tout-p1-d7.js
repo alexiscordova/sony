@@ -86,7 +86,7 @@ define(function(require){
         if(btn.length > 0){
           btn.on('click', function(e){
             e.preventDefault();
-            if(!Settings.isIPhone){
+            if(!Settings.isIPhone || $(this).hasClass('carousel')){
               self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('off-screen visuallyhidden');
               self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('off-screen visuallyhidden');
             }
