@@ -3429,12 +3429,13 @@ changes between mobile size and not mobile size.</p>             </td>          
   module.onGalleryTabAlreadyShown = <span class="keyword">function</span>() {
     module.initializer( $( <span class="keyword">this</span> ) );
     setTimeout( iQ.update, <span class="number">0</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-373">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-373">&#182;</a>               </div>               <p>Force IE8 to redraw icons</p>             </td>             <td class="code">               <div class="highlight"><pre>    Utilities.forceFontIconRedraw( <span class="string">'#main'</span> );
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-373">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-373">&#182;</a>               </div>               <p>Event triggered when the previous tab/pane is about to be hidden</p>             </td>             <td class="code">               <div class="highlight"><pre>  module.onGalleryTabShow = <span class="keyword">function</span>( evt ) {
+</pre></div>             </td>           </tr>                               <tr id="section-374">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-374">&#182;</a>               </div>               <p>Event triggered when the previous tab/pane is about to be hidden</p>             </td>             <td class="code">               <div class="highlight"><pre>  module.onGalleryTabShow = <span class="keyword">function</span>( evt ) {
     <span class="keyword">var</span> $prevPane;
 
-</pre></div>             </td>           </tr>                               <tr id="section-374">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-374">&#182;</a>               </div>               <p>Get the previous pane jQuery object from the evt object</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( evt ) {
+</pre></div>             </td>           </tr>                               <tr id="section-375">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-375">&#182;</a>               </div>               <p>Get the previous pane jQuery object from the evt object</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( evt ) {
       $prevPane = evt.prevPane;
       <span class="keyword">if</span> ( evt.prevPane ) {
         $prevPane = evt.prevPane;
@@ -3450,11 +3451,11 @@ changes between mobile size and not mobile size.</p>             </td>          
     }
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-375">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-375">&#182;</a>               </div>               <p>Loop through each gallery in the tab (there could be more than 1)
+</pre></div>             </td>           </tr>                               <tr id="section-376">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-376">&#182;</a>               </div>               <p>Loop through each gallery in the tab (there could be more than 1)
 Disable the gallery (which disableds shuffle and pauses infinite scrolling) for galleries being hidden</p>             </td>             <td class="code">               <div class="highlight"><pre>    $prevPane.find(<span class="string">'.gallery'</span>).each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> gallery = $(<span class="keyword">this</span>).data(<span class="string">'gallery'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-376">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-376">&#182;</a>               </div>               <p>If there are active filters, remove them.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( gallery &amp;&amp; gallery.isInitialized ) {
+</pre></div>             </td>           </tr>                               <tr id="section-377">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-377">&#182;</a>               </div>               <p>If there are active filters, remove them.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( gallery &amp;&amp; gallery.isInitialized ) {
 
         <span class="keyword">if</span> ( gallery.hasActiveFilters() ) {
           gallery.removeActiveFilters();
@@ -3469,32 +3470,32 @@ Disable the gallery (which disableds shuffle and pauses infinite scrolling) for 
 
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-377">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-377">&#182;</a>               </div>               <p>Event triggered when the next tab/pane is finished being shown</p>             </td>             <td class="code">               <div class="highlight"><pre>  module.onGalleryTabShown = <span class="keyword">function</span>( evt ) {
-</pre></div>             </td>           </tr>                               <tr id="section-378">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-378">&#182;</a>               </div>               <p>Only continue if this is a tab shown event.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> $pane = $( <span class="keyword">this</span> ),
+</pre></div>             </td>           </tr>                               <tr id="section-378">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-378">&#182;</a>               </div>               <p>Event triggered when the next tab/pane is finished being shown</p>             </td>             <td class="code">               <div class="highlight"><pre>  module.onGalleryTabShown = <span class="keyword">function</span>( evt ) {
+</pre></div>             </td>           </tr>                               <tr id="section-379">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-379">&#182;</a>               </div>               <p>Only continue if this is a tab shown event.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> $pane = $( <span class="keyword">this</span> ),
         $galleries,
         needsInit = <span class="literal">false</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-379">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-379">&#182;</a>               </div>               <p>Get all galleries in this tab pane</p>             </td>             <td class="code">               <div class="highlight"><pre>    $galleries = $pane.find(<span class="string">'.gallery'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-380">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-380">&#182;</a>               </div>               <p>Get all galleries in this tab pane</p>             </td>             <td class="code">               <div class="highlight"><pre>    $galleries = $pane.find(<span class="string">'.gallery'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-380">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-380">&#182;</a>               </div>               <p>Force redraw before fixing galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    Utilities.forceWebkitRedraw();
+</pre></div>             </td>           </tr>                               <tr id="section-381">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-381">&#182;</a>               </div>               <p>Force redraw before fixing galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    Utilities.forceWebkitRedraw();
 
-</pre></div>             </td>           </tr>                               <tr id="section-381">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-381">&#182;</a>               </div>               <p>Loop through each gallery in this tab pane to enable it and update the carousels</p>             </td>             <td class="code">               <div class="highlight"><pre>    $galleries.each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-382">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-382">&#182;</a>               </div>               <p>Loop through each gallery in this tab pane to enable it and update the carousels</p>             </td>             <td class="code">               <div class="highlight"><pre>    $galleries.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> $gallery = $( <span class="keyword">this</span> ),
           gallery = $gallery.data(<span class="string">'gallery'</span>),
           $collapse;
 
-</pre></div>             </td>           </tr>                               <tr id="section-382">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-382">&#182;</a>               </div>               <p>Enable all galleries in this tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( gallery &amp;&amp; gallery.isInitialized ) {
+</pre></div>             </td>           </tr>                               <tr id="section-383">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-383">&#182;</a>               </div>               <p>Enable all galleries in this tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( gallery &amp;&amp; gallery.isInitialized ) {
         $collapse = gallery.$container.find(<span class="string">'[data-toggle="collapse"]'</span>);
 
         requestAnimationFrame(<span class="keyword">function</span>() {
           gallery.enable();
         });
 
-</pre></div>             </td>           </tr>                               <tr id="section-383">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-383">&#182;</a>               </div>               <p>Gallery isn't initialized, lets create a new one</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-384">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-384">&#182;</a>               </div>               <p>Gallery isn't initialized, lets create a new one</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
         needsInit = <span class="literal">true</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-384">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-384">&#182;</a>               </div>               <p>Slide up the collapsable if it's visible. This CANNOT be done in the <code>show</code> event</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( $collapse &amp;&amp; $collapse.length &amp;&amp; !$collapse.hasClass(<span class="string">'collapsed'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-385">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-385">&#182;</a>               </div>               <p>Slide up the collapsable if it's visible. This CANNOT be done in the <code>show</code> event</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( $collapse &amp;&amp; $collapse.length &amp;&amp; !$collapse.hasClass(<span class="string">'collapsed'</span>) ) {
         $collapse.trigger(<span class="string">'click'</span>);
       }
     });
@@ -3503,26 +3504,28 @@ Disable the gallery (which disableds shuffle and pauses infinite scrolling) for 
       needsInit = <span class="literal">true</span>;
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-385">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-385">&#182;</a>               </div>               <p>Create galleries or accessory finders for this pane</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( needsInit ) {
+</pre></div>             </td>           </tr>                               <tr id="section-386">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-386">&#182;</a>               </div>               <p>Create galleries or accessory finders for this pane</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( needsInit ) {
       module.initializer( $pane );
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-386">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-386">&#182;</a>               </div>               <p>Galleries hide the loader themselves. Otherwise it needs to be hidden manually.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( !$galleries.length ) {
+</pre></div>             </td>           </tr>                               <tr id="section-387">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-387">&#182;</a>               </div>               <p>Galleries hide the loader themselves. Otherwise it needs to be hidden manually.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( !$galleries.length ) {
       module.hideGalleryLoader();
     }
+
+</pre></div>             </td>           </tr>                               <tr id="section-388">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-388">&#182;</a>               </div>               <p>Finally, force IE8 to redraw icons</p>             </td>             <td class="code">               <div class="highlight"><pre>    Utilities.forceFontIconRedraw( <span class="string">'#main'</span> );
 
     $galleries = <span class="literal">null</span>;
     $pane = <span class="literal">null</span>;
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-387">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-387">&#182;</a>               </div>               <p>Hides the loading gif</p>             </td>             <td class="code">               <div class="highlight"><pre>  module.hideGalleryLoader = <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-389">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-389">&#182;</a>               </div>               <p>Hides the loading gif</p>             </td>             <td class="code">               <div class="highlight"><pre>  module.hideGalleryLoader = <span class="keyword">function</span>() {
     <span class="keyword">if</span> ( !module.galleryLoaderHidden ) {
       $(<span class="string">'.gallery-loader'</span>).addClass(<span class="string">'hidden'</span>);
     }
     module.galleryLoaderHidden = <span class="literal">true</span>;
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-388">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-388">&#182;</a>               </div>               <p>Shows the loading gif</p>             </td>             <td class="code">               <div class="highlight"><pre>  module.showGalleryLoader = <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-390">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-390">&#182;</a>               </div>               <p>Shows the loading gif</p>             </td>             <td class="code">               <div class="highlight"><pre>  module.showGalleryLoader = <span class="keyword">function</span>() {
     <span class="keyword">if</span> ( module.galleryLoaderHidden ) {
       $(<span class="string">'.gallery-loader'</span>).removeClass(<span class="string">'hidden'</span>);
     }

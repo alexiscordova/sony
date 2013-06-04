@@ -140,9 +140,9 @@ console.log("$lastTabIndexElement: " + $lastTabIndexElement);</p>             </
 
     <span class="keyword">if</span> ( _minBreakpointMet() ) {
       _setUpPrimaryLinks();
-      <span class="keyword">if</span> ($(<span class="string">'html'</span>).hasClass(<span class="string">'lt-ie9'</span>)){
-        _setUpCloseBtnOldIE();
-      }
+    }
+    <span class="keyword">if</span> ($(<span class="string">'html'</span>).hasClass(<span class="string">'lt-ie9'</span>)){
+      _setUpCloseBtnOldIE();
     }
   },
 
@@ -306,10 +306,8 @@ set the height to make sure there aren't rounding errors, where 'top' and 'heigh
 </pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>for lt-ie9, the button needs an explicit width or it breaks to 2 lines. Since we don't know how long the i11n text will be, we gotta do some math.
 alert("_setUpCloseBtnOldIE");</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> $closeBtn = $(<span class="string">'#u-nav-close-btn'</span>),
       labelWidth = $closeBtn.find(<span class="string">'.u-nav-close-btn-label'</span>).outerWidth(<span class="literal">true</span>),
-      iconWidth = $closeBtn.find(<span class="string">'.u-nav-close-btn-img'</span>).outerWidth(<span class="literal">true</span>),
-      paddingWidth = parseInt($closeBtn.css(<span class="string">'padding-left'</span>),<span class="number">10</span>) + parseInt($closeBtn.css(<span class="string">'padding-right'</span>),<span class="number">10</span>),
-      buttonWidth = labelWidth + iconWidth - paddingWidth;
-    $closeBtn.find(<span class="string">'.u-nav-close-btn-img'</span>).css({<span class="string">'margin-left'</span>:<span class="number">0</span>});
+      iconWidth = $closeBtn.find(<span class="string">'.u-nav-close-btn-img-container'</span>).outerWidth(<span class="literal">true</span>),
+      buttonWidth = labelWidth + iconWidth + <span class="number">1</span>;
     $closeBtn.width(buttonWidth);
   },
 

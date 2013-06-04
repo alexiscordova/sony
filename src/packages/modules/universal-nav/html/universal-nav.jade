@@ -5,7 +5,7 @@ include ../../../common/html/jade-helpers.jade
 //- If the starting_tab_index is defined in the JSON, use it. If not, don't apply a tabindex to any of the links.
 if data.starting_tab_index
   - tab_index = parseInt(data.starting_tab_index,10)
-else 
+else
   - tab_index = null
 
 
@@ -15,7 +15,7 @@ div#universal-nav.u-nav-wrapper(role='navigation')
       a#u-nav-close-btn.u-nav-close-btn(href="#",tabindex=tab_index++)
         span.u-nav-close-btn-label !{data.close_btn.label}
         span.u-nav-close-btn-img-container
-          img.u-nav-close-btn-img(src="", data-src-desktop=data.close_btn.srcDesktop, data-src-desktop-highres=data.close_btn.srcDesktopHighRes, width=12, height=12)
+          img.u-nav-close-btn-img(src="", data-src-desktop=data.close_btn.srcDesktop, data-src-desktop-highres=data.close_btn.srcDesktopHighRes, width=12, height=12, alt=data.close_btn.label)
       //- - tab_index++
       h5.l1
         | !{data.title}
@@ -62,7 +62,7 @@ div#universal-nav.u-nav-wrapper(role='navigation')
                 if data.label_tag.label != "false"
                   span.label.label-success !{data.label_tag.label}
               span.u-nav-primary-img-wrap
-                img.u-nav-primary-img(src="", data-src-desktop=feat.img.srcDesktop, data-src-desktop-highres=feat.img.srcDesktopHighRes, title=feat.alt)
+                img.u-nav-primary-img(src="", data-src-desktop=feat.img.srcDesktop, data-src-desktop-highres=feat.img.srcDesktopHighRes, alt=feat.img.alt)
               span.u-nav-primary-caption !{feat.caption}
 
     //- the row of text links
@@ -72,7 +72,7 @@ div#universal-nav.u-nav-wrapper(role='navigation')
       - each feat, i in data.secondary_columns
         if i == data.secondary_columns.length - 1
           - lastId = "u-nav-last-tabindex"
-        else 
+        else
           - lastId = null
         li.u-nav-secondary-li
           a.p3.u-nav-secondary-link(href=feat.link,tabindex=tab_index++,id=lastId) !{feat.caption}
