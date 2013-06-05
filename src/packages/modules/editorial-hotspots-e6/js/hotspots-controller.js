@@ -137,7 +137,7 @@ define(function(require) {
       self.id = self.trackingAsset.attr( 'id' );
 
       // IE7 zindex fix
-      if( Settings.isLTIE8 ) {
+      if( Settings.isLTIE9 ) {
         // address the joke that is stack order and zindexing in IE7  
         self.hotspotId = self.id+"-hotspot";
         $( Settings.$body ).append( '<div class="ltie8-hotspot '+self.variant+'" id="'+self.hotspotId+'" />' );
@@ -719,7 +719,7 @@ define(function(require) {
         }
 
 
-        if( Settings.isLTIE8 ) {
+        if( Settings.isLTIE9 ) {
           $( Settings.$body ).find( '#'+self.hotspotId ).html( '' );
           $( '#'+self.hotspotId+'-arrow-left' ).addClass( 'hidden' );
           $( '#'+self.hotspotId+'-arrow-right' ).addClass( 'hidden' );
@@ -796,7 +796,7 @@ define(function(require) {
         //$( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
         self.reanchor( container, hotspot, info, true );
       } else {
-        if( Settings.isLTIE8 ) {
+        if( Settings.isLTIE9 ) {
           // turn on the window
           info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           // get the global handle for iE7
