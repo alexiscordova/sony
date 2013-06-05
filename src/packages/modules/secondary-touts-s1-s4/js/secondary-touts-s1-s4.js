@@ -23,7 +23,9 @@ define(function(require){
 
   var mobileSizeAlternates = {
     'align-left-center': 'align-left-bottom',
+    'align-right-top': 'align-left-top',
     'align-right-center': 'align-left-bottom',
+    'align-right-bottom': 'align-left-bottom',
     'align-center-center': 'align-left-top'
   };
 
@@ -68,7 +70,11 @@ define(function(require){
         self.renderDesktop();
         self.assignDefaultLayouts();
       });
-      enquire.register("(max-width: 767px)", function() {
+        enquire.register("(min-width: 481px) and (max-width: 767px)", function() {
+        self.renderEvenColumns(12);
+        self.assignDefaultLayouts();
+      });
+      enquire.register("(max-width: 480px)", function() {
         self.renderEvenColumns(12);
         self.assignMobileLayouts();
       });
