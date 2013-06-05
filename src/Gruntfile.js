@@ -151,12 +151,23 @@ module.exports = function(grunt) {
     },
 
     complexity: {
-      generic: {
-        src: ['packages/modules/**/*.js', '!packages/modules/**/index.js', 'packages/common/js/secondary/sony-*.js', 'packages/common/js/require/*.js', '!packages/common/js/require/sony-global-settings.js'],
+
+      full: {
+        src: ['packages/modules/**/*.js', 'packages/common/js/secondary/*.js', 'packages/common/js/require/*.js', '!packages/common/js/require/sony-global-settings.js', '!**/index.js'],
         options: {
           errorsOnly: false,
           cyclomatic: 10,
           halstead: 25,
+          maintainability: 115
+        }
+      },
+
+      basic: {
+        src: ['packages/modules/**/*.js', 'packages/common/js/secondary/*.js', 'packages/common/js/require/*.js', '!packages/common/js/require/sony-global-settings.js', '!**/index.js'],
+        options: {
+          errorsOnly: false,
+          cyclomatic: 100,
+          halstead: 250,
           maintainability: 115
         }
       }
