@@ -648,11 +648,17 @@
             /____/_/                      /____/          /____/
       */
 
+      // This is an exception override that supercedes any other styles,
+      // So !important is *technically* acceptable, if hacky.
+      // Ideally I'd refactor this whole file to remove the need, but
+      // This is the best way to address at the moment.
+
       &.light-text-dark-panel,
       &.dark-text-light-panel {
-        bottom: 0;
-        left: 0;
-        width: 100%;
+        width: 100% !important;
+        max-width: none !important;
+        left: 0 !important;
+        bottom: 0 !important;
         padding: 8% 12%;
 
         &.has-eyebrow {
