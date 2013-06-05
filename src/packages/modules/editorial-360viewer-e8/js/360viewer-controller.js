@@ -1,3 +1,5 @@
+/*jshint debug:true */
+
 // Module Title
 // ------------
 //
@@ -68,6 +70,7 @@ define(function(require){
     self.inViewport     = false;
     self.moves          = 0;
     self.touchEvents    = 0;
+    self.$win           = Settings.$window;
 
     $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
     self.init();
@@ -84,51 +87,94 @@ define(function(require){
       self.$controls.addClass( 'hidden' );
       self.$container.addClass( 'dim-the-lights' );
 
-      // closures to manage image payload
-      var lockAndLoaded = function() {
-        self.syncControlLayout();
-        self.curLoaded++;
-        checkLoaded();
-      };
-
-      // checks the payload against the loaded image
-      var checkLoaded = function() {
-        if( self.sequenceLength == self.curLoaded ) {
-          log( 'all 360 assets loaded' );
-          self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
-          self.$container.find( '.load-indicator' ).addClass( 'hidden' );
-          self.syncControlLayout();
-          self.initBehaviors();
-        }
-      };
-
       // if not, manage the payload by exposing a loader
-      self.$sequence.each(function( index, el ) {
+      console.log('checking for the sequence');
+
+      // since IE and iQ are not getting along we need to delay this a bit
+      // heres the idea, we show the loading screen and then one by one with a
+      // setTimeout and a $win.resize() we can fire iQ. ?? seems legit?
+
+      self.loadSequence();
+
+      log('SONY : Editorial 360 Viewer : Initialized');
+    },
+
+    lockAndLoaded: function() {
+      var self = this;
+
+      self.syncControlLayout();
+      self.curLoaded++;
+      self.checkLoaded();
+    },
+
+    // checks the payload against the loaded image
+    checkLoaded: function() {
+      var self = this;
+
+      if( self.sequenceLength == self.curLoaded ) {
+        log( 'all 360 assets loaded' );
+        self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
+        self.$container.find( '.load-indicator' ).addClass( 'hidden' );
+        self.syncControlLayout();
+        self.initBehaviors();
+      }
+    },
+
+    syncControlLayout: function() {
+      var self = this;
+      var _assetWidth = $( self.$sequence[self.curIndex] ).width();
+      self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
+    },
+
+    // this will load the sequence of images
+    loadSequence: function() {
+      var self = this;
+
+      self.$sequence.addClass('visuallyhidden');
+
+      self.$sequence.each(function( index ) {
+        var el = $(this);
+
+        // remove the hidden class
+        self.$sequence.eq(index).removeClass('visuallyhidden');
+
+        // so iQ can catch on
+        self.$win.trigger('resize');
+
+        //console.log(JSON.stringify(el.data()));
+        //console.log('inside each sequence');
+        $.inspect(el.data());
+
+        // now we can hide the element again?
+        self.$sequence.eq(index).addClass('visuallyhidden');
+
         // is the BG image loaded?
-        if( $( el ).data('hasLoaded') ) {
+        if(  el.data('hasLoaded') ) {
           self.syncControlLayout();
           self.curLoaded++;
-          checkLoaded();
+          self.checkLoaded();
         } else {
           // its not a preloaded background
-          if( $( el ).is( 'div' ) ) {
-            $( el ).on( 'iQ:imageLoaded', lockAndLoaded );
+          if( el.is( 'div' ) ) {
+            el.on( 'iQ:imageLoaded', $.proxy(self.lockAndLoaded, self) );
           } else {
             // check if the inline images are cached
             if( false === this.complete ) {
               // not cached, listen for load event
-              el.onload = lockAndLoaded;
+              el.onload = self.lockAndLoaded;
             } else {
               // cached, count it against the payload
               self.syncControlLayout();
               self.curLoaded++;
-              checkLoaded();
+              self.checkLoaded();
             }
           }
         }
       });
 
-      log('SONY : Editorial 360 Viewer : Initialized');
+      // now show the first sequence again
+      self.$sequence.eq(0).removeClass('visuallyhidden');
+
     },
 
     initBehaviors: function() {
@@ -228,12 +274,6 @@ define(function(require){
           shouldEase      = ( 0 < ( swipeDistance - stepSize ) ) ? ( swipeDistance - stepSize ) : false;
     },
 
-    syncControlLayout: function() {
-      var self = this;
-      var _assetWidth = $( self.$sequence[self.curIndex] ).width();
-      self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
-    },
-
     onResize: function( event ) {
       var self = this;
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
@@ -322,14 +362,14 @@ define(function(require){
 
       if( event.pageX > ( self.lastTriggerX + self.dynamicBuffer ) ) {
         // moving right
-        self.movingLeft   = false;
-        self.movingRight  = true;
+        self.movingLeft   = true;
+        self.movingRight  = false;
         doMove = true;
         self.lastTriggerX = event.pageX;
       } else if( event.pageX < ( self.lastTriggerX - self.dynamicBuffer ) ) {
         // moving left
-        self.movingLeft   = true;
-        self.movingRight  = false;
+        self.movingLeft   = false;
+        self.movingRight  = true;
         doMove = true;
         self.lastTriggerX = event.pageX;
       }
@@ -348,6 +388,9 @@ define(function(require){
     },
 
     animateDragger: function( cycles ) {
+      if(Settings.isLTIE8){
+        return;
+      }
       var self = this;
 
       $( self.$leftArrow ).animate({
@@ -408,8 +451,8 @@ define(function(require){
         break;
       }
 
-      self.pluck( lastIndex ).addClass( 'hidden' );
-      self.pluck( self.curIndex ).removeClass( 'hidden' );
+      self.pluck( lastIndex ).addClass( 'visuallyhidden' );
+      self.pluck( self.curIndex ).removeClass( 'visuallyhidden' );
     },
 
     pluck: function( lastIndex ) {
@@ -428,6 +471,18 @@ define(function(require){
 
   // jQuery Plugin Definition
   // ------------------------
+  $.extend({
+    inspect: function (obj, n) {
+      n = n || "this";
+      for (var p in obj) {
+        if ($.isPlainObject(obj[p])) {
+          $.inspect(obj[p], n + "." + p);
+          return;
+        }
+        console.log(n + "." + p.toString() + " = " + obj[p]);
+      }
+    }
+  });
 
   $.fn.editorial360Viewer = function( options ) {
     var args = Array.prototype.slice.call( arguments, 1 );

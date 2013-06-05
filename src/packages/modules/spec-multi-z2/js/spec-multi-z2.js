@@ -4,7 +4,7 @@
 // Module: Full Specs Multi
 // Version: 1.0
 // Author: Glen Cheney
-// Date: 02/22/13
+// Date: 05/28/13
 // Dependencies: jQuery 1.7+, Modernizr
 // --------------------------------------
 
@@ -209,7 +209,7 @@ define(function(require){
           vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          momentum: true,
+          momentum: !( Settings.isVita ),
           bounce: false,
           onScrollMove : function() {
             self._onScroll( this );
@@ -243,7 +243,7 @@ define(function(require){
     _initStickyTabs : function() {
       var self = this,
           $headers = self.$specItems.find('.spec-column-header').clone(),
-          $btns = $(),
+          frag = document.createDocumentFragment(),
           $tabs = self.$tabStrip.find('.tabs');
 
       self.isStickyTabs = true;
@@ -273,10 +273,10 @@ define(function(require){
 
         // iOS wasn't appending the buttons in the right order, so we'll have to append them inside the loop
         // $tabs.append( $btn );
-        $btns = $btns.add( $btn );
+        frag.appendChild( $btn[0] );
       });
 
-      $btns.appendTo( $tabs );
+      $tabs.append( frag );
 
       self.$tabStrip.stickyTabs({
         mq: self.mobileBreakpoint

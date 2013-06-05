@@ -56,9 +56,9 @@ define(function(require) {
     // If the user mouses back over the element before the timeout has expired the
     // "out" function will not be called (nor will the "over" function be called).
     // This is primarily to protect against sloppy/human mousing trajectories that
-    // temporarily (and unintentionally) take the user off of the target element... 
+    // temporarily (and unintentionally) take the user off of the target element...
     // giving them time to return.
-    self.closeDelay = 160;
+    self.closeDelay = 200;
     self.closeDelaySearch = 2000;
 
     // The number of milliseconds hoverIntent waits between reading/comparing
@@ -68,7 +68,6 @@ define(function(require) {
     // higher will increase the delay before the first possible "over" call,
     // but also increases the time to the next point of comparison.
     self.openDelay = 30;
-    // self.openTimer = false;
 
     // Get the right prefixed names e.g. WebkitTransitionDuration
     self.tapOrClick = self.hasTouch ? 'touchstart' : 'click';
@@ -135,7 +134,7 @@ define(function(require) {
           }
 
         });
-        // switch to mobile footer 
+        // switch to mobile footer
         enquire.register('(max-width: ' + self.mobileFooterThreshold + 'px)', {
           match : function() {
             self.$html.removeClass('bp-footer-desktop').addClass('bp-footer-mobile');
@@ -214,6 +213,8 @@ define(function(require) {
       // Event triggered when any anchor link inside the nav gets focus
       // Should this only be done for no-touch?
       self.setupFocusPath();
+
+      self.preSetNavTrayImageHeights();
 
       self.resizeAccountUsername();
       Environment.on('global:resizeDebounced-200ms', function() {
@@ -419,6 +420,7 @@ define(function(require) {
     },
 
     onNavBtnMouseEnter : function( e ) {
+      // console.log("onNavBtnMouseEnter: ", e.target);
       var self = this,
           $navBtn = $( e.delegateTarget );
 
@@ -445,6 +447,7 @@ define(function(require) {
     },
 
     onNavBtnMouseLeave : function( e ) {
+      // console.log("onNavBtnMouseLeave: ", e.target);
       var self = this,
           $navBtn = $( e.delegateTarget ),
           btnData = $navBtn.data(),
@@ -456,34 +459,28 @@ define(function(require) {
 
       // In a timeout so that the mouse enter for the target
       // is called before this function
-      setTimeout(function checkItOut() {
-        var isTargetHovered = $target.data('hovering');
-        // console.log('isTargetHovered:', isTargetHovered);
-        // If the mouse didn't go to the tray that opened, close it
-        if ( !isTargetHovered ) {
-          self.resetActiveNavBtn( $navBtn );
-        }
-      }, 50);
+      self.maybeResetActiveNavBtn( $navBtn, $target );
     },
 
     onNavBtnTargetMouseEnter : function( e ) {
-      var self = this,
-          $navBtn = $( e.delegateTarget );
+      // console.log("onNavBtnTargetMouseEnter: ", e.target);
+      var $target = $( e.delegateTarget );
 
-      $navBtn.data('hovering', true);
-      // console.log('target enter, reset timer');
-      self.resetMouseleaveTimer();
+      $target.data('hovering', true);
+      // console.log('%c' + $target[0].id + ' [ENTER]', 'color:blue;');
+      // console.log($target[0].id + ' [ENTER]');
+      // self.clearMouseleaveTimer();
+      // $( e.delegateTarget ).data( 'hovering', true );
     },
 
     onNavBtnTargetMouseLeave : function( e ) {
+      // console.log("onNavBtnTargetMouseLeave: ", e.target);
       var self = this,
-          // $navBtn = e.data.$thNavBtn,
-          $target = $( e.delegateTarget ),
-          $navBtn = $target.data('$navBtn'),
-          isNavBtnHovered = $navBtn.data('hovering'),
-          timeout;
+          $target = $( e.delegateTarget );
 
       $target.data('hovering', false);
+      // console.log('%c' + $target[0].id + ' [LEAVE]', 'color:blue;');
+      // console.log($target[0].id + ' [LEAVE]');
 
       // Remove focus from search input on mouse out in ie
       if (Settings.isLTIE10) {
@@ -493,51 +490,49 @@ define(function(require) {
         $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible');
       }
 
-      // Check to see if it was onto this target's button.
-      timeout = self.closeDelay;
-
-      // The search menu gets a longer timeout.
-      if (this.id === 'navmenu-w-search') {
-        timeout = self.closeDelaySearch;
-      }
-
       // Close this tray/menu if its nav button isn't hovered
-      if ( !isNavBtnHovered ) {
-        // console.log('nav button is not hovered, expire timer and close tray/menu');
-        self.mouseTimerExpired( $navBtn );
-      }
+      self.maybeResetActiveNavBtn( $target.data('$navBtn'), $target );
     },
 
     resetActiveNavMenu : function() {
       var self = this;
 
-      if (Settings.isLTIE10) {
+      if ( Settings.isLTIE10 ) {
         $('#nav-search-input').blur();
       }
-      if (Settings.isLTIE9) {
+
+      if ( Settings.isLTIE9 ) {
         $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
         $('.nav-li-search a').blur();
       }
 
+      function next( $navmenu ) {
+        var $transitionContainer = $navmenu.find('.reveal-transition-container');
+
+        $transitionContainer.css( 'height', '' );
+        $navmenu.css({ left: '', right: '' });
+      }
+
+      // Each visible nav menu
       $('.navmenu-w-visible').each(function() {
-        $(this)
-          .removeClass('navmenu-w-visible')
-          .one(self.transitionEnd, function() {
-            var $navmenu = $( this ),
-                $transitionContainer = $navmenu.find('.reveal-transition-container');
+        var $navmenu = $( this );
 
-            $transitionContainer.css( 'height', '' );
-            $navmenu.css({ left: '', right: '' });
+        // Trigger transition
+        $navmenu.removeClass('navmenu-w-visible');
 
-            // clear active class from THIS button!
-            // $('.nav-li-search a').removeClass('active');
+        // If transitions, wait for the transition to end,
+        if ( Modernizr.csstransitions ) {
+          $navmenu.one(self.transitionEnd, function() {
+            next( $( this ) );
+          });
 
-            // setTimeout(function() {
-            //   var c = $transitionContainer.attr('class');
-            //   var h = $transitionContainer.outerHeight();
-            //   console.log("c: " + c + ", h: " + h);
-            // },5);
-        });
+        // otherwise do it right away
+        } else {
+          next( $navmenu );
+        }
+
+        // Release for IE
+        $navmenu = null;
       });
     },
 
@@ -594,36 +589,46 @@ define(function(require) {
     },
 
 
-    startMouseleaveTimer : function( $navBtn ) {
-      var self = this,
-        delay = self.closeDelay + 25;
+    // startMouseleaveTimer : function( $navBtn ) {
+    //   var self = this,
+    //     delay = self.closeDelay + 25;
 
-      // Clear the current timer if it exists
-      // console.log('start timer (reset it first)');
-      self.resetMouseleaveTimer();
+    //   // Clear the current timer if it exists
+    //   self.clearMouseleaveTimer();
 
-      // console.log('TIMER +++ SET');
-      // If this timer expires, the current nav button and tray/menu will be reset
-      self.closeTimer = setTimeout(function closeTimer() {
-        self.mouseTimerExpired( $navBtn );
-      }, delay);
-    },
-    resetMouseleaveTimer : function() {
-      if ( this.closeTimer ) {
-        clearTimeout( this.closeTimer );
-        // console.groupCollapsed('TIMER +++ CLEARED');
-        // console.trace();
-        // console.groupEnd();
-      }
-    },
-    // Reset nav button and tray/menu
-    mouseTimerExpired : function( $navBtn ) {
+    //   // If this timer expires, the current nav button and tray/menu will be reset
+    //   self.closeTimer = setTimeout(function closeTimer() {
+    //     self.mouseTimerExpired( $navBtn );
+    //   }, delay);
+    // },
+    // clearMouseleaveTimer : function() {
+    //   if ( this.closeTimer ) {
+    //     clearTimeout( this.closeTimer );
+    //   }
+    // },
+    // // Reset nav button and tray/menu
+    // mouseTimerExpired : function( $navBtn ) {
+    //   var self = this;
+
+    //   self.resetActiveNavBtn( $navBtn );
+    //   // self.clearMouseleaveTimer();
+    //   self.$currentOpenNavBtn = false;
+    // },
+
+    // If the mouse didn't go to the tray that opened, close it
+    maybeResetActiveNavBtn : function( $navBtn, $target ) {
       var self = this;
 
-      // console.log('TIMER +++ EXPIRED');
-      self.resetActiveNavBtn( $navBtn );
-      self.resetMouseleaveTimer();
-      self.$currentOpenNavBtn = false;
+      setTimeout(function maybeReset() {
+        // If the nav button or the target is hovered, it shouldn't close
+        var shouldClose = !( $navBtn.data('hovering') || $target.data('hovering') );
+
+        if ( shouldClose ) {
+          // console.log('%cneither ' + $target[0].id + ' nor ' + $navBtn[0].getAttribute('href') + ' hovered. RESETTING', 'font-weight:bold;color:red;');
+          // console.log('neither ' + $target[0].id + ' nor ' + $navBtn[0].getAttribute('href') + ' hovered. RESETTING');
+          self.resetActiveNavBtn( $navBtn );
+        }
+      }, self.closeDelay + 25);
     },
 
     // Checks for open navs and closes them
@@ -640,7 +645,7 @@ define(function(require) {
       if ( isAnotherOpen ) {
         // console.log('%c[CLOSE ACTTIVE]' + $activeBtn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:rgb(0,172,238);');
         self.resetActiveNavBtn( $activeBtn );
-        // self.resetMouseleaveTimer();
+        // self.clearMouseleaveTimer();
         self.$currentOpenNavBtn = false;
       }
     },
@@ -794,7 +799,7 @@ define(function(require) {
 
       // Force an iQ check whenever the navs expand.
       // $navTarget.one(self.transitionEnd, function() {
-      //   iQ.update(true);
+      //   iQ.reset();
       // });
 
       if ( Modernizr.csstransitions ) {
@@ -882,8 +887,55 @@ define(function(require) {
         $carrot.css('left',carrotLeftPos+'px');
       }
     },
-
     // MOBILE NAV
+
+    prepMobileNav : function() {
+      // console.log("prepMobileNav");
+      var self = this;
+
+      self.preSetNavTrayImageHeights();
+
+      var $outer = $('#nav-outer-container'),
+      $inner = $outer.find('.nav-mobile-scroller'),
+      innerHeight = $inner.height(),
+      pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+
+      $outer.css( 'height', pageHeight );
+      $inner.css( 'height', innerHeight );
+
+      // Set this after '$outer' and '$inner' have been set so that all the setters are in order
+      self.$pageWrapOuter.css( 'height', pageHeight );
+    },
+
+    preSetNavTrayImageHeights : function() {
+
+      var navTrayImgRato = 0.556;
+      // if this is the first time opening the nav, the images aren't loaded yet. This means we don't know how tall the whole
+      // nav is going to be, so we have to estimate / fake it.
+      var $navTrayImageWraps = $('#navtrayElectronics').add($('#navtrayEntertainment')).find('.nav-img-w');
+      // breaking this into 2 loops to avoid layout thrashing.
+      var $navTrayImageWrapsNoSrc = $();
+      $navTrayImageWraps.each(function(){
+        var $thImg = $(this).find('img');
+        if (!$thImg.attr('src')){
+
+          // set its height based on its width & the target ratio, so the entire menu will be the correct height even before the images are loaded.
+          var calcHeight = $thImg.width() * navTrayImgRato;
+          $thImg.data('customHeight',calcHeight);
+          $navTrayImageWrapsNoSrc = $navTrayImageWrapsNoSrc.add($thImg);
+        }
+      });
+      $navTrayImageWrapsNoSrc.each(function(){
+        var $thImg = $(this);
+        $thImg.height($thImg.data('customHeight'));
+
+        // then listen for when the image is loaded, and remove the custom height so it can flex on resize.
+        $thImg.on('load', function() {
+          $thImg.css('height', '');
+        });
+      });
+    },
+
     initMobileNav : function() {
       var self = this;
 
@@ -918,7 +970,25 @@ define(function(require) {
         }
       });
 
+      Environment.on('global:resizeDebounced', $.proxy(self.resizeUpdateMobileNav,self));
+
     }, // end initMobileNav
+
+    resizeUpdateMobileNav : function() {
+      var self = this;
+      // console.log("resizeUpdateMobileNav");
+      // only call if the mobile nav is open. otherwise prep gets called and sets a height to the rest of the page.
+      if ($('#page-wrap-inner').hasClass('show-mobile-menu')){
+        self.prepMobileNav();
+
+        // make sure heights are already set before initializing iScroll.
+        setTimeout(function() {
+          module.initMobileNavIScroll();
+        },10);
+      }
+    },
+
+
     resetMobileNav : function() {
 
       var self = this;
@@ -928,43 +998,23 @@ define(function(require) {
     },
 
     showMobileNav : function() {
-      var self = this,
-          pageHeight,
-          $outer,
-          $inner,
-          innerHeight;
+      // console.log("showMobileNav");
+      var self = this;
 
       self.showMobileBackdrop();
 
-      // Since the page-wrap-inner is going to be fixed, the browser will see the page as having no height.
-      // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
-      // page some height, so the Safari nav will hide.
-      // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
-      pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
-      // pageHeight = parseInt(self.$window.height(), 10) + 'px';
-      // pageHeight = parseInt( self.$window.height(),10 ) + 60 + 'px';
-
       if (!self.mobileNavIScroll) {
-        $outer = $('#nav-outer-container');
-        $inner = $outer.find('.nav-mobile-scroller');
-        innerHeight = $inner.height();
+        $('#page-wrap-inner').addClass('show-mobile-menu');
+        self.mobileNavVisible = true;
 
-        $outer.css( 'height', pageHeight );
-        $inner.css( 'height', innerHeight );
+        self.prepMobileNav();
 
         // make sure heights are already set before initializing iScroll.
         setTimeout(function() {
           module.initMobileNavIScroll();
-        }, 0);
+        },10);
       }
-
-      // Set this after `$outer` and `$inner` have been set so that all the setters are in order
-      self.$pageWrapOuter.css( 'height', pageHeight );
-
-      $('#page-wrap-inner').addClass('show-mobile-menu');
-      self.mobileNavVisible = true;
     },
-
     hideMobileNav : function() {
       var self = this;
       self.hideMobileBackdrop();
@@ -1025,16 +1075,30 @@ define(function(require) {
         // on init, the footers should collapse.
         self.collapseMobileFooterSec($thFootSection, true);
 
-        $(this).on(self.tapOrClick, function() {
 
-          if ($thFootSection.hasClass('collapsed')) {
-            // collapsed height - expand it.
-            self.expandMobileFooterSec($thFootSection);
-          } else {
-            self.collapseMobileFooterSec($thFootSection);
-          }
-        });
+
+        // TOUCH DEVICES
+        if ( self.hasTouch ) {
+          // console.log('init hammer');
+          // Use hammer.js to detect taps
+          $(this).hammer().on('tap', function() {
+            self.toggleMobileFooterSec($thFootSection);
+          });
+        } else {
+          // NO TOUCH
+          $(this).on('click', function() {
+            self.toggleMobileFooterSec($thFootSection);
+          });
+        }
       });
+    },
+    toggleMobileFooterSec : function($thFootSection) {
+      var self = this;
+      if ($thFootSection.hasClass('collapsed')) {
+        self.expandMobileFooterSec($thFootSection);
+      } else {
+        self.collapseMobileFooterSec($thFootSection);
+      }
     },
     resetMobileFooter : function() {
       var self = this;
@@ -1044,8 +1108,8 @@ define(function(require) {
         $thFootSection.css('height', '').removeClass('collapsed transition-height');
         $(this).off(self.tapOrClick);
       });
-
     }, // end resetMobileFooter
+
 
     collapseMobileFooterSec : function($thFootSection, isPageInit) {
       var self = this;
@@ -1075,6 +1139,10 @@ define(function(require) {
             $thFootSection.height(self.footerNavCollapseHeight).addClass('collapsed');
           }, 1);
         }, 1);
+
+        if ( self.hasTouch && $thFootSection.hasClass('footer-store-locator') && $('#store-locator-search-input').is(':focus')) {
+          $('#store-locator-search-input').blur();
+        }
       }
     },
     expandMobileFooterSec : function($thFootSection) {
@@ -1114,10 +1182,13 @@ define(function(require) {
   // end $.fn.globalNav
 
   module.initMobileNavIScroll = function() {
+
+    // console.log("initMobileNavIScroll");
+
     var globalNav = $('.nav-wrapper').data('globalNav');
 
     // If there's alreaddy a mobileNavIScroll, refresh it.
-    // THIS IS HAPPENING ON EVERY KEYSTROKE!
+    // THIS IS HAPPENING ON EVERY KEYSTROKE! --??
     if (!!globalNav.mobileNavIScroll) {
       var $scroller = $('.nav-mobile-scroller');
       $scroller.css('height', '');
@@ -1127,6 +1198,7 @@ define(function(require) {
 
         setTimeout(function() {
           globalNav.mobileNavIScroll.refresh();
+          globalNav.mobileNavIScroll.scrollTo();
         },50);
       },50);
 
@@ -1149,6 +1221,10 @@ define(function(require) {
           if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
             e.preventDefault();
           }
+        },
+        onScrollMove: function() {
+          // iQ throttles itself.
+          iQ.update();
         }
 
       });

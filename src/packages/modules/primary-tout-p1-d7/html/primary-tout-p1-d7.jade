@@ -21,7 +21,7 @@ mixin header(_data)
     if d.variation.quote
       blockquote.bq1
         p!= d.quote
-      p.p3!= d.byline
+      p.l2-bold!= d.byline
     else if d.variation.headertext == "smaller"
       h1.t2!= h
     else
@@ -44,26 +44,32 @@ mixin bodytext(_data, _extra)
 mixin links(_data, _extra)
   d = _data ? _data : data
   if d.links
-    for link in d.links
-      e = _extra ? _extra : false
-      sm = link.submodule ? link.submodule : "0"
-      case link.type
-        when "btn"
-          a(class= e)(class= "btn", href= link.url)!= link.text
-        when "video"
-          if data.mode != "product-intro-plate"
-            e = e + " btn"
-          a(class = "video")(class= e)(href= link.url)(data-submodule = sm)
-            i.fonticon-15-circle-play.l-o-d
-            span!= link.text
-        when "carousel"
-          if data.mode != "product-intro-plate"
-            e = e + " btn"
-          a(class = "carousel")(class= e)(href= link.url)(data-submodule = sm)
-            i.fonticon-15-popup.l-o-d
-            span!= link.text
-        when "text"
-          a(class= e)( href= link.url)!= link.text
+    .linkgroup
+      for link in d.links
+        e = _extra ? _extra : false
+        sm = link.submodule ? link.submodule : "0"
+        spanclass = d.links.length > 1 && data.mode == "default" ? "hidden-phone" : false
+        if data.mode == "product-intro-plate"
+          e = e + " lt3"
+        case link.type
+          when "btn"
+            a(class= e)(class= "btn", href= link.url)!= link.text
+          when "video"
+            if data.mode != "product-intro-plate"
+              e = e + " btn"
+            e = e + " video"
+            a(class= e)(href= link.url)(data-submodule = sm)
+              i.fonticon-15-circle-play.l-o-d
+              span(class = spanclass)!= link.text
+          when "carousel"
+            if data.mode != "product-intro-plate"
+              e = e + " btn"
+            e = e + " carousel"
+            a(class= e)(href= link.url)(data-submodule = sm)
+              i.fonticon-15-popup.l-o-d
+              span(class = spanclass)!= link.text
+          when "txt"
+            a(class= e)( href= link.url)!= link.text
 
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
@@ -124,7 +130,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
     if data.submodules.length > 0
       for sub, i in data.submodules
         .submodule.off-screen.visuallyhidden(class = data.links[i].type)
-          button(class= "box-close box-close-small")
+          button(class= "box-close box-close-alt")
             i(class="fonticon-10-x")
           +partial(data.submodules[i].type, data.submodules[i].data, true)
 
@@ -163,7 +169,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
   else if data.mode == "product-intro-plate"
     +boxlayout
       +eyebrow
-      h1.t3!= data.headline
+      h1.t2!= data.headline
       +bodytext
       +links(data, "hidden-phone")
     .mobile-buttons-wrap.container

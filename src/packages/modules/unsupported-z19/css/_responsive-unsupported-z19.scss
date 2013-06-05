@@ -6,6 +6,18 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $desktopMin: px-em(980);
 
+
+@media (max-height: 34.375em) {
+    .modal-unsupported {
+        &.fade.in {
+            top: 50%;
+        }
+        .modal-body {
+            overflow-y: auto;
+        }
+    }
+}
+
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
     .unsupported {
         padding: 0 4%;

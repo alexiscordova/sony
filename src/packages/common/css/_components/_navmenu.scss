@@ -1,8 +1,9 @@
-// NavMenus - the Nav popover menus, for Account, Search,  
+// NavMenus - the Nav popover menus, for Account, Search,
 
+$zindexNavMenu: 240;
 
-.navmenu-w{ 
-  z-index: 240;
+.navmenu-w{
+  z-index: $zindexNavMenu;
   position: absolute;
   overflow: visible;
   background: $navMenuBackground;
@@ -10,7 +11,7 @@
   @include border-bottom-radius(2px);
 
   // -webkit-transform: translate3d(0, 0, 0); // fix janky animation
-  // 
+  //
   .fonticon-10-arrowhead-up.nav-indicator{
     &:before { // position the fonticon inside of the <i>
       position:relative;
@@ -29,7 +30,7 @@
 
 .navmenu-list{
   margin:0;
-  
+
   .navmenu-line {
     line-height:px-em(17px);
     margin:0 10px 0 22px;
@@ -101,6 +102,10 @@
   position:relative;
 }
 .navmenu-w-search{
+  // One less than the account menu, otherwise hovering on the account menu when the
+  // search menu is still closing results in the browser thinking the mouse is on the search
+  // menu when it, closing the account menu
+  z-index: $zindexNavMenu - 1;
   width:467px;
 
   &.navmenu-w-visible{
@@ -149,6 +154,10 @@
         color:$grayDark;
         -webkit-appearance: none;
       }
+      &::-ms-clear{ // get rid of IE10's new "X" pseudo-element inside the input.
+        width : 0;
+        height: 0;
+      }
     }
   }
   .btn-clear-search-input{
@@ -184,7 +193,7 @@
       .search-result-line{
         > a.tl {
         }
-      } // .search-result-line    
+      } // .search-result-line
     } // .navmenu-list-extended
 
   }
@@ -227,7 +236,7 @@
     } // .search-result-line
   } // .navmenu-list-results
 
-  
+
   .search-result-p{
     display:block;
     float:left;
@@ -255,7 +264,7 @@
       }
     }
   } // .search-result-canned
-  
+
   .navmenu-list-extended{
     margin-top:25px;
     margin-left:0;
@@ -274,10 +283,10 @@
           background-color:rgba(255,255,255,0.5);
         }
       }
-    } // .search-result-line    
+    } // .search-result-line
   } // .navmenu-list-extended
 
- 
+
 
   &.searching{
     .btn-clear-search-input{

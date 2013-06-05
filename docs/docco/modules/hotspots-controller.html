@@ -1,4 +1,5 @@
-<!DOCTYPE html>  <html> <head>   <title>hotspots-controller.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="SEN-convergence-e12.html">                 SEN-convergence-e12.js               </a>                                           <a class="source" href="alert-module.html">                 alert-module.js               </a>                                           <a class="source" href="country-region-selection-z10.html">                 country-region-selection-z10.js               </a>                                           <a class="source" href="demo-x99.html">                 demo-x99.js               </a>                                           <a class="source" href="360viewer-controller.html">                 360viewer-controller.js               </a>                                           <a class="source" href="editorial-carousel-e13.html">                 editorial-carousel-e13.js               </a>                                           <a class="source" href="editorial-chapters-e5.html">                 editorial-chapters-e5.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="hotspots-controller.html">                 hotspots-controller.js               </a>                                           <a class="source" href="editorial-layouts-e1.html">                 editorial-layouts-e1.js               </a>                                           <a class="source" href="editorial-slideshows-e4.html">                 editorial-slideshows-e4.js               </a>                                           <a class="source" href="footnotes-module.html">                 footnotes-module.js               </a>                                           <a class="source" href="gallery-g2-g3.html">                 gallery-g2-g3.js               </a>                                           <a class="source" href="global-header-footer.html">                 global-header-footer.js               </a>                                           <a class="source" href="light-compare-d9.html">                 light-compare-d9.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="pdp-slideshow-d4.html">                 pdp-slideshow-d4.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="product-details-d5.html">                 product-details-d5.js               </a>                                           <a class="source" href="product-summary-d1-d2.html">                 product-summary-d1-d2.js               </a>                                           <a class="source" href="recently-viewed.html">                 recently-viewed.js               </a>                                           <a class="source" href="related-products-g1.html">                 related-products-g1.js               </a>                                           <a class="source" href="reviews-awards-d6.html">                 reviews-awards-d6.js               </a>                                           <a class="source" href="search-results-z07.html">                 search-results-z07.js               </a>                                           <a class="source" href="secondary-touts-s1-s4.html">                 secondary-touts-s1-s4.js               </a>                                           <a class="source" href="sony-video.html">                 sony-video.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="subnavigation-n4.html">                 subnavigation-n4.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="universal-nav.html">                 universal-nav.js               </a>                                           <a class="source" href="unsupported-z19.html">                 unsupported-z19.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="whats-new-tout-s4.html">                 whats-new-tout-s4.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               hotspots-controller.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global define, Modernizr, log*/</span>
+<!DOCTYPE html>  <html> <head>   <title>hotspots-controller.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="SEN-convergence-e12.html">                 SEN-convergence-e12.js               </a>                                           <a class="source" href="alert-module.html">                 alert-module.js               </a>                                           <a class="source" href="country-region-selection-z10.html">                 country-region-selection-z10.js               </a>                                           <a class="source" href="demo-x99.html">                 demo-x99.js               </a>                                           <a class="source" href="360viewer-controller.html">                 360viewer-controller.js               </a>                                           <a class="source" href="editorial-carousel-e13.html">                 editorial-carousel-e13.js               </a>                                           <a class="source" href="editorial-chapters-e5.html">                 editorial-chapters-e5.js               </a>                                           <a class="source" href="editorial-chapters-e5.html">                 editorial-chapters-e5.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="hotspots-controller.html">                 hotspots-controller.js               </a>                                           <a class="source" href="editorial-layouts-e1.html">                 editorial-layouts-e1.js               </a>                                           <a class="source" href="editorial-slideshows-e4.html">                 editorial-slideshows-e4.js               </a>                                           <a class="source" href="footnotes-module.html">                 footnotes-module.js               </a>                                           <a class="source" href="gallery-g2-g3.html">                 gallery-g2-g3.js               </a>                                           <a class="source" href="global-header-footer.html">                 global-header-footer.js               </a>                                           <a class="source" href="light-compare-d9.html">                 light-compare-d9.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="pdp-slideshow-d4.html">                 pdp-slideshow-d4.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="product-details-d5.html">                 product-details-d5.js               </a>                                           <a class="source" href="product-summary-d1-d2.html">                 product-summary-d1-d2.js               </a>                                           <a class="source" href="recently-viewed.html">                 recently-viewed.js               </a>                                           <a class="source" href="related-products-g1.html">                 related-products-g1.js               </a>                                           <a class="source" href="reviews-awards-d6.html">                 reviews-awards-d6.js               </a>                                           <a class="source" href="search-results-z07.html">                 search-results-z07.js               </a>                                           <a class="source" href="secondary-touts-s1-s4.html">                 secondary-touts-s1-s4.js               </a>                                           <a class="source" href="sony-video.html">                 sony-video.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="subnavigation-n4.html">                 subnavigation-n4.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="universal-nav.html">                 universal-nav.js               </a>                                           <a class="source" href="unsupported-z19.html">                 unsupported-z19.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="whats-new-tout-s4.html">                 whats-new-tout-s4.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               hotspots-controller.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global define, Modernizr, log*/</span>
+<span class="comment">/*jshint debug:true */</span>
 
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>------------ Sony Editorial Hotspots ------------
 Module: Editorial Hotspots E6
@@ -86,7 +87,12 @@ define(<span class="keyword">function</span>(require) {
     self.$modalBody                      = self.$modal.find( <span class="string">'.modal-body'</span> );
     self.isModalOpen                     = <span class="literal">true</span>;
     self.hasTouch                        = Settings.hasTouchEvents;
+    self.isChapter                       = (self.$container.closest(<span class="string">'.editorial-chapters-container'</span>).length) ? <span class="literal">true</span> : <span class="literal">false</span>;
+    self.isSmallChapter                  = (self.$container.closest(<span class="string">'.editorial'</span>).length) ? <span class="literal">true</span> : <span class="literal">false</span>;
 
+    self.isDesktop = <span class="literal">false</span>;
+    self.isMobile = <span class="literal">false</span>;
+    
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>EXTEND THIS OBJECT TO BE A JQUERY PLUGIN</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
   };
@@ -102,7 +108,7 @@ define(<span class="keyword">function</span>(require) {
       $( 'body' ).append( underlayNode );
 */</span>
             
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>detect what type of tracking we need to bind the instance to</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> moduleHandle = self.$container.parent().find( <span class="string">'.image-module'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>detect what type of tracking we need to bind the instance to</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> moduleHandle = self.$container.closest( <span class="string">'.image-module'</span> );
       <span class="keyword">if</span>( moduleHandle.hasClass( <span class="string">'track-by-background'</span> ) ) {
         self.trackingMode   = <span class="string">'background'</span>;
         self.trackingAsset  = moduleHandle;
@@ -112,7 +118,7 @@ define(<span class="keyword">function</span>(require) {
         self.trackingAsset  = $( moduleHandle.children( <span class="string">'.iq-img'</span> )[<span class="number">0</span>] );
         self.variant        = <span class="string">'variant2'</span>;
       }
-      
+
       self.id = self.trackingAsset.attr( <span class="string">'id'</span> );
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>IE7 zindex fix</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( Settings.isLTIE8 ) {
@@ -128,8 +134,6 @@ define(<span class="keyword">function</span>(require) {
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>reparent the full-inner html behind the hotspots, lets play nice kids...</p>             </td>             <td class="code">               <div class="highlight"><pre>          $top.prepend( $temp.remove() );
         }
       }
-
-
 
 </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>when the tracking item changes it's opacity, we trigger the initial flyon animation for the hotspot</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.trackOpacity = <span class="keyword">function</span>() {
         <span class="keyword">switch</span>( self.trackingAsset.css( <span class="string">'opacity'</span> ) ) {
@@ -176,6 +180,9 @@ height changes for backgrounds with hotspots</p>             </td>             <
 </pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO
 REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( enquire ) {
         enquire.register( <span class="string">"(max-width: 767px)"</span> , <span class="keyword">function</span>() {
+          self.isMobile = <span class="literal">true</span>;
+          self.isDesktop = <span class="literal">false</span>;
+          
           self.showOverlayCentered = <span class="literal">true</span>;
           self.follow();
           <span class="keyword">if</span>( self.$lastOpen ) {
@@ -184,6 +191,9 @@ REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE</p>             </td>       
         }).listen();
 
         enquire.register( <span class="string">"(min-width: 768px)"</span> , <span class="keyword">function</span>() {
+          self.isMobile = <span class="literal">false</span>;
+          self.isDesktop = <span class="literal">true</span>;
+          
           self.showOverlayCentered = <span class="literal">false</span>;
           self.follow();
           <span class="keyword">if</span>( self.$lastOpen ) {
@@ -307,7 +317,8 @@ self.$modalBody.removeClass('in'); // need this?</p>             </td>          
               heightOffset = <span class="number">0</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>compensate for centering in the parent node
-if( $( window ).width() > 768 ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>                widthOffset = ( self.trackingAsset.parent().width() - assetW ) / <span class="number">2</span>;
+if( $( window ).width() > 768 ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>
+                widthOffset = ( self.trackingAsset.parent().width() - assetW ) / <span class="number">2</span>;
                 heightOffset = parseInt( self.trackingAsset.parent().css( <span class="string">'padding-top'</span> ), <span class="number">10</span> );
 </pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>}
 get x coordinate</p>             </td>             <td class="code">               <div class="highlight"><pre>              adjustedX = ( percX * assetW ) / <span class="number">100</span> + widthOffset;
@@ -466,9 +477,13 @@ hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a
           $parentContainer       = el.parent(),
           parentWidth            = $parentContainer.width(),
           parentHeight           = $parentContainer.height(),
+          parentObj              = { <span class="string">"h"</span> : parentHeight, <span class="string">"w"</span> : parentWidth, <span class="string">"el"</span> : $parentContainer },
           $hotspot               = el,
           hotspotPosition        = $hotspot.position(),
           $overlay               = el.find( <span class="string">'.overlay-base'</span> ),
+          overlayHeight          = $overlay.height(),
+          overlayWidth           = $overlay.width(),
+          overlayObj             = { <span class="string">"h"</span> : overlayHeight, <span class="string">"w"</span> : overlayWidth, <span class="string">"el"</span> : $overlay },
           variantSmall           = $overlay.hasClass( <span class="string">'variant2'</span> ) ? <span class="literal">true</span> : <span class="literal">false</span>,
           $top                   = $overlay.find( <span class="string">'.top'</span> ),
           topHeight              = $top.height(),
@@ -483,51 +498,126 @@ hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a
           topOffsetHighSm        = ( ( middleHeight * <span class="number">10.71428571</span> ) / <span class="number">100</span> ) + topHeight,
           topOffsetLow           = variantSmall ? topOffsetLowSm : topOffsetLowLg,
           topOffsetHigh          = variantSmall ? topOffsetHighSm : topOffsetHighLg,
+          overlayOffset          = <span class="number">0</span>,
           side                   = [],
           quadrant               = <span class="number">0</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>what horizontal half are we in?</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>( hotspotPosition.left &lt; ( parentWidth / <span class="number">2</span> ) ) {
-            side[<span class="number">0</span>] = <span class="number">2</span>;
-          } <span class="keyword">else</span> {
-            side[<span class="number">0</span>] = <span class="number">4</span>;
-          }
+</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>what horizontal half are we in?</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( hotspotPosition.left &lt; ( parentWidth / <span class="number">2</span> ) ) {
+        side[<span class="number">0</span>] = <span class="number">2</span>;
+      } <span class="keyword">else</span> {
+        side[<span class="number">0</span>] = <span class="number">4</span>;
+      }
 
-</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>what vertical half are we in?</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>( hotspotPosition.top &lt; ( parentHeight / <span class="number">2</span> ) ) {
-            side[<span class="number">1</span>] = <span class="number">6</span>;
-          } <span class="keyword">else</span> {
-            side[<span class="number">1</span>] = <span class="number">7</span>;
-          }
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', 
+'\n OFFSET HIGH -> ', topOffsetHigh, 
+'\n OFFSET LOW -> ', topOffsetLow,
+'\n hotspotPosition.top ->', hotspotPosition.top,
+'\n parentHeight ->', parentHeight,
+'\n overlayHeight ->', overlayHeight,
+'\n CRAZY MATH =>', ((hotspotPosition.top - parentHeight) + overlayHeight)
+); </p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>what vertical half are we in?</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( hotspotPosition.top &lt; ( parentHeight / <span class="number">2</span> ) ) {
+        side[<span class="number">1</span>] = <span class="number">6</span>;
+      } <span class="keyword">else</span> {
+        side[<span class="number">1</span>] = <span class="number">7</span>;
+      }
 
-</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>sum up the answer, just chose 4 weights that would never sum up the same</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">switch</span>( ( side[ <span class="number">0</span> ] + side[ <span class="number">1</span> ] ) ) {
-            <span class="keyword">case</span> <span class="number">8</span>:
-              quadrant = <span class="number">2</span>;
-            <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="number">10</span>:
-              quadrant = <span class="number">1</span>;
-            <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="number">9</span>:
-              quadrant = <span class="number">3</span>;
-            <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="number">11</span>:
-              quadrant = <span class="number">4</span>;
-            <span class="keyword">break</span>;
-          }
+</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>sum up the answer, just chose 4 weights that would never sum up the same</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">switch</span>( ( side[ <span class="number">0</span> ] + side[ <span class="number">1</span> ] ) ) {
+        <span class="keyword">case</span> <span class="number">8</span>:
+          quadrant = <span class="number">2</span>;
+        <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">10</span>:
+          quadrant = <span class="number">1</span>;
+        <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">9</span>:
+          quadrant = <span class="number">3</span>;
+        <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">11</span>:
+          quadrant = <span class="number">4</span>;
+        <span class="keyword">break</span>;
+      }
 
-</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>adjust layout classes per quadrant</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">switch</span>( quadrant ) {
-            <span class="keyword">case</span> <span class="number">1</span>:
-            <span class="keyword">case</span> <span class="number">4</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>position overlay to the left of hotspot</p>             </td>             <td class="code">               <div class="highlight"><pre>              $overlay.addClass( <span class="string">'to-left'</span> );
-              $overlay.parent().find( <span class="string">'.arrow-right'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
-              quadrant === <span class="number">1</span> ? $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetHigh+<span class="string">'px'</span> ) : $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetLow+<span class="string">'px'</span> );
-            <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="number">2</span>:
-            <span class="keyword">case</span> <span class="number">3</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>add to-right</p>             </td>             <td class="code">               <div class="highlight"><pre>              $overlay.addClass( <span class="string">'to-right'</span> );
-              $overlay.parent().find( <span class="string">'.arrow-left'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
-              quadrant === <span class="number">2</span> ? $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetHigh+<span class="string">'px'</span> ) : $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetLow+<span class="string">'px'</span> );
-            <span class="keyword">break</span>;
-          }
+</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>will it fit? </p>             </td>             <td class="code">               <div class="highlight"><pre>      overlayOffset = ((hotspotPosition.top - parentHeight) + overlayHeight);
 
+</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>adjust layout classes per quadrant</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">switch</span>( quadrant ) {
+        <span class="keyword">case</span> <span class="number">1</span>:
+        <span class="keyword">case</span> <span class="number">4</span>:
+</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>position overlay to the left of hotspot</p>             </td>             <td class="code">               <div class="highlight"><pre>          $overlay.addClass( <span class="string">'to-left'</span> );
+          $overlay.parent().find( <span class="string">'.arrow-right'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>NOTE:
+If we are running inside a chapter module we need to caclulate different top values</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>( self.isChapter &amp;&amp; self.isSmallChapter ) {
+            <span class="keyword">if</span> (quadrant === <span class="number">1</span>) {
+</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>also check if it fits within the parentHeight </p>             </td>             <td class="code">               <div class="highlight"><pre>              (overlayOffset &gt;= <span class="number">0</span>) ? $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+( topOffsetHigh - (overlayOffset + <span class="number">50</span> ))+<span class="string">'px'</span> ) : $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetHigh+<span class="string">'px'</span> );
+            } <span class="keyword">else</span> { 
+</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>also check if it fits within the parentHeight </p>             </td>             <td class="code">               <div class="highlight"><pre>              (overlayOffset &gt;= <span class="number">0</span>) ? $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+( topOffsetLow - (overlayOffset/<span class="number">2</span>) )+<span class="string">'px'</span> ) : $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetLow+<span class="string">'px'</span> );
+            }
+</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>ELSE we run default top values</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> {
+            <span class="keyword">if</span> (quadrant === <span class="number">1</span>) {
+              $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetHigh+<span class="string">'px'</span> );
+            } <span class="keyword">else</span> { 
+</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>also check if it fits within the parentHeight </p>             </td>             <td class="code">               <div class="highlight"><pre>              $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetLow+<span class="string">'px'</span> );
+            }    
+          } <span class="comment">// end if(isChapters)</span>
+        <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">2</span>:
+        <span class="keyword">case</span> <span class="number">3</span>:
+</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>add to-right</p>             </td>             <td class="code">               <div class="highlight"><pre>          $overlay.addClass( <span class="string">'to-right'</span> );
+          $overlay.parent().find( <span class="string">'.arrow-left'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
+
+</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>NOTE:
+If we are running inside a chapter module we need to caclulate different top values</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( self.isChapter &amp;&amp; self.isSmallChapter) {
+            <span class="keyword">if</span> (quadrant === <span class="number">2</span>) {
+              (overlayOffset &gt;= <span class="number">0</span>) ? $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+( topOffsetHigh - (overlayOffset + <span class="number">50</span> ) )+<span class="string">'px'</span> ) : $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetHigh+<span class="string">'px'</span> );
+            } <span class="keyword">else</span> {
+              (overlayOffset &gt;= <span class="number">0</span>) ? $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+( topOffsetLow - (overlayOffset + <span class="number">50</span> ) )+<span class="string">'px'</span> ) : $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetLow+<span class="string">'px'</span> );
+            }
+</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>ELSE we run default top values</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> {
+            <span class="keyword">if</span> (quadrant === <span class="number">2</span>) {
+              $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetHigh+<span class="string">'px'</span> );
+            } <span class="keyword">else</span> {
+              $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetLow+<span class="string">'px'</span> );
+            }
+          } <span class="comment">// end if(isChapters)</span>
+        <span class="keyword">break</span>;
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', $parentContainer.get(0), $overlay.get(0)); </p>             </td>             <td class="code">               <div class="highlight"><pre>    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>determines if the overlay fits within the parent or does not</p>             </td>             <td class="code">               <div class="highlight"><pre>    checkIfFits: <span class="keyword">function</span>( overlay, parent, rd) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          round = rd,
+          overlayObj = overlay,
+          overlayHeight = overlayObj.h,
+          overlayWidth = overlayObj.w,
+          overlayEl = $(overlay.el),
+          $overlay = overlayObj.el,
+          parentObj = parent,
+          parentHeight = parentObj.h,
+          parentWidth = parentObj.w,
+          $parent = parentObj.el;
+
+      <span class="keyword">if</span> (self.isMobile) {
+        <span class="keyword">return</span> <span class="literal">false</span>;
+      }
+
+      <span class="keyword">if</span> ( overlayHeight &gt;= parentHeight ) {
+</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>console.warn('[[HOTSPOT CONTROLLER -- overlay doesnt fit]]');
+if it doesnt fit check if we can make it any shorter? </p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">switch</span>(round) {
+          <span class="keyword">case</span> <span class="number">0</span>:
+            <span class="keyword">if</span> (overlayEl.hasClass(<span class="string">'variant2'</span>)) { 
+              overlayEl.find(<span class="string">'.top.is-default-on'</span>).hide();
+            }
+          <span class="keyword">break</span>;
+          <span class="keyword">case</span> <span class="number">1</span>:
+            <span class="keyword">if</span> (overlayEl.hasClass(<span class="string">'variant2'</span>)) { 
+              overlayEl.find(<span class="string">'.footer.is-default-on'</span>).hide();
+            }
+          <span class="keyword">break</span>;
+        }
+        <span class="keyword">return</span> <span class="literal">false</span>;
+      } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>console.log('[[HOTSPOT CONTROLLER -- overlay fits]]');</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span> <span class="literal">true</span>;
+      }
     },
 
     transition: <span class="keyword">function</span>( collection, direction ) {
@@ -545,11 +635,11 @@ hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a
 
     close: <span class="keyword">function</span>( container, hotspot, info ) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.cleanTimer();
+</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.cleanTimer();
 
-</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>save last close state</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.data( <span class="string">'state'</span>, <span class="string">'closed'</span> ).removeClass( <span class="string">'info-jump-to-top'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>save last close state</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.data( <span class="string">'state'</span>, <span class="string">'closed'</span> ).removeClass( <span class="string">'info-jump-to-top'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>        hotspot.removeClass( <span class="string">'hspot-core-on'</span> ).addClass( <span class="string">'hspot-core'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>        hotspot.removeClass( <span class="string">'hspot-core-on'</span> ).addClass( <span class="string">'hspot-core'</span> );
 
         <span class="keyword">if</span>( Settings.isLTIE8 || Settings.isLTIE9 ) {
           hotspot.parent().removeClass( <span class="string">'ie-on'</span> );
@@ -562,70 +652,87 @@ hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a
           $( <span class="string">'#'</span>+self.hotspotId+<span class="string">'-arrow-right'</span> ).addClass( <span class="string">'hidden'</span> );
         }
         
-</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>begin fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.transition([
+</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>begin fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.transition([
           info.parent().find(<span class="string">'.arrow-left'</span>),
           info.parent().find(<span class="string">'.arrow-right'</span>),
           info.find(<span class="string">'.overlay-inner'</span>)
         ], <span class="string">'off'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>closure to hide overlays after they fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> anon = <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>closure to hide overlays after they fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> anon = <span class="keyword">function</span>() {
           info.addClass( <span class="string">'hidden'</span> );
         };
 
-</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>fire a timer that will set the display to none when the element is closed.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
+</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>fire a timer that will set the display to none when the element is closed.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
 
-</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>set the open status to zilch</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastOpen = <span class="literal">null</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>set the open status to zilch</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastOpen = <span class="literal">null</span>;
 
     },
 
     open: <span class="keyword">function</span>( container, hotspot, info ) {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      info.removeClass(<span class="string">'hidden'</span>); <span class="comment">// need to get the elements values</span>
 
-</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( self.$lastOpen &amp;&amp; container.is( self.$lastOpen[<span class="number">0</span>] ) ) {
-          self.cleanTimer();
-        }
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $parentContainer       = container.parent(),
+          parentWidth            = $parentContainer.width(),
+          parentHeight           = $parentContainer.height(),
+          parentObj              = { <span class="string">"h"</span> : parentHeight, <span class="string">"w"</span> : parentWidth, <span class="string">"el"</span> : $parentContainer },
+          $hotspot               = hotspot,
+          hotspotPosition        = $hotspot.position(),
+          overlayHeight          = info.height(),
+          overlayWidth           = info.width(),
+          overlayObj             = { <span class="string">"h"</span> : overlayHeight, <span class="string">"w"</span> : overlayWidth, <span class="string">"el"</span> : info };
+      
+      info.addClass(<span class="string">'hidden'</span>); <span class="comment">// need to get the elements values</span>
 
-</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>save last open state</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastOpen = <span class="keyword">new</span> Array( container, hotspot, info );
+</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( self.$lastOpen &amp;&amp; container.is( self.$lastOpen[<span class="number">0</span>] ) ) {
+        self.cleanTimer();
+      }
 
-</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>add data- info to this hotspot</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.data( <span class="string">'state'</span>, <span class="string">'open'</span> ).addClass( <span class="string">'info-jump-to-top'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>console.log('[[HOTSPOTS CONTROLLER -- open]]');
+save last open state</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$lastOpen = <span class="keyword">new</span> Array( container, hotspot, info );
 
-</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>        hotspot.removeClass( <span class="string">'hspot-core'</span> ).addClass( <span class="string">'hspot-core-on'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>add data- info to this hotspot</p>             </td>             <td class="code">               <div class="highlight"><pre>      container.data( <span class="string">'state'</span>, <span class="string">'open'</span> ).addClass( <span class="string">'info-jump-to-top'</span> );
 
-        <span class="keyword">if</span>( Settings.isLTIE8 || Settings.isLTIE9 ) {
-          hotspot.parent().addClass( <span class="string">'ie-on'</span> );
-        }
+</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>      hotspot.removeClass( <span class="string">'hspot-core'</span> ).addClass( <span class="string">'hspot-core-on'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>we have to set display: block to allow DOM to calculate dimension</p>             </td>             <td class="code">               <div class="highlight"><pre>        info.removeClass( <span class="string">'hidden'</span> );
+      <span class="keyword">if</span>( Settings.isLTIE8 || Settings.isLTIE9 ) {
+        hotspot.parent().addClass( <span class="string">'ie-on'</span> );
+      }
 
-</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>reposition window per it's collision detection result</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.repositionByQuadrant( container );
-</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>self.reposition( container );</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>fade in info window</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
-</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>$( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.reanchor( container, hotspot, info, <span class="literal">true</span> );
-        } <span class="keyword">else</span> {
-          <span class="keyword">if</span>( Settings.isLTIE8 ) {
-</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>turn on the window</p>             </td>             <td class="code">               <div class="highlight"><pre>            info.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
-</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>get the global handle for iE7</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> $ieHackAttack = $( Settings.$body ).find( <span class="string">'#'</span>+self.hotspotId );
-</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>apply the offset window value </p>             </td>             <td class="code">               <div class="highlight"><pre>            $ieHackAttack.css({
-              <span class="string">'left'</span>: info.offset().left,
-              <span class="string">'top'</span>: info.offset().top
-            });
-            $ieHackAttack.html( info.html() );
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>orient the correct arrow and turn it on</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> $arrow, $arrow_global;
-            <span class="keyword">if</span>( info.hasClass( <span class="string">'to-right'</span> ) ) {
-              $arrow_global = $( <span class="string">'#'</span>+self.hotspotId+<span class="string">'-arrow-left'</span> );
-              $arrow = $( hotspot ).parent().find( <span class="string">'.arrow-left'</span> );
-            } <span class="keyword">else</span> {
-              $arrow_global = $( <span class="string">'#'</span>+self.hotspotId+<span class="string">'-arrow-right'</span> );
-              $arrow = $( hotspot ).parent().find( <span class="string">'.arrow-right'</span> );
-            }
-            $arrow_global.removeClass( <span class="string">'hidden'</span> ).css({
-              <span class="string">'left'</span>: $arrow.offset().left,
-              <span class="string">'top'</span>: $arrow.offset().top
-            });
+</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>we have to set display: block to allow DOM to calculate dimension</p>             </td>             <td class="code">               <div class="highlight"><pre>      info.removeClass( <span class="string">'hidden'</span> );
+
+</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>we should really check if the hotspot fits within the parent first</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.checkIfFits( overlayObj, parentObj, <span class="number">0</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>reposition window per it's collision detection result</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.repositionByQuadrant( container );
+
+</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>self.reposition( container );</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>fade in info window</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">true</span> === self.showOverlayCentered ) {
+</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>$( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.reanchor( container, hotspot, info, <span class="literal">true</span> );
+      } <span class="keyword">else</span> {
+        <span class="keyword">if</span>( Settings.isLTIE8 ) {
+</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>turn on the window</p>             </td>             <td class="code">               <div class="highlight"><pre>          info.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>get the global handle for iE7</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> $ieHackAttack = $( Settings.$body ).find( <span class="string">'#'</span>+self.hotspotId );
+</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>apply the offset window value </p>             </td>             <td class="code">               <div class="highlight"><pre>          $ieHackAttack.css({
+            <span class="string">'left'</span>: info.offset().left,
+            <span class="string">'top'</span>: info.offset().top
+          });
+          $ieHackAttack.html( info.html() );
+</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>orient the correct arrow and turn it on</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> $arrow, $arrow_global;
+          <span class="keyword">if</span>( info.hasClass( <span class="string">'to-right'</span> ) ) {
+            $arrow_global = $( <span class="string">'#'</span>+self.hotspotId+<span class="string">'-arrow-left'</span> );
+            $arrow = $( hotspot ).parent().find( <span class="string">'.arrow-left'</span> );
           } <span class="keyword">else</span> {
-            info.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> ); 
+            $arrow_global = $( <span class="string">'#'</span>+self.hotspotId+<span class="string">'-arrow-right'</span> );
+            $arrow = $( hotspot ).parent().find( <span class="string">'.arrow-right'</span> );
           }
+          $arrow_global.removeClass( <span class="string">'hidden'</span> ).css({
+            <span class="string">'left'</span>: $arrow.offset().left,
+            <span class="string">'top'</span>: $arrow.offset().top
+          });
+        } <span class="keyword">else</span> {
+          info.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> ); 
         }
+      }
     },
 
     reset: <span class="keyword">function</span>( container ) {
@@ -647,23 +754,24 @@ hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.hotspotsController = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.hotspotsController = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
-        hotspotsController = self.data(<span class="string">'hotspotsController'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>If we don't have a stored tertiaryModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !hotspotsController ) {
-            hotspotsController = <span class="keyword">new</span> HotspotsController( self, options );
-            self.data( <span class="string">'hotspotsController'</span>, hotspotsController );
-        }
+      hotspotsController = self.data(<span class="string">'hotspotsController'</span>);
 
-        <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
-          hotspotsController[ options ].apply( hotspotsController, args );
-        }
-      });
+</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>If we don't have a stored tertiaryModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !hotspotsController ) {
+        hotspotsController = <span class="keyword">new</span> HotspotsController( self, options );
+        self.data( <span class="string">'hotspotsController'</span>, hotspotsController );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        hotspotsController[ options ].apply( hotspotsController, args );
+      }
+    });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>Defaults options for the module</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.hotspotsController.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>Defaults options for the module</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.hotspotsController.defaults = {
     options : {
 
     }
@@ -672,4 +780,5 @@ hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a
   <span class="keyword">return</span> self;
 
 });
+
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

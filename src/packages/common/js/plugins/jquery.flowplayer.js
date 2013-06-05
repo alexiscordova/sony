@@ -157,6 +157,8 @@ $.fn.flowplayer = function(opts, callback) {
             urlResolver = new URLResolver (root);
          }
 
+      //console.log( 'is loading', root.hasClass('is-loading') );
+
       if (conf.playlist.length) { // Create initial video tag if called without
          var preload = videoTag.attr('preload');
          videoTag.remove();
@@ -240,6 +242,7 @@ $.fn.flowplayer = function(opts, callback) {
                   // callback
                   if ($.isFunction(video)) {callback = video;}
                   if (callback) {root.one("ready", callback);}
+
                } else {
                   api.loading = false;
                }
@@ -1480,6 +1483,7 @@ $.fn.slider2 = function(rtl , vert) {
 
          if (!disabled) {
 
+            
             // begin --> recalculate. allows dynamic resizing of the slider
             var delayedFire = $.flowplayerThrottle(fire, 100);
             calc();
@@ -1534,7 +1538,7 @@ flowplayer(function(api, root) {
       support = flowplayer.support,
       hovertimer;
    root.find('.fp-ratio,.fp-ui').remove();
-   root.addClass("flowplayer").append('<div class="ratio"/><div class="ui"><div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div><a class="unload"/><p class="speed"/><div class="controls"><a class="play"></a><div class="timeline"><div class="buffer"/><div class="progress is-slider"/><div class="scrubber"/></div><div class="volume"><a class="mute"></a><div class="volumeslider"><div class="volumeleveltrack"><div class="volumelevel is-slider"/><div class="scrubber"/></div></div></div><a class="fullscreen"/></div><div class="message"><h2/><p/></div></div>'.replace(/class="/g, 'class="fp-'));
+   root.addClass("flowplayer").append('<div class="ratio"/><div class="ui"><div class="waiting"></div><div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div><a class="unload"/><p class="speed"/><div class="controls"><a class="play"></a><div class="timeline"><div class="buffer"/><div class="progress is-slider"/><div class="scrubber"/></div><div class="volume"><a class="mute"></a><div class="volumeslider"><div class="volumeleveltrack"><div class="volumelevel is-slider"/><div class="scrubber"/></div></div></div><a class="fullscreen"/></div><div class="message"><h2/><p/></div></div>'.replace(/class="/g, 'class="fp-'));
 
 
    function find(klass) {
@@ -1578,7 +1582,7 @@ flowplayer(function(api, root) {
    }
 
    // loading...
-   if (!support.animation) {waiting.html("<p>loading &hellip;</p>");}
+   if (!support.animation) {waiting.html("");}
 
    setRatio(conf.ratio);
 
@@ -1697,7 +1701,7 @@ flowplayer(function(api, root) {
       hover(is_over);
 
       if (is_over) {
-
+         root.trigger('over.flowplayer');
          root.bind("pause.x mousemove.x volume.x", function() {
             hover(true);
             lastMove = new Date;
@@ -2298,6 +2302,7 @@ flowplayer(function(player, root) {
                .css("left", (time / duration * 100) + "%");
 
             el.appendTo(timeline).mousedown(function() {
+               
                player.seek(time);
 
                // preventDefault() doesn't work

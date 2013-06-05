@@ -14,7 +14,7 @@
     height:560px;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: top center;
   }
   .submodule{
     position:relative;
@@ -23,9 +23,27 @@
     &.visuallyhidden {
       height: 0; // setting margin back to -1px creates the problem the above comment fixes
     }
-    .box-close{
+    .box-close-alt{
       top:12px;
       right:14px;
+      background: $gray40;
+      background:$closeBox;
+      &:hover {
+        background: $gray20;
+        background:$closeBoxHover;
+      }
+      width: 2.5em;
+      height: 2.5em;
+      i{
+        font-size:1.25em;
+      }
+      @include transition();
+      &.close-hide{
+        opacity: 0;
+      }
+    }
+    .sony-video{
+       @include translate3d(0,0,0);
     }
   }
 
@@ -98,22 +116,15 @@
           margin: 0px .15em;
       }
       a.btn{
-        margin-right:20px;
-        margin-top:8px;
+        margin:8px 3px 0 0;
+        &:last-child{
+         margin-right:0;
+        }
         i.fonticon-15-circle-play{
-          margin: 0 5px 0 -6px;
+          margin: -5px 5px -5px -6px;
           font-size:1.8em;
           top:1px;
           position:relative;
-        }
-        &.video{
-          background:$buttonOrange;
-          &:hover{
-            background: $buttonOrangeHover;
-          };
-          &:active{
-            background: $buttonOrangeActive;
-          };
         }
       }
       .bq1>p{
@@ -314,6 +325,10 @@
     .submodule{
      width:980px;
      margin:0 auto;
+    }
+    .close-hide{
+      display: none !important;
+      visibility: hidden;
     }
     .inner .box i{
       line-height:1;

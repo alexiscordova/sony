@@ -5,7 +5,7 @@ layouts = locals.getConfigFile("packages/modules/gallery-g2-g3/html/layouts.json
 mixin loaderDiv()
   .relative.gallery-loader
     .loading.text-center
-      img(src="img/loader.gif", alt="Loading...")
+      img(class="global-loader", src="img/loader.gif", alt="Loading...")
 
 mixin filterColor( filterSet )
   ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
@@ -147,9 +147,15 @@ mixin galleryShareMenu( shareMenu )
         i.fonticon-10-sm-bold-plus
     +shareMenu( shareMenu.socialButtons, shareMenu.shortLink )
 
+mixin productCount( plural, singular, total )
+  div.pull-left.p3.product-count-wrap
+    strong.text-dark.product-count.js-product-count= total
+    span.js-product-str.product-str(data-plural=plural, data-singular=singular)= plural
+
 mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
-  productsStr = gallery.productsStr ? gallery.productsStr : 'Products'
+  pluralProducts = gallery.pluralProducts ? gallery.pluralProducts : 'Products'
+  singularProduct = gallery.singularProduct ? gallery.singularProduct : 'Product'
   compareBrowseLink = isCompareGallery ? gallery.browseLink : gallery.compareLink
   compareBrowseLink = compareBrowseLink ? compareBrowseLink : '#'
   wrapperClass = 'container filter-display-bar slide-toggle-parent'
@@ -166,9 +172,7 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
       div(class=gridClass)
 
         //- Product Count
-        div.pull-left.p3.product-count-wrap
-          strong.text-dark.product-count= gallery.total
-          | !{ productsStr }
+        +productCount( pluralProducts, singularProduct, gallery.total )
 
         //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
@@ -253,12 +257,28 @@ mixin sorter( sortSet, text )
 
 mixin zeroProductsMessage( gallery )
   if gallery.filterSet
-    .container.zero-products-message.hide
+    .container.js-zero-message.hidden
       .grid
         .t4
           strong.text-dark 0
           span.text-med-dark= ' ' + gallery.zeroProductsMessage
         button.btn.btn-small.js-clear-filters= gallery.startOver
+
+mixin zeroFavoritesMessage( gallery, isHidden )
+  title = gallery.nofavs && gallery.nofavs.title ? gallery.nofavs.title : 'gallery.nofavs.title'
+  message = gallery.nofavs && gallery.nofavs.message ? gallery.nofavs.message : 'gallery.nofavs.message'
+  classes = [ 'container', 'no-favs' ]
+
+  if isHidden
+    - classes.push( 'hidden', 'js-zero-message' )
+
+  section(class=classes)
+    .grid.text-center
+      h1.t4
+        strong= title
+      p.ilikeyou
+        i.fonticon-10-favorite
+      p.p3= message
 
 
 mixin featuredGallery( submodules, gallery, type )
@@ -336,19 +356,14 @@ mixin favoritesGallery( gallery )
               !{locals.partial( favorite.type, e )}
           +recommendedTile( gallery.recommended )
 
+      +zeroFavoritesMessage( gallery, true )
+
       if gallery.nextLink
         .navigation.invisible
           a(href=gallery.nextLink) Next set
         .infscr-holder.text-center
   else
-    section.container.no-favs
-      .grid.text-center
-        h1.t4
-          strong= gallery.nofavs.title
-        p.ilikeyou
-          i.fonticon-10-favorite
-        p.p3= gallery.nofavs.message
-
+    +zeroFavoritesMessage( gallery )
 
 
 mixin compareGallery( submodules, gallery, type, labels )
@@ -391,9 +406,9 @@ mixin compareGallery( submodules, gallery, type, labels )
     .relative
       .container.compare-wrap
         nav.compare-nav-container.pagination-paddles.show-paddles
-          button.pagination-paddle.outset.pagination-prev.on.compare-nav.compare-nav-prev
+          a.pagination-paddle.outset.pagination-prev.on.compare-nav.compare-nav-prev
             i.fonticon-10-chevron-reverse
-          button.pagination-paddle.outset.pagination-next.on.compare-nav.compare-nav-next
+          a.pagination-paddle.outset.pagination-next.on.compare-nav.compare-nav-next
             i.fonticon-10-chevron
         .products
           .span2.detail-labels-wrap
@@ -452,6 +467,9 @@ mixin accessoryFinder( submodules, finder, type, noButton )
   submodules = submodules ? submodules : data.submodules
   finder = finder ? finder : data.accessories.accessoryFinder
   type = type ? type : 'camera'
+  pluralProducts = finder.pluralProducts ? finder.pluralProducts : 'Products'
+  singularProduct = finder.singularProduct ? finder.singularProduct : 'Product'
+  total = finder.total ? finder.total : 0
 
   //- Add the modal trigger button if they don't say otherwise
   if !noButton
@@ -481,13 +499,12 @@ mixin accessoryFinder( submodules, finder, type, noButton )
           .modal-body.fade
             .modal-body-inner
               .grid.compat-filters.filter-display-bar
-                //- Sort options
-                +sorter( finder.sortSet, finder.sortText )
-
                 //- Product Count
-                span.p3.ib.product-count-wrap
-                  strong.text-dark.product-count= finder.total
-                  | !{ finder.productsStr }
+                +productCount( pluralProducts, singularProduct, total )
+
+                .pull-right
+                  //- Sort options
+                  +sorter( finder.sortSet, finder.sortText )
 
               .slimgrid.no-grid-at-567.products
                 each module in submodules
@@ -506,7 +523,7 @@ mixin productStrips( submodules, strips, type )
   section
     .container
       each strip in strips
-        .slimgrid5.m-grid-at-767.product-strip-wrap
+        .slimgrid5.m-grid-at-767.product-strip-wrap.js-product-strip
           .product-strip-header.clearfix
             h2.t6.product-strip-heading.pull-left= strip.title
             if strip.callout

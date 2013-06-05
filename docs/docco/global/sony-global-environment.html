@@ -24,8 +24,14 @@ define(<span class="function"><span class="keyword">function</span> <span class=
       self.normalizeLogs();
       self.appendModernizrTests();
       self.addDeviceClasses();
+      self.loadFonts();
 
       log(<span class="string">'SONY : Global : Environment : Initialized'</span>);
+    },
+
+    loadFonts: <span class="keyword">function</span>(){
+      <span class="keyword">var</span> protocol = (<span class="string">'https:'</span>==document.location.protocol?<span class="string">'https:'</span>:<span class="string">'http:'</span>);
+      $(<span class="string">'head'</span>).append(<span class="string">'&lt;link rel="stylesheet" href="'</span> + protocol + <span class="string">'//fast.fonts.com/t/1.css?apiType=css&amp;projectid=2f9c337f-0594-48e7-899e-7b595b9b9840"&gt;'</span>);
     },
 
     appendModernizrTests: <span class="keyword">function</span>() {
@@ -289,7 +295,7 @@ http://www.elektronotdienst-nuernberg.de/bugs/box-shadow_inset.html</p>         
         Settings.$html.removeClass(<span class="string">'no-generatedcontent'</span>).addClass(<span class="string">'generatedcontent'</span>);
       }
 
-      <span class="keyword">if</span> ( Settings.isLTIE8 ) {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>IE7 getting false positive</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.generatedcontent &amp;&amp; Settings.isLTIE8 ) {
         Modernizr.generatedcontent = <span class="literal">false</span>;
         Settings.$html.removeClass(<span class="string">'generatedcontent'</span>).addClass(<span class="string">'no-generatedcontent'</span>);
       }
@@ -322,7 +328,7 @@ http://www.elektronotdienst-nuernberg.de/bugs/box-shadow_inset.html</p>         
 
 });
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Need to find a better place for these to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Need to find a better place for these to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
 <span class="keyword">if</span> (!Array.prototype.indexOf) {
   Array.prototype.indexOf = <span class="keyword">function</span>(elt <span class="comment">/*, from*/</span>) {
 

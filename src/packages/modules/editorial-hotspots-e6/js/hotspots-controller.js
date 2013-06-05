@@ -100,6 +100,7 @@ define(function(require) {
     self.isModalOpen                     = true;
     self.hasTouch                        = Settings.hasTouchEvents;
     self.isChapter                       = (self.$container.closest('.editorial-chapters-container').length) ? true : false;
+    self.isSmallChapter                  = (self.$container.closest('.editorial').length) ? true : false;
 
     self.isDesktop = false;
     self.isMobile = false;
@@ -122,7 +123,7 @@ define(function(require) {
 */
             
       // detect what type of tracking we need to bind the instance to
-      var moduleHandle = self.$container.parent().find( '.image-module' );
+      var moduleHandle = self.$container.closest( '.image-module' );
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
         self.trackingMode   = 'background';
         self.trackingAsset  = moduleHandle;
@@ -132,7 +133,7 @@ define(function(require) {
         self.trackingAsset  = $( moduleHandle.children( '.iq-img' )[0] );
         self.variant        = 'variant2';
       }
-      
+
       self.id = self.trackingAsset.attr( 'id' );
 
       // IE7 zindex fix
@@ -152,8 +153,6 @@ define(function(require) {
           $top.prepend( $temp.remove() );
         }
       }
-
-
 
       // when the tracking item changes it's opacity, we trigger the initial flyon animation for the hotspot
       self.trackOpacity = function() {
@@ -360,6 +359,7 @@ define(function(require) {
 
               // compensate for centering in the parent node
               //if( $( window ).width() > 768 ) {
+
                 widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
                 heightOffset = parseInt( self.trackingAsset.parent().css( 'padding-top' ), 10 );
               //}
@@ -560,14 +560,14 @@ define(function(require) {
         side[0] = 4;
       }
 
-      console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', 
-                  '\n OFFSET HIGH -> ', topOffsetHigh, 
-                  '\n OFFSET LOW -> ', topOffsetLow,
-                  '\n hotspotPosition.top ->', hotspotPosition.top,
-                  '\n parentHeight ->', parentHeight,
-                  '\n overlayHeight ->', overlayHeight,
-                  '\n CRAZY MATH =>', ((hotspotPosition.top - parentHeight) + overlayHeight)
-                 ); 
+      //console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', 
+                  //'\n OFFSET HIGH -> ', topOffsetHigh, 
+                  //'\n OFFSET LOW -> ', topOffsetLow,
+                  //'\n hotspotPosition.top ->', hotspotPosition.top,
+                  //'\n parentHeight ->', parentHeight,
+                  //'\n overlayHeight ->', overlayHeight,
+                  //'\n CRAZY MATH =>', ((hotspotPosition.top - parentHeight) + overlayHeight)
+                 //); 
 
       // what vertical half are we in?
       if( hotspotPosition.top < ( parentHeight / 2 ) ) {
@@ -604,7 +604,7 @@ define(function(require) {
           $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           // NOTE:
           // If we are running inside a chapter module we need to caclulate different top values
-          if( self.isChapter ) {
+          if( self.isChapter && self.isSmallChapter ) {
             if (quadrant === 1) {
               // also check if it fits within the parentHeight 
               (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
@@ -630,7 +630,7 @@ define(function(require) {
 
           // NOTE:
           // If we are running inside a chapter module we need to caclulate different top values
-          if ( self.isChapter ) {
+          if ( self.isChapter && self.isSmallChapter) {
             if (quadrant === 2) {
               (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ) )+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
             } else {
@@ -647,7 +647,7 @@ define(function(require) {
         break;
       }
 
-      console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', $parentContainer.get(0), $overlay.get(0)); 
+      //console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', $parentContainer.get(0), $overlay.get(0)); 
     },
 
     // determines if the overlay fits within the parent or does not
@@ -669,7 +669,7 @@ define(function(require) {
       }
 
       if ( overlayHeight >= parentHeight ) {
-        console.warn('[[HOTSPOT CONTROLLER -- overlay doesnt fit]]');
+        //console.warn('[[HOTSPOT CONTROLLER -- overlay doesnt fit]]');
         // if it doesnt fit check if we can make it any shorter? 
         switch(round) {
           case 0:
@@ -678,7 +678,6 @@ define(function(require) {
             }
           break;
           case 1:
-            debugger;
             if (overlayEl.hasClass('variant2')) { 
               overlayEl.find('.footer.is-default-on').hide();
             }
@@ -686,7 +685,7 @@ define(function(require) {
         }
         return false;
       } else {
-        console.log('[[HOTSPOT CONTROLLER -- overlay fits]]');
+        //console.log('[[HOTSPOT CONTROLLER -- overlay fits]]');
         return true;
       }
     },
@@ -767,7 +766,7 @@ define(function(require) {
         self.cleanTimer();
       }
 
-      console.log('[[HOTSPOTS CONTROLLER -- open]]');
+      //console.log('[[HOTSPOTS CONTROLLER -- open]]');
       // save last open state
       self.$lastOpen = new Array( container, hotspot, info );
 
@@ -851,17 +850,18 @@ define(function(require) {
     var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
       var self = $(this),
-        hotspotsController = self.data('hotspotsController');
-        // If we don't have a stored tertiaryModule, make a new one and save it
-        if ( !hotspotsController ) {
-            hotspotsController = new HotspotsController( self, options );
-            self.data( 'hotspotsController', hotspotsController );
-        }
+      hotspotsController = self.data('hotspotsController');
 
-        if ( typeof options === 'string' ) {
-          hotspotsController[ options ].apply( hotspotsController, args );
-        }
-      });
+      // If we don't have a stored tertiaryModule, make a new one and save it
+      if ( !hotspotsController ) {
+        hotspotsController = new HotspotsController( self, options );
+        self.data( 'hotspotsController', hotspotsController );
+      }
+
+      if ( typeof options === 'string' ) {
+        hotspotsController[ options ].apply( hotspotsController, args );
+      }
+    });
   };
 
   // Defaults options for the module

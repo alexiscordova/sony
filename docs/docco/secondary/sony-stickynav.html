@@ -118,10 +118,10 @@ define(<span class="keyword">function</span>(require){
       self.isTicking = <span class="literal">true</span>;
       self.lastScrollY = self.$window.scrollTop();
 
-      <span class="keyword">if</span> ( !Modernizr.raf ) {
-        update();
+      <span class="keyword">if</span> ( Modernizr.raf ) {
+        requestAnimationFrame( update );
       } <span class="keyword">else</span> {
-        window.requestAnimationFrame( update );
+        update();
       }
 
     },
@@ -160,22 +160,29 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
       $offsetTarget, triggerPoint;
 
-      $offsetTarget = self.offsetTarget.jquery ? self.offsetTarget : $( self.offsetTarget );
-      triggerPoint = $.isNumeric( self.offsetTarget ) ? self.offsetTarget : $offsetTarget.offset().top;
+      <span class="keyword">if</span> ( $.isFunction( self.offsetTarget ) ) {
+        triggerPoint = self.offsetTarget();
 
+      } <span class="keyword">else</span> <span class="keyword">if</span> ( $.isNumeric( self.offsetTarget ) ) {
+        triggerPoint = self.offsetTarget;
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Get the trigger point for when the nav should <code>open</code></p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( triggerPoint &lt; <span class="number">100</span> ) {
-        setTimeout(<span class="keyword">function</span>() {
-          <span class="keyword">var</span> triggerPoint = $offsetTarget[<span class="number">0</span>].offsetTop;
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>If we still don't have a high enough value, use the default</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( triggerPoint &lt; <span class="number">100</span> ) {
-            triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
-          }
-          self.setTriggerOffset( triggerPoint );
-
-
-        }, <span class="number">50</span>);
+      } <span class="keyword">else</span> {
+        $offsetTarget = self.offsetTarget.jquery ? self.offsetTarget : $( self.offsetTarget );
+        triggerPoint = $offsetTarget.offset().top;
       }
 
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Get the trigger point for when the nav should <code>open</code>
+if ( triggerPoint &lt; 100 ) {
+  setTimeout(function() {
+    var triggerPoint = $offsetTarget[0].offsetTop;
+    // If we still don't have a high enough value, use the default
+    if ( triggerPoint &lt; 100 ) {
+      triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
+    }
+    self.setTriggerOffset( triggerPoint );</p>             </td>             <td class="code">               <div class="highlight"><pre>
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>}, 50);
+}</p>             </td>             <td class="code">               <div class="highlight"><pre>
       self.setTriggerOffset( triggerPoint );
 
       <span class="keyword">return</span> self;

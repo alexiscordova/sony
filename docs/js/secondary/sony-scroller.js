@@ -17,6 +17,7 @@ define(function(require){
 
   var $ = require('jquery'),
       Settings = require('require/index').Settings,
+      Utilities = require('require/index').Utilities,
       iScroll = require('plugins/sony-iscroll');
 
   var ScrollerModule = function( $element, options ) {
@@ -251,7 +252,10 @@ define(function(require){
     },
 
     _setupPaddles : function() {
-      var self = this;
+      var self = this,
+          className = self.$el[0].className;
+
+      self.cssClassName = className ? '.' + className.split(' ').join('.') : undefined;
 
       // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
       if ( self.nextSelector ) {
@@ -374,6 +378,8 @@ define(function(require){
         } else {
           self.$navNext.removeClass( theClass );
         }
+
+        Utilities.forceFontIconRedraw( self.cssClassName );
       }
     },
 
@@ -510,7 +516,7 @@ define(function(require){
         // We added a paddle trigger class to one of the parents, lets find the parent and remove it.
         if ( self.addPaddleTrigger ) {
           // $().closest search the current element and then up the tree until it finds the selector
-          self.$el.closest( self.paddleTrigger ).removeClass( self.paddleTrigger);
+          self.$el.closest( self.paddleTrigger ).removeClass( self.paddleTrigger );
         }
       }
 
@@ -613,7 +619,7 @@ define(function(require){
     paginationClass: 'pagination-bullet',
     paddleTrigger:  'paddle-trigger',
     resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize',
-    navTemplate: '<nav class="nav-paddles"><a href="#" class="nav-paddle nav-paddle-prev"><i class="fonticon-10-chevron-reverse"></i></a><a href="#" class="nav-paddle nav-paddle-next"><i class="fonticon-10-chevron"></i></a></nav>'
+    navTemplate: '<nav class="nav-paddles"><a href="#" class="nav-paddle nav-paddle-prev no-hover-transition"><i class="fonticon-10-chevron-reverse"></i></a><a href="#" class="nav-paddle nav-paddle-next no-hover-transition"><i class="fonticon-10-chevron"></i></a></nav>'
   };
 
 });

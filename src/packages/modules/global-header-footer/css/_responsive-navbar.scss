@@ -140,8 +140,6 @@
 
 
 
-
-
 // ------------------------------------------------
 // LARGE DESKTOP
 // ------------------------------------------------
@@ -339,7 +337,9 @@
 .navmenu-w {
   top: $navbarHeightShort;
 }
-.navtray-w-visible {
+.navtray-w-visible,
+.navtray-w-tall.navtray-w-visible,
+.navtray-w-short.navtray-w-visible{
   top: $navbarHeightShort;
 }
 .nav-primary {
@@ -479,7 +479,6 @@
     left: 25px;
   }
 }
-
 
 
 .navtray-section-featured { // section right
@@ -761,7 +760,7 @@
     text-transform:uppercase;
     font-size:$font_12_16;
     @include fontBold;
-    margin: 4px 0 0 17px;
+    margin: 4px 0 15px 17px;
   }
 }
 

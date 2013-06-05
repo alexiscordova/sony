@@ -151,7 +151,13 @@ $gifHeight: 60px;
 }
 
 .gallery-favorites {
+  position: relative;
+  z-index: 1;
 
+  // Slide up
+  .shuffle.no-height {
+    height: 0 !important; // override inline style set by shuffle
+  }
 }
 
 // Recommended Tile
@@ -312,6 +318,14 @@ $gifHeight: 60px;
     padding-right: px-em(2, 13);
   }
 
+  // Text should be allowed to overflow, but having a width
+  // keeps the filter button from jumping back and forth when the
+  // product string changes length
+  .product-str {
+    display: inline-block;
+    width: 54px; // magic number
+  }
+
   // Move the first element with a button class over
   .grid > .btn.first {
     margin-left: 2.5em;
@@ -362,11 +376,11 @@ $gifHeight: 60px;
   padding-bottom: 1em;
 }
 
-.gallery .sort-options {
+.gallery-content .sort-options {
   margin-left: px-em( 14 );
 }
 
-.gallery .sort-options .filter-label {
+.gallery-content .sort-options .filter-label {
   margin: -8px 0 0;
 }
 
@@ -473,7 +487,7 @@ $gifHeight: 60px;
     margin-bottom: 20px;
   }
 
-  // Fix webkit flicker bug
+  // Fix webkit flicker bug: promote buttons to their own layer
   .btn-square {
     @include translate3d(0,0,0);
   }
@@ -738,7 +752,6 @@ $gifHeight: 60px;
 
 $compareBorder: .0625em solid $gray70;
 .gallery-compare {
-  overflow: hidden;
 
   .detail-label-group,
   .detail-group {
@@ -748,9 +761,10 @@ $compareBorder: .0625em solid $gray70;
   .detail-labels-wrap {
     border-right: $compareBorder;
 
+    // IE8 transparent not working
     &:before {
       width: 100%;
-      background-color: transparent;
+      background-color: $white;
     }
   }
 
@@ -762,6 +776,12 @@ $compareBorder: .0625em solid $gray70;
   .detail-label {
     padding: 1.125em 1em 0 0;
   }
+}
+
+// Default paddles set this top position:absolute; and top:50%;
+.compare-nav-container {
+  position: static;
+  top: auto;
 }
 
 // Holds labels and compare-items
@@ -911,7 +931,7 @@ $stickyHeaderHeight: px-em(82);
     &:before {
       background: $white;
       width: 3000px;
-      right: 1px;
+      right: 0;
       @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
     }
 
@@ -921,7 +941,7 @@ $stickyHeaderHeight: px-em(82);
       top: 0;
       height: px-em(106);
       background: $white;
-      @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
+      @include box-shadow(0 px-em(2) px-em(4) 0 $stickyShadowColor);
     }
 
     // Gray bar on the right side of the container
@@ -1046,6 +1066,7 @@ $stickyHeaderHeight: px-em(82);
   .modal-body {
     position: relative;
     padding: 0;
+    height: 100%;
 
     .lt-ie9 & {
       background: white;
@@ -1060,11 +1081,6 @@ $stickyHeaderHeight: px-em(82);
   .compat-filters {
     position: relative;
     z-index: 2;
-  }
-
-  .product-count-wrap {
-    float: left;
-    margin-top: px-em(11);
   }
 
   .products {
@@ -1101,6 +1117,18 @@ $stickyHeaderHeight: px-em(82);
       @include borderBox();
 
       color: $gray20;
+
+      &::-webkit-input-placeholder {
+       text-overflow: ellipsis !important; // need to override inline style of "clip"
+      }
+
+      &::-moz-placeholder {
+       text-overflow: ellipsis !important; // need to override inline style of "clip"
+      }
+
+      &:-ms-input-placeholder {
+       text-overflow: ellipsis !important; // need to override inline style of "clip"
+      }
 
       .lt-ie9 & {
         padding-top: 10px;

@@ -15,6 +15,10 @@
   @include opacity(0);
   @include transition();
 
+  &.active {
+    @include opacity(100);
+  }
+
   .lt-ie10 & {
     min-width: px-em( 1200px );
     min-height: px-em( 720px );
@@ -50,8 +54,6 @@
     width: 1000em; // This will get set dynamically based on the number of slides
     max-height: px-em( 720px );
     -webkit-backface-visibility: hidden;
-    -webkit-transition: -webkit-transform .2s ease-out;
-            transition: transform .2s ease-out;
   }
 
   // These will get set dynamically based on number of slides
@@ -66,7 +68,7 @@
 
   .pdp-slideshow-slide .pdp-slide-inner {
     height: inherit;
-    width: 100%; // display:table doesn't take up 100% by default
+    width: 100%;
   }
 
   // Type 1 images are product shots which are not full bleed
@@ -78,6 +80,7 @@
     img {
       -webkit-backface-visibility: hidden;
     }
+
   }
 
   // Scale instead of crop the product shots
@@ -90,7 +93,16 @@
     width: 100%;
     max-width: none;
     max-height: none;
+
+
   }
+
+  .pdp-slideshow-slide.type2 .flowplayer {
+    max-width: 704px;
+  }
+
+
+
 
   // Full browser width, crop the height
   .pdp-slideshow-slide.type2 img {

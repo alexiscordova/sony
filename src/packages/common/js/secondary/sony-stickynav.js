@@ -126,10 +126,10 @@ define(function(require){
       self.isTicking = true;
       self.lastScrollY = self.$window.scrollTop();
 
-      if ( !Modernizr.raf ) {
-        update();
+      if ( Modernizr.raf ) {
+        requestAnimationFrame( update );
       } else {
-        window.requestAnimationFrame( update );
+        update();
       }
 
     },
@@ -170,23 +170,30 @@ define(function(require){
       var self = this,
       $offsetTarget, triggerPoint;
 
-      $offsetTarget = self.offsetTarget.jquery ? self.offsetTarget : $( self.offsetTarget );
-      triggerPoint = $.isNumeric( self.offsetTarget ) ? self.offsetTarget : $offsetTarget.offset().top;
+      if ( $.isFunction( self.offsetTarget ) ) {
+        triggerPoint = self.offsetTarget();
 
+      } else if ( $.isNumeric( self.offsetTarget ) ) {
+        triggerPoint = self.offsetTarget;
+
+      } else {
+        $offsetTarget = self.offsetTarget.jquery ? self.offsetTarget : $( self.offsetTarget );
+        triggerPoint = $offsetTarget.offset().top;
+      }
 
       // Get the trigger point for when the nav should `open`
-      if ( triggerPoint < 100 ) {
-        setTimeout(function() {
-          var triggerPoint = $offsetTarget[0].offsetTop;
-          // If we still don't have a high enough value, use the default
-          if ( triggerPoint < 100 ) {
-            triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
-          }
-          self.setTriggerOffset( triggerPoint );
+      // if ( triggerPoint < 100 ) {
+      //   setTimeout(function() {
+      //     var triggerPoint = $offsetTarget[0].offsetTop;
+      //     // If we still don't have a high enough value, use the default
+      //     if ( triggerPoint < 100 ) {
+      //       triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
+      //     }
+      //     self.setTriggerOffset( triggerPoint );
 
 
-        }, 50);
-      }
+      //   }, 50);
+      // }
 
       self.setTriggerOffset( triggerPoint );
 
