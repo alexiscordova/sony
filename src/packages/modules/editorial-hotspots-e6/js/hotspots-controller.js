@@ -256,6 +256,11 @@ define(function(require) {
       // finally, seed the hotspot to fly on 1/2 second after set conditions are met
       setTimeout(triggerInitialPosition, 500);
 
+      self.$window.on('e5-slide-change', function(){
+        log('SONY : Editorial Hotspots : E5 Slide Update');
+        Settings.isLTIE9 ? self.reset() : ''; 
+      });
+      
       log('SONY : Editorial Hotspots : Initialized');
     },
 
@@ -604,7 +609,7 @@ define(function(require) {
           $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           // NOTE:
           // If we are running inside a chapter module we need to caclulate different top values
-          if( self.isChapter && self.isSmallChapter && !Settings.isLTIE9) {
+          if( self.isChapter && self.isSmallChapter ) {
             if (quadrant === 1) {
               // also check if it fits within the parentHeight 
               (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
@@ -630,7 +635,7 @@ define(function(require) {
 
           // NOTE:
           // If we are running inside a chapter module we need to caclulate different top values
-          if ( self.isChapter && self.isSmallChapter && !Settings.isLTIE9) {
+          if ( self.isChapter && self.isSmallChapter ) {
             if (quadrant === 2) {
               (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ) )+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
             } else {
@@ -828,6 +833,8 @@ define(function(require) {
 
     reset: function( container ) {
       var self = this;
+      if ( !self.$lastOpen ) { return; }
+
       self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
     },
 

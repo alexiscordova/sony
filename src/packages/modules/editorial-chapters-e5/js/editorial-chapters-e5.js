@@ -403,6 +403,7 @@ define(function(require){
 
         // also we can run positinoning after the CSS transitions are done
 
+        self.$window.trigger('e5-slide-change');
         iQ.update();
       },
 
