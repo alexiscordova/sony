@@ -70,7 +70,15 @@
        display: inline-block;
        height: 0.8em;
        font-size: 0.8em;
+       opacity:1.0;
+       @include transition(opacity .75s $easeNormal);
      }
+
+     a:hover{
+      @include transition(opacity .75s $easeNormal);
+      opacity:0.8;
+     }
+
 
      [class*="fonticon-"]{
       line-height: 1em;
@@ -213,7 +221,7 @@
    }
 
    .progress-indicators {
-      //border:1px solid white;
+      // border:1px solid white;
       position: absolute;
       right: 2.5%;
       bottom: 0;
@@ -223,47 +231,66 @@
       opacity:1;
       @include transition(opacity 1s $easeNormal);
 
-     // &.on{
-     //  opacity: 1;
-     //  @include transition(opacity 1s $easeNormal);
-     // }
-
      > div {
-      //border:1px solid white;
+      // border:1px solid white;
       display: table-cell;
       vertical-align: middle;
      }
 
      $dialSize: 24px;
      .uxmc-dial-wrapper {
-        //border:1px solid white;
+        // border:1px solid blue;
         position: relative;
         width: $dialSize;
         height: $dialSize;
         margin: 8px 0;
 
-       &:hover{
-        cursor: pointer;
-       }
+         &:hover{
+          cursor: pointer;
+         } // hover
+
+        .uxmc-dial-label {
+          // border:1px solid blue;
+          position: absolute;
+          width: 100%;
+          height: $dialSize;
+          line-height: $dialSize;
+          vertical-align: middle;
+          z-index: 4;
+          color: $white;
+          cursor: pointer;
+          font-size: 0.75em;
+          text-align: center;
+          opacity:0.65;
+          -webkit-backface-visibility: hidden;
+          @include transition(opacity $transitionFast $easeNormal);
+
+          &.active{
+            // border:1px solid green;
+            opacity:1;
+            -webkit-backface-visibility: hidden;
+            @include transition(opacity $transitionFast $easeNormal);
+          } // active
+
+        } // uxmc dial label
 
        &.active{
          opacity:1;
          -webkit-backface-visibility: hidden;
          @include transition(opacity $transitionFast $easeNormal);
-       }
+       } // active
 
        input {
          display: none;
-       }
-     }
-   }
+       } // input
+     }  // uxmc dial wrapper
+   } // progress indicators
  } // uxmc-container
 
  .no-backgroundsize {
 
    .uxmc-image-wrapper {
      display: table-cell;
-     //background-image: none !important;
      vertical-align: middle;
 
      span {
@@ -282,7 +309,6 @@
    .uxmc-container {
 
      .progress-indicators {
-
        .uxmc-dial-label {
          &.active {
            background: $white;

@@ -22,7 +22,9 @@ desired mobile equivalents (as the matching values). Assigned to relevant
 elements by <code>setupAlternateSizes</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>
   <span class="keyword">var</span> mobileSizeAlternates = {
     <span class="string">'align-left-center'</span>: <span class="string">'align-left-bottom'</span>,
+    <span class="string">'align-right-top'</span>: <span class="string">'align-left-top'</span>,
     <span class="string">'align-right-center'</span>: <span class="string">'align-left-bottom'</span>,
+    <span class="string">'align-right-bottom'</span>: <span class="string">'align-left-bottom'</span>,
     <span class="string">'align-center-center'</span>: <span class="string">'align-left-top'</span>
   };
 
@@ -66,7 +68,11 @@ in iQ that will probably require a thorough refactor of that class.</p>         
         self.renderDesktop();
         self.assignDefaultLayouts();
       });
-      enquire.register(<span class="string">"(max-width: 767px)"</span>, <span class="keyword">function</span>() {
+        enquire.register(<span class="string">"(min-width: 481px) and (max-width: 767px)"</span>, <span class="keyword">function</span>() {
+        self.renderEvenColumns(<span class="number">12</span>);
+        self.assignDefaultLayouts();
+      });
+      enquire.register(<span class="string">"(max-width: 480px)"</span>, <span class="keyword">function</span>() {
         self.renderEvenColumns(<span class="number">12</span>);
         self.assignMobileLayouts();
       });

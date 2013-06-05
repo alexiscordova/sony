@@ -31,18 +31,6 @@ define(<span class="function"><span class="keyword">function</span> <span class=
 
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Because iQ is super-global, we need to leave this in the global area.
-We should refactor iQ to be more modular / event-driven.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-  window.iQ = {
-    options: {
-      speedTestExpireMinutes: <span class="number">30</span>,
-      asyncDistance: <span class="number">600</span>, <span class="comment">// needs to be at least 600 for the nav images to load, since they're off the top of the viewport when iQ loads.</span>
-      throttleSpeed: <span class="number">300</span>,
-      updateOnResize: <span class="literal">true</span>,
-      speedTestUri: <span class="string">'img/speedtest.jpg'</span>
-    }
-  };
-
   self.init();
 
   <span class="keyword">return</span> self;
