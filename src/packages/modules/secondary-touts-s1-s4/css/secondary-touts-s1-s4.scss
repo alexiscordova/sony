@@ -16,9 +16,9 @@
       }
 
       //tablets
-      @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-        max-width: 60%;
-        width: 60%;
+      @media( min-width:px-em(481px) ) and ( max-width:px-em(979px) ){
+        max-width: 350px;
+        width: percentage($baseWidth / 740px);
         min-width: percentage(400px / 3532px);
       }
 
@@ -244,12 +244,12 @@
         }
 
         &.content-8 {
-          right: 6.2%;
+          right: 3.6%;
 
-          @include onesonyTypeBlockWidths(300px, 8);
+          @include onesonyTypeBlockWidths(280px, 8);
 
           &[class*="copy"] {
-            @include onesonyTypeBlockWidths(350px, 8);
+            @include onesonyTypeBlockWidths(330px, 8);
           }
         }
 
@@ -648,15 +648,30 @@
             /____/_/                      /____/          /____/
       */
 
+      // This is an exception override that supercedes any other styles,
+      // So !important is *technically* acceptable, if hacky.
+      // Ideally I'd refactor this whole file to remove the need, but
+      // This is the best way to address at the moment.
+
       &.light-text-dark-panel,
       &.dark-text-light-panel {
-        bottom: 0;
-        left: 0;
-        width: 100%;
+        width: 100% !important;
+        max-width: none !important;
+        left: 0 !important;
+        bottom: 0 !important;
         padding: 8% 12%;
 
         &.has-eyebrow {
           padding-top: 6%;
+        }
+
+        .headline {
+          margin: 0;
+          clear: both;
+        }
+
+        .eyebrow {
+          float: left;
         }
       }
 
@@ -788,7 +803,7 @@
         }
 
         &.content-8 {
-          @include onesonyTypeBlockWidths(400px, 8);
+          @include onesonyTypeBlockWidths(330px, 8);
         }
 
         &.content-6 {
@@ -869,12 +884,12 @@
 
         &.content-8 {
           left: auto;
-          right: 6.2%;
+          right: 3.6%;
 
-          @include onesonyTypeBlockWidths(300px, 8);
+          @include onesonyTypeBlockWidths(280px, 8);
 
           &[class*="copy"] {
-            @include onesonyTypeBlockWidths(350px, 8);
+            @include onesonyTypeBlockWidths(330px, 8);
           }
 
           //phones

@@ -153,6 +153,11 @@ $gifHeight: 60px;
 .gallery-favorites {
   position: relative;
   z-index: 1;
+
+  // Slide up
+  .shuffle.no-height {
+    height: 0 !important; // override inline style set by shuffle
+  }
 }
 
 // Recommended Tile
@@ -926,7 +931,7 @@ $stickyHeaderHeight: px-em(82);
     &:before {
       background: $white;
       width: 3000px;
-      right: 1px;
+      right: 0;
       @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
     }
 
@@ -936,7 +941,7 @@ $stickyHeaderHeight: px-em(82);
       top: 0;
       height: px-em(106);
       background: $white;
-      @include box-shadow(0 px-em(2) px-em(5) 0 $stickyShadowColor);
+      @include box-shadow(0 px-em(2) px-em(4) 0 $stickyShadowColor);
     }
 
     // Gray bar on the right side of the container

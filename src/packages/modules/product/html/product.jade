@@ -77,9 +77,12 @@ mixin heart
   span(class=heartClass, data-default-title=inactiveTitle, data-default-clicked-title=inactiveClickedTitle, data-favorited-title=favoritedTitle, data-favorited-clicked-title=favoritedClickedTitle)
     i.fonticon-10-favorite
 
-mixin productRating( rating, reviews, reviewsText )
+mixin productRating( rating, reviews, reviewsText, reviewsLink )
   //- Default to ' user reviews'
   - if ( !reviewsText && reviewsText != '' ) reviewsText = ' user reviews'
+
+  //- Default to false
+  hasReviewLink = reviewsLink != null
 
   prefix = ' ('
   suffix = ')'
@@ -102,8 +105,13 @@ mixin productRating( rating, reviews, reviewsText )
       i.fonticon-10-star-half
     span.lt4.reviews-text
       | !{ prefix }
-      span(itemprop="ratingCount")= reviews
-      span.review-text= reviewsText
+      if hasReviewLink
+        a(href=reviewsLink)
+          span(itemprop="ratingCount")= reviews
+          span.review-text= reviewsText
+      else
+        span(itemprop="ratingCount")= reviews
+        span.review-text= reviewsText
       | !{ suffix }
     meta(itemprop="ratingValue", content=rating)
 
@@ -447,8 +455,8 @@ else if data.view == 'specs'
 
     .spec-column-header.table-center-wrap
       .table-center
-        .product-name.t6-light(itemprop="name")= data.name
-        .product-model.t6
+        .product-name.p2(itemprop="name")= data.name
+        .product-model.p1-bold
           strong(itemprop="model")= data.model
 
     each spec, i in data.specs
@@ -733,7 +741,7 @@ else if data.view == 'summary'
           span(itemprop="model")= data.model
         +iQImage( data.img, 'm-product-img pull-right', 'image' )
 
-        +productRating( data.rating.stars, data.rating.reviews )
+        +productRating( data.rating.stars, data.rating.reviews, undefined, data.reviewsLink )
 
         if hasAttributeList || hasSwatches
           .inline-details.clearfix
