@@ -978,6 +978,10 @@ define(function(require) {
 
           self.isDesktopMode = true;
 
+          self.sliderOverflow.css('overflow' , 'hidden');
+
+          self.$el.parents('.rp-section').css('overflow' , '');
+
           self.$el.removeClass('rp-tablet rp-mobile')
             .addClass('rp-desktop');
 
@@ -1031,6 +1035,10 @@ define(function(require) {
 
           self.$el.removeClass('rp-desktop rp-mobile')
             .addClass('rp-tablet');
+        
+          self.sliderOverflow.css('overflow' , 'hidden');
+
+          self.$el.parents('.rp-section').css('overflow' , '');
 
           if (self.scrollerModule !== null) {
             self.scrollerModule.destroy();
@@ -1642,6 +1650,10 @@ define(function(require) {
 
         self.$container.css('width', '');
         self.$container.append(self.$slides);
+
+        if(self.$slides.length > 1){
+
+        }
         self.$container.on(self.downEvent, function(e) {
           self.onDragStart(e);
         });
@@ -1952,7 +1964,8 @@ define(function(require) {
           self.scrollerModule = null;
         }
 
-        self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
+
+        self.scrollerModule = self.sliderOverflow.scrollerModule({
           contentSelector: '.rp-container',
           itemElementSelector: '.gallery-item',
           mode: 'free',
@@ -1974,6 +1987,9 @@ define(function(require) {
           }
 
         }).data('scrollerModule');
+        self.sliderOverflow.css('overflow' , 'visible');
+
+        self.$el.parents('.rp-section').css('overflow' , 'hidden');
 
         self.$galleryItems.find('.product-name').evenHeights();
         self.$el.find('.gallery-item.medium').css('height', '');
