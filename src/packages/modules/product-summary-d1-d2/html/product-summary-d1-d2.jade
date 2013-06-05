@@ -34,9 +34,9 @@ include ../../../common/html/jade-helpers.jade
 
 
   section.sticky-nav.ps-sticky-nav
-    .container
+    .container.m-full-bleed
       .grid.m-grid-at-767
-        .span7.m-span5
+        .span7.m-span4
           .pull-left.product-img.space-right
             +iQImage( productData.imgSmall )
           .pull-left
@@ -50,10 +50,12 @@ include ../../../common/html/jade-helpers.jade
         .span3#desktop-sticky-price
           .text-right.price-text
             p.p4.price-prefix= data.startingAtText
+            span.space !{ ' ' }
             span.p5.msrp= data.msrp
             span.p1.price
               strong.text-dark !{ data.priceUnit + productData.price }
+              span.space !{ ' ' }
 
-        .span2.m-span1.buy-btn
-          a.btn.btn-block.pull-right(href=productData.storeLink)= buyText
+        .span2.m-span2.buy-btn
+          a.btn.pull-right(href=productData.storeLink)= buyText
 
