@@ -604,7 +604,7 @@ define(function(require) {
           $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           // NOTE:
           // If we are running inside a chapter module we need to caclulate different top values
-          if( self.isChapter && self.isSmallChapter ) {
+          if( self.isChapter && self.isSmallChapter && !Settings.isLTIE9) {
             if (quadrant === 1) {
               // also check if it fits within the parentHeight 
               (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
@@ -630,7 +630,7 @@ define(function(require) {
 
           // NOTE:
           // If we are running inside a chapter module we need to caclulate different top values
-          if ( self.isChapter && self.isSmallChapter) {
+          if ( self.isChapter && self.isSmallChapter && !Settings.isLTIE9) {
             if (quadrant === 2) {
               (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ) )+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
             } else {
