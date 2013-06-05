@@ -68,7 +68,6 @@ define(function(require) {
     // higher will increase the delay before the first possible "over" call,
     // but also increases the time to the next point of comparison.
     self.openDelay = 30;
-    // self.openTimer = false;
 
     // Get the right prefixed names e.g. WebkitTransitionDuration
     self.tapOrClick = self.hasTouch ? 'touchstart' : 'click';
@@ -460,36 +459,28 @@ define(function(require) {
 
       // In a timeout so that the mouse enter for the target
       // is called before this function
-      setTimeout(function checkItOut() {
-        var isTargetHovered = $target.data('hovering');
-        // console.log('isTargetHovered:', isTargetHovered);
-        // If the mouse didn't go to the tray that opened, close it
-        if ( !isTargetHovered ) {
-          self.resetActiveNavBtn( $navBtn );
-        }
-      }, 50);
+      self.maybeResetActiveNavBtn( $navBtn, $target );
     },
 
     onNavBtnTargetMouseEnter : function( e ) {
       // console.log("onNavBtnTargetMouseEnter: ", e.target);
-      var self = this,
-          $navBtn = $( e.delegateTarget );
+      var $target = $( e.delegateTarget );
 
-      $navBtn.data('hovering', true);
-      // console.log('target enter, reset timer');
-      self.resetMouseleaveTimer();
+      $target.data('hovering', true);
+      // console.log('%c' + $target[0].id + ' [ENTER]', 'color:blue;');
+      // console.log($target[0].id + ' [ENTER]');
+      // self.clearMouseleaveTimer();
+      // $( e.delegateTarget ).data( 'hovering', true );
     },
 
     onNavBtnTargetMouseLeave : function( e ) {
       // console.log("onNavBtnTargetMouseLeave: ", e.target);
       var self = this,
-          // $navBtn = e.data.$thNavBtn,
-          $target = $( e.delegateTarget ),
-          $navBtn = $target.data('$navBtn'),
-          isNavBtnHovered = $navBtn.data('hovering'),
-          timeout;
+          $target = $( e.delegateTarget );
 
       $target.data('hovering', false);
+      // console.log('%c' + $target[0].id + ' [LEAVE]', 'color:blue;');
+      // console.log($target[0].id + ' [LEAVE]');
 
       // Remove focus from search input on mouse out in ie
       if (Settings.isLTIE10) {
@@ -499,18 +490,8 @@ define(function(require) {
         $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible');
       }
 
-      timeout = self.closeDelay;
-
-      // The search menu gets a longer timeout.
-      if (this.id === 'navmenu-w-search') {
-        timeout = self.closeDelaySearch;
-      }
-
       // Close this tray/menu if its nav button isn't hovered
-      if ( !isNavBtnHovered ) {
-        // console.log('nav button is not hovered, expire timer and close tray/menu');
-        self.mouseTimerExpired( $navBtn );
-      }
+      self.maybeResetActiveNavBtn( $target.data('$navBtn'), $target );
     },
 
     resetActiveNavMenu : function() {
@@ -608,36 +589,46 @@ define(function(require) {
     },
 
 
-    startMouseleaveTimer : function( $navBtn ) {
-      var self = this,
-        delay = self.closeDelay + 25;
+    // startMouseleaveTimer : function( $navBtn ) {
+    //   var self = this,
+    //     delay = self.closeDelay + 25;
 
-      // Clear the current timer if it exists
-      // console.log('start timer (reset it first)');
-      self.resetMouseleaveTimer();
+    //   // Clear the current timer if it exists
+    //   self.clearMouseleaveTimer();
 
-      // console.log('TIMER +++ SET');
-      // If this timer expires, the current nav button and tray/menu will be reset
-      self.closeTimer = setTimeout(function closeTimer() {
-        self.mouseTimerExpired( $navBtn );
-      }, delay);
-    },
-    resetMouseleaveTimer : function() {
-      if ( this.closeTimer ) {
-        clearTimeout( this.closeTimer );
-        // console.groupCollapsed('TIMER +++ CLEARED');
-        // console.trace();
-        // console.groupEnd();
-      }
-    },
-    // Reset nav button and tray/menu
-    mouseTimerExpired : function( $navBtn ) {
+    //   // If this timer expires, the current nav button and tray/menu will be reset
+    //   self.closeTimer = setTimeout(function closeTimer() {
+    //     self.mouseTimerExpired( $navBtn );
+    //   }, delay);
+    // },
+    // clearMouseleaveTimer : function() {
+    //   if ( this.closeTimer ) {
+    //     clearTimeout( this.closeTimer );
+    //   }
+    // },
+    // // Reset nav button and tray/menu
+    // mouseTimerExpired : function( $navBtn ) {
+    //   var self = this;
+
+    //   self.resetActiveNavBtn( $navBtn );
+    //   // self.clearMouseleaveTimer();
+    //   self.$currentOpenNavBtn = false;
+    // },
+
+    // If the mouse didn't go to the tray that opened, close it
+    maybeResetActiveNavBtn : function( $navBtn, $target ) {
       var self = this;
 
-      // console.log('TIMER +++ EXPIRED');
-      self.resetActiveNavBtn( $navBtn );
-      self.resetMouseleaveTimer();
-      self.$currentOpenNavBtn = false;
+      setTimeout(function maybeReset() {
+        // If the nav button or the target is hovered, it shouldn't close
+        var shouldClose = !( $navBtn.data('hovering') || $target.data('hovering') );
+
+        if ( shouldClose ) {
+          // console.log('%cneither ' + $target[0].id + ' nor ' + $navBtn[0].getAttribute('href') + ' hovered. RESETTING', 'font-weight:bold;color:red;');
+          // console.log('neither ' + $target[0].id + ' nor ' + $navBtn[0].getAttribute('href') + ' hovered. RESETTING');
+          self.resetActiveNavBtn( $navBtn );
+        }
+      }, self.closeDelay + 25);
     },
 
     // Checks for open navs and closes them
@@ -654,7 +645,7 @@ define(function(require) {
       if ( isAnotherOpen ) {
         // console.log('%c[CLOSE ACTTIVE]' + $activeBtn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:rgb(0,172,238);');
         self.resetActiveNavBtn( $activeBtn );
-        // self.resetMouseleaveTimer();
+        // self.clearMouseleaveTimer();
         self.$currentOpenNavBtn = false;
       }
     },
