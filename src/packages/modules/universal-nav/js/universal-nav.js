@@ -63,16 +63,16 @@ var UNAV = ( function( window, document, $, undefined ) {
     justTriggered = false;
 
     $(document)[ ON ]("universal-nav-open",function(e){
-      console.log("universal-nav-open");
+      // console.log("universal-nav-open");
     });
     $(document)[ ON ]("universal-nav-open-finished",function(e){
-      console.log("universal-nav-open-finished");
+      // console.log("universal-nav-open-finished");
     });
     $(document)[ ON ]("universal-nav-close",function(e){
-      console.log("universal-nav-close");
+      // console.log("universal-nav-close");
     });
     $(document)[ ON ]("universal-nav-close-finished",function(e){
-      console.log("universal-nav-close-finished");
+      // console.log("universal-nav-close-finished");
     });
 
     // -----------------------------
@@ -186,7 +186,7 @@ var UNAV = ( function( window, document, $, undefined ) {
         // console.log("$(e.target): " , $(e.target), e.delegateTarget);
 
         // if ($(e.delegateTarget).is($(e.target)) && !triggered){
-        if ($(e.delegateTarget).is($(e.target))){
+        if ($(e.target).is($pageWrapInner)){
           // triggered = true;
           $(document).trigger("universal-nav-open-finished");
           $pageWrapInner[ OFF ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend');
@@ -204,7 +204,6 @@ var UNAV = ( function( window, document, $, undefined ) {
 
   _closeUNav = function() {
     $(document).trigger("universal-nav-close");
-
     // was working on scrolling to the top when the universal nav is collapsed. Turned out buggy & don't have time to clean it up.
     // var unavClose_ScrollToTop_int = setInterval(function(){
       // console.log("$('#nav-wrapper').offset().top: " + $('#nav-wrapper').offset().top);
@@ -220,15 +219,20 @@ var UNAV = ( function( window, document, $, undefined ) {
       $pageWrapInner
       .css('margin-top', '0px')
       [ ON ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(e){
-        // console.log("$(e.target): " , e.target, e.delegateTarget);
+        // console.log("_closeUNav transitionend");
+        // console.log("$(e.target): " , e.target);
+        // console.log("$(e.delegateTarget): " , e.delegateTarget);
 
-        // if ($(e.delegateTarget).is($(e.target)) && !triggered){
-        if ($(e.delegateTarget).is($(e.target))){
+        // make sure that the event that just finished is $pageWrapInner; otherwise it may trigger a transitionend for something else inside of $pageWrapInner.
+        if ($(e.target).is($pageWrapInner)){
+          // console.log("$(e.delegateTarget).is($(e.target))");
           // triggered = true;
           // clearInterval(unavClose_ScrollToTop_int);
           $(document).trigger("universal-nav-close-finished");
           $pageWrapOuter.removeClass('unav-open unav-open-until-transition-end');
           $pageWrapInner.css('margin-top', '')[ OFF ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend');
+        } else {
+          // console.log("NOT $(e.delegateTarget).is($(e.target))");
         }
       });
     } else {
