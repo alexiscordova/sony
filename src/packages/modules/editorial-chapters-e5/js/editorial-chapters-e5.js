@@ -334,7 +334,7 @@ define(function(require){
           useCSS3: self.useCSS3,
           paddles: false,
           pagination: false,
-          chapters : true,
+          chapters : false,
           draggable: false
         });
 
@@ -398,8 +398,17 @@ define(function(require){
         
         // we need to solve an issue of all images being loaded on DomReady
         self.setCurrentActiveThumb();
+        $currSlide.addClass('pos-active');
         $currSlideImg.addClass('unhide');
         $nextSlideImg.addClass('unhide');
+
+        setTimeout(function(){
+          $currSlide.siblings().removeClass('pos-active');
+          if(!$currSlide.hasClass('pos-active')){ $currSlide.addClass('pos-active'); }
+          
+          console.log('destinationSlide',$currSlide);
+        }, 500);
+        
 
         // also we can run positinoning after the CSS transitions are done
 
