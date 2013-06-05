@@ -3,9 +3,10 @@
 // ------------ Sony Universal Nav ------------
 // Module: Universal Nav
 // Version: 1.0
-// Modified: 2013-04-26 by Christopher Mischler
-// Dependencies: jQuery 1.4+
-// -------------------------------------------------------------------------
+// Modified: 2013-06-04 by Christopher Mischler
+// Dependencies: jQuery 1.6+  
+//              --- 1.6 is needed for $.is and at the moment nothing else, but that could have changed.
+// -------------------------------------------------------------------------------------------------------------
 // 
 // Events broadcast on $(document): universal-nav-open, universal-nav-open-finished, universal-nav-close, universal-nav-close-finished
 // 
@@ -51,7 +52,7 @@ var UNAV = ( function( window, document, $, undefined ) {
     $uNavPrimary = $uNav.find('.u-nav-primary');
     $firstChild = $uNavPrimary.children().first();
     $closeBtn = $('#u-nav-close-btn');
-    $tabableElements = $uNav.find($('[tabindex]'));
+    $tabableElements = $uNav.find('[tabindex]');
     $lastTabIndexElement = $('#u-nav-last-tabindex');
     isHighRes = false;
     imagesInited = false;
@@ -61,18 +62,18 @@ var UNAV = ( function( window, document, $, undefined ) {
     hasCssTransitions = _browserCssTransitionDetect();
     justTriggered = false;
 
-    // $(document).on("universal-nav-open",function(e){
-    //   console.log("universal-nav-open");
-    // });
-    // $(document).on("universal-nav-open-finished",function(e){
-    //   console.log("universal-nav-open-finished");
-    // });
-    // $(document).on("universal-nav-close",function(e){
-    //   console.log("universal-nav-close");
-    // });
-    // $(document).on("universal-nav-close-finished",function(e){
-    //   console.log("universal-nav-close-finished");
-    // });
+    $(document)[ ON ]("universal-nav-open",function(e){
+      console.log("universal-nav-open");
+    });
+    $(document)[ ON ]("universal-nav-open-finished",function(e){
+      console.log("universal-nav-open-finished");
+    });
+    $(document)[ ON ]("universal-nav-close",function(e){
+      console.log("universal-nav-close");
+    });
+    $(document)[ ON ]("universal-nav-close-finished",function(e){
+      console.log("universal-nav-close-finished");
+    });
 
     // -----------------------------
     // EVENT LISTENERS
@@ -204,15 +205,16 @@ var UNAV = ( function( window, document, $, undefined ) {
   _closeUNav = function() {
     $(document).trigger("universal-nav-close");
 
-    var unavClose_ScrollToTop_int = setInterval(function(){
+    // was working on scrolling to the top when the universal nav is collapsed. Turned out buggy & don't have time to clean it up.
+    // var unavClose_ScrollToTop_int = setInterval(function(){
       // console.log("$('#nav-wrapper').offset().top: " + $('#nav-wrapper').offset().top);
       // console.log("$(document).scrollTop(): " + $(document).scrollTop());
-      var topOfNavOffset = $(document).scrollTop() - $('#nav-wrapper').offset().top;
+      // var topOfNavOffset = $(document).scrollTop() - $('#nav-wrapper').offset().top;
       // console.log("topOfNavOffset: " + topOfNavOffset);
       // if (topOfNavOffset < 5){
       //   window.scrollTo(0, $('#nav-wrapper').offset().top);
       // }
-    },2);
+    // },2);
 
     if (hasCssTransitions) {
       $pageWrapInner
@@ -223,7 +225,7 @@ var UNAV = ( function( window, document, $, undefined ) {
         // if ($(e.delegateTarget).is($(e.target)) && !triggered){
         if ($(e.delegateTarget).is($(e.target))){
           // triggered = true;
-          clearInterval(unavClose_ScrollToTop_int);
+          // clearInterval(unavClose_ScrollToTop_int);
           $(document).trigger("universal-nav-close-finished");
           $pageWrapOuter.removeClass('unav-open unav-open-until-transition-end');
           $pageWrapInner.css('margin-top', '')[ OFF ]('transitionend webkitTransitionEnd oTransitionEnd otransitionend');
@@ -231,7 +233,7 @@ var UNAV = ( function( window, document, $, undefined ) {
       });
     } else {
       $pageWrapInner.animate({ 'marginTop': '0px'}, 400,  function() {
-        clearInterval(unavClose_ScrollToTop_int);
+        // clearInterval(unavClose_ScrollToTop_int);
         $(document).trigger("universal-nav-close-finished");
         $pageWrapOuter.removeClass('unav-open-until-transition-end unav-open');
       });
