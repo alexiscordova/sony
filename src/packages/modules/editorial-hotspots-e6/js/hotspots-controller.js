@@ -258,7 +258,7 @@ define(function(require) {
 
       self.$window.on('e5-slide-change', function(){
         log('SONY : Editorial Hotspots : E5 Slide Update');
-        Settings.isLTIE9 ? self.reset() : ''; 
+        Settings.isLTIE9 || self.isSmallChapter ? self.reset() : ''; 
       });
       
       log('SONY : Editorial Hotspots : Initialized');
