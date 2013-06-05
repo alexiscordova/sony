@@ -135,6 +135,8 @@ $three-up-height:400px;
 
 				img{
 					width: 100%;
+					background-color: rgba(255,255,255,.01); // FF specific bug fix for opacity and scale3D
+					-moz-transform-origin:0 0;
 				} // img
 
 			} // img-container
@@ -161,6 +163,7 @@ $three-up-height:400px;
 			&.news{
 				@include fadeoutOnHover(img);
 				position: relative;
+
 				.img-container{
 
 					.l3-light{
