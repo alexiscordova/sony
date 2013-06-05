@@ -91,6 +91,7 @@ define(function(require){
     self.$carouselInstance = undefined;
     self.$carouselSlides = self.$carousel.find('.sony-carousel-slide');
     self.$carouselSlidesChildren = self.$carousel.find('.sony-carousel-slide-children');
+    self.isOneSlide = self.$carouselSlidesChildren.length <= 1 ? true : false;
 
     // LISTEN
     // if(!Settings.isLTIE10){
@@ -116,36 +117,47 @@ define(function(require){
       //  attach click event to entire slide
       self.setupSlideLinks();
 
-      // set up knob dials (init, mousedown, mouseover, mouseoff)
-      self.setupDials();
+      console.log( 'self.isOneSlide»' , self.isOneSlide);
 
-      if( !Settings.$html.hasClass('lt-ie10') ){
-        // resgister for resize
-        enquire.register('(min-width: 568px)', function() {
-          self.handleResize();
-        });
+      // no knobs for functionality.
 
-        enquire.register('(max-width: 567px)', function() {
-          self.handleResize();
-        });
-      }
+      if(!self.isOneSlide){
+        // set up knob dials (init, mousedown, mouseover, mouseoff)
+        self.setupDials();
 
-      // start requestAnimationFrame
-      self.animationLoop();
+        if( !Settings.$html.hasClass('lt-ie10') ){
 
-      if(!Settings.isLTIE9){
-        self.setButtonColor(self.currentPartnerProduct); // new color for reload buton
-        self.$buttonReloadContainer.addClass('on');
+          // resgister for resize
+          enquire.register('(min-width: 568px)', function() {
+            self.handleResize();
+          });
+
+          enquire.register('(max-width: 567px)', function() {
+            self.handleResize();
+          });
+        }
+
+        // start requestAnimationFrame
+        self.animationLoop();
+
+        if(!Settings.isLTIE9){
+          self.setButtonColor(self.currentPartnerProduct); // new color for reload buton
+          self.$buttonReloadContainer.addClass('on');
+        }
+
+        // show content
+        self.fadeInContent(self.currentPartnerProduct);
+
+        // start animation
+        self.resetDials();
+
+        // start timer
+        self.resetPartnerCarouselInterval();
       }
 
       // show content
       self.fadeInContent(self.currentPartnerProduct);
 
-      // start animation
-      self.resetDials();
-
-      // start timer
-      self.resetPartnerCarouselInterval();
     },
 
     'dialsINIT' : function(){
@@ -189,7 +201,7 @@ define(function(require){
         slides: '.sony-carousel-slide',
         useCSS3: true,
         draggable: false,
-        jumping:true,
+        jumping:false,
         setCSS3Easing: Settings.easing.easeInOutExpo,
         animationSpeed: self.transitionTime
       });
@@ -216,10 +228,15 @@ define(function(require){
 
       self.$dialWrappers.on('mousedown', function(e){
         e.preventDefault();
+
         self.isAutomatic = false;
 
+
         var position = $(this).index();
-        self.currentPartnerProduct = position - 1;
+        // self.currentPartnerProduct = position - 1;
+        self.currentPartnerProduct = position;
+
+        console.log( 'position »' , position);
 
         // stop timer and rAF
         self.killAutomation();
@@ -232,20 +249,17 @@ define(function(require){
 
         // go to the correct slide
         self.gotoPartnerProduct();
+
       }).on('mouseover', function(e){
-
-        // don't do anything if current dial is active....
-
-        // console.log( 'this »' , $(this).index());
-        // console.log( 'active dial »' , self.$activeDial.index());
-
-        // on state
-        self.turnDialON( $(this) );
-
+        if($(this).index() != self.currentPartnerProduct){
+          self.turnDialON( $(this) ); // on state
+        }
 
       }).on('mouseout', function(e){
-        // off state
-        self.turnDialOFF( $(this) );
+        // not on active state
+        if($(this).index() != self.currentPartnerProduct){
+          self.turnDialOFF( $(this) ); // off state
+        }
       });
     },
 
