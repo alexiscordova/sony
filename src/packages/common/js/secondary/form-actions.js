@@ -103,14 +103,12 @@ define(function(require) {
     },
 
     showWatermark : function( inputObj ) {
-      console.log('show watermark');
       inputObj.$input.val( inputObj.watermarkText );
       inputObj.$inputIcon.show();
       inputObj.$input.parent().removeClass('child-input-active');
     },
 
     hideWatermark : function( inputObj ) {
-      console.log('hide watermark');
       inputObj.$input.val('');
       inputObj.$input.parent().addClass('child-input-active');
 
