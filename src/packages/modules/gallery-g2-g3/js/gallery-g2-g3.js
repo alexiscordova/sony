@@ -2366,7 +2366,15 @@ define(function(require){
 
         // Remove heights in case they've aready been set
         if ( isSmallerThanTablet ) {
-          self.$gridProductNames.css('height', '');
+
+          // Product name heights no longer need to be aligned
+          if ( self.isDetailedMode ) {
+            self.$gridProductNames.css('height', '');
+
+          // Product name heights still need to be aligned
+          } else {
+            self.evenTheHeights();
+          }
 
           self.onRecommendedTileResize();
 
