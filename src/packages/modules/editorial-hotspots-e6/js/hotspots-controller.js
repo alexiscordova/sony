@@ -829,6 +829,7 @@ define(function(require) {
           info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ); 
         }
       }
+      
     },
 
     reset: function( container ) {
