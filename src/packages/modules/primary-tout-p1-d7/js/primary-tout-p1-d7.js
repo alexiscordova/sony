@@ -15,7 +15,7 @@ define(function(require){
     var $ = require('jquery'),
         // enquire = require('enquire'),
         iQ = require('iQ'),
-        // Settings = require('require/sony-global-settings'),
+        Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment');
 
     var module = {
@@ -86,8 +86,10 @@ define(function(require){
         if(btn.length > 0){
           btn.on('click', function(e){
             e.preventDefault();
-            self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('off-screen visuallyhidden');
-            self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('off-screen visuallyhidden');
+            if(!Settings.isIPhone || $(this).hasClass('carousel')){
+              self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('off-screen visuallyhidden');
+              self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('off-screen visuallyhidden');
+            }
             //update for slideshow coming into view
             iQ.update();
             //play video if its a video button
@@ -95,12 +97,28 @@ define(function(require){
               self.$el.find('.sony-video').data('sonyVideo').api().play();
             }
           });
-          self.$el.find('.submodule .box-close').on('click', function(e){
+
+          var submodule = self.$el.find('.submodule');
+          var close = submodule.find('.box-close');
+          submodule.find('.box-close').on('click', function(e){
             e.preventDefault();
             self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').removeClass('off-screen visuallyhidden');
-            self.$el.find('.submodule').addClass('off-screen visuallyhidden');
+            submodule.addClass('off-screen visuallyhidden');
             self.$el.find('.sony-video').data('sonyVideo').api().pause();
           });
+
+          if(!Settings.hasTouchEvents){
+            //show hide close button on hover over module
+            submodule.on('mouseenter.submodule', function(){
+              self.isHovered = true;
+              close.removeClass('close-hide');
+            });
+
+            submodule.on('mouseleave.submodule', function(){
+              self.isHovered = false;
+              close.addClass('close-hide');
+            });
+          }
         }
 
 

@@ -2,42 +2,37 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('SEN-convergence-e12')
 +includeJavascriptModule('SEN-convergence-e12')
 
-
 .sen-convergence
   .container
-    - each tab, i in data.tabs
-      if i == 0
-        - klasses = "tab-pane fade in active";
-      else
-        - klasses = "tab-pane fade off-screen";
-      div(data-tab= tab.tabTitle, class= klasses)
-        .slides
-          for slide in tab.slides
-            e = {"locals":locals, "data":slide}
-            !{locals.partial('packages/modules/image/html/image.jade' , e)}
+    .sen-carousel-container.icon-mode
+      .sen-carousel-wrapper
+        .sen-carousel
+          - each tab, i in data.tabs
+            .sen-carousel-slide
+              .slides
+                for slide in tab.slides
+                  e = {"locals":locals, "data":slide}
+                  !{locals.partial('packages/modules/image/html/image.jade' , e)}
+              .grid-placement
+                .container
+                  .grid.no-grid-at-767
+                    .sen-convergence-placement
+                      .module-hdg
+                        h1.t2= tab.title
+                      .span5.offset7
+                        .sen-convergence-content
+                          .logo-container
+                            img(src="img/SEN-convergence-e12/logo-video-unlimited.png")
+                          .sen-convergence-hdg
+                            p.p2-bold= tab.subtitle
+                          .sen-convergence-text
+                            p.p3= tab.bodycopy
+                          a.btn(href="#", tab-index=0)= tab.buttontext
 
-        .grid-placement
-          .container
-            .grid.no-grid-at-767
-              .sen-convergence-placement
-                .module-hdg
-                  h1.t2= tab.title
-                .span5.offset7
-                  .sen-convergence-content
-                    .logo-container
-                      img(src="img/SEN-convergence-e12/logo-video-unlimited.png")
-                    .sen-convergence-hdg
-                      p.p2-bold= tab.subtitle
-                    .sen-convergence-text
-                      p.p3= tab.bodycopy
-                    a.btn(href="#", tab-index=0)= tab.buttontext
-
-    .tabs-container
-      ul.tabs
-        - each tab, i in data.tabs
-          - klass = (i == 0 ? 'active' : '')
-          li(class= klass, data-target= tab.tabTitle, data-toggle="tab", data-hash="true")
-            a(href="#")
-              span.active-highlight
-              i.fonticon.fonticon-10-square-neg-plus
-              = tab.tabTitle
+      ul.thumb-nav.container
+        .slider
+          - each tab, i in data.tabs
+            li
+              i.fonticon(class=tab.iconClass)
+              span.label-container
+                span.nav-label.p4-bold= tab.tabTitle

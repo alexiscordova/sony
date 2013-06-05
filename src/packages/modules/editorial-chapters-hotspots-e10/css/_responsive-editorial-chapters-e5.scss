@@ -1,0 +1,339 @@
+//
+// Responsive: Chapters - E5
+// --------------------------------------------------
+
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+
+@mixin tablet-thumb-nav {
+  .editorial {
+  }
+
+  .thumb-nav {
+    margin: -4px auto 0;
+  }
+
+  &.thumb-mode {
+    .thumb-nav {
+      height:62px;
+      width:100%;
+
+      li {
+        width:auto;
+        padding:8px;
+        height:42px;
+      }
+        img {
+          width:56px;
+          margin:0 auto;
+          float: none;
+        }
+        i, span {display:none;}
+    }
+  }
+  &.icon-mode {
+    .thumb-nav {
+      height:54px;
+
+      li {
+        width:auto;
+        height:30px;
+      }
+        img, span {display:none;}
+        i {
+          top:4px;
+          margin:0 15px;
+        }
+    }
+  }
+  &.text-mode {
+    .thumb-nav {
+      height:60px;
+
+      li {
+        line-height:14px;
+        padding:10px 0;
+        height:34px;
+      }
+      img, i {display:none;}
+      .label-container {
+        top: 1px;
+        display:block;
+      }
+    }
+  }
+  &.top-nav .thumb-nav {
+    i, img {display:none;}
+    span {
+      display:inline-block;
+      margin-left:20px;
+      top:6px;
+    }
+  }
+
+}
+
+@mixin compact-thumb-nav {
+  .editorial {
+    // since were applying heights via editorial-chapters-e5
+    // we need to get rid of the table styling since it mainly
+    // ignores heights
+    .table-center-wrap,
+    .table-center {
+      display: block;
+    }
+    .table-center,
+    .box {
+      height: 100%;
+    }
+  }
+
+  .thumb-nav {
+    margin: -4px auto 0;
+  }
+
+  &.thumb-mode {
+    .thumb-nav {
+      height:62px;
+      width:100%;
+
+      li {
+        width:auto;
+        padding:8px;
+        height:42px;
+      }
+        img {
+          width:56px;
+          margin:0 auto;
+          float: none;
+        }
+        i, span {display:none;}
+    }
+  }
+  &.icon-mode {
+    .thumb-nav {
+      height:54px;
+
+      li {
+        width:auto;
+        height:30px;
+      }
+        img, span {display:none;}
+        i {
+          top:4px;
+          margin:0 15px;
+        }
+    }
+  }
+  &.text-mode {
+    .thumb-nav {
+      height:60px;
+
+      li {
+        line-height:14px;
+        padding:10px 0;
+        height:34px;
+        width:auto;
+      }
+      img, i {display:none;}
+      .label-container {
+        top: 1px;
+        display:block;
+      }
+    }
+  }
+  &.top-nav .thumb-nav {
+    i, img {display:none;}
+    span {
+      display:inline-block;
+      margin-left:20px;
+      top:6px;
+    }
+  }
+}
+
+.editorial-chapters-container {
+
+  .thumb-nav {
+    overflow: hidden;
+
+    .left-shade,
+    .right-shade {
+      width:10px;
+      position:absolute;
+      top:4px;
+      bottom:0;
+      left: 0;
+      box-shadow: inset 5px 0 10px -5px rgba(39,43,55,0.25);
+    }
+
+    .right-shade {
+      left:auto;  
+      box-shadow: inset -5px 0 10px -5px rgba(39,43,55,0.25);
+      right: 0;
+    }
+  }
+
+}
+
+@media (max-width: 909px) {
+  .editorial-chapters-container {
+    margin: 0 auto;
+    padding: 24px 0 32px;
+
+    .container {
+      width:100% !important;
+    }
+
+    @include tablet-thumb-nav;
+  }
+
+  .editorial.textonly {
+
+    & + .editorial-chapters-container  {
+      margin: -10px 0 0;
+      padding: 0 0 10px;
+    }
+  }
+
+  .container,
+  .span12 {
+    & > .editorial-chapters-container.text-mode {
+
+    }
+  }
+
+  // Media Left + Media Right Chapters!
+  // ==================================
+  .span5,
+  .span6,
+  .span7 {
+    .editorial-chapters-container {
+      &.thumb-mode {
+        .thumb-nav {
+          margin-bottom: 30px;
+
+          img {
+            position: relative;
+            top: auto;
+            bottom: auto;
+            width: 100%;
+            height: auto;
+            max-width: 56px;
+            margin: 0 auto;
+          }
+        } // end .thumb-nav
+      } // end &.thumb-mode
+
+      &.icon-mode {
+        .thumb-nav {
+          i {
+            top:4px;
+            margin:0 15px;
+          }
+        } // end .thumb-nav
+      } // end $.icon-mode
+    } // end .editorial-chapters-container
+
+  } // end spans
+}
+
+@media (max-width: 410px) {
+  .span7 .editorial-chapters-container.text-mode .thumb-nav {width:300px;}
+}
+@media (min-width: 411px) and (max-width: 510px) {
+  .span7 .editorial-chapters-container.text-mode .thumb-nav {width:370px;}
+}
+@media (min-width: 768px) and (max-width: 867px) {
+  .span7 .editorial-chapters-container.text-mode .thumb-nav {width:370px;}
+}
+@media (min-width: 868px) and (max-width: 967px) {
+  .span7 .editorial-chapters-container.text-mode .thumb-nav {width:470px;}
+}
+
+
+@media (min-width: $tabletMax) {
+  .container,
+  .span12 {
+    & > .editorial-chapters-container {
+      .slider {width:auto !important;}
+    }
+  }
+
+  .editorial-chapters-container {
+    margin: 0 auto;
+    padding: 32px 0 60px;
+
+    .thumb-nav {
+
+      .left-shade,
+      .right-shade {
+        display:none !important; // have to use important to override element.styles
+      }
+
+    } // end .thumb-nav
+  } // end .editorial-chapters-container
+
+}
+
+@media (max-width: 767px) {
+  .editorial-chapters-container .box {margin-bottom:0 !important;}
+}
+
+//tablet only
+@media (min-width: $tabletMin) and (max-width:$tabletMax) {
+  .editorial-chapters-container .image-module {height:440px;}
+
+}
+//phone only
+@media (max-width: $phoneMax) {
+  .editorial-chapters-container {
+    @include compact-thumb-nav;
+
+    &.hotspots {
+      .editorial-chapters-container,
+      .editorial-carousel-wrapper {
+        overflow: visible;
+
+        .editorial-carousel-slide.active {
+          z-index: auto;
+        }
+      }
+    }
+
+    .image-module {height:320px;}
+  }
+
+  // Media Left + Media Right Chapters!
+  // ==================================
+  .span5,
+  .span6,
+  .span7 {
+    .editorial-chapters-container {
+      &.thumb-mode {
+        li {
+          height: 36px;
+        }
+
+        .thumb-nav {
+          img {
+            max-width: 48px;
+          }
+        } // end .thumb-nav
+
+      } // end &.thumb-mode
+
+      &.icon-mode {
+        .thumb-nav {
+          i {
+            top:4px;
+            margin:0 15px;
+          }
+        } // end .thumb-nav
+      } // end $.icon-mode
+    } // end .editorial-chapters-container
+
+  } // end spans
+  
+}

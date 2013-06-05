@@ -17,6 +17,18 @@ define(function(require){
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings');
 
+  // This key-value mapping is used to show default values (as key) and their
+  // desired mobile equivalents (as the matching values). Assigned to relevant
+  // elements by `setupAlternateSizes`.
+
+  var mobileSizeAlternates = {
+    'align-left-center': 'align-left-bottom',
+    'align-right-top': 'align-left-top',
+    'align-right-center': 'align-left-bottom',
+    'align-right-bottom': 'align-left-bottom',
+    'align-center-center': 'align-left-top'
+  };
+
   var module = {
     'init': function() {
       $('.secondary-tout').each(function(){
@@ -42,23 +54,29 @@ define(function(require){
       $(this).closest('.st-item').addClass('on');
     });
 
-    self.$images.addClass('iq-img');
-
     // This is a hack; iQ fails unpredictably if multiple modules attempt to
     // run iQ.update() to load in their newly-created assets. This is a deep issue
     // in iQ that will probably require a thorough refactor of that class.
 
     setTimeout(function(){
-      iQ.update(true);
+      self.$el.find('.st-image').addClass('iq-img');
+      iQ.reset();
+      self.$el.trigger('SecondaryTouts:ready');
     }, 1000);
 
     if ( self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){
 
       enquire.register("(min-width: 768px)", function() {
         self.renderDesktop();
+        self.assignDefaultLayouts();
       });
-      enquire.register("(max-width: 767px)", function() {
+        enquire.register("(min-width: 481px) and (max-width: 767px)", function() {
         self.renderEvenColumns(12);
+        self.assignDefaultLayouts();
+      });
+      enquire.register("(max-width: 480px)", function() {
+        self.renderEvenColumns(12);
+        self.assignMobileLayouts();
       });
 
     } else {
@@ -84,10 +102,8 @@ define(function(require){
         $this.data('originalWidth', matchedClasses[0].split('span')[1]);
       });
 
-      self.fixCenteredContent('align-right-center', 'align-right-top');
-      self.fixCenteredContent('align-left-center', 'align-left-top');
-
       self.setupLinkClicks();
+      self.setupAlternateSizes();
     },
 
     // Create or restore the default slide layout.
@@ -133,29 +149,52 @@ define(function(require){
       });
     },
 
-    // If you're in an environment that doesn't support min/max width on
-    // tables, we need to find and fix table-center elements. In that
-    // feature-tested state, look for elements of `oldClass`, remove their
-    // `table-center` classes, and add a replacement `newClass`.
-    //
-    // This is necessary because, for example, `align-right-center` doesn't
-    // work without table centering, and hacking a fallback in would require
-    // a lot of CSS duplication. So we tell it to use `align-top-center` instead.
+    // Given the `mobileSizeAlternates keyval mapping, cache any mapped value
+    // with its original and mobile layouts, and push matched elements into
+    // an object for later access by the enquire callbacks.
 
-    fixCenteredContent: function(oldClass, newClass) {
+    setupAlternateSizes: function() {
 
-      var self = this,
-          $el = $('.no-widthboundsontables, .no-absolutepositionontables').find(self.$el);
+      var self = this;
 
-      $el.find('.' + oldClass).each(function(){
+      self.$itemsEvaluatedOnResize = $();
 
+      for ( var i in mobileSizeAlternates ) {
+
+        var $matched = self.$el.find('.' + i);
+
+        self.$itemsEvaluatedOnResize = self.$itemsEvaluatedOnResize.add($matched);
+
+        $matched.data('originalLayout', i);
+        $matched.data('mobileLayout', mobileSizeAlternates[i]);
+      }
+    },
+
+    // At the mobile breakpoint, remove `originalLayout` classes assigned by `setupAlternateSizes()`
+    // and assign `mobileLayout` classes.
+
+    assignMobileLayouts: function() {
+
+      var self = this;
+
+      self.$itemsEvaluatedOnResize.each(function(){
         var $this = $(this);
 
-        $this.removeClass('table-center-wrap')
-             .removeClass(oldClass)
-             .addClass(newClass);
+        $this.removeClass($this.data('originalLayout')).addClass($this.data('mobileLayout'));
+      });
+    },
 
-        $this.find('.table-center').removeClass('table-center');
+    // At the mobile breakpoint, remove `mobileLayout` classes assigned by `setupAlternateSizes()`
+    // and assign `originalLayout` classes.
+
+    assignDefaultLayouts: function() {
+
+      var self = this;
+
+      self.$itemsEvaluatedOnResize.each(function(){
+        var $this = $(this);
+
+        $this.removeClass($this.data('mobileLayout')).addClass($this.data('originalLayout'));
       });
     },
 

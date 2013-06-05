@@ -1,11 +1,12 @@
-// .nav-wrapper extends the full width of the browser, 
+// .nav-wrapper extends the full width of the browser,
 // even when the navbar is at a set width for a particular breakpoint.
 
-/* 
+$zindexNavTray: 180;
+
+/*
   .navtray-w == .navtray-wrapper
 */
 .navtray-w{ // 100% width for trays to reach edges of browser
-  z-index:180;
   position: absolute;
   overflow:hidden;
   left: 0;
@@ -19,19 +20,24 @@
   @include box-shadow(0px 0px 10px 0px $stickyShadowColor);
   @include transition(top $navtrayCloseSpeed ease-in 0.125s, left 0s linear $navtrayCloseSpeed);
 }
-.navtray-w-short{
-  @include transition(top $navtrayShortCloseSpeed ease-in 0.1s, left 0s linear $navtrayShortCloseSpeed);      
+.navtray-w-tall{
+  z-index: $zindexNavTray + 1;
+  @include transition(top $navtrayShortCloseSpeed ease-in 0.1s, left 0s linear $navtrayShortCloseSpeed);
 }
-  // -webkit-transform: translate3d(0, 0, 0); // fix janky animation
+.navtray-w-short{
+  z-index: $zindexNavTray;
+  @include transition(top $navtrayShortCloseSpeed ease-in 0.1s, left 0s linear $navtrayShortCloseSpeed);
+}
 
-.navtray-w-visible{
-  left:0;
-  top: $navbarHeight - 1; // minus 1 for a little overlap under the navbar - otherwise sometimes you can see half a pixel peek out
-  opacity:1;
+.navtray-w-visible,
+.navtray-w-tall.navtray-w-visible,
+.navtray-w-short.navtray-w-visible{
+  top: $navbarHeight;
+  z-index: $zindexNavTray + 2;
 
-  @include transition(top $navtrayOpenSpeed $easeOutNav 0.13s, left 0s linear 0s);  
+  @include transition(top $navtrayOpenSpeed $easeOutNav 0.13s, left 0s linear 0s);
   &.navtray-w-short{
-    @include transition(top $navtrayShortOpenSpeed $easeOutNav 0.1s, left 0s linear 0s);      
+    @include transition(top $navtrayShortOpenSpeed $easeOutNav 0.1s, left 0s linear 0s);
   }
 }
 
@@ -39,7 +45,7 @@
 .no-transition.navtray-w-short,
 .no-transition.navtray-w-visible,
 .no-transition.navtray-w-visible.navtray-w-short{
-  @include transition(none); 
+  @include transition(none);
 }
 
 
@@ -51,7 +57,7 @@
   max-width:$navtrayMaxWidth;
 
   background: $navTrayBackgroundAlt; // right side background color
-  
+
 }
 .navtray-section-main{ // section left
   float: left;
@@ -76,7 +82,7 @@
 
     .navtray-li {
       line-height:1.4;
-      
+
       .navtray-li-link {
         font-size: $font_13_16;
       }
@@ -101,7 +107,7 @@
 } // .navtray-section-featured
 
 .navtray-section-main{ // section left - contents
-  .navtray-list-main{ 
+  .navtray-list-main{
     overflow:hidden;
 
     .navtray-li{

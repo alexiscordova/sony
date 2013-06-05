@@ -10,7 +10,7 @@ $specLabelWidth1200: 8.75em; // 140
 
 $columnHeaderHeight: 4.875em; // 78
 $tableHeaderColor: $gray80;
-$specStickyTabHeight: 3.125em; // 50
+$specStickyTabHeight: px-em(80);
 
 $stickyHeaderHeight: 4.375em; // 70
 $specBorderColor: $gray70;
@@ -52,6 +52,11 @@ $specBorderColor: $gray70;
   z-index: 16;
   top: ($columnHeaderHeight - $navPaddleHeight) / 2;
   margin-top: 0;
+
+  // The vita blows at swiping, make the paddles visible
+  .vita & {
+    display: block;
+  }
 }
 
 .spec-nav-prev {
@@ -288,13 +293,29 @@ $specBorderColor: $gray70;
   }
 
   .spec-items-grid {
+    position: relative;
     border-right: .0625em solid $specBorderColor;
-    @include transition(box-shadow $transitionFast ease-in, border $transitionFast ease-in);
 
     &.overflowing {
+      border-right-width: 0;
+    }
+
+    // On the pseudo element because box shadows are drawn first!
+    &:after {
+      content: '';
+      position: absolute;
+      z-index: 16;
+      top: 0;
+      right: 0;
+      display: block;
+      width: 4px;
+      height: 100%;
+      @include transition(box-shadow $transitionFast ease-in, border $transitionFast ease-in);
+    }
+
+    &.overflowing:after {
       @include box-shadow(inset -2px 0 3px -1px $stickyShadowColor);
       @include transition-timing-function(ease-out);
-      border-right-width: 0;
     }
   }
 
@@ -456,6 +477,7 @@ $specBorderColor: $gray70;
 
   .tab {
     padding-left: 0.625em;
+    width: px-em(148);
   }
 
   // The designer wants the baselines to match up. That's now how css works.

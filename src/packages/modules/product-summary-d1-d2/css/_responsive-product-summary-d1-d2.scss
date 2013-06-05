@@ -107,10 +107,10 @@
   .ps-sticky-nav {
 
     .product-img {
-      margin: px-em(7) px-em(10) 0 0;
+      margin: px-em(7) px-em(4) 0 0;
       max-width: px-em(50);
-      max-width: -webkit-calc( 30% - #{px-em(10)} );
-      max-width: calc( 30% - #{px-em(10)} );
+      max-width: -webkit-calc( 30% - #{px-em(4)} );
+      max-width: calc( 30% - #{px-em(4)} );
       max-height: px-em(50);
     }
 
@@ -125,29 +125,39 @@
 
     .price-text {
       margin: 0 0 1em 0;
+      white-space: nowrap; // extend from the container instead of wrapping
     }
 
     .price-text .price-prefix {
       display: inline;
       margin: 0;
-      padding-right: px-em(3, 12);
+    }
+
+    .price-text .space {
+      display: inline;
     }
 
     .price-text .msrp {
-      padding: 0 0 0 px-em(3, 9);
+      padding-right: 0;
     }
+
+    // m-span4 + 1 margin
+    // .andsome {
+    //   width: 69.56522%;
+    // }
 
     // Remove grid margin
     .buy-btn {
-      width: 17% !important;
       margin: 0 !important;
       float: right !important;
     }
 
     .btn {
       display: inline-block;
+      width: auto;
       margin-top: px-em(12, 12);
       margin-bottom: px-em(12, 12);
+      padding: 11px 20px 12px; // default .btn padding for < 768
     }
 
   }

@@ -20,7 +20,7 @@ define(function(require) {
 
   var $ = require('jquery'),
       Environment = require('require/sony-global-environment'),
-      flowplayer = require('plugins/index').flowplayer,
+      flowplayer = require('plugins/jquery.flowplayer'),
       Settings = require('require/sony-global-settings');
 
   var SonyVideo = (function () {
@@ -36,13 +36,14 @@ define(function(require) {
       _currentPlayer       = null,
       _fp                  = window.flowplayer;
 
-
       _fp.conf = {
+        //swf: 'swf/flowplayer.swf',
+        swfFallback: 'swf/flash9fallback.swf',
         swf: 'swf/flowplayer.swf',
-        key: '$104774194953913',
         splash: true,
         embed: false,
-        tooltip: false
+        tooltip: false,
+        engine: 'html5'
       };
 
       // Private methods
@@ -66,6 +67,7 @@ define(function(require) {
 
           $videos.each(function(){
             api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( this ).flowplayer() ).get( 0 ) );
+            
 
            api.bind( 'resume' , function(e , a){
             _currentPlayer = api;

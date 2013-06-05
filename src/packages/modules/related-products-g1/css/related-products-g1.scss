@@ -2,10 +2,17 @@
 @import "../../../common/css/_base/mixins";
 
 // Related Products Tabbed Container
+
+.rp-section {
+  &.dark  {
+    background-color: $gray80;
+  }
+}
+
 .rp-container-tabbed {
   position: relative;
 
-  .lt-ie9 & {
+  .lt-ie10 & {
     height: 495px;
   }
 
@@ -25,49 +32,66 @@
       visibility: hidden !important;
     }
 
-    .lt-ie9 &.invisible {
+    .lt-ie10 &.invisible {
       left: -9999px;
     }
   }
 
 }
 
-// Tabs
-.TABS{}
-  .rp-tabs {
-    margin: 60px 0 23px 0;
-    padding: 0 0 0 0;
-    max-height: 62px;
 
-    .rp-tab {
-      background-color: $gray90;
-      color: $gray40;
-      display: inline-block;
-      padding: 16px 18px;
-      padding-left:  40px;
-      padding-right: 40px;
-      @include transition(box-shadow 0.15s ease-in);
 
-      &:first-child {
-         padding-left:  40px;
-         padding-right: 40px;
-      }
 
-      &.active {
-        color: $gray20;
-        box-shadow: inset 0 -4px 0 $linkBlue;
-      }
 
-      &:hover {
-        color: $gray20;
-        box-shadow: inset 0 -4px 0 $linkBlue;
-      };
+.rp-tabs {
+  margin: 60px 0 23px 0;
+  padding: 0 0 0 0;
+  max-height: 62px;
+
+  $totalHeight: 18px;
+  $highlightBarHeight: 4px;
+  $whitespaceHeight: $totalHeight - $highlightBarHeight;
+  .rp-tab {
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 16px 40px $totalHeight;
+    color: $gray40;
+    background-color: $gray90;
+
+    .dark & {
+      //color: $gray40;
+      background-color: $white;
     }
 
+    @include box-shadow(inset 0 0 0 $btnBackground);
+    @include transition($transitionFast $easeNormal);
   }
-  //end tabs
 
-/* Related Products */
+  .boxshadow.no-touch & .rp-tab:hover,
+  .boxshadow & .rp-tab.active {
+    color: $gray20;
+    @include box-shadow(inset 0 -#{$highlightBarHeight} 0 $btnBackground);
+  }
+
+  // Sony Tablet S supports box shadow, but not inset box shadow
+  .no-boxshadow & .rp-tab,
+  .sonytablets & .rp-tab {
+    @include box-shadow(none);
+    padding-bottom: $totalHeight;
+    border-bottom: 0 solid $btnBackground;
+  }
+
+  .no-boxshadow.no-touch & .rp-tab:hover,
+  .no-boxshadow & .rp-tab.active,
+  .sonytablets & .rp-tab.active {
+    padding-bottom: $totalHeight - $highlightBarHeight;
+    border-bottom-width: $highlightBarHeight;
+  }
+
+}
+//end tabs
+
+// Related Products
 .RELATEDPRODUCTS {}
   .related-products {
     position: relative;
@@ -78,11 +102,23 @@
     direction: ltr;
     overflow: hidden;
 
+    .dark & {
+      .gallery-item .gallery-item-inner {
+        background-color: $gray80;
+      }
+    }
+    
+    &.suggested {
+      height: auto;
+    }
+
     &.strip {
       height: 230px;
       margin:0;
 
-      .gallery-item.normal .product-img img { max-height: 100%; }
+      .gallery-item.normal .product-img img {
+        max-height: 100%;
+      }
 
       .nav-paddles {
 
@@ -100,8 +136,9 @@
 
     &:after {
       content: '';
-      width: 60px;
-      height: 60px;
+      width: 76px;
+      height: 72px;
+      opacity: 0.85; // this replicated what's set globally in common/css/_base.scss/_component-animations.scss
       display:none;
       position: absolute;
       margin: auto;
@@ -183,6 +220,10 @@
       .msrp.p5 { color: $gray40; }
 
       .gallery-item {
+
+
+
+
         max-height: 534px;
         background: $gray90;
 
@@ -235,6 +276,11 @@
     .grid .gallery-item:not(.suggested) { margin-left: 0; }
 
     .product-content {
+
+      .dark & {
+        background-color: $gray80;
+      }
+
       font-family: $sansFontFamilyMedium;
       color: $grayDark;
 
@@ -266,6 +312,7 @@
 
       .gallery-item {
         overflow: inherit;
+        outline: none;
 
         .lt-ie8 & {
           &.medium .product-img { max-height: 385px; }
@@ -329,6 +376,8 @@
 
       .gallery-item .product-img:after { content: ''; }
 
+
+
       .gallery-item.normal .product-img img { max-height: 155px; }
 
       .small-size {
@@ -351,15 +400,31 @@
           }
         }
 
+
         .gallery-item-inner {
           height: 160px;
 
-          .product-img { height: 113px; }
+          .product-img { 
+            height: 113px;
+
+
+          }
+
 
           .product-name { max-width: 150px; }
 
           .price-prefix.p5 { display: block; }
         }
+
+        &.plate {
+          .gallery-item-inner {
+            .product-img { 
+              height: 215px;
+            }
+          }
+        }
+
+
       }
 
       .gallery-item.plate strong { display: block; }
@@ -374,6 +439,11 @@
 
         .product-img {
           background: $gray80;
+
+          .dark & {
+            background-color: $white
+          }
+
           @include transition(background-color $transitionFast $easeNormal);
 
           &:hover:not(.plate) { background-color: $gray75; }
@@ -381,7 +451,17 @@
       }
 
       &.full .gallery-item { margin-left: 0; }
-      &.full .gallery-item.small-size { margin: 0 0 0 12px; }
+      &.full .gallery-item.small-size { 
+        margin: 0 0 0 12px; 
+
+        &:first-child {
+          margin: 0 0 0 0;
+        }
+
+        .dark & {
+          background-color: $gray80;
+        }
+      }
 
     .rp-overflow {
       width: 100%;

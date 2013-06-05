@@ -9,8 +9,8 @@
   .edv-images {
     @include user-select(none);
     position: relative;
-    margin-bottom:24px;
-    height:560px;
+    margin-bottom: 30px;
+    height: 560px;
 
     .edv-image {
       position: absolute;
@@ -20,31 +20,39 @@
       overflow: hidden;
 
       &.image-1 {
+        width: 50%;
         left: 0;
         z-index:1;
-      }
-        .edv-image-wrapper {
-          position: absolute;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-position: top left;
-          background-repeat: no-repeat;
-          background-size: cover;
-          text-align: center;
-          background-color:$white;
 
-          img {
-            display: none;
-            position: relative;
-            width: 100%;
-          }
+        .edv-image-wrapper {
+          width: 200%;
         }
+      }
+
+      .edv-image-wrapper {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-size: cover;
+        text-align: center;
+        background-color:$white;
+
+        img {
+          display: none;
+          position: relative;
+          width: 100%;
+        }
+      }
 
       &.image-2 {
         right: 0;
 
-        .edv-image-wrapper {background-position:center;}
+        .edv-image-wrapper {
+          background-position:center;
+        }
       }
     }
 
@@ -64,6 +72,7 @@
 
     .scrubber {
       position: absolute;
+      display: none;
       margin-left:-1px;
       width: 2px;
       min-height: 100%;
@@ -72,11 +81,17 @@
       z-index: 3;
       color:$white;
 
-      &.dragging .handle,
-      &.dragging2 .handle {
+      &.hover .handle {
         .inner {
           @include scale(1.07);
-          background:$gray40;
+          background: $buttonOrangeHover;
+        }
+      }
+
+      &.dragging .handle {
+        .inner {
+          @include scale(1.07);
+          background: $gray30;
         }
       }
     }
@@ -97,7 +112,7 @@
           width:46px;
           height:46px;
           line-height:40px;
-          background:$buttonOrange;
+          background: $buttonOrange;
           display:block;
           text-align:center;
           font-size:0.9em;
@@ -125,6 +140,16 @@
     .edv-images {
       margin-top:33px;
 
+      .edv-image.image-1 {
+        width: 100%;
+        height: 50%;
+
+        .edv-image-wrapper {
+          width: 100%;
+          height: 200%;
+        }
+      }
+
       figcaption {
         width:100%;
         text-align:center;
@@ -149,7 +174,10 @@
         }
           .icons {
             @include rotate(90deg);
-            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+
+            .lt-ie9 & {
+              filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+            }
           }
     }
   }
@@ -256,13 +284,13 @@
       .inner {visibility:hidden;}
     }
     .dragging .handle,
-    .dragging2 .handle {background-position:-62px 0;}
+    .hover .handle {background-position:-62px 0;}
 
     &.y .edv-images .scrubber .handle {
       background-position:0 -62px;
     }
     &.y .dragging .handle,
-    &.y .dragging2 .handle {background-position:-62px -62px;}
+    &.y .hover .handle {background-position:-62px -62px;}
   }
 }
 

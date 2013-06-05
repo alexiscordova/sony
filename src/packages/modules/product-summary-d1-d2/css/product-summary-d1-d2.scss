@@ -4,6 +4,17 @@
 
 .ps-module {
 
+  // Bottom border behind main module
+  // &:after {
+  //   content: '';
+  //   position: absolute;
+  //   bottom: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 1px;
+  //   background: red;
+  // }
+
   .product-img-wrap {
 
     .ghost-center-wrap {
@@ -31,22 +42,6 @@
 
     img {
       max-height: 100%;
-    }
-  }
-
-  .link-color {
-    color: $gray40;
-
-    &:hover {
-      color: $gray20;
-    }
-
-    i {
-      // .l2 class is 12px
-      font-size: px-em( 9, 12 );
-      // margin-left: -13px;
-      margin-right: 1px;
-      vertical-align: 0.2em;
     }
   }
 
@@ -93,6 +88,7 @@
   // want, but the font and padding are different :\
   .btn {
     background: $btnSpecialBackground;
+    margin-bottom: 4px;
 
     &:hover {
       background: $btnSpecialBackgroundHover;
@@ -128,16 +124,21 @@
 
     i {
       position: relative;
-      top: -(px-em(2));
+      top: -(px-em(1));
       vertical-align: baseline;
       padding: 0 0 0 px-em(8, 16);
       // margin-right: -(px-em( 4 ));
     }
   }
 
-  .favorite-holder i {
-    padding: 0 0 0 px-em(8, 13);
+  .favorite-holder {
+    margin-left: -3px;
   }
+
+  // Setting padding on the icon misaligns the tooltip
+  // .favorite-holder i {
+  //   padding: 0 0 0 px-em(8, 13);
+  // }
 
   .be-social {
     position: absolute;
@@ -148,29 +149,37 @@
   }
 
   .share-trigger {
-    margin-left: 1.25em;
+    margin-left: 2px;
   }
 
+  // The label is not part of what triggers the favoriting (although it should be)
+  // The mixins and scripts were never built that way
+  .be-social .nothingtoseehere {
+    cursor: default;
+  }
+
+  // "Favorite" and "Share"
   .be-social > a .bt3 {
-    color: $gray20;
+    color: $gray40;
+    @include transition( color $transitionSlowish linear );
   }
 
   // be social links active/hover color
   .open .share-trigger > span,
-  .no-touch & .price-content a:hover > span {
-    color: $linkColorHover;
+  .no-touch & .share-trigger:hover > span {
+    color: $secondarySlateDark;
   }
 
   // icon default color
   .fonticon-10-favorite,
-  .fonticon-10-arrowhead-down {
+  .fonticon-10-sm-bold-plus {
     color: $gray50;
   }
 
   // Icon active/hover
   .open .share-trigger > span i,
-  .no-touch & .price-content a:hover .fonticon-10-arrowhead-down {
-    color: $linkColorHover;
+  .no-touch & .price-content a:hover .fonticon-10-sm-bold-plus {
+    color: $secondarySlateDark;
   }
 
 }
@@ -180,7 +189,6 @@
   .product-img {
     overflow: hidden;
     margin-top: px-em(6);
-    margin-bottom: px-em(6);
     max-height: px-em(60);
 
     max-width: px-em(96);
@@ -199,14 +207,22 @@
   }
 
   .sticky-nav-title {
-    margin-top: px-em(22, 18);
-    margin-bottom: px-em(12, 18);
-    line-height: .9;
+    margin-top: px-em(18, 18);
+    margin-bottom: px-em(36, 18);
+    line-height: 1.2;
   }
 
   .btn {
+    display: block;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
     margin-top: px-em(13, 15);
     margin-bottom: px-em(11, 15);
+  }
+
+  .price .space {
+    display: none;
   }
 
   .price-prefix {

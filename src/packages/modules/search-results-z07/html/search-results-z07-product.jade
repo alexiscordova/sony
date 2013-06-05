@@ -18,6 +18,7 @@ include ../../../common/html/jade-helpers.jade
             li
               a(data-value=sort.name, tabindex="-1", href="#")= sort.label
       .native-dropdown
+        i.fonticon-10-arrowheads-elevator.absolutely
         select.select-small
           each sort in data.narrowResultsSet
             option(value=sort.name)= sort.label

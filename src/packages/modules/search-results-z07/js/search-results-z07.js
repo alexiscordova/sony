@@ -40,6 +40,7 @@ define(function(require){
       self.$results = self.$el.find('.results-list');
       self.$clearBtn = self.$el.find('.clear-search');
       self.$search = self.$el.find('input.search');
+      self.$searchIcon = self.$el.find('.search-label');
       self.initialSearchValue = self.$search.val();
       self.bind();
     },
@@ -52,23 +53,33 @@ define(function(require){
       self.$clearBtn.on({
         click: function(evt) {
           evt.preventDefault();
-          self.clearSearch(evt);
+          self.resetSearch(true);
         }
       });
+
+      self.searchval = self.$search.val();
+
+      self.clearSearch();
+      self.activateSearch();
+      // Sets cursor to end of search string
+      self.$search.focus().val(self.searchval);
 
       self.$search.on({
         click: function() {
           self.clearSearch();
+          self.activateSearch();
         },
         blur: function() {
           self.resetSearch();
         }
+
       });
     },
 
     loadMore: function(event) {
+
       var self = this,
-          $resultsList = $(event.target).parent().siblings('.results-list'),
+          $resultsList = $(event.currentTarget).parent().siblings('.results-list'),
           request;
 
       // An ajax request - use this when making a real ajax request
@@ -100,19 +111,25 @@ define(function(require){
     },
 
     clearSearch: function(evt) {
-      var self = this,
-          toBlank = evt || ( self.$search.val() === self.initialSearchValue );
-
-      if ( toBlank ) {
+      var self = this;
+      self.$searchIcon.addClass('hidden');
+      if (self.$search.val() === 'Search') {
         self.$search.first().focus().val('');
       }
     },
 
-    // If the search field is blank, reset it to the initial value
-    resetSearch: function() {
+    activateSearch: function(){
       var self = this;
-      if ( self.$search.val() === '' ) {
-        self.$search.val( self.initialSearchValue );
+      self.$search.addClass('active-search-input');
+    },
+
+    // If the search field is blank, reset it to the initial value
+    resetSearch: function(force) {
+      var self = this;
+      if ( self.$search.val() === '' || force === true) {
+        self.$search.val( 'Search' );
+        self.$searchIcon.removeClass('hidden');
+        self.$search.removeClass('active-search-input');
       }
     }
   };

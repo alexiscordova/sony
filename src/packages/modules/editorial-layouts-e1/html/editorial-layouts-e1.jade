@@ -66,11 +66,12 @@ mixin toutimage(imgdata, mobileclass)
     - imgdata.data.mobileclass = mobileclass
     !{locals.partial('packages/modules/image/html/image.jade' , imgdata)}
 
-mixin copyblock(_copy, _title, _subtitle, _body, linkclass)
+mixin copyblock(_copy, _title, _subtitle, _body)
   copyobject = _copy ? _copy : data
   titleclass = _title ? _title : "t2"
   subtitleclass = _subtitle ? _subtitle : "t6"
   bodyclass = _body ? _body : "p2"
+  linkclass = data.mode == "full" ? "lt2" : "lt3"
   .copy
     if copyobject.title
       h2(class = titleclass) !{copyobject.title}
@@ -80,7 +81,7 @@ mixin copyblock(_copy, _title, _subtitle, _body, linkclass)
       p(class = bodyclass) !{copyobject.body}
   if copyobject.link
     .link
-      linktextsize = copyobject.link.type == "txt" ? "lt3" : ""
+      linktextsize = copyobject.link.type == "txt" ? linkclass : ""
       a(class = copyobject.link.type, href= copyobject.link.url)(class = linktextsize) !{copyobject.link.text}
 
 mixin textonlylayout(_layout)

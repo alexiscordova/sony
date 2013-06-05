@@ -24,8 +24,14 @@ define(<span class="function"><span class="keyword">function</span> <span class=
       self.normalizeLogs();
       self.appendModernizrTests();
       self.addDeviceClasses();
+      self.loadFonts();
 
       log(<span class="string">'SONY : Global : Environment : Initialized'</span>);
+    },
+
+    loadFonts: <span class="keyword">function</span>(){
+      <span class="keyword">var</span> protocol = (<span class="string">'https:'</span>==document.location.protocol?<span class="string">'https:'</span>:<span class="string">'http:'</span>);
+      $(<span class="string">'head'</span>).append(<span class="string">'&lt;link rel="stylesheet" href="'</span> + protocol + <span class="string">'//fast.fonts.com/t/1.css?apiType=css&amp;projectid=2f9c337f-0594-48e7-899e-7b595b9b9840"&gt;'</span>);
     },
 
     appendModernizrTests: <span class="keyword">function</span>() {
@@ -277,12 +283,19 @@ window.resize.</li>
         Modernizr.mediaqueries = <span class="literal">false</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>The sony tablet s gets a false negative on generated content (pseudo elements)</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !Modernizr.generatedcontent &amp;&amp; Settings.isSonyTabletS ) {
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Sony Tablet P does not support box shadow nor inset box shadow
+http://quirksmode.org/css/backgrounds-borders/boxshadow.html
+http://www.elektronotdienst-nuernberg.de/bugs/box-shadow_inset.html</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Settings.isSonyTabletP ) {
+        Modernizr.boxshadow = <span class="literal">false</span>;
+        Settings.$html.removeClass(<span class="string">'boxshadow'</span>).addClass(<span class="string">'no-boxshadow'</span>);
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>The sony tablet s gets a false negative on generated content (pseudo elements)</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !Modernizr.generatedcontent &amp;&amp; Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = <span class="literal">true</span>;
         Settings.$html.removeClass(<span class="string">'no-generatedcontent'</span>).addClass(<span class="string">'generatedcontent'</span>);
       }
 
-      <span class="keyword">if</span> ( Settings.isLTIE8 ) {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>IE7 getting false positive</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.generatedcontent &amp;&amp; Settings.isLTIE8 ) {
         Modernizr.generatedcontent = <span class="literal">false</span>;
         Settings.$html.removeClass(<span class="string">'generatedcontent'</span>).addClass(<span class="string">'no-generatedcontent'</span>);
       }
@@ -292,6 +305,10 @@ window.resize.</li>
 
       <span class="keyword">if</span> ( Settings.isSonyTabletS ) {
         Settings.$html.addClass(<span class="string">'sonytablets'</span>);
+      }
+
+      <span class="keyword">if</span> ( Settings.isSonyTabletP ) {
+        Settings.$html.addClass(<span class="string">'sonytabletp'</span>);
       }
 
       <span class="keyword">if</span> ( Settings.isPS3 ) {
@@ -311,7 +328,7 @@ window.resize.</li>
 
 });
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Need to find a better place for these to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Need to find a better place for these to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
 <span class="keyword">if</span> (!Array.prototype.indexOf) {
   Array.prototype.indexOf = <span class="keyword">function</span>(elt <span class="comment">/*, from*/</span>) {
 

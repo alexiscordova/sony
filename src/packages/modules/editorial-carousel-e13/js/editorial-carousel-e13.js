@@ -91,7 +91,6 @@ define(function(require) {
       self.$carousel.sonyCarousel({
         wrapper: '.sony-carousel-wrapper',
         slides: '.sony-carousel-slide',
-        CSS3Easing: Settings.carouselEasing,
         pagination: true,
         paddles: true,
         paddlePosition: 'outset',
@@ -107,11 +106,8 @@ define(function(require) {
     },
 
     // Make sure that initCarousel is only called when the class hasn't finished initializing
-    fixCarousel : function( extraCondition ) {
-      // Default to true
-      extraCondition = extraCondition === undefined ? true : extraCondition;
-
-      if ( !this.initialized && extraCondition ) {
+    fixCarousel : function() {
+      if ( !this.initialized ) {
         this.initCarousel();
       } else {
         this.updateCarousel();
@@ -183,9 +179,11 @@ define(function(require) {
       }
 
       // Avoid initializing carousel twice on load because the tablet breakpoint overlaps desktop
-      // Also make sure that initCarousel is only called when the class hasn't finished initializing
-      self.fixCarousel( self.isTabletAndDesktopOnLoad );
+      if ( self.isTabletAndDesktopOnLoad !== true ) {
+        self.fixCarousel();
+      }
 
+      self.isTabletAndDesktopOnLoad = false;
       self.isDesktop = true;
       self.isMobile = false;
     },

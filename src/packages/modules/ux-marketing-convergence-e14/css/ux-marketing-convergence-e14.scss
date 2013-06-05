@@ -26,7 +26,8 @@
  $slideHeightDesktop:340px;
 
  .uxmc {
-   margin-bottom: 2em;
+    margin-bottom: 2em;
+    //border:3px solid red;
 
    &.no-header{
       margin-bottom: px-em(40px);
@@ -38,7 +39,7 @@
      font-weight: bold;
      text-transform: uppercase;
    }
- }
+ } // uxmc
 
  .uxmc-container {
    position: relative;
@@ -69,7 +70,15 @@
        display: inline-block;
        height: 0.8em;
        font-size: 0.8em;
+       opacity:1.0;
+       @include transition(opacity .75s $easeNormal);
      }
+
+     a:hover{
+      @include transition(opacity .75s $easeNormal);
+      opacity:0.8;
+     }
+
 
      [class*="fonticon-"]{
       line-height: 1em;
@@ -106,7 +115,6 @@
       .uxmc-image-wrapper{
         background-size: cover;
       }
-
    }
 
    .uxmc-carousel-wrapper {
@@ -118,6 +126,7 @@
      width: 50%;
      height: 100%;
      overflow:hidden;
+
 
      .lt-ie8 & {
        width: 49.5%;
@@ -158,6 +167,7 @@
         opacity: 0;
         -webkit-backface-visibility: hidden;
         @include transition(opacity .75s $easeNormal);
+        @include fadeoutOnHover(".uxmc-image-wrapper");
 
         &.active{
           -webkit-backface-visibility: hidden;
@@ -197,7 +207,6 @@
    } // btn-reload-container
 
    .btn-reload {
-     cursor: pointer;
      margin:0;
      padding:0;
      width: 1em;
@@ -212,60 +221,76 @@
    }
 
    .progress-indicators {
-     position: absolute;
-     right: 2.5%;
-     bottom: 0;
-     z-index: 3;
-     display: table;
-     height: 100%;
+      // border:1px solid white;
+      position: absolute;
+      right: 2.5%;
+      bottom: 0;
+      z-index: 3;
+      display: table;
+      height: 100%;
+      opacity:1;
+      @include transition(opacity 1s $easeNormal);
 
      > div {
-       display: table-cell;
-       vertical-align: middle;
+      // border:1px solid white;
+      display: table-cell;
+      vertical-align: middle;
      }
 
-     $dialSize: 34px;
+     $dialSize: 24px;
      .uxmc-dial-wrapper {
-       position: relative;
-       width: $dialSize;
-       height: $dialSize;
-       margin: 8px 0;
+        // border:1px solid blue;
+        position: relative;
+        width: $dialSize;
+        height: $dialSize;
+        margin: 8px 0;
 
-       .uxmc-dial-label {
-         position: absolute;
-         width: 100%;
-         height: $dialSize;
-         line-height: $dialSize;
-         vertical-align: middle;
-         z-index: 4;
-         color: $white;
-         cursor: pointer;
-         font-size: 0.75em;
-         text-align: center;
-         opacity:0.65;
+         &:hover{
+          cursor: pointer;
+         } // hover
+
+        .uxmc-dial-label {
+          // border:1px solid blue;
+          position: absolute;
+          width: 100%;
+          height: $dialSize;
+          line-height: $dialSize;
+          vertical-align: middle;
+          z-index: 4;
+          color: $white;
+          cursor: pointer;
+          font-size: 0.75em;
+          text-align: center;
+          opacity:0.65;
+          -webkit-backface-visibility: hidden;
+          @include transition(opacity $transitionFast $easeNormal);
+
+          &.active{
+            // border:1px solid green;
+            opacity:1;
+            -webkit-backface-visibility: hidden;
+            @include transition(opacity $transitionFast $easeNormal);
+          } // active
+
+        } // uxmc dial label
+
+       &.active{
+         opacity:1;
          -webkit-backface-visibility: hidden;
          @include transition(opacity $transitionFast $easeNormal);
-
-         &.active{
-           opacity:1;
-           -webkit-backface-visibility: hidden;
-           @include transition(opacity $transitionFast $easeNormal);
-         }
-       }
+       } // active
 
        input {
          display: none;
-         vertical-align: middle;
-       }
-     }
-   }
- }
+       } // input
+     }  // uxmc dial wrapper
+   } // progress indicators
+ } // uxmc-container
 
  .no-backgroundsize {
 
    .uxmc-image-wrapper {
      display: table-cell;
-     //background-image: none !important;
      vertical-align: middle;
 
      span {
@@ -277,14 +302,13 @@
        vertical-align: middle;
      }
    }
- }
+ } //no backgroundsize
 
  .no-canvas {
 
    .uxmc-container {
 
      .progress-indicators {
-
        .uxmc-dial-label {
          &.active {
            background: $white;
@@ -293,4 +317,4 @@
        }
      }
    }
- }
+ } // no canvas

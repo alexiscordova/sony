@@ -71,9 +71,24 @@
       color: $gray20;
   }
 
-  .media,
+  .media {
+    overflow: visible;
+  }
+
   .media-bd {
-      overflow: hidden;
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+
+    & {
+        *zoom: 1;
+    }
   }
 
   .media-img {

@@ -1,0 +1,424 @@
+@import "../../../common/css/_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../../../common/css/_base/mixins";
+
+$itemWidth: 255;
+$windowWidth: 1100;
+
+// if they stack a textonly module ontop of a full module
+// we need to compensate that
+.editorial {
+  &.full {
+    .box .link {
+      margin: 0;
+    }
+  }
+  &.textonly {
+    & + .editorial-chapters-container  {
+      margin: -50px 0 0;
+      padding: 0 0 50px;
+    }
+  }
+}
+
+
+// hacky fix for width issue with e1+e5 templates
+.container.submodule {
+  .editorial-chapters-container {
+    margin: 0;
+
+    &.container {
+      width: 100%;
+    }
+  }
+}
+
+.editorial-chapters-container {
+  @include clearfix();
+  margin: 0 auto;
+  padding: 50px 0 90px;
+  overflow: hidden;
+
+  .image-module {
+    text-align:center;
+    height:620px;
+    @include background-size(cover);
+    background: {
+      position: center center;
+      repeat: no-repeat;
+    }
+  }
+
+  .editorial-chapters {
+    position: relative;
+
+    // getting stomped on by another similar class :(
+    .editorial-carousel-wrapper {
+      height: auto;
+    }
+
+    // design review margin: 80px 0 50px;
+  }
+
+  .editorial-carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  // hotspots spcific we need to adjust overflow issues
+  &.hotspots {
+    .editorial-carousel-wrapper {
+      overflow: visible;
+    }
+      
+    .thumb-nav {
+      top: -4px;
+    }
+
+  }
+  
+
+  .editorial-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    @include flickerfix();
+  }
+
+  .editorial-carousel-slide {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    float:left;
+    @include opacity(0);
+    @include transition();
+
+    .image-module {
+      position: absolute;
+      left: -9999em;
+
+      //we need to unhide one elemnt on load 
+      // so it show the slideshow atleast
+      &.unhide {
+        position: relative;
+        left: auto;
+      }
+    }     
+
+    &.active {
+      display: block;
+      @include opacity(100);
+      @include transition();
+
+      .image-module {
+        position: relative;
+        left: auto;
+      }
+    }
+
+    &.posActive {
+      position:absolute;
+    }
+
+    .container {
+      width:100%;
+    }
+
+  } // end .editorial-carousel-slide
+
+
+  .thumb-nav {
+    position:relative;
+    margin-bottom:0;
+    text-align:center;
+    height:68px;
+    z-index:1;
+    margin: -4px auto 0;
+    overflow: hidden;
+
+    .left-shade,
+    .right-shade {
+      display:none;
+    }
+
+    .slider {
+      margin:0 auto;
+    }
+
+    li {
+      position:relative;
+      width: percentage($itemWidth/$windowWidth);
+      padding:10px percentage(10/$windowWidth);
+      height:48px;
+      display: inline-block;
+      background:$white;
+      color:$gray20;
+      cursor:pointer;
+      text-align:left;
+      line-height:16px;
+      border:0;
+      vertical-align:bottom;
+      overflow:hidden;
+      @include transition();
+      @include flickerfix();
+      @include box-sizing(content-box);
+
+      & + li {margin-left:-1px;}
+
+      &.active {
+        background: $gray80;
+      }
+
+      &.active,
+      &:hover {
+        border-top:4px solid $buttonBlue;
+
+        img {
+          @include opacity(100);
+        }
+
+        i {
+          color: $gray20;
+        }
+      }
+
+      .lt-ie8 & {
+        @include ie7-inline-block();
+      }
+
+    } // end li
+
+    img {
+      position: relative;
+      bottom: 0;
+      width: percentage(60/$itemWidth);
+      max-width: 60px;
+      float: left;
+      @include opacity(75);
+    }
+
+    i {
+      color: $gray40;
+      line-height:16px;
+      position:relative;
+      top:9px;
+      float:left;
+      margin-bottom:20px;
+    }
+
+    // need to take in the fact there is an image
+    .label-container {
+      position: relative;
+      display: table;
+      height: 100%;
+      width: percentage(($itemWidth - 64)/$itemWidth);
+      padding-left: percentage(10/($itemWidth - 64));
+      top: -4px;
+      @include box-sizing(border-box);
+    }
+
+    .nav-label {
+      color: $gray20;
+      position:relative;
+      display: table-cell;
+      vertical-align: middle;
+      // IE7 jank
+      *float: left;
+      *display: block;
+      zoom: 1;
+    }
+  } // end .thumb-nav
+
+  &.top-nav .thumb-nav {
+    margin-bottom:24px;
+    width:auto;
+    text-align:left;
+    margin-top:0;
+
+    li {
+      width:auto;
+      border-top:0;
+      vertical-align:top;
+
+      &.active,
+      &:hover {
+        border-top:0;
+        border-bottom:4px solid $buttonBlue;
+        margin-top:0;
+      }
+    } // end li
+
+    i {
+      float:none;
+      top:13px;
+    }
+
+  } // end &.top-nav .thumb-nav
+
+  &.gray {
+    background:$gray80;
+
+    .thumb-nav li {
+      background:$gray80;
+
+      &.active {
+        background:$white;
+      }
+    }
+  }
+
+  &.thumb-mode .thumb-nav {
+    i {
+      display:none;
+    }
+
+
+  }
+
+  &.icon-mode .thumb-nav {
+
+    img {
+      display:none;
+    }
+
+    i {
+      margin-left: percentage(5/$itemWidth);
+    }
+
+    .label-container {
+      width: percentage(($itemWidth - 44)/$itemWidth);
+    }
+
+  } // end &.icon-mode .thumb-nav
+
+  &.text-mode .thumb-nav {
+    img, i {display:none;}
+    .label-container {
+      margin: 0;
+    }
+  }
+} // end .editorial-chapters-container
+
+
+
+// Media Left + Media Right Chapters!
+// ==================================
+// Note: Tabs here are always a `width: auto`
+//       Meaning that many items will be a static width when it comes to assets
+.span5,
+.span6,
+.span7 {
+  .editorial-chapters-container {
+    margin: auto;
+
+    .image-module {height:auto;}
+
+    $miniWindowWidth : 500;
+    $miniItemWidth: 105;
+
+    // only two tabs may exist at a certain time for the spans
+    li {
+      overflow: hidden;
+      padding:8px 10px;
+      height:38px;
+    }
+
+    .label-container {
+      /*width: percentage(130/$miniItemWidth);*/
+      width: 100%;
+      overflow: hidden;
+      padding: 0 percentage(5/$miniItemWidth) 0 percentage(10/$miniItemWidth);
+      top: 0;
+    }
+
+    .thumb-nav {
+      margin: -4px 0 0;
+    }
+
+
+    &.thumb-mode {
+      .thumb-nav {
+        height:62px;
+
+        img {
+          width: 51px;
+        }
+
+        .label-container {
+          width: auto;
+          // position: absolute;
+          // left: percentage(60/$miniItemWidth);
+        }
+      }
+    }
+
+    &.icon-mode {
+      .thumb-nav {
+        height:62px;
+
+        i {
+          top:10px;
+          margin: 0;
+        }
+
+        .label-container {
+          width: auto;
+          padding: 0 percentage(10/$miniItemWidth);
+          // width: percentage(100/$miniItemWidth);
+          // padding-left: percentage(10/$miniItemWidth);
+        }
+      }
+    }
+
+    &.text-mode {
+      .thumb-nav {
+        height:62px;
+
+        li {
+          line-height:14px;
+          padding:15px 0;
+          height:20px;
+          width:auto;
+        }
+
+        img, i {display:none;}
+
+        .label-container {
+          padding: 0 20px;
+          white-space: nowrap;
+          height:14px;
+        }
+      }
+    } // end .text-mode
+
+    &.top-nav .thumb-nav {
+      i, img {display:none;}
+    }
+  }
+
+  // hotspots spcific we need to adjust overflow issues
+  .hotspots {
+
+    .editorial-carousel-wrapper {
+      overflow: hidden;
+    }
+    .thumb-nav {
+      top: auto;
+    }
+  }
+}
+
+.lt-ie10 {
+  .editorial-chapters-container {
+    .editorial-carousel-slide.active {position:relative;}
+    .thumb-nav.container {width:92.5%;}
+    &.top-nav .thumb-nav.container {width:auto;}
+
+    .editorial .inner {
+      margin-left: 0;
+      left: 0;
+    }
+
+  }
+}

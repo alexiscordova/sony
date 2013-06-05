@@ -34,7 +34,8 @@ define(function(require){
   var _id = 0,
       _startEvents = function(id){ return 'mousedown.sonyDraggable-' + id + ' touchstart.sonyDraggable-' + id; },
       _endEvents = function(id){ return 'mouseup.sonyDraggable-' + id + ' touchend.sonyDraggable-' + id; },
-      _moveEvents = function(id){ return 'mousemove.sonyDraggable-' + id + ' touchmove.sonyDraggable-' + id; };
+      _moveEvents = function(id){ return 'mousemove.sonyDraggable-' + id + ' touchmove.sonyDraggable-' + id; },
+      transformName = Modernizr.prefixed('transform');
 
   var SonyDraggable = function($element, options){
 
@@ -88,7 +89,13 @@ define(function(require){
         return;
       }
 
+      // Need to return if this is a child element that should not trigger a drag.
 
+      if ( self.nonDraggableChildren ) {
+        if ( $(e.target).closest(self.nonDraggableChildren).length > 0 || $(e.target).is(self.nonDraggableChildren) ) {
+          return;
+        }
+      }
 
       if ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
@@ -143,7 +150,9 @@ define(function(require){
 
       e.preventDefault();
 
-      self.$el.addClass('dragging');
+      if ( !self.$el.hasClass('dragging') ) {
+        self.$el.addClass('dragging');
+      }
       self.handlePosition.x = self.scrubberLeft + distX;
       self.handlePosition.y = self.scrubberTop + distY;
 
@@ -294,7 +303,7 @@ define(function(require){
       }
 
       if ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed('transform'), 'translate(' + outputX + self.unit + ',' + outputY + self.unit + ')');
+        self.$el.css(transformName, 'translate(' + outputX + self.unit + ',' + outputY + self.unit + ')');
       } else {
         self.$el.css({
           'left': outputX + self.unit,
@@ -405,6 +414,9 @@ define(function(require){
 
     // 'px' or '%' based positioning for handle / callback coords.
     'unit': '%',
+
+    // Pass a valid selector to set children of the element that *won't* trigger a scrub.
+    'nonDraggableChildren': '',
 
     // Motion that must be passed on touch before dragging will start. Helpful for
     // preventing "touch-trapping" scenarios.

@@ -29,7 +29,7 @@ define(function(require){
   var module = {
 
     init: function() {
-      if ( $('.gallery').length > 0 || $('.af-module').length > 0 ) {
+      if ( $('.gallery').length > 0 || $('.af-module').length > 0 || $('.js-product-strip').length > 0 ) {
 
         // Register for tab show(n) events here because not all tabs are galleries
         $('[data-tab]')
@@ -89,6 +89,8 @@ define(function(require){
     debouncedResize = $.debounce( 325, $.proxy( self.debouncedResize, self ) );
     self.$window.on('orientationchange', debouncedResize );
     self.$window.on('resize.gallery', debouncedResize );
+    // Stop the active/current <a> button in the filter display bar from doing anything
+    self.$container.find('.compare-btn.active').on( 'click', false );
 
     // Initialize filter dictionaries to keep track of everything
     if ( self.hasFilters ) {
@@ -221,13 +223,14 @@ define(function(require){
       self.$sortSelect = self.$container.find('.sort-options select');
       self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
       self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
-      self.$productCount = self.$container.find('.product-count');
+      self.$productCount = self.$container.find('.js-product-count');
+      self.$productStr = self.$container.find('.js-product-str');
       self.$activeFilters = self.$container.find('.active-filters');
       self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
       self.$favorites = self.$grid.find('.js-favorite');
       self.$gridProductNames = self.$grid.find('.product-name-wrap');
       self.$carousels = self.$grid.find('.js-item-carousel');
-      self.$zeroMessage = self.$container.find('.zero-products-message');
+      self.$zeroMessage = self.$container.find('.js-zero-message');
       self.$recommendedTile = self.$grid.find('.recommended-tile');
 
       // Modes
@@ -271,6 +274,12 @@ define(function(require){
         self.ySuffix = 'px';
         self.xPrefix = '';
         self.xSuffix = 'px';
+      }
+
+      // Get singular and plural forms of "products"
+      if ( !self.isEditorialMode ) {
+        self.plural = self.$productStr.data('plural');
+        self.singular = self.$productStr.data('singular');
       }
     },
 
@@ -385,8 +394,7 @@ define(function(require){
           $target = $(evt.target),
           isSelect = $target.is('select'),
           filterName,
-          method,
-          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' ).first();
+          method;
 
       // Get variables based on what kind of component we're working with
       if ( isSelect ) {
@@ -423,34 +431,59 @@ define(function(require){
       // Call shuffle
       self.shuffle.shuffle( method );
 
-      self.updateProductCount();
+      self
+        .updateProductCount()
+        .toggleZeroMessage()
+        .toggleCompareButton( method === 'all', filterName );
+    },
+
+    toggleCompareButton : function( toAll, filterName ) {
+      var self = this,
+          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' );
 
       // method is `all`, hide the compare button
-      if ( typeof method === 'string' ) {
-        if ( $compareBtn.hasClass( 'in' ) ) {
-          $compareBtn.removeClass( 'in' );
-          $compareBtn.attr('tabindex', '-1');
-
-          // Remove the saved type
-          $compareBtn.removeData( 'type' );
-        }
+      if ( toAll || filterName === self.accessoryFilterName ) {
+        self.hideCompareButton( $compareBtn );
 
       // method is a function, meaning the items are filtered,
       // show the compare button
       } else {
-        if ( !$compareBtn.hasClass( 'in' ) ) {
-          $compareBtn.addClass( 'in' );
-          $compareBtn.attr('tabindex', '');
 
-          // Save the type that was filtered
-          $compareBtn.data( 'type', filterName );
+        // Has to be > than 2 because one of the items is the recommended tile
+        if ( self.shuffle.visibleItems > 2 ) {
+          self.showCompareButton( $compareBtn, filterName );
+
+        // Less than 2 comparable items in the gallery, hide the button
+        } else {
+          self.hideCompareButton( $compareBtn );
         }
 
+      }
+
+      return self;
+    },
+
+    showCompareButton : function( $btn, filterName ) {
+      if ( !$btn.hasClass( 'in' ) ) {
+        $btn.addClass( 'in' );
+        $btn.attr('tabindex', '');
+
+        // Save the type that was filtered
+        $btn.data( 'type', filterName );
+      }
+    },
+
+    hideCompareButton : function( $btn ) {
+      if ( $btn.hasClass( 'in' ) ) {
+        $btn.removeClass( 'in' );
+        $btn.attr('tabindex', '-1');
+
+        // Remove the saved type
+        $btn.removeData( 'type' );
       }
     },
 
     // Updates the count displayed at the top left, above the products.
-    // It does NOT account for 2 products -> 1 product
     updateProductCount : function() {
       var self = this,
           count = self.shuffle ? self.shuffle.visibleItems : self.$items.length;
@@ -460,7 +493,19 @@ define(function(require){
         count -= 1;
       }
 
+      // Turn 1 Products -> 1 Product
+      // and 2 Product -> 2 Products
+      if ( count === 1 && self.isPlural ) {
+        self.$productStr.text( self.singular );
+        self.isPlural = false;
+      } else if ( count !== 1 && !self.isPlural ) {
+        self.$productStr.text( self.plural );
+        self.isPlural = true;
+      }
+
       self.$productCount.text( count );
+
+      return self;
     },
 
     // From the element's data-* attributes, test to see if it passes
@@ -752,7 +797,7 @@ define(function(require){
           filterName = '',
           filterValues = [],
           filterValue = '',
-          i = 0;
+          i;
 
       self.lastFilterGroup = null;
       self.secondLastFilterGroup = null;
@@ -778,7 +823,7 @@ define(function(require){
             // Get the filter values without a reference because we want to delete parts of the array
             // as its looped through
             filterValues = $.extend([], self.filters[ filterType ][ filterName ]);
-            for ( ; i < filterValues.length; i++ ) {
+            for ( i = 0; i < filterValues.length; i++ ) {
               filterValue = filterValues[ i ];
               // Remove from internal data and UI
               self.deleteFilter( filterValue, filterName, filterType );
@@ -792,23 +837,42 @@ define(function(require){
 
     toggleZeroMessage : function() {
       var self = this,
-          visibleItems = self.shuffle ? self.shuffle.visibleItems : self.$items.filter('.filtered').length;
+          hiddenClass = 'hidden',
+          slideClass = 'no-height',
+          visibleItems = self.shuffle ? self.shuffle.visibleItems : self.$items.filter('.filtered').length,
+          $msg = self.$zeroMessage,
 
-      if ( visibleItems ) {
-        if ( !self.$zeroMessage.hasClass('hide') ) {
-          self.$zeroMessage.addClass('hide');
+          // Favorites gallery has to account for recommended tile
+          shouldShowMessage = self.isFavoritesGallery ? visibleItems > 1 : visibleItems > 0,
+          shouldHideGrid = self.isCompareMode,
+          shouldSlideGrid = self.isFavoritesGallery;
 
-          if ( self.isCompareMode ) {
-            self.$grid.removeClass('hidden');
-          }
+      // Message is hidden and should be shown
+      if ( shouldShowMessage && !$msg.hasClass( hiddenClass ) ) {
+        $msg.addClass( hiddenClass );
+
+        // Show other content
+        if ( shouldHideGrid ) {
+          self.$grid.removeClass( hiddenClass );
         }
-      } else {
-        if ( self.$zeroMessage.hasClass('hide') ) {
-          self.$zeroMessage.removeClass('hide');
 
-          if ( self.isCompareMode ) {
-            self.$grid.addClass('hidden');
-          }
+        // Slide down other content
+        if ( shouldSlideGrid ) {
+          self.$grid.removeClass( slideClass );
+        }
+
+      // Message is shown and should be hidden
+      } else if ( !shouldShowMessage && $msg.hasClass( hiddenClass ) ) {
+        $msg.removeClass( hiddenClass );
+
+        // Hide other content
+        if ( shouldHideGrid ) {
+          self.$grid.addClass( hiddenClass );
+        }
+
+        // Slide up other content
+        if ( shouldSlideGrid ) {
+          self.$grid.addClass( slideClass );
         }
       }
 
@@ -936,12 +1000,12 @@ define(function(require){
 
         // iscroll props get mixed in
         iscrollProps: {
-          snap: !self.isTouch,
+          snap: !self.hasTouch,
           hScroll: true,
           vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          momentum: true,
+          momentum: self.useMomentum,
           bounce: false,
           onScrollMove : function() {
             self.updateStickyNav( this );
@@ -980,7 +1044,8 @@ define(function(require){
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
         buffer: 8,
-        supported: Settings.shuffleSupport
+        supported: Settings.shuffleSupport,
+        useTransition: !( Settings.isPS3 )
       });
 
       self.shuffle = self.$grid.data('shuffle');
@@ -1179,7 +1244,7 @@ define(function(require){
           // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
           setTimeout(function() {
 
-            // This also calls iQ.update( true )
+            // This also calls iQ.reset();
             self.loadSwatchImages();
 
             if ( self.currentFilterColor ) {
@@ -1187,9 +1252,9 @@ define(function(require){
             }
 
             // This is silly. Maybe a new method for iQ. iQ.refresh()
-            setTimeout(function() {
-              iQ.update( true );
-            }, 300);
+            // setTimeout(function() {
+            //   iQ.reset();
+            // }, 300);
           }, 15);
       }
 
@@ -1214,14 +1279,17 @@ define(function(require){
 
       $collection = $collection || self.$grid.find('.mini-swatch[data-color]');
       $collection.each(function() {
-          var $swatch = $(this),
-              hidden = 'hidden',
-              color = $swatch.data('color'),
-              $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
-              $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
+        var $swatch = $(this),
+            hidden = 'hidden',
+            color = $swatch.data('color'),
+            $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
+            $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
 
-          $swatch.on('click', false);
+        $swatch.on('click', false);
 
+        // Only bind mouse enter and mouse leave events to non-touch environments
+        // Otherwise when they're tapped, it counts as a hover, changes the swatch, and sticks
+        if ( !self.hasTouch ) {
           $swatch.hover(function() {
             // Mouse over, hide the main image, show the swatch image
             if ( self.currentFilterColor ) {
@@ -1241,8 +1309,9 @@ define(function(require){
               $productImg.removeClass( hidden );
             }
           });
+        }
 
-          $swatch = null;
+        $swatch = null;
       });
 
       $collection = null;
@@ -1254,7 +1323,7 @@ define(function(require){
       var $newIQImgs = this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
 
       if ( $newIQImgs.length ) {
-        iQ.update( true );
+        iQ.reset();
       }
 
       return this;
@@ -1294,7 +1363,7 @@ define(function(require){
 
     initFavoritesGallery : function() {
       var self = this,
-          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' ).first();
+          $compareBtn = self.$container.find( '.filter-display-bar .btn.fade' );
 
       self.initRecommendedTile();
 
@@ -1310,7 +1379,7 @@ define(function(require){
       }
 
       // Automatically select the share input on click
-      Utilities.autoSelectInputOnFocus( self.$container.find( '.share-options input' ) );
+      Utilities.autoSelectInputOnFocus( self.$container.parent().find( '.share-options input' ) );
 
       // Direct the user to the right compare page
       $compareBtn.on('click', function( evt ) {
@@ -1320,7 +1389,7 @@ define(function(require){
 
         evt.preventDefault();
 
-        if ( type ) {
+        if ( type && destination ) {
           destination += '?type=' + type;
           window.location = destination;
         }
@@ -1345,8 +1414,14 @@ define(function(require){
             // Forcefully remove them
             .remove();
           self.shuffle.remove( $item );
-          self.updateProductCount();
         }
+      });
+
+      // Shuffle item removed. Used here because `shuffle.remove()` uses a timeout (is async)
+      self.$grid.on( 'removed.shuffle', function() {
+        self
+          .updateProductCount()
+          .toggleZeroMessage();
       });
     },
 
@@ -1731,14 +1806,35 @@ define(function(require){
       $minOutput = $output.find('.range-output-min .val'),
       $maxOutput = $output.find('.range-output-max .val'),
 
-      delay = self.isTouch ? 1000 : 750,
-      method = self.isTouch ? 'debounce' : 'throttle',
+      // Var to only call requestAnimationFrame once per frame
+      isTicking = false,
+
+      delay = self.hasTouch ? 1000 : 750,
+      method = self.hasTouch ? 'debounce' : 'throttle',
       debouncedFilter = $[ method ]( delay, function() {
         self.filter();
       });
 
       function getPrice( percent ) {
         return Math.round( diff * (percent / 100) ) + MIN_PRICE;
+      }
+
+      function slid() {
+        if ( isTicking ) {
+          return;
+        }
+
+        var args = Array.prototype.slice.call( arguments, 0 );
+        isTicking = true;
+
+        // Only use rAF if it's native
+        if ( Modernizr.raf ) {
+          requestAnimationFrame( function updateWrap() {
+            update.apply( null, args );
+          });
+        } else {
+          update.apply( null, args );
+        }
       }
 
       // Range control update callback
@@ -1768,6 +1864,8 @@ define(function(require){
           // Throttle filtering (especially on touch)
           debouncedFilter();
         }
+
+        isTicking = false;
       }
 
       // Show what's happening with the range control
@@ -1808,7 +1906,7 @@ define(function(require){
       });
 
       // On handle slid, update. Register after initialized so it's not called during initialization
-      self.$rangeControl.on('slid.rangecontrol', update);
+      self.$rangeControl.on( 'slid.rangecontrol', slid );
 
       self.filterValues[ filterName ] = { min: true, max: true };
 
@@ -1826,29 +1924,28 @@ define(function(require){
       return false;
     },
 
-    // setRangeValue : function( min, max ) {
-    //   var self = this,
-    //       rangeControl = self.$rangeControl.data('rangeControl'),
-    //       minPos = 0,
-    //       maxPos = 0,
-    //       diff = self.MAX_PRICE - self.MIN_PRICE,
-    //       railSize = rangeControl.railSize,
+    setRangeValue : function( min, max ) {
+      var self = this,
+          rangeControl = self.$rangeControl.data('rangeControl'),
+          minPos = 0,
+          maxPos = 0,
+          diff = self.MAX_PRICE - self.MIN_PRICE,
+          railSize = rangeControl.railSize,
 
-    //   priceToRangePosition = function( price ) {
-    //     return ( ( price - self.MIN_PRICE ) / diff ) * railSize;
-    //   };
+      priceToRangePosition = function( price ) {
+        return ( ( price - self.MIN_PRICE ) / diff ) * railSize;
+      };
 
-    //   if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
-    //     minPos = priceToRangePosition( min );
-    //     rangeControl.slideToPos( minPos, rangeControl.$minHandle );
-    //   }
+      if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
+        minPos = priceToRangePosition( min );
+        rangeControl.slideToPos( minPos, rangeControl.$minHandle );
+      }
 
-    //   if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
-    //     // console.assert( max > min, 'uh oh. Max higher than min.' );
-    //     maxPos = priceToRangePosition( max );
-    //     rangeControl.slideToPos( maxPos );
-    //   }
-    // },
+      if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
+        maxPos = priceToRangePosition( max );
+        rangeControl.slideToPos( maxPos );
+      }
+    },
 
 
     getSortObject : function( evt, $btnText, byIndex ) {
@@ -2167,7 +2264,7 @@ define(function(require){
       self.stickyNavHeight = self.$stickyNav.outerHeight();
       self.stickyOffset = self.getStickyHeaderOffset();
       if ( !dontUpdateStickyNav ) {
-        self.$stickyNav.stickyNav('updateTriggerOffset', self.stickyOffset.top);
+        self.$stickyNav.stickyNav('setTriggerOffset', self.stickyOffset.top);
       }
 
       return self;
@@ -2299,7 +2396,15 @@ define(function(require){
 
         // Remove heights in case they've aready been set
         if ( isSmallerThanTablet ) {
-          self.$gridProductNames.css('height', '');
+
+          // Product name heights no longer need to be aligned
+          if ( self.isDetailedMode ) {
+            self.$gridProductNames.css('height', '');
+
+          // Product name heights still need to be aligned
+          } else {
+            self.evenTheHeights();
+          }
 
           self.onRecommendedTileResize();
 
@@ -2376,11 +2481,15 @@ define(function(require){
         .find('.media-heading')
           .evenHeights();
 
+      // Update even if scroller has already been initialized
+      self.maxRecommendedTitleBarOffset = Math.ceil((self.$container.width() - self.$grid.width()) / 2) * -1;
+
       // If there currently isn't a scroller instance, create one
       if ( !self.scroller ) {
-        self.maxRecommendedTitleBarOffset = Math.ceil((self.$container.width() - self.$grid.width()) / 2) * -1;
         self.scroller = self.$recommendedTile.find('.wrap').scrollerModule({
           iscrollProps: {
+            bounce: self.useBounce,
+            momentum: self.useMomentum,
             isOverflowHidden: false,
             hideScrollbar: true,
             fadeScrollbar: true,
@@ -2503,7 +2612,7 @@ define(function(require){
           if ( $shares.length ) {
             $sorter.insertAfter( $shares );
           } else {
-            $sorter.appendTo( self.$container.find('.slide-toggle-parent .grid') );
+            $sorter.appendTo( self.$container.find('.slide-toggle-parent .grid .content-right') );
           }
           self.$container.find('#sort-options-holder').remove();
           self.hasSorterMoved = false;
@@ -3115,9 +3224,11 @@ define(function(require){
     isInitialized: false,
     isFilteringInitialized: false,
     isCompareToolOpen: false,
-    isTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
+    hasTouch: Settings.hasTouchEvents,
     isTicking: false,
-    showStickyHeaders: !( Settings.hasTouchEvents || Settings.hasPointerEvents || Settings.isLTIE10 || Settings.isPS3 ),
+    useBounce: !( Settings.isVita || Settings.isLTIE9 ),
+    useMomentum: !( Settings.isVita || Settings.isLTIE9 ),
+    showStickyHeaders: !( Settings.hasTouchEvents || Settings.isLTIE10 || Settings.isPS3 ),
     lastScrollY: 0,
     sorted: false,
     currentFilterColor: null,
@@ -3126,6 +3237,7 @@ define(function(require){
     secondLastFilterGroup: null,
     secondLastFilterStatuses: null,
     maxRecommendedTitleBarOffset: 0,
+    accessoryFilterName: 'accessory',
     loadingGif: Settings.loaderPath
   };
 
@@ -3152,6 +3264,23 @@ define(function(require){
     init : function() {
       var self = this;
 
+      // Initialize components
+      self
+        .setVars()
+        .onResize( true )
+        .initPopover()
+        .initModal()
+        .initSorting()
+        .initSearch();
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+    },
+
+    setVars : function() {
+      var self = this;
+
+
       // Modal pieces
       self.$modal = self.$container.find('#accessory-finder-modal');
       self.$modalHeader = self.$modal.find('.modal-header');
@@ -3161,25 +3290,20 @@ define(function(require){
       // Components
       self.$grid = self.$container.find('.products');
       self.$items = self.$grid.find( self.itemSelector );
-      self.$productCount = self.$container.find('.product-count');
+      self.$productCount = self.$container.find('.js-product-count');
+      self.$productStr = self.$container.find('.js-product-str');
       self.$popoverTriggers = self.$container.find('.js-popover-trigger');
       self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
       self.$sortSelect = self.$container.find('.sort-options select');
       self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
       self.$searchField = self.$container.find('#accessory-finder-input');
 
+      self.plural = self.$productStr.data('plural');
+      self.singular = self.$productStr.data('singular');
+
       self.useIScroll = self.hasTouch;
 
-      // Initialize components
-      self
-        .onResize( true )
-        .initPopover()
-        .initModal()
-        .initSorting()
-        .initSearch();
-
-      // Listen for global resize
-      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+      return self;
     },
 
     initPopover: function() {
@@ -3203,6 +3327,11 @@ define(function(require){
 
     initModal : function() {
       var self = this;
+
+      // Stop modal `show` event from bubbling to tabs, causing tabs to switch
+      self.$modal.on( 'show hide', function( evt ) {
+        evt.stopPropagation();
+      });
 
       // Listen for modal events
       self.$modal.on( 'shown', $.proxy( self.onModalShown, self ) );
@@ -3258,6 +3387,7 @@ define(function(require){
         sequentialFadeDelay: 60,
         buffer: 20,
         supported: Settings.shuffleSupport,
+        useTransition: !( Settings.isPS3 ),
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 
@@ -3354,7 +3484,8 @@ define(function(require){
           modalHeaderHeight,
           maxBodyHeight;
 
-      screenHeight = self.$window.height();
+      // iOS reports the wrong window height with jQuery
+      screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
 
       // 90% of the available height
       maxModalHeight = 0.9 * screenHeight;
@@ -3603,7 +3734,7 @@ define(function(require){
     isTicking: false,
     isFadedIn: false,
     isModalOpen: false,
-    hasTouch: Settings.hasTouchEvents || Settings.hasPointerEvents,
+    hasTouch: Settings.hasTouchEvents,
     useScrollListener: !( Settings.isSonyTabletS || Settings.isLTIE9 || Settings.isPS3 ),
     itemSelector: '.compat-item',
     $wrapper: null,
@@ -3611,10 +3742,15 @@ define(function(require){
     $window: Settings.$window
   };
 
+
+
   module.initializer = function( $pane ) {
+    var $galleries = $pane.find('.gallery'),
+        $accessoryFinders = $pane.find('.af-module'),
+        $productStrips = $pane.find('.js-product-strip');
 
     // Initialize galleries
-    $pane.find('.gallery').each(function() {
+    $galleries.each(function() {
       var $this = $(this);
 
       // Stagger gallery initialization
@@ -3624,16 +3760,87 @@ define(function(require){
     });
 
     // Instantiate accessory finders
-    $pane.find('.af-module').each(function( i, el ) {
+    $accessoryFinders.each(function( i, el ) {
       setTimeout(function() {
         new AccessoryFinder( el );
       }, 0);
     });
+
+    // Instantiate product strips
+    if ( $productStrips.length ) {
+      new ProductStrip( $productStrips );
+    }
+
+    // Release for IE
+    $galleries = $accessoryFinders = $productStrips = null;
   };
 
-  module.onGalleryTabAlreadyShown = function( evt ) {
+  var ProductStrip = function( $strips ) {
+    var self = this;
+
+    $.extend( self, ProductStrip.settings );
+
+    self.$strips = $strips;
+
+    // Defer initialization
+    setTimeout(function() {
+      self.init();
+      self.$strips.data( 'productStrip', self );
+
+      log('SONY : ProductStrip : Initialized');
+    }, 0);
+
+  };
+
+  ProductStrip.prototype = {
+    constructor: ProductStrip,
+
+    init : function() {
+      var self = this;
+
+      self.productNames = [];
+      self.$strips.each(function() {
+        var $toBeEven = $(this).find('.product-name-wrap');
+        self.productNames.push( $toBeEven );
+      });
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+
+      // Size the heights
+      self
+        .initFavorites()
+        .onResize();
+
+
+      return self;
+    },
+
+    initFavorites : function() {
+      this.favorites = new Favorites( this.$strips, {
+        itemSelector: this.itemSelector
+      });
+
+      return this;
+    },
+
+    onResize : function() {
+      var self = this;
+      requestAnimationFrame(function() {
+        $.evenHeights( self.productNames );
+      });
+    }
+  };
+
+  ProductStrip.settings = {
+    itemSelector: '.gallery-item'
+  };
+
+  module.onGalleryTabAlreadyShown = function() {
     module.initializer( $( this ) );
     setTimeout( iQ.update, 0 );
+    // Force IE8 to redraw icons
+    Utilities.forceFontIconRedraw( '#main' );
   };
 
   // Event triggered when the previous tab/pane is about to be hidden
@@ -3729,6 +3936,9 @@ define(function(require){
     if ( !$galleries.length ) {
       module.hideGalleryLoader();
     }
+
+    // Finally, force IE8 to redraw icons
+    Utilities.forceFontIconRedraw( '#main' );
 
     $galleries = null;
     $pane = null;

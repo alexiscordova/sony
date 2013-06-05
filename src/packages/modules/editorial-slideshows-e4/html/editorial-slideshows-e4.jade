@@ -10,8 +10,9 @@ mixin editorialSlides(data)
       +iQImage(slideData.productImg)
 
 //- Main section wrapper for slides
-+mainElement( [ "editorial-slideshow-container", "a1" ] )
-  div(class='editorial-slideshow container')
++mainElement( [ "editorial-slideshow-container", "a1" , data.config.mode] )
+  - classes = ['editorial-slideshow','container' ]
+  div(class=classes)
     div(class='editorial-carousel-wrapper')
       div(class='editorial-carousel')
         +editorialSlides(data)

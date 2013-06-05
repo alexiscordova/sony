@@ -32,6 +32,8 @@
   border: none;
   *border: 0; // Remove the border to prevent IE7's black border on input:focus
 
+  -webkit-font-smoothing:subpixel-antialiased; // override any parent styles (like .l-o-d) from setting the button text to antialiased. It can still always be overridden on a specific button if necessary.
+
   &:hover, &:active, &:focus, &.active{
     color: $btnText;
     text-decoration: none;
@@ -102,7 +104,13 @@
   background: $white;
   color: $defaultTextColor;
   @include box-shadow(0 1px 0 $gray60);
-  @include transition(box-shadow $transitionFast $easeNormal, color $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
+  -webkit-transition: box-shadow $transitionFast $easeNormal,
+                      color $transitionFast $easeNormal,
+                      background-color $transitionFast $easeNormal !important;
+          transition: box-shadow $transitionFast $easeNormal,
+                      color $transitionFast $easeNormal,
+                      background-color $transitionFast $easeNormal !important; // Need to override default icon transition
+  // @include transition(box-shadow $transitionFast $easeNormal, color $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
 
   // .t6 and .t6-light
   // --------------
@@ -148,7 +156,7 @@
   &[disabled],
   &.disabled:hover,
   &[disabled]:hover {
-    color: inherit;
+    color: $gray50;
     border-color: $gray20;
     border-color: rgba($gray20, .15);
     background-color: inherit;

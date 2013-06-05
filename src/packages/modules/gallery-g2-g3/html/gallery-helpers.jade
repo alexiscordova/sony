@@ -5,7 +5,7 @@ layouts = locals.getConfigFile("packages/modules/gallery-g2-g3/html/layouts.json
 mixin loaderDiv()
   .relative.gallery-loader
     .loading.text-center
-      img(src="img/loader.gif", alt="Loading...")
+      img(class="global-loader", src="img/loader.gif", alt="Loading...")
 
 mixin filterColor( filterSet )
   ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
@@ -104,38 +104,58 @@ mixin filterSet( filterSet )
       +filterGroup( filterSet )
 
 
-mixin compareBrowseBtn( isCompareGallery, link, addFade, extraClasses )
-  compareStr = isCompareGallery ? 'Grid' : 'Compare'
-  classes = [ 'lt3', 'btn', 'btn-alt-special', 'btn-alt-plus', 'compare-btn' ]
+mixin compareBrowseBtn( isCompareGallery, link, addFade )
+  browseStr = 'Grid'
+  compareStr = 'Compare'
+  browseClasses = [ 'btn', 'btn-small', 'compare-btn' ]
+  compareClasses = [ 'btn', 'btn-small', 'compare-btn' ]
   tabIndex = addFade ? '-1' : false
 
-  if addFade
-    - classes.push( 'fade' )
-  if extraClasses
-    - classes.push( extraClasses )
+  if isCompareGallery
+    browseLink = link
+    compareLink = false
+    - compareClasses.push( 'active' )
+  else
+    compareLink = link
+    browseLink = false
+    - browseClasses.push( 'active' )
 
-  a(class=classes, href=link, tabindex=tabIndex)
-    if isCompareGallery
-      i.fonticon-10-browse
-    else
-      i.fonticon-10-compare
+  if addFade
+    - browseClasses.push( 'fade' )
+    - compareClasses.push( 'fade' )
+
+  a(class=browseClasses, href=browseLink, tabindex=tabIndex)
+    i.fonticon-10-browse
+    | !{ browseStr }
+  a(class=compareClasses, href=compareLink, tabindex=tabIndex)
+    i.fonticon-10-compare
     | !{ compareStr }
 
+mixin filterBtn( galleryName )
+  filterStr = 'Filter'
+  filterBtnClasses = [ 'btn', 'btn-alt-special', 'slide-toggle', 'collapsed', 'first', 'pull-left' ]
+
+  button(class=filterBtnClasses, data-toggle="collapse", data-target='#' + galleryName + '-filters')
+    | !{ filterStr }
+    i.fonticon-10-arrowhead-down
+
 mixin galleryShareMenu( shareMenu )
-  .pull-right.options-wrap
-    .share-options
-      a.js-share.share-trigger(data-toggle="dropdown", href="#")
-        span.bt3= shareMenu.shareText
-        span.plus-holder
-          i.fonticon-10-sm-bold-plus
-      +shareMenu( shareMenu.socialButtons, shareMenu.shortLink )
-      span.p5.spacer |
-    block
+  .share-options
+    a.js-share.share-trigger(data-toggle="dropdown", href="#")
+      span.bt3= shareMenu.shareText
+      span.plus-holder
+        i.fonticon-10-sm-bold-plus
+    +shareMenu( shareMenu.socialButtons, shareMenu.shortLink )
+
+mixin productCount( plural, singular, total )
+  div.pull-left.p3.product-count-wrap
+    strong.text-dark.product-count.js-product-count= total
+    span.js-product-str.product-str(data-plural=plural, data-singular=singular)= plural
 
 mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
-  productsStr = gallery.productsStr ? gallery.productsStr : 'Products'
-  filterStr = 'Filter'
+  pluralProducts = gallery.pluralProducts ? gallery.pluralProducts : 'Products'
+  singularProduct = gallery.singularProduct ? gallery.singularProduct : 'Product'
   compareBrowseLink = isCompareGallery ? gallery.browseLink : gallery.compareLink
   compareBrowseLink = compareBrowseLink ? compareBrowseLink : '#'
   wrapperClass = 'container filter-display-bar slide-toggle-parent'
@@ -152,77 +172,69 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
       div(class=gridClass)
 
         //- Product Count
-        div.pull-left.p3.product-count-wrap
-          strong.text-dark.product-count= gallery.total
-          | !{ productsStr }
-
+        +productCount( pluralProducts, singularProduct, gallery.total )
 
         //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
-          - filterBtnClasses = [ 'lt3', 'btn', 'btn-alt-special', 'slide-toggle', 'collapsed', 'first' ]
-          button(class=filterBtnClasses, data-toggle="collapse", data-target='#' + gallery.name + '-filters')
-            | !{ filterStr }
-            i.fonticon-10-arrowhead-down
-          +compareBrowseBtn( isCompareGallery, compareBrowseLink, false, 'second' )
-
-        else if !gallery.filterSet && isFavoritesGallery
-          //- Favorites gallery
-          +galleryShareMenu( gallery.shareMenu )
+          +filterBtn( gallery.name )
+          .pull-right.content-right
             //- Sort options
-            +sorter( gallery.sortSet, sortByStr, false )
-          +compareBrowseBtn( isCompareGallery, compareBrowseLink, true, 'first' )
+            +compareBrowseBtn( isCompareGallery, compareBrowseLink, false )
+            +sorter( gallery.sortSet, sortByStr )
 
-        else if !gallery.filterSet && isCompareGallery
+        else if isFavoritesGallery
+          //- Favorites gallery
+          .pull-right.content-right
+            +compareBrowseBtn( isCompareGallery, compareBrowseLink, true )
+            +sorter( gallery.sortSet, sortByStr )
+
+        else if isCompareGallery
           //- Standalone compare gallery
-          +compareBrowseBtn( isCompareGallery, compareBrowseLink, false, 'first' )
-
+          .pull-right.content-right
+            +compareBrowseBtn( isCompareGallery, compareBrowseLink, false )
+            +sorter( gallery.sortSet, sortByStr )
 
         else if gallery.mode == 'detailed' && gallery.accessoryFinder
-          +accessoryFinderButton( undefined, 'first' )
-
-
-        if gallery.shareMenu
-          //- The share menu is used above if it's a favorites gallery
-          if gallery.filterSet || !isFavoritesGallery
-            +galleryShareMenu( gallery.shareMenu )
-              //- Sort options
-              +sorter( gallery.sortSet, sortByStr, false )
-        else
-          //- Sort options
-          +sorter( gallery.sortSet, sortByStr )
+          +accessoryFinderButton( undefined, 'first pull-left' )
+          .pull-right.content-right
+            +sorter( gallery.sortSet, sortByStr )
 
 
   if gallery.filterSet
-    .container.slide-arrow-under.fade
-      .relative
-        .slide-toggle-arrow
-    .container.slide-arrow-over.fade
-      .relative
-        .slide-toggle-arrow
+    +filterTray( gallery.filterSet, gallery.name )
 
 
-    .collapse.slide-toggle-target(id=gallery.name + '-filters')
-      .filter-options.container
-        .grid.no-grid-at-767
-            .span4
-              each filterSet in gallery.filterSet
-                if filterSet.filterGroup == 1
-                  +filterSet( filterSet )
-            .span4
-              each filterSet in gallery.filterSet
-                if filterSet.filterGroup == 2
-                  +filterSet( filterSet )
-            .span4
-              each filterSet in gallery.filterSet
-                if filterSet.filterGroup == 3
-                  +filterSet( filterSet )
+mixin filterTray( filterSets, galleryName )
+  .container.slide-arrow-under.fade
+    .relative
+      .slide-toggle-arrow
+  .container.slide-arrow-over.fade
+    .relative
+      .slide-toggle-arrow
 
-    .container.active-filters-wrap
-      .grid.active-filters(data-clear-label="Clear All")
+
+  .collapse.slide-toggle-target(id=galleryName + '-filters')
+    .filter-options.container
+      .grid.no-grid-at-767
+          .span4
+            each filterSet in filterSets
+              if filterSet.filterGroup == 1
+                +filterSet( filterSet )
+          .span4
+            each filterSet in filterSets
+              if filterSet.filterGroup == 2
+                +filterSet( filterSet )
+          .span4
+            each filterSet in filterSets
+              if filterSet.filterGroup == 3
+                +filterSet( filterSet )
+
+  .container.active-filters-wrap
+    .grid.active-filters(data-clear-label="Clear All")
 
 
 mixin sorter( sortSet, text )
-  .sort-options.pull-right
+  .sort-options.ib
     label.l3.filter-label(for="select-sort-by")= text
     span.dropdown.dropdown-alt.ib
       button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
@@ -245,12 +257,28 @@ mixin sorter( sortSet, text )
 
 mixin zeroProductsMessage( gallery )
   if gallery.filterSet
-    .container.zero-products-message.hide
+    .container.js-zero-message.hidden
       .grid
         .t4
           strong.text-dark 0
           span.text-med-dark= ' ' + gallery.zeroProductsMessage
         button.btn.btn-small.js-clear-filters= gallery.startOver
+
+mixin zeroFavoritesMessage( gallery, isHidden )
+  title = gallery.nofavs && gallery.nofavs.title ? gallery.nofavs.title : 'gallery.nofavs.title'
+  message = gallery.nofavs && gallery.nofavs.message ? gallery.nofavs.message : 'gallery.nofavs.message'
+  classes = [ 'container', 'no-favs' ]
+
+  if isHidden
+    - classes.push( 'hidden', 'js-zero-message' )
+
+  section(class=classes)
+    .grid.text-center
+      h1.t4
+        strong= title
+      p.ilikeyou
+        i.fonticon-10-favorite
+      p.p3= message
 
 
 mixin featuredGallery( submodules, gallery, type )
@@ -300,7 +328,18 @@ mixin detailedGallery( submodules, gallery, type )
         a(href=gallery.nextLink) Camera Overflow
       .infscr-holder.text-center
 
+
+mixin favoritesTitle( gallery )
+  .container.gallery-title
+    .grid.no-grid-at-767
+      .span
+        h1.t2.title= gallery.title
+      .span.pull-right
+        if gallery.shareMenu && gallery.favorites && gallery.favorites.length > 0
+          +galleryShareMenu( gallery.shareMenu )
+
 mixin favoritesGallery( gallery )
+  +favoritesTitle( gallery )
 
   if gallery.favorites && gallery.favorites.length > 0
     section.gallery.fade.gallery-favorites(id=gallery.name + '-gallery', data-mode=gallery.mode)
@@ -317,19 +356,14 @@ mixin favoritesGallery( gallery )
               !{locals.partial( favorite.type, e )}
           +recommendedTile( gallery.recommended )
 
+      +zeroFavoritesMessage( gallery, true )
+
       if gallery.nextLink
         .navigation.invisible
           a(href=gallery.nextLink) Next set
         .infscr-holder.text-center
   else
-    section.container.no-favs
-      .grid.text-center
-        h1.t4
-          strong= gallery.nofavs.title
-        p.ilikeyou
-          i.fonticon-10-favorite
-        p.p3= gallery.nofavs.message
-
+    +zeroFavoritesMessage( gallery )
 
 
 mixin compareGallery( submodules, gallery, type, labels )
@@ -372,9 +406,9 @@ mixin compareGallery( submodules, gallery, type, labels )
     .relative
       .container.compare-wrap
         nav.compare-nav-container.pagination-paddles.show-paddles
-          button.pagination-paddle.outset.pagination-prev.on.compare-nav.compare-nav-prev
+          a.pagination-paddle.outset.pagination-prev.on.compare-nav.compare-nav-prev
             i.fonticon-10-chevron-reverse
-          button.pagination-paddle.outset.pagination-next.on.compare-nav.compare-nav-next
+          a.pagination-paddle.outset.pagination-next.on.compare-nav.compare-nav-next
             i.fonticon-10-chevron
         .products
           .span2.detail-labels-wrap
@@ -416,9 +450,9 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
                     i(class=iconClass)
                   h3.l2.tab-label= tab.label
         nav.tab-nav-btns
-          button.nav-paddle.tab-nav.tab-nav-prev.hidden
+          a.nav-paddle.tab-nav.tab-nav-prev.hidden(href="#")
             i.fonticon-10-chevron-reverse
-          button.nav-paddle.tab-nav.tab-nav-next.hidden
+          a.nav-paddle.tab-nav.tab-nav-next.hidden(href="#")
             i.fonticon-10-chevron
 
 mixin accessoryFinderButton( text, extraClasses )
@@ -433,12 +467,15 @@ mixin accessoryFinder( submodules, finder, type, noButton )
   submodules = submodules ? submodules : data.submodules
   finder = finder ? finder : data.accessories.accessoryFinder
   type = type ? type : 'camera'
+  pluralProducts = finder.pluralProducts ? finder.pluralProducts : 'Products'
+  singularProduct = finder.singularProduct ? finder.singularProduct : 'Product'
+  total = finder.total ? finder.total : 0
 
   //- Add the modal trigger button if they don't say otherwise
   if !noButton
     .container
       .grid
-        +accessoryFinderButton( undefined, 'first' )
+        +accessoryFinderButton( undefined, 'first pull-left' )
 
   .af-module
     #accessory-finder-modal.accessory-finder.modal.fade.hide(tabindex="-1", role="dialog", aria-labelledby="accessory-modal-title", aria-hidden="true")
@@ -462,13 +499,12 @@ mixin accessoryFinder( submodules, finder, type, noButton )
           .modal-body.fade
             .modal-body-inner
               .grid.compat-filters.filter-display-bar
-                //- Sort options
-                +sorter( finder.sortSet, finder.sortText )
-
                 //- Product Count
-                span.p3.ib.product-count-wrap
-                  strong.text-dark.product-count= finder.total
-                  | !{ finder.productsStr }
+                +productCount( pluralProducts, singularProduct, total )
+
+                .pull-right
+                  //- Sort options
+                  +sorter( finder.sortSet, finder.sortText )
 
               .slimgrid.no-grid-at-567.products
                 each module in submodules
@@ -487,7 +523,7 @@ mixin productStrips( submodules, strips, type )
   section
     .container
       each strip in strips
-        .slimgrid5.m-grid-at-767.product-strip-wrap
+        .slimgrid5.m-grid-at-767.product-strip-wrap.js-product-strip
           .product-strip-header.clearfix
             h2.t6.product-strip-heading.pull-left= strip.title
             if strip.callout

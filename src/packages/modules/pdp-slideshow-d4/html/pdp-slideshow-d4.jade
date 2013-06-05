@@ -2,17 +2,25 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('pdp-slideshow-d4')
 +includeJavascriptModule('pdp-slideshow-d4')
 
++includeCSS('sony-video')
+//- +includeJavascriptModule('sony-video')
+
 //- Mixin for slides
 mixin pdpSlide(data)
   for slide in data.submodules
     slideData = locals.data( slide.data )
-    .pdp-slideshow-slide( class= slideData.variation, data-mode=slideData.mode )
-      .ghost-center-wrap
-        .ghost-center
-          if slideData.mode == 'imageGallery'
-            +iQImage(slideData.productImg, 'update-always')
-          else if slideData.mode == 'video'
-            +sonyVideo(slideData.video)
+    //- Videos are always `type2`
+    mode = slideData.mode
+    variation = mode == 'video' ? 'type2' : slideData.variation
+    .pdp-slideshow-slide( class=variation, data-mode=mode )
+      .pdp-slide-inner.ghost-center-wrap
+        if slideData.mode == 'imageGallery'
+          +iQImage(slideData.productImg, 'ghost-center update-always')
+        else if slideData.mode == 'video'
+          div(class='ghost-center')
+            - data.isSubmodule = true
+            e = { 'locals' : locals , 'data' : slideData }
+            !{locals.partial( 'packages/modules/sony-video/html/sony-video.jade', e) }
 
 //- Mixin for thumbnails
 mixin pdpThumbs(data)
@@ -24,12 +32,6 @@ mixin pdpThumbs(data)
       .ghost-center-wrap
         .ghost-center
           +iQImage(slideData.thumb)
-
-//- Container for header, may not need this here
-if data.config.sectionTitle
-  .container
-    .grid
-      h2.l1= data.config.sectionTitle
 
 //- Main section wrapper for slides and navigation
 +mainElement( ["pdp-slideshow"] )

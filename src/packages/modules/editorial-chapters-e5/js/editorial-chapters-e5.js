@@ -1,3 +1,5 @@
+/*jshint debug:true */
+
 // Editorial SlideShow - E4
 // ------------
 //
@@ -16,8 +18,9 @@ define(function(require){
    'use strict';
 
     var $ = require('jquery'),
+        iQ = require( 'iQ' ),
+        Router = require('require/sony-global-router'),
         Modernizr = require('modernizr'),
-        iQ = require('iQ'),
         bootstrap = require('bootstrap'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
@@ -46,6 +49,11 @@ define(function(require){
       self.cssTransitions       = Modernizr.transitions;
       self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
 
+      // Basic selectors
+      self.$doc                   = Settings.$document;
+      self.$win                   = Settings.$window;
+      self.$html                  = Settings.$html;
+      
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
       self.$window              = Settings.$window;
@@ -62,7 +70,23 @@ define(function(require){
 
       self.hasThumbs            = self.$thumbNav.length > 0;
       self.numSlides            = self.$slides.length;
+      self.moduleId             = self.$el.attr('id');
+      self.transitonDelay       = 5000,
       self.currentId            = 0;
+
+      // to keep track of slide indexes
+      self.prevIndex            = 0;
+      self.currIndex            = 0;
+
+      // touch defaults
+      self.startInteractionPointX = null;
+      self.lastTouch            = null;
+      self.handleStartPosition  = null;
+
+      // deep linking vars
+      self.location             = window.location;
+      self.history              = window.history;
+      self.initFromhash         = false;
 
       self.isDesktop = false;
       self.isMobile = false;
@@ -79,8 +103,13 @@ define(function(require){
         var self = this;
 
         self.setupEvents();
+        
         self.setupSlides();
+        
         self.setupCarousel();
+        
+        //self.setupLinkClicks();
+
         if(self.hasThumbs){
           self.createThumbNav();
         }
@@ -100,8 +129,49 @@ define(function(require){
             }
           });
         } // end if(Modernizr.mediaqueries )
+
+        // initialize the router for deep linking
+        Router.on('chapter-'+self.moduleId+'(/:a)', $.proxy(self.directFromHash, self));
+
+        self.$thumbNav.on(self.downEvent, function(e) { self.dragStart(e); });
+        
+      },
+      
+      // Sets up slides to correct width based on how many there are
+      setupSlides: function(){
+        var self = this;
+
+        self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
+        self.$slides.width( 100 / (self.numSlides + 2) + '%' );
       },
 
+      // Setup touch event types
+      setupEvents: function(){
+        var self = this;
+
+        
+        if (Modernizr.touch) {
+          self.hasTouch         = true;
+          self.downEvent        = 'touchstart.rp';
+          self.moveEvent        = 'touchmove.rp';
+          self.upEvent          = 'touchend.pdpss';
+          self.cancelEvent      = 'touchcancel.rp';
+          self.lastItemFriction = 0.5;
+        } else {
+          self.hasTouch = false;
+          self.lastItemFriction = 0.2;
+          self.downEvent   = 'mousedown.rp';
+          self.moveEvent   = 'mousemove.rp';
+          self.upEvent     = 'mouseup.rp';
+          self.cancelEvent = 'mouseup.rp';
+          self.clickEvent = 'click.pdpss';
+        }  
+
+        self.tapOrClick = function(){
+          return self.hasTouch ? self.upEvent : self.clickEvent;
+        };
+      },
+              
       setupMobilePlus: function() {
         var self = this;
 
@@ -111,7 +181,7 @@ define(function(require){
 
         self.$window.off('resize.e5-mobile-resize');
         self.removeWrapperStyles();
-
+        self.$win.trigger('resize');
       },
 
       setupMobile: function() {
@@ -129,7 +199,108 @@ define(function(require){
         setTimeout(function(){
           self.getSlideHeight();
           self.getSliderWidth();
+          if (self.$el.hasClass('text-mode')) { 
+            self.initScroller(); 
+            // show slider shades if needed
+            var node = self.$slider.get(0),
+                curTransform = new WebKitCSSMatrix(window.getComputedStyle(node).webkitTransform),
+                sliderOffset = node.offsetLeft + curTransform.m41, //real offset left
+                sliderWidth = self.$slider.width(),
+                navWidth = self.$thumbNav.width();
+
+            (sliderOffset < 0) ? self.$leftShade.show() : self.$leftShade.hide();
+            (sliderOffset > ((-1 * sliderWidth) + navWidth)) ? self.$rightShade.show() : self.$rightShade.hide();
+          }
         }, 250);
+      },
+
+      dragStart: function(e) {
+        var self = this,
+            point;
+        
+        if (self.hasTouch) {
+          var touches = e.originalEvent.touches;
+          if (touches && touches.length > 0) {
+            point = touches[0];
+            if (touches.length > 1) {
+              self.multipleTouches = true;
+            }
+          } else {
+            return;
+          }
+        } else {
+          point = e;
+          e.preventDefault();
+
+          if (e.which !== 1) {
+            return;
+          }
+        }              
+
+        // reset the distance moved since its a new start
+        self.distanceMoved = null;
+        self.handleStartPosition = self.getPagePosition(e);
+        self.startInteractionPointX = point.pageX;        
+
+        self.$doc.on(self.moveEvent , $.proxy(self.dragMove , self)).on(self.upEvent , $.proxy(self.dragEnd, self));
+
+      },
+
+      dragMove: function(e) {
+        var self = this,
+            distX = self.getPagePosition(e).x - self.handleStartPosition.x,
+            distY = self.getPagePosition(e).y - self.handleStartPosition.y,
+            point,
+            distanceMoved;
+            
+        // some really gross logic
+        if (self.hasTouch) {
+          if (self.lockAxis) {
+            return;
+          }
+          var touches = e.originalEvent.touches;
+          if (touches) {
+            if (touches.length > 1) {
+              return;
+            } else {
+              point = touches[0];
+            }
+          } else {
+            return;
+          }
+        } else {
+          point = e;
+        }    
+
+        self.distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
+      },
+
+      dragEnd: function(e) {
+        var self = this;
+
+        //stop listening on the document for movement
+        self.$doc.off(self.moveEvent).off(self.upEvent);
+      },
+
+      getPagePosition: function(e) {
+
+        var self = this;
+
+        if ( !e.pageX && !e.originalEvent ) {
+          return;
+        }
+
+        self.lastTouch = self.lastTouch || {};
+
+        // Cache position for touchmove/touchstart, as touchend doesn't provide it.
+        if ( e.type === 'touchmove' || e.type === 'touchstart' ) {
+          self.lastTouch = e.originalEvent.touches[0];
+        }
+
+        return {
+          'x': (e.pageX || self.lastTouch.pageX),
+          'y': (e.pageY || self.lastTouch.pageY)
+        };
       },
 
       removeWrapperStyles: function() {
@@ -142,7 +313,16 @@ define(function(require){
 
       // Main setup method for the carousel
       setupCarousel: function(){
-        var self = this;
+        var self = this,
+            currIndx,
+            $currSlide,
+            $currSlideImg,
+            $nextSlideImg;
+
+        currIndx = 0;
+        $currSlide = self.$slides.eq(currIndx);
+        $currSlideImg = $currSlide.find('.image-module');
+        $nextSlideImg = (currIndx + 1) >= self.$slides.length ? self.$slides.eq(0).find('.image-module') : self.$slides.eq(currIndx + 1).find('.image-module'); 
 
         // Using Sony Carousel for this module
         self.$slideContainer.sonyCarouselFade({
@@ -154,13 +334,19 @@ define(function(require){
           useCSS3: self.useCSS3,
           paddles: false,
           pagination: false,
+          chapters : true,
           draggable: false
         });
 
         self.$slideContainer.on('SonyCarouselFade:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
 
-        iQ.update();
+        // we need to solve an issue of all images being loaded on DomReady
+        self.setCurrentActiveThumb();
+        $currSlideImg.addClass('unhide');
+        $nextSlideImg.addClass('unhide');
+        
 
+        iQ.update();
       },
 
       getSliderWidth: function() {
@@ -198,35 +384,26 @@ define(function(require){
 
       // Listens for slide changes and updates the correct thumbnail
       onSlideUpdate: function(e , currIndx){
-        var self = this;
+        var self = this, 
+            $currSlide,
+            $prevSlide,
+            $currSlideImg,
+            $nextSlideImg;
 
         self.currentId = currIndx;
+
+        $currSlide = self.$slides.eq(currIndx);
+        $currSlideImg = $currSlide.find('.image-module');
+        $nextSlideImg = (currIndx + 1) >= self.$slides.length ? self.$slides.eq(0).find('.image-module') : self.$slides.eq(currIndx + 1).find('.image-module'); 
+        
+        // we need to solve an issue of all images being loaded on DomReady
         self.setCurrentActiveThumb();
+        $currSlideImg.addClass('unhide');
+        $nextSlideImg.addClass('unhide');
+
+        // also we can run positinoning after the CSS transitions are done
 
         iQ.update();
-      },
-
-      // Sets up slides to correct width based on how many there are
-      setupSlides: function(){
-        var self = this;
-
-        self.$slideContainer.width( 100 * (self.numSlides + 2)+ '%' );
-        self.$slides.width( 100 / (self.numSlides + 2) + '%' );
-      },
-
-      // Setup touch event types
-      setupEvents: function(){
-        var self = this;
-
-        if( self.hasTouch ){
-          self.upEvent = 'touchend.pdpss';
-        }else {
-          self.clickEvent = 'click.pdpss';
-        }
-
-        self.tapOrClick = function(){
-          return self.hasTouch ? self.upEvent : self.clickEvent;
-        };
       },
 
       // Bind events to the thumbnail navigation
@@ -234,37 +411,74 @@ define(function(require){
         var self = this,
         $anchors = self.$thumbNav.find('li');
 
-
         $anchors.on( self.tapOrClick() , function(e){
+          if (self.distanceMoved >= 25) { return; }
           e.preventDefault();
           self.onThumbSelected($(this));
         });
 
         $anchors.eq(0).addClass('active');
 
-        if (self.$el.hasClass('text-mode')) {
-          self.initScroller();
-        }
       },
 
       // Handles when a thumbnail is chosen
       onThumbSelected: function($el){
         var self = this,
-        $anchors = self.$thumbNav.find('li'),
         selectedIndex =  $el.index(),
+        $anchors = self.$thumbNav.find('li').not(':eq(' + selectedIndex + ')'),
         animDirection = '';
 
         self.currentId = selectedIndex;
 
         // need to set a tmeout of 100ms so we can 
         // fix a flicker bug on mobile devices
-        setTimeout(function() {
-          $anchors.removeClass('active');
-        },100);       
-
         $el.addClass('active');
+        
+        setTimeout(function(){
+          $anchors.removeClass('active');
+        },100);
 
         self.$slideContainer.sonyCarouselFade( 'gotoSlide' , self.currentId );
+      },
+
+      // Runs when a tab is updated and changes the hash
+      updateHash: function(location, currentId) {
+        var self = this, 
+            href,
+            fragment;
+
+        // if we don't have a module id we dont want to continue
+        if (!self.moduleId) { return; }
+
+        href = location.href.replace(/(javascript:|#).*$/, '');
+        fragment = 'chapter-' + self.moduleId + '/' + currentId;
+        location.replace(href + '#' + fragment);
+      },
+
+      // Runs when a hash change is detected and will direct users to the proper tab
+      directFromHash: function() {
+        var self = this, 
+            hash,
+            chapterId,
+            $chapterTabs,
+            $chapterEl;
+
+        // if we have already initialized from hash return
+        if (self.initFromhash) { return; }
+
+        hash = Router.getHash();
+        chapterId = hash.replace(/.*?(\d+)[^\d]*$/,'$1');
+        $chapterTabs = self.$thumbNav.find('li');
+
+        // only if the chapter id is less than the length of actual tabs
+        // i.e `chapter-100` will probably not exist
+        if (chapterId < $chapterTabs.length) {
+          $chapterEl = $chapterTabs.eq(chapterId);
+          self.onThumbSelected($chapterEl);
+        }
+
+        // we should never run the method again unless script inits again
+        self.initFromhash = true;
       },
 
       // Sets the current active thumbnail
@@ -273,15 +487,18 @@ define(function(require){
             $chapterTabs,
             $currTab;
 
-        $chapterTabs = self.$thumbNav.find('li');
-        $currTab = $chapterTabs.eq( self.currentId );
+        $chapterTabs = self.$thumbNav.find('li').not(':eq(' + self.currentId + ')');
+        $currTab = self.$thumbNav.find('li').eq( self.currentId );
 
         // need to set a tmeout of 100ms so we can 
         // fix a flicker bug on mobile devices
-        setTimeout(function() {
+        $currTab.addClass('active');
+        setTimeout(function(){
           $chapterTabs.removeClass('active');
-          $currTab.addClass('active');
-        },100);       
+        },100);
+        
+        // update the hash after we got the correct slide transition
+        self.updateHash(self.location, self.currentId);        
       },
 
       initScroller: function(){
@@ -354,3 +571,5 @@ define(function(require){
 
     return self;
  });
+
+

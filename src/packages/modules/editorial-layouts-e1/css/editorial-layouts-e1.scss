@@ -19,7 +19,7 @@
   }
   .box {
     padding: 0;
-    .link {
+    .link .btn {
       margin-top: 42px;
     }
   }
@@ -65,6 +65,7 @@
 .editorial.full-inner,
 .editorial.full-tout,
 .editorial.full {
+  .submodule .hotspot-module,
   .submodule > .image-module {
     height: 540px;
     @include background-size(cover);
@@ -107,11 +108,14 @@
     .inner {
       position: absolute;
       top: 0;
-      margin-left: -490px;
-      left: auto;
-      right: auto;
+
     }
   }
+}
+.lt-ie8 .editorial .inner{
+  margin-left:-490px;
+  left:auto;
+  right:auto;
 }
 
 .editorial.mediaright,

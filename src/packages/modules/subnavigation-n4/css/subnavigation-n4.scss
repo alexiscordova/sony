@@ -5,6 +5,8 @@ $maxChildren: 20;
 
 .subnav-module {
   @include transition(opacity 250ms);
+  margin-bottom: -1px;
+  border-bottom: 1px solid #e4e7eb;
   opacity: 0;
 
   &.active {
@@ -51,6 +53,7 @@ $maxChildren: 20;
 
       .lt-ie8 & {
         display: inline;
+        float: left;
         border-bottom-style: none;
       }
 
@@ -141,7 +144,6 @@ $maxChildren: 20;
       .product {
         position: relative;
         margin-bottom: 60px;
-        margin-top: 40px;
 
         i {
           position: absolute;

@@ -77,6 +77,10 @@ define(function(require){
       $('<div>').append(self.$pageWrapperInner.children().not('#nav-wrapper')).appendTo($scroll);
 
       $(self.$pageWrapperInner).append(self.$scrollContainer);
+
+      var $universalNav = $('#universal-nav');
+
+      $universalNav.detach().insertBefore('#nav-wrapper');
     },
 
     setMobileHeight : function() {
@@ -85,9 +89,11 @@ define(function(require){
           navheight = parseInt($('#nav-wrapper').height(), 10);
 
       self.$scrollContainer.css({
-        'height': winheight - navheight +'px',
+        'height': winheight - navheight + 10 +'px',
         'position': 'relative'
       });
+
+      self.stickyHeader.refresh();
 
     },
 
@@ -106,12 +112,12 @@ define(function(require){
       // Enquire doesn't exist in old IE, so make sure it's there
       if ( Modernizr.mediaqueries ) {
         enquire
+          .register('(max-width: 47.9375em)', {
+            match : $.proxy(self.toMobile, self)
+          })
           .register('(min-width: 29.9375em) and (max-width: 47.9375em)', {
             match : $.proxy(self.accountForHeader, self),
             unmatch : $.proxy(self.unAccountForHeader, self)
-          })
-          .register('(max-width: 47.9375em)', {
-            match : $.proxy(self.toMobile, self)
           })
           .register('(min-width: 48em) and (max-width: 61.1875em)', {
             match : $.proxy(self.toTablet, self)
@@ -123,6 +129,14 @@ define(function(require){
         self.toDesktop();
       }
 
+      //$(window).on('orientationchange', $.proxy(self.setMobileHeight, self));
+      var supportsOrientationChange = "orientationchange" in window,
+          orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+      if (window.addEventListener) {
+        window.addEventListener(orientationEvent, function() {
+            self.setMobileHeight();
+        }, false);
+      }
       return self;
     },
 
@@ -186,12 +200,12 @@ define(function(require){
 
     accountForHeader : function () {
       var self = this;
-      self.$scrollContainer.height('+=20px').css('margin-top', '-10px');
+      self.$scrollContainer.height('+=10px').css('margin-top', '-10px');
     },
 
     unAccountForHeader : function () {
       var self = this;
-      self.$scrollContainer.height('-=20px').css('margin-top', 'auto');
+      // self.$scrollContainer.height('-=30px').css('margin-top', 'auto');
     }
   };
 

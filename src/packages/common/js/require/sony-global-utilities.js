@@ -26,6 +26,48 @@ define(function (require) {
       document.body.removeChild(tempStyleSheet);
     },
 
+    // Force a redraw of all element with a font icon
+    // Use the `selector` param to only redraw from a certain parent
+    //
+    // http://stackoverflow.com/questions/9809351/ie8-css-font-face-fonts-only-working-for-before-content-on-over-and-sometimes
+    // http://andymcfee.com/2012/04/icon-fonts-pseudo-elements-and-ie8/
+    // https://github.com/FortAwesome/Font-Awesome/issues/194
+    // https://github.com/FortAwesome/Font-Awesome/issues/354
+
+    forceFontIconRedraw: function( selector ) {
+      var before = '[class*="fonticon-"]:before',
+          after = '[class*="fonticon-"]:after{content:none !important}',
+          comma = ',';
+
+      if ( selector ) {
+        before = selector + ' ' + before;
+        after = selector + ' ' + after;
+      }
+
+      // Make sure only IE8 gets this
+      if ( Settings.isLTIE9 && !Settings.isLTIE8 ) {
+
+        // Clear the timer so two+ don't fire
+        if ( self.iconRedrawID ) {
+          clearTimeout( self.iconRedrawID );
+        }
+
+        // Set a new timer
+        self.iconRedrawID = setTimeout(function redraw() {
+          var head = document.getElementsByTagName('head')[0],
+              style = document.createElement('style');
+
+          style.type = 'text/css';
+          style.styleSheet.cssText = before + comma + after;
+          head.appendChild(style);
+
+          setTimeout(function(){
+            head.removeChild( style );
+          }, 0);
+        }, 100);
+      }
+    },
+
     // Converts pixel value to an em value (including unit) at a given context.
     // Default context for this application is 16.
 
@@ -110,7 +152,7 @@ define(function (require) {
     },
 
     scrollToTop: function() {
-      $.simplescroll();
+      $('html,body').animate({ scrollTop: 0 }, 400, 'swing');
     },
 
     // Swap two jQuery elements.
@@ -193,6 +235,14 @@ define(function (require) {
       $input = null;
     },
 
+    // Provided a group of $spans, all of which have a class of `span12`, `span6`, etc.,
+    // Reassign their column width with `toWhat` columns.
+    // If "reset" is passed for `toWhat`, use the `default-spanX` class to reassign
+    // the columns to a preset default value.
+    //
+    // *TODO*: We should cache the initial span count automatically to remove
+    // the need for `default-span`.
+
     reassignSpanWidths: function($spans, toWhat) {
 
       var newSpan = toWhat;
@@ -203,20 +253,16 @@ define(function (require) {
             classes = this.className.split(' '),
             defaultSpan, currentSpan;
 
-        for ( var j = 0; j < classes.length; j++ ) {
-
-          var classStr = classes[j];
-
-          if ( classStr.search('default-span') === 0  ) {
-            defaultSpan = classStr.split('span')[1];
-          }
-
-          if ( classStr.search('span') === 0  ) {
-            currentSpan = classStr.split('span')[1];
-          }
-        }
+        currentSpan = classes.filter(function(elem){
+          return elem.indexOf('span') === 0;
+        }).shift().split('span').pop() * 1;
 
         if ( toWhat === 'reset' ) {
+
+          defaultSpan = classes.filter(function(elem){
+            return elem.indexOf('default-span') === 0;
+          }).shift().split('default-span').pop() * 1;
+
           newSpan = defaultSpan;
         }
 
@@ -247,21 +293,15 @@ define(function (require) {
 
     gridApportion: function(options) {
 
-      if ( !options.$groups ) {
-        return;
-      }
-
       var $groups = options.$groups,
-          isMobile = options.mobile,
-          hasGridSelector = options.gridSelector,
-
+          spanClass = options.mobile ? 'm-span' : 'span',
           $container = $groups.first().clone(),
-          $appendContainer = hasGridSelector ? $container.find(options.gridSelector).empty() : $container.empty(),
+          $appendContainer = options.gridSelector ? $container.find(options.gridSelector).empty() : $container.empty(),
           compiledGrids = [],
           $workingAppendContainer = $container.clone(),
-          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer,
-          roomRemaining = isMobile ? 6 : 12,
-          $mSpans = $groups.find(isMobile ? '[class*="m-span"]' : '[class*="span"]');
+          $workingGrid = options.gridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer,
+          roomRemaining = options.mobile ? 6 : 12,
+          $mSpans = $groups.find('[class*="'+spanClass+'"]');
 
       $mSpans.each(function(i){
 
@@ -269,27 +309,29 @@ define(function (require) {
             classes = this.className.split(' '),
             spanCount;
 
-        for ( var j = 0; j < classes.length; j++ ) {
-          if ( classes[j].indexOf(isMobile ? 'm-span' : 'span') === 0 && classes[j].indexOf('m-span-at') === -1) {
-            spanCount = classes[j].split(isMobile ? 'm-span' : 'span')[1] * 1;
-          }
-        }
+        // Find the class that starts with `spanClass` and get the appropriate span count.
+
+        spanCount = classes.filter(function(elem, index, array){
+          return (elem.indexOf(spanClass) === 0 && elem.indexOf('m-span-at') === -1);
+        }).shift().split(spanClass).pop() * 1;
+
+        // If there isn't enough room in this grid, push the working container to `compiledGrids` and start a new one.
 
         if ( roomRemaining < spanCount ) {
           compiledGrids.push($workingAppendContainer.clone().get(0));
           $workingAppendContainer = $container.clone();
-          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer;
-          roomRemaining = isMobile ? 6 : 12;
+          $workingGrid = options.gridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer;
+          roomRemaining = options.mobile ? 6 : 12;
         }
 
         $workingGrid.append($this);
         roomRemaining -= spanCount;
-
-        if ( i === $mSpans.length - 1 ) {
-          compiledGrids.push($workingAppendContainer.clone().get(0));
-          $workingAppendContainer = $workingGrid = null;
-        }
       });
+
+      // Done with loop. Push remaining working elements into the compiled grids and garbage collect.
+
+      compiledGrids.push($workingAppendContainer.clone().get(0));
+      $workingAppendContainer = $workingGrid = null;
 
       $groups.not($groups.first()).remove();
       $groups.first().replaceWith($(compiledGrids));

@@ -17,8 +17,8 @@ define(function(require){
 
   var $ = require('jquery'),
       Settings = require('require/sony-global-settings'),
-      Environment = require('require/sony-global-environment'),
       Utilities = require('require/sony-global-utilities'),
+      Environment = require('require/sony-global-environment'),
       sonyIScroll = require('plugins/sony-iscroll');
 
   var StickyHeader = function(scrollableId) {
@@ -62,14 +62,17 @@ define(function(require){
       this.$scrollable.css('position', 'absolute');
       var handler = $.proxy( this.scrollHandler, this );
 
-      setTimeout(function () {
+      setTimeout($.proxy(function () {
         this.scroll = new IScroll(this.scrollableId, {
           momentum : true,
+          hScroll: false,
+          hScrollbar: false,
           onScrollMove: handler,
           onScrollEnd: handler
         });
-        window.iscroll = this.scroll;
-      }.bind(this), 10);
+
+        this.scroll.scrollTo();
+      }, this), 10);
 
       return this;
     },
@@ -97,8 +100,6 @@ define(function(require){
     // Called by iScroll when a scroll event happens.
     scrollHandler: function() {
       var self = this;
-
-      Utilities.once(self.scroll.refresh());
 
       var offsetTarget = Math.abs(this.scroll.y); // iScroll.y is negative
       this.updateFixedHeader(offsetTarget);
