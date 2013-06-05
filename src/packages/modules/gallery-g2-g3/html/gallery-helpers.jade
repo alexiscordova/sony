@@ -257,12 +257,28 @@ mixin sorter( sortSet, text )
 
 mixin zeroProductsMessage( gallery )
   if gallery.filterSet
-    .container.zero-products-message.hide
+    .container.js-zero-message.hidden
       .grid
         .t4
           strong.text-dark 0
           span.text-med-dark= ' ' + gallery.zeroProductsMessage
         button.btn.btn-small.js-clear-filters= gallery.startOver
+
+mixin zeroFavoritesMessage( gallery, isHidden )
+  title = gallery.nofavs && gallery.nofavs.title ? gallery.nofavs.title : 'gallery.nofavs.title'
+  message = gallery.nofavs && gallery.nofavs.message ? gallery.nofavs.message : 'gallery.nofavs.message'
+  classes = [ 'container', 'no-favs' ]
+
+  if isHidden
+    - classes.push( 'hidden', 'js-zero-message' )
+
+  section(class=classes)
+    .grid.text-center
+      h1.t4
+        strong= title
+      p.ilikeyou
+        i.fonticon-10-favorite
+      p.p3= message
 
 
 mixin featuredGallery( submodules, gallery, type )
@@ -340,19 +356,14 @@ mixin favoritesGallery( gallery )
               !{locals.partial( favorite.type, e )}
           +recommendedTile( gallery.recommended )
 
+      +zeroFavoritesMessage( gallery, true )
+
       if gallery.nextLink
         .navigation.invisible
           a(href=gallery.nextLink) Next set
         .infscr-holder.text-center
   else
-    section.container.no-favs
-      .grid.text-center
-        h1.t4
-          strong= gallery.nofavs.title
-        p.ilikeyou
-          i.fonticon-10-favorite
-        p.p3= gallery.nofavs.message
-
+    +zeroFavoritesMessage( gallery )
 
 
 mixin compareGallery( submodules, gallery, type, labels )
