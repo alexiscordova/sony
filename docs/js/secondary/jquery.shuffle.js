@@ -284,6 +284,11 @@ define(function(require){
             });
         },
 
+        _updateItemCount : function() {
+            this.visibleItems = this.$items.filter('.filtered').length;
+            return this;
+        },
+
         _setTransition : function( element ) {
             var self = this;
             element.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
@@ -422,8 +427,8 @@ define(function(require){
         /**
          * Fire events with .shuffle namespace
          */
-        fire : function( name ) {
-            this.$container.trigger(name + '.shuffle', [this]);
+        fire : function( name, args ) {
+            this.$container.trigger( name + '.shuffle', args && args.length ? args : [ this ] );
         },
 
 
@@ -829,7 +834,7 @@ define(function(require){
             passed = $passed.get();
 
             // How many filtered elements?
-            self.visibleItems = self.$items.filter('.filtered').length;
+            self._updateItemCount();
 
             if ( animateIn ) {
                 self._layout( passed, null, true, true );
@@ -883,7 +888,7 @@ define(function(require){
             self.lastFilter = category;
 
             // How many filtered elements?
-            self.visibleItems = self.$items.filter('.filtered').length;
+            self._updateItemCount();
 
             self._resetCols();
 
@@ -991,6 +996,8 @@ define(function(require){
                 setTimeout(function() {
                     shuffle.$items = shuffle._getItems();
                     shuffle.layout();
+                    shuffle._updateItemCount();
+                    shuffle.fire( 'removed', [ $collection, shuffle ] );
                 }, 0);
             };
 
