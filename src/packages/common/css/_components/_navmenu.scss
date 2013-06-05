@@ -154,6 +154,10 @@ $zindexNavMenu: 240;
         color:$grayDark;
         -webkit-appearance: none;
       }
+      &::-ms-clear{ // get rid of IE10's new "X" pseudo-element inside the input.
+        width : 0;
+        height: 0;
+      }
     }
   }
   .btn-clear-search-input{
