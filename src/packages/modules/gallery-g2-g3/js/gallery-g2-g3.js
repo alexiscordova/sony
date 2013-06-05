@@ -230,7 +230,7 @@ define(function(require){
       self.$favorites = self.$grid.find('.js-favorite');
       self.$gridProductNames = self.$grid.find('.product-name-wrap');
       self.$carousels = self.$grid.find('.js-item-carousel');
-      self.$zeroMessage = self.$container.find('.zero-products-message');
+      self.$zeroMessage = self.$container.find('.js-zero-message');
       self.$recommendedTile = self.$grid.find('.recommended-tile');
 
       // Modes
@@ -431,9 +431,10 @@ define(function(require){
       // Call shuffle
       self.shuffle.shuffle( method );
 
-      self.updateProductCount();
-
-      self.toggleCompareButton( typeof method === 'string', filterName );
+      self
+        .updateProductCount()
+        .toggleZeroMessage()
+        .toggleCompareButton( method === 'all', filterName );
     },
 
     toggleCompareButton : function( toAll, filterName ) {
@@ -458,6 +459,8 @@ define(function(require){
         }
 
       }
+
+      return self;
     },
 
     showCompareButton : function( $btn, filterName ) {
@@ -501,6 +504,8 @@ define(function(require){
       }
 
       self.$productCount.text( count );
+
+      return self;
     },
 
     // From the element's data-* attributes, test to see if it passes
@@ -832,23 +837,42 @@ define(function(require){
 
     toggleZeroMessage : function() {
       var self = this,
-          visibleItems = self.shuffle ? self.shuffle.visibleItems : self.$items.filter('.filtered').length;
+          hiddenClass = 'hidden',
+          slideClass = 'no-height',
+          visibleItems = self.shuffle ? self.shuffle.visibleItems : self.$items.filter('.filtered').length,
+          $msg = self.$zeroMessage,
 
-      if ( visibleItems ) {
-        if ( !self.$zeroMessage.hasClass('hide') ) {
-          self.$zeroMessage.addClass('hide');
+          // Favorites gallery has to account for recommended tile
+          shouldShowMessage = self.isFavoritesGallery ? visibleItems > 1 : visibleItems > 0,
+          shouldHideGrid = self.isCompareMode,
+          shouldSlideGrid = self.isFavoritesGallery;
 
-          if ( self.isCompareMode ) {
-            self.$grid.removeClass('hidden');
-          }
+      // Message is hidden and should be shown
+      if ( shouldShowMessage && !$msg.hasClass( hiddenClass ) ) {
+        $msg.addClass( hiddenClass );
+
+        // Show other content
+        if ( shouldHideGrid ) {
+          self.$grid.removeClass( hiddenClass );
         }
-      } else {
-        if ( self.$zeroMessage.hasClass('hide') ) {
-          self.$zeroMessage.removeClass('hide');
 
-          if ( self.isCompareMode ) {
-            self.$grid.addClass('hidden');
-          }
+        // Slide down other content
+        if ( shouldSlideGrid ) {
+          self.$grid.removeClass( slideClass );
+        }
+
+      // Message is shown and should be hidden
+      } else if ( !shouldShowMessage && $msg.hasClass( hiddenClass ) ) {
+        $msg.removeClass( hiddenClass );
+
+        // Hide other content
+        if ( shouldHideGrid ) {
+          self.$grid.addClass( hiddenClass );
+        }
+
+        // Slide up other content
+        if ( shouldSlideGrid ) {
+          self.$grid.addClass( slideClass );
         }
       }
 
@@ -1390,8 +1414,14 @@ define(function(require){
             // Forcefully remove them
             .remove();
           self.shuffle.remove( $item );
-          self.updateProductCount();
         }
+      });
+
+      // Shuffle item removed. Used here because `shuffle.remove()` uses a timeout (is async)
+      self.$grid.on( 'removed.shuffle', function() {
+        self
+          .updateProductCount()
+          .toggleZeroMessage();
       });
     },
 
