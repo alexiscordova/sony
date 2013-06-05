@@ -91,6 +91,7 @@ define(function(require){
     self.$carouselInstance = undefined;
     self.$carouselSlides = self.$carousel.find('.sony-carousel-slide');
     self.$carouselSlidesChildren = self.$carousel.find('.sony-carousel-slide-children');
+    self.isOneSlide = self.$carouselSlidesChildren.length <= 1 ? true : false;
 
     // LISTEN
     // if(!Settings.isLTIE10){
@@ -116,37 +117,47 @@ define(function(require){
       //  attach click event to entire slide
       self.setupSlideLinks();
 
-      // set up knob dials (init, mousedown, mouseover, mouseoff)
-      self.setupDials();
+      console.log( 'self.isOneSlide»' , self.isOneSlide);
 
-      if( !Settings.$html.hasClass('lt-ie10') ){
+      // no knobs for functionality.
 
-        // resgister for resize
-        enquire.register('(min-width: 568px)', function() {
-          self.handleResize();
-        });
+      if(!self.isOneSlide){
+        // set up knob dials (init, mousedown, mouseover, mouseoff)
+        self.setupDials();
 
-        enquire.register('(max-width: 567px)', function() {
-          self.handleResize();
-        });
-      }
+        if( !Settings.$html.hasClass('lt-ie10') ){
 
-      // start requestAnimationFrame
-      self.animationLoop();
+          // resgister for resize
+          enquire.register('(min-width: 568px)', function() {
+            self.handleResize();
+          });
 
-      if(!Settings.isLTIE9){
-        self.setButtonColor(self.currentPartnerProduct); // new color for reload buton
-        self.$buttonReloadContainer.addClass('on');
+          enquire.register('(max-width: 567px)', function() {
+            self.handleResize();
+          });
+        }
+
+        // start requestAnimationFrame
+        self.animationLoop();
+
+        if(!Settings.isLTIE9){
+          self.setButtonColor(self.currentPartnerProduct); // new color for reload buton
+          self.$buttonReloadContainer.addClass('on');
+        }
+
+        // show content
+        self.fadeInContent(self.currentPartnerProduct);
+
+        // start animation
+        self.resetDials();
+
+        // start timer
+        self.resetPartnerCarouselInterval();
       }
 
       // show content
       self.fadeInContent(self.currentPartnerProduct);
 
-      // start animation
-      self.resetDials();
-
-      // start timer
-      self.resetPartnerCarouselInterval();
     },
 
     'dialsINIT' : function(){
