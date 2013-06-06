@@ -84,6 +84,11 @@ define(function(require){
     },
 
     setMobileHeight : function() {
+
+      if (window.innerWidth > 768) {
+        return;
+      }
+
       var self = this,
           winheight = parseInt($(window).height(), 10),
           navheight = parseInt($('#nav-wrapper').height(), 10);

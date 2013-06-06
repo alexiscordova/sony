@@ -110,8 +110,10 @@ $transitionSpeed: 0.5s;
     transition: opacity 0.5s, top 0s, left 0s;
   }
 
-  .table-center-wrap .table-center, .submodule {
+  // /*.table-center-wrap .table-center, */
+  .submodule {
     .image-module {
+      height: 540px;
       position: relative;
     }
   }
@@ -124,7 +126,7 @@ $transitionSpeed: 0.5s;
     position: relative;
 
     .hspot-outer.info-jump-to-top {
-      /*z-index: 4;*/
+      z-index: 4;
     }
 
     .overlay-close {
@@ -373,7 +375,7 @@ $transitionSpeed: 0.5s;
     /* SMALL HOTSPOTS */
     .hspot-outer.hspot-small {
       position: absolute;
-      z-index: auto;
+      // z-index: auto;
       top: 0;
       left: 0;
       margin-top: -20px;
@@ -571,7 +573,8 @@ $transitionSpeed: 0.5s;
 
 /* DETAILS WINDOW */
 
-.overlay-base {
+.overlay-base,
+.ltie8-hotspot {
   position: absolute;
   z-index: 3;
   text-align: left;
@@ -721,6 +724,7 @@ $transitionSpeed: 0.5s;
   }
 }
 
+
 /** IE **/
 
 .no-borderradius {
@@ -740,9 +744,11 @@ $transitionSpeed: 0.5s;
     }
     .submodule .hspot-outer, .image-module .hspot-outer {
       background: url('../../img/editorial-hotspots-e6/hotspot-fallback.png');
+      filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=ie8-logo.png,sizingMethod='crop');
     }
     .image-module .hspot-outer.hspot-small {
       background: url('../../img/editorial-hotspots-e6/hotspot-fallback-small.png');
+      filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=ie8-logo.png,sizingMethod='crop');
     }
     .submodule .hspot-outer.ie-on, .image-module .hspot-outer.ie-on {
       background-position: -50px 0;
@@ -762,6 +768,39 @@ $transitionSpeed: 0.5s;
 }
 
 // IE7
+.ltie8-hotspot-arrow-left-variant1, 
+.ltie8-hotspot-arrow-right-variant1, 
+.ltie8-hotspot-arrow-left-variant2, 
+.ltie8-hotspot-arrow-right-variant2 {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.ltie8-hotspot-arrow-left-variant1 {
+  	border-top: 10px solid transparent;
+  	border-bottom: 10px solid transparent;
+  	border-right: 10px solid #fff;
+}
+
+.ltie8-hotspot-arrow-right-variant1 {
+  	border-top: 10px solid transparent;
+  	border-bottom: 10px solid transparent;
+  	border-left: 10px solid #fff;
+}
+
+.ltie8-hotspot-arrow-left-variant2 {
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	border-right: 8px solid #fff;
+}
+
+.ltie8-hotspot-arrow-right-variant2 {
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	border-left: 8px solid #fff;
+}
+
 .lt-ie8 {
   .editorial-chapters-container,
   .editorial {
@@ -770,4 +809,4 @@ $transitionSpeed: 0.5s;
     }
   }
 }
-
+                                                      

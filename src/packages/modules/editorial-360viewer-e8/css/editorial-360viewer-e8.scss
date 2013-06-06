@@ -3,14 +3,6 @@
 
 $transitionSpeed: 0.5s;
 
-@mixin ehsTransition() {
-  -o-transition:$transitionSpeed;
-  -ms-transition:$transitionSpeed;
-  -moz-transition:$transitionSpeed;
-  -webkit-transition:$transitionSpeed;
-  transition:$transitionSpeed;
-}
-
 .unselectable * {
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -20,12 +12,12 @@ $transitionSpeed: 0.5s;
 }
 
 .dim-the-lights {
-  @include ehsTransition();
+  @include transition();
   opacity: 0.45;
 }
 
 .light-em-up {
-  @include ehsTransition();
+  @include transition();
   opacity: 1;
 }
 

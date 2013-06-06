@@ -1,7 +1,7 @@
 // ------------ Sony Gallery ------------
 // Module: Gallery
 // Version: 1.0
-// Modified: 04/15/2013
+// Modified: 06/06/2013
 // Dependencies: jQuery, bootstrap, Sony (Settings|Environment|Utilities), shuffle, scroller, evenheights, tabs, stickytabs, stickynav, simplescroll, rangecontrol
 // Author: Glen Cheney
 // --------------------------------------
@@ -435,6 +435,13 @@ define(function(require){
         .updateProductCount()
         .toggleZeroMessage()
         .toggleCompareButton( method === 'all', filterName );
+
+      // Redraw font icons for ie8 in the filter display bar
+      if ( Settings.isLTIE9 ) {
+        setTimeout(function() {
+          Utilities.forceFontIconRedraw( 'filter-display-bar' );
+        });
+      }
     },
 
     toggleCompareButton : function( toAll, filterName ) {

@@ -203,6 +203,11 @@ for inline image type</p>             </td>             <td class="code">       
 
 </pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>finally, seed the hotspot to fly on 1/2 second after set conditions are met</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(triggerInitialPosition, <span class="number">500</span>);
 
+      self.$window.on(<span class="string">'e5-slide-change'</span>, <span class="keyword">function</span>(){
+        log(<span class="string">'SONY : Editorial Hotspots : E5 Slide Update'</span>);
+        Settings.isLTIE9 || self.isSmallChapter ? self.reset() : <span class="string">''</span>; 
+      });
+      
       log(<span class="string">'SONY : Editorial Hotspots : Initialized'</span>);
     },
 
@@ -546,7 +551,7 @@ If we are running inside a chapter module we need to caclulate different top val
           $overlay.parent().find( <span class="string">'.arrow-left'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
 
 </pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>NOTE:
-If we are running inside a chapter module we need to caclulate different top values</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( self.isChapter &amp;&amp; self.isSmallChapter) {
+If we are running inside a chapter module we need to caclulate different top values</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( self.isChapter &amp;&amp; self.isSmallChapter ) {
             <span class="keyword">if</span> (quadrant === <span class="number">2</span>) {
               (overlayOffset &gt;= <span class="number">0</span>) ? $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+( topOffsetHigh - (overlayOffset + <span class="number">50</span> ) )+<span class="string">'px'</span> ) : $overlay.css( <span class="string">'top'</span>, <span class="string">'-'</span>+topOffsetHigh+<span class="string">'px'</span> );
             } <span class="keyword">else</span> {
@@ -714,10 +719,13 @@ save last open state</p>             </td>             <td class="code">        
           info.find( <span class="string">'.overlay-inner'</span> ).removeClass( <span class="string">'eh-transparent'</span> ).addClass( <span class="string">'eh-visible'</span> );
         }
       }
+      
     },
 
     reset: <span class="keyword">function</span>( container ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">if</span> ( !self.$lastOpen ) { <span class="keyword">return</span>; }
+
       self.close( self.$lastOpen[ <span class="number">0</span> ], self.$lastOpen[ <span class="number">1</span> ], self.$lastOpen[ <span class="number">2</span> ] );
     },
 

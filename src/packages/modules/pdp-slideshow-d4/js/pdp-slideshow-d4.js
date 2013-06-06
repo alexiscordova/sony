@@ -23,6 +23,7 @@ define(function(require) {
     Environment = require('require/sony-global-environment'),
     enquire = require('enquire'),
     sonyCarousel = require('secondary/index').sonyCarousel,
+    sonyScroller = require('secondary/index').sonyScroller,
     sonyVideo = require('secondary/index').sonyVideo;
 
   var self = {
@@ -47,6 +48,9 @@ define(function(require) {
     self.isDesktopMode = true; //true by default
     self.isTabletMode = false;
     self.isMobileMode = false;
+
+    self.useBounce = !( Settings.isVita || Settings.isLTIE9 );
+    self.useMomentum = !( Settings.isVita || Settings.isLTIE9 );
 
     // Cache some jQuery objects we'll reference later
     self.hasTouch = Settings.hasTouchEvents;
@@ -86,7 +90,7 @@ define(function(require) {
         .setupBreakpoints();
 
       if (self.hasThumbs) {
-        self.createThumbNav();
+        //self.createThumbNav();
       }
 
       // Fade in when the first image has loaded
@@ -156,6 +160,9 @@ define(function(require) {
 
       return self;
     },
+
+
+
 
     // Listens for slide changes and updates the correct thumbnail
     onSlideUpdate: function(e, currentIndex) {
@@ -301,8 +308,64 @@ define(function(require) {
 
       $anchors.removeClass('active');
       $anchors.eq(self.currentId).addClass('active');
+    },
+
+    //new 
+    initScroller : function() {
+      var self = this;
+
+      self.$wrapper.scrollerModule({
+        itemElementSelector: '.gallery-item',
+        iscrollProps: {
+          bounce: self.useBounce,
+          momentum: self.useMomentum,
+          hScrollbar: false,
+          isOverflowHidden: false,
+          onAnimationEnd: iQ.update
+        },
+
+        getContentWidth: function() {
+          var contentWidth = 0,
+              slideWidths = [],
+              $slides = self.$el.find('.sony-carousel-slide');
+
+          $slides.css( 'width', '' );
+
+          // Loop through all slides to count the gallery item widths
+          $slides.each(function() {
+            var slideWidth = 0,
+                $slide = $( this );
+
+            $slide.find('.gallery-item').each(function() {
+              slideWidth += $(this).outerWidth( true );
+            });
+
+            slideWidth = Math.ceil( slideWidth );
+
+            // Save the widths to apply them later
+            slideWidths.push( slideWidth );
+
+            // Make sure we count the margin on the .slide
+            contentWidth += slideWidth;
+          });
+
+          // Set slide widths
+          $slides.each(function( i ) {
+            $(this).css( 'width', slideWidths[ i ] );
+          });
+
+          // Tell scroller what the width should be
+          return contentWidth;
+        }
+      });
+
+
     }
+
+    //end prototype
   };
+
+
 
   return self;
 });

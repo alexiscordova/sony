@@ -122,7 +122,7 @@ $windowWidth: 1100;
       }
     }
 
-    &.posActive {
+    &.pos-active {
       position:absolute;
     }
 
@@ -165,10 +165,10 @@ $windowWidth: 1100;
       vertical-align:bottom;
       overflow:hidden;
       @include transition();
-      @include flickerfix();
       @include box-sizing(content-box);
 
-      & + li {margin-left:-1px;}
+      // designers found your hack
+      // & + li {margin-left:-1px;}
 
       &.active {
         background: $gray80;
@@ -401,7 +401,8 @@ $windowWidth: 1100;
     }
   }
 
-  // hotspots spcific we need to adjust overflow issues
+  // Adjustments for Hotspots
+  // ==================================
   .hotspots {
 
     .editorial-carousel-wrapper {
@@ -411,6 +412,27 @@ $windowWidth: 1100;
       top: auto;
     }
   }
+
+  .table-center-wrap .table-center .editorial-chapters .image-module {
+    height: auto;
+  } 
+  
+  .editorial,
+  .editorial-chapters-container {
+    .hotspot-instance {
+      .hspot-outer {
+
+        &.hspot-small {
+        //  z-index: 4;
+        }
+      } // end .hspot-outer
+    } // end .hotspot-instance
+
+    .overlay-base {     
+      z-index: auto;
+    }
+  } // end .editorial-chapters-container
+
 }
 
 .lt-ie10 {
