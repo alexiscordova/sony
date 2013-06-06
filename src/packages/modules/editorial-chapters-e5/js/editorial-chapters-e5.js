@@ -336,7 +336,6 @@ define(function(require){
           useCSS3: self.useCSS3,
           paddles: false,
           pagination: false,
-          chapters : false,
           draggable: false
         });
 

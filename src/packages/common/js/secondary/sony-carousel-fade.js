@@ -177,7 +177,7 @@ define(function(require){
     CSS3Easing: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)',
 
     // Use CSS3 transitions and transforms over jQuery animations if possible.
-    useCSS3: true,
+    useCSS3: true
   };
 
 });
