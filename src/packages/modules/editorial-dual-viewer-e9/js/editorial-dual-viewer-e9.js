@@ -20,13 +20,6 @@ define(function(require){
   var module = {
     'init': function() {
 
-      // Do not initialize if you're a PS3, since that system doesn't work
-      // well with the touch events.
-
-      if ( Settings.isPS3 ) {
-        return;
-      }
-
       $('.edv').each(function(){
         new EditorialDualViewer(this);
       });
