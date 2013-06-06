@@ -1,9 +1,11 @@
 define(function(require){
 
   var $       = require('jquery'),
-  // IS_PS3      = (/playstation 3/gi).test(navigator.userAgent),
-  IS_PS3      = false,
+  IS_PS3      = (/playstation 3/gi).test(navigator.userAgent),
+  //IS_PS3      = false,
   IS_GOOGLETV = (/googletv/gi).test(navigator.userAgent);
+
+
 
 /*!
 
@@ -154,7 +156,7 @@ $.fn.flowplayer = function(opts, callback) {
          engine;
 
          if(IS_PS3){
-            ////window.alert('ok, now we are getting somewhere');
+            //window.alert('ok, now we are getting somewhere');
             urlResolver = new URLResolver (root);
          }
 
@@ -230,6 +232,7 @@ $.fn.flowplayer = function(opts, callback) {
             $.extend(video, engine.pick(video.sources));
 
             if(IS_PS3){
+               //window.alert('setting the video src');
                video.src = video.sources[0];
             }
 
@@ -756,11 +759,12 @@ flowplayer.engine.flash = function(player, root) {
 
       load: function(video) {
 
-         //console.log(video.src);
+         //window.alert(video.src);
 
-         if(IS_PS3){
+/*         if(IS_PS3){
+            window.alert('converting sources object to video.src.src');
             video.src = video.src.src;
-         }
+         }*/
 
          var html5Tag = $("video", root),
             url = video.src.replace(/&amp;/g, '%26').replace(/&/g, '%26').replace(/=/g, '%3D'),
