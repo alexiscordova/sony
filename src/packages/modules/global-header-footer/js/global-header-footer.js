@@ -763,9 +763,6 @@ define(function(require) {
           // Get css
           expHeight = $revealContainer.height();
 
-      // set css
-      $revealContainer.css('height', '1px');
-
       function next( $container ) {
         // when it's done revealing, get rid of the height transition
         $container.removeClass('transition-height');
@@ -828,6 +825,9 @@ define(function(require) {
         // Set css
         $carrot.css('left',carrotLeftPos+'px');
       }
+
+      // set css
+      $revealContainer.css('height', '1px');
     },
 
     blurSearchInput : function() {
