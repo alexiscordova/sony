@@ -72,7 +72,7 @@ define(function(require){
       self.numSlides            = self.$slides.length;
       self.moduleId             = self.$el.attr('id');
       self.transitonDelay       = 5000,
-      self.currentId            = 0;
+      self.currentId            = undefined;
 
       // to keep track of slide indexes
       self.prevIndex            = 0;
@@ -454,7 +454,7 @@ define(function(require){
             fragment;
 
         // if we don't have a module id we dont want to continue
-        if (!self.moduleId) { return; }
+        if (!self.moduleId || !currentId) { return; }
 
         href = location.href.replace(/(javascript:|#).*$/, '');
         fragment = 'chapter-' + self.moduleId + '/' + currentId;
@@ -478,25 +478,26 @@ define(function(require){
         chapterId = self.currentHash.replace(/.*?(\d+)[^\d]*$/,'$1');
         $chapterTabs = self.$thumbNav.find('li');
 
+        // we should never run the method again unless script inits again
+        self.initFromhash = true;
+        
         // only if the chapter id is less than the length of actual tabs
         // i.e `chapter-100` will probably not exist
         if (chapterId < $chapterTabs.length) {
           $chapterEl = $chapterTabs.eq(chapterId);
           self.onThumbSelected($chapterEl);
         }
-
-        // we should never run the method again unless script inits again
-        self.initFromhash = true;
       },
 
       // Sets the current active thumbnail
       setCurrentActiveThumb: function(){
         var self = this, 
+            tabId = self.currentId ? self.currentId : 0,
             $chapterTabs,
             $currTab;
 
-        $chapterTabs = self.$thumbNav.find('li').not(':eq(' + self.currentId + ')');
-        $currTab = self.$thumbNav.find('li').eq( self.currentId );
+        $chapterTabs = self.$thumbNav.find('li').not(':eq(' + tabId + ')');
+        $currTab = self.$thumbNav.find('li').eq( tabId );
 
         // need to set a tmeout of 100ms so we can 
         // fix a flicker bug on mobile devices
@@ -506,11 +507,8 @@ define(function(require){
           $chapterTabs.removeClass('active');
           !$currTab.hasClass('active') ? $currTab.addClass('active') : '';
         },100);
-        
-        if (self.currentHash) {
-          // update the hash after we got the correct slide transition
-          self.updateHash(self.location, self.currentId);        
-        }
+
+        self.updateHash(self.location, self.currentId);        
       },
 
       initScroller: function(){
