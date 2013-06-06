@@ -493,7 +493,7 @@ define(function(require){
     // Updates the count displayed at the top left, above the products.
     updateProductCount : function() {
       var self = this,
-          count = self.shuffle ? self.shuffle.visibleItems : self.$items.length;
+          count = self.shuffle ? self.shuffle.visibleItems : self.$items.filter('.filtered').length;
 
       // The recommended gallery tile is actually a gallery item
       if ( self.hasRecommendedTile ) {
