@@ -7,10 +7,10 @@ $maxChildren: 20;
   @include transition(opacity 250ms);
   margin-bottom: -1px;
   border-bottom: 1px solid #e4e7eb;
-  opacity: 0;
+  @include opacity(0);
 
   &.active {
-    opacity: 1;
+    @include opacity(100);
   }
 
   header {

@@ -16,6 +16,7 @@ define(function(require){
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
+      Utilities = require('require/sony-global-utilities'),
       SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
@@ -48,10 +49,10 @@ define(function(require){
       self.$cached = self.$el.clone();
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 568px)", function() {
+        enquire.register( Utilities.enquire.min(568), function() {
           self.renderDesktop();
         });
-        enquire.register("(max-width: 567px)", function() {
+        enquire.register( Utilities.enquire.max(567), function() {
           self.renderMobile();
         });
       } else {

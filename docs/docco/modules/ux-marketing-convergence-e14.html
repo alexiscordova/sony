@@ -18,6 +18,7 @@ define(<span class="keyword">function</span>(require){
       Modernizr = require(<span class="string">'modernizr'</span>),
       enquire = require(<span class="string">'enquire'</span>),
       Settings = require(<span class="string">'require/sony-global-settings'</span>),
+      Utilities = require(<span class="string">'require/sony-global-utilities'</span>),
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
       SimpleKnob = require(<span class="string">'secondary/jquery.simpleknob'</span>),
       SonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel;
@@ -178,11 +179,11 @@ if the dial is active and manual > no over/out (do nothing)</p>             </td
 </pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>register resize events for tablet/desktop and phone</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'registerEnquire'</span> : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      enquire.register(<span class="string">'(min-width: 568px)'</span>, <span class="keyword">function</span>() {
+      enquire.register(Utilities.enquire.min(<span class="number">568</span>), <span class="keyword">function</span>() {
         self.reset();
       });
 
-      enquire.register(<span class="string">'(max-width: 567px)'</span>, <span class="keyword">function</span>() {
+      enquire.register(Utilities.enquire.max(<span class="number">567</span>), <span class="keyword">function</span>() {
         self.reset();
       });
     },

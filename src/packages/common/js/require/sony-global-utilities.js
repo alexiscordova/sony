@@ -78,6 +78,27 @@ define(function (require) {
       return (pxValue / context) + 'em';
     },
 
+    // Helper functions to generate em-based media queries based on pixel input.
+
+    enquire: {
+
+      min: function(a, context) {
+        context = typeof context !== 'undefined' ? context : 16;
+        return '(min-width: ' + self.pxToEm(a, context) + ')';
+      },
+
+      max: function(a, context) {
+        context = typeof context !== 'undefined' ? context : 16;
+        return '(max-width: ' + self.pxToEm(a, context) + ')';
+      },
+
+      minMax: function(a, b, context) {
+        context = typeof context !== 'undefined' ? context : 16;
+        return '(min-width: ' + self.pxToEm(a, context) + ') and (max-width: ' + self.pxToEm(b, context) + ')';
+      }
+
+    },
+
     // Return calculated column if width is above 568px/35.5em.
 
     masonryColumns: function(containerWidth) {
