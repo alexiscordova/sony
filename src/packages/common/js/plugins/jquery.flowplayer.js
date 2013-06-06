@@ -756,7 +756,7 @@ flowplayer.engine.flash = function(player, root) {
 
       load: function(video) {
 
-         console.log(video.src);
+         //console.log(video.src);
 
          if(IS_PS3){
             video.src = video.src.src;
@@ -822,7 +822,7 @@ flowplayer.engine.flash = function(player, root) {
             // listen
             $[callbackId] = function(type, arg) {
 
-               if (conf.debug && type != "status") {console.log("--", type, arg);}
+               if (conf.debug && type != "status") {/*console.log("--", type, arg);*/}
 
                var event = $.Event(type);
 
@@ -1176,7 +1176,7 @@ flowplayer.engine.html5 = function(player, root) {
                }, 10000);
             }
 
-            if (conf.debug && !(/progress/).test(flow)) {console.log(type, "->", flow, e);}
+            if (conf.debug && !(/progress/).test(flow)) {/*console.log(type, "->", flow, e);*/}
 
             // no events if player not ready
             if (!player.ready && !(/ready|error/).test(flow) || !flow || !$("video", root).length) { return; }
