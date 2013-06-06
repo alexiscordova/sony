@@ -84,22 +84,7 @@ define(function(require){
         });
 
         self.$el.css(Modernizr.prefixed('transitionDuration'), speed + 'ms' );
-
-        if (self.chapters) {
-          $destinationSlide.addClass('active').siblings().removeClass('active');
-          $destinationSlide.addClass('posActive');
-
-          setTimeout(function(){
-            $destinationSlide.siblings().removeClass('posActive');
-            // sometimes destination slide's posActive class is removed if it
-            // runs on change from hash updates. Lets check and add it back!
-            if(!$destinationSlide.hasClass('posActive')){ $destinationSlide.addClass('posActive'); }
-          }, speed);
-
-        } else {
-          $destinationSlide.addClass('active')
-            .siblings().removeClass('active');
-        }
+        $destinationSlide.addClass('active').siblings().removeClass('active');
 
       } else {
         var $sibs = $destinationSlide.siblings();
@@ -192,10 +177,7 @@ define(function(require){
     CSS3Easing: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)',
 
     // Use CSS3 transitions and transforms over jQuery animations if possible.
-    useCSS3: true,
-
-    // if this is used for e5 chapters it runs slightly different logic
-    chapters: false
+    useCSS3: true
   };
 
 });

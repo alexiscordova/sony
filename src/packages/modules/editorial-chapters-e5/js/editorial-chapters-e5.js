@@ -67,12 +67,14 @@ define(function(require){
       self.$thumbItems          = self.$thumbNav.find('li');
       self.$thumbLabels         = self.$thumbNav.find('span');
       self.$slideInner          = self.$slides.find('.editorial');
+      self.$mediaChapter        = self.$el.closest('.editorial');
+      self.isMediaChapter       = self.$mediaChapter.hasClass('mediaright') || self.$mediaChapter.hasClass('medialeft');
 
       self.hasThumbs            = self.$thumbNav.length > 0;
       self.numSlides            = self.$slides.length;
       self.moduleId             = self.$el.attr('id');
       self.transitonDelay       = 5000,
-      self.currentId            = 0;
+      self.currentId            = undefined;
 
       // to keep track of slide indexes
       self.prevIndex            = 0;
@@ -87,6 +89,7 @@ define(function(require){
       self.location             = window.location;
       self.history              = window.history;
       self.initFromhash         = false;
+      self.currentHash          = null;
 
       self.isDesktop = false;
       self.isMobile = false;
@@ -148,7 +151,6 @@ define(function(require){
       // Setup touch event types
       setupEvents: function(){
         var self = this;
-
         
         if (Modernizr.touch) {
           self.hasTouch         = true;
@@ -334,7 +336,6 @@ define(function(require){
           useCSS3: self.useCSS3,
           paddles: false,
           pagination: false,
-          chapters : true,
           draggable: false
         });
 
@@ -401,8 +402,18 @@ define(function(require){
         $currSlideImg.addClass('unhide');
         $nextSlideImg.addClass('unhide');
 
-        // also we can run positinoning after the CSS transitions are done
+        if (!self.isMediaChapter) {
+          $currSlide.addClass('pos-active');
+          setTimeout(function(){
+            $currSlide.siblings().removeClass('pos-active');
+            if(!$currSlide.hasClass('pos-active')){ $currSlide.addClass('pos-active'); }
+          }, 500);
+        } else {
+          $currSlide.addClass('pos-active');
+          $currSlide.siblings().removeClass('pos-active');
+        }
 
+        self.$window.trigger('e5-slide-change');
         iQ.update();
       },
 
@@ -448,10 +459,12 @@ define(function(require){
             fragment;
 
         // if we don't have a module id we dont want to continue
-        if (!self.moduleId) { return; }
+        if (!self.moduleId || !currentId) { return; }
 
         href = location.href.replace(/(javascript:|#).*$/, '');
         fragment = 'chapter-' + self.moduleId + '/' + currentId;
+        self.currentHash = fragment;
+
         location.replace(href + '#' + fragment);
       },
 
@@ -466,38 +479,40 @@ define(function(require){
         // if we have already initialized from hash return
         if (self.initFromhash) { return; }
 
-        hash = Router.getHash();
-        chapterId = hash.replace(/.*?(\d+)[^\d]*$/,'$1');
+        self.currentHash = Router.getHash();
+        chapterId = self.currentHash.replace(/.*?(\d+)[^\d]*$/,'$1');
         $chapterTabs = self.$thumbNav.find('li');
 
+        // we should never run the method again unless script inits again
+        self.initFromhash = true;
+        
         // only if the chapter id is less than the length of actual tabs
         // i.e `chapter-100` will probably not exist
         if (chapterId < $chapterTabs.length) {
           $chapterEl = $chapterTabs.eq(chapterId);
           self.onThumbSelected($chapterEl);
         }
-
-        // we should never run the method again unless script inits again
-        self.initFromhash = true;
       },
 
       // Sets the current active thumbnail
       setCurrentActiveThumb: function(){
         var self = this, 
+            tabId = self.currentId ? self.currentId : 0,
             $chapterTabs,
             $currTab;
 
-        $chapterTabs = self.$thumbNav.find('li').not(':eq(' + self.currentId + ')');
-        $currTab = self.$thumbNav.find('li').eq( self.currentId );
+        $chapterTabs = self.$thumbNav.find('li').not(':eq(' + tabId + ')');
+        $currTab = self.$thumbNav.find('li').eq( tabId );
 
         // need to set a tmeout of 100ms so we can 
         // fix a flicker bug on mobile devices
         $currTab.addClass('active');
         setTimeout(function(){
+          var _this = self;
           $chapterTabs.removeClass('active');
+          !$currTab.hasClass('active') ? $currTab.addClass('active') : '';
         },100);
-        
-        // update the hash after we got the correct slide transition
+
         self.updateHash(self.location, self.currentId);        
       },
 
