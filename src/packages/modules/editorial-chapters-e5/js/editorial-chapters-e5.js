@@ -67,6 +67,8 @@ define(function(require){
       self.$thumbItems          = self.$thumbNav.find('li');
       self.$thumbLabels         = self.$thumbNav.find('span');
       self.$slideInner          = self.$slides.find('.editorial');
+      self.$mediaChapter        = self.$el.closest('.editorial');
+      self.isMediaChapter       = self.$mediaChapter.hasClass('mediaright') || self.$mediaChapter.hasClass('medialeft');
 
       self.hasThumbs            = self.$thumbNav.length > 0;
       self.numSlides            = self.$slides.length;
@@ -149,7 +151,6 @@ define(function(require){
       // Setup touch event types
       setupEvents: function(){
         var self = this;
-
         
         if (Modernizr.touch) {
           self.hasTouch         = true;
@@ -402,11 +403,16 @@ define(function(require){
         $currSlideImg.addClass('unhide');
         $nextSlideImg.addClass('unhide');
 
-        $currSlide.addClass('pos-active');
-        setTimeout(function(){
+        if (!self.isMediaChapter) {
+          $currSlide.addClass('pos-active');
+          setTimeout(function(){
+            $currSlide.siblings().removeClass('pos-active');
+            if(!$currSlide.hasClass('pos-active')){ $currSlide.addClass('pos-active'); }
+          }, 500);
+        } else {
+          $currSlide.addClass('pos-active');
           $currSlide.siblings().removeClass('pos-active');
-          if(!$currSlide.hasClass('pos-active')){ $currSlide.addClass('pos-active'); }
-        }, 500);
+        }
 
         self.$window.trigger('e5-slide-change');
         iQ.update();
