@@ -82,6 +82,11 @@ define(<span class="keyword">function</span>(require){
     },
 
     setMobileHeight : <span class="keyword">function</span>() {
+
+      <span class="keyword">if</span> (window.innerWidth &gt; <span class="number">768</span>) {
+        <span class="keyword">return</span>;
+      }
+
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           winheight = parseInt($(window).height(), <span class="number">10</span>),
           navheight = parseInt($(<span class="string">'#nav-wrapper'</span>).height(), <span class="number">10</span>);

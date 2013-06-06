@@ -18,6 +18,7 @@ define(function(require){
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
+      Utilities = require('require/sony-global-utilities'),
       SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
@@ -76,15 +77,15 @@ define(function(require){
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
 
-        enquire.register("(min-width: 780px)", function() {
+        enquire.register( Utilities.enquire.min(780), function() {
           self.renderDesktop();
           self.$innerContainer.sonyCarousel('setAnimationSpeed', self.desktopAnimSpeed);
         });
-        enquire.register("(min-width: 480px) and (max-width: 779px)", function() {
+        enquire.register( Utilities.enquire.minMax(480, 779), function() {
           self.renderEvenColumns(6);
           self.$innerContainer.sonyCarousel('setAnimationSpeed', self.tabletAnimSpeed);
         });
-        enquire.register("(max-width: 479px)", function() {
+        enquire.register( Utilities.enquire.max(479), function() {
           self.renderEvenColumns(12);
           self.$innerContainer.sonyCarousel('setAnimationSpeed', self.mobileAnimSpeed);
         });
