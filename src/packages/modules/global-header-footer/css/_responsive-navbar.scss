@@ -134,6 +134,9 @@
 
 
 
+.nav-mobile-nav-shadow{
+  display:none;
+}
 
 
 
@@ -311,6 +314,12 @@
 }
 
 } // END max-width: 1023px
+
+
+
+
+
+
 
 
 
@@ -1126,6 +1135,39 @@
     }
   }
 }
+
+
+// Fake drop shadow for the mobile nav!
+.nav-mobile-scroller{
+  position:relative;
+}
+.nav-mobile-nav-shadow{
+  display:block;
+  z-index:100;
+  width:6px;
+  height:5000px;
+  position:absolute;
+  top:0;
+  right:0;
+  // Customize the gradient here:
+  // http://www.colorzilla.com/gradient-editor/#272b37+0,272b37+100&1+0,0+0,0.04+20,0.08+40,0.1+54,0.18+77,0.26+100;Custom
+  // Don't forget to update the url when you're done!
+  background: -moz-linear-gradient(left,  rgba(39,43,55,0) 0%, rgba(39,43,55,0.04) 20%, rgba(39,43,55,0.08) 40%, rgba(39,43,55,0.1) 54%, rgba(39,43,55,0.18) 77%, rgba(39,43,55,0.26) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(39,43,55,0)), color-stop(20%,rgba(39,43,55,0.04)), color-stop(40%,rgba(39,43,55,0.08)), color-stop(54%,rgba(39,43,55,0.1)), color-stop(77%,rgba(39,43,55,0.18)), color-stop(100%,rgba(39,43,55,0.26))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(39,43,55,0) 0%,rgba(39,43,55,0.04) 20%,rgba(39,43,55,0.08) 40%,rgba(39,43,55,0.1) 54%,rgba(39,43,55,0.18) 77%,rgba(39,43,55,0.26) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(39,43,55,0) 0%,rgba(39,43,55,0.04) 20%,rgba(39,43,55,0.08) 40%,rgba(39,43,55,0.1) 54%,rgba(39,43,55,0.18) 77%,rgba(39,43,55,0.26) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(39,43,55,0) 0%,rgba(39,43,55,0.04) 20%,rgba(39,43,55,0.08) 40%,rgba(39,43,55,0.1) 54%,rgba(39,43,55,0.18) 77%,rgba(39,43,55,0.26) 100%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(39,43,55,0) 0%,rgba(39,43,55,0.04) 20%,rgba(39,43,55,0.08) 40%,rgba(39,43,55,0.1) 54%,rgba(39,43,55,0.18) 77%,rgba(39,43,55,0.26) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00272b37', endColorstr='#42272b37',GradientType=1 ); /* IE6-9 */
+}
+.navmenu-w-search-container,
+.navmenu-w-mobile-top,
+.navtray-w-tall,
+.navtray-w-short,
+.navbar-outer{
+  z-index:10;
+}
+
 
 
 } // max-width: 767px

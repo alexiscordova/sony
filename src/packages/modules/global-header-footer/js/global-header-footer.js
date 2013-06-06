@@ -48,6 +48,7 @@ define(function(require) {
     self.fullAccountUsername = self.$accountUsername.text();
     self.mobileNavIScroll = false;
     self.mobileNavVisible = false;
+    self.mobileNavHasShadow = false;
     self.mobileNavThreshold = 767;
     self.mobileFooterThreshold = 567;
     self.isSearchOpen = false;
@@ -951,6 +952,16 @@ define(function(require) {
         }
       });
       var $thInput = self.$searchInput;
+
+
+      // set up shadow / gradient bar. Yep, this was the best way to do it.
+      if ($('html').hasClass('cssgradients') && !self.mobileNavHasShadow){
+        var $mobileNavShadow = $('<i/>',{
+          class : "nav-mobile-nav-shadow"
+        });
+        $('.nav-mobile-scroller').append($mobileNavShadow);
+        self.mobileNavHasShadow = true;
+      }
 
       $thInput
         .on('focus', function() {
