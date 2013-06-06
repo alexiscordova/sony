@@ -38,10 +38,10 @@ mixin filterCheckbox( filterSet )
   ul.unstyled(data-filter=filterSet.name, data-filter-type=filterSet.type)
     each filter in filterSet.filters
       li.control-inline
-        input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
-        label.p3(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
         if filter.help
           +helpPopover( filter.help, true )
+        input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
+        label.p3(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
 
 mixin filterGroup( filterSet )
   ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type, data-length=filterSet.filters.length)
