@@ -125,6 +125,9 @@
       &.active-search-input {
         width: 100%;
       }
+      &::-ms-clear {
+        display: none;
+      }
     }
     .search:focus {
       outline: none;
@@ -385,5 +388,17 @@
   }
   .result-sidebar {
       margin-top: 5px;
+  }
+}
+
+.lt-ie9 {
+  .search-results {
+    .bar-tone {
+      .search {
+        height: 52px;
+        font-size: 2.75em;
+        line-height: 1.13636;
+      }
+    }
   }
 }
