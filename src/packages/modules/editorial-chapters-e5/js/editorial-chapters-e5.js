@@ -87,6 +87,7 @@ define(function(require){
       self.location             = window.location;
       self.history              = window.history;
       self.initFromhash         = false;
+      self.currentHash          = null;
 
       self.isDesktop = false;
       self.isMobile = false;
@@ -398,16 +399,14 @@ define(function(require){
         
         // we need to solve an issue of all images being loaded on DomReady
         self.setCurrentActiveThumb();
-        $currSlide.addClass('pos-active');
         $currSlideImg.addClass('unhide');
         $nextSlideImg.addClass('unhide');
 
+        $currSlide.addClass('pos-active');
         setTimeout(function(){
+          $currSlide.siblings().removeClass('pos-active');
           if(!$currSlide.hasClass('pos-active')){ $currSlide.addClass('pos-active'); }
         }, 500);
-        
-
-        // also we can run positinoning after the CSS transitions are done
 
         self.$window.trigger('e5-slide-change');
         iQ.update();
@@ -459,6 +458,8 @@ define(function(require){
 
         href = location.href.replace(/(javascript:|#).*$/, '');
         fragment = 'chapter-' + self.moduleId + '/' + currentId;
+        self.currentHash = fragment;
+
         location.replace(href + '#' + fragment);
       },
 
@@ -473,8 +474,8 @@ define(function(require){
         // if we have already initialized from hash return
         if (self.initFromhash) { return; }
 
-        hash = Router.getHash();
-        chapterId = hash.replace(/.*?(\d+)[^\d]*$/,'$1');
+        self.currentHash = Router.getHash();
+        chapterId = self.currentHash.replace(/.*?(\d+)[^\d]*$/,'$1');
         $chapterTabs = self.$thumbNav.find('li');
 
         // only if the chapter id is less than the length of actual tabs
@@ -501,11 +502,15 @@ define(function(require){
         // fix a flicker bug on mobile devices
         $currTab.addClass('active');
         setTimeout(function(){
+          var _this = self;
           $chapterTabs.removeClass('active');
+          !$currTab.hasClass('active') ? $currTab.addClass('active') : '';
         },100);
         
-        // update the hash after we got the correct slide transition
-        self.updateHash(self.location, self.currentId);        
+        if (self.currentHash) {
+          // update the hash after we got the correct slide transition
+          self.updateHash(self.location, self.currentId);        
+        }
       },
 
       initScroller: function(){
