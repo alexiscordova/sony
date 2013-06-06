@@ -1682,9 +1682,11 @@ define(function(require) {
         if (slideVariation !== '3up') {
 
 
-          if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
+/*          if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
             tileHeight = $slide.find('.gallery-item.plate').first().height();
-          }
+          }*/
+          
+          tileHeight = $slide.find('.gallery-item.plate').first().height();
 
           $slide.find('.gallery-item.normal').css({
             'max-height': tileHeight,

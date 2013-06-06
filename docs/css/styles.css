@@ -2502,19 +2502,37 @@ blockquote p:first-child {
 }
 
 /* line 391, ../../src/packages/common/css/_base/_type.scss */
-.light-text h1, .light-text h2, .light-text h3, .light-text h4, .light-text h5, .light-text h6,
+.light-text h1, .light-text h2, .light-text h3, .light-text .t1, .light-text h1, .light-text .t2, .light-text h2, .light-text .t3, .light-text h3, .light-text .t1-light, .light-text .t2-light, .light-text .t3-light, .light-text .t1-bold, .light-text .t2-bold, .light-text .t3-bold,
 .light-text-dark-box h1,
 .light-text-dark-box h2,
 .light-text-dark-box h3,
-.light-text-dark-box h4,
-.light-text-dark-box h5,
-.light-text-dark-box h6,
+.light-text-dark-box .t1,
+.light-text-dark-box h1,
+.light-text-dark-box .t2,
+.light-text-dark-box h2,
+.light-text-dark-box .t3,
+.light-text-dark-box h3,
+.light-text-dark-box .t1-light,
+.light-text-dark-box .t2-light,
+.light-text-dark-box .t3-light,
+.light-text-dark-box .t1-bold,
+.light-text-dark-box .t2-bold,
+.light-text-dark-box .t3-bold,
 .light-text-trans-box h1,
 .light-text-trans-box h2,
 .light-text-trans-box h3,
-.light-text-trans-box h4,
-.light-text-trans-box h5,
-.light-text-trans-box h6 {
+.light-text-trans-box .t1,
+.light-text-trans-box h1,
+.light-text-trans-box .t2,
+.light-text-trans-box h2,
+.light-text-trans-box .t3,
+.light-text-trans-box h3,
+.light-text-trans-box .t1-light,
+.light-text-trans-box .t2-light,
+.light-text-trans-box .t3-light,
+.light-text-trans-box .t1-bold,
+.light-text-trans-box .t2-bold,
+.light-text-trans-box .t3-bold {
   color: white;
   -webkit-font-smoothing: antialiased;
 }
@@ -2523,7 +2541,6 @@ blockquote p:first-child {
 .light-text-dark-box p,
 .light-text-trans-box p {
   color: white;
-  -webkit-font-smoothing: antialiased;
 }
 
 /* line 401, ../../src/packages/common/css/_base/_type.scss */
@@ -2675,7 +2692,7 @@ dd {
 /* line 532, ../../src/packages/common/css/_base/_type.scss */
 .dl-horizontal dt {
   float: left;
-  width: 160px;
+  width: px-em(180px)-20;
   clear: left;
   text-align: right;
   overflow: hidden;
@@ -2684,7 +2701,7 @@ dd {
 }
 /* line 539, ../../src/packages/common/css/_base/_type.scss */
 .dl-horizontal dd {
-  margin-left: 180px;
+  margin-left: px-em(180px);
 }
 
 /* line 548, ../../src/packages/common/css/_base/_type.scss */
@@ -3527,8 +3544,8 @@ input[type="button"].btn-block {
 /* line 360, ../../src/packages/common/css/_base/_buttons.scss */
 .btn-alt-special {
   position: relative;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: px-em(24px);
+  padding-right: px-em(24px);
   text-align: left;
   background: #2f353d;
   min-width: 131px;
@@ -5497,7 +5514,7 @@ img.global-loader {
   overflow: hidden;
   margin: 0 auto;
   list-style: none;
-  max-width: 1200px;
+  max-width: px-em(1200px);
   background: #f1f5f9;
 }
 
@@ -7822,7 +7839,7 @@ a.label:hover {
 /* line 18, ../../src/packages/common/css/_components/_slide-toggle.scss */
 .slide-toggle i {
   position: absolute;
-  right: 24px;
+  right: px-em(24px);
   margin-top: 2px;
   font-size: 16px;
 }
