@@ -522,11 +522,11 @@ define(function(require){
 
       var supportsOrientationChange = "orientationchange" in window,
       orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-
-      window.addEventListener(orientationEvent, function() {
-        self.measureModal();
-      }, false);
-
+      if (window.addEventListener) {
+        window.addEventListener(orientationEvent, function() {
+          self.measureModal();
+        }, false);
+      }
     },
 
     initiScroll: function() {
@@ -561,9 +561,11 @@ define(function(require){
       } else {
         self.resetModal();
       }
-      var t = setTimeout(function(){
-        self.updateiScroll();
-      }, 1000);
+      if (self.useIScroll) {
+        var t = setTimeout(function(){
+          self.updateiScroll();
+        }, 1000);
+      }
     },
 
     positionModal: function(width, height) {

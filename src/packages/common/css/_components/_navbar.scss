@@ -87,9 +87,9 @@
 
   .nav-li-favorites .nav-li-link:hover i {
     color:$buttonOrangeHover;
-    // .lt-ie9 & {
-    //   color:$white;
-    // }
+    .lt-ie9:not(.lt-ie8) & {
+      color:$white; // ie8 hover pseudoelement fix
+    }
   }
   .nav-li-universal .nav-li-linkBtn {
     .fonticon-10-arrowhead-up {
@@ -167,6 +167,20 @@
     width: 100%;
   }
 } // end .navbar
+
+
+// IE8 icon hover color fix, because sometimes it changes to the hover color, and not switch back after. 
+// This forces it to always have the non-hover color.
+.lt-ie9:not(.lt-ie8) .nav-li-link {
+  &:hover, &:active, &:focus, &.active {
+    .fonticon-10-arrowhead-down,
+    .fonticon-10-arrowhead-up {
+      color:$gray40;
+    }
+  }
+}
+
+
 
 
 
@@ -264,7 +278,6 @@
   }
 }
 
-
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn){
   padding-right: 0;
   margin-right: 0;
@@ -272,13 +285,25 @@
   color:$navbarLinkColor;
 
   .fonticon-10-arrowhead-down {
+    font-size: px-em(16,15);
     position: relative;
     top:-2px;
     margin-bottom: -5px;
-    margin-left: px-em(4);
+    margin-left: 4px;
     margin-right:-2px;
     overflow: hidden;
+
+    -webkit-font-smoothing:antialiased;
     -webkit-transform: translate3d(0,0,0); // make the icon show up on Android
+
+    .lt-ie9 & {
+      font-size:16px; // some kind of pseudo-element bug in lt-ie8 that shrinks the icon when you hover. Since it's decoration only, we don't have to worry about client zooming.
+      left:-1px; // pseudo-element alignment adjustment
+    }
+    .lt-ie8 & {
+      left:2px; // pseudo-element alignment adjustment
+    }
+
   }
 }
 
@@ -358,7 +383,7 @@
       margin-left: 3px;
       position: relative;
       top:-2px;
-      font-size: px-em(16,10.5);
+      font-size: px-em(16,10);
     }
   }
 }

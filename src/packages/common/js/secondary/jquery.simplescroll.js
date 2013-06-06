@@ -113,7 +113,7 @@ define(function(require){
 
   // If we load the page with a hash, scroll to it
   $.simplescroll.initial = function( options, fn ) {
-    if ( window.location.hash ) {
+    if ( window.location.hash && window.location.hash.indexOf('/') < 0) {
       options = $.extend( options, {target: window.location.hash} );
       $.simplescroll( options, fn );
     }
