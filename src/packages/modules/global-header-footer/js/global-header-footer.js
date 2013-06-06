@@ -40,6 +40,7 @@ define(function(require) {
     self.$container = $container;
     self.$activeNavBtns = self.$container.find('.nav-dropdown-toggle');
     self.$searchBtn = self.$activeNavBtns.filter('[data-target="navmenu-w-search"]');
+    self.$searchInput = $('#nav-search-input');
     self.$navbar = $('#navbar');
     self.$currentOpenNavBtn = false;
     self.$pageWrapOuter = $('#page-wrap-outer');
@@ -269,7 +270,7 @@ define(function(require) {
         // self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
         self.closeActiveNavBtn();
         self.isSearchOpen = false;
-        $('#nav-search-input').blur();
+        self.blurSearchInput();
       }
     },
 
@@ -397,9 +398,6 @@ define(function(require) {
           isATrayMenuOpen = $currentBtn !== false,
           isThisTrayMenuOpen = isATrayMenuOpen && $navBtn.is( $currentBtn );
 
-          // do i need this?
-      // $('#nav-search-input').blur();
-
       // This tray/menu is open, close it
       if ( isThisTrayMenuOpen ) {
         // console.log( 'this tray menu is open already. Close it.' );
@@ -443,7 +441,7 @@ define(function(require) {
       // Set active nav button
       self.setActiveNavBtn( $navBtn );
 
-      $('#nav-search-input').blur();
+      self.blurSearchInput();
     },
 
     onNavBtnMouseLeave : function( e ) {
@@ -484,7 +482,7 @@ define(function(require) {
 
       // Remove focus from search input on mouse out in ie
       if (Settings.isLTIE10) {
-        $('#nav-search-input').blur();
+        self.blurSearchInput();
       }
       if (Settings.isLTIE9) {
         $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible');
@@ -498,7 +496,7 @@ define(function(require) {
       var self = this;
 
       if ( Settings.isLTIE10 ) {
-        $('#nav-search-input').blur();
+        self.blurSearchInput();
       }
 
       if ( Settings.isLTIE9 ) {
@@ -887,6 +885,11 @@ define(function(require) {
         $carrot.css('left',carrotLeftPos+'px');
       }
     },
+
+    blurSearchInput : function() {
+      this.$searchInput.trigger( 'blur' );
+    },
+
     // MOBILE NAV
 
     prepMobileNav : function() {
@@ -947,28 +950,33 @@ define(function(require) {
           self.hideMobileNav();
         }
       });
-      var $thInput = $('#nav-search-input');
+      var $thInput = self.$searchInput;
 
-      $thInput.on('focus', function() {
-        if (self.$html.hasClass('bp-nav-mobile')) {
-          module.initMobileNavIScroll();
-        }
-        $('.page-wrap-inner').addClass('show-mobile-search-results');
-      }).on('blur', function() {
+      $thInput
+        .on('focus', function() {
+          if (self.$html.hasClass('bp-nav-mobile')) {
+            module.initMobileNavIScroll();
+          }
+          $('.page-wrap-inner').addClass('show-mobile-search-results');
+        })
+        .on('blur', function() {
 
-        // disable blur on mobile search input
-        if (!self.$html.hasClass('bp-nav-mobile')) {
-          $('.page-wrap-inner').removeClass('show-mobile-search-results');
-        }
-      }).closest('.input-group').find('.input-clear-btn').on(self.tapOrClick, function() {
-        if (self.$html.hasClass('bp-nav-mobile')) {
-          module.initMobileNavIScroll();
-          $('.page-wrap-inner').removeClass('show-mobile-search-results');
-          setTimeout(function() {
-            $thInput.trigger('blur');
-          }, 0);
-        }
-      });
+          // disable blur on mobile search input
+          if (!self.$html.hasClass('bp-nav-mobile')) {
+            $('.page-wrap-inner').removeClass('show-mobile-search-results');
+          }
+        })
+        .closest('.input-group')
+        .find('.input-clear-btn')
+          .on(self.tapOrClick, function() {
+            if (self.$html.hasClass('bp-nav-mobile')) {
+              module.initMobileNavIScroll();
+              $('.page-wrap-inner').removeClass('show-mobile-search-results');
+
+              // Blur the search input
+              setTimeout( $.proxy( self.blurSearchInput, self ), 0);
+            }
+          });
 
       Environment.on('global:resizeDebounced', $.proxy(self.resizeUpdateMobileNav,self));
 
@@ -1212,21 +1220,21 @@ define(function(require) {
         momentum : true,
         bounce : false,
         onBeforeScrollStart: function(e) {
-          var target = e.target;
+          var target = e.target,
+              nodeName;
 
           while ( target.nodeType !== 1 ) {
             target = target.parentNode;
           }
 
-          if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+          nodeName = target.nodeName;
+
+          if (nodeName !== 'SELECT' && nodeName !== 'INPUT' && nodeName !== 'TEXTAREA') {
             e.preventDefault();
           }
         },
-        onScrollMove: function() {
-          // iQ throttles itself.
-          iQ.update();
-        }
-
+        // iQ throttles itself.
+        onScrollMove: iQ.update
       });
 
       // Update images w/o scrolling
