@@ -1692,7 +1692,7 @@ define(function(require) {
             'height': tileHeight
           });
 
-          console.log(tileHeight , 'px');
+          //console.log(tileHeight , 'px');
 
         }
 
