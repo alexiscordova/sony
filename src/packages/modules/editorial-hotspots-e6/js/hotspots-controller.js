@@ -650,7 +650,7 @@ define(function(require) {
         return false;
       }
 
-      if ( overlayHeight >= parentHeight ) {
+      if ( overlayHeight >= (parentHeight - 50) ) {
         //console.warn('[[HOTSPOT CONTROLLER -- overlay doesnt fit]]');
         // if it doesnt fit check if we can make it any shorter?
         switch(round) {
