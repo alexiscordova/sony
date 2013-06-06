@@ -20,12 +20,6 @@ define(<span class="keyword">function</span>(require){
   <span class="keyword">var</span> module = {
     <span class="string">'init'</span>: <span class="keyword">function</span>() {
 
-</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Do not initialize if you're a PS3, since that system doesn't work
-well with the touch events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-      <span class="keyword">if</span> ( Settings.isPS3 ) {
-        <span class="keyword">return</span>;
-      }
-
       $(<span class="string">'.edv'</span>).each(<span class="keyword">function</span>(){
         <span class="keyword">new</span> EditorialDualViewer(<span class="keyword">this</span>);
       });
@@ -45,7 +39,7 @@ well with the touch events.</p>             </td>             <td class="code"> 
     self.$topSlideImageContainer = self.$topSlide.find(<span class="string">'.edv-image-wrapper'</span>);
     self.$images = self.$dualViewContainer.find(<span class="string">'img'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Set draggable axis</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.axis = <span class="string">'x'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Set draggable axis</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.axis = <span class="string">'x'</span>;
     <span class="keyword">if</span> ( self.$el.hasClass(<span class="string">'y'</span>) ) {
       self.axis = <span class="string">'y'</span>;
     }
@@ -78,12 +72,12 @@ well with the touch events.</p>             </td>             <td class="code"> 
         <span class="string">'snapToBounds'</span>: <span class="number">25</span>
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Set initial scrubber position to the middle of the viewer</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Set initial scrubber position to the middle of the viewer</p>             </td>             <td class="code">               <div class="highlight"><pre>
       self.$scrubber.sonyDraggable(<span class="string">'setPositions'</span>, {x: <span class="number">50</span>, y:<span class="number">50</span>});
 
       self.$scrubber.on(<span class="string">'dragend'</span>, $.proxy(self.onRelease, self));
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>The below is some junk that Steve added, I need to do this in a smarter way.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>The below is some junk that Steve added, I need to do this in a smarter way.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       self.$handle.mouseenter(<span class="keyword">function</span>(){
         self.$scrubber.addClass(<span class="string">'hover'</span>);
       });
@@ -118,7 +112,7 @@ well with the touch events.</p>             </td>             <td class="code"> 
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>We just need the images to be ready <em>enough</em> to provide dimensions.
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>We just need the images to be ready <em>enough</em> to provide dimensions.
 Since the usual imagesLoaded plugin approach wasn't compatible with iQ,
 we just poll for a width until one is available.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     initTimeout: <span class="keyword">function</span>() {
@@ -140,7 +134,7 @@ we just poll for a width until one is available.</p>             </td>          
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>As <a href="sony-draggable.html">SonyDraggable</a> returns scrubbing changes, update the top
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>As <a href="sony-draggable.html">SonyDraggable</a> returns scrubbing changes, update the top
 slide's width or height to match, and adjust the image container's width by that
 percentage's inverse to maintain the desired positioning.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     onDrag: <span class="keyword">function</span>(e) {
@@ -154,7 +148,7 @@ percentage's inverse to maintain the desired positioning.</p>             </td> 
         self.$topSlide.css(<span class="string">'width'</span>, (e.position.left) + <span class="string">'%'</span>);
         self.$topSlideImageContainer.css(<span class="string">'width'</span>, <span class="number">10000</span> / (e.position.left) + <span class="string">'%'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.left &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.left &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
         (e.position.left &lt;= <span class="number">75</span>) ? self.$bottomSlide.next().fadeIn(<span class="number">200</span>) : self.$bottomSlide.next().fadeOut(<span class="number">200</span>);
 
       } <span class="keyword">else</span> <span class="keyword">if</span> ( self.axis === <span class="string">'y'</span> ) {
@@ -162,12 +156,12 @@ percentage's inverse to maintain the desired positioning.</p>             </td> 
         self.$topSlide.css(<span class="string">'height'</span>, (e.position.top) + <span class="string">'%'</span>);
         self.$topSlideImageContainer.css(<span class="string">'height'</span>, <span class="number">10000</span> / (e.position.top) + <span class="string">'%'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.top &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>If scrubber comes close to edge, hide caption for hidden image</p>             </td>             <td class="code">               <div class="highlight"><pre>        (e.position.top &lt;= <span class="number">25</span>) ? self.$topSlide.next().fadeOut(<span class="number">200</span>) : self.$topSlide.next().fadeIn(<span class="number">200</span>);
         (e.position.top &lt;= <span class="number">75</span>) ? self.$bottomSlide.next().fadeIn(<span class="number">200</span>) : self.$bottomSlide.next().fadeOut(<span class="number">200</span>);
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>This is hammer-based release logic to ease the slider as you throw it. Should look into
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>This is hammer-based release logic to ease the slider as you throw it. Should look into
 making it less complex, too many if/elses to cover the cases. Also abstract it back
 up the food chain to sony-draggable for carousels, etc.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     onRelease: <span class="keyword">function</span>(e) {
