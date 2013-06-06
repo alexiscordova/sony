@@ -6,7 +6,7 @@
 // * **Version:** 0.2
 // * **Modified:** 04/29/2013
 // * **Author:** Telly Koosis
-// * **Dependencies:** jQuery 1.7+, Modernizr, Enquire, [SonyCarousel](sony-carousel.html), 
+// * **Dependencies:** jQuery 1.7+, Modernizr, Enquire, [SonyCarousel](sony-carousel.html),
 
 // //jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html), [sony-scroller.js](sony-scroller.html), [sony-sequencer.js](sony-sequencer.html)
 
@@ -19,6 +19,7 @@ define(function(require){
       iQ = require('iQ'),
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
+      Utilities = require('require/sony-global-utilities'),
       SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
@@ -47,10 +48,10 @@ define(function(require){
     self.$carouselWrapper = self.$el.find(self.carouselWrapperClass);
     self.$carousel = self.$el.find(self.carouselClass);
 
-    // NEW DOM 
+    // NEW DOM
     self.$newGrid = $('<div/>').addClass('grid');
-    self.$newContainer = $('<div/>').addClass("container").html(self.$newGrid); 
-    self.$newSlide = $('<div/>').addClass(self.slideClass.replace(".", "")).html(self.$newContainer); 
+    self.$newContainer = $('<div/>').addClass("container").html(self.$newGrid);
+    self.$newSlide = $('<div/>').addClass(self.slideClass.replace(".", "")).html(self.$newContainer);
 
     // go
     self.init();
@@ -69,15 +70,15 @@ define(function(require){
       self.$cached = self.$el.clone();
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 980px)", function() {
+        enquire.register(Utilities.enquire.min(980), function() {
           self.renderDesktop();
         });
 
-        enquire.register("(min-width: 480px) and (max-width: 979px)", function() {
+        enquire.register(Utilities.enquire.minMax(480,979), function() {
           self.renderTablet();
         });
 
-        enquire.register("(max-width: 479px)", function() {
+        enquire.register(Utilities.enquire.max(479), function() {
           self.renderMobile();
         });
 
@@ -102,15 +103,15 @@ define(function(require){
       if ( self.$tccCarousel ) {
         self.$tccCarousel.sonyCarousel('destroy');
       }
-   
+
       // Clear these variables up for garbage collection.
       self.$tccCarousel = self.$carouselWrapper = self.$carousel = null;
 
       // restore to default (cached)
       self.$el.replaceWith($restored);
       self.$el = $restored;
-      
-      // reset 
+
+      // reset
       self.$carouselWrapper = self.$el.find(self.carouselWrapperClass);
       self.$carousel = self.$carouselWrapper.find(self.carouselClass);
       iQ.update();
@@ -139,10 +140,10 @@ define(function(require){
 
       // add to carousel
       self.$carousel.append($slide2);
-     
+
       // update all spans to be span6
       self.updateSpans("span6");
-            
+
       // swap three-up class with two-up on div#carousel
       self.updateId("two-up");
 
@@ -184,10 +185,10 @@ define(function(require){
 
       // add to carousel
       self.$carousel.append($slide2).append($slide3);
-     
+
       // update all sony-carousel-slid > grid > spans to be span12
       self.updateSpans("span12");
-            
+
       // swap three-up class with two-up on div#carousel
       self.updateId("one-up");
 
@@ -209,7 +210,7 @@ define(function(require){
     },
 
     updateSpans : function(newClass){
-      var self = this;    
+      var self = this;
       self.$el
         .find(self.slideClass)
         .find('.span4, .span6, .span12')
