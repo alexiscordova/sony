@@ -1050,7 +1050,7 @@ html.no-touch.csstransitions [class*="fonticon"] {
 /* line 64, ../../src/packages/common/css/_base/_fonticons.scss */
 .fonticon-10-chevron-sm,
 .fonticon-10-chevron-sm--after {
-  margin: 0 -0.125em;
+  margin: 0 -.125em;
 }
 
 /* line 74, ../../src/packages/common/css/_base/_fonticons.scss */
@@ -3399,7 +3399,7 @@ p .btn-special, td .btn-special {
 /* line 168, ../../src/packages/common/css/_base/_buttons.scss */
 .btn-square i {
   line-height: 0;
-  margin: -0.125em;
+  margin: -.125em;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -4109,8 +4109,8 @@ input[type="submit"].btn.btn-mini {
 [class*=" swatch-"]:after {
   top: 50%;
   left: 50%;
-  margin-left: -0.5em;
-  margin-top: -0.5625em;
+  margin-left: -.5em;
+  margin-top: -.5625em;
   color: white;
   -webkit-font-smoothing: antialiased;
 }
@@ -4625,7 +4625,7 @@ input[type="submit"].btn.btn-mini {
 .share-menu:before {
   content: '';
   position: absolute;
-  top: -0.8125em;
+  top: -.8125em;
   right: 1.5em;
   width: 0;
   height: 0;
@@ -4914,6 +4914,10 @@ img.global-loader {
 .navbar .nav-li-favorites .nav-li-link:hover i {
   color: #d94c25;
 }
+/* line 90, ../../src/packages/common/css/_components/_navbar.scss */
+.lt-ie9:not(.lt-ie8) .navbar .nav-li-favorites .nav-li-link:hover i {
+  color: white;
+}
 /* line 95, ../../src/packages/common/css/_components/_navbar.scss */
 .navbar .nav-li-universal .nav-li-linkBtn .fonticon-10-arrowhead-up {
   margin-left: 4px;
@@ -5016,12 +5020,21 @@ img.global-loader {
   width: 100%;
 }
 
-/* line 173, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 177, ../../src/packages/common/css/_components/_navbar.scss */
+.lt-ie9:not(.lt-ie8) .nav-li-link:hover .fonticon-10-arrowhead-down,
+.lt-ie9:not(.lt-ie8) .nav-li-link:hover .fonticon-10-arrowhead-up, .lt-ie9:not(.lt-ie8) .nav-li-link:active .fonticon-10-arrowhead-down,
+.lt-ie9:not(.lt-ie8) .nav-li-link:active .fonticon-10-arrowhead-up, .lt-ie9:not(.lt-ie8) .nav-li-link:focus .fonticon-10-arrowhead-down,
+.lt-ie9:not(.lt-ie8) .nav-li-link:focus .fonticon-10-arrowhead-up, .lt-ie9:not(.lt-ie8) .nav-li-link.active .fonticon-10-arrowhead-down,
+.lt-ie9:not(.lt-ie8) .nav-li-link.active .fonticon-10-arrowhead-up {
+  color: #83838f;
+}
+
+/* line 187, ../../src/packages/common/css/_components/_navbar.scss */
 .navbar-mobile.container {
   width: 100%;
 }
 
-/* line 203, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 217, ../../src/packages/common/css/_components/_navbar.scss */
 .navbar-outer {
   background: black;
   position: relative;
@@ -5029,51 +5042,51 @@ img.global-loader {
   -webkit-transform: translate3d(0, 0, 0);
 }
 
-/* line 209, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 223, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-wrapper {
   z-index: 999;
   height: 64px;
 }
 
-/* line 213, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 227, ../../src/packages/common/css/_components/_navbar.scss */
 .navbar {
   height: 64px;
 }
 
-/* line 216, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 230, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-w {
   top: -475px;
 }
 
-/* line 219, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 233, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w {
   top: 64px;
 }
 
-/* line 223, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 237, ../../src/packages/common/css/_components/_navbar.scss */
 .nav .btn-mobile-cart {
   display: none;
 }
 
-/* line 228, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 242, ../../src/packages/common/css/_components/_navbar.scss */
 .lt-ie10 .nav-outer-container {
   z-index: 999;
   position: relative;
 }
 
-/* line 233, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 247, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-primary {
   margin-left: 2%;
 }
-/* line 236, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 250, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-primary .nav-li {
   margin: 0 0 0 0.625em;
 }
-/* line 239, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 253, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-primary .nav-li.nav-li-electronics {
   margin-left: 0.8125em;
 }
-/* line 243, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 257, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-primary .nav-li-link {
   line-height: 60px;
   padding: 0 5px 4px;
@@ -5083,40 +5096,51 @@ img.global-loader {
   -webkit-transform: translateZ(0);
   z-index: 5000;
 }
-/* line 246, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 260, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-primary .nav-li-link:hover, .nav-primary .nav-li-link:active, .nav-primary .nav-li-link:focus, .nav-primary .nav-li-link.active {
   color: #e4e7eb;
 }
-/* line 255, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 269, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-primary .nav-li-link .lbl {
   padding: 0 4px;
 }
 
-/* line 262, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 276, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-store .nav-li-link,
 .nav-li-support .nav-li-link {
   font-size: 0.9375em;
 }
 
-/* line 268, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 281, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn) {
   padding-right: 0;
   margin-right: 0;
   font-size: 0.9375em;
   color: #e4e7eb;
 }
-/* line 274, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 287, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn) .fonticon-10-arrowhead-down {
+  font-size: 1.06667em;
   position: relative;
   top: -2px;
   margin-bottom: -5px;
-  margin-left: 0.25em;
+  margin-left: 4px;
   margin-right: -2px;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
   -webkit-transform: translate3d(0, 0, 0);
 }
+/* line 299, ../../src/packages/common/css/_components/_navbar.scss */
+.lt-ie9 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn) .fonticon-10-arrowhead-down {
+  font-size: 16px;
+  left: -1px;
+}
+/* line 303, ../../src/packages/common/css/_components/_navbar.scss */
+.lt-ie8 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn) .fonticon-10-arrowhead-down {
+  left: 2px;
+}
 
-/* line 289, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 314, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-primary .nav-li-link:hover, .nav-primary .nav-li-link:active, .nav-primary .nav-li-link:focus, .nav-primary .nav-li-link.active,
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn):hover,
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn):active,
@@ -5125,7 +5149,7 @@ img.global-loader {
   color: white;
 }
 
-/* line 294, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 319, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-linkBtn {
   font-family: "SST W01 Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
@@ -5139,18 +5163,18 @@ img.global-loader {
   background-color: black;
   border-color: black;
 }
-/* line 299, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 324, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-linkBtn .fonticon-10-arrowhead-up,
 .nav-li-linkBtn .fonticon-10-search {
   font-size: 1.45455em;
 }
-/* line 316, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 341, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-linkBtn:hover, .nav-li-linkBtn:active, .nav-li-linkBtn:focus, .nav-li-linkBtn.active {
   background-color: #2f353d;
   border-color: #2f353d;
   color: white;
 }
-/* line 322, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 347, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-linkBtn .nav-li-count {
   display: inline-block;
   font-size: 0.75em;
@@ -5165,58 +5189,58 @@ img.global-loader {
 .nav-li-linkBtn .nav-li-count [class*="fonticon-10-"]:before {
   font-size: 1.33333em;
 }
-/* line 331, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 356, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-linkBtn [class^="fonticon-10-"],
 .nav-li-linkBtn [class*=" fonticon-10-"] {
   margin: 0;
   -webkit-font-smoothing: antialiased;
 }
-/* line 337, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 362, ../../src/packages/common/css/_components/_navbar.scss */
 .lt-ie8 .nav-li-linkBtn {
   height: 26px;
 }
 
-/* line 345, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 370, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-primary .nav-li-store .fonticon-10-cart,
 .nav-primary .nav-li-support .fonticon-10-support,
 .nav-primary .nav-li-universal-mobile {
   display: none;
 }
 
-/* line 351, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 376, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-account .nav-li-link.nav-dropdown-toggle {
   font-size: 0.6875em;
   padding-right: 6px;
   padding-top: 10px;
   -webkit-backface-visibility: hidden;
 }
-/* line 357, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 382, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-account .nav-li-link.nav-dropdown-toggle .fonticon-10-arrowhead-down {
   margin-left: 3px;
   position: relative;
   top: -2px;
-  font-size: 1.52381em;
+  font-size: 1.6em;
 }
 
-/* line 365, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 390, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-favorites .nav-li-link {
   padding: 8px 7px 0 8px;
   font-size: 1em;
 }
 
-/* line 369, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 394, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-cart .nav-li-link {
   padding: 9px 9px 0 8px;
   font-size: 1em;
   -webkit-transform: translate3d(0, 0, 0);
 }
-/* line 373, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 398, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-cart .nav-li-link i {
   position: relative;
   top: -1px;
 }
 
-/* line 378, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 403, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-search .nav-li-linkBtn {
   background-color: #504d56;
   border-color: #504d56;
@@ -5226,33 +5250,33 @@ img.global-loader {
   margin-bottom: 0;
   -webkit-backface-visibility: hidden;
 }
-/* line 387, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 412, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-search .nav-li-linkBtn .fonticon-10-search {
   padding-left: 6px;
 }
-/* line 393, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 418, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-search .nav-li-linkBtn:hover, .nav-li-search .nav-li-linkBtn:active, .nav-li-search .nav-li-linkBtn.active {
   background-color: #4572ed;
   border-color: #4572ed;
   color: #e4e7eb;
 }
 
-/* line 399, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 424, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-universal .nav-li-linkBtn {
   background: #2f353d;
   border-color: #2f353d;
 }
-/* line 406, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 431, ../../src/packages/common/css/_components/_navbar.scss */
 .nav-li-universal .nav-li-linkBtn:hover, .nav-li-universal .nav-li-linkBtn:active, .nav-li-universal .nav-li-linkBtn:focus, .nav-li-universal .nav-li-linkBtn.active {
   background: #504d56;
   border-color: #504d56;
 }
 
-/* line 416, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 441, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray {
   width: 100%;
 }
-/* line 419, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 444, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray .nav-view-all-tl {
   display: block;
   width: 200px;
@@ -5260,25 +5284,25 @@ img.global-loader {
   text-align: center;
 }
 
-/* line 432, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 457, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-main {
   padding-top: 50px;
   width: 74%;
 }
-/* line 436, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 461, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-w-short .navtray-section-main {
   min-height: 260px;
 }
-/* line 440, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 465, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-main .navtray-list-main {
   margin: 0 4.0% 1.0% 4.0%;
   overflow: hidden;
 }
-/* line 444, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 469, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-main .navtray-list-main .navtray-li {
   width: 24.8%;
 }
-/* line 448, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 473, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-main .navtray-list-main .navtray-li-link {
   margin: 2% 3.3% 0 0;
   padding: 20px 0 0 0;
@@ -5286,56 +5310,56 @@ img.global-loader {
   height: 170px;
   /* only for non-responsive browsers - is overridden for responsive, which is good, because it's too high */
 }
-/* line 453, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 478, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-w-short .navtray-section-main .navtray-list-main .navtray-li-link {
   padding-top: 25px;
 }
-/* line 459, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 484, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-main .navtray-list-main .navtray-li-link:hover, .navtray-section-main .navtray-list-main .navtray-li-link:active, .navtray-section-main .navtray-list-main .navtray-li-link:focus {
   background: #f1f5f9;
 }
-/* line 462, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 487, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-main .navtray-list-main .navtray-li-link .nav-img-w img {
   width: 83%;
 }
-/* line 467, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 492, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-main .navtray-list-main:after {
   width: 98.4%;
   height: 1px;
 }
 
-/* line 475, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 500, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-featured {
   padding-top: 47px;
   width: 26%;
   padding-left: 3.6%;
 }
-/* line 477, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 502, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-featured.navtray-section-featured-short {
   padding-top: 0;
 }
-/* line 482, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 507, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-featured .navtray-secondary-promo {
   max-width: 218px;
   margin-top: 32px;
   margin-right: 11%;
 }
-/* line 487, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 512, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-featured .navtray-secondary-promo img {
   padding-bottom: 0.5625em;
 }
-/* line 494, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 519, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-featured .navtray-secondary-promo .p2, .navtray-section-featured .navtray-secondary-promo p {
   margin-bottom: 0.3125em;
 }
-/* line 497, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 522, ../../src/packages/common/css/_components/_navbar.scss */
 .navtray-section-featured .navtray-secondary-promo .p4 {
   display: inline-block;
   line-height: 1.3;
   padding-right: 1.6875em;
 }
 
-/* line 507, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 532, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w {
   z-index: 190;
   position: absolute;
@@ -5347,7 +5371,7 @@ img.global-loader {
   border-bottom-left-radius: 2px;
 }
 
-/* line 520, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 545, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w-search {
   left: -9999px;
   right: auto;
@@ -5355,31 +5379,31 @@ img.global-loader {
   -webkit-transition: opacity 0.1s linear 0s, left 0s linear 0.1s;
   transition: opacity 0.1s linear 0s, left 0s linear 0.1s;
 }
-/* line 522, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 547, ../../src/packages/common/css/_components/_navbar.scss */
 .lt-ie10 .navmenu-w-search {
   height: 100%;
   overflow: visible;
 }
-/* line 526, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 551, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w-search .reveal-transition-container {
   overflow: hidden;
 }
-/* line 529, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 554, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w-search .fonticon-10-arrowhead-up.nav-indicator {
   right: 17px;
 }
-/* line 532, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 557, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w-search .btn-clear-search-input {
   right: 30px;
   top: 22px;
 }
-/* line 536, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 561, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w-search .fonticon-10-search {
   top: 25px;
   left: 46px;
 }
 
-/* line 542, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 567, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w-account {
   left: -9999px;
   right: auto;
@@ -5387,18 +5411,18 @@ img.global-loader {
   -webkit-transition: opacity 0.1s linear 0s, left 0s linear 0.1s;
   transition: opacity 0.1s linear 0s, left 0s linear 0.1s;
 }
-/* line 545, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 570, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w-account .fonticon-10-arrowhead-up.nav-indicator {
   left: 25px;
 }
-/* line 549, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 574, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w-account .reveal-transition-container {
   width: 215px;
   padding: 11px 0 9px;
   overflow: hidden;
   background: white;
 }
-/* line 555, ../../src/packages/common/css/_components/_navbar.scss */
+/* line 580, ../../src/packages/common/css/_components/_navbar.scss */
 .navmenu-w-account .reveal-transition-container .navmenu-list-prefixed {
   display: none;
 }
@@ -9524,7 +9548,7 @@ textarea,
 
 /* line 42, ../../src/packages/common/css/_shared/_all.scss */
 ul.jump-links {
-  margin-left: -0.375em;
+  margin-left: -.375em;
   margin-bottom: 0;
   *zoom: 1;
 }
@@ -10273,7 +10297,7 @@ ul.jump-links .active a {
   position: absolute;
   z-index: -1;
   top: 0;
-  right: -0.1875em;
+  right: -.1875em;
   width: 2000px;
   height: 100%;
   background: #f3f4f6;
