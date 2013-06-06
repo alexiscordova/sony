@@ -1,7 +1,8 @@
 define(function(require){
 
   var $       = require('jquery'),
-  IS_PS3      = (/playstation 3/gi).test(navigator.userAgent),
+  // IS_PS3      = (/playstation 3/gi).test(navigator.userAgent),
+  IS_PS3      = false,
   IS_GOOGLETV = (/googletv/gi).test(navigator.userAgent);
 
 /*!
@@ -257,6 +258,12 @@ $.fn.flowplayer = function(opts, callback) {
                engine.pause();
                api.one("pause", fn);
             }
+
+            if(IS_PS3){
+               //console.log( 'pause the flash player fallback',root.objectTag );
+               root.objectTag.get(0).pause();
+            }
+
             return api;
          },
 
@@ -276,6 +283,7 @@ $.fn.flowplayer = function(opts, callback) {
          },
 
          toggle: function() {
+
             return api.ready ? api.paused ? api.resume() : api.pause() : api.load();
          },
 
@@ -748,7 +756,11 @@ flowplayer.engine.flash = function(player, root) {
 
       load: function(video) {
 
-         //window.alert('Calling LOAD OR WHAAAAT!!!!!!!!!!');
+         console.log(video.src);
+
+         if(IS_PS3){
+            video.src = video.src.src;
+         }
 
          var html5Tag = $("video", root),
             url = video.src.replace(/&amp;/g, '%26').replace(/&/g, '%26').replace(/=/g, '%3D'),
@@ -765,8 +777,6 @@ flowplayer.engine.flash = function(player, root) {
             api.__play(url);
 
          } else {
-
-
 
             callbackId = "fp" + ("" + Math.random()).slice(3, 15);
 
@@ -790,9 +800,7 @@ flowplayer.engine.flash = function(player, root) {
                conf.swf = conf.swfFallback;
             }
 
-
-
-            objectTag = embed(conf.swf, opts);
+            objectTag = root.objectTag = embed(conf.swf, opts);
 
             objectTag.prependTo(root);
 
@@ -873,6 +881,7 @@ flowplayer.engine.flash = function(player, root) {
    $.each("pause,resume,seek,volume".split(","), function(i, name) {
 
       engine[name] = function(arg) {
+
 
          if (player.ready) {
 

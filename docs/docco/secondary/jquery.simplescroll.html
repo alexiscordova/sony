@@ -102,7 +102,7 @@ and append it to the DOM</p>             </td>             <td class="code">    
   };
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If we load the page with a hash, scroll to it</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.simplescroll.initial = <span class="keyword">function</span>( options, fn ) {
-    <span class="keyword">if</span> ( window.location.hash ) {
+    <span class="keyword">if</span> ( window.location.hash &amp;&amp; window.location.hash.indexOf(<span class="string">'/'</span>) &lt; <span class="number">0</span>) {
       options = $.extend( options, {target: window.location.hash} );
       $.simplescroll( options, fn );
     }
@@ -138,4 +138,5 @@ defined target (via a function) or the href attribute</p>             </td>     
   };
 
 });
+
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

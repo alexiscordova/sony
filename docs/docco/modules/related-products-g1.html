@@ -930,6 +930,10 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           self.isDesktopMode = <span class="literal">true</span>;
 
+          self.sliderOverflow.css(<span class="string">'overflow'</span> , <span class="string">'hidden'</span>);
+
+          self.$el.parents(<span class="string">'.rp-section'</span>).css(<span class="string">'overflow'</span> , <span class="string">''</span>);
+
           self.$el.removeClass(<span class="string">'rp-tablet rp-mobile'</span>)
             .addClass(<span class="string">'rp-desktop'</span>);
 
@@ -982,6 +986,10 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           self.$el.removeClass(<span class="string">'rp-desktop rp-mobile'</span>)
             .addClass(<span class="string">'rp-tablet'</span>);
+        
+          self.sliderOverflow.css(<span class="string">'overflow'</span> , <span class="string">'hidden'</span>);
+
+          self.$el.parents(<span class="string">'.rp-section'</span>).css(<span class="string">'overflow'</span> , <span class="string">''</span>);
 
           <span class="keyword">if</span> (self.scrollerModule !== <span class="literal">null</span>) {
             self.scrollerModule.destroy();
@@ -1568,6 +1576,10 @@ if their interaction time and movements are below certain thresholds.</p>       
 
         self.$container.css(<span class="string">'width'</span>, <span class="string">''</span>);
         self.$container.append(self.$slides);
+
+        <span class="keyword">if</span>(self.$slides.length &gt; <span class="number">1</span>){
+
+        }
         self.$container.on(self.downEvent, <span class="keyword">function</span>(e) {
           self.onDragStart(e);
         });
@@ -1866,7 +1878,8 @@ if their interaction time and movements are below certain thresholds.</p>       
           self.scrollerModule = <span class="literal">null</span>;
         }
 
-        self.scrollerModule = self.$el.find(<span class="string">'.rp-overflow'</span>).scrollerModule({
+
+        self.scrollerModule = self.sliderOverflow.scrollerModule({
           contentSelector: <span class="string">'.rp-container'</span>,
           itemElementSelector: <span class="string">'.gallery-item'</span>,
           mode: <span class="string">'free'</span>,
@@ -1888,6 +1901,9 @@ if their interaction time and movements are below certain thresholds.</p>       
           }
 
         }).data(<span class="string">'scrollerModule'</span>);
+        self.sliderOverflow.css(<span class="string">'overflow'</span> , <span class="string">'visible'</span>);
+
+        self.$el.parents(<span class="string">'.rp-section'</span>).css(<span class="string">'overflow'</span> , <span class="string">'hidden'</span>);
 
         self.$galleryItems.find(<span class="string">'.product-name'</span>).evenHeights();
         self.$el.find(<span class="string">'.gallery-item.medium'</span>).css(<span class="string">'height'</span>, <span class="string">''</span>);
