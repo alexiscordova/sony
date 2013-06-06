@@ -1024,7 +1024,7 @@
       .navmenu-search-section-results {
         .navmenu-search-results {
           .btn-show-all-results {
-            width: 280px;
+            width: 180px;
             margin: 5px 20px 50px;
           }
         }
@@ -1267,9 +1267,22 @@
   }
 }
 
+.bp-nav-mobile{
+  .navmenu-w-search {
+    &.searching {
+      .navmenu-search-section-results {
+        .navmenu-search-results {
+          .btn-show-all-results {
+            width: auto;
+            display:block;
+          }
+        }
+      }
+    }
+  }
+}
+
 } // max-width: 479px
-
-
 
 
 
@@ -1297,7 +1310,6 @@
   }
 }
 }
-
 
 // Same as 360 but for 400.
 @media (min-width: px-em(392px)) and (max-width: px-em(408px)) {
