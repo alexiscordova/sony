@@ -15,7 +15,8 @@ define(<span class="keyword">function</span>(require){
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
       iQ = require(<span class="string">'iQ'</span>),
       enquire = require(<span class="string">'enquire'</span>),
-      Settings = require(<span class="string">'require/sony-global-settings'</span>);
+      Settings = require(<span class="string">'require/sony-global-settings'</span>),
+      Utilities = require(<span class="string">'require/sony-global-utilities'</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>This key-value mapping is used to show default values (as key) and their
 desired mobile equivalents (as the matching values). Assigned to relevant
@@ -64,15 +65,17 @@ in iQ that will probably require a thorough refactor of that class.</p>         
 
     <span class="keyword">if</span> ( self.$items.parents().hasClass(<span class="string">'no-grid-at-767'</span>) &amp;&amp; !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
 
-      enquire.register(<span class="string">"(min-width: 768px)"</span>, <span class="keyword">function</span>() {
+      enquire.register( Utilities.enquire.min(<span class="number">768</span>), <span class="keyword">function</span>() {
         self.renderDesktop();
         self.assignDefaultLayouts();
       });
-        enquire.register(<span class="string">"(min-width: 481px) and (max-width: 767px)"</span>, <span class="keyword">function</span>() {
+
+      enquire.register( Utilities.enquire.minMax(<span class="number">481</span>, <span class="number">767</span>), <span class="keyword">function</span>() {
         self.renderEvenColumns(<span class="number">12</span>);
         self.assignDefaultLayouts();
       });
-      enquire.register(<span class="string">"(max-width: 480px)"</span>, <span class="keyword">function</span>() {
+
+      enquire.register( Utilities.enquire.max(<span class="number">480</span>), <span class="keyword">function</span>() {
         self.renderEvenColumns(<span class="number">12</span>);
         self.assignMobileLayouts();
       });
