@@ -27,6 +27,14 @@ define(function(require){
 
   StickyHeader.prototype = {
     init: function(scrollableId) {
+      var ua = navigator.userAgent.toLowerCase();
+      this.isAndroid = ua.indexOf("android") > 1;
+      
+      if (this.isAndroid){
+        this.loaded = false;
+        return;
+      }
+
       this.scrollableId = scrollableId;
       this.$headers = $('.js-sticky-headers');
       this.$scrollable = $('#' + this.scrollableId);
@@ -37,6 +45,7 @@ define(function(require){
       this.headerIsVisible = false;
 
       Environment.on('SONY:Footer:mobileFooterSecCollapsed', $.proxy(this.refresh, this));
+      thisl.loaded = true;
 
       return this._getHeaderOffsets();
     },

@@ -56,30 +56,35 @@ define(function(require){
       var self = this;
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
-        enquire.register("(min-width: 980px)", function() {
+
+        enquire.register( Utilities.enquire.min(980), function() {
           self.mode = 'desktop';
           self.subcatCols = 3;
           self.renderSubcats(self.$activeSubcat, 3);
           self.renderNav(2);
         });
-        enquire.register("(min-width: 768px) and (max-width: 979px)", function() {
+
+        enquire.register( Utilities.enquire.minMax(768, 979), function() {
           self.mode = 'tablet';
           self.subcatCols = 4;
           self.renderSubcats(self.$activeSubcat, 4);
           self.renderNav(3);
         });
-        enquire.register("(min-width: 480px) and (max-width: 767px)", function() {
+
+        enquire.register( Utilities.enquire.minMax(480, 767), function() {
           self.mode = 'tablet-small';
           self.subcatCols = 6;
           self.renderSubcats(self.$activeSubcat, 6);
           self.renderNav(3);
         });
-        enquire.register("(max-width: 479px)", function() {
+
+        enquire.register( Utilities.enquire.max(479), function() {
           self.mode = 'mobile';
           self.subcatCols = 12;
           self.renderSubcats(self.$activeSubcat, 12);
           self.renderNav(4);
         });
+
       } else {
         self.mode = 'desktop';
         self.subcatCols = 3;

@@ -94,6 +94,7 @@
     self.handleStartPosition = <span class="literal">null</span>;
     self.dragThreshold = <span class="number">50</span>;
 
+
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>    self.useCSS3Transitions = Modernizr.csstransitions; <span class="comment">//Detect if we can use CSS3 transitions</span>
     self.hasMediaQueries = Modernizr.mediaqueries;
     self.mq = Modernizr.mq;
@@ -109,6 +110,7 @@
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Modes</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.isMobileMode = <span class="literal">false</span>;
     self.isDesktopMode = <span class="literal">false</span>;
     self.isTabletMode = <span class="literal">false</span>;
+    self.breakPointChanged = <span class="literal">false</span>;
     self.accelerationPos = <span class="number">0</span>;
 
 
@@ -160,22 +162,21 @@
         <span class="keyword">if</span> (!self.hasTouch) {
           self.createPaddles();
         }
-        <span class="keyword">if</span> (self.mode !== <span class="string">'strip'</span>) {
-          self.$container.on(self.downEvent, <span class="keyword">function</span>(e) {
-            self.onDragStart(e);
-          });
-        }
+      
+      <span class="keyword">if</span>(self.$slides.length &gt; <span class="number">1</span>){
+        self.$container.on(self.downEvent, <span class="keyword">function</span>(e) {
+          self.onDragStart(e);
+        });   
+      }
+
       } <span class="keyword">else</span> {
         self.$pagination = $({});
       }
-
-      <span class="keyword">if</span> (self.mode !== <span class="string">'strip'</span>) {
-        self.setSortPriorities();
-        self.setupResizeListener();
-        self.$win.trigger(<span class="string">'resize.rp'</span>);
-      } <span class="keyword">else</span> {
-        self.setupStripMode();
-      }
+      
+      self.setSortPriorities();
+      self.setupResizeListener();
+      self.$win.trigger(<span class="string">'resize.rp'</span>);
+      
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Fixes a bug in IE when media queries aren't available</p>             </td>             <td class="code">               <div class="highlight"><pre>    mqFix: <span class="keyword">function</span>() {
@@ -435,19 +436,15 @@ if their interaction time and movements are below certain thresholds.</p>       
           setTimeout(<span class="keyword">function</span>() {
             self.updateSliderSize();
 
-            <span class="keyword">if</span> (self.oldIE) {
-
-
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>do this for IE</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (self.oldIE) {
               <span class="keyword">if</span> (Settings.isLTIE8) {
-
-
                 self.$galleryItems.each(<span class="keyword">function</span>() {
 
                   <span class="keyword">var</span> $item = $(<span class="keyword">this</span>),
                     $itemImg = $item.find(<span class="string">'.product-img'</span>),
                     tileHeight = <span class="number">225</span>,
                     galImageHeight = <span class="number">140</span>,
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>medGalImgWidth   = 355,</p>             </td>             <td class="code">               <div class="highlight"><pre>                    medGalImgHeight = <span class="number">385</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>medGalImgWidth   = 355,</p>             </td>             <td class="code">               <div class="highlight"><pre>                    medGalImgHeight = <span class="number">385</span>,
                     medGalItemHeight = <span class="number">600</span>;
 
                   $item.css({
@@ -488,15 +485,18 @@ if their interaction time and movements are below certain thresholds.</p>       
                 });
               }
 
-
               shfflInst.update();
               self.updateSlides();
             }
 
-            <span class="keyword">if</span> (!self.oldIE) {
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>do this for good browsers</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!self.oldIE) {
+
               self.updateTiles();
               shfflInst.update();
               self.animateTiles();
+
+              self.breakPointChanged = <span class="literal">false</span>;
+
             } <span class="keyword">else</span> <span class="keyword">if</span> (!self.isMobileMode) {
               self.$pagination.show();
               self.$pagination.stop(<span class="literal">true</span>, <span class="literal">true</span>).fadeIn(<span class="number">250</span>);
@@ -506,112 +506,6 @@ if their interaction time and movements are below certain thresholds.</p>       
 
         });
       }, <span class="number">10</span>);
-    },
-
-    setupStripMode: <span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>,
-        containerWidth = self.$el.width(),
-        gutterWidth = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
-        colWidth = (Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth));
-
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>clear out the position style on the gallery items</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$galleryItems.removeAttr(<span class="string">'style'</span>);
-
-      self.$galleryItems.not(self.$galleryItems.first()).css({
-        <span class="string">'width'</span>: colWidth,
-        <span class="string">'margin'</span>: <span class="number">0</span>,
-        <span class="string">'margin-left'</span>: <span class="number">0</span>,
-        <span class="string">'margin-top'</span>: <span class="number">0</span>
-      });
-
-      self.$galleryItems.first().css({
-        <span class="string">'width'</span>: colWidth,
-        <span class="string">'margin'</span>: <span class="number">0</span>
-      });
-
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Create the sony-scroller instance</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
-
-        <span class="keyword">if</span> (self.scrollerModule !== <span class="literal">null</span>) {
-          self.scrollerModule.destroy();
-          self.scrollerModule = <span class="literal">null</span>;
-        }
-
-        self.scrollerModule = self.$el.find(<span class="string">'.rp-overflow'</span>).scrollerModule({
-          contentSelector: <span class="string">'.rp-container'</span>,
-          itemElementSelector: <span class="string">'.gallery-item'</span>,
-          mode: <span class="string">'paginate'</span>,
-          generatePagination: <span class="literal">true</span>,
-          generateNav: <span class="literal">true</span>,
-          centerItems: <span class="literal">false</span>,
-          autoGutters: <span class="literal">false</span>,
-          gutterWidth: gutterWidth,
-          iscrollProps: {
-            snap: <span class="literal">true</span>,
-            momentum: <span class="literal">false</span>,
-            hScrollbar: <span class="literal">false</span>,
-            vScrollbar: <span class="literal">false</span>
-          }
-
-        }).data(<span class="string">'scrollerModule'</span>);
-
-        self.$galleryItems.find(<span class="string">'.product-name'</span>).evenHeights();
-
-        iQ.update();
-
-      }, <span class="number">50</span>);
-
-      self.$win.on(<span class="string">'resize.rp'</span>, $.debounce(<span class="number">50</span>, <span class="keyword">function</span>() {
-
-        <span class="keyword">if</span> (self.$win.width() &lt; <span class="number">479</span>) {
-          self.scrollerModule.centerItems = <span class="literal">true</span>;
-        } <span class="keyword">else</span> {
-          self.scrollerModule.centerItems = <span class="literal">false</span>;
-        }
-
-        <span class="keyword">var</span> containerWidth = self.$el.width(),
-          gutterWidth = <span class="number">0</span>,
-          colWidth = <span class="number">0</span>;
-
-        <span class="keyword">if</span> (self.$win.width() &gt; <span class="number">767</span>) {
-          gutterWidth = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
-          colWidth = (Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth));
-        } <span class="keyword">else</span> {
-          gutterWidth = <span class="number">12.745098039215685</span>;
-          colWidth = <span class="number">119.80392156862746</span>;
-        }
-
-        self.scrollerModule.setGutterWidth(gutterWidth);
-
-        self.$galleryItems.not(self.$galleryItems.first()).css({
-          <span class="string">'width'</span>: colWidth,
-          <span class="string">'margin'</span>: <span class="number">0</span>,
-          <span class="string">'margin-left'</span>: <span class="number">0</span>,
-          <span class="string">'margin-top'</span>: <span class="string">'0px'</span>
-        });
-
-        self.$galleryItems.first().css({
-          <span class="string">'width'</span>: colWidth,
-          <span class="string">'margin'</span>: <span class="number">0</span>,
-          <span class="string">'margin-top'</span>: <span class="string">'0px'</span>
-        });
-
-
-        <span class="keyword">var</span> $oneProduct = self.$el.find(<span class="string">'.gallery-item.normal'</span>).first(),
-          newContainerHeight = $oneProduct.find(<span class="string">'.product-content'</span>).outerHeight(<span class="literal">true</span>) + $oneProduct.find(<span class="string">'.product-img'</span>).height();
-        newContainerHeight += <span class="number">30</span>; <span class="comment">//spacing for navigation dots</span>
-
-
-        self.$el.css({
-          <span class="string">'height'</span>: newContainerHeight,
-          <span class="string">'max-height'</span>: newContainerHeight,
-          <span class="string">'min-height'</span>: newContainerHeight
-        });
-
-        self.checkTileHeights();
-
-      }));
-
-
-      self.$win.trigger(<span class="string">'resize.rp'</span>);
     },
 
     tapOrClick: <span class="keyword">function</span>() {
@@ -910,7 +804,6 @@ if their interaction time and movements are below certain thresholds.</p>       
       <span class="keyword">switch</span> (view) {
         <span class="keyword">case</span> <span class="string">'desktop'</span>:
 
-
           <span class="keyword">if</span> (self.mode === <span class="string">'suggested'</span>) {
             self.$el.find(<span class="string">'.gallery-item'</span>).addClass(<span class="string">'span6'</span>);
             self.$el.removeClass(<span class="string">'grid'</span>)
@@ -920,15 +813,19 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="keyword">return</span>;
           }
 
+          <span class="keyword">if</span>(self.isDesktopMode === <span class="literal">true</span>){
+            <span class="keyword">return</span>;
+          }
+
 </pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>check if we are coming out of mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> (self.isMobileMode === <span class="literal">true</span>) {
             wasMobile = <span class="literal">true</span>;
             self.returnToFullView();
-
           }
 
           self.isTabletMode = self.isMobileMode = self.hasInitedMobile = <span class="literal">false</span>;
 
           self.isDesktopMode = <span class="literal">true</span>;
+          self.breakPointChanged = <span class="literal">true</span>;
 
           self.sliderOverflow.css(<span class="string">'overflow'</span> , <span class="string">'hidden'</span>);
 
@@ -958,7 +855,6 @@ if their interaction time and movements are below certain thresholds.</p>       
             self.togglePaddles(<span class="literal">true</span>);
           }
 
-
           <span class="keyword">break</span>;
 
         <span class="keyword">case</span> <span class="string">'tablet'</span>:
@@ -983,6 +879,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           self.isMobileMode = self.isDesktopMode = self.hasInitedMobile = <span class="literal">false</span>;
           self.isTabletMode = <span class="literal">true</span>;
+          self.breakPointChanged = <span class="literal">true</span>;
 
           self.$el.removeClass(<span class="string">'rp-desktop rp-mobile'</span>)
             .addClass(<span class="string">'rp-tablet'</span>);
@@ -1019,6 +916,8 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="keyword">return</span>;
           }
 
+
+
           <span class="keyword">if</span> (self.mode === <span class="string">'suggested'</span>) {
             self.$el.find(<span class="string">'.gallery-item'</span>).removeClass(<span class="string">'span6'</span>);
             self.$el.removeClass(<span class="string">'grid slimgrid'</span>);
@@ -1028,6 +927,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           self.isTabletMode = self.isDesktopMode = <span class="literal">false</span>;
           self.isMobileMode = <span class="literal">true</span>;
+          self.breakPointChanged = <span class="literal">true</span>;
 
           self.$el.removeClass(<span class="string">'rp-tablet rp-desktop'</span>)
             .addClass(<span class="string">'rp-mobile'</span>);
@@ -1578,11 +1478,11 @@ if their interaction time and movements are below certain thresholds.</p>       
         self.$container.append(self.$slides);
 
         <span class="keyword">if</span>(self.$slides.length &gt; <span class="number">1</span>){
-
+          self.$container.on(self.downEvent, <span class="keyword">function</span>(e) {
+            self.onDragStart(e);
+          });
         }
-        self.$container.on(self.downEvent, <span class="keyword">function</span>(e) {
-          self.onDragStart(e);
-        });
+
 
         <span class="keyword">if</span> (!self.hasTouch) {
           self.$paddles.show();
@@ -1707,12 +1607,12 @@ if their interaction time and movements are below certain thresholds.</p>       
 
 
           <span class="keyword">if</span> (slideVariation === <span class="string">'4up'</span> &amp;&amp; self.isTabletMode &amp;&amp; tileHeight &gt; <span class="number">204</span> &amp;&amp; self.$win.width() &lt; <span class="number">769</span>) {
-            maxHeight = <span class="number">204</span>;
+            tileHeight = $slide.find(<span class="string">'.gallery-item.plate'</span>).first().height();
           }
 
           $slide.find(<span class="string">'.gallery-item.normal'</span>).css({
             <span class="string">'max-height'</span>: tileHeight,
-            <span class="string">'height'</span>: maxHeight
+            <span class="string">'height'</span>: tileHeight
           });
 
         }
@@ -1760,9 +1660,16 @@ if their interaction time and movements are below certain thresholds.</p>       
 
       self.checkTileHeights();
 
-      setTimeout(<span class="keyword">function</span>() {
-        self.updateSliderSize();
-      }, <span class="number">250</span>);
+      <span class="keyword">if</span>( self.breakPointChanged ){
+        setTimeout(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>self.$win.trigger('resize.rp'); // this works but it pops </p>             </td>             <td class="code">               <div class="highlight"><pre>          self.handleResize(); <span class="comment">//hopefully a more direct approach</span>
+        } , <span class="number">500</span>);
+      }<span class="keyword">else</span>{
+        setTimeout(<span class="keyword">function</span>() {
+          self.updateSliderSize();
+        }, <span class="number">250</span>);
+      }
+
 
     },
 
@@ -1771,7 +1678,7 @@ if their interaction time and movements are below certain thresholds.</p>       
         prodImg = self.$galleryItems.filter(<span class="string">'.normal'</span>).find(<span class="string">'.product-img'</span>),
         newHeight = prodImg.first().height();
 
-      <span class="keyword">if</span> (self.$win.width() &lt; <span class="number">569</span> || self.mode === <span class="string">'strip'</span>) {
+      <span class="keyword">if</span> (self.$win.width() &lt; <span class="number">569</span>) {
         newHeight = <span class="string">'100%'</span>;
       }
 
@@ -1842,28 +1749,28 @@ if their interaction time and movements are below certain thresholds.</p>       
     initMobileBreakpoint: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>Cancel touch events for the 'slideshow'</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.off(self.downEvent);
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>Cancel touch events for the 'slideshow'</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.off(self.downEvent);
 
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>hide paddles and nav</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$paddles.hide();
+</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>hide paddles and nav</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$paddles.hide();
 
-</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>hide navigation dots</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$pagination.hide();
+</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>hide navigation dots</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$pagination.hide();
 
-</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>attemp to place the title plates in the first position before detaching</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$slides.each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>attemp to place the title plates in the first position before detaching</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$slides.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> $s = $(<span class="keyword">this</span>),
           $plate = $s.find(<span class="string">'.plate'</span>).eq(<span class="number">0</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>put the title plate at the beginning</p>             </td>             <td class="code">               <div class="highlight"><pre>        $s.prepend($plate);
+</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>put the title plate at the beginning</p>             </td>             <td class="code">               <div class="highlight"><pre>        $s.prepend($plate);
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>gather gallery items and save local reference - may need to set on self</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$galleryItems.detach().addClass(<span class="string">'small-size'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>gather gallery items and save local reference - may need to set on self</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$galleryItems.detach().addClass(<span class="string">'small-size'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>remove the slides</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$slides.detach();
+</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>remove the slides</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$slides.detach();
 
-</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>clear out the position style on the gallery items</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$galleryItems.removeAttr(<span class="string">'style'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>clear out the position style on the gallery items</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$galleryItems.removeAttr(<span class="string">'style'</span>);
 
       self.$galleryItems.addClass(<span class="string">'mobile-item'</span>).first().removeClass(<span class="string">'mobile-item'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>put the item back into the container / make sure to not include blanks</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$galleryItems.not(<span class="string">'.blank'</span>).appendTo(self.$container);
+</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>put the item back into the container / make sure to not include blanks</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$galleryItems.not(<span class="string">'.blank'</span>).appendTo(self.$container);
 
 
       self.$el.css(<span class="string">'margin-top'</span>, <span class="string">'0px'</span>);
@@ -1871,7 +1778,7 @@ if their interaction time and movements are below certain thresholds.</p>       
       self.$el.find(<span class="string">'.gallery-item.medium'</span>).css(<span class="string">'height'</span>, <span class="string">''</span>);
       self.$el.find(<span class="string">'.gallery-item.medium .product-img'</span>).css(<span class="string">'height'</span>, <span class="string">''</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>init the scroller module</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>init the scroller module</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
 
         <span class="keyword">if</span> (self.scrollerModule !== <span class="literal">null</span>) {
           self.scrollerModule.destroy();
@@ -1914,7 +1821,7 @@ if their interaction time and movements are below certain thresholds.</p>       
         iQ.update();
         self.checkTileHeights();
 
-</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>animate in container -makes for a smoother experience</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>animate in container -makes for a smoother experience</p>             </td>             <td class="code">               <div class="highlight"><pre>
         self.$el.stop(<span class="literal">true</span>, <span class="literal">true</span>).delay(<span class="number">100</span>).animate({
           opacity: <span class="number">1</span>
         }, <span class="number">250</span>);
@@ -1934,7 +1841,7 @@ if their interaction time and movements are below certain thresholds.</p>       
     setNameHeights: <span class="keyword">function</span>($container) {
       <span class="keyword">var</span> nameMaxHeight = <span class="number">0</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>Set the height of the product name + model because the text can wrap and make it taller</p>             </td>             <td class="code">               <div class="highlight"><pre>      $container.find(<span class="string">'.product-name-wrap'</span>)
+</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>Set the height of the product name + model because the text can wrap and make it taller</p>             </td>             <td class="code">               <div class="highlight"><pre>      $container.find(<span class="string">'.product-name-wrap'</span>)
         .css(<span class="string">'height'</span>, <span class="string">''</span>) <span class="comment">// remove heights in case they've been set before</span>
       .each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
@@ -1952,13 +1859,13 @@ if their interaction time and movements are below certain thresholds.</p>       
     setupEasing: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>Define easing equations</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.css3Easing = {
+</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>Define easing equations</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.css3Easing = {
         sonyScrollEase: <span class="string">'cubic-bezier(0.000, 1.035, 0.400, 0.985)'</span>
       };
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>Related Products definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.relatedProducts = <span class="keyword">function</span>(options) {
+</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>Related Products definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.relatedProducts = <span class="keyword">function</span>(options) {
     <span class="keyword">var</span> args = arguments;
 
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
@@ -1976,7 +1883,7 @@ if their interaction time and movements are below certain thresholds.</p>       
     });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>Defaults for the related products</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.relatedProducts.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>Defaults for the related products</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.relatedProducts.defaults = {
     throttleTime: <span class="number">50</span>,
     autoScaleContainer: <span class="literal">true</span>,
     minSlideOffset: <span class="number">10</span>,
@@ -1998,7 +1905,7 @@ if their interaction time and movements are below certain thresholds.</p>       
       <span class="keyword">return</span>;
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> transEndEventNames = {
+</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> transEndEventNames = {
       <span class="string">'WebkitTransition'</span>: <span class="string">'webkitTransitionEnd'</span>,
       <span class="string">'MozTransition'</span>: <span class="string">'transitionend'</span>,
       <span class="string">'OTransition'</span>: <span class="string">'oTransitionEnd'</span>,
@@ -2016,7 +1923,7 @@ if their interaction time and movements are below certain thresholds.</p>       
     $productPanels.not($currentPanel).addClass(<span class="string">'inactive invisible'</span>);
     $tabs.eq(<span class="number">0</span>).addClass(<span class="string">'active'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>Not tabs, exit</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> (!$tabs.length) {
+</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>Not tabs, exit</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> (!$tabs.length) {
       <span class="keyword">return</span>;
     }
 
@@ -2034,17 +1941,17 @@ if their interaction time and movements are below certain thresholds.</p>       
       e.preventDefault();
       $tab.addClass(<span class="string">'active'</span>).siblings().removeClass(<span class="string">'active'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>Clicked the same tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (newPanelId === currentPanelId) {
+</pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>Clicked the same tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (newPanelId === currentPanelId) {
         <span class="keyword">return</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>Set the current panel id to the new one</p>             </td>             <td class="code">               <div class="highlight"><pre>      currentPanelId = newPanelId;
+</pre></div>             </td>           </tr>                               <tr id="section-96">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-96">&#182;</a>               </div>               <p>Set the current panel id to the new one</p>             </td>             <td class="code">               <div class="highlight"><pre>      currentPanelId = newPanelId;
 
-</pre></div>             </td>           </tr>                               <tr id="section-96">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-96">&#182;</a>               </div>               <p>Set the new panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span> + currentPanelId + <span class="string">']'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-97">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-97">&#182;</a>               </div>               <p>Set the new panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span> + currentPanelId + <span class="string">']'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-97">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-97">&#182;</a>               </div>               <p>Fade out old panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      $oldPanel.addClass(<span class="string">'inactive'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-98">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-98">&#182;</a>               </div>               <p>Fade out old panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      $oldPanel.addClass(<span class="string">'inactive'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-98">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-98">&#182;</a>               </div>               <p>Fade in current panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      $currentPanel.removeClass(<span class="string">'inactive invisible'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-99">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-99">&#182;</a>               </div>               <p>Fade in current panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      $currentPanel.removeClass(<span class="string">'inactive invisible'</span>);
 
       <span class="keyword">if</span> (Modernizr.csstransitions) {
         $oldPanel.one(transitionEndName, onOldPanelFadedOut);
@@ -2057,7 +1964,7 @@ if their interaction time and movements are below certain thresholds.</p>       
       iQ.update();
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-99">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-99">&#182;</a>               </div>               <p>Since these are <a> links, they will receive click events from mobile devices</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> (Modernizr.touch) {
+</pre></div>             </td>           </tr>                               <tr id="section-100">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-100">&#182;</a>               </div>               <p>Since these are <a> links, they will receive click events from mobile devices</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> (Modernizr.touch) {
       $tabs.on(<span class="string">'click'</span>, <span class="literal">false</span>)
         .on(<span class="string">'touchend'</span>, handleTabClick);
     } <span class="keyword">else</span> {

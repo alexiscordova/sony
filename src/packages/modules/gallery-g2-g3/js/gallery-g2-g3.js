@@ -493,7 +493,7 @@ define(function(require){
     // Updates the count displayed at the top left, above the products.
     updateProductCount : function() {
       var self = this,
-          count = self.shuffle ? self.shuffle.visibleItems : self.$items.length;
+          count = self.shuffle ? self.shuffle.visibleItems : self.$items.filter('.filtered').length;
 
       // The recommended gallery tile is actually a gallery item
       if ( self.hasRecommendedTile ) {
@@ -1814,7 +1814,7 @@ define(function(require){
       $maxOutput = $output.find('.range-output-max .val'),
 
       // Var to only call requestAnimationFrame once per frame
-      isTicking = false,
+      requestID = false,
 
       delay = self.hasTouch ? 1000 : 750,
       method = self.hasTouch ? 'debounce' : 'throttle',
@@ -1827,16 +1827,16 @@ define(function(require){
       }
 
       function slid() {
-        if ( isTicking ) {
-          return;
-        }
-
         var args = Array.prototype.slice.call( arguments, 0 );
-        isTicking = true;
 
         // Only use rAF if it's native
         if ( Modernizr.raf ) {
-          requestAnimationFrame( function updateWrap() {
+
+          // Make sure two call aren't executed in the same frame
+          if ( requestID ) {
+            cancelAnimationFrame( requestID );
+          }
+          requestID = requestAnimationFrame( function updateWrap() {
             update.apply( null, args );
           });
         } else {
@@ -1872,7 +1872,7 @@ define(function(require){
           debouncedFilter();
         }
 
-        isTicking = false;
+        requestID = false;
       }
 
       // Show what's happening with the range control
@@ -3893,7 +3893,7 @@ define(function(require){
   };
 
   // Event triggered when the next tab/pane is finished being shown
-  module.onGalleryTabShown = function( evt ) {
+  module.onGalleryTabShown = function() {
     // Only continue if this is a tab shown event.
     var $pane = $( this ),
         $galleries,
