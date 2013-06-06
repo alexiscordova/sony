@@ -169,7 +169,7 @@
 } // end .navbar
 
 
-// IE8 icon hover color fix, because sometimes it changes to the hover color, and not switch back after. 
+// IE8 icon hover color fix, because sometimes it changes to the hover color, and not switch back after.
 // This forces it to always have the non-hover color.
 .lt-ie9:not(.lt-ie8) .nav-li-link {
   &:hover, &:active, &:focus, &.active {
@@ -261,8 +261,8 @@
     &:hover, &:active, &:focus, &.active {
       color: $navbarLinkColor;
     }
-    // freakin' Android, trying to figure out why these links don't trigger a touchstart SOMETIMES. 
-    -webkit-transform:translate3d(0,0,0); 
+    // freakin' Android, trying to figure out why these links don't trigger a touchstart SOMETIMES.
+    -webkit-transform:translate3d(0,0,0);
     -webkit-backface-visibility:hidden;
     -webkit-perspective: 1000;
     -webkit-transform: translateZ(0);
@@ -412,6 +412,7 @@
 
   .fonticon-10-search {
     padding-left: 6px;
+    @include backface-visibility();
   }
 
   &:hover,

@@ -2,7 +2,10 @@ define(function(require){
 
   var $       = require('jquery'),
   IS_PS3      = (/playstation 3/gi).test(navigator.userAgent),
+  //IS_PS3      = false,
   IS_GOOGLETV = (/googletv/gi).test(navigator.userAgent);
+
+
 
 /*!
 
@@ -153,7 +156,7 @@ $.fn.flowplayer = function(opts, callback) {
          engine;
 
          if(IS_PS3){
-            ////window.alert('ok, now we are getting somewhere');
+            //window.alert('ok, now we are getting somewhere');
             urlResolver = new URLResolver (root);
          }
 
@@ -229,6 +232,7 @@ $.fn.flowplayer = function(opts, callback) {
             $.extend(video, engine.pick(video.sources));
 
             if(IS_PS3){
+               //window.alert('setting the video src');
                video.src = video.sources[0];
             }
 
@@ -257,6 +261,12 @@ $.fn.flowplayer = function(opts, callback) {
                engine.pause();
                api.one("pause", fn);
             }
+
+            if(IS_PS3){
+               //console.log( 'pause the flash player fallback',root.objectTag );
+               root.objectTag.get(0).pause();
+            }
+
             return api;
          },
 
@@ -276,6 +286,7 @@ $.fn.flowplayer = function(opts, callback) {
          },
 
          toggle: function() {
+
             return api.ready ? api.paused ? api.resume() : api.pause() : api.load();
          },
 
@@ -748,7 +759,12 @@ flowplayer.engine.flash = function(player, root) {
 
       load: function(video) {
 
-         //window.alert('Calling LOAD OR WHAAAAT!!!!!!!!!!');
+         //window.alert(video.src);
+
+/*         if(IS_PS3){
+            window.alert('converting sources object to video.src.src');
+            video.src = video.src.src;
+         }*/
 
          var html5Tag = $("video", root),
             url = video.src.replace(/&amp;/g, '%26').replace(/&/g, '%26').replace(/=/g, '%3D'),
@@ -765,8 +781,6 @@ flowplayer.engine.flash = function(player, root) {
             api.__play(url);
 
          } else {
-
-
 
             callbackId = "fp" + ("" + Math.random()).slice(3, 15);
 
@@ -790,9 +804,7 @@ flowplayer.engine.flash = function(player, root) {
                conf.swf = conf.swfFallback;
             }
 
-
-
-            objectTag = embed(conf.swf, opts);
+            objectTag = root.objectTag = embed(conf.swf, opts);
 
             objectTag.prependTo(root);
 
@@ -814,7 +826,7 @@ flowplayer.engine.flash = function(player, root) {
             // listen
             $[callbackId] = function(type, arg) {
 
-               if (conf.debug && type != "status") {console.log("--", type, arg);}
+               if (conf.debug && type != "status") {/*console.log("--", type, arg);*/}
 
                var event = $.Event(type);
 
@@ -873,6 +885,7 @@ flowplayer.engine.flash = function(player, root) {
    $.each("pause,resume,seek,volume".split(","), function(i, name) {
 
       engine[name] = function(arg) {
+
 
          if (player.ready) {
 
@@ -1167,7 +1180,7 @@ flowplayer.engine.html5 = function(player, root) {
                }, 10000);
             }
 
-            if (conf.debug && !(/progress/).test(flow)) {console.log(type, "->", flow, e);}
+            if (conf.debug && !(/progress/).test(flow)) {/*console.log(type, "->", flow, e);*/}
 
             // no events if player not ready
             if (!player.ready && !(/ready|error/).test(flow) || !flow || !$("video", root).length) { return; }

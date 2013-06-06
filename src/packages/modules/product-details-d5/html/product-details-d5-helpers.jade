@@ -79,7 +79,7 @@ mixin specsList( list, isHorizontal )
     each li in list
       dt.l3: strong= li.title
       if li.copy
-        dd.p3= li.copy
+        dd.p3 !{li.copy}
 
 mixin extras(extras)
   for extra in extras

@@ -15,7 +15,8 @@ define(function(require){
   var $ = require('jquery'),
       iQ = require('iQ'),
       enquire = require('enquire'),
-      Settings = require('require/sony-global-settings');
+      Settings = require('require/sony-global-settings'),
+      Utilities = require('require/sony-global-utilities');
 
   // This key-value mapping is used to show default values (as key) and their
   // desired mobile equivalents (as the matching values). Assigned to relevant
@@ -66,15 +67,17 @@ define(function(require){
 
     if ( self.$items.parents().hasClass('no-grid-at-767') && !Settings.$html.hasClass('lt-ie10') ){
 
-      enquire.register("(min-width: 768px)", function() {
+      enquire.register( Utilities.enquire.min(768), function() {
         self.renderDesktop();
         self.assignDefaultLayouts();
       });
-        enquire.register("(min-width: 481px) and (max-width: 767px)", function() {
+
+      enquire.register( Utilities.enquire.minMax(481, 767), function() {
         self.renderEvenColumns(12);
         self.assignDefaultLayouts();
       });
-      enquire.register("(max-width: 480px)", function() {
+
+      enquire.register( Utilities.enquire.max(480), function() {
         self.renderEvenColumns(12);
         self.assignMobileLayouts();
       });
