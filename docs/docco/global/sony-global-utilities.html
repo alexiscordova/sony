@@ -219,6 +219,13 @@ then the default browser action will deselect our selection</p>             </td
       $input = <span class="literal">null</span>;
     },
 
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Provided a group of $spans, all of which have a class of <code>span12</code>, <code>span6</code>, etc.,
+Reassign their column width with <code>toWhat</code> columns.
+If "reset" is passed for <code>toWhat</code>, use the <code>default-spanX</code> class to reassign
+the columns to a preset default value.</p>
+
+<p><em>TODO</em>: We should cache the initial span count automatically to remove
+the need for <code>default-span</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     reassignSpanWidths: <span class="keyword">function</span>($spans, toWhat) {
 
       <span class="keyword">var</span> newSpan = toWhat;
@@ -229,20 +236,16 @@ then the default browser action will deselect our selection</p>             </td
             classes = <span class="keyword">this</span>.className.split(<span class="string">' '</span>),
             defaultSpan, currentSpan;
 
-        <span class="keyword">for</span> ( <span class="keyword">var</span> j = <span class="number">0</span>; j &lt; classes.length; j++ ) {
-
-          <span class="keyword">var</span> classStr = classes[j];
-
-          <span class="keyword">if</span> ( classStr.search(<span class="string">'default-span'</span>) === <span class="number">0</span>  ) {
-            defaultSpan = classStr.split(<span class="string">'span'</span>)[<span class="number">1</span>];
-          }
-
-          <span class="keyword">if</span> ( classStr.search(<span class="string">'span'</span>) === <span class="number">0</span>  ) {
-            currentSpan = classStr.split(<span class="string">'span'</span>)[<span class="number">1</span>];
-          }
-        }
+        currentSpan = classes.filter(<span class="keyword">function</span>(elem){
+          <span class="keyword">return</span> elem.indexOf(<span class="string">'span'</span>) === <span class="number">0</span>;
+        }).shift().split(<span class="string">'span'</span>).pop() * <span class="number">1</span>;
 
         <span class="keyword">if</span> ( toWhat === <span class="string">'reset'</span> ) {
+
+          defaultSpan = classes.filter(<span class="keyword">function</span>(elem){
+            <span class="keyword">return</span> elem.indexOf(<span class="string">'default-span'</span>) === <span class="number">0</span>;
+          }).shift().split(<span class="string">'default-span'</span>).pop() * <span class="number">1</span>;
+
           newSpan = defaultSpan;
         }
 
@@ -251,7 +254,7 @@ then the default browser action will deselect our selection</p>             </td
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Takes a number of groups, supplied as a jQuery object (<code>options.$groups</code>) and re-apportions
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Takes a number of groups, supplied as a jQuery object (<code>options.$groups</code>) and re-apportions
 their elements, in order, to a new set of groups. The old groups are then removed,
 and the new groups are inserted at the point of the first group. Groups are assumed to be grids,
 unless <code>options.gridSelector</code> is specified, in which case the method will look for that selector
@@ -274,21 +277,15 @@ in the calling context. *</p>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
     gridApportion: <span class="keyword">function</span>(options) {
 
-      <span class="keyword">if</span> ( !options.$groups ) {
-        <span class="keyword">return</span>;
-      }
-
       <span class="keyword">var</span> $groups = options.$groups,
-          isMobile = options.mobile,
-          hasGridSelector = options.gridSelector,
-
+          spanClass = options.mobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>,
           $container = $groups.first().clone(),
-          $appendContainer = hasGridSelector ? $container.find(options.gridSelector).empty() : $container.empty(),
+          $appendContainer = options.gridSelector ? $container.find(options.gridSelector).empty() : $container.empty(),
           compiledGrids = [],
           $workingAppendContainer = $container.clone(),
-          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer,
-          roomRemaining = isMobile ? <span class="number">6</span> : <span class="number">12</span>,
-          $mSpans = $groups.find(isMobile ? <span class="string">'[class*="m-span"]'</span> : <span class="string">'[class*="span"]'</span>);
+          $workingGrid = options.gridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer,
+          roomRemaining = options.mobile ? <span class="number">6</span> : <span class="number">12</span>,
+          $mSpans = $groups.find(<span class="string">'[class*="'</span>+spanClass+<span class="string">'"]'</span>);
 
       $mSpans.each(<span class="keyword">function</span>(i){
 
@@ -296,27 +293,26 @@ in the calling context. *</p>
             classes = <span class="keyword">this</span>.className.split(<span class="string">' '</span>),
             spanCount;
 
-        <span class="keyword">for</span> ( <span class="keyword">var</span> j = <span class="number">0</span>; j &lt; classes.length; j++ ) {
-          <span class="keyword">if</span> ( classes[j].indexOf(isMobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>) === <span class="number">0</span> &amp;&amp; classes[j].indexOf(<span class="string">'m-span-at'</span>) === -<span class="number">1</span>) {
-            spanCount = classes[j].split(isMobile ? <span class="string">'m-span'</span> : <span class="string">'span'</span>)[<span class="number">1</span>] * <span class="number">1</span>;
-          }
-        }
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Find the class that starts with <code>spanClass</code> and get the appropriate span count.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+        spanCount = classes.filter(<span class="keyword">function</span>(elem, index, array){
+          <span class="keyword">return</span> (elem.indexOf(spanClass) === <span class="number">0</span> &amp;&amp; elem.indexOf(<span class="string">'m-span-at'</span>) === -<span class="number">1</span>);
+        }).shift().split(spanClass).pop() * <span class="number">1</span>;
 
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>If there isn't enough room in this grid, push the working container to <code>compiledGrids</code> and start a new one.</p>             </td>             <td class="code">               <div class="highlight"><pre>
         <span class="keyword">if</span> ( roomRemaining &lt; spanCount ) {
           compiledGrids.push($workingAppendContainer.clone().get(<span class="number">0</span>));
           $workingAppendContainer = $container.clone();
-          $workingGrid = hasGridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer;
-          roomRemaining = isMobile ? <span class="number">6</span> : <span class="number">12</span>;
+          $workingGrid = options.gridSelector ? $workingAppendContainer.find(options.gridSelector) : $workingAppendContainer;
+          roomRemaining = options.mobile ? <span class="number">6</span> : <span class="number">12</span>;
         }
 
         $workingGrid.append($<span class="keyword">this</span>);
         roomRemaining -= spanCount;
-
-        <span class="keyword">if</span> ( i === $mSpans.length - <span class="number">1</span> ) {
-          compiledGrids.push($workingAppendContainer.clone().get(<span class="number">0</span>));
-          $workingAppendContainer = $workingGrid = <span class="literal">null</span>;
-        }
       });
+
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Done with loop. Push remaining working elements into the compiled grids and garbage collect.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      compiledGrids.push($workingAppendContainer.clone().get(<span class="number">0</span>));
+      $workingAppendContainer = $workingGrid = <span class="literal">null</span>;
 
       $groups.not($groups.first()).remove();
       $groups.first().replaceWith($(compiledGrids));

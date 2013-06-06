@@ -105,7 +105,7 @@ define(function(require){
       self.syncControlLayout();
       self.curLoaded++;
       self.checkLoaded();
-    },   
+    },
 
     // checks the payload against the loaded image
     checkLoaded: function() {
@@ -139,7 +139,7 @@ define(function(require){
         self.$sequence.eq(index).removeClass('visuallyhidden');
 
         // so iQ can catch on
-        self.$win.trigger('resize'); 
+        self.$win.trigger('resize');
 
         //console.log(JSON.stringify(el.data()));
         //console.log('inside each sequence');
@@ -147,7 +147,7 @@ define(function(require){
 
         // now we can hide the element again?
         self.$sequence.eq(index).addClass('visuallyhidden');
-        
+
         // is the BG image loaded?
         if(  el.data('hasLoaded') ) {
           self.syncControlLayout();
@@ -174,7 +174,7 @@ define(function(require){
 
       // now show the first sequence again
       self.$sequence.eq(0).removeClass('visuallyhidden');
-      
+
     },
 
     initBehaviors: function() {
@@ -362,14 +362,14 @@ define(function(require){
 
       if( event.pageX > ( self.lastTriggerX + self.dynamicBuffer ) ) {
         // moving right
-        self.movingLeft   = false;
-        self.movingRight  = true;
+        self.movingLeft   = true;
+        self.movingRight  = false;
         doMove = true;
         self.lastTriggerX = event.pageX;
       } else if( event.pageX < ( self.lastTriggerX - self.dynamicBuffer ) ) {
         // moving left
-        self.movingLeft   = true;
-        self.movingRight  = false;
+        self.movingLeft   = false;
+        self.movingRight  = true;
         doMove = true;
         self.lastTriggerX = event.pageX;
       }
@@ -388,6 +388,9 @@ define(function(require){
     },
 
     animateDragger: function( cycles ) {
+      if(Settings.isLTIE8){
+        return;
+      }
       var self = this;
 
       $( self.$leftArrow ).animate({

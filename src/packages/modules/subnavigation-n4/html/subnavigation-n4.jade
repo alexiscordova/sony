@@ -4,103 +4,119 @@ include ../../../common/html/jade-helpers.jade
 
 section.subnav-module(id = data.id ? data.id : false)
 
-  header
-    .container
-      .grid
-        h2.t5 !{data.category}
+  if data.subcategories
 
-  .subnav-nav-carousel-wrapper
-    nav
-      - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
-        .subnav-nav-carousel-slide
-          .container
-            .grid
-              - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
-                - subcategory = data.subcategories[j]
-                a.subcategory-link.span2.m-span2(href=subcategory.galleryLink)(data-subcategory=subcategory.title.toLowerCase().replace(/\W/g, ''))( class = subcategory.products ? 'has-products' : '' )
-                  img(src=subcategory.imageSrc)
-                  p.p4-bold !{subcategory.title}
-                  - if ( subcategory.products )
-                    i.fonticon-10-arrowhead-down
-              - }
-      - }
+    header
+      .container
+        .grid
+          h2.t5 !{data.category}
 
-  .subnav-tray.container
+    .subnav-nav-carousel-wrapper
+      nav
+        - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
+          .subnav-nav-carousel-slide
+            .container
+              .grid
+                - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
+                  - subcategory = data.subcategories[j]
 
-    for subcategory in data.subcategories
-      - if ( subcategory.products )
+                  if subcategory.title
+                    - parsedTitle = subcategory.title.toLowerCase().replace(/\W/g, '')
+                  else
+                    - parsedTitle = ''
 
-        - if ( subcategory.accessories ) {
-          - accessoryListClass = 'has-accessory-list'
-        - } else {
-          - accessoryListClass = 'no-accessory-list'
+                  a.subcategory-link.span2.m-span2(href=subcategory.galleryLink)(data-subcategory=parsedTitle)( class = subcategory.products ? 'has-products' : '' )
+                    img(src=subcategory.imageSrc)
+                    p.p4-bold !{subcategory.title}
+                    - if ( subcategory.products )
+                      i.fonticon-10-arrowhead-down
+                - }
         - }
 
-        section.subcategory(id="subcategory-" + subcategory.title.toLowerCase().replace(/\W/g, ''))(class=accessoryListClass)
-          div.grid.no-grid-at-979
-            .span6
-              h3.t3-bold !{subcategory.title}
-              p.p3 !{subcategory.message}
-            .span6.general-links
-              a.accesories-link.lt3(href=subcategory.accessoryLink)
-                i.fonticon-40-accessories
-                | Accessories
-              a.gallery-link.btn(href=subcategory.galleryLink)
-                i.fonticon-10-grid-3x3
-                - if ( subcategory.title == 'Accessories' ) {
-                  | View All Accessories
-                - } else {
-                  | View All !{subcategory.title} Accessories
-                - }
+    .subnav-tray.container
 
-          - subcategoryLength = subcategory.products.length
+      for subcategory in data.subcategories
+        - if ( subcategory.products )
 
-          - if ( subcategory.marketingTout ) subcategoryLength++
-          - if ( subcategory.accessories ) subcategoryLength++
-
-          - for ( i = 0; i < subcategoryLength; i = i + 4 ) {
-            .subnav-product-grid.grid.no-grid-at-479
-              - for ( j = i; j < i + 4 && j < subcategoryLength; j++ ) {
-
-                if subcategory.products[j]
-                  - item = subcategory.products[j]
-                  a.product.span3.m-span2(href=item.galleryLink)
-                    div.image
-                      img(src=item.imageSrc)
-                    .details
-                      h4.t7 !{item.label}
-                      p.l3.subnav-product-count !{item.count} !{subcategory.title}
-                      p.p3.message !{item.message}
-                      p.p3.price Starting at
-                        strong.p2-bold !{" " + item.startingAtPrice + " "}
-                        span.p5 MSRP
-                    i.fonticon-10-chevron
-
-                else if subcategory.marketingTout && !subcategory.accessories || subcategory.marketingTout && j != subcategoryLength - 1
-                  - item = subcategory.marketingTout
-                  .marketing-tout.span3.m-span2
-                    a(href=item.link)
-                      img(src=item.imageSrc)
-                      p.t6-light
-                        span !{item.message + " "}
-                          span.highlight !{item.linkText}
-                            i.fonticon-10-chevron-sm.l-o-d
-
-                else if subcategory.accessories
-                  .subnav-accessories.span3.m-span2
-                    div
-                      h6.l2 Accessories
-                      ul
-                        - for ( i = 0; i < subcategory.accessories.length; i = i + 1 ) {
-                          - accessory = subcategory.accessories[i]
-                          li
-                            a.p3(href=accessory.link)= accessory.title
-                        - }
-              - }
+          - if ( subcategory.accessories ) {
+            - accessoryListClass = 'has-accessory-list'
+          - } else {
+            - accessoryListClass = 'no-accessory-list'
           - }
 
-          div.grid.no-grid-at-979.mobile-links
-            .span6.general-links
-              a.accesories-link.lt3(href=subcategory.accessoryLink)
-                i.fonticon-40-accessories
-                | Accessories
+          if subcategory.title
+            - parsedTitle = subcategory.title.toLowerCase().replace(/\W/g, '')
+          else
+            - parsedTitle = ''
+
+          section.subcategory(id="subcategory-" + parsedTitle)(class=accessoryListClass)
+            div.grid.no-grid-at-979
+              .span6
+                h3.t3-bold !{subcategory.title}
+                p.p3 !{subcategory.message}
+              .span6.general-links
+                a.accesories-link.lt3(href=subcategory.accessoryLink)
+                  i.fonticon-40-accessories
+                  - if ( subcategory.title == 'Accessories' ) {
+                    | Accessories
+                  - } else if ( !subcategory.singularTitle ) {
+                    | !{subcategory.title} Accessories
+                  - } else {
+                    | !{subcategory.singularTitle} Accessories
+                  - }
+
+                a.gallery-link.btn(href=subcategory.galleryLink)
+                  i.fonticon-10-grid-3x3
+                  | View All !{subcategory.title}
+
+            - subcategoryLength = subcategory.products.length
+
+            - if ( subcategory.marketingTout ) subcategoryLength++
+            - if ( subcategory.accessories ) subcategoryLength++
+
+            - for ( i = 0; i < subcategoryLength; i = i + 4 ) {
+              .subnav-product-grid.grid.no-grid-at-479
+                - for ( j = i; j < i + 4 && j < subcategoryLength; j++ ) {
+
+                  if subcategory.products[j]
+                    - item = subcategory.products[j]
+                    a.product.span3.m-span2(href=item.galleryLink)
+                      div.image
+                        img(src=item.imageSrc)
+                      .details
+                        h4.t7 !{item.label}
+                        p.l3.subnav-product-count !{item.count} !{subcategory.title}
+                        p.p3.message !{item.message}
+                        p.p3.price Starting at
+                          strong.p2-bold !{" " + item.startingAtPrice + " "}
+                          span.p5 MSRP
+                      i.fonticon-10-chevron
+
+                  else if subcategory.marketingTout && !subcategory.accessories || subcategory.marketingTout && j != subcategoryLength - 1
+                    - item = subcategory.marketingTout
+                    .marketing-tout.span3.m-span2
+                      a(href=item.link)
+                        img(src=item.imageSrc)
+                        p.t6-light
+                          span !{item.message + " "}
+                            span.highlight !{item.linkText}
+                              i.fonticon-10-chevron-sm.l-o-d
+
+                  else if subcategory.accessories
+                    .subnav-accessories.span3.m-span2
+                      div
+                        h6.l2 Accessories
+                        ul
+                          - for ( i = 0; i < subcategory.accessories.length; i = i + 1 ) {
+                            - accessory = subcategory.accessories[i]
+                            li
+                              a.p3(href=accessory.link)= accessory.title
+                          - }
+                - }
+            - }
+
+            div.grid.no-grid-at-979.mobile-links
+              .span6.general-links
+                a.accesories-link.lt3(href=subcategory.accessoryLink)
+                  i.fonticon-40-accessories
+                  | Accessories

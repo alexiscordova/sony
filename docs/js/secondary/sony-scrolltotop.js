@@ -51,7 +51,7 @@ define(function(require){
 
       _init: function(){
         var self = this;
-        if(Settings.isModern || !Settings.isLTIE8){
+        if(Settings.isModern || !Settings.isLTIE9){
           self.update();
           var throttleUpdate = $.throttle(100, $.proxy( self.update, self ));
 

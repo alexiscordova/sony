@@ -260,6 +260,11 @@ whether to hide it or not.</p>             </td>             <td class="code">  
             });
         },
 
+        _updateItemCount : <span class="keyword">function</span>() {
+            <span class="keyword">this</span>.visibleItems = <span class="keyword">this</span>.$items.filter(<span class="string">'.filtered'</span>).length;
+            <span class="keyword">return</span> <span class="keyword">this</span>;
+        },
+
         _setTransition : <span class="keyword">function</span>( element ) {
             <span class="keyword">var</span> self = <span class="keyword">this</span>;
             element.style[self.transitionName] = self.transform + <span class="string">' '</span> + self.speed + <span class="string">'ms '</span> + self.easing + <span class="string">', opacity '</span> + self.speed + <span class="string">'ms '</span> + self.easing;
@@ -384,8 +389,8 @@ i.e. this.colWidth = 200</p>             </td>             <td class="code">    
         <span class="comment">/**
          * Fire events with .shuffle namespace
          */</span>
-        fire : <span class="keyword">function</span>( name ) {
-            <span class="keyword">this</span>.$container.trigger(name + <span class="string">'.shuffle'</span>, [<span class="keyword">this</span>]);
+        fire : <span class="keyword">function</span>( name, args ) {
+            <span class="keyword">this</span>.$container.trigger( name + <span class="string">'.shuffle'</span>, args &amp;&amp; args.length ? args : [ <span class="keyword">this</span> ] );
         },
 
 
@@ -754,7 +759,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
             $passed = self.filter( <span class="literal">undefined</span>, $newItems );
             passed = $passed.get();
 
-</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>How many filtered elements?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.visibleItems = self.$items.filter(<span class="string">'.filtered'</span>).length;
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>How many filtered elements?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self._updateItemCount();
 
             <span class="keyword">if</span> ( animateIn ) {
                 self._layout( passed, <span class="literal">null</span>, <span class="literal">true</span>, <span class="literal">true</span> );
@@ -806,7 +811,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
             self.filter( category );
 </pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>Save the last filter in case elements are appended.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.lastFilter = category;
 
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>How many filtered elements?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.visibleItems = self.$items.filter(<span class="string">'.filtered'</span>).length;
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>How many filtered elements?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self._updateItemCount();
 
             self._resetCols();
 
@@ -907,6 +912,8 @@ The buffer value is very useful when the height is a percentage of the width</p>
                 setTimeout(<span class="keyword">function</span>() {
                     shuffle.$items = shuffle._getItems();
                     shuffle.layout();
+                    shuffle._updateItemCount();
+                    shuffle.fire( <span class="string">'removed'</span>, [ $collection, shuffle ] );
                 }, <span class="number">0</span>);
             };
 

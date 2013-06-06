@@ -228,7 +228,7 @@ to make up for its lack of document space</p>             </td>             <td 
     _initStickyTabs : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $headers = self.$specItems.find(<span class="string">'.spec-column-header'</span>).clone(),
-          $btns = $(),
+          frag = document.createDocumentFragment(),
           $tabs = self.$tabStrip.find(<span class="string">'.tabs'</span>);
 
       self.isStickyTabs = <span class="literal">true</span>;
@@ -254,10 +254,10 @@ to make up for its lack of document space</p>             </td>             <td 
           .addClass(<span class="string">'tab'</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>iOS wasn't appending the buttons in the right order, so we'll have to append them inside the loop
-$tabs.append( $btn );</p>             </td>             <td class="code">               <div class="highlight"><pre>        $btns = $btns.add( $btn );
+$tabs.append( $btn );</p>             </td>             <td class="code">               <div class="highlight"><pre>        frag.appendChild( $btn[<span class="number">0</span>] );
       });
 
-      $btns.appendTo( $tabs );
+      $tabs.append( frag );
 
       self.$tabStrip.stickyTabs({
         mq: self.mobileBreakpoint

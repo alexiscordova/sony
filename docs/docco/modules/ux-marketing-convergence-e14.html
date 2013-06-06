@@ -85,6 +85,7 @@ self.onResizeEvent = $.proxy(self.handleResize, self);</p>             </td>    
     self.$carouselInstance = <span class="literal">undefined</span>;
     self.$carouselSlides = self.$carousel.find(<span class="string">'.sony-carousel-slide'</span>);
     self.$carouselSlidesChildren = self.$carousel.find(<span class="string">'.sony-carousel-slide-children'</span>);
+    self.isOneSlide = self.$carouselSlidesChildren.length &lt;= <span class="number">1</span> ? <span class="literal">true</span> : <span class="literal">false</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>LISTEN
 if(!Settings.isLTIE10){
@@ -107,36 +108,45 @@ if(!Settings.isLTIE10){
 
 </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>attach click event to entire slide</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setupSlideLinks();
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>set up knob dials (init, mousedown, mouseover, mouseoff)</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setupDials();
+      console.log( <span class="string">'self.isOneSlide»'</span> , self.isOneSlide);
 
-      <span class="keyword">if</span>( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>resgister for resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        enquire.register(<span class="string">'(min-width: 568px)'</span>, <span class="keyword">function</span>() {
-          self.handleResize();
-        });
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>no knobs for functionality.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      <span class="keyword">if</span>(!self.isOneSlide){
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>set up knob dials (init, mousedown, mouseover, mouseoff)</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setupDials();
 
-        enquire.register(<span class="string">'(max-width: 567px)'</span>, <span class="keyword">function</span>() {
-          self.handleResize();
-        });
+        <span class="keyword">if</span>( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>resgister for resize</p>             </td>             <td class="code">               <div class="highlight"><pre>          enquire.register(<span class="string">'(min-width: 568px)'</span>, <span class="keyword">function</span>() {
+            self.handleResize();
+          });
+
+          enquire.register(<span class="string">'(max-width: 567px)'</span>, <span class="keyword">function</span>() {
+            self.handleResize();
+          });
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>start requestAnimationFrame</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.animationLoop();
+
+        <span class="keyword">if</span>(!Settings.isLTIE9){
+          self.setButtonColor(self.currentPartnerProduct); <span class="comment">// new color for reload buton</span>
+          self.$buttonReloadContainer.addClass(<span class="string">'on'</span>);
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>show content</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.fadeInContent(self.currentPartnerProduct);
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>start animation</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.resetDials();
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>start timer</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.resetPartnerCarouselInterval();
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>start requestAnimationFrame</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.animationLoop();
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>show content</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.fadeInContent(self.currentPartnerProduct);
 
-      <span class="keyword">if</span>(!Settings.isLTIE9){
-        self.setButtonColor(self.currentPartnerProduct); <span class="comment">// new color for reload buton</span>
-        self.$buttonReloadContainer.addClass(<span class="string">'on'</span>);
-      }
-
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>show content</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.fadeInContent(self.currentPartnerProduct);
-
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>start animation</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.resetDials();
-
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>start timer</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.resetPartnerCarouselInterval();
     },
 
     <span class="string">'dialsINIT'</span> : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>tear down knobs and redo</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(self.isInit){
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>tear down knobs and redo</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(self.isInit){
         self.$dials.simpleKnob(self.dialStyles).show();
       }<span class="keyword">else</span>{
         self.$dials.simpleKnob(self.dialStyles).trigger(<span class="string">'configure'</span>, self.dialStyles);
@@ -160,7 +170,7 @@ if(!Settings.isLTIE10){
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           isMobile = Modernizr.mq(<span class="string">'(max-width:'</span>+ self.mobileNavThreshold +<span class="string">'px)'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>console.log( 'isMobile? »' , isMobile);</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.dialStyles = isMobile ? self.dialInitMobile : self.dialInit;
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>console.log( 'isMobile? »' , isMobile);</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.dialStyles = isMobile ? self.dialInitMobile : self.dialInit;
     },
 
     <span class="string">'initCarousel'</span> : <span class="keyword">function</span>(){
@@ -172,13 +182,13 @@ if(!Settings.isLTIE10){
         slides: <span class="string">'.sony-carousel-slide'</span>,
         useCSS3: <span class="literal">true</span>,
         draggable: <span class="literal">false</span>,
-        jumping:<span class="literal">true</span>,
+        jumping:<span class="literal">false</span>,
         setCSS3Easing: Settings.easing.easeInOutExpo,
         animationSpeed: self.transitionTime
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>enable entire slide as link without reworking markup
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>enable entire slide as link without reworking markup
 assumes mark-up particular markup</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'setupSlideLinks'</span> : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.$carouselSlides.bind(<span class="string">"click"</span>,<span class="keyword">function</span>(e){
@@ -188,7 +198,7 @@ assumes mark-up particular markup</p>             </td>             <td class="c
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Setup simpleKnob dials, setup behaviors for hover/click.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'setupDials'</span>: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Setup simpleKnob dials, setup behaviors for hover/click.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'setupDials'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -197,28 +207,32 @@ assumes mark-up particular markup</p>             </td>             <td class="c
 
       self.$dialWrappers.on(<span class="string">'mousedown'</span>, <span class="keyword">function</span>(e){
         e.preventDefault();
+
         self.isAutomatic = <span class="literal">false</span>;
 
+
         <span class="keyword">var</span> position = $(<span class="keyword">this</span>).index();
-        self.currentPartnerProduct = position - <span class="number">1</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>self.currentPartnerProduct = position - 1;</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.currentPartnerProduct = position;
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>stop timer and rAF</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.killAutomation();
+        console.log( <span class="string">'position »'</span> , position);
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>reset the knobs</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.turnDialOFF(self.$dialWrappers);
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>stop timer and rAF</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.killAutomation();
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>activate the one clicked</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.turnDialON($(<span class="keyword">this</span>));
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>reset the knobs</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.turnDialOFF(self.$dialWrappers);
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>go to the correct slide</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.gotoPartnerProduct();
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>activate the one clicked</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.turnDialON($(<span class="keyword">this</span>));
+
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>go to the correct slide</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.gotoPartnerProduct();
+
       }).on(<span class="string">'mouseover'</span>, <span class="keyword">function</span>(e){
-
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>don't do anything if current dial is active....</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>console.log( 'this »' , $(this).index());
-console.log( 'active dial »' , self.$activeDial.index());</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>on state</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.turnDialON( $(<span class="keyword">this</span>) );
-
+        <span class="keyword">if</span>($(<span class="keyword">this</span>).index() != self.currentPartnerProduct){
+          self.turnDialON( $(<span class="keyword">this</span>) ); <span class="comment">// on state</span>
+        }
 
       }).on(<span class="string">'mouseout'</span>, <span class="keyword">function</span>(e){
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>off state</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.turnDialOFF( $(<span class="keyword">this</span>) );
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>not on active state</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>($(<span class="keyword">this</span>).index() != self.currentPartnerProduct){
+          self.turnDialOFF( $(<span class="keyword">this</span>) ); <span class="comment">// off state</span>
+        }
       });
     },
 
