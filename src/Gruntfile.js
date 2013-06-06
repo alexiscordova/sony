@@ -739,7 +739,7 @@ module.exports = function(grunt) {
         JSONBrutalize = require('json-brutalize'),
         allDone = this.async();
 
-    var tests = grunt.file.expand('packages/modules/' + module + '/tests/*.json'),
+    var tests = grunt.file.expand('packages/modules/' + module + '/tests/**/*.json'),
         testSuccess = true,
         testsDone = 0;
 
