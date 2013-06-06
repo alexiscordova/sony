@@ -28,7 +28,7 @@ module.exports = function(grunt) {
         var template = grunt.file.read(templatePath);
 
         if(typeof(dataObj) === String){
-          dataObj = grunt.file.readJSON(dataObj)
+          dataObj = grunt.file.readJSON(dataObj);
         }
 
         if(templatePath.match(/.jade/g)){
@@ -45,7 +45,10 @@ module.exports = function(grunt) {
           return grunt.file.readJSON(path);
         },
         getEnvironments:function(){
-          return grunt.option('deploy') ? 'deploy' : 'debug'
+          return grunt.option('deploy') ? 'deploy' : 'debug';
+        },
+        getDocsHref : function() {
+          return grunt.option('docs-links-deploy') ? '../build/deploy/' : '../build/debug/';
         },
         plusify : function(str){
           return str.replace(/\[\+\]/g , '<i class="fonticon-30-plus"></i>');
