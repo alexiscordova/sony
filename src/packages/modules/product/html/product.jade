@@ -250,9 +250,10 @@ if data.view == 'basic'
         .product-img(class=data.backgroundColorClass)
           div(class='promo-content')
             .text-promo-title
-              h4.t4.title
-                strong= data.title
-              h5.t4.emphasis= data.emphasis
+              classes = ['t4-bold', 'l-o-d' , 'title']
+              h4(class=classes)= data.title
+              classes = ['t4-bold', 'l-o-d', 'emphasis']
+              h5(class=classes)= data.emphasis
                 i.icon-ui2-chevron-16-black-right
             if data.count
               .text-count
