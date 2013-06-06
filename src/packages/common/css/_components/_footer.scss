@@ -107,6 +107,7 @@ form.footer-store-locator-form{
 .footer-social-links{
   display:inline-block;
   @include ie7-inline-block;
+  -webkit-transform: translate3d(0,0,0); // iPad flicker fix
   a{
     display:block;
     width: px-em(36px);
@@ -391,7 +392,7 @@ a.footer-social-youtube {
   border-top: solid 1px $grayDarkFieldLarge;
   margin-top: px-em(15px);
   padding-top: px-em(28px);
-  @include flickerfix;
+  -webkit-transform: translate3d(0,0,0); // iPad flicker fix + Android logo un-blur.
 }
 .footer-legal-links{
   font-size: px-em(10);
