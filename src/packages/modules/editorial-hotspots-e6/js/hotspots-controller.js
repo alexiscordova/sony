@@ -589,7 +589,7 @@ define(function(require) {
           if( self.isChapter && self.isSmallChapter ) {
             if (quadrant === 1) {
               // also check if it fits within the parentHeight
-              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
+              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' ) : $overlay.css( 'top', '-'+(topOffsetHigh - 50)+'px' );
             } else {
               // also check if it fits within the parentHeight
               (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetLow - (overlayOffset/2) )+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
