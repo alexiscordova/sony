@@ -403,10 +403,7 @@ define(function(require){
         $nextSlideImg.addClass('unhide');
 
         setTimeout(function(){
-          $currSlide.siblings().removeClass('pos-active');
           if(!$currSlide.hasClass('pos-active')){ $currSlide.addClass('pos-active'); }
-          
-          console.log('destinationSlide',$currSlide);
         }, 500);
         
 
