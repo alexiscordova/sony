@@ -38,6 +38,8 @@ mixin pdpThumbs(data)
   .pdp-slideshow-outer
     .pdp-slideshow-inner
       +pdpSlide(data)
-  clsss = 'thumb-nav ' + data.config.variation
-  ul( class= clsss )
-    +pdpThumbs(data)
+  .container.thumb-nav-container
+    .grid.thumb-nav-grid
+      .thumb-nav-carousel
+        ul.thumb-nav( class=  data.config.variation )
+          +pdpThumbs(data)
