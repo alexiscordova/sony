@@ -905,7 +905,7 @@ define(function(require) {
       // set up shadow / gradient bar. Yep, this was the best way to do it.
       if ($('html').hasClass('cssgradients') && !self.mobileNavHasShadow){
         var $mobileNavShadow = $('<i/>',{
-          class : "nav-mobile-nav-shadow"
+          "class" : "nav-mobile-nav-shadow"
         });
         $('.nav-mobile-scroller').append($mobileNavShadow);
         self.mobileNavHasShadow = true;
