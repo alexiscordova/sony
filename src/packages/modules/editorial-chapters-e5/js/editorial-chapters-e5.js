@@ -458,8 +458,10 @@ define(function(require){
             href,
             fragment;
 
+        console.log(currentId);
         // if we don't have a module id we dont want to continue
-        if (!self.moduleId || !currentId) { return; }
+        // 0 shows up as false
+        if (!self.moduleId || currentId === null || currentId === undefined) { return; }
 
         href = location.href.replace(/(javascript:|#).*$/, '');
         fragment = 'chapter-' + self.moduleId + '/' + currentId;

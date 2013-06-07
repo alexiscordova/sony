@@ -18,10 +18,11 @@ define(function(require) {
   var $ = require('jquery'),
     Modernizr = require('modernizr'),
     iQ = require('iQ'),
+    enquire = require('enquire'),
     bootstrap = require('bootstrap'),
     Settings = require('require/sony-global-settings'),
     Environment = require('require/sony-global-environment'),
-    enquire = require('enquire'),
+    hammer = require('plugins/index').hammer,
     sonyCarousel = require('secondary/index').sonyCarousel,
     sonyScroller = require('secondary/index').sonyScroller,
     sonyVideo = require('secondary/index').sonyVideo;
@@ -59,7 +60,8 @@ define(function(require) {
     self.$html = Settings.$html;
     self.$slides = self.$el.find(self.SLIDE_CLASS);
     self.$slideContainer = self.$el.find(self.SLIDE_CONTAINER);
-    self.$thumbNav = self.$el.find('.thumb-nav');
+    self.$thumbNav = self.$el.find('.thumb-nav-carousel');
+    self.$thumbNavContainer = self.$el.find('.thumb-nav-container');
     self.$pagination = null;
     self.$videoPlayers = self.$el.find('.sony-video');
 
@@ -90,7 +92,7 @@ define(function(require) {
         .setupBreakpoints();
 
       if (self.hasThumbs) {
-        //self.createThumbNav();
+        self.createThumbNav();
       }
 
       // Fade in when the first image has loaded
@@ -98,7 +100,11 @@ define(function(require) {
       self.setCarouselHeight();
 
       // Listen for debounced resize event
-      Environment.on('global:resizeDebounced', $.proxy(self.setCarouselHeight, self));
+      Environment.on('global:resizeDebounced', function(){
+        self.setCarouselHeight();
+        self.apportionThumbsToSlides();
+        self.rebuildThumbCarousel();
+      });
     },
 
     fadeIn: function() {
@@ -149,6 +155,7 @@ define(function(require) {
         paddlePosition: 'outset',
         pagination: true,
         $paddleWrapper: self.$el,
+        // $dotNavWrapper: '.thumb-nav-grid',
         nonDraggableChildren: '.sony-video'
       });
 
@@ -235,8 +242,8 @@ define(function(require) {
     },
 
     toggleThumbNav: function(hide) {
-      if (this.$thumbNav.length) {
-        this.$thumbNav[(hide ? 'add' : 'remove') + 'Class']('hidden');
+      if (this.$thumbNavContainer.length) {
+        this.$thumbNavContainer[(hide ? 'add' : 'remove') + 'Class']('hidden');
       }
 
       return this;
@@ -268,22 +275,66 @@ define(function(require) {
     // Bind events to the thumbnail navigation
     createThumbNav: function() {
       var self = this,
-        $anchors = self.$thumbNav.find('a');
+        $anchors = self.$thumbNav.find('a').hammer();
 
-      // Bind to the click event even on touch in order
-      // to prevent the default
-      if (self.hasTouch) {
-        $anchors
-          .on('click', false)
-          .on(Settings.END_EV, $.proxy(self.onThumbSelected, self));
-      } else {
-        $anchors.on('click', function(e) {
-          e.preventDefault();
-          self.onThumbSelected(e);
-        });
-      }
+      $anchors.on('click', function(e) {
+        e.preventDefault();
+      });
+
+      $anchors.on('tap', function(e) {
+        self.onThumbSelected(e);
+      });
 
       $anchors.eq(0).addClass('active');
+
+      self.apportionThumbsToSlides();
+      self.rebuildThumbCarousel();
+    },
+
+    apportionThumbsToSlides: function() {
+
+      var self = this,
+          $anchors = self.$thumbNav.find('li'),
+          $slides = self.$thumbNav.find('ul'),
+          thumbWidth = $anchors.first().width(),
+          slideWidth = $slides.first().width(),
+          thumbsPerSlide = Math.floor( slideWidth / ( thumbWidth - 1 ) ),
+          slideCount = Math.ceil( $anchors.length / thumbsPerSlide );
+
+      var $slideClone = $slides.first().clone().empty(),
+          newSlides = [];
+
+      for ( var i = 0; i < slideCount; i++ ) {
+
+        newSlides[i] = $slideClone.clone().get(0);
+
+        $(newSlides[i]).css('left', 100 * i + '%');
+
+        for ( var j = 0; j < thumbsPerSlide; j++ ) {
+          $anchors.eq(thumbsPerSlide * i + j).appendTo(newSlides[i]);
+        }
+      }
+
+      self.$thumbNav.empty().append(newSlides);
+    },
+
+    rebuildThumbCarousel: function() {
+
+      var self = this;
+
+      if ( self.$thumbNavCarousel ) {
+        self.$thumbNavCarousel.sonyCarousel('destroy');
+      }
+
+      self.$thumbNavCarousel = self.$thumbNav.sonyCarousel({
+        wrapper: '.thumb-nav-grid',
+        slides: 'ul',
+        pagination: true,
+        $dotNavWrapper: self.$thumbNavContainer,
+        paddles: true,
+        $paddleWrapper: self.$thumbNavContainer,
+        useSmallPaddles: true
+      });
     },
 
     // Handles when a thumbnail is chosen
@@ -291,7 +342,7 @@ define(function(require) {
       var self = this,
         $el = $(evt.delegateTarget),
         $anchors = self.$thumbNav.find('a'),
-        selectedIndex = $el.parent().index();
+        selectedIndex = $anchors.index($el);
 
       self.currentId = selectedIndex;
 
@@ -308,58 +359,6 @@ define(function(require) {
 
       $anchors.removeClass('active');
       $anchors.eq(self.currentId).addClass('active');
-    },
-
-    //new 
-    initScroller : function() {
-      var self = this;
-
-      self.$wrapper.scrollerModule({
-        itemElementSelector: '.gallery-item',
-        iscrollProps: {
-          bounce: self.useBounce,
-          momentum: self.useMomentum,
-          hScrollbar: false,
-          isOverflowHidden: false,
-          onAnimationEnd: iQ.update
-        },
-
-        getContentWidth: function() {
-          var contentWidth = 0,
-              slideWidths = [],
-              $slides = self.$el.find('.sony-carousel-slide');
-
-          $slides.css( 'width', '' );
-
-          // Loop through all slides to count the gallery item widths
-          $slides.each(function() {
-            var slideWidth = 0,
-                $slide = $( this );
-
-            $slide.find('.gallery-item').each(function() {
-              slideWidth += $(this).outerWidth( true );
-            });
-
-            slideWidth = Math.ceil( slideWidth );
-
-            // Save the widths to apply them later
-            slideWidths.push( slideWidth );
-
-            // Make sure we count the margin on the .slide
-            contentWidth += slideWidth;
-          });
-
-          // Set slide widths
-          $slides.each(function( i ) {
-            $(this).css( 'width', slideWidths[ i ] );
-          });
-
-          // Tell scroller what the width should be
-          return contentWidth;
-        }
-      });
-
-
     }
 
     //end prototype

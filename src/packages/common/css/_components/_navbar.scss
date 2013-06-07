@@ -169,7 +169,7 @@
 } // end .navbar
 
 
-// IE8 icon hover color fix, because sometimes it changes to the hover color, and not switch back after. 
+// IE8 icon hover color fix, because sometimes it changes to the hover color, and not switch back after.
 // This forces it to always have the non-hover color.
 .lt-ie9:not(.lt-ie8) .nav-li-link {
   &:hover, &:active, &:focus, &.active {
@@ -218,7 +218,7 @@
   background: $navbarBackground;
   position: relative;
   z-index: 222;
-  -webkit-transform: translate3d(0,0,0); // needed for Android, otherwise the navtrays, which have translate3d, will half-appear in front of the navbar.
+  -webkit-transform: translate3d(0,0,0); // needed for Android, otherwise the navtrays, which have translate3d, will half-appear in front of the navbar. Isn't this stuff fun?!
 }
 .nav-wrapper{
   z-index: $zindexGlobalNav;
@@ -226,6 +226,7 @@
 }
 .navbar {
   height: $navbarHeight;
+  -webkit-transform: translate3d(0,0,0); // iPad flicker fix
 }
 .navtray-w {
   top: -475px;
@@ -260,8 +261,8 @@
     &:hover, &:active, &:focus, &.active {
       color: $navbarLinkColor;
     }
-    // freakin' Android, trying to figure out why these links don't trigger a touchstart SOMETIMES. 
-    -webkit-transform:translate3d(0,0,0); 
+    // freakin' Android, trying to figure out why these links don't trigger a touchstart SOMETIMES.
+    -webkit-transform:translate3d(0,0,0);
     -webkit-backface-visibility:hidden;
     -webkit-perspective: 1000;
     -webkit-transform: translateZ(0);
@@ -411,6 +412,7 @@
 
   .fonticon-10-search {
     padding-left: 6px;
+    @include backface-visibility();
   }
 
   &:hover,
