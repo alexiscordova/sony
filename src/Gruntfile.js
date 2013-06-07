@@ -48,7 +48,7 @@ module.exports = function(grunt) {
           return grunt.option('deploy') ? 'deploy' : 'debug';
         },
         getDocsHref : function() {
-          return grunt.option('docs-links-deploy') ? '../build/deploy/' : '../build/debug/';
+          return grunt.option('docs-links-debug') ? '../build/debug/' : '../build/deploy/';
         },
         plusify : function(str){
           return str.replace(/\[\+\]/g , '<i class="fonticon-30-plus"></i>');

@@ -107,10 +107,12 @@ define(function(require){
 
     resetHeight : function () {
       var self = this;
-      self.$scrollContainer.css({
-        'height': 'auto',
-        'position': 'relative'
-      });
+      if (self.stickyHeader.loaded){
+        self.$scrollContainer.css({
+          'height': 'auto',
+          'position': 'relative'
+        });
+      }
     },
 
     // Binds enquire handlers to setup page for mobile, tablet and desktop.
