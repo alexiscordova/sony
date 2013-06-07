@@ -296,8 +296,9 @@ define(function(require) {
       var self = this,
           $anchors = self.$thumbNav.find('li'),
           $slides = self.$thumbNav.find('ul'),
-          thumbWidth = $anchors.first().width(),
-          slideWidth = $slides.first().width(),
+          // Need real data for this. If the slideshow isn't visible the widths get misreported.
+          thumbWidth = 75,
+          slideWidth = 1100,
           thumbsPerSlide = Math.floor( slideWidth / ( thumbWidth - 1 ) ),
           slideCount = Math.ceil( $anchors.length / thumbsPerSlide );
 
