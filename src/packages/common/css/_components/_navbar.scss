@@ -218,7 +218,7 @@
   background: $navbarBackground;
   position: relative;
   z-index: 222;
-  -webkit-transform: translate3d(0,0,0); // needed for Android, otherwise the navtrays, which have translate3d, will half-appear in front of the navbar.
+  -webkit-transform: translate3d(0,0,0); // needed for Android, otherwise the navtrays, which have translate3d, will half-appear in front of the navbar. Isn't this stuff fun?!
 }
 .nav-wrapper{
   z-index: $zindexGlobalNav;
@@ -226,6 +226,7 @@
 }
 .navbar {
   height: $navbarHeight;
+  -webkit-transform: translate3d(0,0,0); // iPad flicker fix
 }
 .navtray-w {
   top: -475px;
