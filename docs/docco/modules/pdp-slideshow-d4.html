@@ -276,8 +276,8 @@ define(<span class="keyword">function</span>(require) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $anchors = self.$thumbNav.find(<span class="string">'li'</span>),
           $slides = self.$thumbNav.find(<span class="string">'ul'</span>),
-          thumbWidth = $anchors.first().width(),
-          slideWidth = $slides.first().width(),
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Need real data for this. If the slideshow isn't visible the widths get misreported.</p>             </td>             <td class="code">               <div class="highlight"><pre>          thumbWidth = <span class="number">75</span>,
+          slideWidth = <span class="number">1100</span>,
           thumbsPerSlide = Math.floor( slideWidth / ( thumbWidth - <span class="number">1</span> ) ),
           slideCount = Math.ceil( $anchors.length / thumbsPerSlide );
 
@@ -317,7 +317,7 @@ define(<span class="keyword">function</span>(require) {
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>    onThumbSelected: <span class="keyword">function</span>(evt) {
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>    onThumbSelected: <span class="keyword">function</span>(evt) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $el = $(evt.delegateTarget),
         $anchors = self.$thumbNav.find(<span class="string">'a'</span>),
@@ -331,7 +331,7 @@ define(<span class="keyword">function</span>(require) {
       self.$slideContainer.sonyCarousel(<span class="string">'gotoSlide'</span>, self.currentId);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>    setCurrentActiveThumb: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>    setCurrentActiveThumb: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $anchors = self.$thumbNav.find(<span class="string">'a'</span>);
 
@@ -339,7 +339,7 @@ define(<span class="keyword">function</span>(require) {
       $anchors.eq(self.currentId).addClass(<span class="string">'active'</span>);
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>end prototype</p>             </td>             <td class="code">               <div class="highlight"><pre>  };
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>end prototype</p>             </td>             <td class="code">               <div class="highlight"><pre>  };
 
 
 
