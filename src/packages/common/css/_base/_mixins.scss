@@ -288,6 +288,7 @@ $default-transition-delay    : 0s;
 @mixin sprite-32a($name, $x, $w, $h) {
   @include sprite(32a, $sprite_32a_Y, $name, $x, $w, $h);
 }
+// we're not actually using any of these, but in case we do end up populating that spritesheet, here they are.
 @mixin sprite-16a($name, $x, $w, $h) {
   @include sprite(16a, $sprite_16a_Y, $name, $x, $w, $h);
 }
@@ -299,17 +300,17 @@ $default-transition-delay    : 0s;
 }
 
 
-@mixin sprite-flag($name, $x) {
-  @include sprite(flag, $sprite_flag_Y, $name, $x, 14px, 11px);
+@mixin sprite($spriteType, $y, $name, $x, $w, $h) {
+  .sprite-#{$spriteType}-#{$name} {
+  background-position: $x $y;
+  @include size($h, $w);
+  }
 }
-@mixin sprite-flagBig($name, $x) {
-  @include sprite(flagBig, $sprite_flagBig_Y, $name, $x, 22px, 15px);
+@mixin icon-flag($name, $x, $y) {
+  .icon-flag-#{$name} {
+    background-position: $x $y;
+  }
 }
-@mixin sprite-flags-reg-and-big($name, $x) {
-  @include sprite-flag($name, $x);
-  @include sprite-flagBig($name, $x);
-}
-
 
 
 

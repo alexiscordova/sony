@@ -24,7 +24,6 @@
 }
 
 
-
 // ------------------------------------------
 // SPRITES
 // ------------------------------------------
@@ -37,72 +36,285 @@
 
 
 
+
 // --------------------------------------------
 // FLAGS
 // ------------------------------------------
 
-[class^="sprite-flag"],
-[class*=" sprite-flag"] {
+[class^="icon-flag-"],
+[class*=" icon-flag-"]{
   background-image: url($flagSpritePath);
-}
-[class^="sprite-flag-"],
-[class*=" sprite-flag-"]{
-  @include size(11px,14px);
-  margin-right:11px;
-  margin-top:4px;
-}
-[class^="sprite-flagBig-"],
-[class*=" sprite-flagBig-"]{
-  @include size(15px,22px);
-  margin-top: 2px;
-  margin-right: 10px;
+  @include size(14px,20px);
+  // THESE ARE NEEDED ON THE FOOTER FLAGS ONLY:
+  // margin-top: 2px;
+  // margin-right: 10px;
+  // 
 }
 
-@include sprite-flags-reg-and-big(uk,    -550px);
-@include sprite-flags-reg-and-big(us,    -572px);
+// @include sprite-flags-reg-and-big(uk,    -550px);
+// @include sprite-flags-reg-and-big(us,    -572px);
 
-@include sprite-flags-reg-and-big(armenia,        0px);
-@include sprite-flags-reg-and-big(austria,        -22px);
-@include sprite-flags-reg-and-big(belgium,        -44px);
-@include sprite-flags-reg-and-big(bosnia,         -66px);
-@include sprite-flags-reg-and-big(bulgaria,       -88px);
-@include sprite-flags-reg-and-big(croatia,        -110px);
-@include sprite-flags-reg-and-big(cyprus,         -132px);
-@include sprite-flags-reg-and-big(czech,          -154px);
-@include sprite-flags-reg-and-big(denmark,        -176px);
-@include sprite-flags-reg-and-big(estonia,        -198px);
-@include sprite-flags-reg-and-big(finland,        -220px);
-@include sprite-flags-reg-and-big(france,         -242px);
-@include sprite-flags-reg-and-big(georgia,        -264px);
-@include sprite-flags-reg-and-big(germany,        -286px);
-@include sprite-flags-reg-and-big(greece,         -308px);
-@include sprite-flags-reg-and-big(hungary,        -330px);
-@include sprite-flags-reg-and-big(ireland,        -352px);
-@include sprite-flags-reg-and-big(italy,          -374px);
-@include sprite-flags-reg-and-big(kazakhstan,     -396px);
-@include sprite-flags-reg-and-big(kyrgyzstan,     -418px);
-@include sprite-flags-reg-and-big(latvia,         -440px);
-@include sprite-flags-reg-and-big(lithuania,      -462px);
-@include sprite-flags-reg-and-big(luxembourg,     -484px);
-@include sprite-flags-reg-and-big(macedonia,      -506px);
-@include sprite-flags-reg-and-big(moldova,        -528px);
-@include sprite-flags-reg-and-big(netherlands,    -550px);
-@include sprite-flags-reg-and-big(norway,         -572px);
-@include sprite-flags-reg-and-big(poland,         -594px);
-@include sprite-flags-reg-and-big(portugal,       -616px);
-@include sprite-flags-reg-and-big(romania,        -638px);
-@include sprite-flags-reg-and-big(russia,         -660px);
-@include sprite-flags-reg-and-big(serbia,         -682px);
-@include sprite-flags-reg-and-big(slovakia,       -704px);
-@include sprite-flags-reg-and-big(slovenia,       -726px);
-@include sprite-flags-reg-and-big(spain,          -748px);
-@include sprite-flags-reg-and-big(sweden,         -770px);
-@include sprite-flags-reg-and-big(switzerland,    -792px);
-@include sprite-flags-reg-and-big(tajikistan,     -814px);
-@include sprite-flags-reg-and-big(turkey,         -836px);
-@include sprite-flags-reg-and-big(turkmenistan,   -858px);
-@include sprite-flags-reg-and-big(ukranie,        -880px);
-@include sprite-flags-reg-and-big(unitedkingdom,  -902px);
-@include sprite-flags-reg-and-big(uzbekistan,     -924px);
+// @include sprite-flags-reg-and-big(armenia,        0px);
+// @include sprite-flags-reg-and-big(austria,        -22px);
+// @include sprite-flags-reg-and-big(belgium,        -44px);
+// @include sprite-flags-reg-and-big(bosnia,         -66px);
+// @include sprite-flags-reg-and-big(bulgaria,       -88px);
+// @include sprite-flags-reg-and-big(croatia,        -110px);
+// @include sprite-flags-reg-and-big(cyprus,         -132px);
+// @include sprite-flags-reg-and-big(czech,          -154px);
+// @include sprite-flags-reg-and-big(denmark,        -176px);
+// @include sprite-flags-reg-and-big(estonia,        -198px);
+// @include sprite-flags-reg-and-big(finland,        -220px);
+// @include sprite-flags-reg-and-big(france,         -242px);
+// @include sprite-flags-reg-and-big(georgia,        -264px);
+// @include sprite-flags-reg-and-big(germany,        -286px);
+// @include sprite-flags-reg-and-big(greece,         -308px);
+// @include sprite-flags-reg-and-big(hungary,        -330px);
+// @include sprite-flags-reg-and-big(ireland,        -352px);
+// @include sprite-flags-reg-and-big(italy,          -374px);
+// @include sprite-flags-reg-and-big(kazakhstan,     -396px);
+// @include sprite-flags-reg-and-big(kyrgyzstan,     -418px);
+// @include sprite-flags-reg-and-big(latvia,         -440px);
+// @include sprite-flags-reg-and-big(lithuania,      -462px);
+// @include sprite-flags-reg-and-big(luxembourg,     -484px);
+// @include sprite-flags-reg-and-big(macedonia,      -506px);
+// @include sprite-flags-reg-and-big(moldova,        -528px);
+// @include sprite-flags-reg-and-big(netherlands,    -550px);
+// @include sprite-flags-reg-and-big(norway,         -572px);
+// @include sprite-flags-reg-and-big(poland,         -594px);
+// @include sprite-flags-reg-and-big(portugal,       -616px);
+// @include sprite-flags-reg-and-big(romania,        -638px);
+// @include sprite-flags-reg-and-big(russia,         -660px);
+// @include sprite-flags-reg-and-big(serbia,         -682px);
+// @include sprite-flags-reg-and-big(slovakia,       -704px);
+// @include sprite-flags-reg-and-big(slovenia,       -726px);
+// @include sprite-flags-reg-and-big(spain,          -748px);
+// @include sprite-flags-reg-and-big(sweden,         -770px);
+// @include sprite-flags-reg-and-big(switzerland,    -792px);
+// @include sprite-flags-reg-and-big(tajikistan,     -814px);
+// @include sprite-flags-reg-and-big(turkey,         -836px);
+// @include sprite-flags-reg-and-big(turkmenistan,   -858px);
+// @include sprite-flags-reg-and-big(ukranie,        -880px);
+// @include sprite-flags-reg-and-big(unitedkingdom,  -902px);
+// @include sprite-flags-reg-and-big(uzbekistan,     -924px);
+
+
+
+
+// .icon-flag{display:block; background-image:url('../../img/country-region-selection-z10/flags.png');background-repeat:no-repeat;margin-bottom: 2px;}
+@include icon-flag("ZW",                0px,         0px);
+@include icon-flag("ZM",                -20px,       0px);
+@include icon-flag("YE",                0px,         -14px);
+@include icon-flag("EH",                -20px,       -14px);
+@include icon-flag("wales",             -40px,       0px);
+@include icon-flag("VN",                -40px,       -14px);
+@include icon-flag("VE",                0px,         -28px);
+@include icon-flag("vatican-city",      -20px,       -28px);
+@include icon-flag("VU",                -40px,       -28px);
+@include icon-flag("UZ",                0px,         -42px);
+@include icon-flag("UY",                -20px,       -42px);
+@include icon-flag("US",                -40px,       -42px);
+@include icon-flag("GB",                -60px,       0px);
+@include icon-flag("AE",                -60px,       -14px);
+@include icon-flag("UA",                -60px,       -28px);
+@include icon-flag("UG",                -60px,       -42px);
+@include icon-flag("TV",                0px,         -56px);
+@include icon-flag("TM",                -20px,       -56px);
+@include icon-flag("TR",                -40px,       -56px);
+@include icon-flag("TN",                -60px,       -56px);
+@include icon-flag("TT",                -80px,       0px);
+@include icon-flag("TO",                -80px,       -14px);
+@include icon-flag("TG",                -80px,       -28px);
+@include icon-flag("TL",                -80px,       -42px);
+@include icon-flag("TH",                -80px,       -56px);
+@include icon-flag("TZ",                0px,         -70px);
+@include icon-flag("TJ",                -20px,       -70px);
+@include icon-flag("TW",                -40px,       -70px);
+@include icon-flag("SY",                -60px,       -70px);
+@include icon-flag("CH",                -80px,       -70px);
+@include icon-flag("SE",                0px,         -84px);
+@include icon-flag("SZ",                -20px,       -84px);
+@include icon-flag("SR",                -40px,       -84px);
+@include icon-flag("SD",                -60px,       -84px);
+@include icon-flag("LK",                -80px,       -84px);
+@include icon-flag("ES",                -100px,      0px);
+@include icon-flag("KR",                -100px,      -14px);
+@include icon-flag("ZA",                -100px,      -28px);
+@include icon-flag("SO",                -100px,      -42px);
+@include icon-flag("SB",                -100px,      -56px);
+@include icon-flag("SI",                -100px,      -70px);
+@include icon-flag("SK",                -100px,      -84px);
+@include icon-flag("SG",                0px,         -98px);
+@include icon-flag("SL",                -20px,       -98px);
+@include icon-flag("SC",                -40px,       -98px);
+@include icon-flag("RS",                -60px,       -98px);
+@include icon-flag("SN",                -80px,       -98px);
+@include icon-flag("scotland",          -100px,      -98px);
+@include icon-flag("SA",                -120px,      0px);
+@include icon-flag("ST",                -120px,      -14px);
+@include icon-flag("SM",                -120px,      -28px);
+@include icon-flag("WS",                -120px,      -42px);
+@include icon-flag("VC",                -120px,      -56px);
+@include icon-flag("LC",                -120px,      -70px);
+@include icon-flag("KN",                -120px,      -84px);
+@include icon-flag("RW",                -120px,      -98px);
+@include icon-flag("RU",                0px,         -112px);
+@include icon-flag("RO",                -20px,       -112px);
+@include icon-flag("CG",                -40px,       -112px);
+@include icon-flag("QA",                -60px,       -112px);
+@include icon-flag("PR",                -80px,       -112px);
+@include icon-flag("PT",                -100px,      -112px);
+@include icon-flag("PL",                -120px,      -112px);
+@include icon-flag("PH",                0px,         -126px);
+@include icon-flag("PE",                -20px,       -126px);
+@include icon-flag("PY",                -40px,       -126px);
+@include icon-flag("PG",                -60px,       -126px);
+@include icon-flag("PA",                -80px,       -126px);
+@include icon-flag("PS",                -100px,      -126px);
+@include icon-flag("PW",                -120px,      -126px);
+@include icon-flag("PK",                -140px,      0px);
+@include icon-flag("OM",                -140px,      -14px);
+@include icon-flag("NO",                -140px,      -28px);
+@include icon-flag("northern-ireland",  -140px,      -42px);
+@include icon-flag("KP",                -140px,      -56px);
+@include icon-flag("NG",                -140px,      -70px);
+@include icon-flag("NE",                -140px,      -84px);
+@include icon-flag("NI",                -140px,      -98px);
+@include icon-flag("NZ",                -140px,      -112px);
+@include icon-flag("NL",                -140px,      -126px);
+@include icon-flag("NP",                0px,         -140px);
+@include icon-flag("NR",                -20px,       -140px);
+@include icon-flag("NA",                -40px,       -140px);
+@include icon-flag("MM",                -60px,       -140px);
+@include icon-flag("MZ",                -80px,       -140px);
+@include icon-flag("MA",                -100px,      -140px);
+@include icon-flag("ME",                -120px,      -140px);
+@include icon-flag("MN",                -140px,      -140px);
+@include icon-flag("MC",                -160px,      0px);
+@include icon-flag("MD",                -160px,      -14px);
+@include icon-flag("FM",                -160px,      -28px);
+@include icon-flag("MX",                -160px,      -42px);
+@include icon-flag("MU",                -160px,      -56px);
+@include icon-flag("MR",                -160px,      -70px);
+@include icon-flag("MH",                -160px,      -84px);
+@include icon-flag("MT",                -160px,      -98px);
+@include icon-flag("ML",                -160px,      -112px);
+@include icon-flag("MV",                -160px,      -126px);
+@include icon-flag("MY",                -160px,      -140px);
+@include icon-flag("MW",                0px,         -154px);
+@include icon-flag("MG",                -20px,       -154px);
+@include icon-flag("MK",                -40px,       -154px);
+@include icon-flag("MO",                -60px,       -154px);
+@include icon-flag("LY",                -80px,       -154px);
+@include icon-flag("LU",                -100px,      -154px);
+@include icon-flag("LT",                -120px,      -154px);
+@include icon-flag("LI",                -140px,      -154px);
+@include icon-flag("LR",                -160px,      -154px);
+@include icon-flag("LS",                -180px,      0px);
+@include icon-flag("LB",                -180px,      -14px);
+@include icon-flag("LV",                -180px,      -28px);
+@include icon-flag("LA",                -180px,      -42px);
+@include icon-flag("KG",                -180px,      -56px);
+@include icon-flag("KW",                -180px,      -70px);
+@include icon-flag("KI",                -180px,      -84px);
+@include icon-flag("KE",                -180px,      -98px);
+@include icon-flag("KZ",                -180px,      -112px);
+@include icon-flag("JO",                -180px,      -126px);
+@include icon-flag("JP",                -180px,      -140px);
+@include icon-flag("JM",                -180px,      -154px);
+@include icon-flag("IT",                0px,         -168px);
+@include icon-flag("IL",                -20px,       -168px);
+@include icon-flag("IE",                -40px,       -168px);
+@include icon-flag("IQ",                -60px,       -168px);
+@include icon-flag("IR",                -80px,       -168px);
+@include icon-flag("ID",                -100px,      -168px);
+@include icon-flag("IN",                -120px,      -168px);
+@include icon-flag("IS",                -140px,      -168px);
+@include icon-flag("HU",                -160px,      -168px);
+@include icon-flag("HK",                -180px,      -168px);
+@include icon-flag("HN",                0px,         -182px);
+@include icon-flag("HT",                -20px,       -182px);
+@include icon-flag("GY",                -40px,       -182px);
+@include icon-flag("GN",                -60px,       -182px);
+@include icon-flag("GW",                -80px,       -182px);
+@include icon-flag("GT",                -100px,      -182px);
+@include icon-flag("GD",                -120px,      -182px);
+@include icon-flag("GL",                -140px,      -182px);
+@include icon-flag("GR",                -160px,      -182px);
+@include icon-flag("GI",                -180px,      -182px);
+@include icon-flag("GH",                -200px,      0px);
+@include icon-flag("DE",                -200px,      -14px);
+@include icon-flag("GE",                -200px,      -28px);
+@include icon-flag("GM",                -200px,      -42px);
+@include icon-flag("GA",                -200px,      -56px);
+@include icon-flag("FR",                -200px,      -70px);
+@include icon-flag("FI",                -200px,      -84px);
+@include icon-flag("FJ",                -200px,      -98px);
+@include icon-flag("FO",                -200px,      -112px);
+@include icon-flag("european-union",    -200px,      -126px);
+@include icon-flag("ET",                -200px,      -140px);
+@include icon-flag("EE",                -200px,      -154px);
+@include icon-flag("ER",                -200px,      -168px);
+@include icon-flag("GQ",                -200px,      -182px);
+@include icon-flag("SV",                -20px,       -196px);
+@include icon-flag("EG",                -40px,       -196px);
+@include icon-flag("EC",                -60px,       -196px);
+@include icon-flag("DO",                -80px,       -196px);
+@include icon-flag("DM",                -100px,      -196px);
+@include icon-flag("DJ",                -120px,      -196px);
+@include icon-flag("DK",                -140px,      -196px);
+@include icon-flag("CD",                -160px,      -196px);
+@include icon-flag("CZ",                -180px,      -196px);
+@include icon-flag("CY",                -200px,      -196px);
+@include icon-flag("CU",                -220px,      0px);
+@include icon-flag("HR",                -220px,      -14px);
+@include icon-flag("CI",                -220px,      -28px);
+@include icon-flag("CR",                -220px,      -42px);
+@include icon-flag("KM",                -220px,      -56px);
+@include icon-flag("CO",                -220px,      -70px);
+@include icon-flag("CN",                -220px,      -84px);
+@include icon-flag("CL",                -220px,      -98px);
+@include icon-flag("TD",                -220px,      -112px);
+@include icon-flag("CF",                -220px,      -126px);
+@include icon-flag("catalonia",         -220px,      -140px);
+@include icon-flag("CV",                -220px,      -154px);
+@include icon-flag("CA",                -220px,      -168px);
+@include icon-flag("CM",                -220px,      -182px);
+@include icon-flag("KH",                -220px,      -196px);
+@include icon-flag("BI",                0px,         -210px);
+@include icon-flag("BF",                -20px,       -210px);
+@include icon-flag("BG",                -40px,       -210px);
+@include icon-flag("BN",                -60px,       -210px);
+@include icon-flag("BR",                -80px,       -210px);
+@include icon-flag("BW",                -100px,      -210px);
+@include icon-flag("BA",                -120px,      -210px);
+@include icon-flag("BO",                -140px,      -210px);
+@include icon-flag("BT",                -160px,      -210px);
+@include icon-flag("BJ",                -180px,      -210px);
+@include icon-flag("BZ",                -200px,      -210px);
+@include icon-flag("BE",                -220px,      -210px);
+@include icon-flag("BY",                0px,         -224px);
+@include icon-flag("BB",                -20px,       -224px);
+@include icon-flag("BD",                -40px,       -224px);
+@include icon-flag("BH",                -60px,       -224px);
+@include icon-flag("BS",                -80px,       -224px);
+@include icon-flag("AZ",                -100px,      -224px);
+@include icon-flag("AT",                -120px,      -224px);
+@include icon-flag("AU",                -140px,      -224px);
+@include icon-flag("AW",                -160px,      -224px);
+@include icon-flag("AM",                -180px,      -224px);
+@include icon-flag("AR",                -200px,      -224px);
+@include icon-flag("AG",                -220px,      -224px);
+@include icon-flag("AQ",                -240px,      0px);
+@include icon-flag("AO",                -240px,      -14px);
+@include icon-flag("AD",                -240px,      -28px);
+@include icon-flag("DZ",                -240px,      -42px);
+@include icon-flag("AL",                -240px,      -56px);
+@include icon-flag("middle-east",       -240px,      -70px);
+// @media only screen and (-webkit-min-device-pixel-ratio: 2.0), only screen and (min--moz-device-pixel-ratio: 2.0), only screen and (-o-min-device-pixel-ratio: 200/100), only screen and (min-device-pixel-ratio: 2.0) {@include sprite-flag(zimbabwe,
+// .icon-flag{background-image:url('../../img/country-region-selection-z10/flags@2x.png');-webkit-background-size: 260px 238px;-moz-background-size: 260px 238px;background-size: 260px 238px;}}
+
+
+
 
 
