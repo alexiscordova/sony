@@ -105,6 +105,15 @@ define(function(require) {
         self.apportionThumbsToSlides();
         self.rebuildThumbCarousel();
       });
+
+      // If the PDP is in a submodule, listen for the Primary Tout to broadcast an event
+      // specifying the module's activation.
+
+      self.$el.closest('.submodule').on('PrimaryTout:submoduleActivated', function() {
+        self.apportionThumbsToSlides();
+        self.rebuildThumbCarousel();
+      });
+
     },
 
     fadeIn: function() {
@@ -296,10 +305,9 @@ define(function(require) {
       var self = this,
           $anchors = self.$thumbNav.find('li'),
           $slides = self.$thumbNav.find('ul'),
-          // Need real data for this. If the slideshow isn't visible the widths get misreported.
-          thumbWidth = 75,
-          slideWidth = 1100,
-          thumbsPerSlide = Math.floor( slideWidth / ( thumbWidth - 1 ) ),
+          thumbWidth = $anchors.first().width(),
+          slideWidth = $slides.first().width(),
+          thumbsPerSlide = Math.max( Math.floor( slideWidth / ( thumbWidth - 1 ) ), 1 ),
           slideCount = Math.ceil( $anchors.length / thumbsPerSlide );
 
       var $slideClone = $slides.first().clone().empty(),
