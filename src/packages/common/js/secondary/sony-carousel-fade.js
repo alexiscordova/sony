@@ -67,7 +67,6 @@ define(function(require){
           $destinationSlide;
 
       $destinationSlide = $slideSet.eq(which);
-
       if ( !$destinationSlide ) { return; }
 
       // TODO : Note that, below, the `active` class is peppered onto the classes.
@@ -87,14 +86,10 @@ define(function(require){
         $destinationSlide.addClass('active').siblings().removeClass('active');
 
       } else {
+        $destinationSlide.addClass('active').siblings().removeClass('active');
         var $sibs = $destinationSlide.siblings();
-
-        $sibs.fadeOut(speed, function(){
-          $sibs.removeClass('active');
-        });
-        $destinationSlide.fadeIn(speed, function(){
-          $destinationSlide.addClass('active');
-        });
+        $sibs.fadeOut(speed);
+        $destinationSlide.fadeIn(speed);
       }
 
       self.currentSlide = which;

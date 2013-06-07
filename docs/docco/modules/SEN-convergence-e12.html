@@ -414,11 +414,11 @@ self.initFromhash = true;</p>             </td>             <td class="code">   
 </pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>stop internal slides from rotating</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.internalSlideStop();
 
 </pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>need to set a tmeout of 100ms so we can
-fix a flicker bug on mobile devices</p>             </td>             <td class="code">               <div class="highlight"><pre>      $currTab.addClass(<span class="string">'active'</span>);
-      setTimeout(<span class="keyword">function</span>(){
-        $chapterTabs.removeClass(<span class="string">'active'</span>);
+fix a flicker bug on mobile devices</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      $currTab.addClass(<span class="string">'active'</span>);
+
+      $chapterTabs.removeClass(<span class="string">'active'</span>);
         self.internalSlideStart();
-      },<span class="number">100</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>update the hash after we got the correct slide transition</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.updateHash(self.location, self.currentId);
     },
@@ -427,7 +427,11 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$internalSlides = self.$el.find(<span class="string">'.sen-carousel-slide.active .slides'</span>).children();
+
+      self.$internalSlides.hide();
+
       self.$currentSlide = self.$internalSlides.first();
+      self.$currentSlide.show();
 
       self.interval = setInterval($.proxy(self.showNextSlide, self), <span class="number">3500</span>);
     },

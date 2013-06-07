@@ -860,22 +860,20 @@ define(function(require) {
             return;
           }
 
+          if(self.isDesktopMode === true){
+            return;
+          }
+
           //check if we are coming out of mobile
           if (self.isMobileMode === true) {
             wasMobile = true;
             self.returnToFullView();
           }
 
-          if(self.isDesktopMode === true){
-            return;
-          }
-
           self.isTabletMode = self.isMobileMode = self.hasInitedMobile = false;
 
           self.isDesktopMode = true;
           self.breakPointChanged = true;
-
-          
 
           self.sliderOverflow.css('overflow' , 'hidden');
 
@@ -904,7 +902,6 @@ define(function(require) {
           if (!self.hasTouch) {
             self.togglePaddles(true);
           }
-
 
           break;
 
@@ -967,6 +964,8 @@ define(function(require) {
           if (self.isMobileMode === true) {
             return;
           }
+
+
 
           if (self.mode === 'suggested') {
             self.$el.find('.gallery-item').removeClass('span6');
@@ -1683,16 +1682,16 @@ define(function(require) {
         if (slideVariation !== '3up') {
 
 
-          if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
+/*          if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
             tileHeight = $slide.find('.gallery-item.plate').first().height();
-          }
+          }*/
+          
+          tileHeight = $slide.find('.gallery-item.plate').first().height();
 
           $slide.find('.gallery-item.normal').css({
             'max-height': tileHeight,
             'height': tileHeight
           });
-
-          //console.log(tileHeight , 'px');
 
         }
 
