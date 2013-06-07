@@ -8,8 +8,7 @@ e = {"locals":locals, "data": data}
   .container
     .grid
       .light-compare-box
-        e = {"locals":locals, "data": data.image}
-        !{locals.partial('packages/modules/image/html/image.jade', e)}
+        +iQImage(data.image, 'update-always')
         .inner
           .container
             .light-compare-bd
