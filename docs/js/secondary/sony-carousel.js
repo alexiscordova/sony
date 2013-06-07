@@ -558,11 +558,13 @@ define(function(require){
         }
       });
 
-      $wrapper.on('sonyPaddles:clickLeft', function(){
+      $wrapper.on('sonyPaddles:clickLeft', function(e){
+        e.stopPropagation();
         self.gotoSlide(self.currentSlide - 1);
       });
 
-      $wrapper.on('sonyPaddles:clickRight', function(){
+      $wrapper.on('sonyPaddles:clickRight', function(e){
+        e.stopPropagation();
         self.gotoSlide(self.currentSlide + 1);
       });
     },
