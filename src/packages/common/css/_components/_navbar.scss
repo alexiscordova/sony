@@ -71,9 +71,17 @@
     margin-top: 0; // then undo the margin here so we don't accidentally double it
   }
 
-  .fonticon-10-arrowhead-down,
+  // so we can tell when the nav is ready (mainly for Android because it takes a long time), we're hiding the carrots on the primary nav links
+  // until the nav is actually ready to be used. Sometimes it takes a really long time on Android.
+  .fonticon-10-arrowhead-down{
+    color: $gray40;
+    visibility:hidden;
+    .nav-ready & {
+      visibility:visible;
+    }
+  }
   .fonticon-10-arrowhead-up {
-    color:$gray40;
+    color: $gray40;
   }
   .nav-li-link {
     -webkit-backface-visibility: hidden; // fixes phantom blue select box
@@ -261,12 +269,9 @@
     &:hover, &:active, &:focus, &.active {
       color: $navbarLinkColor;
     }
-    // freakin' Android, trying to figure out why these links don't trigger a touchstart SOMETIMES.
     -webkit-transform:translate3d(0,0,0);
     -webkit-backface-visibility:hidden;
-    -webkit-perspective: 1000;
-    -webkit-transform: translateZ(0);
-    z-index:5000;
+
     .lbl {
       padding: 0 4px;
     }
@@ -594,3 +599,7 @@
   // position: relative;
   // left:-999px; // still want to use its height for the nav..?
 }
+
+
+
+
