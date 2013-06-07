@@ -90,7 +90,7 @@ define(function(require) {
         .setupBreakpoints();
 
       if (self.hasThumbs) {
-        //self.createThumbNav();
+        self.createThumbNav();
       }
 
       // Fade in when the first image has loaded
