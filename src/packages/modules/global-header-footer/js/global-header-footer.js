@@ -167,6 +167,8 @@ define(function(require) {
 
         $thNavBtn.on('click touchstart mouseenter focus', function(e) {
           e.preventDefault();
+          // alert("click touchstart mouseenter focus");   
+          // WHAAT THEE FRAAAACK ANDROID!?
         });
 
         // init
@@ -184,6 +186,7 @@ define(function(require) {
         if ( self.hasTouch ) {
           // console.log('init hammer');
           // Use hammer.js to detect taps
+          // HAAAALP! DEBUGGING ON ANDROID
           $thNavBtn.hammer().on('tap', $.proxy( self.onNavBtnTap, self ) );
 
         // NOT touch device - set up HOVER triggers
@@ -257,6 +260,7 @@ define(function(require) {
     },
 
     onPageWrapOuterPress : function( e ) {
+
       // as long as the click wasn't on one of the nav-menu/trays,
       // or one of their children,
       // or one of the activeNavBtns, reset any active menus.
@@ -264,7 +268,7 @@ define(function(require) {
           $target = $( e.target ),
           isClickOnNavItem = $target.hasClass('navtray-w') || $target.hasClass('navmenu-w') || $target.hasClass('nav-dropdown-toggle') || $target.parents('.navtray-w,.navmenu-w,nav-dropdown-toggle, .nav').length > 0;
 
-      // console.log('onPageWrapOuterPress', 'isClickOnNavItem: ', isClickOnNavItem );
+      // alert('onPageWrapOuterPress', 'isClickOnNavItem: ', isClickOnNavItem );
 
       if ( !isClickOnNavItem ) {
         self.closeActiveNavBtn();
@@ -901,7 +905,7 @@ define(function(require) {
       // set up shadow / gradient bar. Yep, this was the best way to do it.
       if ($('html').hasClass('cssgradients') && !self.mobileNavHasShadow){
         var $mobileNavShadow = $('<i/>',{
-          class : "nav-mobile-nav-shadow"
+          "class" : "nav-mobile-nav-shadow"
         });
         $('.nav-mobile-scroller').append($mobileNavShadow);
         self.mobileNavHasShadow = true;
@@ -1173,7 +1177,7 @@ define(function(require) {
         hScrollbar : false,
         snap : false,
         momentum : true,
-        hideScrollbar: true,
+        fadeScrollbar: true,
         bounce : false,
         onBeforeScrollStart: function(e) {
           var target = e.target,

@@ -105,6 +105,15 @@ define(function(require) {
         self.apportionThumbsToSlides();
         self.rebuildThumbCarousel();
       });
+
+      // If the PDP is in a submodule, listen for the Primary Tout to broadcast an event
+      // specifying the module's activation.
+
+      self.$el.closest('.submodule').on('PrimaryTout:submoduleActivated', function() {
+        self.apportionThumbsToSlides();
+        self.rebuildThumbCarousel();
+      });
+
     },
 
     fadeIn: function() {
@@ -298,7 +307,7 @@ define(function(require) {
           $slides = self.$thumbNav.find('ul'),
           thumbWidth = $anchors.first().width(),
           slideWidth = $slides.first().width(),
-          thumbsPerSlide = Math.floor( slideWidth / ( thumbWidth - 1 ) ),
+          thumbsPerSlide = Math.max( Math.floor( slideWidth / ( thumbWidth - 1 ) ) - 1, 1 ),
           slideCount = Math.ceil( $anchors.length / thumbsPerSlide );
 
       var $slideClone = $slides.first().clone().empty(),
@@ -313,6 +322,11 @@ define(function(require) {
         for ( var j = 0; j < thumbsPerSlide; j++ ) {
           $anchors.eq(thumbsPerSlide * i + j).appendTo(newSlides[i]);
         }
+
+        var $slideAnchors = $(newSlides[i]).find('a');
+
+        $slideAnchors.first().addClass('first');
+        $slideAnchors.last().addClass('last');
       }
 
       self.$thumbNav.empty().append(newSlides);
