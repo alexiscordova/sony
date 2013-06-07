@@ -18,6 +18,7 @@ define(function(require){
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
+      Utilities = require('require/sony-global-utilities'),
       Environment = require('require/sony-global-environment'),
       SimpleKnob = require('secondary/jquery.simpleknob'),
       SonyCarousel = require('secondary/index').sonyCarousel;
@@ -206,15 +207,15 @@ define(function(require){
       });
     },
 
-    // register resize events for tablet/desktop and phone
+     // register resize events for tablet/desktop and phone
     'registerEnquire' : function(){
       var self = this;
 
-      enquire.register('(min-width: 568px)', function() {
+      enquire.register(Utilities.enquire.min(568), function() {
         self.reset();
       });
 
-      enquire.register('(max-width: 567px)', function() {
+      enquire.register(Utilities.enquire.max(567), function() {
         self.reset();
       });
     },

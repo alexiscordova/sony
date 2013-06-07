@@ -44,7 +44,10 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.$pageWrapperOuter = $(<span class="string">'#page-wrap-outer'</span>);
 
-      <span class="keyword">if</span> ( self.$pageWrapperOuter.length &gt; <span class="number">0</span> ) {
+      <span class="keyword">var</span> ua = navigator.userAgent.toLowerCase();
+      self.isAndroid = ua.indexOf(<span class="string">"android"</span>) &gt; -<span class="number">1</span>;
+
+      <span class="keyword">if</span> ( self.$pageWrapperOuter.length &gt; <span class="number">0</span> &amp;&amp; !self.isAndroid) {
         self.initFullPageBuild();
         self.scrollableId = <span class="string">'scroll'</span>;
       } <span class="keyword">else</span> {
@@ -69,6 +72,7 @@ define(<span class="keyword">function</span>(require){
 
       self.$pageWrapperInner = $(<span class="string">'#page-wrap-inner'</span>);
       self.$scrollContainer = $(<span class="string">'&lt;div id="scrollcontainer"&gt;'</span>);
+
       <span class="keyword">var</span> $scroll = $(<span class="string">'&lt;div id="scroll"&gt;'</span>).addClass(<span class="string">'scrollable'</span>);
 
       self.$scrollContainer.append($scroll);
@@ -82,22 +86,21 @@ define(<span class="keyword">function</span>(require){
     },
 
     setMobileHeight : <span class="keyword">function</span>() {
-
-      <span class="keyword">if</span> (window.innerWidth &gt; <span class="number">768</span>) {
-        <span class="keyword">return</span>;
-      }
-
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           winheight = parseInt($(window).height(), <span class="number">10</span>),
           navheight = parseInt($(<span class="string">'#nav-wrapper'</span>).height(), <span class="number">10</span>);
 
-      self.$scrollContainer.css({
-        <span class="string">'height'</span>: winheight - navheight + <span class="number">10</span> +<span class="string">'px'</span>,
-        <span class="string">'position'</span>: <span class="string">'relative'</span>
-      });
+      <span class="keyword">if</span> (self.stickyHeader.loaded){
+        <span class="keyword">if</span> (window.innerWidth &gt; <span class="number">768</span>) {
+          <span class="keyword">return</span>;
+        }
+        self.$scrollContainer.css({
+          <span class="string">'height'</span>: winheight - navheight + <span class="number">10</span> +<span class="string">'px'</span>,
+          <span class="string">'position'</span>: <span class="string">'relative'</span>
+        });
 
-      self.stickyHeader.refresh();
-
+        self.stickyHeader.refresh();
+      }
     },
 
     resetHeight : <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
@@ -173,28 +176,37 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Called when media query matches mobile.</p>             </td>             <td class="code">               <div class="highlight"><pre>    toMobile : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      self.stickyHeader.enable();
+      console.log(self.stickyHeader.loaded);
+      <span class="keyword">if</span> (self.stickyHeader.loaded){
+        self.stickyHeader.enable();
+      }
       self.resetFluidLists();
       self.setMobileHeight();
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Called when media query matches tablet.</p>             </td>             <td class="code">               <div class="highlight"><pre>    toTablet : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      self.stickyHeader.disable();
+      <span class="keyword">if</span> (self.stickyHeader.loaded){
+        self.stickyHeader.disable();
+      }
       self.updateFluidLists(<span class="string">'tablet'</span>);
       self.resetHeight();
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Called when media query matches desktop.</p>             </td>             <td class="code">               <div class="highlight"><pre>    toDesktop : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      self.stickyHeader.disable();
+      <span class="keyword">if</span> (self.stickyHeader.loaded){
+        self.stickyHeader.disable();
+      }
       self.updateFluidLists(<span class="string">'desktop'</span>);
       self.resetHeight();
     },
 
     accountForHeader : <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      self.$scrollContainer.height(<span class="string">'+=10px'</span>).css(<span class="string">'margin-top'</span>, <span class="string">'-10px'</span>);
+      <span class="keyword">if</span> (self.stickyHeader.loaded){
+        self.$scrollContainer.height(<span class="string">'+=10px'</span>).css(<span class="string">'margin-top'</span>, <span class="string">'-10px'</span>);
+      }
     },
 
     unAccountForHeader : <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
