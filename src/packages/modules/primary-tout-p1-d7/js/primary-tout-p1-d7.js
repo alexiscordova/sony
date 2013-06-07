@@ -8,6 +8,13 @@
 // * **Dependencies:** jQuery 1.7+ , sony-global-environment
 //
 
+// *REFACTOR NOTES:* We need to be smarter about how we search with jQuery. Class-based searches are
+// very slow, particularly in older browsers, and add extra scripting when caching is easy to do.
+// `.primary-tout` in particular is accessed over and over.
+
+// Also `init()` is doing far too much, and isn't understandable at a glance. It should be broken out
+// in to separate methods, with comments to describe each.
+
 define(function(require){
 
     'use strict';
@@ -87,8 +94,11 @@ define(function(require){
           btn.on('click', function(e){
             e.preventDefault();
             if(!Settings.isIPhone || $(this).hasClass('carousel')){
+
               self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('off-screen visuallyhidden');
-              self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('off-screen visuallyhidden');
+
+              self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('off-screen visuallyhidden')
+                  .trigger('PrimaryTout:submoduleActivated');
             }
             //update for slideshow coming into view
             iQ.update();
@@ -101,9 +111,14 @@ define(function(require){
           var submodule = self.$el.find('.submodule');
           var close = submodule.find('.box-close');
           submodule.find('.box-close').on('click', function(e){
+
             e.preventDefault();
+
             self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').removeClass('off-screen visuallyhidden');
-            submodule.addClass('off-screen visuallyhidden');
+
+            submodule.addClass('off-screen visuallyhidden')
+                .trigger('PrimaryTout:submoduleActivated');
+
             self.$el.find('.sony-video').data('sonyVideo').api().pause();
           });
 
