@@ -80,6 +80,7 @@ ul.jump-links {
 
   // Sony Tablet S supports box shadow, but not inset box shadow
   .no-boxshadow & a,
+  .ps3 & a,
   .sonytablets & a {
     @include box-shadow(none);
     padding-bottom: $whitespaceHeight;
@@ -88,6 +89,7 @@ ul.jump-links {
 
   .no-boxshadow.no-touch & li:hover a,
   .no-boxshadow & .active a,
+  .ps3 & .active a,
   .sonytablets & .active a {
     border-bottom-color: $btnBackground;
   }
@@ -126,7 +128,6 @@ ul.jump-links {
   // some default values however, the PS3 will not render the elements
   // even with default overrides.
   .ps3 & {
-    border: 2px solid green;
     @include transition(none);
     -webkit-transform-style: flat;
     -webkit-transform: none;
