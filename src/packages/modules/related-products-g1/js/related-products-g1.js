@@ -99,6 +99,7 @@ define(function(require) {
     self.handleStartPosition = null;
     self.dragThreshold = 50;
 
+
     //
     self.useCSS3Transitions = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
     self.hasMediaQueries = Modernizr.mediaqueries;
@@ -116,6 +117,7 @@ define(function(require) {
     self.isMobileMode = false;
     self.isDesktopMode = false;
     self.isTabletMode = false;
+    self.breakPointChanged = false;
     self.accelerationPos = 0;
 
 
@@ -178,22 +180,21 @@ define(function(require) {
         if (!self.hasTouch) {
           self.createPaddles();
         }
-        if (self.mode !== 'strip') {
-          self.$container.on(self.downEvent, function(e) {
-            self.onDragStart(e);
-          });
-        }
+      
+      if(self.$slides.length > 1){
+        self.$container.on(self.downEvent, function(e) {
+          self.onDragStart(e);
+        });   
+      }
+
       } else {
         self.$pagination = $({});
       }
-
-      if (self.mode !== 'strip') {
-        self.setSortPriorities();
-        self.setupResizeListener();
-        self.$win.trigger('resize.rp');
-      } else {
-        self.setupStripMode();
-      }
+      
+      self.setSortPriorities();
+      self.setupResizeListener();
+      self.$win.trigger('resize.rp');
+      
     },
 
     //Fixes a bug in IE when media queries aren't available
@@ -468,12 +469,9 @@ define(function(require) {
           setTimeout(function() {
             self.updateSliderSize();
 
+            //do this for IE
             if (self.oldIE) {
-
-
               if (Settings.isLTIE8) {
-
-
                 self.$galleryItems.each(function() {
 
                   var $item = $(this),
@@ -522,15 +520,19 @@ define(function(require) {
                 });
               }
 
-
               shfflInst.update();
               self.updateSlides();
             }
 
+            //do this for good browsers
             if (!self.oldIE) {
+
               self.updateTiles();
               shfflInst.update();
               self.animateTiles();
+
+              self.breakPointChanged = false;
+
             } else if (!self.isMobileMode) {
               self.$pagination.show();
               self.$pagination.stop(true, true).fadeIn(250);
@@ -540,114 +542,6 @@ define(function(require) {
 
         });
       }, 10);
-    },
-
-    setupStripMode: function() {
-      var self = this,
-        containerWidth = self.$el.width(),
-        gutterWidth = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
-        colWidth = (Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth));
-
-      //clear out the position style on the gallery items
-      self.$galleryItems.removeAttr('style');
-
-      self.$galleryItems.not(self.$galleryItems.first()).css({
-        'width': colWidth,
-        'margin': 0,
-        'margin-left': 0,
-        'margin-top': 0
-      });
-
-      self.$galleryItems.first().css({
-        'width': colWidth,
-        'margin': 0
-      });
-
-      //Create the sony-scroller instance
-      setTimeout(function() {
-
-        if (self.scrollerModule !== null) {
-          self.scrollerModule.destroy();
-          self.scrollerModule = null;
-        }
-
-        self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
-          contentSelector: '.rp-container',
-          itemElementSelector: '.gallery-item',
-          mode: 'paginate',
-          generatePagination: true,
-          generateNav: true,
-          centerItems: false,
-          autoGutters: false,
-          gutterWidth: gutterWidth,
-          iscrollProps: {
-            snap: true,
-            momentum: false,
-            hScrollbar: false,
-            vScrollbar: false
-          }
-
-        }).data('scrollerModule');
-
-        self.$galleryItems.find('.product-name').evenHeights();
-
-        iQ.update();
-
-      }, 50);
-
-      self.$win.on('resize.rp', $.debounce(50, function() {
-
-        if (self.$win.width() < 479) {
-          self.scrollerModule.centerItems = true;
-        } else {
-          self.scrollerModule.centerItems = false;
-        }
-
-        var containerWidth = self.$el.width(),
-          gutterWidth = 0,
-          colWidth = 0;
-
-        if (self.$win.width() > 767) {
-          gutterWidth = Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
-          colWidth = (Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth));
-        } else {
-          gutterWidth = 12.745098039215685;
-          colWidth = 119.80392156862746;
-        }
-
-        self.scrollerModule.setGutterWidth(gutterWidth);
-
-        self.$galleryItems.not(self.$galleryItems.first()).css({
-          'width': colWidth,
-          'margin': 0,
-          'margin-left': 0,
-          'margin-top': '0px'
-        });
-
-        self.$galleryItems.first().css({
-          'width': colWidth,
-          'margin': 0,
-          'margin-top': '0px'
-        });
-
-
-        var $oneProduct = self.$el.find('.gallery-item.normal').first(),
-          newContainerHeight = $oneProduct.find('.product-content').outerHeight(true) + $oneProduct.find('.product-img').height();
-        newContainerHeight += 30; //spacing for navigation dots
-
-
-        self.$el.css({
-          'height': newContainerHeight,
-          'max-height': newContainerHeight,
-          'min-height': newContainerHeight
-        });
-
-        self.checkTileHeights();
-
-      }));
-
-
-      self.$win.trigger('resize.rp');
     },
 
     tapOrClick: function() {
@@ -957,7 +851,6 @@ define(function(require) {
       switch (view) {
         case 'desktop':
 
-
           if (self.mode === 'suggested') {
             self.$el.find('.gallery-item').addClass('span6');
             self.$el.removeClass('grid')
@@ -967,16 +860,24 @@ define(function(require) {
             return;
           }
 
+          if(self.isDesktopMode === true){
+            return;
+          }
+
           //check if we are coming out of mobile
           if (self.isMobileMode === true) {
             wasMobile = true;
             self.returnToFullView();
-
           }
 
           self.isTabletMode = self.isMobileMode = self.hasInitedMobile = false;
 
           self.isDesktopMode = true;
+          self.breakPointChanged = true;
+
+          self.sliderOverflow.css('overflow' , 'hidden');
+
+          self.$el.parents('.rp-section').css('overflow' , '');
 
           self.$el.removeClass('rp-tablet rp-mobile')
             .addClass('rp-desktop');
@@ -1001,7 +902,6 @@ define(function(require) {
           if (!self.hasTouch) {
             self.togglePaddles(true);
           }
-
 
           break;
 
@@ -1028,9 +928,14 @@ define(function(require) {
 
           self.isMobileMode = self.isDesktopMode = self.hasInitedMobile = false;
           self.isTabletMode = true;
+          self.breakPointChanged = true;
 
           self.$el.removeClass('rp-desktop rp-mobile')
             .addClass('rp-tablet');
+        
+          self.sliderOverflow.css('overflow' , 'hidden');
+
+          self.$el.parents('.rp-section').css('overflow' , '');
 
           if (self.scrollerModule !== null) {
             self.scrollerModule.destroy();
@@ -1060,6 +965,8 @@ define(function(require) {
             return;
           }
 
+
+
           if (self.mode === 'suggested') {
             self.$el.find('.gallery-item').removeClass('span6');
             self.$el.removeClass('grid slimgrid');
@@ -1069,6 +976,7 @@ define(function(require) {
 
           self.isTabletMode = self.isDesktopMode = false;
           self.isMobileMode = true;
+          self.breakPointChanged = true;
 
           self.$el.removeClass('rp-tablet rp-desktop')
             .addClass('rp-mobile');
@@ -1642,9 +1550,13 @@ define(function(require) {
 
         self.$container.css('width', '');
         self.$container.append(self.$slides);
-        self.$container.on(self.downEvent, function(e) {
-          self.onDragStart(e);
-        });
+
+        if(self.$slides.length > 1){
+          self.$container.on(self.downEvent, function(e) {
+            self.onDragStart(e);
+          });
+        }
+
 
         if (!self.hasTouch) {
           self.$paddles.show();
@@ -1770,13 +1682,15 @@ define(function(require) {
         if (slideVariation !== '3up') {
 
 
-          if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
-            maxHeight = 204;
-          }
+/*          if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
+            tileHeight = $slide.find('.gallery-item.plate').first().height();
+          }*/
+          
+          tileHeight = $slide.find('.gallery-item.plate').first().height();
 
           $slide.find('.gallery-item.normal').css({
             'max-height': tileHeight,
-            'height': maxHeight
+            'height': tileHeight
           });
 
         }
@@ -1824,9 +1738,17 @@ define(function(require) {
 
       self.checkTileHeights();
 
-      setTimeout(function() {
-        self.updateSliderSize();
-      }, 250);
+      if( self.breakPointChanged ){
+        setTimeout(function(){
+          //self.$win.trigger('resize.rp'); // this works but it pops 
+          self.handleResize(); //hopefully a more direct approach
+        } , 500);
+      }else{
+        setTimeout(function() {
+          self.updateSliderSize();
+        }, 250);
+      }
+
 
     },
 
@@ -1835,7 +1757,7 @@ define(function(require) {
         prodImg = self.$galleryItems.filter('.normal').find('.product-img'),
         newHeight = prodImg.first().height();
 
-      if (self.$win.width() < 569 || self.mode === 'strip') {
+      if (self.$win.width() < 569) {
         newHeight = '100%';
       }
 
@@ -1952,7 +1874,8 @@ define(function(require) {
           self.scrollerModule = null;
         }
 
-        self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
+
+        self.scrollerModule = self.sliderOverflow.scrollerModule({
           contentSelector: '.rp-container',
           itemElementSelector: '.gallery-item',
           mode: 'free',
@@ -1974,6 +1897,9 @@ define(function(require) {
           }
 
         }).data('scrollerModule');
+        self.sliderOverflow.css('overflow' , 'visible');
+
+        self.$el.parents('.rp-section').css('overflow' , 'hidden');
 
         self.$galleryItems.find('.product-name').evenHeights();
         self.$el.find('.gallery-item.medium').css('height', '');

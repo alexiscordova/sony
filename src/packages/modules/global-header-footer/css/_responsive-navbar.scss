@@ -134,6 +134,9 @@
 
 
 
+.nav-mobile-nav-shadow{
+  display:none;
+}
 
 
 
@@ -224,6 +227,20 @@
 
 
 
+
+
+@media (min-width: px-em(980px)) and (max-width: px-em(1023px)) {
+
+.nav-li-account .nav-li-link.nav-dropdown-toggle .fonticon-10-arrowhead-down{
+  font-size: px-em(16,11);
+}
+}
+
+
+
+
+
+
 // ------------------------------------------------
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
@@ -274,7 +291,6 @@
   padding-top: 12px;
   .fonticon-10-arrowhead-down {
     margin-left:3px;
-    font-size:px-em(13,11);
   }
 }
 
@@ -298,6 +314,12 @@
 }
 
 } // END max-width: 1023px
+
+
+
+
+
+
 
 
 
@@ -369,6 +391,9 @@
     padding-right: 4px;
     padding-left: 9px;
     padding-top: 8px;
+    .fonticon-10-arrowhead-down {
+      font-size:px-em(13,11);
+    }
   }
 }
 
@@ -591,7 +616,7 @@
 .page-wrap-outer {
 }
 .page-wrap-inner.show-mobile-menu {
-  left:$navMobileWidthLarge;
+  left:$navMobileWidth480up;
   // position:fixed; // so the "main" content area doesn't scroll; just the nav
 }
 
@@ -609,8 +634,8 @@
 }
 .nav-outer-container {
   position:absolute;
-  width:$navMobileWidthLarge;
-  left:-$navMobileWidthLarge;
+  width:$navMobileWidth480up;
+  left:-$navMobileWidth480up;
   top:0;
   z-index:20;
 
@@ -953,7 +978,7 @@
   .navbar-mobile,
   #main-wrapper,
   #footer-wrapper {
-    left: 101 - $navMobileWidthLarge;
+    left: 101 - $navMobileWidth480up;
   }
 
   .navmenu-search-section-results {
@@ -1008,8 +1033,9 @@
       .navmenu-search-section-results {
         .navmenu-search-results {
           .btn-show-all-results {
-            width: 280px;
-            margin: 5px 20px 50px;
+            display:block;
+            width: 240px;
+            margin: 5px auto 50px;
           }
         }
       }
@@ -1111,6 +1137,39 @@
 }
 
 
+// Fake drop shadow for the mobile nav!
+.nav-mobile-scroller{
+  position:relative;
+}
+.nav-mobile-nav-shadow{
+  display:block;
+  z-index:100;
+  width:6px;
+  height:5000px;
+  position:absolute;
+  top:0;
+  right:0;
+  // Customize the gradient here:
+  // http://www.colorzilla.com/gradient-editor/#272b37+0,272b37+100&1+0,0+0,0.04+20,0.08+40,0.1+54,0.18+77,0.26+100;Custom
+  // Don't forget to update the url when you're done!
+  background: -moz-linear-gradient(left,  rgba(39,43,55,0) 0%, rgba(39,43,55,0.04) 20%, rgba(39,43,55,0.08) 40%, rgba(39,43,55,0.1) 54%, rgba(39,43,55,0.18) 77%, rgba(39,43,55,0.26) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(39,43,55,0)), color-stop(20%,rgba(39,43,55,0.04)), color-stop(40%,rgba(39,43,55,0.08)), color-stop(54%,rgba(39,43,55,0.1)), color-stop(77%,rgba(39,43,55,0.18)), color-stop(100%,rgba(39,43,55,0.26))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(39,43,55,0) 0%,rgba(39,43,55,0.04) 20%,rgba(39,43,55,0.08) 40%,rgba(39,43,55,0.1) 54%,rgba(39,43,55,0.18) 77%,rgba(39,43,55,0.26) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(39,43,55,0) 0%,rgba(39,43,55,0.04) 20%,rgba(39,43,55,0.08) 40%,rgba(39,43,55,0.1) 54%,rgba(39,43,55,0.18) 77%,rgba(39,43,55,0.26) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(39,43,55,0) 0%,rgba(39,43,55,0.04) 20%,rgba(39,43,55,0.08) 40%,rgba(39,43,55,0.1) 54%,rgba(39,43,55,0.18) 77%,rgba(39,43,55,0.26) 100%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(39,43,55,0) 0%,rgba(39,43,55,0.04) 20%,rgba(39,43,55,0.08) 40%,rgba(39,43,55,0.1) 54%,rgba(39,43,55,0.18) 77%,rgba(39,43,55,0.26) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00272b37', endColorstr='#42272b37',GradientType=1 ); /* IE6-9 */
+}
+.navmenu-w-search-container,
+.navmenu-w-mobile-top,
+.navtray-w-tall,
+.navtray-w-short,
+.navbar-outer{
+  z-index:10;
+}
+
+
+
 } // max-width: 767px
 
 
@@ -1140,12 +1199,12 @@
   .navmenu-w-search {
     .navmenu-search-section-input {
       input[type=text]{
-        width:80%;
+        width:80%;  // CJM TODO
       }
     }
   }
 }
-}
+} 
 
 
 
@@ -1180,28 +1239,27 @@
 .navbar-mobile {
   height: $navbarMobileHeight;
 }
-
-.page-wrap-inner.show-mobile-menu {
-  left:$navMobileWidth;
-}
 .mobile-screen-overlay {
   top: $navbarMobileHeight;
   left: 0;
 }
 
-.nav-outer-container {
-  width:$navMobileWidth;
-  left:-$navMobileWidth;
+
+
+.page-wrap-inner.show-mobile-menu {
+  left:$navMobileWidth320;
 }
-
-
+.nav-outer-container {
+  width:$navMobileWidth320;
+  left:-$navMobileWidth320;
+}
 // for the mobile search results, the menu goes full-width.
 .page-wrap-inner.show-mobile-menu.show-mobile-search-results {
   .mobile-screen-overlay,
   .navbar-mobile,
   #main-wrapper,
   #footer-wrapper {
-    left: 101 - $navMobileWidth;
+    left: 101 - $navMobileWidth320;
   }
 }
 
@@ -1232,6 +1290,7 @@
   .sprite-32a-sony-logo {
     margin-top:12px;
     margin-left:-36px;
+    -webkit-transform: none; // override the flicker fix on iPad, to fix blurry icon on Android. Oh, joy!
   }
 }
 
@@ -1252,8 +1311,69 @@
   }
 }
 
+.bp-nav-mobile{
+  .navmenu-w-search {
+    &.searching {
+      .navmenu-search-section-results {
+        .navmenu-search-results {
+          .btn-show-all-results {
+            width: auto;
+            display:block;
+            margin: 5px 20px 50px;
+          }
+        }
+      }
+    }
+  }
+}
+
 } // max-width: 479px
 
 
+
+
+
+
+
+// For 360px wide (half-1080p) phones, the default setting would have the nav icon close but not right on the edge.
+// So override to set the icon right on the edge where it belongs.
+@media (min-width: px-em(354px)) and (max-width: px-em(369px)) {
+.page-wrap-inner.show-mobile-menu {
+  left:$navMobileWidth360;
+}
+.nav-outer-container {
+  width:$navMobileWidth360;
+  left:-$navMobileWidth360
+}
+// for the mobile search results, the menu goes full-width.
+.page-wrap-inner.show-mobile-menu.show-mobile-search-results {
+  .mobile-screen-overlay,
+  .navbar-mobile,
+  #main-wrapper,
+  #footer-wrapper {
+    left: 101 - $navMobileWidth360;
+  }
+}
+}
+
+// Same as 360 but for 400.
+@media (min-width: px-em(392px)) and (max-width: px-em(408px)) {
+.page-wrap-inner.show-mobile-menu {
+  left:$navMobileWidth400;
+}
+.nav-outer-container {
+  width:$navMobileWidth400;
+  left:-$navMobileWidth400
+}
+// for the mobile search results, the menu goes full-width.
+.page-wrap-inner.show-mobile-menu.show-mobile-search-results {
+  .mobile-screen-overlay,
+  .navbar-mobile,
+  #main-wrapper,
+  #footer-wrapper {
+    left: 101 - $navMobileWidth400;
+  }
+}
+}
 
 

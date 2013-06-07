@@ -166,7 +166,7 @@ mixin scrollToTop()
 mixin docsLinks( listName, suffix, exclude )
   //- Not sure why `locals` can only be used inside a mixin
   list = locals[ listName ]()
-  href = '../build/deploy/'
+  href = locals.getDocsHref()
   lastPageTitle = null
 
   if exclude

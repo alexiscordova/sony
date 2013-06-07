@@ -23,21 +23,6 @@ define(function(require) {
 
   var self = {
     'init': function() {
-      /*  !! DISABLED SINCE IQ IS EXPENSIVE AND WE'RE NOT WORRIED ABOUT ADAPTIVE IMAGES WHEN THE BROWSER RESIZES
-      var breakpoints = [ 360, 479, 567, 640, 767, 979, 1100 ];
-      var breakpointReactor = function( e ) {
-        //iQ.update();
-      };
-
-      if( enquire ) {
-        for( var i=0; i < breakpoints.length; i++ ) {
-          if( 0 === i ) {
-            enquire.register( "(max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-          } else {
-            enquire.register( "(min-width: " + ( breakpoints[ i-1 ] + 1 ) + "px) and (max-width: " + breakpoints[ i ] + "px)", breakpointReactor).listen();
-          }
-        }
-      } */
 
       // detect if there are any hotspot containers present
       $( '.hotspot-instance' ).each( function( index, el ) {
@@ -59,11 +44,6 @@ define(function(require) {
     self.$container                     = $( element );
     // collection of hotspots we must initialize
     self.$els                           = self.$container.find( ".hspot-outer" );
-
-/*
-    // COORDINATES AND HOTSPOT STATUS COLLECTION
-    self.$hotspotData                    = [];
-*/
 
     // LAST OPEN
     self.$lastOpen                       = null;
@@ -104,7 +84,7 @@ define(function(require) {
 
     self.isDesktop = false;
     self.isMobile = false;
-    
+
     // EXTEND THIS OBJECT TO BE A JQUERY PLUGIN
     $.extend( self, {}, $.fn.hotspotsController.defaults, options, $.fn.hotspotsController.settings );
     self.init();
@@ -115,13 +95,6 @@ define(function(require) {
     init : function() {
       var self = this;
 
-      // inject the underlay node near the top of the dom tree
-/*
-      var underlayNode = $( '.hspot-underlay' ).get( 0 );
-      $( '.hspot-underlay' ).detach();
-      $( 'body' ).append( underlayNode );
-*/
-            
       // detect what type of tracking we need to bind the instance to
       var moduleHandle = self.$container.closest( '.image-module' );
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
@@ -134,11 +107,17 @@ define(function(require) {
         self.variant        = 'variant2';
       }
 
+      //click image to close
+      moduleHandle.bind( 'click', function( event ) {
+        event.preventDefault();
+        self.clickOutside( event, self );
+      });
+
       self.id = self.trackingAsset.attr( 'id' );
 
       // IE7 zindex fix
-      if( Settings.isLTIE8 ) {
-        // address the joke that is stack order and zindexing in IE7  
+      if( Settings.isLTIE9 ) {
+        // address the joke that is stack order and zindexing in IE7
         self.hotspotId = self.id+"-hotspot";
         $( Settings.$body ).append( '<div class="ltie8-hotspot '+self.variant+'" id="'+self.hotspotId+'" />' );
         $( Settings.$body ).append( '<div class="ltie8-hotspot-arrow-left-'+self.variant+' hidden" id="'+self.hotspotId+'-arrow-left" />' );
@@ -204,14 +183,13 @@ define(function(require) {
         self.place( el );
       });
 
-
       // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO
       // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
       if( enquire ) {
         enquire.register( "(max-width: 767px)" , function() {
           self.isMobile = true;
           self.isDesktop = false;
-          
+
           self.showOverlayCentered = true;
           self.follow();
           if( self.$lastOpen ) {
@@ -222,7 +200,7 @@ define(function(require) {
         enquire.register( "(min-width: 768px)" , function() {
           self.isMobile = false;
           self.isDesktop = true;
-          
+
           self.showOverlayCentered = false;
           self.follow();
           if( self.$lastOpen ) {
@@ -256,6 +234,11 @@ define(function(require) {
       // finally, seed the hotspot to fly on 1/2 second after set conditions are met
       setTimeout(triggerInitialPosition, 500);
 
+      self.$window.on('e5-slide-change', function(){
+        log('SONY : Editorial Hotspots : E5 Slide Update');
+        Settings.isLTIE9 || self.isSmallChapter ? self.reset() : ''; 
+      });
+      
       log('SONY : Editorial Hotspots : Initialized');
     },
 
@@ -264,10 +247,10 @@ define(function(require) {
           windowHeight = self.getMaxModalHeights().maxBodyHeight,
           modalHeight  = self.$modal.height(),
           newOffset    = 0;
-      
+
         //newOffset = ( windowHeight / 2 ) - ( modalHeight / 2 );
         //self.$modal.css( 'top', newOffset+'px' );
-      
+
       self.$modal.css( 'top', '0px' );
       return;
     },
@@ -295,9 +278,6 @@ define(function(require) {
           overflow: ''
         });
       }
-
-      //self.$modal.css( 'height', '' );
-      //self.$modalBody.removeClass('in'); // need this?
 
       self.isModalOpen = false;
       self.isFadedIn = false;
@@ -357,12 +337,9 @@ define(function(require) {
               widthOffset = 0,
               heightOffset = 0;
 
-              // compensate for centering in the parent node
-              //if( $( window ).width() > 768 ) {
+              widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
+              heightOffset = parseInt( self.trackingAsset.parent().css( 'padding-top' ), 10 );
 
-                widthOffset = ( self.trackingAsset.parent().width() - assetW ) / 2;
-                heightOffset = parseInt( self.trackingAsset.parent().css( 'padding-top' ), 10 );
-              //}
               // get x coordinate
               adjustedX = ( percX * assetW ) / 100 + widthOffset;
               adjustedY = ( percY * assetH ) / 100 + heightOffset;
@@ -398,18 +375,18 @@ define(function(require) {
     bind: function( el ) {
       var self = this;
       // hotspot clicks
-      $( $( el ).find( '.hspot-core' ) ).bind( 'click', function( event ) {
+      $( el ).find( '.hspot-core' ).bind( 'click', function( event ) {
+        event.stopPropagation();
         self.click( event, self );
       });
 
-      $( $( el ).find( '.hspot-core' ) ).bind( 'mouseover', function( event ) {
+      $( el ).find( '.hspot-core' ).bind( 'mouseover', function( event ) {
         self.hover( el, self, true );
       });
 
-      $( $( el ).find( '.hspot-core' ) ).bind( 'mouseout', function( event ) {
+      $( el ).find( '.hspot-core' ).bind( 'mouseout', function( event ) {
         self.hover( el, self, false );
       });
-
     },
 
     place: function( el ) {
@@ -465,6 +442,11 @@ define(function(require) {
           self.reset();
         }
          self.open( container, hotspot, info );
+      }
+    },
+    clickOutside: function( event, self ) {
+      if( self.$lastOpen ){
+        self.reset();
       }
     },
 
@@ -560,14 +542,14 @@ define(function(require) {
         side[0] = 4;
       }
 
-      //console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', 
-                  //'\n OFFSET HIGH -> ', topOffsetHigh, 
+      //console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]',
+                  //'\n OFFSET HIGH -> ', topOffsetHigh,
                   //'\n OFFSET LOW -> ', topOffsetLow,
                   //'\n hotspotPosition.top ->', hotspotPosition.top,
                   //'\n parentHeight ->', parentHeight,
                   //'\n overlayHeight ->', overlayHeight,
                   //'\n CRAZY MATH =>', ((hotspotPosition.top - parentHeight) + overlayHeight)
-                 //); 
+                 //);
 
       // what vertical half are we in?
       if( hotspotPosition.top < ( parentHeight / 2 ) ) {
@@ -592,7 +574,7 @@ define(function(require) {
         break;
       }
 
-      // will it fit? 
+      // will it fit?
       overlayOffset = ((hotspotPosition.top - parentHeight) + overlayHeight);
 
       // adjust layout classes per quadrant
@@ -606,20 +588,20 @@ define(function(require) {
           // If we are running inside a chapter module we need to caclulate different top values
           if( self.isChapter && self.isSmallChapter ) {
             if (quadrant === 1) {
-              // also check if it fits within the parentHeight 
-              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
-            } else { 
-              // also check if it fits within the parentHeight 
+              // also check if it fits within the parentHeight
+              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' ) : $overlay.css( 'top', '-'+(topOffsetHigh - 50)+'px' );
+            } else {
+              // also check if it fits within the parentHeight
               (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetLow - (overlayOffset/2) )+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
             }
           // ELSE we run default top values
           } else {
             if (quadrant === 1) {
               $overlay.css( 'top', '-'+topOffsetHigh+'px' );
-            } else { 
-              // also check if it fits within the parentHeight 
+            } else {
+              // also check if it fits within the parentHeight
               $overlay.css( 'top', '-'+topOffsetLow+'px' );
-            }    
+            }
           } // end if(isChapters)
         break;
         case 2:
@@ -630,7 +612,7 @@ define(function(require) {
 
           // NOTE:
           // If we are running inside a chapter module we need to caclulate different top values
-          if ( self.isChapter && self.isSmallChapter) {
+          if ( self.isChapter && self.isSmallChapter ) {
             if (quadrant === 2) {
               (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ) )+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
             } else {
@@ -647,7 +629,7 @@ define(function(require) {
         break;
       }
 
-      //console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', $parentContainer.get(0), $overlay.get(0)); 
+      //console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', $parentContainer.get(0), $overlay.get(0));
     },
 
     // determines if the overlay fits within the parent or does not
@@ -668,17 +650,17 @@ define(function(require) {
         return false;
       }
 
-      if ( overlayHeight >= parentHeight ) {
+      if ( overlayHeight >= (parentHeight - 50) ) {
         //console.warn('[[HOTSPOT CONTROLLER -- overlay doesnt fit]]');
-        // if it doesnt fit check if we can make it any shorter? 
+        // if it doesnt fit check if we can make it any shorter?
         switch(round) {
           case 0:
-            if (overlayEl.hasClass('variant2')) { 
+            if (overlayEl.hasClass('variant2')) {
               overlayEl.find('.top.is-default-on').hide();
             }
           break;
           case 1:
-            if (overlayEl.hasClass('variant2')) { 
+            if (overlayEl.hasClass('variant2')) {
               overlayEl.find('.footer.is-default-on').hide();
             }
           break;
@@ -719,12 +701,12 @@ define(function(require) {
         }
 
 
-        if( Settings.isLTIE8 ) {
+        if( Settings.isLTIE9 ) {
           $( Settings.$body ).find( '#'+self.hotspotId ).html( '' );
           $( '#'+self.hotspotId+'-arrow-left' ).addClass( 'hidden' );
           $( '#'+self.hotspotId+'-arrow-right' ).addClass( 'hidden' );
         }
-        
+
         // begin fade out
         self.transition([
           info.parent().find('.arrow-left'),
@@ -758,7 +740,7 @@ define(function(require) {
           overlayHeight          = info.height(),
           overlayWidth           = info.width(),
           overlayObj             = { "h" : overlayHeight, "w" : overlayWidth, "el" : info };
-      
+
       info.addClass('hidden'); // need to get the elements values
 
       // we are setting display:none when the trasition is complete, and managing the timer here
@@ -796,12 +778,12 @@ define(function(require) {
         //$( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
         self.reanchor( container, hotspot, info, true );
       } else {
-        if( Settings.isLTIE8 ) {
+        if( Settings.isLTIE9 ) {
           // turn on the window
           info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           // get the global handle for iE7
           var $ieHackAttack = $( Settings.$body ).find( '#'+self.hotspotId );
-          // apply the offset window value 
+          // apply the offset window value
           $ieHackAttack.css({
             'left': info.offset().left,
             'top': info.offset().top
@@ -821,13 +803,16 @@ define(function(require) {
             'top': $arrow.offset().top
           });
         } else {
-          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' ); 
+          info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
         }
       }
+      
     },
 
     reset: function( container ) {
       var self = this;
+      if ( !self.$lastOpen ) { return; }
+
       self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
     },
 

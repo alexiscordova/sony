@@ -40,6 +40,7 @@ define(function(require) {
     self.$container = $container;
     self.$activeNavBtns = self.$container.find('.nav-dropdown-toggle');
     self.$searchBtn = self.$activeNavBtns.filter('[data-target="navmenu-w-search"]');
+    self.$searchInput = $('#nav-search-input');
     self.$navbar = $('#navbar');
     self.$currentOpenNavBtn = false;
     self.$pageWrapOuter = $('#page-wrap-outer');
@@ -47,6 +48,7 @@ define(function(require) {
     self.fullAccountUsername = self.$accountUsername.text();
     self.mobileNavIScroll = false;
     self.mobileNavVisible = false;
+    self.mobileNavHasShadow = false;
     self.mobileNavThreshold = 767;
     self.mobileFooterThreshold = 567;
     self.isSearchOpen = false;
@@ -165,6 +167,8 @@ define(function(require) {
 
         $thNavBtn.on('click touchstart mouseenter focus', function(e) {
           e.preventDefault();
+          // alert("click touchstart mouseenter focus");   
+          // WHAAT THEE FRAAAACK ANDROID!?
         });
 
         // init
@@ -182,6 +186,7 @@ define(function(require) {
         if ( self.hasTouch ) {
           // console.log('init hammer');
           // Use hammer.js to detect taps
+          // HAAAALP! DEBUGGING ON ANDROID
           $thNavBtn.hammer().on('tap', $.proxy( self.onNavBtnTap, self ) );
 
         // NOT touch device - set up HOVER triggers
@@ -255,6 +260,7 @@ define(function(require) {
     },
 
     onPageWrapOuterPress : function( e ) {
+
       // as long as the click wasn't on one of the nav-menu/trays,
       // or one of their children,
       // or one of the activeNavBtns, reset any active menus.
@@ -262,14 +268,12 @@ define(function(require) {
           $target = $( e.target ),
           isClickOnNavItem = $target.hasClass('navtray-w') || $target.hasClass('navmenu-w') || $target.hasClass('nav-dropdown-toggle') || $target.parents('.navtray-w,.navmenu-w,nav-dropdown-toggle, .nav').length > 0;
 
-      // console.log('onPageWrapOuterPress', 'isClickOnNavItem: ', isClickOnNavItem );
+      // alert('onPageWrapOuterPress', 'isClickOnNavItem: ', isClickOnNavItem );
 
       if ( !isClickOnNavItem ) {
-        // $('.nav .nav-li a.active').trigger('touchstart');
-        // self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
         self.closeActiveNavBtn();
         self.isSearchOpen = false;
-        $('#nav-search-input').blur();
+        self.blurSearchInput();
       }
     },
 
@@ -397,9 +401,6 @@ define(function(require) {
           isATrayMenuOpen = $currentBtn !== false,
           isThisTrayMenuOpen = isATrayMenuOpen && $navBtn.is( $currentBtn );
 
-          // do i need this?
-      // $('#nav-search-input').blur();
-
       // This tray/menu is open, close it
       if ( isThisTrayMenuOpen ) {
         // console.log( 'this tray menu is open already. Close it.' );
@@ -443,7 +444,7 @@ define(function(require) {
       // Set active nav button
       self.setActiveNavBtn( $navBtn );
 
-      $('#nav-search-input').blur();
+      self.blurSearchInput();
     },
 
     onNavBtnMouseLeave : function( e ) {
@@ -469,8 +470,6 @@ define(function(require) {
       $target.data('hovering', true);
       // console.log('%c' + $target[0].id + ' [ENTER]', 'color:blue;');
       // console.log($target[0].id + ' [ENTER]');
-      // self.clearMouseleaveTimer();
-      // $( e.delegateTarget ).data( 'hovering', true );
     },
 
     onNavBtnTargetMouseLeave : function( e ) {
@@ -484,7 +483,7 @@ define(function(require) {
 
       // Remove focus from search input on mouse out in ie
       if (Settings.isLTIE10) {
-        $('#nav-search-input').blur();
+        self.blurSearchInput();
       }
       if (Settings.isLTIE9) {
         $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible');
@@ -498,7 +497,7 @@ define(function(require) {
       var self = this;
 
       if ( Settings.isLTIE10 ) {
-        $('#nav-search-input').blur();
+        self.blurSearchInput();
       }
 
       if ( Settings.isLTIE9 ) {
@@ -588,33 +587,6 @@ define(function(require) {
       // self.$accountBtn
     },
 
-
-    // startMouseleaveTimer : function( $navBtn ) {
-    //   var self = this,
-    //     delay = self.closeDelay + 25;
-
-    //   // Clear the current timer if it exists
-    //   self.clearMouseleaveTimer();
-
-    //   // If this timer expires, the current nav button and tray/menu will be reset
-    //   self.closeTimer = setTimeout(function closeTimer() {
-    //     self.mouseTimerExpired( $navBtn );
-    //   }, delay);
-    // },
-    // clearMouseleaveTimer : function() {
-    //   if ( this.closeTimer ) {
-    //     clearTimeout( this.closeTimer );
-    //   }
-    // },
-    // // Reset nav button and tray/menu
-    // mouseTimerExpired : function( $navBtn ) {
-    //   var self = this;
-
-    //   self.resetActiveNavBtn( $navBtn );
-    //   // self.clearMouseleaveTimer();
-    //   self.$currentOpenNavBtn = false;
-    // },
-
     // If the mouse didn't go to the tray that opened, close it
     maybeResetActiveNavBtn : function( $navBtn, $target ) {
       var self = this;
@@ -699,26 +671,6 @@ define(function(require) {
 
 
     slideNavTray : function($navTray, opening) {
-      // var self = this,
-      //     startHeight,
-      //     endHeight,
-      //     expandedHeight = $navTray.outerHeight();
-
-      // $navTray.data('expandedHeight', expandedHeight);
-
-      // if (opening) {
-      //   startHeight = expandedHeight;
-      //   endHeight = '1px';
-
-      // } else {
-      //   // if you're not opening, it's just initializing on page load
-      //   startHeight = '1px';
-      //   endHeight = expandedHeight;
-
-      // }
-
-      //$navTray.data('expandedHeight', startHeight).css('top', startHeight).find('.navtray').addClass('navtray-absolute').css('top', expandedHeight);
-
       // Wait just a moment to make sure the height is applied
       setTimeout(function() {
         // console.log( 'slideNavTray ::', 'navtray has class no-transition:', $navTray.hasClass('no-transition') );
@@ -729,8 +681,6 @@ define(function(require) {
 
         // Wait just a moment to make sure the height is applied
         setTimeout(function() {
-          // $navTray.css('height', endHeight).one(self.transitionEnd, onNavTrayComplete);
-          // var elemHeight = $navTray.find('.navtray').height();
           if (opening) {
            $navTray.addClass('navtray-w-visible');
           } else {
@@ -739,13 +689,8 @@ define(function(require) {
 
         }, 10);
       }, 10);
-
-      // function onNavTrayComplete() {
-      //   // prepare the tray for browser resize - even though it's offscreen, we still need to get its natural height next time we need to expand it.
-      //   self.setNavTrayContentNaturalFlow($navTray);
-      // }
-
     },
+
     resetNavTray : function( $navTray ) {
       $navTray
         .removeClass('navtray-w-visible')
@@ -798,10 +743,6 @@ define(function(require) {
       var self = this;
 
       // Force an iQ check whenever the navs expand.
-      // $navTarget.one(self.transitionEnd, function() {
-      //   iQ.reset();
-      // });
-
       if ( Modernizr.csstransitions ) {
         $target.one( self.transitionEnd, iQ.update );
       } else {
@@ -810,12 +751,13 @@ define(function(require) {
 
       // first get the tray's natural height, which it should have offscreen.
       // expand the tray. When it's done, set it to position:relative and natural heights.
-      if (Settings.isLTIE10) {
-        // going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.
-        self.slideNavTray( $target, true );
-      } else {
-        self.slideNavTray( $target, true );
-      }
+      self.slideNavTray( $target, true );
+      // if (Settings.isLTIE10) {
+      //   // going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.
+      //   self.slideNavTray( $target, true );
+      // } else {
+      //   self.slideNavTray( $target, true );
+      // }
     },
     showNavMenu : function( $target, $navBtn ) {
       var self = this,
@@ -826,8 +768,15 @@ define(function(require) {
           // Get css
           expHeight = $revealContainer.height();
 
-      // set css
-      $revealContainer.css('height', '1px');
+      function next( $container ) {
+        // when it's done revealing, get rid of the height transition
+        $container.removeClass('transition-height');
+        // wait a tick to make sure the transition-height class is gone.
+        setTimeout(function() {
+          // reset to natural height
+          $container.css('height', '');
+        }, 0);
+      }
 
       // wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate
       setTimeout(function() {
@@ -836,21 +785,16 @@ define(function(require) {
         // wait a tick to make sure the transition-height is set before changing the height & animating.
         setTimeout(function() {
           $target.addClass('navmenu-w-visible');
-          $revealContainer.height(expHeight);
-          $revealContainer.one(self.transitionEnd, function() {
-            // when it's done revealing, get rid of the height transition
-            $revealContainer.removeClass('transition-height');
-            // wait a tick to make sure the transition-height class is gone.
-            setTimeout(function() {
-              // reset to natural height
-              $revealContainer.css('height', '');
-              // setTimeout(function() {
-              //   var expHeight = $revealContainer.height();
-              //   console.log("expHeight: " + expHeight);
-              // }, 1);
 
-            }, 0);
-          });
+          if ( Modernizr.csstransitions ) {
+            $revealContainer.height(expHeight);
+            $revealContainer.one(self.transitionEnd, function() {
+              next( $revealContainer );
+            });
+
+          } else {
+            next( $revealContainer );
+          }
         }, 0);
       }, 0);
 
@@ -886,7 +830,15 @@ define(function(require) {
         // Set css
         $carrot.css('left',carrotLeftPos+'px');
       }
+
+      // set css
+      $revealContainer.css('height', '1px');
     },
+
+    blurSearchInput : function() {
+      this.$searchInput.trigger( 'blur' );
+    },
+
     // MOBILE NAV
 
     prepMobileNav : function() {
@@ -947,28 +899,43 @@ define(function(require) {
           self.hideMobileNav();
         }
       });
-      var $thInput = $('#nav-search-input');
+      var $thInput = self.$searchInput;
 
-      $thInput.on('focus', function() {
-        if (self.$html.hasClass('bp-nav-mobile')) {
-          module.initMobileNavIScroll();
-        }
-        $('.page-wrap-inner').addClass('show-mobile-search-results');
-      }).on('blur', function() {
 
-        // disable blur on mobile search input
-        if (!self.$html.hasClass('bp-nav-mobile')) {
-          $('.page-wrap-inner').removeClass('show-mobile-search-results');
-        }
-      }).closest('.input-group').find('.input-clear-btn').on(self.tapOrClick, function() {
-        if (self.$html.hasClass('bp-nav-mobile')) {
-          module.initMobileNavIScroll();
-          $('.page-wrap-inner').removeClass('show-mobile-search-results');
-          setTimeout(function() {
-            $thInput.trigger('blur');
-          }, 0);
-        }
-      });
+      // set up shadow / gradient bar. Yep, this was the best way to do it.
+      if ($('html').hasClass('cssgradients') && !self.mobileNavHasShadow){
+        var $mobileNavShadow = $('<i/>',{
+          "class" : "nav-mobile-nav-shadow"
+        });
+        $('.nav-mobile-scroller').append($mobileNavShadow);
+        self.mobileNavHasShadow = true;
+      }
+
+      $thInput
+        .on('focus', function() {
+          if (self.$html.hasClass('bp-nav-mobile')) {
+            module.initMobileNavIScroll();
+          }
+          $('.page-wrap-inner').addClass('show-mobile-search-results');
+        })
+        .on('blur', function() {
+
+          // disable blur on mobile search input
+          if (!self.$html.hasClass('bp-nav-mobile')) {
+            $('.page-wrap-inner').removeClass('show-mobile-search-results');
+          }
+        })
+        .closest('.input-group')
+        .find('.input-clear-btn')
+          .on(self.tapOrClick, function() {
+            if (self.$html.hasClass('bp-nav-mobile')) {
+              module.initMobileNavIScroll();
+              $('.page-wrap-inner').removeClass('show-mobile-search-results');
+
+              // Blur the search input
+              setTimeout( $.proxy( self.blurSearchInput, self ), 0);
+            }
+          });
 
       Environment.on('global:resizeDebounced', $.proxy(self.resizeUpdateMobileNav,self));
 
@@ -1210,23 +1177,24 @@ define(function(require) {
         hScrollbar : false,
         snap : false,
         momentum : true,
+        fadeScrollbar: true,
         bounce : false,
         onBeforeScrollStart: function(e) {
-          var target = e.target;
+          var target = e.target,
+              nodeName;
 
           while ( target.nodeType !== 1 ) {
             target = target.parentNode;
           }
 
-          if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+          nodeName = target.nodeName;
+
+          if (nodeName !== 'SELECT' && nodeName !== 'INPUT' && nodeName !== 'TEXTAREA') {
             e.preventDefault();
           }
         },
-        onScrollMove: function() {
-          // iQ throttles itself.
-          iQ.update();
-        }
-
+        // iQ throttles itself.
+        onScrollMove: iQ.update
       });
 
       // Update images w/o scrolling

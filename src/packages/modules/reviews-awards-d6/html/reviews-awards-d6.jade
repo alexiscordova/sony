@@ -7,7 +7,12 @@ section.raa-module(id = data.id ? data.id : false)
     .grid
       h2.l1 Reviews
 
-  .container.raa-content(class=(data.userReviews.count <= 0) ? "no-user-reviews" : "has-user-reviews")(class=(data.expertReviews) ? "has-expert-reviews" : "no-expert-reviews")(class=(data.awards) ? "has-awards" : "no-awards")
+  if data.userReviews
+    - userReviewClass = (data.userReviews.count <= 0) ? "no-user-reviews" : "has-user-reviews"
+  else
+    - userReviewClass = "no-user-reviews"
+
+  .container.raa-content(class=userReviewClass)(class=(data.expertReviews) ? "has-expert-reviews" : "no-expert-reviews")(class=(data.awards) ? "has-awards" : "no-awards")
 
     .grid.raa-merged-wrapper.no-grid-at-567
       div.raa-merged-carousel-wrapper.raa-user-reviews.raa-expert-reviews.span12
@@ -26,56 +31,58 @@ section.raa-module(id = data.id ? data.id : false)
 
         div
           .raa-user-reviews-carousel
-             .carousel-slide
+            .carousel-slide
 
-              div.user-ratings(data-header="Users Say")
-                if data.userReviews && data.userReviews.count > 0
-                  div.raa-overall
-                    div.raa-stars
-                      - for ( i = 1; i <= 5; i++ ) {
-                        - starClass = "star"+i
-                        if i < data.userReviews.average
-                          - starClass += " on"
-                        i.fonticon-10-star.star(class=starClass)
-                      - }
-                    p.average-rating.p2
-                      strong #{data.userReviews.average}
-                      span.p3  based on
-                        a(href=data.userReviews.reviewPageLink)  #{data.userReviews.count} reviews
-                  dl.raa-breakdown
-                    for item in data.userReviews.criteria
-                      div
-                        dt.l3 #{item.name}
-                        div.raa-rating-bar
-                          div.raa-rating-bar-score(class = "score-" + Math.round(item.score))
-                        dd.t6 #{Math.round(item.score)}
-                  div.cta
-                    a.btn.btn-small(href="#") Add your own review
-
-                else
-                  div.raa-overall
-                    div
+              if data.userReviews
+                div.user-ratings(data-header="Users Say")
+                  if data.userReviews && data.userReviews.count > 0
+                    div.raa-overall
                       div.raa-stars
                         - for ( i = 1; i <= 5; i++ ) {
-                          i.fonticon-10-star.star(class="star"+i)
+                          - starClass = "star"+i
+                          if i < data.userReviews.average
+                            - starClass += " on"
+                          i.fonticon-10-star.star(class=starClass)
                         - }
-                      p.zero-ratings.p2
+                      p.average-rating.p2
                         strong #{data.userReviews.average}
-                        span  reviews
-                      p Currently there are no reviews. Would you like to be the first?
-                      div.cta
-                        a.btn.btn-small(href="#") Add your own review
+                        span.p3  based on
+                          a(href=data.userReviews.reviewPageLink)  #{data.userReviews.count} reviews
+                    if data.userReviews.criteria
+                      dl.raa-breakdown
+                        for item in data.userReviews.criteria
+                          div
+                            dt.l3 #{item.name}
+                            div.raa-rating-bar
+                              div.raa-rating-bar-score(class = "score-" + Math.round(item.score))
+                            dd.t6 #{Math.round(item.score)}
+                    div.cta
+                      a.btn.btn-small(href="#") Add your own review
 
-              if data.userSocialMentions
-                for item in data.userSocialMentions
-                  div.raa-social-mention(data-header="Users Say")
-                    aside
-                      blockquote.bq2
-                        p #{item.message}
-                      div.p4.lt
-                        a(href=item.profileLink)
-                          img(src=item.profileImage)
-                          | #{item.name}
+                  else
+                    div.raa-overall
+                      div
+                        div.raa-stars
+                          - for ( i = 1; i <= 5; i++ ) {
+                            i.fonticon-10-star.star(class="star"+i)
+                          - }
+                        p.zero-ratings.p2
+                          strong #{data.userReviews.average}
+                          span  reviews
+                        p Currently there are no reviews. Would you like to be the first?
+                        div.cta
+                          a.btn.btn-small(href="#") Add your own review
+
+                if data.userSocialMentions
+                  for item in data.userSocialMentions
+                    div.raa-social-mention(data-header="Users Say")
+                      aside
+                        blockquote.bq2
+                          p #{item.message}
+                        div.p4.lt
+                          a(href=item.profileLink)
+                            img(src=item.profileImage)
+                            | #{item.name}
 
       if !userReviewTakeover
         aside.span4.raa-expert-reviews

@@ -67,7 +67,6 @@ define(function(require){
           $destinationSlide;
 
       $destinationSlide = $slideSet.eq(which);
-
       if ( !$destinationSlide ) { return; }
 
       // TODO : Note that, below, the `active` class is peppered onto the classes.
@@ -84,32 +83,13 @@ define(function(require){
         });
 
         self.$el.css(Modernizr.prefixed('transitionDuration'), speed + 'ms' );
-
-        if (self.chapters) {
-          $destinationSlide.addClass('active').siblings().removeClass('active');
-          $destinationSlide.addClass('posActive');
-
-          setTimeout(function(){
-            $destinationSlide.siblings().removeClass('posActive');
-            // sometimes destination slide's posActive class is removed if it
-            // runs on change from hash updates. Lets check and add it back!
-            if(!$destinationSlide.hasClass('posActive')){ $destinationSlide.addClass('posActive'); }
-          }, speed);
-
-        } else {
-          $destinationSlide.addClass('active')
-            .siblings().removeClass('active');
-        }
+        $destinationSlide.addClass('active').siblings().removeClass('active');
 
       } else {
+        $destinationSlide.addClass('active').siblings().removeClass('active');
         var $sibs = $destinationSlide.siblings();
-
-        $sibs.fadeOut(speed, function(){
-          $sibs.removeClass('active');
-        });
-        $destinationSlide.fadeIn(speed, function(){
-          $destinationSlide.addClass('active');
-        });
+        $sibs.fadeOut(speed);
+        $destinationSlide.fadeIn(speed);
       }
 
       self.currentSlide = which;
@@ -192,10 +172,7 @@ define(function(require){
     CSS3Easing: 'cubic-bezier(0.000, 1.035, 0.400, 0.985)',
 
     // Use CSS3 transitions and transforms over jQuery animations if possible.
-    useCSS3: true,
-
-    // if this is used for e5 chapters it runs slightly different logic
-    chapters: false
+    useCSS3: true
   };
 
 });
