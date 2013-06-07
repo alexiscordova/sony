@@ -243,7 +243,7 @@ define(function(require){
       this.targetOffset = newOffset;
       if ( scrollspy ) {
         // Sony Google TV has problems
-        if ( Settings.isGoogleTV ) {
+        if ( Settings.isGoogleTV || Settings.isPS3 ) {
           newOffset += 5;
         }
         scrollspy.options.offset = newOffset;
