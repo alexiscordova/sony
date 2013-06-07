@@ -107,6 +107,16 @@ define(function(require){
                 'overflow' : ''
               });
             }
+
+            self.$el.find('.fp-ratio').css({
+              'padding-top': self.$el.find('.player').data('ratio') * 100 + '%'
+            });   
+            
+            self.$engine.css('top' , 0);    
+
+            if(self.$el.hasClass('normal')){
+              self.$el.css('height', '');
+            }     
           }
 
         });
