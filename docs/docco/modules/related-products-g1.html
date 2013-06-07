@@ -1606,9 +1606,11 @@ if their interaction time and movements are below certain thresholds.</p>       
         <span class="keyword">if</span> (slideVariation !== <span class="string">'3up'</span>) {
 
 
-          <span class="keyword">if</span> (slideVariation === <span class="string">'4up'</span> &amp;&amp; self.isTabletMode &amp;&amp; tileHeight &gt; <span class="number">204</span> &amp;&amp; self.$win.width() &lt; <span class="number">769</span>) {
-            tileHeight = $slide.find(<span class="string">'.gallery-item.plate'</span>).first().height();
-          }
+<span class="comment">/*          if (slideVariation === '4up' &amp;&amp; self.isTabletMode &amp;&amp; tileHeight &gt; 204 &amp;&amp; self.$win.width() &lt; 769) {
+            tileHeight = $slide.find('.gallery-item.plate').first().height();
+          }*/</span>
+          
+          tileHeight = $slide.find(<span class="string">'.gallery-item.plate'</span>).first().height();
 
           $slide.find(<span class="string">'.gallery-item.normal'</span>).css({
             <span class="string">'max-height'</span>: tileHeight,
