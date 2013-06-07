@@ -448,11 +448,11 @@ define(function(require){
 
       // need to set a tmeout of 100ms so we can
       // fix a flicker bug on mobile devices
+
       $currTab.addClass('active');
-      setTimeout(function(){
-        $chapterTabs.removeClass('active');
+
+      $chapterTabs.removeClass('active');
         self.internalSlideStart();
-      },100);
 
       // update the hash after we got the correct slide transition
       self.updateHash(self.location, self.currentId);
@@ -462,7 +462,11 @@ define(function(require){
       var self = this;
 
       self.$internalSlides = self.$el.find('.sen-carousel-slide.active .slides').children();
+
+      self.$internalSlides.hide();
+
       self.$currentSlide = self.$internalSlides.first();
+      self.$currentSlide.show();
 
       self.interval = setInterval($.proxy(self.showNextSlide, self), 3500);
     },

@@ -493,7 +493,7 @@ define(function(require){
     // Updates the count displayed at the top left, above the products.
     updateProductCount : function() {
       var self = this,
-          count = self.shuffle ? self.shuffle.visibleItems : self.$items.length;
+          count = self.shuffle ? self.shuffle.visibleItems : self.$items.filter('.filtered').length;
 
       // The recommended gallery tile is actually a gallery item
       if ( self.hasRecommendedTile ) {
@@ -1537,6 +1537,7 @@ define(function(require){
           $visible = self.$items.filter('.filtered'),
           statuses = {},
           lastFilterGroup = self.lastFilterGroup,
+          secondLastFilterGroup = self.secondLastFilterGroup,
           isRange = lastFilterGroup === 'price',
           isRangeActive = self.filters.range.price.max !== undefined && (self.filters.range.price.max !== self.MAX_PRICE || self.filters.range.price.min !== self.MIN_PRICE);
 
@@ -1575,7 +1576,12 @@ define(function(require){
             hasActiveFilter;
 
         for ( filterName in self.filterValues ) {
-          hasActiveFilter = filterName === lastFilterGroup;
+          // If the current filter is the last one, and one of the following:
+            // the current filter is also the second to last filter
+            // the second to last filter is null
+            // the second to last filter is price
+          // Then the current filter group should be skipped
+          hasActiveFilter = filterName === lastFilterGroup && ( secondLastFilterGroup === lastFilterGroup || secondLastFilterGroup === null || secondLastFilterGroup === 'price' );
           statuses[ filterName ] = {};
 
           for ( filterValue in self.filterValues[ filterName ] ) {
@@ -1814,7 +1820,7 @@ define(function(require){
       $maxOutput = $output.find('.range-output-max .val'),
 
       // Var to only call requestAnimationFrame once per frame
-      isTicking = false,
+      requestID = false,
 
       delay = self.hasTouch ? 1000 : 750,
       method = self.hasTouch ? 'debounce' : 'throttle',
@@ -1827,16 +1833,16 @@ define(function(require){
       }
 
       function slid() {
-        if ( isTicking ) {
-          return;
-        }
-
         var args = Array.prototype.slice.call( arguments, 0 );
-        isTicking = true;
 
         // Only use rAF if it's native
         if ( Modernizr.raf ) {
-          requestAnimationFrame( function updateWrap() {
+
+          // Make sure two call aren't executed in the same frame
+          if ( requestID ) {
+            cancelAnimationFrame( requestID );
+          }
+          requestID = requestAnimationFrame( function updateWrap() {
             update.apply( null, args );
           });
         } else {
@@ -1872,7 +1878,7 @@ define(function(require){
           debouncedFilter();
         }
 
-        isTicking = false;
+        requestID = false;
       }
 
       // Show what's happening with the range control
@@ -3893,7 +3899,7 @@ define(function(require){
   };
 
   // Event triggered when the next tab/pane is finished being shown
-  module.onGalleryTabShown = function( evt ) {
+  module.onGalleryTabShown = function() {
     // Only continue if this is a tab shown event.
     var $pane = $( this ),
         $galleries,

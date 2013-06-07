@@ -328,7 +328,8 @@
   $btnAltBackground:                $gray20 !default;
   $btnAltBackgroundHover:           $gray40 !default;
   $btnAltBackgroundActive:          lighten($gray20,4%) !default;
-  $btnAltSpecialPadding:            24px;
+  $btnAltSpecialPadding:            1.5em; // 24px;
+
 
   $btnPromoBackground:              $grayDarkerFieldSmall !default;
   $btnPromoBackgroundHover:         darken($grayDarkerFieldSmall,5%) !default;
@@ -497,7 +498,7 @@
 
   // Horizontal forms & lists
   // -------------------------
-  $horizontalComponentOffset: 180px;
+  $horizontalComponentOffset: 11.25em; // 180px;
 
 
   // Wells
@@ -532,12 +533,12 @@
   $flagSpritePath:          "../img/spritesheets/flags.png" !default;
   $flagSpritePath_2x:       "../img/spritesheets/flags@2x.png" !default;
 
-  $spritePath_2x_size:      1088px 550px;
-  $flagSpritePath_2x_size:  850px 26px;
+  $spritePath_2x_size:      168px 32px;
+  $flagSpritePath_2x_size:  260px 238px;
 
-  $sprite_16a_Y:        0px;
-  $sprite_16b_Y :       -16px;
-  $sprite_32a_Y :       -32px;
+  $sprite_32a_Y :       0px;
+  $sprite_16a_Y:        -32px;
+  $sprite_16b_Y :       -48px;
   $sprite_32b_Y :       -64px;
 
   $sprite_flagBig_Y :     0px;
@@ -566,8 +567,8 @@
 //  "Y8888P88 888  "Y88P"  88888P"  "Y888888 888       888    Y888 "Y888888   Y88P
 // ------------------------------------------------
 .NAV{}
-  $navMaxWidth:                 1125px !default;
-  $navtrayMaxWidth:             1200px !default;
+  $navMaxWidth:                     70.3125em !default; // 1125px;
+  $navtrayMaxWidth:                 75em !default; // 1200px
 
   $navbarHeight:                    64px !default;
   $navbarLineHeight:                60px !default;
@@ -575,9 +576,9 @@
   $navbarHeightShort:               52px !default;
   $navbarLineHeightShort:           48px !default;
 
-  $navbarMinSidePadding:            43px !default; // the minimum space between the edge of the nav, and the edge of the browser window
+  $navbarMinSidePadding:            2.6875em !default; // 43px the minimum space between the edge of the nav, and the edge of the browser window
 
-  $navbarCollapseWidth:             979px !default;
+  $navbarCollapseWidth:             61.1875em !default; // 979px
   $navbarMobileHeightTall:          60px !default;
   $navbarMobileHeight:              48px !default;
 
@@ -648,7 +649,7 @@
 //                              888
 // ------------------------------------------------
 .SIMPLE-NAVBAR{}
-  $simpleNavbarCollapseWidth:             979px !default;
+  $simpleNavbarCollapseWidth:             61.1875em !default; // 979px
 
   $simpleNavbarHeight:                    64px !default;
   $simpleNavbarBackground:                $black !default;
@@ -774,6 +775,8 @@
   // $gridMarginWidth      = MARGIN
   // $gridColumnWidth      = COLUMN
   // $gridGutterWidth      = GUTTER
+  // 
+  // These are all converted to percents, so no need to use ems here.
 
   $gridColumns:               12 !default;
   $mobileGridColumns:         6  !default;

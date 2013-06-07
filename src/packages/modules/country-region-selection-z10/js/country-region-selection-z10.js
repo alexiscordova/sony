@@ -46,7 +46,10 @@ define(function(require){
       var self = this;
       self.$pageWrapperOuter = $('#page-wrap-outer');
 
-      if ( self.$pageWrapperOuter.length > 0 ) {
+      var ua = navigator.userAgent.toLowerCase();
+      self.isAndroid = ua.indexOf("android") > -1;
+
+      if ( self.$pageWrapperOuter.length > 0 && !self.isAndroid) {
         self.initFullPageBuild();
         self.scrollableId = 'scroll';
       } else {
@@ -71,6 +74,7 @@ define(function(require){
 
       self.$pageWrapperInner = $('#page-wrap-inner');
       self.$scrollContainer = $('<div id="scrollcontainer">');
+
       var $scroll = $('<div id="scroll">').addClass('scrollable');
 
       self.$scrollContainer.append($scroll);
@@ -84,30 +88,31 @@ define(function(require){
     },
 
     setMobileHeight : function() {
-
-      if (window.innerWidth > 768) {
-        return;
-      }
-
       var self = this,
           winheight = parseInt($(window).height(), 10),
           navheight = parseInt($('#nav-wrapper').height(), 10);
 
-      self.$scrollContainer.css({
-        'height': winheight - navheight + 10 +'px',
-        'position': 'relative'
-      });
+      if (self.stickyHeader.loaded){
+        if (window.innerWidth > 768) {
+          return;
+        }
+        self.$scrollContainer.css({
+          'height': winheight - navheight + 10 +'px',
+          'position': 'relative'
+        });
 
-      self.stickyHeader.refresh();
-
+        self.stickyHeader.refresh();
+      }
     },
 
     resetHeight : function () {
       var self = this;
-      self.$scrollContainer.css({
-        'height': 'auto',
-        'position': 'relative'
-      });
+      if (self.stickyHeader.loaded){
+        self.$scrollContainer.css({
+          'height': 'auto',
+          'position': 'relative'
+        });
+      }
     },
 
     // Binds enquire handlers to setup page for mobile, tablet and desktop.
@@ -182,7 +187,10 @@ define(function(require){
     // Called when media query matches mobile.
     toMobile : function() {
       var self = this;
-      self.stickyHeader.enable();
+      console.log(self.stickyHeader.loaded);
+      if (self.stickyHeader.loaded){
+        self.stickyHeader.enable();
+      }
       self.resetFluidLists();
       self.setMobileHeight();
     },
@@ -190,7 +198,9 @@ define(function(require){
     // Called when media query matches tablet.
     toTablet : function() {
       var self = this;
-      self.stickyHeader.disable();
+      if (self.stickyHeader.loaded){
+        self.stickyHeader.disable();
+      }
       self.updateFluidLists('tablet');
       self.resetHeight();
     },
@@ -198,14 +208,18 @@ define(function(require){
     // Called when media query matches desktop.
     toDesktop : function() {
       var self = this;
-      self.stickyHeader.disable();
+      if (self.stickyHeader.loaded){
+        self.stickyHeader.disable();
+      }
       self.updateFluidLists('desktop');
       self.resetHeight();
     },
 
     accountForHeader : function () {
       var self = this;
-      self.$scrollContainer.height('+=10px').css('margin-top', '-10px');
+      if (self.stickyHeader.loaded){
+        self.$scrollContainer.height('+=10px').css('margin-top', '-10px');
+      }
     },
 
     unAccountForHeader : function () {
