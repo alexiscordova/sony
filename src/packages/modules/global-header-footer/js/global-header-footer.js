@@ -1173,6 +1173,7 @@ define(function(require) {
         hScrollbar : false,
         snap : false,
         momentum : true,
+        hideScrollbar: true,
         bounce : false,
         onBeforeScrollStart: function(e) {
           var target = e.target,
