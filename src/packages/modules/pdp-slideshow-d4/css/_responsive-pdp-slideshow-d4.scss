@@ -39,8 +39,53 @@ $tabletMax: px-em(979);
     .pdp-slideshow-slide.type1 .pdp-slide-inner {
       padding: 2.5% 2% 13%;
     }
-  }
 
+    .thumb-nav-container {
+      height: px-em( 52px );
+
+      .thumb-nav-grid {
+        top: -92px;
+      }
+    }
+
+    .thumb {
+      width: px-em( 62px );
+
+      a {
+
+        &.first {
+
+          &:before {
+            left: -4px;
+            width: 4px;
+          }
+
+          .active-highlight {
+            left: -4px;
+            padding-left: 4px;
+          }
+        }
+
+        &.last {
+
+          &:after {
+            right: -4px;
+            width: 4px;
+          }
+
+          .active-highlight {
+            right: -4px;
+            padding-right: 4px;
+          }
+        }
+      }
+
+      img {
+        width: px-em( 56px );
+        height: px-em( 40px );
+      }
+    }
+  }
 }
 
 // < 767
