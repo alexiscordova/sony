@@ -44,6 +44,7 @@ define(function(require){
     self.$el                     = $(element);
 
     // defaults
+    self.isAndroid               = Settings.isAndroid;
     self.isInit                  = true;
     self.isResize                = false;
     self.isAutomatic             = true;
@@ -207,7 +208,7 @@ define(function(require){
       });
     },
 
-     // register resize events for tablet/desktop and phone
+    // register resize events for tablet/desktop and phone
     'registerEnquire' : function(){
       var self = this;
 
@@ -267,7 +268,6 @@ define(function(require){
       // rest sytles on new dials
       self.setDialStyle("off");
       self.$dials.simpleKnob(self.dialStyle).show();
-
     },
 
     // set dial styles according to breakpoint and on/off state
@@ -332,13 +332,15 @@ define(function(require){
 
     'gotoPartnerProduct': function(which) {
       var self = this,
-          newSlideColor;
+          newSlideColor,
+          noAnimation = self.isAndroid;
 
       // fade out existing slide
       self.fadeOutContent(self.currentPartnerProduct);
 
       // sonyCarousel api call
-      self.$carouselInstance.sonyCarousel('gotoSlide', which);
+
+      self.$carouselInstance.sonyCarousel('gotoSlide', which, noAnimation);
 
       // fade in new slide
       self.fadeInContent(which);

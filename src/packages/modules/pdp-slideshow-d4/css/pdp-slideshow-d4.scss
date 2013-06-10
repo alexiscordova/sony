@@ -103,7 +103,7 @@
 
   > .sony-dot-nav {
     position: absolute;
-    bottom: 13px;
+    bottom: 30px;
     width: 100%;
   }
 
@@ -120,7 +120,7 @@
 
   .thumb-nav-container {
     position: relative;
-    height: 11.8032787%;
+    height: px-em( 70px );
 
     .pagination-paddles {
       top: -74px;
@@ -129,15 +129,14 @@
     .sony-dot-nav {
       position: absolute;
       width: 100%;
-      top: -53px;
+      top: -60px;
     }
   }
 
   .thumb-nav-grid {
     position: relative;
     height: 100%;
-    top: -106px;
-    overflow: hidden;
+    top: -116px;
   }
 
   .thumb-nav-carousel {
@@ -148,28 +147,27 @@
   .thumb-nav {
     width: 100%;
     height: 100%;
-    max-height: px-em( 72px );
-    min-height: px-em( 62px );
-    padding-top: 4px;
     text-align: center;
+    overflow: hidden;
 
-    &.dark .thumb .ghost-center-wrap {
+    &.dark .thumb .ghost-center-wrap,
+    &.dark .thumb a:before,
+    &.dark .thumb a:after, {
       background: $gray20;
     }
 
-    &.light .thumb .ghost-center-wrap {
+    &.light .thumb .ghost-center-wrap,
+    &.light .thumb a:before,
+    &.light .thumb a:after, {
       background: $gray80;
     }
   }
 
  .thumb {
-    width: 6.1666667%;
+    width: px-em( 72px );
     height: 100%;
-    max-width: px-em( 74px );
-    max-height: px-em( 72px );
-    min-width: px-em( 72px );
     display: inline-block;
-    margin: 0 0 8px -1px;
+    margin: 0 0 8px;
 
     .lt-ie10 & {
       width: px-em( 74px );
@@ -189,18 +187,45 @@
     img {
       position: relative;
       display: block;
-      width: 100%;
-      height: auto;
-      max-width: px-em( 68px );
-      max-height: px-em( 48px );
+      width: px-em( 64px );;
+      height: px-em( 48px );;
     }
 
     a {
       position: relative;
-      width: 100%;
+      width: 100.5%;
       height: 100%;
       display: block;
+      -webkit-backface-visibility: hidden;
       @include transition();
+
+      &.first {
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          left: -6px;
+          width: 6px;
+          height: 95%;
+          top: 5%;
+          z-index: 2;
+          -webkit-backface-visibility: hidden;
+        }
+      }
+
+      &.last {
+        &:after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: -6px;
+          width: 6px;
+          height: 95%;
+          top: 5%;
+          z-index: 2;
+          -webkit-backface-visibility: hidden;
+        }
+      }
     }
 
     a.light img {
@@ -213,29 +238,43 @@
 
     a .ghost-center-wrap {
       position: relative;
+      top: 5%;
       z-index: 1;
       height: 95%;
     }
 
     .active-highlight {
       position: absolute;
-      top: 0;
+      top: 5%;
       left: 0;
       z-index: 1;
       display: block;
       width: 100%;
       height: 5%;
       background: $linkBlue;
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      box-sizing: content-box;
 
       @include transition(top .15s linear);
       @include opacity(0);
+    }
+
+    .first .active-highlight {
+      left: -6px;
+      padding-left: 6px;
+    }
+
+    .last .active-highlight {
+      right: -6px;
+      padding-right: 6px;
     }
 
     // Show highlight bar on <a> hover
     a:hover,
     a.active {
       .active-highlight {
-        top: -5%;
+        top: 0%;
         @include opacity(100);
       }
 
