@@ -233,7 +233,7 @@ define(function(require) {
       });
 
       $('html').addClass('nav-ready');
-      if (Utilities.isAndroid){
+      if ( Settings.isAndroid ) {
         // For the Tablet S at least, in order to make the Electronics & Entertainment buttons to work (consistently, anyway), you 
         // have to trigger a redraw after the page is completely done drawing. 
         Utilities.forceWebkitRedraw();
