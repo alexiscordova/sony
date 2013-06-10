@@ -312,6 +312,7 @@ define(function(require) {
       breakpointName = breakpoint.name;
       var newsrc = getImageSrc(img, breakpointName),
         $img = $(img);
+
       // skip if new src = current
       if ($img.data('current') !== newsrc) {
         $img.data('current', newsrc);
@@ -574,6 +575,13 @@ define(function(require) {
 
     // Tells if an image is visible to the user or not.
     isInViewportRange = function(img, asyncDistance) {
+
+      // If this image has been set to `display: none`, it will false - report as being on-screen.
+      // As such return false until the object has been set to a visible display mode.
+      if ( $(img).css('display') === 'none' ) {
+        return false;
+      }
+
       var $ct = $(window);
       var is_ct_window = $ct[0] === window,
         ct_offset = (is_ct_window ? {
