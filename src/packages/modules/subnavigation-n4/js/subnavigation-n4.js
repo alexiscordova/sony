@@ -216,6 +216,13 @@ define(function(require){
       var self = this,
           $subcat = self.$el.find('#subcategory-' + which);
 
+      $subcat.find('.lazy-image').each(function(){
+        var $this = $(this);
+
+        $this.attr('src', $this.data('src'));
+        $this.removeClass('.lazy-image');
+      });
+
       self.renderSubcats($subcat, self.subcatCols);
 
       self.$subcats.removeClass('active');
