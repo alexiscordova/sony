@@ -308,16 +308,28 @@ define(function(require) {
           thumbWidth = $anchors.first().width(),
           slideWidth = $slides.first().width(),
           thumbsPerSlide = Math.max( Math.floor( slideWidth / ( thumbWidth - 1 ) ) - 1, 1 ),
-          slideCount = Math.ceil( $anchors.length / thumbsPerSlide );
+          anchorCount = $anchors.length,
+          slideCount;
 
       var $slideClone = $slides.first().clone().empty(),
           newSlides = [];
+
+      // If the final slide has less than four anchors, decrement `thumbsPerSlide` by
+      // one until the last slide has at least four anchors.
+
+      while ( anchorCount % thumbsPerSlide < 4 && thumbsPerSlide > 1 ) {
+        thumbsPerSlide = Math.max( thumbsPerSlide - 1, 1 );
+      }
+
+      slideCount = Math.ceil( anchorCount / thumbsPerSlide );
 
       for ( var i = 0; i < slideCount; i++ ) {
 
         newSlides[i] = $slideClone.clone().get(0);
 
-        $(newSlides[i]).css('left', 100 * i + '%');
+        var gridWidthRatio = self.$window.width() / self.$thumbNav.width();
+
+        $(newSlides[i]).css('left', 100 * (gridWidthRatio + 1) / 2 * i + '%');
 
         for ( var j = 0; j < thumbsPerSlide; j++ ) {
           $anchors.eq(thumbsPerSlide * i + j).appendTo(newSlides[i]);
@@ -325,6 +337,7 @@ define(function(require) {
 
         var $slideAnchors = $(newSlides[i]).find('a');
 
+        $slideAnchors.removeClass('first last');
         $slideAnchors.first().addClass('first');
         $slideAnchors.last().addClass('last');
       }

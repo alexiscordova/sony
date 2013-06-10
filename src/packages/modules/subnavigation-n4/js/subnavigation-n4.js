@@ -21,6 +21,7 @@ define(function(require){
       Environment = require('require/sony-global-environment'),
       SonyCarousel = require('secondary/index').sonyCarousel,
       throttleDebounce = require('plugins/index').throttleDebounce,
+      imagesLoaded = require('plugins/index').imagesLoaded,
       viewport = require( 'plugins/index' ).viewport;
 
   var module = {
@@ -215,6 +216,17 @@ define(function(require){
 
       var self = this,
           $subcat = self.$el.find('#subcategory-' + which);
+
+      $subcat.find('.lazy-image').each(function(){
+        var $this = $(this);
+
+        $this.attr('src', $this.data('src'));
+        $this.removeClass('.lazy-image');
+
+        $this.imagesLoaded().done(function(){
+          self.setTrayHeight();
+        });
+      });
 
       self.renderSubcats($subcat, self.subcatCols);
 
