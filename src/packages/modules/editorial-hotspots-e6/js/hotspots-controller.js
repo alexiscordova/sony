@@ -80,7 +80,7 @@ define(function(require) {
     self.isModalOpen                     = true;
     self.hasTouch                        = Settings.hasTouchEvents;
     self.isChapter                       = (self.$container.closest('.editorial-chapters-container').length) ? true : false;
-    self.isSmallChapter                  = (self.$container.closest('.editorial').length) ? true : false;
+    self.isSmallChapter                  = (self.$container.closest('.editorial-chapters-container').parents('.media-element').length) ? true : false;
 
     self.isDesktop = false;
     self.isMobile = false;
@@ -229,17 +229,18 @@ define(function(require) {
       // for inline image type
       $( window ).resize( function() {
         self.follow();
+        self.getCanvasCoordinates();
       });
 
       // finally, seed the hotspot to fly on 1/2 second after set conditions are met
       setTimeout(triggerInitialPosition, 500);
 
       self.$window.on('e5-slide-change', function(){
-        log('SONY : Editorial Hotspots : E5 Slide Update');
+        //log('SONY : Editorial Hotspots : E5 Slide Update');
         Settings.isLTIE9 || self.isSmallChapter ? self.reset() : ''; 
       });
       
-      log('SONY : Editorial Hotspots : Initialized');
+      //log('SONY : Editorial Hotspots : Initialized');
     },
 
     onModalShow: function( event ) {
@@ -552,11 +553,7 @@ define(function(require) {
                  //);
 
       // what vertical half are we in?
-      if( hotspotPosition.top < ( parentHeight / 2 ) ) {
-        side[1] = 6;
-      } else {
-        side[1] = 7;
-      }
+      ( hotspotPosition.top < ( parentHeight / 2 ) ) ? side[1] = 6 : side[1] = 7;
 
       // sum up the answer, just chose 4 weights that would never sum up the same
       switch( ( side[ 0 ] + side[ 1 ] ) ) {
@@ -584,25 +581,16 @@ define(function(require) {
           // position overlay to the left of hotspot
           $overlay.addClass( 'to-left' );
           $overlay.parent().find( '.arrow-right' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
-          // NOTE:
-          // If we are running inside a chapter module we need to caclulate different top values
-          if( self.isChapter && self.isSmallChapter ) {
-            if (quadrant === 1) {
-              // also check if it fits within the parentHeight
-              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ))+'px' ) : $overlay.css( 'top', '-'+(topOffsetHigh - 50)+'px' );
-            } else {
-              // also check if it fits within the parentHeight
-              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetLow - (overlayOffset/2) )+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
-            }
-          // ELSE we run default top values
+          if (quadrant === 1) {
+            (self.isSmallChapter) ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
           } else {
-            if (quadrant === 1) {
-              $overlay.css( 'top', '-'+topOffsetHigh+'px' );
-            } else {
-              // also check if it fits within the parentHeight
-              $overlay.css( 'top', '-'+topOffsetLow+'px' );
-            }
-          } // end if(isChapters)
+            // also check if it fits within the parentHeight
+            (self.isSmallChapter) ? $overlay.css( 'top', '-'+topOffsetLow+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
+          }
+        break;
+        case 5: 
+          // also check if it fits within the parentHeight
+          (self.isSmallChapter) ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
         break;
         case 2:
         case 3:
@@ -610,66 +598,96 @@ define(function(require) {
           $overlay.addClass( 'to-right' );
           $overlay.parent().find( '.arrow-left' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
 
-          // NOTE:
-          // If we are running inside a chapter module we need to caclulate different top values
-          if ( self.isChapter && self.isSmallChapter ) {
-            if (quadrant === 2) {
-              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetHigh - (overlayOffset + 50 ) )+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
-            } else {
-              (overlayOffset >= 0) ? $overlay.css( 'top', '-'+( topOffsetLow - (overlayOffset + 50 ) )+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
-            }
-          // ELSE we run default top values
+          if (quadrant === 2) {
+            (self.isSmallChapter) ? $overlay.css( 'top', '-'+(topOffsetHigh + 20 )+'px' ) : $overlay.css( 'top', '-'+topOffsetHigh+'px' );
           } else {
-            if (quadrant === 2) {
-              $overlay.css( 'top', '-'+topOffsetHigh+'px' );
-            } else {
-              $overlay.css( 'top', '-'+topOffsetLow+'px' );
-            }
-          } // end if(isChapters)
+            (self.isSmallChapter) ? $overlay.css( 'top', '-'+(topOffsetHigh + 20 )+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
+          }
         break;
       }
 
       //console.log('[[ HOTSPOT CONTROLLER -- repositionByQuadrant ]]', $parentContainer.get(0), $overlay.get(0));
     },
 
-    // determines if the overlay fits within the parent or does not
-    checkIfFits: function( overlay, parent, rd) {
-      var self = this,
-          round = rd,
-          overlayObj = overlay,
-          overlayHeight = overlayObj.h,
-          overlayWidth = overlayObj.w,
-          overlayEl = $(overlay.el),
-          $overlay = overlayObj.el,
-          parentObj = parent,
-          parentHeight = parentObj.h,
-          parentWidth = parentObj.w,
-          $parent = parentObj.el;
+    // determine our container height and width
+    getCanvasCoordinates: function() {
+      var coordinates = {},
+      $canvas = this.$container.closest('.editorial-carousel-slide.active');
 
-      if (self.isMobile) {
-        return false;
-      }
+      coordinates.el = $canvas;
+      coordinates.h = $canvas.height();
+      coordinates.w = $canvas.width();
+      coordinates.x = 0;
+      coordinates.x2 = coordinates.w - 80;
+      coordinates.y = 0;
+      coordinates.y2 =  coordinates.h - 80;
 
-      if ( overlayHeight >= (parentHeight - 50) ) {
-        //console.warn('[[HOTSPOT CONTROLLER -- overlay doesnt fit]]');
-        // if it doesnt fit check if we can make it any shorter?
-        switch(round) {
-          case 0:
-            if (overlayEl.hasClass('variant2')) {
-              overlayEl.find('.top.is-default-on').hide();
-            }
-          break;
-          case 1:
-            if (overlayEl.hasClass('variant2')) {
-              overlayEl.find('.footer.is-default-on').hide();
-            }
-          break;
-        }
-        return false;
-      } else {
-        //console.log('[[HOTSPOT CONTROLLER -- overlay fits]]');
+      return coordinates;
+    },
+
+    getOverlayCoords: function($overlay) {
+      var coordinates = {};
+
+      coordinates.el = $overlay;
+      coordinates.h = $overlay.height();
+      coordinates.w = $overlay.width();
+      coordinates.x = $overlay.offset().left;
+      coordinates.x2 = (coordinates.x + coordinates.w);
+      coordinates.y = $overlay.offset().top;
+      coordinates.y2 = (coordinates.y + coordinates.h);
+
+      return coordinates;
+    },
+
+    checkOverlap: function(canvas, overlay, count) {
+
+      // does our overlay overlap our canvas?
+      if (canvas.h - 100 < overlay.h) {
+
+        var $overlay = overlay.el,
+            $overlayTop = $overlay.find('.top'),
+            $overlayBot = $overlay.find('.footer');
+
+        // first check if it has a top 
+        if ($overlayTop && count === 1) { $overlayTop.addClass('hidden'); } 
+
+        // then if that fails check if it has a bottom
+        if ($overlayBot && count > 1) { $overlayBot.addClass('hidden'); }
+
+        // returns true because it does overlap
         return true;
+      } else {
+        // returns false doesnt overlap we should be good
+        return false;
       }
+    },
+
+    // determines if the overlay fits within the parent or does not
+    checkIfFits: function( el ) {
+      var self                  = this,
+          $parentContainer      = ( 'asset' === self.trackingMode ) ? el.parent().parent().parent() : el.parent(),
+          $overlay              = el.find( '.overlay-base' ),
+          count                 = 0,
+          overlayCoords,
+          canvasCoords,
+          fits;
+
+      do {
+        canvasCoords = self.getCanvasCoordinates();
+        overlayCoords = self.getOverlayCoords($overlay);
+        count++;
+
+        if (!self.checkOverlap(canvasCoords, overlayCoords, count)) {
+          self.repositionByQuadrant( el );
+          fits = true;
+        } else if (count >= 5) {
+          // there was no way of fitting the hotspot inside the container, it was a lost cause
+          self.repositionByQuadrant( el );
+          fits = true;
+        }
+
+      } while (!fits);
+
     },
 
     transition: function( collection, direction ) {
@@ -765,13 +783,9 @@ define(function(require) {
       // we have to set display: block to allow DOM to calculate dimension
       info.removeClass( 'hidden' );
 
-      // we should really check if the hotspot fits within the parent first
-      self.checkIfFits( overlayObj, parentObj, 0);
-
-      // reposition window per it's collision detection result
-      self.repositionByQuadrant( container );
-
-      //self.reposition( container );
+      // if were running a chapters we need to check if it fits, otherwise the logic is there since they allow overflowing 
+      // overlays
+      (self.isChapter || self.isSmallChapter) ? self.checkIfFits( container ) : self.repositionByQuadrant( container );
 
       // fade in info window
       if( true === self.showOverlayCentered ) {
