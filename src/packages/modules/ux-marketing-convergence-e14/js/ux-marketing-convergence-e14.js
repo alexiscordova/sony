@@ -4,7 +4,7 @@
 //
 // * **Class:** MarketingConvergenceModule
 // * **Version:** 0.2
-// * **Modified:** 06/05/2013
+// * **Modified:** 06/11/2013
 // * **Author:** George Pantazis, Telly Koosis
 // * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html), [SonyCarousel](sony-carousel.html)
 
@@ -114,8 +114,6 @@ define(function(require){
 
     // create carousel
     'initCarousel' : function(){
-      //console.log( 'initCarousel »');
-
       var self = this;
 
       self.$carouselInstance = self.$carousel.sonyCarousel({
