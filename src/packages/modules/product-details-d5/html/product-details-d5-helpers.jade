@@ -10,9 +10,6 @@ mixin cmString(cm)
 mixin measurementValues(value, dir)
   - clss = [dir + "-measurement"]
 
-  //- if ((isThin) && (dir == "vertical"))
-  //-   - clss.push('is-thin')
-
   div(class = clss)
     div.units-container
      +cmString(value.cm)
@@ -28,7 +25,6 @@ mixin measurementsList(measurements)
 
   for m in measurements
     if(m.image.srcDesktop)
-      //- - isThin = m.thinImage
       - cm = m.height.cm
       - inches = m.width.inches
       - topWrapperClasses = ["top-wrapper"]
@@ -43,11 +39,9 @@ mixin measurementsList(measurements)
               +iQImage(m.image, "pd-image")
 
             if (cm)
-              //- +measurementValues(m.height, "vertical", isThin)
               +measurementValues(m.height, "vertical")
 
           if (inches)
-            //- +measurementValues(m.width, "horizontal", isThin)
             +measurementValues(m.width, "horizontal")
 
 mixin featureList(list)
