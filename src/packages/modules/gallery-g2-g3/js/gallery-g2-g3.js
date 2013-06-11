@@ -331,7 +331,12 @@ define(function(require){
     },
 
     maybeLoadFilters : function() {
-      console.log( window.location );
+      var self = this,
+          params = Utilities.getUrlParameters();
+
+      if ( params.filters === '1' ) {
+        self.setFilterState();
+      }
     },
 
     // Retrieves the current filter state
@@ -353,7 +358,7 @@ define(function(require){
 
       // replace with $.ajax call below
       dfd = new $.Deferred();
-      localStorage.setItem( self.id, stringified );
+      localStorage.setItem( 'filters', stringified );
       dfd.resolve();
 
       // dfd = $.ajax({
@@ -368,7 +373,6 @@ define(function(require){
       var self = this;
 
       function finished( state ) {
-        console.log( state );
 
         // Need a state
         if ( !state ) {
@@ -399,12 +403,12 @@ define(function(require){
         return false;
       }
 
-      var self = this,
-          dfd;
+      var dfd;
 
       // Remove when using real ajax
       dfd = new $.Deferred();
-      dfd.resolveWith( null, [ JSON.parse( localStorage.getItem( self.id ) ) ] );
+      // resolveWith([ context, array of params ])
+      dfd.resolveWith( null, [ JSON.parse( localStorage.getItem( 'filters' ) ) ] );
 
       // dfd = $.ajax({
       //   dataType: 'json'
@@ -2804,6 +2808,11 @@ define(function(require){
           hash = hashIndex > -1 && destination.substring( hashIndex ),
           type = $btn.data( 'type' ) || '';
 
+      // Command/control click should still open a new window
+      if ( evt.metaKey ) {
+        return true;
+      }
+
       evt.preventDefault();
 
       // If there's a hash, make destination the href without the hash
@@ -2813,7 +2822,7 @@ define(function(require){
 
       if ( self.hasFilters ) {
         $.when( self.saveFilterState() ).always(function() {
-          destination += '?filters=' + self.id;
+          destination += '?filters=1';
           if ( hash ) {
             destination += hash;
           }
