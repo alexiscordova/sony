@@ -336,6 +336,7 @@ define(function(require){
 
       if ( params.filters === '1' ) {
         self.setFilterState();
+        self.scrollToFilters();
       }
     },
 
@@ -2762,6 +2763,14 @@ define(function(require){
       }
     },
 
+    scrollToFilters : function() {
+      // Scroll the window so we can see what's happening with the filtered items
+      $.simplescroll({
+        offset: 24, // margin-top of the gallery is 1.5em (24px)
+        target: this.$container
+      });
+    },
+
     onFiltersHide : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
       this.$filterArrow.removeClass('in');
@@ -2790,11 +2799,7 @@ define(function(require){
         self.filter();
       }
 
-      // Scroll the window so we can see what's happening with the filtered items
-      $.simplescroll({
-        offset: 24, // margin-top of the gallery is 1.5em (24px)
-        target: self.$container
-      });
+      self.scrollToFilters();
     },
 
     onCompareBrowseClick : function( evt ) {
