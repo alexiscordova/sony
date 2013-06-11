@@ -161,6 +161,14 @@ define(function(require){
         useSmallPaddles: !isMobile
       });
 
+      self.$navCarousel.on('sonyDraggable:dragStart', function(){
+
+      });
+
+      self.$navCarousel.on('sonyDraggable:dragEnd', function(){
+
+      });
+
       self.$navCarousel.sonyCarousel('gotoSlide', currentSlide, true);
 
       self.bindNav();
