@@ -97,27 +97,27 @@ mixin sonyVideo ( videoData, extraClasses )
 //- it will only add h#'s that exist or add classes that are defined
 //- if you pass it nothing it assumes data as the hgobject so if h#'s are defined in the top level of your json it picks them up
 //- ie: +hgroup()   or     +hgroup(someobject, "", "t3", "l1", "l2", "myclass")
-mixin hgroup (hgobject, h1class, h2class, h3class, h4class, h5class, h6class)
-  - hgobject = hgobject || data
-  - h1class = h1class || ""
-  - h2class = h2class || ""
-  - h3class = h3class || ""
-  - h4class = h4class || ""
-  - h5class = h5class || ""
-  - h6class = h6class || ""
-  .hgroup
-    if hgobject.h1
-      h1(class= h1class) !{hgobject.h1}
-    if hgobject.h2
-      h2(class= h2class) !{hgobject.h2}
-    if hgobject.h3
-      h3(class= h3class) !{hgobject.h3}
-    if hgobject.h4
-      h4(class= h4class) !{hgobject.h4}
-    if hgobject.h5
-      h5(class= h5class) !{hgobject.h5}
-    if hgobject.h6
-      h6(class= h6class) !{hgobject.h6}
+//- mixin hgroup (hgobject, h1class, h2class, h3class, h4class, h5class, h6class)
+//-   - hgobject = hgobject || data
+//-   - h1class = h1class || ""
+//-   - h2class = h2class || ""
+//-   - h3class = h3class || ""
+//-   - h4class = h4class || ""
+//-   - h5class = h5class || ""
+//-   - h6class = h6class || ""
+//-   .hgroup
+//-     if hgobject.h1
+//-       h1(class= h1class) !{hgobject.h1}
+//-     if hgobject.h2
+//-       h2(class= h2class) !{hgobject.h2}
+//-     if hgobject.h3
+//-       h3(class= h3class) !{hgobject.h3}
+//-     if hgobject.h4
+//-       h4(class= h4class) !{hgobject.h4}
+//-     if hgobject.h5
+//-       h5(class= h5class) !{hgobject.h5}
+//-     if hgobject.h6
+//-       h6(class= h6class) !{hgobject.h6}
 
 
 //- To be used with bootstrap's dropdown
@@ -143,7 +143,8 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
 
 mixin link( linkObj, classes, icon, iconBefore )
   classes = classes ? classes : []
-  text = linkObj.text ? linkObj.text : "linkObj.text"
+  //- text should default to something if it's undefined or null, but if it's false, don't output any text
+  text = linkObj.text != null ? linkObj.text : "linkObj.text"
   //- Default the title to the link text if title is missing
   title = linkObj.title ? linkObj.title : text
   href = linkObj.href ? linkObj.href : "#HREF_MISSING"
@@ -154,12 +155,16 @@ mixin link( linkObj, classes, icon, iconBefore )
     if icon
       if iconBefore
         i(class=icon)
-        !{ text }
+        if text
+          !{ text }
       else
-        !{ text }
+        if text
+          !{ text }
         i(class=icon)
-    else
+    else if text
       !{ text }
+
+    block
 
 
 //- Link with a chevron
