@@ -1537,6 +1537,7 @@ define(function(require){
           $visible = self.$items.filter('.filtered'),
           statuses = {},
           lastFilterGroup = self.lastFilterGroup,
+          secondLastFilterGroup = self.secondLastFilterGroup,
           isRange = lastFilterGroup === 'price',
           isRangeActive = self.filters.range.price.max !== undefined && (self.filters.range.price.max !== self.MAX_PRICE || self.filters.range.price.min !== self.MIN_PRICE);
 
@@ -1575,7 +1576,12 @@ define(function(require){
             hasActiveFilter;
 
         for ( filterName in self.filterValues ) {
-          hasActiveFilter = filterName === lastFilterGroup;
+          // If the current filter is the last one, and one of the following:
+            // the current filter is also the second to last filter
+            // the second to last filter is null
+            // the second to last filter is price
+          // Then the current filter group should be skipped
+          hasActiveFilter = filterName === lastFilterGroup && ( secondLastFilterGroup === lastFilterGroup || secondLastFilterGroup === null || secondLastFilterGroup === 'price' );
           statuses[ filterName ] = {};
 
           for ( filterValue in self.filterValues[ filterName ] ) {

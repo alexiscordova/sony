@@ -45,7 +45,7 @@ define(function(require){
       this.headerIsVisible = false;
 
       Environment.on('SONY:Footer:mobileFooterSecCollapsed', $.proxy(this.refresh, this));
-      thisl.loaded = true;
+      this.loaded = true;
 
       return this._getHeaderOffsets();
     },

@@ -553,11 +553,13 @@ Reset the carousel to its natural position and order.</p>             </td>     
         }
       });
 
-      $wrapper.on(<span class="string">'sonyPaddles:clickLeft'</span>, <span class="keyword">function</span>(){
+      $wrapper.on(<span class="string">'sonyPaddles:clickLeft'</span>, <span class="keyword">function</span>(e){
+        e.stopPropagation();
         self.gotoSlide(self.currentSlide - <span class="number">1</span>);
       });
 
-      $wrapper.on(<span class="string">'sonyPaddles:clickRight'</span>, <span class="keyword">function</span>(){
+      $wrapper.on(<span class="string">'sonyPaddles:clickRight'</span>, <span class="keyword">function</span>(e){
+        e.stopPropagation();
         self.gotoSlide(self.currentSlide + <span class="number">1</span>);
       });
     },

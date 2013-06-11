@@ -44,6 +44,7 @@ define(function(require){
     self.$el                     = $(element);
 
     // defaults
+    self.isAndroid               = Settings.isAndroid;
     self.isInit                  = true;
     self.isResize                = false;
     self.isAutomatic             = true;
@@ -102,6 +103,9 @@ define(function(require){
         if( !Settings.$html.hasClass('lt-ie10') ){
           // register resize events; event is also triggered on init
           self.registerEnquire();
+        }else{
+          // still set active dial in IE
+          self.setActiveDial();
         }
       }
       // always show content of first slide
@@ -207,7 +211,7 @@ define(function(require){
       });
     },
 
-     // register resize events for tablet/desktop and phone
+    // register resize events for tablet/desktop and phone
     'registerEnquire' : function(){
       var self = this;
 
@@ -250,24 +254,31 @@ define(function(require){
       }
     },
 
-    // Update the current progress indicator dial, reset others to zero, and timestamp the event.
-    // Label active dial for IE fallbacks.
-    'resetDials': function() {
+    'setActiveDial' : function(){
       var self = this;
+
       self.$activeDial = self.$dials.eq(self.currentPartnerProduct);
       self.$activeDialLabel = self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels);
-      self.$dials.not(self.$activeDial).val(0).trigger('change');
-
-      self.slideStartTime = new Date();
 
       // set current active
       self.$dialLabels.removeClass('active');
       self.$activeDialLabel.addClass('active');
 
-      // rest sytles on new dials
+    },
+
+    // Update the current progress indicator dial, reset others to zero, and timestamp the event.
+    // Label active dial for IE fallbacks.
+    'resetDials': function() {
+      var self = this;
+
+      self.$dials.not(self.$activeDial).val(0).trigger('change');
+      self.slideStartTime = new Date();
+
+      self.setActiveDial();
+
+      // rest styles on new dials
       self.setDialStyle("off");
       self.$dials.simpleKnob(self.dialStyle).show();
-
     },
 
     // set dial styles according to breakpoint and on/off state
@@ -332,13 +343,15 @@ define(function(require){
 
     'gotoPartnerProduct': function(which) {
       var self = this,
-          newSlideColor;
+          newSlideColor,
+          noAnimation = self.isAndroid;
 
       // fade out existing slide
       self.fadeOutContent(self.currentPartnerProduct);
 
       // sonyCarousel api call
-      self.$carouselInstance.sonyCarousel('gotoSlide', which);
+
+      self.$carouselInstance.sonyCarousel('gotoSlide', which, noAnimation);
 
       // fade in new slide
       self.fadeInContent(which);
@@ -387,6 +400,8 @@ define(function(require){
         .eq(which)
         .find(".sony-carousel-slide-children")
         .addClass("active");
+
+
     },
 
     // Animations that should occur as the window is ready to paint.

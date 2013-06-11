@@ -255,7 +255,14 @@ if data.view == 'basic'
               classes = ['t4-bold', 'l-o-d', 'emphasis']
               h5(class=classes)= data.emphasis
                 i.icon-ui2-chevron-16-black-right
-            if data.count
+            if data.count && data.button
+              a(class='btn plate-btn lt4 w-count', href=data.button.link)
+                strong= data.button.title             
+              .text-count
+                span.number.l2= data.count.number
+                | &nbsp;
+                span.text.l3= data.count.text
+            else if data.count
               .text-count
                 span.number.l2= data.count.number
                 | &nbsp;
