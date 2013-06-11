@@ -187,7 +187,6 @@ define(function(require){
     // Called when media query matches mobile.
     toMobile : function() {
       var self = this;
-      console.log(self.stickyHeader.loaded);
       if (self.stickyHeader.loaded){
         self.stickyHeader.enable();
       }

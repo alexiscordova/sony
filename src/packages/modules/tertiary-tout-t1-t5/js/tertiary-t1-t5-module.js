@@ -4,7 +4,7 @@
 //
 // * **Module:** Tertiary Module
 // * **Version:** 0.2
-// * **Modified:** 04/29/2013
+// * **Modified:** 06/11/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr, Enquire, [SonyCarousel](sony-carousel.html),
 
