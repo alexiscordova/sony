@@ -1,6 +1,6 @@
 This is the static manifest file for the Gallery, to be included in the Sony Global.
 
-The gallery has three different modes: "Editorial" is a curated, masonic grid of products. "Detailed" is a more detailed grid layout that can be filtered and sorted, use infinite scrolling. The third is "compare", in which the products are displayed in large columns inside a carousel with sticky headers, filtering, sorting, and more.
+The gallery has three different modes: "Editorial" is a curated, masonic grid of products. "Detailed" is a more detailed grid layout that can be filtered and sorted, use infinite scrolling. The third is "compare", in which the products are displayed in large columns inside a carousel with sticky headers, filtering, sorting, and more. The gallery is also used for the Favorites page.
 
 
 
@@ -19,9 +19,9 @@ Each module will include this document, which contains an ordered list of the fi
 * global scripts plus
 
 ### Source Jade files
-* gallery-g2-g3.html.jade
+* gallery-g2-g3.jade
 * gallery-helpers.jade
-* product.html.jade
+* product.jade
 * gallery-g3-accessories.jade
 * gallery-filters.jade
 
@@ -68,14 +68,17 @@ Each module should contain atleast one example JSON file. Additional JSON files 
 
 ### JSON files
 
-* default.json
-* gallery-g2-g3-tv.json
-* gallery-no-pricing.json
 * camera-overflow.json
+* gallery-compare-standalone.json
+* gallery-comparetool.json
+* gallery-favorites.json
+* gallery-g2-g3-cybershot.json
+* gallery-g2-g3-tv.json
+* gallery-g3-cybershot-accessories.json
+* gallery-no-pricing.json
 
-The `gallery-g3-accessories.html.jade` uses a different (but similar) json file.
-
-* gallery-g3-accessories.json
+#### Sticky Tabs
+The sticky tabs seen at the top of some galleries are defined by the `tabs` property. Each tab object has an `icon`, which is an icon prefixed with "fonticon-40-"; a `label`, which is displayed beneath the icon; and a `slug`, which is used to link the tab to the tab pane.
 
 #### The Gallery JSON object
 
@@ -95,7 +98,7 @@ For detailed galleries:
 
 * `zeroProductsMessage`: the text displayed after the number zero when the filters result in zero products. e.g. `"results based on your request"`
 * `startOver`: text displayed on the reset button when the filters result in zero products.
-* `filterSet`: An array of filter objects. Each object in the filterSet should have a name, label, and type. name is how the filter is referenced, so it shouldn't have any spaces or dashes. Each gallery item (a product, rendered by `product.html.jade`) should also have a `"filterSet"` object which directly relates to the values in the gallery's filterSet.
+* `filterSet`: An array of filter objects. Each object in the filterSet should have a name, label, and type. name is how the filter is referenced, so it shouldn't have any spaces or dashes. Each gallery item (a product, rendered by `product.jade`) should also have a `"filterSet"` object which directly relates to the values in the gallery's filterSet.
 
 ```
 "productCards" : {
@@ -190,7 +193,7 @@ Above, we specified a `colors` filter. The product should therefore have a `colo
 
 If this module supports submodules, a clear description should be included here that covers the logic behind which submodules are included, when and what other template variables affect them, etc.. This information will be used in the CMS interface to determine which fields to show and validate.
 
-The Gallery uses the `product.html.jade` template as a submodule for each product tile. Each product tile's data comes from the .json file inside the product folder. Each JSON file in the product folder represents a single product.
+The Gallery uses the `product.jade` template as a submodule for each product tile. Each product tile's data comes from the .json file inside the product folder. Each JSON file in the product folder represents a single product.
 
 For a product to be in a featured gallery, it must have a property in its JSON called `featured` and it must be `true`. The property that distinguishes between the featured products and featured accessories is the `type`. This `type` defaults to `product` if a type parameter is not set in the jade mixin - `featuredGallery()`.
 
@@ -209,4 +212,4 @@ For a product to show up in the product strip tab, its `type` must match the giv
 
 
 ## Lastly
-I am sorry you just inherited > 3000 lines of javascript, > 2800 lines of scss, and 1500 lines of jade for a single module. Can you say feature creep?
+I am sorry you just inherited > 4000 lines of javascript, > 2800 lines of scss, and 1500 lines of jade for a single module. Can you say feature creep?
