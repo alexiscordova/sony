@@ -257,7 +257,7 @@ if data.view == 'basic'
                 i.icon-ui2-chevron-16-black-right
             if data.count && data.button
               a(class='btn plate-btn lt4 w-count', href=data.button.link)
-                strong= data.button.title             
+                strong= data.button.title
               .text-count
                 span.number.l2= data.count.number
                 | &nbsp;
@@ -723,8 +723,7 @@ else if data.view == 'blank'
 
 
 else if data.view == 'summary'
-  titleLabel = data.collectionLabel ? data.collectionLabel : 'Cybershot'
-  titleHref = data.collectionHref ? data.collectionHref : '#'
+  titleLink = data.collectionLink ? data.collectionLink : {}
   attributeList = data.attributeList ? data.attributeList : []
   startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
   msrp = data.msrp ? data.msrp : 'MSRP'
@@ -743,7 +742,7 @@ else if data.view == 'summary'
             +iQImage( data.imgSmall, '', 'image' )
 
       .span6.product-details
-        +breadcrumbLink( titleHref, titleLabel )
+        +breadcrumbLink( titleLink )
         h2.t6.product-title(itemprop="name")= data.title
         p.product-model.p5
           span(itemprop="model")= data.model

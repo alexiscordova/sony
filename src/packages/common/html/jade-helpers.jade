@@ -141,11 +141,31 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
         i.fonticon-15-link.js-no-close
       input.p4(type="text", value=shortLink)
 
+
+mixin link( linkObj, classes, icon, iconBefore )
+  classes = classes ? classes : []
+  text = linkObj.text ? linkObj.text : "linkObj.text"
+  //- Default the title to the link text if title is missing
+  title = linkObj.title ? linkObj.title : text
+  href = linkObj.href ? linkObj.href : "#HREF_MISSING"
+  //- If target is missing or empty, default it to false, which won't output the attribute
+  target = linkObj.target ? linkObj.target : false
+
+  a(class=classes, title=title, href=href, target=target)
+    if icon
+      if iconBefore
+        i(class=icon)
+        !{ text }
+      else
+        !{ text }
+        i(class=icon)
+    else
+      !{ text }
+
+
 //- Link with a chevron
-mixin breadcrumbLink( href, label )
-  a.l3.breadcrumb-link(href=href)
-    i.fonticon-10-chevron-reverse
-    !{ label }
+mixin breadcrumbLink( obj )
+  +link( obj, [ "l3", "breadcrumb-link" ], "fonticon-10-chevron-reverse", true )
 
 
 blocks = {};
