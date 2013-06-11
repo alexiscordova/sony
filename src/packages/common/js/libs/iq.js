@@ -217,7 +217,8 @@ define(function(require) {
       loadImages(false, false, imagesWereAdded === true);
     },
 
-    onImageLoad = function($elm /*, $images, $proper, $broken*/ ) {
+    onImageLoad = function(elm /*, $images, $proper, $broken*/ ) {
+      var $elm = $(elm.elements[0]);
       if (fade && $elm.data('fadeonce') !== true && !$elm.hasClass(noFadeFlag)) {
         $elm.data('fadeonce', true);
         $elm.css({
@@ -319,12 +320,9 @@ define(function(require) {
 
         // if its an image set src else set bg image
         if ($img.is('img')) {
-          $img.attr('src', newsrc)
-            .imagesLoaded(onImageLoad);
+          $img.attr('src', newsrc).imagesLoaded(onImageLoad);
         } else if ($img.is('div')) {
-          $(document.createElement('img'))
-            .attr('src', newsrc)
-            .imagesLoaded(function() {
+          $(document.createElement('img')).attr('src', newsrc).imagesLoaded(function() {
             $img.css('background-image', 'url(' + newsrc + ')');
             $img.data('hasLoaded', true);
             $img.trigger('iQ:imageLoaded');
