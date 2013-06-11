@@ -229,7 +229,7 @@ if ( triggerPoint &lt; 100 ) {
 
       <span class="keyword">this</span>.targetOffset = newOffset;
       <span class="keyword">if</span> ( scrollspy ) {
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Sony Google TV has problems</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( Settings.isGoogleTV ) {
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Sony Google TV has problems</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( Settings.isGoogleTV || Settings.isPS3 ) {
           newOffset += <span class="number">5</span>;
         }
         scrollspy.options.offset = newOffset;

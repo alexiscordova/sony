@@ -338,6 +338,27 @@ in the calling context. *</p>
       $groups.first().replaceWith($(compiledGrids));
 
       <span class="keyword">return</span> $(compiledGrids);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Parses the url parameters into a cached object. Each value, however, is a string.
+So <code>sony.com?today=true</code> will become <code>{ today : "true" }</code>
+Use the force parameter to force the query string to be cached again</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    getUrlParameters : <span class="keyword">function</span>( force ) {
+
+      <span class="keyword">if</span> ( !force &amp;&amp; Settings.urlParams ) {
+        <span class="keyword">return</span> Settings.urlParams;
+      }
+
+      <span class="keyword">var</span> search = window.location.search.substring( <span class="number">1</span> ),
+          fields = {};
+
+      <span class="keyword">if</span> ( search ) {
+        fields = $.parseJSON(<span class="string">'{"'</span> + decodeURI(search).replace(<span class="regexp">/"/g</span>, <span class="string">'\\"'</span>).replace(<span class="regexp">/&amp;/g</span>, <span class="string">'","'</span>).replace(<span class="regexp">/=/g</span>,<span class="string">'":"'</span>) + <span class="string">'"}'</span>);
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Cache it</p>             </td>             <td class="code">               <div class="highlight"><pre>      Settings.urlParams = fields;
+
+      <span class="keyword">return</span> fields;
     }
 
   };

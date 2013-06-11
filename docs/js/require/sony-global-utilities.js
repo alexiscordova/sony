@@ -358,6 +358,29 @@ define(function (require) {
       $groups.first().replaceWith($(compiledGrids));
 
       return $(compiledGrids);
+    },
+
+    // Parses the url parameters into a cached object. Each value, however, is a string.
+    // So `sony.com?today=true` will become `{ today : "true" }`
+    // Use the force parameter to force the query string to be cached again
+
+    getUrlParameters : function( force ) {
+
+      if ( !force && Settings.urlParams ) {
+        return Settings.urlParams;
+      }
+
+      var search = window.location.search.substring( 1 ),
+          fields = {};
+
+      if ( search ) {
+        fields = $.parseJSON('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+      }
+
+      // Cache it
+      Settings.urlParams = fields;
+
+      return fields;
     }
 
   };
