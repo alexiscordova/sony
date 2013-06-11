@@ -137,8 +137,7 @@ define(function(require){
       Utilities.reassignSpanWidths(self.$navgroups.find('.subcategory-link'), columns);
 
       self.$navgroups = Utilities.gridApportion({
-        $groups: self.$navgroups,
-        gridSelector: '.grid'
+        $groups: self.$navgroups
       });
 
       if ( self.$navgroups.find('.active').length > 0 ) {
@@ -149,13 +148,16 @@ define(function(require){
         self.$navCarousel.sonyCarousel('destroy');
       }
 
-      self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper nav').sonyCarousel({
+      self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper').sonyCarousel({
         draggable: true,
         snap: !isMobile,
         onlySnapAtEnds: isMobile,
-        wrapper: '.subnav-nav-carousel-wrapper',
+        wrapper: '.grid',
         slides: '.subnav-nav-carousel-slide',
+        slideChildren: '.subcategory-link',
         paddles: !isMobile,
+        $paddleWrapper: self.$navgroups.closest('.grid'),
+        paddlePosition: 'outset',
         useSmallPaddles: !isMobile
       });
 

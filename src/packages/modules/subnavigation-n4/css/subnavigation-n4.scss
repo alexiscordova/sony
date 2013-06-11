@@ -17,27 +17,32 @@ $maxChildren: 20;
     padding: 27px 0 8px;
   }
 
-  .subnav-nav-carousel-wrapper {
-    position: relative;
-    width: 100%;
-    background-color: $gray80;
-    box-shadow: 0 4px 8px rgba(39, 43, 55, 0.15);
-  }
-
   nav {
     position: relative;
-    width: 100% * $maxChildren;
     height: 155px;
+    background-color: $gray80;
+    box-shadow: 0 4px 8px rgba(39, 43, 55, 0.15);
+
+    .grid {
+      position: relative;
+    }
+
+    .subnav-nav-carousel-wrapper {
+      position: relative;
+      width: 100% * $maxChildren;
+      text-align: center;
+
+      &.sony-carousel-active {
+        text-align: left;
+      }
+    }
 
     .subnav-nav-carousel-slide {
       -webkit-transform: translateZ(0);
       float: left;
       width: 100% / $maxChildren;
       height: 100%;
-    }
-
-    .grid {
-      text-align: center;
+      margin-right: 0.18%;
     }
 
     .subcategory-link {

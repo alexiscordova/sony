@@ -134,6 +134,8 @@ define(function(require){
       });
 
       self.gotoSlide(0, true);
+
+      self.$el.addClass('sony-carousel-active');
     },
 
     setupLoopedCarousel: function() {
@@ -666,6 +668,7 @@ define(function(require){
 
       // Remove data from element, allowing for later reinit.
       self.$el.removeData('sonyCarousel');
+      self.$el.removeClass('sony-carousel-active');
     }
   };
 
