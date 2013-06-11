@@ -46,6 +46,8 @@ mixin links(_data, _extra)
   if d.links
     .linkgroup
       for link in d.links
+        n = link.title ? link.title : link.text ? link.text : false
+        t = link.target ? link.target : false
         e = _extra ? _extra : false
         sm = link.submodule ? link.submodule : "0"
         spanclass = d.links.length > 1 && data.mode == "default" ? "hidden-phone" : false
@@ -53,23 +55,23 @@ mixin links(_data, _extra)
           e = e + " lt3"
         case link.type
           when "btn"
-            a(class= e)(class= "btn", href= link.url)!= link.text
+            a(class= e)(class= "btn", href= link.href)(target = t)(title = n)!= link.text
           when "video"
             if data.mode != "product-intro-plate"
               e = e + " btn"
             e = e + " video"
-            a(class= e)(href= link.url)(data-submodule = sm)
+            a(class= e)(href= link.href)(data-submodule = sm)(target = t)(title = n)
               i.fonticon-15-circle-play.l-o-d
               span(class = spanclass)!= link.text
           when "carousel"
             if data.mode != "product-intro-plate"
               e = e + " btn"
             e = e + " carousel"
-            a(class= e)(href= link.url)(data-submodule = sm)
+            a(class= e)(href= link.href)(data-submodule = sm)(target = t)(title = n)
               i.fonticon-15-popup.l-o-d
               span(class = spanclass)!= link.text
           when "txt"
-            a(class= e)( href= link.url)!= link.text
+            a(class= e)( href= link.href)(target = t)(title = n)!= link.text
 
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
