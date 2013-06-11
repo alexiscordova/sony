@@ -300,8 +300,9 @@ mixin featuredGallery( submodules, gallery, type )
           e = { "locals" : locals, "data" : d }
           !{locals.partial( module.type, e )}
 
-    .grid.see-all
-      a.btn.btn-small(href=gallery.href)= gallery.callout
+    if gallery.link
+      .grid.see-all
+        +link( gallery.link, [ "btn", "btn-small" ] )
 
 
 mixin detailedGallery( submodules, gallery, type )
