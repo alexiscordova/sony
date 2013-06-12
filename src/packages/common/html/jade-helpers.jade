@@ -114,13 +114,15 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
       input.p4(type="text", value=shortLink)
 
 
-mixin link( linkObj, classes, icon, iconBefore )
+mixin link( linkObj, classes, icon, iconBefore, noText )
   if linkObj
     classes = classes ? classes : false
     //- text should default to something if it's undefined or null, but if it's false, don't output any text
     text = linkObj.text != null ? linkObj.text : "linkObj.text"
-    //- Default the title to the link text if title is missing
-    title = linkObj.title ? linkObj.title : text
+    if noText
+      text = false
+    //- Default the title to the link text if title is missing. If text is false, use the link object's text
+    title = linkObj.title ? linkObj.title : text ? text : linkObj.text
     href = linkObj.href ? linkObj.href : "#HREF_MISSING"
     //- If target is missing or empty, default it to false, which won't output the attribute
     target = linkObj.target ? linkObj.target : false

@@ -3,7 +3,7 @@ include ../../../common/html/jade-helpers.jade
 
 +mainElement( ["all-electronics", "container" ] )
   .grid.products-w-electronics
-    each category, i in data.electronics_all
+    each category in data.electronics_all
       .products-w
         if category.description
           .products-hdg-desc
@@ -16,22 +16,22 @@ include ../../../common/html/jade-helpers.jade
 
         if category.link
           .products-link
-            a.btn(href=category.link.href)= category.link.label
+            +link( category.link, [ "btn" ] )
 
         .products-section-main
           ul.products-list-main
-            each product, i in category.menu_main.menu_items
-              li.products-li(class=product.class)
-                a.products-li-link.tl(href=product.link)
+            each product in category.menu_main.menu_items
+              li.products-li
+                +link( product, [ "products-li-link", "tl" ], undefined, undefined, true )
                   span.product-img-w
                     +iQImage(product.img)
-                  span.nav-label.p3-bold= product.label
+                  span.nav-label.p3-bold= product.text
 
         if category.menu_secondary != null
           .products-section-secondary
             h6.l2= category.menu_secondary.title
             ul.products-list-secondary
-              each item, i in category.menu_secondary.menu_items
+              each item in category.menu_secondary.menu_items
                 li.products-li
-                  a.products-li-link.p3(class=item.class)(href=item.link)= item.label
+                  +link( item, [ "products-li-link", "p3" ] )
 
