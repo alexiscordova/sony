@@ -152,8 +152,6 @@ define(function(require){
 
       self.$navCarousel = self.$el.find('.subnav-nav-carousel-wrapper').sonyCarousel({
         draggable: true,
-        snap: !isMobile,
-        onlySnapAtEnds: isMobile,
         wrapper: '.grid',
         slides: '.subnav-nav-carousel-slide',
         slideChildren: '.subcategory-link',
@@ -163,7 +161,10 @@ define(function(require){
         useSmallPaddles: !isMobile
       });
 
-      self.$navCarousel.sonyCarousel('gotoSlide', currentSlide, true);
+      if ( self.$navCarousel.hasClass('sony-carousel-active') ) {
+        self.$navCarousel.sonyCarousel('gotoSlide', currentSlide, true);
+      }
+
       self.revealOnlyGroup(currentSlide);
 
       self.bindNav();
@@ -223,6 +224,11 @@ define(function(require){
       var self = this,
           $targetChildren = self.$navgroups.eq(whichGroup).find(self.$slideChildren),
           childrenPerSlide = self.$navgroups.first().find(self.$slideChildren).length;
+
+      if ( self.mode === 'mobile' ) {
+        self.revealAllGroups();
+        return;
+      }
 
       if ( $targetChildren.length < childrenPerSlide ) {
         $targetChildren = $targetChildren.add( self.$navgroups.eq(whichGroup - 1).find(self.$slideChildren).slice($targetChildren.length) );

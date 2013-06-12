@@ -89,6 +89,14 @@ define(function(require){
     self.$el = $element;
     self.$wrapper = self.$el.parent(self.wrapper);
 
+    if ( self.direction === 'vertical' ) {
+      self.posAttr = 'top';
+      self.dimensionAttr = 'height';
+    } else {
+      self.posAttr = 'left';
+      self.dimensionAttr = 'width';
+    }
+
     self.init();
   };
 
@@ -105,12 +113,6 @@ define(function(require){
       if ( self.$slides.length <= 1 ) {
         self.destroy();
         return;
-      }
-
-      if ( self.direction === 'vertical' ) {
-        self.posAttr = 'top';
-      } else {
-        self.posAttr = 'left';
       }
 
       if ( self.useCSS3 ) {
@@ -370,46 +372,27 @@ define(function(require){
     getAdjustedPosition: function($destinationSlide) {
 
       var self = this,
-          innerContainerMeasurement, destinationPosition, adjustedPosition, childrenSumMeasurement;
+          innerContainerMeasurement, destinationPosition, adjustedPosition, adjustedPositionComparator, childrenSumMeasurement;
 
-      if ( self.direction === 'horizontal' ) {
-        innerContainerMeasurement = self.$el.width();
-      } else {
-        innerContainerMeasurement = self.$el.height();
-      }
+      innerContainerMeasurement = self.$el[ self.dimensionAttr ]();
 
       destinationPosition = self.getDestinationPosition( $destinationSlide, innerContainerMeasurement );
 
       if ( self.useCSS3 ) {
-
         adjustedPosition = destinationPosition / innerContainerMeasurement;
-
-        if ( self.$slides.index($destinationSlide) === self.$slides.length - 1 ) {
-
-          childrenSumMeasurement = 0;
-
-          if ( self.direction === 'horizontal' ) {
-            $destinationSlide.find(self.slideChildren).each(function(){ childrenSumMeasurement += $(this).outerWidth(true); });
-            adjustedPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
-          }
-        }
-
+        adjustedPositionComparator = innerContainerMeasurement;
       } else {
+        adjustedPosition = destinationPosition / self.$wrapper[ self.dimensionAttr ]();
+        adjustedPositionComparator = self.$wrapper.width();
+      }
+
+      if ( self.$slides.index($destinationSlide) === self.$slides.length - 1 ) {
+
+        childrenSumMeasurement = 0;
 
         if ( self.direction === 'horizontal' ) {
-          adjustedPosition = destinationPosition / self.$wrapper.width();
-        } else {
-          adjustedPosition = destinationPosition / self.$wrapper.height();
-        }
-
-        if ( self.$slides.index($destinationSlide) === self.$slides.length - 1 ) {
-
-          childrenSumMeasurement = 0;
-
-          if ( self.direction === 'horizontal' ) {
-            $destinationSlide.find(self.slideChildren).each(function(){ childrenSumMeasurement += $(this).outerWidth(true); });
-            adjustedPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / self.$wrapper.width();
-          }
+          $destinationSlide.find(self.slideChildren).each(function(){ childrenSumMeasurement += $(this).outerWidth(true); });
+          adjustedPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / adjustedPositionComparator;
         }
       }
 
@@ -670,12 +653,11 @@ define(function(require){
       var self = this,
           $paddleWrapper = self.$paddleWrapper || self.$wrapper,
           $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides,
-          containerStyles = {
-            transitionTimingFunction: '',
-            transitionDuration: '',
-            transform: ''
-          };
+          containerStyles = {};
 
+      containerStyles[ Modernizr.prefixed('transitionTimingFunction') ] = '';
+      containerStyles[ Modernizr.prefixed('transitionDuration') ] = '';
+      containerStyles[ Modernizr.prefixed('transform') ] = '';
       containerStyles[ self.posAttr ] = '';
 
       // Reset styles.
