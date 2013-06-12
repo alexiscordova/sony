@@ -2857,11 +2857,7 @@ define(function(require){
       if ( self.hasFilters ) {
         // This waits for the ajax request for finish before navigating to the next page
         // If the ajax request doesn't need to finish, calling these functions in order
-        // will work. Ex:
-        // ```
-        // self.saveFilterState()
-        // redirect( '?filters=1' );
-        // ```
+        // will work. Ex: `self.saveFilterState(); redirect( '?filters=1' );`
         $.when( self.saveFilterState() ).always(function() {
           redirect( '?filters=1' );
         });
@@ -3467,6 +3463,11 @@ define(function(require){
 
     self.$container = $( element );
 
+    // Accessory finder on this element has already been created
+    if ( self.$container.data('accessoryFinder') ) {
+      return;
+    }
+
     // Defer initialization
     setTimeout(function() {
       self.init();
@@ -3964,44 +3965,17 @@ define(function(require){
   };
 
 
-
-  module.initializer = function( $pane ) {
-    var $galleries = $pane.find('.gallery'),
-        $accessoryFinders = $pane.find('.af-module'),
-        $productStrips = $pane.find('.js-product-strip');
-
-    // Initialize galleries
-    $galleries.each(function() {
-      var $this = $(this);
-
-      // Stagger gallery initialization
-      setTimeout(function() {
-        $this.gallery( $this.data() );
-      }, 0);
-    });
-
-    // Instantiate accessory finders
-    $accessoryFinders.each(function( i, el ) {
-      setTimeout(function() {
-        new AccessoryFinder( el );
-      }, 0);
-    });
-
-    // Instantiate product strips
-    if ( $productStrips.length ) {
-      new ProductStrip( $productStrips );
-    }
-
-    // Release for IE
-    $galleries = $accessoryFinders = $productStrips = null;
-  };
-
   var ProductStrip = function( $strips ) {
     var self = this;
 
     $.extend( self, ProductStrip.settings );
 
     self.$strips = $strips;
+
+    // Product Strip on this element has already been created
+    if ( self.$strips.data('productStrip') ) {
+      return;
+    }
 
     // Defer initialization
     setTimeout(function() {
@@ -4055,6 +4029,37 @@ define(function(require){
 
   ProductStrip.settings = {
     itemSelector: '.gallery-item'
+  };
+
+  module.initializer = function( $pane ) {
+    var $galleries = $pane.find('.gallery'),
+        $accessoryFinders = $pane.find('.af-module'),
+        $productStrips = $pane.find('.js-product-strip');
+
+    // Initialize galleries
+    $galleries.each(function() {
+      var $this = $(this);
+
+      // Stagger gallery initialization
+      setTimeout(function() {
+        $this.gallery( $this.data() );
+      }, 0);
+    });
+
+    // Instantiate accessory finders
+    $accessoryFinders.each(function( i, el ) {
+      setTimeout(function() {
+        new AccessoryFinder( el );
+      }, 0);
+    });
+
+    // Instantiate product strips
+    if ( $productStrips.length ) {
+      new ProductStrip( $productStrips );
+    }
+
+    // Release for IE
+    $galleries = $accessoryFinders = $productStrips = null;
   };
 
   module.onGalleryTabAlreadyShown = function() {
@@ -4169,16 +4174,16 @@ define(function(require){
   module.hideGalleryLoader = function() {
     if ( !module.galleryLoaderHidden ) {
       $('.gallery-loader').addClass('hidden');
+      module.galleryLoaderHidden = true;
     }
-    module.galleryLoaderHidden = true;
   };
 
   // Shows the loading gif
   module.showGalleryLoader = function() {
     if ( module.galleryLoaderHidden ) {
       $('.gallery-loader').removeClass('hidden');
+      module.galleryLoaderHidden = false;
     }
-    module.galleryLoaderHidden = false;
   };
 
   return module;

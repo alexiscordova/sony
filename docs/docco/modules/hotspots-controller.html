@@ -551,7 +551,7 @@ hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a
 
 </pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>determine our container height and width</p>             </td>             <td class="code">               <div class="highlight"><pre>    getCanvasCoordinates: <span class="keyword">function</span>() {
       <span class="keyword">var</span> coordinates = {},
-      $canvas = <span class="keyword">this</span>.$container.closest(<span class="string">'.editorial-carousel-slide.active'</span>);
+      $canvas = <span class="keyword">this</span>.$container.closest(<span class="string">'.editorial-carousel-slide.active .hotspot-module'</span>);
 
       coordinates.el = $canvas;
       coordinates.h = $canvas.height();

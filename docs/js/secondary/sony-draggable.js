@@ -62,6 +62,7 @@ define(function(require){
       self.$containment.on(_startEvents(self.id), $.proxy(self.onScrubStart, self));
       self.$containment.on(_endEvents(self.id) + ' click.sonyDraggable-' + self.id, $.proxy(self.onScrubEnd, self));
 
+      // Bind window object with end events, in case you mouse out of draggable object before releasing.
       if ( !Modernizr.touch ) {
         self.$win.on(_endEvents(self.id), $.proxy(self.onScrubEnd, self));
       }
@@ -118,9 +119,9 @@ define(function(require){
           distX = self.getPagePosition(e).x - self.handleStartPosition.x,
           distY = self.getPagePosition(e).y - self.handleStartPosition.y;
 
-      // If you're not on touch, or if you didn't pass in a threshold setting, go ahead and scrub.
+      // If you didn't pass in a threshold setting, or if you've passed the dragging threshold, go ahead and scrub.
 
-      if ( !Modernizr.touch || !self.dragThreshold || self.isScrubbing ) {
+      if ( !self.dragThreshold || self.isScrubbing ) {
         self.isScrubbing = true;
         self.onScrubbing(e, distX, distY);
         return;
@@ -167,13 +168,23 @@ define(function(require){
 
       var self = this;
 
-      e.preventDefault();
+      if ( self.isScrubbing ) {
+        e.preventDefault();
+      }
 
       self.$containment.off(_moveEvents(self.id));
 
-      if ( !self.isScrubbing ) { return; }
+      self.debouncedScrubDestroy();
+    },
 
-      self.isScrubbing = self.hasPassedThreshold = false;
+    'debouncedScrubDestroy': $.debounce(200, function(){
+      var self = this;
+      self.scrubDestroy();
+    }),
+
+    'scrubDestroy': function() {
+
+      var self = this;
 
       self.$el.trigger('sonyDraggable:dragEnd', {});
 

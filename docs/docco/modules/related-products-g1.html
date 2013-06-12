@@ -32,7 +32,7 @@
 
   <span class="keyword">var</span> module = {
     init: <span class="keyword">function</span>() {
-      
+
 
       <span class="keyword">var</span> $rpInstances = $(<span class="string">'.related-products'</span>).relatedProducts(),
       hasInittedTabs = <span class="literal">false</span>,
@@ -59,10 +59,7 @@
           $productPanels.not($currentPanel).addClass(<span class="string">'inactive invisible'</span>);
           $tabs.eq(<span class="number">0</span>).addClass(<span class="string">'active'</span>);
 
-
-          console.log( $tabs.eq(<span class="number">0</span>).addClass(<span class="string">'active'</span>) );
-          
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Not tabs, exit</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> (!$tabs.length) {           
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Not tabs, exit</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> (!$tabs.length) {
             <span class="keyword">return</span>;
           }
 
@@ -109,13 +106,12 @@
           } <span class="keyword">else</span> {
             $tabs
               .on(<span class="string">'click'</span>, handleTabClick);
-          }      
-      
+          }
+
         }
 
         <span class="keyword">if</span>(iterator &gt;= tabbedChildrenLength){
           hasInittedTabs = <span class="literal">false</span>;
-          console.log(iterator , tabbedChildrenLength);
           iterator = <span class="number">0</span>;
         }
 
@@ -251,21 +247,21 @@
         <span class="keyword">if</span> (!self.hasTouch) {
           self.createPaddles();
         }
-      
+
       <span class="keyword">if</span>(self.$slides.length &gt; <span class="number">1</span>){
         self.$container.on(self.downEvent, <span class="keyword">function</span>(e) {
           self.onDragStart(e);
-        });   
+        });
       }
 
       } <span class="keyword">else</span> {
         self.$pagination = $({});
       }
-      
+
       self.setSortPriorities();
       self.setupResizeListener();
       self.$win.trigger(<span class="string">'resize.rp'</span>);
-      
+
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Fixes a bug in IE when media queries aren't available</p>             </td>             <td class="code">               <div class="highlight"><pre>    mqFix: <span class="keyword">function</span>() {
@@ -972,7 +968,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
           self.$el.removeClass(<span class="string">'rp-desktop rp-mobile'</span>)
             .addClass(<span class="string">'rp-tablet'</span>);
-        
+
           self.sliderOverflow.css(<span class="string">'overflow'</span> , <span class="string">'hidden'</span>);
 
           self.$el.parents(<span class="string">'.rp-section'</span>).css(<span class="string">'overflow'</span> , <span class="string">''</span>);
@@ -1698,7 +1694,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 <span class="comment">/*          if (slideVariation === '4up' &amp;&amp; self.isTabletMode &amp;&amp; tileHeight &gt; 204 &amp;&amp; self.$win.width() &lt; 769) {
             tileHeight = $slide.find('.gallery-item.plate').first().height();
           }*/</span>
-          
+
           tileHeight = $slide.find(<span class="string">'.gallery-item.plate'</span>).first().height();
 
           $slide.find(<span class="string">'.gallery-item.normal'</span>).css({
@@ -1753,7 +1749,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
       <span class="keyword">if</span>( self.breakPointChanged ){
         setTimeout(<span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>self.$win.trigger('resize.rp'); // this works but it pops </p>             </td>             <td class="code">               <div class="highlight"><pre>          self.handleResize(); <span class="comment">//hopefully a more direct approach</span>
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>self.$win.trigger('resize.rp'); // this works but it pops</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.handleResize(); <span class="comment">//hopefully a more direct approach</span>
         } , <span class="number">500</span>);
       }<span class="keyword">else</span>{
         setTimeout(<span class="keyword">function</span>() {
