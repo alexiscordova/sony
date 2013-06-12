@@ -2,11 +2,12 @@
 //- +partial('example.html.jade', 'example/default.json')
 
 mixin partial(m, d, isSubmodule)
-  data = locals.data(d)
-  if isSubmodule
-    - data.isSubmodule = true
-  e = {"locals":locals, "data":data}
-  !{locals.partial('packages/modules/' + m, e)}
+  if ( m && d && m != true && d != true )
+    data = locals.data(d)
+    if isSubmodule
+      - data.isSubmodule = true
+    e = {"locals":locals, "data":data}
+    !{locals.partial('packages/modules/' + m, e)}
 
 mixin includeCSS(moduleName)
   e = {"locals": locals}
