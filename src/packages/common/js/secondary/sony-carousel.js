@@ -386,7 +386,7 @@ define(function(require){
         adjustedPositionComparator = self.$wrapper.width();
       }
 
-      if ( self.$slides.index($destinationSlide) === self.$slides.length - 1 ) {
+      if ( self.slideChildren && self.$slides.index($destinationSlide) === self.$slides.length - 1 ) {
 
         childrenSumMeasurement = 0;
 
