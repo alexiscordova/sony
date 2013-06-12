@@ -14,7 +14,7 @@ include ../../../common/html/jade-helpers.jade
         each link, i in data.internalLinks
           - clss = i ? '' : 'active'
           li(class=clss)
-            a.lt3.no-hover-transition(href=link.href)= link.label
+            a.lt3.no-hover-transition(href=link.href)= link.text
 
 
   .sticky-nav.spec-sticky-nav
@@ -25,7 +25,7 @@ include ../../../common/html/jade-helpers.jade
           each link, i in data.internalLinks
             - clss = i ? '' : 'active'
             li(class=clss)
-              a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
+              a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.text
 
 
   section.spec-product#specifications
@@ -50,4 +50,4 @@ include ../../../common/html/jade-helpers.jade
             p.p3= tile.description
             if tile.link
               p.p3
-                a(href=tile.link.href)= tile.link.text
+                +link( tile.link )

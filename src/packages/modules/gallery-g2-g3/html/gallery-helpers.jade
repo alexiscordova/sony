@@ -82,8 +82,7 @@ mixin popoverContent( help )
     else if layout == 'text-only'
       p.p4= help.text
       if help.link
-        newWindow = help.link.newWindow ? "_blank" : false
-        a.lt4(href=help.link.url, target=newWindow)= help.link.text
+        +link( help.link, ["lt4"] )
 
 mixin filterSet( filterSet )
   .filter-container
@@ -527,8 +526,8 @@ mixin productStrips( submodules, strips, type )
         .slimgrid5.m-grid-at-767.product-strip-wrap.js-product-strip
           .product-strip-header.clearfix
             h2.t6.product-strip-heading.pull-left= strip.title
-            if strip.callout
-              a.tl.see-all-link.pull-right(href="#")= strip.callout
+            if strip.link
+              +link( strip.link, ["tl", "see-all-link", "pull-right"] )
           .product-strip.clearfix
             count = 0
             each module in submodules
