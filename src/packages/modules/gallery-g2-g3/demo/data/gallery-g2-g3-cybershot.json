@@ -1,4 +1,8 @@
 {
+    "config": {
+        "module_name": "gallery",
+        "module_id": "gallery"
+    },
     "tabs": [
         {
             "label": "Featured",
@@ -354,9 +358,10 @@
                 "layout" : "text-only",
                 "text" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod",
                 "link" : {
-                    "url" : "#HELP_POPOVER_LINK",
+                    "title" : "Learn more here",
+                    "href" : "#HELP_POPOVER_LINK",
                     "text" : "Learn more",
-                    "newWindow" : true
+                    "target" : "_blank"
                 }
             },
             "sortText" : "Sort By:",
@@ -395,13 +400,19 @@
         "productStrips" : [
             {
                 "title": "Cases, Covers &amp; Straps",
-                "callout": "See All 25 Cases, Covers &amp; Straps",
-                "subtype" : "casesCoversAndStraps"
+                "subtype" : "casesCoversAndStraps",
+                "link" : {
+                    "href" : "#CASES_COVERS_STRAPS",
+                    "text" : "See All 25 Cases, Covers &amp; Straps"
+                }
             },
             {
                 "title": "Batteries &amp; Chargers",
-                "callout": "See All 18 Batteries &amp; Chargers",
-                "subtype" : "batteriesAndChargers"
+                "subtype" : "batteriesAndChargers",
+                "link" : {
+                    "href" : "#BATTERIES_CHARGERS",
+                    "text" : "See All 18 Batteries &amp; Chargers"
+                }
 
             },
             {
@@ -528,9 +539,5 @@
             "type": "packages/modules/product/html/product.jade",
             "data": "packages/modules/product/demo/data/vct-r100-remote.json"
         }
-    ],
-	"config": {
-		"module_name": "gallery",
-		"module_id": "gallery"
-	}
+    ]
 }

@@ -2,11 +2,13 @@
 //- +partial('example.html.jade', 'example/default.json')
 
 mixin partial(m, d, isSubmodule)
-  data = locals.data(d)
-  if isSubmodule
-    - data.isSubmodule = true
-  e = {"locals":locals, "data":data}
-  !{locals.partial('packages/modules/' + m, e)}
+  if ( m && d && m != true && d != true )
+    data = locals.data(d)
+    if isSubmodule
+      - data.isSubmodule = true
+    e = {"locals":locals, "data":data}
+    !{locals.partial('packages/modules/' + m, e)}
+
 
 mixin includeCSS(moduleName)
   e = {"locals": locals}
@@ -16,6 +18,7 @@ mixin includeCSS(moduleName)
     if (e.locals.modulescss.indexOf(moduleName) == -1)
       - e.locals.modulescss.push(moduleName)
 
+
 mixin includeJavascriptModule(moduleName)
   e = {"locals":locals}
   if ( !e.locals.javascriptModules )
@@ -23,6 +26,7 @@ mixin includeJavascriptModule(moduleName)
   if ( e.locals.javascriptModules )
     if ( e.locals.javascriptModules.indexOf(moduleName) == -1 )
       - e.locals.javascriptModules.push(moduleName)
+
 
 //- @param {array} classes an array of strings which will become classes on the main element
 mixin mainElement( classes )
@@ -59,6 +63,7 @@ mixin iQImage( img, extraClasses, itemprop )
     noscript
       img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
 
+
 //- Mixin for videos
 mixin sonyVideo ( videoData, extraClasses )
   classes = [ 'player', 'is-splash', 'no-time', 'play-button' ]
@@ -88,38 +93,6 @@ mixin sonyVideo ( videoData, extraClasses )
         source(type='video/flash',src=videoData.mp4)
 
 
-//-is anyone using this? we can probably dump it, seems everyone needed much more specific control over their headers.. -ps
-//- +1 to dump it - gc
-
-//- hgobject is an object with potential h# items and their text values
-//- for instance {"h2": "this is a h2", "h3": "this is a h3" }
-//- h#class is optional classes to add to the h if it finds one
-//- it will only add h#'s that exist or add classes that are defined
-//- if you pass it nothing it assumes data as the hgobject so if h#'s are defined in the top level of your json it picks them up
-//- ie: +hgroup()   or     +hgroup(someobject, "", "t3", "l1", "l2", "myclass")
-mixin hgroup (hgobject, h1class, h2class, h3class, h4class, h5class, h6class)
-  - hgobject = hgobject || data
-  - h1class = h1class || ""
-  - h2class = h2class || ""
-  - h3class = h3class || ""
-  - h4class = h4class || ""
-  - h5class = h5class || ""
-  - h6class = h6class || ""
-  .hgroup
-    if hgobject.h1
-      h1(class= h1class) !{hgobject.h1}
-    if hgobject.h2
-      h2(class= h2class) !{hgobject.h2}
-    if hgobject.h3
-      h3(class= h3class) !{hgobject.h3}
-    if hgobject.h4
-      h4(class= h4class) !{hgobject.h4}
-    if hgobject.h5
-      h5(class= h5class) !{hgobject.h5}
-    if hgobject.h6
-      h6(class= h6class) !{hgobject.h6}
-
-
 //- To be used with bootstrap's dropdown
 mixin shareMenu( socialButtons, shortLink, addCloseButton )
   //- Default to false
@@ -131,10 +104,10 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
         i.fonticon-10-x
     each social in socialButtons
       li
-        a(href=social.link)
+        a(href=social.href, title=social.title ? social.title : social.text, target=social.target ? social.target : false)
           span.social-icon(class=social.id + '-background-color')
             i(class=social.icon)
-          span.social-label.p3= social.label
+          span.social-label.p3= social.text
     li.input-holder
       span.link-icon.js-no-close
         i.fonticon-15-link.js-no-close
@@ -142,24 +115,34 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
 
 
 mixin link( linkObj, classes, icon, iconBefore )
-  classes = classes ? classes : []
-  text = linkObj.text ? linkObj.text : "linkObj.text"
-  //- Default the title to the link text if title is missing
-  title = linkObj.title ? linkObj.title : text
-  href = linkObj.href ? linkObj.href : "#HREF_MISSING"
-  //- If target is missing or empty, default it to false, which won't output the attribute
-  target = linkObj.target ? linkObj.target : false
+  if linkObj
+    classes = classes ? classes : false
+    //- text should default to something if it's undefined or null, but if it's false, don't output any text
+    text = linkObj.text != null ? linkObj.text : "linkObj.text"
+    //- Default the title to the link text if title is missing
+    title = linkObj.title ? linkObj.title : text
+    href = linkObj.href ? linkObj.href : "#HREF_MISSING"
+    //- If target is missing or empty, default it to false, which won't output the attribute
+    target = linkObj.target ? linkObj.target : false
 
-  a(class=classes, title=title, href=href, target=target)
-    if icon
-      if iconBefore
-        i(class=icon)
+    a(class=classes, title=title, href=href, target=target)
+      if icon
+        if iconBefore
+          i(class=icon)
+          if text
+            !{ text }
+        else
+          if text
+            !{ text }
+          i(class=icon)
+      else if text
         !{ text }
-      else
-        !{ text }
-        i(class=icon)
-    else
-      !{ text }
+
+      block
+  else
+    a(style="color:red")
+      span link object undefined!
+      block
 
 
 //- Link with a chevron
@@ -178,10 +161,12 @@ mixin appendBlock(name)
   block
   - buf[blocks[name]] += buf.splice(start, buf.length - start).join('');
 
+
 mixin scrollToTop()
   .scroll-to-top.container.full-bleed.opacity0
       a(href="#")
         i.fonticon-10-back-to-top
+
 
 mixin docsLinks( listName, suffix, exclude )
   //- Not sure why `locals` can only be used inside a mixin
