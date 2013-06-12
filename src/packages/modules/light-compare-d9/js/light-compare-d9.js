@@ -113,8 +113,11 @@ define(function(require){
         });
       } // end if(Modernizr.mediaqueries )
 
-     // initialize the router for deep linking
+      // initialize the router for deep linking
       Router.on('chapter-'+self.moduleId+'(/:a)', $.proxy(self.directFromHash, self));
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.measureModal, self ));
 
       self.$thumbNav.on(self.downEvent, function(e) { self.dragStart(e); });
 
@@ -129,7 +132,7 @@ define(function(require){
       var self = this;
 
       $('.launch-modal').on('click', $.proxy(self.launchModal, self));
-      self.$win.resize($.proxy(self.measureModal, this));
+      // self.$win.resize($.proxy(self.measureModal, this));
 
       if (self.useIScroll) {
         $('#' + self.modalID).on('shown', $.proxy(self.updateiScroll, self));
@@ -500,18 +503,11 @@ define(function(require){
       });
     },
 
-    launchModal: function() {
+    launchModal: function( evt ) {
       var self = this;
+      evt.preventDefault();
       $('#' + self.modalID).modal();
       self.measureModal();
-      self.orientationChange();
-    },
-
-    orientationChange: function() {
-      var self = this;
-
-      // Listen for global resize
-      Environment.on('global:resizeDebounced', $.proxy( self.measureModal, self ));
     },
 
     initiScroll: function() {
