@@ -77,17 +77,27 @@ mixin heart
   span(class=heartClass, data-default-title=inactiveTitle, data-default-clicked-title=inactiveClickedTitle, data-favorited-title=favoritedTitle, data-favorited-clicked-title=favoritedClickedTitle)
     i.fonticon-10-favorite
 
-mixin productRating( rating, reviews, reviewsText, reviewsLink )
-  //- Default to ' user reviews'
-  - if ( !reviewsText && reviewsText != '' ) reviewsText = ' user reviews'
+
+mixin productRating( rating, text, isLink )
+  //- Default to ' user reviews' if blank and not specified as empty string
+  if text == ''
+    text = ''
+  else if rating.text == null
+    text = ' user reviews'
+  else
+    //- Needs a space between for "# user reviews"
+    text = ' ' + rating.text
+
+  //- +link won't output any text if text is false. Only the <a> attributes are wanted
+  - rating.text = false
 
   //- Default to false
-  hasReviewLink = reviewsLink != null
+  hasReviewLink = isLink != null
 
   prefix = ' ('
   suffix = ')'
 
-  .product-rating(data-stars=rating, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
+  .product-rating(data-stars=rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
     span.star-holder
       i.fonticon-10-star
       i.fonticon-10-star-half
@@ -106,14 +116,14 @@ mixin productRating( rating, reviews, reviewsText, reviewsLink )
     span.lt4.reviews-text
       | !{ prefix }
       if hasReviewLink
-        a(href=reviewsLink)
-          span(itemprop="ratingCount")= reviews
-          span.review-text= reviewsText
+        +link( rating )
+          span(itemprop="ratingCount")= rating.reviews
+          span.review-text= text
       else
-        span(itemprop="ratingCount")= reviews
-        span.review-text= reviewsText
+        span(itemprop="ratingCount")= rating.reviews
+        span.review-text= text
       | !{ suffix }
-    meta(itemprop="ratingValue", content=rating)
+    meta(itemprop="ratingValue", content=rating.stars)
 
 
 mixin priceBlock( product, onlyName, href )
@@ -361,7 +371,7 @@ else if data.view == 'detailed'
           .product-name.p2
             strong(itemprop="name")= data.name
           .product-model.l3(itemprop="model")= data.model
-        +productRating( data.rating.stars, data.rating.reviews )
+        +productRating( data.rating )
 
         ul.product-meta
           each meta in data.meta
@@ -402,7 +412,7 @@ else if data.view == 'compare'
       .product-name-wrap
         p.product-name.t7(itemprop="name")= data.name
         p.product-model.l3-light(itemprop="model")= data.model
-      +productRating( data.rating.stars, data.rating.reviews, '' )
+      +productRating( data.rating, '' )
 
       .product-price
         span.price-prefix.p5 Starting at &nbsp;
@@ -748,7 +758,7 @@ else if data.view == 'summary'
           span(itemprop="model")= data.model
         +iQImage( data.img, 'm-product-img pull-right', 'image' )
 
-        +productRating( data.rating.stars, data.rating.reviews, undefined, data.reviewsLink )
+        +productRating( data.rating, undefined, true )
 
         if hasAttributeList || hasSwatches
           .inline-details.clearfix
@@ -841,7 +851,7 @@ else if data.view == 'search-results'
     .bd.feature-text
       p.t6-light.hdg-dark.title= product.title
       .reviews-copy
-        +productRating( product.rating.stars, product.rating.reviews )
+        +productRating( product.rating )
       p.p4= data.results.product.text
       ul.h-list.h-list-md
         each link in data.results.product.links
