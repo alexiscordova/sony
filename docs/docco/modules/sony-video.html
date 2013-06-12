@@ -67,8 +67,12 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Initalize the module</p>             </td>             <td class="code">               <div class="highlight"><pre>      init : <span class="keyword">function</span>( param ) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-        <span class="keyword">if</span>(Settings.isLTIE8){
+        <span class="keyword">if</span>(Settings.isLTIE8 || Settings.isAndroid){
           self.$player.addClass( <span class="string">'no-toggle is-mouseover'</span> );
+        }
+
+        <span class="keyword">if</span>(Settings.isAndroid &amp;&amp; !Settings.isSonyTabletS &amp;&amp; !Settings.isSonyTabletS){
+          self.$player.find(<span class="string">'.fp-ui'</span>).hide();
         }
 
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>initialize videos</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.videoAPI = sonyVideo.initVideos( self.$player );
@@ -85,31 +89,23 @@ define(<span class="keyword">function</span>(require){
             self.isFullScreen = <span class="literal">true</span>;
             self.onDebouncedResize();
 
-            <span class="keyword">if</span>(Settings.isLTIE10){
-              $(<span class="string">'body'</span>).css({
-                <span class="string">'overflow'</span> : <span class="string">'hidden'</span>
-              });
-            }
+           $(<span class="string">'body'</span>).css(<span class="string">'overflow'</span> , <span class="string">'hidden'</span>);
 
           }<span class="keyword">else</span> {
             self.isFullScreen = <span class="literal">false</span>;
             self.onDebouncedResize();
 
-            <span class="keyword">if</span>(Settings.isLTIE10){
-              $(<span class="string">'body'</span>).css({
-                <span class="string">'overflow'</span> : <span class="string">''</span>
-              });
-            }
-
+            $(<span class="string">'body'</span>).css(<span class="string">'overflow'</span> , <span class="string">''</span>);
+            
             self.$el.find(<span class="string">'.fp-ratio'</span>).css({
               <span class="string">'padding-top'</span>: self.$el.find(<span class="string">'.player'</span>).data(<span class="string">'ratio'</span>) * <span class="number">100</span> + <span class="string">'%'</span>
-            });   
+            });
             
-            self.$engine.css(<span class="string">'top'</span> , <span class="number">0</span>);    
+            self.$engine.css(<span class="string">'top'</span> , <span class="number">0</span>);
 
             <span class="keyword">if</span>(self.$el.hasClass(<span class="string">'normal'</span>)){
               self.$el.css(<span class="string">'height'</span>, <span class="string">''</span>);
-            }     
+            }
           }
 
         });
@@ -125,7 +121,7 @@ define(<span class="keyword">function</span>(require){
         }
         
         iQ.update();
-
+        
       },
       
       api: <span class="keyword">function</span>(){
@@ -162,8 +158,11 @@ define(<span class="keyword">function</span>(require){
           }
         }
 
-        <span class="keyword">if</span>(self.isFullScreen || Settings.isSonyTabletS){
+        <span class="keyword">if</span>(self.isFullScreen || Settings.isSonyTabletS || Settings.isAndroid){
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>console.log(self.isFullScreen);</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$engine.css(<span class="string">'top'</span> , <span class="number">0</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>window.alert(Settings.isAndroid);</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$el.find(<span class="string">'.fp-fullscreen'</span>).css({
+            opacity :  <span class="number">0</span>
+          });
         }
 
         <span class="keyword">if</span>(wW &lt; <span class="number">567</span>){
@@ -171,7 +170,7 @@ define(<span class="keyword">function</span>(require){
             <span class="string">'padding-top'</span>: self.$el.find(<span class="string">'.player'</span>).data(<span class="string">'ratio'</span>) * <span class="number">100</span> + <span class="string">'%'</span>
           });
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>self.$el.css('height' , 'auto');</p>             </td>             <td class="code">               <div class="highlight"><pre>        }<span class="keyword">else</span>{
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>self.$el.css('height' , 'auto');</p>             </td>             <td class="code">               <div class="highlight"><pre>        }<span class="keyword">else</span>{
           self.$el.find(<span class="string">'.fp-ratio'</span>).css({
             <span class="string">'padding-top'</span>: <span class="string">''</span>
           });
@@ -180,15 +179,15 @@ define(<span class="keyword">function</span>(require){
 
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>end prototype object</p>             </td>             <td class="code">               <div class="highlight"><pre>    };
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>jQuery Plugin Definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sonyVideo = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>jQuery Plugin Definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sonyVideo = <span class="keyword">function</span>( options ) {
       <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> self = $( <span class="keyword">this</span> ),
           sonyVideo = self.data( <span class="string">'sonyVideo'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !sonyVideo ) {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !sonyVideo ) {
             sonyVideo = <span class="keyword">new</span> SonyVideo( self, options );
             self.data( <span class="string">'sonyVideo'</span>, sonyVideo );
         }
@@ -199,9 +198,9 @@ define(<span class="keyword">function</span>(require){
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sonyVideo.defaults = {};
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sonyVideo.defaults = {};
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sonyVideo.settings = {};
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sonyVideo.settings = {};
   
     <span class="keyword">return</span> self;
  });
