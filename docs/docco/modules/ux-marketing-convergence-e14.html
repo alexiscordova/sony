@@ -42,7 +42,8 @@ define(<span class="keyword">function</span>(require){
     self.$html                   = Settings.$html;
     self.$el                     = $(element);
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.isInit                  = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.isAndroid               = Settings.isAndroid;
+    self.isInit                  = <span class="literal">true</span>;
     self.isResize                = <span class="literal">false</span>;
     self.isAutomatic             = <span class="literal">true</span>;
     self.currentPartnerProduct   = <span class="number">0</span>;
@@ -224,7 +225,6 @@ Label active dial for IE fallbacks.</p>             </td>             <td class=
 
 </pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>rest sytles on new dials</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setDialStyle(<span class="string">"off"</span>);
       self.$dials.simpleKnob(self.dialStyle).show();
-
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>set dial styles according to breakpoint and on/off state</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'setDialStyle'</span> : <span class="keyword">function</span>(state){
@@ -282,11 +282,13 @@ Label active dial for IE fallbacks.</p>             </td>             <td class=
 
     <span class="string">'gotoPartnerProduct'</span>: <span class="keyword">function</span>(which) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          newSlideColor;
+          newSlideColor,
+          noAnimation = self.isAndroid;
 
 </pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>fade out existing slide</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.fadeOutContent(self.currentPartnerProduct);
 
-</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>sonyCarousel api call</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carouselInstance.sonyCarousel(<span class="string">'gotoSlide'</span>, which);
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>sonyCarousel api call</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      self.$carouselInstance.sonyCarousel(<span class="string">'gotoSlide'</span>, which, noAnimation);
 
 </pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>fade in new slide</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.fadeInContent(which);
 
