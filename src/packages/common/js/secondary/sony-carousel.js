@@ -367,21 +367,10 @@ define(function(require){
       return destinationPosition;
     },
 
-    gotoSlide: function(which, noAnim) {
+    getAdjustedPosition: function($destinationSlide) {
 
       var self = this,
-          $slideSet = self.$slides,
-          speed = ( noAnim ? 0 : self.animationSpeed ),
-          $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
-
-      self.setupLoopedCarouselSlides(which, $slideSet, function($slides, $dest){
-        $slideSet = $slides;
-        $destinationSlide = $dest;
-      });
-
-      self.setupJumpedCarouselSlides(speed, $destinationSlide);
-
-      if ( $destinationSlide.length === 0 ) { return; }
+          innerContainerMeasurement, destinationPosition, adjustedPosition, childrenSumMeasurement;
 
       if ( self.direction === 'horizontal' ) {
         innerContainerMeasurement = self.$el.width();
@@ -393,20 +382,57 @@ define(function(require){
 
       if ( self.useCSS3 ) {
 
-        newPosition = destinationPosition / innerContainerMeasurement;
+        adjustedPosition = destinationPosition / innerContainerMeasurement;
 
-        // If you're on the last slide, only move over enough to show the last child.
-        // Prevents excess whitespace on the right.
+        if ( self.$slides.index($destinationSlide) === self.$slides.length - 1 ) {
 
-        if ( self.slideChildren && which === $slideSet.length - 1 ) {
-          var childrenSumMeasurement = 0;
+          childrenSumMeasurement = 0;
 
           if ( self.direction === 'horizontal' ) {
             $destinationSlide.find(self.slideChildren).each(function(){ childrenSumMeasurement += $(this).outerWidth(true); });
-            newPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
+            adjustedPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
           }
-
         }
+
+      } else {
+
+        if ( self.direction === 'horizontal' ) {
+          adjustedPosition = destinationPosition / self.$wrapper.width();
+        } else {
+          adjustedPosition = destinationPosition / self.$wrapper.height();
+        }
+
+        if ( self.$slides.index($destinationSlide) === self.$slides.length - 1 ) {
+
+          childrenSumMeasurement = 0;
+
+          if ( self.direction === 'horizontal' ) {
+            $destinationSlide.find(self.slideChildren).each(function(){ childrenSumMeasurement += $(this).outerWidth(true); });
+            adjustedPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / self.$wrapper.width();
+          }
+        }
+      }
+
+      return adjustedPosition;
+    },
+
+    gotoSlide: function(which, noAnim) {
+
+      var self = this,
+          $slideSet = self.$slides,
+          speed = ( noAnim ? 0 : self.animationSpeed ),
+          $destinationSlide, destinationRedirect, repositionCb;
+
+      self.setupLoopedCarouselSlides(which, $slideSet, function($slides, $dest){
+        $slideSet = $slides;
+        $destinationSlide = $dest;
+      });
+
+      self.setupJumpedCarouselSlides(speed, $destinationSlide);
+
+      if ( $destinationSlide.length === 0 ) { return; }
+
+      if ( self.useCSS3 ) {
 
         self.$el.on(Settings.transEndEventName + '.slideMoveEnd', function(e){
 
@@ -422,9 +448,9 @@ define(function(require){
         self.$el.css(Modernizr.prefixed('transitionDuration'), speed + 'ms' );
 
         if ( self.direction === 'horizontal' ) {
-          self.$el.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ', 0)');
+          self.$el.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * self.getAdjustedPosition($destinationSlide) + '%') + ', 0)');
         } else {
-          self.$el.css(Modernizr.prefixed('transform'), 'translate(0, ' + (-100 * newPosition + '%') + ')');
+          self.$el.css(Modernizr.prefixed('transform'), 'translate(0, ' + (-100 * self.getAdjustedPosition($destinationSlide) + '%') + ')');
         }
 
       } else {
@@ -432,9 +458,9 @@ define(function(require){
         var props = {};
 
         if ( self.direction === 'horizontal' ) {
-          props[self.posAttr] = -100 * destinationPosition / self.$wrapper.width() + '%';
+          props[self.posAttr] = -100 * self.getAdjustedPosition($destinationSlide) + '%';
         } else {
-          props[self.posAttr] = -100 * destinationPosition / self.$wrapper.height() + '%';
+          props[self.posAttr] = -100 * self.getAdjustedPosition($destinationSlide) + '%';
         }
 
         self.$el.animate(props, {
