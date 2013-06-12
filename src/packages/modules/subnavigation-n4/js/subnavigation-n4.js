@@ -132,13 +132,15 @@ define(function(require){
 
       var self = this,
           isMobile = (self.mode === 'mobile'),
-          currentSlide;
+          currentSlide = 0;
 
       Utilities.reassignSpanWidths(self.$navgroups.find('.subcategory-link'), columns);
 
       self.$navgroups = Utilities.gridApportion({
         $groups: self.$navgroups
       });
+
+      self.$slideChildren = self.$navgroups.find('.subcategory-link');
 
       if ( self.$navgroups.find('.active').length > 0 ) {
         currentSlide = self.$navgroups.find('.active').closest(self.$navgroups).index();
@@ -161,15 +163,8 @@ define(function(require){
         useSmallPaddles: !isMobile
       });
 
-      self.$navCarousel.on('sonyDraggable:dragStart', function(){
-
-      });
-
-      self.$navCarousel.on('sonyDraggable:dragEnd', function(){
-
-      });
-
       self.$navCarousel.sonyCarousel('gotoSlide', currentSlide, true);
+      self.revealOnlyGroup(currentSlide);
 
       self.bindNav();
     },
@@ -181,6 +176,14 @@ define(function(require){
       var self = this,
           $buttons = self.$navgroups.find('.grid').children(),
           debouncedeNavTap;
+
+      self.$navCarousel.on('sonyDraggable:dragStart', function(){
+        self.$slideChildren.addClass('on');
+      });
+
+      self.$navCarousel.on('SonyCarousel:gotoSlide', function(e, which){
+        self.revealOnlyGroup(which);
+      });
 
       $buttons.on('click', function(){
         return !$(this).hasClass('has-products');
@@ -194,6 +197,24 @@ define(function(require){
       });
 
       $buttons.hammer().on('tap', debouncedeNavTap);
+    },
+
+    // Fade up only the elements of group with index `whichGroup`.
+
+    revealOnlyGroup: function(whichGroup) {
+
+      var self = this,
+          $targetChildren = self.$navgroups.eq(whichGroup).find(self.$slideChildren),
+          childrenPerSlide = self.$navgroups.first().find(self.$slideChildren).length;
+
+      if ( $targetChildren.length < childrenPerSlide ) {
+        $targetChildren = $targetChildren.add( self.$navgroups.eq(whichGroup - 1).find(self.$slideChildren).slice($targetChildren.length) );
+      }
+
+      setTimeout(function(){
+        self.$slideChildren.removeClass('on');
+        $targetChildren.addClass('on');
+      }, 500);
     },
 
     // Open or close nav depending on whether the currently tapped item is active.

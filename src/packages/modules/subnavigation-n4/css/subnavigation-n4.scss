@@ -46,7 +46,8 @@ $maxChildren: 20;
     }
 
     .subcategory-link {
-      @include transition(border-width 150ms);
+      @include transition(border-width 150ms, opacity 500ms);
+      @include opacity(0);
       height: 155px;
       display: inline-block;
       border-bottom-style: solid;
@@ -60,6 +61,10 @@ $maxChildren: 20;
         display: inline;
         float: left;
         border-bottom-style: none;
+      }
+
+      &.on {
+        @include opacity(100);
       }
 
       &.active {

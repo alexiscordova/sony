@@ -221,7 +221,7 @@ define(function(require){
         return;
       }
 
-      if ( gesture.velocityX > 0.7 ) {
+      if ( gesture && gesture.velocityX > 0.7 ) {
         if ( gesture.direction === 'right' ) {
           if ( self.currentSlide === 0 ) {
             self.gotoNearestSlide();
