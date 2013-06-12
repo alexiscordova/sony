@@ -30,6 +30,7 @@ define(<span class="keyword">function</span>(require){
 
   <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
       Modernizr = require(<span class="string">'modernizr'</span>),
+      Settings = require(<span class="string">'require/sony-global-settings'</span>),
       Utilities = require(<span class="string">'require/sony-global-utilities'</span>);
 
   <span class="keyword">var</span> _id = <span class="number">0</span>,
@@ -116,8 +117,10 @@ cache the new interaction's start position, then bind for movement onto onScrubb
           distX = self.getPagePosition(e).x - self.handleStartPosition.x,
           distY = self.getPagePosition(e).y - self.handleStartPosition.y;
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>If you didn't pass in a threshold setting, or if you've passed the dragging threshold, go ahead and scrub.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-      <span class="keyword">if</span> ( !self.dragThreshold || self.isScrubbing ) {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>If you didn't pass in a threshold setting, or if you've passed the dragging threshold, go ahead and scrub.
+IE 8 and below also must start scrubbing immediately; otherwise the non-standard img/anchor dragging features
+of those browsers kick in.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      <span class="keyword">if</span> ( Settings.isLTIE9 || !self.dragThreshold || self.isScrubbing ) {
         self.isScrubbing = <span class="literal">true</span>;
         self.onScrubbing(e, distX, distY);
         <span class="keyword">return</span>;
