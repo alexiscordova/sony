@@ -4,7 +4,7 @@
 <ul>
 <li><strong>Class:</strong> MarketingConvergenceModule</li>
 <li><strong>Version:</strong> 0.2</li>
-<li><strong>Modified:</strong> 06/05/2013</li>
+<li><strong>Modified:</strong> 06/11/2013</li>
 <li><strong>Author:</strong> George Pantazis, Telly Koosis</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+, <a href="jquery.simpleknob.html">jQuery SimpleKnob</a>, <a href="sony-carousel.html">SonyCarousel</a></li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -91,13 +91,14 @@ define(<span class="keyword">function</span>(require){
 
         <span class="keyword">if</span>( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>register resize events; event is also triggered on init</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.registerEnquire();
+        }<span class="keyword">else</span>{
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>still set active dial in IE</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.setActiveDial();
         }
       }
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>always show content of first slide</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.fadeInContent(self.currentPartnerProduct);
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>always show content of first slide</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.fadeInContent(self.currentPartnerProduct);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>create carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'initCarousel'</span> : <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>console.log( 'initCarousel »');</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>create carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'initCarousel'</span> : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$carouselInstance = self.$carousel.sonyCarousel({
@@ -211,19 +212,27 @@ if the dial is active and manual > no over/out (do nothing)</p>             </td
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Update the current progress indicator dial, reset others to zero, and timestamp the event.
-Label active dial for IE fallbacks.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'resetDials'</span>: <span class="keyword">function</span>() {
+    <span class="string">'setActiveDial'</span> : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
       self.$activeDial = self.$dials.eq(self.currentPartnerProduct);
       self.$activeDialLabel = self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels);
-      self.$dials.not(self.$activeDial).val(<span class="number">0</span>).trigger(<span class="string">'change'</span>);
 
-      self.slideStartTime = <span class="keyword">new</span> Date();
-
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>set current active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$dialLabels.removeClass(<span class="string">'active'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>set current active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$dialLabels.removeClass(<span class="string">'active'</span>);
       self.$activeDialLabel.addClass(<span class="string">'active'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>rest sytles on new dials</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setDialStyle(<span class="string">"off"</span>);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Update the current progress indicator dial, reset others to zero, and timestamp the event.
+Label active dial for IE fallbacks.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'resetDials'</span>: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$dials.not(self.$activeDial).val(<span class="number">0</span>).trigger(<span class="string">'change'</span>);
+      self.slideStartTime = <span class="keyword">new</span> Date();
+
+      self.setActiveDial();
+
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>rest styles on new dials</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setDialStyle(<span class="string">"off"</span>);
       self.$dials.simpleKnob(self.dialStyle).show();
     },
 
@@ -329,6 +338,8 @@ css transitions opacity on</p>             </td>             <td class="code">  
         .eq(which)
         .find(<span class="string">".sony-carousel-slide-children"</span>)
         .addClass(<span class="string">"active"</span>);
+
+
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>Animations that should occur as the window is ready to paint.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'animationLoop'</span>: <span class="keyword">function</span>() {

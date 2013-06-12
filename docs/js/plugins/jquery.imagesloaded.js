@@ -1,128 +1,267 @@
 /*!
- * jQuery imagesLoaded plugin v2.1.1
- * http://github.com/desandro/imagesloaded
- *
- * MIT License. by Paul Irish et al.
+ * imagesLoaded v3.0.1
+ * JavaScript is all like "You images are done yet or what?"
  */
 
-/*jshint curly: true, eqeqeq: true, noempty: true, strict: true, undef: true, browser: true */
-/*global jQuery: false */
+/* AMD wrapper edited by Nurun for Sony.com */
 
 define(function(require){
 
-  'use strict';
+'use strict';
 
-  var $ = require('jquery');
+var $ = require('jquery');
+var ee = require('plugins/jquery.eventemitter');
+var eventie = require('plugins/jquery.eventie');
 
-  // blank image data-uri bypasses webkit log warning (thx doug jones)
-  var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+var console = window.console;
+var hasConsole = typeof console !== 'undefined';
 
-  $.fn.imagesLoaded = function( callback ) {
-    var $this = this,
-      deferred = $.isFunction($.Deferred) ? $.Deferred() : 0,
-      hasNotify = $.isFunction(deferred.notify),
-      $images = $this.find('img').add( $this.filter('img') ),
-      loaded = [],
-      proper = [],
-      broken = [];
+// -------------------------- helpers -------------------------- //
 
-    // Register deferred callbacks
-    if ($.isPlainObject(callback)) {
-      $.each(callback, function (key, value) {
-        if (key === 'callback') {
-          callback = value;
-        } else if (deferred) {
-          deferred[key](value);
-        }
-      });
+// extend objects
+function extend( a, b ) {
+  for ( var prop in b ) {
+    a[ prop ] = b[ prop ];
+  }
+  return a;
+}
+
+var objToString = Object.prototype.toString;
+function isArray( obj ) {
+  return objToString.call( obj ) === '[object Array]';
+}
+
+// turn element or nodeList into an array
+function makeArray( obj ) {
+  var ary = [];
+  if ( isArray( obj ) ) {
+    // use object if already an array
+    ary = obj;
+  } else if ( typeof obj.length === 'number' ) {
+    // convert nodeList to array
+    for ( var i=0, len = obj.length; i < len; i++ ) {
+      ary.push( obj[i] );
+    }
+  } else {
+    // array of single index
+    ary.push( obj );
+  }
+  return ary;
+}
+
+// --------------------------  -------------------------- //
+
+function defineImagesLoaded( EventEmitter, eventie ) {
+
+  /**
+   * @param {Array, Element, NodeList, String} elem
+   * @param {Object or Function} options - if function, use as callback
+   * @param {Function} onAlways - callback function
+   */
+  function ImagesLoaded( elem, options, onAlways ) {
+    // coerce ImagesLoaded() without new, to be new ImagesLoaded()
+    if ( !( this instanceof ImagesLoaded ) ) {
+      return new ImagesLoaded( elem, options );
+    }
+    // use elem as selector string
+    if ( typeof elem === 'string' ) {
+      elem = document.querySelectorAll( elem );
     }
 
-    function doneLoading() {
-      var $proper = $(proper),
-        $broken = $(broken);
+    this.elements = makeArray( elem );
+    this.options = extend( {}, this.options );
 
-      if ( deferred ) {
-        if ( broken.length ) {
-          deferred.reject( $images, $proper, $broken );
-        } else {
-          deferred.resolve( $images );
-        }
-      }
-
-      if ( $.isFunction( callback ) ) {
-        callback.call( $this, $images, $proper, $broken );
-      }
-    }
-
-    function imgLoadedHandler( event ) {
-      imgLoaded( event.target, event.type === 'error' );
-    }
-
-    function imgLoaded( img, isBroken ) {
-      // don't proceed if BLANK image, or image is already loaded
-      if ( img.src === BLANK || $.inArray( img, loaded ) !== -1 ) {
-        return;
-      }
-
-      // store element in loaded images array
-      loaded.push( img );
-
-      // keep track of broken and properly loaded images
-      if ( isBroken ) {
-        broken.push( img );
-      } else {
-        proper.push( img );
-      }
-
-      // cache image and its state for future calls
-      $.data( img, 'imagesLoaded', { isBroken: isBroken, src: img.src } );
-
-      // trigger deferred progress method if present
-      if ( hasNotify ) {
-        deferred.notifyWith( $(img), [ isBroken, $images, $(proper), $(broken) ] );
-      }
-
-      // call doneLoading and clean listeners if all images are loaded
-      if ( $images.length === loaded.length ) {
-        setTimeout( doneLoading );
-        $images.unbind( '.imagesLoaded', imgLoadedHandler );
-      }
-    }
-
-    // if no images, trigger immediately
-    if ( !$images.length ) {
-      doneLoading();
+    if ( typeof options === 'function' ) {
+      onAlways = options;
     } else {
-      $images.bind( 'load.imagesLoaded error.imagesLoaded', imgLoadedHandler )
-      .each( function( i, el ) {
-        var src = el.src;
-
-        // find out if this image has been already checked for status
-        // if it was, and src has not changed, call imgLoaded on it
-        var cached = $.data( el, 'imagesLoaded' );
-        if ( cached && cached.src === src ) {
-          imgLoaded( el, cached.isBroken );
-          return;
-        }
-
-        // if complete is true and browser supports natural sizes, try
-        // to check for image status manually
-        if ( el.complete && el.naturalWidth !== undefined ) {
-          imgLoaded( el, el.naturalWidth === 0 || el.naturalHeight === 0 );
-          return;
-        }
-
-        // cached images don't fire load sometimes, so we reset src, but only when
-        // dealing with IE, or image is complete (loaded) and failed manual check
-        // webkit hack from http://groups.google.com/group/jquery-dev/browse_thread/thread/eee6ab7b2da50e1f
-        if ( el.readyState || el.complete ) {
-          el.src = BLANK;
-          el.src = src;
-        }
-      });
+      extend( this.options, options );
     }
 
-    return deferred ? deferred.promise( $this ) : $this;
+    if ( onAlways ) {
+      this.on( 'always', onAlways );
+    }
+
+    this.getImages();
+
+    if ( $ ) {
+      // add jQuery Deferred object
+      this.jqDeferred = new $.Deferred();
+    }
+
+    // HACK check async to allow time to bind listeners
+    var _this = this;
+    setTimeout( function() {
+      _this.check();
+    });
+  }
+
+  ImagesLoaded.prototype = new EventEmitter();
+
+  ImagesLoaded.prototype.options = {};
+
+  ImagesLoaded.prototype.getImages = function() {
+    this.images = [];
+
+    // filter & find items if we have an item selector
+    for ( var i=0, len = this.elements.length; i < len; i++ ) {
+      var elem = this.elements[i];
+      // filter siblings
+      if ( elem.nodeName === 'IMG' ) {
+        this.addImage( elem );
+      }
+      // find children
+      var childElems = elem.querySelectorAll('img');
+      // concat childElems to filterFound array
+      for ( var j=0, jLen = childElems.length; j < jLen; j++ ) {
+        var img = childElems[j];
+        this.addImage( img );
+      }
+    }
   };
+
+  /**
+   * @param {Image} img
+   */
+  ImagesLoaded.prototype.addImage = function( img ) {
+    var loadingImage = new LoadingImage( img );
+    this.images.push( loadingImage );
+  };
+
+  ImagesLoaded.prototype.check = function() {
+    var _this = this;
+    var checkedCount = 0;
+    var length = this.images.length;
+    this.hasAnyBroken = false;
+    function onConfirm( image, message ) {
+      if ( _this.options.debug && hasConsole ) {
+        console.log( 'confirm', image, message );
+      }
+
+      _this.progress( image );
+      checkedCount++;
+      if ( checkedCount === length ) {
+        _this.complete();
+      }
+      return true; // bind once
+    }
+
+    for ( var i=0; i < length; i++ ) {
+      var loadingImage = this.images[i];
+      loadingImage.on( 'confirm', onConfirm );
+      loadingImage.check();
+    }
+  };
+
+  ImagesLoaded.prototype.progress = function( image ) {
+    this.hasAnyBroken = this.hasAnyBroken || !image.isLoaded;
+    this.emit( 'progress', this, image );
+    if ( this.jqDeferred ) {
+      this.jqDeferred.notify( this, image );
+    }
+  };
+
+  ImagesLoaded.prototype.complete = function() {
+    var eventName = this.hasAnyBroken ? 'fail' : 'done';
+    this.isComplete = true;
+    this.emit( eventName, this );
+    this.emit( 'always', this );
+    if ( this.jqDeferred ) {
+      var jqMethod = this.hasAnyBroken ? 'reject' : 'resolve';
+      this.jqDeferred[ jqMethod ]( this );
+    }
+  };
+
+  // -------------------------- jquery -------------------------- //
+
+  if ( $ ) {
+    $.fn.imagesLoaded = function( options, callback ) {
+      var instance = new ImagesLoaded( this, options, callback );
+      return instance.jqDeferred.promise( $(this) );
+    };
+  }
+
+
+  // --------------------------  -------------------------- //
+
+  var cache = {};
+
+  function LoadingImage( img ) {
+    this.img = img;
+  }
+
+  LoadingImage.prototype = new EventEmitter();
+
+  LoadingImage.prototype.check = function() {
+    // first check cached any previous images that have same src
+    var cached = cache[ this.img.src ];
+    if ( cached ) {
+      this.useCached( cached );
+      return;
+    }
+    // add this to cache
+    cache[ this.img.src ] = this;
+
+    // If complete is true and browser supports natural sizes,
+    // try to check for image status manually.
+    if ( this.img.complete && this.img.naturalWidth !== undefined ) {
+      // report based on naturalWidth
+      this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
+      return;
+    }
+
+    // If none of the checks above matched, simulate loading on detached element.
+    var proxyImage = this.proxyImage = new Image();
+    eventie.bind( proxyImage, 'load', this );
+    eventie.bind( proxyImage, 'error', this );
+    proxyImage.src = this.img.src;
+  };
+
+  LoadingImage.prototype.useCached = function( cached ) {
+    if ( cached.isConfirmed ) {
+      this.confirm( cached.isLoaded, 'cached was confirmed' );
+    } else {
+      var _this = this;
+      cached.on( 'confirm', function( image ) {
+        _this.confirm( image.isLoaded, 'cache emitted confirmed' );
+        return true; // bind once
+      });
+    }
+  };
+
+  LoadingImage.prototype.confirm = function( isLoaded, message ) {
+    this.isConfirmed = true;
+    this.isLoaded = isLoaded;
+    this.emit( 'confirm', this, message );
+  };
+
+  // trigger specified handler for event type
+  LoadingImage.prototype.handleEvent = function( event ) {
+    var method = 'on' + event.type;
+    if ( this[ method ] ) {
+      this[ method ]( event );
+    }
+  };
+
+  LoadingImage.prototype.onload = function() {
+    this.confirm( true, 'onload' );
+    this.unbindProxyEvents();
+  };
+
+  LoadingImage.prototype.onerror = function() {
+    this.confirm( false, 'onerror' );
+    this.unbindProxyEvents();
+  };
+
+  LoadingImage.prototype.unbindProxyEvents = function() {
+    eventie.unbind( this.proxyImage, 'load', this );
+    eventie.unbind( this.proxyImage, 'error', this );
+  };
+
+  // -----  ----- //
+
+  return ImagesLoaded;
+}
+
+  defineImagesLoaded(ee, eventie);
 
 });

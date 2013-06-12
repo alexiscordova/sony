@@ -88,7 +88,6 @@ define(function(require){
       self.$container.addClass( 'dim-the-lights' );
 
       // if not, manage the payload by exposing a loader
-      console.log('checking for the sequence');
 
       // since IE and iQ are not getting along we need to delay this a bit
       // heres the idea, we show the loading screen and then one by one with a
@@ -479,7 +478,6 @@ define(function(require){
           $.inspect(obj[p], n + "." + p);
           return;
         }
-        console.log(n + "." + p.toString() + " = " + obj[p]);
       }
     }
   });

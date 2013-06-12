@@ -735,7 +735,7 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('brutalize', function(module, depth){
+  grunt.registerTask('brutalize', function(module, depth, fullTilt){
 
     var fs = require('fs'),
         _ = require('underscore'),
@@ -763,6 +763,7 @@ module.exports = function(grunt) {
     var runTest = function(JSONPath){
 
       var jadePath = JSONPath.split('.json')[0] + '.jade';
+      var jade = require('grunt-contrib-jade/node_modules/jade');
 
       fs.readFile(JSONPath, 'utf8', function (err, data) {
 
@@ -771,8 +772,7 @@ module.exports = function(grunt) {
         }
 
         var originalJSON = JSON.parse(data),
-            brutalized = JSONBrutalize.generate(originalJSON, depth),
-            failcount = 0,
+            brutalized = JSONBrutalize.generate(originalJSON, depth, fullTilt),
             errors = [],
             totaltests = brutalized.length,
             i = 0;
@@ -790,9 +790,9 @@ module.exports = function(grunt) {
               } else {
                 console.log('\n');
                 console.log(blue + 'Testing: ' + JSONPath + reset);
-                console.log('Passed ' + (totaltests - failcount) + '/' + totaltests + ' tests.');
+                console.log('Passed ' + (totaltests - errors.length) + '/' + totaltests + ' tests.');
                 console.log('unique errors: ' + _.uniq(errors).length);
-                done( failcount === 0 );
+                done( errors.length === 0 );
                 return;
               }
             });
@@ -807,10 +807,14 @@ module.exports = function(grunt) {
                     done(false);
                   }
 
+                  // console.log( '(' + (which+1) +'/'+ totaltests + ') ' + (process.memoryUsage().heapTotal - process.memoryUsage().heapUsed) );
+
                   try {
-                    require('grunt-contrib-jade/node_modules/jade').compile(data, {
+
+                    jade.compile(data, {
                       'filename': jadePath
                     })(jadeconfig.data);
+
                   } catch (e) {
 
                     console.log('\n');
@@ -822,7 +826,6 @@ module.exports = function(grunt) {
                     console.log(red + e + reset);
                     console.log('\n');
 
-                    failcount++;
                     errors.push(e.toString());
                   }
 

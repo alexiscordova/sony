@@ -33,7 +33,7 @@ define(function(require) {
 
   var module = {
     init: function() {
-      
+
 
       var $rpInstances = $('.related-products').relatedProducts(),
       hasInittedTabs = false,
@@ -61,11 +61,8 @@ define(function(require) {
           $productPanels.not($currentPanel).addClass('inactive invisible');
           $tabs.eq(0).addClass('active');
 
-
-          console.log( $tabs.eq(0).addClass('active') );
-          
           // Not tabs, exit
-          if (!$tabs.length) {           
+          if (!$tabs.length) {
             return;
           }
 
@@ -118,13 +115,12 @@ define(function(require) {
           } else {
             $tabs
               .on('click', handleTabClick);
-          }      
-      
+          }
+
         }
 
         if(iterator >= tabbedChildrenLength){
           hasInittedTabs = false;
-          console.log(iterator , tabbedChildrenLength);
           iterator = 0;
         }
 
@@ -277,21 +273,21 @@ define(function(require) {
         if (!self.hasTouch) {
           self.createPaddles();
         }
-      
+
       if(self.$slides.length > 1){
         self.$container.on(self.downEvent, function(e) {
           self.onDragStart(e);
-        });   
+        });
       }
 
       } else {
         self.$pagination = $({});
       }
-      
+
       self.setSortPriorities();
       self.setupResizeListener();
       self.$win.trigger('resize.rp');
-      
+
     },
 
     //Fixes a bug in IE when media queries aren't available
@@ -1029,7 +1025,7 @@ define(function(require) {
 
           self.$el.removeClass('rp-desktop rp-mobile')
             .addClass('rp-tablet');
-        
+
           self.sliderOverflow.css('overflow' , 'hidden');
 
           self.$el.parents('.rp-section').css('overflow' , '');
@@ -1782,7 +1778,7 @@ define(function(require) {
 /*          if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
             tileHeight = $slide.find('.gallery-item.plate').first().height();
           }*/
-          
+
           tileHeight = $slide.find('.gallery-item.plate').first().height();
 
           $slide.find('.gallery-item.normal').css({
@@ -1837,7 +1833,7 @@ define(function(require) {
 
       if( self.breakPointChanged ){
         setTimeout(function(){
-          //self.$win.trigger('resize.rp'); // this works but it pops 
+          //self.$win.trigger('resize.rp'); // this works but it pops
           self.handleResize(); //hopefully a more direct approach
         } , 500);
       }else{

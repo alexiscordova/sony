@@ -287,16 +287,27 @@ specifying the module's activation.</p>             </td>             <td class=
           thumbWidth = $anchors.first().width(),
           slideWidth = $slides.first().width(),
           thumbsPerSlide = Math.max( Math.floor( slideWidth / ( thumbWidth - <span class="number">1</span> ) ) - <span class="number">1</span>, <span class="number">1</span> ),
-          slideCount = Math.ceil( $anchors.length / thumbsPerSlide );
+          anchorCount = $anchors.length,
+          slideCount;
 
       <span class="keyword">var</span> $slideClone = $slides.first().clone().empty(),
           newSlides = [];
+
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>If the final slide has less than four anchors, decrement <code>thumbsPerSlide</code> by
+one until the last slide has at least four anchors.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      <span class="keyword">while</span> ( anchorCount % thumbsPerSlide &lt; <span class="number">4</span> &amp;&amp; thumbsPerSlide &gt; <span class="number">1</span> ) {
+        thumbsPerSlide = Math.max( thumbsPerSlide - <span class="number">1</span>, <span class="number">1</span> );
+      }
+
+      slideCount = Math.ceil( anchorCount / thumbsPerSlide );
 
       <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; slideCount; i++ ) {
 
         newSlides[i] = $slideClone.clone().get(<span class="number">0</span>);
 
-        $(newSlides[i]).css(<span class="string">'left'</span>, <span class="number">100</span> * i + <span class="string">'%'</span>);
+        <span class="keyword">var</span> gridWidthRatio = self.$window.width() / self.$thumbNav.width();
+
+        $(newSlides[i]).css(<span class="string">'left'</span>, <span class="number">100</span> * (gridWidthRatio + <span class="number">1</span>) / <span class="number">2</span> * i + <span class="string">'%'</span>);
 
         <span class="keyword">for</span> ( <span class="keyword">var</span> j = <span class="number">0</span>; j &lt; thumbsPerSlide; j++ ) {
           $anchors.eq(thumbsPerSlide * i + j).appendTo(newSlides[i]);
@@ -304,6 +315,7 @@ specifying the module's activation.</p>             </td>             <td class=
 
         <span class="keyword">var</span> $slideAnchors = $(newSlides[i]).find(<span class="string">'a'</span>);
 
+        $slideAnchors.removeClass(<span class="string">'first last'</span>);
         $slideAnchors.first().addClass(<span class="string">'first'</span>);
         $slideAnchors.last().addClass(<span class="string">'last'</span>);
       }
@@ -330,7 +342,7 @@ specifying the module's activation.</p>             </td>             <td class=
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>    onThumbSelected: <span class="keyword">function</span>(evt) {
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>    onThumbSelected: <span class="keyword">function</span>(evt) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $el = $(evt.delegateTarget),
         $anchors = self.$thumbNav.find(<span class="string">'a'</span>),
@@ -344,7 +356,7 @@ specifying the module's activation.</p>             </td>             <td class=
       self.$slideContainer.sonyCarousel(<span class="string">'gotoSlide'</span>, self.currentId);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>    setCurrentActiveThumb: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>    setCurrentActiveThumb: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $anchors = self.$thumbNav.find(<span class="string">'a'</span>);
 
@@ -352,7 +364,7 @@ specifying the module's activation.</p>             </td>             <td class=
       $anchors.eq(self.currentId).addClass(<span class="string">'active'</span>);
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>end prototype</p>             </td>             <td class="code">               <div class="highlight"><pre>  };
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>end prototype</p>             </td>             <td class="code">               <div class="highlight"><pre>  };
 
 
 

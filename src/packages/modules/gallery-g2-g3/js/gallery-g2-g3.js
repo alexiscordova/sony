@@ -89,8 +89,16 @@ define(function(require){
     debouncedResize = $.debounce( 325, $.proxy( self.debouncedResize, self ) );
     self.$window.on('orientationchange', debouncedResize );
     self.$window.on('resize.gallery', debouncedResize );
+
     // Stop the active/current <a> button in the filter display bar from doing anything
-    self.$container.find('.compare-btn.active').on( 'click', false );
+    // Bind the non active/current <a> button to save the current filter status
+    self.$container
+      .find('.compare-btn')
+        .filter('.active')
+          .on( 'click', false )
+          .end()
+        .not('.active')
+          .on( 'click', $.proxy( self.onCompareBrowseClick, self ) );
 
     // Initialize filter dictionaries to keep track of everything
     if ( self.hasFilters ) {
@@ -130,6 +138,7 @@ define(function(require){
         requestAnimationFrame(function() {
           self.filter();
           self.isFilteringInitialized = true;
+          self.maybeLoadFilters();
         });
       }, 400);
     }
@@ -227,7 +236,6 @@ define(function(require){
       self.$productStr = self.$container.find('.js-product-str');
       self.$activeFilters = self.$container.find('.active-filters');
       self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
-      self.$favorites = self.$grid.find('.js-favorite');
       self.$gridProductNames = self.$grid.find('.product-name-wrap');
       self.$carousels = self.$grid.find('.js-item-carousel');
       self.$zeroMessage = self.$container.find('.js-zero-message');
@@ -289,6 +297,11 @@ define(function(require){
           filterFunction = !self.isCompareMode ? self.$grid.shuffle : self.manualFilter,
           returnFilteredItem;
 
+      // Don't continue if the gallery isn't initialized
+      if ( !self.isInitialized ) {
+        return false;
+      }
+
       if ( self.isCompareMode ) {
         context = self;
         filterFunction = self.manualFilter;
@@ -316,6 +329,156 @@ define(function(require){
         .setFilterStatuses()
         .toggleZeroMessage();
     },
+
+    maybeLoadFilters : function() {
+      var self = this,
+          params = Utilities.getUrlParameters();
+
+      if ( params.filters === '1' ) {
+        module.showGalleryLoader();
+        self.setFilterState();
+      }
+    },
+
+    // Retrieves the current filter state
+    getFilterState : function() {
+      return {
+        filters: this.filters,
+        currentSort: this.currentSort
+      };
+    },
+
+    // Save the current filter state
+    saveFilterState : function() {
+      // Assuming browser has JSON and local storage (IE7 doesn't)
+      if ( !window.JSON || !window.localStorage ) {
+        return false;
+      }
+
+      var self = this,
+          state = self.getFilterState(),
+          stringified = JSON.stringify( state ),
+          dfd;
+
+      // replace with $.ajax call below
+      dfd = new $.Deferred();
+      localStorage.setItem( 'filters', stringified );
+      dfd.resolve();
+
+      // dfd = $.ajax({
+      //   dataType: 'json'
+      // });
+
+      return dfd;
+    },
+
+    // Get the saved filter state and apply it
+    setFilterState : function() {
+      var self = this;
+
+      function finished( state ) {
+
+        // Need a state
+        if ( !state ) {
+          return false;
+        }
+
+        // Clear the current data if
+        if ( self.hasActiveFilters() ) {
+          self.removeActiveFilters();
+        }
+        self.filters = state.filters;
+
+        // The data will be correct when `self.filter()` is used, but the
+        // visual representation will not be (like check marks on boxes, etc)
+        self.setFiltersToActive();
+
+        // Same goes for the sorting
+        if ( state.currentSort !== self.currentSort ) {
+          self.currentSort = state.currentSort;
+          self.updateSortDisplay();
+        }
+
+        // Set filter status and hide/show gallery items
+        self.filter();
+
+        // Scroll down
+        self.scrollToFilters();
+
+        module.hideGalleryLoader();
+      }
+
+      // Always call `finished` when the (ajax) request has finished
+      $.when( self.retrieveFilterState() ).always( finished );
+    },
+
+    // Return a valid javascript object representing the filters
+    retrieveFilterState : function() {
+      // Assuming browser has JSON and local storage (IE7 doesn't)
+      if ( !window.JSON || !window.localStorage ) {
+        return false;
+      }
+
+      var dfd;
+
+      // Remove when using real ajax
+      dfd = new $.Deferred();
+      // resolveWith([ context, array of params ])
+      // Fake ajax request which takes 500ms
+      setTimeout(function() {
+        dfd.resolveWith( null, [ JSON.parse( localStorage.getItem( 'filters' ) ) ] );
+      }, 500);
+
+      // dfd = $.ajax({
+      //   dataType: 'json'
+      // });
+
+      return dfd;
+    },
+
+
+    // Triggers clicks, changes and moves the range control slider to the correct location
+    // based on the current `self.filters`
+    setFiltersToActive : function() {
+      var self = this,
+          filters = self.filters,
+          objects = self.filterObjects,
+          filterType = '',
+          filterName = '',
+          filterValue = '';
+
+      // Don't trigger filtering
+      self.isInitialized = false;
+
+      // eg "button"
+      for ( filterType in filters ) {
+        if ( !filters.hasOwnProperty(filterType) ) {
+          continue;
+        }
+
+        // eg "colors"
+        for ( filterName in filters[ filterType ] ) {
+          // eg ["silver", "blue"] or { min: 20, max: 800 } for price
+          filterValue = filters[ filterType ][ filterName ];
+
+          if ( filterValue.length && (filterType === 'button' || filterType === 'checkbox') ) {
+
+            for (var i = 0; i < filterValue.length; i++) {
+              objects[ filterName ][ filterValue[i] ].trigger('click');
+            }
+
+
+          } else if ( filterType === 'range' ) {
+            if ( filterValue.min !== self.MIN_PRICE || filterValue.max !== self.MAX_PRICE ) {
+              self.setRangeValue( filterValue.min, filterValue.max );
+            }
+          }
+        }
+      }
+
+      self.isInitialized = true;
+    },
+
 
     // Used by the compare tool, this function replicates the `filter` function from shuffle
     manualFilter : function( fn ) {
@@ -1088,6 +1251,7 @@ define(function(require){
       self.filterTypes = {};
       self.filterLabels = {};
       self.filterValues = {};
+      self.filterObjects = {};
 
       // The filter type is sometimes changed because they have
       // the same look and functionality as another filter type
@@ -1245,9 +1409,6 @@ define(function(require){
           self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
           self.favorites.initTooltips( $newElements.find('.js-favorite') );
 
-          // Update our favorites
-          self.$favorites = self.$grid.find('.js-favorite');
-
           // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
           setTimeout(function() {
 
@@ -1257,11 +1418,6 @@ define(function(require){
             if ( self.currentFilterColor ) {
               self.displayFilteredSwatchImages();
             }
-
-            // This is silly. Maybe a new method for iQ. iQ.refresh()
-            // setTimeout(function() {
-            //   iQ.reset();
-            // }, 300);
           }, 15);
       }
 
@@ -1390,16 +1546,6 @@ define(function(require){
 
       // Direct the user to the right compare page
       $compareBtn.on('click', function( evt ) {
-        var $btn = $( this ),
-            destination = this.href,
-            type = $btn.data( 'type' ) || '';
-
-        evt.preventDefault();
-
-        if ( type && destination ) {
-          destination += '?type=' + type;
-          window.location = destination;
-        }
       });
 
       $compareBtn = null;
@@ -1676,6 +1822,7 @@ define(function(require){
       var self = this,
           labels = {},
           values = {},
+          objects = {},
           $btns = $filterGroup.children();
 
       $btns.on('click', function() {
@@ -1736,23 +1883,25 @@ define(function(require){
 
       // Save each label to the labels object
       .each(function() {
-        var data = $(this).data();
-        labels[ data[ filterName ] ] = data.label;
-        values[ data[ filterName ] ] = data[ filterName ];
+        var data = $(this).data(),
+            value = data[ filterName ];
+        labels[ value ] = data.label;
+        values[ value ] = value;
+        objects[ value ] = $( this );
       });
 
       self.filterLabels[ filterName ] = labels;
       self.filterValues[ filterName ] = values;
+      self.filterObjects[ filterName ] = objects;
 
-      $btns = null;
-      labels = null;
-      values = null;
+      $btns = labels = values = objects = null;
     },
 
     checkbox : function( $filterGroup, filterName ) {
       var self = this,
           labels = {},
           values = {},
+          objects = {},
           $inputs = $filterGroup.find('input');
 
       $inputs.on('change', function() {
@@ -1789,17 +1938,18 @@ define(function(require){
 
       // Save each label to the labels object
       .each(function() {
-        var data = $(this).data();
-        labels[ this.value ] = data.label;
-        values[ this.value ] = this.value;
+        var data = $(this).data(),
+            value = this.value;
+        labels[ value ] = data.label;
+        values[ value ] = value;
+        objects[ value ] = $( this );
       });
 
       self.filterLabels[ filterName ] = labels;
       self.filterValues[ filterName ] = values;
+      self.filterObjects[ filterName ] = objects;
 
-      $inputs = null;
-      labels = null;
-      values = null;
+      $inputs = labels = values = objects = null;
     },
 
     range : function( $rangeControl, filterName, MIN_PRICE, MAX_PRICE ) {
@@ -2038,11 +2188,12 @@ define(function(require){
       };
     },
 
-    updateSortDisplay : function( $container ) {
+    updateSortDisplay : function() {
       var self = this,
-          currentSortValue = '';
+          currentSortValue = '',
+          $container = self.$sortOpts;
 
-      if ( Modernizr.mq('(max-width: 47.9375em)') ) {
+      if ( self.hasTouch ) {
         // Dealing with the select option menu
         currentSortValue = $container.find('select').children().eq( self.currentSort ).val();
         $container
@@ -2633,6 +2784,14 @@ define(function(require){
       }
     },
 
+    scrollToFilters : function() {
+      // Scroll the window so we can see what's happening with the filtered items
+      $.simplescroll({
+        offset: 24, // margin-top of the gallery is 1.5em (24px)
+        target: this.$container
+      });
+    },
+
     onFiltersHide : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
       this.$filterArrow.removeClass('in');
@@ -2661,11 +2820,53 @@ define(function(require){
         self.filter();
       }
 
-      // Scroll the window so we can see what's happening with the filtered items
-      $.simplescroll({
-        offset: 24, // margin-top of the gallery is 1.5em (24px)
-        target: self.$container
-      });
+      self.scrollToFilters();
+    },
+
+    onCompareBrowseClick : function( evt ) {
+      var self = this,
+          a = evt.delegateTarget,
+          $btn = $( a ),
+          destination = a.href,
+          // Find index of # if there is one
+          hashIndex = destination.lastIndexOf('#'),
+          // Get the hash
+          hash = hashIndex > -1 && destination.substring( hashIndex ),
+          type = $btn.data( 'type' ) || '';
+
+      // Command/control click should still open a new window
+      if ( evt.metaKey ) {
+        return true;
+      }
+
+      evt.preventDefault();
+
+      // If there's a hash, make destination the href without the hash
+      if ( hash ) {
+        destination = destination.substring( 0, hashIndex );
+      }
+
+      function redirect( params ) {
+        destination += params;
+        if ( hash ) {
+          destination += hash;
+        }
+        window.location = destination;
+      }
+
+      if ( self.hasFilters ) {
+        // This waits for the ajax request for finish before navigating to the next page
+        // If the ajax request doesn't need to finish, calling these functions in order
+        // will work. Ex: `self.saveFilterState(); redirect( '?filters=1' );`
+        $.when( self.saveFilterState() ).always(function() {
+          redirect( '?filters=1' );
+        });
+
+      // Page doesn't have filters, redirect now (eg favorites page)
+      } else {
+        redirect( '?type=' + type );
+      }
+
     },
 
     onGalleryLoading : function() {
@@ -3262,6 +3463,11 @@ define(function(require){
 
     self.$container = $( element );
 
+    // Accessory finder on this element has already been created
+    if ( self.$container.data('accessoryFinder') ) {
+      return;
+    }
+
     // Defer initialization
     setTimeout(function() {
       self.init();
@@ -3439,6 +3645,9 @@ define(function(require){
 
       // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
       self.$grid.on( 'layout.shuffle', iQ.update );
+
+      // Update product count
+      self.updateProductCount();
 
       return self;
     },
@@ -3756,44 +3965,17 @@ define(function(require){
   };
 
 
-
-  module.initializer = function( $pane ) {
-    var $galleries = $pane.find('.gallery'),
-        $accessoryFinders = $pane.find('.af-module'),
-        $productStrips = $pane.find('.js-product-strip');
-
-    // Initialize galleries
-    $galleries.each(function() {
-      var $this = $(this);
-
-      // Stagger gallery initialization
-      setTimeout(function() {
-        $this.gallery( $this.data() );
-      }, 0);
-    });
-
-    // Instantiate accessory finders
-    $accessoryFinders.each(function( i, el ) {
-      setTimeout(function() {
-        new AccessoryFinder( el );
-      }, 0);
-    });
-
-    // Instantiate product strips
-    if ( $productStrips.length ) {
-      new ProductStrip( $productStrips );
-    }
-
-    // Release for IE
-    $galleries = $accessoryFinders = $productStrips = null;
-  };
-
   var ProductStrip = function( $strips ) {
     var self = this;
 
     $.extend( self, ProductStrip.settings );
 
     self.$strips = $strips;
+
+    // Product Strip on this element has already been created
+    if ( self.$strips.data('productStrip') ) {
+      return;
+    }
 
     // Defer initialization
     setTimeout(function() {
@@ -3847,6 +4029,37 @@ define(function(require){
 
   ProductStrip.settings = {
     itemSelector: '.gallery-item'
+  };
+
+  module.initializer = function( $pane ) {
+    var $galleries = $pane.find('.gallery'),
+        $accessoryFinders = $pane.find('.af-module'),
+        $productStrips = $pane.find('.js-product-strip');
+
+    // Initialize galleries
+    $galleries.each(function() {
+      var $this = $(this);
+
+      // Stagger gallery initialization
+      setTimeout(function() {
+        $this.gallery( $this.data() );
+      }, 0);
+    });
+
+    // Instantiate accessory finders
+    $accessoryFinders.each(function( i, el ) {
+      setTimeout(function() {
+        new AccessoryFinder( el );
+      }, 0);
+    });
+
+    // Instantiate product strips
+    if ( $productStrips.length ) {
+      new ProductStrip( $productStrips );
+    }
+
+    // Release for IE
+    $galleries = $accessoryFinders = $productStrips = null;
   };
 
   module.onGalleryTabAlreadyShown = function() {
@@ -3961,16 +4174,16 @@ define(function(require){
   module.hideGalleryLoader = function() {
     if ( !module.galleryLoaderHidden ) {
       $('.gallery-loader').addClass('hidden');
+      module.galleryLoaderHidden = true;
     }
-    module.galleryLoaderHidden = true;
   };
 
   // Shows the loading gif
   module.showGalleryLoader = function() {
     if ( module.galleryLoaderHidden ) {
       $('.gallery-loader').removeClass('hidden');
+      module.galleryLoaderHidden = false;
     }
-    module.galleryLoaderHidden = false;
   };
 
   return module;

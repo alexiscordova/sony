@@ -21,6 +21,7 @@ define(<span class="keyword">function</span>(require){
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
       SonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel,
       throttleDebounce = require(<span class="string">'plugins/index'</span>).throttleDebounce,
+      imagesLoaded = require(<span class="string">'plugins/index'</span>).imagesLoaded,
       viewport = require( <span class="string">'plugins/index'</span> ).viewport;
 
   <span class="keyword">var</span> module = {
@@ -209,6 +210,17 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $subcat = self.$el.find(<span class="string">'#subcategory-'</span> + which);
+
+      $subcat.find(<span class="string">'.lazy-image'</span>).each(<span class="keyword">function</span>(){
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>);
+
+        $<span class="keyword">this</span>.attr(<span class="string">'src'</span>, $<span class="keyword">this</span>.data(<span class="string">'src'</span>));
+        $<span class="keyword">this</span>.removeClass(<span class="string">'.lazy-image'</span>);
+
+        $<span class="keyword">this</span>.imagesLoaded().done(<span class="keyword">function</span>(){
+          self.setTrayHeight();
+        });
+      });
 
       self.renderSubcats($subcat, self.subcatCols);
 

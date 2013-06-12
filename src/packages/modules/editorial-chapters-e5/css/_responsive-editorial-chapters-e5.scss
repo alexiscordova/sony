@@ -297,9 +297,24 @@ $tabletMax: px-em(979);
 
 //tablet only
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
-  .editorial-chapters-container .image-module {height:440px;}
-
+  .span5,
+  .span6,
+  .span7 {
+    .editorial-chapters-container {
+      &.hotspots {
+        .overlay-base {
+          &.variant2 {
+            width: 200px;
+          }
+          &.to-left {
+            left: -208px;
+          }
+        } // end .overlay-base
+      } // end &.hotspots
+    } // end .editorial-chapters-container
+  }
 }
+
 //phone only
 @media (max-width: $phoneMax) {
   .editorial-chapters-container {
