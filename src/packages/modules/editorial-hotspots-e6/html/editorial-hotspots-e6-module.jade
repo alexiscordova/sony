@@ -13,7 +13,7 @@ mixin hotspotMobileModal(modalTarget)
 
 mixin hotspotCore(hotspotData, useSmall)
   if !hotspotData.size
-    size = data.type === "full" ? size = "large" : size = "small"
+    size = data.type == "full" ? "large" : "small"
   else 
     size = hotspotData.size
 

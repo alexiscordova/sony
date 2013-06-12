@@ -612,7 +612,7 @@ define(function(require) {
     // determine our container height and width
     getCanvasCoordinates: function() {
       var coordinates = {},
-      $canvas = this.$container.closest('.editorial-carousel-slide.active');
+      $canvas = this.$container.closest('.editorial-carousel-slide.active .hotspot-module');
 
       coordinates.el = $canvas;
       coordinates.h = $canvas.height();
