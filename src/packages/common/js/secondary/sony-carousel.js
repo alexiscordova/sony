@@ -189,6 +189,7 @@ define(function(require){
       self.$el.hammer();
       self.$el.on('dragstart.sonycarousel', $.proxy(self.dragStart, self));
       self.$el.on('dragend.sonycarousel', $.proxy(self.dragEnd, self));
+      self.$el.on('release.sonycarousel', $.proxy(self.release, self));
     },
 
     // Stop animations that were ongoing when you started to drag.
@@ -238,6 +239,16 @@ define(function(require){
       } else {
         self.gotoNearestSlide();
       }
+    },
+
+    // Simply broadcast that the carousel was released, irregardless of if it was dragged,
+    // and transmit the carousel's current slide.
+
+    release: function(e) {
+
+      var self = this;
+
+      self.$el.trigger('SonyCarousel:released', self.currentSlide);
     },
 
     getPositions: function($slideSet) {

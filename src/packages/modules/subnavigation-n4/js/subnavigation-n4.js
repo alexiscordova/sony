@@ -174,14 +174,18 @@ define(function(require){
     bindNav: function() {
 
       var self = this,
-          $buttons = self.$navgroups.find('.grid').children(),
+          $buttons = self.$navgroups.find('.subcategory-link'),
           debouncedeNavTap;
 
       self.$navCarousel.on('sonyDraggable:dragStart', function(){
-        self.$slideChildren.addClass('on');
+        self.revealAllGroups();
       });
 
       self.$navCarousel.on('SonyCarousel:gotoSlide', function(e, which){
+        self.revealOnlyGroup(which);
+      });
+
+      self.$navCarousel.on('SonyCarousel:released', function(e, which){
         self.revealOnlyGroup(which);
       });
 
@@ -199,6 +203,19 @@ define(function(require){
       $buttons.hammer().on('tap', debouncedeNavTap);
     },
 
+    // Show all `$slideChildren`.
+
+    revealAllGroups: function() {
+
+      var self = this;
+
+      clearTimeout(self.childRevealTimeout);
+
+      self.childRevealTimeout = setTimeout(function(){
+        self.$slideChildren.addClass('on');
+      }, 250);
+    },
+
     // Fade up only the elements of group with index `whichGroup`.
 
     revealOnlyGroup: function(whichGroup) {
@@ -211,10 +228,12 @@ define(function(require){
         $targetChildren = $targetChildren.add( self.$navgroups.eq(whichGroup - 1).find(self.$slideChildren).slice($targetChildren.length) );
       }
 
-      setTimeout(function(){
+      clearTimeout(self.childRevealTimeout);
+
+      self.childRevealTimeout = setTimeout(function(){
         self.$slideChildren.removeClass('on');
         $targetChildren.addClass('on');
-      }, 500);
+      }, 250);
     },
 
     // Open or close nav depending on whether the currently tapped item is active.
