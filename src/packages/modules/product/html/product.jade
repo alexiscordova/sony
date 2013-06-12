@@ -724,11 +724,11 @@ else if data.view == 'blank'
 
 else if data.view == 'summary'
   titleLink = data.collectionLink ? data.collectionLink : {}
+  buyLink = data.buyLink ? data.buyLink : {}
   attributeList = data.attributeList ? data.attributeList : []
   startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
   msrp = data.msrp ? data.msrp : 'MSRP'
   priceUnit = data.priceUnit ? data.priceUnit : '$'
-  buyText = data.buyText ? data.buyText : '--buyText--'
 
   hasSwatches = data.img && data.img.colors && data.img.colors.length > 1
   hasAttributeList = !!attributeList.length
@@ -773,7 +773,7 @@ else if data.view == 'summary'
             strong.text-dark(itemprop="price") !{ priceUnit + data.price }
 
       .span2.price-content#span3-at-tablet
-        a.btn.btn-large.btn-block(href=data.storeLink)= buyText
+        +link( buyLink, [ "btn", "btn-large", "btn-block" ] )
 
         .relative.be-social
           a.ib.js-prevent-default.nothingtoseehere(href="#")
