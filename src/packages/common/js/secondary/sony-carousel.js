@@ -102,6 +102,11 @@ define(function(require){
 
       self.resetSlides( true );
 
+      if ( self.$slides.length <= 1 ) {
+        self.destroy();
+        return;
+      }
+
       if ( self.direction === 'vertical' ) {
         self.posAttr = 'top';
       } else {
@@ -120,11 +125,6 @@ define(function(require){
 
       if ( self.draggable ) {
         self.setupDraggable();
-      }
-
-      if ( self.$slides.length <= 1 ) {
-        self.destroy();
-        return;
       }
 
       Environment.on('global:resizeDebounced-200ms.SonyCarousel-' + self.id, function() {
