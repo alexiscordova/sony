@@ -213,7 +213,13 @@ define(function(require){
       clearTimeout(self.childRevealTimeout);
 
       self.childRevealTimeout = setTimeout(function(){
+
         self.$slideChildren.addClass('on');
+
+        if ( !self.useCSS3 ) {
+          self.$slideChildren.stop().fadeTo(500, 1);
+        }
+
       }, 250);
     },
 
@@ -237,8 +243,15 @@ define(function(require){
       clearTimeout(self.childRevealTimeout);
 
       self.childRevealTimeout = setTimeout(function(){
+
         self.$slideChildren.removeClass('on');
         $targetChildren.addClass('on');
+
+        if ( !self.useCSS3 ) {
+          self.$slideChildren.stop().fadeTo(500, 0.01);
+          $targetChildren.stop().fadeTo(500, 1);
+        }
+
       }, 250);
     },
 
