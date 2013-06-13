@@ -64,7 +64,7 @@ mixin featureList(list)
               | #{li.copy}
 
               if (li.link)
-                a.no-wrap(href=li.link)= li.linkLabel
+                +link( {"title" : li.linkLabel, "text" : li.linkLabel, "href" : li.link ,"target" : "_blank"}, [ "no-wrap" ] )
 
 mixin specsList( list, isHorizontal )
   - isHorizontal = isHorizontal || false
@@ -97,24 +97,10 @@ mixin bottomTout(textTout)
         .no-overflow
           | #{textTout.copy}
           if(textTout.link && textTout.linkLabel)
-            a.no-wrap(href= textTout.link)= textTout.linkLabel
+            +link( {"title" : textTout.linkLabel, "text" : textTout.linkLabel, "href" : textTout.link ,"target" : "_blank"}, [ "no-wrap" ] )
 
 mixin bottomButton(btn)
   if(btn.buttonLabel && btn.buttonLink)
     div(class= btmButtonClasses)
-      a.btn.buttonLabel(href= btn.buttonLink)(title= btn.buttonLabel)= btn.buttonLabel
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      +link( {"title" : btn.buttonLabel, "text" : btn.buttonLabel, "href" : btn.buttonLink,"target" : "_blank"}, [ "btn", "buttonLabel" ] )
 
