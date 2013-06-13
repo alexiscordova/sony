@@ -312,7 +312,6 @@ define(function(require){
         looped: false,
         jumping: false,
         axis: 'x',
-        useCSS3: self.useCSS3,
         paddles: false,
         pagination: false,
         draggable: false
