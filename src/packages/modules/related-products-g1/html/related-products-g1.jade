@@ -12,21 +12,22 @@ mixin includeSubmodules( submodules, config, view )
     - submodules.splice( blankIndex, 0, {type:'packages/modules/product/html/product.jade'} )
 
   i = 0
-  each module in submodules
-    if module.data
-      moduleData = locals.data(module.data)
-    else 
-      moduleData = {}
+  if submodules
+    each module in submodules
+      if module.data
+        moduleData = locals.data(module.data)
+      else 
+        moduleData = {}
 
-    - moduleData.layout = layouts[config.layout][i++]
+      - moduleData.layout = layouts[config.layout][i++]
 
-    if view
-      - moduleData.view = view
-    else
-      - moduleData.view = moduleData.layout == 'blank-normal' ? 'blank' : 'basic'
+      if view
+        - moduleData.view = view
+      else
+        - moduleData.view = moduleData.layout == 'blank-normal' ? 'blank' : 'basic'
 
-    e = { 'locals' : locals , 'data' : moduleData }
-    !{locals.partial(module.type , e )}
+      e = { 'locals' : locals , 'data' : moduleData }
+      !{locals.partial(module.type , e )}
 
 
 mixin titleBlock( data )
@@ -34,14 +35,15 @@ mixin titleBlock( data )
     .grid
       if data.config.tabbedLayout
         .rp-tabs
-          each tab, iterator in data.config.tabbedLayout
-            panelId = iterator + 1
-            a.rp-tab(class='lt4 no-hover-transition' , data-rp-panel-id=panelId, href='#')
-              strong= tab.title
-
+          if data.config.tabbedLayout
+            each tab, iterator in data.config.tabbedLayout
+              panelId = iterator + 1
+              a.rp-tab(class='lt4 no-hover-transition' , data-rp-panel-id=panelId, href='#')
+                strong 
+                  !{tab.title}
       else
-        h2.l1= data.config.headerTitle
-
+        h2.l1
+          !{data.config.headerTitle}
 
 mixin rpSlide( data )
   .rp-slide(class=data.config.variation, data-variation=data.config.variation)
@@ -81,9 +83,10 @@ if data.config.backgroundVariation
     +titleBlock( data )
 
     .rp-container-tabbed
-      each slideContent, iterator in data.slideContent
-        panelId = iterator + 1
-        +rpSection( data, slideContent, panelId )
+      if data.slideContent
+        each slideContent, iterator in data.slideContent
+          panelId = iterator + 1
+          +rpSection( data, slideContent, panelId )
 
 
   else if hasSlides
