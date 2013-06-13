@@ -38,20 +38,11 @@ define(function(require){
     // Set base element
     self.$el = $( element );
 
-    // Modernizr vars
-    self.hasTouch             = Modernizr.touch;
-    self.transitionDuration   = Modernizr.prefixed('transitionDuration');
-    self.cssTransitions       = Modernizr.transitions;
-    self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
-
     // Basic selectors
     self.$doc                   = Settings.$document;
-    self.$win                   = Settings.$window;
-    self.$html                  = Settings.$html;
+    self.$window                = Settings.$window;
 
     // Cache some jQuery objects we'll reference later
-    self.$ev                  = $({});
-    self.$window              = Settings.$window;
     self.$slides              = self.$el.find('.sen-carousel-slide');
     self.$slideWrapper        = self.$el.find('.sen-carousel-wrapper');
     self.$slideContainer      = self.$el.find('.sen-carousel');
@@ -72,9 +63,11 @@ define(function(require){
     self.lastTouch            = null;
     self.handleStartPosition  = null;
 
+    self.hasTouch             = Settings.hasTouchEvents;
+    self.useIScroll           = self.hasTouch;
+
     // deep linking vars
     self.location             = window.location;
-    self.history              = window.history;
     self.initFromhash         = false;
 
     self.isDesktop = false;
@@ -126,9 +119,6 @@ define(function(require){
       Router.on('chapter-'+self.moduleId+'(/:a)', $.proxy(self.directFromHash, self));
 
       self.$thumbNav.on(self.downEvent, function(e) { self.dragStart(e); });
-
-      self.hasTouch = Settings.hasTouchEvents;
-      self.useIScroll = self.hasTouch;
 
     },
 
@@ -305,7 +295,6 @@ define(function(require){
         looped: false,
         jumping: false,
         axis: 'x',
-        useCSS3: self.useCSS3,
         paddles: false,
         pagination: false,
         draggable: false
