@@ -80,8 +80,16 @@ define(function(require){
           self.$player.find('.fp-ui').hide();
         }
 
+
         //initialize videos
         self.videoAPI = sonyVideo.initVideos( self.$player );
+
+
+        //hide fullscreen button for ipad
+        if(Settings.isIPad && self.isFullEditorial){
+          self.$player.find('.fp-fullscreen').hide();
+        }
+
 
         self.videoAPI.bind('resume' , function(){
           if(self.isFullEditorial){
@@ -173,9 +181,13 @@ define(function(require){
           //console.log(self.isFullScreen);
           self.$engine.css('top' , 0);
           //window.alert(Settings.isAndroid);
-          self.$el.find('.fp-fullscreen').css({
-            opacity :  0
-          });
+
+          if(!Settings.isIPad && Settings.isSonyTabletS && Settings.isAndroid){
+            self.$el.find('.fp-fullscreen').css({
+              opacity :  0
+            });
+          }
+
         }
 
         if(wW < 567){
@@ -189,7 +201,6 @@ define(function(require){
             'padding-top': ''
           });
         }
-
 
       }
 

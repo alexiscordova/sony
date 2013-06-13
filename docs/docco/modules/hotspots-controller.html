@@ -85,6 +85,9 @@ define(<span class="keyword">function</span>(require) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>detect what type of tracking we need to bind the instance to</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> moduleHandle = self.$container.closest( <span class="string">'.image-module'</span> );
+      <span class="keyword">var</span> isFullHotspot = self.$container.parents(<span class="string">'.editorial'</span>).find(<span class="string">'.container.inner'</span>).length;
+      <span class="keyword">var</span> moduleEventOverlay = isFullHotspot ? self.$container.parents(<span class="string">'.editorial'</span>).find(<span class="string">'.container.inner'</span>) : self.$container.closest( <span class="string">'.image-module'</span> );
+
       <span class="keyword">if</span>( moduleHandle.hasClass( <span class="string">'track-by-background'</span> ) ) {
         self.trackingMode   = <span class="string">'background'</span>;
         self.trackingAsset  = moduleHandle;
@@ -95,7 +98,9 @@ define(<span class="keyword">function</span>(require) {
         self.variant        = <span class="string">'variant2'</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>click image to close</p>             </td>             <td class="code">               <div class="highlight"><pre>      moduleHandle.bind( <span class="string">'click'</span>, <span class="keyword">function</span>( event ) {
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>click image to close</p>             </td>             <td class="code">               <div class="highlight"><pre>      moduleEventOverlay.on( <span class="string">'click'</span>, <span class="keyword">function</span>( event ) {
+        <span class="keyword">var</span> $el = event.target;
+        <span class="keyword">if</span> ( $el.tagName == <span class="string">"A"</span> || $el.tagName == <span class="string">"Button"</span>) { <span class="keyword">return</span>; }
         event.preventDefault();
         self.clickOutside( event, self );
       });
@@ -636,37 +641,37 @@ hotspot overlay in the most likely ideal position, i.e. quadrant 1 should have a
     },
 
     close: <span class="keyword">function</span>( container, hotspot, info ) {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.cleanTimer();
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>we are setting display:none when the trasition is complete, and managing the timer here</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.cleanTimer();
 
-</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>save last close state</p>             </td>             <td class="code">               <div class="highlight"><pre>        container.data( <span class="string">'state'</span>, <span class="string">'closed'</span> ).removeClass( <span class="string">'info-jump-to-top'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>save last close state</p>             </td>             <td class="code">               <div class="highlight"><pre>      container.data( <span class="string">'state'</span>, <span class="string">'closed'</span> ).removeClass( <span class="string">'info-jump-to-top'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>        hotspot.removeClass( <span class="string">'hspot-core-on'</span> ).addClass( <span class="string">'hspot-core'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>perform CSS transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>      hotspot.removeClass( <span class="string">'hspot-core-on'</span> ).addClass( <span class="string">'hspot-core'</span> );
 
-        <span class="keyword">if</span>( Settings.isLTIE8 || Settings.isLTIE9 ) {
-          hotspot.parent().removeClass( <span class="string">'ie-on'</span> );
-        }
+      <span class="keyword">if</span>( Settings.isLTIE8 || Settings.isLTIE9 ) {
+        hotspot.parent().removeClass( <span class="string">'ie-on'</span> );
+      }
 
 
-        <span class="keyword">if</span>( Settings.isLTIE9 ) {
-          $( Settings.$body ).find( <span class="string">'#'</span>+self.hotspotId ).html( <span class="string">''</span> );
-          $( <span class="string">'#'</span>+self.hotspotId+<span class="string">'-arrow-left'</span> ).addClass( <span class="string">'hidden'</span> );
-          $( <span class="string">'#'</span>+self.hotspotId+<span class="string">'-arrow-right'</span> ).addClass( <span class="string">'hidden'</span> );
-        }
+      <span class="keyword">if</span>( Settings.isLTIE9 ) {
+        $( Settings.$body ).find( <span class="string">'#'</span>+self.hotspotId ).html( <span class="string">''</span> );
+        $( <span class="string">'#'</span>+self.hotspotId+<span class="string">'-arrow-left'</span> ).addClass( <span class="string">'hidden'</span> );
+        $( <span class="string">'#'</span>+self.hotspotId+<span class="string">'-arrow-right'</span> ).addClass( <span class="string">'hidden'</span> );
+      }
 
-</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>begin fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.transition([
-          info.parent().find(<span class="string">'.arrow-left'</span>),
-          info.parent().find(<span class="string">'.arrow-right'</span>),
-          info.find(<span class="string">'.overlay-inner'</span>)
-        ], <span class="string">'off'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>begin fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.transition([
+        info.parent().find(<span class="string">'.arrow-left'</span>),
+        info.parent().find(<span class="string">'.arrow-right'</span>),
+        info.find(<span class="string">'.overlay-inner'</span>)
+      ], <span class="string">'off'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>closure to hide overlays after they fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> anon = <span class="keyword">function</span>() {
-          info.addClass( <span class="string">'hidden'</span> );
-        };
+</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>closure to hide overlays after they fade out</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> anon = <span class="keyword">function</span>() {
+        info.addClass( <span class="string">'hidden'</span> );
+      };
 
-</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>fire a timer that will set the display to none when the element is closed.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
+</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>fire a timer that will set the display to none when the element is closed.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
 
-</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>set the open status to zilch</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$lastOpen = <span class="literal">null</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>set the open status to zilch</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$lastOpen = <span class="literal">null</span>;
 
     },
 
