@@ -4,10 +4,11 @@ include ../../../common/html/jade-helpers.jade
 
 //- Mixin for slides
 mixin editorialSlides(data)
-  for slide in data.submodules
-    slideData = locals.data( slide.data )
-    .editorial-carousel-slide( class=slideData.variation )
-      +iQImage(slideData.productImg)
+  if data.submodules
+    for slide in data.submodules
+      slideData = locals.data( slide.data )
+      .editorial-carousel-slide( class=slideData.variation )
+        +iQImage(slideData.productImg)
 
 //- Main section wrapper for slides
 +mainElement( [ "editorial-slideshow-container", "a1" , data.config.mode] )
