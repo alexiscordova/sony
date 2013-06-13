@@ -20,15 +20,15 @@ include ../../../common/html/jade-helpers.jade
                     .grid.no-grid-at-767
                       .sen-convergence-placement
                         .module-hdg
-                          h1.t2= tab.title
+                          h1.t2 !{ tab.title }
                         .span5.offset7
                           .sen-convergence-content
                             .logo-container
                               img(src="img/SEN-convergence-e12/logo-video-unlimited.png")
                             .sen-convergence-hdg
-                              p.p2-bold= tab.subtitle
+                              p.p2-bold !{ tab.subtitle }
                             .sen-convergence-text
-                              p.p3= tab.bodycopy
+                              p.p3 !{ tab.bodycopy }
                             +link( tab.link, [ "btn" ] )
 
       ul.thumb-nav.container
@@ -38,4 +38,4 @@ include ../../../common/html/jade-helpers.jade
               li
                 i.fonticon(class=tab.iconClass)
                 span.label-container
-                  span.nav-label.p4-bold= tab.tabTitle
+                  span.nav-label.p4-bold !{ tab.tabTitle }
