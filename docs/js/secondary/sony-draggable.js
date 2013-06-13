@@ -29,6 +29,7 @@ define(function(require){
 
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
+      Settings = require('require/sony-global-settings'),
       Utilities = require('require/sony-global-utilities');
 
   var _id = 0,
@@ -120,8 +121,10 @@ define(function(require){
           distY = self.getPagePosition(e).y - self.handleStartPosition.y;
 
       // If you didn't pass in a threshold setting, or if you've passed the dragging threshold, go ahead and scrub.
+      // IE 8 and below also must start scrubbing immediately; otherwise the non-standard img/anchor dragging features
+      // of those browsers kick in.
 
-      if ( !self.dragThreshold || self.isScrubbing ) {
+      if ( Settings.isLTIE9 || !self.dragThreshold || self.isScrubbing ) {
         self.isScrubbing = true;
         self.onScrubbing(e, distX, distY);
         return;

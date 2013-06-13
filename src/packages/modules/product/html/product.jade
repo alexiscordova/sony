@@ -856,7 +856,7 @@ else if data.view == 'search-results'
       ul.h-list.h-list-md
         each link in data.results.product.links
           li.lt4
-              a(href= link.url)= link.text
+            +link( link )
 
 else
   em oh noes, you don't have a known view variable set :(
