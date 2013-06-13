@@ -156,7 +156,7 @@ define(function(require){
         slides: '.subnav-nav-carousel-slide',
         slideChildren: '.subcategory-link',
         paddles: !isMobile,
-        $paddleWrapper: self.$navgroups.closest('.grid'),
+        $paddleWrapper: self.$navgroups.closest('nav'),
         paddlePosition: 'outset',
         useSmallPaddles: !isMobile
       });
