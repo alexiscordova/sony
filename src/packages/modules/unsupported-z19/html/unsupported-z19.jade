@@ -7,8 +7,8 @@ mixin browserLink( browser, description )
     .pull-left
       +iQImage( browser.img, "media-object" )
     .media-body
-      .media-hd.p2 !{ browser.text }
-      .media-bd.p3 !{ description }
+      p.media-hd.p2 !{ browser.text }
+      p.media-bd.p3 !{ description }
 
 
 .container
@@ -24,7 +24,7 @@ mixin browserLink( browser, description )
       .modal-body
         .unsupported
           .unsupported-hd
-            h2.t2 !{ data.title }
+            h2.t2#unsupported-browser-label !{ data.title }
           .unsupported-bd
             p.p3 !{ data.subtitle.desktop }
           .unsupported-bd-alt
@@ -40,4 +40,4 @@ mixin browserLink( browser, description )
               - }
 
           a(href="#").lt3.link-proceed.close-modal !{ data.proceed }
-          a(href="#").btn.btn-medium.close-modal !{ data.proceed }
+          a(href="#").btn.close-modal !{ data.proceed }
