@@ -7,31 +7,33 @@ include ../../../common/html/jade-helpers.jade
 
 //- Mixin for slides
 mixin pdpSlide(data)
-  for slide in data.submodules
-    slideData = locals.data( slide.data )
-    //- Videos are always `type2`
-    mode = slideData.mode
-    variation = mode == 'video' ? 'type2' : slideData.variation
-    .pdp-slideshow-slide( class=variation, data-mode=mode )
-      .pdp-slide-inner.ghost-center-wrap
-        if slideData.mode == 'imageGallery'
-          +iQImage(slideData.productImg, 'ghost-center update-always')
-        else if slideData.mode == 'video'
-          div(class='ghost-center')
-            - data.isSubmodule = true
-            e = { 'locals' : locals , 'data' : slideData }
-            !{locals.partial( 'packages/modules/sony-video/html/sony-video.jade', e) }
+  if data.submodules
+    for slide in data.submodules
+      slideData = locals.data( slide.data )
+      //- Videos are always `type2`
+      mode = slideData.mode
+      variation = mode == 'video' ? 'type2' : slideData.variation
+      .pdp-slideshow-slide( class=variation, data-mode=mode )
+        .pdp-slide-inner.ghost-center-wrap
+          if slideData.mode == 'imageGallery'
+            +iQImage(slideData.productImg, 'ghost-center update-always')
+          else if slideData.mode == 'video'
+            div(class='ghost-center')
+              - data.isSubmodule = true
+              e = { 'locals' : locals , 'data' : slideData }
+              !{locals.partial( 'packages/modules/sony-video/html/sony-video.jade', e) }
 
 //- Mixin for thumbnails
 mixin pdpThumbs(data)
- for slide in data.submodules
-  slideData = locals.data(slide.data)
-  li.thumb
-    a( class=data.config.variation , href='#' )
-      span.active-highlight
-      .ghost-center-wrap
-        .ghost-center
-          +iQImage(slideData.thumb)
+ if data.submodules
+   for slide in data.submodules
+    slideData = locals.data(slide.data)
+    li.thumb
+      a( class=data.config.variation , href='#' )
+        span.active-highlight
+        .ghost-center-wrap
+          .ghost-center
+            +iQImage(slideData.thumb)
 
 //- Main section wrapper for slides and navigation
 +mainElement( ["pdp-slideshow"] )
