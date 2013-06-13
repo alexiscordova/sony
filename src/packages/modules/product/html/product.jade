@@ -77,17 +77,27 @@ mixin heart
   span(class=heartClass, data-default-title=inactiveTitle, data-default-clicked-title=inactiveClickedTitle, data-favorited-title=favoritedTitle, data-favorited-clicked-title=favoritedClickedTitle)
     i.fonticon-10-favorite
 
-mixin productRating( rating, reviews, reviewsText, reviewsLink )
-  //- Default to ' user reviews'
-  - if ( !reviewsText && reviewsText != '' ) reviewsText = ' user reviews'
+
+mixin productRating( rating, text, isLink )
+  //- Default to ' user reviews' if blank and not specified as empty string
+  if text == ''
+    text = ''
+  else if rating.text == null
+    text = ' user reviews'
+  else
+    //- Needs a space between for "# user reviews"
+    text = ' ' + rating.text
+
+  //- +link won't output any text if text is false. Only the <a> attributes are wanted
+  - rating.text = false
 
   //- Default to false
-  hasReviewLink = reviewsLink != null
+  hasReviewLink = isLink != null
 
   prefix = ' ('
   suffix = ')'
 
-  .product-rating(data-stars=rating, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
+  .product-rating(data-stars=rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
     span.star-holder
       i.fonticon-10-star
       i.fonticon-10-star-half
@@ -106,14 +116,14 @@ mixin productRating( rating, reviews, reviewsText, reviewsLink )
     span.lt4.reviews-text
       | !{ prefix }
       if hasReviewLink
-        a(href=reviewsLink)
-          span(itemprop="ratingCount")= reviews
-          span.review-text= reviewsText
+        +link( rating )
+          span(itemprop="ratingCount")= rating.reviews
+          span.review-text= text
       else
-        span(itemprop="ratingCount")= reviews
-        span.review-text= reviewsText
+        span(itemprop="ratingCount")= rating.reviews
+        span.review-text= text
       | !{ suffix }
-    meta(itemprop="ratingValue", content=rating)
+    meta(itemprop="ratingValue", content=rating.stars)
 
 
 mixin priceBlock( product, onlyName, href )
@@ -257,7 +267,7 @@ if data.view == 'basic'
                 i.icon-ui2-chevron-16-black-right
             if data.count && data.button
               a(class='btn plate-btn lt4 w-count', href=data.button.link)
-                strong= data.button.title             
+                strong= data.button.title
               .text-count
                 span.number.l2= data.count.number
                 | &nbsp;
@@ -361,7 +371,7 @@ else if data.view == 'detailed'
           .product-name.p2
             strong(itemprop="name")= data.name
           .product-model.l3(itemprop="model")= data.model
-        +productRating( data.rating.stars, data.rating.reviews )
+        +productRating( data.rating )
 
         ul.product-meta
           each meta in data.meta
@@ -402,7 +412,7 @@ else if data.view == 'compare'
       .product-name-wrap
         p.product-name.t7(itemprop="name")= data.name
         p.product-model.l3-light(itemprop="model")= data.model
-      +productRating( data.rating.stars, data.rating.reviews, '' )
+      +productRating( data.rating, '' )
 
       .product-price
         span.price-prefix.p5 Starting at &nbsp;
@@ -723,13 +733,12 @@ else if data.view == 'blank'
 
 
 else if data.view == 'summary'
-  titleLabel = data.collectionLabel ? data.collectionLabel : 'Cybershot'
-  titleHref = data.collectionHref ? data.collectionHref : '#'
+  titleLink = data.collectionLink ? data.collectionLink : {}
+  buyLink = data.buyLink ? data.buyLink : {}
   attributeList = data.attributeList ? data.attributeList : []
   startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
   msrp = data.msrp ? data.msrp : 'MSRP'
   priceUnit = data.priceUnit ? data.priceUnit : '$'
-  buyText = data.buyText ? data.buyText : '--buyText--'
 
   hasSwatches = data.img && data.img.colors && data.img.colors.length > 1
   hasAttributeList = !!attributeList.length
@@ -743,13 +752,13 @@ else if data.view == 'summary'
             +iQImage( data.imgSmall, '', 'image' )
 
       .span6.product-details
-        +breadcrumbLink( titleHref, titleLabel )
+        +breadcrumbLink( titleLink )
         h2.t6.product-title(itemprop="name")= data.title
         p.product-model.p5
           span(itemprop="model")= data.model
         +iQImage( data.img, 'm-product-img pull-right', 'image' )
 
-        +productRating( data.rating.stars, data.rating.reviews, undefined, data.reviewsLink )
+        +productRating( data.rating, undefined, true )
 
         if hasAttributeList || hasSwatches
           .inline-details.clearfix
@@ -774,7 +783,7 @@ else if data.view == 'summary'
             strong.text-dark(itemprop="price") !{ priceUnit + data.price }
 
       .span2.price-content#span3-at-tablet
-        a.btn.btn-large.btn-block(href=data.storeLink)= buyText
+        +link( buyLink, [ "btn", "btn-large", "btn-block" ] )
 
         .relative.be-social
           a.ib.js-prevent-default.nothingtoseehere(href="#")
@@ -842,12 +851,12 @@ else if data.view == 'search-results'
     .bd.feature-text
       p.t6-light.hdg-dark.title= product.title
       .reviews-copy
-        +productRating( product.rating.stars, product.rating.reviews )
+        +productRating( product.rating )
       p.p4= data.results.product.text
       ul.h-list.h-list-md
         each link in data.results.product.links
           li.lt4
-              a(href= link.url)= link.text
+            +link( link )
 
 else
   em oh noes, you don't have a known view variable set :(

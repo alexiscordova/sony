@@ -773,7 +773,6 @@ module.exports = function(grunt) {
 
         var originalJSON = JSON.parse(data),
             brutalized = JSONBrutalize.generate(originalJSON, depth, fullTilt),
-            failcount = 0,
             errors = [],
             totaltests = brutalized.length,
             i = 0;
@@ -791,9 +790,9 @@ module.exports = function(grunt) {
               } else {
                 console.log('\n');
                 console.log(blue + 'Testing: ' + JSONPath + reset);
-                console.log('Passed ' + (totaltests - failcount) + '/' + totaltests + ' tests.');
+                console.log('Passed ' + (totaltests - errors.length) + '/' + totaltests + ' tests.');
                 console.log('unique errors: ' + _.uniq(errors).length);
-                done( failcount === 0 );
+                done( errors.length === 0 );
                 return;
               }
             });
@@ -827,7 +826,6 @@ module.exports = function(grunt) {
                     console.log(red + e + reset);
                     console.log('\n');
 
-                    failcount++;
                     errors.push(e.toString());
                   }
 

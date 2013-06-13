@@ -11,12 +11,12 @@ section.subnav-module(id = data.id ? data.id : false)
         .grid
           h2.t5 !{data.category}
 
-    .subnav-nav-carousel-wrapper
-      nav
-        - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
-          .subnav-nav-carousel-slide
-            .container
-              .grid
+    nav
+      .container
+        .grid
+          .subnav-nav-carousel-wrapper
+            - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
+              .subnav-nav-carousel-slide
                 - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
                   - subcategory = data.subcategories[j]
 
@@ -31,7 +31,7 @@ section.subnav-module(id = data.id ? data.id : false)
                     - if ( subcategory.products )
                       i.fonticon-10-arrowhead-down
                 - }
-        - }
+            - }
 
     .subnav-tray.container
 

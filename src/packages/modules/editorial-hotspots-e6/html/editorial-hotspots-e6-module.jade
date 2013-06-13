@@ -13,7 +13,7 @@ mixin hotspotMobileModal(modalTarget)
 
 mixin hotspotCore(hotspotData, useSmall)
   if !hotspotData.size
-    size = data.type === "full" ? size = "large" : size = "small"
+    size = data.type == "full" ? "large" : "small"
   else 
     size = hotspotData.size
 
@@ -21,6 +21,7 @@ mixin hotspotCore(hotspotData, useSmall)
     smallClass = "hspot-small"
   else
     smallClass = ""
+
   span.hspot-outer(class=smallClass, data-x=hotspotData.coords[0], data-y=hotspotData.coords[1]).eh-transparent.no-movement
     if smallClass == "hspot-small"
       .arrow-left.eh-transparent
@@ -55,10 +56,10 @@ mixin hotspotCore(hotspotData, useSmall)
                 h5.t6 #{hotspotData.title}
                 p.p3 #{hotspotData.bodyCopy}
                 if(hotspotData.link)
-                  a.lt3(href=hotspotData.link.url) #{hotspotData.link.copy}
+                  +link( hotspotData.link, ['lt3'] )
               if(hotspotData.testimonial)
                 .footer.is-default-on
-                  p.p3 #{hotspotData.testimonial.copy}
+                  p.p3 #{hotspotData.testimonial.text}
                   blockquote.l4 #{hotspotData.testimonial.credit}
               else
                 .footer.hidden
@@ -81,10 +82,10 @@ mixin hotspotCore(hotspotData, useSmall)
                 h5.t7 #{hotspotData.title}
                 p.p4 #{hotspotData.bodyCopy}
                 if(hotspotData.link)
-                  a.lt4(href=hotspotData.link.url) #{hotspotData.link.copy}
+                  +link( hotspotData.link, ['lt4'] )
               if(hotspotData.testimonial)
                 .footer.is-default-on
-                  p.p4 #{hotspotData.testimonial.copy}
+                  p.p4 #{hotspotData.testimonial.text}
                   blockquote.l4 #{hotspotData.testimonial.credit}
               else
                 .footer.hidden
