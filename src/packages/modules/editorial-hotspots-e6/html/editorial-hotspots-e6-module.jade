@@ -55,7 +55,7 @@ mixin hotspotCore(hotspotData, useSmall)
                 h5.t6 #{hotspotData.title}
                 p.p3 #{hotspotData.bodyCopy}
                 if(hotspotData.link)
-                  a.lt3(href=hotspotData.link.url) #{hotspotData.link.copy}
+                  +link( hotspotData.link, ['lt3'] )
               if(hotspotData.testimonial)
                 .footer.is-default-on
                   p.p3 #{hotspotData.testimonial.copy}

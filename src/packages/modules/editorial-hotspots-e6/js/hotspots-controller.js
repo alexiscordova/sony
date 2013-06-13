@@ -97,6 +97,9 @@ define(function(require) {
 
       // detect what type of tracking we need to bind the instance to
       var moduleHandle = self.$container.closest( '.image-module' );
+      var isFullHotspot = self.$container.parents('.editorial').find('.container.inner').length;
+      var moduleEventOverlay = isFullHotspot ? self.$container.parents('.editorial').find('.container.inner') : self.$container.closest( '.image-module' );
+
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
         self.trackingMode   = 'background';
         self.trackingAsset  = moduleHandle;
@@ -108,7 +111,9 @@ define(function(require) {
       }
 
       //click image to close
-      moduleHandle.bind( 'click', function( event ) {
+      moduleEventOverlay.on( 'click', function( event ) {
+        var $el = event.target;
+        if ( $el.tagName == "A" || $el.tagName == "Button") { return; }
         event.preventDefault();
         self.clickOutside( event, self );
       });
@@ -704,44 +709,44 @@ define(function(require) {
     },
 
     close: function( container, hotspot, info ) {
-        var self = this;
-        // we are setting display:none when the trasition is complete, and managing the timer here
-        self.cleanTimer();
+      var self = this;
+      // we are setting display:none when the trasition is complete, and managing the timer here
+      self.cleanTimer();
 
-        // save last close state
-        container.data( 'state', 'closed' ).removeClass( 'info-jump-to-top' );
+      // save last close state
+      container.data( 'state', 'closed' ).removeClass( 'info-jump-to-top' );
 
-        // perform CSS transitions
-        hotspot.removeClass( 'hspot-core-on' ).addClass( 'hspot-core' );
+      // perform CSS transitions
+      hotspot.removeClass( 'hspot-core-on' ).addClass( 'hspot-core' );
 
-        if( Settings.isLTIE8 || Settings.isLTIE9 ) {
-          hotspot.parent().removeClass( 'ie-on' );
-        }
+      if( Settings.isLTIE8 || Settings.isLTIE9 ) {
+        hotspot.parent().removeClass( 'ie-on' );
+      }
 
 
-        if( Settings.isLTIE9 ) {
-          $( Settings.$body ).find( '#'+self.hotspotId ).html( '' );
-          $( '#'+self.hotspotId+'-arrow-left' ).addClass( 'hidden' );
-          $( '#'+self.hotspotId+'-arrow-right' ).addClass( 'hidden' );
-        }
+      if( Settings.isLTIE9 ) {
+        $( Settings.$body ).find( '#'+self.hotspotId ).html( '' );
+        $( '#'+self.hotspotId+'-arrow-left' ).addClass( 'hidden' );
+        $( '#'+self.hotspotId+'-arrow-right' ).addClass( 'hidden' );
+      }
 
-        // begin fade out
-        self.transition([
-          info.parent().find('.arrow-left'),
-          info.parent().find('.arrow-right'),
-          info.find('.overlay-inner')
-        ], 'off' );
+      // begin fade out
+      self.transition([
+        info.parent().find('.arrow-left'),
+        info.parent().find('.arrow-right'),
+        info.find('.overlay-inner')
+      ], 'off' );
 
-        // closure to hide overlays after they fade out
-        var anon = function() {
-          info.addClass( 'hidden' );
-        };
+      // closure to hide overlays after they fade out
+      var anon = function() {
+        info.addClass( 'hidden' );
+      };
 
-        // fire a timer that will set the display to none when the element is closed.
-        self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
+      // fire a timer that will set the display to none when the element is closed.
+      self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
 
-        // set the open status to zilch
-        self.$lastOpen = null;
+      // set the open status to zilch
+      self.$lastOpen = null;
 
     },
 
