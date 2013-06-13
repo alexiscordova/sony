@@ -1,49 +1,18 @@
 include ../../../common/html/jade-helpers.jade
+include product-details-d5-helpers.jade
 +includeCSS('product-details-d5')
 +includeJavascriptModule('product-details-d5')
 
-include product-details-d5-helpers.jade
-
-//- PRODCUT DETAILS MODULE START
 - productDetailsClasses = ["pd-module","container"]
 +mainElement(productDetailsClasses)
-
-
-  //- 88888888888  .d88888b.  8888888b.
-  //-     888     d88P" "Y88b 888   Y88b
-  //-     888     888     888 888    888
-  //-     888     888     888 888   d88P
-  //-     888     888     888 8888888P"
-  //-     888     888     888 888
-  //-     888     Y88b. .d88P 888
-  //-     888      "Y88888P"  888
-
-  //- DATA
   - top = data.top
-
-  //- LOGIC
   - hasDesc = top.desc.length > 0
 
-  //- DISPLAY
   .top.grid.m-grid-at-979.no-grid-at-567
-    .title.l1= top.title
+    .title.l1 !{top.title}
     if(hasDesc)
-      .desc.p3= top.desc
+      .desc.p3 !{top.desc}
 
-  //- TOP END
-
-
-  //-  .d8888b.                    888
-  //- d88P  Y88b                   888
-  //- 888    888                   888
-  //- 888         .d88b.  88888b.  888888  .d88b.  888d888
-  //- 888        d8P  Y8b 888 "88b 888    d8P  Y8b 888P"
-  //- 888    888 88888888 888  888 888    88888888 888
-  //- Y88b  d88P Y8b.     888  888 Y88b.  Y8b.     888
-  //-  "Y8888P"   "Y8888  888  888  "Y888  "Y8888  888
-
-
-  //- DATA
   - center = data.center
   - features = center.features
   - specs = center.specs
@@ -186,18 +155,6 @@ include product-details-d5-helpers.jade
             .extras
               +extras(extras)
 
-  //- END CENTER
-
-  //- 888888b.            888    888
-  //- 888  "88b           888    888
-  //- 888  .88P           888    888
-  //- 8888888K.   .d88b.  888888 888888  .d88b.  88888b.d88b.
-  //- 888  "Y88b d88""88b 888    888    d88""88b 888 "888 "88b
-  //- 888    888 888  888 888    888    888  888 888  888  888
-  //- 888   d88P Y88..88P Y88b.  Y88b.  Y88..88P 888  888  888
-  //- 8888888P"   "Y88P"   "Y888  "Y888  "Y88P"  888  888  888
-
-  //- DATA
   - bottom = data.bottom
   - bottomBtn = bottom.bottomBtn
   - textTout = bottom.textTout
@@ -243,7 +200,3 @@ include product-details-d5-helpers.jade
       when 11
         +bottomTout(textTout)
         +bottomButton(bottomBtn)
-
-  //- BOTTOM END
-
-//- PRODCUT DETAILS MODULE END
