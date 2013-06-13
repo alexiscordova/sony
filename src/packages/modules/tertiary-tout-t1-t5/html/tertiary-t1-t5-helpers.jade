@@ -9,11 +9,11 @@ mixin copyblock(data)
 
     if (data.articleLink)
       p.lt3
-        a(href= data.articleLink)= data.linkTitle
+        +link( {"title" : data.linkTitle, "text" : data.linkTitle, "href" : data.articleLink ,"target" : "_blank"} )
 
 mixin socialButton(link, label)
   .social-btn
-    a.btn.btn-small(href= link)= label
+    +link( {"title" :label, "text" : label, "href" : link ,"target" : "_blank"}, [ "btn", "btn-small" ] )
 
 mixin header(data)
   .tcc-header-wrapper
@@ -26,7 +26,7 @@ mixin header(data)
           - link = data.link
           .span3.offset3
             p.tcc-header-link.lt3
-              a(href= link)= data.linkText
+              +link( {"title" : data.linkText, "text" : data.linkText, "href" : link ,"target" : "_blank"} )
 
 mixin article(mode, data)
   if(mode == "featured")
@@ -60,7 +60,7 @@ mixin featured(data)
   .copy.dark-box.light-text
     p.t5-light= data.title
     p.lt3
-      a(href= data.articleLink)= data.linkTitle
+      +link( {"title" : data.linkTitle, "text" : data.linkTitle, "href" : data.articleLink ,"target" : "_blank"} )
 
 mixin users-voice(mode, data)
   - quoteClasses = ["quote"]
@@ -82,7 +82,7 @@ mixin users-voice(mode, data)
 
     if(data.mode == "question")
       .lt3
-        a(href= data.repliesLink)= data.repliesLinkTitle
+        +link( {"title" : data.repliesLinkTitle, "text" : data.repliesLinkTitle, "href" : data.repliesLink ,"target" : "_blank"} )
 
   if(data.mode != "question")
     +credits(mode, data)
@@ -102,13 +102,13 @@ mixin credits(mode, data)
         +author-default(mode, data.author)
 
 mixin author-expert-quote(author)
-
-  a(href= author.link)= author.name
+  +link( {"title" : author.name, "text" : author.name, "href" : author.link ,"target" : "_blank"} )
 
 mixin author-default(mode, author)
   if(author.link)
-    a.handle(href= author.link)= author.handle
+    +link( {"title" : author.handle, "text" : author.handle, "href" : author.link ,"target" : "_blank"}, [ 'handle' ] )
     if(mode == "question")
+      //- because we need the space before ' asked' set as var
       - title = " asked:"
       | #{title}
 
@@ -117,7 +117,7 @@ mixin author-default(mode, author)
 
 mixin question-extra(data)
   .answer-btn
-    a.btn.btn-small(href= data.answerLink)= data.answerLinkTitle
+    +link( {"title" : data.answerLinkTitle, "text" : data.answerLinkTitle, "href" : data.answerLink ,"target" : "_blank"}, [ "btn", "btn-small" ] )
 
 mixin topCenterBottom(mode, data)
   +top("fonticon-15-" + mode, data)
@@ -180,7 +180,7 @@ mixin facebook(data)
 
     blockquote.bq5
         p= data.postCopy
-          a(href= data.postLink)= data.postLink
+          +link( {"title" : data.postLink, "text" : data.postLink, "href" : data.postLink ,"target" : "_blank"} )
 
 mixin instagram(data)
   -images = data.images

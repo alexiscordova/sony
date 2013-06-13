@@ -36,7 +36,7 @@ if(!data.header)
                   if(product.topLine)
                     p.l-o-d #{product.topLine}
                   if(product.link)
-                    a.l-o-d.fonticon-10-chevron--after.uxmc-link(href=product.link) #{product.linkText}
+                    +link( {"title" : product.linkText, "text" : product.linkText, "href" : product.link ,"target" : "_blank"}, [ "l-o-d","uxmc-link" ], "fonticon-10-chevron--after" )
 
               div.uxmc-image-wrapper.iq-img(data-src-desktop=product.img.srcDesktop, data-src-tablet=product.img.srcTablet, data-src-phone=product.img.srcPhone, data-src-desktop-highres=product.img.srcDesktopHighRes, data-src-tablet-highres=product.img.srcTabletHighRes, data-src-phone-highres=product.img.srcPhoneHighRes)
                 //- span prevents div glitch on transition
