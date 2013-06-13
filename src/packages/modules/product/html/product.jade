@@ -306,7 +306,7 @@ if data.view == 'basic'
         .product-img
           .product-img-wrap.ghost-center-wrap
             .ghost-center
-              if data.layout == 'carousel'
+              if data.layout == 'carousel' && data.imgCarousel
                 .js-item-carousel
                   .js-carousel-container
                     each img in data.imgCarousel
@@ -485,140 +485,141 @@ else if data.view == 'specs'
         .product-model.p1-bold
           strong(itemprop="model") !{ data.model }
 
-    each spec, i in data.specs
-      .spec-item-cell
+    if data.specs
+      each spec, i in data.specs
+        .spec-item-cell
 
-        if spec.name && spec.list && spec.img
-          .spec-cell-inner
-            p.cell-label.l3
-              strong !{ labels[i] }
-            h6.t7-light !{ spec.name }
-            p.l3
-              strong !{ spec.listTitle }
-            +specList( spec.list, 'before-btm-aligned' )
-            +iQImage( spec.img, 'btm-aligned' )
+          if spec.name && spec.list && spec.img
+            .spec-cell-inner
+              p.cell-label.l3
+                strong !{ labels[i] }
+              h6.t7-light !{ spec.name }
+              p.l3
+                strong !{ spec.listTitle }
+              +specList( spec.list, 'before-btm-aligned' )
+              +iQImage( spec.img, 'btm-aligned' )
 
-        else if spec.callout && spec.text
-          .spec-cell-inner
-            p.cell-label.l3
-              strong !{ labels[i] }
-            p.t6-light.compare-box !{ spec.callout }
-            p.t7 !{ spec.text }
-            if spec.list
-              if spec.listTitle
-                p.l3
-                  strong !{ spec.listTitle }
+          else if spec.callout && spec.text
+            .spec-cell-inner
+              p.cell-label.l3
+                strong !{ labels[i] }
+              p.t6-light.compare-box !{ spec.callout }
+              p.t7 !{ spec.text }
+              if spec.list
+                if spec.listTitle
+                  p.l3
+                    strong !{ spec.listTitle }
+                +specList( spec.list )
+
+          else if spec.text
+            .spec-cell-inner
+              p.cell-label.l3
+                strong !{ labels[i] }
+              p.t7 !{ spec.text }
+              if spec.subtext
+                p.p3 !{ spec.subtext }
+
+              if spec.sublist
+                +specList( spec.sublist )
+
+          else if spec.colors
+            .spec-cell-inner
+              p.cell-label.l3
+                strong !{ labels[i] }
+              +colorSwatches( spec.colors, true )
+
+          else if spec.definitionList && spec.img
+            .spec-cell-inner.only-label
+              p.cell-label.l3
+                strong !{ labels[i] }
+
+            - imgClass = spec.img.orientation && spec.img.orientation == 'portrait' ? 'vertical' : ''
+            .text-center.dl-img.ghost-center-wrap(class=imgClass)
+              .ghost-center.v-bottom
+                +iQImage( spec.img )
+
+            .spec-cell-inner
+              +definitionList( spec.definitionList, true )
+
+          else if spec.definitionList
+            .spec-cell-inner
+              p.cell-label.l3
+                strong !{ labels[i] }
+              +definitionList( spec.definitionList, true )
+
+          else if spec.label && spec.callout && spec.list && spec.icon
+            .spec-cell-inner
+              p.cell-label.l3
+                strong !{ labels[i] }
+              .holder-for-icon
+                iconClass = 'fonticon-30-' + spec.icon
+                i(class=iconClass)
+              div
+                span.t6-light !{ spec.callout.number }
+                | &nbsp;
+                span.p3 !{ spec.callout.text }
               +specList( spec.list )
+              p.l3
+                strong !{ spec.label }
+              p.p3 !{ spec.labeledText }
 
-        else if spec.text
-          .spec-cell-inner
-            p.cell-label.l3
-              strong !{ labels[i] }
-            p.t7 !{ spec.text }
-            if spec.subtext
-              p.p3 !{ spec.subtext }
+          else if spec.enlargement
+            .spec-cell-inner.only-label
+              p.cell-label.l3
+                strong !{ labels[i] }
 
-            if spec.sublist
-              +specList( spec.sublist )
-
-        else if spec.colors
-          .spec-cell-inner
-            p.cell-label.l3
-              strong !{ labels[i] }
-            +colorSwatches( spec.colors, true )
-
-        else if spec.definitionList && spec.img
-          .spec-cell-inner.only-label
-            p.cell-label.l3
-              strong !{ labels[i] }
-
-          - imgClass = spec.img.orientation && spec.img.orientation == 'portrait' ? 'vertical' : ''
-          .text-center.dl-img.ghost-center-wrap(class=imgClass)
-            .ghost-center.v-bottom
+            .text-center.img-holder
               +iQImage( spec.img )
 
-          .spec-cell-inner
-            +definitionList( spec.definitionList, true )
+            .spec-cell-inner
+              button.enlarge.js-enlarge
+                i.fonticon-15-zoom
+                span.l3
+                  strong !{ ' ' + spec.iconTitle }
 
-        else if spec.definitionList
-          .spec-cell-inner
-            p.cell-label.l3
-              strong !{ labels[i] }
-            +definitionList( spec.definitionList, true )
+              +specList( spec.list )
 
-        else if spec.label && spec.callout && spec.list && spec.icon
-          .spec-cell-inner
-            p.cell-label.l3
-              strong !{ labels[i] }
-            .holder-for-icon
-              iconClass = 'fonticon-30-' + spec.icon
-              i(class=iconClass)
-            div
-              span.t6-light !{ spec.callout.number }
-              | &nbsp;
-              span.p3 !{ spec.callout.text }
-            +specList( spec.list )
-            p.l3
-              strong !{ spec.label }
-            p.p3 !{ spec.labeledText }
+              .spec-modal.hide
+                .js-spec-modal-title !{ spec.enlargement.title }
+                .js-spec-modal-body
+                  .spec-modal-body.text-center
+                    +iQImage( spec.enlargement )
 
-        else if spec.enlargement
-          .spec-cell-inner.only-label
-            p.cell-label.l3
-              strong !{ labels[i] }
+          else if spec.list && spec.img
 
-          .text-center.img-holder
-            +iQImage( spec.img )
+              if spec.img.alignment == 'bottom'
+                .spec-cell-inner.img-bottom
+                  p.cell-label.l3
+                    strong !{ labels[i] }
+                  +specList( spec.list )
+                .text-center.img-bottom
+                  +iQImage( spec.img )
+              else
+                .spec-cell-inner.only-label
+                  p.cell-label.l3
+                    strong !{ labels[i] }
+                .text-center
+                  +iQImage( spec.img )
+                .spec-cell-inner
+                  +specList( spec.list )
 
-          .spec-cell-inner
-            button.enlarge.js-enlarge
-              i.fonticon-15-zoom
-              span.l3
-                strong !{ ' ' + spec.iconTitle }
+          else if spec.list
+            .spec-cell-inner
+              p.cell-label.l3
+                strong !{ labels[i] }
 
-            +specList( spec.list )
+              .icon-group
+                if spec.icon1
+                  i(class=spec.icon1)
+                if spec.icon2
+                  i(class=spec.icon2)
+              +specList( spec.list )
 
-            .spec-modal.hide
-              .js-spec-modal-title !{ spec.enlargement.title }
-              .js-spec-modal-body
-                .spec-modal-body.text-center
-                  +iQImage( spec.enlargement )
-
-        else if spec.list && spec.img
-
-            if spec.img.alignment == 'bottom'
-              .spec-cell-inner.img-bottom
-                p.cell-label.l3
-                  strong !{ labels[i] }
-                +specList( spec.list )
-              .text-center.img-bottom
-                +iQImage( spec.img )
-            else
-              .spec-cell-inner.only-label
-                p.cell-label.l3
-                  strong !{ labels[i] }
-              .text-center
-                +iQImage( spec.img )
-              .spec-cell-inner
-                +specList( spec.list )
-
-        else if spec.list
-          .spec-cell-inner
-            p.cell-label.l3
-              strong !{ labels[i] }
-
-            .icon-group
-              if spec.icon1
-                i(class=spec.icon1)
-              if spec.icon2
-                i(class=spec.icon2)
-            +specList( spec.list )
-
-        else
-          .l4 Unable to parse the kind of specification you gav me :(
+          else
+            .l4 Unable to parse the kind of specification you gav me :(
 
 
-else if data.view == 'single-spec'
+else if data.view == 'single-spec' && data.fullSpecs
 
   each spec in data.fullSpecs
     if spec.imgs && spec.definitionList
@@ -629,9 +630,10 @@ else if data.view == 'single-spec'
               .ghost-center
                 .spec-carousel-wrap
                   .spec-carousel.clearfix
-                    each img in spec.imgs
-                      span.slide
-                        +iQImage( img )
+                    if spec.imgs
+                      each img in spec.imgs
+                        span.slide
+                          +iQImage( img )
             .span3.offset1
               h6.t6-light.section-label !{ spec.label }
               +definitionList( spec.definitionList )
@@ -694,25 +696,27 @@ else if data.view == 'single-spec'
         .grid.no-grid-at-567.spec-section
           .span3
             h6.t6-light.section-label !{ spec.label }
-          each feature, i in spec.features
-            - feature2 = spec.features2[i]
-            .span3
-              .media
-                .pull-left
-                  .media-object.holder-for-icon
-                    i(class=feature.icon)
-                .media-body
-                  p.media-heading.l3
-                    strong !{ feature.label }
-                  p.media-description.p3 !{ feature.description }
-              .media
-                .pull-left
-                  .media-object.holder-for-icon
-                    i(class=feature2.icon)
-                .media-body
-                  p.media-heading.l3
-                    strong !{ feature2.label }
-                  p.media-description.p3 !{ feature2.description }
+
+          if spec.features
+            each feature, i in spec.features
+              feature2 = spec.features2[i]
+              .span3
+                .media
+                  .pull-left
+                    .media-object.holder-for-icon
+                      i(class=feature.icon)
+                  .media-body
+                    p.media-heading.l3
+                      strong !{ feature.label }
+                    p.media-description.p3 !{ feature.description }
+                .media
+                  .pull-left
+                    .media-object.holder-for-icon
+                      i(class=feature2.icon)
+                  .media-body
+                    p.media-heading.l3
+                      strong !{ feature2.label }
+                    p.media-description.p3 !{ feature2.description }
 
 
 else if data.view == 'suggested'
@@ -851,7 +855,8 @@ else if data.view == 'recommended'
           +heart()
 
 else if data.view == 'search-results'
-  - product = locals.data(data.results.product.data)
+  product = locals.data(data.results.product.data)
+
   .media
     .media-img.img-lg
       .img.no-float
@@ -861,10 +866,11 @@ else if data.view == 'search-results'
       .reviews-copy
         +productRating( product.rating )
       p.p4 !{ data.results.product.text }
-      ul.h-list.h-list-md
-        each link in data.results.product.links
-          li.lt4
-            +link( link )
+      if data.results.product.links
+        ul.h-list.h-list-md
+          each link in data.results.product.links
+            li.lt4
+              +link( link )
 
 else
   em oh noes, you don't have a known view variable set :(
