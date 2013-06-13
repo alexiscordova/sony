@@ -12,15 +12,8 @@ mixin hotspotMobileModal(modalTarget)
 
 
 mixin hotspotCore(hotspotData, useSmall)
-  if !hotspotData.size
-    size = data.type == "full" ? "large" : "small"
-  else 
-    size = hotspotData.size
-
-  if useSmall
-    smallClass = "hspot-small"
-  else
-    smallClass = ""
+  - size = hotspotData.size ? hotspotData.size : (data.type == "full") ? "large" : "small"
+  - smallClass = useSmall ? "hspot-small" : ""
 
   span.hspot-outer(class=smallClass, data-x=hotspotData.coords[0], data-y=hotspotData.coords[1]).eh-transparent.no-movement
     if smallClass == "hspot-small"
@@ -95,8 +88,7 @@ mixin hotspotCore(hotspotData, useSmall)
 - extraclass = image.classes || ""
 - anchor = data.id || "hotspot-instance-x"
 - modalTarget = anchor+'-modal-container'
-
-hotspotClass = ["hotspot-module"]
+- hotspotClass = ["hotspot-module"]
 
   +mainElement(hotspotClass)
     if data.background == "true"
@@ -105,15 +97,17 @@ hotspotClass = ["hotspot-module"]
         .hspot-underlay.hidden
           .hspot-global-details-main.hidden
         .hspot-global-details-overlay.hidden.eh-transparent
-        - for hotstpot in data.hotspots.items
-          +hotspotCore(hotstpot, false)
+        if data.hotspots.items
+          for hotstpot in data.hotspots.items
+            +hotspotCore(hotstpot, false)
     else
       .image-module.hotspot-instance.track-by-asset
         img.iq-img(id= anchor, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
           noscript
               img(src= image.noscriptsrc)
-        - for hotstpot in data.hotspots.items
-          +hotspotCore(hotstpot, true)
+        if data.hotspots.items
+          for hotstpot in data.hotspots.items
+            +hotspotCore(hotstpot, true)
         +hotspotMobileModal(modalTarget)
       .hspot-underlay.hidden
         .hspot-global-details-main.hidden
