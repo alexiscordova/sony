@@ -1685,7 +1685,7 @@ define(function(require){
           lastFilterGroup = self.lastFilterGroup,
           secondLastFilterGroup = self.secondLastFilterGroup,
           isRange = lastFilterGroup === 'price',
-          isRangeActive = self.filters.range.price.max !== undefined && (self.filters.range.price.max !== self.MAX_PRICE || self.filters.range.price.min !== self.MIN_PRICE);
+          isRangeActive = self.filters.range.price && self.filters.range.price.max !== undefined && (self.filters.range.price.max !== self.MAX_PRICE || self.filters.range.price.min !== self.MIN_PRICE);
 
       function testGalleryItems( filterName, filterValue ) {
         var shouldEnable = false;
@@ -2756,15 +2756,7 @@ define(function(require){
 
           $grid.append( $sorter );
           $container.append( $grid );
-
-          // Append it before the active filters and after the collapseable
-          if ( self.hasFilters ) {
-            $container.insertAfter( self.$container.find( '.slide-toggle-target' ) );
-
-          // `.slide-toggle-target` doesn't exist, append it before the products
-          } else {
-            $container.insertBefore( self.$grid.parent() );
-          }
+          $container.insertBefore( self.$grid.parent() );
 
           self.hasSorterMoved = true;
         }
