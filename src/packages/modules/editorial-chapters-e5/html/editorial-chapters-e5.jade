@@ -30,7 +30,7 @@ if ( data.config )
         if ( navlocation == "top" )
           +thumb-nav
       div(class='editorial-carousel-wrapper')
-        h3 = data.submodules
+        h3 !{data.submodules}
         div(class='editorial-carousel')
           if ( data.submodules )
             for slide in data.submodules

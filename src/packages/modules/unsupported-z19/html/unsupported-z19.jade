@@ -10,33 +10,39 @@ a.launch-modal(href="#") Launch Unsupported Browser Modal
         button.box-close(data-dismiss="modal", aria-hidden="true")
           i.fonticon-10-x-skinny.l-o-d
       .modal-body
-        .unsupported
-          .unsupported-hd
-            span.t2= data.title
-          .unsupported-bd
-            p.p3= data.subtitle.desktop
-          .unsupported-bd-alt
-            p.p3= data.subtitle.mobile
-          .container.full-bleed.browser-list
-            - for (i = 0; i < data.browser.length; i += 2) {
-              .grid
-                .span6
-                  a(href="#", tabindex=(0)).browser-link
-                    .media
-                      .media-img
-                        img(src=data.browser[i].img.srcDesktop, alt=src=data.browser[i].img.alt)
-                      .media-content
-                        .media-hd.p2= data.browser[i].label
-                        .media-bd.p3= data.download
-                .span6
-                  a(href="#", tabindex=(0)).browser-link
-                    .media
-                      .media-img
-                        img(src=data.browser[i+1].img.srcDesktop, alt=src=data.browser[i+1].img.alt)
-                      .media-content
-                        .media-hd.p2= data.browser[i+1].label
-                        .media-bd.p3= data.download
-            - }
+        if (data.subtitle) 
+          .unsupported
+            .unsupported-hd
+              span.t2 !{data.title}
+            .unsupported-bd
+              p.p3 !{data.subtitle.desktop}
+            .unsupported-bd-alt
+              p.p3 !{data.subtitle.mobile}
+            .container.full-bleed.browser-list
+              if (data.browser)
+                - for (i = 0; i < data.browser.length; i += 2) {
+                  .grid
+                    .span6
+                      if ( data.browser[i+1] )
+                        a(href="#", tabindex=(0)).browser-link
+                          .media
+                            .media-img
+                              if ( data.browser[i+1].img && data.browser[i].img )
+                                img(src=data.browser[i].img.srcDesktop, alt=src=data.browser[i].img.alt)
+                            .media-content
+                              .media-hd.p2 !{data.browser[i].label}
+                              .media-bd.p3 !{data.download}
+                    .span6
+                      if ( data.browser[i+1] )
+                        a(href="#", tabindex=(0)).browser-link
+                          .media
+                            .media-img
+                              if ( data.browser[i+1].img && data.browser[i].img )
+                                img(src=data.browser[i+1].img.srcDesktop, alt=src=data.browser[i+1].img.alt)
+                            .media-content
+                              .media-hd.p2 !{data.browser[i+1].label}
+                              .media-bd.p3 !{data.download}
+                - }
 
-          a(href="#", tabindex=(0)).lt3.link-proceed.close-modal= data.proceed
-          a(href="#", tabindex=(0)).btn.btn-medium.close-modal= data.proceed
+            a(href="#", tabindex=(0)).lt3.link-proceed.close-modal !{data.proceed}
+            a(href="#", tabindex=(0)).btn.btn-medium.close-modal !{data.proceed}
