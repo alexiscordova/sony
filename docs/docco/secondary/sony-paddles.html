@@ -68,20 +68,26 @@ define(<span class="keyword">function</span>(require){
       self.setupPaddles();
 
       self.$paddles.on(<span class="string">'blur'</span>, <span class="keyword">function</span>() {
-        self.$nav.removeClass(<span class="string">'show-paddles'</span>);
-        $(<span class="keyword">this</span>).removeClass(<span class="string">'on'</span>);
+        <span class="keyword">if</span> ( !self.isHovered ) {
+          self.$nav.removeClass(<span class="string">'show-paddles'</span>);
+          $(<span class="keyword">this</span>).removeClass(<span class="string">'on'</span>);
+        }
       });
 
       self.$paddles.on(<span class="string">'focus'</span>, <span class="keyword">function</span>() {
-        self.$nav.addClass(<span class="string">'show-paddles'</span>);
-        $(<span class="keyword">this</span>).addClass(<span class="string">'on'</span>);
+        <span class="keyword">if</span> ( !self.isHovered ) {
+          self.$nav.addClass(<span class="string">'show-paddles'</span>);
+          $(<span class="keyword">this</span>).addClass(<span class="string">'on'</span>);
+        }
       });
 
       self.$el.on(<span class="string">'mouseenter.sonyPaddles'</span>, <span class="keyword">function</span>(){
+        self.isHovered = <span class="literal">true</span>;
         self.$nav.addClass(<span class="string">'show-paddles'</span>);
       });
 
       self.$el.on(<span class="string">'mouseleave.sonyPaddles'</span>, <span class="keyword">function</span>(){
+        self.isHovered = <span class="literal">false</span>;
         self.$nav.removeClass(<span class="string">'show-paddles'</span>);
       });
     },

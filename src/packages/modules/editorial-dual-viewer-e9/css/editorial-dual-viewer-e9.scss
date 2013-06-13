@@ -81,11 +81,17 @@
       z-index: 3;
       color:$white;
 
-      &.dragging .handle,
-      &.dragging2 .handle {
+      &.hover .handle {
         .inner {
           @include scale(1.07);
-          background:$gray40;
+          background: $buttonOrangeHover;
+        }
+      }
+
+      &.dragging .handle {
+        .inner {
+          @include scale(1.07);
+          background: $gray30;
         }
       }
     }
@@ -106,7 +112,7 @@
           width:46px;
           height:46px;
           line-height:40px;
-          background:$buttonOrange;
+          background: $buttonOrange;
           display:block;
           text-align:center;
           font-size:0.9em;
@@ -168,7 +174,10 @@
         }
           .icons {
             @include rotate(90deg);
-            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+
+            .lt-ie9 & {
+              filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+            }
           }
     }
   }
@@ -275,13 +284,13 @@
       .inner {visibility:hidden;}
     }
     .dragging .handle,
-    .dragging2 .handle {background-position:-62px 0;}
+    .hover .handle {background-position:-62px 0;}
 
     &.y .edv-images .scrubber .handle {
       background-position:0 -62px;
     }
     &.y .dragging .handle,
-    &.y .dragging2 .handle {background-position:-62px -62px;}
+    &.y .hover .handle {background-position:-62px -62px;}
   }
 }
 

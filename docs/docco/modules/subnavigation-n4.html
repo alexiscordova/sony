@@ -21,6 +21,7 @@ define(<span class="keyword">function</span>(require){
       Environment = require(<span class="string">'require/sony-global-environment'</span>),
       SonyCarousel = require(<span class="string">'secondary/index'</span>).sonyCarousel,
       throttleDebounce = require(<span class="string">'plugins/index'</span>).throttleDebounce,
+      imagesLoaded = require(<span class="string">'plugins/index'</span>).imagesLoaded,
       viewport = require( <span class="string">'plugins/index'</span> ).viewport;
 
   <span class="keyword">var</span> module = {
@@ -56,30 +57,35 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       <span class="keyword">if</span> ( !Settings.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
-        enquire.register(<span class="string">"(min-width: 980px)"</span>, <span class="keyword">function</span>() {
+
+        enquire.register( Utilities.enquire.min(<span class="number">980</span>), <span class="keyword">function</span>() {
           self.mode = <span class="string">'desktop'</span>;
           self.subcatCols = <span class="number">3</span>;
           self.renderSubcats(self.$activeSubcat, <span class="number">3</span>);
           self.renderNav(<span class="number">2</span>);
         });
-        enquire.register(<span class="string">"(min-width: 768px) and (max-width: 979px)"</span>, <span class="keyword">function</span>() {
+
+        enquire.register( Utilities.enquire.minMax(<span class="number">768</span>, <span class="number">979</span>), <span class="keyword">function</span>() {
           self.mode = <span class="string">'tablet'</span>;
           self.subcatCols = <span class="number">4</span>;
           self.renderSubcats(self.$activeSubcat, <span class="number">4</span>);
           self.renderNav(<span class="number">3</span>);
         });
-        enquire.register(<span class="string">"(min-width: 480px) and (max-width: 767px)"</span>, <span class="keyword">function</span>() {
+
+        enquire.register( Utilities.enquire.minMax(<span class="number">480</span>, <span class="number">767</span>), <span class="keyword">function</span>() {
           self.mode = <span class="string">'tablet-small'</span>;
           self.subcatCols = <span class="number">6</span>;
           self.renderSubcats(self.$activeSubcat, <span class="number">6</span>);
           self.renderNav(<span class="number">3</span>);
         });
-        enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
+
+        enquire.register( Utilities.enquire.max(<span class="number">479</span>), <span class="keyword">function</span>() {
           self.mode = <span class="string">'mobile'</span>;
           self.subcatCols = <span class="number">12</span>;
           self.renderSubcats(self.$activeSubcat, <span class="number">12</span>);
           self.renderNav(<span class="number">4</span>);
         });
+
       } <span class="keyword">else</span> {
         self.mode = <span class="string">'desktop'</span>;
         self.subcatCols = <span class="number">3</span>;
@@ -124,14 +130,15 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           isMobile = (self.mode === <span class="string">'mobile'</span>),
-          currentSlide;
+          currentSlide = <span class="number">0</span>;
 
       Utilities.reassignSpanWidths(self.$navgroups.find(<span class="string">'.subcategory-link'</span>), columns);
 
       self.$navgroups = Utilities.gridApportion({
-        $groups: self.$navgroups,
-        gridSelector: <span class="string">'.grid'</span>
+        $groups: self.$navgroups
       });
+
+      self.$slideChildren = self.$navgroups.find(<span class="string">'.subcategory-link'</span>);
 
       <span class="keyword">if</span> ( self.$navgroups.find(<span class="string">'.active'</span>).length &gt; <span class="number">0</span> ) {
         currentSlide = self.$navgroups.find(<span class="string">'.active'</span>).closest(self.$navgroups).index();
@@ -141,17 +148,22 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
         self.$navCarousel.sonyCarousel(<span class="string">'destroy'</span>);
       }
 
-      self.$navCarousel = self.$el.find(<span class="string">'.subnav-nav-carousel-wrapper nav'</span>).sonyCarousel({
+      self.$navCarousel = self.$el.find(<span class="string">'.subnav-nav-carousel-wrapper'</span>).sonyCarousel({
         draggable: <span class="literal">true</span>,
-        snap: !isMobile,
-        onlySnapAtEnds: isMobile,
-        wrapper: <span class="string">'.subnav-nav-carousel-wrapper'</span>,
+        wrapper: <span class="string">'.grid'</span>,
         slides: <span class="string">'.subnav-nav-carousel-slide'</span>,
+        slideChildren: <span class="string">'.subcategory-link'</span>,
         paddles: !isMobile,
+        $paddleWrapper: self.$navgroups.closest(<span class="string">'.grid'</span>),
+        paddlePosition: <span class="string">'outset'</span>,
         useSmallPaddles: !isMobile
       });
 
-      self.$navCarousel.sonyCarousel(<span class="string">'gotoSlide'</span>, currentSlide, <span class="literal">true</span>);
+      <span class="keyword">if</span> ( self.$navCarousel.hasClass(<span class="string">'sony-carousel-active'</span>) ) {
+        self.$navCarousel.sonyCarousel(<span class="string">'gotoSlide'</span>, currentSlide, <span class="literal">true</span>);
+      }
+
+      self.revealOnlyGroup(currentSlide);
 
       self.bindNav();
     },
@@ -160,8 +172,20 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
     bindNav: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $buttons = self.$navgroups.find(<span class="string">'.grid'</span>).children(),
+          $buttons = self.$navgroups.find(<span class="string">'.subcategory-link'</span>),
           debouncedeNavTap;
+
+      self.$navCarousel.on(<span class="string">'sonyDraggable:dragStart'</span>, <span class="keyword">function</span>(){
+        self.revealAllGroups();
+      });
+
+      self.$navCarousel.on(<span class="string">'SonyCarousel:gotoSlide'</span>, <span class="keyword">function</span>(e, which){
+        self.revealOnlyGroup(which);
+      });
+
+      self.$navCarousel.on(<span class="string">'SonyCarousel:released'</span>, <span class="keyword">function</span>(e, which){
+        self.revealOnlyGroup(which);
+      });
 
       $buttons.on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
         <span class="keyword">return</span> !$(<span class="keyword">this</span>).hasClass(<span class="string">'has-products'</span>);
@@ -176,7 +200,56 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
       $buttons.hammer().on(<span class="string">'tap'</span>, debouncedeNavTap);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Open or close nav depending on whether the currently tapped item is active.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Show all <code>$slideChildren</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    revealAllGroups: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      clearTimeout(self.childRevealTimeout);
+
+      self.childRevealTimeout = setTimeout(<span class="keyword">function</span>(){
+
+        self.$slideChildren.addClass(<span class="string">'on'</span>);
+
+        <span class="keyword">if</span> ( !self.useCSS3 ) {
+          self.$slideChildren.stop().fadeTo(<span class="number">500</span>, <span class="number">1</span>);
+        }
+
+      }, <span class="number">250</span>);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Fade up only the elements of group with index <code>whichGroup</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    revealOnlyGroup: <span class="keyword">function</span>(whichGroup) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $targetChildren = self.$navgroups.eq(whichGroup).find(self.$slideChildren),
+          childrenPerSlide = self.$navgroups.first().find(self.$slideChildren).length;
+
+      <span class="keyword">if</span> ( self.mode === <span class="string">'mobile'</span> ) {
+        self.revealAllGroups();
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">if</span> ( $targetChildren.length &lt; childrenPerSlide ) {
+        $targetChildren = $targetChildren.add( self.$navgroups.eq(whichGroup - <span class="number">1</span>).find(self.$slideChildren).slice($targetChildren.length) );
+      }
+
+      clearTimeout(self.childRevealTimeout);
+
+      self.childRevealTimeout = setTimeout(<span class="keyword">function</span>(){
+
+        self.$slideChildren.removeClass(<span class="string">'on'</span>);
+        $targetChildren.addClass(<span class="string">'on'</span>);
+
+        <span class="keyword">if</span> ( !self.useCSS3 ) {
+          self.$slideChildren.stop().fadeTo(<span class="number">500</span>, <span class="number">0.01</span>);
+          $targetChildren.stop().fadeTo(<span class="number">500</span>, <span class="number">1</span>);
+        }
+
+      }, <span class="number">250</span>);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Open or close nav depending on whether the currently tapped item is active.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     onNavTap: <span class="keyword">function</span>(e, $buttons) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -199,11 +272,22 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Open the subnav at a given position.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Open the subnav at a given position.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     openSubcat: <span class="keyword">function</span>(which) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $subcat = self.$el.find(<span class="string">'#subcategory-'</span> + which);
+
+      $subcat.find(<span class="string">'.lazy-image'</span>).each(<span class="keyword">function</span>(){
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>);
+
+        $<span class="keyword">this</span>.attr(<span class="string">'src'</span>, $<span class="keyword">this</span>.data(<span class="string">'src'</span>));
+        $<span class="keyword">this</span>.removeClass(<span class="string">'.lazy-image'</span>);
+
+        $<span class="keyword">this</span>.imagesLoaded().done(<span class="keyword">function</span>(){
+          self.setTrayHeight();
+        });
+      });
 
       self.renderSubcats($subcat, self.subcatCols);
 
@@ -212,7 +296,7 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
       $subcat.addClass(<span class="string">'active'</span>);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Close the subnav.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Close the subnav.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     closeTray: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -224,7 +308,7 @@ mobile vs. desktop.</p>             </td>             <td class="code">         
       clearInterval(self.trayHeightInterval);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Set the tray height.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Set the tray height.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setTrayHeight: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;

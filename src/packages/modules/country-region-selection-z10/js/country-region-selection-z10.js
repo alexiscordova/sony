@@ -22,18 +22,18 @@ define(function(require){
   var MIN_COUNTRIES_PER_COLUMN = 5;
 
   var module = {
-    'init': function() {
-      var countryRegion = $('.country-region');
-      if ( countryRegion ) {
-        new CountryRegionSelection(countryRegion);
+    init: function() {
+      var $countryRegion = $('.country-region');
+      if ( $countryRegion.length ) {
+        new CountryRegionSelection( $countryRegion );
       }
     }
   };
 
   // View Controller for country / region selection
-  var CountryRegionSelection = function(element) {
+  var CountryRegionSelection = function( $element ) {
     var self = this;
-    self.$el = $(element);
+    self.$el = $element;
 
     self.init();
   };
@@ -46,7 +46,7 @@ define(function(require){
       var self = this;
       self.$pageWrapperOuter = $('#page-wrap-outer');
 
-      if ( self.$pageWrapperOuter.length > 0 ) {
+      if ( self.$pageWrapperOuter.length > 0 && !Settings.isAndroid) {
         self.initFullPageBuild();
         self.scrollableId = 'scroll';
       } else {
@@ -71,12 +71,17 @@ define(function(require){
 
       self.$pageWrapperInner = $('#page-wrap-inner');
       self.$scrollContainer = $('<div id="scrollcontainer">');
+
       var $scroll = $('<div id="scroll">').addClass('scrollable');
 
       self.$scrollContainer.append($scroll);
       $('<div>').append(self.$pageWrapperInner.children().not('#nav-wrapper')).appendTo($scroll);
 
       $(self.$pageWrapperInner).append(self.$scrollContainer);
+
+      var $universalNav = $('#universal-nav');
+
+      $universalNav.detach().insertBefore('#nav-wrapper');
     },
 
     setMobileHeight : function() {
@@ -84,19 +89,27 @@ define(function(require){
           winheight = parseInt($(window).height(), 10),
           navheight = parseInt($('#nav-wrapper').height(), 10);
 
-      self.$scrollContainer.css({
-        'height': winheight - navheight +'px',
-        'position': 'relative'
-      });
+      if (self.stickyHeader.loaded){
+        if (window.innerWidth > 768) {
+          return;
+        }
+        self.$scrollContainer.css({
+          'height': winheight - navheight + 10 +'px',
+          'position': 'relative'
+        });
 
+        self.stickyHeader.refresh();
+      }
     },
 
     resetHeight : function () {
       var self = this;
-      self.$scrollContainer.css({
-        'height': 'auto',
-        'position': 'relative'
-      });
+      if (self.stickyHeader.loaded){
+        self.$scrollContainer.css({
+          'height': 'auto',
+          'position': 'relative'
+        });
+      }
     },
 
     // Binds enquire handlers to setup page for mobile, tablet and desktop.
@@ -106,12 +119,12 @@ define(function(require){
       // Enquire doesn't exist in old IE, so make sure it's there
       if ( Modernizr.mediaqueries ) {
         enquire
+          .register('(max-width: 47.9375em)', {
+            match : $.proxy(self.toMobile, self)
+          })
           .register('(min-width: 29.9375em) and (max-width: 47.9375em)', {
             match : $.proxy(self.accountForHeader, self),
             unmatch : $.proxy(self.unAccountForHeader, self)
-          })
-          .register('(max-width: 47.9375em)', {
-            match : $.proxy(self.toMobile, self)
           })
           .register('(min-width: 48em) and (max-width: 61.1875em)', {
             match : $.proxy(self.toTablet, self)
@@ -122,6 +135,10 @@ define(function(require){
       } else {
         self.toDesktop();
       }
+
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.setMobileHeight, self ));
 
       return self;
     },
@@ -163,7 +180,9 @@ define(function(require){
     // Called when media query matches mobile.
     toMobile : function() {
       var self = this;
-      self.stickyHeader.enable();
+      if (self.stickyHeader.loaded){
+        self.stickyHeader.enable();
+      }
       self.resetFluidLists();
       self.setMobileHeight();
     },
@@ -171,7 +190,9 @@ define(function(require){
     // Called when media query matches tablet.
     toTablet : function() {
       var self = this;
-      self.stickyHeader.disable();
+      if (self.stickyHeader.loaded){
+        self.stickyHeader.disable();
+      }
       self.updateFluidLists('tablet');
       self.resetHeight();
     },
@@ -179,19 +200,23 @@ define(function(require){
     // Called when media query matches desktop.
     toDesktop : function() {
       var self = this;
-      self.stickyHeader.disable();
+      if (self.stickyHeader.loaded){
+        self.stickyHeader.disable();
+      }
       self.updateFluidLists('desktop');
       self.resetHeight();
     },
 
     accountForHeader : function () {
       var self = this;
-      self.$scrollContainer.height('+=20px').css('margin-top', '-10px');
+      if (self.stickyHeader.loaded){
+        self.$scrollContainer.height('+=10px').css('margin-top', '-10px');
+      }
     },
 
     unAccountForHeader : function () {
       var self = this;
-      self.$scrollContainer.height('-=20px').css('margin-top', 'auto');
+      // self.$scrollContainer.height('-=30px').css('margin-top', 'auto');
     }
   };
 

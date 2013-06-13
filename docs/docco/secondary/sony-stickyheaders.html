@@ -27,6 +27,14 @@ define(<span class="keyword">function</span>(require){
 
   StickyHeader.prototype = {
     init: <span class="keyword">function</span>(scrollableId) {
+      <span class="keyword">var</span> ua = navigator.userAgent.toLowerCase();
+      <span class="keyword">this</span>.isAndroid = ua.indexOf(<span class="string">"android"</span>) &gt; <span class="number">1</span>;
+      
+      <span class="keyword">if</span> (<span class="keyword">this</span>.isAndroid){
+        <span class="keyword">this</span>.loaded = <span class="literal">false</span>;
+        <span class="keyword">return</span>;
+      }
+
       <span class="keyword">this</span>.scrollableId = scrollableId;
       <span class="keyword">this</span>.$headers = $(<span class="string">'.js-sticky-headers'</span>);
       <span class="keyword">this</span>.$scrollable = $(<span class="string">'#'</span> + <span class="keyword">this</span>.scrollableId);
@@ -37,6 +45,7 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">this</span>.headerIsVisible = <span class="literal">false</span>;
 
       Environment.on(<span class="string">'SONY:Footer:mobileFooterSecCollapsed'</span>, $.proxy(<span class="keyword">this</span>.refresh, <span class="keyword">this</span>));
+      <span class="keyword">this</span>.loaded = <span class="literal">true</span>;
 
       <span class="keyword">return</span> <span class="keyword">this</span>._getHeaderOffsets();
     },

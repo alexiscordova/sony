@@ -18,6 +18,7 @@ define(function(require){
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
+      Utilities = require('require/sony-global-utilities'),
       SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
@@ -43,7 +44,9 @@ define(function(require){
     self.currentSlide = 0;
     self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
 
-    self.init();
+    self.$el.on('SecondaryTouts:ready', function() {
+      self.init();
+    });
 
     log('SONY : OneSonyCarousel : Initialized');
   };
@@ -69,21 +72,20 @@ define(function(require){
       });
 
       self.$cachedSlides = self.$slides.detach();
-
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find('.st-item').remove();
 
       if ( !Settings.$html.hasClass('lt-ie10') ){
 
-        enquire.register("(min-width: 780px)", function() {
+        enquire.register( Utilities.enquire.min(780), function() {
           self.renderDesktop();
           self.$innerContainer.sonyCarousel('setAnimationSpeed', self.desktopAnimSpeed);
         });
-        enquire.register("(min-width: 480px) and (max-width: 779px)", function() {
+        enquire.register( Utilities.enquire.minMax(480, 779), function() {
           self.renderEvenColumns(6);
           self.$innerContainer.sonyCarousel('setAnimationSpeed', self.tabletAnimSpeed);
         });
-        enquire.register("(max-width: 479px)", function() {
+        enquire.register( Utilities.enquire.max(479), function() {
           self.renderEvenColumns(12);
           self.$innerContainer.sonyCarousel('setAnimationSpeed', self.mobileAnimSpeed);
         });
@@ -99,7 +101,7 @@ define(function(require){
 
       var self = this;
 
-      self.$innerContainer.on(Settings.transEndEventName, function(){ iQ.update(true); });
+      self.$innerContainer.on(Settings.transEndEventName, iQ.update);
     },
 
     // Create or restore the default slide layout.
@@ -112,6 +114,8 @@ define(function(require){
       self.$innerContainer.empty().append($newSlides);
 
       self.$innerContainer.sonyCarousel('resetSlides');
+
+      iQ.reset();
     },
 
     // Splits the default layout into slides with children each of column width
@@ -134,6 +138,8 @@ define(function(require){
       }
 
       self.$innerContainer.sonyCarousel('resetSlides');
+
+      iQ.reset();
     }
 
   };

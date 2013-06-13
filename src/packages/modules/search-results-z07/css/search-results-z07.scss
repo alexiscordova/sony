@@ -22,7 +22,7 @@
   }
 
   .media {
-      margin: 0 0 15px 0;
+    margin: 0 0 15px 0;
   }
 
   .media,
@@ -122,6 +122,12 @@
       background-color: transparent;
       color: $gray20;
       border: none;
+      &.active-search-input {
+        width: 100%;
+      }
+      &::-ms-clear {
+        display: none;
+      }
     }
     .search:focus {
       outline: none;
@@ -377,10 +383,24 @@
     }
   }
 
+  // Override default list margin bottom
   .footer-search ul {
-    margin: 0;
+    margin-bottom: 0;
   }
+
   .result-sidebar {
-      margin-top: 5px;
+    margin-top: 5px;
+  }
+}
+
+.lt-ie9 {
+  .search-results {
+    .bar-tone {
+      .search {
+        height: 52px;
+        font-size: 2.75em;
+        line-height: 1.13636;
+      }
+    }
   }
 }

@@ -388,17 +388,17 @@ p{ @extend .p2; }
 .light-text,
 .light-text-dark-box,
 .light-text-trans-box{
-  h1, h2, h3, h4, h5, h6{
+  h1, h2, h3, .t1, .t2, .t3, .t1-light, .t2-light, .t3-light, .t1-bold, .t2-bold, .t3-bold, {
     color:$white;
     -webkit-font-smoothing: antialiased;
   }
   p{
     color:$white;
-    -webkit-font-smoothing: antialiased;
+    // -webkit-font-smoothing: antialiased; // not on paragraphs anymore.
   }
 }
-.light-text-dark-box a,
-.light-text-trans-box a{
+.light-text-dark-box a:not(.btn),
+.light-text-trans-box a:not(.btn){
   color: $white;
   -webkit-font-smoothing: antialiased;
   &:hover, &:active, &:focus, &.active{
@@ -467,8 +467,9 @@ p{ @extend .p2; }
 // -------------------------
 
 .page-header {
-  padding-bottom: $baseLineHeight * 0.45;
-  margin: $baseLineHeight 0 ($baseLineHeight * 1.5);
+  // $baseLineHeight has no units - invalid css value
+  // padding-bottom: $baseLineHeight * 0.45;
+  // margin: $baseLineHeight 0 ($baseLineHeight * 1.5);
   border-bottom: 1px solid $grayLightFieldSmall;
 }
 

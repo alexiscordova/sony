@@ -107,6 +107,7 @@ form.footer-store-locator-form{
 .footer-social-links{
   display:inline-block;
   @include ie7-inline-block;
+  -webkit-transform: translate3d(0,0,0); // iPad flicker fix
   a{
     display:block;
     width: px-em(36px);
@@ -197,7 +198,8 @@ a.footer-social-youtube {
       top:-2px;
       left:5px;
       @include transition(all $transitionFast linear);
-      @include transform-origin(48%, 56%, 0);
+      // @include transform-origin(48%, 56%, 0);
+      @include transform-origin(47%, 63%, 0);
       @include flickerfix;
       -webkit-font-smoothing:antialiased;
       color:$gray50;
@@ -297,40 +299,52 @@ a.footer-social-youtube {
     }
   } // dropdown-hover-menu-list
 
-  &.country-selector{ // specific to the custom big country selector -- if not doing the menu, this can be deleted.
-    .dropdown-hover-menu-list{
-      padding:0 10px;
-      li{
-        a{
-          font-size:$font_13_16;
-          color:$grayLight;
-          line-height: 1.85;
-          padding:px-em(3px) 0 px-em(4px) px-em(10px);
+  // specific to the custom big country selector -- if not doing the menu, this can be deleted.
+  // &.country-selector{ 
+  //   .dropdown-hover-menu-list{
+  //     padding:0 10px;
+  //     li{
+  //       a{
+  //         font-size:$font_13_16;
+  //         color:$grayLight;
+  //         line-height: 1.85;
+  //         padding:px-em(3px) 0 px-em(4px) px-em(10px);
 
-          &:hover,
-          &:active,
-          &:focus{
-            color:$white;
-          }
-        }
-      }
-    }
-  }
-  &.DISABLE-MENU{
-    .fonticon-10-arrowhead-down{
-      display:none;
-    }    
+  //         &:hover,
+  //         &:active,
+  //         &:focus{
+  //           color:$white;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+  // &.DISABLE-MENU{
+  //   .fonticon-10-arrowhead-down{
+  //     display:none;
+  //   }    
+  // }
+}
+
+.footer-wrapper .country-selector{
+  [class^="icon-flag-"],
+  [class*=" icon-flag-"]{
+    display:inline-block;
+    position: relative;
+    top: 3px;
+    margin-right: 10px;
   }
 }
 
 
+// Why just on the minimal footer? Disabling. -CJM
 .footer-wrapper.footer-wrapper-minimal{
   .btn-hover-group,
   .btn-hover-group.language-selector{ // drop-downs that trigger on hover instead of click -- except on mobile where they have to react more like on click.
-    width: px-em(60px);
+    // width: px-em(60px);
     .btn.dropdown-hover-toggle{
-      padding-left:10px;
-      padding-right:11px;
+      // padding-left:10px;
+      // padding-right:11px;
     }
   }
 }
@@ -359,7 +373,6 @@ a.footer-social-youtube {
       }
     }
     // &.country-selector{
-
     // }
   }
 }
@@ -390,7 +403,7 @@ a.footer-social-youtube {
   border-top: solid 1px $grayDarkFieldLarge;
   margin-top: px-em(15px);
   padding-top: px-em(28px);
-  @include flickerfix;
+  -webkit-transform: translate3d(0,0,0); // iPad flicker fix + Android logo un-blur.
 }
 .footer-legal-links{
   font-size: px-em(10);
@@ -450,7 +463,7 @@ a.footer-social-youtube {
   &.footer-wrapper-minimal{
     .btn-group.country-selector,
     .btn-hover-group.country-selector{
-      min-width:px-em(235px);
+      // min-width:px-em(235px);
     }
   }
 
@@ -479,6 +492,13 @@ a.footer-social-youtube {
     width:30%;
     float:right;
     margin:0;
+  }
+}
+.footer-store-locator-input{
+  text-indent:18px;
+  
+  .child-input-active & {
+    text-indent:0;
   }
 }
 

@@ -33,13 +33,10 @@
   overflow: visible;
   color: $navbarText;
   position: relative;
-  z-index: 200;
 
   &.container {
     // max-width: $navMaxWidth;
   }
-
-  -webkit-transform: translate3d(0, 0, 0); // fix janky text
 
   // Prevent floats from breaking the navbar
   @include clearfix();
@@ -74,9 +71,17 @@
     margin-top: 0; // then undo the margin here so we don't accidentally double it
   }
 
-  .fonticon-10-arrowhead-down,
+  // so we can tell when the nav is ready (mainly for Android because it takes a long time), we're hiding the carrots on the primary nav links
+  // until the nav is actually ready to be used. Sometimes it takes a really long time on Android.
+  .fonticon-10-arrowhead-down{
+    color: $gray40;
+    visibility:hidden;
+    .nav-ready & {
+      visibility:visible;
+    }
+  }
   .fonticon-10-arrowhead-up {
-    color:$gray40;
+    color: $gray40;
   }
   .nav-li-link {
     -webkit-backface-visibility: hidden; // fixes phantom blue select box
@@ -90,12 +95,16 @@
 
   .nav-li-favorites .nav-li-link:hover i {
     color:$buttonOrangeHover;
+    .lt-ie9:not(.lt-ie8) & {
+      color:$white; // ie8 hover pseudoelement fix
+    }
   }
   .nav-li-universal .nav-li-linkBtn {
     .fonticon-10-arrowhead-up {
       margin-left: 4px;
       position: relative;
       top:-1px;
+      -webkit-transform: translate3d(0,0,0); // make the icon show up on Android
     }
   }
 
@@ -168,6 +177,20 @@
 } // end .navbar
 
 
+// IE8 icon hover color fix, because sometimes it changes to the hover color, and not switch back after.
+// This forces it to always have the non-hover color.
+.lt-ie9:not(.lt-ie8) .nav-li-link {
+  &:hover, &:active, &:focus, &.active {
+    .fonticon-10-arrowhead-down,
+    .fonticon-10-arrowhead-up {
+      color:$gray40;
+    }
+  }
+}
+
+
+
+
 
 .navbar-mobile.container {
   width: 100%;
@@ -200,16 +223,21 @@
 // -----------------------------------------
 
 .navbar-outer {
-  background-color: $navbarBackground;
+  background: $navbarBackground;
   position: relative;
   z-index: 222;
+  -webkit-transform: translate3d(0,0,0); // needed for Android, otherwise the navtrays, which have translate3d, will half-appear in front of the navbar. Isn't this stuff fun?!
 }
-.nav-wrapper,
-.navbar {
+.nav-wrapper{
+  z-index: $zindexGlobalNav;
   height: $navbarHeight;
 }
+.navbar {
+  height: $navbarHeight;
+  -webkit-transform: translate3d(0,0,0); // iPad flicker fix
+}
 .navtray-w {
-  top: -660px;
+  top: -475px;
 }
 .navmenu-w {
   top: $navbarHeight;
@@ -241,6 +269,8 @@
     &:hover, &:active, &:focus, &.active {
       color: $navbarLinkColor;
     }
+    -webkit-transform:translate3d(0,0,0);
+    -webkit-backface-visibility:hidden;
 
     .lbl {
       padding: 0 4px;
@@ -254,7 +284,6 @@
   }
 }
 
-
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn){
   padding-right: 0;
   margin-right: 0;
@@ -262,12 +291,25 @@
   color:$navbarLinkColor;
 
   .fonticon-10-arrowhead-down {
-      position: relative;
-      top:-2px;
-      margin-bottom: -5px;
-      margin-left: px-em(4);
-      margin-right:-2px;
-      overflow: hidden;
+    font-size: px-em(16,15);
+    position: relative;
+    top:-2px;
+    margin-bottom: -5px;
+    margin-left: 4px;
+    margin-right:-2px;
+    overflow: hidden;
+
+    -webkit-font-smoothing:antialiased;
+    -webkit-transform: translate3d(0,0,0); // make the icon show up on Android
+
+    .lt-ie9 & {
+      font-size:16px; // some kind of pseudo-element bug in lt-ie8 that shrinks the icon when you hover. Since it's decoration only, we don't have to worry about client zooming.
+      left:-1px; // pseudo-element alignment adjustment
+    }
+    .lt-ie8 & {
+      left:2px; // pseudo-element alignment adjustment
+    }
+
   }
 }
 
@@ -278,6 +320,8 @@
   &:hover, &:active, &:focus, &.active {
     color:$navbarLinkColorHover;
   }
+  -webkit-transform:translate3d(0,0,0);
+  -webkit-backface-visibility:hidden;
 }
 
 .nav-li-linkBtn {
@@ -322,6 +366,10 @@
     -webkit-font-smoothing: antialiased;
     // overflow: hidden;
   }
+
+  .lt-ie8 & {
+    height:26px;
+  }
 }
 
 .nav-primary {
@@ -343,7 +391,7 @@
       margin-left: 3px;
       position: relative;
       top:-2px;
-      font-size: px-em(16,10.5);
+      font-size: px-em(16,10);
     }
   }
 }
@@ -354,6 +402,7 @@
 .nav-li-cart .nav-li-link {
   padding: 9px 9px 0 8px;
   font-size: 1em;
+  -webkit-transform: translate3d(0,0,0); // make the icon show up on Android
   i {
     position: relative;
     top:-1px;
@@ -370,6 +419,7 @@
 
   .fonticon-10-search {
     padding-left: 6px;
+    @include backface-visibility();
   }
 
   &:hover,
@@ -487,13 +537,6 @@
 }
 
 
-// Required to make the collapsing navbar work on regular desktops
-.nav-collapse.collapse {
-  height: auto !important;
-  overflow: visible !important;
-}
-
-
 
 .navmenu-w {
   z-index: 190;
@@ -516,12 +559,6 @@
   }
   .reveal-transition-container {
     overflow: hidden;
-    .lt-ie10 &{
-      overflow: visible!important;
-      min-height: 100%;
-      height: 110%;
-      position: relative;
-    }
   }
   .fonticon-10-arrowhead-up.nav-indicator {
     right: 17px;
@@ -562,3 +599,7 @@
   // position: relative;
   // left:-999px; // still want to use its height for the nav..?
 }
+
+
+
+

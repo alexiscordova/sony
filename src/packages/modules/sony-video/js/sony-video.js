@@ -53,14 +53,12 @@ define(function(require){
       self.isMobileMode         = false;
 
       self.isFullEditorial      = self.$el.hasClass('full-bleed');
-
       self.variation            = self.$el.data('variation');
-      
       self.videoAPI             = null;
+      self.isFullScreen         = false;
 
       self.$engine              = null;
-
-      self.isFullScreen         = false;
+      self.$player              = self.$el.find('.player').eq(0);
 
       // Inits the module
       self.init();
@@ -74,8 +72,12 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
+        if(Settings.isLTIE8){
+          self.$player.addClass( 'no-toggle is-mouseover' );
+        }
+
         //initialize videos
-        self.videoAPI = sonyVideo.initVideos( self.$el.find('.player') );
+        self.videoAPI = sonyVideo.initVideos( self.$player );
 
         self.videoAPI.bind('resume' , function(){
           if(self.isFullEditorial){
@@ -89,12 +91,40 @@ define(function(require){
           if(e.type === 'fullscreen'){
             self.isFullScreen = true;
             self.onDebouncedResize();
+
+            if(Settings.isLTIE10){
+              $('body').css({
+                'overflow' : 'hidden'
+              });
+            }
+
           }else {
             self.isFullScreen = false;
             self.onDebouncedResize();
+
+            if(Settings.isLTIE10){
+              $('body').css({
+                'overflow' : ''
+              });
+            }
+
+            self.$el.find('.fp-ratio').css({
+              'padding-top': self.$el.find('.player').data('ratio') * 100 + '%'
+            });   
+            
+            self.$engine.css('top' , 0);    
+
+            if(self.$el.hasClass('normal')){
+              self.$el.css('height', '');
+            }     
           }
 
         });
+
+
+        if(self.$el.hasClass('normal')){
+          self.$el.find('.fp-play-btn-lrg').removeClass('fp-play-btn-lrg').addClass('fp-play-btn-sml');
+        }
 
         if(self.isFullEditorial){
           Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
@@ -116,28 +146,50 @@ define(function(require){
         wW = Settings.$window.width();
 
         self.$engine = self.$el.find('.fp-engine');
-        
+
 
         if(wW > 980){
           //this makes the header grow 1px taller for every 20px over 980w..
           self.$el.css('height', Math.round(Math.min(720, 560 + ((wW - 980) / 5))));
+          self.$el.css('height', Math.round(Math.min(640, 520 + ((wW - 980) / 5))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles
           self.$el.css('height', '');
+
+          if(Settings.isLTIE10){
+            self.$el.css('height', '560px');
+          }
         }
 
         var heightDiff = Math.abs( self.$el.height() - self.$engine.height() );
 
         if( heightDiff > 0 ){
+
           self.$engine.css('top' , -heightDiff / 2 + 'px');
 
           //console.log('setting this shit to' , -heightDiff / 2 + 'px');
+          if(Settings.isLTIE10){
+            self.$engine.css('top' , '0');
+          }
         }
 
-        if(self.isFullScreen){
+        if(self.isFullScreen || Settings.isSonyTabletS){
           //console.log(self.isFullScreen);
           self.$engine.css('top' , 0);
         }
+
+        if(wW < 567){
+          self.$el.find('.fp-ratio').css({
+            'padding-top': self.$el.find('.player').data('ratio') * 100 + '%'
+          });
+
+          //self.$el.css('height' , 'auto');
+        }else{
+          self.$el.find('.fp-ratio').css({
+            'padding-top': ''
+          });
+        }
+
 
       }
 

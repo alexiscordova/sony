@@ -10,7 +10,7 @@ $tabletMax: px-em(979);
 // 1200+
 @media (min-width: px-em(1200) ) {
   .pdp-slideshow {
-    .pdp-slideshow-slide.type1 > .ghost-center-wrap {
+    .pdp-slideshow-slide.type1 .pdp-slide-inner {
       padding: 2.5% 1% 8%;
     }
   }
@@ -21,7 +21,7 @@ $tabletMax: px-em(979);
   .pdp-slideshow {
 
     // Can't use ems on ghost center wrap (0 font size)
-    .pdp-slideshow-slide.type1 > .ghost-center-wrap {
+    .pdp-slideshow-slide.type1 .pdp-slide-inner {
       padding: 40px 40px 110px;
     }
 
@@ -36,11 +36,60 @@ $tabletMax: px-em(979);
   .pdp-slideshow {
     height: 500px;
 
-    .pdp-slideshow-slide.type1 > .ghost-center-wrap {
+    .pdp-slideshow-slide.type1 .pdp-slide-inner {
       padding: 2.5% 2% 13%;
     }
-  }
 
+    .thumb-nav-container {
+      height: px-em( 52px );
+
+      .thumb-nav-grid {
+        top: -92px;
+      }
+
+      .pagination-paddles {
+        top: -64px;
+      }
+    }
+
+    .thumb {
+      width: px-em( 62px );
+
+      a {
+
+        &.first {
+
+          &:before {
+            left: -4px;
+            width: 4px;
+          }
+
+          .active-highlight {
+            left: -4px;
+            padding-left: 4px;
+          }
+        }
+
+        &.last {
+
+          &:after {
+            right: -4px;
+            width: 4px;
+          }
+
+          .active-highlight {
+            right: -4px;
+            padding-right: 4px;
+          }
+        }
+      }
+
+      img {
+        width: px-em( 56px );
+        height: px-em( 40px );
+      }
+    }
+  }
 }
 
 // < 767
@@ -58,10 +107,6 @@ $tabletMax: px-em(979);
       margin-left: 0;
     }
 
-    .sony-dot-nav {
-      margin: 0;
-    }
-
   }
 }
 
@@ -70,7 +115,7 @@ $tabletMax: px-em(979);
   .pdp-slideshow {
     height: 420px;
 
-    .pdp-slideshow-slide.type1 > .ghost-center-wrap {
+    .pdp-slideshow-slide.type1 .pdp-slide-inner {
       padding: 4% 3% 6%;
     }
   }
@@ -81,7 +126,7 @@ $tabletMax: px-em(979);
   .pdp-slideshow {
     height: 400px;
 
-    .pdp-slideshow-slide.type1 > .ghost-center-wrap {
+    .pdp-slideshow-slide.type1 .pdp-slide-inner {
       padding: 5% 5% 10%;
     }
   }

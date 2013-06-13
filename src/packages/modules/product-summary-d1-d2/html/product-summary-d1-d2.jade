@@ -7,18 +7,24 @@ include ../../../common/html/jade-helpers.jade
   //- Here we're using a submodule because it has the mixins defined already in the file
   module = data.submodules[0]
   productData = locals.data(module.data)
+  buyLink = data.buyLink
+  - buyLink.href = productData.storeLink
+
+  //- Set the view
   - productData.view = 'summary'
 
-  - productData.collectionLabel = data.titleLink.label
-  - productData.collectionHref = data.titleLink.href
-  - productData.favoriteText = 'Favorite'
-  - productData.shareText = 'Share'
+  //- Pass data from the product summary json file to the product json file
+  - productData.collectionLink = data.titleLink
+  - productData.buyLink = buyLink
+  - productData.shortLink = data.shortLink
+  - productData.socialButtons = data.socialButtons
+
+  //- Text that could need to be translated
+  - productData.favoriteText = data.favoriteText
+  - productData.shareText = data.shareText
   - productData.startingAtText = data.startingAtText
   - productData.msrp = data.msrp
   - productData.priceUnit = data.priceUnit
-  - productData.buyText = data.buyText
-  - productData.socialButtons = data.socialButtons
-  - productData.shortLink = data.shortLink
 
   e = { "locals" : locals, "data" : productData }
   !{locals.partial( module.type, e )}
@@ -29,13 +35,13 @@ include ../../../common/html/jade-helpers.jade
         each link, i in data.internalLinks
           - clss = i ? '' : 'active'
           li(class=clss)
-            a.lt3.no-hover-transition(href=link.href)= link.label
+            a.lt3.no-hover-transition(href=link.href)= link.text
 
 
   section.sticky-nav.ps-sticky-nav
-    .container
+    .container.m-full-bleed
       .grid.m-grid-at-767
-        .span7.m-span5
+        .span7.m-span4
           .pull-left.product-img.space-right
             +iQImage( productData.imgSmall )
           .pull-left
@@ -44,15 +50,17 @@ include ../../../common/html/jade-helpers.jade
               each link, i in data.internalLinks
                 - clss = i ? '' : 'active'
                 li(class=clss)
-                  a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
+                  a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.text
 
         .span3#desktop-sticky-price
           .text-right.price-text
             p.p4.price-prefix= data.startingAtText
+            span.space !{ ' ' }
             span.p5.msrp= data.msrp
             span.p1.price
               strong.text-dark !{ data.priceUnit + productData.price }
+              span.space !{ ' ' }
 
-        .span2.m-span1.buy-btn
-          a.btn.btn-block.pull-right(data-long-text=data.buyText, href=productData.storeLink)= data.buyTextShort
+        .span2.m-span2.buy-btn
+          +link( buyLink, [ "btn", "pull-right" ] )
 

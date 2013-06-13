@@ -17,6 +17,10 @@ body
         //- put content here - the div below is just to add height for the demo.
         .bs-docs-grid(style="height:500px; background: rgb(70, 70, 70);")
 
+          //- Fonts Rendering Test:
+          //- <a href="#" class="btn btn-large btn-block" style="font-size: 0.8125em; padding:6px 24px 0 20px; margin:0; text-align:left;">Test: Regular</a>
+          //- <a href="#" class="btn btn-large btn-block" style="-webkit-font-smoothing:antialiased; font-size: 0.8125em; padding:0px 24px 8px 20px; margin:0; text-align:left;">Test: -webkit-font-smoothing:antialiased</a>
+
       e = {"locals":locals, "data":data('packages/modules/global-header-footer/demo/data/default-footer.json'), "sample_session_data":data('packages/modules/global-header-footer/demo/data/sample_session_data.json')}
       !{partial('packages/modules/global-header-footer/html/global-footer.jade', e)}
   include ../../../common/html/foot.jade

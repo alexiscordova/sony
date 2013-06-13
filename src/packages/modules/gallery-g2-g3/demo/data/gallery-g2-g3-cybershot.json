@@ -1,4 +1,8 @@
 {
+    "config": {
+        "module_name": "gallery",
+        "module_id": "gallery"
+    },
     "tabs": [
         {
             "label": "Featured",
@@ -57,8 +61,12 @@
         "title": "Featured Cameras",
         "mode": "editorial",
         "layout": "layout5",
-        "callout": "See &amp; Compare All Cameras",
-        "href" : "#"
+        "link" : {
+            "title" : "See all cameras",
+            "text" : "See &amp; Compare All Cameras",
+            "href" : "#SEE_ALL",
+            "target" : "_blank"
+        }
     },
     "featured2": {
         "_comments": "name should be unique, as it is used for IDs.",
@@ -66,14 +74,20 @@
         "title": "Featured Accessories",
         "mode": "editorial",
         "layout": "layout2",
-        "callout": "See &amp; Compare All Camera Accessories",
-        "href" : "#"
+        "link" : {
+            "title" : "",
+            "text" : "See &amp; Compare All Camera Accessories",
+            "href" : "#SEE_ALL",
+            "target" : ""
+        }
     },
     "productCards": {
         "_comments": "name should be unique, as it is used for IDs. galleryName is used in the compare screen.",
         "name": "camera-cards",
         "mode": "detailed",
         "galleryName": "Cyber-shot&reg;",
+        "pluralProducts" : "Products",
+        "singularProduct" : "Product",
         "zeroProductsMessage" : "results based on your request",
         "startOver" : "Start over?",
         "filterSet": [
@@ -179,7 +193,7 @@
                             "srcPhone": "img/product/cameras/megapixel-print-phone.jpg",
                             "srcPhoneHighRes": "img/product/cameras/megapixel-print-phone@2x.jpg",
                             "noscriptsrc" : "img/product/cameras/megapixel-print-desktop.jpg",
-                            "alt" : ""
+                            "alt" : "Some alt text. Lorem ipsum dolar sit amut."
                         },
                         "text" : "Bigger &amp; better quality prints"
                     },
@@ -192,7 +206,7 @@
                             "srcPhone": "img/product/cameras/megapixel-crop-phone.png",
                             "srcPhoneHighRes": "img/product/cameras/megapixel-crop-phone@2x.png",
                             "noscriptsrc" : "img/product/cameras/megapixel-crop-desktop.png",
-                            "alt" : ""
+                            "alt" : "Some alt text. Lorem ipsum dolar sit amut."
                         },
                         "text" : "Higher resolution crops"
                     }
@@ -344,9 +358,10 @@
                 "layout" : "text-only",
                 "text" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod",
                 "link" : {
-                    "url" : "#HELP_POPOVER_LINK",
+                    "title" : "Learn more here",
+                    "href" : "#HELP_POPOVER_LINK",
                     "text" : "Learn more",
-                    "newWindow" : true
+                    "target" : "_blank"
                 }
             },
             "sortText" : "Sort By:",
@@ -385,13 +400,19 @@
         "productStrips" : [
             {
                 "title": "Cases, Covers &amp; Straps",
-                "callout": "See All 25 Cases, Covers &amp; Straps",
-                "subtype" : "casesCoversAndStraps"
+                "subtype" : "casesCoversAndStraps",
+                "link" : {
+                    "href" : "#CASES_COVERS_STRAPS",
+                    "text" : "See All 25 Cases, Covers &amp; Straps"
+                }
             },
             {
                 "title": "Batteries &amp; Chargers",
-                "callout": "See All 18 Batteries &amp; Chargers",
-                "subtype" : "batteriesAndChargers"
+                "subtype" : "batteriesAndChargers",
+                "link" : {
+                    "href" : "#BATTERIES_CHARGERS",
+                    "text" : "See All 18 Batteries &amp; Chargers"
+                }
 
             },
             {
@@ -425,10 +446,6 @@
         {
             "type": "packages/modules/product/html/product.jade",
             "data": "packages/modules/product/demo/data/hx30.json"
-        },
-        {
-            "type": "packages/modules/product/html/product.jade",
-            "data": "packages/modules/product/demo/data/hx10.json"
         },
         {
             "type": "packages/modules/product/html/product.jade",
@@ -522,9 +539,5 @@
             "type": "packages/modules/product/html/product.jade",
             "data": "packages/modules/product/demo/data/vct-r100-remote.json"
         }
-    ],
-	"config": {
-		"module_name": "gallery",
-		"module_id": "gallery"
-	}
+    ]
 }

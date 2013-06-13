@@ -3,11 +3,11 @@ include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('sony-video')
 
 
-+mainElement()
-	if data.variation == 'full-bleed'
+if data.variation == 'full-bleed'
+	+mainElement()
 		div(class='sony-video ' + data.variation , data-variation=data.variation)
 			div(class='full-bleed-video-wrap')
 				+sonyVideo(data.video)
-	else
-		div(class='sony-video ' + data.variation , data-variation=data.variation)
-			+sonyVideo(data.video)
+else
+	div(class='sony-video ' + data.variation , data-variation=data.variation)
+		+sonyVideo(data.video)

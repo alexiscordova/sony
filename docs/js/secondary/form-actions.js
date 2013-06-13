@@ -2,18 +2,18 @@
 // Module: FormActions
 // Version: 0.1
 // Modified: 01/05/2013 by Christopher J Mischler
+// Modified: 06/05/2013 by Glen Cheney
 // Dependencies: jQuery 1.7+, Modernizr
 //
 // -------------------------------------------------------------------------
 
-
-// (function($, Modernizr, window, undefined) {
-define(function(require){
+define(function(require) {
 
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr'),
+      // Modernizr = require('modernizr'),
+      Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment');
 
   var module = {
@@ -21,68 +21,104 @@ define(function(require){
       var $formActionsInit = $('body').formActions(),
 
       $formActions = $formActionsInit.data('formActions');
-      $formActions.initInput($('#store-locator-search-input'));
-      $formActions.initInput($('#nav-search-input'));
+      $formActions.initInput( $('#nav-search-input') );
+      $formActions.initInput( $('#store-locator-search-input') );
       // $formActions.initTouchToggles($('.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'));
-      $formActions.initTouchToggles($('.dropdown-hover-toggle'));
+      $formActions.initTouchToggles( $('.dropdown-hover-toggle') );
     }
   };
 
   // Start module
-  var FormActions = function( element, options ){
-    var self = this;
-    $.extend(self, {}, $.fn.formActions.defaults, options, $.fn.formActions.settings);
+  var FormActions = function() {
   };
 
-  // Sample module method
   FormActions.prototype = {
     constructor: FormActions,
 
     initInput : function( $input ) {
       var self = this;
 
-      var inputObj = self.makeInputObj($input);
+      var inputObj = self.makeInputObj( $input );
       inputObj.watermarkText = $input.val();
-      inputObj.clearBtnClicked = false;
 
-      $input.data('formActions',self);
+      $input.data('formActions', self);
 
-      $input.on('focus', function(){
-        // clear watermarkText on focus
-
-        if ($input.val() === inputObj.watermarkText){
-          $input.val('');
-
-          // don't hide search icon on mobile
-          if (!$('html').hasClass('bp-nav-mobile')){
-            inputObj.$inputIcon.hide();
-          }
-        }
-      }).on('blur', function(){
-        if ($input.val() === ''){
-          $input.val(inputObj.watermarkText);
-          inputObj.$inputIcon.show();
-        }
-      }).on('mouseup keyup change cut paste', module.onSearchInputChange);
-
-      inputObj.$inputIcon.on('click',function(){
-        $input.focus();
-      });
-
-      inputObj.$inputClearBtn.on('click mousedown',function(e){
-
-        inputObj.clearBtnClicked = true;
-        self.clearSearchResults( inputObj );
-
-        if (!$('html').hasClass('bp-nav-mobile')){
-          inputObj.$input.focus();
-        }
-      }).on('mouseleave',function(){
-        inputObj.clearBtnClicked = false; // just make sure it's cleared
-      });
+      self.listenForEvents( inputObj );
     },
 
-    makeInputObj: function($input){
+    listenForEvents : function( inputObj ) {
+      var self = this;
+
+      inputObj.$input
+        .on( 'focus', inputObj, $.proxy( self.onInputFocus, self ) )
+        .on( 'blur', inputObj, $.proxy( self.onInputBlur, self ) )
+        .on( 'mouseup keyup change cut paste', module.onSearchInputChange );
+
+      inputObj.$inputIcon
+        .on( 'click',function() {
+          inputObj.$input.focus();
+        });
+
+      inputObj.$inputClearBtn
+        .on( 'click', inputObj, $.proxy( self.onClearButton, self ) );
+    },
+
+    // clear watermarkText on focus
+    onInputFocus : function( evt ) {
+      var self = this,
+          $input = $( evt.delegateTarget ),
+          inputObj = evt.data;
+
+      // If the input is focused and its value is
+      // the initial watermark text, hide the watermark
+      if ( $input.val() === inputObj.watermarkText ) {
+        self.hideWatermark( inputObj );
+      }
+    },
+
+    onInputBlur : function( evt ) {
+      var self = this,
+          $input = $( evt.delegateTarget ),
+          inputObj = evt.data;
+
+      // If the input loses focus and is empty, show the watermark
+      if ( $input.val() === '' ) {
+        self.showWatermark( inputObj );
+      }
+    },
+
+    onClearButton : function( evt ) {
+      var self = this,
+          inputObj = evt.data;
+
+      evt.preventDefault();
+
+      // Shows the watermark and removes `searching` class
+      self.clearSearchResults( inputObj );
+
+      // If not a touch device and not at the mobile breakpoint, focus on the input again
+      if ( !Settings.hasTouchEvents && !$('html').hasClass('bp-nav-mobile') ) {
+        inputObj.$input.focus();
+      }
+    },
+
+    showWatermark : function( inputObj ) {
+      inputObj.$input.val( inputObj.watermarkText );
+      inputObj.$inputIcon.show();
+      inputObj.$input.parent().removeClass('child-input-active');
+    },
+
+    hideWatermark : function( inputObj ) {
+      inputObj.$input.val('');
+      inputObj.$input.parent().addClass('child-input-active');
+
+      // don't hide search icon on mobile
+      if (!($('html').hasClass('bp-nav-mobile') && inputObj.$inputGroup.hasClass('navmenu-search-section-input'))) {
+        inputObj.$inputIcon.hide();
+      }
+    },
+
+    makeInputObj: function($input) {
       var iObj = {};
       iObj.$input = $input;
       iObj.$inputGroup = $input.closest('.input-group');
@@ -93,16 +129,15 @@ define(function(require){
       return iObj;
     },
 
-    doSearch: function( inputObj ){
+    doSearch: function( inputObj ) {
       var self = this;
       var queryStr = inputObj.$input.val();
 
-      switch( inputObj.$input.attr('id') ){
+      switch ( inputObj.$input.attr('id') ) {
 
         case 'store-locator-search-input':
           // need to call this after the search results have been returned & are displayed (because that'll change the height of the iscroll).
-          // need a global way to talk between modules
-          // if (!$('html').hasClass('bp-nav-mobile')){
+          // if (!$('html').hasClass('bp-nav-mobile')) {
           //   Environment.trigger('SONY:Navigation:initMobileNavIScroll');
           // }
           break;
@@ -116,30 +151,23 @@ define(function(require){
       }
     },
 
-    clearInput: function( inputObj ){
-
-      inputObj.$input.val('');
-
-      // if (!$('html').hasClass('bp-nav-mobile')){
-        inputObj.$inputIcon.hide();
-      // }
-
-    },
-
-    clearSearchResults: function( inputObj ){
+    clearSearchResults: function( inputObj ) {
       var self = this;
-      self.clearInput(inputObj);
+      // Devices with touch events fire the blur event before the clear
+      // button receives the click event. The keyboard will disappear,
+      // so the input can't be focused. Instead, the input should have the watermark shown.
+      self.showWatermark( inputObj );
       inputObj.$inputWrapper.removeClass('searching');
     },
 
     // this just resets the actual results without clearing the input, for instance when the search term had been deleted & is blank.
-    resetSearchResults: function( inputObj ){
+    resetSearchResults: function( inputObj ) {
       inputObj.$inputWrapper.removeClass('searching');
     },
 
     initTouchToggles: function( $touchToggles ) {
-      $touchToggles.each(function(){
-        $(this).on('click',function(e){
+      $touchToggles.each(function() {
+        $(this).on('click',function(e) {
           e.preventDefault();
           e.stopPropagation();
           $(this).parent().toggleClass('active');
@@ -147,11 +175,6 @@ define(function(require){
       });
     }
   };
-
-
-
-
-
 
 
 
@@ -175,21 +198,9 @@ define(function(require){
     });
   };
 
-
-  // Defaults options for your module
-  $.fn.formActions.defaults = {
-    sampleOption: 0
-  };
-
-  // Non override-able settings
-  $.fn.formActions.settings = {
-    isTouch: !!( 'ontouchstart' in window ),
-    isInitialized: false
-  };
-
   // Event triggered when this tab is about to be shown
   module.onSearchInputChange = function( evt ) {
-    if ($('html').hasClass('bp-nav-mobile')){
+    if ($('html').hasClass('bp-nav-mobile')) {
       Environment.trigger('SONY:Navigation:initMobileNavIScroll');
     }
     var $input = $(evt.target),
@@ -197,12 +208,12 @@ define(function(require){
       inputObj = formActions.makeInputObj($input);
 
 
-    if (!inputObj.$inputWrapper.hasClass('searching')){
-      if (!($input.val() === '' || $input.val() === inputObj.watermarkText)){
+    if (!inputObj.$inputWrapper.hasClass('searching')) {
+      if (!($input.val() === '' || $input.val() === inputObj.watermarkText)) {
         inputObj.$inputWrapper.addClass('searching');
         formActions.doSearch( inputObj );
       }
-    } else if ($input.val() === ''){
+    } else if ($input.val() === '') {
       formActions.resetSearchResults( inputObj );
     } else {
       formActions.doSearch( inputObj );
@@ -213,5 +224,4 @@ define(function(require){
   module.init();
 
   return module;
-
 });

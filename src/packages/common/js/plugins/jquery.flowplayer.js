@@ -2,7 +2,10 @@ define(function(require){
 
   var $       = require('jquery'),
   IS_PS3      = (/playstation 3/gi).test(navigator.userAgent),
+  //IS_PS3      = false,
   IS_GOOGLETV = (/googletv/gi).test(navigator.userAgent);
+
+
 
 /*!
 
@@ -153,9 +156,11 @@ $.fn.flowplayer = function(opts, callback) {
          engine;
 
          if(IS_PS3){
-            ////window.alert('ok, now we are getting somewhere');
+            //window.alert('ok, now we are getting somewhere');
             urlResolver = new URLResolver (root);
          }
+
+      //console.log( 'is loading', root.hasClass('is-loading') );
 
       if (conf.playlist.length) { // Create initial video tag if called without
          var preload = videoTag.attr('preload');
@@ -227,10 +232,9 @@ $.fn.flowplayer = function(opts, callback) {
             $.extend(video, engine.pick(video.sources));
 
             if(IS_PS3){
+               //window.alert('setting the video src');
                video.src = video.sources[0];
             }
-
-            //window.alert(video.src);
 
             if (video.src) {
                var e = $.Event("load");
@@ -242,6 +246,7 @@ $.fn.flowplayer = function(opts, callback) {
                   // callback
                   if ($.isFunction(video)) {callback = video;}
                   if (callback) {root.one("ready", callback);}
+
                } else {
                   api.loading = false;
                }
@@ -256,6 +261,12 @@ $.fn.flowplayer = function(opts, callback) {
                engine.pause();
                api.one("pause", fn);
             }
+
+            if(IS_PS3){
+               //console.log( 'pause the flash player fallback',root.objectTag );
+               root.objectTag.get(0).pause();
+            }
+
             return api;
          },
 
@@ -275,6 +286,7 @@ $.fn.flowplayer = function(opts, callback) {
          },
 
          toggle: function() {
+
             return api.ready ? api.paused ? api.resume() : api.pause() : api.load();
          },
 
@@ -670,7 +682,9 @@ function embed(swf, flashvars) {
       tag = '<object class="fp-engine" id="' + id+ '" name="' + id + '" ';
 
    //clsid:d27cdb6e-ae6d-11cf-96b8-444553540000
-   tag += $.browser.msie ? 'clsid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">' :
+   //clsid:d27cdb6e-ae6d-11cf-96b8-444553540000
+   //classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000
+   tag += $.browser.msie ? 'classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' :
       ' data="' + swf  + '" type="application/x-shockwave-flash">';
 
    var opts = {
@@ -745,7 +759,12 @@ flowplayer.engine.flash = function(player, root) {
 
       load: function(video) {
 
-         //window.alert('Calling LOAD OR WHAAAAT!!!!!!!!!!');
+         //window.alert(video.src);
+
+/*         if(IS_PS3){
+            window.alert('converting sources object to video.src.src');
+            video.src = video.src.src;
+         }*/
 
          var html5Tag = $("video", root),
             url = video.src.replace(/&amp;/g, '%26').replace(/&/g, '%26').replace(/=/g, '%3D'),
@@ -762,8 +781,6 @@ flowplayer.engine.flash = function(player, root) {
             api.__play(url);
 
          } else {
-
-
 
             callbackId = "fp" + ("" + Math.random()).slice(3, 15);
 
@@ -783,11 +800,11 @@ flowplayer.engine.flash = function(player, root) {
                if (conf[key]) {opts[key] = conf[key];}
             });
 
-            if(IS_PS3 || IS_GOOGLETV){
+            if(IS_PS3){
                conf.swf = conf.swfFallback;
             }
 
-            objectTag = embed(conf.swf, opts);
+            objectTag = root.objectTag = embed(conf.swf, opts);
 
             objectTag.prependTo(root);
 
@@ -809,7 +826,7 @@ flowplayer.engine.flash = function(player, root) {
             // listen
             $[callbackId] = function(type, arg) {
 
-               if (conf.debug && type != "status") {console.log("--", type, arg);}
+               if (conf.debug && type != "status") {/*console.log("--", type, arg);*/}
 
                var event = $.Event(type);
 
@@ -868,6 +885,7 @@ flowplayer.engine.flash = function(player, root) {
    $.each("pause,resume,seek,volume".split(","), function(i, name) {
 
       engine[name] = function(arg) {
+
 
          if (player.ready) {
 
@@ -1018,9 +1036,11 @@ flowplayer.engine.html5 = function(player, root) {
    return self = {
 
       pick: function(sources) {
+      
          if (support.video) {
             if (conf.videoTypePreference) {
                var mp4source = findFromSourcesByType(sources, conf.videoTypePreference);
+
                if (mp4source) {return mp4source;}
             }
             for (var i = 0, source; i < sources.length; i++) {
@@ -1088,8 +1108,13 @@ flowplayer.engine.html5 = function(player, root) {
          listen(api, $("source", videoTag).add(videoTag), video);
 
          // iPad (+others?) demands load()
-         if (conf.preload != 'none' || !support.zeropreload || !support.dataload) {api.load();}
-         if (conf.splash) {api.load();}
+         if (conf.preload != 'none' || !support.zeropreload || !support.dataload) {
+            api.load();
+         }
+
+         if (conf.splash) {
+            api.load();
+         }
       },
 
       pause: function() {
@@ -1155,7 +1180,7 @@ flowplayer.engine.html5 = function(player, root) {
                }, 10000);
             }
 
-            if (conf.debug && !(/progress/).test(flow)) {console.log(type, "->", flow, e);}
+            if (conf.debug && !(/progress/).test(flow)) {/*console.log(type, "->", flow, e);*/}
 
             // no events if player not ready
             if (!player.ready && !(/ready|error/).test(flow) || !flow || !$("video", root).length) { return; }
@@ -1281,9 +1306,8 @@ function URLResolver(videoTag) {
       sources.push(parseSource($(this)));
    });
 
-   if(sources.length === 0){
-      sources[0] = videoTag.data('fallbackSrc');
-      //window.alert('Going to use the fallbacksrc' + sources[0]);
+   if(sources.length === 0 && IS_PS3 ){
+      sources[0] = videoTag.data('fallbackSrc');  
    }
 
    if (!sources.length) { sources.push(parseSource(videoTag)); }
@@ -1295,11 +1319,8 @@ function URLResolver(videoTag) {
    self.resolve = function(video) {
 
       if (!video) {
-
          return { sources: sources };
       }
-
-
 
       if ($.isArray(video)) {
 
@@ -1475,6 +1496,7 @@ $.fn.slider2 = function(rtl , vert) {
 
          if (!disabled) {
 
+            
             // begin --> recalculate. allows dynamic resizing of the slider
             var delayedFire = $.flowplayerThrottle(fire, 100);
             calc();
@@ -1529,7 +1551,7 @@ flowplayer(function(api, root) {
       support = flowplayer.support,
       hovertimer;
    root.find('.fp-ratio,.fp-ui').remove();
-   root.addClass("flowplayer").append('<div class="ratio"/><div class="ui"><div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div><a class="unload"/><p class="speed"/><div class="controls"><a class="play"></a><div class="timeline"><div class="buffer"/><div class="progress is-slider"/><div class="scrubber"/></div><div class="volume"><a class="mute"></a><div class="volumeslider"><div class="volumeleveltrack"><div class="volumelevel is-slider"/><div class="scrubber"/></div></div></div><a class="fullscreen"/></div><div class="message"><h2/><p/></div></div>'.replace(/class="/g, 'class="fp-'));
+   root.addClass("flowplayer").append('<div class="ratio"/><div class="ui"><div class="waiting"></div><div class="play-btn-lrg"><div class="play-btn-inner"><div class="play-head"></div></div></div><a class="unload"/><p class="speed"/><div class="controls"><a class="play"></a><div class="timeline"><div class="buffer"/><div class="progress is-slider"/><div class="scrubber"/></div><div class="volume"><a class="mute"></a><div class="volumeslider"><div class="volumeleveltrack"><div class="volumelevel is-slider"/><div class="scrubber"/></div></div></div><a class="fullscreen"/></div><div class="message"><h2/><p/></div></div>'.replace(/class="/g, 'class="fp-'));
 
 
    function find(klass) {
@@ -1573,7 +1595,7 @@ flowplayer(function(api, root) {
    }
 
    // loading...
-   if (!support.animation) {waiting.html("<p>loading &hellip;</p>");}
+   if (!support.animation) {waiting.html("");}
 
    setRatio(conf.ratio);
 
@@ -1641,14 +1663,14 @@ flowplayer(function(api, root) {
       elapsed.html(format(0));
       timelineApi.slide(0, 100);
 
-      console.log('stop');
+      //console.log('stop');
 
    }).bind("finish", function() {
       elapsed.html(format(api.video.duration));
       timelineApi.slide(1, 100);
       root.removeClass("is-seeking");
 
-      console.log('finish');
+      //console.log('finish');
 
    // misc
    }).bind("beforeseek", function() {
@@ -1692,7 +1714,7 @@ flowplayer(function(api, root) {
       hover(is_over);
 
       if (is_over) {
-
+         root.trigger('over.flowplayer');
          root.bind("pause.x mousemove.x volume.x", function() {
             hover(true);
             lastMove = new Date;
@@ -2065,11 +2087,12 @@ flowplayer(function(player, root) {
       if (typeof i === 'number' && !player.conf.playlist[i]) {return player;}
       else if (typeof i != 'number') {player.load.apply(null, arguments);}
       player.unbind('resume.fromfirst'); // Don't start from beginning if clip explicitely chosen
-      player.load(typeof player.conf.playlist[i] === 'string' ?
-         player.conf.playlist[i].toString() :
-         player.conf.playlist[i].map(function(item) { return $.extend({}, item); })
-      );
+      
+      //console.log( 'player.conf.playlist',player.conf.playlist );
+      //this was throwing an error on the player.conf.playlist map function
+      //player.load(typeof player.conf.playlist[i] === 'string' ? player.conf.playlist[i].toString() : player.conf.playlist[i].map(function(item) { return $.extend({}, item); }));
       return player;
+
    };
 
    var indexForVideo = function(src,sources) {
@@ -2170,9 +2193,12 @@ flowplayer(function(player, root) {
       });
    }
 
+
    if (els().length) {
+      
       if (!playlistInitialized) {
          player.conf.playlist = [];
+
          els().each(function() {
             var src = $(this).attr('href');
             player.conf.playlist.push(src);
@@ -2289,6 +2315,7 @@ flowplayer(function(player, root) {
                .css("left", (time / duration * 100) + "%");
 
             el.appendTo(timeline).mousedown(function() {
+               
                player.seek(time);
 
                // preventDefault() doesn't work

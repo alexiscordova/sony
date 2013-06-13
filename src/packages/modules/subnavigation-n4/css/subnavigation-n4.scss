@@ -7,41 +7,46 @@ $maxChildren: 20;
   @include transition(opacity 250ms);
   margin-bottom: -1px;
   border-bottom: 1px solid #e4e7eb;
-  opacity: 0;
+  @include opacity(0);
 
   &.active {
-    opacity: 1;
+    @include opacity(100);
   }
 
   header {
     padding: 27px 0 8px;
   }
 
-  .subnav-nav-carousel-wrapper {
-    position: relative;
-    width: 100%;
-    background-color: $gray80;
-    box-shadow: 0 4px 8px rgba(39, 43, 55, 0.15);
-  }
-
   nav {
     position: relative;
-    width: 100% * $maxChildren;
     height: 155px;
+    background-color: $gray80;
+    box-shadow: 0 4px 8px rgba(39, 43, 55, 0.15);
+
+    .grid {
+      position: relative;
+    }
+
+    .subnav-nav-carousel-wrapper {
+      position: relative;
+      width: 100% * $maxChildren;
+      text-align: center;
+
+      &.sony-carousel-active {
+        text-align: left;
+      }
+    }
 
     .subnav-nav-carousel-slide {
       -webkit-transform: translateZ(0);
       float: left;
       width: 100% / $maxChildren;
       height: 100%;
-    }
-
-    .grid {
-      text-align: center;
+      margin-right: 0.18%;
     }
 
     .subcategory-link {
-      @include transition(border-width 150ms);
+      @include transition(border-width 150ms, opacity 500ms);
       height: 155px;
       display: inline-block;
       border-bottom-style: solid;
@@ -51,8 +56,24 @@ $maxChildren: 20;
       text-align: center;
       vertical-align: top;
 
+      .csstransitions.opacity & {
+        opacity: 0;
+
+        &.on {
+          opacity: 1;
+        }
+      }
+
+      &.on {
+
+        i {
+          @include opacity(100);
+        }
+      }
+
       .lt-ie8 & {
         display: inline;
+        float: left;
         border-bottom-style: none;
       }
 
@@ -72,6 +93,7 @@ $maxChildren: 20;
       }
 
       i {
+        @include opacity(0);
         position: relative;
         top: -20px;
         color: $gray50;
@@ -143,7 +165,6 @@ $maxChildren: 20;
       .product {
         position: relative;
         margin-bottom: 60px;
-        margin-top: 40px;
 
         i {
           position: absolute;

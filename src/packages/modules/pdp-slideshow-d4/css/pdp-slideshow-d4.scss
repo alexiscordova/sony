@@ -15,9 +15,16 @@
   @include opacity(0);
   @include transition();
 
+  &.active {
+    @include opacity(100);
+  }
+
   .lt-ie10 & {
     min-width: px-em( 1200px );
     min-height: px-em( 720px );
+  }
+  .lt-ie9 & {
+    min-width: px-em(980px);
   }
 
   // Remove bottom margin if this is a submodule
@@ -47,8 +54,6 @@
     width: 1000em; // This will get set dynamically based on the number of slides
     max-height: px-em( 720px );
     -webkit-backface-visibility: hidden;
-    -webkit-transition: -webkit-transform .2s ease-out;
-            transition: transform .2s ease-out;
   }
 
   // These will get set dynamically based on number of slides
@@ -57,16 +62,17 @@
     float: left;
     display: block;
     width: 100%;
-    height: 100%;
+    height: inherit;
     text-align: center;
   }
 
-  .pdp-slideshow-slide > .ghost-center-wrap {
-    height: 100%;
+  .pdp-slideshow-slide .pdp-slide-inner {
+    height: inherit;
+    width: 100%;
   }
 
   // Type 1 images are product shots which are not full bleed
-  .pdp-slideshow-slide.type1 > .ghost-center-wrap {
+  .pdp-slideshow-slide.type1 .pdp-slide-inner {
     padding: 4% 2% 11%;
   }
 
@@ -74,6 +80,7 @@
     img {
       -webkit-backface-visibility: hidden;
     }
+
   }
 
   // Scale instead of crop the product shots
@@ -86,6 +93,18 @@
     width: 100%;
     max-width: none;
     max-height: none;
+
+
+  }
+
+  .pdp-slideshow-slide.type2 .flowplayer {
+    max-width: 704px;
+  }
+
+  > .sony-dot-nav {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
   }
 
   // Full browser width, crop the height
@@ -93,51 +112,62 @@
     width: 100%;
   }
 
-  .thumb-nav,
-  .sony-dot-nav {
+  .thumb-nav {
     position: absolute;
-    bottom: 5.057377%;
     left: 0;
-    width: 100%;
-    height: 11.8032787%;
     margin: 0;
   }
 
-  .sony-dot-nav {
-    margin-bottom: px-em( 25px );
+  .thumb-nav-container {
+    position: relative;
+    height: px-em( 70px );
+
+    .pagination-paddles {
+      top: -79px;
+    }
+
+    .sony-dot-nav {
+      position: absolute;
+      width: 100%;
+      top: -60px;
+    }
+  }
+
+  .thumb-nav-grid {
+    position: relative;
+    height: 100%;
+    top: -116px;
+  }
+
+  .thumb-nav-carousel {
+    position: relative;
+    height: 100%;
   }
 
   .thumb-nav {
-    max-height: px-em( 72px );
-    min-height: px-em( 62px );
+    width: 100%;
+    height: 100%;
     text-align: center;
+    overflow: hidden;
 
-    & li:first-child {
-      max-width: px-em( 87px );
-      width: 6.8%;
-    }
-
-    & li:last-child {
-      max-width: px-em( 87px );
-      width: 6.8%;
-    }
-
-    &.dark .thumb .ghost-center-wrap {
+    &.dark .thumb .ghost-center-wrap,
+    &.dark .thumb a:before,
+    &.dark .thumb a:after, {
       background: $gray20;
     }
 
-    &.light .thumb .ghost-center-wrap {
+    &.light .thumb .ghost-center-wrap,
+    &.light .thumb a:before,
+    &.light .thumb a:after, {
       background: $gray80;
     }
   }
 
  .thumb {
-    width: 6.1666667%;
+    width: px-em( 72px );
     height: 100%;
-    max-width: px-em( 74px );
-    max-height: px-em( 72px );
-    min-width: px-em( 72px );
     display: inline-block;
+    margin: 0 0 8px;
 
     .lt-ie10 & {
       width: px-em( 74px );
@@ -157,18 +187,46 @@
     img {
       position: relative;
       display: block;
-      width: 100%;
-      height: auto;
-      max-width: px-em( 68px );
-      max-height: px-em( 48px );
+      width: px-em( 64px );;
+      height: px-em( 48px );;
+      max-width: none;
     }
 
     a {
       position: relative;
-      width: 100%;
+      width: 100.5%;
       height: 100%;
       display: block;
+      -webkit-backface-visibility: hidden;
       @include transition();
+
+      &.first {
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          left: -6px;
+          width: 6px;
+          height: 95%;
+          top: 5%;
+          z-index: 2;
+          -webkit-backface-visibility: hidden;
+        }
+      }
+
+      &.last {
+        &:after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: -6px;
+          width: 6px;
+          height: 95%;
+          top: 5%;
+          z-index: 2;
+          -webkit-backface-visibility: hidden;
+        }
+      }
     }
 
     a.light img {
@@ -181,29 +239,43 @@
 
     a .ghost-center-wrap {
       position: relative;
+      top: 5%;
       z-index: 1;
       height: 95%;
     }
 
     .active-highlight {
       position: absolute;
-      top: 0;
+      top: 5%;
       left: 0;
       z-index: 1;
       display: block;
       width: 100%;
       height: 5%;
       background: $linkBlue;
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      box-sizing: content-box;
 
       @include transition(top .15s linear);
       @include opacity(0);
+    }
+
+    .first .active-highlight {
+      left: -6px;
+      padding-left: 6px;
+    }
+
+    .last .active-highlight {
+      right: -6px;
+      padding-right: 6px;
     }
 
     // Show highlight bar on <a> hover
     a:hover,
     a.active {
       .active-highlight {
-        top: -5%;
+        top: 0%;
         @include opacity(100);
       }
 

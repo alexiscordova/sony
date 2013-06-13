@@ -1,9 +1,9 @@
-// Product Details (ProductDetails) Module
+// D5 - Product Details Module
 // ---------------------------------------
 //
 // * **Class:** ProductDetails
 // * **Version:** 0.1
-// * **Modified:** 04/10/2013
+// * **Modified:** 06/11/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr
 
@@ -68,6 +68,7 @@ define(function(require){
           $images = self.$measurementImages,
           $readyImages = $images.filter(function(){return $(this).data('hasLoaded');});
 
+      // when images are loaded, show
       $images.on('imageLoaded iQ:imageLoaded', function(){
         $readyImages = $readyImages.add($(this));
         if ($readyImages.length === $images.length) {
@@ -80,11 +81,13 @@ define(function(require){
       }
     },
 
+    // handle browser/device resize
     resizeFunc : function(){
       var self = this;
       self.buildMeasurements();
     },
 
+    // once image have loaded perform these
     onImagesLoaded : function(){
       var self = this;
       self.showImages();
@@ -92,12 +95,14 @@ define(function(require){
       self.showMeasurements();
     },
 
+    // determine the right height/widths for product measurement
     buildMeasurements : function(){
       var self = this;
-      self.getMImageDimensions();
+      self.setMImageDimensions();
       self.setMeasurementDimensions();
     },
 
+    // add 'on' class to images
     showImages : function(){
       var self = this,
           $images = self.$measurementImages;
@@ -107,6 +112,7 @@ define(function(require){
       });
     },
 
+    // add 'on' class to measurements once they are built
     showMeasurements : function(){
       var self = this;
 
@@ -115,7 +121,8 @@ define(function(require){
       });
     },
 
-    getMImageDimensions : function(){
+    // store the dimensions of each measurement image
+    setMImageDimensions : function(){
       var self = this,
           $images = self.$measurementImages;
 
@@ -126,18 +133,23 @@ define(function(require){
       });
     },
 
+    // determine and set the height/widths of the measurement elements
     setMeasurementDimensions : function(){
       var self = this,
           isSmallVImage, isSmallHImage,
           theMarginTop, theMarginLeft, top,
           $el, dir, $theImage, $unitContainer, $measurementParent, $unitContainerHeight, $unitContainerWidth, theImageWidth, theImageHeight, isThinImage;
 
+      // if image is thin, don't add pad/margins
       isThinImage = isSmallVImage = isSmallHImage = false;
+
+      // defaults
       theMarginTop = theMarginLeft = top = 0;
       $el = dir = $theImage = $unitContainer = $measurementParent = $unitContainerHeight = $unitContainerWidth = theImageWidth = theImageHeight = undefined;
 
+      // for each image
       self.$dimensions.each(function(index) {
-        $el = $(this),
+        $el = $(this);
         dir = $el.hasClass("vertical-measurement") ? "v" : "h";
         $unitContainer = $el.find(".units-container");
         $measurementParent = $unitContainer.closest("div.measurement");
@@ -147,10 +159,12 @@ define(function(require){
         theImageWidth = dir === "v" ? $unitContainerWidth : $theImage.outerWidth();
         theImageHeight = dir === "v" ? $theImage.outerHeight() : $unitContainerHeight;
 
+
         if($el.closest("div.top-wrapper").hasClass("is-thin")){
           isThinImage = true;
         }
 
+        // for a vertical measurement
         if(dir === "v") {
           if(theImageHeight >= $unitContainerHeight){
             // center vertically
@@ -164,6 +178,8 @@ define(function(require){
           theMarginLeft = isThinImage ? 0 : theMarginLeft;
 
         }else if (dir === "h"){
+          // for a horizontal measurement
+
           if(theImageWidth >= $unitContainerWidth){
             // center horiz
             theMarginLeft = -($unitContainerWidth / 2);
@@ -174,6 +190,7 @@ define(function(require){
           }
         }
 
+
         if((!isSmallHImage) || (!isSmallVImage)){
           self.setHeightWidth( $el, theImageWidth, theImageHeight );
           self.setMarginsTop( $unitContainer, top, theMarginTop, theMarginLeft );
@@ -181,6 +198,7 @@ define(function(require){
       });
     },
 
+    // set the height and width of the ele
     setHeightWidth : function( $el, w, h ){
       var self = this;
       $el.css({
@@ -191,6 +209,7 @@ define(function(require){
       });
     },
 
+  // set the left right margins and top position of the ele
     setMarginsTop : function($el, top, mTop, mLeft){
       var self = this;
       $el.css({

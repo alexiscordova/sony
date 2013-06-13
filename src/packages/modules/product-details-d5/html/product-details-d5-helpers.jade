@@ -10,9 +10,6 @@ mixin cmString(cm)
 mixin measurementValues(value, dir)
   - clss = [dir + "-measurement"]
 
-  //- if ((isThin) && (dir == "vertical"))
-  //-   - clss.push('is-thin')
-
   div(class = clss)
     div.units-container
      +cmString(value.cm)
@@ -28,7 +25,6 @@ mixin measurementsList(measurements)
 
   for m in measurements
     if(m.image.srcDesktop)
-      //- - isThin = m.thinImage
       - cm = m.height.cm
       - inches = m.width.inches
       - topWrapperClasses = ["top-wrapper"]
@@ -43,11 +39,9 @@ mixin measurementsList(measurements)
               +iQImage(m.image, "pd-image")
 
             if (cm)
-              //- +measurementValues(m.height, "vertical", isThin)
               +measurementValues(m.height, "vertical")
 
           if (inches)
-            //- +measurementValues(m.width, "horizontal", isThin)
             +measurementValues(m.width, "horizontal")
 
 mixin featureList(list)
@@ -70,7 +64,7 @@ mixin featureList(list)
               | #{li.copy}
 
               if (li.link)
-                a.no-wrap(href=li.link)= li.linkLabel
+                +link( {"title" : li.linkLabel, "text" : li.linkLabel, "href" : li.link ,"target" : "_blank"}, [ "no-wrap" ] )
 
 mixin specsList( list, isHorizontal )
   - isHorizontal = isHorizontal || false
@@ -79,7 +73,7 @@ mixin specsList( list, isHorizontal )
     each li in list
       dt.l3: strong= li.title
       if li.copy
-        dd.p3= li.copy
+        dd.p3 !{li.copy}
 
 mixin extras(extras)
   for extra in extras
@@ -103,24 +97,10 @@ mixin bottomTout(textTout)
         .no-overflow
           | #{textTout.copy}
           if(textTout.link && textTout.linkLabel)
-            a.no-wrap(href= textTout.link)= textTout.linkLabel
+            +link( {"title" : textTout.linkLabel, "text" : textTout.linkLabel, "href" : textTout.link ,"target" : "_blank"}, [ "no-wrap" ] )
 
 mixin bottomButton(btn)
   if(btn.buttonLabel && btn.buttonLink)
     div(class= btmButtonClasses)
-      a.btn.buttonLabel(href= btn.buttonLink)(title= btn.buttonLabel)= btn.buttonLabel
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      +link( {"title" : btn.buttonLabel, "text" : btn.buttonLabel, "href" : btn.buttonLink,"target" : "_blank"}, [ "btn", "buttonLabel" ] )
 

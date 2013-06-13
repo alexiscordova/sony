@@ -39,21 +39,13 @@ define(function(require){
 
     _init : function() {
       var self = this,
-          $body = Settings.$body,
-          debouncedRefresh = $.debounce( 100, $.proxy( self.refresh, self ) );
+          $body = Settings.$body;
 
       self.hasJumpLinks = self.$jumpLinks && self.$jumpLinks.length > 0;
 
       self.refreshTriggerPoint();
 
-      // Bind to window scroll and resize
-      self.$window.on('scroll', $.proxy( self._onScroll, self ));
-      Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
-
-      // When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy
-      Settings.$document.on('universal-nav-open-finished universal-nav-close-finished', debouncedRefresh );
-      // Images loading can create more space on the page and invalidate the scrollspy offsets
-      $('.iq-img').on('imageLoaded', debouncedRefresh );
+      self._subscribeToEvents();
 
       // Setup links that scroll within the page
       if ( self.hasJumpLinks ) {
@@ -87,6 +79,27 @@ define(function(require){
       }, 100);
     },
 
+    _subscribeToEvents : function() {
+      var self = this,
+          debouncedRefresh = $.debounce( 100, $.proxy( self.refreshWithTimeout, self ) ),
+          closeStickyNav = $.proxy( self._closeStickyNav, self );
+
+
+      // Bind to window scroll and resize
+      self.$window.on('scroll', $.proxy( self._onScroll, self ));
+      Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
+
+      // When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy
+      Settings.$document.on('universal-nav-open-finished universal-nav-close-finished', debouncedRefresh );
+
+      // Immediately close the sticky nav when u-nav button is clicked
+      Settings.$document.on('universal-nav-open universal-nav-close', closeStickyNav );
+
+
+      // Images loading can create more space on the page and invalidate the scrollspy offsets
+      $('.iq-img').on('imageLoaded', debouncedRefresh );
+    },
+
     _initJumpLinks : function() {
       var self = this;
 
@@ -113,10 +126,10 @@ define(function(require){
       self.isTicking = true;
       self.lastScrollY = self.$window.scrollTop();
 
-      if ( !Modernizr.raf ) {
-        update();
+      if ( Modernizr.raf ) {
+        requestAnimationFrame( update );
       } else {
-        window.requestAnimationFrame( update );
+        update();
       }
 
     },
@@ -127,18 +140,26 @@ define(function(require){
 
       // Open the stick nav if it's past the trigger
       if ( st >= self.stickyTriggerOffset ) {
-        if ( !self.$el.hasClass('open') ) {
-          self.$el.addClass('open');
-        }
+        self._openStickyNav();
 
       // Close the sticky nav if it's past the trigger
       } else {
-        if ( self.$el.hasClass('open') ) {
-          self.$el.removeClass('open');
-        }
+        self._closeStickyNav();
       }
 
       self.isTicking = false;
+    },
+
+    _closeStickyNav : function() {
+      if ( this.$el.hasClass('open') ) {
+        this.$el.removeClass('open');
+      }
+    },
+
+    _openStickyNav : function() {
+      if ( !this.$el.hasClass('open') ) {
+        this.$el.addClass('open');
+      }
     },
 
     _onResize : function() {
@@ -149,23 +170,30 @@ define(function(require){
       var self = this,
       $offsetTarget, triggerPoint;
 
-      $offsetTarget = self.offsetTarget.jquery ? self.offsetTarget : $( self.offsetTarget );
-      triggerPoint = $.isNumeric( self.offsetTarget ) ? self.offsetTarget : $offsetTarget.offset().top;
+      if ( $.isFunction( self.offsetTarget ) ) {
+        triggerPoint = self.offsetTarget();
 
+      } else if ( $.isNumeric( self.offsetTarget ) ) {
+        triggerPoint = self.offsetTarget;
+
+      } else {
+        $offsetTarget = self.offsetTarget.jquery ? self.offsetTarget : $( self.offsetTarget );
+        triggerPoint = $offsetTarget.offset().top;
+      }
 
       // Get the trigger point for when the nav should `open`
-      if ( triggerPoint < 100 ) {
-        setTimeout(function() {
-          var triggerPoint = $offsetTarget[0].offsetTop;
-          // If we still don't have a high enough value, use the default
-          if ( triggerPoint < 100 ) {
-            triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
-          }
-          self.setTriggerOffset( triggerPoint );
+      // if ( triggerPoint < 100 ) {
+      //   setTimeout(function() {
+      //     var triggerPoint = $offsetTarget[0].offsetTop;
+      //     // If we still don't have a high enough value, use the default
+      //     if ( triggerPoint < 100 ) {
+      //       triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
+      //     }
+      //     self.setTriggerOffset( triggerPoint );
 
 
-        }, 50);
-      }
+      //   }, 50);
+      // }
 
       self.setTriggerOffset( triggerPoint );
 
@@ -181,6 +209,13 @@ define(function(require){
       self.setOffset( offset );
 
       return self;
+    },
+
+    refreshWithTimeout : function() {
+      var self = this;
+      setTimeout(function refreshTimeout() {
+        self.refresh();
+      }, 0);
     },
 
     refresh : function() {
@@ -208,7 +243,7 @@ define(function(require){
       this.targetOffset = newOffset;
       if ( scrollspy ) {
         // Sony Google TV has problems
-        if ( Settings.isGoogleTV ) {
+        if ( Settings.isGoogleTV || Settings.isPS3 ) {
           newOffset += 5;
         }
         scrollspy.options.offset = newOffset;

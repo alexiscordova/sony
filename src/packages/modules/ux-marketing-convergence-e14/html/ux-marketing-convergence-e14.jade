@@ -16,7 +16,7 @@ if(!data.header)
 
   div(class=uxmcContainerClasses)
     div.btn-reload-container
-      span.fonticon-30-plus.btn-reload(title='Load another product to go with your ' + data.baseProduct.title)
+      span.fonticon-30-plus.btn-reload
 
     div.base-product
       div.uxmc-image-wrapper.iq-img(data-src-desktop=data.baseProduct.img.srcDesktop, data-src-tablet=data.baseProduct.img.srcTablet, data-src-phone=data.baseProduct.img.srcPhone, data-src-desktop-highres=data.baseProduct.img.srcDesktopHighRes, data-src-tablet-highres=data.baseProduct.img.srcTabletHighRes, data-src-phone-highres=data.baseProduct.img.srcPhoneHighRes)
@@ -36,7 +36,7 @@ if(!data.header)
                   if(product.topLine)
                     p.l-o-d #{product.topLine}
                   if(product.link)
-                    a.l-o-d.fonticon-10-chevron--after.uxmc-link(href=product.link) #{product.linkText}
+                    +link( {"title" : product.linkText, "text" : product.linkText, "href" : product.link ,"target" : "_blank"}, [ "l-o-d","uxmc-link" ], "fonticon-10-chevron--after" )
 
               div.uxmc-image-wrapper.iq-img(data-src-desktop=product.img.srcDesktop, data-src-tablet=product.img.srcTablet, data-src-phone=product.img.srcPhone, data-src-desktop-highres=product.img.srcDesktopHighRes, data-src-tablet-highres=product.img.srcTabletHighRes, data-src-phone-highres=product.img.srcPhoneHighRes)
                 //- span prevents div glitch on transition
@@ -46,6 +46,5 @@ if(!data.header)
       div
         - for (i = 1; i <= data.partnerProducts.length; i++)
           div.uxmc-dial-wrapper
-            span.uxmc-dial-label #{i}
-            input.uxmc-dial(type='text', value='0')
-
+            span.uxmc-dial-label
+            input.uxmc-dial(type='text', value='0', data-angleOffset=1)

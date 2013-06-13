@@ -2,40 +2,46 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('pdp-slideshow-d4')
 +includeJavascriptModule('pdp-slideshow-d4')
 
++includeCSS('sony-video')
+//- +includeJavascriptModule('sony-video')
+
 //- Mixin for slides
 mixin pdpSlide(data)
-  for slide in data.submodules
-    slideData = locals.data( slide.data )
-    .pdp-slideshow-slide( class= slideData.variation, data-mode=slideData.mode )
-      .ghost-center-wrap
-        .ghost-center
+  if data.submodules
+    for slide in data.submodules
+      slideData = locals.data( slide.data )
+      //- Videos are always `type2`
+      mode = slideData.mode
+      variation = mode == 'video' ? 'type2' : slideData.variation
+      .pdp-slideshow-slide( class=variation, data-mode=mode )
+        .pdp-slide-inner.ghost-center-wrap
           if slideData.mode == 'imageGallery'
-            +iQImage(slideData.productImg, 'update-always')
+            +iQImage(slideData.productImg, 'ghost-center update-always')
           else if slideData.mode == 'video'
-            +sonyVideo(slideData.video)
+            div(class='ghost-center')
+              - data.isSubmodule = true
+              e = { 'locals' : locals , 'data' : slideData }
+              !{locals.partial( 'packages/modules/sony-video/html/sony-video.jade', e) }
 
 //- Mixin for thumbnails
 mixin pdpThumbs(data)
- for slide in data.submodules
-  slideData = locals.data(slide.data)
-  li.thumb
-    a( class=data.config.variation , href='#' )
-      span.active-highlight
-      .ghost-center-wrap
-        .ghost-center
-          +iQImage(slideData.thumb)
-
-//- Container for header, may not need this here
-if data.config.sectionTitle
-  .container
-    .grid
-      h2.l1= data.config.sectionTitle
+ if data.submodules
+   for slide in data.submodules
+    slideData = locals.data(slide.data)
+    li.thumb
+      a( class=data.config.variation , href='#' )
+        span.active-highlight
+        .ghost-center-wrap
+          .ghost-center
+            +iQImage(slideData.thumb)
 
 //- Main section wrapper for slides and navigation
 +mainElement( ["pdp-slideshow"] )
   .pdp-slideshow-outer
     .pdp-slideshow-inner
       +pdpSlide(data)
-  clsss = 'thumb-nav ' + data.config.variation
-  ul( class= clsss )
-    +pdpThumbs(data)
+  .container.thumb-nav-container
+    .grid.thumb-nav-grid
+      .thumb-nav-carousel
+        ul.thumb-nav( class=  data.config.variation )
+          +pdpThumbs(data)

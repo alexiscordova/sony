@@ -1,8 +1,12 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
-@import "country-region-selection-flags";
 
 .country-region {
+  [class^="icon-flag-"],
+  [class*=" icon-flag-"]{
+    margin-bottom: 2px;
+    display:block;
+  }
   .nav-wrapper {
     position: relative;
     z-index: 1;
@@ -48,6 +52,12 @@
       &:last-child {
         border: none;
       }
+      .span3 {
+        margin-left: 0;
+      }
+      .span3 + .span3 {
+        margin-left: 3.5%;
+      }
   }
 
   .countries ol {
@@ -71,9 +81,24 @@
       color: $gray20;
   }
 
-  .media,
+  .media {
+    overflow: visible;
+  }
+
   .media-bd {
-      overflow: hidden;
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+
+    & {
+        *zoom: 1;
+    }
   }
 
   .media-img {

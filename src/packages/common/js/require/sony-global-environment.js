@@ -24,8 +24,14 @@ define(function (require) {
       self.normalizeLogs();
       self.appendModernizrTests();
       self.addDeviceClasses();
+      self.loadFonts();
 
       log('SONY : Global : Environment : Initialized');
+    },
+
+    loadFonts: function(){
+      var protocol = ('https:'==document.location.protocol?'https:':'http:');
+      $('head').append('<link rel="stylesheet" href="' + protocol + '//fast.fonts.com/t/1.css?apiType=css&projectid=2f9c337f-0594-48e7-899e-7b595b9b9840">');
     },
 
     appendModernizrTests: function() {
@@ -287,13 +293,22 @@ define(function (require) {
         Modernizr.mediaqueries = false;
       }
 
+      // Sony Tablet P does not support box shadow nor inset box shadow
+      // http://quirksmode.org/css/backgrounds-borders/boxshadow.html
+      // http://www.elektronotdienst-nuernberg.de/bugs/box-shadow_inset.html
+      if ( Settings.isSonyTabletP ) {
+        Modernizr.boxshadow = false;
+        Settings.$html.removeClass('boxshadow').addClass('no-boxshadow');
+      }
+
       // The sony tablet s gets a false negative on generated content (pseudo elements)
       if ( !Modernizr.generatedcontent && Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = true;
         Settings.$html.removeClass('no-generatedcontent').addClass('generatedcontent');
       }
 
-      if ( Settings.isLTIE8 ) {
+      // IE7 getting false positive
+      if ( Modernizr.generatedcontent && Settings.isLTIE8 ) {
         Modernizr.generatedcontent = false;
         Settings.$html.removeClass('generatedcontent').addClass('no-generatedcontent');
       }
@@ -303,6 +318,10 @@ define(function (require) {
 
       if ( Settings.isSonyTabletS ) {
         Settings.$html.addClass('sonytablets');
+      }
+
+      if ( Settings.isSonyTabletP ) {
+        Settings.$html.addClass('sonytabletp');
       }
 
       if ( Settings.isPS3 ) {

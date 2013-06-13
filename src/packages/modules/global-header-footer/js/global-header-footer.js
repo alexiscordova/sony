@@ -40,6 +40,7 @@ define(function(require) {
     self.$container = $container;
     self.$activeNavBtns = self.$container.find('.nav-dropdown-toggle');
     self.$searchBtn = self.$activeNavBtns.filter('[data-target="navmenu-w-search"]');
+    self.$searchInput = $('#nav-search-input');
     self.$navbar = $('#navbar');
     self.$currentOpenNavBtn = false;
     self.$pageWrapOuter = $('#page-wrap-outer');
@@ -47,6 +48,7 @@ define(function(require) {
     self.fullAccountUsername = self.$accountUsername.text();
     self.mobileNavIScroll = false;
     self.mobileNavVisible = false;
+    self.mobileNavHasShadow = false;
     self.mobileNavThreshold = 767;
     self.mobileFooterThreshold = 567;
     self.isSearchOpen = false;
@@ -56,8 +58,9 @@ define(function(require) {
     // If the user mouses back over the element before the timeout has expired the
     // "out" function will not be called (nor will the "over" function be called).
     // This is primarily to protect against sloppy/human mousing trajectories that
-    // temporarily (and unintentionally) take the user off of the target element... giving them time to return.
-    self.closeDelay = 400;
+    // temporarily (and unintentionally) take the user off of the target element...
+    // giving them time to return.
+    self.closeDelay = 200;
     self.closeDelaySearch = 2000;
 
     // The number of milliseconds hoverIntent waits between reading/comparing
@@ -66,8 +69,7 @@ define(function(require) {
     // called is after a single polling interval. Setting the polling interval
     // higher will increase the delay before the first possible "over" call,
     // but also increases the time to the next point of comparison.
-    self.openDelay = 100;
-    // self.openTimer = false;
+    self.openDelay = 30;
 
     // Get the right prefixed names e.g. WebkitTransitionDuration
     self.tapOrClick = self.hasTouch ? 'touchstart' : 'click';
@@ -118,6 +120,7 @@ define(function(require) {
         // switch to desktop footer
         enquire.register('(min-width: ' + (self.mobileFooterThreshold + 1) + 'px)', {
           match : function() {
+            self.$html.removeClass('bp-footer-mobile').addClass('bp-footer-desktop');
             self.resetMobileFooter();
           }
         });
@@ -136,6 +139,7 @@ define(function(require) {
         // switch to mobile footer
         enquire.register('(max-width: ' + self.mobileFooterThreshold + 'px)', {
           match : function() {
+            self.$html.removeClass('bp-footer-desktop').addClass('bp-footer-mobile');
             self.initMobileFooter();
           }
 
@@ -155,14 +159,22 @@ define(function(require) {
       // add a click event to close the currently open navmenu/navtray if you click outside of it.
       self.$pageWrapOuter.on( 'click touchstart focus', $.proxy( self.onPageWrapOuterPress, self ) );
 
+      // For debugging the Electronics & Entertainment buttons on Android:
+      // var debugCount = 0;
+      // var $debugDiv = $('<div>').css({'position':'absolute','top':'5px','left':'5px','z-index':'1000','color':'white'});
+      // $('.nav-mobile-scroller').append($debugDiv);
+
       // Set up primary nav buttons (Electronics, Entertainment, Account & Search)
       self.$activeNavBtns.each(function() {
         var $thNavBtn = $(this),
             $thNavBtnTarget = $('.' + $thNavBtn.data('target')),
             isSearchMenu = $thNavBtnTarget.hasClass('navmenu-w-search');
 
+
         $thNavBtn.on('click touchstart mouseenter focus', function(e) {
           e.preventDefault();
+          // For debugging the Electronics & Entertainment buttons on Android:
+          // $debugDiv.html(debugCount++);
         });
 
         // init
@@ -180,6 +192,7 @@ define(function(require) {
         if ( self.hasTouch ) {
           // console.log('init hammer');
           // Use hammer.js to detect taps
+          // HAAAALP! DEBUGGING ON ANDROID
           $thNavBtn.hammer().on('tap', $.proxy( self.onNavBtnTap, self ) );
 
         // NOT touch device - set up HOVER triggers
@@ -212,10 +225,27 @@ define(function(require) {
       // Should this only be done for no-touch?
       self.setupFocusPath();
 
+      self.preSetNavTrayImageHeights();
+
       self.resizeAccountUsername();
       Environment.on('global:resizeDebounced-200ms', function() {
         self.resizeAccountUsername();
       });
+
+      $('html').addClass('nav-ready');
+      if ( Settings.isAndroid ) {
+        // For the Tablet S at least, in order to make the Electronics & Entertainment buttons to work (consistently, anyway), you 
+        // have to trigger a redraw after the page is completely done drawing. 
+        Utilities.forceWebkitRedraw();
+        
+        // The line below is so you can see when forceWebkitRedraw() actually gets called on the Tablet S. If you uncomment it, load the
+        // global-header-footer-demo.html page. You think the page is done, but then it takes a few more seconds before this is actually triggered.
+        // 
+        // $('.bs-docs-grid').css('background','green');
+        // 
+      }
+
+
     }, // end initDesktopNav
 
     resetDesktopNav : function() {
@@ -251,6 +281,7 @@ define(function(require) {
     },
 
     onPageWrapOuterPress : function( e ) {
+
       // as long as the click wasn't on one of the nav-menu/trays,
       // or one of their children,
       // or one of the activeNavBtns, reset any active menus.
@@ -258,14 +289,12 @@ define(function(require) {
           $target = $( e.target ),
           isClickOnNavItem = $target.hasClass('navtray-w') || $target.hasClass('navmenu-w') || $target.hasClass('nav-dropdown-toggle') || $target.parents('.navtray-w,.navmenu-w,nav-dropdown-toggle, .nav').length > 0;
 
-      // console.log('onPageWrapOuterPress', 'isClickOnNavItem: ', isClickOnNavItem );
+      // alert('onPageWrapOuterPress', 'isClickOnNavItem: ', isClickOnNavItem );
 
       if ( !isClickOnNavItem ) {
-        // $('.nav .nav-li a.active').trigger('touchstart');
-        // self.resetActiveNavBtn($('.nav-dropdown-toggle.active'));
         self.closeActiveNavBtn();
         self.isSearchOpen = false;
-        $('#nav-search-input').blur();
+        self.blurSearchInput();
       }
     },
 
@@ -393,9 +422,6 @@ define(function(require) {
           isATrayMenuOpen = $currentBtn !== false,
           isThisTrayMenuOpen = isATrayMenuOpen && $navBtn.is( $currentBtn );
 
-          // do i need this?
-      // $('#nav-search-input').blur();
-
       // This tray/menu is open, close it
       if ( isThisTrayMenuOpen ) {
         // console.log( 'this tray menu is open already. Close it.' );
@@ -416,6 +442,7 @@ define(function(require) {
     },
 
     onNavBtnMouseEnter : function( e ) {
+      // console.log("onNavBtnMouseEnter: ", e.target);
       var self = this,
           $navBtn = $( e.delegateTarget );
 
@@ -438,10 +465,11 @@ define(function(require) {
       // Set active nav button
       self.setActiveNavBtn( $navBtn );
 
-      $('#nav-search-input').blur();
+      self.blurSearchInput();
     },
 
     onNavBtnMouseLeave : function( e ) {
+      // console.log("onNavBtnMouseLeave: ", e.target);
       var self = this,
           $navBtn = $( e.delegateTarget ),
           btnData = $navBtn.data(),
@@ -453,88 +481,78 @@ define(function(require) {
 
       // In a timeout so that the mouse enter for the target
       // is called before this function
-      setTimeout(function checkItOut() {
-        var isTargetHovered = $target.data('hovering');
-        // console.log('isTargetHovered:', isTargetHovered);
-        // If the mouse didn't go to the tray that opened, close it
-        if ( !isTargetHovered ) {
-          self.resetActiveNavBtn( $navBtn );
-        }
-      }, 50);
+      self.maybeResetActiveNavBtn( $navBtn, $target );
     },
 
     onNavBtnTargetMouseEnter : function( e ) {
-      var self = this,
-          $navBtn = $( e.delegateTarget );
+      // console.log("onNavBtnTargetMouseEnter: ", e.target);
+      var $target = $( e.delegateTarget );
 
-      $navBtn.data('hovering', true);
-      // console.log('target enter, reset timer');
-      self.resetMouseleaveTimer();
+      $target.data('hovering', true);
+      // console.log('%c' + $target[0].id + ' [ENTER]', 'color:blue;');
+      // console.log($target[0].id + ' [ENTER]');
     },
 
     onNavBtnTargetMouseLeave : function( e ) {
+      // console.log("onNavBtnTargetMouseLeave: ", e.target);
       var self = this,
-          // $navBtn = e.data.$thNavBtn,
-          $target = $( e.delegateTarget ),
-          $navBtn = $target.data('$navBtn'),
-          isNavBtnHovered = $navBtn.data('hovering'),
-          timeout;
+          $target = $( e.delegateTarget );
 
       $target.data('hovering', false);
+      // console.log('%c' + $target[0].id + ' [LEAVE]', 'color:blue;');
+      // console.log($target[0].id + ' [LEAVE]');
 
       // Remove focus from search input on mouse out in ie
       if (Settings.isLTIE10) {
-        $('#nav-search-input').blur();
+        self.blurSearchInput();
       }
       if (Settings.isLTIE9) {
         $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible');
       }
 
-      // Check to see if it was onto this target's button.
-      timeout = self.closeDelay;
-
-      // The search menu gets a longer timeout.
-      if (this.id === 'navmenu-w-search') {
-        timeout = self.closeDelaySearch;
-      }
-
       // Close this tray/menu if its nav button isn't hovered
-      if ( !isNavBtnHovered ) {
-        // console.log('nav button is not hovered, expire timer and close tray/menu');
-        self.mouseTimerExpired( $navBtn );
-      }
+      self.maybeResetActiveNavBtn( $target.data('$navBtn'), $target );
     },
 
     resetActiveNavMenu : function() {
       var self = this;
 
-      if (Settings.isLTIE10) {
-        $('#nav-search-input').blur();
+      if ( Settings.isLTIE10 ) {
+        self.blurSearchInput();
       }
-      if (Settings.isLTIE9) {
+
+      if ( Settings.isLTIE9 ) {
         $('.navmenu-w-search, .navmenu-w-account').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
         $('.nav-li-search a').blur();
       }
 
+      function next( $navmenu ) {
+        var $transitionContainer = $navmenu.find('.reveal-transition-container');
+
+        $transitionContainer.css( 'height', '' );
+        $navmenu.css({ left: '', right: '' });
+      }
+
+      // Each visible nav menu
       $('.navmenu-w-visible').each(function() {
-        $(this)
-          .removeClass('navmenu-w-visible')
-          .one(self.transitionEnd, function() {
-            var $navmenu = $( this ),
-                $transitionContainer = $navmenu.find('.reveal-transition-container');
+        var $navmenu = $( this );
 
-            $transitionContainer.css( 'height', '' );
-            $navmenu.css({ left: '', right: '' });
+        // Trigger transition
+        $navmenu.removeClass('navmenu-w-visible');
 
-            // clear active class from THIS button!
-            // $('.nav-li-search a').removeClass('active');
+        // If transitions, wait for the transition to end,
+        if ( Modernizr.csstransitions ) {
+          $navmenu.one(self.transitionEnd, function() {
+            next( $( this ) );
+          });
 
-            // setTimeout(function() {
-            //   var c = $transitionContainer.attr('class');
-            //   var h = $transitionContainer.outerHeight();
-            //   console.log("c: " + c + ", h: " + h);
-            // },5);
-        });
+        // otherwise do it right away
+        } else {
+          next( $navmenu );
+        }
+
+        // Release for IE
+        $navmenu = null;
       });
     },
 
@@ -590,37 +608,20 @@ define(function(require) {
       // self.$accountBtn
     },
 
-
-    startMouseleaveTimer : function( $navBtn ) {
-      var self = this,
-        delay = self.closeDelay + 25;
-
-      // Clear the current timer if it exists
-      // console.log('start timer (reset it first)');
-      self.resetMouseleaveTimer();
-
-      // console.log('TIMER +++ SET');
-      // If this timer expires, the current nav button and tray/menu will be reset
-      self.closeTimer = setTimeout(function closeTimer() {
-        self.mouseTimerExpired( $navBtn );
-      }, delay);
-    },
-    resetMouseleaveTimer : function() {
-      if ( this.closeTimer ) {
-        clearTimeout( this.closeTimer );
-        // console.groupCollapsed('TIMER +++ CLEARED');
-        // console.trace();
-        // console.groupEnd();
-      }
-    },
-    // Reset nav button and tray/menu
-    mouseTimerExpired : function( $navBtn ) {
+    // If the mouse didn't go to the tray that opened, close it
+    maybeResetActiveNavBtn : function( $navBtn, $target ) {
       var self = this;
 
-      // console.log('TIMER +++ EXPIRED');
-      self.resetActiveNavBtn( $navBtn );
-      self.resetMouseleaveTimer();
-      self.$currentOpenNavBtn = false;
+      setTimeout(function maybeReset() {
+        // If the nav button or the target is hovered, it shouldn't close
+        var shouldClose = !( $navBtn.data('hovering') || $target.data('hovering') );
+
+        if ( shouldClose ) {
+          // console.log('%cneither ' + $target[0].id + ' nor ' + $navBtn[0].getAttribute('href') + ' hovered. RESETTING', 'font-weight:bold;color:red;');
+          // console.log('neither ' + $target[0].id + ' nor ' + $navBtn[0].getAttribute('href') + ' hovered. RESETTING');
+          self.resetActiveNavBtn( $navBtn );
+        }
+      }, self.closeDelay + 25);
     },
 
     // Checks for open navs and closes them
@@ -637,7 +638,7 @@ define(function(require) {
       if ( isAnotherOpen ) {
         // console.log('%c[CLOSE ACTTIVE]' + $activeBtn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:rgb(0,172,238);');
         self.resetActiveNavBtn( $activeBtn );
-        // self.resetMouseleaveTimer();
+        // self.clearMouseleaveTimer();
         self.$currentOpenNavBtn = false;
       }
     },
@@ -691,26 +692,6 @@ define(function(require) {
 
 
     slideNavTray : function($navTray, opening) {
-      // var self = this,
-      //     startHeight,
-      //     endHeight,
-      //     expandedHeight = $navTray.outerHeight();
-
-      // $navTray.data('expandedHeight', expandedHeight);
-
-      // if (opening) {
-      //   startHeight = expandedHeight;
-      //   endHeight = '1px';
-
-      // } else {
-      //   // if you're not opening, it's just initializing on page load
-      //   startHeight = '1px';
-      //   endHeight = expandedHeight;
-
-      // }
-
-      //$navTray.data('expandedHeight', startHeight).css('top', startHeight).find('.navtray').addClass('navtray-absolute').css('top', expandedHeight);
-
       // Wait just a moment to make sure the height is applied
       setTimeout(function() {
         // console.log( 'slideNavTray ::', 'navtray has class no-transition:', $navTray.hasClass('no-transition') );
@@ -721,8 +702,6 @@ define(function(require) {
 
         // Wait just a moment to make sure the height is applied
         setTimeout(function() {
-          // $navTray.css('height', endHeight).one(self.transitionEnd, onNavTrayComplete);
-          // var elemHeight = $navTray.find('.navtray').height();
           if (opening) {
            $navTray.addClass('navtray-w-visible');
           } else {
@@ -731,13 +710,8 @@ define(function(require) {
 
         }, 10);
       }, 10);
-
-      // function onNavTrayComplete() {
-      //   // prepare the tray for browser resize - even though it's offscreen, we still need to get its natural height next time we need to expand it.
-      //   self.setNavTrayContentNaturalFlow($navTray);
-      // }
-
     },
+
     resetNavTray : function( $navTray ) {
       $navTray
         .removeClass('navtray-w-visible')
@@ -790,10 +764,6 @@ define(function(require) {
       var self = this;
 
       // Force an iQ check whenever the navs expand.
-      // $navTarget.one(self.transitionEnd, function() {
-      //   iQ.update(true);
-      // });
-
       if ( Modernizr.csstransitions ) {
         $target.one( self.transitionEnd, iQ.update );
       } else {
@@ -802,12 +772,13 @@ define(function(require) {
 
       // first get the tray's natural height, which it should have offscreen.
       // expand the tray. When it's done, set it to position:relative and natural heights.
-      if (Settings.isLTIE10) {
-        // going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.
-        self.slideNavTray( $target, true );
-      } else {
-        self.slideNavTray( $target, true );
-      }
+      self.slideNavTray( $target, true );
+      // if (Settings.isLTIE10) {
+      //   // going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.
+      //   self.slideNavTray( $target, true );
+      // } else {
+      //   self.slideNavTray( $target, true );
+      // }
     },
     showNavMenu : function( $target, $navBtn ) {
       var self = this,
@@ -818,8 +789,15 @@ define(function(require) {
           // Get css
           expHeight = $revealContainer.height();
 
-      // set css
-      $revealContainer.css('height', '1px');
+      function next( $container ) {
+        // when it's done revealing, get rid of the height transition
+        $container.removeClass('transition-height');
+        // wait a tick to make sure the transition-height class is gone.
+        setTimeout(function() {
+          // reset to natural height
+          $container.css('height', '');
+        }, 0);
+      }
 
       // wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate
       setTimeout(function() {
@@ -828,21 +806,16 @@ define(function(require) {
         // wait a tick to make sure the transition-height is set before changing the height & animating.
         setTimeout(function() {
           $target.addClass('navmenu-w-visible');
-          $revealContainer.height(expHeight);
-          $revealContainer.one(self.transitionEnd, function() {
-            // when it's done revealing, get rid of the height transition
-            $revealContainer.removeClass('transition-height');
-            // wait a tick to make sure the transition-height class is gone.
-            setTimeout(function() {
-              // reset to natural height
-              $revealContainer.css('height', '');
-              // setTimeout(function() {
-              //   var expHeight = $revealContainer.height();
-              //   console.log("expHeight: " + expHeight);
-              // }, 1);
 
-            }, 0);
-          });
+          if ( Modernizr.csstransitions ) {
+            $revealContainer.height(expHeight);
+            $revealContainer.one(self.transitionEnd, function() {
+              next( $revealContainer );
+            });
+
+          } else {
+            next( $revealContainer );
+          }
         }, 0);
       }, 0);
 
@@ -878,9 +851,64 @@ define(function(require) {
         // Set css
         $carrot.css('left',carrotLeftPos+'px');
       }
+
+      // set css
+      $revealContainer.css('height', '1px');
+    },
+
+    blurSearchInput : function() {
+      this.$searchInput.trigger( 'blur' );
     },
 
     // MOBILE NAV
+
+    prepMobileNav : function() {
+      // console.log("prepMobileNav");
+      var self = this;
+
+      self.preSetNavTrayImageHeights();
+
+      var $outer = $('#nav-outer-container'),
+      $inner = $outer.find('.nav-mobile-scroller'),
+      innerHeight = $inner.height(),
+      pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
+
+      $outer.css( 'height', pageHeight );
+      $inner.css( 'height', innerHeight );
+
+      // Set this after '$outer' and '$inner' have been set so that all the setters are in order
+      self.$pageWrapOuter.css( 'height', pageHeight );
+    },
+
+    preSetNavTrayImageHeights : function() {
+
+      var navTrayImgRato = 0.556;
+      // if this is the first time opening the nav, the images aren't loaded yet. This means we don't know how tall the whole
+      // nav is going to be, so we have to estimate / fake it.
+      var $navTrayImageWraps = $('#navtrayElectronics').add($('#navtrayEntertainment')).find('.nav-img-w');
+      // breaking this into 2 loops to avoid layout thrashing.
+      var $navTrayImageWrapsNoSrc = $();
+      $navTrayImageWraps.each(function(){
+        var $thImg = $(this).find('img');
+        if (!$thImg.attr('src')){
+
+          // set its height based on its width & the target ratio, so the entire menu will be the correct height even before the images are loaded.
+          var calcHeight = $thImg.width() * navTrayImgRato;
+          $thImg.data('customHeight',calcHeight);
+          $navTrayImageWrapsNoSrc = $navTrayImageWrapsNoSrc.add($thImg);
+        }
+      });
+      $navTrayImageWrapsNoSrc.each(function(){
+        var $thImg = $(this);
+        $thImg.height($thImg.data('customHeight'));
+
+        // then listen for when the image is loaded, and remove the custom height so it can flex on resize.
+        $thImg.on('load', function() {
+          $thImg.css('height', '');
+        });
+      });
+    },
+
     initMobileNav : function() {
       var self = this;
 
@@ -892,30 +920,65 @@ define(function(require) {
           self.hideMobileNav();
         }
       });
-      var $thInput = $('#nav-search-input');
+      var $thInput = self.$searchInput;
 
-      $thInput.on('focus', function() {
-        if (self.$html.hasClass('bp-nav-mobile')) {
-          module.initMobileNavIScroll();
-        }
-        $('.page-wrap-inner').addClass('show-mobile-search-results');
-      }).on('blur', function() {
 
-        // disable blur on mobile search input
-        if (!self.$html.hasClass('bp-nav-mobile')) {
-          $('.page-wrap-inner').removeClass('show-mobile-search-results');
-        }
-      }).closest('.input-group').find('.input-clear-btn').on(self.tapOrClick, function() {
-        if (self.$html.hasClass('bp-nav-mobile')) {
-          module.initMobileNavIScroll();
-          $('.page-wrap-inner').removeClass('show-mobile-search-results');
-          setTimeout(function() {
-            $thInput.trigger('blur');
-          }, 0);
-        }
-      });
+      // set up shadow / gradient bar. Yep, this was the best way to do it.
+      if ($('html').hasClass('cssgradients') && !self.mobileNavHasShadow){
+        var $mobileNavShadow = $('<i/>',{
+          "class" : "nav-mobile-nav-shadow"
+        });
+        $('.nav-mobile-scroller').append($mobileNavShadow);
+        self.mobileNavHasShadow = true;
+      }
+
+      $thInput
+        .on('focus', function() {
+          if (self.$html.hasClass('bp-nav-mobile')) {
+            module.initMobileNavIScroll();
+          }
+          $('.page-wrap-inner').addClass('show-mobile-search-results');
+        })
+        .on('blur', function() {
+
+          // disable blur on mobile search input
+          if (!self.$html.hasClass('bp-nav-mobile')) {
+            $('.page-wrap-inner').removeClass('show-mobile-search-results');
+          }
+        })
+        .closest('.input-group')
+        .find('.input-clear-btn')
+          .on(self.tapOrClick, function() {
+            if (self.$html.hasClass('bp-nav-mobile')) {
+              module.initMobileNavIScroll();
+              $('.page-wrap-inner').removeClass('show-mobile-search-results');
+
+              // Blur the search input
+              setTimeout( $.proxy( self.blurSearchInput, self ), 0);
+            }
+          });
+
+      Environment.on('global:resizeDebounced', $.proxy(self.resizeUpdateMobileNav,self));
+      
+      $('html').addClass('nav-ready');
 
     }, // end initMobileNav
+
+    resizeUpdateMobileNav : function() {
+      var self = this;
+      // console.log("resizeUpdateMobileNav");
+      // only call if the mobile nav is open. otherwise prep gets called and sets a height to the rest of the page.
+      if ($('#page-wrap-inner').hasClass('show-mobile-menu')){
+        self.prepMobileNav();
+
+        // make sure heights are already set before initializing iScroll.
+        setTimeout(function() {
+          module.initMobileNavIScroll();
+        },10);
+      }
+    },
+
+
     resetMobileNav : function() {
 
       var self = this;
@@ -925,43 +988,23 @@ define(function(require) {
     },
 
     showMobileNav : function() {
-      var self = this,
-          pageHeight,
-          $outer,
-          $inner,
-          innerHeight;
+      // console.log("showMobileNav");
+      var self = this;
 
       self.showMobileBackdrop();
 
-      // Since the page-wrap-inner is going to be fixed, the browser will see the page as having no height.
-      // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
-      // page some height, so the Safari nav will hide.
-      // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
-      pageHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
-      // pageHeight = parseInt(self.$window.height(), 10) + 'px';
-      // pageHeight = parseInt( self.$window.height(),10 ) + 60 + 'px';
-
       if (!self.mobileNavIScroll) {
-        $outer = $('#nav-outer-container');
-        $inner = $outer.find('.nav-mobile-scroller');
-        innerHeight = $inner.height();
+        $('#page-wrap-inner').addClass('show-mobile-menu');
+        self.mobileNavVisible = true;
 
-        $outer.css( 'height', pageHeight );
-        $inner.css( 'height', innerHeight );
+        self.prepMobileNav();
 
         // make sure heights are already set before initializing iScroll.
         setTimeout(function() {
           module.initMobileNavIScroll();
-        }, 0);
+        },10);
       }
-
-      // Set this after `$outer` and `$inner` have been set so that all the setters are in order
-      self.$pageWrapOuter.css( 'height', pageHeight );
-
-      $('#page-wrap-inner').addClass('show-mobile-menu');
-      self.mobileNavVisible = true;
     },
-
     hideMobileNav : function() {
       var self = this;
       self.hideMobileBackdrop();
@@ -1022,16 +1065,30 @@ define(function(require) {
         // on init, the footers should collapse.
         self.collapseMobileFooterSec($thFootSection, true);
 
-        $(this).on(self.tapOrClick, function() {
 
-          if ($thFootSection.hasClass('collapsed')) {
-            // collapsed height - expand it.
-            self.expandMobileFooterSec($thFootSection);
-          } else {
-            self.collapseMobileFooterSec($thFootSection);
-          }
-        });
+
+        // TOUCH DEVICES
+        if ( self.hasTouch ) {
+          // console.log('init hammer');
+          // Use hammer.js to detect taps
+          $(this).hammer().on('tap', function() {
+            self.toggleMobileFooterSec($thFootSection);
+          });
+        } else {
+          // NO TOUCH
+          $(this).on('click', function() {
+            self.toggleMobileFooterSec($thFootSection);
+          });
+        }
       });
+    },
+    toggleMobileFooterSec : function($thFootSection) {
+      var self = this;
+      if ($thFootSection.hasClass('collapsed')) {
+        self.expandMobileFooterSec($thFootSection);
+      } else {
+        self.collapseMobileFooterSec($thFootSection);
+      }
     },
     resetMobileFooter : function() {
       var self = this;
@@ -1041,8 +1098,8 @@ define(function(require) {
         $thFootSection.css('height', '').removeClass('collapsed transition-height');
         $(this).off(self.tapOrClick);
       });
-
     }, // end resetMobileFooter
+
 
     collapseMobileFooterSec : function($thFootSection, isPageInit) {
       var self = this;
@@ -1072,6 +1129,10 @@ define(function(require) {
             $thFootSection.height(self.footerNavCollapseHeight).addClass('collapsed');
           }, 1);
         }, 1);
+
+        if ( self.hasTouch && $thFootSection.hasClass('footer-store-locator') && $('#store-locator-search-input').is(':focus')) {
+          $('#store-locator-search-input').blur();
+        }
       }
     },
     expandMobileFooterSec : function($thFootSection) {
@@ -1111,10 +1172,13 @@ define(function(require) {
   // end $.fn.globalNav
 
   module.initMobileNavIScroll = function() {
+
+    // console.log("initMobileNavIScroll");
+
     var globalNav = $('.nav-wrapper').data('globalNav');
 
     // If there's alreaddy a mobileNavIScroll, refresh it.
-    // THIS IS HAPPENING ON EVERY KEYSTROKE!
+    // THIS IS HAPPENING ON EVERY KEYSTROKE! --??
     if (!!globalNav.mobileNavIScroll) {
       var $scroller = $('.nav-mobile-scroller');
       $scroller.css('height', '');
@@ -1124,6 +1188,7 @@ define(function(require) {
 
         setTimeout(function() {
           globalNav.mobileNavIScroll.refresh();
+          globalNav.mobileNavIScroll.scrollTo();
         },50);
       },50);
 
@@ -1135,19 +1200,24 @@ define(function(require) {
         hScrollbar : false,
         snap : false,
         momentum : true,
+        fadeScrollbar: true,
         bounce : false,
         onBeforeScrollStart: function(e) {
-          var target = e.target;
+          var target = e.target,
+              nodeName;
 
           while ( target.nodeType !== 1 ) {
             target = target.parentNode;
           }
 
-          if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+          nodeName = target.nodeName;
+
+          if (nodeName !== 'SELECT' && nodeName !== 'INPUT' && nodeName !== 'TEXTAREA') {
             e.preventDefault();
           }
-        }
-
+        },
+        // iQ throttles itself.
+        onScrollMove: iQ.update
       });
 
       // Update images w/o scrolling

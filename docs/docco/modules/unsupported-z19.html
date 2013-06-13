@@ -51,6 +51,10 @@ define(<span class="keyword">function</span>(require){
         self.launchModal(self.modalID);
       });
 
+      $(<span class="string">'.close-modal'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
+        self.closeModal();
+      });
+
       self.$win.resize($.proxy(self.measureModal, <span class="keyword">this</span>));
     },
 
@@ -87,6 +91,11 @@ define(<span class="keyword">function</span>(require){
         <span class="string">'margin-top'</span>: -height / <span class="number">2</span>,
         <span class="string">'margin-left'</span>: -width / <span class="number">2</span>
       });
+    },
+
+    closeModal: <span class="keyword">function</span>(){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      $(self.modalID).modal(<span class="string">'hide'</span>);
     },
 
     resetModal: <span class="keyword">function</span>() {

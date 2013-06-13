@@ -25,7 +25,7 @@ $three-up-height:400px;
   text-align: center;
   background-color:$gray80;
   margin:0; // for the module since it can be placed anywhere on the page.
-  padding:30px 0 66px;
+  padding:60px 0 80px;
 
 	.tcc-header{
 		position: relative;
@@ -135,6 +135,8 @@ $three-up-height:400px;
 
 				img{
 					width: 100%;
+					background-color: rgba(255,255,255,.01); // FF specific bug fix for opacity and scale3D
+					-moz-transform-origin:0 0;
 				} // img
 
 			} // img-container
@@ -161,6 +163,7 @@ $three-up-height:400px;
 			&.news{
 				@include fadeoutOnHover(img);
 				position: relative;
+
 				.img-container{
 
 					.l3-light{
@@ -187,6 +190,7 @@ $three-up-height:400px;
 			&.event{
 				@include fadeoutOnHover(img);
 				position: relative;
+
 				.img-container{
 
 					.attendance{
@@ -196,9 +200,6 @@ $three-up-height:400px;
 						bottom:0;
 						right:0;
 						left:0;
-
-						// height:100%;
-						// width:100%;
 						opacity:0.95;
 						padding:12% 36%;
 
@@ -250,7 +251,7 @@ $three-up-height:400px;
 						bottom: 0;
 						left: 0;
 						width: 100%;
-						padding: px-em(30px);
+						padding: px-em(20px) px-em(30px) px-em(30px) px-em(30px);
 						margin: 0;
 						text-align: left;
 
@@ -306,11 +307,9 @@ $three-up-height:400px;
 	//  "Y88888P"   88888P'  "Y8888  888      88888P'          Y8P      "Y88P"  888  "Y8888P  "Y8888
 	.users-voice{
 		$paddingBottom: px-em(28px);
-		//$paddingLeft: px-em(40px);
 		$paddingLeft: px-em(36px);
 
 		position: relative;
-		//padding: px-em(30px) px-em(40px) $paddingBottom $paddingLeft;
 		padding: $paddingBottom $paddingLeft;
 
 		.title,
@@ -339,6 +338,11 @@ $three-up-height:400px;
 
 		.avatar{
 		  margin-bottom: px-em(15px);
+
+		  img{
+		  	max-height:40px;
+		  }
+
 		} // end .avatar
 
 		//  ______                           _             ____                 _
@@ -382,11 +386,22 @@ $three-up-height:400px;
 		&.user-quote{
 			background-color:$white;
 
+			.lt-ie8 & {
+				height:85%;
+				overflow: hidden;
+	    } // END IE7 and BELOW
+
+
 			.title{
 			  color:$gray40;
 			} // end .title
 
 			.quote{
+				.lt-ie8 & {
+					height:65%;
+					overflow: hidden;
+		    } // END IE7 and BELOW
+
 				p{
 					color:$secondarySlateDark;
 				}
@@ -426,16 +441,48 @@ $three-up-height:400px;
 				text-align: center;
 				height: 68%;
 			  padding: px-em(40px) px-em(30px) 0 px-em(30px);
+
+			  .bq3{
+	  			.lt-ie8 & {
+	  				max-height: 89.5%;
+	  				overflow: hidden;
+	  	    } // END IE7 and BELOW
+
+			  }
+
+				.lt-ie8 & {
+					max-height: 58%;
+					overflow: hidden;
+		    } // END IE7 and BELOW
+
 			} // end .quote
 
 			.avatar{
 				display: inline-block;
 				margin:0;
+
+				img{
+					max-height: 63px;
+				}
+
+				.lt-ie8 & {
+					display:auto;
+					float:left;
+					overflow: hidden;
+		    } // END IE7 and BELOW
+
 			} // avatar
 
 			.author{
 				display: inline-block;
 				margin-left: px-em(25px);
+				.lt-ie8 & {
+					display:auto;
+					float:left;
+					height:60px;
+					overflow: hidden;
+		    } // END IE7 and BELOW
+
 			} // author
 
 		} // question
@@ -520,8 +567,6 @@ $three-up-height:400px;
 	//                               "Y88P"
 	.sonys-voice{
 		position: relative;
-
-
 		//  _______
 		// |__   __|
 		//    | |  ___   _ __
@@ -533,7 +578,6 @@ $three-up-height:400px;
 
 
 		.fonticon-10-dot{
-				// border:1px solid red;
 				font-size:px-em(56px);
 				width:100%;
 				color:$white;
@@ -543,9 +587,8 @@ $three-up-height:400px;
 		.fonticon-15-facebook,
 		.fonticon-15-twitter,
 		.fonticon-15-instagram {
-			// border:1px solid red;
 			position: absolute;
-			top: px-em(10px);
+			top: 28%;
 			left: 0;
 			z-index: 2;
 			width:100%;
@@ -563,6 +606,12 @@ $three-up-height:400px;
 		.center{
 			height: 69.75%;
 		} // center
+
+		.post-image{
+			img{
+				max-height: 100px; // for retina restraint
+			}
+		}
 
 		.bq4{
 			p{
@@ -822,7 +871,6 @@ $three-up-height:400px;
 
 		.top-row{
 			padding-bottom:5px;
-			// padding: px-em(10px) px-em(10px) px-em(5px) px-em(10px);
 		} // end .top-row
 
 		.bottom-row{

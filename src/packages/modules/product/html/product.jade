@@ -54,7 +54,7 @@ mixin colorSwatches( colors, showOnlyChild, isMicroSwatch )
       span(class=theClass, data-color=colour, itemprop="color")= colour
 
 
-//- .iq-img select must be added with javascript later and then iQ.update(true)
+//- .iq-img select must be added with javascript later and then iQ.reset()
 mixin iQColorImages( colors )
   if colors && colors.length > 1
     each img in colors
@@ -77,14 +77,27 @@ mixin heart
   span(class=heartClass, data-default-title=inactiveTitle, data-default-clicked-title=inactiveClickedTitle, data-favorited-title=favoritedTitle, data-favorited-clicked-title=favoritedClickedTitle)
     i.fonticon-10-favorite
 
-mixin productRating( rating, reviews, reviewsText )
-  //- Default to ' user reviews'
-  - if ( !reviewsText && reviewsText != '' ) reviewsText = ' user reviews'
+
+mixin productRating( rating, text, isLink )
+  //- Default to ' user reviews' if blank and not specified as empty string
+  if text == ''
+    text = ''
+  else if rating.text == null
+    text = ' user reviews'
+  else
+    //- Needs a space between for "# user reviews"
+    text = ' ' + rating.text
+
+  //- +link won't output any text if text is false. Only the <a> attributes are wanted
+  - rating.text = false
+
+  //- Default to false
+  hasReviewLink = isLink != null
 
   prefix = ' ('
   suffix = ')'
 
-  .product-rating(data-stars=rating, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
+  .product-rating(data-stars=rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
     span.star-holder
       i.fonticon-10-star
       i.fonticon-10-star-half
@@ -102,34 +115,52 @@ mixin productRating( rating, reviews, reviewsText )
       i.fonticon-10-star-half
     span.lt4.reviews-text
       | !{ prefix }
-      span(itemprop="ratingCount")= reviews
-      span.review-text= reviewsText
+      if hasReviewLink
+        +link( rating )
+          span(itemprop="ratingCount")= rating.reviews
+          span.review-text= text
+      else
+        span(itemprop="ratingCount")= rating.reviews
+        span.review-text= text
       | !{ suffix }
-    meta(itemprop="ratingValue", content=rating)
+    meta(itemprop="ratingValue", content=rating.stars)
 
 
-mixin priceBlock( product, onlyName )
+mixin priceBlock( product, onlyName, href )
   startingAtText = 'Starting at '
   msrp = 'MSRP'
+  isLink = href != null
 
-  .product-content
-    .product-name-wrap
-      .product-name.p3
-        strong= data.name
+  if isLink
+    a.product-content(href=href)
+      .product-name-wrap
+        .product-name.p3
+          strong= data.name
 
-    if ( !onlyName )
-      .product-price
-        span.price-prefix.p5= startingAtText
-        span.price.p2
-          strong= '$' + data.price + '&nbsp;'
-        span.msrp.p5= msrp
+      if ( !onlyName )
+        .product-price
+          span.price-prefix.p5= startingAtText
+          span.price.p2
+            strong= '$' + data.price + '&nbsp;'
+          span.msrp.p5= msrp
+  else
+    .product-content
+      .product-name-wrap
+        .product-name.p3
+          strong= data.name
+
+      if ( !onlyName )
+        .product-price
+          span.price-prefix.p5= startingAtText
+          span.price.p2
+            strong= '$' + data.price + '&nbsp;'
+          span.msrp.p5= msrp
+
 
 //- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
 
 mixin productQuote( quote )
-
-  - if ( !quote.url ) quote.url = false
-
+  url = quote.url ? quote.url : false
   medium = quote.medium
   iconClass = ''
   iconClasses = []
@@ -145,12 +176,15 @@ mixin productQuote( quote )
 
   .quote.ghost-center-wrap
     figure.ghost-center
-      blockquote.bq6(cite=quote.url)
+      blockquote.bq6-bold(cite=url)
         p= quote.text
       figcaption
         span.social-icon.ghost-center-wrap
           i(class=iconClasses)
-        span.author.p4= quote.screenname
+        if url
+          a(class="author p4", href=url, target="_blank")= quote.screenname
+        else
+          span(class="author p4")= quote.screenname
 
 
 
@@ -175,16 +209,18 @@ mixin basicGalleryItem( layout, priority, href )
   //- Add .gallery-item, .basic, and .m-span3 (for 2 up on mobile)
   klass = 'gallery-item basic m-span3 ' + klass
 
-  if layout == 'plate' || layout == 'blank-normal'
+  if layout == 'plate' || layout == 'blank-normal' || layout == 'social'
     div(class=klass, data-priority=priority)
       block
   else
-    a(class=klass, data-priority=priority, href=href ? href : '#')
+    a(class=klass, data-priority=priority, href=href)
       block
 
 
 if data.view == 'basic'
-  +basicGalleryItem( data.layout, data.priority, data.href )
+  href = data.href ? data.href : '#'
+
+  +basicGalleryItem( data.layout, data.priority, href )
     .gallery-item-inner
       if data.label
         span.label.label-success= data.label
@@ -204,12 +240,12 @@ if data.view == 'basic'
 
           div(class=classes)
             .promo-title
-              span.t4.title= data.title
+              span.t5.title= data.title
               if data.layout == 'twoLines'
-                div.t4.emphasis= data.emphasis
+                div.t5.emphasis= data.emphasis
                 i.fonticon-10-chevron
               else
-                span.t4.emphasis= '&nbsp;' + data.emphasis
+                span.t5.emphasis= '&nbsp;' + data.emphasis
                 i.text-dark.fonticon-10-chevron
             if data.count
               .text-count
@@ -224,11 +260,19 @@ if data.view == 'basic'
         .product-img(class=data.backgroundColorClass)
           div(class='promo-content')
             .text-promo-title
-              h4.t4.title
-                strong= data.title
-              h5.t4.emphasis= data.emphasis
+              classes = ['t4-bold', 'l-o-d' , 'title']
+              h4(class=classes)= data.title
+              classes = ['t4-bold', 'l-o-d', 'emphasis']
+              h5(class=classes)= data.emphasis
                 i.icon-ui2-chevron-16-black-right
-            if data.count
+            if data.count && data.button
+              a(class='btn plate-btn lt4 w-count', href=data.button.link)
+                strong= data.button.title
+              .text-count
+                span.number.l2= data.count.number
+                | &nbsp;
+                span.text.l3= data.count.text
+            else if data.count
               .text-count
                 span.number.l2= data.count.number
                 | &nbsp;
@@ -240,7 +284,7 @@ if data.view == 'basic'
       else if data.layout == 'social'
         .product-img
           .product-img-wrap
-            .img-wrap.ghost-center-wrap
+            a.img-wrap.ghost-center-wrap(href=href)
               .ghost-center
                 +iQImage( data.imgSmall )
             +productQuote( data.quote )
@@ -248,7 +292,7 @@ if data.view == 'basic'
           if data.img && data.img.colors
             +colorSwatches( data.img.colors )
           +heart()
-        +priceBlock( data )
+        +priceBlock( data, undefined, href )
 
       else
         .product-img
@@ -327,7 +371,7 @@ else if data.view == 'detailed'
           .product-name.p2
             strong(itemprop="name")= data.name
           .product-model.l3(itemprop="model")= data.model
-        +productRating( data.rating.stars, data.rating.reviews )
+        +productRating( data.rating )
 
         ul.product-meta
           each meta in data.meta
@@ -368,7 +412,7 @@ else if data.view == 'compare'
       .product-name-wrap
         p.product-name.t7(itemprop="name")= data.name
         p.product-model.l3-light(itemprop="model")= data.model
-      +productRating( data.rating.stars, data.rating.reviews, '' )
+      +productRating( data.rating, '' )
 
       .product-price
         span.price-prefix.p5 Starting at &nbsp;
@@ -429,8 +473,8 @@ else if data.view == 'specs'
 
     .spec-column-header.table-center-wrap
       .table-center
-        .product-name.t6-light(itemprop="name")= data.name
-        .product-model.t6
+        .product-name.p2(itemprop="name")= data.name
+        .product-model.p1-bold
           strong(itemprop="model")= data.model
 
     each spec, i in data.specs
@@ -689,13 +733,12 @@ else if data.view == 'blank'
 
 
 else if data.view == 'summary'
-  titleLabel = data.collectionLabel ? data.collectionLabel : 'Cybershot'
-  titleHref = data.collectionHref ? data.collectionHref : '#'
+  titleLink = data.collectionLink ? data.collectionLink : {}
+  buyLink = data.buyLink ? data.buyLink : {}
   attributeList = data.attributeList ? data.attributeList : []
   startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
   msrp = data.msrp ? data.msrp : 'MSRP'
   priceUnit = data.priceUnit ? data.priceUnit : '$'
-  buyText = data.buyText ? data.buyText : 'Buy Now'
 
   hasSwatches = data.img && data.img.colors && data.img.colors.length > 1
   hasAttributeList = !!attributeList.length
@@ -709,15 +752,13 @@ else if data.view == 'summary'
             +iQImage( data.imgSmall, '', 'image' )
 
       .span6.product-details
-        a.l3.link-color(href=titleHref)
-          i.fonticon-10-chevron-reverse
-          !{ titleLabel }
+        +breadcrumbLink( titleLink )
         h2.t6.product-title(itemprop="name")= data.title
         p.product-model.p5
           span(itemprop="model")= data.model
         +iQImage( data.img, 'm-product-img pull-right', 'image' )
 
-        +productRating( data.rating.stars, data.rating.reviews )
+        +productRating( data.rating, undefined, true )
 
         if hasAttributeList || hasSwatches
           .inline-details.clearfix
@@ -742,7 +783,7 @@ else if data.view == 'summary'
             strong.text-dark(itemprop="price") !{ priceUnit + data.price }
 
       .span2.price-content#span3-at-tablet
-        a.btn.btn-large.btn-block(href=data.storeLink)= buyText
+        +link( buyLink, [ "btn", "btn-large", "btn-block" ] )
 
         .relative.be-social
           a.ib.js-prevent-default.nothingtoseehere(href="#")
@@ -751,7 +792,7 @@ else if data.view == 'summary'
           a.ib.js-share.share-trigger(data-toggle="dropdown", href="#")
             span.bt3= data.shareText
             span.arrow-holder
-              i.fonticon-10-arrowhead-down
+              i.fonticon-10-sm-bold-plus
           +shareMenu( data.socialButtons, data.shortLink )
 
   #share-tool.share-tool.modal.hide.fade(tabindex="-1", role="dialog", aria-hidden="true")
@@ -810,12 +851,12 @@ else if data.view == 'search-results'
     .bd.feature-text
       p.t6-light.hdg-dark.title= product.title
       .reviews-copy
-        +productRating( product.rating.stars, product.rating.reviews )
+        +productRating( product.rating )
       p.p4= data.results.product.text
       ul.h-list.h-list-md
         each link in data.results.product.links
           li.lt4
-              a(href= link.url)= link.text
+            +link( link )
 
 else
   em oh noes, you don't have a known view variable set :(

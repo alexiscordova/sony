@@ -28,7 +28,7 @@ module.exports = function(grunt) {
         var template = grunt.file.read(templatePath);
 
         if(typeof(dataObj) === String){
-          dataObj = grunt.file.readJSON(dataObj)
+          dataObj = grunt.file.readJSON(dataObj);
         }
 
         if(templatePath.match(/.jade/g)){
@@ -45,7 +45,10 @@ module.exports = function(grunt) {
           return grunt.file.readJSON(path);
         },
         getEnvironments:function(){
-          return grunt.option('deploy') ? 'deploy' : 'debug'
+          return grunt.option('deploy') ? 'deploy' : 'debug';
+        },
+        getDocsHref : function() {
+          return grunt.option('docs-links-debug') ? '../build/debug/' : '../build/deploy/';
         },
         plusify : function(str){
           return str.replace(/\[\+\]/g , '<i class="fonticon-30-plus"></i>');
@@ -151,12 +154,23 @@ module.exports = function(grunt) {
     },
 
     complexity: {
-      generic: {
-        src: ['packages/modules/**/*.js', '!packages/modules/**/index.js', 'packages/common/js/secondary/sony-*.js', 'packages/common/js/require/*.js', '!packages/common/js/require/sony-global-settings.js'],
+
+      full: {
+        src: ['packages/modules/**/*.js', 'packages/common/js/secondary/*.js', 'packages/common/js/require/*.js', '!packages/common/js/require/sony-global-settings.js', '!**/index.js'],
         options: {
           errorsOnly: false,
           cyclomatic: 10,
           halstead: 25,
+          maintainability: 115
+        }
+      },
+
+      basic: {
+        src: ['packages/modules/**/*.js', 'packages/common/js/secondary/*.js', 'packages/common/js/require/*.js', '!packages/common/js/require/sony-global-settings.js', '!**/index.js'],
+        options: {
+          errorsOnly: false,
+          cyclomatic: 100,
+          halstead: 250,
           maintainability: 115
         }
       }
@@ -718,6 +732,117 @@ module.exports = function(grunt) {
     file += "</html>\n";
 
     grunt.file.write('packages/modules/'+module+'/demo/'+module+'-variations.jade', file);
+
+  });
+
+  grunt.registerTask('brutalize', function(module, depth, fullTilt){
+
+    var fs = require('fs'),
+        _ = require('underscore'),
+        JSONBrutalize = require('json-brutalize'),
+        allDone = this.async();
+
+    var tests = grunt.file.expand('packages/modules/' + module + '/tests/**/*.json'),
+        testSuccess = true,
+        testsDone = 0;
+
+    var done = function(state) {
+
+      testsDone++;
+
+      if ( state === false ) {
+        testSuccess = false;
+      }
+
+      if ( testsDone === tests.length ) {
+        allDone(testSuccess);
+      }
+
+    };
+
+    var runTest = function(JSONPath){
+
+      var jadePath = JSONPath.split('.json')[0] + '.jade';
+      var jade = require('grunt-contrib-jade/node_modules/jade');
+
+      fs.readFile(JSONPath, 'utf8', function (err, data) {
+
+        if (err) {
+          done(false);
+        }
+
+        var originalJSON = JSON.parse(data),
+            brutalized = JSONBrutalize.generate(originalJSON, depth, fullTilt),
+            errors = [],
+            totaltests = brutalized.length,
+            i = 0;
+
+        var brutalizeIterator = function(which) {
+
+          var red   = '\033[31m';
+          var blue  = '\033[34m';
+          var reset = '\033[0m';
+
+          if ( !brutalized[which] ) {
+            fs.writeFile(JSONPath, JSON.stringify(originalJSON, undefined, 2), function(err) {
+              if(err) {
+                done(false);
+              } else {
+                console.log('\n');
+                console.log(blue + 'Testing: ' + JSONPath + reset);
+                console.log('Passed ' + (totaltests - errors.length) + '/' + totaltests + ' tests.');
+                console.log('unique errors: ' + _.uniq(errors).length);
+                done( errors.length === 0 );
+                return;
+              }
+            });
+          } else {
+            fs.writeFile(JSONPath, JSON.stringify(brutalized[which]), function(err) {
+              if(err) {
+                done(false);
+              } else {
+
+                fs.readFile(jadePath, 'utf8', function (err, data) {
+                  if (err) {
+                    done(false);
+                  }
+
+                  // console.log( '(' + (which+1) +'/'+ totaltests + ') ' + (process.memoryUsage().heapTotal - process.memoryUsage().heapUsed) );
+
+                  try {
+
+                    jade.compile(data, {
+                      'filename': jadePath
+                    })(jadeconfig.data);
+
+                  } catch (e) {
+
+                    console.log('\n');
+                    console.log(blue + 'Testing: ' + jadePath + reset);
+                    console.log(red + 'FAILED ON:' + reset);
+                    console.log('\n');
+                    console.log(JSON.stringify(brutalized[which], undefined, 2));
+                    console.log('\n');
+                    console.log(red + e + reset);
+                    console.log('\n');
+
+                    errors.push(e.toString());
+                  }
+
+                  brutalizeIterator(i++);
+                });
+              }
+            });
+          }
+        }
+
+        brutalizeIterator(i);
+      });
+    }
+
+    for ( var i in tests ) {
+      runTest(tests[i]);
+    };
 
   });
 

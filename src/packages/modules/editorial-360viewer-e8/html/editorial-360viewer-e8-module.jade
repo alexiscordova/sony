@@ -3,53 +3,38 @@ include ../../../common/html/jade-helpers.jade
 +includeJavascriptModule('editorial-360viewer-e8')
 
 - type = data.type
-- image = data.sequence[0].image || null
-- extraclass = image.classes || ""
-- id = data.id || "e360-instance"
+- image = data.sequence[0].image ? data.sequence[0].image : null
+- extraclass = image.classes ? image.classes : ""
+- id = data.id ? data.id : "e360-instance"
 - startId = id+"-0"
-- multiModule = data.multiModule || ""
+- multiModule = data.multiModule ? data.multiModule : ""
 - isDark = data.dark ? "dark" : "light"
 - lod = isDark ? "l-o-d" : ""
+- bump = (multiModule == "true") ? "multiModule" : ""
 
-if multiModule == "true"
-    bump = "multiModule"
-else
-    bump = ""
-
-.e360(id=id).dim-the-lights
-  .outer 
-    if data.background === "true"
+.e360(id= id).dim-the-lights
+  .outer
+    if data.background == "true"
       .loading.load-indicator.text-center
-        img.load-indicator(src="img/loader.gif", alt="Loading...")
-      - i = 0
-      - for imgData in data.sequence
-        - sequenceId = id+"-"+i
-        if i == 0
-          hide = ""
-        else
-          hide = "hidden"
-        .image-module.track-by-background.iq-img.no-fade(id= sequenceId, class= extraclass, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
-        - i++
+        img.global-loader.load-indicator(src="img/loader.gif", alt="Loading...")
+      if data.sequence
+        - for imgData, i in data.sequence
+          - sequenceId = id+"-"+i
+          - hide = (i == 0) ? "" : "visuallyhidden"
+          .image-module.track-by-background.iq-img.no-fade(id= sequenceId, class= extraclass, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
     else
       .loading.is-asset.load-indicator.text-center
-        img.load-indicator(src="img/loader.gif", alt="Loading...")
-      - i = 0
-      - for imgData in data.sequence
-        - sequenceId = id+"-"+i
-        if i == 0
-          hide = ""
-        else
-          hide = "hidden"
-        img.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
-          noscript
-            img(src= imgData.noscriptsrc)
-        - i++
+        img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
+      if data.sequence
+        - for imgData, i in data.sequence
+          - sequenceId = id+"-"+i
+          - hide = (i == 0) ? "" : "visuallyhidden"
+          img.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+            noscript
+              img(src= imgData.noscriptsrc)
 
   .controls.container
-    .grid.no-grid-at-767
-      .span12
-        .table-center-wrap
-          .table-center(class=isDark)(class=bump)(class=lod)
-            i.left-arrow.fonticon-10-chevron-reverse
-            span.instructions.l3(class=isDark)(class=lod) DRAG
-            i.right-arrow.fonticon-10-chevron
+    .drag-controls(class=isDark)(class=bump)(class=lod)
+      i.left-arrow.fonticon-10-chevron-reverse
+      span.instructions.l3(class=isDark)(class=lod) DRAG
+      i.right-arrow.fonticon-10-chevron

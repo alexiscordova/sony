@@ -13,7 +13,7 @@ $desktopMax: px-em(1100);
     .entertainment-media {
       margin: 0 0 42px 0;
       .bd {
-        min-height: auto;
+        min-height: 0;
       }
     }
   }
@@ -30,7 +30,7 @@ $desktopMax: px-em(1100);
     .entertainment-media {
       margin: 0 0 9px 0;
       .bd {
-        min-height: auto;
+        min-height: 0;
       }
       img {
         float: left;
@@ -49,6 +49,19 @@ $desktopMax: px-em(1100);
     }
     .entertainment-header .p2 {
       width: auto;
+    }
+  }
+}
+
+@media (max-width: 1080px) {
+  .entertainment-wrapper {
+    .entertainment-media {
+      .bd {
+        padding-top: 0;
+      }
+      img {
+        margin-top: 4px;
+      }
     }
   }
 }
@@ -75,10 +88,13 @@ $desktopMax: px-em(1100);
     }
 
     .tablet-img {
+      overflow: hidden;
       margin-bottom: 33px;
       text-align: center;
       img {
-        width: 100%;
+        width: 24%;
+        margin-left: 1%;
+        float: left;
       }
     }
 
@@ -142,9 +158,12 @@ $desktopMax: px-em(1100);
     }
 
     .mobile-img {
+      overflow: hidden;
       margin-bottom: 19px;
       img {
-        width: 100%;
+        width: 32%;
+        margin-left: 1%;
+        float: left;
       }
     }
 

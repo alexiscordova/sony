@@ -5,19 +5,29 @@ include ../../../common/html/jade-helpers.jade
 layouts = locals.getConfigFile("packages/modules/related-products-g1/html/layouts.json")
 
 
-mixin includeSubmodules( submodules, view )
+mixin includeSubmodules( submodules, config, view )
+  blankIndex = layouts[config.layout].indexOf('blank-normal')
+
+  if blankIndex > -1
+    - submodules.splice( blankIndex, 0, {type:'packages/modules/product/html/product.jade'} )
+
   i = 0
-  each module in submodules
-    moduleData = locals.data(module.data)
-    - moduleData.layout = layouts[data.config.layout][i++]
+  if submodules
+    each module in submodules
+      if module.data
+        moduleData = locals.data(module.data)
+      else 
+        moduleData = {}
 
-    if view
-      - moduleData.view = view
-    else
-      - moduleData.view = moduleData.layout == 'blank-normal' ? 'blank' : 'basic'
+      - moduleData.layout = layouts[config.layout][i++]
 
-    e = { 'locals' : locals , 'data' : moduleData }
-    !{locals.partial(module.type , e )}
+      if view
+        - moduleData.view = view
+      else
+        - moduleData.view = moduleData.layout == 'blank-normal' ? 'blank' : 'basic'
+
+      e = { 'locals' : locals , 'data' : moduleData }
+      !{locals.partial(module.type , e )}
 
 
 mixin titleBlock( data )
@@ -25,19 +35,20 @@ mixin titleBlock( data )
     .grid
       if data.config.tabbedLayout
         .rp-tabs
-          each tab, iterator in data.config.tabbedLayout
-            panelId = iterator + 1
-            a.rp-tab(class='lt4 no-hover-transition' , data-rp-panel-id=panelId, href='#')
-              strong= tab.title
-
+          if data.config.tabbedLayout
+            each tab, iterator in data.config.tabbedLayout
+              panelId = iterator + 1
+              a.rp-tab(class='lt4 no-hover-transition' , data-rp-panel-id=panelId, href='#')
+                strong 
+                  !{tab.title}
       else
-        h2.l1= data.config.headerTitle
-
+        h2.l1
+          !{data.config.headerTitle}
 
 mixin rpSlide( data )
   .rp-slide(class=data.config.variation, data-variation=data.config.variation)
     .shuffle-container.slimgrid5
-      +includeSubmodules( data.submodules )
+      +includeSubmodules( data.submodules, data.config )
 
 
 mixin rpSection( data, slideContent, panelId )
@@ -62,15 +73,20 @@ mixin rpSection( data, slideContent, panelId )
 mode = data.config.mode
 hasSlides = mode == 'strip' ? false : !data.config.standalone
 
-+mainElement
+classes = ['rp-section']
+if data.config.backgroundVariation
+  - classes.push(data.config.backgroundVariation)
+
++mainElement(classes)
 
   if data.config.tabbedLayout
     +titleBlock( data )
 
     .rp-container-tabbed
-      each slideContent, iterator in data.slideContent
-        panelId = iterator + 1
-        +rpSection( data, slideContent, panelId )
+      if data.slideContent
+        each slideContent, iterator in data.slideContent
+          panelId = iterator + 1
+          +rpSection( data, slideContent, panelId )
 
 
   else if hasSlides
@@ -91,7 +107,7 @@ hasSlides = mode == 'strip' ? false : !data.config.standalone
       .container
         .grid
           div.related-products(class=mode , data-mode=mode , data-variation=data.config.variation)
-            +includeSubmodules( data.submodules, 'suggested' )
+            +includeSubmodules( data.submodules, data.config, 'suggested' )
 
 
     else if mode == 'strip'

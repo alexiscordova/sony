@@ -57,13 +57,22 @@ define(function(require){
         }
       });
 
+      self.searchval = self.$search.val();
+
+      self.clearSearch();
+      self.activateSearch();
+      // Sets cursor to end of search string
+      self.$search.focus().val(self.searchval);
+
       self.$search.on({
         click: function() {
           self.clearSearch();
+          self.activateSearch();
         },
         blur: function() {
           self.resetSearch();
         }
+
       });
     },
 
@@ -102,21 +111,25 @@ define(function(require){
     },
 
     clearSearch: function(evt) {
-      var self = this,
-          toBlank = evt || ( self.$search.val() === self.initialSearchValue );
-
-      if ( toBlank ) {
+      var self = this;
+      self.$searchIcon.addClass('hidden');
+      if (self.$search.val() === 'Search') {
         self.$search.first().focus().val('');
-        self.$searchIcon.addClass('hidden');
       }
+    },
+
+    activateSearch: function(){
+      var self = this;
+      self.$search.addClass('active-search-input');
     },
 
     // If the search field is blank, reset it to the initial value
     resetSearch: function(force) {
       var self = this;
       if ( self.$search.val() === '' || force === true) {
-        self.$search.val( self.initialSearchValue );
+        self.$search.val( 'Search' );
         self.$searchIcon.removeClass('hidden');
+        self.$search.removeClass('active-search-input');
       }
     }
   };

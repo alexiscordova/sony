@@ -12,6 +12,11 @@ $windowWidth: 1100;
       margin: 0;
     }
   }
+
+  .editorial-chapters-container {
+    padding: 0;
+  }
+
   &.textonly {
     & + .editorial-chapters-container  {
       margin: -50px 0 0;
@@ -34,7 +39,9 @@ $windowWidth: 1100;
 
 .editorial-chapters-container {
   @include clearfix();
-  margin: 50px auto 90px;
+  margin: 0 auto;
+  padding: 50px 0 90px;
+  overflow: hidden;
 
   .image-module {
     text-align:center;
@@ -62,6 +69,19 @@ $windowWidth: 1100;
     overflow: hidden;
   }
 
+  // hotspots spcific we need to adjust overflow issues
+  &.hotspots {
+    .editorial-carousel-wrapper {
+      overflow: visible;
+    }
+      
+    .thumb-nav {
+      top: -4px;
+    }
+
+  }
+  
+
   .editorial-carousel {
     position: relative;
     width: 100%;
@@ -75,15 +95,35 @@ $windowWidth: 1100;
     position: relative;
     width: 100%;
     height: 100%;
-    display: block;
     float:left;
     @include opacity(0);
     @include transition();
 
+    .image-module {
+      position: absolute;
+      left: -9999em;
+
+      //we need to unhide one elemnt on load 
+      // so it show the slideshow atleast
+      &.unhide {
+        position: relative;
+        left: auto;
+      }
+    }     
+
     &.active {
-      position:absolute;
-      z-index:1;
+      display: block;
       @include opacity(100);
+      @include transition();
+
+      .image-module {
+        position: relative;
+        left: auto;
+      }
+    }
+
+    &.pos-active {
+      position:absolute;
     }
 
     .container {
@@ -125,10 +165,10 @@ $windowWidth: 1100;
       vertical-align:bottom;
       overflow:hidden;
       @include transition();
-      @include flickerfix();
       @include box-sizing(content-box);
 
-      & + li {margin-left:-1px;}
+      // designers found your hack
+      // & + li {margin-left:-1px;}
 
       &.active {
         background: $gray80;
@@ -360,6 +400,39 @@ $windowWidth: 1100;
       i, img {display:none;}
     }
   }
+
+  // Adjustments for Hotspots
+  // ==================================
+  .hotspots {
+
+    .editorial-carousel-wrapper {
+      overflow: hidden;
+    }
+    .thumb-nav {
+      top: auto;
+    }
+  }
+
+  .table-center-wrap .table-center .editorial-chapters .image-module {
+    height: auto;
+  } 
+  
+  .editorial,
+  .editorial-chapters-container {
+    .hotspot-instance {
+      .hspot-outer {
+
+        &.hspot-small {
+        //  z-index: 4;
+        }
+      } // end .hspot-outer
+    } // end .hotspot-instance
+
+    .overlay-base {     
+      z-index: auto;
+    }
+  } // end .editorial-chapters-container
+
 }
 
 .lt-ie10 {

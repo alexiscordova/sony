@@ -4,14 +4,15 @@ include ../../../common/html/jade-helpers.jade
 
 mixin eyebrow(_data)
   d = _data ? _data : data
+  t = (data.mode != "title-plate") ? "t7" : "l3"
   if d.eyebrow
     if d.eyebrow.link
-      a.l3.eyebrow(href= d.eyebrow.link)
+      a.eyebrow(href= d.eyebrow.link)(class = t)
         i.fonticon-10-chevron-reverse
         | !{locals.plusify(d.eyebrow.text)}
 
     else
-      h2.l3.eyebrow!= locals.plusify(d.eyebrow.text)
+      h2.eyebrow(class = t) !{locals.plusify(d.eyebrow.text)}
 
 mixin header(_data)
   d = _data ? _data : data
@@ -19,14 +20,14 @@ mixin header(_data)
   if d.variation
     if d.variation.quote
       blockquote.bq1
-        p!= d.quote
-      p.p3!= d.byline
+        p !{d.quote}
+      p.l2-bold !{d.byline}
     else if d.variation.headertext == "smaller"
-      h1.t2!= h
+      h1.t2 !{h}
     else
-      h1!= h
+      h1 !{h}
   else
-    h1!= h
+    h1 !{h}
 
 mixin bodytext(_data, _extra)
   d = _data ? _data : data
@@ -36,33 +37,41 @@ mixin bodytext(_data, _extra)
       e = e + " hidden-phone"
   if d.body
     if data.mode == "homepage" || data.mode == "default"
-      p.p2(class= e)!= d.body
+      p.p2(class= e) !{d.body}
     else
-      p.p3(class= e)!= d.body
+      p.p3(class= e) !{d.body}
 
 mixin links(_data, _extra)
   d = _data ? _data : data
   if d.links
-    for link in d.links
-      e = _extra ? _extra : false
-      sm = link.submodule ? link.submodule : "0"
-      case link.type
-        when "btn"
-          a(class= e)(class= "btn", href= link.url)!= link.text
-        when "video"
-          if data.mode != "product-intro-plate"
-            e = e + " btn"
-          a(class = "video")(class= e)(href= link.url)(data-submodule = sm)
-            i.fonticon-15-circle-play.l-o-d
-            span!= link.text
-        when "carousel"
-          if data.mode != "product-intro-plate"
-            e = e + " btn"
-          a(class = "carousel")(class= e)(href= link.url)(data-submodule = sm)
-            i.fonticon-15-popup.l-o-d
-            span!= link.text
-        when "text"
-          a(class= e)( href= link.url)!= link.text
+    .linkgroup
+      for link in d.links
+        n = link.title ? link.title : link.text ? link.text : false
+        t = link.target ? link.target : false
+        e = _extra ? _extra : false
+        sm = link.submodule ? link.submodule : "0"
+        spanclass = d.links.length > 1 && data.mode == "default" ? "hidden-phone" : false
+        if data.mode == "product-intro-plate"
+          e = e + " lt3"
+        case link.type
+          when "btn"
+            a(class= e)(class= "btn", href= link.href)(target = t)(title = n) !{link.text}
+          when "video"
+            if data.mode != "product-intro-plate"
+              e = e + " btn"
+            e = e + " video"
+            a(class= e)(href= link.href)(data-submodule = sm)(target = t)(title = n)
+              i.fonticon-15-circle-play.l-o-d
+              span(class = spanclass) !{link.text}
+          when "carousel"
+            if data.mode != "product-intro-plate"
+              e = e + " btn"
+            e = e + " carousel"
+            a(class= e)(href= link.href)(data-submodule = sm)(target = t)(title = n)
+              i.fonticon-15-popup.l-o-d
+              span(class = spanclass) !{link.text}
+          when "txt"
+            a(class= e)( href= link.href)(target = t)(title = n) !{link.text}
 
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
@@ -120,12 +129,13 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
       e = {"locals":locals, "data":data.image}
       !{locals.partial('packages/modules/image/html/image.jade' , e)}
 
-    if data.submodules.length > 0
-      for sub, i in data.submodules
-        .submodule.off-screen.visuallyhidden
-          button(class= "box-close box-close-small")
-            i(class="fonticon-10-x")
-          +partial(data.submodules[i].type, data.submodules[i].data, true)
+    if data.submodules
+      if data.submodules.length > 0
+        for sub, i in data.submodules
+          .submodule.off-screen.visuallyhidden(class = data.links[i].type)
+            button(class= "box-close box-close-alt")
+              i(class="fonticon-10-x")
+            +partial(data.submodules[i].type, data.submodules[i].data, true)
 
   if data.mode == "homepage"
     if data.variation.secondbox
@@ -162,7 +172,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
   else if data.mode == "product-intro-plate"
     +boxlayout
       +eyebrow
-      h1.t3!= data.headline
+      h1.t2 !{data.headline}
       +bodytext
       +links(data, "hidden-phone")
     .mobile-buttons-wrap.container
@@ -183,7 +193,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
 
     +boxlayout
       +eyebrow
-      h1.t2!= locals.smallmark(data.headline)
+      h1.t2 !{locals.smallmark(data.headline)}
       +bodytext(data, "hidden-phone")
       +links
 

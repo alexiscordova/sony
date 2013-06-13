@@ -38,7 +38,7 @@ define(function(require) {
 
       _fp.conf = {
         //swf: 'swf/flowplayer.swf',
-        swfFallback: 'swf/playa.swf',
+        swfFallback: 'swf/flash9fallback.swf',
         swf: 'swf/flowplayer.swf',
         splash: true,
         embed: false,
