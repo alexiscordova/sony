@@ -129,12 +129,13 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
       e = {"locals":locals, "data":data.image}
       !{locals.partial('packages/modules/image/html/image.jade' , e)}
 
-    if data.submodules.length > 0
-      for sub, i in data.submodules
-        .submodule.off-screen.visuallyhidden(class = data.links[i].type)
-          button(class= "box-close box-close-alt")
-            i(class="fonticon-10-x")
-          +partial(data.submodules[i].type, data.submodules[i].data, true)
+    if data.submodules
+      if data.submodules.length > 0
+        for sub, i in data.submodules
+          .submodule.off-screen.visuallyhidden(class = data.links[i].type)
+            button(class= "box-close box-close-alt")
+              i(class="fonticon-10-x")
+            +partial(data.submodules[i].type, data.submodules[i].data, true)
 
   if data.mode == "homepage"
     if data.variation.secondbox
