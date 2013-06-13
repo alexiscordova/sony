@@ -22,21 +22,20 @@ define(function(require){
       sonyScroller = require('secondary/index').sonyScroller;
 
   var module = {
-    'init': function() {
-      var self = this,
-          element = $('.sen-carousel-container');
+    init: function() {
+      var $element = $('.sen-carousel-container');
 
-      if ( element ) {
-        new SenConvergence(element);
+      if ( $element ) {
+        new SenConvergence( $element );
       }
     }
   };
 
-  var SenConvergence = function(element) {
+  var SenConvergence = function( $element ) {
     var self = this;
 
     // Set base element
-    self.$el = $( element );
+    self.$el = $element;
 
     // Basic selectors
     self.$doc                   = Settings.$document;
