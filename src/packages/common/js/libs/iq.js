@@ -217,7 +217,8 @@ define(function(require) {
       loadImages(false, false, imagesWereAdded === true);
     },
 
-    onImageLoad = function($elm /*, $images, $proper, $broken*/ ) {
+    onImageLoad = function(elm /*, $images, $proper, $broken*/ ) {
+      var $elm = $(elm.elements[0]);
       if (fade && $elm.data('fadeonce') !== true && !$elm.hasClass(noFadeFlag)) {
         $elm.data('fadeonce', true);
         $elm.css({
@@ -312,18 +313,16 @@ define(function(require) {
       breakpointName = breakpoint.name;
       var newsrc = getImageSrc(img, breakpointName),
         $img = $(img);
+
       // skip if new src = current
       if ($img.data('current') !== newsrc) {
         $img.data('current', newsrc);
 
         // if its an image set src else set bg image
         if ($img.is('img')) {
-          $img.attr('src', newsrc)
-            .imagesLoaded(onImageLoad);
+          $img.attr('src', newsrc).imagesLoaded(onImageLoad);
         } else if ($img.is('div')) {
-          $(document.createElement('img'))
-            .attr('src', newsrc)
-            .imagesLoaded(function() {
+          $(document.createElement('img')).attr('src', newsrc).imagesLoaded(function() {
             $img.css('background-image', 'url(' + newsrc + ')');
             $img.data('hasLoaded', true);
             $img.trigger('iQ:imageLoaded');
@@ -574,6 +573,13 @@ define(function(require) {
 
     // Tells if an image is visible to the user or not.
     isInViewportRange = function(img, asyncDistance) {
+
+      // If this image has been set to `display: none`, it will false - report as being on-screen.
+      // As such return false until the object has been set to a visible display mode.
+      if ( $(img).css('display') === 'none' ) {
+        return false;
+      }
+
       var $ct = $(window);
       var is_ct_window = $ct[0] === window,
         ct_offset = (is_ct_window ? {

@@ -20,7 +20,7 @@ case data.variation
         p.p3.ec-subtitle= data.subtitle
         if data.link
           p.lt3.text-center.ec-tl
-            a(href=data.link.href)= data.link.label
+            +link( data.link )
 
     .m-container
       .sony-carousel-wrapper
@@ -39,7 +39,7 @@ case data.variation
                   .slimgrid
                     each tile in slide
                       .sony-carousel-slide-children.span3
-                        a.ec-tile(href=tile.link ? tile.link : '#')
+                        +link( tile.link, [ "ec-tile" ] )
                           if tile.headline
                             .headline-counter
                               span.p3.count

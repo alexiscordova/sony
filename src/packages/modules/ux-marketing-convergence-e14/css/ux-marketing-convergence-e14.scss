@@ -27,7 +27,6 @@
 
  .uxmc {
     margin-bottom: 2em;
-    //border:3px solid red;
 
    &.no-header{
       margin-bottom: px-em(40px);
@@ -126,17 +125,17 @@
      width: 50%;
      height: 100%;
      overflow:hidden;
-
+     -webkit-backface-visibility: hidden;
 
      .lt-ie8 & {
        width: 49.5%;
      }
 
-      .uxmc-carousel{
-        width: 100%;
-        height: 100%;
-        position: relative;
-      }
+    .uxmc-carousel{
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
 
      .sony-carousel-slide{
         cursor: pointer;
@@ -221,7 +220,6 @@
    }
 
    .progress-indicators {
-      // border:1px solid white;
       position: absolute;
       right: 2.5%;
       bottom: 0;
@@ -232,14 +230,12 @@
       @include transition(opacity 1s $easeNormal);
 
      > div {
-      // border:1px solid white;
       display: table-cell;
       vertical-align: middle;
      }
 
      $dialSize: 24px;
      .uxmc-dial-wrapper {
-        // border:1px solid blue;
         position: relative;
         width: $dialSize;
         height: $dialSize;
@@ -250,7 +246,6 @@
          } // hover
 
         .uxmc-dial-label {
-          // border:1px solid blue;
           position: absolute;
           width: 100%;
           height: $dialSize;
@@ -262,11 +257,18 @@
           font-size: 0.75em;
           text-align: center;
           opacity:0.65;
+          margin: -3px -13px; // make the hit area larger
+          padding: 14px 24px;
           -webkit-backface-visibility: hidden;
           @include transition(opacity $transitionFast $easeNormal);
 
+          .lt-ie9 & {
+            // revert the hit area to normal size since they're visible in IE
+            margin: 0;
+            padding: 0;
+          }
+
           &.active{
-            // border:1px solid green;
             opacity:1;
             -webkit-backface-visibility: hidden;
             @include transition(opacity $transitionFast $easeNormal);

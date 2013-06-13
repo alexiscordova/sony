@@ -11,12 +11,12 @@ section.subnav-module(id = data.id ? data.id : false)
         .grid
           h2.t5 !{data.category}
 
-    .subnav-nav-carousel-wrapper
-      nav
-        - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
-          .subnav-nav-carousel-slide
-            .container
-              .grid
+    nav
+      .container
+        .grid
+          .subnav-nav-carousel-wrapper
+            - for ( i = 0; i < data.subcategories.length; i = i + 6 ) {
+              .subnav-nav-carousel-slide
                 - for ( j = i; j < i + 6 && j < data.subcategories.length; j++ ) {
                   - subcategory = data.subcategories[j]
 
@@ -31,7 +31,7 @@ section.subnav-module(id = data.id ? data.id : false)
                     - if ( subcategory.products )
                       i.fonticon-10-arrowhead-down
                 - }
-        - }
+            - }
 
     .subnav-tray.container
 
@@ -82,7 +82,7 @@ section.subnav-module(id = data.id ? data.id : false)
                     - item = subcategory.products[j]
                     a.product.span3.m-span2(href=item.galleryLink)
                       div.image
-                        img(src=item.imageSrc)
+                        img.lazy-image(data-src=item.imageSrc)
                       .details
                         h4.t7 !{item.label}
                         p.l3.subnav-product-count !{item.count} !{subcategory.title}
@@ -96,7 +96,7 @@ section.subnav-module(id = data.id ? data.id : false)
                     - item = subcategory.marketingTout
                     .marketing-tout.span3.m-span2
                       a(href=item.link)
-                        img(src=item.imageSrc)
+                        img.lazy-image(data-src=item.imageSrc)
                         p.t6-light
                           span !{item.message + " "}
                             span.highlight !{item.linkText}

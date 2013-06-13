@@ -100,6 +100,16 @@ define(<span class="keyword">function</span>(require){
                 <span class="string">'overflow'</span> : <span class="string">''</span>
               });
             }
+
+            self.$el.find(<span class="string">'.fp-ratio'</span>).css({
+              <span class="string">'padding-top'</span>: self.$el.find(<span class="string">'.player'</span>).data(<span class="string">'ratio'</span>) * <span class="number">100</span> + <span class="string">'%'</span>
+            });   
+            
+            self.$engine.css(<span class="string">'top'</span> , <span class="number">0</span>);    
+
+            <span class="keyword">if</span>(self.$el.hasClass(<span class="string">'normal'</span>)){
+              self.$el.css(<span class="string">'height'</span>, <span class="string">''</span>);
+            }     
           }
 
         });

@@ -12,7 +12,7 @@ mixin eyebrow(_data)
         | !{locals.plusify(d.eyebrow.text)}
 
     else
-      h2.eyebrow(class = t)!= locals.plusify(d.eyebrow.text)
+      h2.eyebrow(class = t) !{locals.plusify(d.eyebrow.text)}
 
 mixin header(_data)
   d = _data ? _data : data
@@ -20,14 +20,14 @@ mixin header(_data)
   if d.variation
     if d.variation.quote
       blockquote.bq1
-        p!= d.quote
-      p.l2-bold!= d.byline
+        p !{d.quote}
+      p.l2-bold !{d.byline}
     else if d.variation.headertext == "smaller"
-      h1.t2!= h
+      h1.t2 !{h}
     else
-      h1!= h
+      h1 !{h}
   else
-    h1!= h
+    h1 !{h}
 
 mixin bodytext(_data, _extra)
   d = _data ? _data : data
@@ -37,15 +37,17 @@ mixin bodytext(_data, _extra)
       e = e + " hidden-phone"
   if d.body
     if data.mode == "homepage" || data.mode == "default"
-      p.p2(class= e)!= d.body
+      p.p2(class= e) !{d.body}
     else
-      p.p3(class= e)!= d.body
+      p.p3(class= e) !{d.body}
 
 mixin links(_data, _extra)
   d = _data ? _data : data
   if d.links
     .linkgroup
       for link in d.links
+        n = link.title ? link.title : link.text ? link.text : false
+        t = link.target ? link.target : false
         e = _extra ? _extra : false
         sm = link.submodule ? link.submodule : "0"
         spanclass = d.links.length > 1 && data.mode == "default" ? "hidden-phone" : false
@@ -53,23 +55,23 @@ mixin links(_data, _extra)
           e = e + " lt3"
         case link.type
           when "btn"
-            a(class= e)(class= "btn", href= link.url)!= link.text
+            a(class= e)(class= "btn", href= link.href)(target = t)(title = n) !{link.text}
           when "video"
             if data.mode != "product-intro-plate"
               e = e + " btn"
             e = e + " video"
-            a(class= e)(href= link.url)(data-submodule = sm)
+            a(class= e)(href= link.href)(data-submodule = sm)(target = t)(title = n)
               i.fonticon-15-circle-play.l-o-d
-              span(class = spanclass)!= link.text
+              span(class = spanclass) !{link.text}
           when "carousel"
             if data.mode != "product-intro-plate"
               e = e + " btn"
             e = e + " carousel"
-            a(class= e)(href= link.url)(data-submodule = sm)
+            a(class= e)(href= link.href)(data-submodule = sm)(target = t)(title = n)
               i.fonticon-15-popup.l-o-d
-              span(class = spanclass)!= link.text
+              span(class = spanclass) !{link.text}
           when "txt"
-            a(class= e)( href= link.url)!= link.text
+            a(class= e)( href= link.href)(target = t)(title = n) !{link.text}
 
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
@@ -169,7 +171,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
   else if data.mode == "product-intro-plate"
     +boxlayout
       +eyebrow
-      h1.t2!= data.headline
+      h1.t2 !{data.headline}
       +bodytext
       +links(data, "hidden-phone")
     .mobile-buttons-wrap.container
@@ -190,7 +192,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
 
     +boxlayout
       +eyebrow
-      h1.t2!= locals.smallmark(data.headline)
+      h1.t2 !{locals.smallmark(data.headline)}
       +bodytext(data, "hidden-phone")
       +links
 

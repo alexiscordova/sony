@@ -1,6 +1,8 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('entertainment-e15')
 
+e = {"locals":locals, "data":data}
+
 mixin benefitList(benefit)
   li.entertainment-benefit
     .entertainment-media
@@ -13,6 +15,7 @@ mixin benefitList(benefit)
 
 
 +mainElement( ['entertainment-wrapper'] )
+  e = {"locals":locals, "data":data}
   .container-full-bleed.entertainment
     .container
       .grid
@@ -21,13 +24,17 @@ mixin benefitList(benefit)
         .entertainment-header
           h1.t1= data.header
           .mobile-img.visible-phone
-            +iQImage(data.img.mobile.img, 'update-always')
+            - for (var i = 0; i < 3; i++) {
+              +iQImage(data.img.movies[i], 'update-always')
+            -  }
           p.p2= data.subhead
       .entertainment-content
         .grid
           .container-benefits
             .tablet-img.visible-tablet
-              +iQImage(data.img.tablet.img, 'update-always')
+              - for (var i = 0; i < 4; i++) {
+                +iQImage(data.img.movies[i], 'visible-tablet update-always')
+              - }
             ul.entertainment-benefits
                 +benefitList(data.benefits.fees)
                 +benefitList(data.benefits.stream)
@@ -35,4 +42,6 @@ mixin benefitList(benefit)
             .btn-holder
               button.btn= data.learn
           .container-media
-            +iQImage(data.img.desktop.img, 'visible-desktop update-always')
+            - for (var i = 0; i < 6; i++) {
+              +iQImage(data.img.movies[i], 'visible-desktop update-always')
+            - }

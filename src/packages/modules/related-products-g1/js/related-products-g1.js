@@ -33,8 +33,101 @@ define(function(require) {
 
   var module = {
     init: function() {
-      $('.related-products').relatedProducts();
+
+
+      var $rpInstances = $('.related-products').relatedProducts(),
+      hasInittedTabs = false,
+      iterator = 0;
+
+      //setup tabbed containers
+      $rpInstances.each(function(n,el) {
+        var $rp = $(this),
+        $tabbedContainer = $rp.closest('.rp-container-tabbed'),
+        hasTabbedContainer = $tabbedContainer.length > 0,
+        tabbedChildrenLength = $tabbedContainer.find('.related-products').length;
+        iterator++;
+
+        if( hasTabbedContainer && !hasInittedTabs ){
+          hasInittedTabs = true;
+
+          var transitionEndName = Settings.transEndEventName,
+            $tabs = $tabbedContainer.closest('.rp-section').find('.rp-tabs').find('.rp-tab'),
+            currentPanelId = 1,
+            $currentPanel = $tabbedContainer.find('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
+            $productPanels = $tabbedContainer.find('.related-products[data-rp-panel-id]'),
+            handleTabClick,
+            onOldPanelFadedOut;
+
+          $productPanels.not($currentPanel).addClass('inactive invisible');
+          $tabs.eq(0).addClass('active');
+
+          // Not tabs, exit
+          if (!$tabs.length) {
+            return;
+          }
+
+          onOldPanelFadedOut = function() {
+            var $panel = $(this);
+            $panel.addClass('invisible');
+            $panel.data('relatedProducts').disableShuffle();
+          };
+
+          handleTabClick = function(e) {
+            var $tab = $(this),
+              newPanelId = $tab.data('rpPanelId'),
+              $oldPanel = $currentPanel;
+
+            e.preventDefault();
+            $tab.addClass('active').siblings().removeClass('active');
+
+            // Clicked the same tab
+            if (newPanelId === currentPanelId) {
+              return;
+            }
+
+            // Set the current panel id to the new one
+            currentPanelId = newPanelId;
+
+            // Set the new panel
+            $currentPanel = $tabbedContainer.find('.related-products[data-rp-panel-id=' + currentPanelId + ']');
+
+            // Fade out old panel
+            $oldPanel.addClass('inactive');
+
+            // Fade in current panel
+            $currentPanel.removeClass('inactive invisible');
+
+            if (Modernizr.csstransitions) {
+              $oldPanel.one(transitionEndName, onOldPanelFadedOut);
+            } else {
+              $.proxy(onOldPanelFadedOut, $oldPanel[0])();
+            }
+
+            $currentPanel.data('relatedProducts').enableShuffle();
+
+            iQ.update();
+          };
+
+          // Since these are <a> links, they will receive click events from mobile devices
+          if (Modernizr.touch) {
+            $tabs.on('click', false)
+              .on('touchend', handleTabClick);
+          } else {
+            $tabs
+              .on('click', handleTabClick);
+          }
+
+        }
+
+        if(iterator >= tabbedChildrenLength){
+          hasInittedTabs = false;
+          iterator = 0;
+        }
+
+
+      });
     }
+
   };
 
   //Related Products Definition
@@ -180,21 +273,21 @@ define(function(require) {
         if (!self.hasTouch) {
           self.createPaddles();
         }
-      
+
       if(self.$slides.length > 1){
         self.$container.on(self.downEvent, function(e) {
           self.onDragStart(e);
-        });   
+        });
       }
 
       } else {
         self.$pagination = $({});
       }
-      
+
       self.setSortPriorities();
       self.setupResizeListener();
       self.$win.trigger('resize.rp');
-      
+
     },
 
     //Fixes a bug in IE when media queries aren't available
@@ -932,7 +1025,7 @@ define(function(require) {
 
           self.$el.removeClass('rp-desktop rp-mobile')
             .addClass('rp-tablet');
-        
+
           self.sliderOverflow.css('overflow' , 'hidden');
 
           self.$el.parents('.rp-section').css('overflow' , '');
@@ -1685,7 +1778,7 @@ define(function(require) {
 /*          if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
             tileHeight = $slide.find('.gallery-item.plate').first().height();
           }*/
-          
+
           tileHeight = $slide.find('.gallery-item.plate').first().height();
 
           $slide.find('.gallery-item.normal').css({
@@ -1740,7 +1833,7 @@ define(function(require) {
 
       if( self.breakPointChanged ){
         setTimeout(function(){
-          //self.$win.trigger('resize.rp'); // this works but it pops 
+          //self.$win.trigger('resize.rp'); // this works but it pops
           self.handleResize(); //hopefully a more direct approach
         } , 500);
       }else{
@@ -1984,96 +2077,7 @@ define(function(require) {
     navigationControl: 'bullets'
   };
 
-  /*
-    Tab system for managing multiple
-    instances of related products
-  */
-  $(function() {
-    /*
-      figure out tabbed stuff here and let that
-      module instantiate the related products that its bound to
-    */
 
-    if (!$('.rp-container-tabbed').length) {
-      $('.rp-tabs').hide();
-      return;
-    }
-
-    // Get transitionend event name
-    var transEndEventNames = {
-      'WebkitTransition': 'webkitTransitionEnd',
-      'MozTransition': 'transitionend',
-      'OTransition': 'oTransitionEnd',
-      'msTransition': 'MSTransitionEnd',
-      'transition': 'transitionend'
-    },
-    transitionEndName = transEndEventNames[window.Modernizr.prefixed('transition')],
-      $tabs = $('.rp-tabs').find('.rp-tab'),
-      currentPanelId = 1,
-      $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
-      $productPanels = $('.related-products[data-rp-panel-id]'),
-      handleTabClick,
-      onOldPanelFadedOut;
-
-    $productPanels.not($currentPanel).addClass('inactive invisible');
-    $tabs.eq(0).addClass('active');
-
-    // Not tabs, exit
-    if (!$tabs.length) {
-      return;
-    }
-
-    onOldPanelFadedOut = function() {
-      var $panel = $(this);
-      $panel.addClass('invisible');
-      $panel.data('relatedProducts').disableShuffle();
-    };
-
-    handleTabClick = function(e) {
-      var $tab = $(this),
-        newPanelId = $tab.data('rpPanelId'),
-        $oldPanel = $currentPanel;
-
-      e.preventDefault();
-      $tab.addClass('active').siblings().removeClass('active');
-
-      // Clicked the same tab
-      if (newPanelId === currentPanelId) {
-        return;
-      }
-
-      // Set the current panel id to the new one
-      currentPanelId = newPanelId;
-
-      // Set the new panel
-      $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']');
-
-      // Fade out old panel
-      $oldPanel.addClass('inactive');
-
-      // Fade in current panel
-      $currentPanel.removeClass('inactive invisible');
-
-      if (Modernizr.csstransitions) {
-        $oldPanel.one(transitionEndName, onOldPanelFadedOut);
-      } else {
-        $.proxy(onOldPanelFadedOut, $oldPanel[0])();
-      }
-
-      $currentPanel.data('relatedProducts').enableShuffle();
-
-      iQ.update();
-    };
-
-    // Since these are <a> links, they will receive click events from mobile devices
-    if (Modernizr.touch) {
-      $tabs.on('click', false)
-        .on('touchend', handleTabClick);
-    } else {
-      $tabs.on('click', handleTabClick);
-    }
-
-  });
 
 
   return module;

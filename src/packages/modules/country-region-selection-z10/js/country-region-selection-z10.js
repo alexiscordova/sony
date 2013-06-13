@@ -22,18 +22,18 @@ define(function(require){
   var MIN_COUNTRIES_PER_COLUMN = 5;
 
   var module = {
-    'init': function() {
-      var countryRegion = $('.country-region');
-      if ( countryRegion ) {
-        new CountryRegionSelection(countryRegion);
+    init: function() {
+      var $countryRegion = $('.country-region');
+      if ( $countryRegion.length ) {
+        new CountryRegionSelection( $countryRegion );
       }
     }
   };
 
   // View Controller for country / region selection
-  var CountryRegionSelection = function(element) {
+  var CountryRegionSelection = function( $element ) {
     var self = this;
-    self.$el = $(element);
+    self.$el = $element;
 
     self.init();
   };
@@ -46,10 +46,7 @@ define(function(require){
       var self = this;
       self.$pageWrapperOuter = $('#page-wrap-outer');
 
-      var ua = navigator.userAgent.toLowerCase();
-      self.isAndroid = ua.indexOf("android") > -1;
-
-      if ( self.$pageWrapperOuter.length > 0 && !self.isAndroid) {
+      if ( self.$pageWrapperOuter.length > 0 && !Settings.isAndroid) {
         self.initFullPageBuild();
         self.scrollableId = 'scroll';
       } else {
@@ -139,14 +136,10 @@ define(function(require){
         self.toDesktop();
       }
 
-      //$(window).on('orientationchange', $.proxy(self.setMobileHeight, self));
-      var supportsOrientationChange = "orientationchange" in window,
-          orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-      if (window.addEventListener) {
-        window.addEventListener(orientationEvent, function() {
-            self.setMobileHeight();
-        }, false);
-      }
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.setMobileHeight, self ));
+
       return self;
     },
 
@@ -187,7 +180,6 @@ define(function(require){
     // Called when media query matches mobile.
     toMobile : function() {
       var self = this;
-      console.log(self.stickyHeader.loaded);
       if (self.stickyHeader.loaded){
         self.stickyHeader.enable();
       }

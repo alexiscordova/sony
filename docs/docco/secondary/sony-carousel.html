@@ -95,6 +95,14 @@ define(<span class="keyword">function</span>(require){
     self.$el = $element;
     self.$wrapper = self.$el.parent(self.wrapper);
 
+    <span class="keyword">if</span> ( self.direction === <span class="string">'vertical'</span> ) {
+      self.posAttr = <span class="string">'top'</span>;
+      self.dimensionAttr = <span class="string">'height'</span>;
+    } <span class="keyword">else</span> {
+      self.posAttr = <span class="string">'left'</span>;
+      self.dimensionAttr = <span class="string">'width'</span>;
+    }
+
     self.init();
   };
 
@@ -108,10 +116,9 @@ define(<span class="keyword">function</span>(require){
 
       self.resetSlides( <span class="literal">true</span> );
 
-      <span class="keyword">if</span> ( self.direction === <span class="string">'vertical'</span> ) {
-        self.posAttr = <span class="string">'top'</span>;
-      } <span class="keyword">else</span> {
-        self.posAttr = <span class="string">'left'</span>;
+      <span class="keyword">if</span> ( self.$slides.length &lt;= <span class="number">1</span> ) {
+        self.destroy();
+        <span class="keyword">return</span>;
       }
 
       <span class="keyword">if</span> ( self.useCSS3 ) {
@@ -127,11 +134,6 @@ define(<span class="keyword">function</span>(require){
         self.setupDraggable();
       }
 
-      <span class="keyword">if</span> ( self.$slides.length &lt;= <span class="number">1</span> ) {
-        self.destroy();
-        <span class="keyword">return</span>;
-      }
-
       Environment.on(<span class="string">'global:resizeDebounced-200ms.SonyCarousel-'</span> + self.id, <span class="keyword">function</span>() {
         <span class="keyword">if</span> ( self.snap ) {
           self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
@@ -139,6 +141,8 @@ define(<span class="keyword">function</span>(require){
       });
 
       self.gotoSlide(<span class="number">0</span>, <span class="literal">true</span>);
+
+      self.$el.addClass(<span class="string">'sony-carousel-active'</span>);
     },
 
     setupLoopedCarousel: <span class="keyword">function</span>() {
@@ -192,6 +196,7 @@ define(<span class="keyword">function</span>(require){
       self.$el.hammer();
       self.$el.on(<span class="string">'dragstart.sonycarousel'</span>, $.proxy(self.dragStart, self));
       self.$el.on(<span class="string">'dragend.sonycarousel'</span>, $.proxy(self.dragEnd, self));
+      self.$el.on(<span class="string">'release.sonycarousel'</span>, $.proxy(self.release, self));
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Stop animations that were ongoing when you started to drag.</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -222,7 +227,7 @@ reset position to the nearest one.</p>             </td>             <td class="
         <span class="keyword">return</span>;
       }
 
-      <span class="keyword">if</span> ( gesture.velocityX &gt; <span class="number">0.7</span> ) {
+      <span class="keyword">if</span> ( gesture &amp;&amp; gesture.velocityX &gt; <span class="number">0.7</span> ) {
         <span class="keyword">if</span> ( gesture.direction === <span class="string">'right'</span> ) {
           <span class="keyword">if</span> ( self.currentSlide === <span class="number">0</span> ) {
             self.gotoNearestSlide();
@@ -241,6 +246,15 @@ reset position to the nearest one.</p>             </td>             <td class="
       }
     },
 
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Simply broadcast that the carousel was released, irregardless of if it was dragged,
+and transmit the carousel's current slide.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    release: <span class="keyword">function</span>(e) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$el.trigger(<span class="string">'SonyCarousel:released'</span>, self.currentSlide);
+    },
+
     getPositions: <span class="keyword">function</span>($slideSet) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -255,7 +269,7 @@ reset position to the nearest one.</p>             </td>             <td class="
       <span class="keyword">return</span> positions;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Find the nearest slide, and move the carousel to that.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Find the nearest slide, and move the carousel to that.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     gotoNearestSlide: <span class="keyword">function</span>(e, data) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -273,8 +287,8 @@ reset position to the nearest one.</p>             </td>             <td class="
       self.gotoSlide(destination);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>START GOTOSLIDE UTILITY METHODS</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>If this is a looped carousel, substitue the slideset with the slides <em>including</em> the edge clones,
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>START GOTOSLIDE UTILITY METHODS</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If this is a looped carousel, substitue the slideset with the slides <em>including</em> the edge clones,
 And figure out where the $destination should be set based on that.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setupLoopedCarouselSlides: <span class="keyword">function</span>(which, $slideSet, cb) {
 
@@ -295,7 +309,7 @@ And figure out where the $destination should be set based on that.</p>          
       cb($slideSet, $destinationSlide);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If this is a jumped carousel, prepare the slides for the jump by swapping elements out and
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>If this is a jumped carousel, prepare the slides for the jump by swapping elements out and
 setting the <code>isJumped</code> option.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     setupJumpedCarouselSlides: <span class="keyword">function</span>(speed, $destinationSlide) {
 
@@ -327,7 +341,7 @@ setting the <code>isJumped</code> option.</p>             </td>             <td 
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Return the destination position. If you're in a browser that doesn't support auto margins properly,
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Return the destination position. If you're in a browser that doesn't support auto margins properly,
 correct the value with <code>innerContainerMeasurement</code> (the container's width or height, depending on
 carousel orientation) before returning.</p>
 
@@ -352,12 +366,42 @@ respect the grid even though they're not really in it. Refer to S2 for usage exa
       <span class="keyword">return</span> destinationPosition;
     },
 
+    getAdjustedPosition: <span class="keyword">function</span>($destinationSlide) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          innerContainerMeasurement, destinationPosition, adjustedPosition, adjustedPositionComparator, childrenSumMeasurement;
+
+      innerContainerMeasurement = self.$el[ self.dimensionAttr ]();
+
+      destinationPosition = self.getDestinationPosition( $destinationSlide, innerContainerMeasurement );
+
+      <span class="keyword">if</span> ( self.useCSS3 ) {
+        adjustedPosition = destinationPosition / innerContainerMeasurement;
+        adjustedPositionComparator = innerContainerMeasurement;
+      } <span class="keyword">else</span> {
+        adjustedPosition = destinationPosition / self.$wrapper[ self.dimensionAttr ]();
+        adjustedPositionComparator = self.$wrapper.width();
+      }
+
+      <span class="keyword">if</span> ( self.slideChildren &amp;&amp; self.$slides.index($destinationSlide) === self.$slides.length - <span class="number">1</span> ) {
+
+        childrenSumMeasurement = <span class="number">0</span>;
+
+        <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
+          $destinationSlide.find(self.slideChildren).each(<span class="keyword">function</span>(){ childrenSumMeasurement += $(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>); });
+          adjustedPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / adjustedPositionComparator;
+        }
+      }
+
+      <span class="keyword">return</span> adjustedPosition;
+    },
+
     gotoSlide: <span class="keyword">function</span>(which, noAnim) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $slideSet = self.$slides,
           speed = ( noAnim ? <span class="number">0</span> : self.animationSpeed ),
-          $destinationSlide, destinationPosition, destinationRedirect, innerContainerMeasurement, repositionCb, newPosition;
+          $destinationSlide, destinationRedirect, repositionCb;
 
       self.setupLoopedCarouselSlides(which, $slideSet, <span class="keyword">function</span>($slides, $dest){
         $slideSet = $slides;
@@ -368,29 +412,7 @@ respect the grid even though they're not really in it. Refer to S2 for usage exa
 
       <span class="keyword">if</span> ( $destinationSlide.length === <span class="number">0</span> ) { <span class="keyword">return</span>; }
 
-      <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
-        innerContainerMeasurement = self.$el.width();
-      } <span class="keyword">else</span> {
-        innerContainerMeasurement = self.$el.height();
-      }
-
-      destinationPosition = self.getDestinationPosition( $destinationSlide, innerContainerMeasurement );
-
       <span class="keyword">if</span> ( self.useCSS3 ) {
-
-        newPosition = destinationPosition / innerContainerMeasurement;
-
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If you're on the last slide, only move over enough to show the last child.
-Prevents excess whitespace on the right.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-        <span class="keyword">if</span> ( self.slideChildren &amp;&amp; which === $slideSet.length - <span class="number">1</span> ) {
-          <span class="keyword">var</span> childrenSumMeasurement = <span class="number">0</span>;
-
-          <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
-            $destinationSlide.find(self.slideChildren).each(<span class="keyword">function</span>(){ childrenSumMeasurement += $(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>); });
-            newPosition = (destinationPosition - ( $destinationSlide.width() - childrenSumMeasurement )) / innerContainerMeasurement;
-          }
-
-        }
 
         self.$el.on(Settings.transEndEventName + <span class="string">'.slideMoveEnd'</span>, <span class="keyword">function</span>(e){
 
@@ -406,9 +428,9 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
         self.$el.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), speed + <span class="string">'ms'</span> );
 
         <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
-          self.$el.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + (-<span class="number">100</span> * newPosition + <span class="string">'%'</span>) + <span class="string">', 0)'</span>);
+          self.$el.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + (-<span class="number">100</span> * self.getAdjustedPosition($destinationSlide) + <span class="string">'%'</span>) + <span class="string">', 0)'</span>);
         } <span class="keyword">else</span> {
-          self.$el.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate(0, '</span> + (-<span class="number">100</span> * newPosition + <span class="string">'%'</span>) + <span class="string">')'</span>);
+          self.$el.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate(0, '</span> + (-<span class="number">100</span> * self.getAdjustedPosition($destinationSlide) + <span class="string">'%'</span>) + <span class="string">')'</span>);
         }
 
       } <span class="keyword">else</span> {
@@ -416,9 +438,9 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
         <span class="keyword">var</span> props = {};
 
         <span class="keyword">if</span> ( self.direction === <span class="string">'horizontal'</span> ) {
-          props[self.posAttr] = -<span class="number">100</span> * destinationPosition / self.$wrapper.width() + <span class="string">'%'</span>;
+          props[self.posAttr] = -<span class="number">100</span> * self.getAdjustedPosition($destinationSlide) + <span class="string">'%'</span>;
         } <span class="keyword">else</span> {
-          props[self.posAttr] = -<span class="number">100</span> * destinationPosition / self.$wrapper.height() + <span class="string">'%'</span>;
+          props[self.posAttr] = -<span class="number">100</span> * self.getAdjustedPosition($destinationSlide) + <span class="string">'%'</span>;
         }
 
         self.$el.animate(props, {
@@ -622,12 +644,11 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $paddleWrapper = self.$paddleWrapper || self.$wrapper,
           $clickContext = self.slideChildren ? self.$el.find(self.slideChildren) : self.$slides,
-          containerStyles = {
-            transitionTimingFunction: <span class="string">''</span>,
-            transitionDuration: <span class="string">''</span>,
-            transform: <span class="string">''</span>
-          };
+          containerStyles = {};
 
+      containerStyles[ Modernizr.prefixed(<span class="string">'transitionTimingFunction'</span>) ] = <span class="string">''</span>;
+      containerStyles[ Modernizr.prefixed(<span class="string">'transitionDuration'</span>) ] = <span class="string">''</span>;
+      containerStyles[ Modernizr.prefixed(<span class="string">'transform'</span>) ] = <span class="string">''</span>;
       containerStyles[ self.posAttr ] = <span class="string">''</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Reset styles.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.css( containerStyles );
@@ -653,6 +674,7 @@ Destroy the plugins we've initialized as part of the carousel.</p>             <
       }
 
 </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Remove data from element, allowing for later reinit.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.removeData(<span class="string">'sonyCarousel'</span>);
+      self.$el.removeClass(<span class="string">'sony-carousel-active'</span>);
     }
   };
 

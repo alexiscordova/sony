@@ -159,14 +159,22 @@ define(function(require) {
       // add a click event to close the currently open navmenu/navtray if you click outside of it.
       self.$pageWrapOuter.on( 'click touchstart focus', $.proxy( self.onPageWrapOuterPress, self ) );
 
+      // For debugging the Electronics & Entertainment buttons on Android:
+      // var debugCount = 0;
+      // var $debugDiv = $('<div>').css({'position':'absolute','top':'5px','left':'5px','z-index':'1000','color':'white'});
+      // $('.nav-mobile-scroller').append($debugDiv);
+
       // Set up primary nav buttons (Electronics, Entertainment, Account & Search)
       self.$activeNavBtns.each(function() {
         var $thNavBtn = $(this),
             $thNavBtnTarget = $('.' + $thNavBtn.data('target')),
             isSearchMenu = $thNavBtnTarget.hasClass('navmenu-w-search');
 
+
         $thNavBtn.on('click touchstart mouseenter focus', function(e) {
           e.preventDefault();
+          // For debugging the Electronics & Entertainment buttons on Android:
+          // $debugDiv.html(debugCount++);
         });
 
         // init
@@ -184,6 +192,7 @@ define(function(require) {
         if ( self.hasTouch ) {
           // console.log('init hammer');
           // Use hammer.js to detect taps
+          // HAAAALP! DEBUGGING ON ANDROID
           $thNavBtn.hammer().on('tap', $.proxy( self.onNavBtnTap, self ) );
 
         // NOT touch device - set up HOVER triggers
@@ -222,6 +231,21 @@ define(function(require) {
       Environment.on('global:resizeDebounced-200ms', function() {
         self.resizeAccountUsername();
       });
+
+      $('html').addClass('nav-ready');
+      if ( Settings.isAndroid ) {
+        // For the Tablet S at least, in order to make the Electronics & Entertainment buttons to work (consistently, anyway), you 
+        // have to trigger a redraw after the page is completely done drawing. 
+        Utilities.forceWebkitRedraw();
+        
+        // The line below is so you can see when forceWebkitRedraw() actually gets called on the Tablet S. If you uncomment it, load the
+        // global-header-footer-demo.html page. You think the page is done, but then it takes a few more seconds before this is actually triggered.
+        // 
+        // $('.bs-docs-grid').css('background','green');
+        // 
+      }
+
+
     }, // end initDesktopNav
 
     resetDesktopNav : function() {
@@ -257,6 +281,7 @@ define(function(require) {
     },
 
     onPageWrapOuterPress : function( e ) {
+
       // as long as the click wasn't on one of the nav-menu/trays,
       // or one of their children,
       // or one of the activeNavBtns, reset any active menus.
@@ -264,7 +289,7 @@ define(function(require) {
           $target = $( e.target ),
           isClickOnNavItem = $target.hasClass('navtray-w') || $target.hasClass('navmenu-w') || $target.hasClass('nav-dropdown-toggle') || $target.parents('.navtray-w,.navmenu-w,nav-dropdown-toggle, .nav').length > 0;
 
-      // console.log('onPageWrapOuterPress', 'isClickOnNavItem: ', isClickOnNavItem );
+      // alert('onPageWrapOuterPress', 'isClickOnNavItem: ', isClickOnNavItem );
 
       if ( !isClickOnNavItem ) {
         self.closeActiveNavBtn();
@@ -901,7 +926,7 @@ define(function(require) {
       // set up shadow / gradient bar. Yep, this was the best way to do it.
       if ($('html').hasClass('cssgradients') && !self.mobileNavHasShadow){
         var $mobileNavShadow = $('<i/>',{
-          class : "nav-mobile-nav-shadow"
+          "class" : "nav-mobile-nav-shadow"
         });
         $('.nav-mobile-scroller').append($mobileNavShadow);
         self.mobileNavHasShadow = true;
@@ -934,6 +959,8 @@ define(function(require) {
           });
 
       Environment.on('global:resizeDebounced', $.proxy(self.resizeUpdateMobileNav,self));
+      
+      $('html').addClass('nav-ready');
 
     }, // end initMobileNav
 
@@ -1173,7 +1200,7 @@ define(function(require) {
         hScrollbar : false,
         snap : false,
         momentum : true,
-        hideScrollbar: true,
+        fadeScrollbar: true,
         bounce : false,
         onBeforeScrollStart: function(e) {
           var target = e.target,

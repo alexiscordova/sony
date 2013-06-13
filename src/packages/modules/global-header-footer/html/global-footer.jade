@@ -19,7 +19,7 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
               label.visuallyhidden(for='store-locator-search-input') #{data.store_locator.title}
               input#store-locator-search-input.footer-store-locator-input.footer-input.dark(type='text', id='store-locator-search-input', name='store-locator-search-input', value=sample_session_data.current_location)
               button.btn.store-locator-submit-btn.footer-btn.input-btn(type='submit')= data.store_locator.button_label
-          a.footer-change-location-link(href=data.store_locator.locations_link)= data.store_locator.locations_link.label
+          +link( data.store_locator.link, "footer-change-location-link" )
 
         - each sec, i in data.link_sections
           .span3.footer-mobile-section.mobile-container-padded(role='navigation')
@@ -27,49 +27,47 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
               i.fonticon-10-arrowhead-down.visible-phone
             ul.footer-links-list
 
-              - each link, i in sec.links
+              - each linkObj, i in sec.links
                 li.footer-link-li
-                  a(href=link.link)= link.label
+                  +link( linkObj )
 
       .footer-ex.clearfix
 
         .footer-language.span6.mobile-container-padded
           .footer-language-selectors
             #country-selector.btn-hover-group.country-selector
-              a.btn.dropdown-hover-toggle(href=data.language.country_selector.link)
-                i(class='sprite-flagBig-'+sample_session_data.current_flag.id)
-                span.dropdown-label= sample_session_data.current_flag.label
+              a.btn.dropdown-hover-toggle(href=sample_session_data.current_region.href, title=sample_session_data.current_region.text, target=sample_session_data.current_region.target)
+                i(class='icon-flag-'+sample_session_data.current_region.id)
+                span.dropdown-label= sample_session_data.current_region.text
 
             .btn-hover-group.language-selector
               //- a.btn.dropdown-hover-toggle(data-toggle='dropdown', href='#')= sample_session_data.current_lang.id
-              a.btn.dropdown-hover-toggle(href='#')= sample_session_data.current_lang.id
+              a.btn.dropdown-hover-toggle(href='#', target="current language")= sample_session_data.current_lang.id
                 i.fonticon-10-arrowhead-down.old-ie-cleartype-fix-gray30
               .dropdown-hover-menu.bottom-up
                 .dropdown-hover-menu-lists-w
                   ul.dropdown-hover-menu-list
 
                     - each lang, i in data.language.languages
+                      - li_class = null
                       if lang.id == sample_session_data.current_lang.id
-                        li(class="selected")
-                          a(href=lang.link)
-                            span.dropdown-label-left= lang.id
-                            span.dropdown-label= lang.label
-                      else
-                        li
-                          a(href=lang.link)
-                            span.dropdown-label-left= lang.id
-                            span.dropdown-label= lang.label
+                        - li_class = "selected"
+                      li(class=li_class)
+                        a(href=lang.link, target=lang.target, title=lang.text)
+                          span.dropdown-label-left= lang.id
+                          span.dropdown-label= lang.text
 
         .footer-contact.span6.mobile-container-padded(role='navigation')
           p
-            - each link, i in data.contact.text_links
-              a(href=link.link)= link.label
+            - each linkObj, i in data.contact.text_links
+              +link( linkObj )
+              //- a(href=link.link)= link.label
 
           .footer-social-links
             - each button, i in data.contact.social_buttons
-              a(href=button.link, class='footer-social-'+button.id)
+              a(href=button.href, class='footer-social-'+button.id, target=button.target, title=button.text)
                 i.old-ie-cleartype-fix-gray05(class=button.icon)
-                span.visuallyhidden= button.label
+                span.visuallyhidden= button.text
 
   footer.container.full-bleed-no-max.m-full-bleed.footer-signature-w.mobile-container-padded
     .container
@@ -79,8 +77,8 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
             span.visuallyhidden Sony
           p.footer-legal-links
 
-            - each link, i in data.signature.legal_links
-              a(href=link.link)= link.label
+            - each linkObj, i in data.signature.legal_links
+              +link( linkObj )
 
           span.footer-copyright= data.signature.copyright
 
