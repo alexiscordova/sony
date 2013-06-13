@@ -99,18 +99,16 @@ mixin credits(mode, data)
       if (mode == "expert-quote")
         +author-expert-quote(data.author)
       else
-        +author-default(mode, data.author)
+        +author-default(mode, data.author, data.title)
 
 mixin author-expert-quote(author)
   +link( {"title" : author.name, "text" : author.name, "href" : author.link ,"target" : "_blank"} )
 
-mixin author-default(mode, author)
+mixin author-default(mode, author, title)
   if(author.link)
     +link( {"title" : author.handle, "text" : author.handle, "href" : author.link ,"target" : "_blank"}, [ 'handle' ] )
     if(mode == "question")
-      //- because we need the space before ' asked' set as var
-      - title = " asked:"
-      | #{title}
+      span !{title}
 
   if(author.name)
     span= author.name
