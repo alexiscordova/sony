@@ -13,8 +13,9 @@
     }
   }
 
+  // Nothing in the header except close button
   .modal-header {
-    padding: 1em 2.5em 0;
+    padding: 0;
   }
 
   .modal-body {
@@ -23,11 +24,9 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  .box-close {
-    i {
-      width: 14px;
-      height: 20px;
-    }
+  .box-close i {
+    width: 14px;
+    height: 20px;
   }
 }
 
@@ -48,24 +47,6 @@
     max-height: 100%;
   }
 
-  // .media-img {
-  //   float: left;
-  //   width: 23%;
-  //   max-width: 60px;
-  //   img {
-  //     width: 100%;
-  //     max-height: 64px;
-  //   }
-  // }
-
-  // .media-content {
-  //   float: left;
-  // }
-
-  // .media-content {
-  //   padding-left: 9%;
-  // }
-
   .media-hd {
     color: $gray20;
     padding: 6px 0 5px;
@@ -81,11 +62,10 @@
   }
 
   .browser-link {
-    margin-bottom: 20px;
     display: block;
-    background: $gray80;
+    margin-bottom: 20px;
     padding: 20px 25px 14px;
-    cursor: pointer;
+    background: $gray80;
   }
 
   .unsupported-hd {
@@ -104,8 +84,13 @@
     margin: 25px auto 50px;
   }
 
-  .browser-link:hover {
+  .browser-link:hover,
+  .browser-link:focus {
     background: $gray75;
+  }
+
+  .browser-link:active {
+    background: $gray70;
   }
 
   // Hide button which is shown at mobile
@@ -120,7 +105,6 @@
   .link-proceed {
     display: inline-block;
     margin-bottom: 10px;
-    cursor: pointer;
   }
 }
 
