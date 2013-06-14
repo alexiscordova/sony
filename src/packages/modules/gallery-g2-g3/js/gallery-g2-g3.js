@@ -713,18 +713,19 @@ define(function(require){
     hasActiveFilters : function() {
       var self = this,
           hasActive = false,
+          filters = self.filters,
           filterType = '',
           filterName = '';
 
-      for ( filterType in self.filters ) {
-        if ( !self.filters.hasOwnProperty(filterType) ) {
+      for ( filterType in filters ) {
+        if ( !filters.hasOwnProperty(filterType) ) {
           continue;
         }
 
 
         if ( filterType === 'button' || filterType === 'checkbox' ) {
-          for ( filterName in self.filters[ filterType ] ) {
-            var activeFilters = self.filters[ filterType ][ filterName ];
+          for ( filterName in filters[ filterType ] ) {
+            var activeFilters = filters[ filterType ][ filterName ];
             hasActive = activeFilters.length > 0;
 
             // There is an active filter, break out of the loop and return
@@ -969,10 +970,10 @@ define(function(require){
           filterValue = '',
           i;
 
+      self.currentFilterGroup = null;
       self.lastFilterGroup = null;
-      self.secondLastFilterGroup = null;
+      self.currentFilterStatuses = null;
       self.lastFilterStatuses = null;
-      self.secondLastFilterStatuses = null;
       self.currentFilterColor = null;
       self.hideFilteredSwatchImages();
 
@@ -1682,9 +1683,9 @@ define(function(require){
       var self = this,
           $visible = self.$items.filter('.filtered'),
           statuses = {},
+          currentFilterGroup = self.currentFilterGroup,
           lastFilterGroup = self.lastFilterGroup,
-          secondLastFilterGroup = self.secondLastFilterGroup,
-          isRange = lastFilterGroup === 'price',
+          isRange = currentFilterGroup === 'price',
           isRangeActive = self.filters.range.price && self.filters.range.price.max !== undefined && (self.filters.range.price.max !== self.MAX_PRICE || self.filters.range.price.min !== self.MIN_PRICE);
 
       function testGalleryItems( filterName, filterValue ) {
@@ -1722,12 +1723,18 @@ define(function(require){
             hasActiveFilter;
 
         for ( filterName in self.filterValues ) {
+          // console.group( filterName );
+          // console.log('currentFilterGroup:', currentFilterGroup, 'lastFilterGroup:', lastFilterGroup);
+          // console.log( filterName === currentFilterGroup );
+          // console.log( lastFilterGroup === currentFilterGroup, lastFilterGroup === null, lastFilterGroup === 'price' );
           // If the current filter is the last one, and one of the following:
             // the current filter is also the second to last filter
             // the second to last filter is null
             // the second to last filter is price
           // Then the current filter group should be skipped
-          hasActiveFilter = filterName === lastFilterGroup && ( secondLastFilterGroup === lastFilterGroup || secondLastFilterGroup === null || secondLastFilterGroup === 'price' );
+          hasActiveFilter = filterName === currentFilterGroup && ( lastFilterGroup === currentFilterGroup || lastFilterGroup === null || lastFilterGroup === 'price' );
+          // console.log( 'skip %s? %s', filterName, hasActiveFilter );
+          // console.groupEnd();
           statuses[ filterName ] = {};
 
           for ( filterValue in self.filterValues[ filterName ] ) {
@@ -1768,8 +1775,8 @@ define(function(require){
 
 
       // Use the last filter status that wasn't from this filter group, if appropriate
-      if ( (lastFilterGroup === null || isRange) && self.lastFilterStatuses !== null && self.secondLastFilterStatuses !== null && !(isRange && isRangeActive) && self.hasActiveFilters() ) {
-        statuses = self.secondLastFilterStatuses;
+      if ( (currentFilterGroup === null || isRange) && self.currentFilterStatuses !== null && self.lastFilterStatuses !== null && !(isRange && isRangeActive) && self.hasActiveFilters() ) {
+        statuses = self.lastFilterStatuses;
       } else {
         setFilterStatusesObject();
       }
@@ -1779,12 +1786,10 @@ define(function(require){
 
       // If we're filtering again (for example, by "colors"), don't add this statuses object as the
       // second to last one, it should refer to the last one that is not in the current filter group
-      if ( lastFilterGroup !== self.secondLastFilterGroup ) {
-        self.secondLastFilterStatuses = self.lastFilterStatuses;
+      if ( currentFilterGroup !== self.lastFilterGroup ) {
+        self.lastFilterStatuses = self.currentFilterStatuses;
       }
-      self.lastFilterStatuses = statuses;
-
-      self.secondLastFilterGroup = lastFilterGroup;
+      self.currentFilterStatuses = statuses;
 
       // Update product count
       self.updateProductCount();
@@ -1862,8 +1867,14 @@ define(function(require){
 
         if ( isActive ) {
           checked.push( $this.data( filterName ) );
-          self.lastFilterGroup = filterName;
+
+          // Don't change the current and last states when going from color to color, button to button, etc.
+          // if ( self.currentFilterGroup !== filterName ) {
+            self.lastFilterGroup = self.currentFilterGroup;
+            self.currentFilterGroup = filterName;
+          // }
         } else {
+          self.currentFilterGroup = self.lastFilterGroup;
           self.lastFilterGroup = null;
         }
 
@@ -1928,8 +1939,12 @@ define(function(require){
         }
 
         if ( isActive ) {
-          self.lastFilterGroup = filterName;
+          // if ( self.currentFilterGroup !== filterName ) {
+            self.lastFilterGroup = self.currentFilterGroup;
+            self.currentFilterGroup = filterName;
+          // }
         } else {
+          self.currentFilterGroup = self.lastFilterGroup;
           self.lastFilterGroup = null;
         }
 
@@ -2008,7 +2023,7 @@ define(function(require){
         prevMin = self.price.min,
         prevMax = self.price.max;
 
-        self.lastFilterGroup = filterName;
+        self.currentFilterGroup = filterName;
 
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
@@ -3438,10 +3453,10 @@ define(function(require){
     lastScrollY: 0,
     sorted: false,
     currentFilterColor: null,
+    currentFilterGroup: null,
+    currentFilterStatuses: null,
     lastFilterGroup: null,
     lastFilterStatuses: null,
-    secondLastFilterGroup: null,
-    secondLastFilterStatuses: null,
     maxRecommendedTitleBarOffset: 0,
     accessoryFilterName: 'accessory',
     loadingGif: Settings.loaderPath

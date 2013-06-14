@@ -142,6 +142,7 @@ mixin compareBrowseBtn( isCompareGallery, link, addFade )
     i.fonticon-10-compare
     | !{ compareStr }
 
+
 mixin filterBtn( galleryName )
   filterStr = 'Filter'
   filterBtnClasses = [ 'btn', 'btn-alt-special', 'slide-toggle', 'collapsed', 'first', 'pull-left' ]
@@ -149,6 +150,7 @@ mixin filterBtn( galleryName )
   button(class=filterBtnClasses, data-toggle="collapse", data-target='#' + galleryName + '-filters')
     | !{ filterStr }
     i.fonticon-10-arrowhead-down
+
 
 mixin galleryShareMenu( shareMenu )
   .share-options
@@ -158,10 +160,15 @@ mixin galleryShareMenu( shareMenu )
         i.fonticon-10-sm-bold-plus
     +shareMenu( shareMenu.socialButtons, shareMenu.shortLink )
 
+
 mixin productCount( plural, singular, total )
+  if total == null
+    total = "0"
+
   div.pull-left.p3.product-count-wrap
     strong.text-dark.product-count.js-product-count !{ total }
     span.js-product-str.product-str(data-plural=plural, data-singular=singular) !{ plural }
+
 
 mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
