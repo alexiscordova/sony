@@ -1752,7 +1752,7 @@ define(function(require){
       function setFilterStatusesObject() {
         var filterName,
             filterValue,
-            hasActiveFilter;
+            shouldSkipGroup;
 
         for ( filterName in self.filterValues ) {
           // If the current filter in the loop is the current filter in the system, and one of the following:
@@ -1760,12 +1760,12 @@ define(function(require){
             // the last filter is null
             // the last filter is price
           // Then the current filter group should be skipped
-          hasActiveFilter = filterName === currentFilterGroup && ( lastFilterGroup === currentFilterGroup || lastFilterGroup === null || lastFilterGroup === 'price' );
+          shouldSkipGroup = filterName === currentFilterGroup && ( lastFilterGroup === currentFilterGroup || lastFilterGroup === null || lastFilterGroup === 'price' );
           statuses[ filterName ] = {};
 
           for ( filterValue in self.filterValues[ filterName ] ) {
 
-            if ( hasActiveFilter ) {
+            if ( shouldSkipGroup ) {
               statuses[ filterName ][ filterValue ] = 'skip';
             } else {
               testGalleryItems( filterName, filterValue );
@@ -1893,15 +1893,13 @@ define(function(require){
 
         if ( isActive ) {
           checked.push( $this.data( filterName ) );
+        }
 
-          // Don't change the current and last states when going from color to color, button to button, etc.
-          // if ( self.currentFilterGroup !== filterName ) {
-            self.lastFilterGroup = self.currentFilterGroup;
-            self.currentFilterGroup = filterName;
-          // }
-        } else {
-          self.currentFilterGroup = self.lastFilterGroup;
-          self.lastFilterGroup = null;
+        // Active and the new filter is different from the current/last one selected
+        // Don't change the current and last states when going from color to color, button to button, etc.
+        if ( isActive && self.currentFilterGroup !== filterName  ) {
+          self.lastFilterGroup = self.currentFilterGroup;
+          self.currentFilterGroup = filterName;
         }
 
         if ( realType === 'color' ) {
@@ -1964,14 +1962,10 @@ define(function(require){
           $input.toggleClass('active');
         }
 
-        if ( isActive ) {
-          // if ( self.currentFilterGroup !== filterName ) {
-            self.lastFilterGroup = self.currentFilterGroup;
-            self.currentFilterGroup = filterName;
-          // }
-        } else {
-          self.currentFilterGroup = self.lastFilterGroup;
-          self.lastFilterGroup = null;
+        // Active and the new filter is different from the current/last one selected
+        if ( isActive && self.currentFilterGroup !== filterName  ) {
+          self.lastFilterGroup = self.currentFilterGroup;
+          self.currentFilterGroup = filterName;
         }
 
         self.filter();
