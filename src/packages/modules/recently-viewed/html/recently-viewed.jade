@@ -6,18 +6,19 @@ include ../../../common/html/jade-helpers.jade
   .container
     .grid
       if data.config && data.config.mode == 'strip'
-        h2.l1.rv-title= data.title
+        h2.l1.rv-title !{ data.title }
       else
-        h4.t6.rv-title= data.title
+        h4.t6.rv-title !{ data.title }
 
   .m-container
     .sony-carousel-wrapper
       .sony-carousel
 
         slides = [ [], [], [], [], [], [] ]
-        each module, i in data.submodules
-          index = Math.floor( i / 6 )
-          - slides[ index ].push( module )
+        if data.submodules
+          each module, i in data.submodules
+            index = Math.floor( i / 6 )
+            - slides[ index ].push( module )
 
         each slide in slides
           if slide.length > 0

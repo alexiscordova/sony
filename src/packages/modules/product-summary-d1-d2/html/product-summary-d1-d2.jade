@@ -29,13 +29,14 @@ include ../../../common/html/jade-helpers.jade
   e = { "locals" : locals, "data" : productData }
   !{locals.partial( module.type, e )}
 
-  .container
-    .grid.no-grid-at-767
-      ul.jump-links.inline
-        each link, i in data.internalLinks
-          - clss = i ? '' : 'active'
-          li(class=clss)
-            a.lt3.no-hover-transition(href=link.href)= link.text
+  if data.internalLinks
+    .container
+      .grid.no-grid-at-767
+        ul.jump-links.inline
+          each link, i in data.internalLinks
+            - clss = i ? '' : 'active'
+            li(class=clss)
+              a.lt3.no-hover-transition(href=link.href) !{ link.text }
 
 
   section.sticky-nav.ps-sticky-nav
@@ -45,18 +46,19 @@ include ../../../common/html/jade-helpers.jade
           .pull-left.product-img.space-right
             +iQImage( productData.imgSmall )
           .pull-left
-            h2.t6.sticky-nav-title= productData.title
-            ul.jump-links.inline.nav
-              each link, i in data.internalLinks
-                - clss = i ? '' : 'active'
-                li(class=clss)
-                  a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.text
+            h2.t6.sticky-nav-title !{ productData.title }
+            if data.internalLinks
+              ul.jump-links.inline.nav
+                each link, i in data.internalLinks
+                  - clss = i ? '' : 'active'
+                  li(class=clss)
+                    a.lt3.no-hover-transition(href=link.href, tabindex="-1") !{ link.text }
 
         .span3#desktop-sticky-price
           .text-right.price-text
-            p.p4.price-prefix= data.startingAtText
+            p.p4.price-prefix !{ data.startingAtText }
             span.space !{ ' ' }
-            span.p5.msrp= data.msrp
+            span.p5.msrp !{ data.msrp }
             span.p1.price
               strong.text-dark !{ data.priceUnit + productData.price }
               span.space !{ ' ' }
