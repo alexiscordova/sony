@@ -143,11 +143,12 @@ mixin compareBrowseBtn( isCompareGallery, link, addFade )
     | !{ compareStr }
 
 
-mixin filterBtn( galleryName )
+mixin filterBtn( filterId )
   filterStr = 'Filter'
   filterBtnClasses = [ 'btn', 'btn-alt-special', 'slide-toggle', 'collapsed', 'first', 'pull-left' ]
+  target = '#' + filterId
 
-  button(class=filterBtnClasses, data-toggle="collapse", data-target='#' + galleryName + '-filters')
+  button(class=filterBtnClasses, data-toggle="collapse", data-target=target)
     | !{ filterStr }
     i.fonticon-10-arrowhead-down
 
@@ -185,6 +186,8 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   numBtns = ' btns-' + numBtns
   wrapperClass = wrapperClass + numBtns
 
+  filterId = gallery.id + "-filters"
+
   div(class=wrapperClass)
     if gallery.sortSet
       div(class=gridClass)
@@ -194,7 +197,7 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
 
         //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
-          +filterBtn( gallery.id )
+          +filterBtn( filterId )
           .pull-right.content-right
             //- Sort options
             +compareBrowseBtn( isCompareGallery, compareBrowseLink, false )
@@ -219,12 +222,12 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
 
 
   if gallery.filterSet
-    +filterTray( gallery )
+    +filterTray( gallery, filterId )
 
 
-mixin filterTray( gallery )
+mixin filterTray( gallery, filterId )
   filterSets = gallery.filterSet
-  galleryId = gallery.id
+  clearAll = gallery.clearAll ? gallery.clearAll : "gallery.clearAll"
 
   .container.slide-arrow-under.fade
     .relative
@@ -234,7 +237,7 @@ mixin filterTray( gallery )
       .slide-toggle-arrow
 
 
-  .collapse.slide-toggle-target(id=galleryId + '-filters')
+  .collapse.slide-toggle-target(id=filterId)
     .filter-options.container
       .grid.no-grid-at-767
         if filterSets
@@ -252,7 +255,20 @@ mixin filterTray( gallery )
                 +filterSet( filterSet )
 
   .container.active-filters-wrap
-    .grid.active-filters(data-clear-label="Clear All")
+    .grid.active-filters(data-clear-label=clearAll)
+
+
+mixin stickyProductCount( gallery )
+  pluralProducts = gallery.pluralProducts ? gallery.pluralProducts : 'Products'
+  singularProduct = gallery.singularProduct ? gallery.singularProduct : 'Product'
+
+  .sticky-nav
+    .container
+      .grid
+        .pull-left
+          h2.t7.sticky-nav-title !{ gallery.name }
+        .pull-right
+          +productCount( pluralProducts, singularProduct, 0 )
 
 
 mixin sorter( sortSet, text )
@@ -322,8 +338,11 @@ mixin featuredGallery( submodules, gallery, type )
   gallery = gallery ? gallery : data.featured
   type = type ? type : 'product'
   i = 0
+  galleryId = gallery.id ? gallery.id + "-gallery" : ("gallery" + Math.round( Math.random() * 1000 ))
+  //- Because Math.random is used, the value needs to be saved
+  - gallery.id = galleryId
 
-  section.gallery.fade.container(id=gallery.id + '-gallery', data-mode=gallery.mode)
+  section.gallery.fade.container(id=galleryId, data-mode=gallery.mode)
     .grid
       h2.t6.featured-gallery-title !{ gallery.title }
 
@@ -346,10 +365,15 @@ mixin featuredGallery( submodules, gallery, type )
 mixin detailedGallery( submodules, gallery, type )
   submodules = submodules ? submodules : data.submodules
   gallery = gallery ? gallery : data.productCards
-  type = type ? type : 'product'
+  type = type ? type : "product"
 
-  section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
+  galleryId = gallery.id ? gallery.id + "-gallery" : ("gallery" + Math.round( Math.random() * 1000 ))
+  //- Because Math.random is used, the value needs to be saved
+  - gallery.id = galleryId
+
+  section.gallery.fade(id=galleryId, data-mode=gallery.mode)
     +galleryFilters( gallery )
+    +stickyProductCount( gallery )
 
     .container
       if submodules
@@ -381,9 +405,12 @@ mixin favoritesTitle( gallery )
 
 mixin favoritesGallery( gallery )
   +favoritesTitle( gallery )
+  galleryId = gallery.id ? gallery.id + "-gallery" : ("gallery" + Math.round( Math.random() * 1000 ))
+  //- Because Math.random is used, the value needs to be saved
+  - gallery.id = galleryId
 
   if gallery.favorites && gallery.favorites.length > 0
-    section.gallery.fade.gallery-favorites(id=gallery.id + '-gallery', data-mode=gallery.mode)
+    section.gallery.fade.gallery-favorites(id=galleryId, data-mode=gallery.mode)
       +galleryFilters( gallery, null, true )
 
       .container
@@ -413,11 +440,15 @@ mixin compareGallery( submodules, gallery, type, labels )
   type = type ? type : 'product'
   labels = labels ? labels : gallery.labels
 
-  label = gallery.galleryName ? gallery.galleryName : 'this is gallery.galleryName'
+  label = gallery.name ? gallery.name : 'this is gallery.name'
   legend = gallery.legend ? gallery.legend : 'this is defined in gallery.legend'
   resetLabel = gallery.resetLabel ? gallery.resetLabel : 'gallery reset label'
 
-  section.gallery.fade(id=gallery.id + '-gallery', data-mode=gallery.mode)
+  galleryId = gallery.id ? gallery.id + "-gallery" : ("gallery" + Math.round( Math.random() * 1000 ))
+  //- Because Math.random is used, the value needs to be saved
+  - gallery.id = galleryId
+
+  section.gallery.fade(id=galleryId, data-mode=gallery.mode)
 
     +galleryFilters( gallery, true )
 
