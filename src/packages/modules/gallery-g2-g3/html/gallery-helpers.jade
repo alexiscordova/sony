@@ -162,12 +162,20 @@ mixin galleryShareMenu( shareMenu )
     +shareMenu( shareMenu.socialButtons, shareMenu.shortLink )
 
 
-mixin productCount( plural, singular, total )
+mixin productCount( plural, singular, total, floatRight )
   if total == null
     total = "0"
 
-  div.pull-left.p3.product-count-wrap
+  classes = [ "p3", "product-count-wrap" ]
+
+  if floatRight
+    - classes.push( "pull-right" )
+  else
+    - classes.push( "pull-left" )
+
+  div(class=classes)
     strong.text-dark.product-count.js-product-count !{ total }
+    | !{ " " }
     span.js-product-str.product-str(data-plural=plural, data-singular=singular) !{ plural }
 
 
@@ -262,13 +270,12 @@ mixin stickyProductCount( gallery )
   pluralProducts = gallery.pluralProducts ? gallery.pluralProducts : 'Products'
   singularProduct = gallery.singularProduct ? gallery.singularProduct : 'Product'
 
-  .sticky-nav
+  .sticky-nav.product-count-sticky
     .container
       .grid
         .pull-left
-          h2.t7.sticky-nav-title !{ gallery.name }
-        .pull-right
-          +productCount( pluralProducts, singularProduct, 0 )
+          h2.t6.sticky-nav-title !{ gallery.name }
+        +productCount( pluralProducts, singularProduct, 0, true )
 
 
 mixin sorter( sortSet, text )

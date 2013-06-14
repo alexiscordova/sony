@@ -182,6 +182,11 @@ define(function(require){
         self.$grid.infinitescroll('resume');
       }
 
+      // Product Sticky
+      if ( self.hasProductCountStickyNav && self.isProductStickyInitialized ) {
+        self.$productCountStickyNav.stickyNav('enable');
+      }
+
       // Will create, update, or destroy carousels depending
       // on the window size and their current state
       self.fixCarousels();
@@ -209,8 +214,13 @@ define(function(require){
       }
 
       // Pause infinite scroll
-      if ( self && self.hasInfiniteScroll ) {
+      if ( self.hasInfiniteScroll ) {
         self.$grid.infinitescroll('pause');
+      }
+
+      // Product sticky
+      if ( self.hasProductCountStickyNav && self.isProductStickyInitialized ) {
+        self.$productCountStickyNav.stickyNav('disable');
       }
 
       self.$container.addClass('disabled');
@@ -240,6 +250,7 @@ define(function(require){
       self.$carousels = self.$grid.find('.js-item-carousel');
       self.$zeroMessage = self.$container.find('.js-zero-message');
       self.$recommendedTile = self.$grid.find('.recommended-tile');
+      self.$productCountStickyNav = self.$container.find('.sticky-nav');
 
       // Modes
       self.isEditorialMode = self.mode === 'editorial';
@@ -256,6 +267,7 @@ define(function(require){
       self.hasSorting = self.$sortBtns.length > 0;
       self.hasCarousels = self.$carousels.length > 0;
       self.hasRecommendedTile = self.$recommendedTile.length > 0;
+      self.hasProductCountStickyNav = self.$productCountStickyNav.length > 0;
 
       // Other vars
       self.windowWidth = Settings.windowWidth;
@@ -1135,6 +1147,26 @@ define(function(require){
           self.initStickyNav();
         }, 150);
       }, 0);
+    },
+
+    initProductCountStickyNav : function() {
+      var self = this;
+
+      if ( self.hasProductCountStickyNav && !self.isProductStickyInitialized ) {
+        self.$productCountStickyNav.stickyNav({
+          offsetTarget: self.$container.find('.slide-toggle-parent')
+        });
+        self.isProductStickyInitialized = true;
+      }
+    },
+
+    destroyProductCountStickyNav : function() {
+      var self = this;
+
+      if ( self.hasProductCountStickyNav && self.isProductStickyInitialized ) {
+        self.$productCountStickyNav.stickyNav('destroy');
+        self.isProductStickyInitialized = false;
+      }
     },
 
     initStickyNav : function() {
@@ -2570,6 +2602,9 @@ define(function(require){
         // Remove heights in case they've aready been set
         if ( isSmallerThanTablet ) {
 
+          // Product sticky nav
+          self.initProductCountStickyNav();
+
           // Product name heights no longer need to be aligned
           if ( self.isDetailedMode ) {
             self.$gridProductNames.css('height', '');
@@ -2583,6 +2618,10 @@ define(function(require){
 
         // Make all product name heights even
         } else {
+
+          // Product sticky nav
+          self.destroyProductCountStickyNav();
+
           // Let the browser choose the best time to do this becaues it causes a layout
           if ( !self.scroller || (self.scroller && self.scroller.enabled) ) {
             self.evenTheHeights();
@@ -3438,6 +3477,7 @@ define(function(require){
     hasSorterMoved: false,
     isInitialized: false,
     isFilteringInitialized: false,
+    isProductStickyInitialized: false,
     isCompareToolOpen: false,
     hasTouch: Settings.hasTouchEvents,
     isTicking: false,
