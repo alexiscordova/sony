@@ -2798,7 +2798,12 @@ define(function(require){
 
           $grid.append( $sorter );
           $container.append( $grid );
-          $container.insertBefore( self.$grid.parent() );
+
+          if ( self.hasFilters ) {
+            $container.insertAfter( self.$container.find('.active-filters-wrap') );
+          } else {
+            $container.insertBefore( self.$grid.parent() );
+          }
 
           self.hasSorterMoved = true;
         }

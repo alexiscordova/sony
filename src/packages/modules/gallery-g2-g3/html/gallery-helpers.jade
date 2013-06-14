@@ -205,11 +205,11 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
 
         //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
-          +filterBtn( filterId )
           .pull-right.content-right
             //- Sort options
             +compareBrowseBtn( isCompareGallery, compareBrowseLink, false )
             +sorter( gallery.sortSet, sortByStr )
+          +filterBtn( filterId )
 
         else if isFavoritesGallery
           //- Favorites gallery
