@@ -187,7 +187,7 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
 
         //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
-          +filterBtn( gallery.name )
+          +filterBtn( gallery.id )
           .pull-right.content-right
             //- Sort options
             +compareBrowseBtn( isCompareGallery, compareBrowseLink, false )
@@ -212,10 +212,13 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
 
 
   if gallery.filterSet
-    +filterTray( gallery.filterSet, gallery.name )
+    +filterTray( gallery )
 
 
-mixin filterTray( filterSets, galleryName )
+mixin filterTray( gallery )
+  filterSets = gallery.filterSet
+  galleryId = gallery.id
+
   .container.slide-arrow-under.fade
     .relative
       .slide-toggle-arrow
@@ -224,7 +227,7 @@ mixin filterTray( filterSets, galleryName )
       .slide-toggle-arrow
 
 
-  .collapse.slide-toggle-target(id=galleryName + '-filters')
+  .collapse.slide-toggle-target(id=galleryId + '-filters')
     .filter-options.container
       .grid.no-grid-at-767
         if filterSets
@@ -277,6 +280,7 @@ mixin zeroProductsMessage( gallery )
           span.text-med-dark !{ ' ' + gallery.zeroProductsMessage }
         button.btn.btn-small.js-clear-filters !{ gallery.startOver }
 
+
 mixin zeroFavoritesMessage( gallery, isHidden )
   title = gallery.nofavs && gallery.nofavs.title ? gallery.nofavs.title : 'gallery.nofavs.title'
   message = gallery.nofavs && gallery.nofavs.message ? gallery.nofavs.message : 'gallery.nofavs.message'
@@ -294,13 +298,25 @@ mixin zeroFavoritesMessage( gallery, isHidden )
       p.p3 !{ message }
 
 
+mixin favoritesAlert( gallery )
+  .alert.collapsed#sign-in-alert
+    .container.alert-inner
+      .grid.relative
+        p.p3.msg
+          | !{ data.favs.signedOutMessage.message }
+          +link( gallery.signedOutMessage )
+          | !{ data.favs.signedOutMessage.messageSuffix }
+        button(class="box-close box-close-small", data-dismiss="alert", data-target="#sign-in-alert")
+          i.fonticon-10-x
+
+
 mixin featuredGallery( submodules, gallery, type )
   submodules = submodules ? submodules : data.submodules
   gallery = gallery ? gallery : data.featured
   type = type ? type : 'product'
   i = 0
 
-  section.gallery.fade.container((id=gallery.name + '-gallery', data-mode=gallery.mode)
+  section.gallery.fade.container(id=gallery.id + '-gallery', data-mode=gallery.mode)
     .grid
       h2.t6.featured-gallery-title !{ gallery.title }
 
@@ -355,11 +371,12 @@ mixin favoritesTitle( gallery )
         if gallery.shareMenu && gallery.favorites && gallery.favorites.length > 0
           +galleryShareMenu( gallery.shareMenu )
 
+
 mixin favoritesGallery( gallery )
   +favoritesTitle( gallery )
 
   if gallery.favorites && gallery.favorites.length > 0
-    section.gallery.fade.gallery-favorites(id=gallery.name + '-gallery', data-mode=gallery.mode)
+    section.gallery.fade.gallery-favorites(id=gallery.id + '-gallery', data-mode=gallery.mode)
       +galleryFilters( gallery, null, true )
 
       .container
@@ -393,7 +410,7 @@ mixin compareGallery( submodules, gallery, type, labels )
   legend = gallery.legend ? gallery.legend : 'this is defined in gallery.legend'
   resetLabel = gallery.resetLabel ? gallery.resetLabel : 'gallery reset label'
 
-  section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
+  section.gallery.fade(id=gallery.id + '-gallery', data-mode=gallery.mode)
 
     +galleryFilters( gallery, true )
 
