@@ -112,7 +112,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                     a.navtray-li-link.tl(href=linkObj.href, title=linkObj.text, target=linkObj.target, tabindex=(200+1))= linkObj.text
               div.navtray-secondary-promo
                 +iQImage(data.electronics.menu_featured.promo.img)
-                span.p2= data.electronics.menu_featured.promo.title
+                span.p2= data.electronics.menu_featured.promo.title 
                 span.p4= data.electronics.menu_featured.promo.message
                   a(href=data.electronics.menu_featured.promo.href, title="data.electronics.menu_featured.promo.title", target=data.electronics.menu_featured.promo.target, tabindex='250')= data.electronics.menu_featured.promo.text
         div.navtray-w.navtray-w-fullwidth-3-4.navtray-w-entertainment.navtray-w-short#navtray-w-entertainment
@@ -130,7 +130,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
             div.navtray-section.navtray-section-featured.navtray-section-featured-short
               div.navtray-secondary-promo.navtray-secondary-promo-short
-                img(src=data.entertainment.menu_featured.promo.img, alt=data.entertainment.menu_featured.promo.title)
+                +iQImage(data.entertainment.menu_featured.promo.img)
                 span.p2= data.entertainment.menu_featured.promo.title
                 span.p4= data.entertainment.menu_featured.promo.message
                   a(href=data.entertainment.menu_featured.promo.href, title=data.entertainment.menu_featured.promo.text, target=data.entertainment.menu_featured.promo.target, tabindex='550')= data.entertainment.menu_featured.promo.text
