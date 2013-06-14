@@ -1,11 +1,10 @@
 include ../../../common/html/jade-helpers.jade
+include tertiary-t1-t5-helpers.jade
 +includeCSS('tertiary-t1-t5')
 +includeJavascriptModule('tertiary-tout-t1-t5')
 
-include tertiary-t1-t5-helpers.jade
-
-//- START TCC MODULE
 - tccMainClasses = ["tcc-module"]
+
 +mainElement(tccMainClasses)
   +header(data.header)
   div#three-up
@@ -14,23 +13,22 @@ include tertiary-t1-t5-helpers.jade
         div.sony-carousel-slide
           .container
             .grid
-              for module in data.contentBlocks
-                - type = module.type
-                - mode = module.mode
-                - contentBlocksClassNames = [type, mode, "sony-carousel-slide-children"]
-                .span4
-                  div(class=contentBlocksClassNames)
-                    case type
-                      when "article"
-                        +article(mode, module)
+              if data.contentBlocks
+                for module in data.contentBlocks
+                  - type = module.type
+                  - mode = module.mode
+                  - contentBlocksClassNames = [type, mode, "sony-carousel-slide-children"]
+                  .span4
+                    div(class=contentBlocksClassNames)
+                      case type
+                        when "article"
+                          +article(mode, module)
 
-                      when "users-voice"
-                        +users-voice(mode, module)
+                        when "users-voice"
+                          +users-voice(mode, module)
 
-                      when "sonys-voice"
-                        +topCenterBottom(mode, module)
+                        when "sonys-voice"
+                          +topCenterBottom(mode, module)
 
-                      when "flickr"                       
-                        +topCenterBottom("flickr", module)
-
-//- END TCC MODULE
+                        when "flickr"
+                          +topCenterBottom("flickr", module)

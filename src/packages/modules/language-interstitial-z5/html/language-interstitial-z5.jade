@@ -13,7 +13,7 @@ e = {"locals":locals, "data":data}
           .span7
             .box.table-center-wrap
               .table-center
-                h1.t2= data.headline
+                h1.t2 !{data.headline}
                 if data.buttons
                   .btn-holder
                     each link in data.buttons
@@ -23,9 +23,11 @@ e = {"locals":locals, "data":data}
      .grid.m-grid-at-979.no-grid-at-767
        .span6
          .module-text-box
-           p.p2-bold.language-interstitial-hdg= data.leftBlock.headline
-           p.p3.language-interstitial-text= data.leftBlock.content
+           if (data.leftBlock) 
+             p.p2-bold.language-interstitial-hdg !{data.leftBlock.headline]
+             p.p3.language-interstitial-text !{data.leftBlock.content}
        .span6
          .module-text-box
-           p.p2-bold.language-interstitial-hdg= data.rightBlock.headline
-           p.p3.language-interstitial-text= data.rightBlock.content
+           if (data.rightBlock) 
+             p.p2-bold.language-interstitial-hdg !{data.rightBlock.headline}
+             p.p3.language-interstitial-text !{data.rightBlock.content}

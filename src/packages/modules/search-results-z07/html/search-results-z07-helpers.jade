@@ -8,10 +8,11 @@ mixin relatedSearchesColumn(items)
 mixin resultsLinkGroup(group)
   .results-link-group
     h3.l3 !{ group.title }
-    ul
-      each option in group.options
-        li.lt3
-          +link( option )
+    if group.options
+      ul
+        each option in group.options
+          li.lt3
+            +link( option )
 
 
 mixin loadMore( data )
@@ -73,30 +74,32 @@ mixin searchSidebar( data )
 
 
 mixin sortOptions( data )
-  .sort-options.visible-phone
-    form.select-narrow
-      span.dropdown.dropdown-alt.ib
-        button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
-          span.js-toggle-text !{ data.narrowResultsSet[0].label }
-          i.fonticon-10-arrowheads-elevator
-        ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
-          each sort in data.narrowResultsSet
-            li
-              a(data-value=sort.name, tabindex="-1", href="#") !{ sort.label }
-      .native-dropdown
-        i.fonticon-10-arrowheads-elevator.absolutely
-        select.select-small
-          each sort in data.narrowResultsSet
-            option(value=sort.name) !{ sort.label }
+  if data.narrowResultsSet
+    .sort-options.visible-phone
+      form.select-narrow
+        span.dropdown.dropdown-alt.ib
+          button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
+            span.js-toggle-text !{ data.narrowResultsSet[0].label }
+            i.fonticon-10-arrowheads-elevator
+          ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
+            each sort in data.narrowResultsSet
+              li
+                a(data-value=sort.name, tabindex="-1", href="#") !{ sort.label }
+        .native-dropdown
+          i.fonticon-10-arrowheads-elevator.absolutely
+          select.select-small
+            each sort in data.narrowResultsSet
+              option(value=sort.name) !{ sort.label }
 
 
 mixin searchSuggestions( data )
-  .search-suggestions
-    span.p3.search-correction !{ data.correctionText }
-    ul.h-list.h-list-lg
-      each correction in data.corrections
-        li.lt3
-          +link( correction )
+  if data.corrections
+    .search-suggestions
+      span.p3.search-correction !{ data.correctionText }
+      ul.h-list.h-list-lg
+        each correction in data.corrections
+          li.lt3
+            +link( correction )
 
 
 mixin mediaBlock( data, type )
@@ -118,10 +121,11 @@ mixin mediaBlock( data, type )
       .bd.feature-text
         p.hdg-dark.title(class=headingClass) !{ data.results.category.title }
         p.p4 !{ data.results.category.description }
-        ul.featured-list
-          each category in data.results.category.subcategories
-            li.lt4
-              +link( category )
+        if data.results.category.subcategories
+          ul.featured-list
+            each category in data.results.category.subcategories
+              li.lt4
+                +link( category )
 
 
   else if type == 'product'
@@ -137,9 +141,10 @@ mixin mediaBlock( data, type )
             .sony-carousel
 
               slides = [ [], [], [], [], [], [] ]
-              each accessory, i in data.results.product.popularAccessories
-                index = Math.floor( i / 6 )
-                - slides[ index ].push( accessory )
+              if data.results.product.popularAccessories
+                each accessory, i in data.results.product.popularAccessories
+                  index = Math.floor( i / 6 )
+                  - slides[ index ].push( accessory )
 
               each slide in slides
                 if slide.length > 0

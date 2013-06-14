@@ -11,22 +11,30 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
+      Modernizr = require('modernizr'),
+      Settings = require('require/sony-global-settings'),
+      Environment = require('require/sony-global-environment'),
       bootstrap = require('bootstrap');
 
   var module = {
-    'init': function() {
-      var self = this,
-          element = $('.modal-unsupported');
+    init: function() {
+      var element = $('.modal-unsupported');
 
       if ( element ) {
         new UnsupportedBrowsers(element);
       }
+
+      // temporary click event for modal demo
+      $('.launch-modal').on('click', function( evt ) {
+        evt.preventDefault();
+        Environment.trigger('unsupportedbrowser');
+      });
     }
   };
 
   var UnsupportedBrowsers = function(element) {
     var self = this;
-    self.$el = $(element);
+    self.$el = element;
 
     self.init();
 
@@ -39,73 +47,70 @@ define(function(require){
 
     init: function() {
       var self = this;
-      self.$win = $(window);
-      self.modalID = '#unsupported-browser-modal';
-
+      self.$modal = self.$el;
       self.bind();
     },
 
     bind: function() {
       var self = this;
-      // temporary click event for modal demo
-      $('.launch-modal').on('click', function() {
-        self.launchModal(self.modalID);
-      });
 
-      $('.close-modal').on('click', function(){
+      // Close buttons
+      self.$el.find('.close-modal').on('click', function( evt ) {
+        evt.preventDefault();
         self.closeModal();
       });
 
-      self.$win.resize($.proxy(self.measureModal, this));
+      // When `unsupportedbrowser` is triggered, launch the modal
+      Environment.on('unsupportedbrowser', $.proxy( self.launchModal, self ) );
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.measureModal, self ));
     },
 
-    launchModal: function(id) {
+    isModalOpen : function() {
+      return Settings.$body.hasClass('modal-open');
+    },
+
+    launchModal: function() {
       var self = this;
-      $(id).modal();
-      $(id).focus();
+      self.$modal.modal();
       self.measureModal();
     },
 
     measureModal: function() {
+      // If the modal isn't open, don't calculate anything!
+      if ( !this.isModalOpen() ) {
+        return;
+      }
+
       var self = this,
-          width = self.$win.width();
+          isTablet = Modernizr.mq( '(min-width: 48em) and (max-width: 61.1875em)' ),
+          modalHeight,
+          modalWidth;
 
-      if ( width > 767 && width < 980 ) {
-        var bodyheight = self.$el.find('.modal-body').get(0).clientHeight;
-        self.$el.addClass('tablet');
-        self.$el.css({
-          'max-height': '780px'
-        });
-        var modalheight = self.$el.height(),
-            modalwidth = self.$el.width(),
-            windowheight = self.$win.height();
+      if ( isTablet ) {
+        modalHeight = self.$modal.height();
+        modalWidth = self.$modal.width();
+        self.positionModal( modalWidth, modalHeight );
 
-        self.positionModal(modalwidth, modalheight);
       } else {
         self.resetModal();
       }
     },
 
     positionModal: function(width, height) {
-      var self = this;
-      self.$el.css({
+      this.$modal.css({
         'margin-top': -height / 2,
         'margin-left': -width / 2
       });
     },
 
-    closeModal: function(){
-      var self = this;
-      $(self.modalID).modal('hide');
+    closeModal: function() {
+      this.$modal.modal('hide');
     },
 
     resetModal: function() {
-      var self = this;
-      if ( self.$el.hasClass('tablet') ) {
-        self.$el.removeClass('tablet');
-      }
-
-      self.$el.css({
+      this.$modal.css({
         'margin-top': '',
         'margin-left': ''
       });

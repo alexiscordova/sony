@@ -72,12 +72,24 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
-        if(Settings.isLTIE8){
+        if(Settings.isLTIE8 || Settings.isAndroid){
           self.$player.addClass( 'no-toggle is-mouseover' );
         }
 
+        if(Settings.isAndroid && !Settings.isSonyTabletS && !Settings.isSonyTabletS){
+          self.$player.find('.fp-ui').hide();
+        }
+
+
         //initialize videos
         self.videoAPI = sonyVideo.initVideos( self.$player );
+
+
+        //hide fullscreen button for ipad
+        if(Settings.isIPad && self.isFullEditorial){
+          self.$player.find('.fp-fullscreen').hide();
+        }
+
 
         self.videoAPI.bind('resume' , function(){
           if(self.isFullEditorial){
@@ -92,31 +104,23 @@ define(function(require){
             self.isFullScreen = true;
             self.onDebouncedResize();
 
-            if(Settings.isLTIE10){
-              $('body').css({
-                'overflow' : 'hidden'
-              });
-            }
+           $('body').css('overflow' , 'hidden');
 
           }else {
             self.isFullScreen = false;
             self.onDebouncedResize();
 
-            if(Settings.isLTIE10){
-              $('body').css({
-                'overflow' : ''
-              });
-            }
-
+            $('body').css('overflow' , '');
+            
             self.$el.find('.fp-ratio').css({
               'padding-top': self.$el.find('.player').data('ratio') * 100 + '%'
-            });   
+            });
             
-            self.$engine.css('top' , 0);    
+            self.$engine.css('top' , 0);
 
             if(self.$el.hasClass('normal')){
               self.$el.css('height', '');
-            }     
+            }
           }
 
         });
@@ -132,7 +136,7 @@ define(function(require){
         }
         
         iQ.update();
-
+        
       },
       
       api: function(){
@@ -173,9 +177,17 @@ define(function(require){
           }
         }
 
-        if(self.isFullScreen || Settings.isSonyTabletS){
+        if(self.isFullScreen || Settings.isSonyTabletS || Settings.isAndroid){
           //console.log(self.isFullScreen);
           self.$engine.css('top' , 0);
+          //window.alert(Settings.isAndroid);
+
+          if(!Settings.isIPad && Settings.isSonyTabletS && Settings.isAndroid){
+            self.$el.find('.fp-fullscreen').css({
+              opacity :  0
+            });
+          }
+
         }
 
         if(wW < 567){
@@ -189,7 +201,6 @@ define(function(require){
             'padding-top': ''
           });
         }
-
 
       }
 
