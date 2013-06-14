@@ -1723,18 +1723,12 @@ define(function(require){
             hasActiveFilter;
 
         for ( filterName in self.filterValues ) {
-          // console.group( filterName );
-          // console.log('currentFilterGroup:', currentFilterGroup, 'lastFilterGroup:', lastFilterGroup);
-          // console.log( filterName === currentFilterGroup );
-          // console.log( lastFilterGroup === currentFilterGroup, lastFilterGroup === null, lastFilterGroup === 'price' );
-          // If the current filter is the last one, and one of the following:
-            // the current filter is also the second to last filter
-            // the second to last filter is null
-            // the second to last filter is price
+          // If the current filter in the loop is the current filter in the system, and one of the following:
+            // the current filter is also the last filter
+            // the last filter is null
+            // the last filter is price
           // Then the current filter group should be skipped
           hasActiveFilter = filterName === currentFilterGroup && ( lastFilterGroup === currentFilterGroup || lastFilterGroup === null || lastFilterGroup === 'price' );
-          // console.log( 'skip %s? %s', filterName, hasActiveFilter );
-          // console.groupEnd();
           statuses[ filterName ] = {};
 
           for ( filterValue in self.filterValues[ filterName ] ) {
