@@ -272,10 +272,9 @@ if data.view == 'basic'
               h4(class=classes) !{ data.title }
               classes = ['t4-bold', 'l-o-d', 'emphasis']
               h5(class=classes) !{ data.emphasis }
-                i.icon-ui2-chevron-16-black-right
-            if data.count && data.button
-              a(class='btn plate-btn lt4 w-count', href=data.button.link)
-                strong !{ data.button.title }
+            if data.count && data.link
+              +link( data.link, [ 'btn' ,'plate-btn' ,'lt4', 'w-count' ], undefined, undefined, true )
+                strong !{ data.link.text }
               .text-count
                 span.number.l2 !{ data.count.number }
                 | !{ " " }
@@ -285,9 +284,9 @@ if data.view == 'basic'
                 span.number.l2 !{ data.count.number }
                 | !{ " " }
                 span.text.l3 !{ data.count.text }
-            else if data.button
-              a(class='btn plate-btn lt4', href=data.button.link)
-                strong !{ data.button.title }
+            else if data.link
+              +link( data.link, [ 'btn' ,'plate-btn' ,'lt4', 'w-count' ], undefined, undefined, true )
+                strong !{ data.link.text }
 
       else if data.layout == 'social'
         .product-img
