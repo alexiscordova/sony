@@ -22,7 +22,7 @@ mixin browserLink( browser, description )
         button.box-close(data-dismiss="modal", aria-hidden="true")
           i.fonticon-10-x-skinny
       .modal-body
-        if (data.subtitle) 
+        if (data.subtitle)
           .unsupported
             .unsupported-hd
               h2.t2#unsupported-browser-label !{ data.title }
@@ -40,5 +40,5 @@ mixin browserLink( browser, description )
                       +browserLink( data.browsers[ i + 1 ], data.download )
                 - }
 
-          a(href="#").lt3.link-proceed.close-modal !{ data.proceed }
-          a(href="#").btn.close-modal !{ data.proceed }
+            a(href="#").lt3.link-proceed.close-modal !{ data.proceed }
+            a(href="#").btn.close-modal !{ data.proceed }
