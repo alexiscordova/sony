@@ -36,25 +36,27 @@ mixin boxclass(_layout)
 mixin boxlayout(_layout)
   layout = _layout ? _layout : data.layout
   classes = data.style
-  if layout.mobilealign
-    classes = classes + " " + layout.mobilealign
-  if layout.text == "left" || layout.text == "full"
-    .container.inner(class = classes)
-      .grid.no-grid-at-767
-        - span = "span" + layout.columns[0]
-        div(class = span)
-          +center
-            +boxclass
-              block
-  else if layout.text == "right" || layout.text == "center"
-    .container.inner(class = classes)
-      .grid.no-grid-at-767
-        - span = "span" + layout.columns[1]
-        - offset =  "offset" + layout.columns[0]
-        div(class = span)(class = offset)
-          +center
-            +boxclass
-              block
+  if layout 
+    if layout.mobilealign
+      classes = classes + " " + layout.mobilealign
+    if layout.text == "left" || layout.text == "full"
+      .container.inner(class = classes)
+        .grid.no-grid-at-767
+          - span = "span" + layout.columns[0]
+          div(class = span)
+            +center
+              +boxclass
+                block
+    else if layout.text == "right" || layout.text == "center"
+      .container.inner(class = classes)
+        if layout.columns
+          .grid.no-grid-at-767
+            - span = "span" + layout.columns[1]
+            - offset =  "offset" + layout.columns[0]
+            div(class = span)(class = offset)
+              +center
+                +boxclass
+                  block
 
 mixin toutcopy(copyobject, titleclass, subtitleclass, bodyclass, mobileclass)
   mobileclass = mobileclass ? mobileclass : ""
@@ -82,7 +84,7 @@ mixin copyblock(_copy, _title, _subtitle, _body)
   if copyobject.link
     .link
       linktextsize = copyobject.link.type == "txt" ? linkclass : ""
-      a(class = copyobject.link.type, href= copyobject.link.url)(class = linktextsize) !{copyobject.link.text}
+      +link(copyobject.link, [copyobject.link.type, linktextsize])
 
 mixin textonlylayout(_layout)
   layout = _layout ? _layout : data.layout
@@ -100,126 +102,127 @@ if data.variation && data.variation.background
   - editorialClasses.push( data.variation.background )
 
 +mainElement( editorialClasses )
-  if data.mode == "textonly"
-    .container
-      +gridstyle
-        +textonlylayout
-          +copyblock
-
-  else if data.mode == "full-inner"
-    .container.submodule
-      +partial(data.submodules[0].type, data.submodules[0].data, true)
-    +boxlayout
-      +copyblock(data, "t3-bold", "t7", "p3")
-  else if data.mode == "full"
-    .container
-      +gridstyle
-        +textonlylayout
-          +copyblock
-    .container.submodule
-      +partial(data.submodules[0].type, data.submodules[0].data, true)
-
-  else if data.mode == "mediaright"
-    .container
-      +gridstyle
-        span = "span" + data.layout.columns[0]
-        div(class = span)
-          +center
-            .box
-              +copyblock(data, "t3-bold", "t7", "p3")
-        span = "span" + data.layout.columns[1]
-        .media-element(class = span)
-          +center
-            +partial(data.submodules[0].type, data.submodules[0].data, true)
-
-  else if data.mode == "medialeft"
-    .container
-      +gridstyle
-        span = "span" + data.layout.columns[0]
-        .media-element(class = span)
-          +center
-            +partial(data.submodules[0].type, data.submodules[0].data, true)
-        span = "span" + data.layout.columns[1]
-        div(class = span)
-          +center
-            .box
-              +copyblock(data, "t3-bold", "t7", "p3")
-
-  else if data.mode == "tout" || data.mode =="full-tout"
-    ups = "m" + data.columns.length + "up"
-    containerClass = ups + "-"
-    suffix = ""
-
-    //- Only 2 column layouts have vertical/horizontal
-    if data.columns.length == 2 && data.layout.tout
-      if data.layout.tout.orientation == "vertical"
-        suffix = "vertical"
-      else
-        suffix = "horizontal"
-    else
-      suffix = "container"
-
-    containerClass = containerClass + suffix
-
-    //- add a generic class too
-    ups = ups + " tout-grid"
-
-    .container(class = containerClass)
-      if data.title
-        +gridstyle("title-block")
+  if ( data.submodules )
+    if data.mode == "textonly"
+      .container
+        +gridstyle
           +textonlylayout
             +copyblock
-      if data.submodules
-        .submodule
-          +partial(data.submodules[0].type, data.submodules[0].data, true)
-      columnoffset = data.layout.tout.columnoffset || 0;
-      offset = "offset" + columnoffset;
-      +gridstyle(ups, data.mode == "tout")
-        if data.columns.length == 1
-          e = {"locals":locals, "data":data.columns[0].image}
-          mspan = e.data == null ? "" : " m-span4"
-          if data.layout.tout.text == "right"
-            span = "span"+ data.layout.tout.columns[columnoffset] + " m-span2"
-            div(class = span)(class = offset)
-              +toutimage(e)
-            span = "span"+ data.layout.tout.columns[columnoffset +1] + mspan
-            div(class = span)(class = "text"+data.layout.tout.text)
-              +toutcopy(data.columns[0], "t7", "", "p3")
 
-          else
-            span = "span"+ data.layout.tout.columns[columnoffset] + mspan
-            div(class = span)(class = offset)(class = "text"+data.layout.tout.text)
-              +toutcopy(data.columns[0], "t7", "", "p3")
-            span = "span"+ data.layout.tout.columns[columnoffset +1] + " m-span2"
-            div(class = span)
-              +toutimage(e)
+    else if data.mode == "full-inner"
+      .container.submodule
+        +partial(data.submodules[0].type, data.submodules[0].data, true)
+      +boxlayout
+        +copyblock(data, "t3-bold", "t7", "p3")
+    else if data.mode == "full"
+      .container
+        +gridstyle
+          +textonlylayout
+            +copyblock
+      .container.submodule
+        +partial(data.submodules[0].type, data.submodules[0].data, true)
+
+    else if data.mode == "mediaright"
+      .container
+        +gridstyle
+          span = "span" + data.layout.columns[0]
+          div(class = span)
+            +center
+              .box
+                +copyblock(data, "t3-bold", "t7", "p3")
+          span = "span" + data.layout.columns[1]
+          .media-element(class = span)
+            +center
+              +partial(data.submodules[0].type, data.submodules[0].data, true)
+
+    else if data.mode == "medialeft"
+      .container
+        +gridstyle
+          span = "span" + data.layout.columns[0]
+          .media-element(class = span)
+            +center
+              +partial(data.submodules[0].type, data.submodules[0].data, true)
+          span = "span" + data.layout.columns[1]
+          div(class = span)
+            +center
+              .box
+                +copyblock(data, "t3-bold", "t7", "p3")
+
+    else if data.mode == "tout" || data.mode =="full-tout"
+      ups = "m" + data.columns.length + "up"
+      containerClass = ups + "-"
+      suffix = ""
+
+      //- Only 2 column layouts have vertical/horizontal
+      if data.columns.length == 2 && data.layout.tout
+        if data.layout.tout.orientation == "vertical"
+          suffix = "vertical"
+        else
+          suffix = "horizontal"
+      else
+        suffix = "container"
+
+      containerClass = containerClass + suffix
+
+      //- add a generic class too
+      ups = ups + " tout-grid"
+
+      .container(class = containerClass)
+        if data.title
+          +gridstyle("title-block")
+            +textonlylayout
+              +copyblock
+        if data.submodules
+          .submodule
+            +partial(data.submodules[0].type, data.submodules[0].data, true)
+        columnoffset = data.layout.tout.columnoffset || 0;
+        offset = "offset" + columnoffset;
+        +gridstyle(ups, data.mode == "tout")
+          if data.columns.length == 1
+            e = {"locals":locals, "data":data.columns[0].image}
+            mspan = e.data == null ? "" : " m-span4"
+            if data.layout.tout.text == "right"
+              span = "span"+ data.layout.tout.columns[columnoffset] + " m-span2"
+              div(class = span)(class = offset)
+                +toutimage(e)
+              span = "span"+ data.layout.tout.columns[columnoffset +1] + mspan
+              div(class = span)(class = "text"+data.layout.tout.text)
+                +toutcopy(data.columns[0], "t7", "", "p3")
+
+            else
+              span = "span"+ data.layout.tout.columns[columnoffset] + mspan
+              div(class = span)(class = offset)(class = "text"+data.layout.tout.text)
+                +toutcopy(data.columns[0], "t7", "", "p3")
+              span = "span"+ data.layout.tout.columns[columnoffset +1] + " m-span2"
+              div(class = span)
+                +toutimage(e)
 
 
-        else if data.columns.length == 2
-          for col, i in data.columns
-            e = {"locals":locals, "data":col.image}
-            span = "span"+ data.layout.tout.columns[i + columnoffset]
-            offset = i == 0 ? "offset"+columnoffset : ""
-            mspan = e.data == null ? "" : "m-span4"
-            if data.layout.tout.orientation == "vertical"
-              .vertical(class = span)(class = offset)(class = data.layout.tout.alignment)
+          else if data.columns.length == 2
+            for col, i in data.columns
+              e = {"locals":locals, "data":col.image}
+              span = "span"+ data.layout.tout.columns[i + columnoffset]
+              offset = i == 0 ? "offset"+columnoffset : ""
+              mspan = e.data == null ? "" : "m-span4"
+              if data.layout.tout.orientation == "vertical"
+                .vertical(class = span)(class = offset)(class = data.layout.tout.alignment)
+                  +toutimage(e, "m-span2")
+                  +toutcopy(col,"t7", "", "p3", mspan)
+              else
+                .horizontal(class = span)(class = offset)(class = data.layout.tout.alignment)(class = "clearfix")
+                  +toutimage(e, "m-span2")
+                  div
+                    +center
+                      +toutcopy(col, "t7", "", "p3 hidden-phone", mspan)
+
+          else if data.columns.length == 3
+            for col, i in data.columns
+              e = {"locals":locals, "data":col.image}
+              span = "span"+ data.layout.tout.columns[i]
+              mspan = e.data == null ? "" : "m-span4"
+              div(class = span)(class = data.layout.tout.alignment)
                 +toutimage(e, "m-span2")
                 +toutcopy(col,"t7", "", "p3", mspan)
-            else
-              .horizontal(class = span)(class = offset)(class = data.layout.tout.alignment)(class = "clearfix")
-                +toutimage(e, "m-span2")
-                div
-                  +center
-                    +toutcopy(col, "t7", "", "p3 hidden-phone", mspan)
-
-        else if data.columns.length == 3
-          for col, i in data.columns
-            e = {"locals":locals, "data":col.image}
-            span = "span"+ data.layout.tout.columns[i]
-            mspan = e.data == null ? "" : "m-span4"
-            div(class = span)(class = data.layout.tout.alignment)
-              +toutimage(e, "m-span2")
-              +toutcopy(col,"t7", "", "p3", mspan)
 
 
 

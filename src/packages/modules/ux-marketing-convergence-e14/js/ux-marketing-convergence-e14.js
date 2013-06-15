@@ -4,7 +4,7 @@
 //
 // * **Class:** MarketingConvergenceModule
 // * **Version:** 0.2
-// * **Modified:** 06/05/2013
+// * **Modified:** 06/11/2013
 // * **Author:** George Pantazis, Telly Koosis
 // * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html), [SonyCarousel](sony-carousel.html)
 
@@ -103,6 +103,9 @@ define(function(require){
         if( !Settings.$html.hasClass('lt-ie10') ){
           // register resize events; event is also triggered on init
           self.registerEnquire();
+        }else{
+          // still set active dial in IE
+          self.setActiveDial();
         }
       }
       // always show content of first slide
@@ -111,8 +114,6 @@ define(function(require){
 
     // create carousel
     'initCarousel' : function(){
-      //console.log( 'initCarousel »');
-
       var self = this;
 
       self.$carouselInstance = self.$carousel.sonyCarousel({
@@ -251,21 +252,29 @@ define(function(require){
       }
     },
 
-    // Update the current progress indicator dial, reset others to zero, and timestamp the event.
-    // Label active dial for IE fallbacks.
-    'resetDials': function() {
+    'setActiveDial' : function(){
       var self = this;
+
       self.$activeDial = self.$dials.eq(self.currentPartnerProduct);
       self.$activeDialLabel = self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels);
-      self.$dials.not(self.$activeDial).val(0).trigger('change');
-
-      self.slideStartTime = new Date();
 
       // set current active
       self.$dialLabels.removeClass('active');
       self.$activeDialLabel.addClass('active');
 
-      // rest sytles on new dials
+    },
+
+    // Update the current progress indicator dial, reset others to zero, and timestamp the event.
+    // Label active dial for IE fallbacks.
+    'resetDials': function() {
+      var self = this;
+
+      self.$dials.not(self.$activeDial).val(0).trigger('change');
+      self.slideStartTime = new Date();
+
+      self.setActiveDial();
+
+      // rest styles on new dials
       self.setDialStyle("off");
       self.$dials.simpleKnob(self.dialStyle).show();
     },
@@ -389,6 +398,8 @@ define(function(require){
         .eq(which)
         .find(".sony-carousel-slide-children")
         .addClass("active");
+
+
     },
 
     // Animations that should occur as the window is ready to paint.

@@ -38,20 +38,11 @@ define(function(require){
     // Set base element
     self.$el = $( element );
 
-    // Modernizr vars
-    self.hasTouch             = Modernizr.touch;
-    self.transitionDuration   = Modernizr.prefixed('transitionDuration');
-    self.cssTransitions       = Modernizr.transitions;
-    self.useCSS3              = Modernizr.csstransforms && Modernizr.csstransitions;
-
     // Basic selectors
     self.$doc                   = Settings.$document;
     self.$win                   = Settings.$window;
-    self.$html                  = Settings.$html;
 
     // Cache some jQuery objects we'll reference later
-    self.$ev                  = $({});
-    self.$window              = Settings.$window;
     self.$slides              = self.$el.find('.compare-carousel-slide');
     self.$slideWrapper        = self.$el.find('.compare-carousel-wrapper');
     self.$slideContainer      = self.$el.find('.compare-carousel');
@@ -68,6 +59,10 @@ define(function(require){
     self.moduleId             = self.$el.attr('id');
     self.currentId            = 0;
 
+    self.modalID              = 'light-compare-modal';
+    self.hasTouch             = Settings.hasTouchEvents;
+    self.useIScroll           = self.hasTouch;
+
     // touch defaults
     self.startInteractionPointX = null;
     self.lastTouch            = null;
@@ -75,7 +70,6 @@ define(function(require){
 
     // deep linking vars
     self.location             = window.location;
-    self.history              = window.history;
     self.initFromhash         = false;
 
     self.isDesktop = false;
@@ -119,15 +113,14 @@ define(function(require){
         });
       } // end if(Modernizr.mediaqueries )
 
-     // initialize the router for deep linking
+      // initialize the router for deep linking
       Router.on('chapter-'+self.moduleId+'(/:a)', $.proxy(self.directFromHash, self));
+
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.measureModal, self ));
 
       self.$thumbNav.on(self.downEvent, function(e) { self.dragStart(e); });
 
-      self.$win = $(window);
-      self.modalID = 'light-compare-modal';
-      self.hasTouch = Settings.hasTouchEvents;
-      self.useIScroll = self.hasTouch;
       if (self.useIScroll) {
         self.initiScroll();
       }
@@ -139,7 +132,7 @@ define(function(require){
       var self = this;
 
       $('.launch-modal').on('click', $.proxy(self.launchModal, self));
-      self.$win.resize($.proxy(self.measureModal, this));
+      // self.$win.resize($.proxy(self.measureModal, this));
 
       if (self.useIScroll) {
         $('#' + self.modalID).on('shown', $.proxy(self.updateiScroll, self));
@@ -187,7 +180,7 @@ define(function(require){
       self.isMobile = false;
       self.isDesktop = true;
 
-      self.$window.off('resize.d9-mobile-resize');
+      self.$win.off('resize.d9-mobile-resize');
       self.removeWrapperStyles();
 
     },
@@ -198,7 +191,7 @@ define(function(require){
       self.isMobile = true;
       self.isDesktop = false;
 
-      self.$window.on('resize.d9-mobile-resize', $.proxy(self.getSlideHeight, self ));
+      self.$win.on('resize.d9-mobile-resize', $.proxy(self.getSlideHeight, self ));
 
       // for some reason it $.evenHeights calculates the wrong height
       // this is even if DomReady is true. Even if debugger; is run now
@@ -319,7 +312,6 @@ define(function(require){
         looped: false,
         jumping: false,
         axis: 'x',
-        useCSS3: self.useCSS3,
         paddles: false,
         pagination: false,
         draggable: false
@@ -465,9 +457,9 @@ define(function(require){
       setTimeout(function(){
         $chapterTabs.removeClass('active');
       },100);
-      
+
         self.updateiScroll();
-      
+
       // update the hash after we got the correct slide transition
       self.updateHash(self.location, self.currentId);
     },
@@ -510,29 +502,16 @@ define(function(require){
       });
     },
 
-    launchModal: function() {
+    launchModal: function( evt ) {
       var self = this;
+      evt.preventDefault();
       $('#' + self.modalID).modal();
       self.measureModal();
-      self.orientationChange();
-    },
-
-    orientationChange: function() {
-      var self = this;
-
-      var supportsOrientationChange = "orientationchange" in window,
-      orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-      if (window.addEventListener) {
-        window.addEventListener(orientationEvent, function() {
-          self.measureModal();
-        }, false);
-      }
     },
 
     initiScroll: function() {
       var self = this;
       self.iscroll =  new IScroll(self.modalID);
-      window.iscroll = self.iscroll;
     },
 
     updateiScroll: function(){

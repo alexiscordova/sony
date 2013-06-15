@@ -52,21 +52,11 @@ define(<span class="keyword">function</span>(require){
         self._initJumpLinks();
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Scroll to the top of the window on mouseup/touchend/pointerup</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.scrollToTopOnClick ) {
-        self.$el.on( Settings.END_EV, <span class="keyword">function</span>(e) {
-          <span class="keyword">var</span> nodeName = e.target.nodeName;
-          <span class="keyword">if</span> ( nodeName === <span class="string">'A'</span> || nodeName === <span class="string">'BUTTON'</span> ) {
-            <span class="keyword">return</span>;
-          }
-          Utilities.scrollToTop();
-        });
-      }
-
       setTimeout(<span class="keyword">function</span>() {
         self.refreshOffset();
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Make sure there's something to “spy” on</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.hasJumpLinks ) {
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Set up twitter bootstrap scroll spy</p>             </td>             <td class="code">               <div class="highlight"><pre>          $body.scrollspy({
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Make sure there's something to “spy” on</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.hasJumpLinks ) {
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Set up twitter bootstrap scroll spy</p>             </td>             <td class="code">               <div class="highlight"><pre>          $body.scrollspy({
             target: <span class="string">'.sticky-nav'</span>,
             offset: self.targetOffset
           });
@@ -82,15 +72,41 @@ define(<span class="keyword">function</span>(require){
           closeStickyNav = $.proxy( self._closeStickyNav, self );
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Bind to window scroll and resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$window.on(<span class="string">'scroll'</span>, $.proxy( self._onScroll, self ));
-      Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self._onResize, self ));
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Bind to window scroll and resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$window.on(<span class="string">'scroll.stickynav'</span>, $.proxy( self._onScroll, self ));
+      Environment.on(<span class="string">'global:resizeDebounced.stickynav'</span>, $.proxy( self._onResize, self ));
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy</p>             </td>             <td class="code">               <div class="highlight"><pre>      Settings.$document.on(<span class="string">'universal-nav-open-finished universal-nav-close-finished'</span>, debouncedRefresh );
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy</p>             </td>             <td class="code">               <div class="highlight"><pre>      Settings.$document.on(<span class="string">'universal-nav-open-finished universal-nav-close-finished'</span>, debouncedRefresh );
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Immediately close the sticky nav when u-nav button is clicked</p>             </td>             <td class="code">               <div class="highlight"><pre>      Settings.$document.on(<span class="string">'universal-nav-open universal-nav-close'</span>, closeStickyNav );
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Immediately close the sticky nav when u-nav button is clicked</p>             </td>             <td class="code">               <div class="highlight"><pre>      Settings.$document.on(<span class="string">'universal-nav-open universal-nav-close'</span>, closeStickyNav );
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Images loading can create more space on the page and invalidate the scrollspy offsets</p>             </td>             <td class="code">               <div class="highlight"><pre>      $(<span class="string">'.iq-img'</span>).on(<span class="string">'imageLoaded'</span>, debouncedRefresh );
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Images loading can create more space on the page and invalidate the scrollspy offsets</p>             </td>             <td class="code">               <div class="highlight"><pre>      $(<span class="string">'.iq-img'</span>).on(<span class="string">'imageLoaded.stickynav'</span>, debouncedRefresh );
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Scroll to the top of the window on mouseup/touchend/pointerup</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.scrollToTopOnClick ) {
+        self.$el.on( Settings.END_EV, <span class="keyword">function</span>(e) {
+          <span class="keyword">var</span> nodeName = e.target.nodeName;
+          <span class="keyword">if</span> ( nodeName === <span class="string">'A'</span> || nodeName === <span class="string">'BUTTON'</span> ) {
+            <span class="keyword">return</span>;
+          }
+          Utilities.scrollToTop();
+        });
+      }
+    },
+
+    _unsubscribeFromEvents : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Remove window and environment events added by sticky nav</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$window.off(<span class="string">'.stickynav'</span>);
+      Environment.off(<span class="string">'.stickynav'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Ignore universal nav</p>             </td>             <td class="code">               <div class="highlight"><pre>      Settings.$document.off(<span class="string">'universal-nav-open-finished universal-nav-close-finished'</span>);
+      Settings.$document.off(<span class="string">'universal-nav-open universal-nav-close'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Unbind from all images</p>             </td>             <td class="code">               <div class="highlight"><pre>      $(<span class="string">'.iq-img'</span>).off(<span class="string">'.stickynav'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Remove scroll to top functionality</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.scrollToTopOnClick ) {
+        self.$el.off( Settings.END_EV );
+      }
     },
 
     _initJumpLinks : <span class="keyword">function</span>() {
@@ -107,37 +123,38 @@ define(<span class="keyword">function</span>(require){
     _onScroll : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      <span class="keyword">if</span> ( self.isTicking ) {
+      <span class="keyword">if</span> ( !self.enabled ) {
         <span class="keyword">return</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>IE8 still has sticky open sometimes at the top</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="function"><span class="keyword">function</span> <span class="title">update</span><span class="params">()</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Save the new scroll top</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.lastScrollY = self.$window.scrollTop();
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Cancel the old request, and use the new one</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.requestID ) {
+        cancelAnimationFrame( self.requestID );
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Kick off a new request for when the browser is ready</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.requestID = requestAnimationFrame(<span class="function"><span class="keyword">function</span> <span class="title">update</span><span class="params">()</span> {</span>
         self._updateStickyNav();
-      }
-
-      self.isTicking = <span class="literal">true</span>;
-      self.lastScrollY = self.$window.scrollTop();
-
-      <span class="keyword">if</span> ( Modernizr.raf ) {
-        requestAnimationFrame( update );
-      } <span class="keyword">else</span> {
-        update();
-      }
-
+      });
     },
 
     _updateStickyNav : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           st = self.lastScrollY;
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Open the stick nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( st &gt;= self.stickyTriggerOffset ) {
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>_updateStickyNav is asynchronus with rAF, so it has the chance of being called
+after the sticky nav is supposed to be destroyed</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.destroyed ) {
+        <span class="keyword">return</span>;
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Open the stick nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( st &gt;= self.stickyTriggerOffset ) {
         self._openStickyNav();
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Close the sticky nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Close the sticky nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
         self._closeStickyNav();
       }
 
-      self.isTicking = <span class="literal">false</span>;
+      self.requestID = <span class="literal">false</span>;
     },
 
     _closeStickyNav : <span class="keyword">function</span>() {
@@ -171,18 +188,6 @@ define(<span class="keyword">function</span>(require){
         triggerPoint = $offsetTarget.offset().top;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Get the trigger point for when the nav should <code>open</code>
-if ( triggerPoint &lt; 100 ) {
-  setTimeout(function() {
-    var triggerPoint = $offsetTarget[0].offsetTop;
-    // If we still don't have a high enough value, use the default
-    if ( triggerPoint &lt; 100 ) {
-      triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
-    }
-    self.setTriggerOffset( triggerPoint );</p>             </td>             <td class="code">               <div class="highlight"><pre>
-
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>}, 50);
-}</p>             </td>             <td class="code">               <div class="highlight"><pre>
       self.setTriggerOffset( triggerPoint );
 
       <span class="keyword">return</span> self;
@@ -211,7 +216,7 @@ if ( triggerPoint &lt; 100 ) {
         .refreshTriggerPoint()
         .refreshOffset();
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Update the positions for the scroll spy</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( <span class="keyword">this</span>.hasJumpLinks ) {
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Update the positions for the scroll spy</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( <span class="keyword">this</span>.hasJumpLinks ) {
         Settings.$body
           .scrollspy(<span class="string">'refresh'</span>)
           .scrollspy(<span class="string">'process'</span>);
@@ -229,22 +234,51 @@ if ( triggerPoint &lt; 100 ) {
 
       <span class="keyword">this</span>.targetOffset = newOffset;
       <span class="keyword">if</span> ( scrollspy ) {
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Sony Google TV has problems</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( Settings.isGoogleTV ) {
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Sony Google TV has problems</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( Settings.isGoogleTV || Settings.isPS3 ) {
           newOffset += <span class="number">5</span>;
         }
         scrollspy.options.offset = newOffset;
       }
+    },
+
+    enable : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.enabled = <span class="literal">true</span>;
+      self._onScroll();
+    },
+
+    disable : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self._closeStickyNav();
+      self.enabled = <span class="literal">false</span>;
+    },
+
+    destroy : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( self.hasJumpLinks ) {
+        self.$jumpLinks.off(<span class="string">'.simplescroll'</span>);
+      }
+
+      self._closeStickyNav();
+      self._unsubscribeFromEvents();
+      self.$el.removeData(<span class="string">'stickyNav'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Bootstrap Scrollspy can't be destroyed...</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      self.destroyed = <span class="literal">true</span>;
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.stickyNav = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
         stickyNav = self.data(<span class="string">'stickyNav'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>If we don't have a stored stickyNav, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !stickyNav ) {
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>If we don't have a stored stickyNav, make a new one and save it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !stickyNav ) {
         stickyNav = <span class="keyword">new</span> StickyNav( self, options );
         self.data( <span class="string">'stickyNav'</span>, stickyNav );
       }
@@ -255,16 +289,17 @@ if ( triggerPoint &lt; 100 ) {
     });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.stickyNav.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.stickyNav.defaults = {
     $jumpLinks: <span class="literal">undefined</span>,
     offsetTarget: <span class="number">300</span>, <span class="comment">// Trigger offset which opens the sticky nav. Can be a number or jQuery element</span>
     offset: <span class="number">10</span>, <span class="comment">// Distance from the target when scrollspy should active the next link</span>
     scrollToTopOnClick: <span class="literal">false</span>
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.stickyNav.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.stickyNav.settings = {
     isInitialized: <span class="literal">false</span>,
-    isTicking: <span class="literal">false</span>,
+    enabled: <span class="literal">true</span>,
+    requestID: <span class="literal">false</span>,
     targetOffset: <span class="number">10</span>,
     lastScrollY: <span class="number">0</span>
   };

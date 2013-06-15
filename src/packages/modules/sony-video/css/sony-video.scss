@@ -210,6 +210,8 @@
     height: 74px;
     background: rgba(47 , 53 , 61, 0.15);
     cursor: pointer;
+    z-index: 2000;
+    -webkit-transform:translateX(0px);
 
     .fp-play-btn-inner {
       position: absolute;
@@ -268,6 +270,8 @@
     height: 88px;
     background: rgba(47 , 53 , 61, 0.15);
     cursor: pointer;
+    z-index: 2000;
+    -webkit-transform:translateX(0px);
 
     .fp-play-btn-inner {
       position: absolute;
@@ -336,6 +340,10 @@
 	height: 23px;
 	background-position: 12px -197px;
 	cursor: pointer;
+}
+
+.flowplayer .fp-fullscreen {
+	z-index: $zindexFullScreenVideo;
 }
 
 .is-rtl.flowplayer .fp-fullscreen,.is-rtl.flowplayer .fp-unload,.is-rtl.flowplayer .fp-close{right:auto;left:5px;background-position:18px -197px}

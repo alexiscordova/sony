@@ -21,17 +21,17 @@ define(<span class="keyword">function</span>(require){
   <span class="keyword">var</span> MIN_COUNTRIES_PER_COLUMN = <span class="number">5</span>;
 
   <span class="keyword">var</span> module = {
-    <span class="string">'init'</span>: <span class="keyword">function</span>() {
-      <span class="keyword">var</span> countryRegion = $(<span class="string">'.country-region'</span>);
-      <span class="keyword">if</span> ( countryRegion ) {
-        <span class="keyword">new</span> CountryRegionSelection(countryRegion);
+    init: <span class="keyword">function</span>() {
+      <span class="keyword">var</span> $countryRegion = $(<span class="string">'.country-region'</span>);
+      <span class="keyword">if</span> ( $countryRegion.length ) {
+        <span class="keyword">new</span> CountryRegionSelection( $countryRegion );
       }
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>View Controller for country / region selection</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> CountryRegionSelection = <span class="keyword">function</span>(element) {
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>View Controller for country / region selection</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> CountryRegionSelection = <span class="keyword">function</span>( $element ) {
     <span class="keyword">var</span> self = <span class="keyword">this</span>;
-    self.$el = $(element);
+    self.$el = $element;
 
     self.init();
   };
@@ -44,10 +44,7 @@ define(<span class="keyword">function</span>(require){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.$pageWrapperOuter = $(<span class="string">'#page-wrap-outer'</span>);
 
-      <span class="keyword">var</span> ua = navigator.userAgent.toLowerCase();
-      self.isAndroid = ua.indexOf(<span class="string">"android"</span>) &gt; -<span class="number">1</span>;
-
-      <span class="keyword">if</span> ( self.$pageWrapperOuter.length &gt; <span class="number">0</span> &amp;&amp; !self.isAndroid) {
+      <span class="keyword">if</span> ( self.$pageWrapperOuter.length &gt; <span class="number">0</span> &amp;&amp; !Settings.isAndroid) {
         self.initFullPageBuild();
         self.scrollableId = <span class="string">'scroll'</span>;
       } <span class="keyword">else</span> {
@@ -135,13 +132,9 @@ define(<span class="keyword">function</span>(require){
         self.toDesktop();
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>$(window).on('orientationchange', $.proxy(self.setMobileHeight, self));</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> supportsOrientationChange = <span class="string">"orientationchange"</span> <span class="keyword">in</span> window,
-          orientationEvent = supportsOrientationChange ? <span class="string">"orientationchange"</span> : <span class="string">"resize"</span>;
-      <span class="keyword">if</span> (window.addEventListener) {
-        window.addEventListener(orientationEvent, <span class="keyword">function</span>() {
-            self.setMobileHeight();
-        }, <span class="literal">false</span>);
-      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Listen for global resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self.setMobileHeight, self ));
+
       <span class="keyword">return</span> self;
     },
 
@@ -178,7 +171,6 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Called when media query matches mobile.</p>             </td>             <td class="code">               <div class="highlight"><pre>    toMobile : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-      console.log(self.stickyHeader.loaded);
       <span class="keyword">if</span> (self.stickyHeader.loaded){
         self.stickyHeader.enable();
       }

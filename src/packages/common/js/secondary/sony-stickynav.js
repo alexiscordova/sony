@@ -52,17 +52,6 @@ define(function(require){
         self._initJumpLinks();
       }
 
-      // Scroll to the top of the window on mouseup/touchend/pointerup
-      if ( self.scrollToTopOnClick ) {
-        self.$el.on( Settings.END_EV, function(e) {
-          var nodeName = e.target.nodeName;
-          if ( nodeName === 'A' || nodeName === 'BUTTON' ) {
-            return;
-          }
-          Utilities.scrollToTop();
-        });
-      }
-
       setTimeout(function() {
         self.refreshOffset();
 
@@ -86,8 +75,8 @@ define(function(require){
 
 
       // Bind to window scroll and resize
-      self.$window.on('scroll', $.proxy( self._onScroll, self ));
-      Environment.on('global:resizeDebounced', $.proxy( self._onResize, self ));
+      self.$window.on('scroll.stickynav', $.proxy( self._onScroll, self ));
+      Environment.on('global:resizeDebounced.stickynav', $.proxy( self._onResize, self ));
 
       // When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy
       Settings.$document.on('universal-nav-open-finished universal-nav-close-finished', debouncedRefresh );
@@ -97,7 +86,38 @@ define(function(require){
 
 
       // Images loading can create more space on the page and invalidate the scrollspy offsets
-      $('.iq-img').on('imageLoaded', debouncedRefresh );
+      $('.iq-img').on('imageLoaded.stickynav', debouncedRefresh );
+
+      // Scroll to the top of the window on mouseup/touchend/pointerup
+      if ( self.scrollToTopOnClick ) {
+        self.$el.on( Settings.END_EV, function(e) {
+          var nodeName = e.target.nodeName;
+          if ( nodeName === 'A' || nodeName === 'BUTTON' ) {
+            return;
+          }
+          Utilities.scrollToTop();
+        });
+      }
+    },
+
+    _unsubscribeFromEvents : function() {
+      var self = this;
+
+      // Remove window and environment events added by sticky nav
+      self.$window.off('.stickynav');
+      Environment.off('.stickynav');
+
+      // Ignore universal nav
+      Settings.$document.off('universal-nav-open-finished universal-nav-close-finished');
+      Settings.$document.off('universal-nav-open universal-nav-close');
+
+      // Unbind from all images
+      $('.iq-img').off('.stickynav');
+
+      // Remove scroll to top functionality
+      if ( self.scrollToTopOnClick ) {
+        self.$el.off( Settings.END_EV );
+      }
     },
 
     _initJumpLinks : function() {
@@ -114,29 +134,33 @@ define(function(require){
     _onScroll : function() {
       var self = this;
 
-      if ( self.isTicking ) {
+      if ( !self.enabled ) {
         return;
       }
 
-      // IE8 still has sticky open sometimes at the top
-      function update() {
-        self._updateStickyNav();
-      }
-
-      self.isTicking = true;
+      // Save the new scroll top
       self.lastScrollY = self.$window.scrollTop();
 
-      if ( Modernizr.raf ) {
-        requestAnimationFrame( update );
-      } else {
-        update();
+      // Cancel the old request, and use the new one
+      if ( self.requestID ) {
+        cancelAnimationFrame( self.requestID );
       }
 
+      // Kick off a new request for when the browser is ready
+      self.requestID = requestAnimationFrame(function update() {
+        self._updateStickyNav();
+      });
     },
 
     _updateStickyNav : function() {
       var self = this,
           st = self.lastScrollY;
+
+      // _updateStickyNav is asynchronus with rAF, so it has the chance of being called
+      // after the sticky nav is supposed to be destroyed
+      if ( self.destroyed ) {
+        return;
+      }
 
       // Open the stick nav if it's past the trigger
       if ( st >= self.stickyTriggerOffset ) {
@@ -147,7 +171,7 @@ define(function(require){
         self._closeStickyNav();
       }
 
-      self.isTicking = false;
+      self.requestID = false;
     },
 
     _closeStickyNav : function() {
@@ -180,20 +204,6 @@ define(function(require){
         $offsetTarget = self.offsetTarget.jquery ? self.offsetTarget : $( self.offsetTarget );
         triggerPoint = $offsetTarget.offset().top;
       }
-
-      // Get the trigger point for when the nav should `open`
-      // if ( triggerPoint < 100 ) {
-      //   setTimeout(function() {
-      //     var triggerPoint = $offsetTarget[0].offsetTop;
-      //     // If we still don't have a high enough value, use the default
-      //     if ( triggerPoint < 100 ) {
-      //       triggerPoint = $.fn.stickyNav.defaults.offsetTarget;
-      //     }
-      //     self.setTriggerOffset( triggerPoint );
-
-
-      //   }, 50);
-      // }
 
       self.setTriggerOffset( triggerPoint );
 
@@ -248,6 +258,36 @@ define(function(require){
         }
         scrollspy.options.offset = newOffset;
       }
+    },
+
+    enable : function() {
+      var self = this;
+
+      self.enabled = true;
+      self._onScroll();
+    },
+
+    disable : function() {
+      var self = this;
+
+      self._closeStickyNav();
+      self.enabled = false;
+    },
+
+    destroy : function() {
+      var self = this;
+
+      if ( self.hasJumpLinks ) {
+        self.$jumpLinks.off('.simplescroll');
+      }
+
+      self._closeStickyNav();
+      self._unsubscribeFromEvents();
+      self.$el.removeData('stickyNav');
+
+      // Bootstrap Scrollspy can't be destroyed...
+
+      self.destroyed = true;
     }
   };
 
@@ -285,7 +325,8 @@ define(function(require){
   // --------------------------
   $.fn.stickyNav.settings = {
     isInitialized: false,
-    isTicking: false,
+    enabled: true,
+    requestID: false,
     targetOffset: 10,
     lastScrollY: 0
   };

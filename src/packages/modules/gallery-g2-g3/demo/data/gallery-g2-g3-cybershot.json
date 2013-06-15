@@ -1,4 +1,8 @@
 {
+    "config": {
+        "module_name": "gallery",
+        "module_id": "gallery"
+    },
     "tabs": [
         {
             "label": "Featured",
@@ -52,32 +56,41 @@
         }
     ],
     "featured": {
-        "_comments": "name should be unique, as it is used for IDs.",
-        "name": "featured-cameras",
+        "_comments": "id should be unique, as it is used for IDs.",
+        "id": "featured-cameras",
         "title": "Featured Cameras",
         "mode": "editorial",
         "layout": "layout5",
-        "callout": "See &amp; Compare All Cameras",
-        "href" : "#"
+        "link" : {
+            "title" : "See all cameras",
+            "text" : "See &amp; Compare All Cameras",
+            "href" : "#SEE_ALL",
+            "target" : "_blank"
+        }
     },
     "featured2": {
-        "_comments": "name should be unique, as it is used for IDs.",
-        "name": "featured-accessories",
+        "_comments": "id should be unique, as it is used for IDs.",
+        "id": "featured-accessories",
         "title": "Featured Accessories",
         "mode": "editorial",
         "layout": "layout2",
-        "callout": "See &amp; Compare All Camera Accessories",
-        "href" : "#"
+        "link" : {
+            "title" : "",
+            "text" : "See &amp; Compare All Camera Accessories",
+            "href" : "#SEE_ALL",
+            "target" : ""
+        }
     },
     "productCards": {
-        "_comments": "name should be unique, as it is used for IDs. galleryName is used in the compare screen.",
-        "name": "camera-cards",
+        "_comments": "id should be unique, as it is used for IDs. name is used in the compare screen and sticky nav.",
+        "id": "camera-cards",
         "mode": "detailed",
-        "galleryName": "Cyber-shot&reg;",
+        "name": "Cyber-shot&reg;",
         "pluralProducts" : "Products",
         "singularProduct" : "Product",
         "zeroProductsMessage" : "results based on your request",
         "startOver" : "Start over?",
+        "clearAll" : "Clear All",
         "filterSet": [
             {
                 "filterGroup" : 1,
@@ -346,9 +359,10 @@
                 "layout" : "text-only",
                 "text" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod",
                 "link" : {
-                    "url" : "#HELP_POPOVER_LINK",
+                    "title" : "Learn more here",
+                    "href" : "#HELP_POPOVER_LINK",
                     "text" : "Learn more",
-                    "newWindow" : true
+                    "target" : "_blank"
                 }
             },
             "sortText" : "Sort By:",
@@ -387,13 +401,19 @@
         "productStrips" : [
             {
                 "title": "Cases, Covers &amp; Straps",
-                "callout": "See All 25 Cases, Covers &amp; Straps",
-                "subtype" : "casesCoversAndStraps"
+                "subtype" : "casesCoversAndStraps",
+                "link" : {
+                    "href" : "#CASES_COVERS_STRAPS",
+                    "text" : "See All 25 Cases, Covers &amp; Straps"
+                }
             },
             {
                 "title": "Batteries &amp; Chargers",
-                "callout": "See All 18 Batteries &amp; Chargers",
-                "subtype" : "batteriesAndChargers"
+                "subtype" : "batteriesAndChargers",
+                "link" : {
+                    "href" : "#BATTERIES_CHARGERS",
+                    "text" : "See All 18 Batteries &amp; Chargers"
+                }
 
             },
             {
@@ -520,9 +540,5 @@
             "type": "packages/modules/product/html/product.jade",
             "data": "packages/modules/product/demo/data/vct-r100-remote.json"
         }
-    ],
-	"config": {
-		"module_name": "gallery",
-		"module_id": "gallery"
-	}
+    ]
 }

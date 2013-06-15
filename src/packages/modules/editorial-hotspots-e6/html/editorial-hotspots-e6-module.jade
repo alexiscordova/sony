@@ -12,15 +12,9 @@ mixin hotspotMobileModal(modalTarget)
 
 
 mixin hotspotCore(hotspotData, useSmall)
-  if !hotspotData.size
-    size = data.type === "full" ? size = "large" : size = "small"
-  else 
-    size = hotspotData.size
+  - size = hotspotData.size ? hotspotData.size : (data.type == "full") ? "large" : "small"
+  - smallClass = useSmall ? "hspot-small" : ""
 
-  if useSmall
-    smallClass = "hspot-small"
-  else
-    smallClass = ""
   span.hspot-outer(class=smallClass, data-x=hotspotData.coords[0], data-y=hotspotData.coords[1]).eh-transparent.no-movement
     if smallClass == "hspot-small"
       .arrow-left.eh-transparent
@@ -55,10 +49,10 @@ mixin hotspotCore(hotspotData, useSmall)
                 h5.t6 #{hotspotData.title}
                 p.p3 #{hotspotData.bodyCopy}
                 if(hotspotData.link)
-                  a.lt3(href=hotspotData.link.url) #{hotspotData.link.copy}
+                  +link( hotspotData.link, ['lt3'] )
               if(hotspotData.testimonial)
                 .footer.is-default-on
-                  p.p3 #{hotspotData.testimonial.copy}
+                  p.p3 #{hotspotData.testimonial.text}
                   blockquote.l4 #{hotspotData.testimonial.credit}
               else
                 .footer.hidden
@@ -81,10 +75,10 @@ mixin hotspotCore(hotspotData, useSmall)
                 h5.t7 #{hotspotData.title}
                 p.p4 #{hotspotData.bodyCopy}
                 if(hotspotData.link)
-                  a.lt4(href=hotspotData.link.url) #{hotspotData.link.copy}
+                  +link( hotspotData.link, ['lt4'] )
               if(hotspotData.testimonial)
                 .footer.is-default-on
-                  p.p4 #{hotspotData.testimonial.copy}
+                  p.p4 #{hotspotData.testimonial.text}
                   blockquote.l4 #{hotspotData.testimonial.credit}
               else
                 .footer.hidden
@@ -94,8 +88,7 @@ mixin hotspotCore(hotspotData, useSmall)
 - extraclass = image.classes || ""
 - anchor = data.id || "hotspot-instance-x"
 - modalTarget = anchor+'-modal-container'
-
-hotspotClass = ["hotspot-module"]
+- hotspotClass = ["hotspot-module"]
 
   +mainElement(hotspotClass)
     if data.background == "true"
@@ -104,15 +97,17 @@ hotspotClass = ["hotspot-module"]
         .hspot-underlay.hidden
           .hspot-global-details-main.hidden
         .hspot-global-details-overlay.hidden.eh-transparent
-        - for hotstpot in data.hotspots.items
-          +hotspotCore(hotstpot, false)
+        if data.hotspots.items
+          for hotstpot in data.hotspots.items
+            +hotspotCore(hotstpot, false)
     else
       .image-module.hotspot-instance.track-by-asset
         img.iq-img(id= anchor, class= extraclass, alt= image.alt, data-src-desktop= image.srcDesktop, data-src-tablet= image.srcTablet, data-src-phone= image.srcPhone, data-src-desktop-highres= image.srcDesktopHighRes, data-src-tablet-highres= image.srcTabletHighRes, data-src-phone-highres= image.srcPhoneHighRes)
           noscript
               img(src= image.noscriptsrc)
-        - for hotstpot in data.hotspots.items
-          +hotspotCore(hotstpot, true)
+        if data.hotspots.items
+          for hotstpot in data.hotspots.items
+            +hotspotCore(hotstpot, true)
         +hotspotMobileModal(modalTarget)
       .hspot-underlay.hidden
         .hspot-global-details-main.hidden

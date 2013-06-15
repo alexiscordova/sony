@@ -32,6 +32,7 @@ define(function (require) {
   // Because sometimes there's no way to feature test it
   self.isIPhone = (/iphone|ipod/gi).test( ua );
   self.isIOS = (/iphone|ipod|ipad/gi).test( ua );
+  self.isIPad = (/ipad/gi).test( ua );
   self.isAndroid = (/android/gi).test( ua );
   self.isPS3 = (/playstation 3/gi).test( ua );
   self.isSonyTabletS = (/sony tablet s/gi).test( ua );

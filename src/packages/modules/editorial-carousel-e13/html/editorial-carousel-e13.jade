@@ -16,11 +16,11 @@ case data.variation
   div(class=moduleClasses, data-mode=moduleMode)
     .container
       .grid
-        h3.t3.ec-title= data.title
-        p.p3.ec-subtitle= data.subtitle
+        h3.t3.ec-title !{ data.title }
+        p.p3.ec-subtitle !{ data.subtitle }
         if data.link
           p.lt3.text-center.ec-tl
-            a(href=data.link.href)= data.link.label
+            +link( data.link )
 
     .m-container
       .sony-carousel-wrapper
@@ -28,9 +28,10 @@ case data.variation
 
           tilesPerSlide = 4
           slides = [ [], [], [], [], [], [] ]
-          each tile, i in data.tiles
-            index = Math.floor( i / tilesPerSlide )
-            - slides[ index ].push( tile )
+          if data.tiles
+            each tile, i in data.tiles
+              index = Math.floor( i / tilesPerSlide )
+              - slides[ index ].push( tile )
 
           each slide in slides
             if slide.length > 0
@@ -39,14 +40,14 @@ case data.variation
                   .slimgrid
                     each tile in slide
                       .sony-carousel-slide-children.span3
-                        a.ec-tile(href=tile.link ? tile.link : '#')
+                        +link( tile.link, [ "ec-tile" ] )
                           if tile.headline
                             .headline-counter
                               span.p3.count
-                                strong= tile.headline.currentPlayers
-                              | &nbsp;
+                                strong !{ tile.headline.currentPlayers }
+                              | !{ ' ' }
                               span.p5.text-uppercase
-                                strong= tile.headline.currentPlayersText
+                                strong !{ tile.headline.currentPlayersText }
                           .wrapper-image
                             .wrapper-inside
                               classes = [ 'cover', 'ghost-center-wrap' ]
@@ -56,13 +57,13 @@ case data.variation
                                 .ghost-center
                                   span.picto-play
                                     span.bg-for-icon
-                                    span.picto(class = tile.callToAction.icon)
-                                  span.l3.cta= tile.callToAction.text
+                                    span.picto(class=tile.callToAction.icon)
+                                  span.l3.cta !{ tile.callToAction.text }
                               +iQImage( tile.img )
                           .infos
                             p.p3.tile-title
-                              strong= tile.infos.title
+                              strong !{ tile.infos.title }
                             p.p4.total-players
-                              strong= tile.infos.totalPlayers
-                              | &nbsp;
-                              span= tile.infos.playersText
+                              strong !{ tile.infos.totalPlayers }
+                              | !{ " " }
+                              span !{ tile.infos.playersText }
