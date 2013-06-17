@@ -8,13 +8,13 @@ mixin loaderDiv()
       img(class="global-loader", src="img/loader.gif", alt="Loading...")
 
 
-//- Using `each` without an if statement here is safe because it's already been checked
 mixin filterColor( filterSet )
-  ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
-    each filter in filterSet.filters
-      //- Can't have variable attribute names :( - build an html string
-      tagString = '<li class="fonticon-10-sm-bold-check--after swatch-' + filter.value + '" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '"></li>'
-      | !{tagString}
+  if filterSet.filters
+    ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
+      each filter in filterSet.filters
+        //- Can't have variable attribute names :( - build an html string
+        tagString = '<li class="fonticon-10-sm-bold-check--after swatch-' + filter.value + '" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '"></li>'
+        | !{tagString}
 
 
 mixin filterRange( filterSet )
@@ -30,36 +30,36 @@ mixin filterRange( filterSet )
     .range-control(data-label=filterSet.label, data-filter=filterSet.name, data-filter-type=filterSet.type, data-min=filterSet.min, data-max=filterSet.max)
 
 
-//- Using `each` without an if statement here is safe because it's already been checked
 mixin filterButton( filterSet )
-  .btn-group(data-filter=filterSet.name, data-filter-type=filterSet.type)
-    each filter in filterSet.filters
-      tagString = '<button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</button>'
-      | !{tagString}
-  if filterSet.help
-    +helpPopover( filterSet.help )
+  if filterSet.filters
+    .btn-group(data-filter=filterSet.name, data-filter-type=filterSet.type)
+      each filter in filterSet.filters
+        tagString = '<button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</button>'
+        | !{tagString}
+    if filterSet.help
+      +helpPopover( filterSet.help )
 
 
-//- Using `each` without an if statement here is safe because it's already been checked
 mixin filterCheckbox( filterSet )
-  ul.unstyled(data-filter=filterSet.name, data-filter-type=filterSet.type)
-    each filter in filterSet.filters
-      li.control-inline
-        if filter.help
-          +helpPopover( filter.help, true )
-        input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
-        label.p3(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value) !{ filter.label }
+  if filterSet.filters
+    ul.unstyled(data-filter=filterSet.name, data-filter-type=filterSet.type)
+      each filter in filterSet.filters
+        li.control-inline
+          if filter.help
+            +helpPopover( filter.help, true )
+          input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
+          label.p3(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value) !{ filter.label }
 
 
-//- Using `each` without an if statement here is safe because it's already been checked
 mixin filterGroup( filterSet )
-  ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type, data-length=filterSet.filters.length)
-    each filter in filterSet.filters
-      li = '<li class="media clearfix" data-label=' + filter.label + ' data-' + filterSet.name + '="' + filter.value + '">'
-      btn = '<div class="pull-left"><button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after media-object"><i class="fonticon-20-' + filter.icon + '"></i></button></div>'
-      body = '<div class="media-body"><p class="media-heading p3">' + filter.label + '</p><p class="p4">' + filter.description + '</p></div>'
-      mediaObject = li + btn + body + '</li>'
-      | !{ mediaObject }
+  if filterSet.filters
+    ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type, data-length=filterSet.filters.length)
+      each filter in filterSet.filters
+        li = '<li class="media clearfix" data-label=' + filter.label + ' data-' + filterSet.name + '="' + filter.value + '">'
+        btn = '<div class="pull-left"><button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after media-object"><i class="fonticon-20-' + filter.icon + '"></i></button></div>'
+        body = '<div class="media-body"><p class="media-heading p3">' + filter.label + '</p><p class="p4">' + filter.description + '</p></div>'
+        mediaObject = li + btn + body + '</li>'
+        | !{ mediaObject }
 
 
 mixin helpPopover( help, pullRight, circleOnLeft )
@@ -142,13 +142,16 @@ mixin compareBrowseBtn( isCompareGallery, link, addFade )
     i.fonticon-10-compare
     | !{ compareStr }
 
-mixin filterBtn( galleryName )
+
+mixin filterBtn( filterId )
   filterStr = 'Filter'
   filterBtnClasses = [ 'btn', 'btn-alt-special', 'slide-toggle', 'collapsed', 'first', 'pull-left' ]
+  target = '#' + filterId
 
-  button(class=filterBtnClasses, data-toggle="collapse", data-target='#' + galleryName + '-filters')
+  button(class=filterBtnClasses, data-toggle="collapse", data-target=target)
     | !{ filterStr }
     i.fonticon-10-arrowhead-down
+
 
 mixin galleryShareMenu( shareMenu )
   .share-options
@@ -158,10 +161,23 @@ mixin galleryShareMenu( shareMenu )
         i.fonticon-10-sm-bold-plus
     +shareMenu( shareMenu.socialButtons, shareMenu.shortLink )
 
-mixin productCount( plural, singular, total )
-  div.pull-left.p3.product-count-wrap
+
+mixin productCount( plural, singular, total, floatRight )
+  if total == null
+    total = "0"
+
+  classes = [ "p3", "product-count-wrap" ]
+
+  if floatRight
+    - classes.push( "pull-right" )
+  else
+    - classes.push( "pull-left" )
+
+  div(class=classes)
     strong.text-dark.product-count.js-product-count !{ total }
+    | !{ " " }
     span.js-product-str.product-str(data-plural=plural, data-singular=singular) !{ plural }
+
 
 mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   sortByStr = gallery.sortText ? gallery.sortText : 'Sort By:'
@@ -178,6 +194,8 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
   numBtns = ' btns-' + numBtns
   wrapperClass = wrapperClass + numBtns
 
+  filterId = gallery.id + "-filters"
+
   div(class=wrapperClass)
     if gallery.sortSet
       div(class=gridClass)
@@ -187,11 +205,11 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
 
         //- Regular gallery - Filter and compare buttons
         if gallery.filterSet
-          +filterBtn( gallery.name )
           .pull-right.content-right
             //- Sort options
             +compareBrowseBtn( isCompareGallery, compareBrowseLink, false )
             +sorter( gallery.sortSet, sortByStr )
+          +filterBtn( filterId )
 
         else if isFavoritesGallery
           //- Favorites gallery
@@ -212,10 +230,13 @@ mixin galleryFilters( gallery, isCompareGallery, isFavoritesGallery )
 
 
   if gallery.filterSet
-    +filterTray( gallery.filterSet, gallery.name )
+    +filterTray( gallery, filterId )
 
 
-mixin filterTray( filterSets, galleryName )
+mixin filterTray( gallery, filterId )
+  filterSets = gallery.filterSet
+  clearAll = gallery.clearAll ? gallery.clearAll : "gallery.clearAll"
+
   .container.slide-arrow-under.fade
     .relative
       .slide-toggle-arrow
@@ -224,25 +245,37 @@ mixin filterTray( filterSets, galleryName )
       .slide-toggle-arrow
 
 
-  .collapse.slide-toggle-target(id=galleryName + '-filters')
+  .collapse.slide-toggle-target(id=filterId)
     .filter-options.container
       .grid.no-grid-at-767
         if filterSets
           .span4
             each filterSet in filterSets
-              if filterSet.filterGroup == 1 && filterSet.filters
+              if filterSet.filterGroup == 1
                 +filterSet( filterSet )
           .span4
             each filterSet in filterSets
-              if filterSet.filterGroup == 2 && filterSet.filters
+              if filterSet.filterGroup == 2
                 +filterSet( filterSet )
           .span4
             each filterSet in filterSets
-              if filterSet.filterGroup == 3 && filterSet.filters
+              if filterSet.filterGroup == 3
                 +filterSet( filterSet )
 
   .container.active-filters-wrap
-    .grid.active-filters(data-clear-label="Clear All")
+    .grid.active-filters(data-clear-label=clearAll)
+
+
+mixin stickyProductCount( gallery )
+  pluralProducts = gallery.pluralProducts ? gallery.pluralProducts : 'Products'
+  singularProduct = gallery.singularProduct ? gallery.singularProduct : 'Product'
+
+  .sticky-nav.product-count-sticky
+    .container
+      .grid
+        .pull-left
+          h2.t6.sticky-nav-title !{ gallery.name }
+        +productCount( pluralProducts, singularProduct, 0, true )
 
 
 mixin sorter( sortSet, text )
@@ -277,6 +310,7 @@ mixin zeroProductsMessage( gallery )
           span.text-med-dark !{ ' ' + gallery.zeroProductsMessage }
         button.btn.btn-small.js-clear-filters !{ gallery.startOver }
 
+
 mixin zeroFavoritesMessage( gallery, isHidden )
   title = gallery.nofavs && gallery.nofavs.title ? gallery.nofavs.title : 'gallery.nofavs.title'
   message = gallery.nofavs && gallery.nofavs.message ? gallery.nofavs.message : 'gallery.nofavs.message'
@@ -294,13 +328,28 @@ mixin zeroFavoritesMessage( gallery, isHidden )
       p.p3 !{ message }
 
 
+mixin favoritesAlert( gallery )
+  .alert.collapsed#sign-in-alert
+    .container.alert-inner
+      .grid.relative
+        p.p3.msg
+          | !{ data.favs.signedOutMessage.message }
+          +link( gallery.signedOutMessage )
+          | !{ data.favs.signedOutMessage.messageSuffix }
+        button(class="box-close box-close-small", data-dismiss="alert", data-target="#sign-in-alert")
+          i.fonticon-10-x
+
+
 mixin featuredGallery( submodules, gallery, type )
   submodules = submodules ? submodules : data.submodules
   gallery = gallery ? gallery : data.featured
   type = type ? type : 'product'
   i = 0
+  galleryId = gallery.id ? gallery.id + "-gallery" : ("gallery" + Math.round( Math.random() * 1000 ))
+  //- Because Math.random is used, the value needs to be saved
+  - gallery.id = galleryId
 
-  section.gallery.fade.container((id=gallery.name + '-gallery', data-mode=gallery.mode)
+  section.gallery.fade.container(id=galleryId, data-mode=gallery.mode)
     .grid
       h2.t6.featured-gallery-title !{ gallery.title }
 
@@ -323,10 +372,15 @@ mixin featuredGallery( submodules, gallery, type )
 mixin detailedGallery( submodules, gallery, type )
   submodules = submodules ? submodules : data.submodules
   gallery = gallery ? gallery : data.productCards
-  type = type ? type : 'product'
+  type = type ? type : "product"
 
-  section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
+  galleryId = gallery.id ? gallery.id + "-gallery" : ("gallery" + Math.round( Math.random() * 1000 ))
+  //- Because Math.random is used, the value needs to be saved
+  - gallery.id = galleryId
+
+  section.gallery.fade(id=galleryId, data-mode=gallery.mode)
     +galleryFilters( gallery )
+    +stickyProductCount( gallery )
 
     .container
       if submodules
@@ -355,11 +409,15 @@ mixin favoritesTitle( gallery )
         if gallery.shareMenu && gallery.favorites && gallery.favorites.length > 0
           +galleryShareMenu( gallery.shareMenu )
 
+
 mixin favoritesGallery( gallery )
   +favoritesTitle( gallery )
+  galleryId = gallery.id ? gallery.id + "-gallery" : ("gallery" + Math.round( Math.random() * 1000 ))
+  //- Because Math.random is used, the value needs to be saved
+  - gallery.id = galleryId
 
   if gallery.favorites && gallery.favorites.length > 0
-    section.gallery.fade.gallery-favorites(id=gallery.name + '-gallery', data-mode=gallery.mode)
+    section.gallery.fade.gallery-favorites(id=galleryId, data-mode=gallery.mode)
       +galleryFilters( gallery, null, true )
 
       .container
@@ -389,11 +447,15 @@ mixin compareGallery( submodules, gallery, type, labels )
   type = type ? type : 'product'
   labels = labels ? labels : gallery.labels
 
-  label = gallery.galleryName ? gallery.galleryName : 'this is gallery.galleryName'
+  label = gallery.name ? gallery.name : 'this is gallery.name'
   legend = gallery.legend ? gallery.legend : 'this is defined in gallery.legend'
   resetLabel = gallery.resetLabel ? gallery.resetLabel : 'gallery reset label'
 
-  section.gallery.fade(id=gallery.name + '-gallery', data-mode=gallery.mode)
+  galleryId = gallery.id ? gallery.id + "-gallery" : ("gallery" + Math.round( Math.random() * 1000 ))
+  //- Because Math.random is used, the value needs to be saved
+  - gallery.id = galleryId
+
+  section.gallery.fade(id=galleryId, data-mode=gallery.mode)
 
     +galleryFilters( gallery, true )
 
