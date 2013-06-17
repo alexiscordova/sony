@@ -117,63 +117,98 @@ register listener for global debounce to call method <strong>after</strong> debo
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>determine and set the height/widths of the measurement elements</p>             </td>             <td class="code">               <div class="highlight"><pre>    setMeasurementDimensions : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>determine and set the height/widths of the measurement elements</p>             </td>             <td class="code">               <div class="highlight"><pre>    setMeasurementDimensions : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          dataList = [],
           isSmallVImage, isSmallHImage,
           theMarginTop, theMarginLeft, top,
-          $el, dir, $theImage, $unitContainer, $measurementParent, $unitContainerHeight, $unitContainerWidth, theImageWidth, theImageHeight, isThinImage;
+          $el, dir, $theImage, $unitContainer, $measurementParent,
+          unitContainerHeight, unitContainerWidth, theImageWidth, theImageHeight, isThinImage;
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>if image is thin, don't add pad/margins</p>             </td>             <td class="code">               <div class="highlight"><pre>      isThinImage = isSmallVImage = isSmallHImage = <span class="literal">false</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>      theMarginTop = theMarginLeft = top = <span class="number">0</span>;
-      $el = dir = $theImage = $unitContainer = $measurementParent = $unitContainerHeight = $unitContainerWidth = theImageWidth = theImageHeight = <span class="literal">undefined</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>for each image</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$dimensions.each(<span class="keyword">function</span>(index) {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>for each image, calculate its dimensions and margins</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$dimensions.each(<span class="keyword">function</span>(index) {
+        <span class="keyword">var</span> parentClass = <span class="string">""</span>,
+            data = {};
+
         $el = $(<span class="keyword">this</span>);
         dir = $el.hasClass(<span class="string">"vertical-measurement"</span>) ? <span class="string">"v"</span> : <span class="string">"h"</span>;
         $unitContainer = $el.find(<span class="string">".units-container"</span>);
         $measurementParent = $unitContainer.closest(<span class="string">"div.measurement"</span>);
         $theImage = $measurementParent.find(<span class="string">".img-wrapper img"</span>);
-        $unitContainerHeight = $unitContainer.innerHeight();
-        $unitContainerWidth = $unitContainer.innerWidth();
-        theImageWidth = dir === <span class="string">"v"</span> ? $unitContainerWidth : $theImage.outerWidth();
-        theImageHeight = dir === <span class="string">"v"</span> ? $theImage.outerHeight() : $unitContainerHeight;
+        unitContainerHeight = $unitContainer.innerHeight();
+        unitContainerWidth = $unitContainer.innerWidth();
+        theImageWidth = dir === <span class="string">"v"</span> ? unitContainerWidth : $theImage.outerWidth();
+        theImageHeight = dir === <span class="string">"v"</span> ? $theImage.outerHeight() : unitContainerHeight;
 
 
-        <span class="keyword">if</span>($el.closest(<span class="string">"div.top-wrapper"</span>).hasClass(<span class="string">"is-thin"</span>)){
+        <span class="keyword">if</span> ( $el.closest(<span class="string">"div.top-wrapper"</span>).hasClass(<span class="string">"is-thin"</span>) ) {
           isThinImage = <span class="literal">true</span>;
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>for a vertical measurement</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(dir === <span class="string">"v"</span>) {
-          <span class="keyword">if</span>(theImageHeight &gt;= $unitContainerHeight){
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>center vertically</p>             </td>             <td class="code">               <div class="highlight"><pre>            theMarginTop = -($unitContainerHeight / <span class="number">2</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>for a vertical measurement</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( dir === <span class="string">"v"</span> ) {
+          <span class="keyword">if</span> ( theImageHeight &gt;= unitContainerHeight ) {
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>center vertically</p>             </td>             <td class="code">               <div class="highlight"><pre>            theMarginTop = -(unitContainerHeight / <span class="number">2</span>);
             top = <span class="string">"50%"</span>;
-          }<span class="keyword">else</span>{
+          } <span class="keyword">else</span> {
             isSmallVImage = <span class="literal">true</span>;
-            $measurementParent.addClass(<span class="string">"small-v-image"</span>);
+            parentClass = <span class="string">"small-v-image"</span>;
           }
 
           theMarginLeft = isThinImage ? <span class="number">0</span> : theMarginLeft;
 
-        }<span class="keyword">else</span> <span class="keyword">if</span> (dir === <span class="string">"h"</span>){
+        } <span class="keyword">else</span> <span class="keyword">if</span> ( dir === <span class="string">"h"</span> ) {
 </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>for a horizontal measurement</p>             </td>             <td class="code">               <div class="highlight"><pre>
-          <span class="keyword">if</span>(theImageWidth &gt;= $unitContainerWidth){
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>center horiz</p>             </td>             <td class="code">               <div class="highlight"><pre>            theMarginLeft = -($unitContainerWidth / <span class="number">2</span>);
-          }<span class="keyword">else</span>{
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>if the image is too small enforce 50px</p>             </td>             <td class="code">               <div class="highlight"><pre>            $measurementParent.addClass(<span class="string">"small-h-image"</span>);
+          <span class="keyword">if</span> ( theImageWidth &gt;= unitContainerWidth ) {
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>center horiz</p>             </td>             <td class="code">               <div class="highlight"><pre>            theMarginLeft = -(unitContainerWidth / <span class="number">2</span>);
+          } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>if the image is too small enforce 50px</p>             </td>             <td class="code">               <div class="highlight"><pre>            parentClass = <span class="string">"small-h-image"</span>;
             isSmallHImage = <span class="literal">true</span>;
           }
         }
 
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Save data so that the DOM isn't manipulated between loops</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( parentClass ) {
+          data.parentClass = parentClass;
+          data.$measurementParent = $measurementParent;
+        }
 
-        <span class="keyword">if</span>((!isSmallHImage) || (!isSmallVImage)){
-          self.setHeightWidth( $el, theImageWidth, theImageHeight );
-          self.setMarginsTop( $unitContainer, top, theMarginTop, theMarginLeft );
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>More data!</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !isSmallHImage || !isSmallVImage ) {
+          data.dimensions = {
+            $el: $el,
+            theImageWidth: theImageWidth,
+            theImageHeight: theImageHeight
+          };
+
+          data.margins = {
+            $el: $unitContainer,
+            top: top,
+            theMarginTop: theMarginTop,
+            theMarginLeft: theMarginLeft
+          };
+        }
+
+        dataList.push( data );
+      });
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Process the saved data so the DOM is changed all at once</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$dimensions.each(<span class="keyword">function</span>( i ) {
+        <span class="keyword">var</span> data = dataList[ i ];
+
+        <span class="keyword">if</span> ( data.parentClass ) {
+          data.$measurementParent.addClass( data.parentClass );
+        }
+
+        <span class="keyword">if</span> ( data.dimensions ) {
+          self.setHeightWidth( data.dimensions.$el, data.dimensions.theImageWidth, data.dimensions.theImageHeight );
+          self.setMarginsTop( data.margins.$el, data.margins.top, data.margins.theMarginTop, data.margins.theMarginLeft );
         }
       });
+
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>set the height and width of the ele</p>             </td>             <td class="code">               <div class="highlight"><pre>    setHeightWidth : <span class="keyword">function</span>( $el, w, h ){
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>set the height and width of the ele</p>             </td>             <td class="code">               <div class="highlight"><pre>    setHeightWidth : <span class="keyword">function</span>( $el, w, h ){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       $el.css({
         <span class="string">"height"</span>:h,
@@ -183,7 +218,7 @@ register listener for global debounce to call method <strong>after</strong> debo
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>set the left right margins and top position of the ele</p>             </td>             <td class="code">               <div class="highlight"><pre>    setMarginsTop : <span class="keyword">function</span>($el, top, mTop, mLeft){
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>set the left right margins and top position of the ele</p>             </td>             <td class="code">               <div class="highlight"><pre>    setMarginsTop : <span class="keyword">function</span>($el, top, mTop, mLeft){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       $el.css({
         <span class="string">"top"</span> : top,
