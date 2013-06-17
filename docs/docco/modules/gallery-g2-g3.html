@@ -2491,7 +2491,12 @@ Make filters a 2up with a span12 below</p>             </td>             <td cla
 
           $grid.append( $sorter );
           $container.append( $grid );
-          $container.insertBefore( self.$grid.parent() );
+
+          <span class="keyword">if</span> ( self.hasFilters ) {
+            $container.insertAfter( self.$container.find(<span class="string">'.active-filters-wrap'</span>) );
+          } <span class="keyword">else</span> {
+            $container.insertBefore( self.$grid.parent() );
+          }
 
           self.hasSorterMoved = <span class="literal">true</span>;
         }
