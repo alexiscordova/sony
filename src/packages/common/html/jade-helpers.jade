@@ -114,6 +114,11 @@ mixin shareMenu( socialButtons, shortLink, addCloseButton )
       input.p4(type="text", value=shortLink)
 
 
+//- @param {Object}  linkObj       a link object with `text`, `href`, `title`, and optionally `target`
+//- @param {Array}   [classes]     an array of strings which will become the classes on the `<a>`
+//- @param {String}  [icon]        class name for an icon if desired
+//- @param {Boolean} [iconBefore]  If true, places the font icon before the link text
+//- @param {Boolean} [noText]      If true, the linkObject.text will not be output
 mixin link( linkObj, classes, icon, iconBefore, noText )
   if linkObj
     classes = classes ? classes : false
@@ -150,6 +155,26 @@ mixin link( linkObj, classes, icon, iconBefore, noText )
 //- Link with a chevron
 mixin breadcrumbLink( obj )
   +link( obj, [ "l3", "breadcrumb-link" ], "fonticon-10-chevron-reverse", true )
+
+
+//- Creates an unordered list of links which are used for in page navigation (likely a sticky nav)
+//- Used in Single/Multi spec pages and the product summary
+mixin jumpLinks( links, isInStickyNav )
+  ulClasses = [ "jump-links", "inline" ]
+
+  //- Use tabindex="-1" for links in sticky nav
+  hideFromTabIndex = isInStickyNav ? "-1" : false
+
+  if isInStickyNav
+    - ulClasses.push( "nav" )
+
+  if links
+    ul(class=ulClasses)
+      each link, i in links
+        //- Add active to the first link
+        clss = i ? false : 'active'
+        li(class=clss)
+          a.lt3.no-hover-transition(href=link.href, tabindex=hideFromTabIndex) !{ link.text }
 
 
 blocks = {};

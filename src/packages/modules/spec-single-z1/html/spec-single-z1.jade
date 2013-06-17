@@ -16,25 +16,15 @@ if data.submodules
       p.product-model.p5
         span(itemprop="model") !{ model }
 
-    if data.internalLinks
-      .grid
-        ul.jump-links.inline
-          each link, i in data.internalLinks
-            - clss = i ? '' : 'active'
-            li(class=clss)
-              a.lt3.no-hover-transition(href=link.href) !{ link.text }
+    .grid
+      +jumpLinks( data.internalLinks )
 
 
   .sticky-nav.spec-sticky-nav
     .container
       .grid
         h2.t6.sticky-nav-title !{ data.title }
-        if data.internalLinks
-          ul.jump-links.inline.nav
-            each link, i in data.internalLinks
-              - clss = i ? '' : 'active'
-              li(class=clss)
-                a.lt3.no-hover-transition(href=link.href, tabindex="-1") !{ link.text }
+        +jumpLinks( data.internalLinks, true )
 
 
   section.spec-product#specifications
