@@ -1,5 +1,3 @@
-include ../../../common/html/jade-helpers.jade
-
 //- In the JSON, the "Featured" label_tag text can be changed, or the entire tag can be disabled by setting its "label" value to "false".
 
 //- If the starting_tab_index is defined in the JSON, use it. If not, don't apply a tabindex to any of the links.
@@ -19,8 +17,7 @@ div#universal-nav.u-nav-wrapper(role='navigation')
       //- - tab_index++
       h5.l1
         | !{data.title}
-      a#u-nav-all-sites-link.u-nav-all-sites-link(href=data.all_sites_link.link,tabindex=tab_index++)
-        | !{data.all_sites_link.label}
+      a#u-nav-all-sites-link.u-nav-all-sites-link(href=data.all_sites_link.href, title=data.all_sites_link.text, target=data.all_sites_link.target)= data.all_sites_link.text
 
     //- the row of image-heavy links
     if data.primary_columns[0].double_wide == "true"
@@ -57,7 +54,7 @@ div#universal-nav.u-nav-wrapper(role='navigation')
               - feat_class2 += " u-nav-primary-row2"
 
           div(class=feat_class2)
-            a.u-nav-primary-link.l2(href=feat.link,tabindex=tab_index++)
+            a.u-nav-primary-link.l2(href=feat.href, tabindex=tab_index++, title=feat.caption, target=feat.target)
               if col.double_tall == "true" || col.double_wide == "true"
                 if data.label_tag.label != "false"
                   span.label.label-success !{data.label_tag.label}
@@ -75,10 +72,10 @@ div#universal-nav.u-nav-wrapper(role='navigation')
         else
           - lastId = null
         li.u-nav-secondary-li
-          a.p3.u-nav-secondary-link(href=feat.link,tabindex=tab_index++,id=lastId) !{feat.caption}
+          a.p3.u-nav-secondary-link(href=feat.href, tabindex=tab_index++, id=lastId, title=feat.caption, target=feat.target) !{feat.caption}
           span.p4.u-nav-secondary-desc !{feat.description}
 
-    //- a#u-nav-last-tabindex.u-nav-last-tabindex(href=data.all_sites_link.link,tabindex=tab_index++)
+    //- a#u-nav-last-tabindex.u-nav-last-tabindex(href=data.all_sites_link.href,tabindex=tab_index++)
     //-   | !{data.all_sites_link.label}
 
 

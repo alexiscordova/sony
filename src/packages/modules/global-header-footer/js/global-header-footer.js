@@ -53,6 +53,9 @@ define(function(require) {
     self.mobileFooterThreshold = 567;
     self.isSearchOpen = false;
     self.closeTimer = false;
+    self.wasJustTapped = false;
+    self.debugCount = 0;
+    self.$debugDiv = $();
 
     // A simple delay, in milliseconds, before the "out" function is called.
     // If the user mouses back over the element before the timeout has expired the
@@ -160,9 +163,9 @@ define(function(require) {
       self.$pageWrapOuter.on( 'click touchstart focus', $.proxy( self.onPageWrapOuterPress, self ) );
 
       // For debugging the Electronics & Entertainment buttons on Android:
-      // var debugCount = 0;
-      // var $debugDiv = $('<div>').css({'position':'absolute','top':'5px','left':'5px','z-index':'1000','color':'white'});
-      // $('.nav-mobile-scroller').append($debugDiv);
+      self.debugCount = 0;
+      self.$debugDiv = $('<div>').css({'position':'absolute','top':'5px','right':'5px','z-index':'10000','color':'white', 'background-color':'rgba(100,100,100,0.5)', 'width':'50%'});
+      $('.nav-mobile-scroller').append(self.$debugDiv);
 
       // Set up primary nav buttons (Electronics, Entertainment, Account & Search)
       self.$activeNavBtns.each(function() {
@@ -174,7 +177,7 @@ define(function(require) {
         $thNavBtn.on('click touchstart mouseenter focus', function(e) {
           e.preventDefault();
           // For debugging the Electronics & Entertainment buttons on Android:
-          // $debugDiv.html(debugCount++);
+          // self.$debugDiv.html(self.debugCount++);
         });
 
         // init
@@ -192,7 +195,6 @@ define(function(require) {
         if ( self.hasTouch ) {
           // console.log('init hammer');
           // Use hammer.js to detect taps
-          // HAAAALP! DEBUGGING ON ANDROID
           $thNavBtn.hammer().on('tap', $.proxy( self.onNavBtnTap, self ) );
 
         // NOT touch device - set up HOVER triggers
@@ -422,23 +424,33 @@ define(function(require) {
           isATrayMenuOpen = $currentBtn !== false,
           isThisTrayMenuOpen = isATrayMenuOpen && $navBtn.is( $currentBtn );
 
-      // This tray/menu is open, close it
-      if ( isThisTrayMenuOpen ) {
-        // console.log( 'this tray menu is open already. Close it.' );
-        self.closeActiveNavBtn();
+      if (!self.wasJustTapped){
+        self.wasJustTapped = true;
+        setTimeout(function(){
+          self.wasJustTapped = false;
+        },500);
+        // self.updateDebugText(self.debugCount++);
 
-      // A tray/menu is open, but it's not this one. Close the old, open the new.
-      } else if ( isATrayMenuOpen && !isThisTrayMenuOpen ) {
-        // console.log( 'A tray is open and its not this one. Close the old, open the new' );
-        self.closeActiveNavBtn();
-        self.setActiveNavBtn( $navBtn );
+        // This tray/menu is open, close it
+        if ( isThisTrayMenuOpen ) {
+          // console.log( 'this tray menu is open already. Close it.' );
+          // self.updateDebugText( '1 This is Open. Close it.' );
+          self.closeActiveNavBtn();
 
-      // Nothing is open, do it!
-      } else if ( !isATrayMenuOpen ) {
-        // console.log('nothing is open, open it.');
-        self.setActiveNavBtn( $navBtn );
+        // A tray/menu is open, but it's not this one. Close the old, open the new.
+        } else if ( isATrayMenuOpen && !isThisTrayMenuOpen ) {
+          // console.log( 'A tray is open and its not this one. Close the old, open the new' );
+          // self.updateDebugText( '2 Other is Open. Close/Open.' );
+          self.closeActiveNavBtn();
+          self.setActiveNavBtn( $navBtn );
+
+        // Nothing is open, do it!
+        } else if ( !isATrayMenuOpen ) {
+          // console.log('nothing is open, open it.');
+          // self.updateDebugText('3 Nothing is Open. Open it.');
+          self.setActiveNavBtn( $navBtn );
+        }
       }
-
     },
 
     onNavBtnMouseEnter : function( e ) {
@@ -1146,7 +1158,16 @@ define(function(require) {
           $thFootSection.css('height', '');
         }, 1);
       });
-    } // end expandMobileFooterSec
+    }, // end expandMobileFooterSec
+
+    updateDebugText : function ( msg ){
+      var self = this;
+
+      var curHTML = self.$debugDiv.html();
+
+      self.$debugDiv.html(curHTML + " # " + msg );
+
+    }
 
   };
   // end GlobalNav.prototype

@@ -1,15 +1,205 @@
 mixin relatedSearchesColumn(items)
-  .span3
-    ul
-      - each item in items
-        li.lt3
-          a(href= item.url)= item.text
+  ul.span3
+    each item in items
+      li.lt3
+        +link( item )
+
 
 mixin resultsLinkGroup(group)
   .results-link-group
-    h3.l3= group.title
-    ul
-      each option in group.options
-        li.lt3
-          a(href="#{option.url}")= option.text
+    h3.l3 !{ group.title }
+    if group.options
+      ul
+        each option in group.options
+          li.lt3
+            +link( option )
+
+
+mixin loadMore( data )
+  .btn-container
+    button.btn.btn-alt-special.btn-alt-plus.search-more
+      span
+        i.fonticon-10-sm-bold-plus
+        | Load More
+
+
+mixin numberOfResultsBlock( data )
+  p.results
+    if data.results.count > 0
+      span.bold-dark.p3-bold !{ data.results.count }
+      span.p3  !{ data.resultsTitle }
+    else
+      span.p3 There are
+      span.bold-dark.p3-bold  !{data.results.count} results
+      span.p3  for &ldquo;!{data.searchForm.searchedText}&rdquo;
+
+
+//- `list` should be checked if it exists before calling this mixin
+mixin resultsList( list )
+  ul.results-list
+    each item in list
+      li
+        .media
+          if item.image
+            .img
+              +iQImage(item.image)
+          .bd
+            .results-p
+              h4.lt3
+                +link( item )
+
+              if item.question
+                h5.lt4.italic-hd
+                  +link( item.question )
+
+              p.p4 !{ item.body }
+
+              if item.related
+                ul.h-list.h-list-md
+                  each link in item.related
+                    li.lt4
+                      +link( link )
+
+            i.fonticon-10-chevron
+
+
+mixin searchSidebar( data )
+  .result-sidebar
+    if data.narrowResults
+      +resultsLinkGroup(data.narrowResults)
+    if data.recentSearches
+      +resultsLinkGroup(data.recentSearches)
+    if data.popularSearches && data.results.count > 0
+      +resultsLinkGroup(data.popularSearches)
+
+
+mixin sortOptions( data )
+  if data.narrowResultsSet
+    .sort-options.visible-phone
+      form.select-narrow
+        span.dropdown.dropdown-alt.ib
+          button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
+            span.js-toggle-text !{ data.narrowResultsSet[0].label }
+            i.fonticon-10-arrowheads-elevator
+          ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
+            each sort in data.narrowResultsSet
+              li
+                a(data-value=sort.name, tabindex="-1", href="#") !{ sort.label }
+        .native-dropdown
+          i.fonticon-10-arrowheads-elevator.absolutely
+          select.select-small
+            each sort in data.narrowResultsSet
+              option(value=sort.name) !{ sort.label }
+
+
+mixin searchSuggestions( data )
+  if data.corrections
+    .search-suggestions
+      span.p3.search-correction !{ data.correctionText }
+      ul.h-list.h-list-lg
+        each correction in data.corrections
+          li.lt3
+            +link( correction )
+
+
+mixin mediaBlock( data, type )
+  mediaImgClass = type != 'none' ? 'img-lg' : 'img-sm'
+
+  if type == 'category'
+    headingClass = 't5'
+  else if type == 'support'
+    headingClass = 't6-light'
+  else if type == 'none'
+    headingClass = 'p2'
+
+
+  if type == 'category' || type == 'support' || type == 'none'
+    .media
+      .media-img(class=mediaImgClass)
+        .img.no-float
+          +iQImage(data.results.category.image)
+      .bd.feature-text
+        p.hdg-dark.title(class=headingClass) !{ data.results.category.title }
+        p.p4 !{ data.results.category.description }
+        if data.results.category.subcategories
+          ul.featured-list
+            each category in data.results.category.subcategories
+              li.lt4
+                +link( category )
+
+
+  else if type == 'product'
+    - data.view = "search-results"
+    e = { "locals" : locals, "data" : data }
+    !{locals.partial( 'packages/modules/product/html/product.jade', e )}
+
+    .accessories-hd
+      h4.l3 !{ data.results.product.popularAccessoriesTitle }
+      .rv-module(data-break-early="true", data-paddle-wrapper=".m-container")
+        .container.m-container
+          .sony-carousel-wrapper
+            .sony-carousel
+
+              slides = [ [], [], [], [], [], [] ]
+              if data.results.product.popularAccessories
+                each accessory, i in data.results.product.popularAccessories
+                  index = Math.floor( i / 6 )
+                  - slides[ index ].push( accessory )
+
+              each slide in slides
+                if slide.length > 0
+                  .sony-carousel-slide
+                    .container
+                      .slimgrid
+                        each accessory in slide
+                          d = accessory
+                          - d.view = "simple"
+                          e = { "locals" : locals, "data" : d }
+                          !{locals.partial( accessory.type, e )}
+
+
+mixin featuredResult( data, type )
+  classes = [ 'featured-result' ]
+
+  if type == 'none'
+    - classes.push( 'no-feature-result' )
+
+  //- Include the recently viewed module for the product view
+  if type == 'product'
+    +includeCSS('recently-viewed')
+    +includeJavascriptModule('recently-viewed')
+
+  if type == 'category' || type == 'support' || type == 'none' || type == 'product'
+    div(class=classes)
+      +numberOfResultsBlock( data )
+      +sortOptions( data )
+      +mediaBlock( data, type )
+
+  else if type == 'no-results'
+    div(class=classes)
+      +numberOfResultsBlock( data )
+    .results-link-group
+      mixin resultsLinkGroup(data.popularSearches)
+
+
+  if data.results && data.results.items && data.results.items.length > 0
+    +resultsList( data.results.items )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

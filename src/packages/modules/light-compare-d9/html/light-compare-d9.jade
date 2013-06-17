@@ -13,8 +13,9 @@ e = {"locals":locals, "data": data}
         .inner
           .container
             .light-compare-bd
-              .t6-light= data.compare.body
-              a.btn.btn-small.btn-alt-special.launch-modal(href="#")= data.compare.link
+              .t6-light !{ data.compare.body }
+              a.btn.btn-small.btn-alt-special.launch-modal(href="#")
+                | !{ data.compare.link }
                 i.fonticon-10-sm-bold-plus.l-o-d
 
 #light-compare-modal.modal.modal-light-compare.hide.fade(tabindex="-1", role="dialog", aria-labelledby="unsupported-browser-label", aria-hidden="true")
@@ -27,25 +28,27 @@ e = {"locals":locals, "data": data}
         .compare-carousel-container.icon-mode
           .compare-carousel-wrapper
             .compare-carousel
-              each tab in data.tabs
-                .compare-carousel-slide
-                  .light-compare-content.tab
-                    .mobile-hd.visible-phone
-                      h1.t5.mobile-hd-txt= tab.title
-                    .light-compare-hd
-                      h3.t3-bold= tab.subtitle
-                      p.p3= tab.tagline
-                    .image-module
-                      +iQImage(tab.img, 'update-always')
+              if data.tabs
+                each tab in data.tabs
+                  .compare-carousel-slide
+                    .light-compare-content.tab
+                      .mobile-hd.visible-phone
+                        h1.t5.mobile-hd-txt !{ tab.title }
+                      .light-compare-hd
+                        h3.t3-bold !{ tab.subtitle }
+                        p.p3 !{ tab.tagline }
+                      .image-module
+                        +iQImage(tab.img, 'update-always')
 
           ul.thumb-nav.container
             .slider
-              each tab, i in data.tabs
-                klass = (i == 0 ? 'active' : '')
-                li
-                  i.fonticon(class=tab.iconClass)
-                  span.label-container
-                    span.nav-label.p4-bold= tab.tabname
+              if data.tabs
+                each tab, i in data.tabs
+                  klass = (i == 0 ? 'active' : '')
+                  li
+                    i.fonticon(class=tab.iconClass)
+                    span.label-container
+                      span.nav-label.p4-bold !{ tab.tabname }
 
 
 
