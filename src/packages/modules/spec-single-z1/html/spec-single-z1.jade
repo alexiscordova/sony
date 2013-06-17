@@ -2,12 +2,19 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('spec-single-z1')
 +includeJavascriptModule('spec-single-z1')
 
+if data.submodules
+  productData = locals.data( data.submodules[0].data )
+  - productData.view = 'single-spec'
+  model = productData.model
+
 .spec-single
 
   .container
     .grid.spec-title-wrap
       +breadcrumbLink( data.titleLink )
       h1.t2.spec-title !{ data.title }
+      p.product-model.p5
+        span(itemprop="model") !{ model }
 
     if data.internalLinks
       .grid
@@ -32,11 +39,8 @@ include ../../../common/html/jade-helpers.jade
 
   section.spec-product#specifications
     if data.submodules
-      each module, i in data.submodules
-        - d = locals.data(module.data)
-        - d.view = 'single-spec'
-        e = { "locals" : locals, "data" : d, "labels" : data.labels }
-        !{locals.partial( module.type, e )}
+      e = { "locals" : locals, "data" : productData, "labels" : data.labels }
+      !{locals.partial( data.submodules[0].type, e )}
 
   section.spec-tiles-wrap.container#features
     .grid
