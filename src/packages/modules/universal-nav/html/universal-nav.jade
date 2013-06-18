@@ -31,52 +31,55 @@ div#universal-nav.u-nav-wrapper(role='navigation')
 
       //- each column
       - col_count = 1
-      - each col, i in data.primary_columns
-        - feat_class1 = "u-nav-primary-feat u-nav-primary-col" + col_count
-        if col.double_wide == "true"
-          - feat_class1 += " span8"
-          - col_count += 2
-        else
-          - feat_class1 += " span4"
-          - col_count ++
-
-        //- For each feature per column
-        - each feat, j in col.features
-          - feat_class2 = feat_class1
-          if col.double_tall == "true" && j == 0
-            - feat_class2 += " u-nav-primary-2high"
-          else if col.double_wide == "true" && j == 0
-            - feat_class2 += " u-nav-primary-2wide"
+      if data.primary_columns
+        - each col, i in data.primary_columns
+          - feat_class1 = "u-nav-primary-feat u-nav-primary-col" + col_count
+          if col.double_wide == "true"
+            - feat_class1 += " span8"
+            - col_count += 2
           else
-            if j == 0
-              - feat_class2 += " u-nav-primary-row1"
-            else
-              - feat_class2 += " u-nav-primary-row2"
+            - feat_class1 += " span4"
+            - col_count ++
 
-          div(class=feat_class2)
-            a.u-nav-primary-link.l2(href=feat.href, tabindex=tab_index++, title=feat.caption, target=feat.target)
-              if col.double_tall == "true" || col.double_wide == "true"
-                if data.label_tag.label != "false"
-                  span.label.label-success !{data.label_tag.label}
-              span.u-nav-primary-img-wrap
-                img.u-nav-primary-img(src="", data-src-desktop=feat.img.srcDesktop, data-src-desktop-highres=feat.img.srcDesktopHighRes, alt=feat.img.alt)
-              span.u-nav-primary-caption !{feat.caption}
+          //- For each feature per column
+          if col.features
+            - each feat, j in col.features
+              - feat_class2 = feat_class1
+              if col.double_tall == "true" && j == 0
+                - feat_class2 += " u-nav-primary-2high"
+              else if col.double_wide == "true" && j == 0
+                - feat_class2 += " u-nav-primary-2wide"
+              else
+                if j == 0
+                  - feat_class2 += " u-nav-primary-row1"
+                else
+                  - feat_class2 += " u-nav-primary-row2"
+
+              div(class=feat_class2)
+                a.u-nav-primary-link.l2(href=feat.href, tabindex=tab_index++, title=feat.caption, target=feat.target)
+                  if col.double_tall == "true" || col.double_wide == "true"
+                    if data.label_tag.label != "false"
+                      span.label.label-success !{data.label_tag.label}
+                  span.u-nav-primary-img-wrap
+                    img.u-nav-primary-img(src="", data-src-desktop=feat.img.srcDesktop, data-src-desktop-highres=feat.img.srcDesktopHighRes, alt=feat.img.alt)
+                  span.u-nav-primary-caption !{feat.caption}
 
     //- the row of text links
     ul.u-nav-secondary.grid
       //- each column
       - feat_count = 1
-      - each feat, i in data.secondary_columns
-        if i == data.secondary_columns.length - 1
-          - lastId = "u-nav-last-tabindex"
-        else
-          - lastId = null
-        li.u-nav-secondary-li
-          a.p3.u-nav-secondary-link(href=feat.href, tabindex=tab_index++, id=lastId, title=feat.caption, target=feat.target) !{feat.caption}
-          span.p4.u-nav-secondary-desc !{feat.description}
+      if data.secondary_columns
+        - each feat, i in data.secondary_columns
+          if i == data.secondary_columns.length - 1
+            - lastId = "u-nav-last-tabindex"
+          else
+            - lastId = null
+          li.u-nav-secondary-li
+            a.p3.u-nav-secondary-link(href=feat.href, tabindex=tab_index++, id=lastId, title=feat.caption, target=feat.target) !{feat.caption}
+            span.p4.u-nav-secondary-desc !{feat.description}
 
-    //- a#u-nav-last-tabindex.u-nav-last-tabindex(href=data.all_sites_link.href,tabindex=tab_index++)
-    //-   | !{data.all_sites_link.label}
+      //- a#u-nav-last-tabindex.u-nav-last-tabindex(href=data.all_sites_link.href,tabindex=tab_index++)
+      //-   | !{data.all_sites_link.label}
 
 
 
