@@ -22,6 +22,7 @@ define(function(require){
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         enquire = require('enquire'),
+        Utilities = require('require/sony-global-utilities'),
         sonyVideo = require('secondary/index').sonyVideo;
 
     var self = {
@@ -80,21 +81,20 @@ define(function(require){
           self.$player.find('.fp-ui').hide();
         }
 
-
         //initialize videos
         self.videoAPI = sonyVideo.initVideos( self.$player );
 
-
         //hide fullscreen button for ipad
-        if(Settings.isIPad && self.isFullEditorial){
+        if(( Settings.isIPad && self.isFullEditorial) || (self.isFullEditorial && Settings.isAndroid )) {
           self.$player.find('.fp-fullscreen').hide();
         }
-
 
         self.videoAPI.bind('resume' , function(){
           if(self.isFullEditorial){
             self.onDebouncedResize();
+            Utilities.forceWebkitRedraw();
           }
+
         });
 
         self.videoAPI.bind('fullscreen fullscreen-exit' , function(e){
@@ -133,6 +133,7 @@ define(function(require){
         if(self.isFullEditorial){
           Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
           self.onDebouncedResize(); //call once to set size
+
         }
         
         iQ.update();

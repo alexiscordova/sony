@@ -5,6 +5,7 @@
 
 	position: relative;
 	overflow: hidden;
+	z-index:0;
 
   &.full-bleed {
     max-height: 720px;
@@ -190,6 +191,8 @@
 
 .flowplayer {
 
+	position:relative;
+
 	.fp-play-btn-sml {
 
 		.lt-ie10 & {
@@ -211,7 +214,7 @@
     background: rgba(47 , 53 , 61, 0.15);
     cursor: pointer;
     z-index: 2000;
-    -webkit-transform:translateX(0px);
+    -webkit-transform:translateZ(0px);
 
     .fp-play-btn-inner {
       position: absolute;
@@ -271,7 +274,7 @@
     background: rgba(47 , 53 , 61, 0.15);
     cursor: pointer;
     z-index: 2000;
-    -webkit-transform:translateX(0px);
+    -webkit-transform:translateZ(0px);
 
     .fp-play-btn-inner {
       position: absolute;
