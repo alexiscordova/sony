@@ -31,6 +31,7 @@ define(function(require) {
   var GlobalNav = function($container) {
 
     var self = this;
+    self.enableCustomDebugConsole = false;
     self.usernameSpace = 40;
     self.minUsernameLength = 6;
     self.searchMenu = {};
@@ -55,7 +56,6 @@ define(function(require) {
     self.closeTimer = false;
     self.wasJustTapped = false;
     self.debugCount = 0;
-    self.$debugDiv = $();
 
     // A simple delay, in milliseconds, before the "out" function is called.
     // If the user mouses back over the element before the timeout has expired the
@@ -162,11 +162,6 @@ define(function(require) {
       // add a click event to close the currently open navmenu/navtray if you click outside of it.
       self.$pageWrapOuter.on( 'click touchstart focus', $.proxy( self.onPageWrapOuterPress, self ) );
 
-      // For debugging the Electronics & Entertainment buttons on Android:
-      self.debugCount = 0;
-      self.$debugDiv = $('<div>').css({'position':'absolute','top':'5px','right':'5px','z-index':'10000','color':'white', 'background-color':'rgba(100,100,100,0.5)', 'width':'50%'});
-      $('.nav-mobile-scroller').append(self.$debugDiv);
-
       // Set up primary nav buttons (Electronics, Entertainment, Account & Search)
       self.$activeNavBtns.each(function() {
         var $thNavBtn = $(this),
@@ -176,8 +171,6 @@ define(function(require) {
 
         $thNavBtn.on('click touchstart mouseenter focus', function(e) {
           e.preventDefault();
-          // For debugging the Electronics & Entertainment buttons on Android:
-          // self.$debugDiv.html(self.debugCount++);
         });
 
         // init
@@ -223,9 +216,10 @@ define(function(require) {
         } // end NOT touch device
       });
 
-      // Event triggered when any anchor link inside the nav gets focus
-      // Should this only be done for no-touch?
-      self.setupFocusPath();
+      // Event triggered when any anchor link inside the nav (or one of the navLinks) gets focus
+      if ( !self.hasTouch ) {
+        self.setupFocusPath();
+      }
 
       self.preSetNavTrayImageHeights();
 
@@ -333,10 +327,10 @@ define(function(require) {
               // console.log('tray is open and its not this one');
               self.closeActiveNavBtn();
             }
+            
 
             // The focused nav button's tray/menu is not open, so open it
             if ( !isThisTrayMenuOpen ) {
-              // console.log('this tray isn\'t open, open it');
               self.setActiveNavBtn( $focused );
             }
 
@@ -429,25 +423,18 @@ define(function(require) {
         setTimeout(function(){
           self.wasJustTapped = false;
         },500);
-        // self.updateDebugText(self.debugCount++);
 
         // This tray/menu is open, close it
         if ( isThisTrayMenuOpen ) {
-          // console.log( 'this tray menu is open already. Close it.' );
-          // self.updateDebugText( '1 This is Open. Close it.' );
           self.closeActiveNavBtn();
 
         // A tray/menu is open, but it's not this one. Close the old, open the new.
         } else if ( isATrayMenuOpen && !isThisTrayMenuOpen ) {
-          // console.log( 'A tray is open and its not this one. Close the old, open the new' );
-          // self.updateDebugText( '2 Other is Open. Close/Open.' );
           self.closeActiveNavBtn();
           self.setActiveNavBtn( $navBtn );
 
         // Nothing is open, do it!
         } else if ( !isATrayMenuOpen ) {
-          // console.log('nothing is open, open it.');
-          // self.updateDebugText('3 Nothing is Open. Open it.');
           self.setActiveNavBtn( $navBtn );
         }
       }
@@ -646,11 +633,8 @@ define(function(require) {
       $activeBtn = self.$activeNavBtns.filter('.active');
       isAnotherOpen = $activeBtn.length > 0 && !$activeBtn.is( $exceptBtn );
 
-      // console.log('isAnotherOpen:', isAnotherOpen);
       if ( isAnotherOpen ) {
-        // console.log('%c[CLOSE ACTTIVE]' + $activeBtn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:rgb(0,172,238);');
         self.resetActiveNavBtn( $activeBtn );
-        // self.clearMouseleaveTimer();
         self.$currentOpenNavBtn = false;
       }
     },
@@ -658,7 +642,6 @@ define(function(require) {
     // Save the currently open nav button
     setActiveNavBtn : function( $btn ) {
       var self = this;
-      // console.log('%c[SET]' + $btn[0].getAttribute('href'), 'font-weight:bold;font-size:16px;color:#3498DB;');
 
       self.activateNavBtn( $btn );
       self.$currentOpenNavBtn = $btn;
@@ -674,8 +657,6 @@ define(function(require) {
           hasTarget = !!navBtnTarget,
           isTray,
           $navTarget;
-
-      // console.log('%c[RESET] ' + ($oldNavBtn.length > 0 && $oldNavBtn[0].getAttribute('href')), 'font-size:14px;color:#2ECC71;' );
 
       // reset this button
       if ( hasLength ) {
@@ -705,8 +686,10 @@ define(function(require) {
 
     slideNavTray : function($navTray, opening) {
       // Wait just a moment to make sure the height is applied
+      var self = this;
+
+
       setTimeout(function() {
-        // console.log( 'slideNavTray ::', 'navtray has class no-transition:', $navTray.hasClass('no-transition') );
         // Removing a class when it doesn't exist can cause style recalcs
         if ( $navTray.hasClass('no-transition') ) {
           $navTray.removeClass('no-transition');
@@ -744,8 +727,6 @@ define(function(require) {
           hasTarget = !!navBtnTarget,
           $navTarget,
           isTray;
-
-      // console.log('%c[ACTIVATE] ' + $newNavBtn[0].getAttribute('href'), 'font-size:14px;color:#E74C3C;' );
 
       //.removeClass('no-transition')
       $newNavBtn
@@ -1158,16 +1139,7 @@ define(function(require) {
           $thFootSection.css('height', '');
         }, 1);
       });
-    }, // end expandMobileFooterSec
-
-    updateDebugText : function ( msg ){
-      var self = this;
-
-      var curHTML = self.$debugDiv.html();
-
-      self.$debugDiv.html(curHTML + " # " + msg );
-
-    }
+    } // end expandMobileFooterSec
 
   };
   // end GlobalNav.prototype
