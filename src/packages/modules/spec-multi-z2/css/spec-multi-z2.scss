@@ -96,11 +96,11 @@ $specBorderColor: $gray70;
   }
 
   .product-name,
-  .product-model {
+  .product-size {
     display: inline;
   }
 
-  .product-model {
+  .product-size {
     padding-left: 3px;
   }
 }
@@ -141,13 +141,9 @@ $specBorderColor: $gray70;
   width: 100%;
   padding: 0 1em;
 
-  // Header name and model
-  .product-name {
-    // font-size: $font_18_16;
-  }
-
-  .product-model {
-    // font-size: $font_18_16;
+  .o-hidden {
+    overflow: hidden;
+    max-height: $columnHeaderHeight;
   }
 }
 
@@ -386,7 +382,7 @@ $specBorderColor: $gray70;
   .compare-sticky-header {
     top: -2em;
     width: inherit;
-    padding: 1em;
+    padding: px-em(8) px-em(16);
     height: $stickyHeaderHeight;
     background: $tableHeaderColor;
     border-right: .0625em solid $specBorderColor; // 1 pixel
@@ -495,6 +491,10 @@ $specBorderColor: $gray70;
   }
 
   .product-model {
+    margin: 0;
+  }
+
+  .product-size {
     margin-bottom: 0;
     color: $gray20;
   }

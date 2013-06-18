@@ -1,12 +1,12 @@
 /*jshint debug:true */
 
-// Editorial SlideShow - E4
+// Editorial SlideShow - E5
 // ------------
 //
-// * **Module:** Editorial Slideshow - E4
+// * **Module:** Editorial Chapters - E5
 // * **Version:** 1.0a
-// * **Modified:** 04/4/2013
-// * **Author:** Tyler Madison, George Pantazis
+// * **Modified:** 06/12/2013
+// * **Author:** Kaleb White
 // * **Dependencies:** jQuery 1.9.1+, Modernizr
 //
 // *Example Usage:*
@@ -105,18 +105,31 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
-        self.setupEvents();
-        
-        self.setupSlides();
-        
-        self.setupCarousel();
-        
-        //self.setupLinkClicks();
+        $(domReady);
 
-        if(self.hasThumbs){
-          self.createThumbNav();
+        function domReady(){
+            
+          self.setupEvents();
+          
+          self.setupSlides();
+          
+          self.setupCarousel();
+          
+          self.setupBreakpoints();
+
+          if(self.hasThumbs){ self.createThumbNav(); }
+
+          self.$slideContainer.fadeTo(0,1);
+
+          // initialize the router for deep linking
+          Router.on('chapter-'+self.moduleId+'(/:a)', $.proxy(self.directFromHash, self));
+
+          self.$thumbNav.on(self.downEvent, function(e) { self.dragStart(e); });
         }
-        self.$slideContainer.fadeTo(0,1);
+      },
+      
+      setupBreakpoints: function() {
+        var self = this;
 
         // add enquire due to functionality difference with mobile => desktop
         if ( Modernizr.mediaqueries ) {
@@ -132,14 +145,8 @@ define(function(require){
             }
           });
         } // end if(Modernizr.mediaqueries )
-
-        // initialize the router for deep linking
-        Router.on('chapter-'+self.moduleId+'(/:a)', $.proxy(self.directFromHash, self));
-
-        self.$thumbNav.on(self.downEvent, function(e) { self.dragStart(e); });
-        
       },
-      
+
       // Sets up slides to correct width based on how many there are
       setupSlides: function(){
         var self = this;
@@ -194,13 +201,17 @@ define(function(require){
 
         self.$window.on('resize.e5-mobile-resize', $.proxy(self.getSlideHeight, self ));
 
-        // for some reason it $.evenHeights calculates the wrong height
-        // this is even if DomReady is true. Even if debugger; is run now
-        // the height of the tallest element will be incorrect. A setTimeout
-        // seems to fix this issue.
-        setTimeout(function(){
-          self.getSlideHeight();
-          self.getSliderWidth();
+        Settings.editorialModuleInitialzied.then(function(){
+
+          // even with a deffered object window.load does not fire with require.js
+          // the deffered object is firing before the dom has fully loaded. The perfect
+          // approach would be to run on window.load and get the height of the individual
+          // slides, however that isnt an option. So were back to an arbitary settimout. 
+          setTimeout( function() {
+            self.getSlideHeight();
+            self.getSliderWidth();
+          }, 500);
+
           if (self.$el.hasClass('text-mode')) { 
             self.initScroller(); 
             // show slider shades if needed
@@ -209,11 +220,10 @@ define(function(require){
                 sliderOffset = node.offsetLeft + curTransform.m41, //real offset left
                 sliderWidth = self.$slider.width(),
                 navWidth = self.$thumbNav.width();
-
             (sliderOffset < 0) ? self.$leftShade.show() : self.$leftShade.hide();
             (sliderOffset > ((-1 * sliderWidth) + navWidth)) ? self.$rightShade.show() : self.$rightShade.hide();
           }
-        }, 250);
+        });
       },
 
       dragStart: function(e) {
@@ -378,8 +388,8 @@ define(function(require){
             groups;
 
         $currSlides = self.$slides.find('.inner');
-        groups = [$currSlides];
 
+        groups = [$currSlides];
         $.evenHeights(groups);
       },
 

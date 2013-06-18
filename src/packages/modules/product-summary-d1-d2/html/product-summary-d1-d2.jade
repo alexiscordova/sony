@@ -32,11 +32,7 @@ include ../../../common/html/jade-helpers.jade
   if data.internalLinks
     .container
       .grid.no-grid-at-767
-        ul.jump-links.inline
-          each link, i in data.internalLinks
-            - clss = i ? '' : 'active'
-            li(class=clss)
-              a.lt3.no-hover-transition(href=link.href) !{ link.text }
+        +jumpLinks( data.internalLinks )
 
 
   section.sticky-nav.ps-sticky-nav
@@ -47,12 +43,7 @@ include ../../../common/html/jade-helpers.jade
             +iQImage( productData.imgSmall )
           .pull-left
             h2.t6.sticky-nav-title !{ productData.title }
-            if data.internalLinks
-              ul.jump-links.inline.nav
-                each link, i in data.internalLinks
-                  - clss = i ? '' : 'active'
-                  li(class=clss)
-                    a.lt3.no-hover-transition(href=link.href, tabindex="-1") !{ link.text }
+            +jumpLinks( data.internalLinks, true )
 
         .span3#desktop-sticky-price
           .text-right.price-text
