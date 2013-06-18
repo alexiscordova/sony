@@ -15,8 +15,7 @@ div#universal-nav.u-nav-wrapper(role='navigation')
         span.u-nav-close-btn-img-container
           img.u-nav-close-btn-img(src="", data-src-desktop=data.close_btn.srcDesktop, data-src-desktop-highres=data.close_btn.srcDesktopHighRes, width=12, height=12, alt=data.close_btn.label)
       //- - tab_index++
-      h5.l1
-        | !{data.title}
+      h5.l1 !{data.title}
       a#u-nav-all-sites-link.u-nav-all-sites-link(href=data.all_sites_link.href, title=data.all_sites_link.text, target=data.all_sites_link.target)= data.all_sites_link.text
 
     //- the row of image-heavy links
@@ -77,9 +76,6 @@ div#universal-nav.u-nav-wrapper(role='navigation')
           li.u-nav-secondary-li
             a.p3.u-nav-secondary-link(href=feat.href, tabindex=tab_index++, id=lastId, title=feat.caption, target=feat.target) !{feat.caption}
             span.p4.u-nav-secondary-desc !{feat.description}
-
-      //- a#u-nav-last-tabindex.u-nav-last-tabindex(href=data.all_sites_link.href,tabindex=tab_index++)
-      //-   | !{data.all_sites_link.label}
 
 
 

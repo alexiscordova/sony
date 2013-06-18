@@ -12,7 +12,8 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
     .grid.grid-footer.no-grid-at-567
       if !minimal
         .footer-store-locator.span3.footer-mobile-section.mobile-container-padded.input-outer-wrapper
-          h5 !{data.store_locator.title}
+          h5 
+            span !{data.store_locator.title}
             i.fonticon-10-arrowhead-down.visible-phone
           .store-locator-input-w
             form.footer-store-locator-form.footer-form-border.input-group(method='post', action='', role='form')
@@ -22,10 +23,11 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
               button.btn.store-locator-submit-btn.footer-btn.input-btn(type='submit') !{data.store_locator.button_label}
           +link( data.store_locator.link, "footer-change-location-link" )
 
-        if data.link_section
+        if data.link_sections
           - each sec, i in data.link_sections
             .span3.footer-mobile-section.mobile-container-padded(role='navigation')
-              h5 !{sec.title}
+              h5 
+                span !{sec.title}
                 i.fonticon-10-arrowhead-down.visible-phone
               ul.footer-links-list
                 if sec.links
@@ -44,7 +46,8 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
 
             .btn-hover-group.language-selector
               //- a.btn.dropdown-hover-toggle(data-toggle='dropdown', href='#') !{sample_session_data.current_lang.id}
-              a.btn.dropdown-hover-toggle(href='#', target="current language") !{sample_session_data.current_lang.id}
+              a.btn.dropdown-hover-toggle(href='#', target="current language") 
+                span !{sample_session_data.current_lang.id}
                 i.fonticon-10-arrowhead-down.old-ie-cleartype-fix-gray30
               .dropdown-hover-menu.bottom-up
                 .dropdown-hover-menu-lists-w
