@@ -196,7 +196,10 @@ mixin productQuote( quote )
 
 mixin label( data )
   if data.label
-    span.label.label-success !{ data.label }
+    //- Extra wrapper with psition relative here because firefox doesn't support
+    //- relative positioning of display: table/table-cell
+    div.relative
+      span.label.label-success !{ data.label }
 
 
 mixin basicGalleryItem( layout, priority, href )
@@ -502,15 +505,21 @@ else if data.view == 'specs'
   .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
     .compare-sticky-header
       .product-name-wrap
-        .product-name.p3(itemprop="name") !{ data.name }
-        .product-model.p3
-          strong(itemprop="model") !{ data.model }
+        .o-hidden
+          .product-name.p3(itemprop="name") !{ data.name }
+          if data.size
+            .product-size.p3
+              strong !{ data.size }
+          .product-model.p5(itemprop="model") !{ data.model }
 
     .spec-column-header.table-center-wrap
       .table-center
-        .product-name.p2(itemprop="name") !{ data.name }
-        .product-model.p1-bold
-          strong(itemprop="model") !{ data.model }
+        .o-hidden
+          .product-name.p2(itemprop="name") !{ data.name }
+          if data.size
+            .product-size.p1-bold
+              strong !{ data.size }
+          .product-model.p5(itemprop="model") !{ data.model }
 
     if data.specs
       each spec, i in data.specs
