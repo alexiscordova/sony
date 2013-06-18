@@ -23,6 +23,7 @@ define(<span class="keyword">function</span>(require){
         Settings = require(<span class="string">'require/sony-global-settings'</span>),
         Environment = require(<span class="string">'require/sony-global-environment'</span>),
         enquire = require(<span class="string">'enquire'</span>),
+        Utilities = require(<span class="string">'require/sony-global-utilities'</span>),
         sonyVideo = require(<span class="string">'secondary/index'</span>).sonyVideo;
 
     <span class="keyword">var</span> self = {
@@ -75,19 +76,18 @@ define(<span class="keyword">function</span>(require){
           self.$player.find(<span class="string">'.fp-ui'</span>).hide();
         }
 
-
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>initialize videos</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.videoAPI = sonyVideo.initVideos( self.$player );
 
-
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>hide fullscreen button for ipad</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(Settings.isIPad &amp;&amp; self.isFullEditorial){
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>hide fullscreen button for ipad</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(( Settings.isIPad &amp;&amp; self.isFullEditorial) || (self.isFullEditorial &amp;&amp; Settings.isAndroid )) {
           self.$player.find(<span class="string">'.fp-fullscreen'</span>).hide();
         }
-
 
         self.videoAPI.bind(<span class="string">'resume'</span> , <span class="keyword">function</span>(){
           <span class="keyword">if</span>(self.isFullEditorial){
             self.onDebouncedResize();
+            Utilities.forceWebkitRedraw();
           }
+
         });
 
         self.videoAPI.bind(<span class="string">'fullscreen fullscreen-exit'</span> , <span class="keyword">function</span>(e){
@@ -125,6 +125,7 @@ define(<span class="keyword">function</span>(require){
         <span class="keyword">if</span>(self.isFullEditorial){
           Environment.on(<span class="string">'global:resizeDebounced'</span> , $.proxy( self.onDebouncedResize , self ) );
           self.onDebouncedResize(); <span class="comment">//call once to set size</span>
+
         }
         
         iQ.update();
