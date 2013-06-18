@@ -1,0 +1,67 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+.addon {
+
+  &.gray {
+    background-color: $gray80;
+  }
+
+  .addon-media {
+    position: relative;
+    display: block;
+    max-width: px-em( 85 );
+    height: px-em( 50 );
+    width: 100%;
+    margin-right: px-em( 12 );
+
+    &:hover {
+
+    }
+  }
+
+  // .v-wrap {
+  //   height: inherit;
+  // }
+
+  .media-object {
+    height: inherit;
+    width: inherit;
+  }
+
+  $fontSize: 1.5em;
+  $pxSize: 1.5 * 16;
+  $circleSize: px-em( 34, $pxSize );
+  $halfCircle: $circleSize / 2;
+  .addon-media i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -$halfCircle;
+    margin-left: -$halfCircle;
+    @include square( $circleSize );
+    background-color: rgba($black, 0.5);
+    border-radius: 50%;
+    color: $white;
+    font-size: $fontSize; // Just so if they add some icons which aren't fonticon-15-*
+
+    // using 24/2 because the font-size is 24px (1.5em)
+    &:after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: px-em( -$pxSize / 2, $pxSize );
+      margin-left: px-em( -$pxSize / 2, $pxSize );
+    }
+  }
+
+  // Support: < IE 9
+  .no-rgba & .addon-media i {
+    background-color: darkgray;
+  }
+
+}
+
+.addon-slideshow .media {
+  padding: px-em( 9 ) px-em( 12 );
+}
