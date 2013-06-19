@@ -15,7 +15,6 @@ include ../../../common/html/jade-helpers.jade
 //- Used for everything except quotes and tweets
 mixin mediaObject( data )
   iconClass = false
-  logo = false
 
   if data.type == "video"
     iconClass = "fonticon-10-video-play"
@@ -26,9 +25,6 @@ mixin mediaObject( data )
   else if data.type == "slideshow"
     iconClass = "fonticon-15-popup"
 
-  else if data.type == "logo"
-    logo = data.logo
-
   .media
     +link( data.link, [ "addon-media", "pull-left" ], undefined, undefined, true )
       +iQBackgroundImage( data.img, "media-object" )
@@ -37,11 +33,11 @@ mixin mediaObject( data )
 
     .media-body.ghost-center-wrap.v-wrap
       .ghost-center
-        p.t7 !{ data.copy }
-        if logo
-          +iQImage( logo )
-        if data.link
-          +link( data.link, [ "lt3" ] )
+        p.t7.copy !{ data.copy }
+        if data.subhead
+          p.p4 !{ data.subhead }
+        else if data.link
+          +link( data.link, [ "lt3", "link" ] )
 
 
 //- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
@@ -57,8 +53,7 @@ mixin quote( data )
         p !{ data.copy }
       figcaption
         if isTweet
-          span.social-icon
-            i(class="fonticon-15-twitter twitter-color")
+          i(class="fonticon-15-twitter twitter-color")
           if data.author && data.author.href
             +link( data.author, [ "author", "l3" ] )
 

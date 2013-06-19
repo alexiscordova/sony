@@ -7,10 +7,13 @@
     // .addon-media
       // .media-object
 
+$sidePadding: 12px;
+
 .addon {
 
   &.gray {
     background-color: $gray80;
+    box-shadow: 0 1px 0 $transparentBlack;
   }
 
   .media {
@@ -23,7 +26,7 @@
     max-width: px-em( 85 );
     height: 100%;
     width: 100%;
-    margin-right: px-em( 12 );
+    margin-right: px-em( $sidePadding );
 
     &:hover {
 
@@ -39,6 +42,7 @@
     width: inherit;
     background-position: 50% 50%;
     background-size: cover;
+    background-repeat: no-repeat;
   }
 
   // $fontSize: 1.5em;
@@ -78,8 +82,8 @@
     background-color: #595959;
   }
 
-  .quote .social-icon {
-    margin-right: 0;
+  .quote .twitter-color {
+    vertical-align: middle;
   }
 
   .quote .author {
@@ -101,6 +105,15 @@
     }
   }
 
+  .copy {
+    padding-right: $sidePadding;
+  }
+
+  .link {
+    display: block;
+    margin: 0;
+  }
+
 }
 
 .addon-slideshow {
@@ -111,6 +124,14 @@
   }
 
   .media {
-    padding: px-em( 9 ) px-em( 12 );
+    padding: px-em( $sidePadding - 3 ) px-em( $sidePadding );
+  }
+}
+
+.addon-logo {
+
+  // Don't want logos to get clipped. The whole logo should always be visible
+  .media-object {
+    background-size: contain;
   }
 }
