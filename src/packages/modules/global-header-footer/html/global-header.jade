@@ -1,5 +1,26 @@
 include ../../../common/html/jade-helpers.jade
 
+
+mixin featuredColumnZone( feat_data )
+  if feat_data.type == "list"
+    h6.l2 !{feat_data.title}
+    ul.navtray-secondary-list
+      if feat_data.menu_items
+        - each linkObj, i in feat_data.menu_items
+          li.navtray-li(class= "navtray-li-" + linkObj.id)
+            a.navtray-li-link.tl(href=linkObj.href, title=linkObj.text, target=linkObj.target, tabindex=(200+i)) !{linkObj.text}
+  else if feat_data.type == "tout"
+    div.navtray-secondary-tout
+      +iQImage(feat_data.img)
+      span.p2 !{feat_data.title}
+      span.p4 !{feat_data.message}
+        a(href=feat_data.href, title=feat_data.title, target=feat_data.target, tabindex='250') !{feat_data.text}
+
+
+
+
+
+
 a#SkipToContentLink(href='#main', class='visuallyhidden', tabindex='1')= data.skip_to_content.text
 
 e = {"locals":locals, "data":locals.data('packages/modules/universal-nav/demo/data/default.json')}
@@ -111,17 +132,11 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 span !{data.electronics.menu_main.all_link.text}
 
             div.navtray-section.navtray-section-featured
-              h6.l2 !{data.electronics.menu_featured.title}
-              ul.navtray-list-secondary
-                if data.electronics.menu_featured.menu_items
-                  - each linkObj, i in data.electronics.menu_featured.menu_items
-                    li.navtray-li(class= "navtray-li-" + linkObj.id)
-                      a.navtray-li-link.tl(href=linkObj.href, title=linkObj.text, target=linkObj.target, tabindex=(200+1)) !{linkObj.text}
-              div.navtray-secondary-promo
-                +iQImage(data.electronics.menu_featured.promo.img)
-                span.p2 !{data.electronics.menu_featured.promo.title}
-                span.p4 !{data.electronics.menu_featured.promo.message}
-                  a(href=data.electronics.menu_featured.promo.href, title="data.electronics.menu_featured.promo.title", target=data.electronics.menu_featured.promo.target, tabindex='250') !{data.electronics.menu_featured.promo.text}
+              if data.electronics.menu_featured_top && data.electronics.menu_featured_top.show == true
+                +featuredColumnZone( data.electronics.menu_featured_top )
+              if data.electronics.menu_featured_bottom && data.electronics.menu_featured_bottom.show == true
+                +featuredColumnZone( data.electronics.menu_featured_bottom )
+
         div.navtray-w.navtray-w-fullwidth-3-4.navtray-w-entertainment.navtray-w-short#navtray-w-entertainment
           div.navtray#navtrayEntertainment
             div.navtray-section.navtray-section-main
@@ -136,11 +151,9 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                         span.nav-label !{linkObj.text}
 
             div.navtray-section.navtray-section-featured.navtray-section-featured-short
-              div.navtray-secondary-promo.navtray-secondary-promo-short
-                +iQImage(data.entertainment.menu_featured.promo.img)
-                span.p2 !{data.entertainment.menu_featured.promo.title}
-                span.p4 !{data.entertainment.menu_featured.promo.message}
-                  a(href=data.entertainment.menu_featured.promo.href, title=data.entertainment.menu_featured.promo.text, target=data.entertainment.menu_featured.promo.target, tabindex='550') !{data.entertainment.menu_featured.promo.text}
+              div.navtray-secondary-tout.navtray-secondary-tout-short
+                if data.entertainment.menu_featured && data.entertainment.menu_featured.show == true
+                  +featuredColumnZone( data.entertainment.menu_featured )
 
       div.navbar-outer
         div#navbar.container.navbar.full-bleed-at-767
