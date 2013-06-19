@@ -13,8 +13,9 @@ mixin featuredColumnZone( feat_data )
     div.navtray-secondary-tout
       +iQImage(feat_data.img)
       span.p2 !{feat_data.title}
-      span.p4 !{feat_data.message}
-        a(href=feat_data.href, title=feat_data.title, target=feat_data.target, tabindex='250') !{feat_data.text}
+      span.p4 
+        span !{feat_data.message}
+        a(href=feat_data.href, title=feat_data.title, target=feat_data.target, tabindex='250')  !{feat_data.text}
 
 
 
