@@ -2,41 +2,35 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('spec-single-z1')
 +includeJavascriptModule('spec-single-z1')
 
+if data.submodules
+  productData = locals.data( data.submodules[0].data )
+  - productData.view = 'single-spec'
+  model = productData.model
+
 .spec-single
 
   .container
     .grid.spec-title-wrap
       +breadcrumbLink( data.titleLink )
       h1.t2.spec-title !{ data.title }
+      p.product-model.p5
+        span(itemprop="model") !{ model }
 
-    if data.internalLinks
-      .grid
-        ul.jump-links.inline
-          each link, i in data.internalLinks
-            - clss = i ? '' : 'active'
-            li(class=clss)
-              a.lt3.no-hover-transition(href=link.href) !{ link.text }
+    .grid
+      +jumpLinks( data.internalLinks )
 
 
   .sticky-nav.spec-sticky-nav
     .container
       .grid
         h2.t6.sticky-nav-title !{ data.title }
-        if data.internalLinks
-          ul.jump-links.inline.nav
-            each link, i in data.internalLinks
-              - clss = i ? '' : 'active'
-              li(class=clss)
-                a.lt3.no-hover-transition(href=link.href, tabindex="-1") !{ link.text }
+        +jumpLinks( data.internalLinks, true )
 
 
   section.spec-product#specifications
     if data.submodules
-      each module, i in data.submodules
-        - d = locals.data(module.data)
-        - d.view = 'single-spec'
-        e = { "locals" : locals, "data" : d, "labels" : data.labels }
-        !{locals.partial( module.type, e )}
+      e = { "locals" : locals, "data" : productData, "labels" : data.labels }
+      !{locals.partial( data.submodules[0].type, e )}
 
   section.spec-tiles-wrap.container#features
     .grid

@@ -2,6 +2,10 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('spec-multi-z2')
 +includeJavascriptModule('spec-multi-z2')
 
+modelsText = data.modelsText ? data.modelsText : 'Models'
+sonyRecommends = data.sonyRecommends ? data.sonyRecommends : 'Sony Recommends'
+numModels = data.submodules.length
+
 .spec-multi
 
   .sticky-tabs.tab-strip.spec-tabs
@@ -13,33 +17,23 @@ include ../../../common/html/jade-helpers.jade
     .grid.spec-title-wrap
       +breadcrumbLink( data.titleLink )
       .sony-recommends
-        span.p3 Sony Recommends
+        span.p3 !{ sonyRecommends }
         i.fonticon-60-win8.win8-logo
       h1.t2.spec-title !{ data.title }
 
     if data.internalLinks
       .grid
-        ul.jump-links.inline
-          each link, i in data.internalLinks
-            - clss = i ? '' : 'active'
-            li(class=clss)
-              a.lt3.no-hover-transition(href=link.href) !{ link.text }
+        +jumpLinks( data.internalLinks )
 
   .sticky-nav.spec-sticky-nav
     .container
       .grid
         .js-sticky-nav-content.clearfix.relative
           h2.t6.sticky-nav-title !{ data.title }
-          if data.internalLinks
-            ul.jump-links.inline.nav
-              each link, i in data.internalLinks
-                - clss = i ? '' : 'active'
-                li(class=clss)
-                  a.lt3.no-hover-transition(href=link.href, tabindex="-1") !{ link.text }
+          +jumpLinks( data.internalLinks, true )
         .js-sticky-mobile-content.hidden.mobile-content-wrap
           .table-center-wrap.js-mobile-content
 
-  numModels = data.submodules.length
 
   section.spec-products#specifications
     .container
@@ -56,12 +50,12 @@ include ../../../common/html/jade-helpers.jade
             .product-count-wrap.with-some-padding
               span.p3.product-count
                 strong.text-dark !{ numModels }
-              span.p3  Models
+              span.p3 !{ " " + modelsText }
           .detail-labels-wrapping
             .product-count-wrap.with-some-padding
               span.p3.product-count
                 strong.text-dark !{ numModels }
-              span.p3  Models
+              span.p3 !{ " " + modelsText }
 
             if data.labels
               .detail-label-group
@@ -91,7 +85,7 @@ include ../../../common/html/jade-helpers.jade
           .spec-tile.span4
             if tile.img
               figure
-                mixin iQImage( tile.img )
+                +iQImage( tile.img )
 
             .tile-content
               h3.t6.tile-title !{ tile.title }

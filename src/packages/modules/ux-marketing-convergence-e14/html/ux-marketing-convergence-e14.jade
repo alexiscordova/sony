@@ -5,14 +5,14 @@ include ../../../common/html/jade-helpers.jade
 - uxmcModuleClasses = ['container', 'uxmc']
 - uxmcContainerClasses = ['grid', 'uxmc-container', 'mode-'+data.mode.toLowerCase()]
 
-if(!data.header)
+if(!data.title)
   //- needed to margin changes when no header
   - uxmcModuleClasses.push("no-header")
 
 +mainElement(uxmcModuleClasses)
-  if(data.header)
+  if(data.title)
     div.grid
-      p.l1 #{data.header}
+      p.l1 #{data.title}
 
   div(class=uxmcContainerClasses)
     div.btn-reload-container

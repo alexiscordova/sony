@@ -1,0 +1,34 @@
+
+
+@media ( max-height: px-em( 550 ) ) and ( min-width: px-em( 568 ) ) {
+
+  // Modals
+  // Maximum height of 90% width 5% at the top and bottom
+  .modal {
+    max-height: 90%;
+
+    &.takeover {
+      max-height: none;
+    }
+
+    &.fade.in {
+      top: 5%;
+
+      &.takeover {
+        top: 0;
+      }
+    }
+  }
+
+  // Reduce padding
+  .modal-header {
+    padding-top: px-em(10);
+    padding-bottom: px-em(6);
+  }
+
+  .modal-inner .modal-subhead {
+    padding-top: px-em(6);
+    padding-bottom: px-em(6);
+  }
+
+}

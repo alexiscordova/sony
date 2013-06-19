@@ -182,6 +182,11 @@ define(function(require){
         self.$grid.infinitescroll('resume');
       }
 
+      // Product Sticky
+      if ( self.hasProductCountStickyNav && self.isProductStickyInitialized ) {
+        self.$productCountStickyNav.stickyNav('enable');
+      }
+
       // Will create, update, or destroy carousels depending
       // on the window size and their current state
       self.fixCarousels();
@@ -209,8 +214,13 @@ define(function(require){
       }
 
       // Pause infinite scroll
-      if ( self && self.hasInfiniteScroll ) {
+      if ( self.hasInfiniteScroll ) {
         self.$grid.infinitescroll('pause');
+      }
+
+      // Product sticky
+      if ( self.hasProductCountStickyNav && self.isProductStickyInitialized ) {
+        self.$productCountStickyNav.stickyNav('disable');
       }
 
       self.$container.addClass('disabled');
@@ -240,6 +250,7 @@ define(function(require){
       self.$carousels = self.$grid.find('.js-item-carousel');
       self.$zeroMessage = self.$container.find('.js-zero-message');
       self.$recommendedTile = self.$grid.find('.recommended-tile');
+      self.$productCountStickyNav = self.$container.find('.sticky-nav');
 
       // Modes
       self.isEditorialMode = self.mode === 'editorial';
@@ -256,6 +267,7 @@ define(function(require){
       self.hasSorting = self.$sortBtns.length > 0;
       self.hasCarousels = self.$carousels.length > 0;
       self.hasRecommendedTile = self.$recommendedTile.length > 0;
+      self.hasProductCountStickyNav = self.$productCountStickyNav.length > 0;
 
       // Other vars
       self.windowWidth = Settings.windowWidth;
@@ -713,18 +725,19 @@ define(function(require){
     hasActiveFilters : function() {
       var self = this,
           hasActive = false,
+          filters = self.filters,
           filterType = '',
           filterName = '';
 
-      for ( filterType in self.filters ) {
-        if ( !self.filters.hasOwnProperty(filterType) ) {
+      for ( filterType in filters ) {
+        if ( !filters.hasOwnProperty(filterType) ) {
           continue;
         }
 
 
         if ( filterType === 'button' || filterType === 'checkbox' ) {
-          for ( filterName in self.filters[ filterType ] ) {
-            var activeFilters = self.filters[ filterType ][ filterName ];
+          for ( filterName in filters[ filterType ] ) {
+            var activeFilters = filters[ filterType ][ filterName ];
             hasActive = activeFilters.length > 0;
 
             // There is an active filter, break out of the loop and return
@@ -969,10 +982,10 @@ define(function(require){
           filterValue = '',
           i;
 
+      self.currentFilterGroup = null;
       self.lastFilterGroup = null;
-      self.secondLastFilterGroup = null;
+      self.currentFilterStatuses = null;
       self.lastFilterStatuses = null;
-      self.secondLastFilterStatuses = null;
       self.currentFilterColor = null;
       self.hideFilteredSwatchImages();
 
@@ -1134,6 +1147,26 @@ define(function(require){
           self.initStickyNav();
         }, 150);
       }, 0);
+    },
+
+    initProductCountStickyNav : function() {
+      var self = this;
+
+      if ( self.hasProductCountStickyNav && !self.isProductStickyInitialized ) {
+        self.$productCountStickyNav.stickyNav({
+          offsetTarget: self.$container.find('.slide-toggle-parent')
+        });
+        self.isProductStickyInitialized = true;
+      }
+    },
+
+    destroyProductCountStickyNav : function() {
+      var self = this;
+
+      if ( self.hasProductCountStickyNav && self.isProductStickyInitialized ) {
+        self.$productCountStickyNav.stickyNav('destroy');
+        self.isProductStickyInitialized = false;
+      }
     },
 
     initStickyNav : function() {
@@ -1682,10 +1715,10 @@ define(function(require){
       var self = this,
           $visible = self.$items.filter('.filtered'),
           statuses = {},
+          currentFilterGroup = self.currentFilterGroup,
           lastFilterGroup = self.lastFilterGroup,
-          secondLastFilterGroup = self.secondLastFilterGroup,
-          isRange = lastFilterGroup === 'price',
-          isRangeActive = self.filters.range.price.max !== undefined && (self.filters.range.price.max !== self.MAX_PRICE || self.filters.range.price.min !== self.MIN_PRICE);
+          isRange = currentFilterGroup === 'price',
+          isRangeActive = self.filters.range.price && self.filters.range.price.max !== undefined && (self.filters.range.price.max !== self.MAX_PRICE || self.filters.range.price.min !== self.MIN_PRICE);
 
       function testGalleryItems( filterName, filterValue ) {
         var shouldEnable = false;
@@ -1719,20 +1752,20 @@ define(function(require){
       function setFilterStatusesObject() {
         var filterName,
             filterValue,
-            hasActiveFilter;
+            shouldSkipGroup;
 
         for ( filterName in self.filterValues ) {
-          // If the current filter is the last one, and one of the following:
-            // the current filter is also the second to last filter
-            // the second to last filter is null
-            // the second to last filter is price
+          // If the current filter in the loop is the current filter in the system, and one of the following:
+            // the current filter is also the last filter
+            // the last filter is null
+            // the last filter is price
           // Then the current filter group should be skipped
-          hasActiveFilter = filterName === lastFilterGroup && ( secondLastFilterGroup === lastFilterGroup || secondLastFilterGroup === null || secondLastFilterGroup === 'price' );
+          shouldSkipGroup = filterName === currentFilterGroup && ( lastFilterGroup === currentFilterGroup || lastFilterGroup === null || lastFilterGroup === 'price' );
           statuses[ filterName ] = {};
 
           for ( filterValue in self.filterValues[ filterName ] ) {
 
-            if ( hasActiveFilter ) {
+            if ( shouldSkipGroup ) {
               statuses[ filterName ][ filterValue ] = 'skip';
             } else {
               testGalleryItems( filterName, filterValue );
@@ -1768,8 +1801,8 @@ define(function(require){
 
 
       // Use the last filter status that wasn't from this filter group, if appropriate
-      if ( (lastFilterGroup === null || isRange) && self.lastFilterStatuses !== null && self.secondLastFilterStatuses !== null && !(isRange && isRangeActive) && self.hasActiveFilters() ) {
-        statuses = self.secondLastFilterStatuses;
+      if ( (currentFilterGroup === null || isRange) && self.currentFilterStatuses !== null && self.lastFilterStatuses !== null && !(isRange && isRangeActive) && self.hasActiveFilters() ) {
+        statuses = self.lastFilterStatuses;
       } else {
         setFilterStatusesObject();
       }
@@ -1779,12 +1812,10 @@ define(function(require){
 
       // If we're filtering again (for example, by "colors"), don't add this statuses object as the
       // second to last one, it should refer to the last one that is not in the current filter group
-      if ( lastFilterGroup !== self.secondLastFilterGroup ) {
-        self.secondLastFilterStatuses = self.lastFilterStatuses;
+      if ( currentFilterGroup !== self.lastFilterGroup ) {
+        self.lastFilterStatuses = self.currentFilterStatuses;
       }
-      self.lastFilterStatuses = statuses;
-
-      self.secondLastFilterGroup = lastFilterGroup;
+      self.currentFilterStatuses = statuses;
 
       // Update product count
       self.updateProductCount();
@@ -1862,9 +1893,13 @@ define(function(require){
 
         if ( isActive ) {
           checked.push( $this.data( filterName ) );
-          self.lastFilterGroup = filterName;
-        } else {
-          self.lastFilterGroup = null;
+        }
+
+        // Active and the new filter is different from the current/last one selected
+        // Don't change the current and last states when going from color to color, button to button, etc.
+        if ( isActive && self.currentFilterGroup !== filterName  ) {
+          self.lastFilterGroup = self.currentFilterGroup;
+          self.currentFilterGroup = filterName;
         }
 
         if ( realType === 'color' ) {
@@ -1927,10 +1962,10 @@ define(function(require){
           $input.toggleClass('active');
         }
 
-        if ( isActive ) {
-          self.lastFilterGroup = filterName;
-        } else {
-          self.lastFilterGroup = null;
+        // Active and the new filter is different from the current/last one selected
+        if ( isActive && self.currentFilterGroup !== filterName  ) {
+          self.lastFilterGroup = self.currentFilterGroup;
+          self.currentFilterGroup = filterName;
         }
 
         self.filter();
@@ -2008,7 +2043,7 @@ define(function(require){
         prevMin = self.price.min,
         prevMax = self.price.max;
 
-        self.lastFilterGroup = filterName;
+        self.currentFilterGroup = filterName;
 
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
@@ -2561,6 +2596,9 @@ define(function(require){
         // Remove heights in case they've aready been set
         if ( isSmallerThanTablet ) {
 
+          // Product sticky nav
+          self.initProductCountStickyNav();
+
           // Product name heights no longer need to be aligned
           if ( self.isDetailedMode ) {
             self.$gridProductNames.css('height', '');
@@ -2574,6 +2612,10 @@ define(function(require){
 
         // Make all product name heights even
         } else {
+
+          // Product sticky nav
+          self.destroyProductCountStickyNav();
+
           // Let the browser choose the best time to do this becaues it causes a layout
           if ( !self.scroller || (self.scroller && self.scroller.enabled) ) {
             self.evenTheHeights();
@@ -2757,11 +2799,8 @@ define(function(require){
           $grid.append( $sorter );
           $container.append( $grid );
 
-          // Append it before the active filters and after the collapseable
           if ( self.hasFilters ) {
-            $container.insertAfter( self.$container.find( '.slide-toggle-target' ) );
-
-          // `.slide-toggle-target` doesn't exist, append it before the products
+            $container.insertAfter( self.$container.find('.active-filters-wrap') );
           } else {
             $container.insertBefore( self.$grid.parent() );
           }
@@ -3437,6 +3476,7 @@ define(function(require){
     hasSorterMoved: false,
     isInitialized: false,
     isFilteringInitialized: false,
+    isProductStickyInitialized: false,
     isCompareToolOpen: false,
     hasTouch: Settings.hasTouchEvents,
     isTicking: false,
@@ -3446,10 +3486,10 @@ define(function(require){
     lastScrollY: 0,
     sorted: false,
     currentFilterColor: null,
+    currentFilterGroup: null,
+    currentFilterStatuses: null,
     lastFilterGroup: null,
     lastFilterStatuses: null,
-    secondLastFilterGroup: null,
-    secondLastFilterStatuses: null,
     maxRecommendedTitleBarOffset: 0,
     accessoryFilterName: 'accessory',
     loadingGif: Settings.loaderPath

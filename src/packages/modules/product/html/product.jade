@@ -72,20 +72,20 @@ mixin iQColorImages( colors )
         img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
 
 
-mixin heart
+//- Outputs a heart icon which is meant to be used with the Favorites module
+//- Variables for the text can be found below the mixins
+mixin heart()
   heartClass = 'favorite-holder js-favorite'
-  - if ( data.isFavorited ) heartClass += ' active'
-
-  inactiveTitle = 'Add to Favorites'
-  inactiveClickedTitle = 'Added'
-
-  favoritedTitle = 'Remove Favorite?'
-  favoritedClickedTitle = 'Removed'
+  if data.isFavorited
+    - heartClass += ' active'
 
   span(class=heartClass, data-default-title=inactiveTitle, data-default-clicked-title=inactiveClickedTitle, data-favorited-title=favoritedTitle, data-favorited-clicked-title=favoritedClickedTitle)
     i.fonticon-10-favorite
 
 
+//- @param {Object}  rating a rating object with `stars` and `reviews` properties
+//- @param {String}  [text] Optionally specify the text inside parenthesis. If left undefined and the rating object has a text property, that will be used. Otherwise it defaults to "user reviews"
+//- @param {Boolean} isLink the "10 user reviews" will be a link if this is true
 mixin productRating( rating, text, isLink )
   //- Default to ' user reviews' if blank and not specified as empty string
   if text == ''
@@ -134,35 +134,34 @@ mixin productRating( rating, text, isLink )
     meta(itemprop="ratingValue", content=rating.stars)
 
 
-mixin priceBlock( product, onlyName, href )
-  startingAtText = 'Starting at '
-  msrp = 'MSRP'
+mixin nameBlock( product, onlyName, href )
   isLink = href != null
 
   if isLink
     a.product-content(href=href)
       .product-name-wrap
         .product-name.p3
-          strong !{ data.name }
+          strong !{ product.name }
 
       if ( !onlyName )
-        .product-price
-          span.price-prefix.p5 !{ startingAtText }
-          span.price.p2
-            strong !{ '$' + data.price + ' ' }
-          span.msrp.p5 !{ msrp }
+        +priceBlock( product )
+
   else
     .product-content
       .product-name-wrap
         .product-name.p3
-          strong !{ data.name }
+          strong !{ product.name }
 
       if ( !onlyName )
-        .product-price
-          span.price-prefix.p5 !{ startingAtText }
-          span.price.p2
-            strong !{ '$' + data.price + ' ' }
-          span.msrp.p5 !{ msrp }
+        +priceBlock( product )
+
+
+mixin priceBlock( product )
+  .product-price
+    span.price-prefix.p5 !{ startingAtText + " " }
+    span.price.p2
+      strong !{ priceUnit + product.price + " " }
+    span.msrp.p5 !{ msrp }
 
 
 //- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
@@ -195,6 +194,12 @@ mixin productQuote( quote )
           span(class="author p4") !{ quote.screenname }
 
 
+mixin label( data )
+  if data.label
+    //- Extra wrapper with psition relative here because firefox doesn't support
+    //- relative positioning of display: table/table-cell
+    div.relative
+      span.label.label-success !{ data.label }
 
 
 mixin basicGalleryItem( layout, priority, href )
@@ -225,13 +230,39 @@ mixin basicGalleryItem( layout, priority, href )
       block
 
 
+
+
+//- END MIXINS
+
+
+//- Global vars for a single product instance
+startingAtText = data.startingAtText ? data.startingAtText : 'Starting at'
+msrp = data.msrp ? data.msrp : 'MSRP'
+priceUnit = data.priceUnit ? data.priceUnit : '$'
+
+//- Favorites
+inactiveTitle = data.inactiveTitle ? data.inactiveTitle : 'Add to Favorites'
+inactiveClickedTitle = data.inactiveClickedTitle ? data.inactiveClickedTitle : 'Added'
+favoritedTitle = data.favoritedTitle ? data.favoritedTitle : 'Remove Favorite?'
+favoritedClickedTitle = data.favoritedClickedTitle ? data.favoritedClickedTitle : 'Removed'
+
+//- Now save them back in case they're asked for again.
+//- This way it doesn't have to be constantly validated
+- data.startingAtText = startingAtText
+- data.msrp = msrp
+- data.priceUnit = priceUnit
+- data.inactiveTitle = inactiveTitle
+- data.inactiveClickedTitle = inactiveClickedTitle
+- data.favoritedTitle = favoritedTitle
+- data.favoritedClickedTitle = favoritedClickedTitle
+
+
 if data.view == 'basic'
   href = data.href ? data.href : '#'
 
   +basicGalleryItem( data.layout, data.priority, href )
     .gallery-item-inner
-      if data.label
-        span.label.label-success !{ data.label }
+      +label( data )
 
       if data.layout == 'promo'
         productImgClasses = [ 'product-img', 'iq-img' ]
@@ -299,7 +330,7 @@ if data.view == 'basic'
           if data.img && data.img.colors
             +colorSwatches( data.img.colors )
           +heart()
-        +priceBlock( data, undefined, href )
+        +nameBlock( data, undefined, href )
 
       else
         .product-img
@@ -332,7 +363,7 @@ if data.view == 'basic'
 
           +heart()
 
-        +priceBlock( data )
+        +nameBlock( data )
 
 else if data.view == 'simple'
 
@@ -348,7 +379,7 @@ else if data.view == 'simple'
           if includeHeart
             +heart()
 
-      +priceBlock( data, !includePrice )
+      +nameBlock( data, !includePrice )
 
 
 else if data.view == 'detailed'
@@ -358,8 +389,8 @@ else if data.view == 'detailed'
   a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, data-type=type, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
     .gallery-item-inner
       .product-img
-        if data.label
-          span.label.label-success !{ data.label }
+        +label( data )
+
         - hasExtraColors = data.img && data.img.colors && data.img.colors.length > 1
         - classes = 'product-img-wrap ghost-center-wrap js-product-imgs'
         - if ( !hasExtraColors ) classes += ' no-swatches'
@@ -380,17 +411,17 @@ else if data.view == 'detailed'
           .product-model.l3(itemprop="model") !{ data.model }
         +productRating( data.rating )
 
-        ul.product-meta
-          if data.meta
+        if data.meta
+          ul.product-meta
             each meta in data.meta
               li.p4
-                |!{meta.value}&nbsp;
+                | !{ meta.value + " " }
                 span.prodcut-meta-name !{ meta.name }
         .product-price
-          span.price-prefix.p3 !{ "Starting at " }
+          span.price-prefix.p3 !{ startingAtText + " " }
           span.price.p2
-            strong(itemprop="price") !{ '$' + data.price + ' ' }
-          span.msrp.p3 !{ "MSRP" }
+            strong(itemprop="price") !{ priceUnit + data.price + ' ' }
+          span.msrp.p3 !{ msrp }
 
 
 else if data.view == 'compare'
@@ -423,8 +454,8 @@ else if data.view == 'compare'
       +productRating( data.rating, '' )
 
       .product-price
-        span.price-prefix.p5 Starting at &nbsp;
-        span.price.t7(itemprop="price") !{ '$' + data.price }
+        span.price-prefix.p5 !{ startingAtText + " " }
+        span.price.t7(itemprop="price") !{ priceUnit + data.price }
 
       if data.img.colors
         +colorSwatches( data.img.colors )
@@ -474,15 +505,21 @@ else if data.view == 'specs'
   .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
     .compare-sticky-header
       .product-name-wrap
-        .product-name.p3(itemprop="name") !{ data.name }
-        .product-model.p3
-          strong(itemprop="model") !{ data.model }
+        .o-hidden
+          .product-name.p3(itemprop="name") !{ data.name }
+          if data.size
+            .product-size.p3
+              strong !{ data.size }
+          .product-model.p5(itemprop="model") !{ data.model }
 
     .spec-column-header.table-center-wrap
       .table-center
-        .product-name.p2(itemprop="name") !{ data.name }
-        .product-model.p1-bold
-          strong(itemprop="model") !{ data.model }
+        .o-hidden
+          .product-name.p2(itemprop="name") !{ data.name }
+          if data.size
+            .product-size.p1-bold
+              strong !{ data.size }
+          .product-model.p5(itemprop="model") !{ data.model }
 
     if data.specs
       each spec, i in data.specs
@@ -732,9 +769,9 @@ else if data.view == 'suggested'
             noscript
               img(src=data.img.noscriptsrc, alt=data.img.alt)
       .product-price
-        span.price-prefix.p3 !{ "Starting at " }
-        span.price.l2 !{ '$' + data.price + ' ' }
-        span.msrp.p5 !{ "MSRP" }
+        span.price-prefix.p3 !{ startingAtText + " " }
+        span.price.l2 !{ priceUnit + data.price + ' ' }
+        span.msrp.p5 !{ msrp }
 
 
 else if data.view == 'blank'
@@ -747,9 +784,6 @@ else if data.view == 'summary'
   titleLink = data.collectionLink ? data.collectionLink : {}
   buyLink = data.buyLink ? data.buyLink : {}
   attributeList = data.attributeList ? data.attributeList : []
-  startingAtText = data.startingAtText ? data.startingAtText : 'Staring at'
-  msrp = data.msrp ? data.msrp : 'MSRP'
-  priceUnit = data.priceUnit ? data.priceUnit : '$'
 
   hasSwatches = data.img && data.img.colors && data.img.colors.length > 1
   hasAttributeList = !!attributeList.length
@@ -835,9 +869,8 @@ else if data.view == 'compatibility'
             | !{ accessories }
 
 
+
 else if data.view == 'recommended'
-  startingAtText = 'Starting at'
-  msrp = 'MSRP'
 
   a.block(href=data.href ? data.href : '#')
     .pull-left.js-even-cols
@@ -849,9 +882,11 @@ else if data.view == 'recommended'
         p.p5.price-prefix !{ startingAtText }
         p
           span.p3.price
-            strong(itemprop="price") !{ '$' + data.price + ' ' }
+            strong(itemprop="price") !{ priceUnit + data.price + ' ' }
           span.l4.msrp !{ msrp }
           +heart()
+
+
 
 else if data.view == 'search-results'
   product = locals.data(data.results.product.data)

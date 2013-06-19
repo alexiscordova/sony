@@ -50,9 +50,6 @@ define(function(require) {
     self.isTabletMode = false;
     self.isMobileMode = false;
 
-    self.useBounce = !( Settings.isVita || Settings.isLTIE9 );
-    self.useMomentum = !( Settings.isVita || Settings.isLTIE9 );
-
     // Cache some jQuery objects we'll reference later
     self.hasTouch = Settings.hasTouchEvents;
     self.$document = Settings.$document;
