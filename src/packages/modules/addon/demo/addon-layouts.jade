@@ -1,0 +1,72 @@
+include ../../../common/html/jade-helpers.jade
+doctype 5
+include ../../../common/html/ieconditionals.html
+
+head
+  title Addon Layouts (without inline content)
+  include ../../../common/html/head.jade
+
+body
+
+  .container
+    .grid
+      h3 Slideshow
+  .container
+    .grid
+      +partial('addon/html/addon.jade', 'packages/modules/addon/demo/data/slideshow.json')
+
+
+  hr
+  .container
+    .grid
+      h3 Video
+  .container
+    .grid
+      +partial('addon/html/addon.jade', 'packages/modules/addon/demo/data/video.json')
+
+  hr
+  .container
+    .grid
+      h3 Audio
+  .container
+    .grid
+      +partial('addon/html/addon.jade', 'packages/modules/addon/demo/data/audio.json')
+
+  hr
+  .container
+    .grid
+      h3 Story
+  .container
+    .grid
+      +partial('addon/html/addon.jade', 'packages/modules/addon/demo/data/story.json')
+
+  hr
+  .container
+    .grid
+      h3 Logo
+  .container
+    .grid
+      +partial('addon/html/addon.jade', 'packages/modules/addon/demo/data/logo.json')
+
+  hr
+  .container
+    .grid
+      h3 Tweet
+  .container
+    .grid
+      +partial('addon/html/addon.jade', 'packages/modules/addon/demo/data/tweet.json')
+
+  hr
+  .container
+    .grid
+      h3 Quote
+  .container
+    .grid
+      +partial('addon/html/addon.jade', 'packages/modules/addon/demo/data/quote.json')
+
+
+
+  div(style="height:800px;")
+
+  include ../../../common/html/foot.jade
+</html>

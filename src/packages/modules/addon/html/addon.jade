@@ -18,7 +18,7 @@ mixin mediaObject( data )
   logo = false
 
   if data.type == "video"
-    iconClass = "fonticon-15-circle-play"
+    iconClass = "fonticon-10-video-play"
 
   else if data.type == "audio"
     iconClass = "fonticon-10-speaker"
@@ -31,52 +31,48 @@ mixin mediaObject( data )
 
   .media
     +link( data.link, [ "addon-media", "pull-left" ], undefined, undefined, true )
-      //- .table-center-wrap.v-wrap
-      //-   .table-center
       +iQBackgroundImage( data.img, "media-object" )
       if iconClass
-        i(class=iconClass + "--after")
+        i(class=iconClass + "--after l-o-d")
 
-    .media-body
-      p.t7 !{ data.copy }
-      if logo
-        +iQImage( logo )
-      if data.link
-        +link( data.link, [ "lt3" ] )
+    .media-body.ghost-center-wrap.v-wrap
+      .ghost-center
+        p.t7 !{ data.copy }
+        if logo
+          +iQImage( logo )
+        if data.link
+          +link( data.link, [ "lt3" ] )
 
 
 //- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
-mixin quote( quote )
-  href = quote.href ? quote.href : false
-  target = quote.target ? quote.target : false
-  medium = quote.medium
-  iconClass = ''
-  iconClasses = []
+mixin quote( data )
+  href = data.author && data.author.href ? data.author.href : "#CITATION_MISSING__AUTHOR.HREF"
+  alignment = data.alignment ? data.alignment : "left"
+  isTweet = data.type == "tweet"
+  isQuote = data.type == "quote"
 
-  //- The facebook icon has two different sizes
-  case medium
-    when 'facebook'
-      iconClass = 'fonticon-15-facebook-sm'
-    default
-      iconClass = 'fonticon-15-' + medium
-
-  - iconClasses.push( iconClass, medium + '-color', 'ghost-center' )
-
-  .quote.ghost-center-wrap
+  div(class="quote text-" + alignment + " ghost-center-wrap")
     figure.ghost-center
       blockquote.bq6-bold(cite=href)
-        p !{ quote.text }
+        p !{ data.copy }
       figcaption
-        span.social-icon.ghost-center-wrap
-          i(class=iconClasses)
-        if href
-          a(class="author p4", href=href, target=target) !{ quote.screenname }
-        else
-          span(class="author p4") !{ quote.screenname }
+        if isTweet
+          span.social-icon
+            i(class="fonticon-15-twitter twitter-color")
+          if data.author && data.author.href
+            +link( data.author, [ "author", "l3" ] )
+
+        else if isQuote
+          span.ldquo
+          if data.author && data.author.href
+            +link( data.author, [ "author", "l3" ] )
+          else
+            span(class=[ "author", "l3" ]) !{ data.author }
 
 
 //- Testing purposes only
-data = data.addon
+if data.test_standalone
+  data = data.addon
 
 
 type = data.type
