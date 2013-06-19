@@ -12,6 +12,7 @@ define(function(require) {
     'use strict';
 
     var $ = require('jquery'),
+        iQ = require('iQ'),
         enquire = require('enquire'),
         Modernizr = require('modernizr'),
         Settings = require('require/sony-global-settings'),
@@ -43,6 +44,17 @@ define(function(require) {
       constructor: Editorial,
 
       init: function() {
+        var self = this;
+
+        self.setVars();
+        self.setupBreakpoints();
+
+        if ( self.hasAddonSubmodule ) {
+          self.setupSubmodules();
+        }
+      },
+
+      setVars : function() {
         var self = this,
             spanRegex = /span\d+/;
 
@@ -55,6 +67,7 @@ define(function(require) {
         self.isMediaLeft = self.$el.hasClass('medialeft');
         self.hasCollapsibleTout = self.$collapsibleTout.length > 0;
         self.hasTout = self.$touts.length > 0;
+        self.hasAddonSubmodule = self.$el.find('.submodule').length > 0;
 
         // Build an array of the col spans
         self.colSpans = [];
@@ -64,8 +77,6 @@ define(function(require) {
           self.colSpans.push( span );
         });
 
-        self.setupBreakpoints();
-        
       },
 
 
@@ -127,6 +138,73 @@ define(function(require) {
         log('SONY : Editorial - E : Initialized');
 
         Settings.editorialModuleInitialzied.resolve();
+      },
+
+      setupSubmodules : function() {
+        var self = this;
+
+        self.$addonTrigger = self.$el.find('.addon-media');
+        // The addon submodule will be off screen when this module is initialized
+        self.$addonModule = self.$el.find('.submodule.off-screen');
+        self.$closeBtn = self.$addonModule.find('.box-close');
+
+        // The submodule that will be hidden while the addon is visible
+        self.$submodule = self.$addonModule.siblings();
+
+        // .editorial <- $el
+          // .container <- submodules
+            // .submodule <- visible submodule ( $submodule )
+            // .submodule.off-screen.visuallyhidden
+          // .container <- text content
+        self.$content = self.$submodule.parent().siblings();
+
+        self.$addonTrigger.on('click', $.proxy( self.onAddonClick, self ) );
+        self.$closeBtn.on('click', $.proxy( self.onCloseClick, self ) );
+
+
+        // Mouse events for close button
+        if ( !Settings.hasTouchEvents ) {
+          //show hide close button on hover over module
+          self.$addonModule.on('mouseenter.submodule', function(){
+            self.isHovered = true;
+            self.$closeBtn.removeClass('close-hide');
+          });
+
+          self.$addonModule.on('mouseleave.submodule', function(){
+            self.isHovered = false;
+            self.$closeBtn.addClass('close-hide');
+          });
+        }
+      },
+
+      onAddonClick : function( evt ) {
+        var self = this,
+            hiddenClass = 'off-screen visuallyhidden';
+
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        self.$submodule
+          .add( self.$content )
+          .addClass( hiddenClass );
+
+        self.$addonModule.removeClass( hiddenClass );
+
+        iQ.update();
+      },
+
+      onCloseClick : function( evt ) {
+        var self = this,
+            hiddenClass = 'off-screen visuallyhidden';
+
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        self.$submodule
+          .add( self.$content )
+          .removeClass( hiddenClass );
+
+        self.$addonModule.addClass( hiddenClass );
       },
 
       // Fixes the min height of medialeft and mediaright on resize

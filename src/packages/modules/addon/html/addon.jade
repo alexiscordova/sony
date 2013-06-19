@@ -26,18 +26,19 @@ mixin mediaObject( data )
     iconClass = "fonticon-15-popup"
 
   .media
-    +link( data.link, [ "addon-media", "pull-left" ], undefined, undefined, true )
+    //- +link( data.link, [ "addon-media", "pull-left" ], undefined, undefined, true )
+    a(class=[ "addon-media", "pull-left" ], href="#")
       +iQBackgroundImage( data.img, "media-object" )
       if iconClass
         i(class=iconClass + "--after l-o-d")
 
     .media-body.ghost-center-wrap.v-wrap
       .ghost-center
-        p.t7.copy !{ data.copy }
+        p.p3.copy !{ data.copy }
         if data.subhead
-          p.p4 !{ data.subhead }
+          p.p4.subhead !{ data.subhead }
         else if data.link
-          +link( data.link, [ "lt3", "link" ] )
+          +link( data.link, [ "lt3", "addon-link" ] )
 
 
 //- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
