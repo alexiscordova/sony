@@ -1,4 +1,4 @@
-This is the static manifest file for the Global Header, to be included in the Sony Global. Both versions of the Header – Default and "Minimal" – share the same jade file, with the "Minimal" version skipping over the pieces it doesn't render to the page. The "Minimal" version is triggered by including '"minimal":true' in the data object ("e") in the Header Partial declaration on the page.
+This is the static manifest file for the Global Header, to be included in the Sony Global. Both versions of the Header – Default and "Minimal" – share the same jade file, with the "Minimal" version skipping over the pieces it doesn't render to the page. The "Minimal" version is triggered by including '"minimal":true' in the json.
 
 
 

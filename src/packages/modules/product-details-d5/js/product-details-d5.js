@@ -134,68 +134,106 @@ define(function(require){
     },
 
     // determine and set the height/widths of the measurement elements
-    setMeasurementDimensions : function(){
+    setMeasurementDimensions : function() {
       var self = this,
+          dataList = [],
           isSmallVImage, isSmallHImage,
           theMarginTop, theMarginLeft, top,
-          $el, dir, $theImage, $unitContainer, $measurementParent, $unitContainerHeight, $unitContainerWidth, theImageWidth, theImageHeight, isThinImage;
+          $el, dir, $theImage, $unitContainer, $measurementParent,
+          unitContainerHeight, unitContainerWidth, theImageWidth, theImageHeight, isThinImage;
 
       // if image is thin, don't add pad/margins
       isThinImage = isSmallVImage = isSmallHImage = false;
 
       // defaults
       theMarginTop = theMarginLeft = top = 0;
-      $el = dir = $theImage = $unitContainer = $measurementParent = $unitContainerHeight = $unitContainerWidth = theImageWidth = theImageHeight = undefined;
 
-      // for each image
+      // for each image, calculate its dimensions and margins
       self.$dimensions.each(function(index) {
+        var parentClass = "",
+            data = {};
+
         $el = $(this);
         dir = $el.hasClass("vertical-measurement") ? "v" : "h";
         $unitContainer = $el.find(".units-container");
         $measurementParent = $unitContainer.closest("div.measurement");
         $theImage = $measurementParent.find(".img-wrapper img");
-        $unitContainerHeight = $unitContainer.innerHeight();
-        $unitContainerWidth = $unitContainer.innerWidth();
-        theImageWidth = dir === "v" ? $unitContainerWidth : $theImage.outerWidth();
-        theImageHeight = dir === "v" ? $theImage.outerHeight() : $unitContainerHeight;
+        unitContainerHeight = $unitContainer.innerHeight();
+        unitContainerWidth = $unitContainer.innerWidth();
+        theImageWidth = dir === "v" ? unitContainerWidth : $theImage.outerWidth();
+        theImageHeight = dir === "v" ? $theImage.outerHeight() : unitContainerHeight;
 
 
-        if($el.closest("div.top-wrapper").hasClass("is-thin")){
+        if ( $el.closest("div.top-wrapper").hasClass("is-thin") ) {
           isThinImage = true;
         }
 
         // for a vertical measurement
-        if(dir === "v") {
-          if(theImageHeight >= $unitContainerHeight){
+        if ( dir === "v" ) {
+          if ( theImageHeight >= unitContainerHeight ) {
             // center vertically
-            theMarginTop = -($unitContainerHeight / 2);
+            theMarginTop = -(unitContainerHeight / 2);
             top = "50%";
-          }else{
+          } else {
             isSmallVImage = true;
-            $measurementParent.addClass("small-v-image");
+            parentClass = "small-v-image";
           }
 
           theMarginLeft = isThinImage ? 0 : theMarginLeft;
 
-        }else if (dir === "h"){
+        } else if ( dir === "h" ) {
           // for a horizontal measurement
 
-          if(theImageWidth >= $unitContainerWidth){
+          if ( theImageWidth >= unitContainerWidth ) {
             // center horiz
-            theMarginLeft = -($unitContainerWidth / 2);
-          }else{
+            theMarginLeft = -(unitContainerWidth / 2);
+          } else {
             // if the image is too small enforce 50px
-            $measurementParent.addClass("small-h-image");
+            parentClass = "small-h-image";
             isSmallHImage = true;
           }
         }
 
+        // Save data so that the DOM isn't manipulated between loops
+        if ( parentClass ) {
+          data.parentClass = parentClass;
+          data.$measurementParent = $measurementParent;
+        }
 
-        if((!isSmallHImage) || (!isSmallVImage)){
-          self.setHeightWidth( $el, theImageWidth, theImageHeight );
-          self.setMarginsTop( $unitContainer, top, theMarginTop, theMarginLeft );
+        // More data!
+        if ( !isSmallHImage || !isSmallVImage ) {
+          data.dimensions = {
+            $el: $el,
+            theImageWidth: theImageWidth,
+            theImageHeight: theImageHeight
+          };
+
+          data.margins = {
+            $el: $unitContainer,
+            top: top,
+            theMarginTop: theMarginTop,
+            theMarginLeft: theMarginLeft
+          };
+        }
+
+        dataList.push( data );
+      });
+
+
+      // Process the saved data so the DOM is changed all at once
+      self.$dimensions.each(function( i ) {
+        var data = dataList[ i ];
+
+        if ( data.parentClass ) {
+          data.$measurementParent.addClass( data.parentClass );
+        }
+
+        if ( data.dimensions ) {
+          self.setHeightWidth( data.dimensions.$el, data.dimensions.theImageWidth, data.dimensions.theImageHeight );
+          self.setMarginsTop( data.margins.$el, data.margins.top, data.margins.theMarginTop, data.margins.theMarginLeft );
         }
       });
+
     },
 
     // set the height and width of the ele

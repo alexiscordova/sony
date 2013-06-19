@@ -7,7 +7,6 @@
 // * **Author:** Thisispete
 // * **Dependencies:** jQuery 1.7+ , sony-global-environment
 //
-
 define(function(require) {
 
     'use strict';
@@ -19,6 +18,7 @@ define(function(require) {
         Environment = require('require/sony-global-environment'),
         SonyCarousel = require('secondary/sony-carousel'),
         EvenHeights = require('secondary/sony-evenheights');
+        Settings.editorialModuleInitialzied = $.Deferred();
 
     var module = {
       init: function() {
@@ -37,7 +37,6 @@ define(function(require) {
       self.$el = $(element);
 
       self.init();
-      self.setupBreakpoints();
     };
 
     Editorial.prototype = {
@@ -64,6 +63,9 @@ define(function(require) {
               span = result[0];
           self.colSpans.push( span );
         });
+
+        self.setupBreakpoints();
+        
       },
 
 
@@ -122,7 +124,9 @@ define(function(require) {
           Environment.on('global:resizeDebounced', $.proxy(self.fixMediaHeights, self));
         }
 
-        log('SONY : Editorial : Initialized');
+        log('SONY : Editorial - E : Initialized');
+
+        Settings.editorialModuleInitialzied.resolve();
       },
 
       // Fixes the min height of medialeft and mediaright on resize
@@ -188,6 +192,7 @@ define(function(require) {
           slides: '>div',
           pagination: true
         });
+
       },
 
       initSubMobile: function() {

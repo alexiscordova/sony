@@ -6,8 +6,7 @@
 <li><strong>Modified:</strong> 02/22/2013</li>
 <li><strong>Author:</strong> Thisispete</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+ , sony-global-environment</li>
-</ul>             </td>             <td class="code">               <div class="highlight"><pre>
-define(<span class="keyword">function</span>(require) {
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>define(<span class="keyword">function</span>(require) {
 
     <span class="string">'use strict'</span>;
 
@@ -18,6 +17,7 @@ define(<span class="keyword">function</span>(require) {
         Environment = require(<span class="string">'require/sony-global-environment'</span>),
         SonyCarousel = require(<span class="string">'secondary/sony-carousel'</span>),
         EvenHeights = require(<span class="string">'secondary/sony-evenheights'</span>);
+        Settings.editorialModuleInitialzied = $.Deferred();
 
     <span class="keyword">var</span> module = {
       init: <span class="keyword">function</span>() {
@@ -35,7 +35,6 @@ define(<span class="keyword">function</span>(require) {
       self.$el = $(element);
 
       self.init();
-      self.setupBreakpoints();
     };
 
     Editorial.prototype = {
@@ -61,6 +60,9 @@ define(<span class="keyword">function</span>(require) {
               span = result[<span class="number">0</span>];
           self.colSpans.push( span );
         });
+
+        self.setupBreakpoints();
+        
       },
 
 
@@ -115,7 +117,9 @@ define(<span class="keyword">function</span>(require) {
           Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.fixMediaHeights, self));
         }
 
-        log(<span class="string">'SONY : Editorial : Initialized'</span>);
+        log(<span class="string">'SONY : Editorial - E : Initialized'</span>);
+
+        Settings.editorialModuleInitialzied.resolve();
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Fixes the min height of medialeft and mediaright on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      fixMediaHeights: <span class="keyword">function</span>() {
@@ -178,6 +182,7 @@ define(<span class="keyword">function</span>(require) {
           slides: <span class="string">'&gt;div'</span>,
           pagination: <span class="literal">true</span>
         });
+
       },
 
       initSubMobile: <span class="keyword">function</span>() {
@@ -226,4 +231,5 @@ define(<span class="keyword">function</span>(require) {
     <span class="keyword">return</span> module;
 
 });
+
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

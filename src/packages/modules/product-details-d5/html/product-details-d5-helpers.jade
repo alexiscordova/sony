@@ -64,8 +64,8 @@ mixin featureList(list)
 
               p(class= copyClasses)
                 span #{li.copy}
-                if (li.link)
-                  +link( {"title" : li.linkLabel, "text" : li.linkLabel, "href" : li.link ,"target" : "_blank"}, [ "no-wrap" ] )
+                if (li.link.href)
+                  +link( li.link, [ "no-wrap" ] )
 
 mixin specsList( list, isHorizontal )
   - isHorizontal = isHorizontal || false
@@ -81,7 +81,7 @@ mixin specsList( list, isHorizontal )
 mixin extras(extras)
   if extras
     for extra in extras
-      if(extra.copy && extra.title)
+      if extra.copy && extra.title
         .extra
           p.l3
             strong !{extra.title}
@@ -100,11 +100,11 @@ mixin bottomTout(textTout)
         //- need another div to allow overflow to work again (not table-cell)
         .no-overflow
           span #{textTout.copy}
-          if(textTout.link && textTout.linkLabel)
-            +link( {"title" : textTout.linkLabel, "text" : textTout.linkLabel, "href" : textTout.link ,"target" : "_blank"}, [ "no-wrap" ] )
+          if textTout.link && textTout.link.href && textTout.link.text
+            +link( textTout.link , [ "no-wrap" ] )
 
 mixin bottomButton(btn)
-  if(btn.buttonLabel && btn.buttonLink)
+  if btn.link && btn.link.text && btn.link.href
     div(class= btmButtonClasses)
-      +link( {"title" : btn.buttonLabel, "text" : btn.buttonLabel, "href" : btn.buttonLink,"target" : "_blank"}, [ "btn", "buttonLabel" ] )
+      +link( btn.link, [ "btn", "buttonLabel" ] )
 

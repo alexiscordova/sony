@@ -9,11 +9,7 @@ mixin copyblock(data)
 
     if (data.articleLink)
       p.lt3
-        +link( {"title" : data.linkTitle, "text" : data.linkTitle, "href" : data.articleLink ,"target" : "_blank"} )
-
-mixin socialButton(link, label)
-  .social-btn
-    +link( {"title" :label, "text" : label, "href" : link ,"target" : "_blank"}, [ "btn", "btn-small" ] )
+        +link( data.link )
 
 mixin header(data)
   .tcc-header-wrapper
@@ -26,7 +22,7 @@ mixin header(data)
           - link = data.link
           .span3.offset3
             p.tcc-header-link.lt3
-              +link( {"title" : data.linkText, "text" : data.linkText, "href" : link ,"target" : "_blank"} )
+              +link( link )
 
 mixin article(mode, data)
   if(mode == "featured")
@@ -60,7 +56,7 @@ mixin featured(data)
   .copy.dark-box.light-text
     p.t5-light !{data.title}
     p.lt3
-      +link( {"title" : data.linkTitle, "text" : data.linkTitle, "href" : data.articleLink ,"target" : "_blank"} )
+      +link( link )
 
 mixin users-voice(mode, data)
   - quoteClasses = ["quote"]
@@ -81,8 +77,9 @@ mixin users-voice(mode, data)
       p !{blockquote}
 
     if(data.mode == "question")
-      .lt3
-        +link( {"title" : data.repliesLinkTitle, "text" : data.repliesLinkTitle, "href" : data.repliesLink ,"target" : "_blank"} )
+      if(link.href)
+        .lt3
+          +link( data.repliesLink )
 
   if(data.mode != "question")
     +credits(mode, data)
@@ -102,11 +99,11 @@ mixin credits(mode, data)
         +author-default(mode, data.author, data.title)
 
 mixin author-expert-quote(author)
-  +link( {"title" : author.name, "text" : author.name, "href" : author.link ,"target" : "_blank"} )
+  +link( author.link )
 
 mixin author-default(mode, author, title)
   if(author.link)
-    +link( {"title" : author.handle, "text" : author.handle, "href" : author.link ,"target" : "_blank"}, [ 'handle' ] )
+    +link( author.link, [ 'handle' ] )
     if(mode == "question")
       span !{title}
 
@@ -115,7 +112,7 @@ mixin author-default(mode, author, title)
 
 mixin question-extra(data)
   .answer-btn
-    +link( {"title" : data.answerLinkTitle, "text" : data.answerLinkTitle, "href" : data.answerLink ,"target" : "_blank"}, [ "btn", "btn-small" ] )
+    +link( data.answerLink, [ "btn", "btn-small" ] )
 
 mixin topCenterBottom(mode, data)
   +top("fonticon-15-" + mode, data)
@@ -156,30 +153,23 @@ mixin center(mode, data)
 
 mixin bottom(mode, data)
   .bottom
-    case mode
-      when "twitter"
-        - label = "Follow Us on Twitter"
-      when "facebook"
-        - label = "Like Us on Facebook"
-      when "instagram"
-        - label = "Follow Us on Instagram"
-      when "flickr"
-        - label = "View Set on Flickr"
-
-    +socialButton( data.socialBtnLink, label )
+    .social-btn
+      +link( data.link , [ "btn", "btn-small" ])
 
 mixin twitter(data)
   blockquote.bq4
     p !{data.quote}
+
+      +link( data.tweetLink )
 
 mixin facebook(data)
     .post-image
       +iQImage(data.image)
 
     blockquote.bq5
-        p
-          span !{data.postCopy}
-          +link( {"title" : data.postLink, "text" : data.postLink, "href" : data.postLink ,"target" : "_blank"} )
+      p
+        span !{data.postCopy}
+        +link( data.postLink )
 
 mixin instagram(data)
   -images = data.images
