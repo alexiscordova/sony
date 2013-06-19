@@ -1,0 +1,137 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+// Layout:
+// .addon
+  // .media
+    // .addon-media
+      // .media-object
+
+$sidePadding: 12px;
+
+.addon {
+
+  &.gray {
+    background-color: $gray80;
+    box-shadow: 0 1px 0 $transparentBlack;
+  }
+
+  .media {
+    height: px-em( 72 );
+  }
+
+  .addon-media {
+    position: relative;
+    display: block;
+    max-width: px-em( 85 );
+    height: 100%;
+    width: 100%;
+    margin-right: px-em( $sidePadding );
+
+    &:hover {
+
+    }
+  }
+
+  .v-wrap {
+    height: inherit;
+  }
+
+  .media-object {
+    height: inherit;
+    width: inherit;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  // $fontSize: 1.5em;
+  // $pxSize: 1.5 * 16;
+  // $circleSize: px-em( 34, $pxSize );
+  $circleSize: 34px;
+  $halfCircle: $circleSize / 2;
+  .addon-media i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -$halfCircle;
+    margin-left: -$halfCircle;
+    @include square( $circleSize );
+    background-color: rgba($black, 0.5);
+    border-radius: 50%;
+    color: $white;
+    // font-size: $fontSize; // Just so if they add some icons which aren't fonticon-15-*
+
+    // using 12 because the font-size is 24px (1.5em)
+    &:after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -12px;
+      margin-left: -12px;
+    }
+
+    &[class*="fonticon-10-"]:after {
+      margin-top: -8px;
+      margin-left: -8px;
+    }
+  }
+
+  // Support: < IE 9
+  .no-rgba & .addon-media i {
+    background-color: #595959;
+  }
+
+  .quote .twitter-color {
+    vertical-align: middle;
+  }
+
+  .quote .author {
+    color: $gray40;
+  }
+
+  .ldquo {
+    display: inline-block;
+    height: 20px;
+    margin-right: 6px;
+    font-size: 48px;
+    font-family: Georgia;
+    color: $gray30;
+    vertical-align: middle;
+    line-height: 1;
+
+    &:before {
+      content: "“";
+    }
+  }
+
+  .copy {
+    padding-right: $sidePadding;
+  }
+
+  .link {
+    display: block;
+    margin: 0;
+  }
+
+}
+
+.addon-slideshow {
+
+  // Make ghost wrapping do nothing
+  .v-wrap {
+    height: auto;
+  }
+
+  .media {
+    padding: px-em( $sidePadding - 3 ) px-em( $sidePadding );
+  }
+}
+
+.addon-logo {
+
+  // Don't want logos to get clipped. The whole logo should always be visible
+  .media-object {
+    background-size: contain;
+  }
+}
