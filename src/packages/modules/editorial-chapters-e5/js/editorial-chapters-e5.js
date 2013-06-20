@@ -415,10 +415,13 @@ define(function(require){
         $nextSlideImg.addClass('unhide');
 
         if (!self.isMediaChapter) {
-          $currSlide.addClass('pos-active');
+          $currSlide.addClass('pos-active').removeClass('off-screen'); 
+
           setTimeout(function(){
-            $currSlide.siblings().removeClass('pos-active');
-            if(!$currSlide.hasClass('pos-active')){ $currSlide.addClass('pos-active'); }
+            $currSlide.siblings().removeClass('pos-active').addClass('off-screen');
+            if(!$currSlide.hasClass('pos-active')){ 
+              $currSlide.addClass('pos-active').removeClass('off-screen'); 
+            }
           }, 500);
         } else {
           $currSlide.addClass('pos-active');

@@ -95,7 +95,7 @@ $windowWidth: 1100;
     height: 100%;
     float:left;
     @include opacity(0);
-    @include transition();
+    @include transition( opacity .15s $easeNormal );
 
     .image-module {
       position: absolute;
@@ -110,9 +110,10 @@ $windowWidth: 1100;
     }     
 
     &.active {
+      left: 0;
       display: block;
       @include opacity(100);
-      @include transition();
+      @include transition( opacity .15s $easeNormal );
 
       .image-module {
         position: relative;
