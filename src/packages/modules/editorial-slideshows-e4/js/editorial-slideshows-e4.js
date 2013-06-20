@@ -41,7 +41,7 @@ define(function(require) {
     self.numSlides = self.$slides.length;
 
     // If the $slideContainer is in a span6, consider it "small" for styling purposes.
-    self.isSmall = ( self.$slideContainer.parents('.span6').length > 0 );
+    self.isSmall = ( self.$slideContainer.closest('.media-element').length > 0 );
 
     self.$document = Settings.$document;
     self.$window = Settings.$window;
@@ -68,16 +68,13 @@ define(function(require) {
 
       if ( $firstImage.data('hasLoaded') ) {
         self.setupCarousel();
-        console.log('a');
       } else {
         $firstImage.on('imageLoaded', function(){
           self.setupCarousel();
-
-          console.log('b',self.$slideContainer);
         });
       }
 
-      self.$slideContainer.css( 'opacity' , 1 );
+      self.$slideContainer.css( 'opacity', 1 );
 
       self.onDebouncedResize();
       Environment.on('global:resizeDebounced', $.proxy( self.onDebouncedResize, self ));

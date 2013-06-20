@@ -50,11 +50,11 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Basic selectors</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$doc                   = Settings.$document;
       self.$win                   = Settings.$window;
       self.$html                  = Settings.$html;
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Cache some jQuery objects we'll reference later</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$ev                  = $({});
       self.$window              = Settings.$window;
-      self.$slides              = self.$el.find(<span class="string">'.editorial-carousel-slide'</span>);
-      self.$slideWrapper        = self.$el.find(<span class="string">'.editorial-carousel-wrapper'</span>);
+      self.$slides              = self.$el.find(<span class="string">'.editorial-carousel-slide.chapter-slide'</span>);
+      self.$slideWrapper        = self.$el.find(<span class="string">'.editorial-carousel-wrapper.chapter-pane'</span>);
       self.$slideContainer      = self.$el.find(<span class="string">'.editorial-carousel'</span>);
       self.$thumbNav            = self.$el.find(<span class="string">'.thumb-nav'</span>);
       self.$slider              = self.$el.find(<span class="string">'.slider'</span>);
@@ -99,13 +99,13 @@ define(<span class="keyword">function</span>(require){
         $(domReady);
 
         <span class="function"><span class="keyword">function</span> <span class="title">domReady</span><span class="params">()</span>{</span>
-            
+
           self.setupEvents();
-          
+
           self.setupSlides();
-          
+
           self.setupCarousel();
-          
+
           self.setupBreakpoints();
 
           <span class="keyword">if</span>(self.hasThumbs){ self.createThumbNav(); }
@@ -117,7 +117,7 @@ define(<span class="keyword">function</span>(require){
           self.$thumbNav.on(self.downEvent, <span class="keyword">function</span>(e) { self.dragStart(e); });
         }
       },
-      
+
       setupBreakpoints: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -145,7 +145,7 @@ define(<span class="keyword">function</span>(require){
 
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Setup touch event types</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupEvents: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
-        
+
         <span class="keyword">if</span> (Modernizr.touch) {
           self.hasTouch         = <span class="literal">true</span>;
           self.downEvent        = <span class="string">'touchstart.rp'</span>;
@@ -161,13 +161,13 @@ define(<span class="keyword">function</span>(require){
           self.upEvent     = <span class="string">'mouseup.rp'</span>;
           self.cancelEvent = <span class="string">'mouseup.rp'</span>;
           self.clickEvent = <span class="string">'click.pdpss'</span>;
-        }  
+        }
 
         self.tapOrClick = <span class="keyword">function</span>(){
           <span class="keyword">return</span> self.hasTouch ? self.upEvent : self.clickEvent;
         };
       },
-              
+
       setupMobilePlus: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -193,13 +193,13 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>even with a deffered object window.load does not fire with require.js
 the deffered object is firing before the dom has fully loaded. The perfect
 approach would be to run on window.load and get the height of the individual
-slides, however that isnt an option. So were back to an arbitary settimout. </p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout( <span class="keyword">function</span>() {
+slides, however that isnt an option. So were back to an arbitary settimout.</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout( <span class="keyword">function</span>() {
             self.getSlideHeight();
             self.getSliderWidth();
           }, <span class="number">500</span>);
 
-          <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'text-mode'</span>)) { 
-            self.initScroller(); 
+          <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'text-mode'</span>)) {
+            self.initScroller();
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>show slider shades if needed</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> node = self.$slider.get(<span class="number">0</span>),
                 curTransform = <span class="keyword">new</span> WebKitCSSMatrix(window.getComputedStyle(node).webkitTransform),
                 sliderOffset = node.offsetLeft + curTransform.m41, <span class="comment">//real offset left</span>
@@ -214,7 +214,7 @@ slides, however that isnt an option. So were back to an arbitary settimout. </p>
       dragStart: <span class="keyword">function</span>(e) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             point;
-        
+
         <span class="keyword">if</span> (self.hasTouch) {
           <span class="keyword">var</span> touches = e.originalEvent.touches;
           <span class="keyword">if</span> (touches &amp;&amp; touches.length &gt; <span class="number">0</span>) {
@@ -232,11 +232,11 @@ slides, however that isnt an option. So were back to an arbitary settimout. </p>
           <span class="keyword">if</span> (e.which !== <span class="number">1</span>) {
             <span class="keyword">return</span>;
           }
-        }              
+        }
 
 </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>reset the distance moved since its a new start</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.distanceMoved = <span class="literal">null</span>;
         self.handleStartPosition = self.getPagePosition(e);
-        self.startInteractionPointX = point.pageX;        
+        self.startInteractionPointX = point.pageX;
 
         self.$doc.on(self.moveEvent , $.proxy(self.dragMove , self)).on(self.upEvent , $.proxy(self.dragEnd, self));
 
@@ -248,7 +248,7 @@ slides, however that isnt an option. So were back to an arbitary settimout. </p>
             distY = self.getPagePosition(e).y - self.handleStartPosition.y,
             point,
             distanceMoved;
-            
+
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>some really gross logic</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.hasTouch) {
           <span class="keyword">if</span> (self.lockAxis) {
             <span class="keyword">return</span>;
@@ -265,7 +265,7 @@ slides, however that isnt an option. So were back to an arbitary settimout. </p>
           }
         } <span class="keyword">else</span> {
           point = e;
-        }    
+        }
 
         self.distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
       },
@@ -305,6 +305,7 @@ slides, however that isnt an option. So were back to an arbitary settimout. </p>
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Main setup method for the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      setupCarousel: <span class="keyword">function</span>(){
+
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             currIndx,
             $currSlide,
@@ -314,11 +315,11 @@ slides, however that isnt an option. So were back to an arbitary settimout. </p>
         currIndx = <span class="number">0</span>;
         $currSlide = self.$slides.eq(currIndx);
         $currSlideImg = $currSlide.find(<span class="string">'.image-module'</span>);
-        $nextSlideImg = (currIndx + <span class="number">1</span>) &gt;= self.$slides.length ? self.$slides.eq(<span class="number">0</span>).find(<span class="string">'.image-module'</span>) : self.$slides.eq(currIndx + <span class="number">1</span>).find(<span class="string">'.image-module'</span>); 
+        $nextSlideImg = (currIndx + <span class="number">1</span>) &gt;= self.$slides.length ? self.$slides.eq(<span class="number">0</span>).find(<span class="string">'.image-module'</span>) : self.$slides.eq(currIndx + <span class="number">1</span>).find(<span class="string">'.image-module'</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Using Sony Carousel for this module</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$slideContainer.sonyCarouselFade({
-          wrapper: <span class="string">'.editorial-carousel-wrapper'</span>,
-          slides: <span class="string">'.editorial-carousel-slide'</span>,
+          wrapper: <span class="string">'.editorial-carousel-wrapper.chapter-pane'</span>,
+          slides: <span class="string">'.editorial-carousel-slide.chapter-slide'</span>,
           looped: <span class="literal">false</span>,
           jumping: <span class="literal">false</span>,
           axis: <span class="string">'x'</span>,
@@ -328,12 +329,12 @@ slides, however that isnt an option. So were back to an arbitary settimout. </p>
           draggable: <span class="literal">false</span>
         });
 
-        self.$slideContainer.on(<span class="string">'SonyCarouselFade:gotoSlide'</span> , $.proxy( self.onSlideUpdate , self ) );
+        self.$slideContainer.eq(<span class="number">0</span>).on(<span class="string">'SonyCarouselFade:gotoSlide'</span> , $.proxy( self.onSlideUpdate , self ) );
 
 </pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>we need to solve an issue of all images being loaded on DomReady</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setCurrentActiveThumb();
         $currSlideImg.addClass(<span class="string">'unhide'</span>);
         $nextSlideImg.addClass(<span class="string">'unhide'</span>);
-        
+
 
         iQ.update();
       },
@@ -370,7 +371,8 @@ active slide.</p>             </td>             <td class="code">               
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Listens for slide changes and updates the correct thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>      onSlideUpdate: <span class="keyword">function</span>(e , currIndx){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>, 
+        
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
             $currSlide,
             $prevSlide,
             $currSlideImg,
@@ -380,8 +382,8 @@ active slide.</p>             </td>             <td class="code">               
 
         $currSlide = self.$slides.eq(currIndx);
         $currSlideImg = $currSlide.find(<span class="string">'.image-module'</span>);
-        $nextSlideImg = (currIndx + <span class="number">1</span>) &gt;= self.$slides.length ? self.$slides.eq(<span class="number">0</span>).find(<span class="string">'.image-module'</span>) : self.$slides.eq(currIndx + <span class="number">1</span>).find(<span class="string">'.image-module'</span>); 
-        
+        $nextSlideImg = (currIndx + <span class="number">1</span>) &gt;= self.$slides.length ? self.$slides.eq(<span class="number">0</span>).find(<span class="string">'.image-module'</span>) : self.$slides.eq(currIndx + <span class="number">1</span>).find(<span class="string">'.image-module'</span>);
+
 </pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>we need to solve an issue of all images being loaded on DomReady</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setCurrentActiveThumb();
         $currSlideImg.addClass(<span class="string">'unhide'</span>);
         $nextSlideImg.addClass(<span class="string">'unhide'</span>);
@@ -423,9 +425,9 @@ active slide.</p>             </td>             <td class="code">               
 
         self.currentId = selectedIndex;
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>need to set a tmeout of 100ms so we can 
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>need to set a tmeout of 100ms so we can
 fix a flicker bug on mobile devices</p>             </td>             <td class="code">               <div class="highlight"><pre>        $el.addClass(<span class="string">'active'</span>);
-        
+
         setTimeout(<span class="keyword">function</span>(){
           $anchors.removeClass(<span class="string">'active'</span>);
         },<span class="number">100</span>);
@@ -434,7 +436,7 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>Runs when a tab is updated and changes the hash</p>             </td>             <td class="code">               <div class="highlight"><pre>      updateHash: <span class="keyword">function</span>(location, currentId) {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>, 
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
             href,
             fragment;
 
@@ -449,7 +451,7 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Runs when a hash change is detected and will direct users to the proper tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      directFromHash: <span class="keyword">function</span>() {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>, 
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
             hash,
             chapterId,
             $chapterTabs,
@@ -462,7 +464,7 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
         $chapterTabs = self.$thumbNav.find(<span class="string">'li'</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>we should never run the method again unless script inits again</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.initFromhash = <span class="literal">true</span>;
-        
+
 </pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>only if the chapter id is less than the length of actual tabs
 i.e <code>chapter-100</code> will probably not exist</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (chapterId &lt; $chapterTabs.length) {
           $chapterEl = $chapterTabs.eq(chapterId);
@@ -471,7 +473,7 @@ i.e <code>chapter-100</code> will probably not exist</p>             </td>      
       },
 
 </pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>      setCurrentActiveThumb: <span class="keyword">function</span>(){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>, 
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
             tabId = self.currentId ? self.currentId : <span class="number">0</span>,
             $chapterTabs,
             $currTab;
@@ -479,7 +481,7 @@ i.e <code>chapter-100</code> will probably not exist</p>             </td>      
         $chapterTabs = self.$thumbNav.find(<span class="string">'li'</span>).not(<span class="string">':eq('</span> + tabId + <span class="string">')'</span>);
         $currTab = self.$thumbNav.find(<span class="string">'li'</span>).eq( tabId );
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>need to set a tmeout of 100ms so we can 
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>need to set a tmeout of 100ms so we can
 fix a flicker bug on mobile devices</p>             </td>             <td class="code">               <div class="highlight"><pre>        $currTab.addClass(<span class="string">'active'</span>);
         setTimeout(<span class="keyword">function</span>(){
           <span class="keyword">var</span> _<span class="keyword">this</span> = self;
@@ -487,7 +489,7 @@ fix a flicker bug on mobile devices</p>             </td>             <td class=
           !$currTab.hasClass(<span class="string">'active'</span>) ? $currTab.addClass(<span class="string">'active'</span>) : <span class="string">''</span>;
         },<span class="number">100</span>);
 
-        self.updateHash(self.location, self.currentId);        
+        self.updateHash(self.location, self.currentId);
       },
 
       initScroller: <span class="keyword">function</span>(){
