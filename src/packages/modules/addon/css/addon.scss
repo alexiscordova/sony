@@ -8,6 +8,7 @@
       // .media-object
 
 $sidePadding: 12px;
+$addonHeight: 72px;
 
 .addon {
   text-align: left; // Don't want to inherit styles from editorials
@@ -18,7 +19,7 @@ $sidePadding: 12px;
   }
 
   .media {
-    height: px-em( 72 );
+    height: px-em( $addonHeight );
   }
 
   .addon-media {
@@ -154,3 +155,17 @@ $sidePadding: 12px;
     background-size: contain;
   }
 }
+
+
+
+.lt-ie9 .addon {
+
+  .v-wrap {
+    height: $addonHeight;
+  }
+}
+
+
+
+
+

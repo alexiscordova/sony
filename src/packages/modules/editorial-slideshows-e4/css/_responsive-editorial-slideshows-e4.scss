@@ -42,9 +42,13 @@ $phoneMin: px-em(480);
 $phoneMax: px-em(767);
 $tabletMin: px-em(768);
 $tabletMax: px-em(979);
+$superDesktop: px-em(1200);
 
-.editorial-carousel-wrapper {
-  max-height: 720px;
+.editorial-slideshow-container .editorial-carousel-wrapper {
+
+  @media (min-width: $superDesktop) {
+    height: 620px;
+  }
 
   @media (min-width: $tabletMin) and (max-width: $tabletMax) {
     height: 440px;
@@ -57,7 +61,6 @@ $tabletMax: px-em(979);
   @media (max-width: $subPhoneMax){
     height: 250px;
   }
-
 }
 
 
