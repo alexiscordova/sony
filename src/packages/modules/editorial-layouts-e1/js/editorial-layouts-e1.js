@@ -218,7 +218,6 @@ define(function(require) {
         evt.preventDefault();
         evt.stopPropagation();
 
-        console.log(self.isSubmoduleOpen);
         // Don't do anything if the submodule is already open
         if ( self.isSubmoduleOpen ) {
           return;
@@ -274,7 +273,6 @@ define(function(require) {
         } else {
           gridMinHeight = parseInt( self.$el.find('.grid').css('minHeight'), 10 );
           mediaElementFirstHeight = self.$el.find('.media-element .table-center').children().first().height();
-          console.log( gridMinHeight, mediaElementFirstHeight );
           minh = Math.max( gridMinHeight, mediaElementFirstHeight );
           minh += 'px';
         }

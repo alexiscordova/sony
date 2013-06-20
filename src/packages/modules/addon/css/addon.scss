@@ -9,6 +9,7 @@
 
 $sidePadding: 12px;
 $addonHeight: 72px;
+$mediaWidth: 85px;
 
 .addon {
   text-align: left; // Don't want to inherit styles from editorials
@@ -25,7 +26,7 @@ $addonHeight: 72px;
   .addon-media {
     position: relative;
     display: block;
-    max-width: px-em( 85 );
+    max-width: px-em( $mediaWidth );
     height: 100%;
     width: 100%;
     margin-right: px-em( $sidePadding );
@@ -40,19 +41,17 @@ $addonHeight: 72px;
   }
 
   .media-object {
-    height: inherit;
-    width: inherit;
+    height: 100%;
+    width: 100%;
     background-position: 50% 50%;
     background-size: cover;
     background-repeat: no-repeat;
   }
 
-  // $fontSize: 1.5em;
-  // $pxSize: 1.5 * 16;
-  // $circleSize: px-em( 34, $pxSize );
+
   $circleSize: 34px;
   $halfCircle: $circleSize / 2;
-  .addon-media i {
+  .icon-wrap {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -62,10 +61,9 @@ $addonHeight: 72px;
     background-color: rgba($black, 0.5);
     border-radius: 50%;
     color: $white;
-    // font-size: $fontSize; // Just so if they add some icons which aren't fonticon-15-*
 
     // using 12 because the font-size is 24px (1.5em)
-    &:after {
+    i {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -73,14 +71,14 @@ $addonHeight: 72px;
       margin-left: -12px;
     }
 
-    &[class*="fonticon-10-"]:after {
+    [class*="fonticon-10-"] {
       margin-top: -8px;
       margin-left: -8px;
     }
   }
 
   // Support: < IE 9
-  .no-rgba & .addon-media i {
+  .no-rgba & .icon-wrap {
     background-color: #595959;
   }
 
@@ -158,10 +156,15 @@ $addonHeight: 72px;
 
 
 
-.lt-ie9 .addon {
+.lt-ie9 {
 
-  .v-wrap {
+  // Height inherit not working for IE8...
+  .addon .v-wrap {
     height: $addonHeight;
+  }
+
+  .addon-slideshow .v-wrap {
+    height: auto;
   }
 }
 

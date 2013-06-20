@@ -41,7 +41,8 @@ mixin mediaObject( data )
     +addonMediaWrapper( isDIV )
       +iQBackgroundImage( data.img, "media-object" )
       if iconClass
-        i(class=iconClass + "--after l-o-d")
+        .icon-wrap
+          i(class=iconClass + " l-o-d")
 
     .media-body.ghost-center-wrap.v-wrap
       .ghost-center
