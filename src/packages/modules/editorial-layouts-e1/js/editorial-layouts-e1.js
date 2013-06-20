@@ -218,7 +218,6 @@ define(function(require) {
         evt.preventDefault();
         evt.stopPropagation();
 
-        console.log(self.isSubmoduleOpen);
         // Don't do anything if the submodule is already open
         if ( self.isSubmoduleOpen ) {
           return;
