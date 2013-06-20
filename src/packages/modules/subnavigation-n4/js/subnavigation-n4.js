@@ -108,7 +108,7 @@ define(function(require){
         return;
       }
 
-      $subcat.find('.accesories-link').toggle($subcat.selector.match(/accessories/g) === null);
+      $subcat.find('.general-links').toggle($subcat.selector.match(/accessories/g) === null);
 
       Utilities.reassignSpanWidths($subcat.find('.product, .marketing-tout, .subnav-accessories'), columns);
 
