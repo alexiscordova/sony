@@ -10,6 +10,7 @@
 $sidePadding: 12px;
 
 .addon {
+  text-align: left; // Don't want to inherit styles from editorials
 
   &.gray {
     background-color: $gray80;
@@ -88,6 +89,10 @@ $sidePadding: 12px;
 
   .quote .author {
     color: $gray40;
+
+    .light-text-dark-box & {
+      color: $white;
+    }
   }
 
   .ldquo {
@@ -103,12 +108,20 @@ $sidePadding: 12px;
     &:before {
       content: "“";
     }
+
+    .light-text-dark-box & {
+      color: $white;
+    }
   }
 
   .copy {
     padding-right: $sidePadding;
     color: $gray20;
     margin: 0;
+
+    .light-text-dark-box & {
+      color: $white;
+    }
   }
 
   .addon-link {

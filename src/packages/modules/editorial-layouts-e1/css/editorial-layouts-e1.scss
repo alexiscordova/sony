@@ -11,15 +11,20 @@
   .left {
     text-align: left;
   }
+
   .center {
     text-align: center;
   }
+
   .right {
     text-align: right;
   }
+
   .box {
     padding: 0;
-    .link .btn {
+
+    .link .btn,
+    .addon {
       margin-top: 42px;
     }
   }
@@ -60,6 +65,12 @@
 
 .editorial.full {
   padding: 70px 0 75px 0;
+
+  // Don't let the addon extend 50%
+  .addon {
+    max-width: 50%;
+    margin: auto;
+  }
 
   .box {
     margin-bottom: 22px;

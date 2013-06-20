@@ -130,7 +130,7 @@ define(function(require) {
 
 
         // If its mediaright or left fix heights on resize
-        if (self.$el.hasClass('mediaright') || self.$el.hasClass('medialeft')) {
+        if ( self.isMediaLeft || self.$el.hasClass('mediaright') ) {
           self.fixMediaHeights();
           Environment.on('global:resizeDebounced', $.proxy(self.fixMediaHeights, self));
         }
@@ -141,7 +141,8 @@ define(function(require) {
       },
 
       setupSubmodules : function() {
-        var self = this;
+        var self = this,
+            $video;
 
         self.$addonTrigger = self.$el.find('.addon-media');
         // The addon submodule will be off screen when this module is initialized
@@ -157,6 +158,29 @@ define(function(require) {
             // .submodule.off-screen.visuallyhidden
           // .container <- text content
         self.$content = self.$submodule.parent().siblings();
+
+        // Playing and pausing needs to happen if the submodule is a video
+        $video = self.$addonModule.find('.sony-video');
+        self.isVideoAddon = $video.length > 0;
+
+        // Save the api
+        if ( self.isVideoAddon ) {
+          self.$video = $video;
+        }
+
+        // Bind to necessary events
+        self.setupSubmoduleEvents();
+      },
+
+
+      // A reference to the API cannot be saved when this module is
+      // initialized because the video might not be initialized yet
+      videoAPI : function() {
+        return this.$video.data('sonyVideo').api();
+      },
+
+      setupSubmoduleEvents : function() {
+        var self = this;
 
         self.$addonTrigger.on('click', $.proxy( self.onAddonClick, self ) );
         self.$closeBtn.on('click', $.proxy( self.onCloseClick, self ) );
@@ -191,6 +215,11 @@ define(function(require) {
         self.$addonModule.removeClass( hiddenClass );
 
         iQ.update();
+
+        // Automatically play the video
+        if ( self.isVideoAddon ) {
+          self.videoAPI().play();
+        }
       },
 
       onCloseClick : function( evt ) {
@@ -199,6 +228,11 @@ define(function(require) {
 
         evt.preventDefault();
         evt.stopPropagation();
+
+        // Pause the video
+        if ( self.isVideoAddon ) {
+          self.videoAPI().pause();
+        }
 
         self.$submodule
           .add( self.$content )

@@ -11,23 +11,34 @@ include ../../../common/html/jade-helpers.jade
   //- 6. Story
   //- 7. Slideshow
 
+mixin addonMediaWrapper( isDIV )
+  classes = [ "addon-media", "pull-left" ]
+  if isDIV
+    div(class=classes)
+      block
+  else
+    a(class=classes, href="#")
+      block
 
 //- Used for everything except quotes and tweets
 mixin mediaObject( data )
   iconClass = false
+  isDIV = true
 
   if data.type == "video"
     iconClass = "fonticon-10-video-play"
+    isDIV = false
 
   else if data.type == "audio"
     iconClass = "fonticon-10-speaker"
+    isDIV = false
 
   else if data.type == "slideshow"
     iconClass = "fonticon-15-popup"
+    isDIV = false
 
   .media
-    //- +link( data.link, [ "addon-media", "pull-left" ], undefined, undefined, true )
-    a(class=[ "addon-media", "pull-left" ], href="#")
+    +addonMediaWrapper( isDIV )
       +iQBackgroundImage( data.img, "media-object" )
       if iconClass
         i(class=iconClass + "--after l-o-d")

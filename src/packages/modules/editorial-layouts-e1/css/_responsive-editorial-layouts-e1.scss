@@ -115,6 +115,10 @@ $mobileSidePadding: 0 18px;
           margin-top:4px;
         }
       }
+
+      .addon {
+        margin-top: 24px;
+      }
     }
 
     .center {
@@ -132,6 +136,10 @@ $mobileSidePadding: 0 18px;
 
   .editorial.full {
     padding: 42px 0 28px;
+
+    .addon {
+      max-width: none;
+    }
 
     .box {
       margin-bottom: 16px;
@@ -278,11 +286,20 @@ $mobileSidePadding: 0 18px;
   .editorial .light-text-dark-box,
   .editorial .light-text-trans-box {
 
-    h1, h2, h3, h4, h5, h6 {
+    h1, h2, h3, h4, h5, h6, .addon .copy {
       color: $gray20;
     }
     p {
       color: $gray40;
+    }
+
+    a:not(.btn) {
+      color: $linkColor;
+    }
+    a:not(.btn):hover,
+    a:not(.btn):active,
+    a:not(.btn):focus {
+      color: $linkColorHover;
     }
 
     .box {

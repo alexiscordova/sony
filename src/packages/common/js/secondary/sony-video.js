@@ -61,12 +61,14 @@ define(function(require) {
       // Public methods and variables
       return {
 
-        pauseAllVideos: function(){
+        pauseAllVideos: function() {
           toggleCurrentlyPlaying();
         },
 
-        pauseCurrentVideo: function(){
-          _currentPlayer.pause();
+        pauseCurrentVideo: function() {
+          if ( _currentPlayer && _currentPlayer.playing ) {
+            _currentPlayer.pause();
+          }
         },
 
         getTotalInstanceCount: function(){
@@ -80,14 +82,14 @@ define(function(require) {
 
           $videos.each(function(){
             api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( this ).flowplayer() ).get( 0 ) );
-            
+
 
            api.bind( 'resume' , function(e , a){
             _currentPlayer = api;
            } );
 
            _totalIntanceCount++;
-           
+
           });
 
           return api;
@@ -106,6 +108,10 @@ define(function(require) {
     };
 
   })();
+
+  Environment.on('pausevideo', function() {
+    SonyVideo.getInstance().pauseCurrentVideo();
+  });
 
   return SonyVideo.getInstance();
 });
