@@ -722,7 +722,7 @@ define(function(require){
     },
 
     // Tests the data to see if there are any active filters. Returns a boolean
-    hasActiveFilters : function() {
+    hasActiveFilters : function( except ) {
       var self = this,
           hasActive = false,
           filters = self.filters,
@@ -738,7 +738,13 @@ define(function(require){
         if ( filterType === 'button' || filterType === 'checkbox' ) {
           for ( filterName in filters[ filterType ] ) {
             var activeFilters = filters[ filterType ][ filterName ];
+
             hasActive = activeFilters.length > 0;
+
+            // If except is given, make sure the current filter is not the exception
+            if ( except ) {
+              hasActive = hasActive && filterName !== except;
+            }
 
             // There is an active filter, break out of the loop and return
             if ( hasActive ) {
@@ -747,6 +753,10 @@ define(function(require){
           }
         } else if ( filterType === 'range' ) {
           hasActive = self.price.min !== self.MIN_PRICE || self.price.max !== self.MAX_PRICE;
+
+          if ( except ) {
+            hasActive = hasActive && 'price' !== except;
+          }
         }
 
         if ( hasActive ) {
@@ -1578,8 +1588,8 @@ define(function(require){
       Utilities.autoSelectInputOnFocus( self.$container.parent().find( '.share-options input' ) );
 
       // Direct the user to the right compare page
-      $compareBtn.on('click', function( evt ) {
-      });
+      // $compareBtn.on('click', function( evt ) {
+      // });
 
       $compareBtn = null;
 
@@ -1715,6 +1725,7 @@ define(function(require){
       var self = this,
           $visible = self.$items.filter('.filtered'),
           statuses = {},
+          hasActiveFilters = self.hasActiveFilters(),
           currentFilterGroup = self.currentFilterGroup,
           lastFilterGroup = self.lastFilterGroup,
           isRange = currentFilterGroup === 'price',
@@ -1754,24 +1765,46 @@ define(function(require){
             filterValue,
             shouldSkipGroup;
 
+        // console.group('set filter status object');
+        // console.log('hasActiveFilters:', hasActiveFilters);
+        // console.log('currentFilterGroup:', currentFilterGroup);
+        // console.log('lastFilterGroup:', lastFilterGroup);
         for ( filterName in self.filterValues ) {
-          // If the current filter in the loop is the current filter in the system, and one of the following:
-            // the current filter is also the last filter
-            // the last filter is null
-            // the last filter is price
-          // Then the current filter group should be skipped
-          shouldSkipGroup = filterName === currentFilterGroup && ( lastFilterGroup === currentFilterGroup || lastFilterGroup === null || lastFilterGroup === 'price' );
           statuses[ filterName ] = {};
+
+          // console.group( filterName );
+
+          // Filter groups should be skipped when:
+            // They were the last one selected
+            // There are not any other filters active
+
+          // First test if this is the last filter selected
+          shouldSkipGroup = filterName === currentFilterGroup;
+
+          // console.log('%s is the current filter: %s', filterName, shouldSkipGroup);
+
+          // If it is, we need to check if other filters are active
+          // If other filters are active, the group should affect itself. shouldSkipGroup = false
+          // If no other filters are active, the group should NOT affect itself. shouldSkipGroup = true
+          if ( shouldSkipGroup ) {
+            // console.log( 'hasOtherActiveFilters:', self.hasActiveFilters(filterName) );
+            shouldSkipGroup = !self.hasActiveFilters( filterName );
+          }
+
+          // console.log( 'shouldSkipGroup:', shouldSkipGroup);
+          // console.groupEnd();
 
           for ( filterValue in self.filterValues[ filterName ] ) {
 
             if ( shouldSkipGroup ) {
-              statuses[ filterName ][ filterValue ] = 'skip';
+              // statuses[ filterName ][ filterValue ] = 'skip';
+              statuses[ filterName ][ filterValue ] = true;
             } else {
               testGalleryItems( filterName, filterValue );
             }
           }
         }
+        // console.groupEnd();
       }
 
       function setFilters() {
@@ -1799,9 +1832,17 @@ define(function(require){
         }
       }
 
+      // If there are no active filters, current filter group and last filter group need
+      // to be reset. Otherwise, they keep the values of the last filter clicked
+      // because unchecking a filter does not affect these variables
+      if ( !hasActiveFilters ) {
+        // console.log('set current|last filter groups to null');
+        self.currentFilterGroup = currentFilterGroup = self.lastFilterGroup = lastFilterGroup = null;
+      }
+
 
       // Use the last filter status that wasn't from this filter group, if appropriate
-      if ( (currentFilterGroup === null || isRange) && self.currentFilterStatuses !== null && self.lastFilterStatuses !== null && !(isRange && isRangeActive) && self.hasActiveFilters() ) {
+      if ( (currentFilterGroup === null || isRange) && self.currentFilterStatuses !== null && self.lastFilterStatuses !== null && !(isRange && isRangeActive) && hasActiveFilters ) {
         statuses = self.lastFilterStatuses;
       } else {
         setFilterStatusesObject();
@@ -1893,14 +1934,18 @@ define(function(require){
 
         if ( isActive ) {
           checked.push( $this.data( filterName ) );
-        }
-
-        // Active and the new filter is different from the current/last one selected
-        // Don't change the current and last states when going from color to color, button to button, etc.
-        if ( isActive && self.currentFilterGroup !== filterName  ) {
           self.lastFilterGroup = self.currentFilterGroup;
           self.currentFilterGroup = filterName;
         }
+
+        // console.log('click %s', filterName);
+
+        // Active and the new filter is different from the current/last one selected
+        // Don't change the current and last states when going from color to color, button to button, etc.
+        // if ( isActive && self.currentFilterGroup !== filterName  ) {
+        //   self.lastFilterGroup = self.currentFilterGroup;
+        //   self.currentFilterGroup = filterName;
+        // }
 
         if ( realType === 'color' ) {
           self.currentFilterColor = isActive ? $this.data( filterName ) : null;

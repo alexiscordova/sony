@@ -60,6 +60,19 @@ define(function(require) {
 
       // Public methods and variables
       return {
+
+        pauseAllVideos: function(){
+          toggleCurrentlyPlaying();
+        },
+
+        pauseCurrentVideo: function(){
+          _currentPlayer.pause();
+        },
+
+        getTotalInstanceCount: function(){
+          return _totalIntanceCount;
+        },
+
         //pass your video elements as a jquery selector
         initVideos: function ( $videos , options ) {
           //init each instace of player
@@ -71,12 +84,9 @@ define(function(require) {
 
            api.bind( 'resume' , function(e , a){
             _currentPlayer = api;
-            //toggleCurrentlyPlaying(api);
            } );
 
            _totalIntanceCount++;
-
-           //log('Total Video instances...' , _totalIntanceCount);
            
           });
 
