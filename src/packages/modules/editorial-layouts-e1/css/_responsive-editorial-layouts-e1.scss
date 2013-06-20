@@ -10,6 +10,7 @@ $superDesktop: px-em(1200);
 //tablet only
 @media (min-width: $tabletMin) and (max-width: $tabletMax) {
   .editorial.full-inner {
+
     .box {
       padding: 46px 42px 40px 42px;
 
@@ -20,6 +21,7 @@ $superDesktop: px-em(1200);
         }
       }
     }
+
     .box.center {
       padding: 56px 82px;
     }
@@ -27,13 +29,21 @@ $superDesktop: px-em(1200);
 
   .editorial.mediaright,
   .editorial.medialeft {
+
     .grid {
       min-height: 460px;
     }
+
+    // Boxes get way too cramped with 70px 52px padding!
+    .box {
+      padding: 35px 26px;
+    }
   }
+
   .editorial.full{
     padding:60px 0 50px 0;
   }
+
   .editorial.full-inner,
   .editorial.full-tout,
   .editorial.full {

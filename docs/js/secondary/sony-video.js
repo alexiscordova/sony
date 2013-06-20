@@ -60,6 +60,21 @@ define(function(require) {
 
       // Public methods and variables
       return {
+
+        pauseAllVideos: function() {
+          toggleCurrentlyPlaying();
+        },
+
+        pauseCurrentVideo: function() {
+          if ( _currentPlayer && _currentPlayer.playing ) {
+            _currentPlayer.pause();
+          }
+        },
+
+        getTotalInstanceCount: function(){
+          return _totalIntanceCount;
+        },
+
         //pass your video elements as a jquery selector
         initVideos: function ( $videos , options ) {
           //init each instace of player
@@ -67,17 +82,14 @@ define(function(require) {
 
           $videos.each(function(){
             api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( this ).flowplayer() ).get( 0 ) );
-            
+
 
            api.bind( 'resume' , function(e , a){
             _currentPlayer = api;
-            //toggleCurrentlyPlaying(api);
            } );
 
            _totalIntanceCount++;
 
-           //log('Total Video instances...' , _totalIntanceCount);
-           
           });
 
           return api;
@@ -96,6 +108,10 @@ define(function(require) {
     };
 
   })();
+
+  Environment.on('pausevideo', function() {
+    SonyVideo.getInstance().pauseCurrentVideo();
+  });
 
   return SonyVideo.getInstance();
 });
