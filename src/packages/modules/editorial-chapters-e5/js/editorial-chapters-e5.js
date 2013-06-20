@@ -57,8 +57,8 @@ define(function(require){
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
       self.$window              = Settings.$window;
-      self.$slides              = self.$el.find('.editorial-carousel-slide');
-      self.$slideWrapper        = self.$el.find('.editorial-carousel-wrapper');
+      self.$slides              = self.$el.find('.editorial-carousel-slide.chapter-slide');
+      self.$slideWrapper        = self.$el.find('.editorial-carousel-wrapper.chapter-pane');
       self.$slideContainer      = self.$el.find('.editorial-carousel');
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$slider              = self.$el.find('.slider');
@@ -325,6 +325,7 @@ define(function(require){
 
       // Main setup method for the carousel
       setupCarousel: function(){
+
         var self = this,
             currIndx,
             $currSlide,
@@ -338,8 +339,8 @@ define(function(require){
 
         // Using Sony Carousel for this module
         self.$slideContainer.sonyCarouselFade({
-          wrapper: '.editorial-carousel-wrapper',
-          slides: '.editorial-carousel-slide',
+          wrapper: '.editorial-carousel-wrapper.chapter-pane',
+          slides: '.editorial-carousel-slide.chapter-slide',
           looped: false,
           jumping: false,
           axis: 'x',
@@ -349,7 +350,7 @@ define(function(require){
           draggable: false
         });
 
-        self.$slideContainer.on('SonyCarouselFade:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
+        self.$slideContainer.eq(0).on('SonyCarouselFade:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
 
         // we need to solve an issue of all images being loaded on DomReady
         self.setCurrentActiveThumb();
@@ -395,6 +396,7 @@ define(function(require){
 
       // Listens for slide changes and updates the correct thumbnail
       onSlideUpdate: function(e , currIndx){
+        
         var self = this,
             $currSlide,
             $prevSlide,

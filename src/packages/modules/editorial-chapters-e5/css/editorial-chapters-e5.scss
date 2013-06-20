@@ -57,30 +57,28 @@ $windowWidth: 1100;
     position: relative;
 
     // getting stomped on by another similar class :(
-    .editorial-carousel-wrapper {
+    .editorial-carousel-wrapper.chapter-pane {
       height: auto;
     }
 
     // design review margin: 80px 0 50px;
   }
 
-  .editorial-carousel-wrapper {
+  .editorial-carousel-wrapper.chapter-pane {
     position: relative;
     overflow: hidden;
   }
 
   // hotspots spcific we need to adjust overflow issues
   &.hotspots {
-    .editorial-carousel-wrapper {
+    .editorial-carousel-wrapper.chapter-pane {
       overflow: visible;
     }
       
     .thumb-nav {
       top: -4px;
     }
-
   }
-  
 
   .editorial-carousel {
     position: relative;
@@ -91,7 +89,7 @@ $windowWidth: 1100;
     @include flickerfix();
   }
 
-  .editorial-carousel-slide {
+  .editorial-carousel-slide.chapter-slide {
     position: relative;
     width: 100%;
     height: 100%;
@@ -405,7 +403,7 @@ $windowWidth: 1100;
   // ==================================
   .hotspots {
 
-    .editorial-carousel-wrapper {
+    .editorial-carousel-wrapper.chapter-pane {
       overflow: hidden;
     }
     .thumb-nav {
@@ -437,7 +435,7 @@ $windowWidth: 1100;
 
 .lt-ie10 {
   .editorial-chapters-container {
-    .editorial-carousel-slide.active {position:relative;}
+    .editorial-carousel-slide.chapter-slide.active {position:relative;}
     .thumb-nav.container {width:92.5%;}
     &.top-nav .thumb-nav.container {width:auto;}
 

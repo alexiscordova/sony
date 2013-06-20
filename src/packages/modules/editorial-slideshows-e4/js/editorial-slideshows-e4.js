@@ -68,9 +68,12 @@ define(function(require) {
 
       if ( $firstImage.data('hasLoaded') ) {
         self.setupCarousel();
+        console.log('a');
       } else {
         $firstImage.on('imageLoaded', function(){
           self.setupCarousel();
+
+          console.log('b',self.$slideContainer);
         });
       }
 

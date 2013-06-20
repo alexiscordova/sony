@@ -68,6 +68,7 @@ define(function(require) {
         self.hasCollapsibleTout = self.$collapsibleTout.length > 0;
         self.hasTout = self.$touts.length > 0;
         self.hasAddonSubmodule = self.$el.find('.submodule').length > 0;
+        self.$window = Settings.$window;
 
         // Build an array of the col spans
         self.colSpans = [];
@@ -192,6 +193,7 @@ define(function(require) {
 
         self.$addonTrigger.on('click', $.proxy( self.onAddonClick, self ) );
         self.$closeBtn.on('click', $.proxy( self.onCloseClick, self ) );
+        self.$window.on('e5-slide-change', $.proxy( self.onCloseClick, self ) ); 
 
 
         // Mouse events for close button
@@ -216,6 +218,7 @@ define(function(require) {
         evt.preventDefault();
         evt.stopPropagation();
 
+        console.log(self.isSubmoduleOpen);
         // Don't do anything if the submodule is already open
         if ( self.isSubmoduleOpen ) {
           return;
