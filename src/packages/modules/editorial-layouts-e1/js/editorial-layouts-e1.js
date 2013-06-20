@@ -152,12 +152,18 @@ define(function(require) {
         // The submodule that will be hidden while the addon is visible
         self.$submodule = self.$addonModule.siblings();
 
-        // .editorial <- $el
+        // .editorial.full-inner <- $el
           // .container <- submodules
             // .submodule <- visible submodule ( $submodule )
             // .submodule.off-screen.visuallyhidden
           // .container <- text content
-        self.$content = self.$submodule.parent().siblings();
+        if ( self.$el.hasClass('full-inner') ) {
+          // If this is a full-inner editorial, the content needs to be hidden too
+          self.$content = self.$submodule.parent().siblings();
+        } else {
+          // Empty jQuery object so it doesn't throw errors
+          self.$content = $();
+        }
 
         // Playing and pausing needs to happen if the submodule is a video
         $video = self.$addonModule.find('.sony-video');
@@ -167,6 +173,8 @@ define(function(require) {
         if ( self.isVideoAddon ) {
           self.$video = $video;
         }
+
+        self.isSubmoduleOpen = false;
 
         // Bind to necessary events
         self.setupSubmoduleEvents();
@@ -208,6 +216,11 @@ define(function(require) {
         evt.preventDefault();
         evt.stopPropagation();
 
+        // Don't do anything if the submodule is already open
+        if ( self.isSubmoduleOpen ) {
+          return;
+        }
+
         self.$submodule
           .add( self.$content )
           .addClass( hiddenClass );
@@ -220,6 +233,8 @@ define(function(require) {
         if ( self.isVideoAddon ) {
           self.videoAPI().play();
         }
+
+        self.isSubmoduleOpen = true;
       },
 
       onCloseClick : function( evt ) {
@@ -239,6 +254,8 @@ define(function(require) {
           .removeClass( hiddenClass );
 
         self.$addonModule.addClass( hiddenClass );
+
+        self.isSubmoduleOpen = false;
       },
 
       // Fixes the min height of medialeft and mediaright on resize
