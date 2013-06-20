@@ -36,7 +36,7 @@ mixin boxclass(_layout)
 mixin boxlayout(_layout)
   layout = _layout ? _layout : data.layout
   classes = data.style
-  if layout 
+  if layout
     if layout.mobilealign
       classes = classes + " " + layout.mobilealign
     if layout.text == "left" || layout.text == "full"
@@ -102,18 +102,28 @@ if data.variation && data.variation.background
   - editorialClasses.push( data.variation.background )
 
 +mainElement( editorialClasses )
-  if ( data.submodules )
+  if data.submodules && data.submodules.length > 0
+
     if data.mode == "textonly"
       .container
         +gridstyle
           +textonlylayout
             +copyblock
 
+
     else if data.mode == "full-inner"
       .container.submodule
+
+        //- for module in data.submodules
+        //-   .submodule.off-screen.visuallyhidden(class = data.links[i].type)
+        //-     button(class= "box-close box-close-alt")
+        //-       i(class="fonticon-10-x")
+        //-     +partial(data.submodules[i].type, data.submodules[i].data, true)
         +partial(data.submodules[0].type, data.submodules[0].data, true)
       +boxlayout
         +copyblock(data, "t3-bold", "t7", "p3")
+
+
     else if data.mode == "full"
       .container
         +gridstyle
@@ -121,6 +131,7 @@ if data.variation && data.variation.background
             +copyblock
       .container.submodule
         +partial(data.submodules[0].type, data.submodules[0].data, true)
+
 
     else if data.mode == "mediaright"
       .container
@@ -135,6 +146,7 @@ if data.variation && data.variation.background
             +center
               +partial(data.submodules[0].type, data.submodules[0].data, true)
 
+
     else if data.mode == "medialeft"
       .container
         +gridstyle
@@ -147,6 +159,7 @@ if data.variation && data.variation.background
             +center
               .box
                 +copyblock(data, "t3-bold", "t7", "p3")
+
 
     else if data.mode == "tout" || data.mode =="full-tout"
       ups = "m" + data.columns.length + "up"

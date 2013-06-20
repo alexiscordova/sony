@@ -1,6 +1,7 @@
 include ../../../common/html/jade-helpers.jade
 
-if typeof minimal != 'undefined' && minimal == true
+if data.minimal == true
+  - minimal = true
   - minimal_class = "footer-wrapper-minimal"
 else
   - minimal = false
@@ -11,25 +12,28 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
     .grid.grid-footer.no-grid-at-567
       if !minimal
         .footer-store-locator.span3.footer-mobile-section.mobile-container-padded.input-outer-wrapper
-          h5= data.store_locator.title
+          h5 
+            span !{data.store_locator.title}
             i.fonticon-10-arrowhead-down.visible-phone
           .store-locator-input-w
             form.footer-store-locator-form.footer-form-border.input-group(method='post', action='', role='form')
               i.fonticon-10-location.input-icon
               label.visuallyhidden(for='store-locator-search-input') #{data.store_locator.title}
               input#store-locator-search-input.footer-store-locator-input.footer-input.dark(type='text', id='store-locator-search-input', name='store-locator-search-input', value=sample_session_data.current_location)
-              button.btn.store-locator-submit-btn.footer-btn.input-btn(type='submit')= data.store_locator.button_label
+              button.btn.store-locator-submit-btn.footer-btn.input-btn(type='submit') !{data.store_locator.button_label}
           +link( data.store_locator.link, "footer-change-location-link" )
 
-        - each sec, i in data.link_sections
-          .span3.footer-mobile-section.mobile-container-padded(role='navigation')
-            h5= sec.title
-              i.fonticon-10-arrowhead-down.visible-phone
-            ul.footer-links-list
-
-              - each linkObj, i in sec.links
-                li.footer-link-li
-                  +link( linkObj )
+        if data.link_sections
+          - each sec, i in data.link_sections
+            .span3.footer-mobile-section.mobile-container-padded(role='navigation')
+              h5 
+                span !{sec.title}
+                i.fonticon-10-arrowhead-down.visible-phone
+              ul.footer-links-list
+                if sec.links
+                  - each linkObj, i in sec.links
+                    li.footer-link-li
+                      +link( linkObj )
 
       .footer-ex.clearfix
 
@@ -38,36 +42,39 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
             #country-selector.btn-hover-group.country-selector
               a.btn.dropdown-hover-toggle(href=sample_session_data.current_region.href, title=sample_session_data.current_region.text, target=sample_session_data.current_region.target)
                 i(class='icon-flag-'+sample_session_data.current_region.id)
-                span.dropdown-label= sample_session_data.current_region.text
+                span.dropdown-label !{sample_session_data.current_region.text}
 
             .btn-hover-group.language-selector
-              //- a.btn.dropdown-hover-toggle(data-toggle='dropdown', href='#')= sample_session_data.current_lang.id
-              a.btn.dropdown-hover-toggle(href='#', target="current language")= sample_session_data.current_lang.id
+              //- a.btn.dropdown-hover-toggle(data-toggle='dropdown', href='#') !{sample_session_data.current_lang.id}
+              a.btn.dropdown-hover-toggle(href='#', target="current language") 
+                span !{sample_session_data.current_lang.id}
                 i.fonticon-10-arrowhead-down.old-ie-cleartype-fix-gray30
               .dropdown-hover-menu.bottom-up
                 .dropdown-hover-menu-lists-w
                   ul.dropdown-hover-menu-list
-
-                    - each lang, i in data.language.languages
-                      - li_class = null
-                      if lang.id == sample_session_data.current_lang.id
-                        - li_class = "selected"
-                      li(class=li_class)
-                        a(href=lang.link, target=lang.target, title=lang.text)
-                          span.dropdown-label-left= lang.id
-                          span.dropdown-label= lang.text
+                    if data.language.languages
+                      - each lang, i in data.language.languages
+                        - li_class = null
+                        if lang.id == sample_session_data.current_lang.id
+                          - li_class = "selected"
+                        li(class=li_class)
+                          a(href=lang.link, target=lang.target, title=lang.text)
+                            span.dropdown-label-left !{lang.id}
+                            span.dropdown-label !{lang.text}
 
         .footer-contact.span6.mobile-container-padded(role='navigation')
           p
-            - each linkObj, i in data.contact.text_links
-              +link( linkObj )
-              //- a(href=link.link)= link.label
+            if data.contact.text_links
+              - each linkObj, i in data.contact.text_links
+                +link( linkObj )
+                //- a(href=link.link)= link.label
 
           .footer-social-links
-            - each button, i in data.contact.social_buttons
-              a(href=button.href, class='footer-social-'+button.id, target=button.target, title=button.text)
-                i.old-ie-cleartype-fix-gray05(class=button.icon)
-                span.visuallyhidden= button.text
+            if data.contact.social_buttons
+              - each button, i in data.contact.social_buttons
+                a(href=button.href, class='footer-social-'+button.id, target=button.target, title=button.text)
+                  i.old-ie-cleartype-fix-gray05(class=button.icon)
+                  span.visuallyhidden !{button.text}
 
   footer.container.full-bleed-no-max.m-full-bleed.footer-signature-w.mobile-container-padded
     .container
@@ -76,9 +83,9 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
           span.sprite-32a-sony-logo-sm-short.footer-sony-logo
             span.visuallyhidden Sony
           p.footer-legal-links
+            if data.signature.legal_links
+              - each linkObj, i in data.signature.legal_links
+                +link( linkObj )
 
-            - each linkObj, i in data.signature.legal_links
-              +link( linkObj )
-
-          span.footer-copyright= data.signature.copyright
+          span.footer-copyright !{data.signature.copyright}
 

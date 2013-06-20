@@ -1,0 +1,87 @@
+include ../../../common/html/jade-helpers.jade
+
++includeCSS('addon')
+
+//- Views:
+  //- 1. Video
+  //- 2. Audio
+  //- 3. Quote
+  //- 4. Tweet
+  //- 5. Logo
+  //- 6. Story
+  //- 7. Slideshow
+
+
+//- Used for everything except quotes and tweets
+mixin mediaObject( data )
+  iconClass = false
+
+  if data.type == "video"
+    iconClass = "fonticon-10-video-play"
+
+  else if data.type == "audio"
+    iconClass = "fonticon-10-speaker"
+
+  else if data.type == "slideshow"
+    iconClass = "fonticon-15-popup"
+
+  .media
+    +link( data.link, [ "addon-media", "pull-left" ], undefined, undefined, true )
+      +iQBackgroundImage( data.img, "media-object" )
+      if iconClass
+        i(class=iconClass + "--after l-o-d")
+
+    .media-body.ghost-center-wrap.v-wrap
+      .ghost-center
+        p.t7.copy !{ data.copy }
+        if data.subhead
+          p.p4 !{ data.subhead }
+        else if data.link
+          +link( data.link, [ "lt3", "link" ] )
+
+
+//- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
+mixin quote( data )
+  href = data.author && data.author.href ? data.author.href : "#CITATION_MISSING__AUTHOR.HREF"
+  alignment = data.alignment ? data.alignment : "left"
+  isTweet = data.type == "tweet"
+  isQuote = data.type == "quote"
+
+  div(class="quote text-" + alignment + " ghost-center-wrap")
+    figure.ghost-center
+      blockquote.bq6-bold(cite=href)
+        p !{ data.copy }
+      figcaption
+        if isTweet
+          i(class="fonticon-15-twitter twitter-color")
+          if data.author && data.author.href
+            +link( data.author, [ "author", "l3" ] )
+
+        else if isQuote
+          span.ldquo
+          if data.author && data.author.href
+            +link( data.author, [ "author", "l3" ] )
+          else
+            span(class=[ "author", "l3" ]) !{ data.author }
+
+
+//- Testing purposes only
+if data.test_standalone
+  data = data.addon
+
+
+type = data.type
+addonClasses = [ "addon", "addon-" + type ]
+if data.variation && data.variation.background
+  - addonClasses.push( data.variation.background )
+
+div(class=addonClasses)
+  if type == "video" || type == "audio" || type == "slideshow" || type == "story" || type == "logo"
+    +mediaObject( data )
+  else if type == "quote" || type == "tweet"
+    +quote( data )
+
+
+
+
+
