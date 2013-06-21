@@ -14,11 +14,6 @@ $mediaWidth: 85px;
 .addon {
   text-align: left; // Don't want to inherit styles from editorials
 
-  &.gray {
-    background-color: $gray80;
-    box-shadow: 0 1px 0 $transparentBlack;
-  }
-
   .media {
     height: px-em( $addonHeight );
   }
@@ -30,9 +25,10 @@ $mediaWidth: 85px;
     height: 100%;
     width: 100%;
     margin-right: px-em( $sidePadding );
+    overflow: hidden;
 
-    &:hover {
-
+    &:hover .icon-wrap {
+      @include scale( 3.5 );
     }
   }
 
@@ -60,15 +56,18 @@ $mediaWidth: 85px;
     @include square( $circleSize );
     background-color: rgba($black, 0.5);
     border-radius: 50%;
-    color: $white;
+    @include transition( .15s );
+  }
 
     // using 12 because the font-size is 24px (1.5em)
+  .addon-media {
     i {
       position: absolute;
       top: 50%;
       left: 50%;
       margin-top: -12px;
       margin-left: -12px;
+      color: $white;
     }
 
     [class*="fonticon-10-"] {
@@ -83,35 +82,20 @@ $mediaWidth: 85px;
   }
 
   .quote .twitter-color {
-    vertical-align: middle;
+    position: static;
+    margin: 0;
+    color: $twitterColor;
+    font-size: 3em;
+    // vertical-align: middle;
   }
 
-  .quote .author {
-    color: $gray40;
+  // .quote .author {
+  //   color: $gray40;
 
-    .light-text-dark-box & {
-      color: $white;
-    }
-  }
-
-  .ldquo {
-    display: inline-block;
-    height: 20px;
-    margin-right: 6px;
-    font-size: 48px;
-    font-family: Georgia;
-    color: $gray30;
-    vertical-align: middle;
-    line-height: 1;
-
-    &:before {
-      content: "“";
-    }
-
-    .light-text-dark-box & {
-      color: $white;
-    }
-  }
+  //   .light-text-dark-box & {
+  //     color: $white;
+  //   }
+  // }
 
   .copy {
     padding-right: $sidePadding;
@@ -134,18 +118,6 @@ $mediaWidth: 85px;
 
 }
 
-.addon-slideshow {
-
-  // Make ghost wrapping do nothing
-  .v-wrap {
-    height: auto;
-  }
-
-  .media {
-    padding: px-em( $sidePadding - 3 ) px-em( $sidePadding );
-  }
-}
-
 .addon-logo {
 
   // Don't want logos to get clipped. The whole logo should always be visible
@@ -155,19 +127,35 @@ $mediaWidth: 85px;
 }
 
 
+.addon-quote {
 
-.lt-ie10 {
+  .media-object {
+    // Don't stretch.
+    // This won't work for retina because I don't know the image size
+    // needed to shrink it down. Retina images will be larger.
+    background-size: auto auto;
 
-  // Height inherit not working for < IE10...
-  .addon .v-wrap {
-    height: $addonHeight;
+    // Top of the container in the middle
+    background-position: 50% 0;
+
+    // If contain is used, one dimesion will always be a wide/tall as the parent
+    // This will work for retina images, but the image will always be stretched to
+    // one of the container's dimesions
+    // background-size: contain;
   }
 
-  .addon-slideshow .v-wrap {
-    height: auto;
+  .addon-media {
+    width: 3em;
   }
 }
 
+.addon-tweet {
+
+  // twitter icon font size
+  .addon-media {
+    width: 3em;
+  }
+}
 
 
 

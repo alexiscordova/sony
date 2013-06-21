@@ -42,40 +42,41 @@ mixin mediaObject( data )
       +iQBackgroundImage( data.img, "media-object" )
       if iconClass
         .icon-wrap
-          i(class=iconClass + " l-o-d")
+        i(class=iconClass + " l-o-d")
 
     .media-body.ghost-center-wrap.v-wrap
       .ghost-center
         p.p3.copy !{ data.copy }
         if data.subhead
           p.p4.subhead !{ data.subhead }
-        else if data.link
+        else if !iconClass && data.link
           +link( data.link, [ "lt3", "addon-link" ] )
 
 
-//- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
 mixin quote( data )
   href = data.author && data.author.href ? data.author.href : "#CITATION_MISSING__AUTHOR.HREF"
   alignment = data.alignment ? data.alignment : "left"
   isTweet = data.type == "tweet"
   isQuote = data.type == "quote"
 
-  div(class="quote text-" + alignment + " ghost-center-wrap")
-    figure.ghost-center
-      blockquote.bq6-bold(cite=href)
-        p !{ data.copy }
-      figcaption
-        if isTweet
-          i(class="fonticon-15-twitter twitter-color")
-          if data.author && data.author.href
-            +link( data.author, [ "author", "l3" ] )
+  .quote.media
+    .addon-media.pull-left
+      if isQuote
+        +iQBackgroundImage( data.img, "media-object" )
 
-        else if isQuote
-          span.ldquo
-          if data.author && data.author.href
-            +link( data.author, [ "author", "l3" ] )
-          else
-            span(class=[ "author", "l3" ]) !{ data.author }
+      else if isTweet
+        .media-object
+          i(class="fonticon-15-twitter twitter-color")
+
+    figure.media-body(class="text-" + alignment)
+      blockquote.bq5(cite=href)
+        p !{ data.copy }
+
+      figcaption
+        if data.author && data.author.href
+          +link( data.author, [ "author", "lt3" ] )
+        else
+          span(class=[ "author", "l3" ]) !{ data.author }
 
 
 //- Testing purposes only
@@ -85,8 +86,6 @@ if data.test_standalone
 
 type = data.type
 addonClasses = [ "addon", "addon-" + type ]
-if data.variation && data.variation.background
-  - addonClasses.push( data.variation.background )
 
 div(class=addonClasses)
   if type == "video" || type == "audio" || type == "slideshow" || type == "story" || type == "logo"
