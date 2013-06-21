@@ -11,6 +11,12 @@ $sidePadding: 12px;
 $addonHeight: 72px;
 $mediaWidth: 85px;
 $twitterFontSize: 3em;
+$circleSize: 32px;
+$halfCircle: $circleSize / 2;
+
+// Getting decimal pixels makes it wonky
+// Both 32 and half of 32 (16) need to be divisible by this number
+$scale: 1.1875;
 
 .addon {
   text-align: left; // Don't want to inherit styles from editorials
@@ -29,7 +35,8 @@ $twitterFontSize: 3em;
     overflow: hidden;
 
     &:hover .icon-wrap {
-      @include scale( 3.5 );
+      @include scale( 1 );
+      background-color: $linkBlue;
     }
   }
 
@@ -45,9 +52,6 @@ $twitterFontSize: 3em;
     background-repeat: no-repeat;
   }
 
-
-  $circleSize: 34px;
-  $halfCircle: $circleSize / 2;
   .icon-wrap {
     position: absolute;
     top: 50%;
@@ -58,6 +62,14 @@ $twitterFontSize: 3em;
     background-color: rgba($black, 0.5);
     border-radius: 50%;
     @include transition( .15s );
+  }
+
+  // Scale it down, so on hover it's scaled to 1 and crisp
+  .csstransforms & .icon-wrap {
+    @include square( $circleSize * $scale );
+    margin-top: -($circleSize * $scale) / 2;
+    margin-left: -($circleSize * $scale) / 2;
+    @include scale( 1 / $scale );
   }
 
   // using 12 because the font-size is 24px (1.5em)
