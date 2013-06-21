@@ -193,7 +193,7 @@ define(function(require) {
 
         self.$addonTrigger.on('click', $.proxy( self.onAddonClick, self ) );
         self.$closeBtn.on('click', $.proxy( self.onCloseClick, self ) );
-        self.$window.on('e5-slide-change', $.proxy( self.onCloseClick, self ) ); 
+        self.$window.on('e5-slide-change', $.proxy( self.onCloseClick, self ) );
 
 
         // Mouse events for close button
@@ -262,15 +262,18 @@ define(function(require) {
 
       // Fixes the min height of medialeft and mediaright on resize
       fixMediaHeights: function() {
-        var self = this, minh;
+        var self = this,
+            minh,
+            isSmallerThanTablet = Modernizr.mq('(max-width: 47.9375em)'),
+            gridMinHeight,
+            mediaElementFirstHeight;
 
-        if ($(window).outerWidth() <= 767) {
+        if ( isSmallerThanTablet ) {
           minh = 'auto';
         } else {
-          minh = Math.max(
-            self.$el.find('.grid').css('min-height').replace(/[^-\d\.]/g, ''),
-            self.$el.find('.media-element .table-center').children().first().height()
-          );
+          gridMinHeight = parseInt( self.$el.find('.grid').css('minHeight'), 10 );
+          mediaElementFirstHeight = self.$el.find('.media-element .table-center').children().first().height();
+          minh = Math.max( gridMinHeight, mediaElementFirstHeight );
           minh += 'px';
         }
 

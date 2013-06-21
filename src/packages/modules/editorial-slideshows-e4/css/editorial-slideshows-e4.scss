@@ -12,8 +12,11 @@
 }
 
 // When this module is inside a media-element (editorial), it's height should be auto
-.media-element .editorial-carousel-wrapper {
+// The carousel slides need to fit within the carousel slide container floated left
+// so that when the editorial.js file measures its height, they're not stacked
+.media-element .editorial-slideshow-container .editorial-carousel-wrapper {
   height: auto;
+  max-height: 620px;
 }
 
 .editorial-slideshow-container {
@@ -33,12 +36,13 @@
 
   .editorial-carousel-wrapper {
     position: relative;
+    height: 540px; // Same as E1 full
     overflow: hidden;
   }
 
   .editorial-carousel {
     position: relative;
-    width: 100%;
+    width: 9000px; // overridden by javascript
     height: 100%;
     opacity: 0;
     filter: alpha(opacity=0);
@@ -48,7 +52,7 @@
 
   .editorial-carousel-slide {
     position: relative;
-    width: 100%;
+    width: 600px; // overriden by javascript (to something like 20%)
     height: 100%;
     float: left;
     display: block;
@@ -58,20 +62,22 @@
     }
   }
 
-  .slide-band {
+  // 3 classes to override specificity
+  .editorial-slideshow .slide-band.box {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: .375em 1em;
+    padding: 1em;
+    margin: 0;
+    text-align: right;
 
-    p {
-      color: $white;
-      margin-bottom: 6px;
+    .media-element & {
+      padding: px-em( 11 ) 1em;
     }
 
-    &.dark {
-      background: $gray10;
+    p {
+      margin-bottom: 0;
     }
   }
 

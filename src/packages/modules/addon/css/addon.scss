@@ -8,50 +8,47 @@
       // .media-object
 
 $sidePadding: 12px;
+$addonHeight: 72px;
+$mediaWidth: 85px;
+$twitterFontSize: 3em;
 
 .addon {
   text-align: left; // Don't want to inherit styles from editorials
 
-  &.gray {
-    background-color: $gray80;
-    box-shadow: 0 1px 0 $transparentBlack;
-  }
-
   .media {
-    height: px-em( 72 );
+    height: px-em( $addonHeight );
   }
 
   .addon-media {
     position: relative;
     display: block;
-    max-width: px-em( 85 );
+    max-width: px-em( $mediaWidth );
     height: 100%;
     width: 100%;
     margin-right: px-em( $sidePadding );
+    overflow: hidden;
 
-    &:hover {
-
+    &:hover .icon-wrap {
+      @include scale( 3.5 );
     }
   }
 
   .v-wrap {
-    height: inherit;
+    height: $addonHeight;
   }
 
   .media-object {
-    height: inherit;
-    width: inherit;
+    height: 100%;
+    width: 100%;
     background-position: 50% 50%;
     background-size: cover;
     background-repeat: no-repeat;
   }
 
-  // $fontSize: 1.5em;
-  // $pxSize: 1.5 * 16;
-  // $circleSize: px-em( 34, $pxSize );
+
   $circleSize: 34px;
   $halfCircle: $circleSize / 2;
-  .addon-media i {
+  .icon-wrap {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -60,58 +57,40 @@ $sidePadding: 12px;
     @include square( $circleSize );
     background-color: rgba($black, 0.5);
     border-radius: 50%;
-    color: $white;
-    // font-size: $fontSize; // Just so if they add some icons which aren't fonticon-15-*
+    @include transition( .15s );
+  }
 
-    // using 12 because the font-size is 24px (1.5em)
-    &:after {
+  // using 12 because the font-size is 24px (1.5em)
+  .addon-media {
+    i {
       position: absolute;
       top: 50%;
       left: 50%;
       margin-top: -12px;
       margin-left: -12px;
+      color: $white;
     }
 
-    &[class*="fonticon-10-"]:after {
+    [class*="fonticon-10-"] {
       margin-top: -8px;
       margin-left: -8px;
     }
   }
 
   // Support: < IE 9
-  .no-rgba & .addon-media i {
+  .no-rgba & .icon-wrap {
     background-color: #595959;
   }
 
   .quote .twitter-color {
-    vertical-align: middle;
-  }
+    position: static;
+    margin: 0;
+    color: $twitterColor;
+    font-size: $twitterFontSize;
 
-  .quote .author {
-    color: $gray40;
-
-    .light-text-dark-box & {
-      color: $white;
-    }
-  }
-
-  .ldquo {
-    display: inline-block;
-    height: 20px;
-    margin-right: 6px;
-    font-size: 48px;
-    font-family: Georgia;
-    color: $gray30;
-    vertical-align: middle;
-    line-height: 1;
-
-    &:before {
-      content: "“";
-    }
-
-    .light-text-dark-box & {
-      color: $white;
-    }
+    // -10px margin top (the twitter icon is centered within its container, which leaves extra room
+    // at the top, but it's supposed to be vertically aligned to top)
+    margin-top: px-em( -10, strip-units( $twitterFontSize ) * 16 );
   }
 
   .copy {
@@ -132,19 +111,53 @@ $sidePadding: 12px;
   .subhead {
     margin: 4px 0 0;
   }
-
 }
 
-.addon-slideshow {
 
-  // Make ghost wrapping do nothing
-  .v-wrap {
-    height: auto;
+
+// The media object doesn't work well when the text content needs to be
+// center aligned. The media object stays on the left because it is floated
+// There isn't anything else available to older browsers, so that will have to do,
+// but for those with flexbox, it may be fixed
+// Old syntaxes borrowed from: http://css-tricks.com/using-flexbox/
+.modern .addon .quote {
+  display: -webkit-box;   // OLD - iOS 6-, Safari 3.1-6
+  display: -moz-box;      // OLD - Firefox 19- (doesn't work very well)
+  display: -ms-flexbox;   // TWEENER - IE 10
+  display: -webkit-flex;  // NEW - Chrome
+  display: flex;          // NEW, Spec - Opera 12.1, Firefox 20+
+
+  // .main-nav {
+  //   -webkit-box-ordinal-group: 1;   /* OLD - iOS 6-, Safari 3.1-6 */
+  //   -moz-box-ordinal-group: 1;      /* OLD - Firefox 19- */
+  //   -ms-flex-order: 1;              /* TWEENER - IE 10 */
+  //   -webkit-order: 1;               /* NEW - Chrome */
+  //   order: 1;                       /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+  //   -webkit-box-flex: 1;            /* OLD - iOS 6-, Safari 3.1-6 */
+  //   -moz-box-flex: 1;               /* OLD - Firefox 19- */
+  //   width: 20%;                     /* For old syntax, otherwise collapses. */
+  //   -webkit-flex: 1;                /* Chrome */
+  //   -ms-flex: 1;                    /* IE 10 */
+  //   flex: 1;                        /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+  //   background: #ccc;
+  // }
+
+  // twitter icon font size. Flexbox is making it smaller
+  .addon-media {
+    min-width: $twitterFontSize;
   }
 
-  .media {
-    padding: px-em( $sidePadding - 3 ) px-em( $sidePadding );
+  // Flexbox saves space wherever it can, the quotes were getting cut off
+  blockquote p {
+    text-indent: 0;
   }
+
+  .pull-left {
+    float: none;
+  }
+
 }
 
 .addon-logo {
@@ -154,3 +167,37 @@ $sidePadding: 12px;
     background-size: contain;
   }
 }
+
+
+.addon-quote {
+
+  .media-object {
+    // Don't stretch.
+    // This won't work for retina because I don't know the image size
+    // needed to shrink it down. Retina images will be larger.
+    background-size: auto auto;
+
+    // Top of the container in the middle
+    background-position: 50% 0;
+
+    // If contain is used, one dimesion will always be a wide/tall as the parent
+    // This will work for retina images, but the image will always be stretched to
+    // one of the container's dimesions
+    // background-size: contain;
+  }
+
+  .addon-media {
+    width: $twitterFontSize;
+  }
+}
+
+.addon-tweet {
+
+  .addon-media {
+    width: $twitterFontSize;
+  }
+}
+
+
+
+

@@ -107,6 +107,8 @@ compute every subcat on pageload / resize.</p>             </td>             <td
         <span class="keyword">return</span>;
       }
 
+      $subcat.find(<span class="string">'.general-links'</span>).toggle($subcat.selector.match(<span class="regexp">/accessories/g</span>) === <span class="literal">null</span>);
+
       Utilities.reassignSpanWidths($subcat.find(<span class="string">'.product, .marketing-tout, .subnav-accessories'</span>), columns);
 
       $grids = $subcat.find(<span class="string">'.subnav-product-grid'</span>);

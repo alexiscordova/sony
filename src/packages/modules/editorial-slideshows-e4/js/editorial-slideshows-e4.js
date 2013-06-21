@@ -75,32 +75,6 @@ define(function(require) {
       }
 
       self.$slideContainer.css( 'opacity', 1 );
-
-      self.onDebouncedResize();
-      Environment.on('global:resizeDebounced', $.proxy( self.onDebouncedResize, self ));
-    },
-
-    // Handles global debounced resize event
-
-    onDebouncedResize: function() {
-      var self = this,
-          isDesktop = !Modernizr.mediaqueries || Modernizr.mq( '(min-width: 61.25em)' ),
-          // isLargeDesktop = isDesktop && Modernizr.mq( '(min-width: 74.9375em)' ),
-          // overflow = isLargeDesktop ? 'hidden' : 'visible',
-          windowWidth,
-          slideshowHeight = '';
-
-      if ( !self.isSmall && isDesktop ) {
-        windowWidth = self.$window.width(),
-        // Make the header grow 1px taller for every 20px over 980w..
-        slideshowHeight = 560 + ((windowWidth - 980) / 5);
-        slideshowHeight = Math.round( Math.min( 720, slideshowHeight ) );
-        // $('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
-      }
-
-      // On mobile, the dynamic height is reset back to nothing
-      // self.$el.css( 'overflow' , overflow );
-      self.$el.find('.editorial-carousel-wrapper').css( 'height', slideshowHeight );
     },
 
 
