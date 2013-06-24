@@ -59,9 +59,11 @@ define(function(require){
 
         var w = $(window).outerWidth();
         if(w > 980){
-          //this makes the header grow 1px taller for every 20px over 980w..
-          $('.primary-tout.product-intro-plate .image-module').css('height', Math.round(Math.min(720, 560 + ((w - 980) / 5))));
-          $('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, 520 + ((w - 980) / 5))));
+          //this makes the header grow 1px taller for every 20px over 980w.. but only up to 75% of window height
+
+          $('.primary-tout.product-intro-plate .image-module').css('height', Math.round(Math.min(720, Math.min(Settings.$window.height() * 0.75, 560 + ((w - 980) / 5)))));
+
+          $('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, Math.min(Settings.$window.height() * 0.75, 520 + ((w - 980) / 5)))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles
           $('.primary-tout .image-module').css('height', '');
