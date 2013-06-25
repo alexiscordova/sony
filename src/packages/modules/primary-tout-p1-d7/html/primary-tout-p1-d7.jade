@@ -79,6 +79,19 @@ mixin addon(_data)
     e = { "locals" : locals, "data" : data.addon }
     !{ locals.partial('packages/modules/addon/html/addon.jade', e) }
 
+mixin legal(_data)
+  d = _data ? _data : data
+  style = data.style ? data.style : false
+  if data.legal
+    .container(class = style)
+      .grid
+        .span-12.pull-right
+          p.legal.p5
+            span!{data.legal.copy}
+            if data.legal.href
+            span
+              &nbsp;
+              a(href = data.legal.href) !{data.legal.linktext ? data.legal.linktext : data.legal.href}
 
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
@@ -178,6 +191,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
       +links
       +addon
   else if data.mode == "product-intro-plate"
+    +legal
     +boxlayout
       +eyebrow
       h1.t2 !{data.headline}
@@ -187,6 +201,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
       .grid.no-grid-at-767
         .mobile-buttons.clearfix
           +links(data, "visible-phone btn")
+
   else if data.mode == "title-plate"
     .hero-image.cover
       e = {"locals":locals, "data":data.image}
