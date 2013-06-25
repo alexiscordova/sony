@@ -1,0 +1,117 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+
+$captionPadding: px-em( 12 );
+$captionHeight: px-em( 70 );
+// $captionWidth: 40%;
+
+.fs-module {
+
+
+  .box {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    left: 0;
+  }
+
+  .fs-carousel-wrapper {
+    height: 540px;
+  }
+
+  // Get height from parent
+  .fs-carousel,
+  .fs-carousel-slide,
+  .caption .media,
+  .caption .tone,
+  .caption .tone .v-wrap,
+  .caption .media-body {
+    height: inherit;
+  }
+
+  .fs-slide {
+    position: relative;
+    background: $gray90;
+  }
+
+  .fs-slide .iq-img {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-repeat: none;
+    background-position: center center;
+  }
+
+
+  // Captions
+  .caption {
+    position: absolute;
+    bottom: $captionHeight;
+    left: 50%;
+    margin: auto;
+    height: $captionHeight;
+    // width: $captionWidth;
+    min-width: 30%;
+  }
+
+  .caption .media {
+    position: relative;
+    left: -50%;
+    margin: 0;
+    background: $gray70;
+  }
+
+  .tone {
+    padding: 0 $captionPadding;
+    margin-right: $captionPadding;
+  }
+
+  .caption .media-body {
+    padding-right: $captionPadding;
+  }
+
+  // Zero margin on value and units
+  .caption .tone .stat {
+    color: $white;
+    margin: 0;
+  }
+
+
+  // Animation states
+  // everything else needs to be hidden
+  &.animation-pending {
+
+    .pagination-paddles {
+      opacity: 0;
+
+      .lt-ie9 & {
+        display: none;
+      }
+    }
+
+    .pagination-bullets {
+      opacity: 0;
+
+      .lt-ie9 & {
+        display: none;
+      }
+    }
+  }
+
+  &.animation-complete {
+
+    // .caption
+  }
+
+
+  .sony-dot-nav {
+    margin: 0;
+  }
+
+  .sony-dot-nav .pagination-bullets {
+    bottom: 1.25em;
+  }
+
+}
+
