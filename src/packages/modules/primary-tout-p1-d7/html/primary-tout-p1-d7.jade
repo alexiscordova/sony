@@ -138,7 +138,8 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
 
     if data.submodules && data.submodules.length > 0
       for sub, i in data.submodules
-        .submodule.off-screen.visuallyhidden(class = data.links[i].type)
+        type = data.links[i].type.match(/(btn|text|txt)/g) ? "" : data.links[i].type
+        .submodule.off-screen.visuallyhidden(class = type)
           button(class= "box-close box-close-alt")
             i(class="fonticon-10-x")
           +partial(data.submodules[i].type, data.submodules[i].data, true)
