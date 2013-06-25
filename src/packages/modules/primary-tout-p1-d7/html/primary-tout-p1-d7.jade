@@ -73,6 +73,13 @@ mixin links(_data, _extra)
           when "txt"
             a(class= e)( href= link.href)(target = t)(title = n) !{link.text}
 
+mixin addon(_data)
+  d = _data ? _data : data
+  if data.addon
+    e = { "locals" : locals, "data" : data.addon }
+    !{ locals.partial('packages/modules/addon/html/addon.jade', e) }
+
+
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
   .box(class = layout.alignment)
@@ -168,6 +175,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
       +header
       +bodytext
       +links
+      +addon
   else if data.mode == "product-intro-plate"
     +boxlayout
       +eyebrow
