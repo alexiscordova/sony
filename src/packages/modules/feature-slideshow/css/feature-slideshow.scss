@@ -2,6 +2,19 @@
 @import "../../../common/css/_base/mixins";
 
 
+// Demo purposes only
+.fs-spacing {
+  height: 250px;
+}
+
+@for $i from 1 through 10 {
+  .fs-spacing:nth-of-type(#{$i}) {
+    background-color: hsl(0, 0%, $i * 10%);
+  }
+}
+
+
+
 $captionPadding: px-em( 12 );
 $captionHeight: px-em( 70 );
 // $captionWidth: 40%;

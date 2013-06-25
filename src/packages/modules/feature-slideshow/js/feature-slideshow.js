@@ -20,12 +20,14 @@ define(function(require) {
       iQ = require('iQ'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      sonyCarousel = require('secondary/index').sonyCarousel;
+      sonyCarousel = require('secondary/index').sonyCarousel,
+      Viewport = require('secondary/index').sonyViewport;
 
   var FeatureSlideshow = function(element) {
     var self = this;
 
     // Set base element
+    self.element = element;
     self.$el = $( element );
 
     // Inits the module
@@ -41,7 +43,6 @@ define(function(require) {
     constructor: FeatureSlideshow,
 
     init : function() {
-
       var self = this;
 
       self.setVars();
@@ -49,17 +50,20 @@ define(function(require) {
       self.setupCarousel();
       self.subscribeToEvents();
 
-      // viewport.add( element, function() {
-      //   console.log('scrolled into view');
-      // });
+      Viewport.add( self.element, function() {
+        console.log('scrolled into view');
+      });
 
-      // viewport.add({
-      //   element: featureSlideshowContainer,
-      //   offset: 200,
-      //   callback: function() {
-      //     console.log('scrolled into view, 200px already in view');
-      //   }
-      // });
+      // Fake adding another one for testing
+      setTimeout(function() {
+        Viewport.add({
+          element: $('article').get(3),
+          offset: 100,
+          callback: function() {
+            console.log('scrolled into view, 100px already in view');
+          }
+        });
+      }, 1000);
 
       // Fake animation playing
       setTimeout(function() {
