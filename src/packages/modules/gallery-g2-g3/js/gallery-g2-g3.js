@@ -1537,6 +1537,7 @@ define(function(require){
       var $newIQImgs = this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
 
       if ( $newIQImgs.length ) {
+        // TODO: force iQ update
         iQ.reset();
       }
 
@@ -1949,7 +1950,7 @@ define(function(require){
           // } else {
             checked.push( $this.data( filterName ) );
             self.lastFilterGroup = self.currentFilterGroup;
-            self.currentFilterGroup = filterName;            
+            self.currentFilterGroup = filterName;
           // }
         }
 
