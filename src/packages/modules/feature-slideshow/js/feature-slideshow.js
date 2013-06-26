@@ -58,7 +58,7 @@ define(function(require) {
       setTimeout(function() {
         Viewport.add({
           element: $('article').get(3),
-          offset: 100,
+          threshold: 100,
           callback: function() {
             console.log('scrolled into view, 100px already in view');
           }
