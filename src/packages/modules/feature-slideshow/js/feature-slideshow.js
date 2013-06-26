@@ -50,8 +50,17 @@ define(function(require) {
       self.setupCarousel();
       self.subscribeToEvents();
 
-      Viewport.add( self.element, function() {
-        console.log('scrolled into view');
+      Viewport.add({
+        element: self.element,
+        threshold: '50%',
+        callback: function() {
+          self.$el.addClass('in');
+
+          // Fake animation playing
+          setTimeout(function() {
+            self.onAnimationComplete();
+          }, 1500);
+        }
       });
 
       // Fake adding another one for testing
@@ -60,15 +69,11 @@ define(function(require) {
           element: $('article').get(3),
           threshold: 100,
           callback: function() {
-            console.log('scrolled into view, 100px already in view');
+            $('article').eq(3).addClass('in');
           }
         });
       }, 1000);
 
-      // Fake animation playing
-      setTimeout(function() {
-        self.onAnimationComplete();
-      }, 1500);
     },
 
     setVars : function() {

@@ -39,7 +39,7 @@ mixin caption( caption )
 mixin copyGrid( data )
   copyStyle = data.style ? data.style : "dark-text-trans-box"
 
-  div(class=[ "grid", "no-grid-at-767", "relative", copyStyle ])
+  div(class=[ "grid", "no-grid-at-767", "copy-grid", copyStyle ])
     .span6.box.js-copy.fade
       block
 
@@ -67,8 +67,18 @@ mixin copyBlock( data )
 
 
 //- Main section wrapper for slides
-+mainElement( [ "fs-module", "container", "animation-pending" ] )
-  +copyBlock( data )
-  .fs-carousel-wrapper.sony-carousel-wrapper
-    .fs-carousel.sony-carousel
-      +featureSlides( data )
++mainElement( [ "fs-module", "animation-pending" ] )
+  .container
+    +copyBlock( data )
+    .fs-carousel-wrapper.sony-carousel-wrapper
+      .fs-carousel.sony-carousel
+        +featureSlides( data )
+
+
+
+
+
+
+
+
+

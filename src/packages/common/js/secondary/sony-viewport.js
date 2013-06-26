@@ -43,6 +43,7 @@ define(function(require) {
       self.windowWidth = Settings.$window.width();
       self.timer = 0;
       self.timerLength = secondsAfterLastTriggerToUnbind * 1000;
+      self.throttleTime = 250;
 
       self.onResize();
       self.bindEvents();
@@ -51,6 +52,7 @@ define(function(require) {
       // so if they open the page in a new tab which they aren't looking at,
       // this will execute when they come back to that tab
       requestAnimationFrame(function() {
+        self.setScrollTop();
         self.process();
       });
     },
@@ -62,12 +64,20 @@ define(function(require) {
       Environment.on('global:resizeDebounced.viewport', $.proxy( self.onResize, self ));
 
       // Throttle scrolling because it doesn't need to be super accurate
-      Settings.$window.on('scroll.viewport', $.throttle( 500, $.proxy( self.onScroll, self ) ));
+      Settings.$window.on('scroll.viewport', $.throttle( self.throttleTime, $.proxy( self.onScroll, self ) ));
+
+      // When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy
+      Settings.$document.on('universal-nav-open-finished.viewport universal-nav-close-finished.viewport', function uNavChanged() {
+        setTimeout(function refreshWithDelay() {
+          self.onResize();
+        }, 0);
+      });
     },
 
     unbindEvents : function() {
       Environment.off('.viewport');
       Settings.$window.off('.viewport');
+      Settings.$document.off('.viewport');
     },
 
     maybeUnbindEvents : function() {
@@ -88,7 +98,8 @@ define(function(require) {
     },
 
     add : function( options ) {
-      var self = this;
+      var self = this,
+          isThresholdPercentage = false;
 
       // The whole point is to have a callback function.
       // Don't do anything if it's not given
@@ -96,7 +107,12 @@ define(function(require) {
         throw 'Viewport.add :: No callback function provided to Viewport';
       }
 
-      options.triggered = false;
+      if ( (typeof options.threshold === 'string' && options.threshold.indexOf('%') > -1 ) ) {
+        isThresholdPercentage = true;
+        options.threshold = parseFloat( options.threshold ) / 100;
+      }
+
+      options.isThresholdPercentage = isThresholdPercentage;
       options.$element = $( options.element );
       options.offset = options.$element.offset();
       options.height = options.$element.height();
@@ -109,7 +125,9 @@ define(function(require) {
         clearTimeout( self.timer );
       }
 
-      self.process();
+      requestAnimationFrame(function() {
+        self.process();
+      });
     },
 
     saveDimensions : function() {
@@ -136,7 +154,7 @@ define(function(require) {
       }
 
       // Save the new scroll top
-      self.lastScrollY = Settings.$window.scrollTop();
+      self.setScrollTop();
 
       self.process();
     },
@@ -150,8 +168,6 @@ define(function(require) {
         return;
       }
 
-      // Save the new scroll top
-      self.lastScrollY = Settings.$window.scrollTop();
 
       // Update offsets and width/height for each viewport item
       self.saveDimensions();
@@ -161,11 +177,23 @@ define(function(require) {
       var self = this,
           offset = viewport.offset,
           threshold = viewport.threshold,
+          percentage = threshold,
           st = self.lastScrollY,
           isTopInView;
 
+
+      if ( viewport.isThresholdPercentage ) {
+        threshold = 0;
+      }
+
       // Other checks could be added here in the future
       isTopInView = self.isTopInView( st, self.windowHeight, offset.top, viewport.height, threshold );
+
+      // If the top isn't in view with zero threshold,
+      // don't bother checking if it's at a percent of the window
+      if ( isTopInView && viewport.isThresholdPercentage ) {
+        isTopInView = self.isTopPastPercent( st, self.windowHeight, offset.top, viewport.height, percentage );
+      }
 
       return isTopInView;
     },
@@ -178,16 +206,28 @@ define(function(require) {
       return (elementTop + threshold) >= viewportTop && (elementTop + threshold) < viewportBottom;
     },
 
+    isTopPastPercent : function( viewportTop, viewportHeight, elementTop, elementHeight, percentage ) {
+      var viewportBottom = viewportTop + viewportHeight,
+          distFromViewportBottomToElementTop = viewportBottom - elementTop,
+          percentFromBottom = distFromViewportBottomToElementTop / viewportHeight;
+      return percentFromBottom >= percentage;
+    },
+
     triggerCallback : function( index, listItem ) {
       var self = this;
 
-      listItem.callback();
-      listItem.triggered = true;
+      listItem.callback.call( listItem.element, listItem );
 
+      // No longer need to watch it, so remove from list
       self.list.splice( index, 1 );
 
-      // If there are no more
+      // If there are no more, unbind from scroll and resize events
       self.maybeUnbindEvents();
+    },
+
+    setScrollTop : function() {
+      // Save the new scroll top
+      this.lastScrollY = Settings.$window.scrollTop();
     },
 
     process : function() {
@@ -225,17 +265,15 @@ define(function(require) {
     }
 
     // Get defaults
-    $.extend( options, Viewport.options, options, Viewport.settings );
+    options = $.extend( {}, Viewport.options, options, Viewport.settings );
 
     return instance.add( options );
   };
 
-  // Options that could be customized per module instance
   Viewport.options = {
     threshold: 200
   };
 
-  // These are not overridable when instantiating the module
   Viewport.settings = {
   };
 

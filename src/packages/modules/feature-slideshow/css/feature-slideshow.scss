@@ -7,6 +7,13 @@
   height: 250px;
 }
 
+.fs-spacing,
+.fs-module {
+  &.in {
+    background-color: #E74C3C !important;
+  }
+}
+
 @for $i from 1 through 10 {
   .fs-spacing:nth-of-type(#{$i}) {
     background-color: hsl(0, 0%, $i * 10%);
@@ -17,7 +24,7 @@
 
 $captionPadding: px-em( 12 );
 $captionHeight: px-em( 70 );
-// $captionWidth: 40%;
+$carouselHeight: 540px;
 
 .fs-module {
 
@@ -30,8 +37,28 @@ $captionHeight: px-em( 70 );
   }
 
   .fs-carousel-wrapper {
-    height: 540px;
+    position: relative;
+    z-index: 1;
+    height: $carouselHeight;
   }
+
+  // Put copy grid above the carousel
+  .copy-grid {
+    position: relative;
+    z-index: 2;
+  }
+
+  .fs-carousel {
+    position: relative;
+    z-index: 1;
+  }
+
+  // Above carousel
+  .pagination-paddles,
+  .sony-dot-nav {
+    z-index: 2;
+  }
+
 
   // Get height from parent
   .fs-carousel,
@@ -64,7 +91,6 @@ $captionHeight: px-em( 70 );
     left: 50%;
     margin: auto;
     height: $captionHeight;
-    // width: $captionWidth;
     min-width: 30%;
   }
 
@@ -97,24 +123,14 @@ $captionHeight: px-em( 70 );
 
     .pagination-paddles {
       opacity: 0;
-
-      .lt-ie9 & {
-        display: none;
-      }
     }
 
     .pagination-bullets {
       opacity: 0;
-
-      .lt-ie9 & {
-        display: none;
-      }
     }
   }
 
   &.animation-complete {
-
-    // .caption
   }
 
 
@@ -125,6 +141,37 @@ $captionHeight: px-em( 70 );
   .sony-dot-nav .pagination-bullets {
     bottom: 1.25em;
   }
-
 }
+
+// IE8 and 7 styles
+.lt-ie9 .fs-module {
+
+  &.animation-pending .pagination-paddles,
+  &.animation-pending .pagination-bullets {
+    display: none;
+  }
+  &.animation-complete .pagination-paddles,
+  &.animation-complete .pagination-bullets {
+    display: block;
+  }
+}
+
+// IE7 styles
+// Mostly that IE7 doesn't support 'inherit' as a css value
+.lt-ie8 .fs-module {
+
+  .fs-carousel,
+  .fs-carousel-slide {
+    height: $carouselHeight;
+  }
+
+  .caption .media,
+  .caption .tone,
+  .caption .tone .v-wrap,
+  .caption .media-body {
+    height: $captionHeight;
+  }
+}
+
+
 
