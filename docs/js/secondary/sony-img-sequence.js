@@ -20,26 +20,12 @@ define(function(require){
       hammer      = require( 'plugins/index' ).hammer,
       viewport    = require( 'plugins/index' ).viewport;
 
-  var self = {
-    'init': function() {
-
-      // IE 10 detection
-      if ( window.atob || Settings.isLTIE10 ) {
-        $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
-      }
-
-      // detect if there are 360 viewer constructs on the DOM
-      $( '.e360' ).each( function( index, el ) {
-        // for each instance, initialize
-        $( this ).editorial360Viewer({});
-      });
-    }
-  };
-
-  var Editorial360Viewer = function( element, options ) {
+  var SonySequence = function( element, options ) {
 
     var self = this;
-    $.extend(self, {}, $.fn.editorial360Viewer.defaults, options, $.fn.editorial360Viewer.settings);
+
+    $.extend( self, SonySequence.options, options, SonySequence.settings );
+    self.options = options || {};
 
     // defaults
     self.$container     = $( element );
@@ -66,11 +52,10 @@ define(function(require){
     self.$win           = Settings.$window;
 
     self.init();
-
   };
 
-  Editorial360Viewer.prototype = {
-    constructor: Editorial360Viewer,
+  SonySequence.prototype = {
+    constructor: SonySequence,
 
     init : function( param ) {
       var self = this;
@@ -79,12 +64,12 @@ define(function(require){
       self.$controls.addClass( 'hidden' );
       self.$container.addClass( 'dim-the-lights' );
 
-      // if not, manage the payload by exposing a loader
+      //console.log('initializing SonySequence', self.$container);
 
+      // if not, manage the payload by exposing a loader
       // since IE and iQ are not getting along we need to delay this a bit
       // heres the idea, we show the loading screen and then one by one with a
       // setTimeout and a $win.resize() we can fire iQ. ?? seems legit?
-
       self.loadSequence();
 
       log('SONY : Editorial 360 Viewer : Initialized');
@@ -107,7 +92,8 @@ define(function(require){
         self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
         self.$container.find( '.load-indicator' ).addClass( 'hidden' );
         self.syncControlLayout();
-        self.initBehaviors();
+
+        (self.options.autoplay) ? self.startAnimation() : self.initBehaviors();
       }
     },
 
@@ -134,7 +120,7 @@ define(function(require){
 
         //console.log(JSON.stringify(el.data()));
         //console.log('inside each sequence');
-        $.inspect(el.data());
+        //$.inspect(el.data());
 
         // now we can hide the element again?
         self.$sequence.eq(index).addClass('visuallyhidden');
@@ -165,6 +151,14 @@ define(function(require){
 
       // now show the first sequence again
       self.$sequence.eq(0).removeClass('visuallyhidden');
+    },
+
+    startAnimation: function() {
+      var self = this;
+
+      self.animationInterval = setInterval(function() {
+        self.move( 'left' );
+      }, self.options.speed);
 
     },
 
@@ -426,16 +420,26 @@ define(function(require){
 
       switch( direction ) {
         case "left":
-          if( 0 === self.curIndex ) {
+          if( self.curIndex === 0 ) {
+
+            if (self.options.autoplay && self.animationLooped) { 
+              self.initBehaviors();
+              clearInterval(self.animationInterval); 
+              self.options.autoplay = false;
+              return;
+            }
             self.curIndex = self.sequenceLength-1;
           } else {
             self.curIndex--;
+            // we can assume we've done a loop
+            if (self.curIndex === 1) { self.animationLooped = true; } 
           }
         break;
 
         case "right":
           if( self.curIndex == self.sequenceLength-1 ) {
             self.curIndex = 0;
+            if (self.options.autoplay) { clearInterval(self.animationInterval); }
           } else {
             self.curIndex++;
           }
@@ -462,47 +466,46 @@ define(function(require){
 
   // jQuery Plugin Definition
   // ------------------------
-  $.extend({
-    inspect: function (obj, n) {
-      n = n || "this";
-      for (var p in obj) {
-        if ($.isPlainObject(obj[p])) {
-          $.inspect(obj[p], n + "." + p);
-          return;
-        }
-      }
-    }
-  });
+  //$.extend({
+    //inspect: function (obj, n) {
+      //n = n || "this";
+      //for (var p in obj) {
+        //if ($.isPlainObject(obj[p])) {
+          //$.inspect(obj[p], n + "." + p);
+          //return;
+        //}
+      //}
+    //}
+  //});
 
-  $.fn.editorial360Viewer = function( options ) {
-    var args = Array.prototype.slice.call( arguments, 1 );
-    return this.each(function() {
-      var self = $(this),
-          editorial360Viewer = self.data('editorial360Viewer');
+  //$.fn.editorial360Viewer = function( options ) {
+    //var args = Array.prototype.slice.call( arguments, 1 );
+    //return this.each(function() {
+      //var self = $(this),
+          //editorial360Viewer = self.data('editorial360Viewer');
 
-      // If we don't have a stored moduleName, make a new one and save it.
-      if ( !editorial360Viewer ) {
-          editorial360Viewer = new Editorial360Viewer( self, options );
-          self.data( 'editorial360Viewer', editorial360Viewer );
-      }
+      //// If we don't have a stored moduleName, make a new one and save it.
+      //if ( !editorial360Viewer ) {
+          //editorial360Viewer = new SonySequence( self, options );
+          //self.data( 'editorial360Viewer', editorial360Viewer );
+      //}
 
-      if ( typeof options === 'string' ) {
-        editorial360Viewer[ options ].apply( editorial360Viewer, args );
-      }
-    });
-  };
+      //if ( typeof options === 'string' ) {
+        //editorial360Viewer[ options ].apply( editorial360Viewer, args );
+      //}
+    //});
+  //};
 
   // Defaults
   // --------
 
-  $.fn.editorial360Viewer.defaults = {
+  SonySequence.defaults = {
     options: {}
   };
 
   // Non override-able settings
   // --------------------------
-
-  $.fn.editorial360Viewer.settings = {
+  SonySequence.settings = {
     isTouch: !!( 'ontouchstart' in window ),
     isInitialized: false,
     controls: false,
@@ -510,6 +513,6 @@ define(function(require){
     duration: 0
   };
 
-  return self;
+  return SonySequence;
 
 });

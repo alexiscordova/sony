@@ -3898,34 +3898,72 @@
     height: 0.875em;
   }
 }
-@media (max-height: 34.375em) and (min-width: 35.5em) {
-  /* line 7, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+@media (max-height: 34.375em) {
+  /* line 6, ../../src/packages/common/css/_responsive/_responsive-height.scss */
   .modal {
+    top: 0;
+    margin-top: 1%;
     max-height: 90%;
   }
-  /* line 10, ../../src/packages/common/css/_responsive/_responsive-height.scss */
-  .modal.takeover {
-    max-height: none;
+  /* line 12, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+  .modal .container,
+  .modal .grid {
+    height: 100%;
   }
-  /* line 14, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+  /* line 16, ../../src/packages/common/css/_responsive/_responsive-height.scss */
   .modal.fade.in {
-    top: 5%;
-  }
-  /* line 17, ../../src/packages/common/css/_responsive/_responsive-height.scss */
-  .modal.fade.in.takeover {
     top: 0;
   }
-
+  /* line 20, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+  .modal .modal-header {
+    max-height: 20%;
+  }
   /* line 24, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+  .modal .modal-body {
+    padding-top: 0;
+    padding-bottom: 0em;
+    max-height: 75%;
+    overflow: hidden;
+  }
+  /* line 33, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+  .modal .js-spec-modal-body,
+  .modal .spec-modal-body,
+  .modal .js-spec-modal-body img {
+    max-height: 100%;
+  }
+  /* line 38, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+  .modal.takeover {
+    margin: 0;
+    height: 100%;
+  }
+  /* line 43, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+  .modal.takeover .modal-header,
+  .modal.takeover .modal-body {
+    max-height: none;
+  }
+
+  /* line 50, ../../src/packages/common/css/_responsive/_responsive-height.scss */
   .modal-header {
     padding-top: 0.625em;
     padding-bottom: 0.375em;
   }
 
-  /* line 29, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+  /* line 55, ../../src/packages/common/css/_responsive/_responsive-height.scss */
   .modal-inner .modal-subhead {
     padding-top: 0.375em;
     padding-bottom: 0.375em;
+  }
+}
+@media (max-height: 25em) {
+  /* line 67, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+  .modal .container {
+    max-height: 250px;
+  }
+}
+@media (max-height: 20em) {
+  /* line 77, ../../src/packages/common/css/_responsive/_responsive-height.scss */
+  .modal .container {
+    max-height: 180px;
   }
 }
 @media (min-width: 61.25em) and (max-width: 68.75em) {

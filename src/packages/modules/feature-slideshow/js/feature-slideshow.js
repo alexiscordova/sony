@@ -16,14 +16,14 @@ define(function(require) {
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr'),
-      iQ = require('iQ'),
-      Settings = require('require/sony-global-settings'),
-      Environment = require('require/sony-global-environment'),
+      // Modernizr = require('modernizr'),
+      // iQ = require('iQ'),
+      // Settings = require('require/sony-global-settings'),
+      // Environment = require('require/sony-global-environment'),
       sonyCarousel = require('secondary/index').sonyCarousel,
       Viewport = require('secondary/index').sonyViewport;
 
-  var FeatureSlideshow = function(element) {
+  var FeatureSlideshow = function( element ) {
     var self = this;
 
     // Set base element
@@ -55,11 +55,7 @@ define(function(require) {
         threshold: '50%',
         callback: function() {
           self.$el.addClass('in');
-
-          // Fake animation playing
-          setTimeout(function() {
-            self.onAnimationComplete();
-          }, 1500);
+          self.fadeInCarouselContent();
         }
       });
 
@@ -119,12 +115,12 @@ define(function(require) {
       return self;
     },
 
-    fadeInContent : function( slideIndex ) {
+    fadeInSlideContent : function( slideIndex ) {
       return this.$slides.eq( slideIndex ).find('.caption').addClass('in');
     },
 
     // Image sequence finished
-    onAnimationComplete : function() {
+    fadeInCarouselContent : function() {
       var self = this;
 
       self.$el.removeClass('animation-pending').addClass('animation-complete');
@@ -146,7 +142,7 @@ define(function(require) {
 
       // If the slide actually changed, fade in the next slides caption
       if ( !self.visitedSlides[ self.currentSlide ] ) {
-        self.fadeInContent( self.currentSlide );
+        self.fadeInSlideContent( self.currentSlide );
         self.visitedSlides[ self.currentSlide ] = true;
       }
     }
