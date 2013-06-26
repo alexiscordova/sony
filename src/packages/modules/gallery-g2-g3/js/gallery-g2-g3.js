@@ -1938,19 +1938,24 @@ define(function(require){
           }
         }
 
-        // console.log("filterName: " + filterName + ", realType: " + realType);
-
         isActive = $this.hasClass( active );
 
         if ( isActive ) {
-          // var filterNameArray = filterName.split("-")
-          // if ( filterName.split("-").length === 'price-touchbutton' ) {
+          var filterNameArray = filterName.split("-");
+          if ( $.inArray("touchbutton", filterName.split("-")) ) {
 
-          // } else {
+            // WIP
+            // console.log("touchbutton!");
+            // self.range.update( undefined, undefined, {min: 25, max: 75} );
+
+            // trigger the button click.
+            // self.touchbuttonclick.button1;
+
+          } else {
             checked.push( $this.data( filterName ) );
             self.lastFilterGroup = self.currentFilterGroup;
             self.currentFilterGroup = filterName;            
-          // }
+          }
         }
 
         // console.log('click %s', filterName);
@@ -2171,6 +2176,7 @@ define(function(require){
       // the slid event because that will be triggered twice on init (once for both handles)
       update( undefined, undefined, {min: 0, max: 100} );
 
+
       self.$rangeControl.rangeControl({
         initialMin: '0%',
         initialMax: '100%',
@@ -2180,6 +2186,17 @@ define(function(require){
 
       // On handle slid, update. Register after initialized so it's not called during initialization
       self.$rangeControl.on( 'slid.rangecontrol', slid );
+
+
+      // ON touchbutton event listener goes here. WIP
+      // 
+      // update( undefined, undefined, {min: 25, max: 75} );
+
+      // Save ref to touchbuttonclick
+      // self.touchbuttonclick = self.$grid.data('touchbuttonclick');
+      // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
+      // self.$grid.on( 'button1.touchbuttonclick', update( undefined, undefined, {min: 25, max: 75} ) );
+
 
       self.filterValues[ filterName ] = { min: true, max: true };
 
