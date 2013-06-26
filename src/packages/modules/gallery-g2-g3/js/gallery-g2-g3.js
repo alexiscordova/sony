@@ -1,9 +1,10 @@
 // ------------ Sony Gallery ------------
 // Module: Gallery
 // Version: 1.0
-// Modified: 06/06/2013
+// Modified: 06/25/2013
 // Dependencies: jQuery, bootstrap, Sony (Settings|Environment|Utilities), shuffle, scroller, evenheights, tabs, stickytabs, stickynav, simplescroll, rangecontrol
 // Author: Glen Cheney
+// Updated 6/25/2013 by Christopher Mischler to add buttons option instead of range slider, on touch devices.
 // --------------------------------------
 
 define(function(require){
@@ -472,8 +473,9 @@ define(function(require){
         for ( filterName in filters[ filterType ] ) {
           // eg ["silver", "blue"] or { min: 20, max: 800 } for price
           filterValue = filters[ filterType ][ filterName ];
+          // console.log("filterType: " + filterType + ", filterName: " + filterName);
 
-          if ( filterValue.length && (filterType === 'button' || filterType === 'checkbox') ) {
+          if ( filterValue.length && (filterType === 'button' || filterType === 'checkbox' || filterType === 'range-touchbutton') ) {
 
             for (var i = 0; i < filterValue.length; i++) {
               objects[ filterName ][ filterValue[i] ].trigger('click');
@@ -484,6 +486,8 @@ define(function(require){
             if ( filterValue.min !== self.MIN_PRICE || filterValue.max !== self.MAX_PRICE ) {
               self.setRangeValue( filterValue.min, filterValue.max );
             }
+          } else if ( filterType === 'range-touchbutton' ) {
+            // console.log("filterType is === range-touchbutton");
           }
         }
       }
@@ -1315,6 +1319,10 @@ define(function(require){
             init = {};
             self.range( $this, name, data.min, data.max );
             break;
+          case 'range-touchbutton':
+            type = 'button';
+            self.button( $this, name, realType );
+            break;
           case 'button':
             self.button( $this, name, realType );
             break;
@@ -1930,12 +1938,19 @@ define(function(require){
           }
         }
 
+        // console.log("filterName: " + filterName + ", realType: " + realType);
+
         isActive = $this.hasClass( active );
 
         if ( isActive ) {
-          checked.push( $this.data( filterName ) );
-          self.lastFilterGroup = self.currentFilterGroup;
-          self.currentFilterGroup = filterName;
+          // var filterNameArray = filterName.split("-")
+          // if ( filterName.split("-").length === 'price-touchbutton' ) {
+
+          // } else {
+            checked.push( $this.data( filterName ) );
+            self.lastFilterGroup = self.currentFilterGroup;
+            self.currentFilterGroup = filterName;            
+          // }
         }
 
         // console.log('click %s', filterName);
@@ -1964,7 +1979,8 @@ define(function(require){
       // Save each label to the labels object
       .each(function() {
         var data = $(this).data(),
-            value = data[ filterName ];
+          value = data[ filterName ];
+          // console.log("create labels object. filterName: " + filterName + ", " + value + ", ", data);
         labels[ value ] = data.label;
         values[ value ] = value;
         objects[ value ] = $( this );
@@ -2058,6 +2074,14 @@ define(function(require){
         self.filter();
       });
 
+      // I'm adding the rangeTouchButtons as an extra 'layer' on the range method.
+      // They won't work at the MEGAPIXELS buttons. They'll just act as a trigger
+      // to update the range values, so all the regular stuff will still happen.
+      // The range slider will be visible on non-touch devices, and the buttons on touch only.
+      function setupRangeTouchButtons(){
+        update( undefined, undefined, {min: 0, max: 100} );
+      }
+
       function getPrice( percent ) {
         return Math.round( diff * (percent / 100) ) + MIN_PRICE;
       }
@@ -2082,6 +2106,11 @@ define(function(require){
 
       // Range control update callback
       function update( evt, positions, percents ) {
+        if (positions){
+          // console.log("update positions: " + positions.min + "/" + positions.max + ", update percents: " + percents.min + "/" + percents.max);
+        } else {
+          // console.log("update positions: undefined, update percents: " + percents.min + ", " + percents.max);
+        }
         var minPrice = getPrice(percents.min),
         maxPrice = getPrice(percents.max),
         maxPriceStr = maxPrice === MAX_PRICE ? maxPrice + '+' : maxPrice,
@@ -2101,6 +2130,7 @@ define(function(require){
         if ( (prevMin !== minPrice || prevMax !== maxPrice) && self.isInitialized ) {
 
           // Save current filters
+          // console.log("filter.range[] filterName: " + filterName + ", " + minPrice + "/" + maxPrice);
           self.filters.range[ filterName ].min = minPrice;
           self.filters.range[ filterName ].max = maxPrice;
 
