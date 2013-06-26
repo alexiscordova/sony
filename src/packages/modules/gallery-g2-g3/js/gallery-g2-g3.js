@@ -1537,8 +1537,8 @@ define(function(require){
       var $newIQImgs = this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
 
       if ( $newIQImgs.length ) {
-        // TODO: force iQ update
         iQ.reset();
+        iQ.load( $newIQImgs.get() );
       }
 
       return this;

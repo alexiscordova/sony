@@ -340,10 +340,11 @@ if data.view == 'basic'
 
       else if data.layout == 'social'
         .product-img
-          .product-img-wrap
+          div(class=imgWrapClasses)
             a.img-wrap.ghost-center-wrap(href=href)
               .ghost-center
-                +iQImage( img )
+                +iQImage( img, 'js-product-img-main', 'image' )
+                +iQColorImages( img.colors )
             +productQuote( data.quote )
 
           if img.colors
