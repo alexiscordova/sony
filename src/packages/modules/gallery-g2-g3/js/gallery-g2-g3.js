@@ -1321,7 +1321,7 @@ define(function(require){
             break;
           case 'range-touchbutton':
             type = 'button';
-            self.button( $this, name, realType );
+            self.button( $this, name, realType, data.min, data.max );
             break;
           case 'button':
             self.button( $this, name, realType );
@@ -1898,14 +1898,25 @@ define(function(require){
       return true;
     },
 
-    button : function( $filterGroup, filterName, realType ) {
+    button : function( $filterGroup, filterName, realType, MIN_PRICE, MAX_PRICE ) {
       var self = this,
           labels = {},
           values = {},
           objects = {},
           $btns = $filterGroup.children();
 
+      // for touchbuttons, we need the same values that are active for range, but it's best to have them here, too.
+      if ( MIN_PRICE && MAX_PRICE ){
+        this.MAX_PRICE = MAX_PRICE;
+        this.MIN_PRICE = MIN_PRICE;
+        this.price = {
+          MIN_PRICE: this.MIN_PRICE,
+          MAX_PRICE: this.MAX_PRICE
+        };
+      }
+
       $btns.on('click', function() {
+        // console.log("$btns.on('click')");
         var $this = $(this),
             isMediaGroup = $this.hasClass('media'),
             $alreadyChecked,
@@ -1942,14 +1953,13 @@ define(function(require){
 
         if ( isActive ) {
           var filterNameArray = filterName.split("-");
-          if ( $.inArray("touchbutton", filterName.split("-")) ) {
+          // if the filterName ends with 'touchbutton' then it's attached to a range control and we need to treat it differently.
+          if ( filterNameArray[filterNameArray.length-1] === "touchbutton" ) {
 
             // WIP
             // console.log("touchbutton!");
-            // self.range.update( undefined, undefined, {min: 25, max: 75} );
-
-            // trigger the button click.
-            // self.touchbuttonclick.button1;
+            var info = $this.data( 'price-touchbutton' );
+            self.$grid.trigger('touchbuttonclick', info);
 
           } else {
             checked.push( $this.data( filterName ) );
@@ -1983,8 +1993,10 @@ define(function(require){
 
       // Save each label to the labels object
       .each(function() {
+        // console.log("filterName: " + filterName);
         var data = $(this).data(),
           value = data[ filterName ];
+          // console.log("WIP value: " + value);
           // console.log("create labels object. filterName: " + filterName + ", " + value + ", ", data);
         labels[ value ] = data.label;
         values[ value ] = value;
@@ -2188,19 +2200,43 @@ define(function(require){
       self.$rangeControl.on( 'slid.rangecontrol', slid );
 
 
-      // ON touchbutton event listener goes here. WIP
-      // 
-      // update( undefined, undefined, {min: 25, max: 75} );
 
+      // WIP
       // Save ref to touchbuttonclick
       // self.touchbuttonclick = self.$grid.data('touchbuttonclick');
-      // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
-      // self.$grid.on( 'button1.touchbuttonclick', update( undefined, undefined, {min: 25, max: 75} ) );
+      self.$grid.on( 'touchbuttonclick', function ( e, dataStr ){
+        prepUpdateRangeFromTouchbutton( dataStr );
+      });
 
+      function prepUpdateRangeFromTouchbutton ( dataStr ) {
+        // console.log("prepUpdateRangeFromTouchbutton");
+        var dataArray = dataStr.split('-');
+        var min, max;
+        if ( dataArray.length > 1 ){
+          min = dataArray[0];
+          max = dataArray[1];
+        } else {
+          min = max = dataStr.split('+')[0];
+        }
+
+        // console.log("min/max: " + min + "/" + max + ", percents: " + self.priceToPercent(min) + "/" + self.priceToPercent(max));
+
+        update( undefined, undefined, { min: self.priceToPercent(min), max: self.priceToPercent(max) } );
+      }
 
       self.filterValues[ filterName ] = { min: true, max: true };
 
       $rangeControl = null;
+    },
+
+
+    priceToPercent : function( price ) {
+      // console.log("priceToPercent ## price: " + price + ", MIN/MAX: " + self.MIN_PRICE + "/" + self.MAX_PRICE);
+      return ( ( price - self.MIN_PRICE ) / ( self.MAX_PRICE - self.MIN_PRICE ) );
+    },
+
+    rootFilterName : function( filterNameLong ) {
+      return filterName.split('-touchbutton')[0];
     },
 
     // If there is a range control in this element and it's in need of an update
