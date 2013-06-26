@@ -1538,6 +1538,7 @@ define(function(require){
 
       if ( $newIQImgs.length ) {
         iQ.reset();
+        iQ.load( $newIQImgs.get() );
       }
 
       return this;
@@ -1904,7 +1905,7 @@ define(function(require){
           values = {},
           objects = {},
           $btns = $filterGroup.children();
-
+      // WIP 
       // for touchbuttons, we need the same values that are active for range, but it's best to have them here, too.
       if ( MIN_PRICE && MAX_PRICE ){
         this.MAX_PRICE = MAX_PRICE;
@@ -1952,6 +1953,7 @@ define(function(require){
         isActive = $this.hasClass( active );
 
         if ( isActive ) {
+          // WIP
           var filterNameArray = filterName.split("-");
           // if the filterName ends with 'touchbutton' then it's attached to a range control and we need to treat it differently.
           if ( filterNameArray[filterNameArray.length-1] === "touchbutton" ) {
@@ -2229,7 +2231,7 @@ define(function(require){
       $rangeControl = null;
     },
 
-
+    // WIP
     priceToPercent : function( price ) {
       // console.log("priceToPercent ## price: " + price + ", MIN/MAX: " + self.MIN_PRICE + "/" + self.MAX_PRICE);
       return ( ( price - self.MIN_PRICE ) / ( self.MAX_PRICE - self.MIN_PRICE ) );
