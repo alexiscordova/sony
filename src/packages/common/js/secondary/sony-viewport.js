@@ -41,8 +41,6 @@ define(function(require) {
       self.lastScrollY = 0;
       self.windowHeight = Settings.$window.height();
       self.windowWidth = Settings.$window.width();
-      self.timer = 0;
-      self.timerLength = secondsAfterLastTriggerToUnbind * 1000;
       self.throttleTime = 250;
 
       self.onResize();
@@ -72,28 +70,24 @@ define(function(require) {
           self.onResize();
         }, 0);
       });
+
+      self.hasActiveHandlers = true;
     },
 
     unbindEvents : function() {
       Environment.off('.viewport');
       Settings.$window.off('.viewport');
       Settings.$document.off('.viewport');
+
+      this.hasActiveHandlers = false;
     },
 
     maybeUnbindEvents : function() {
       var self = this;
 
-      // Not currently watching anything, but there could be another
-      // module that will ask Viewport to watch it.
+      // Not currently watching anything, unbind events
       if ( !self.list.length ) {
-
-        // There is a timeout here because this module does not know how many things
-        // are going to bind to it. To save resources, the resize and scroll event listeners
-        // should be removed, but since all the modules are loaded asynchronously,
-        // there isn't an event for when all modules have added to this module
-        self.timer = setTimeout(function() {
-          self.unbindEvents();
-        }, self.timerLength);
+        self.unbindEvents();
       }
     },
 
@@ -107,22 +101,32 @@ define(function(require) {
         throw 'Viewport.add :: No callback function provided to Viewport';
       }
 
+      // Threshold can be a percentage. Parse it.
       if ( (typeof options.threshold === 'string' && options.threshold.indexOf('%') > -1 ) ) {
         isThresholdPercentage = true;
         options.threshold = parseFloat( options.threshold ) / 100;
+
+      } else if ( options.threshold < 1 && options.threshold > 0 ) {
+        isThresholdPercentage = true;
       }
 
       options.isThresholdPercentage = isThresholdPercentage;
       options.$element = $( options.element );
+
+      // Cache element's offsets and dimensions
       options.offset = options.$element.offset();
       options.height = options.$element.height();
       options.width = options.$element.width();
 
       self.list.push( options );
 
-      // Remove the timer which unbinds from scroll and resize events
-      if ( self.timer ) {
-        clearTimeout( self.timer );
+      // Event handlers are removed if a callback is triggered and the
+      // watch list is empty. Because modules are instantiated asynchronously,
+      // another module could potentially add itself to the watch list when the events
+      // have been unbound.
+      // Check here if events have been unbound and bind them again if they have
+      if ( !self.hasActiveHandlers ) {
+        self.bindEvents();
       }
 
       requestAnimationFrame(function() {
@@ -167,7 +171,6 @@ define(function(require) {
       if ( !self.list.length ) {
         return;
       }
-
 
       // Update offsets and width/height for each viewport item
       self.saveDimensions();
