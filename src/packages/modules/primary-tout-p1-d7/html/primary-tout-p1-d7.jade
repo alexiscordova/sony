@@ -75,23 +75,23 @@ mixin links(_data, _extra)
 
 mixin addon(_data)
   d = _data ? _data : data
-  if data.addon
-    e = { "locals" : locals, "data" : data.addon }
+  if d.addon
+    e = { "locals" : locals, "data" : d.addon }
     !{ locals.partial('packages/modules/addon/html/addon.jade', e) }
 
 mixin legal(_data)
   d = _data ? _data : data
   style = data.style ? data.style : false
-  if data.legal
+  if d.legal
     .container(class = style)
       .grid
         .span-12.pull-right
           p.legal.p5
-            span!{data.legal.copy}
-            if data.legal.href
+            span!{d.legal.copy}
+            if d.legal.href
             span
               &nbsp;
-              a(href = data.legal.href) !{data.legal.linktext ? data.legal.linktext : data.legal.href}
+              a(href = d.legal.href) !{d.legal.linktext ? d.legal.linktext : d.legal.href}
 
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
