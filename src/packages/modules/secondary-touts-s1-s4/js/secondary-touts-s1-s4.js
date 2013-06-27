@@ -16,7 +16,8 @@ define(function(require){
       iQ = require('iQ'),
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
-      Utilities = require('require/sony-global-utilities');
+      Utilities = require('require/sony-global-utilities'),
+      Modals = require('secondary/index').sonyModal;
 
   // This key-value mapping is used to show default values (as key) and their
   // desired mobile equivalents (as the matching values). Assigned to relevant
@@ -213,7 +214,8 @@ define(function(require){
 
         var $this = $(this),
             destination = $this.find('.primary-link').attr('href'),
-            closestLink = $(e.gesture.target).closest('a').attr('href');
+            $closestAnchor = $(e.gesture.target).closest('a'),
+            closestLink = $closestAnchor.attr('href');
 
         if ( !closestLink && !destination ) {
           return;
@@ -221,6 +223,25 @@ define(function(require){
 
         if ( closestLink && closestLink !== destination ) {
           destination = closestLink;
+        }
+
+        if ( $closestAnchor.hasClass('mini-promo') ) {
+
+          var $video = $closestAnchor.parent().find('.sony-video').clone();
+
+          Modals.create($video);
+
+          // This is a hack; technically the sonyVideo method should be global but
+          // its stuck in a module. For refactor, all of that video code should be
+          // globalized. It works here because the sony-video module is required
+          // as a part of secondary touts w/ mini-touts (add-ons), but that obviously
+          // subverts the AMD/module patterns.
+
+          $video.sonyVideo();
+
+          Modals.center();
+
+          return;
         }
 
         window.location = destination;

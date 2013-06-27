@@ -46,7 +46,7 @@ mixin mediaObject( data )
 
     .media-body.ghost-center-wrap.v-wrap
       .ghost-center
-        p.p3.copy !{ data.copy }
+        p.p3-bold.copy !{ data.copy }
         if data.subhead
           p.p4.subhead !{ data.subhead }
         else if !iconClass && data.link
@@ -70,7 +70,7 @@ mixin quote( data )
             i(class="fonticon-15-twitter twitter-color")
 
     figure.media-body(class="text-" + alignment)
-      blockquote.bq5(cite=href)
+      blockquote.bq5-bold(cite=href)
         p !{ data.copy }
 
       figcaption
