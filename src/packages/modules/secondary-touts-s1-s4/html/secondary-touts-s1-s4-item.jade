@@ -95,7 +95,8 @@ aside(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(c
         img(src=item.miniPromo.imgSrc)
       div.mini-promo-caption.p4
         | !{item.miniPromo.caption}
-    +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/standard-video.json')
+    .sony-video-placeholder
+      +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/standard-video.json')
 
   if item.counter
     .counter(class=item.typeLayout)

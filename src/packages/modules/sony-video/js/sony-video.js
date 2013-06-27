@@ -26,13 +26,15 @@ define(function(require){
         sonyVideo = require('secondary/index').sonyVideo;
 
     var self = {
-      'init': function($element) {
+      'init': function() {
+        $('.sony-video').each(function(){
 
-        if ( !$element ) {
-          $element = $('.sony-video');
-        }
+          // Don't initialize placeholder videos.
 
-        $element.sonyVideo();
+          if ( ! $(this).parents().hasClass('sony-video-placeholder') ) {
+            $(this).sonyVideo();
+          }
+        });
       }
     };
 

@@ -227,9 +227,13 @@ define(function(require){
 
         if ( $closestAnchor.hasClass('mini-promo') ) {
 
-          var $video = $closestAnchor.parent().find('.sony-video');
+          var $video = $closestAnchor.parent().find('.sony-video').clone();
 
           Modals.create($video);
+
+          $video.sonyVideo();
+
+          Modals.center();
 
           return;
         }
