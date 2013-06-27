@@ -7,14 +7,20 @@ mixin editorialSlides(data)
   if data.submodules
     for slide in data.submodules
       slideData = locals.data( slide.data )
-      .editorial-carousel-slide( class=slideData.variation )
+
+      - style = slideData.band && slideData.band.style ? slideData.band.style : false
+      slideClasses = [ "editorial-carousel-slide" ]
+      if style
+        - slideClasses.push( style )
+
+      div(class=slideClasses)
         +iQImage(slideData.productImg)
         if slideData.band
-          bandClass = slideData.band.background ? slideData.band.background : false
-          .slide-band(class=bandClass)
-            p.p3 !{ slideData.band.copy }
-            if slideData.band.link
-              +link( slideData.band.link, [ "lt3" ] )
+          .slide-band.box
+            p.p4 !{ slideData.band.copy }
+              if slideData.band.link
+                | !{ " " }
+                +link( slideData.band.link )
 
 //- Main section wrapper for slides
 +mainElement( [ "editorial-slideshow-container" , data.config.mode ] )

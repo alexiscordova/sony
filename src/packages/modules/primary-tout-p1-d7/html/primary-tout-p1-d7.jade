@@ -73,6 +73,26 @@ mixin links(_data, _extra)
           when "txt"
             a(class= e)( href= link.href)(target = t)(title = n) !{link.text}
 
+mixin addon(_data)
+  d = _data ? _data : data
+  if d.addon
+    e = { "locals" : locals, "data" : d.addon }
+    !{ locals.partial('packages/modules/addon/html/addon.jade', e) }
+
+mixin legal(_data)
+  d = _data ? _data : data
+  style = data.style ? data.style : false
+  if d.legal
+    .container(class = style)
+      .grid
+        .span-12.pull-right
+          p.legal.p5
+            span!{d.legal.copy}
+            if d.legal.href
+            span
+              &nbsp;
+              a(href = d.legal.href) !{d.legal.linktext ? d.legal.linktext : d.legal.href}
+
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
   .box(class = layout.alignment)
@@ -131,7 +151,8 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
 
     if data.submodules && data.submodules.length > 0
       for sub, i in data.submodules
-        .submodule.off-screen.visuallyhidden(class = data.links[i].type)
+        type = data.links[i].type.match(/(btn|text|txt)/g) ? "" : data.links[i].type
+        .submodule.off-screen.visuallyhidden(class = type)
           button(class= "box-close box-close-alt")
             i(class="fonticon-10-x")
           +partial(data.submodules[i].type, data.submodules[i].data, true)
@@ -168,7 +189,9 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
       +header
       +bodytext
       +links
+      +addon
   else if data.mode == "product-intro-plate"
+    +legal
     +boxlayout
       +eyebrow
       h1.t2 !{data.headline}
@@ -178,6 +201,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
       .grid.no-grid-at-767
         .mobile-buttons.clearfix
           +links(data, "visible-phone btn")
+
   else if data.mode == "title-plate"
     .hero-image.cover
       e = {"locals":locals, "data":data.image}

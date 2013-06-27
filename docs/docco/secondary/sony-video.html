@@ -55,20 +55,34 @@ define(<span class="keyword">function</span>(require) {
       }
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Public methods and variables</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">return</span> {
+
+        pauseAllVideos: <span class="keyword">function</span>() {
+          toggleCurrentlyPlaying();
+        },
+
+        pauseCurrentVideo: <span class="keyword">function</span>() {
+          <span class="keyword">if</span> ( _currentPlayer &amp;&amp; _currentPlayer.playing ) {
+            _currentPlayer.pause();
+          }
+        },
+
+        getTotalInstanceCount: <span class="keyword">function</span>(){
+          <span class="keyword">return</span> _totalIntanceCount;
+        },
+
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>pass your video elements as a jquery selector</p>             </td>             <td class="code">               <div class="highlight"><pre>        initVideos: <span class="function"><span class="keyword">function</span> <span class="params">( $videos , options )</span> {</span>
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>init each instace of player</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> api = <span class="literal">null</span>;
 
           $videos.each(<span class="keyword">function</span>(){
             api = _videoCollection[ _totalIntanceCount ] =  _fp( ( $( <span class="keyword">this</span> ).flowplayer() ).get( <span class="number">0</span> ) );
-            
+
 
            api.bind( <span class="string">'resume'</span> , <span class="keyword">function</span>(e , a){
             _currentPlayer = api;
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>toggleCurrentlyPlaying(api);</p>             </td>             <td class="code">               <div class="highlight"><pre>           } );
+           } );
 
            _totalIntanceCount++;
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>log('Total Video instances...' , _totalIntanceCount);</p>             </td>             <td class="code">               <div class="highlight"><pre>           
           });
 
           <span class="keyword">return</span> api;
@@ -77,7 +91,7 @@ define(<span class="keyword">function</span>(require) {
     }
 
     <span class="keyword">return</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Get the Singleton _instance if one exists</p>             </td>             <td class="code">               <div class="highlight"><pre>      getInstance: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Get the Singleton _instance if one exists</p>             </td>             <td class="code">               <div class="highlight"><pre>      getInstance: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
         <span class="keyword">if</span> ( !_instance ) {
           _instance = init();
         }
@@ -86,6 +100,10 @@ define(<span class="keyword">function</span>(require) {
     };
 
   })();
+
+  Environment.on(<span class="string">'pausevideo'</span>, <span class="keyword">function</span>() {
+    SonyVideo.getInstance().pauseCurrentVideo();
+  });
 
   <span class="keyword">return</span> SonyVideo.getInstance();
 });

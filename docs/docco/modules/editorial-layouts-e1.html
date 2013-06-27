@@ -11,6 +11,7 @@
     <span class="string">'use strict'</span>;
 
     <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+        iQ = require(<span class="string">'iQ'</span>),
         enquire = require(<span class="string">'enquire'</span>),
         Modernizr = require(<span class="string">'modernizr'</span>),
         Settings = require(<span class="string">'require/sony-global-settings'</span>),
@@ -41,6 +42,17 @@
       constructor: Editorial,
 
       init: <span class="keyword">function</span>() {
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        self.setVars();
+        self.setupBreakpoints();
+
+        <span class="keyword">if</span> ( self.hasAddonSubmodule ) {
+          self.setupSubmodules();
+        }
+      },
+
+      setVars : <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             spanRegex = <span class="regexp">/span\d+/</span>;
 
@@ -53,6 +65,8 @@
         self.isMediaLeft = self.$el.hasClass(<span class="string">'medialeft'</span>);
         self.hasCollapsibleTout = self.$collapsibleTout.length &gt; <span class="number">0</span>;
         self.hasTout = self.$touts.length &gt; <span class="number">0</span>;
+        self.hasAddonSubmodule = self.$el.find(<span class="string">'.submodule'</span>).length &gt; <span class="number">0</span>;
+        self.$window = Settings.$window;
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Build an array of the col spans</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.colSpans = [];
         self.col.each(<span class="keyword">function</span>() {
@@ -61,8 +75,6 @@
           self.colSpans.push( span );
         });
 
-        self.setupBreakpoints();
-        
       },
 
 
@@ -112,7 +124,7 @@
         }
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>If its mediaright or left fix heights on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.$el.hasClass(<span class="string">'mediaright'</span>) || self.$el.hasClass(<span class="string">'medialeft'</span>)) {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>If its mediaright or left fix heights on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isMediaLeft || self.$el.hasClass(<span class="string">'mediaright'</span>) ) {
           self.fixMediaHeights();
           Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy(self.fixMediaHeights, self));
         }
@@ -122,16 +134,124 @@
         Settings.editorialModuleInitialzied.resolve();
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Fixes the min height of medialeft and mediaright on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      fixMediaHeights: <span class="keyword">function</span>() {
-        <span class="keyword">var</span> self = <span class="keyword">this</span>, minh;
+      setupSubmodules : <span class="keyword">function</span>() {
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+            $video;
 
-        <span class="keyword">if</span> ($(window).outerWidth() &lt;= <span class="number">767</span>) {
+        self.$addonTrigger = self.$el.find(<span class="string">'.addon-media'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>The addon submodule will be off screen when this module is initialized</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$addonModule = self.$el.find(<span class="string">'.submodule.off-screen'</span>);
+        self.$closeBtn = self.$addonModule.find(<span class="string">'.box-close'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>The submodule that will be hidden while the addon is visible</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$submodule = self.$addonModule.siblings();
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>.editorial.full-inner &lt;- $el
+.container &lt;- submodules
+.submodule &lt;- visible submodule ( $submodule )
+.submodule.off-screen.visuallyhidden
+.container &lt;- text content</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.$el.hasClass(<span class="string">'full-inner'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If this is a full-inner editorial, the content needs to be hidden too</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$content = self.$submodule.parent().siblings();
+        } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Empty jQuery object so it doesn't throw errors</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$content = $();
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Playing and pausing needs to happen if the submodule is a video</p>             </td>             <td class="code">               <div class="highlight"><pre>        $video = self.$addonModule.find(<span class="string">'.sony-video'</span>);
+        self.isVideoAddon = $video.length &gt; <span class="number">0</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Save the api</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isVideoAddon ) {
+          self.$video = $video;
+        }
+
+        self.isSubmoduleOpen = <span class="literal">false</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Bind to necessary events</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setupSubmoduleEvents();
+      },
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>A reference to the API cannot be saved when this module is
+initialized because the video might not be initialized yet</p>             </td>             <td class="code">               <div class="highlight"><pre>      videoAPI : <span class="keyword">function</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.$video.data(<span class="string">'sonyVideo'</span>).api();
+      },
+
+      setupSubmoduleEvents : <span class="keyword">function</span>() {
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        self.$addonTrigger.on(<span class="string">'click'</span>, $.proxy( self.onAddonClick, self ) );
+        self.$closeBtn.on(<span class="string">'click'</span>, $.proxy( self.onCloseClick, self ) );
+        self.$window.on(<span class="string">'e5-slide-change'</span>, $.proxy( self.onCloseClick, self ) );
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Mouse events for close button</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !Settings.hasTouchEvents ) {
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>show hide close button on hover over module</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$addonModule.on(<span class="string">'mouseenter.submodule'</span>, <span class="keyword">function</span>(){
+            self.isHovered = <span class="literal">true</span>;
+            self.$closeBtn.removeClass(<span class="string">'close-hide'</span>);
+          });
+
+          self.$addonModule.on(<span class="string">'mouseleave.submodule'</span>, <span class="keyword">function</span>(){
+            self.isHovered = <span class="literal">false</span>;
+            self.$closeBtn.addClass(<span class="string">'close-hide'</span>);
+          });
+        }
+      },
+
+      onAddonClick : <span class="keyword">function</span>( evt ) {
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+            hiddenClass = <span class="string">'off-screen visuallyhidden'</span>;
+
+        evt.preventDefault();
+        evt.stopPropagation();
+
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Don't do anything if the submodule is already open</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isSubmoduleOpen ) {
+          <span class="keyword">return</span>;
+        }
+
+        self.$submodule
+          .add( self.$content )
+          .addClass( hiddenClass );
+
+        self.$addonModule.removeClass( hiddenClass );
+
+        iQ.update();
+
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Automatically play the video</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isVideoAddon ) {
+          self.videoAPI().play();
+        }
+
+        self.isSubmoduleOpen = <span class="literal">true</span>;
+      },
+
+      onCloseClick : <span class="keyword">function</span>( evt ) {
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+            hiddenClass = <span class="string">'off-screen visuallyhidden'</span>;
+
+        evt.preventDefault();
+        evt.stopPropagation();
+
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Pause the video</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isVideoAddon ) {
+          self.videoAPI().pause();
+        }
+
+        self.$submodule
+          .add( self.$content )
+          .removeClass( hiddenClass );
+
+        self.$addonModule.addClass( hiddenClass );
+
+        self.isSubmoduleOpen = <span class="literal">false</span>;
+      },
+
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Fixes the min height of medialeft and mediaright on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      fixMediaHeights: <span class="keyword">function</span>() {
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+            minh,
+            isSmallerThanTablet = Modernizr.mq(<span class="string">'(max-width: 47.9375em)'</span>),
+            gridMinHeight,
+            mediaElementFirstHeight;
+
+        <span class="keyword">if</span> ( isSmallerThanTablet ) {
           minh = <span class="string">'auto'</span>;
         } <span class="keyword">else</span> {
-          minh = Math.max(
-            self.$el.find(<span class="string">'.grid'</span>).css(<span class="string">'min-height'</span>).replace(<span class="regexp">/[^-\d\.]/g</span>, <span class="string">''</span>),
-            self.$el.find(<span class="string">'.media-element .table-center'</span>).children().first().height()
-          );
+          gridMinHeight = parseInt( self.$el.find(<span class="string">'.grid'</span>).css(<span class="string">'minHeight'</span>), <span class="number">10</span> );
+          mediaElementFirstHeight = self.$el.find(<span class="string">'.media-element .table-center'</span>).children().first().height();
+          minh = Math.max( gridMinHeight, mediaElementFirstHeight );
           minh += <span class="string">'px'</span>;
         }
 
@@ -141,12 +261,12 @@
       resizeTouts: <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Fixes horizontal 2 up layout wraping</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> tc = $(<span class="string">'.editorial.tout .m2up .horizontal .table-center-wrap'</span>).parent();
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Fixes horizontal 2 up layout wraping</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> tc = $(<span class="string">'.editorial.tout .m2up .horizontal .table-center-wrap'</span>).parent();
         <span class="keyword">if</span> (tc.length) {
           tc.css(<span class="string">'width'</span>, tc.parent().width() - tc.prev().width() -<span class="number">2</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Fixes heights of tout copy across 2up 3up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> heightGroup = self.col.find(<span class="string">'.copy'</span>);
 
         <span class="keyword">if</span> (heightGroup.length) {
           <span class="keyword">if</span> ( Modernizr.mq( <span class="string">'(min-width: 48em)'</span> ) ) {
@@ -193,10 +313,10 @@
               $link = $tout.find( <span class="string">'a'</span> ),
               link = $link[<span class="number">0</span>];
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Save current class name to re apply it when this breakpoint no longer matches</p>             </td>             <td class="code">               <div class="highlight"><pre>          $p.data( <span class="string">'className'</span>, p.className );
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Save current class name to re apply it when this breakpoint no longer matches</p>             </td>             <td class="code">               <div class="highlight"><pre>          $p.data( <span class="string">'className'</span>, p.className );
           $link.data( <span class="string">'className'</span>, link.className );
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Switch class to <code>.p4</code></p>             </td>             <td class="code">               <div class="highlight"><pre>          p.className = <span class="string">'p4'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Switch class to <code>.p4</code></p>             </td>             <td class="code">               <div class="highlight"><pre>          p.className = <span class="string">'p4'</span>;
           link.className = <span class="string">'lt4'</span>;
         });
       },
@@ -211,7 +331,7 @@
               linkClassName = $link.data( <span class="string">'className'</span> ),
               pClassName = $p.data( <span class="string">'className'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Revert class name back to what it was before</p>             </td>             <td class="code">               <div class="highlight"><pre>          p.className = pClassName;
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Revert class name back to what it was before</p>             </td>             <td class="code">               <div class="highlight"><pre>          p.className = pClassName;
           link.className = linkClassName;
         });
       },

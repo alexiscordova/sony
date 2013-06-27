@@ -11,17 +11,26 @@
   .left {
     text-align: left;
   }
+
   .center {
     text-align: center;
   }
+
   .right {
     text-align: right;
   }
+
   .box {
     padding: 0;
-    .link .btn {
+
+    .link .btn,
+    .addon {
       margin-top: 42px;
     }
+  }
+
+  .submodule {
+    position: relative;
   }
 
   .toutcopy {
@@ -51,11 +60,17 @@
 }
 
 .editorial.textonly {
-  padding: 70px 0 75px 0;
+  padding: 70px 0 75px;
 }
 
 .editorial.full {
-  padding: 70px 0 75px 0;
+  padding: 70px 0 75px;
+
+  // Don't let the addon extend 50%
+  .addon {
+    max-width: 50%;
+    margin: auto;
+  }
 
   .box {
     margin-bottom: 22px;
@@ -123,7 +138,7 @@
   padding: 0;
 
   .box {
-    padding: 70px 52px 70px 52px;
+    padding: 70px 52px;
   }
 
   .grid {
@@ -146,7 +161,7 @@
 
 .editorial.full-tout,
 .editorial.tout {
-  padding: 70px 0 75px 0;
+  padding: 70px 0 75px;
 
   .submodule {
     padding-bottom: 28px;

@@ -292,8 +292,10 @@ specifying the module's activation.</p>             </td>             <td class=
 
 </pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>If the final slide has less than four anchors, decrement <code>thumbsPerSlide</code> by
 one until the last slide has at least four anchors.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-      <span class="keyword">while</span> ( anchorCount % thumbsPerSlide &lt; <span class="number">4</span> &amp;&amp; thumbsPerSlide &gt; <span class="number">1</span> ) {
-        thumbsPerSlide = Math.max( thumbsPerSlide - <span class="number">1</span>, <span class="number">1</span> );
+      <span class="keyword">if</span>(anchorCount &gt; <span class="number">4</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>THIS TOTALLY DOESN'T WORK IF THERE'S LESS THAN 4 TOTAL</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">while</span> ( anchorCount % thumbsPerSlide &lt; <span class="number">4</span> &amp;&amp; thumbsPerSlide &gt; <span class="number">1</span> ) {
+          thumbsPerSlide = Math.max( thumbsPerSlide - <span class="number">1</span>, <span class="number">1</span> );
+        }
       }
 
       slideCount = Math.ceil( anchorCount / thumbsPerSlide );
@@ -339,7 +341,7 @@ one until the last slide has at least four anchors.</p>             </td>       
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>    onThumbSelected: <span class="keyword">function</span>(evt) {
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Handles when a thumbnail is chosen</p>             </td>             <td class="code">               <div class="highlight"><pre>    onThumbSelected: <span class="keyword">function</span>(evt) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $el = $(evt.delegateTarget),
         $anchors = self.$thumbNav.find(<span class="string">'a'</span>),
@@ -353,7 +355,7 @@ one until the last slide has at least four anchors.</p>             </td>       
       self.$slideContainer.sonyCarousel(<span class="string">'gotoSlide'</span>, self.currentId);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>    setCurrentActiveThumb: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Sets the current active thumbnail</p>             </td>             <td class="code">               <div class="highlight"><pre>    setCurrentActiveThumb: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $anchors = self.$thumbNav.find(<span class="string">'a'</span>);
 
@@ -361,7 +363,7 @@ one until the last slide has at least four anchors.</p>             </td>       
       $anchors.eq(self.currentId).addClass(<span class="string">'active'</span>);
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>end prototype</p>             </td>             <td class="code">               <div class="highlight"><pre>  };
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>end prototype</p>             </td>             <td class="code">               <div class="highlight"><pre>  };
 
 
 

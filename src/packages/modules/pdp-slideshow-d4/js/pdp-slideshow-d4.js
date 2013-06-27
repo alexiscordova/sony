@@ -314,8 +314,11 @@ define(function(require) {
       // If the final slide has less than four anchors, decrement `thumbsPerSlide` by
       // one until the last slide has at least four anchors.
 
-      while ( anchorCount % thumbsPerSlide < 4 && thumbsPerSlide > 1 ) {
-        thumbsPerSlide = Math.max( thumbsPerSlide - 1, 1 );
+      if(anchorCount > 4){
+        //THIS TOTALLY DOESN'T WORK IF THERE'S LESS THAN 4 TOTAL
+        while ( anchorCount % thumbsPerSlide < 4 && thumbsPerSlide > 1 ) {
+          thumbsPerSlide = Math.max( thumbsPerSlide - 1, 1 );
+        }
       }
 
       slideCount = Math.ceil( anchorCount / thumbsPerSlide );
