@@ -1795,10 +1795,10 @@ define(function(require){
           // If it is, we need to check if other filters are active
           // If other filters are active, the group should affect itself. shouldSkipGroup = false
           // If no other filters are active, the group should NOT affect itself. shouldSkipGroup = true
-          if ( shouldSkipGroup ) {
+          // if ( shouldSkipGroup ) {
             // console.log( 'hasOtherActiveFilters:', self.hasActiveFilters(filterName) );
-            shouldSkipGroup = !self.hasActiveFilters( filterName );
-          }
+            // shouldSkipGroup = !self.hasActiveFilters( filterName );
+          // }
 
           // console.log( 'shouldSkipGroup:', shouldSkipGroup);
           // console.groupEnd();
@@ -1806,8 +1806,8 @@ define(function(require){
           for ( filterValue in self.filterValues[ filterName ] ) {
 
             if ( shouldSkipGroup ) {
-              // statuses[ filterName ][ filterValue ] = 'skip';
-              statuses[ filterName ][ filterValue ] = true;
+              statuses[ filterName ][ filterValue ] = 'skip';
+              // statuses[ filterName ][ filterValue ] = true;
             } else {
               testGalleryItems( filterName, filterValue );
             }
@@ -1905,7 +1905,7 @@ define(function(require){
           values = {},
           objects = {},
           $btns = $filterGroup.children();
-      // WIP 
+      // WIP
       // for touchbuttons, we need the same values that are active for range, but it's best to have them here, too.
       if ( MIN_PRICE && MAX_PRICE ){
         this.MAX_PRICE = MAX_PRICE;
@@ -1966,7 +1966,7 @@ define(function(require){
           } else {
             checked.push( $this.data( filterName ) );
             self.lastFilterGroup = self.currentFilterGroup;
-            self.currentFilterGroup = filterName;            
+            self.currentFilterGroup = filterName;
           }
         }
 
