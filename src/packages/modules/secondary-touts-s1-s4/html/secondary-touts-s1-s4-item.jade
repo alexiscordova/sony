@@ -1,3 +1,5 @@
+include ../../../common/html/jade-helpers.jade
+
 - item.hTb = item.headline ? item.headline.linkText.replace(/[\s-]+$/,'').split(/[\s-]/).pop() : ''
 - item.hTa = item.headline ? item.headline.linkText.split(item.hTb).shift() : ''
 
@@ -86,13 +88,15 @@ article
 
 aside(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)
   if item.miniPromo
-    a.mini-promo(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
+    a.mini-promo(class='mini-promo-layout-' + item.miniPromo.layout)(href='#')
       div.mini-promo-image-container
         .play-button
           i.fonticon-10-video-play
         img(src=item.miniPromo.imgSrc)
       div.mini-promo-caption.p4
         | !{item.miniPromo.caption}
+    .sony-video-placeholder
+      +partial('sony-video/html/sony-video.jade', 'packages/modules/sony-video/demo/data/standard-video.json')
 
   if item.counter
     .counter(class=item.typeLayout)

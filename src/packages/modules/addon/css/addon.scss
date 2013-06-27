@@ -9,9 +9,11 @@
 
 $sidePadding: 12px;
 $addonHeight: 74px;
+$addonBodyMaxWidth: 180px;
 $mediaWidth: 85px;
 $twitterFontSize: 3em;
 $circleSize: 32px;
+
 $halfCircle: $circleSize / 2;
 
 // Getting decimal pixels makes it wonky
@@ -40,6 +42,10 @@ $scale: 1.1875;
     }
   }
 
+  .media-body {
+    max-width: $addonBodyMaxWidth;
+  }
+
   .v-wrap {
     height: $addonHeight;
   }
@@ -59,7 +65,7 @@ $scale: 1.1875;
     margin-top: -$halfCircle;
     margin-left: -$halfCircle;
     @include square( $circleSize );
-    background-color: rgba($black, 0.5);
+    background-color: rgba($gray10, 0.4);
     border-radius: 50%;
     @include transition( .15s );
   }
@@ -78,14 +84,26 @@ $scale: 1.1875;
       position: absolute;
       top: 50%;
       left: 50%;
-      margin-top: -12px;
-      margin-left: -12px;
+      // margin-top: -12px;
+      // margin-left: -12px;
       color: $white;
     }
 
     [class*="fonticon-10-"] {
       margin-top: -8px;
       margin-left: -8px;
+    }
+
+    .fonticon-15-popup {
+      font-size: 20px;
+      margin-top: -10px;
+      margin-left: -10px;
+    }
+
+    .fonticon-10-video-play {
+      font-size: 12px;
+      margin-top: -6px;
+      margin-left: -6px;
     }
   }
 
@@ -126,6 +144,24 @@ $scale: 1.1875;
 }
 
 
+.addon-video,
+.addon-slideshow,
+.addon-audio,
+.addon-story {
+
+  .addon-media {
+    padding: 8px 0;
+  }
+}
+
+.addon-logo,
+.addon-tweet,
+.addon-quote {
+
+  .media-body {
+    max-width: 320px;
+  }
+}
 
 // The media object doesn't work well when the text content needs to be
 // center aligned. The media object stays on the left because it is floated
@@ -164,6 +200,7 @@ $scale: 1.1875;
   // Flexbox saves space wherever it can, the quotes were getting cut off
   blockquote p {
     text-indent: 0;
+    color: $secondarySlateDark;
   }
 
   .pull-left {
