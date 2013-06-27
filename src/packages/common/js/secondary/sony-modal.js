@@ -5,9 +5,27 @@
 // * **Class:** SonyModal
 // * **Version:** 0.1
 // * **Author:** George Pantazis
-
+//
 // This is a wrapper for bootstrap's `.modal()` method, creating grid-aligned modals that
 // automatically self-destruct when closed.
+//
+// *Example Usage:*
+//
+//      var Modals = require('secondary/index').sonyModal;
+//
+// create a modal with the text 'foo'.
+//
+//      Modals.create('foo');
+//
+// Create a modal with a simple DOM string (parsed by jQuery).
+//
+//      Modals.create( "<a href='#foo'>bar</a>" );
+//
+// Create a modal using an existing element. Note that this element will be
+// copied to the modal, then put back at the end of its original parent during the
+// modal's `destroy` sequence.
+//
+//      Modals.create( $('#foo') );
 
 define(function(require){
 
@@ -38,7 +56,7 @@ define(function(require){
           closeButton = document.createElement('button'),
           closeButtonIcon = document.createElement('i');
 
-      modal.className = 'modal hide fade';
+      modal.className = 'sony-modal modal hide fade';
       container.className = 'container';
       grid.className = 'grid modal-inner';
       closeButton.className = 'box-close';
@@ -63,6 +81,7 @@ define(function(require){
 
       var self = this;
 
+      $modal.data('contentParent').append( $modal.data('content') );
       $modal.remove();
 
       self.activeModals.splice( self.activeModals.indexOf($modal), 1 );
@@ -84,7 +103,14 @@ define(function(require){
           $modal;
 
       $modal = sonyModal.$modal.clone(true);
+
+      // Cache the content and its parent into `$modal`'s data so that it may be placed back
+      // whence it came during the `destroy` phase.
+
+      $modal.data('content', $(content));
+      $modal.data('contentParent', $(content).parent());
       $modal.find('.modal-inner').append(content);
+
       $('body').append($modal);
 
       $modal.on('show', function(){
@@ -117,7 +143,7 @@ define(function(require){
 
       var self = this;
 
-      for ( var i in sonyModal.activeModals ) {
+      for ( var i = 0; i < sonyModal.activeModals.length; i++ ) {
 
         var $modal = sonyModal.activeModals[i],
             $modalContent = $modal.find('.modal-inner');

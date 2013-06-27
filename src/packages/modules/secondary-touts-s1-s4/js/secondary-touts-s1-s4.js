@@ -16,7 +16,8 @@ define(function(require){
       iQ = require('iQ'),
       enquire = require('enquire'),
       Settings = require('require/sony-global-settings'),
-      Utilities = require('require/sony-global-utilities');
+      Utilities = require('require/sony-global-utilities'),
+      Modals = require('secondary/index').sonyModal;
 
   // This key-value mapping is used to show default values (as key) and their
   // desired mobile equivalents (as the matching values). Assigned to relevant
@@ -213,7 +214,8 @@ define(function(require){
 
         var $this = $(this),
             destination = $this.find('.primary-link').attr('href'),
-            closestLink = $(e.gesture.target).closest('a').attr('href');
+            $closestAnchor = $(e.gesture.target).closest('a'),
+            closestLink = $closestAnchor.attr('href');
 
         if ( !closestLink && !destination ) {
           return;
@@ -221,6 +223,15 @@ define(function(require){
 
         if ( closestLink && closestLink !== destination ) {
           destination = closestLink;
+        }
+
+        if ( $closestAnchor.hasClass('mini-promo') ) {
+
+          var $video = $closestAnchor.parent().find('.sony-video');
+
+          Modals.create($video);
+
+          return;
         }
 
         window.location = destination;

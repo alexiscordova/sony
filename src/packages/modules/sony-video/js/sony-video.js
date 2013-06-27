@@ -26,24 +26,29 @@ define(function(require){
         sonyVideo = require('secondary/index').sonyVideo;
 
     var self = {
-      'init': function() {
-        $('.sony-video').sonyVideo();
+      'init': function($element) {
+
+        if ( !$element ) {
+          $element = $('.sony-video');
+        }
+
+        $element.sonyVideo();
       }
     };
-    
+
     var SonyVideo = function(element, options){
       var self = this;
-       
+
       // Extend
       $.extend( self, {}, $.fn.sonyVideo.defaults, options, $.fn.sonyVideo.settings );
-      
+
       // Set base element
       self.$el = $( element );
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.cssTransitions       = Modernizr.transitions;
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
@@ -111,11 +116,11 @@ define(function(require){
             self.onDebouncedResize();
 
             $('body').css('overflow' , '');
-            
+
             self.$el.find('.fp-ratio').css({
               'padding-top': self.$el.find('.player').data('ratio') * 100 + '%'
             });
-            
+
             self.$engine.css('top' , 0);
 
             if(self.$el.hasClass('normal')){
@@ -135,11 +140,11 @@ define(function(require){
           self.onDebouncedResize(); //call once to set size
 
         }
-        
+
         iQ.update();
-        
+
       },
-      
+
       api: function(){
         var self = this;
         return self.videoAPI;
@@ -234,6 +239,6 @@ define(function(require){
     // Non override-able settings
     // --------------------------
     $.fn.sonyVideo.settings = {};
-  
+
     return self;
  });
