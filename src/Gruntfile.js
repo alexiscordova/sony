@@ -399,7 +399,7 @@ module.exports = function(grunt) {
           appDir: '../build/deploy',
           mainConfigFile: '../build/deploy/js/common.js',
           dir: '../build/deploy-requirejs-temp',
-          fileExclusionRegExp: /css|fonts|img/,
+          // fileExclusionRegExp: /css|fonts|img/,
           logLevel: 1,
           preserveLicenseComments: false,
           optimize:'uglify2',
