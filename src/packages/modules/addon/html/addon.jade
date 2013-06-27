@@ -60,13 +60,14 @@ mixin quote( data )
   isQuote = data.type == "quote"
 
   .quote.media
-    .addon-media.pull-left
-      if isQuote
-        +iQBackgroundImage( data.img, "media-object" )
+    if (isTweet || (isQuote && data.img))
+      .addon-media.pull-left
+        if isQuote
+          +iQBackgroundImage( data.img, "media-object" )
 
-      else if isTweet
-        .media-object
-          i(class="fonticon-15-twitter twitter-color")
+        else if isTweet
+          .media-object
+            i(class="fonticon-15-twitter twitter-color")
 
     figure.media-body(class="text-" + alignment)
       blockquote.bq5(cite=href)
