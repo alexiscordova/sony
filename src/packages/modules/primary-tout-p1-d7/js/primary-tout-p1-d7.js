@@ -27,6 +27,7 @@ define(function(require){
 
     var module = {
       init: function() {
+        var self = this;
         if ( $('.primary-tout').length > 0 ) {
           $('.primary-tout').primaryTout();
         }
@@ -38,8 +39,9 @@ define(function(require){
       var self = this;
       self.$el = $(element);
       $.extend(self, {}, $.fn.primaryTout.defaults, options, $.fn.primaryTout.settings);
-
+      self.hasAddonSubmodule = self.$el.find('.submodule').length > 0;
       self._init();
+
     };
 
     PrimaryTout.prototype = {
@@ -77,6 +79,125 @@ define(function(require){
         });
       },
 
+      setupSubmodules : function() {
+        var self = this,
+            $video;
+
+        self.$addonTrigger = self.$el.find('.addon-media');
+        // The addon submodule will be off screen when this module is initialized
+        self.$addonModule = self.$el.find('.submodule.off-screen');
+        self.$closeBtn = self.$addonModule.find('.box-close');
+
+        // The submodule that will be hidden while the addon is visible
+        self.$submodule = self.$addonModule.siblings();
+
+        // .editorial.full-inner <- $el
+          // .container <- submodules
+            // .submodule <- visible submodule ( $submodule )
+            // .submodule.off-screen.visuallyhidden
+          // .container <- text content
+        if ( self.$el.hasClass('full-inner') ) {
+          // If this is a full-inner editorial, the content needs to be hidden too
+          self.$content = self.$submodule.parent().siblings();
+        } else {
+          // Empty jQuery object so it doesn't throw errors
+          self.$content = $();
+        }
+
+        // Playing and pausing needs to happen if the submodule is a video
+        $video = self.$addonModule.find('.sony-video');
+        self.isVideoAddon = $video.length > 0;
+
+        // Save the api
+        if ( self.isVideoAddon ) {
+          self.$video = $video;
+        }
+
+        self.isSubmoduleOpen = false;
+
+        // Bind to necessary events
+        self.setupSubmoduleEvents();
+      },
+
+
+      // A reference to the API cannot be saved when this module is
+      // initialized because the video might not be initialized yet
+      videoAPI : function() {
+        return this.$video.data('sonyVideo').api();
+      },
+
+      setupSubmoduleEvents : function() {
+        var self = this;
+
+        self.$addonTrigger.on('click', $.proxy( self.onAddonClick, self ) );
+        self.$closeBtn.on('click', $.proxy( self.onCloseClick, self ) );
+        Settings.$window.on('e5-slide-change', $.proxy( self.onCloseClick, self ) );
+
+
+        // Mouse events for close button
+        if ( !Settings.hasTouchEvents ) {
+          //show hide close button on hover over module
+          self.$addonModule.on('mouseenter.submodule', function(){
+            self.isHovered = true;
+            self.$closeBtn.removeClass('close-hide');
+          });
+
+          self.$addonModule.on('mouseleave.submodule', function(){
+            self.isHovered = false;
+            self.$closeBtn.addClass('close-hide');
+          });
+        }
+      },
+
+      onAddonClick : function( evt ) {
+        var self = this,
+            hiddenClass = 'off-screen visuallyhidden';
+
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        // Don't do anything if the submodule is already open
+        if ( self.isSubmoduleOpen ) {
+          return;
+        }
+
+        self.$submodule
+          .add( self.$content )
+          .addClass( hiddenClass );
+
+        self.$addonModule.removeClass( hiddenClass );
+
+        iQ.update();
+
+        // Automatically play the video
+        if ( self.isVideoAddon ) {
+          self.videoAPI().play();
+        }
+
+        self.isSubmoduleOpen = true;
+      },
+
+      onCloseClick : function( evt ) {
+        var self = this,
+            hiddenClass = 'off-screen visuallyhidden';
+
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        // Pause the video
+        if ( self.isVideoAddon ) {
+          self.videoAPI().pause();
+        }
+
+        self.$submodule
+          .add( self.$content )
+          .removeClass( hiddenClass );
+
+        self.$addonModule.addClass( hiddenClass );
+
+        self.isSubmoduleOpen = false;
+      },
+
       _init: function(){
         var self = this;
 
@@ -88,6 +209,10 @@ define(function(require){
         if (self.$el.hasClass('title-plate')) {
           self.fixTitleHeight();
           Environment.on('global:resizeDebounced', $.proxy(self.fixTitleHeight, self));
+        }
+
+        if ( self.hasAddonSubmodule && self.$el.hasClass('default')) {
+          self.setupSubmodules();
         }
 
         var btn = self.$el.find(".inner .box a.video, .inner .box a.carousel, .mobile-buttons a.video, .mobile-buttons a.carousel");

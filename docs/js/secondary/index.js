@@ -11,6 +11,7 @@ define(function (require) {
     sonyCarouselFade: require('secondary/sony-carousel-fade'),
     sonyEvenHeights: require('secondary/sony-evenheights'),
     sonyNavigationDots: require('secondary/sony-navigationdots'),
+    sonyModal: require('secondary/sony-modal'),
     sonyPaddles: require('secondary/sony-paddles'),
     sonyScroller: require('secondary/sony-scroller'),
     sonyStickyHeaders: require('secondary/sony-stickyheaders'),
