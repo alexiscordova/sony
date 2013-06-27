@@ -126,31 +126,27 @@ Default context for this application is 16.</p>             </td>             <t
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Takes a 2D CSS transform matrix (such as <code>matrix(1, 0, 0, 1, -120, 0)</code>) and
 returns a JSON object exposing the same paramters.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    parseMatrix: <span class="keyword">function</span>( str ) {
-
-      <span class="keyword">var</span> modified;
-
-      modified = str.replace( <span class="regexp">/^\w+\(/</span>, <span class="string">'['</span> ).replace( <span class="regexp">/\)$/</span>, <span class="string">']'</span>);
-
-      <span class="keyword">try</span> {
-        modified = JSON.parse(modified);
-      } <span class="keyword">catch</span> (e) {
-        modified = [<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>];
-      }
-
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p><strong>TODO</strong>: The first four value names are probably wrong.
-I only know the last two (translates) for sure.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-      <span class="keyword">return</span> {
-        val1 : modified[<span class="number">0</span>],
-        val2 : modified[<span class="number">1</span>],
-        val3 : modified[<span class="number">2</span>],
-        val4 : modified[<span class="number">3</span>],
-        translateX : modified[<span class="number">4</span>],
-        translateY : modified[<span class="number">5</span>]
-      };
-    },
-
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Constrains a value between a min and max boundary.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Not used by anything at the moment, commenting out
+parseMatrix: function( str ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>var modified;</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>modified = str.replace( /^\w+(/, '[' ).replace( /)$/, ']');</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>try {
+    modified = JSON.parse(modified);
+  } catch (e) {
+    modified = [null,null,null,null,null,null];
+  }</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>// <strong>TODO</strong>: The first four value names are probably wrong.
+  // I only know the last two (translates) for sure.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>return {
+    val1 : modified[0],
+    val2 : modified[1],
+    val3 : modified[2],
+    val4 : modified[3],
+    translateX : modified[4],
+    translateY : modified[5]
+  };
+},</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Constrains a value between a min and max boundary.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     constrain: <span class="keyword">function</span>(value, min, max) {
 
       value = parseFloat(value);
@@ -164,7 +160,7 @@ I only know the last two (translates) for sure.</p>             </td>           
       $(<span class="string">'html,body'</span>).animate({ scrollTop: <span class="number">0</span> }, <span class="number">400</span>, <span class="string">'swing'</span>);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Swap two jQuery elements.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Swap two jQuery elements.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     swapElements: <span class="keyword">function</span>($elm1, $elm2) {
 
       <span class="keyword">var</span> elm1 = $elm1.get(<span class="number">0</span>),
@@ -183,7 +179,7 @@ I only know the last two (translates) for sure.</p>             </td>           
       parent2.insertBefore(elm1, next2);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Given an array of numbers (<code>arr</code>), find the item in the array closest
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Given an array of numbers (<code>arr</code>), find the item in the array closest
 to a given number (<code>num</code>). If you provide '>' or '&lt;' for <code>filter</code>,
 it only looks for items greater or lesser than <code>num</code>, respectively.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     closestInArray: <span class="keyword">function</span>(arr, num, filter){
@@ -210,7 +206,7 @@ it only looks for items greater or lesser than <code>num</code>, respectively.</
       <span class="keyword">return</span> closest;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Returns a function that will be executed at most one time, no matter how
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Returns a function that will be executed at most one time, no matter how
 often you call it. Useful for lazy initialization.
 Care of <a href="http://underscorejs.org/underscore.js">Underscore</a>.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     once: <span class="keyword">function</span>(func) {
@@ -226,11 +222,11 @@ Care of <a href="http://underscorejs.org/underscore.js">Underscore</a>.</p>     
       };
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>When you click inside the input, the text will be selected</p>             </td>             <td class="code">               <div class="highlight"><pre>    autoSelectInputOnFocus: <span class="keyword">function</span>( $input ) {
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>When you click inside the input, the text will be selected</p>             </td>             <td class="code">               <div class="highlight"><pre>    autoSelectInputOnFocus: <span class="keyword">function</span>( $input ) {
       $input.on(<span class="string">'focus'</span>, <span class="keyword">function</span>() {
         <span class="keyword">var</span> input = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>We use a timeout here because .select() will select everything,
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>We use a timeout here because .select() will select everything,
 then the default browser action will deselect our selection</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>() {
           input.select();
         }, <span class="number">0</span>);
@@ -239,7 +235,7 @@ then the default browser action will deselect our selection</p>             </td
       $input = <span class="literal">null</span>;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Provided a group of $spans, all of which have a class of <code>span12</code>, <code>span6</code>, etc.,
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Provided a group of $spans, all of which have a class of <code>span12</code>, <code>span6</code>, etc.,
 Reassign their column width with <code>toWhat</code> columns.
 If "reset" is passed for <code>toWhat</code>, use the <code>default-spanX</code> class to reassign
 the columns to a preset default value.</p>
@@ -274,7 +270,7 @@ the need for <code>default-span</code>.</p>             </td>             <td cl
       });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Takes a number of groups, supplied as a jQuery object (<code>options.$groups</code>) and re-apportions
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Takes a number of groups, supplied as a jQuery object (<code>options.$groups</code>) and re-apportions
 their elements, in order, to a new set of groups. The old groups are then removed,
 and the new groups are inserted at the point of the first group. Groups are assumed to be grids,
 unless <code>options.gridSelector</code> is specified, in which case the method will look for that selector
@@ -313,12 +309,12 @@ in the calling context. *</p>
             classes = <span class="keyword">this</span>.className.split(<span class="string">' '</span>),
             spanCount;
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Find the class that starts with <code>spanClass</code> and get the appropriate span count.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Find the class that starts with <code>spanClass</code> and get the appropriate span count.</p>             </td>             <td class="code">               <div class="highlight"><pre>
         spanCount = classes.filter(<span class="keyword">function</span>(elem, index, array){
           <span class="keyword">return</span> (elem.indexOf(spanClass) === <span class="number">0</span> &amp;&amp; elem.indexOf(<span class="string">'m-span-at'</span>) === -<span class="number">1</span>);
         }).shift().split(spanClass).pop() * <span class="number">1</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>If there isn't enough room in this grid, push the working container to <code>compiledGrids</code> and start a new one.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>If there isn't enough room in this grid, push the working container to <code>compiledGrids</code> and start a new one.</p>             </td>             <td class="code">               <div class="highlight"><pre>
         <span class="keyword">if</span> ( roomRemaining &lt; spanCount ) {
           compiledGrids.push($workingAppendContainer.clone().get(<span class="number">0</span>));
           $workingAppendContainer = $container.clone();
@@ -330,7 +326,7 @@ in the calling context. *</p>
         roomRemaining -= spanCount;
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Done with loop. Push remaining working elements into the compiled grids and garbage collect.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Done with loop. Push remaining working elements into the compiled grids and garbage collect.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       compiledGrids.push($workingAppendContainer.clone().get(<span class="number">0</span>));
       $workingAppendContainer = $workingGrid = <span class="literal">null</span>;
 
@@ -340,7 +336,7 @@ in the calling context. *</p>
       <span class="keyword">return</span> $(compiledGrids);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Parses the url parameters into a cached object. Each value, however, is a string.
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Parses the url parameters into a cached object. Each value, however, is a string.
 So <code>sony.com?today=true</code> will become <code>{ today : "true" }</code>
 Use the force parameter to force the query string to be cached again</p>             </td>             <td class="code">               <div class="highlight"><pre>
     getUrlParameters : <span class="keyword">function</span>( force ) {
@@ -356,7 +352,7 @@ Use the force parameter to force the query string to be cached again</p>        
         fields = $.parseJSON(<span class="string">'{"'</span> + decodeURI(search).replace(<span class="regexp">/"/g</span>, <span class="string">'\\"'</span>).replace(<span class="regexp">/&amp;/g</span>, <span class="string">'","'</span>).replace(<span class="regexp">/=/g</span>,<span class="string">'":"'</span>) + <span class="string">'"}'</span>);
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Cache it</p>             </td>             <td class="code">               <div class="highlight"><pre>      Settings.urlParams = fields;
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Cache it</p>             </td>             <td class="code">               <div class="highlight"><pre>      Settings.urlParams = fields;
 
       <span class="keyword">return</span> fields;
     }

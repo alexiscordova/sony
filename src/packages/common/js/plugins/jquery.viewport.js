@@ -1,3 +1,10 @@
+
+// NURUN NOTE:
+// If you need to detect when your module is scrolled into view,
+// use sony-viewport.js as it is a global handler for that.
+
+// This jQuery plugin should be avoided in favor of sony-viewport whereever possible
+
 /*
 * Viewport - jQuery selectors for finding elements in viewport
 *
@@ -37,6 +44,7 @@ define(function(require){
         return left >= $(element).offset().left + $(element).width() - settings.threshold;
     };
 
+    // HEY, READ THE ABOVE NOTE!
     $.inviewport = function(element, settings) {
         var $element = $(element);
         var offset = $element.offset();

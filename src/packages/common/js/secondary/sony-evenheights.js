@@ -1,4 +1,14 @@
 
+/*!
+ * jQuery Even Heights plugin
+ * Author: Glen Cheney
+ * Modified: 06/26/13
+ * Dependencies: jQuery 1.2.6+
+ * Sets a jQuery collection to all be the same height
+ * If you need to set multiple collection, please use `$.evenHeights( collectionsArray )`
+ * because it is much faster
+ */
+
 define(function(require){
 
   'use strict';
@@ -12,24 +22,7 @@ define(function(require){
       .css('height', '')
       .each(function() {
         var $this = $(this),
-            height;
-
-        if ( options.useOuterWidth ) {
-          height = $this.outerHeight( options.margin );
-
-        } else {
-          // Here we're using `.css()` instead of `height()` or `outerHeight()`
-          // Chrome used to be 100x slower calculating these values
-          height = parseFloat( $this.css('height') );
-
-          if ( options.padding ) {
-            height += parseFloat( $this.css('paddingTop') ) + parseFloat( $this.css('paddingBottom') );
-          }
-
-          if ( options.margin ) {
-            height += parseFloat( $this.css('marginTop') ) + parseFloat( $this.css('marginBottom') );
-          }
-        }
+            height = $this.outerHeight( options.margin );
 
         if ( height > tallest ) {
           tallest = height;
@@ -39,7 +32,6 @@ define(function(require){
   };
 
   $.fn.evenHeights.options = {
-    useOuterWidth: true,
     padding: true,
     margin: false
   };

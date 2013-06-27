@@ -136,30 +136,31 @@ define(function (require) {
     // Takes a 2D CSS transform matrix (such as `matrix(1, 0, 0, 1, -120, 0)`) and
     // returns a JSON object exposing the same paramters.
 
-    parseMatrix: function( str ) {
+    // Not used by anything at the moment, commenting out
+    // parseMatrix: function( str ) {
 
-      var modified;
+    //   var modified;
 
-      modified = str.replace( /^\w+\(/, '[' ).replace( /\)$/, ']');
+    //   modified = str.replace( /^\w+\(/, '[' ).replace( /\)$/, ']');
 
-      try {
-        modified = JSON.parse(modified);
-      } catch (e) {
-        modified = [null,null,null,null,null,null];
-      }
+    //   try {
+    //     modified = JSON.parse(modified);
+    //   } catch (e) {
+    //     modified = [null,null,null,null,null,null];
+    //   }
 
-      // **TODO**: The first four value names are probably wrong.
-      // I only know the last two (translates) for sure.
+    //   // **TODO**: The first four value names are probably wrong.
+    //   // I only know the last two (translates) for sure.
 
-      return {
-        val1 : modified[0],
-        val2 : modified[1],
-        val3 : modified[2],
-        val4 : modified[3],
-        translateX : modified[4],
-        translateY : modified[5]
-      };
-    },
+    //   return {
+    //     val1 : modified[0],
+    //     val2 : modified[1],
+    //     val3 : modified[2],
+    //     val4 : modified[3],
+    //     translateX : modified[4],
+    //     translateY : modified[5]
+    //   };
+    // },
 
     // Constrains a value between a min and max boundary.
 

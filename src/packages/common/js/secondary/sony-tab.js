@@ -1,4 +1,10 @@
-/* Modified from Twitter Bootstrap Tabs */
+/*!
+ * Modified from Twitter Bootstrap Tabs
+ * Keeps track of hashes if you want it to
+ * Author: Glen Cheney
+ * Modified: 05/02/13
+ * Used in gallery tabs
+ */
 
 define(function(require){
 

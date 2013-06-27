@@ -3,12 +3,16 @@
 <ul>
 <li><strong>Class:</strong> Viewport</li>
 <li><strong>Version:</strong> 1.0</li>
-<li><strong>Modified:</strong> 06/25/2013</li>
+<li><strong>Modified:</strong> 06/26/2013</li>
 <li><strong>Author:</strong> Glen Cheney</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+, SONY Settings, throttle/debounce</li>
 </ul>
 
 <p><em>Notes:</em></p>
+
+<p>If you need to be notified when an element is scrolled into view, use this module.
+This module keeps track of all elements that want to be watched and caches their offsets
+and dimensions in order to keep scrolling as smooth as possible.</p>
 
 <p><em>Example Usage:</em></p>
 
@@ -33,8 +37,7 @@ define(<span class="keyword">function</span>(require) {
   Viewport.prototype = {
 
     init : <span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          secondsAfterLastTriggerToUnbind = Settings.isModern ? <span class="number">4</span> : <span class="number">15</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>The list of viewports to watch</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.list = [];
       self.lastScrollY = <span class="number">0</span>;

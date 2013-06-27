@@ -9,6 +9,10 @@
 //
 // *Notes:*
 //
+// * This module should be used for anything to do with favorites
+// * There is a jade mixin in `product.jade` which will generate the
+//   correct html markup for you
+//
 // *Example Usage:*
 //
 //      new Favorites( $container )

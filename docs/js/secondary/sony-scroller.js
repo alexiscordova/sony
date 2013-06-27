@@ -2,11 +2,20 @@
 // -------------------------------------------------
 //
 // * **Version:** 0.1
-// * **Modified:** 02/22/2013
+// * **Modified:** 06/03/2013
 // * **Authors:** Telly Koosis, Tyler Madison, Glen Cheney
 // * **Dependencies:** jQuery 1.7+, [sony-iscroll.js](sony-iscroll.html)
 //
+// *Notes:*
+//
+// * Use of `carousel` mode is deprecated. Use sony-carousel.js instead
+// * Before using this module, make sure there aren't any other modules/plugins
+//   which would better solve your need.
+// * This is a wrapper for a modified version of iScroll 4
+//
+//
 // *Example Usage:*
+//
 //      TODO: add example here
 //
 

@@ -3,11 +3,15 @@
 //
 // * **Class:** Viewport
 // * **Version:** 1.0
-// * **Modified:** 06/25/2013
+// * **Modified:** 06/26/2013
 // * **Author:** Glen Cheney
 // * **Dependencies:** jQuery 1.7+, SONY Settings, throttle/debounce
 //
 // *Notes:*
+//
+// If you need to be notified when an element is scrolled into view, use this module.
+// This module keeps track of all elements that want to be watched and caches their offsets
+// and dimensions in order to keep scrolling as smooth as possible.
 //
 // *Example Usage:*
 //
@@ -33,8 +37,7 @@ define(function(require) {
   Viewport.prototype = {
 
     init : function() {
-      var self = this,
-          secondsAfterLastTriggerToUnbind = Settings.isModern ? 4 : 15;
+      var self = this;
 
       // The list of viewports to watch
       self.list = [];

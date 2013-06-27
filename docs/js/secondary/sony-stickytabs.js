@@ -1,8 +1,31 @@
-// * Module: Sticky Tabs
-// * Version: 1.0
-// * Modified: 05/28/2013
-// * Dependencies: jQuery 1.7+, Modernizr
-// * Author: Glen Cheney
+// StickyTabs plugin
+// ---------------------------
+//
+// * **Class:** StickyTabs
+// * **Version:** 1.0
+// * **Modified:** 06/03/2013
+// * **Author:** Glen Cheney
+// * **Dependencies:** jQuery 1.7+, Modernizr, Sony Settings|Utilties, sony-scroller
+//
+// *Notes:*
+//
+// * Requires css to go with it. See `_sticky-tabs.scss`
+// * The current tab will stick to the left or right side while the tab strip slides under it
+//
+// *Example Usage:*
+//
+//      $('.tab-strip').stickyTabs();
+//
+// *Modules currently using it:*
+//
+// * gallery-g2-g3
+// * single-spec-z1
+//
+// *Refactor notes:*
+//
+// The desired funciontality between mobile and desktop is the same,
+// but because this changed so much throughout the course of developement
+// there are two separate implementations for mobile/desktop. Ideally they should be combined
 
 define(function(require){
 
@@ -19,7 +42,6 @@ define(function(require){
 
     $.extend(self, $.fn.stickyTabs.options, options, $.fn.stickyTabs.settings);
 
-    // jQuery objects
     self.$container = $container;
     self._init();
   };
@@ -31,6 +53,7 @@ define(function(require){
     _init : function() {
       var self = this;
 
+      // jQuery objects
       self.$tabsWrap = $(self.tabsWrapSelector);
       self.$tabsContainer = self.$tabsWrap.parent();
       self.$tabs = self.$tabsWrap.children('.tab');

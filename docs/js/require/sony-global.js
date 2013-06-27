@@ -1,4 +1,3 @@
-
 // Sony Global Class
 // -----------------
 //
@@ -10,21 +9,21 @@ define(function (require) {
 
   var $ = require('jquery'),
       enquire = require('enquire'),
-      router = require('require/sony-global-router'),
-      settings = require('require/sony-global-settings'),
-      environment = require('require/sony-global-environment');
+      Router = require('require/sony-global-router'),
+      Settings = require('require/sony-global-settings'),
+      Environment = require('require/sony-global-environment');
 
   var self = {
 
-    'init': function(config) {
+    init: function(config) {
 
-      if ( !settings.$html.hasClass('lt-ie10') ){
+      if ( !Settings.isLTIE10 ){
         window.enquire.listen(100);
       }
 
-      router.init();
+      Router.init();
 
-      environment.trigger('global:ready');
+      Environment.trigger('global:ready');
 
       log('SONY : Global : Initialized');
     }

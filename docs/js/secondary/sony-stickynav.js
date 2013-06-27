@@ -7,6 +7,14 @@
 // * **Author:** Glen Cheney
 // * **Dependencies:** jQuery 1.7+, Modernizr, Bootstrap's scrollspy
 //
+// *Notes:*
+//
+// * Use this for any sticky nav needs you have
+// * You are responsible for generating the correct html for it.
+// * There are already styles for sticky navs in `_all.scss`
+// * For example usage, see the product summary, single spec, or gallery pages
+// * There is also a global jade mixin for creating jump links in `jade-helpers.jade`
+//
 // *Example Usage:*
 //
 //      $('.sticky-nav').stickyNav({
