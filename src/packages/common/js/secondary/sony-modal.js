@@ -6,6 +6,9 @@
 // * **Version:** 0.1
 // * **Author:** George Pantazis
 
+// This is a wrapper for bootstrap's `.modal()` method, creating grid-aligned modals that
+// automatically self-destruct when closed.
+
 define(function(require){
 
   'use strict';
@@ -31,12 +34,20 @@ define(function(require){
       var self = this,
           modal = document.createElement('div'),
           container = document.createElement('div'),
-          grid = document.createElement('div');
+          grid = document.createElement('div'),
+          closeButton = document.createElement('button'),
+          closeButtonIcon = document.createElement('i');
 
       modal.className = 'modal hide fade';
       container.className = 'container';
       grid.className = 'grid modal-inner';
+      closeButton.className = 'box-close';
+      closeButtonIcon.className = 'fonticon-10-x-skinny';
 
+      closeButton.setAttribute('data-dismiss', 'modal');
+
+      closeButton.appendChild(closeButtonIcon);
+      grid.appendChild(closeButton);
       container.appendChild(grid);
       modal.appendChild(container);
 
@@ -73,7 +84,7 @@ define(function(require){
           $modal;
 
       $modal = sonyModal.$modal.clone(true);
-      $modal.find('.modal-inner').html(content);
+      $modal.find('.modal-inner').append(content);
       $('body').append($modal);
 
       $modal.on('show', function(){
