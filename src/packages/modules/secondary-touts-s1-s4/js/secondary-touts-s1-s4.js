@@ -231,6 +231,12 @@ define(function(require){
 
           Modals.create($video);
 
+          // This is a hack; technically the sonyVideo method should be global but
+          // its stuck in a module. For refactor, all of that video code should be
+          // globalized. It works here because the sony-video module is required
+          // as a part of secondary touts w/ mini-touts (add-ons), but that obviously
+          // subverts the AMD/module patterns.
+
           $video.sonyVideo();
 
           Modals.center();

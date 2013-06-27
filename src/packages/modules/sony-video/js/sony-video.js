@@ -27,14 +27,7 @@ define(function(require){
 
     var self = {
       'init': function() {
-        $('.sony-video').each(function(){
-
-          // Don't initialize placeholder videos.
-
-          if ( ! $(this).parents().hasClass('sony-video-placeholder') ) {
-            $(this).sonyVideo();
-          }
-        });
+        $('.sony-video').not('.sony-video-placeholder .sony-video').sonyVideo();
       }
     };
 
