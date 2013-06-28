@@ -102,7 +102,7 @@ define(function(require) {
     setupSlides: function() {
       var self = this,
           slidesWithClones = self.numSlides + 2,
-          containerWidth = (100 * slidesWithClones) + '%',
+          containerWidth = (100 * slidesWithClones) + 0.5 + '%',
           slideWidth = (100 / slidesWithClones) + '%';
 
       self.$slideContainer.css( 'width', containerWidth );
