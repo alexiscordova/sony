@@ -258,7 +258,8 @@ define(function(require) {
           if ( Modernizr.mq( '(max-width: 47.9375em)' ) ) {
             setTimeout(function() {
               $.simplescroll({
-                target: self.$el
+                target: self.$addonModule,
+                offset: 50
               });
             }, 0);
           }
