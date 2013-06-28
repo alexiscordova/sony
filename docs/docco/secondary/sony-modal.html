@@ -1,0 +1,156 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-modal.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="sony-carousel-fade.html">                 sony-carousel-fade.js               </a>                                           <a class="source" href="sony-carousel.html">                 sony-carousel.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-favorites.html">                 sony-favorites.js               </a>                                           <a class="source" href="sony-modal.html">                 sony-modal.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-scrolltotop.html">                 sony-scrolltotop.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickyheaders.html">                 sony-stickyheaders.js               </a>                                           <a class="source" href="sony-stickynav.html">                 sony-stickynav.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                                           <a class="source" href="sony-video.html">                 sony-video.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-modal.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Sony Modal (SonyModal) Module</h2>
+
+<ul>
+<li><strong>Class:</strong> SonyModal</li>
+<li><strong>Version:</strong> 0.1</li>
+<li><strong>Author:</strong> George Pantazis</li>
+</ul>
+
+<p>This is a wrapper for bootstrap's <code>.modal()</code> method, creating grid-aligned modals that
+automatically self-destruct when closed.</p>
+
+<p><em>Example Usage:</em></p>
+
+<pre><code> var Modals = require('secondary/index').sonyModal;
+</code></pre>
+
+<p>create a modal with the text 'foo'.</p>
+
+<pre><code> Modals.create('foo');
+</code></pre>
+
+<p>Create a modal with a simple DOM string (parsed by jQuery).</p>
+
+<pre><code> Modals.create( "&lt;a href='#foo'&gt;bar&lt;/a&gt;" );
+</code></pre>
+
+<p>Create a modal using an existing element. Note that this element will be
+copied to the modal, then put back at the end of its original parent during the
+modal's <code>destroy</code> sequence.</p>
+
+<pre><code> Modals.create( $('#foo') );
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+define(<span class="keyword">function</span>(require){
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+      bootstrap = require(<span class="string">'bootstrap'</span>);
+
+  <span class="keyword">var</span> SonyModal = <span class="keyword">function</span>(){
+
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+    self.init();
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h2>Private methods</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+  SonyModal.prototype = {
+
+    constructor: SonyModal,
+
+    init: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          modal = document.createElement(<span class="string">'div'</span>),
+          container = document.createElement(<span class="string">'div'</span>),
+          grid = document.createElement(<span class="string">'div'</span>),
+          closeButton = document.createElement(<span class="string">'button'</span>),
+          closeButtonIcon = document.createElement(<span class="string">'i'</span>);
+
+      modal.className = <span class="string">'sony-modal modal hide fade'</span>;
+      container.className = <span class="string">'container'</span>;
+      grid.className = <span class="string">'grid modal-inner'</span>;
+      closeButton.className = <span class="string">'box-close'</span>;
+      closeButtonIcon.className = <span class="string">'fonticon-10-x-skinny'</span>;
+
+      closeButton.setAttribute(<span class="string">'data-dismiss'</span>, <span class="string">'modal'</span>);
+
+      closeButton.appendChild(closeButtonIcon);
+      grid.appendChild(closeButton);
+      container.appendChild(grid);
+      modal.appendChild(container);
+
+      self.$modal = $(modal);
+      self.activeModals = [];
+
+      <span class="keyword">return</span> self;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Destroy a specific <code>$modal</code> by removing it from the DOM and removing references to it.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    destroy: <span class="keyword">function</span>($modal) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      $modal.data(<span class="string">'contentParent'</span>).append( $modal.data(<span class="string">'content'</span>) );
+      $modal.remove();
+
+      self.activeModals.splice( self.activeModals.indexOf($modal), <span class="number">1</span> );
+    }
+  };
+
+  <span class="keyword">var</span> sonyModal = <span class="keyword">new</span> SonyModal();
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h2>Public methods</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+  <span class="keyword">var</span> module = {
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Create a modal with the provided <code>content</code>. Fire callback <code>cb</code> when the modal is ready.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'create'</span>: <span class="keyword">function</span>(content, cb) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $modal;
+
+      $modal = sonyModal.$modal.clone(<span class="literal">true</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Cache the content and its parent into <code>$modal</code>'s data so that it may be placed back
+whence it came during the <code>destroy</code> phase.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      $modal.data(<span class="string">'content'</span>, $(content));
+      $modal.data(<span class="string">'contentParent'</span>, $(content).parent());
+      $modal.find(<span class="string">'.modal-inner'</span>).append(content);
+
+      $(<span class="string">'body'</span>).append($modal);
+
+      $modal.on(<span class="string">'show'</span>, <span class="keyword">function</span>(){
+        self.center();
+      });
+
+      $modal.on(<span class="string">'hidden'</span>, <span class="keyword">function</span>() {
+        sonyModal.destroy($modal);
+        $modal = <span class="literal">null</span>;
+      });
+
+      $modal.on(<span class="string">'shown'</span>, <span class="keyword">function</span>() {
+        <span class="keyword">if</span> ( <span class="keyword">typeof</span> cb === <span class="string">'function'</span> ) {
+          cb();
+        }
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Activate and store the modal.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      sonyModal.activeModals.push( $modal );
+
+      $modal.modal();
+
+      <span class="keyword">return</span> self;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Center all active modals in the window.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'center'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; sonyModal.activeModals.length; i++ ) {
+
+        <span class="keyword">var</span> $modal = sonyModal.activeModals[i],
+            $modalContent = $modal.find(<span class="string">'.modal-inner'</span>);
+
+        $modal.css({
+          marginTop: $modalContent.height() / -<span class="number">2</span>
+        });
+      }
+    }
+  };
+
+  <span class="keyword">return</span> module;
+});
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
