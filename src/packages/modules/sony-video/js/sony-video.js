@@ -85,9 +85,11 @@ define(function(require){
         self.videoAPI = sonyVideo.initVideos( self.$player );
 
         //hide fullscreen button for ipad
-        if(( Settings.isIPad && self.isFullEditorial) || (self.isFullEditorial && Settings.isAndroid )) {
+        if(( Settings.isIPad && self.isFullEditorial) || (self.isFullEditorial && Settings.isAndroid ) || Settings.isIPad ) {
           self.$player.find('.fp-fullscreen').hide();
         }
+
+        //window.alert( 'Settings.isIPad' );
 
         self.videoAPI.bind('resume' , function(){
           if(self.isFullEditorial){
@@ -98,7 +100,7 @@ define(function(require){
         });
 
         self.videoAPI.bind('fullscreen fullscreen-exit' , function(e){
-
+          Utilities.forceWebkitRedraw();
           //log( 'Video API FullScreen event >' , e.type );
           if(e.type === 'fullscreen'){
             self.isFullScreen = true;
