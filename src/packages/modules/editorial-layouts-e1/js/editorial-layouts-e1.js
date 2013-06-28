@@ -21,7 +21,8 @@ define(function(require) {
         Environment = require('require/sony-global-environment'),
         SonyCarousel = require('secondary/index').sonyCarousel,
         EvenHeights = require('secondary/index').sonyEvenHeights,
-        Modals = require('secondary/index').sonyModal;
+        Modals = require('secondary/index').sonyModal,
+        jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
     Settings.editorialModuleInitialzied = $.Deferred();
 
@@ -232,20 +233,13 @@ define(function(require) {
         // Video player needs to open a modal while the the slideshow is inline
         if ( self.isVideoAddon ) {
 
-          // var $video = self.$video.clone();
+          // The video is already initialized by its submodule, which is kind of a hack
+          // and breaks the AMD/module pattern
 
           Modals.create({
             content: self.$video,
             closed: $.proxy( self.onCloseClick, self )
           });
-
-          // This is a hack; technically the sonyVideo method should be global but
-          // its stuck in a module. For refactor, all of that video code should be
-          // globalized. It works here because the sony-video module is required
-          // as a part of secondary touts w/ mini-touts (add-ons), but that obviously
-          // subverts the AMD/module patterns. - gcpantazis
-
-          // $video.sonyVideo();
 
           Modals.center();
 
@@ -257,6 +251,15 @@ define(function(require) {
             .addClass( hiddenClass );
 
           self.$addonModule.removeClass( hiddenClass );
+
+          // Scroll to the top of the module
+          // This is especially needed on mobile where the addon is far lower
+          // than the slideshow that comes in and it also has a different height
+          setTimeout(function() {
+            $.simplescroll({
+              target: self.$el
+            });
+          }, 0);
         }
 
         self.isSubmoduleOpen = true;
@@ -271,12 +274,8 @@ define(function(require) {
           evt.stopPropagation();
         }
 
-        // If it's a video, the modal has been closed
-        if ( self.isVideoAddon ) {
-          // Video doesn't need to be paused because it's destroyed
-
-        } else {
-
+        // If it's a video, the modal closes itself
+        if ( !self.isVideoAddon ) {
           self.$submodule
             .add( self.$content )
             .removeClass( hiddenClass );
