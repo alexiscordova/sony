@@ -36,9 +36,10 @@ define(function(require){
         //for each instance, initialize
         self.editorial360 = new SonySequence( el, {
           autoplay: true,
-          controls: false,
+          viewcontrols: false,
+          barcontrols: false,
           loop: false,
-          speed: 80
+          speed: 100
         });
       });
     }

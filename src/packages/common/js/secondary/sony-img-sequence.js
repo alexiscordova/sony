@@ -1,3 +1,5 @@
+/*jshint debug:true */
+
 // ------------ Sony Image Sequencer ------------
 // * **Module:** Cloned from the E360 jQuery plugin
 // * **Version:** 0.0.1
@@ -16,9 +18,10 @@ define(function(require){
   // provisions
   var $ = require( 'jquery' ),
       iQ = require( 'iQ' ),
-      Settings    = require( 'require/sony-global-settings' ),
-      hammer      = require( 'plugins/index' ).hammer,
-      viewport    = require( 'plugins/index' ).viewport;
+      Settings     = require( 'require/sony-global-settings' ),
+      hammer       = require( 'plugins/index' ).hammer,
+      viewport     = require( 'plugins/index' ).viewport;
+      
 
   var SonySequence = function( element, options ) {
 
@@ -93,7 +96,13 @@ define(function(require){
         self.$container.find( '.load-indicator' ).addClass( 'hidden' );
         self.syncControlLayout();
 
+        // if we have setup to autoplay
         (self.options.autoplay) ? self.startAnimation() : self.initBehaviors();
+        // if the user wants bar controls we need to populate the dom
+        if (self.options.barcontrols) {
+          self.createBarControl();
+        }
+        
       }
     },
 
@@ -101,6 +110,163 @@ define(function(require){
       var self = this;
       var _assetWidth = $( self.$sequence[self.curIndex] ).width();
       self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
+    },
+
+
+    getSliderRange: function(){
+      var self = this,
+          range = {};
+
+      range.min = 0;
+      range.max = 1;
+
+      return range;
+    },
+
+    sliderNearestValidValue: function(rawValue) {
+      var self = this,
+          closest, 
+          maxSteps, 
+          range, 
+          steps;
+
+      range = self.getSliderRange();
+      rawValue = Math.min(range.max, rawValue);
+      rawValue = Math.max(range.min, rawValue);
+
+      if (self.options.steps) {
+        return;
+      } else {
+        return rawValue;
+      }
+    },
+
+    sliderGotoFrame: function(positon) {
+      var self = this,
+          minWidth = 0,
+          maxWidth = self.sliderControlWidth,
+          sequenceLength = self.sequenceLength,
+          sequenceDepth = 0,
+          lastIndex = self.currIndex;      
+
+      sequenceDepth = ( positon / maxWidth );
+      self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
+
+      if (!self.pluck( lastIndex )) { return; }
+
+      self.pluck( lastIndex ).addClass( 'visuallyhidden' );
+      self.pluck( self.currIndex ).removeClass( 'visuallyhidden' );
+    },
+
+    sliderRatioToValue: function(ratio) {
+      var self = this,
+          idx, 
+          range, 
+          rawValue, 
+          step, 
+          steps;
+
+        range = self.getSliderRange();
+        rawValue = ratio * (range.max - range.min) + range.min;
+
+        return self.sliderNearestValidValue(rawValue);
+    },
+
+    setSliderPosition: function(position, isMin) {
+       var self = this;
+
+       self.$slideHandle.css({
+          left: position
+       });
+    },
+
+    // get the demensions, will need to recalculate on resize 
+    sliderGetDimensions: function() {
+      var self = this;
+      self.sliderControlWidth = (self.$sliderControl.outerWidth() - 20);
+
+      return (self.$sliderControl.outerWidth() - 20);
+    },
+
+    dragSlider: function(event, position) {
+      var self = this,
+          pagePos,
+          ratio,
+          value,
+          data = {},
+          page = event.gesture.center,
+          direction = event.gesture.direction ? event.gesture.direction : 'left',
+          eventX = page.pageX ? page.pageX : 0;
+
+
+      // get the sldie value positions
+      pagePos = eventX - self.$sliderControl.offset().left;
+      pagePos = Math.min(self.sliderControlWidth, pagePos);
+      pagePos = Math.max(0, pagePos);
+
+      if (self.pagePos !== pagePos) {
+        self.pagePos = pagePos;
+        ratio = pagePos / self.sliderControlWidth;
+        value = self.sliderRatioToValue(ratio);
+
+        self.sliderGotoFrame(pagePos);
+        //set the slider positon
+        return self.setSliderPosition(pagePos);
+      }
+
+      self.dragged = true;
+
+    },
+
+    setupBarBindings: function() {
+      var self = this, 
+          $slideHandle;
+
+      self.pagePos = 0;
+      // find the handle so we can setup bindings 
+      self.$slideHandle = self.$sliderControl.find('.handle');
+      self.$slideHandle.hammer();
+
+      // get slider dimensions
+      self.sliderGetDimensions();
+
+      self.$slideHandle.on({
+        touch : function( event ) {
+          self.touchDown( event );
+        },
+        release : function( event ) {
+          self.touchUp( event );
+        }, 
+        drag : function( event ) {
+          var direction = event.gesture.direction;
+
+          if( 'left' == direction || 'right' == direction ) {
+            self.dragSlider( event );
+          }
+        }, 
+        tap : function( event ) {
+          self.touchMove( event );
+        }
+      });
+
+
+    },
+
+    createBarControl: function() {
+      var self = this,
+          controlTmpl,
+          $sliderControl;
+    
+      controlTmpl = "<div class='control-bar slider range-control'><dic class='handle'></div></div>";
+
+      // add our new controls to the container
+      self.$container.append(controlTmpl);
+      self.$sliderControl = self.$container.find('.range-control');
+
+      // setup the bindings for the control slider
+      self.setupBarBindings();
+      // we should get rid of the other controls
+      self.$controls.remove();
     },
 
     // this will load the sequence of images
@@ -185,26 +351,31 @@ define(function(require){
           }
         }, 100);
 
-        self.$controls.on( 'touch', function( event ) {
-          self.touchDown( event );
-        });
+        if (self.options.viewcontrols) {
 
-        self.$controls.on( 'release', function( event ) {
-          self.touchUp( event );
-        });
+          self.$controls.on({
+            touch : function( event ) {
+              self.touchDown( event );
+            },
+            release : function( event ) {
+              self.touchUp( event );
+            }, 
+            drag : function( event ) {
+              var direction = event.gesture.direction;
 
-        self.$controls.on( 'drag', function( event ) {
-          var direction = event.gesture.direction;
-          if( 'left' == direction || 'right' == direction ) {
-            self.touchMove( event );
-          }
-        });
+              if( 'left' == direction || 'right' == direction ) {
+                self.touchMove( event );
+              }
+            }, 
+            tap : function( event ) {
+              self.touchMove( event );
+            }
+          });
 
-        self.$controls.on( 'tap', function( event ) {
-          self.touchMove( event );
-        });
+        } else if (self.options.barcontrols) {
 
 
+        }
       } else {
         // trigger UI indication (Desktop)
         $( window ).bind( 'scroll', function( event ) {
@@ -243,8 +414,11 @@ define(function(require){
       if( true === self.isImage ) {
         self.syncControlLayout();
       }
-      // finally show controlls
-      self.$controls.removeClass( 'hidden' );
+
+      if (self.options.viewcontrols) {
+        // finally show controlls
+        self.$controls.removeClass( 'hidden' );
+      }
 
     },
 
@@ -422,12 +596,13 @@ define(function(require){
         case "left":
           if( self.curIndex === 0 ) {
 
-            if (self.options.autoplay && self.animationLooped) { 
+            if (self.options.autoplay && self.animationLooped && !self.options.loop) { 
               self.initBehaviors();
               clearInterval(self.animationInterval); 
               self.options.autoplay = false;
               return;
             }
+
             self.curIndex = self.sequenceLength-1;
           } else {
             self.curIndex--;
