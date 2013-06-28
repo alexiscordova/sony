@@ -389,10 +389,13 @@ active slide.</p>             </td>             <td class="code">               
         $nextSlideImg.addClass(<span class="string">'unhide'</span>);
 
         <span class="keyword">if</span> (!self.isMediaChapter) {
-          $currSlide.addClass(<span class="string">'pos-active'</span>);
+          $currSlide.addClass(<span class="string">'pos-active'</span>).removeClass(<span class="string">'off-screen'</span>); 
+
           setTimeout(<span class="keyword">function</span>(){
-            $currSlide.siblings().removeClass(<span class="string">'pos-active'</span>);
-            <span class="keyword">if</span>(!$currSlide.hasClass(<span class="string">'pos-active'</span>)){ $currSlide.addClass(<span class="string">'pos-active'</span>); }
+            $currSlide.siblings().removeClass(<span class="string">'pos-active'</span>).addClass(<span class="string">'off-screen'</span>);
+            <span class="keyword">if</span>(!$currSlide.hasClass(<span class="string">'pos-active'</span>)){ 
+              $currSlide.addClass(<span class="string">'pos-active'</span>).removeClass(<span class="string">'off-screen'</span>); 
+            }
           }, <span class="number">500</span>);
         } <span class="keyword">else</span> {
           $currSlide.addClass(<span class="string">'pos-active'</span>);

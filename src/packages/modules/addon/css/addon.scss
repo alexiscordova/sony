@@ -1,12 +1,6 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-// Layout:
-// .addon
-  // .media
-    // .addon-media
-      // .media-object
-
 $sidePadding: 12px;
 $addonHeight: 74px;
 $addonBodyMaxWidth: 180px;
@@ -20,9 +14,6 @@ $halfCircle: $circleSize / 2;
 // Getting decimal pixels makes it wonky
 // Both 32 and half of 32 (16) need to be divisible by this number
 $scale: 1.1875;
-
-// .addon { background-color: $gray90; }
-// .v-wrap { background-color: $themeBlueLight; }
 
 .addon {
   text-align: left; // Don't want to inherit styles from editorials
@@ -45,7 +36,10 @@ $scale: 1.1875;
     margin-right: px-em( $sidePadding );
     overflow: hidden;
 
-    &:hover .icon-wrap {
+    // You know iOS, sometimes I really hate you
+    // You don't have hovers!
+    .no-touch &:hover .icon-wrap,
+    .touch &:active .icon-wrap {
       @include scale( 1 );
       background-color: $linkBlue;
     }
