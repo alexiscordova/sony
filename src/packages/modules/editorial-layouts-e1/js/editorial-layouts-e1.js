@@ -3,9 +3,11 @@
 //
 // * **Class:** Editorial
 // * **Version:** 1.0
-// * **Modified:** 02/22/2013
-// * **Author:** Thisispete
-// * **Dependencies:** jQuery 1.7+ , sony-global-environment
+// * **Modified:** 06/27/2013
+// * **Author:** Pete Schirmer, Glen Cheney
+// * **Dependencies:** jQuery 1.7+ , sony-global-environment,
+// [sony-carousel](../secondary/sony-carousel.html), [sony-evenheights](../secondary/sony-evenheights.html),
+// [sony-modal](../secondary/sony-modal.html)
 //
 define(function(require) {
 
@@ -17,9 +19,11 @@ define(function(require) {
         Modernizr = require('modernizr'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        SonyCarousel = require('secondary/sony-carousel'),
-        EvenHeights = require('secondary/sony-evenheights');
-        Settings.editorialModuleInitialzied = $.Deferred();
+        SonyCarousel = require('secondary/index').sonyCarousel,
+        EvenHeights = require('secondary/index').sonyEvenHeights,
+        Modals = require('secondary/index').sonyModal;
+
+    Settings.editorialModuleInitialzied = $.Deferred();
 
     var module = {
       init: function() {
@@ -184,9 +188,9 @@ define(function(require) {
 
       // A reference to the API cannot be saved when this module is
       // initialized because the video might not be initialized yet
-      videoAPI : function() {
-        return this.$video.data('sonyVideo').api();
-      },
+      // videoAPI : function() {
+      //   return this.$video.data('sonyVideo').api();
+      // },
 
       setupSubmoduleEvents : function() {
         var self = this;
@@ -223,17 +227,36 @@ define(function(require) {
           return;
         }
 
-        self.$submodule
-          .add( self.$content )
-          .addClass( hiddenClass );
-
-        self.$addonModule.removeClass( hiddenClass );
-
         iQ.update();
 
-        // Automatically play the video
+        // Video player needs to open a modal while the the slideshow is inline
         if ( self.isVideoAddon ) {
-          self.videoAPI().play();
+
+          // var $video = self.$video.clone();
+
+          Modals.create({
+            content: self.$video,
+            closed: $.proxy( self.onCloseClick, self )
+          });
+
+          // This is a hack; technically the sonyVideo method should be global but
+          // its stuck in a module. For refactor, all of that video code should be
+          // globalized. It works here because the sony-video module is required
+          // as a part of secondary touts w/ mini-touts (add-ons), but that obviously
+          // subverts the AMD/module patterns. - gcpantazis
+
+          // $video.sonyVideo();
+
+          Modals.center();
+
+        // Inline content. Hide current submodule and show the next submodule.
+        } else {
+
+          self.$submodule
+            .add( self.$content )
+            .addClass( hiddenClass );
+
+          self.$addonModule.removeClass( hiddenClass );
         }
 
         self.isSubmoduleOpen = true;
@@ -243,19 +266,23 @@ define(function(require) {
         var self = this,
             hiddenClass = 'off-screen visuallyhidden';
 
-        evt.preventDefault();
-        evt.stopPropagation();
-
-        // Pause the video
-        if ( self.isVideoAddon ) {
-          self.videoAPI().pause();
+        if ( evt ) {
+          evt.preventDefault();
+          evt.stopPropagation();
         }
 
-        self.$submodule
-          .add( self.$content )
-          .removeClass( hiddenClass );
+        // If it's a video, the modal has been closed
+        if ( self.isVideoAddon ) {
+          // Video doesn't need to be paused because it's destroyed
 
-        self.$addonModule.addClass( hiddenClass );
+        } else {
+
+          self.$submodule
+            .add( self.$content )
+            .removeClass( hiddenClass );
+
+          self.$addonModule.addClass( hiddenClass );
+        }
 
         self.isSubmoduleOpen = false;
       },
