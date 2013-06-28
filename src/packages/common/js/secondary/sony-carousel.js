@@ -446,7 +446,7 @@ define(function(require){
           props[self.posAttr] = -100 * self.getAdjustedPosition($destinationSlide) + '%';
         }
 
-        self.$el.animate(props, {
+        self.$el.stop( true ).animate(props, {
           'duration': speed,
           'complete': function(){
             iQ.update();

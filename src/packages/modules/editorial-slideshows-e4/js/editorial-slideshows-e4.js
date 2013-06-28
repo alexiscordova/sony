@@ -75,6 +75,17 @@ define(function(require) {
       }
 
       self.$slideContainer.css( 'opacity', 1 );
+
+      // IE7 nav dots appear lower than they should.
+      // Super hacky, please avert your eyes.
+      if ( Settings.isLTIE8 ) {
+        setTimeout(function() {
+          self.$slideContainer.sonyCarousel('gotoSlide', 1, true);
+          setTimeout(function() {
+            self.$slideContainer.sonyCarousel('gotoSlide', 0, true);
+          }, 50);
+        }, 200);
+      }
     },
 
 
