@@ -221,7 +221,9 @@ and assign <code>originalLayout</code> classes.</p>             </td>           
 
           <span class="keyword">var</span> $video = $closestAnchor.parent().find(<span class="string">'.sony-video'</span>).clone();
 
-          Modals.create($video);
+          Modals.create({
+            content: $video
+          });
 
 </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>This is a hack; technically the sonyVideo method should be global but
 its stuck in a module. For refactor, all of that video code should be
