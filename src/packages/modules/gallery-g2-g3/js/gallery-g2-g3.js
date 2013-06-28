@@ -998,7 +998,7 @@ define(function(require){
           filterValue = '',
           i;
 
-      console.log("removeActiveFilters");
+      // console.log("removeActiveFilters");
 
       self.currentFilterGroup = null;
       self.lastFilterGroup = null;
@@ -1081,7 +1081,7 @@ define(function(require){
     },
 
     onRemoveFilter : function( evt ) {
-      console.log("##onRemoveFilter");
+      // console.log("##onRemoveFilter");
       var self = this,
           data = $(evt.target).data(),
           filterType = self.filterTypes[ data.filterName ],
@@ -2255,7 +2255,7 @@ define(function(require){
 
     // WIP
     priceToPercent : function( price ) {
-      console.log("priceToPercent ## price: " + price + ", MIN/MAX: " + self.MIN_PRICE + "/" + self.MAX_PRICE);
+      // console.log("priceToPercent ## price: " + price + ", MIN/MAX: " + self.MIN_PRICE + "/" + self.MAX_PRICE);
       return ( ( price - self.MIN_PRICE ) / ( self.MAX_PRICE - self.MIN_PRICE ) );
     },
 
