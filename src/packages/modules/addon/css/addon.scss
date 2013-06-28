@@ -202,6 +202,10 @@ $scale: 1.1875;
     display: -ms-flexbox;   // TWEENER - IE 10
     display: -webkit-flex;  // NEW - Chrome 29-
     display: flex;          // NEW, Spec - Opera 12.1, Firefox 20+, Chrome 30+
+
+    // Old flexbox centering
+    -webkit-box-align: center;
+    -moz-box-align: center;
   }
 
   // Needed for old flexbox versions.
@@ -221,17 +225,14 @@ $scale: 1.1875;
   // Then center it
   .addon-body {
     min-height: 0;
+
+    // Don't overflow container, flex to fit
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+
+
     -webkit-align-self: center;
     align-self: center;
-  }
-}
-
-// Browsers w/o new flexbox won't be able to vertical align the content,
-// move the image up a bit
-.no-flexboxalignself .addon {
-
-  .addon-mo .addon-media {
-    top: -$extraImgPadding;
   }
 }
 
