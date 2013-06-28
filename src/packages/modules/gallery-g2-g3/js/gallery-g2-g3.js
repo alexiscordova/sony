@@ -1077,6 +1077,7 @@ define(function(require){
     },
 
     onRemoveFilter : function( evt ) {
+      console.log("##onRemoveFilter");
       var self = this,
           data = $(evt.target).data(),
           filterType = self.filterTypes[ data.filterName ],
@@ -1964,10 +1965,11 @@ define(function(require){
 
         } else {
           // reset the touchbutton & range!
-          if ( filterName === "price_touchbutton" ){
-            $('.label-close[data-filter-name="price"][data-filter="max"]').trigger('click');
-            $('.label-close[data-filter-name="price"][data-filter="min"]').trigger('click');
-          }          
+          // console.log("GO!");
+          // if ( filterName === "price_touchbutton" ){
+          //   $('.label-close[data-filter-name="price"][data-filter="max"]').trigger('click');
+          //   $('.label-close[data-filter-name="price"][data-filter="min"]').trigger('click');
+          // }          
         }
 
         // console.log('click %s', filterName);
@@ -2033,20 +2035,18 @@ define(function(require){
           maxPrice = 1000000;
         }
 
-        // CJM
-
         self.currentFilterGroup = filterName;
         self.price.min = minPrice;
         self.price.max = maxPrice;
 
-        console.log("priceRange min/max: " + minPrice + "/" + maxPrice);
+        // console.log("priceRange min/max: " + minPrice + "/" + maxPrice);
 
         self.filters.range[ self.rootFilterName(filterName) ].min = minPrice;
         self.filters.range[ self.rootFilterName(filterName) ].max = maxPrice;
 
         setTimeout(function(){
           self.filter();
-        },750);
+        },75);
       }
     },
 
