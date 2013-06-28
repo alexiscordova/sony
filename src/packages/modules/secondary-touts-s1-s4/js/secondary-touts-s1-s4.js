@@ -229,7 +229,9 @@ define(function(require){
 
           var $video = $closestAnchor.parent().find('.sony-video').clone();
 
-          Modals.create($video);
+          Modals.create({
+            content: $video
+          });
 
           // This is a hack; technically the sonyVideo method should be global but
           // its stuck in a module. For refactor, all of that video code should be

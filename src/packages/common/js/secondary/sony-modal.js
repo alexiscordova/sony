@@ -15,17 +15,31 @@
 //
 // create a modal with the text 'foo'.
 //
-//      Modals.create('foo');
+//      Modals.create({
+//        content: 'foo'
+//      });
 //
 // Create a modal with a simple DOM string (parsed by jQuery).
 //
-//      Modals.create( "<a href='#foo'>bar</a>" );
+//      Modals.create({
+//        content: '<a href="#foo">bar</a>'
+//      });
 //
 // Create a modal using an existing element. Note that this element will be
 // copied to the modal, then put back at the end of its original parent during the
 // modal's `destroy` sequence.
 //
-//      Modals.create( $('#foo') );
+//      Modals.create({
+//        content: $('#foo')
+//      });
+//
+// Callbacks are available for opened and closed (destroyed) states.
+//
+//      Modals.create({
+//        content: 'foo',
+//        opened: function() { ... },
+//        closed: function() { ... }
+//      });
 
 define(function(require){
 
@@ -97,7 +111,7 @@ define(function(require){
 
     // Create a modal with the provided `content`. Fire callback `cb` when the modal is ready.
 
-    'create': function(content, cb) {
+    'create': function(options) {
 
       var self = this,
           $modal;
@@ -107,9 +121,9 @@ define(function(require){
       // Cache the content and its parent into `$modal`'s data so that it may be placed back
       // whence it came during the `destroy` phase.
 
-      $modal.data('content', $(content));
-      $modal.data('contentParent', $(content).parent());
-      $modal.find('.modal-inner').append(content);
+      $modal.data('content', $(options.content));
+      $modal.data('contentParent', $(options.content).parent());
+      $modal.find('.modal-inner').append(options.content);
 
       $('body').append($modal);
 
@@ -118,13 +132,18 @@ define(function(require){
       });
 
       $modal.on('hidden', function() {
+
         sonyModal.destroy($modal);
         $modal = null;
+
+        if ( typeof options.closed === 'function' ) {
+          options.closed();
+        }
       });
 
       $modal.on('shown', function() {
-        if ( typeof cb === 'function' ) {
-          cb();
+        if ( typeof options.opened === 'function' ) {
+          options.opened();
         }
       });
 
