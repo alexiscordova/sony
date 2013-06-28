@@ -167,7 +167,8 @@ mixin priceBlock( product )
 //- See here for details: http://alistapart.com/blog/post/more-thoughts-about-blockquotes-than-are-strictly-required
 
 mixin productQuote( quote )
-  url = quote.url ? quote.url : false
+  href = quote.href ? quote.href : false
+  target = quote.target ? quote.target : false
   medium = quote.medium
   iconClass = ''
   iconClasses = []
@@ -183,13 +184,13 @@ mixin productQuote( quote )
 
   .quote.ghost-center-wrap
     figure.ghost-center
-      blockquote.bq6-bold(cite=url)
+      blockquote.bq6-bold(cite=href)
         p !{ quote.text }
       figcaption
         span.social-icon.ghost-center-wrap
           i(class=iconClasses)
-        if url
-          a(class="author p4", href=url, target="_blank") !{ quote.screenname }
+        if href
+          a(class="author p4", href=href, target=target) !{ quote.screenname }
         else
           span(class="author p4") !{ quote.screenname }
 
@@ -259,6 +260,24 @@ favoritedClickedTitle = data.favoritedClickedTitle ? data.favoritedClickedTitle 
 
 if data.view == 'basic'
   href = data.href ? data.href : '#'
+  imageKey = 'imgSmall'
+
+  if data.layout == 'large'
+    imageKey = 'imgLarge'
+
+  else if data.layout == 'medium'
+    imageKey = 'img'
+
+  img = data[ imageKey ]
+
+  if !img
+    img = {}
+
+  //- Determine is there is more than 1 color
+  hasExtraColors = img.colors && img.colors.length > 1
+  imgWrapClasses = 'product-img-wrap ghost-center-wrap js-product-imgs'
+  if !hasExtraColors
+    - imgWrapClasses += ' no-swatches'
 
   +basicGalleryItem( data.layout, data.priority, href )
     .gallery-item-inner
@@ -321,45 +340,36 @@ if data.view == 'basic'
 
       else if data.layout == 'social'
         .product-img
-          .product-img-wrap
+          div(class=imgWrapClasses)
             a.img-wrap.ghost-center-wrap(href=href)
               .ghost-center
-                +iQImage( data.imgSmall )
+                +iQImage( img, 'js-product-img-main', 'image' )
+                +iQColorImages( img.colors )
             +productQuote( data.quote )
 
-          if data.img && data.img.colors
-            +colorSwatches( data.img.colors )
+          if img.colors
+            +colorSwatches( img.colors )
           +heart()
         +nameBlock( data, undefined, href )
 
       else
         .product-img
-          .product-img-wrap.ghost-center-wrap
-            .ghost-center
-              if data.layout == 'carousel' && data.imgCarousel
+          if data.layout == 'carousel' && data.imgCarousel
+            .product-img-wrap.ghost-center-wrap
+              .ghost-center
                 .js-item-carousel
                   .js-carousel-container
-                    each img in data.imgCarousel
+                    each carouselImg in data.imgCarousel
                       .slide
-                        +iQImage( img )
+                        +iQImage( carouselImg )
+          else
+            div(class=imgWrapClasses)
+              .ghost-center
+                +iQImage( img, 'js-product-img-main', 'image' )
+                +iQColorImages( img.colors )
 
-              else if data.layout == 'large'
-                +iQImage( data.imgLarge )
-
-              else if data.layout == 'medium'
-                +iQImage( data.imgLarge )
-
-              else
-                +iQImage( data.imgSmall )
-
-              if data.img && data.img.colors
-                +iQColorImages( data.img.colors )
-
-          if data.img && data.img.colors
-            +colorSwatches( data.img.colors )
-
-          //- else if data.imgSmall && data.imgSmall.colors
-          //-   +colorSwatches( data.img.colors )
+            if img.colors
+              +colorSwatches( img.colors )
 
           +heart()
 
@@ -386,14 +396,19 @@ else if data.view == 'detailed'
   filterSet = JSON.stringify( data.filterSet )
   type = data.includeType ? data.type : false
 
+  if !data.img
+    - data.img = {}
+
   a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, data-type=type, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
     .gallery-item-inner
       .product-img
         +label( data )
 
-        - hasExtraColors = data.img && data.img.colors && data.img.colors.length > 1
-        - classes = 'product-img-wrap ghost-center-wrap js-product-imgs'
-        - if ( !hasExtraColors ) classes += ' no-swatches'
+        hasExtraColors = data.img && data.img.colors && data.img.colors.length > 1
+        classes = 'product-img-wrap ghost-center-wrap js-product-imgs'
+        if !hasExtraColors
+          - classes += ' no-swatches'
+
         div(class=classes)
           .ghost-center
             +iQImage( data.img, 'js-product-img-main', 'image' )

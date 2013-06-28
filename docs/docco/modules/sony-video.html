@@ -28,20 +28,20 @@ define(<span class="keyword">function</span>(require){
 
     <span class="keyword">var</span> self = {
       <span class="string">'init'</span>: <span class="keyword">function</span>() {
-        $(<span class="string">'.sony-video'</span>).sonyVideo();
+        $(<span class="string">'.sony-video'</span>).not(<span class="string">'.sony-video-placeholder .sony-video'</span>).sonyVideo();
       }
     };
-    
+
     <span class="keyword">var</span> SonyVideo = <span class="keyword">function</span>(element, options){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-       
+
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Extend</p>             </td>             <td class="code">               <div class="highlight"><pre>      $.extend( self, {}, $.fn.sonyVideo.defaults, options, $.fn.sonyVideo.settings );
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Set base element</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el = $( element );
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Modernizr vars</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.hasTouch             = Modernizr.touch;
       self.cssTransitions       = Modernizr.transitions;
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Modernizr vars</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed(<span class="string">'transitionDuration'</span>);
       self.useCSS3              = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
@@ -103,11 +103,11 @@ define(<span class="keyword">function</span>(require){
             self.onDebouncedResize();
 
             $(<span class="string">'body'</span>).css(<span class="string">'overflow'</span> , <span class="string">''</span>);
-            
+
             self.$el.find(<span class="string">'.fp-ratio'</span>).css({
               <span class="string">'padding-top'</span>: self.$el.find(<span class="string">'.player'</span>).data(<span class="string">'ratio'</span>) * <span class="number">100</span> + <span class="string">'%'</span>
             });
-            
+
             self.$engine.css(<span class="string">'top'</span> , <span class="number">0</span>);
 
             <span class="keyword">if</span>(self.$el.hasClass(<span class="string">'normal'</span>)){
@@ -127,11 +127,11 @@ define(<span class="keyword">function</span>(require){
           self.onDebouncedResize(); <span class="comment">//call once to set size</span>
 
         }
-        
+
         iQ.update();
-        
+
       },
-      
+
       api: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
         <span class="keyword">return</span> self.videoAPI;
@@ -212,7 +212,7 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sonyVideo.defaults = {};
 
 </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sonyVideo.settings = {};
-  
+
     <span class="keyword">return</span> self;
  });
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

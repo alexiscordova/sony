@@ -3,22 +3,27 @@
 //
 // * **Class:** Editorial
 // * **Version:** 1.0
-// * **Modified:** 02/22/2013
-// * **Author:** Thisispete
-// * **Dependencies:** jQuery 1.7+ , sony-global-environment
+// * **Modified:** 06/27/2013
+// * **Author:** Pete Schirmer, Glen Cheney
+// * **Dependencies:** jQuery 1.7+ , sony-global-environment,
+// [sony-carousel](../secondary/sony-carousel.html), [sony-evenheights](../secondary/sony-evenheights.html),
+// [sony-modal](../secondary/sony-modal.html)
 //
 define(function(require) {
 
     'use strict';
 
     var $ = require('jquery'),
+        iQ = require('iQ'),
         enquire = require('enquire'),
         Modernizr = require('modernizr'),
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
-        SonyCarousel = require('secondary/sony-carousel'),
-        EvenHeights = require('secondary/sony-evenheights');
-        Settings.editorialModuleInitialzied = $.Deferred();
+        SonyCarousel = require('secondary/index').sonyCarousel,
+        EvenHeights = require('secondary/index').sonyEvenHeights,
+        Modals = require('secondary/index').sonyModal;
+
+    Settings.editorialModuleInitialzied = $.Deferred();
 
     var module = {
       init: function() {
@@ -43,6 +48,17 @@ define(function(require) {
       constructor: Editorial,
 
       init: function() {
+        var self = this;
+
+        self.setVars();
+        self.setupBreakpoints();
+
+        if ( self.hasAddonSubmodule ) {
+          self.setupSubmodules();
+        }
+      },
+
+      setVars : function() {
         var self = this,
             spanRegex = /span\d+/;
 
@@ -55,6 +71,8 @@ define(function(require) {
         self.isMediaLeft = self.$el.hasClass('medialeft');
         self.hasCollapsibleTout = self.$collapsibleTout.length > 0;
         self.hasTout = self.$touts.length > 0;
+        self.hasAddonSubmodule = self.$el.find('.submodule').length > 0;
+        self.$window = Settings.$window;
 
         // Build an array of the col spans
         self.colSpans = [];
@@ -64,8 +82,6 @@ define(function(require) {
           self.colSpans.push( span );
         });
 
-        self.setupBreakpoints();
-        
       },
 
 
@@ -119,7 +135,7 @@ define(function(require) {
 
 
         // If its mediaright or left fix heights on resize
-        if (self.$el.hasClass('mediaright') || self.$el.hasClass('medialeft')) {
+        if ( self.isMediaLeft || self.$el.hasClass('mediaright') ) {
           self.fixMediaHeights();
           Environment.on('global:resizeDebounced', $.proxy(self.fixMediaHeights, self));
         }
@@ -129,17 +145,162 @@ define(function(require) {
         Settings.editorialModuleInitialzied.resolve();
       },
 
+      setupSubmodules : function() {
+        var self = this,
+            $video;
+
+        self.$addonTrigger = self.$el.find('.addon-media');
+        // The addon submodule will be off screen when this module is initialized
+        self.$addonModule = self.$el.find('.submodule.off-screen');
+        self.$closeBtn = self.$addonModule.find('.box-close');
+
+        // The submodule that will be hidden while the addon is visible
+        self.$submodule = self.$addonModule.siblings();
+
+        // .editorial.full-inner <- $el
+          // .container <- submodules
+            // .submodule <- visible submodule ( $submodule )
+            // .submodule.off-screen.visuallyhidden
+          // .container <- text content
+        if ( self.$el.hasClass('full-inner') ) {
+          // If this is a full-inner editorial, the content needs to be hidden too
+          self.$content = self.$submodule.parent().siblings();
+        } else {
+          // Empty jQuery object so it doesn't throw errors
+          self.$content = $();
+        }
+
+        // Playing and pausing needs to happen if the submodule is a video
+        $video = self.$addonModule.find('.sony-video');
+        self.isVideoAddon = $video.length > 0;
+
+        // Save the api
+        if ( self.isVideoAddon ) {
+          self.$video = $video;
+        }
+
+        self.isSubmoduleOpen = false;
+
+        // Bind to necessary events
+        self.setupSubmoduleEvents();
+      },
+
+
+      // A reference to the API cannot be saved when this module is
+      // initialized because the video might not be initialized yet
+      // videoAPI : function() {
+      //   return this.$video.data('sonyVideo').api();
+      // },
+
+      setupSubmoduleEvents : function() {
+        var self = this;
+
+        self.$addonTrigger.on('click', $.proxy( self.onAddonClick, self ) );
+        self.$closeBtn.on('click', $.proxy( self.onCloseClick, self ) );
+        self.$window.on('e5-slide-change', $.proxy( self.onCloseClick, self ) );
+
+
+        // Mouse events for close button
+        if ( !Settings.hasTouchEvents ) {
+          //show hide close button on hover over module
+          self.$addonModule.on('mouseenter.submodule', function(){
+            self.isHovered = true;
+            self.$closeBtn.removeClass('close-hide');
+          });
+
+          self.$addonModule.on('mouseleave.submodule', function(){
+            self.isHovered = false;
+            self.$closeBtn.addClass('close-hide');
+          });
+        }
+      },
+
+      onAddonClick : function( evt ) {
+        var self = this,
+            hiddenClass = 'off-screen visuallyhidden';
+
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        // Don't do anything if the submodule is already open
+        if ( self.isSubmoduleOpen ) {
+          return;
+        }
+
+        iQ.update();
+
+        // Video player needs to open a modal while the the slideshow is inline
+        if ( self.isVideoAddon ) {
+
+          // var $video = self.$video.clone();
+
+          Modals.create({
+            content: self.$video,
+            closed: $.proxy( self.onCloseClick, self )
+          });
+
+          // This is a hack; technically the sonyVideo method should be global but
+          // its stuck in a module. For refactor, all of that video code should be
+          // globalized. It works here because the sony-video module is required
+          // as a part of secondary touts w/ mini-touts (add-ons), but that obviously
+          // subverts the AMD/module patterns. - gcpantazis
+
+          // $video.sonyVideo();
+
+          Modals.center();
+
+        // Inline content. Hide current submodule and show the next submodule.
+        } else {
+
+          self.$submodule
+            .add( self.$content )
+            .addClass( hiddenClass );
+
+          self.$addonModule.removeClass( hiddenClass );
+        }
+
+        self.isSubmoduleOpen = true;
+      },
+
+      onCloseClick : function( evt ) {
+        var self = this,
+            hiddenClass = 'off-screen visuallyhidden';
+
+        if ( evt ) {
+          evt.preventDefault();
+          evt.stopPropagation();
+        }
+
+        // If it's a video, the modal has been closed
+        if ( self.isVideoAddon ) {
+          // Video doesn't need to be paused because it's destroyed
+
+        } else {
+
+          self.$submodule
+            .add( self.$content )
+            .removeClass( hiddenClass );
+
+          self.$addonModule.addClass( hiddenClass );
+        }
+
+        self.isSubmoduleOpen = false;
+      },
+
       // Fixes the min height of medialeft and mediaright on resize
       fixMediaHeights: function() {
-        var self = this, minh;
+        var self = this,
+            minh,
+            isSmallerThanTablet = Modernizr.mq('(max-width: 47.9375em)'),
+            gridMinHeight,
+            mediaElementFirstHeight;
 
-        if ($(window).outerWidth() <= 767) {
+        if ( isSmallerThanTablet ) {
           minh = 'auto';
         } else {
-          minh = Math.max(
-            self.$el.find('.grid').css('min-height').replace(/[^-\d\.]/g, ''),
-            self.$el.find('.media-element .table-center').children().first().height()
-          );
+          gridMinHeight = parseInt( self.$el.find('.grid').css('minHeight'), 10 );
+          mediaElementFirstHeight = self.$el.find('.media-element .table-center').children().first().height();
+          minh = Math.max( gridMinHeight, mediaElementFirstHeight );
           minh += 'px';
         }
 

@@ -1,6 +1,6 @@
 if (data)
   extraclass = data.classes ? data.classes : ""
-  id = data.id ? data.id : ""
+  id = data.id ? data.id : false
   mobileclass = data.mobileclass ? data.mobileclass : ""
 
   if data.background == "true"
@@ -10,4 +10,4 @@ if (data)
     .image-module( class = mobileclass )
       img.iq-img(id= id, class= extraclass, alt= data.alt, data-src-desktop= data.srcDesktop, data-src-tablet= data.srcTablet, data-src-phone= data.srcPhone, data-src-desktop-highres= data.srcDesktopHighRes, data-src-tablet-highres= data.srcTabletHighRes, data-src-phone-highres= data.srcPhoneHighRes)
         noscript
-            img(src= data.noscriptsrc)
+          img(src= data.noscriptsrc)

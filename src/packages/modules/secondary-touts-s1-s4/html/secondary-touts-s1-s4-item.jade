@@ -1,3 +1,5 @@
+include ../../../common/html/jade-helpers.jade
+
 - item.hTb = item.headline ? item.headline.linkText.replace(/[\s-]+$/,'').split(/[\s-]/).pop() : ''
 - item.hTa = item.headline ? item.headline.linkText.split(item.hTb).shift() : ''
 
@@ -56,16 +58,14 @@ article
         h4.headline(class=largeHeaderType)!= item.headline ? item.headline.title : ''
           if item.headline && item.headline.link
             a.primary-link(href=item.headline.link)
-              | !{' ' + item.hTa}
-              span !{' ' + item.hTb}
-                i.fonticon-10-chevron-sm.l-o-d
+              span !{' ' + item.hTa + ' ' + item.hTb}
+              i.fonticon-10-chevron-sm.l-o-d
       else
         h4.headline(class=smallHeaderType)!= item.headline.title
           if item.headline && item.headline.link
             a.primary-link(href=item.headline.link)
-              | !{' ' + item.hTa}
-              span !{' ' + item.hTb}
-                i.fonticon-10-chevron-sm.l-o-d
+              span !{' ' + item.hTa + ' ' + item.hTb}
+              i.fonticon-10-chevron-sm.l-o-d
 
       if item.bodycopy
         p.p3= item.bodycopy
@@ -87,14 +87,16 @@ article
         span.l3 people like this
 
 aside(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)
-  if item.miniPromo
-    a.mini-promo(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
+  if item.miniPromo && item.miniPromo.video
+    a.mini-promo(class='mini-promo-layout-' + item.miniPromo.layout)(href='#')
       div.mini-promo-image-container
         .play-button
           i.fonticon-10-video-play
         img(src=item.miniPromo.imgSrc)
       div.mini-promo-caption.p4
         | !{item.miniPromo.caption}
+    .sony-video-placeholder
+      +partial('sony-video/html/sony-video.jade', item.miniPromo.video.jsonData)
 
   if item.counter
     .counter(class=item.typeLayout)

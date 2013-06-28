@@ -1,9 +1,10 @@
 // ------------ Sony Gallery ------------
 // Module: Gallery
 // Version: 1.0
-// Modified: 06/06/2013
+// Modified: 06/25/2013
 // Dependencies: jQuery, bootstrap, Sony (Settings|Environment|Utilities), shuffle, scroller, evenheights, tabs, stickytabs, stickynav, simplescroll, rangecontrol
 // Author: Glen Cheney
+// Updated 6/25/2013 by Christopher Mischler to add buttons option instead of range slider, on touch devices.
 // --------------------------------------
 
 define(function(require){
@@ -472,8 +473,9 @@ define(function(require){
         for ( filterName in filters[ filterType ] ) {
           // eg ["silver", "blue"] or { min: 20, max: 800 } for price
           filterValue = filters[ filterType ][ filterName ];
+          // console.log("filterType: " + filterType + ", filterName: " + filterName);
 
-          if ( filterValue.length && (filterType === 'button' || filterType === 'checkbox') ) {
+          if ( filterValue.length && (filterType === 'button' || filterType === 'checkbox' || filterType === 'range-touchbutton') ) {
 
             for (var i = 0; i < filterValue.length; i++) {
               objects[ filterName ][ filterValue[i] ].trigger('click');
@@ -484,6 +486,8 @@ define(function(require){
             if ( filterValue.min !== self.MIN_PRICE || filterValue.max !== self.MAX_PRICE ) {
               self.setRangeValue( filterValue.min, filterValue.max );
             }
+          } else if ( filterType === 'range-touchbutton' ) {
+            // console.log("filterType is === range-touchbutton");
           }
         }
       }
@@ -722,7 +726,7 @@ define(function(require){
     },
 
     // Tests the data to see if there are any active filters. Returns a boolean
-    hasActiveFilters : function() {
+    hasActiveFilters : function( except ) {
       var self = this,
           hasActive = false,
           filters = self.filters,
@@ -738,7 +742,13 @@ define(function(require){
         if ( filterType === 'button' || filterType === 'checkbox' ) {
           for ( filterName in filters[ filterType ] ) {
             var activeFilters = filters[ filterType ][ filterName ];
+
             hasActive = activeFilters.length > 0;
+
+            // If except is given, make sure the current filter is not the exception
+            if ( except ) {
+              hasActive = hasActive && filterName !== except;
+            }
 
             // There is an active filter, break out of the loop and return
             if ( hasActive ) {
@@ -747,6 +757,10 @@ define(function(require){
           }
         } else if ( filterType === 'range' ) {
           hasActive = self.price.min !== self.MIN_PRICE || self.price.max !== self.MAX_PRICE;
+
+          if ( except ) {
+            hasActive = hasActive && 'price' !== except;
+          }
         }
 
         if ( hasActive ) {
@@ -1305,6 +1319,10 @@ define(function(require){
             init = {};
             self.range( $this, name, data.min, data.max );
             break;
+          case 'range-touchbutton':
+            type = 'button';
+            self.button( $this, name, realType, data.min, data.max );
+            break;
           case 'button':
             self.button( $this, name, realType );
             break;
@@ -1520,6 +1538,7 @@ define(function(require){
 
       if ( $newIQImgs.length ) {
         iQ.reset();
+        iQ.load( $newIQImgs.get() );
       }
 
       return this;
@@ -1578,8 +1597,8 @@ define(function(require){
       Utilities.autoSelectInputOnFocus( self.$container.parent().find( '.share-options input' ) );
 
       // Direct the user to the right compare page
-      $compareBtn.on('click', function( evt ) {
-      });
+      // $compareBtn.on('click', function( evt ) {
+      // });
 
       $compareBtn = null;
 
@@ -1715,6 +1734,7 @@ define(function(require){
       var self = this,
           $visible = self.$items.filter('.filtered'),
           statuses = {},
+          hasActiveFilters = self.hasActiveFilters(),
           currentFilterGroup = self.currentFilterGroup,
           lastFilterGroup = self.lastFilterGroup,
           isRange = currentFilterGroup === 'price',
@@ -1754,24 +1774,46 @@ define(function(require){
             filterValue,
             shouldSkipGroup;
 
+        // console.group('set filter status object');
+        // console.log('hasActiveFilters:', hasActiveFilters);
+        // console.log('currentFilterGroup:', currentFilterGroup);
+        // console.log('lastFilterGroup:', lastFilterGroup);
         for ( filterName in self.filterValues ) {
-          // If the current filter in the loop is the current filter in the system, and one of the following:
-            // the current filter is also the last filter
-            // the last filter is null
-            // the last filter is price
-          // Then the current filter group should be skipped
-          shouldSkipGroup = filterName === currentFilterGroup && ( lastFilterGroup === currentFilterGroup || lastFilterGroup === null || lastFilterGroup === 'price' );
           statuses[ filterName ] = {};
+
+          // console.group( filterName );
+
+          // Filter groups should be skipped when:
+            // They were the last one selected
+            // There are not any other filters active
+
+          // First test if this is the last filter selected
+          shouldSkipGroup = filterName === currentFilterGroup;
+
+          // console.log('%s is the current filter: %s', filterName, shouldSkipGroup);
+
+          // If it is, we need to check if other filters are active
+          // If other filters are active, the group should affect itself. shouldSkipGroup = false
+          // If no other filters are active, the group should NOT affect itself. shouldSkipGroup = true
+          // if ( shouldSkipGroup ) {
+            // console.log( 'hasOtherActiveFilters:', self.hasActiveFilters(filterName) );
+            // shouldSkipGroup = !self.hasActiveFilters( filterName );
+          // }
+
+          // console.log( 'shouldSkipGroup:', shouldSkipGroup);
+          // console.groupEnd();
 
           for ( filterValue in self.filterValues[ filterName ] ) {
 
             if ( shouldSkipGroup ) {
               statuses[ filterName ][ filterValue ] = 'skip';
+              // statuses[ filterName ][ filterValue ] = true;
             } else {
               testGalleryItems( filterName, filterValue );
             }
           }
         }
+        // console.groupEnd();
       }
 
       function setFilters() {
@@ -1799,9 +1841,17 @@ define(function(require){
         }
       }
 
+      // If there are no active filters, current filter group and last filter group need
+      // to be reset. Otherwise, they keep the values of the last filter clicked
+      // because unchecking a filter does not affect these variables
+      if ( !hasActiveFilters ) {
+        // console.log('set current|last filter groups to null');
+        self.currentFilterGroup = currentFilterGroup = self.lastFilterGroup = lastFilterGroup = null;
+      }
+
 
       // Use the last filter status that wasn't from this filter group, if appropriate
-      if ( (currentFilterGroup === null || isRange) && self.currentFilterStatuses !== null && self.lastFilterStatuses !== null && !(isRange && isRangeActive) && self.hasActiveFilters() ) {
+      if ( (currentFilterGroup === null || isRange) && self.currentFilterStatuses !== null && self.lastFilterStatuses !== null && !(isRange && isRangeActive) && hasActiveFilters ) {
         statuses = self.lastFilterStatuses;
       } else {
         setFilterStatusesObject();
@@ -1849,14 +1899,25 @@ define(function(require){
       return true;
     },
 
-    button : function( $filterGroup, filterName, realType ) {
+    button : function( $filterGroup, filterName, realType, MIN_PRICE, MAX_PRICE ) {
       var self = this,
           labels = {},
           values = {},
           objects = {},
           $btns = $filterGroup.children();
+      // WIP
+      // for touchbuttons, we need the same values that are active for range, but it's best to have them here, too.
+      if ( MIN_PRICE && MAX_PRICE ){
+        this.MAX_PRICE = MAX_PRICE;
+        this.MIN_PRICE = MIN_PRICE;
+        this.price = {
+          MIN_PRICE: this.MIN_PRICE,
+          MAX_PRICE: this.MAX_PRICE
+        };
+      }
 
       $btns.on('click', function() {
+        // console.log("$btns.on('click')");
         var $this = $(this),
             isMediaGroup = $this.hasClass('media'),
             $alreadyChecked,
@@ -1892,15 +1953,31 @@ define(function(require){
         isActive = $this.hasClass( active );
 
         if ( isActive ) {
-          checked.push( $this.data( filterName ) );
+          // WIP
+          var filterNameArray = filterName.split("-");
+          // if the filterName ends with 'touchbutton' then it's attached to a range control and we need to treat it differently.
+          if ( filterNameArray[filterNameArray.length-1] === "touchbutton" ) {
+
+            // WIP
+            // console.log("touchbutton!");
+            var info = $this.data( 'price-touchbutton' );
+            self.$grid.trigger('touchbuttonclick', info);
+
+          } else {
+            checked.push( $this.data( filterName ) );
+            self.lastFilterGroup = self.currentFilterGroup;
+            self.currentFilterGroup = filterName;
+          }
         }
+
+        // console.log('click %s', filterName);
 
         // Active and the new filter is different from the current/last one selected
         // Don't change the current and last states when going from color to color, button to button, etc.
-        if ( isActive && self.currentFilterGroup !== filterName  ) {
-          self.lastFilterGroup = self.currentFilterGroup;
-          self.currentFilterGroup = filterName;
-        }
+        // if ( isActive && self.currentFilterGroup !== filterName  ) {
+        //   self.lastFilterGroup = self.currentFilterGroup;
+        //   self.currentFilterGroup = filterName;
+        // }
 
         if ( realType === 'color' ) {
           self.currentFilterColor = isActive ? $this.data( filterName ) : null;
@@ -1918,8 +1995,11 @@ define(function(require){
 
       // Save each label to the labels object
       .each(function() {
+        // console.log("filterName: " + filterName);
         var data = $(this).data(),
-            value = data[ filterName ];
+          value = data[ filterName ];
+          // console.log("WIP value: " + value);
+          // console.log("create labels object. filterName: " + filterName + ", " + value + ", ", data);
         labels[ value ] = data.label;
         values[ value ] = value;
         objects[ value ] = $( this );
@@ -2013,6 +2093,14 @@ define(function(require){
         self.filter();
       });
 
+      // I'm adding the rangeTouchButtons as an extra 'layer' on the range method.
+      // They won't work at the MEGAPIXELS buttons. They'll just act as a trigger
+      // to update the range values, so all the regular stuff will still happen.
+      // The range slider will be visible on non-touch devices, and the buttons on touch only.
+      function setupRangeTouchButtons(){
+        update( undefined, undefined, {min: 0, max: 100} );
+      }
+
       function getPrice( percent ) {
         return Math.round( diff * (percent / 100) ) + MIN_PRICE;
       }
@@ -2037,6 +2125,11 @@ define(function(require){
 
       // Range control update callback
       function update( evt, positions, percents ) {
+        if (positions){
+          // console.log("update positions: " + positions.min + "/" + positions.max + ", update percents: " + percents.min + "/" + percents.max);
+        } else {
+          // console.log("update positions: undefined, update percents: " + percents.min + ", " + percents.max);
+        }
         var minPrice = getPrice(percents.min),
         maxPrice = getPrice(percents.max),
         maxPriceStr = maxPrice === MAX_PRICE ? maxPrice + '+' : maxPrice,
@@ -2056,6 +2149,7 @@ define(function(require){
         if ( (prevMin !== minPrice || prevMax !== maxPrice) && self.isInitialized ) {
 
           // Save current filters
+          // console.log("filter.range[] filterName: " + filterName + ", " + minPrice + "/" + maxPrice);
           self.filters.range[ filterName ].min = minPrice;
           self.filters.range[ filterName ].max = maxPrice;
 
@@ -2096,6 +2190,7 @@ define(function(require){
       // the slid event because that will be triggered twice on init (once for both handles)
       update( undefined, undefined, {min: 0, max: 100} );
 
+
       self.$rangeControl.rangeControl({
         initialMin: '0%',
         initialMax: '100%',
@@ -2106,9 +2201,44 @@ define(function(require){
       // On handle slid, update. Register after initialized so it's not called during initialization
       self.$rangeControl.on( 'slid.rangecontrol', slid );
 
+
+
+      // WIP
+      // Save ref to touchbuttonclick
+      // self.touchbuttonclick = self.$grid.data('touchbuttonclick');
+      self.$grid.on( 'touchbuttonclick', function ( e, dataStr ){
+        prepUpdateRangeFromTouchbutton( dataStr );
+      });
+
+      function prepUpdateRangeFromTouchbutton ( dataStr ) {
+        // console.log("prepUpdateRangeFromTouchbutton");
+        var dataArray = dataStr.split('-');
+        var min, max;
+        if ( dataArray.length > 1 ){
+          min = dataArray[0];
+          max = dataArray[1];
+        } else {
+          min = max = dataStr.split('+')[0];
+        }
+
+        // console.log("min/max: " + min + "/" + max + ", percents: " + self.priceToPercent(min) + "/" + self.priceToPercent(max));
+
+        update( undefined, undefined, { min: self.priceToPercent(min), max: self.priceToPercent(max) } );
+      }
+
       self.filterValues[ filterName ] = { min: true, max: true };
 
       $rangeControl = null;
+    },
+
+    // WIP
+    priceToPercent : function( price ) {
+      // console.log("priceToPercent ## price: " + price + ", MIN/MAX: " + self.MIN_PRICE + "/" + self.MAX_PRICE);
+      return ( ( price - self.MIN_PRICE ) / ( self.MAX_PRICE - self.MIN_PRICE ) );
+    },
+
+    rootFilterName : function( filterNameLong ) {
+      return filterName.split('-touchbutton')[0];
     },
 
     // If there is a range control in this element and it's in need of an update

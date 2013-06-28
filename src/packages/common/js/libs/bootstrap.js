@@ -873,6 +873,12 @@
           that.$element
             .show()
 
+          // NURUN NOTES: the 'show' event is mentioned in the bootstrap documentation, but is never fired here. I've added it after the call to `.show()`,
+          // so that I know when I can access DOM elements for height and such. -- gcpantazis
+          // http://twitter.github.io/bootstrap/javascript.html#modals
+
+          that.$element.trigger('show');
+
           if (transition) {
             that.$element[0].offsetWidth // force reflow
           }

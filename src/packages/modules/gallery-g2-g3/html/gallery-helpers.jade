@@ -29,6 +29,16 @@ mixin filterRange( filterSet )
   .range-control-wrap
     .range-control(data-label=filterSet.label, data-filter=filterSet.name, data-filter-type=filterSet.type, data-min=filterSet.min, data-max=filterSet.max)
 
+  //- for the range selector, we need buttons for touch devices.
+  if filterSet.filters
+    .range-container-touch-buttons
+      .btn-group(data-filter=filterSet.name + "-touchbutton", data-filter-type="button")
+        each filter in filterSet.filters
+          tagString = '<button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after" data-label="' + filter.label + '" data-' + filterSet.name + '-touchbutton="' + filter.value + '">' + filter.label + '</button>'
+          | !{tagString}
+      if filterSet.help
+        +helpPopover( filterSet.help )
+
 
 mixin filterButton( filterSet )
   if filterSet.filters

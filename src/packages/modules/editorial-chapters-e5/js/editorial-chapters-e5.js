@@ -53,12 +53,12 @@ define(function(require){
       self.$doc                   = Settings.$document;
       self.$win                   = Settings.$window;
       self.$html                  = Settings.$html;
-      
+
       // Cache some jQuery objects we'll reference later
       self.$ev                  = $({});
       self.$window              = Settings.$window;
-      self.$slides              = self.$el.find('.editorial-carousel-slide');
-      self.$slideWrapper        = self.$el.find('.editorial-carousel-wrapper');
+      self.$slides              = self.$el.find('.editorial-carousel-slide.chapter-slide');
+      self.$slideWrapper        = self.$el.find('.editorial-carousel-wrapper.chapter-pane');
       self.$slideContainer      = self.$el.find('.editorial-carousel');
       self.$thumbNav            = self.$el.find('.thumb-nav');
       self.$slider              = self.$el.find('.slider');
@@ -108,13 +108,13 @@ define(function(require){
         $(domReady);
 
         function domReady(){
-            
+
           self.setupEvents();
-          
+
           self.setupSlides();
-          
+
           self.setupCarousel();
-          
+
           self.setupBreakpoints();
 
           if(self.hasThumbs){ self.createThumbNav(); }
@@ -127,7 +127,7 @@ define(function(require){
           self.$thumbNav.on(self.downEvent, function(e) { self.dragStart(e); });
         }
       },
-      
+
       setupBreakpoints: function() {
         var self = this;
 
@@ -158,7 +158,7 @@ define(function(require){
       // Setup touch event types
       setupEvents: function(){
         var self = this;
-        
+
         if (Modernizr.touch) {
           self.hasTouch         = true;
           self.downEvent        = 'touchstart.rp';
@@ -174,13 +174,13 @@ define(function(require){
           self.upEvent     = 'mouseup.rp';
           self.cancelEvent = 'mouseup.rp';
           self.clickEvent = 'click.pdpss';
-        }  
+        }
 
         self.tapOrClick = function(){
           return self.hasTouch ? self.upEvent : self.clickEvent;
         };
       },
-              
+
       setupMobilePlus: function() {
         var self = this;
 
@@ -206,14 +206,14 @@ define(function(require){
           // even with a deffered object window.load does not fire with require.js
           // the deffered object is firing before the dom has fully loaded. The perfect
           // approach would be to run on window.load and get the height of the individual
-          // slides, however that isnt an option. So were back to an arbitary settimout. 
+          // slides, however that isnt an option. So were back to an arbitary settimout.
           setTimeout( function() {
             self.getSlideHeight();
             self.getSliderWidth();
           }, 500);
 
-          if (self.$el.hasClass('text-mode')) { 
-            self.initScroller(); 
+          if (self.$el.hasClass('text-mode')) {
+            self.initScroller();
             // show slider shades if needed
             var node = self.$slider.get(0),
                 curTransform = new WebKitCSSMatrix(window.getComputedStyle(node).webkitTransform),
@@ -229,7 +229,7 @@ define(function(require){
       dragStart: function(e) {
         var self = this,
             point;
-        
+
         if (self.hasTouch) {
           var touches = e.originalEvent.touches;
           if (touches && touches.length > 0) {
@@ -247,12 +247,12 @@ define(function(require){
           if (e.which !== 1) {
             return;
           }
-        }              
+        }
 
         // reset the distance moved since its a new start
         self.distanceMoved = null;
         self.handleStartPosition = self.getPagePosition(e);
-        self.startInteractionPointX = point.pageX;        
+        self.startInteractionPointX = point.pageX;
 
         self.$doc.on(self.moveEvent , $.proxy(self.dragMove , self)).on(self.upEvent , $.proxy(self.dragEnd, self));
 
@@ -264,7 +264,7 @@ define(function(require){
             distY = self.getPagePosition(e).y - self.handleStartPosition.y,
             point,
             distanceMoved;
-            
+
         // some really gross logic
         if (self.hasTouch) {
           if (self.lockAxis) {
@@ -282,7 +282,7 @@ define(function(require){
           }
         } else {
           point = e;
-        }    
+        }
 
         self.distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
       },
@@ -325,6 +325,7 @@ define(function(require){
 
       // Main setup method for the carousel
       setupCarousel: function(){
+
         var self = this,
             currIndx,
             $currSlide,
@@ -334,12 +335,12 @@ define(function(require){
         currIndx = 0;
         $currSlide = self.$slides.eq(currIndx);
         $currSlideImg = $currSlide.find('.image-module');
-        $nextSlideImg = (currIndx + 1) >= self.$slides.length ? self.$slides.eq(0).find('.image-module') : self.$slides.eq(currIndx + 1).find('.image-module'); 
+        $nextSlideImg = (currIndx + 1) >= self.$slides.length ? self.$slides.eq(0).find('.image-module') : self.$slides.eq(currIndx + 1).find('.image-module');
 
         // Using Sony Carousel for this module
         self.$slideContainer.sonyCarouselFade({
-          wrapper: '.editorial-carousel-wrapper',
-          slides: '.editorial-carousel-slide',
+          wrapper: '.editorial-carousel-wrapper.chapter-pane',
+          slides: '.editorial-carousel-slide.chapter-slide',
           looped: false,
           jumping: false,
           axis: 'x',
@@ -349,13 +350,13 @@ define(function(require){
           draggable: false
         });
 
-        self.$slideContainer.on('SonyCarouselFade:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
+        self.$slideContainer.eq(0).on('SonyCarouselFade:gotoSlide' , $.proxy( self.onSlideUpdate , self ) );
 
         // we need to solve an issue of all images being loaded on DomReady
         self.setCurrentActiveThumb();
         $currSlideImg.addClass('unhide');
         $nextSlideImg.addClass('unhide');
-        
+
 
         iQ.update();
       },
@@ -395,7 +396,8 @@ define(function(require){
 
       // Listens for slide changes and updates the correct thumbnail
       onSlideUpdate: function(e , currIndx){
-        var self = this, 
+        
+        var self = this,
             $currSlide,
             $prevSlide,
             $currSlideImg,
@@ -405,18 +407,21 @@ define(function(require){
 
         $currSlide = self.$slides.eq(currIndx);
         $currSlideImg = $currSlide.find('.image-module');
-        $nextSlideImg = (currIndx + 1) >= self.$slides.length ? self.$slides.eq(0).find('.image-module') : self.$slides.eq(currIndx + 1).find('.image-module'); 
-        
+        $nextSlideImg = (currIndx + 1) >= self.$slides.length ? self.$slides.eq(0).find('.image-module') : self.$slides.eq(currIndx + 1).find('.image-module');
+
         // we need to solve an issue of all images being loaded on DomReady
         self.setCurrentActiveThumb();
         $currSlideImg.addClass('unhide');
         $nextSlideImg.addClass('unhide');
 
         if (!self.isMediaChapter) {
-          $currSlide.addClass('pos-active');
+          $currSlide.addClass('pos-active').removeClass('off-screen'); 
+
           setTimeout(function(){
-            $currSlide.siblings().removeClass('pos-active');
-            if(!$currSlide.hasClass('pos-active')){ $currSlide.addClass('pos-active'); }
+            $currSlide.siblings().removeClass('pos-active').addClass('off-screen');
+            if(!$currSlide.hasClass('pos-active')){ 
+              $currSlide.addClass('pos-active').removeClass('off-screen'); 
+            }
           }, 500);
         } else {
           $currSlide.addClass('pos-active');
@@ -451,10 +456,10 @@ define(function(require){
 
         self.currentId = selectedIndex;
 
-        // need to set a tmeout of 100ms so we can 
+        // need to set a tmeout of 100ms so we can
         // fix a flicker bug on mobile devices
         $el.addClass('active');
-        
+
         setTimeout(function(){
           $anchors.removeClass('active');
         },100);
@@ -464,7 +469,7 @@ define(function(require){
 
       // Runs when a tab is updated and changes the hash
       updateHash: function(location, currentId) {
-        var self = this, 
+        var self = this,
             href,
             fragment;
 
@@ -481,7 +486,7 @@ define(function(require){
 
       // Runs when a hash change is detected and will direct users to the proper tab
       directFromHash: function() {
-        var self = this, 
+        var self = this,
             hash,
             chapterId,
             $chapterTabs,
@@ -496,7 +501,7 @@ define(function(require){
 
         // we should never run the method again unless script inits again
         self.initFromhash = true;
-        
+
         // only if the chapter id is less than the length of actual tabs
         // i.e `chapter-100` will probably not exist
         if (chapterId < $chapterTabs.length) {
@@ -507,7 +512,7 @@ define(function(require){
 
       // Sets the current active thumbnail
       setCurrentActiveThumb: function(){
-        var self = this, 
+        var self = this,
             tabId = self.currentId ? self.currentId : 0,
             $chapterTabs,
             $currTab;
@@ -515,7 +520,7 @@ define(function(require){
         $chapterTabs = self.$thumbNav.find('li').not(':eq(' + tabId + ')');
         $currTab = self.$thumbNav.find('li').eq( tabId );
 
-        // need to set a tmeout of 100ms so we can 
+        // need to set a tmeout of 100ms so we can
         // fix a flicker bug on mobile devices
         $currTab.addClass('active');
         setTimeout(function(){
@@ -524,7 +529,7 @@ define(function(require){
           !$currTab.hasClass('active') ? $currTab.addClass('active') : '';
         },100);
 
-        self.updateHash(self.location, self.currentId);        
+        self.updateHash(self.location, self.currentId);
       },
 
       initScroller: function(){

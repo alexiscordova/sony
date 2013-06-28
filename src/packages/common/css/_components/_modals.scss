@@ -68,38 +68,9 @@ $modalHeight: 550px;
   &:focus {
     outline: none;
   }
-}
 
-// Position the modal when the height is small than $modalHeight
-@media ( max-height: px-em( $modalHeight ) ) {
-  .modal {
-    top: 0;
-    height: 90%;
-    margin-top: 2.5%;
-
-    .container,
-    .grid {
-      height: 100%;
-    }
-
-    .modal-header {
-      max-height: 20%;
-    }
-
-    .modal-body {
-      padding-top: 0;
-      padding-bottom: 0em;
-      max-height: 75%;
-      overflow: hidden;
-    }
-
-    .js-spec-modal-body,
-    .spec-modal-body,
-    .js-spec-modal-body img {
-      max-height: 100%;
-    }
-
-    &.fade.in { top: 0; }
+  .flowplayer {
+    display: block;
   }
 }
 

@@ -331,6 +331,26 @@ define(function(require) {
       }
     },
 
+    forceLoad = function( img ) {
+      // If forceLoad is given an array, it should load all in the array
+      if ( $.isArray( img ) ) {
+        $.each( img, function() {
+          forceLoad( this );
+        });
+
+        // Don't continue with the rest of the function
+        return img;
+      }
+
+      var index = iQ.images.indexOf( img );
+      loadImage( img );
+
+      // Reduce the images array for shorter loops.
+      if ( index > -1 ) {
+        iQ.images.splice( index, 1 );
+      }
+    },
+
     // React on scroll, resize and orientationchange events.
     addAsyncListeners = function() {
       addEvent(win, SCROLL, scrollListener);
@@ -639,6 +659,16 @@ define(function(require) {
   iQ.reset = debounce(function(){
     updateImages(true);
   }, throttleSpeed);
+
+
+  // Sometimes images need to be loaded even if they're not "in the viewport"
+  // For example, when they are display: none, but are still needed to be there
+  // without scrolling when they are shown. Not debounced because the images to load
+  // could be different each time.
+  // `load` takes one parameter, an image element, or an array of image elements
+  // to force load
+
+  iQ.load = forceLoad;
 
   // DOM does not need to be ready to begin the network connection speed test.
 
