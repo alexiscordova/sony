@@ -15,6 +15,8 @@ $halfCircle: $circleSize / 2;
 // Both 32 and half of 32 (16) need to be divisible by this number
 $scale: 1.1875;
 
+
+// Addon container
 .addon {
   text-align: left; // Don't want to inherit styles from editorials
 
@@ -23,12 +25,12 @@ $scale: 1.1875;
     min-height: $addonHeight;
   }
 
+  // Wrapper for the media
   .addon-media {
     position: relative;
     display: block;
 
     max-width: px-em( $mediaWidth );
-    min-height: $addonHeight; // IE7 can't use inherit
     min-height: inherit;
     height: 100%;
     width: 100%;
@@ -45,12 +47,13 @@ $scale: 1.1875;
     }
   }
 
+  // Copy wrapper
   .addon-body {
     max-width: $addonBodyMaxWidth;
   }
 
+  // Image/media object
   .media-object {
-    min-height: $addonHeight;
     min-height: inherit;
     height: 100%;
     width: 100%;
@@ -59,6 +62,7 @@ $scale: 1.1875;
     background-repeat: no-repeat;
   }
 
+  // Dark circle which grows
   .icon-wrap {
     position: absolute;
     top: 50%;
@@ -108,11 +112,7 @@ $scale: 1.1875;
     }
   }
 
-  // Support: < IE 9
-  .no-rgba & .icon-wrap {
-    background-color: #595959;
-  }
-
+  // Twitter icon
   .quote .twitter-color {
     position: static;
     margin: 0;
@@ -124,8 +124,8 @@ $scale: 1.1875;
     margin-top: px-em( -10, strip-units( $twitterFontSize ) * 16 );
   }
 
+  // Title
   .copy {
-    padding-right: $sidePadding;
     color: $gray20;
     margin: -2px 0 0 0;
 
@@ -134,6 +134,12 @@ $scale: 1.1875;
     }
   }
 
+  .copy,
+  .subhead {
+    padding-right: $sidePadding;
+  }
+
+  // Optional link
   .addon-link {
     display: block;
   }
@@ -144,7 +150,9 @@ $scale: 1.1875;
   }
 }
 
-
+// Addons with an image on the left. SK wants it to look rectangular.
+// Best solution was to add padding to the top and bottom
+// and modify the min-height for those to reflect the addition of padding
 .addon-video,
 .addon-slideshow,
 .addon-audio,
@@ -190,10 +198,20 @@ $scale: 1.1875;
   }
 }
 
+
+// Flexbox layout for modern browsers.
+// -----------------------------------
+
+// All browsers except for IE < 10 && Opera mini support a version of flex box.
+
+// References:
+// http://caniuse.com/#feat=flexbox
+// http://css-tricks.com/using-flexbox/
+
 // Because the desired result is that text can keep growing without being clipped,
 // an explicit height cannot be set on the addon. Which is why min-height is used.
 // Almost every part of the layout is attainable with that, except for vertical
-// alignment of the copy. Flexbox to the rescue again!
+// alignment of the copy. Flexbox to the rescue!
 .modern .addon {
 
   .addon-inner {
@@ -216,6 +234,7 @@ $scale: 1.1875;
   }
 
   // Align image/icon/logo to the top of the container
+  // (new syntax)
   .addon-media {
     -webkit-align-self: flex-start;
     align-self: flex-start;
@@ -238,21 +257,15 @@ $scale: 1.1875;
 
 
 // Tweets & Quotes for modern browsers
-
-// The media object doesn't work well when the text content needs to be
-// center aligned. The media object stays on the left because it is floated
-// There isn't anything else available to older browsers, so that will have to do,
-// but for those with flexbox, it may be fixed
-// Old syntaxes borrowed from: http://css-tricks.com/using-flexbox/
 .modern .addon .quote {
-  // display: -webkit-box;   // OLD - iOS 6-, Safari 3.1-6
-  // display: -moz-box;      // OLD - Firefox 19- (doesn't work very well)
-  // display: -ms-flexbox;   // TWEENER - IE 10
-  // display: -webkit-flex;  // NEW - Chrome 29-
-  // display: flex;          // NEW, Spec - Opera 12.1, Firefox 20+, Chrome 30+
 
   // twitter icon font size. Flexbox is making it smaller
   .addon-media {
+    // Flexbox shrinks by default, stop it from doing that
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+
+    // Fix for old flexbox
     min-width: $twitterFontSize;
   }
 
@@ -261,21 +274,27 @@ $scale: 1.1875;
     text-indent: 0;
     color: $secondarySlateDark;
   }
-
-  .pull-left {
-    float: none;
-  }
 }
 
+// Easier to use display:block for centered layout than display:flex
 .modern .addon .quote.center-copy {
   display: block;
+}
 
-  .addon-media {
-  }
 
-  .iq-img {
+// Need to pull up the media by the padding it's pushed down by for browsers without old/new flexbox
+.lt-ie10 .addon {
+
+  .addon-mo .addon-media {
+    top: -$extraImgPadding;
   }
 }
+
+
+
+
+// Addon type specific type styles
+// -------------------------------
 
 
 
@@ -319,10 +338,30 @@ $scale: 1.1875;
 }
 
 
+
 // IE specifc support
-.lt-ie9 {
+// ------------------
+
+
+// Support: < IE 9
+.lt-ie9 .addon {
   .addon-body {
     width: 100%;
+  }
+
+  .icon-wrap {
+    background-color: #595959;
+  }
+}
+
+
+// Support: IE7
+.lt-ie8 {
+
+  // IE7 doesn't support `inherit` value
+  .addon-media,
+  .media-object {
+    min-height: $addonHeight;
   }
 }
 
