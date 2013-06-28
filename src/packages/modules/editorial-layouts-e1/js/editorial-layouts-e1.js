@@ -255,11 +255,13 @@ define(function(require) {
           // Scroll to the top of the module
           // This is especially needed on mobile where the addon is far lower
           // than the slideshow that comes in and it also has a different height
-          setTimeout(function() {
-            $.simplescroll({
-              target: self.$el
-            });
-          }, 0);
+          if ( Modernizr.mq( '(max-width: 47.9375em)' ) ) {
+            setTimeout(function() {
+              $.simplescroll({
+                target: self.$el
+              });
+            }, 0);
+          }
         }
 
         self.isSubmoduleOpen = true;
