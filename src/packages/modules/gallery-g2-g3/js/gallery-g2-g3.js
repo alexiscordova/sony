@@ -310,6 +310,8 @@ define(function(require){
           filterFunction = !self.isCompareMode ? self.$grid.shuffle : self.manualFilter,
           returnFilteredItem;
 
+      // console.log("##filter");
+
       // Don't continue if the gallery isn't initialized
       if ( !self.isInitialized ) {
         return false;
@@ -996,6 +998,8 @@ define(function(require){
           filterValue = '',
           i;
 
+      console.log("removeActiveFilters");
+
       self.currentFilterGroup = null;
       self.lastFilterGroup = null;
       self.currentFilterStatuses = null;
@@ -1095,13 +1099,14 @@ define(function(require){
       $(evt.target).remove();
 
       // Trigger shuffle
-      self.filter();
 
       // if it's a price touch button, reset any of the other price clear label/buttons as well.
       if ( self.isTouchBtn(data.filterName) ) {
         $('.label-close[data-filter-name="price"][data-filter="max"]').trigger('click');
         $('.label-close[data-filter-name="price"][data-filter="min"]').trigger('click');
       }
+
+      self.filter();
     },
 
     initCompareGallery : function() {
@@ -1966,10 +1971,10 @@ define(function(require){
         } else {
           // reset the touchbutton & range!
           // console.log("GO!");
-          // if ( filterName === "price_touchbutton" ){
-          //   $('.label-close[data-filter-name="price"][data-filter="max"]').trigger('click');
-          //   $('.label-close[data-filter-name="price"][data-filter="min"]').trigger('click');
-          // }          
+          if ( filterName === "price_touchbutton" ){
+            $('.label-close[data-filter-name="price"][data-filter="max"]').trigger('click');
+            $('.label-close[data-filter-name="price"][data-filter="min"]').trigger('click');
+          }          
         }
 
         // console.log('click %s', filterName);
