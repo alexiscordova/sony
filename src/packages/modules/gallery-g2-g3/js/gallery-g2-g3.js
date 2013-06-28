@@ -304,7 +304,6 @@ define(function(require){
       }
     },
 
-    // #filter
     filter : function() {
       var self = this,
           context,
@@ -338,7 +337,6 @@ define(function(require){
       }
 
       // Run the filtering function
-      // console.log("context: " + context + ", returnFilteredItem: " + returnFilteredItem);
       filterFunction.call( context, returnFilteredItem );
 
       self
@@ -456,7 +454,6 @@ define(function(require){
     // Triggers clicks, changes and moves the range control slider to the correct location
     // based on the current `self.filters`
     setFiltersToActive : function() {
-      console.log("#############setFiltersToActive");
       var self = this,
           filters = self.filters,
           objects = self.filterObjects,
@@ -490,7 +487,6 @@ define(function(require){
               self.setRangeValue( filterValue.min, filterValue.max );
             }
           } else if ( filterType === 'range_touchbutton' ) {
-            // when does this ever get called?
             self.setRangeValue( filterValue.min, filterValue.max );
           }
         }
@@ -704,9 +700,7 @@ define(function(require){
           filterName = '';
 
       // Loop through each filter in the elements filter set
-      // console.log("data.filterSet: " , data.filterSet);
       for ( filterName in data.filterSet ) {
-        // console.log("filterName: " + filterName);
         if ( !data.filterSet.hasOwnProperty(filterName) || !self.filterTypes[ filterName ] ) {
           continue;
         }
@@ -777,7 +771,6 @@ define(function(require){
     },
 
     displayActiveFilters : function() {
-      console.log("##displayActiveFilters##");
       var self = this,
           filterType = '',
           filterName = '',
@@ -786,26 +779,19 @@ define(function(require){
           $clearAll;
 
       // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
-      // console.log("self.filters: " , self.filters);
       for ( filterType in self.filters ) {
         if ( !self.filters.hasOwnProperty(filterType) ) {
           continue;
         }
 
-          
         // Loop through filter types because there could be more than one 'button' or 'checkbox'
         if ( filterType === 'button' || filterType === 'checkbox' ) {
           for ( filterName in self.filters[ filterType ] ) {
             var activeFilters = self.filters[ filterType ][ filterName ];
 
-
-            // console.log("filterType: " + filterType + ", filterName: " + filterName);
-
-
             // This filterType.filterName has some active filters, build an object of its labels and filter names
             if ( activeFilters.length ) {
               for ( var j = 0; j < activeFilters.length; j++ ) {
-                // console.log("activeFilters: " , activeFilters);
                 var label = self.filterLabels[ filterName ][ activeFilters[ j ] ];
                 filters[ activeFilters[ j ] ] = {
                   label: label,
@@ -844,8 +830,6 @@ define(function(require){
             text : obj.label,
             click : $.proxy( self.onRemoveFilter, self )
           });
-
-          console.log("##displayActiveFilters. key: " + key + ", obj: " , obj);
 
           frag.appendChild( $label[0] );
 
@@ -1094,11 +1078,9 @@ define(function(require){
 
     onRemoveFilter : function( evt ) {
       var self = this,
-        data = $(evt.target).data(),
-        filterType = self.filterTypes[ data.filterName ],
-        realType = self.filterData[ data.filterName ].realType;
-
-      console.log("##onRemoveFilter. data.filterName: " + data.filterName + ", filterType: " + filterType);
+          data = $(evt.target).data(),
+          filterType = self.filterTypes[ data.filterName ],
+          realType = self.filterData[ data.filterName ].realType;
 
       // Remove from internal data and UI
       self.deleteFilter( data.filter, data.filterName, filterType );
@@ -1338,7 +1320,6 @@ define(function(require){
             init = [];
 
         // Initialize it based on type
-        // console.log("type: " + type);
         switch ( type ) {
           case 'range':
             init = {};
@@ -1752,7 +1733,6 @@ define(function(require){
     },
 
     setFilterStatuses : function() {
-      // console.log("##setFilterStatuses##");
       var self = this,
           $visible = self.$items.filter('.filtered'),
           statuses = {},
@@ -1764,9 +1744,6 @@ define(function(require){
 
       function testGalleryItems( filterName, filterValue ) {
         var shouldEnable = false;
-
-
-        // console.log("##testGalleryItems## - filterName: " + filterName);
 
         if ( filterName === 'price' ) {
           statuses[ filterName ][ filterValue ] = true;
@@ -1825,10 +1802,10 @@ define(function(require){
           // If it is, we need to check if other filters are active
           // If other filters are active, the group should affect itself. shouldSkipGroup = false
           // If no other filters are active, the group should NOT affect itself. shouldSkipGroup = true
-          if ( shouldSkipGroup ) {
+          // if ( shouldSkipGroup ) {
             // console.log( 'hasOtherActiveFilters:', self.hasActiveFilters(filterName) );
-            shouldSkipGroup = !self.hasActiveFilters( filterName );
-          }
+            // shouldSkipGroup = !self.hasActiveFilters( filterName );
+          // }
 
           // console.log( 'shouldSkipGroup:', shouldSkipGroup);
           // console.groupEnd();
@@ -1836,8 +1813,8 @@ define(function(require){
           for ( filterValue in self.filterValues[ filterName ] ) {
 
             if ( shouldSkipGroup ) {
-              // statuses[ filterName ][ filterValue ] = 'skip';
-              statuses[ filterName ][ filterValue ] = true;
+              statuses[ filterName ][ filterValue ] = 'skip';
+              // statuses[ filterName ][ filterValue ] = true;
             } else {
               testGalleryItems( filterName, filterValue );
             }
@@ -1935,9 +1912,6 @@ define(function(require){
           values = {},
           objects = {},
           $btns = $filterGroup.children();
-
-
-      // console.log("##button - $btns.each##");
 
       $btns.on('click', function() {
         // console.log("$btns.on('click')");
@@ -2166,9 +2140,7 @@ define(function(require){
       }
 
       function getPrice( percent ) {
-        var actual = diff * (percent / 100) + MIN_PRICE,
-          rounded = Math.round( actual );
-        return rounded;
+        return Math.round( diff * (percent / 100) ) + MIN_PRICE;
       }
 
       function slid() {
@@ -2202,11 +2174,6 @@ define(function(require){
         prevMin = self.price.min,
         prevMax = self.price.max;
 
-        console.log("##update#");
-        console.log("positions: " , positions);
-        console.log("percents: " , percents);
-        console.log("min/maxPrice: " + minPrice + "/" + maxPrice + ", prevMin/Max: " + prevMin + "/" + prevMax);
-
         self.currentFilterGroup = filterName;
 
         // Display values
@@ -2220,7 +2187,7 @@ define(function(require){
         if ( (prevMin !== minPrice || prevMax !== maxPrice) && self.isInitialized ) {
 
           // Save current filters
-          console.log("filter.range[] filterName: " + filterName + ", " + minPrice + "/" + maxPrice);
+          // console.log("filter.range[] filterName: " + filterName + ", " + minPrice + "/" + maxPrice);
           self.filters.range[ filterName ].min = minPrice;
           self.filters.range[ filterName ].max = maxPrice;
 
@@ -2259,7 +2226,6 @@ define(function(require){
 
       // Do a fake update to position the display values. We do this here instead of registering
       // the slid event because that will be triggered twice on init (once for both handles)
-      
       update( undefined, undefined, {min: 0, max: 100} );
 
 
@@ -2316,27 +2282,19 @@ define(function(require){
           diff = self.MAX_PRICE - self.MIN_PRICE,
           railSize = rangeControl.railSize,
 
-      // WIP
       priceToRangePosition = function( price ) {
-        var pos = ( ( price - self.MIN_PRICE ) / diff ) * railSize;
-        console.log("priceToRangePosition. price: " + price + ", pos: " + pos);
-        return pos;
+        return ( ( price - self.MIN_PRICE ) / diff ) * railSize;
       };
-
-      console.log("setRangeValue: min/max: " + min + "/" + max);
 
       if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
         minPos = priceToRangePosition( min );
-        console.log("minPos: " + minPos);
         rangeControl.slideToPos( minPos, rangeControl.$minHandle );
       }
 
       if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
         maxPos = priceToRangePosition( max );
-        console.log("maxPos: " + maxPos);
         rangeControl.slideToPos( maxPos );
       }
-
     },
 
 

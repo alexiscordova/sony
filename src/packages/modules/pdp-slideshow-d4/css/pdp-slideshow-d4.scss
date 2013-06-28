@@ -54,6 +54,7 @@
     width: 1000em; // This will get set dynamically based on the number of slides
     max-height: px-em( 720px );
     -webkit-backface-visibility: hidden;
+
   }
 
   // These will get set dynamically based on number of slides
@@ -74,11 +75,19 @@
   .pdp-slideshow-slide .pdp-slide-inner {
     height: inherit;
     width: 100%;
+    .lt-ie8 & {
+      .ghost-center{
+        min-height:710px;
+      }
+    }
   }
 
   // Type 1 images are product shots which are not full bleed
   .pdp-slideshow-slide.type1 .pdp-slide-inner {
     padding: 4% 2% 11%;
+    .lt-ie8 &{
+      padding: 0;
+    }
   }
 
   .pdp-slideshow-slide {

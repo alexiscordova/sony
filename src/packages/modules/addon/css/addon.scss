@@ -1,17 +1,14 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-// Layout:
-// .addon
-  // .media
-    // .addon-media
-      // .media-object
-
 $sidePadding: 12px;
-$addonHeight: 72px;
+$addonHeight: 74px;
+$addonBodyMaxWidth: 180px;
 $mediaWidth: 85px;
 $twitterFontSize: 3em;
 $circleSize: 32px;
+$extraImgPadding: 8px;
+
 $halfCircle: $circleSize / 2;
 
 // Getting decimal pixels makes it wonky
@@ -21,30 +18,40 @@ $scale: 1.1875;
 .addon {
   text-align: left; // Don't want to inherit styles from editorials
 
-  .media {
-    height: px-em( $addonHeight );
+  .addon-inner,
+  .v-wrap {
+    min-height: $addonHeight;
   }
 
   .addon-media {
     position: relative;
     display: block;
+
     max-width: px-em( $mediaWidth );
+    min-height: $addonHeight; // IE7 can't use inherit
+    min-height: inherit;
     height: 100%;
     width: 100%;
+
     margin-right: px-em( $sidePadding );
     overflow: hidden;
 
-    &:hover .icon-wrap {
+    // You know iOS, sometimes I really hate you
+    // You don't have hovers!
+    .no-touch &:hover .icon-wrap,
+    .touch &:active .icon-wrap {
       @include scale( 1 );
       background-color: $linkBlue;
     }
   }
 
-  .v-wrap {
-    height: $addonHeight;
+  .addon-body {
+    max-width: $addonBodyMaxWidth;
   }
 
   .media-object {
+    min-height: $addonHeight;
+    min-height: inherit;
     height: 100%;
     width: 100%;
     background-position: 50% 50%;
@@ -59,7 +66,7 @@ $scale: 1.1875;
     margin-top: -$halfCircle;
     margin-left: -$halfCircle;
     @include square( $circleSize );
-    background-color: rgba($black, 0.5);
+    background-color: rgba($gray10, 0.4);
     border-radius: 50%;
     @include transition( .15s );
   }
@@ -78,14 +85,26 @@ $scale: 1.1875;
       position: absolute;
       top: 50%;
       left: 50%;
-      margin-top: -12px;
-      margin-left: -12px;
+      // margin-top: -12px;
+      // margin-left: -12px;
       color: $white;
     }
 
     [class*="fonticon-10-"] {
       margin-top: -8px;
       margin-left: -8px;
+    }
+
+    .fonticon-15-popup {
+      font-size: 20px;
+      margin-top: -10px;
+      margin-left: -10px;
+    }
+
+    .fonticon-10-video-play {
+      font-size: 12px;
+      margin-top: -6px;
+      margin-left: -6px;
     }
   }
 
@@ -108,7 +127,7 @@ $scale: 1.1875;
   .copy {
     padding-right: $sidePadding;
     color: $gray20;
-    margin: 0;
+    margin: -2px 0 0 0;
 
     .light-text-dark-box & {
       color: $white;
@@ -126,6 +145,99 @@ $scale: 1.1875;
 }
 
 
+.addon-video,
+.addon-slideshow,
+.addon-audio,
+.addon-story {
+
+  .addon-media {
+    padding: $extraImgPadding 0;
+    min-height: $addonHeight - ($extraImgPadding * 2);
+  }
+}
+
+.addon-logo,
+.addon-tweet,
+.addon-quote {
+
+  .addon-body {
+    max-width: 320px;
+  }
+}
+
+// Centered copy should have the twitter icon
+// and image above the copy :\
+.addon .quote.center-copy {
+  min-height: 0;
+
+  .addon-media,
+  .addon-body {
+    float: none;
+  }
+
+  .addon-media {
+    min-height: 0;
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+  }
+
+  .iq-img {
+    width: 3em;
+    height: 3em;
+    margin: 0 auto 5px;
+    background-size: contain;
+  }
+}
+
+// Because the desired result is that text can keep growing without being clipped,
+// an explicit height cannot be set on the addon. Which is why min-height is used.
+// Almost every part of the layout is attainable with that, except for vertical
+// alignment of the copy. Flexbox to the rescue again!
+.modern .addon {
+
+  .addon-inner {
+    display: -webkit-box;   // OLD - iOS 6-, Safari 3.1-6
+    display: -moz-box;      // OLD - Firefox 19- (doesn't work very well)
+    display: -ms-flexbox;   // TWEENER - IE 10
+    display: -webkit-flex;  // NEW - Chrome 29-
+    display: flex;          // NEW, Spec - Opera 12.1, Firefox 20+, Chrome 30+
+
+    // Old flexbox centering
+    -webkit-box-align: center;
+    -moz-box-align: center;
+  }
+
+  // Needed for old flexbox versions.
+  // New flexbox ignores floats
+  .addon-media,
+  .addon-body {
+    float: none;
+  }
+
+  // Align image/icon/logo to the top of the container
+  .addon-media {
+    -webkit-align-self: flex-start;
+    align-self: flex-start;
+  }
+
+  // Don't set a min-height so the text will create it's own height
+  // Then center it
+  .addon-body {
+    min-height: 0;
+
+    // Don't overflow container, flex to fit
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+
+
+    -webkit-align-self: center;
+    align-self: center;
+  }
+}
+
+
+// Tweets & Quotes for modern browsers
 
 // The media object doesn't work well when the text content needs to be
 // center aligned. The media object stays on the left because it is floated
@@ -133,28 +245,11 @@ $scale: 1.1875;
 // but for those with flexbox, it may be fixed
 // Old syntaxes borrowed from: http://css-tricks.com/using-flexbox/
 .modern .addon .quote {
-  display: -webkit-box;   // OLD - iOS 6-, Safari 3.1-6
-  display: -moz-box;      // OLD - Firefox 19- (doesn't work very well)
-  display: -ms-flexbox;   // TWEENER - IE 10
-  display: -webkit-flex;  // NEW - Chrome
-  display: flex;          // NEW, Spec - Opera 12.1, Firefox 20+
-
-  // .main-nav {
-  //   -webkit-box-ordinal-group: 1;   /* OLD - iOS 6-, Safari 3.1-6 */
-  //   -moz-box-ordinal-group: 1;      /* OLD - Firefox 19- */
-  //   -ms-flex-order: 1;              /* TWEENER - IE 10 */
-  //   -webkit-order: 1;               /* NEW - Chrome */
-  //   order: 1;                       /* NEW, Spec - Opera 12.1, Firefox 20+ */
-
-  //   -webkit-box-flex: 1;            /* OLD - iOS 6-, Safari 3.1-6 */
-  //   -moz-box-flex: 1;               /* OLD - Firefox 19- */
-  //   width: 20%;                     /* For old syntax, otherwise collapses. */
-  //   -webkit-flex: 1;                /* Chrome */
-  //   -ms-flex: 1;                    /* IE 10 */
-  //   flex: 1;                        /* NEW, Spec - Opera 12.1, Firefox 20+ */
-
-  //   background: #ccc;
-  // }
+  // display: -webkit-box;   // OLD - iOS 6-, Safari 3.1-6
+  // display: -moz-box;      // OLD - Firefox 19- (doesn't work very well)
+  // display: -ms-flexbox;   // TWEENER - IE 10
+  // display: -webkit-flex;  // NEW - Chrome 29-
+  // display: flex;          // NEW, Spec - Opera 12.1, Firefox 20+, Chrome 30+
 
   // twitter icon font size. Flexbox is making it smaller
   .addon-media {
@@ -164,23 +259,35 @@ $scale: 1.1875;
   // Flexbox saves space wherever it can, the quotes were getting cut off
   blockquote p {
     text-indent: 0;
+    color: $secondarySlateDark;
   }
 
   .pull-left {
     float: none;
   }
-
 }
 
-.addon-logo {
+.modern .addon .quote.center-copy {
+  display: block;
 
+  .addon-media {
+  }
+
+  .iq-img {
+  }
+}
+
+
+
+// LOGO SPECIFIC
+.addon-logo {
   // Don't want logos to get clipped. The whole logo should always be visible
   .media-object {
     background-size: contain;
   }
 }
 
-
+// QUOTE SPECIFIC
 .addon-quote {
 
   .media-object {
@@ -203,6 +310,7 @@ $scale: 1.1875;
   }
 }
 
+// TWEET SPECIFIC
 .addon-tweet {
 
   .addon-media {
@@ -210,6 +318,13 @@ $scale: 1.1875;
   }
 }
 
+
+// IE specifc support
+.lt-ie9 {
+  .addon-body {
+    width: 100%;
+  }
+}
 
 
 
