@@ -304,6 +304,7 @@ define(function(require){
       }
     },
 
+    // #filter
     filter : function() {
       var self = this,
           context,
@@ -327,6 +328,7 @@ define(function(require){
       // If there are active filters, we need to check each item to see if it passes
       if ( self.hasActiveFilters() ) {
         returnFilteredItem = function( $el ) {
+          // returns the objects of each item that's to be displayed.
           return self.itemPassesFilters( $el.data() );
         };
 
@@ -336,6 +338,7 @@ define(function(require){
       }
 
       // Run the filtering function
+      // console.log("context: " + context + ", returnFilteredItem: " + returnFilteredItem);
       filterFunction.call( context, returnFilteredItem );
 
       self
@@ -473,9 +476,8 @@ define(function(require){
         for ( filterName in filters[ filterType ] ) {
           // eg ["silver", "blue"] or { min: 20, max: 800 } for price
           filterValue = filters[ filterType ][ filterName ];
-          // console.log("filterType: " + filterType + ", filterName: " + filterName);
 
-          if ( filterValue.length && (filterType === 'button' || filterType === 'checkbox' || filterType === 'range-touchbutton') ) {
+          if ( filterValue.length && (filterType === 'button' || filterType === 'checkbox' || filterType === 'range_touchbutton') ) {
 
             for (var i = 0; i < filterValue.length; i++) {
               objects[ filterName ][ filterValue[i] ].trigger('click');
@@ -486,8 +488,8 @@ define(function(require){
             if ( filterValue.min !== self.MIN_PRICE || filterValue.max !== self.MAX_PRICE ) {
               self.setRangeValue( filterValue.min, filterValue.max );
             }
-          } else if ( filterType === 'range-touchbutton' ) {
-            // console.log("filterType is === range-touchbutton");
+          } else if ( filterType === 'range_touchbutton' ) {
+            // console.log("filterType is === range_touchbutton");
           }
         }
       }
@@ -696,11 +698,14 @@ define(function(require){
 
     // From the element's data-* attributes, test to see if it passes
     itemPassesFilters : function( data ) {
+      // console.log("##itemPassesFilters##");
       var self = this,
           filterName = '';
 
       // Loop through each filter in the elements filter set
+      // console.log("data.filterSet: " , data.filterSet);
       for ( filterName in data.filterSet ) {
+        // console.log("filterName: " + filterName);
         if ( !data.filterSet.hasOwnProperty(filterName) || !self.filterTypes[ filterName ] ) {
           continue;
         }
@@ -771,6 +776,7 @@ define(function(require){
     },
 
     displayActiveFilters : function() {
+      // console.log("##displayActiveFilters##");
       var self = this,
           filterType = '',
           filterName = '',
@@ -779,19 +785,26 @@ define(function(require){
           $clearAll;
 
       // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
+      // console.log("self.filters: " , self.filters);
       for ( filterType in self.filters ) {
         if ( !self.filters.hasOwnProperty(filterType) ) {
           continue;
         }
 
+          
         // Loop through filter types because there could be more than one 'button' or 'checkbox'
         if ( filterType === 'button' || filterType === 'checkbox' ) {
           for ( filterName in self.filters[ filterType ] ) {
             var activeFilters = self.filters[ filterType ][ filterName ];
 
+
+            // console.log("filterType: " + filterType + ", filterName: " + filterName);
+
+
             // This filterType.filterName has some active filters, build an object of its labels and filter names
             if ( activeFilters.length ) {
               for ( var j = 0; j < activeFilters.length; j++ ) {
+                // console.log("activeFilters: " , activeFilters);
                 var label = self.filterLabels[ filterName ][ activeFilters[ j ] ];
                 filters[ activeFilters[ j ] ] = {
                   label: label,
@@ -830,6 +843,8 @@ define(function(require){
             text : obj.label,
             click : $.proxy( self.onRemoveFilter, self )
           });
+
+          // console.log("##displayActiveFilters. key: " + key + ", obj: " , obj);
 
           frag.appendChild( $label[0] );
 
@@ -1078,9 +1093,11 @@ define(function(require){
 
     onRemoveFilter : function( evt ) {
       var self = this,
-          data = $(evt.target).data(),
-          filterType = self.filterTypes[ data.filterName ],
-          realType = self.filterData[ data.filterName ].realType;
+        data = $(evt.target).data(),
+        filterType = self.filterTypes[ data.filterName ],
+        realType = self.filterData[ data.filterName ].realType;
+
+      // console.log("##onRemoveFilter. data.filterName: " + data.filterName + ", filterType: " + filterType);
 
       // Remove from internal data and UI
       self.deleteFilter( data.filter, data.filterName, filterType );
@@ -1095,6 +1112,12 @@ define(function(require){
 
       // Trigger shuffle
       self.filter();
+
+      // if it's a price touch button, reset any of the other price clear label/buttons as well.
+      if ( self.isTouchBtn(data.filterName) ) {
+        $('.label-close[data-filter-name="price"][data-filter="max"]').trigger('click');
+        $('.label-close[data-filter-name="price"][data-filter="min"]').trigger('click');
+      }
     },
 
     initCompareGallery : function() {
@@ -1314,14 +1337,11 @@ define(function(require){
             init = [];
 
         // Initialize it based on type
+        // console.log("type: " + type);
         switch ( type ) {
           case 'range':
             init = {};
             self.range( $this, name, data.min, data.max );
-            break;
-          case 'range-touchbutton':
-            type = 'button';
-            self.button( $this, name, realType, data.min, data.max );
             break;
           case 'button':
             self.button( $this, name, realType );
@@ -1731,6 +1751,7 @@ define(function(require){
     },
 
     setFilterStatuses : function() {
+      // console.log("##setFilterStatuses##");
       var self = this,
           $visible = self.$items.filter('.filtered'),
           statuses = {},
@@ -1743,8 +1764,16 @@ define(function(require){
       function testGalleryItems( filterName, filterValue ) {
         var shouldEnable = false;
 
+
+        // console.log("##testGalleryItems## - filterName: " + filterName);
+
         if ( filterName === 'price' ) {
           statuses[ filterName ][ filterValue ] = true;
+          return true;
+        }
+
+        if ( filterName === 'price_touchbutton' ) {
+          statuses[ self.rootFilterName( filterName ) ][ filterValue ] = true;
           return true;
         }
 
@@ -1899,22 +1928,15 @@ define(function(require){
       return true;
     },
 
-    button : function( $filterGroup, filterName, realType, MIN_PRICE, MAX_PRICE ) {
+    button : function( $filterGroup, filterName, realType ) {
       var self = this,
           labels = {},
           values = {},
           objects = {},
           $btns = $filterGroup.children();
-      // WIP 
-      // for touchbuttons, we need the same values that are active for range, but it's best to have them here, too.
-      if ( MIN_PRICE && MAX_PRICE ){
-        this.MAX_PRICE = MAX_PRICE;
-        this.MIN_PRICE = MIN_PRICE;
-        this.price = {
-          MIN_PRICE: this.MIN_PRICE,
-          MAX_PRICE: this.MAX_PRICE
-        };
-      }
+
+
+      // console.log("##button - $btns.each##");
 
       $btns.on('click', function() {
         // console.log("$btns.on('click')");
@@ -1950,24 +1972,34 @@ define(function(require){
           }
         }
 
+        // true if this one was just activated, false if this was just deactivated.
         isActive = $this.hasClass( active );
 
         if ( isActive ) {
+
           // WIP
-          var filterNameArray = filterName.split("-");
-          // if the filterName ends with 'touchbutton' then it's attached to a range control and we need to treat it differently.
-          if ( filterNameArray[filterNameArray.length-1] === "touchbutton" ) {
+          // filterName ex: "megapixels" or "price_touchbutton"
+          if ( filterName === "price_touchbutton" ){
+          // $this.data( filterName ) ex: "18-20" or "400-799"
+            // console.log("#isActive# filterName: " + filterName);
+            var priceRange = $this.data("price_touchbutton"),
+              priceRangeArr = priceRange.split('-'),
+              min = priceRangeArr[0],
+              max = priceRangeArr[1];
 
-            // WIP
-            // console.log("touchbutton!");
-            var info = $this.data( 'price-touchbutton' );
-            self.$grid.trigger('touchbuttonclick', info);
-
-          } else {
-            checked.push( $this.data( filterName ) );
-            self.lastFilterGroup = self.currentFilterGroup;
-            self.currentFilterGroup = filterName;            
+            self.setRangeValue(min,max);
           }
+
+          checked.push( $this.data( filterName ) );
+          self.lastFilterGroup = self.currentFilterGroup;
+          self.currentFilterGroup = filterName;            
+
+        } else {
+          // reset the touchbutton & range!
+          if ( filterName === "price_touchbutton" ){
+            $('.label-close[data-filter-name="price"][data-filter="max"]').trigger('click');
+            $('.label-close[data-filter-name="price"][data-filter="min"]').trigger('click');
+          }          
         }
 
         // console.log('click %s', filterName);
@@ -1988,6 +2020,8 @@ define(function(require){
           }
         }
 
+        // filterName ex: "megapixels" or "price_touchbutton"
+        // checked ex: "18-20" or "400-799"
         self.filters.button[ filterName ] = checked;
 
         self.filter();
@@ -1996,13 +2030,19 @@ define(function(require){
       // Save each label to the labels object
       .each(function() {
         // console.log("filterName: " + filterName);
-        var data = $(this).data(),
-          value = data[ filterName ];
+        var data = $(this).data();
+        // filterName = "priceTouchbutton";
+        var value = data[ filterName ];
+        // var value = $(this).data( filterName );
+        // price_touchbutton
+        // priceTouchbutton
+
           // console.log("WIP value: " + value);
           // console.log("create labels object. filterName: " + filterName + ", " + value + ", ", data);
         labels[ value ] = data.label;
         values[ value ] = value;
         objects[ value ] = $( this );
+        // console.log("filterName: " + filterName + ", value: " + value + ", data: ", data);
       });
 
       self.filterLabels[ filterName ] = labels;
@@ -2136,6 +2176,9 @@ define(function(require){
         prevMin = self.price.min,
         prevMax = self.price.max;
 
+
+        console.log("##update# min/maxPrice: " + minPrice + "/" + maxPrice + ", prevMin/Max: " + prevMin + "/" + prevMax);
+
         self.currentFilterGroup = filterName;
 
         // Display values
@@ -2191,11 +2234,16 @@ define(function(require){
       update( undefined, undefined, {min: 0, max: 100} );
 
 
+      // set the rangeThreshhold to low, so that we can get a 800-999 range for touch (at 0.25, the min can only go up to 754)
+      var rangeThresholdVal = 0.25;
+      if (self.hasTouch) {
+        rangeThresholdVal = 0.1;
+      }
       self.$rangeControl.rangeControl({
         initialMin: '0%',
         initialMax: '100%',
         range: true,
-        rangeThreshold: 0.25
+        rangeThreshold: rangeThresholdVal
       });
 
       // On handle slid, update. Register after initialized so it's not called during initialization
@@ -2204,27 +2252,28 @@ define(function(require){
 
 
       // WIP
-      // Save ref to touchbuttonclick
-      // self.touchbuttonclick = self.$grid.data('touchbuttonclick');
-      self.$grid.on( 'touchbuttonclick', function ( e, dataStr ){
-        prepUpdateRangeFromTouchbutton( dataStr );
-      });
+      // function prepUpdateRangeFromTouchbutton ( dataStr ) {
+      //   console.log("prepUpdateRangeFromTouchbutton");
+      //   var dataArray = dataStr.split('_');
+      //   var min, max;
+      //   if ( dataArray.length > 1 ){
+      //     min = dataArray[0];
+      //     max = dataArray[1];
+      //   } else {
+      //     min = max = dataStr.split('+')[0];
+      //   }
 
-      function prepUpdateRangeFromTouchbutton ( dataStr ) {
-        // console.log("prepUpdateRangeFromTouchbutton");
-        var dataArray = dataStr.split('-');
-        var min, max;
-        if ( dataArray.length > 1 ){
-          min = dataArray[0];
-          max = dataArray[1];
-        } else {
-          min = max = dataStr.split('+')[0];
-        }
+      //   console.log("min/max: " + min + "/" + max + ", percents: " + self.priceToPercent(min) + "/" + self.priceToPercent(max));
 
-        // console.log("min/max: " + min + "/" + max + ", percents: " + self.priceToPercent(min) + "/" + self.priceToPercent(max));
+      //   update( undefined, undefined, { min: self.priceToPercent(min), max: self.priceToPercent(max) } );
+      // }
+      // // Save ref to touchbuttonclick
+      // // self.touchbuttonclick = self.$grid.data('touchbuttonclick');
+      // self.$grid.on( 'touchbuttonclick', function ( e, dataStr ){
+      //   prepUpdateRangeFromTouchbutton( dataStr );
+      // });
 
-        update( undefined, undefined, { min: self.priceToPercent(min), max: self.priceToPercent(max) } );
-      }
+      
 
       self.filterValues[ filterName ] = { min: true, max: true };
 
@@ -2238,7 +2287,12 @@ define(function(require){
     },
 
     rootFilterName : function( filterNameLong ) {
-      return filterName.split('-touchbutton')[0];
+      return filterNameLong.split('_touchbutton')[0];
+    },
+    isTouchBtn : function( filterNameLong ) {
+      var filterNameArray = filterNameLong.split('_'),
+        lastItem = filterNameArray[ filterNameArray.length - 1 ];
+      return lastItem === "touchbutton";
     },
 
     // If there is a range control in this element and it's in need of an update
@@ -2260,19 +2314,27 @@ define(function(require){
           diff = self.MAX_PRICE - self.MIN_PRICE,
           railSize = rangeControl.railSize,
 
+      // WIP
       priceToRangePosition = function( price ) {
-        return ( ( price - self.MIN_PRICE ) / diff ) * railSize;
+        var pos = ( ( price - self.MIN_PRICE ) / diff ) * railSize;
+        // console.log("priceToRangePosition. price: " + price + ", pos: " + pos);
+        return pos;
       };
+
+      // console.log("setRangeValue: min/max: " + min + "/" + max);
 
       if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
         minPos = priceToRangePosition( min );
+        // console.log("minPos: " + minPos);
         rangeControl.slideToPos( minPos, rangeControl.$minHandle );
       }
 
       if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
         maxPos = priceToRangePosition( max );
+        // console.log("maxPos: " + maxPos);
         rangeControl.slideToPos( maxPos );
       }
+
     },
 
 
