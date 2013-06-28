@@ -456,6 +456,7 @@ define(function(require){
     // Triggers clicks, changes and moves the range control slider to the correct location
     // based on the current `self.filters`
     setFiltersToActive : function() {
+      console.log("#############setFiltersToActive");
       var self = this,
           filters = self.filters,
           objects = self.filterObjects,
@@ -477,7 +478,7 @@ define(function(require){
           // eg ["silver", "blue"] or { min: 20, max: 800 } for price
           filterValue = filters[ filterType ][ filterName ];
 
-          if ( filterValue.length && (filterType === 'button' || filterType === 'checkbox' || filterType === 'range_touchbutton') ) {
+          if ( filterValue.length && (filterType === 'button' || filterType === 'checkbox') ) {
 
             for (var i = 0; i < filterValue.length; i++) {
               objects[ filterName ][ filterValue[i] ].trigger('click');
@@ -489,7 +490,8 @@ define(function(require){
               self.setRangeValue( filterValue.min, filterValue.max );
             }
           } else if ( filterType === 'range_touchbutton' ) {
-            // console.log("filterType is === range_touchbutton");
+            // when does this ever get called?
+            self.setRangeValue( filterValue.min, filterValue.max );
           }
         }
       }
@@ -698,7 +700,6 @@ define(function(require){
 
     // From the element's data-* attributes, test to see if it passes
     itemPassesFilters : function( data ) {
-      // console.log("##itemPassesFilters##");
       var self = this,
           filterName = '';
 
@@ -776,7 +777,7 @@ define(function(require){
     },
 
     displayActiveFilters : function() {
-      // console.log("##displayActiveFilters##");
+      console.log("##displayActiveFilters##");
       var self = this,
           filterType = '',
           filterName = '',
@@ -844,7 +845,7 @@ define(function(require){
             click : $.proxy( self.onRemoveFilter, self )
           });
 
-          // console.log("##displayActiveFilters. key: " + key + ", obj: " , obj);
+          console.log("##displayActiveFilters. key: " + key + ", obj: " , obj);
 
           frag.appendChild( $label[0] );
 
@@ -1097,7 +1098,7 @@ define(function(require){
         filterType = self.filterTypes[ data.filterName ],
         realType = self.filterData[ data.filterName ].realType;
 
-      // console.log("##onRemoveFilter. data.filterName: " + data.filterName + ", filterType: " + filterType);
+      console.log("##onRemoveFilter. data.filterName: " + data.filterName + ", filterType: " + filterType);
 
       // Remove from internal data and UI
       self.deleteFilter( data.filter, data.filterName, filterType );
@@ -1980,14 +1981,7 @@ define(function(require){
           // WIP
           // filterName ex: "megapixels" or "price_touchbutton"
           if ( filterName === "price_touchbutton" ){
-          // $this.data( filterName ) ex: "18-20" or "400-799"
-            // console.log("#isActive# filterName: " + filterName);
-            var priceRange = $this.data("price_touchbutton"),
-              priceRangeArr = priceRange.split('-'),
-              min = priceRangeArr[0],
-              max = priceRangeArr[1];
-
-            self.setRangeValue(min,max);
+            touchButtonFilterUpdate( $this );
           }
 
           checked.push( $this.data( filterName ) );
@@ -2050,6 +2044,36 @@ define(function(require){
       self.filterObjects[ filterName ] = objects;
 
       $btns = labels = values = objects = null;
+
+      function touchButtonFilterUpdate( $btn ){
+        // $this.data( filterName ) ex: "18-20" or "400-799"
+        // console.log("#isActive# filterName: " + filterName);
+        var priceRange = $btn.data("price_touchbutton"),
+          priceRangeArr = priceRange.split('-'),
+          minPrice = priceRangeArr[0],
+          maxPrice = priceRangeArr[1];
+
+        // if there isn't a maxPrice, priceRange must be the max+ value, so set it as the minimum and a max of ~infinity.
+        if ( !maxPrice ) {
+          minPrice = minPrice.split('+')[0];
+          maxPrice = 1000000;
+        }
+
+        // CJM
+
+        self.currentFilterGroup = filterName;
+        self.price.min = minPrice;
+        self.price.max = maxPrice;
+
+        console.log("priceRange min/max: " + minPrice + "/" + maxPrice);
+
+        self.filters.range[ self.rootFilterName(filterName) ].min = minPrice;
+        self.filters.range[ self.rootFilterName(filterName) ].max = maxPrice;
+
+        setTimeout(function(){
+          self.filter();
+        },750);
+      }
     },
 
     checkbox : function( $filterGroup, filterName ) {
@@ -2142,7 +2166,9 @@ define(function(require){
       }
 
       function getPrice( percent ) {
-        return Math.round( diff * (percent / 100) ) + MIN_PRICE;
+        var actual = diff * (percent / 100) + MIN_PRICE,
+          rounded = Math.round( actual );
+        return rounded;
       }
 
       function slid() {
@@ -2176,8 +2202,10 @@ define(function(require){
         prevMin = self.price.min,
         prevMax = self.price.max;
 
-
-        console.log("##update# min/maxPrice: " + minPrice + "/" + maxPrice + ", prevMin/Max: " + prevMin + "/" + prevMax);
+        console.log("##update#");
+        console.log("positions: " , positions);
+        console.log("percents: " , percents);
+        console.log("min/maxPrice: " + minPrice + "/" + maxPrice + ", prevMin/Max: " + prevMin + "/" + prevMax);
 
         self.currentFilterGroup = filterName;
 
@@ -2192,7 +2220,7 @@ define(function(require){
         if ( (prevMin !== minPrice || prevMax !== maxPrice) && self.isInitialized ) {
 
           // Save current filters
-          // console.log("filter.range[] filterName: " + filterName + ", " + minPrice + "/" + maxPrice);
+          console.log("filter.range[] filterName: " + filterName + ", " + minPrice + "/" + maxPrice);
           self.filters.range[ filterName ].min = minPrice;
           self.filters.range[ filterName ].max = maxPrice;
 
@@ -2231,13 +2259,14 @@ define(function(require){
 
       // Do a fake update to position the display values. We do this here instead of registering
       // the slid event because that will be triggered twice on init (once for both handles)
+      
       update( undefined, undefined, {min: 0, max: 100} );
 
 
       // set the rangeThreshhold to low, so that we can get a 800-999 range for touch (at 0.25, the min can only go up to 754)
       var rangeThresholdVal = 0.25;
       if (self.hasTouch) {
-        rangeThresholdVal = 0.1;
+        rangeThresholdVal = 0;
       }
       self.$rangeControl.rangeControl({
         initialMin: '0%',
@@ -2248,33 +2277,6 @@ define(function(require){
 
       // On handle slid, update. Register after initialized so it's not called during initialization
       self.$rangeControl.on( 'slid.rangecontrol', slid );
-
-
-
-      // WIP
-      // function prepUpdateRangeFromTouchbutton ( dataStr ) {
-      //   console.log("prepUpdateRangeFromTouchbutton");
-      //   var dataArray = dataStr.split('_');
-      //   var min, max;
-      //   if ( dataArray.length > 1 ){
-      //     min = dataArray[0];
-      //     max = dataArray[1];
-      //   } else {
-      //     min = max = dataStr.split('+')[0];
-      //   }
-
-      //   console.log("min/max: " + min + "/" + max + ", percents: " + self.priceToPercent(min) + "/" + self.priceToPercent(max));
-
-      //   update( undefined, undefined, { min: self.priceToPercent(min), max: self.priceToPercent(max) } );
-      // }
-      // // Save ref to touchbuttonclick
-      // // self.touchbuttonclick = self.$grid.data('touchbuttonclick');
-      // self.$grid.on( 'touchbuttonclick', function ( e, dataStr ){
-      //   prepUpdateRangeFromTouchbutton( dataStr );
-      // });
-
-      
-
       self.filterValues[ filterName ] = { min: true, max: true };
 
       $rangeControl = null;
@@ -2282,7 +2284,7 @@ define(function(require){
 
     // WIP
     priceToPercent : function( price ) {
-      // console.log("priceToPercent ## price: " + price + ", MIN/MAX: " + self.MIN_PRICE + "/" + self.MAX_PRICE);
+      console.log("priceToPercent ## price: " + price + ", MIN/MAX: " + self.MIN_PRICE + "/" + self.MAX_PRICE);
       return ( ( price - self.MIN_PRICE ) / ( self.MAX_PRICE - self.MIN_PRICE ) );
     },
 
@@ -2317,21 +2319,21 @@ define(function(require){
       // WIP
       priceToRangePosition = function( price ) {
         var pos = ( ( price - self.MIN_PRICE ) / diff ) * railSize;
-        // console.log("priceToRangePosition. price: " + price + ", pos: " + pos);
+        console.log("priceToRangePosition. price: " + price + ", pos: " + pos);
         return pos;
       };
 
-      // console.log("setRangeValue: min/max: " + min + "/" + max);
+      console.log("setRangeValue: min/max: " + min + "/" + max);
 
       if ( min && min <= self.MAX_PRICE && min >= self.MIN_PRICE ) {
         minPos = priceToRangePosition( min );
-        // console.log("minPos: " + minPos);
+        console.log("minPos: " + minPos);
         rangeControl.slideToPos( minPos, rangeControl.$minHandle );
       }
 
       if ( max && max <= self.MAX_PRICE && max >= self.MIN_PRICE ) {
         maxPos = priceToRangePosition( max );
-        // console.log("maxPos: " + maxPos);
+        console.log("maxPos: " + maxPos);
         rangeControl.slideToPos( maxPos );
       }
 
