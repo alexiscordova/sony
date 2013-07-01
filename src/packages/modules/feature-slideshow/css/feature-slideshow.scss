@@ -26,12 +26,23 @@
 
 
 
-$captionPadding: px-em( 12 );
-$captionHeight: px-em( 70 );
-$carouselHeight: 540px;
+$captionPadding: px-em( 24 );
+$captionHeight: px-em( 54 );
+$carouselHeight: 700px;
 
 .fs-module {
+  position: relative;
 
+  .fs-backdrop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
 
   .box {
     position: absolute;
@@ -68,22 +79,21 @@ $carouselHeight: 540px;
   .fs-carousel,
   .fs-carousel-slide,
   .caption .media,
-  .caption .tone,
-  .caption .tone .v-wrap,
+  .caption .stat-wrap,
+  .caption .stat-wrap .v-wrap,
   .caption .media-body {
     height: inherit;
   }
 
   .fs-slide {
     position: relative;
-    background: $gray90;
   }
 
   .fs-slide .iq-img {
     height: 100%;
     width: 100%;
     background-size: cover;
-    background-repeat: none;
+    background-repeat: no-repeat;
     background-position: center center;
   }
 
@@ -92,32 +102,49 @@ $carouselHeight: 540px;
   .caption {
     position: absolute;
     bottom: $captionHeight;
-    left: 50%;
+    left: 44%;
     margin: auto;
     height: $captionHeight;
     min-width: 30%;
   }
 
   .caption .media {
-    position: relative;
-    left: -50%;
-    margin: 0;
-    background: $gray70;
   }
 
-  .tone {
-    padding: 0 $captionPadding;
+  .stat-wrap {
+    position: absolute;
     margin-right: $captionPadding;
+    right: 100%;
+    // width: 124px;
+    // text-align: right;
+    // width: -webkit-max-content;
   }
 
   .caption .media-body {
-    padding-right: $captionPadding;
+    position: relative;
+    padding-left: $captionPadding;
+
+    // Gray divider
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      margin-top: px-em( -50 / 2 );
+      display: block;
+      height: px-em( 50 );
+      width: 1px;
+      background: $gray60;
+    }
   }
 
   // Zero margin on value and units
-  .caption .tone .stat {
-    color: $white;
+  .caption .stat {
+    color: inherit;
     margin: 0;
+    display: inline-block;
+    vertical-align: baseline;
+    line-height: 0.85; // vertical align getting thrown off by this font-size and line height
   }
 
 
@@ -170,8 +197,8 @@ $carouselHeight: 540px;
   }
 
   .caption .media,
-  .caption .tone,
-  .caption .tone .v-wrap,
+  .caption .stat-wrap,
+  .caption .stat-wrap .v-wrap,
   .caption .media-body {
     height: $captionHeight;
   }
