@@ -20,26 +20,27 @@ mixin featureSlide( data )
 mixin caption( caption )
   caption = caption ? caption : {}
   statValue = caption.stat && caption.stat.value ? caption.stat.value : "0.00"
-  statUnit = caption.stat && caption.stat.unit ? caption.stat.unit : "px"
+  statUnit = caption.stat && caption.stat.unit ? caption.stat.unit : false
   statDescription = caption.description ? caption.description : "Finder terminal vmware fusion ios simulator firefox nightly webkit"
   toneColor = caption.stat && caption.stat.color ? caption.stat.color : "red"
 
   .caption.fade
     .media
-      div(class=[ "pull-left", "text-center", "tone", "tone-" + toneColor ])
+      div(class=[ "pull-left", "text-center", "stat-wrap" ])
         .table-center-wrap.v-wrap
-          .table-center
-            .t4.stat.value !{ statValue }
-            .p4.stat.unit !{ statUnit }
+          .table-center(class="text-" + toneColor)
+            span.t2-light.stat.value !{ statValue }
+            if statUnit
+              span.p4.stat.unit !{ statUnit }
       .media-body.table-center-wrap
         .table-center
-          p.p3 !{ statDescription }
+          p.t5-light.text-dark !{ statDescription }
 
 
 mixin copyGrid( data )
   copyStyle = data.style ? data.style : "dark-text-trans-box"
 
-  div(class=[ "grid", "no-grid-at-767", "copy-grid", copyStyle ])
+  div(class=[ "grid", "no-grid-at-767", copyStyle ])
     .span6.box.js-copy.fade
       block
 
@@ -68,11 +69,12 @@ mixin copyBlock( data )
 
 //- Main section wrapper for slides
 +mainElement( [ "fs-module", "animation-pending" ] )
-  .container
+  +iQBackgroundImage( data.backdrop, 'update-always fs-backdrop' )
+  .container.copy-grid
     +copyBlock( data )
-    .fs-carousel-wrapper.sony-carousel-wrapper
-      .fs-carousel.sony-carousel
-        +featureSlides( data )
+  .fs-carousel-wrapper.sony-carousel-wrapper
+    .fs-carousel.sony-carousel
+      +featureSlides( data )
 
 
 
