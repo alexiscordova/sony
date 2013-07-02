@@ -37,16 +37,16 @@ mixin mediaObject( data )
     iconClass = "fonticon-15-popup"
     isDIV = false
 
-  .media
+  .addon-mo.addon-inner.clearfix
     +addonMediaWrapper( isDIV )
       +iQBackgroundImage( data.img, "media-object" )
       if iconClass
         .icon-wrap
         i(class=iconClass + " l-o-d")
 
-    .media-body.ghost-center-wrap.v-wrap
+    .addon-body.ghost-center-wrap.v-wrap.pull-left
       .ghost-center
-        p.p3.copy !{ data.copy }
+        p.p3-bold.copy !{ data.copy }
         if data.subhead
           p.p4.subhead !{ data.subhead }
         else if !iconClass && data.link
@@ -59,17 +59,18 @@ mixin quote( data )
   isTweet = data.type == "tweet"
   isQuote = data.type == "quote"
 
-  .quote.media
-    .addon-media.pull-left
-      if isQuote
-        +iQBackgroundImage( data.img, "media-object" )
+  .quote.addon-inner.clearfix(class=alignment + "-copy")
+    if (isTweet || (isQuote && data.img))
+      .addon-media.pull-left
+        if isQuote
+          +iQBackgroundImage( data.img, "media-object" )
 
-      else if isTweet
-        .media-object
-          i(class="fonticon-15-twitter twitter-color")
+        else if isTweet
+          .media-object
+            i(class="fonticon-15-twitter twitter-color")
 
-    figure.media-body(class="text-" + alignment)
-      blockquote.bq5(cite=href)
+    figure.addon-body.pull-left(class="text-" + alignment)
+      blockquote.bq5-bold(cite=href)
         p !{ data.copy }
 
       figcaption

@@ -41,16 +41,15 @@
   }
 
   .editorial-carousel {
+    -webkit-backface-visibility: hidden;
     position: relative;
     width: 9000px; // overridden by javascript
-    height: 100%;
     opacity: 0;
     filter: alpha(opacity=0);
-    -webkit-backface-visibility: hidden;
   }
 
-
   .editorial-carousel-slide {
+    -webkit-backface-visibility: hidden;
     position: relative;
     width: 600px; // overriden by javascript (to something like 20%)
     height: 100%;
@@ -94,3 +93,19 @@
     display: block;
   }
 }
+
+
+// Support: IE7
+.lt-ie8 {
+
+  .editorial-slideshow-container .editorial-slideshow .slide-band.box {
+    text-indent: 1em;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+
+
+
+
