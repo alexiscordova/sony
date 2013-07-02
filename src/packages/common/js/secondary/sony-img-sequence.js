@@ -75,7 +75,7 @@ define(function(require){
       // setTimeout and a $win.resize() we can fire iQ. ?? seems legit?
       self.loadSequence();
 
-      log('SONY : Editorial 360 Viewer : Initialized');
+      log('SONY : Editorial SonySequence Module : Initialized');
     },
 
     lockAndLoaded: function() {
@@ -99,7 +99,7 @@ define(function(require){
         // if we have setup to autoplay
         (self.options.autoplay) ? self.startAnimation() : self.initBehaviors();
         // if the user wants bar controls we need to populate the dom
-        if (self.options.barcontrols) {
+        if (self.options.barcontrols && !self.options.loop && !self.options.autoplay) {
           self.createBarControl();
         }
         
@@ -278,11 +278,11 @@ define(function(require){
       self.$container.append(controlTmpl.slider);
       self.$sliderControl = self.$container.find('.range-control');
 
-      if (self.options.labels && self.options.labels.left && self.options.labels.right) {
+      if (self.options.labelLeft && self.labelRight) {
         var label = {};
         
-        label.left = "<span class='slider-label label-left'>"+self.options.labels.left+"</span>";
-        label.right = "<span class='slider-label label-right'>"+self.options.labels.right+"</span>";
+        label.left = "<span class='slider-label label-left'>"+self.options.labelLeft+"</span>";
+        label.right = "<span class='slider-label label-right'>"+self.options.labelRight+"</span>";
 
         self.$sliderControl.append(label.right)
           .prepend(label.left);
@@ -349,7 +349,7 @@ define(function(require){
 
       self.animationInterval = setInterval(function() {
         self.move( 'left' );
-      }, self.options.speed);
+      }, self.options.animationspeed);
 
     },
 
@@ -624,6 +624,11 @@ define(function(require){
             if (self.options.autoplay && self.animationLooped && !self.options.loop) { 
               self.initBehaviors();
               clearInterval(self.animationInterval); 
+
+              if (self.options.autoplay) {
+                self.createBarControl();
+              }
+
               self.options.autoplay = false;
               return;
             }
@@ -698,9 +703,14 @@ define(function(require){
 
   // Defaults
   // --------
-
   SonySequence.defaults = {
-    options: {}
+    autoplay: false,
+    viewcontrols: true,
+    barcontrols: false,
+    loop: false,
+    speed: 100,
+    labelLeft: 'Left',
+    labelRight: 'Right'
   };
 
   // Non override-able settings
@@ -708,9 +718,6 @@ define(function(require){
   SonySequence.settings = {
     isTouch: !!( 'ontouchstart' in window ),
     isInitialized: false,
-    controls: false,
-    autoplay: false,
-    duration: 0
   };
 
   return SonySequence;

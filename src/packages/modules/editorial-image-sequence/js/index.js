@@ -1,12 +1,12 @@
 define(function(require){
 
-  var Editorial360Viewer = require('modules/editorial-360viewer-e8/360viewer-controller');
+  var SonyImageSequence = require('modules/editorial-image-sequence/image-sequence');
 
   // Initialize Modules that don't require additional configuration.
-  Editorial360Viewer.init();
+  SonyImageSequence.init();
 
   // Return up a level if desired.
   return {
-    Editorial360Viewer: Editorial360Viewer
+    SonyImageSequence: SonyImageSequence
   };
 });

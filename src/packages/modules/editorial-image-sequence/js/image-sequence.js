@@ -23,46 +23,54 @@ define(function(require){
       Favorites    = require('secondary/index').sonyFavorites,
       hammer       = require( 'plugins/index' ).hammer;
 
-  var self = {
-    'init': function() {
 
-      // IE 10 detection
+  var sonySequence = {
+    'init': function() {
       if ( window.atob || Settings.isLTIE10 ) {
         $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
-      }
+      }    
 
-      // detect if there are 360 viewer constructs on the DOM
+      $.extend(this, {}, sonySequence.defaults, sonySequence.settings);
       $( '.e360' ).each( function( index, el ) {
-        //for each instance, initialize
         var $el = $(this);
 
-        // get options to set the SonySequence
-        self.autoplay       = $el.data('sequence-autoplay') ? $el.data('sequence-autoplay') : false;
-        self.viewcontrols   = $el.data('sequence-viewcontrols') ? $el.data('sequence-viewcontrols') : false;
-        self.barcontrols    = $el.data('sequence-barcontrols') ? $el.data('sequence-barcontrols') : false;
-        self.loop           = $el.data('sequence-loop') ? $el.data('sequence-loop') : false;
-        self.animationspeed = $el.data('sequence-animation-speed') ? $el.data('sequence-animation-speed') : 100;
-        self.labelLeft      = $el.data('sequence-label-left') ? $el.data('sequence-label-left') : null;
-        self.labelRight     = $el.data('sequence-label-right') ? $el.data('sequence-label-right') : null;
-
-        self.editorial360 = new SonySequence( el, {
-          autoplay: self.autoplay,
-          viewcontrols: self.viewcontrols,
-          barcontrols: self.barcontrols,
-          loop: self.loop,
-          speed: self.animationspeed,
-          labels: {
-            left: self.labelLeft,
-            right: self.labelRight
-          }
+        new SonySequence($el, {
+          autoplay       : $el.data('sequence-autoplay') || SonySequence.defaults.autoplay,
+          viewcontrols   : $el.data('sequence-viewcontrols') || SonySequence.defaults.viewcontrols,
+          barcontrols    : $el.data('sequence-barcontrols') || SonySequence.defaults.barcontrols,
+          loop           : $el.data('sequence-loop') || SonySequence.defaults.loop,
+          animationspeed : $el.data('sequence-animation-speed') || SonySequence.defaults.speed,
+          labelLeft      : $el.data('sequence-label-left') || SonySequence.defaults.autoplay,
+          labelRight     : $el.data('sequence-label-right') || SonySequence.defaults.autoplay
         });
       });
     }
   };
 
-  // Non override-able settings
-  // --------------------------
+  var SonySequenceModule = function(element){
 
-  return self;
+    var self = this;
+
+    self.$el = $(element);
+    self.init();
+
+    log('SONY : SonySequence : Initialized');
+  };
+
+  // Defaults
+  // --------
+  sonySequence.defaults = {
+    autoplay: false,
+    viewcontrols: true,
+    barcontrols: false,
+    loop: false,
+    speed: 100,
+    labels: {
+      left: 'Left',
+      right: 'Right'
+    }
+  };
+
+  return sonySequence;
 
 });
