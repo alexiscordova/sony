@@ -43,7 +43,7 @@ define(function(require) {
         splash: true,
         embed: false,
         tooltip: false,
-        engine: 'flash'
+        engine: 'html5'
       };
 
       // Private methods

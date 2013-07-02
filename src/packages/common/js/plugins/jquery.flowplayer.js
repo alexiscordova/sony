@@ -688,8 +688,8 @@ function embed(swf, flashvars) {
       ' data="' + swf  + '" type="application/x-shockwave-flash">';
 
    var opts = {
-      width: "704",
-      height: "500",
+      width: "100%",
+      height: "100%",
       allowscriptaccess: "always",
       wmode: "transparent",
       quality: "high",
