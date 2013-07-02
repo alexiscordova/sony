@@ -77,6 +77,8 @@ mixin addon(_data)
   d = _data ? _data : data
   if d.addon
     s = d.addon.style ? d.addon.style : "light-text-dark-box"
+    if s == "light-text-dark-box"
+      s = s + " l-o-d"
     .secondary(class= s)
       .box
         .container
@@ -170,7 +172,10 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
         +header
         .visible-phone
           +links
-      .secondary.hidden-phone(class= data.variation.substyle)
+      s = data.variation.substyle
+      if s == "light-text-dark-box"
+        s = s + " l-o-d"
+      .secondary.hidden-phone(class= s)
         .box
           .container.grid.no-grid-at-767
             .span6
