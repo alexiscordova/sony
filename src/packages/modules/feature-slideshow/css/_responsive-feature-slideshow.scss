@@ -1,0 +1,88 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+// @media (min-width: 87.5em) {
+
+//   .editorial-slideshow-container {
+
+//     .pagination-paddles button.pagination-next {
+//       margin-right: -39.45em;
+//     }
+
+//     .pagination-paddles button.pagination-prev {
+//       margin-left: -39.45em;
+//     }
+//   }
+// }
+
+
+@media (max-width: px-em(767)) {
+
+  // Vars
+  $captionPadding: px-em( 6 );
+  $captionHeight: px-em( 55 );
+
+  .fs-module {
+
+    .box {
+      position: static;
+    }
+
+    .caption {
+      height: $captionHeight;
+      bottom: $captionHeight;
+      width: $mobileContainerPlusGridWidth;
+    }
+
+    .caption .media-body {
+      padding-right: $captionPadding;
+    }
+
+    .tone {
+      padding-left: $captionPadding;
+      padding-right: $captionPadding;
+      margin-right: $captionPadding;
+    }
+
+    .sony-dot-nav .pagination-bullets {
+      bottom: 1em;
+    }
+  }
+}
+
+
+$subPhoneMax: px-em(479);
+$phoneMin: px-em(480);
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$superDesktop: px-em(1200);
+
+.fs-module .fs-carousel-wrapper {
+
+  @media (min-width: $superDesktop) {
+    height: 620px;
+  }
+
+  @media (min-width: $tabletMin) and (max-width: $tabletMax) {
+    height: 440px;
+  }
+
+  @media (max-width: $phoneMax) {
+    height: auto;
+
+    .fs-carousel {
+      height: 320px;
+    }
+  }
+
+  @media (max-width: $subPhoneMax){
+    height: auto;
+
+    .fs-carousel {
+      height: 320px;
+    }
+  }
+}
+
+

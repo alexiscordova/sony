@@ -1,0 +1,147 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-viewport.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="sony-carousel-fade.html">                 sony-carousel-fade.js               </a>                                           <a class="source" href="sony-carousel.html">                 sony-carousel.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-favorites.html">                 sony-favorites.js               </a>                                           <a class="source" href="sony-modal.html">                 sony-modal.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-scrolltotop.html">                 sony-scrolltotop.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickyheaders.html">                 sony-stickyheaders.js               </a>                                           <a class="source" href="sony-stickynav.html">                 sony-stickynav.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                                           <a class="source" href="sony-video.html">                 sony-video.js               </a>                                           <a class="source" href="sony-viewport.html">                 sony-viewport.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-viewport.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h2>Viewport Helper</h2>
+
+<ul>
+<li><strong>Class:</strong> Viewport</li>
+<li><strong>Version:</strong> 1.0</li>
+<li><strong>Modified:</strong> 06/25/2013</li>
+<li><strong>Author:</strong> Glen Cheney</li>
+<li><strong>Dependencies:</strong> jQuery 1.7+, SONY Settings, throttle/debounce</li>
+</ul>
+
+<p><em>Notes:</em></p>
+
+<p><em>Example Usage:</em></p>
+
+<pre><code> Viewport.add( element, callback )
+
+ Viewport.add( options )
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+define(<span class="keyword">function</span>(require) {
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> $ = require(<span class="string">'jquery'</span>),
+      Environment = require(<span class="string">'require/sony-global-environment'</span>),
+      Settings = require(<span class="string">'require/sony-global-settings'</span>),
+
+      instance = <span class="literal">null</span>;
+
+  <span class="keyword">var</span> Viewport = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.init();
+  };
+
+  Viewport.prototype = {
+
+    init : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>The list of viewports to watch</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.list = [];
+      self.windowHeight = <span class="number">0</span>;
+      self.windowWidth = <span class="number">0</span>;
+
+
+      self.onResize();
+      self.listForEvents();
+    },
+
+    listForEvents : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Listen for global resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      Environment.on(<span class="string">'global:resizeDebounced'</span>, $.proxy( self.onResize, self ));
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Throttle scrolling because it doesn't need to be super accurate</p>             </td>             <td class="code">               <div class="highlight"><pre>      Settings.$window.on(<span class="string">'scroll'</span>, $.throttle( <span class="number">500</span>, $.proxy( self.onScroll, self ) ));
+    },
+
+    add : <span class="keyword">function</span>( options ) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      options.triggered = <span class="literal">false</span>;
+      options.$element = $( options.element );
+      options.elementOffset = options.$element.offset();
+      options.height = options.$element.height();
+      options.width = options.$element.width();
+
+      self.list.push( options );
+    },
+
+    saveDimensions : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      console.log( <span class="string">'saveDimensions:before'</span>, self.list );
+
+      $.each(self.list, <span class="keyword">function</span>( i, listItem ) {
+        listItem.elementOffset = listItem.$element.offset();
+        listItem.height = listItem.$element.height();
+        listItem.width = listItem.$element.width();
+      });
+
+      console.log( <span class="string">'saveDimensions:after'</span>, self.list );
+
+      self.windowHeight = Settings.$window.height();
+      self.windowWidth = Settings.$window.width();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Throttled scroll event</p>             </td>             <td class="code">               <div class="highlight"><pre>    onScroll : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Save the new scroll top</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.lastScrollY = Settings.$window.scrollTop();
+
+      self.processScroll();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Debounced resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>    onResize : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Update offsets and width/height for each viewport item</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.saveDimensions();
+    },
+
+    processScroll : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          st = self.lastScrollY;
+
+      $.each(self.list, <span class="keyword">function</span>( i, listItem ) {
+
+      });
+    }
+
+  };
+
+  Viewport.add = <span class="keyword">function</span>( element, callback ) {
+    <span class="keyword">var</span> instance = Viewport.getInstance(),
+        options = {};
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If the first arg is a plain object, it is an options object</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( $.isPlainObject( element ) ) {
+      options = element;
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Otherwise assume it is the element</p>             </td>             <td class="code">               <div class="highlight"><pre>    } <span class="keyword">else</span> {
+      options.element = element;
+    }
+
+    <span class="keyword">if</span> ( callback ) {
+      options.callback = callback;
+    }
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Get defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.extend( options, Viewport.options, options, Viewport.settings );
+
+    <span class="keyword">return</span> instance.add( options );
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Options that could be customized per module instance</p>             </td>             <td class="code">               <div class="highlight"><pre>  Viewport.options = {
+    offset: <span class="number">200</span>
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>These are not overridable when instantiating the module</p>             </td>             <td class="code">               <div class="highlight"><pre>  Viewport.settings = {
+  };
+
+  Viewport.getInstance = <span class="keyword">function</span>() {
+    <span class="keyword">if</span> ( !instance ) {
+      instance = <span class="keyword">new</span> Viewport();
+    }
+
+    <span class="keyword">return</span> instance;
+  };
+
+  <span class="keyword">return</span> Viewport;
+});
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

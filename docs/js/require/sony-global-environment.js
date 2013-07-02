@@ -145,13 +145,6 @@ define(function (require) {
 
         return test;
       });
-
-
-      // Does the browser implement align-content for flexbox?
-
-      Modernizr.addTest('flexboxAlignSelf', function() {
-        return Modernizr.testAllProps('alignSelf');
-      });
     },
 
     // Normalizes the console.log method.
