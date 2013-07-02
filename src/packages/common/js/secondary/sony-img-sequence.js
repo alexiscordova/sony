@@ -152,6 +152,7 @@ define(function(require){
       sequenceDepth = ( positon / maxWidth );
       self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
 
+      if (self.currIndex < 0) { self.currIndex = 0; }
       if (!self.pluck( lastIndex )) { return; }
 
       self.pluck( lastIndex ).addClass( 'visuallyhidden' );
@@ -183,9 +184,8 @@ define(function(require){
     // get the demensions, will need to recalculate on resize 
     sliderGetDimensions: function() {
       var self = this;
-      self.sliderControlWidth = (self.$sliderControl.outerWidth() - 20);
-
-      return (self.$sliderControl.outerWidth() - 20);
+      self.sliderControlWidth = (self.$sliderControl.width() - 20);
+      return (self.sliderControlWidth);
     },
 
     dragSlider: function(event, position) {
@@ -202,7 +202,7 @@ define(function(require){
       // get the sldie value positions
       pagePos = eventX - self.$sliderControl.offset().left;
       pagePos = Math.min(self.sliderControlWidth, pagePos);
-      pagePos = Math.max(-30, pagePos);
+      pagePos = Math.max(-20, pagePos);
 
       if (self.pagePos !== pagePos) {
         self.pagePos = pagePos;
@@ -212,7 +212,7 @@ define(function(require){
         //set the slider positon
         self.setSliderPosition(pagePos);
 
-        if ( pagePos <= 0 ) { pagePos = 0; }
+        //if ( pagePos <= 0 ) { pagePos = 0; }
         self.sliderGotoFrame(pagePos);
       }
 
@@ -262,29 +262,32 @@ define(function(require){
       controlTmpl = {};
       
       controlTmpl.slider = [
-        "<div class='control-bar slider range-control'>",
-          "<div class='handle'>",
-            "<span class='inner'>",
-              "<span class='icons'>",
-                "<i class='fonticon-10-chevron-reverse'/>",
-                "<i class='fonticon-10-chevron'/>",
+        "<div class='control-bar-container'>",
+          "<div class='control-bar slider range-control'>",
+            "<div class='handle'>",
+              "<span class='inner'>",
+                "<span class='icons'>",
+                  "<i class='fonticon-10-chevron-reverse'/>",
+                  "<i class='fonticon-10-chevron'/>",
+                "</span>",
               "</span>",
-            "</span>",
+            "</div>",
           "</div>",
         "</div>"
       ].join('\n');
 
       // add our new controls to the container
       self.$container.append(controlTmpl.slider);
+      self.$sliderControlContainer = self.$container.find('.control-bar-container');
       self.$sliderControl = self.$container.find('.range-control');
 
       if (self.options.labelLeft && self.labelRight) {
         var label = {};
         
-        label.left = "<span class='slider-label label-left'>"+self.options.labelLeft+"</span>";
-        label.right = "<span class='slider-label label-right'>"+self.options.labelRight+"</span>";
+        label.left = "<span class='slider-label label-left l3'>"+self.options.labelLeft+"</span>";
+        label.right = "<span class='slider-label label-right l3'>"+self.options.labelRight+"</span>";
 
-        self.$sliderControl.append(label.right)
+        self.$sliderControlContainer.append(label.right)
           .prepend(label.left);
       }
 

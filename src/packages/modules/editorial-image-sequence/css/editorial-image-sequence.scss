@@ -101,25 +101,34 @@ $transitionSpeed: 0.5s;
     }
   }
 
-  .slider {
+  .control-bar-container {
+    position: relative;
+    width: 50%; 
     margin: 0 auto;
-    width: 50%;
-    
+
     .slider-label {
       display: block;
       position: absolute;
+      text-transform: uppercase;
+      color: $gray40;
       width: 150px;
-      top: -10px;
+      top: -6px;
 
       &.label-left {
         text-align: right;
-        left: -170px;
+        left: -150px;
       }
 
       &.label-right {
-        right: -170px;
+        right: -150px;
       }
-    }
+    }               
+  }
+
+  .slider {
+    width: percentage(912/1040);
+    margin: 0 percentage(64/1040);
+    @include clearfix();
   }
 
   .range-control {
