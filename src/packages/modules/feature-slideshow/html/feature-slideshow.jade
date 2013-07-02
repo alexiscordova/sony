@@ -12,9 +12,10 @@ mixin featureSlides(data)
 
 mixin featureSlide( data )
   .fs-slide.sony-carousel-slide
-    if data.img
-      +iQBackgroundImage( data.img )
-    +caption( data.caption )
+    .fs-slide-inner
+      if data.img
+        +iQBackgroundImage( data.img )
+      +caption( data.caption )
 
 
 mixin caption( caption )
@@ -46,10 +47,11 @@ mixin copyGrid( data )
 
 
 mixin copyBlock( data )
-  titleClass = "t3-bold"
-  subtitleClass = "t7"
-  bodyClass = "p3"
-  linkClass = data.mode == "full" ? "lt2" : "lt3"
+  isSlideshowMode = data.mode && data.mode != "editorial"
+  titleClass = isSlideshowMode ? "t3-bold" : "t2"
+  subtitleClass = isSlideshowMode ? "t7" : "t6"
+  bodyClass = isSlideshowMode ? "p3" : "p2"
+  linkClass = isSlideshowMode ? "lt2" : "lt3"
 
   +copyGrid( data )
     if data.title
@@ -67,9 +69,14 @@ mixin copyBlock( data )
     !{ locals.partial('packages/modules/addon/html/addon.jade', e) }
 
 
+//- Default mode to slideshow
+mode = data.mode ? data.mode : "slideshow"
+mode = "fs-" + mode
+
 //- Main section wrapper for slides
-+mainElement( [ "fs-module", "animation-pending" ] )
-  +iQBackgroundImage( data.backdrop, 'update-always fs-backdrop' )
++mainElement( [ "fs-module", mode, "animation-pending" ] )
+  if data.backdrop
+    +iQBackgroundImage( data.backdrop, 'update-always fs-backdrop' )
   .container.copy-grid
     +copyBlock( data )
   .fs-carousel-wrapper.sony-carousel-wrapper
