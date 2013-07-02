@@ -202,16 +202,18 @@ define(function(require){
       // get the sldie value positions
       pagePos = eventX - self.$sliderControl.offset().left;
       pagePos = Math.min(self.sliderControlWidth, pagePos);
-      pagePos = Math.max(0, pagePos);
+      pagePos = Math.max(-30, pagePos);
 
       if (self.pagePos !== pagePos) {
         self.pagePos = pagePos;
         ratio = pagePos / self.sliderControlWidth;
         value = self.sliderRatioToValue(ratio);
 
-        self.sliderGotoFrame(pagePos);
         //set the slider positon
-        return self.setSliderPosition(pagePos);
+        self.setSliderPosition(pagePos);
+
+        if ( pagePos <= 0 ) { pagePos = 0; }
+        self.sliderGotoFrame(pagePos);
       }
 
       self.dragged = true;
