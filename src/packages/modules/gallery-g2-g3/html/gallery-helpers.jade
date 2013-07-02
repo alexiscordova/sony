@@ -32,9 +32,9 @@ mixin filterRange( filterSet )
   //- for the range selector, we need buttons for touch devices.
   if filterSet.filters
     .range-container-touch-buttons
-      .btn-group(data-filter=filterSet.name + "-touchbutton", data-filter-type="button")
+      .btn-group(data-filter=filterSet.name + "_touchbutton", data-filter-type="button")
         each filter in filterSet.filters
-          tagString = '<button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after" data-label="' + filter.label + '" data-' + filterSet.name + '-touchbutton="' + filter.value + '">' + filter.label + '</button>'
+          tagString = '<button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after" data-label="' + filter.label + '" data-' + filterSet.name + '_touchbutton="' + filter.value + '">' + filter.label + '</button>'
           | !{tagString}
       if filterSet.help
         +helpPopover( filterSet.help )

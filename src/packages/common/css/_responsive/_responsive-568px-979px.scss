@@ -79,9 +79,9 @@
     margin-bottom: 15px;
   }
   .t2, .t2-light, .t2-bold, h2{
-    @include px-em--font-size--line-height(36,42);
+    @include px-em--font-size--line-height(32,37);
     margin-bottom: 22px;
-    letter-spacing: 0em;
+    letter-spacing: -0.04em;
   }
   .t3, .t3-light, .t3-bold, h3{
     @include px-em--font-size--line-height(24,30);
@@ -113,19 +113,19 @@
   // Paragraphs & LinkText
   // ------------------------------------
 
-  .p1, .lt1 {
+  .p1, .p1-bold, .lt1 {
     @include px-em--font-size--line-height(15,22);
   }
-  .p2, .lt2, p, input.p2 {
+  .p2, .p2-bold, .lt2, p, input.p2 {
     @include px-em--font-size--line-height(13,20);
   }
-  .p3, .lt3, .lt3-alt {
+  .p3, .p3-bold, .lt3, .lt3-alt {
     @include px-em--font-size--line-height(12,18);
   }
-  .p4, .lt4, input.p4 {
+  .p4, .p4-bold, .lt4, input.p4 {
     @include px-em--font-size--line-height(11,15);
   }
-  .p5, .lt5 {
+  .p5, .p5-bold, .lt5 {
     @include px-em--font-size--line-height(10,13);
   }
   .p1 { margin-bottom: 12px; }
@@ -138,28 +138,33 @@
   // Block Quotes
   // ------------------------------------
 
-  .bq1 p{
+  .bq1 p,
+  .bq1-bold p{
     @include px-em--font-size--line-height(34,42);
     // margin-bottom: 24px;
     &:first-child { text-indent:-13px; }
   }
   .bq2 p,
+  .bq2-bold p,
   blockquote p{
     @include px-em--font-size--line-height(22,30);
     // margin-bottom: 16px;
     &:first-child { text-indent:-8px; }
   }
-  .bq3 p{
+  .bq3 p,
+  .bq3-bold p{
     @include px-em--font-size--line-height(18,26);
     // margin-bottom: 16px;
     &:first-child { text-indent:-7px; }
   }
-  .bq4 p{
+  .bq4 p,
+  .bq4-bold p{
     @include px-em--font-size--line-height(13,20);
     margin-bottom: 12px;
     &:first-child { text-indent:-4px; }
   }
-  .bq5 p{
+  .bq5 p,
+  .bq5-bold p{
     @include px-em--font-size--line-height(12,16);
     // margin-bottom: 12px;
     &:first-child { text-indent:-4px; }

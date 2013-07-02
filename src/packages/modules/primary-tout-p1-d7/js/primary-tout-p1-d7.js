@@ -232,21 +232,22 @@ define(function(require){
             //play video if its a video button
             if($(this).hasClass('video')){
               self.$el.find('.sony-video').data('sonyVideo').api().play();
+
             }
           });
 
           var submodule = self.$el.find('.submodule');
           var close = submodule.find('.box-close');
-          submodule.find('.box-close').on('click', function(e){
 
+          submodule.find('.box-close').on('click', function(e){
             e.preventDefault();
+
+            self.$el.find('.sony-video').data('sonyVideo').api().fullscreen(false);
+            self.$el.find('.sony-video').data('sonyVideo').api().pause();
 
             self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').removeClass('off-screen visuallyhidden');
 
-            submodule.addClass('off-screen visuallyhidden')
-                .trigger('PrimaryTout:submoduleActivated');
-
-            self.$el.find('.sony-video').data('sonyVideo').api().pause();
+            submodule.addClass('off-screen visuallyhidden').trigger('PrimaryTout:submoduleActivated');
           });
 
           if(!Settings.hasTouchEvents){
@@ -261,7 +262,9 @@ define(function(require){
               close.addClass('close-hide');
             });
           }
+
         }
+
 
 
         log('SONY : PrimaryTout : Initialized');

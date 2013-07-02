@@ -25,7 +25,7 @@ $galleryFourColMax: px-em(979px);
 
     .grid {
       padding-top: px-em( 40 );
-      padding-bottom: px-em( 30 )
+      padding-bottom: px-em( 30 );
     }
   }
 
@@ -160,8 +160,6 @@ $galleryFourColMax: px-em(979px);
 // 980-1199
 @media ( min-width: 61.25em ) and ( max-width: 74.9375em ) {
 
-  // Per Val
-
   .filter-container {
     max-width: 240px;
 
@@ -181,7 +179,12 @@ $galleryFourColMax: px-em(979px);
       padding-right: 5px;
       font-size: 15px;
 
-      // I don't give a shit about your ems!
+      &[data-price_touchbutton] {
+        font-size: 12px;
+        line-height: 14px;
+        padding-top:14px;
+      }
+
       &:after {
         font-size: 16px;
       }
@@ -198,9 +201,23 @@ $galleryFourColMax: px-em(979px);
     .media-heading {
       margin: -4px 0 3px;
     }
-
   }
+}
 
+
+
+// 1200+
+@media ( min-width: 75em ) {
+  .filter-container {
+    .btn-square {
+      // GIANT TABLET ALERT!
+      &[data-price_touchbutton] {
+        font-size: 15px;
+        line-height: 18px;
+        padding-top:12px;
+      }
+    }
+  }
 }
 
 
@@ -253,6 +270,7 @@ $galleryFourColMax: px-em(979px);
     margin-top: 0;
   }
 }
+
 
 // < 768
 @media (max-width: $galleryThreeColMax) {

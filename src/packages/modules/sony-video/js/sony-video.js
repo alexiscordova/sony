@@ -27,23 +27,23 @@ define(function(require){
 
     var self = {
       'init': function() {
-        $('.sony-video').sonyVideo();
+        $('.sony-video').not('.sony-video-placeholder .sony-video').sonyVideo();
       }
     };
-    
+
     var SonyVideo = function(element, options){
       var self = this;
-       
+
       // Extend
       $.extend( self, {}, $.fn.sonyVideo.defaults, options, $.fn.sonyVideo.settings );
-      
+
       // Set base element
       self.$el = $( element );
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.cssTransitions       = Modernizr.transitions;
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
@@ -85,9 +85,11 @@ define(function(require){
         self.videoAPI = sonyVideo.initVideos( self.$player );
 
         //hide fullscreen button for ipad
-        if(( Settings.isIPad && self.isFullEditorial) || (self.isFullEditorial && Settings.isAndroid )) {
+        if(( Settings.isIPad && self.isFullEditorial) || (self.isFullEditorial && Settings.isAndroid ) || Settings.isIPad ) {
           self.$player.find('.fp-fullscreen').hide();
         }
+
+        //window.alert( 'Settings.isIPad' );
 
         self.videoAPI.bind('resume' , function(){
           if(self.isFullEditorial){
@@ -98,7 +100,7 @@ define(function(require){
         });
 
         self.videoAPI.bind('fullscreen fullscreen-exit' , function(e){
-
+          Utilities.forceWebkitRedraw();
           //log( 'Video API FullScreen event >' , e.type );
           if(e.type === 'fullscreen'){
             self.isFullScreen = true;
@@ -111,11 +113,11 @@ define(function(require){
             self.onDebouncedResize();
 
             $('body').css('overflow' , '');
-            
+
             self.$el.find('.fp-ratio').css({
               'padding-top': self.$el.find('.player').data('ratio') * 100 + '%'
             });
-            
+
             self.$engine.css('top' , 0);
 
             if(self.$el.hasClass('normal')){
@@ -135,11 +137,11 @@ define(function(require){
           self.onDebouncedResize(); //call once to set size
 
         }
-        
+
         iQ.update();
-        
+
       },
-      
+
       api: function(){
         var self = this;
         return self.videoAPI;
@@ -234,6 +236,6 @@ define(function(require){
     // Non override-able settings
     // --------------------------
     $.fn.sonyVideo.settings = {};
-  
+
     return self;
  });

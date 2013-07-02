@@ -17,7 +17,20 @@
 //
 //      Viewport.add( element, callback )
 //
-//      Viewport.add( options )
+//      Viewport.add({
+//        element: document.getElementById('some-wrapper'),
+//        threshold: '50%',
+//        callback: function( element ) {
+//          console.log('the top of "element" is 50% in view');
+//        }
+//      });
+//
+// *Viewport.add parameters:*
+//
+// * `element` is a DOM element and `callback` is a function. `this` in the callback is the element.
+// * Using an options object, a `threshold` can be set.
+//   It is either an integer value from the bottom of the window, a string percentage, or a float
+//   between 0 and 1 which represents the percent.
 //
 
 define(function(require) {
@@ -39,7 +52,6 @@ define(function(require) {
     init : function() {
       var self = this;
 
-      // The list of viewports to watch
       self.list = [];
       self.lastScrollY = 0;
       self.windowHeight = Settings.$window.height();

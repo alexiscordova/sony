@@ -75,6 +75,17 @@ define(function(require) {
       }
 
       self.$slideContainer.css( 'opacity', 1 );
+
+      // IE7 nav dots appear lower than they should.
+      // Super hacky, please avert your eyes.
+      if ( Settings.isLTIE8 ) {
+        setTimeout(function() {
+          self.$slideContainer.sonyCarousel('gotoSlide', 1, true);
+          setTimeout(function() {
+            self.$slideContainer.sonyCarousel('gotoSlide', 0, true);
+          }, 50);
+        }, 200);
+      }
     },
 
 
@@ -102,7 +113,7 @@ define(function(require) {
     setupSlides: function() {
       var self = this,
           slidesWithClones = self.numSlides + 2,
-          containerWidth = (100 * slidesWithClones) + '%',
+          containerWidth = (100 * slidesWithClones) + 0.5 + '%',
           slideWidth = (100 / slidesWithClones) + '%';
 
       self.$slideContainer.css( 'width', containerWidth );

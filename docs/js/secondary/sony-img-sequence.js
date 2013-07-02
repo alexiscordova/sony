@@ -202,16 +202,18 @@ define(function(require){
       // get the sldie value positions
       pagePos = eventX - self.$sliderControl.offset().left;
       pagePos = Math.min(self.sliderControlWidth, pagePos);
-      pagePos = Math.max(0, pagePos);
+      pagePos = Math.max(-30, pagePos);
 
       if (self.pagePos !== pagePos) {
         self.pagePos = pagePos;
         ratio = pagePos / self.sliderControlWidth;
         value = self.sliderRatioToValue(ratio);
 
-        self.sliderGotoFrame(pagePos);
         //set the slider positon
-        return self.setSliderPosition(pagePos);
+        self.setSliderPosition(pagePos);
+
+        if ( pagePos <= 0 ) { pagePos = 0; }
+        self.sliderGotoFrame(pagePos);
       }
 
       self.dragged = true;
@@ -257,11 +259,34 @@ define(function(require){
           controlTmpl,
           $sliderControl;
     
-      controlTmpl = "<div class='control-bar slider range-control'><dic class='handle'></div></div>";
+      controlTmpl = {};
+      
+      controlTmpl.slider = [
+        "<div class='control-bar slider range-control'>",
+          "<div class='handle'>",
+            "<span class='inner'>",
+              "<span class='icons'>",
+                "<i class='fonticon-10-chevron-reverse'/>",
+                "<i class='fonticon-10-chevron'/>",
+              "</span>",
+            "</span>",
+          "</div>",
+        "</div>"
+      ].join('\n');
 
       // add our new controls to the container
-      self.$container.append(controlTmpl);
+      self.$container.append(controlTmpl.slider);
       self.$sliderControl = self.$container.find('.range-control');
+
+      if (self.options.labels && self.options.labels.left && self.options.labels.right) {
+        var label = {};
+        
+        label.left = "<span class='slider-label label-left'>"+self.options.labels.left+"</span>";
+        label.right = "<span class='slider-label label-right'>"+self.options.labels.right+"</span>";
+
+        self.$sliderControl.append(label.right)
+          .prepend(label.left);
+      }
 
       // setup the bindings for the control slider
       self.setupBarBindings();

@@ -443,7 +443,7 @@ respect the grid even though they're not really in it. Refer to S2 for usage exa
           props[self.posAttr] = -<span class="number">100</span> * self.getAdjustedPosition($destinationSlide) + <span class="string">'%'</span>;
         }
 
-        self.$el.animate(props, {
+        self.$el.stop( <span class="literal">true</span> ).animate(props, {
           <span class="string">'duration'</span>: speed,
           <span class="string">'complete'</span>: <span class="keyword">function</span>(){
             iQ.update();
