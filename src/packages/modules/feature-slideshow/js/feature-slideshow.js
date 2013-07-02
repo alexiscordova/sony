@@ -40,8 +40,6 @@ define(function(require) {
 
   FeatureSlideshow.prototype = {
 
-    constructor: FeatureSlideshow,
-
     init : function() {
       var self = this;
 

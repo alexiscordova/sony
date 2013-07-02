@@ -40,8 +40,6 @@ define(function(require) {
 
   EditorialFeatureList.prototype = {
 
-    constructor: EditorialFeatureList,
-
     init : function() {
       var self = this;
 

@@ -34,16 +34,17 @@ define(function(require){
       // detect if there are 360 viewer constructs on the DOM
       $( '.e360' ).each( function( index, el ) {
         //for each instance, initialize
-        var $el = $(this);
+        var $el = $(this),
+            data = $el.data();
 
         // get options to set the SonySequence
-        self.autoplay       = $el.data('sequence-autoplay') ? $el.data('sequence-autoplay') : false;
-        self.viewcontrols   = $el.data('sequence-viewcontrols') ? $el.data('sequence-viewcontrols') : true;
-        self.barcontrols    = $el.data('sequence-barcontrols') ? $el.data('sequence-barcontrols') : false;
-        self.loop           = $el.data('sequence-loop') ? $el.data('sequence-loop') : false;
-        self.animationspeed = $el.data('sequence-animation-speed') ? $el.data('sequence-animation-speed') : 100;
-        self.labelLeft      = $el.data('sequence-label-left') ? $el.data('sequence-label-left') : null;
-        self.labelRight     = $el.data('sequence-label-right') ? $el.data('sequence-label-right') : null;
+        self.autoplay       = data.sequenceAutoplay ? data.sequenceAutoplay : false;
+        self.viewcontrols   = data.sequenceViewcontrols ? data.sequenceViewcontrols : true;
+        self.barcontrols    = data.sequenceBarcontrols ? data.sequenceBarcontrols : false;
+        self.loop           = data.sequenceLoop ? data.sequenceLoop : false;
+        self.animationspeed = data.sequenceAnimationSpeed ? data.sequenceAnimationSpeed : 100;
+        self.labelLeft      = data.sequenceLabelLeft ? data.sequenceLabelLeft : null;
+        self.labelRight     = data.sequenceLabelRight ? data.sequenceLabelRight : null;
 
         self.editorial360 = new SonySequence( el, {
           autoplay: self.autoplay,

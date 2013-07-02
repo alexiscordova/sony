@@ -28,20 +28,21 @@ define(function(require){
     'init': function() {
       if ( window.atob || Settings.isLTIE10 ) {
         $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
-      }    
+      }
 
       $.extend(this, {}, sonySequence.defaults, sonySequence.settings);
       $( '.e360' ).each( function( index, el ) {
-        var $el = $(this);
+        var $el = $(this),
+            data = $el.data();
 
         new SonySequence($el, {
-          autoplay       : $el.data('sequence-autoplay') || SonySequence.defaults.autoplay,
-          viewcontrols   : $el.data('sequence-viewcontrols') || SonySequence.defaults.viewcontrols,
-          barcontrols    : $el.data('sequence-barcontrols') || SonySequence.defaults.barcontrols,
-          loop           : $el.data('sequence-loop') || SonySequence.defaults.loop,
-          animationspeed : $el.data('sequence-animation-speed') || SonySequence.defaults.speed,
-          labelLeft      : $el.data('sequence-label-left') || SonySequence.defaults.autoplay,
-          labelRight     : $el.data('sequence-label-right') || SonySequence.defaults.autoplay
+          autoplay       : data.sequenceAutoplay || SonySequence.defaults.autoplay,
+          viewcontrols   : data.sequenceViewcontrols || SonySequence.defaults.viewcontrols,
+          barcontrols    : data.sequenceBarcontrols || SonySequence.defaults.barcontrols,
+          loop           : data.sequenceLoop || SonySequence.defaults.loop,
+          animationspeed : data.sequenceAnimationSpeed || SonySequence.defaults.speed,
+          labelLeft      : data.sequenceLabelLeft || SonySequence.defaults.autoplay,
+          labelRight     : data.sequenceLabelRight || SonySequence.defaults.autoplay
         });
       });
     }
