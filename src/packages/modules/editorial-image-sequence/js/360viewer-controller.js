@@ -38,7 +38,7 @@ define(function(require){
 
         // get options to set the SonySequence
         self.autoplay       = $el.data('sequence-autoplay') ? $el.data('sequence-autoplay') : false;
-        self.viewcontrols   = $el.data('sequence-viewcontrols') ? $el.data('sequence-viewcontrols') : true;
+        self.viewcontrols   = $el.data('sequence-viewcontrols') ? $el.data('sequence-viewcontrols') : false;
         self.barcontrols    = $el.data('sequence-barcontrols') ? $el.data('sequence-barcontrols') : false;
         self.loop           = $el.data('sequence-loop') ? $el.data('sequence-loop') : false;
         self.animationspeed = $el.data('sequence-animation-speed') ? $el.data('sequence-animation-speed') : 100;
