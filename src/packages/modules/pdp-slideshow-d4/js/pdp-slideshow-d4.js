@@ -118,7 +118,7 @@ define(function(require) {
       var self = this,
         $firstImage = self.$slides.find('img').first();
 
-      if ($firstImage.data('hasLoaded')) {
+      if ($firstImage.data('hasLoaded') || self.$slides.eq(0).data('mode')  === 'video') {
         self.$el.addClass('active');
       } else {
         $firstImage.on('imageLoaded', function() {
@@ -273,7 +273,17 @@ define(function(require) {
         slideWidth = (100 / slidesWithClones) + '%';
 
       self.$slideContainer.css('width', containerWidth);
+
+/*      console.log( 'containerWidth' , self.$slideContainer.width() );
+
+      slideWidth = (self.$slideContainer.width() / slidesWithClones) + 'px';
+
+      console.log( 'setting slide widths to actual px' , slideWidth );*/
+
       self.$slides.css('width', slideWidth);
+
+
+
 
       return self;
     },
