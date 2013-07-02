@@ -11,7 +11,7 @@
 .fs-spacing,
 .fs-module {
   &.in {
-    background-color: #E74C3C !important;
+    background-color: #FFE5E9 !important;
   }
 }
 
@@ -51,6 +51,11 @@ $carouselHeight: 700px;
     left: 0;
   }
 
+  &.fs-editorial .box {
+    position: static;
+    margin-bottom: 22px; // from e1 layouts
+  }
+
   .fs-carousel-wrapper {
     position: relative;
     z-index: 1;
@@ -87,6 +92,11 @@ $carouselHeight: 700px;
 
   .fs-slide {
     position: relative;
+    overflow: hidden;
+  }
+
+  .fs-slide-inner {
+    @include fill-parent();
   }
 
   .fs-slide .iq-img {
@@ -95,6 +105,16 @@ $carouselHeight: 700px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+  }
+
+  // Create a "safe area" for the image so it doesn't take up the whole module
+  &.fs-editorial .fs-slide-inner {
+    padding: 0 8% 12%;
+  }
+
+  // In the editorial mode, the full image should always be seen
+  &.fs-editorial .fs-slide .iq-img {
+    background-size: contain;
   }
 
 
@@ -106,6 +126,7 @@ $carouselHeight: 700px;
     margin: auto;
     height: $captionHeight;
     min-width: 30%;
+    max-width: 50%;
   }
 
   .caption .media {
@@ -115,9 +136,6 @@ $carouselHeight: 700px;
     position: absolute;
     margin-right: $captionPadding;
     right: 100%;
-    // width: 124px;
-    // text-align: right;
-    // width: -webkit-max-content;
   }
 
   .caption .media-body {
@@ -143,6 +161,7 @@ $carouselHeight: 700px;
     color: inherit;
     margin: 0;
     line-height: 0.85; // vertical align getting thrown off by this font-size and line height
+    white-space: nowrap;
   }
 
 
