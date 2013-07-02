@@ -273,17 +273,7 @@ define(function(require) {
         slideWidth = (100 / slidesWithClones) + '%';
 
       self.$slideContainer.css('width', containerWidth);
-
-/*      console.log( 'containerWidth' , self.$slideContainer.width() );
-
-      slideWidth = (self.$slideContainer.width() / slidesWithClones) + 'px';
-
-      console.log( 'setting slide widths to actual px' , slideWidth );*/
-
       self.$slides.css('width', slideWidth);
-
-
-
 
       return self;
     },
