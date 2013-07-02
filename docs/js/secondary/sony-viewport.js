@@ -17,7 +17,13 @@
 //
 //      Viewport.add( element, callback )
 //
-//      Viewport.add( options )
+//      Viewport.add({
+//        element: document.getElementById('some-wrapper'),
+//        threshold: '50%',
+//        callback: function( element ) {
+//          console.log('the top of "element" is 50% in view');
+//        }
+//      });
 //
 
 define(function(require) {

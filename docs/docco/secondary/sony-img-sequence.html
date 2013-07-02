@@ -192,15 +192,17 @@ setTimeout and a $win.resize() we can fire iQ. ?? seems legit?</p>             <
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>get the sldie value positions</p>             </td>             <td class="code">               <div class="highlight"><pre>      pagePos = eventX - self.$sliderControl.offset().left;
       pagePos = Math.min(self.sliderControlWidth, pagePos);
-      pagePos = Math.max(<span class="number">0</span>, pagePos);
+      pagePos = Math.max(-<span class="number">30</span>, pagePos);
 
       <span class="keyword">if</span> (self.pagePos !== pagePos) {
         self.pagePos = pagePos;
         ratio = pagePos / self.sliderControlWidth;
         value = self.sliderRatioToValue(ratio);
 
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>set the slider positon</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setSliderPosition(pagePos);
+
+        <span class="keyword">if</span> ( pagePos &lt;= <span class="number">0</span> ) { pagePos = <span class="number">0</span>; }
         self.sliderGotoFrame(pagePos);
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>set the slider positon</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span> self.setSliderPosition(pagePos);
       }
 
       self.dragged = <span class="literal">true</span>;
