@@ -71,10 +71,10 @@ define(function(require){
           $('.primary-tout .image-module').css('height', '');
         }
 
-        //centers homepage primary box vertically above secondary box
-        $.each ($('.primary-tout.homepage .inner .table-center-wrap'), function(i,e){
+        //centers primary box vertically above secondary box if secondary box is found
+        $.each ($('.primary-tout .inner .table-center-wrap'), function(i,e){
           var self = $(e);
-          var outer = self.closest('.primary-tout.homepage');
+          var outer = self.closest('.primary-tout');
           self.height(outer.height() - outer.find('.secondary').outerHeight());
         });
       },
