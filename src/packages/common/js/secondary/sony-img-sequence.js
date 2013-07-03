@@ -17,7 +17,6 @@
 // * pluck() returns $( $sequence[i] ). Basically unwrapping then wrapping in jQuery again
 // * pluck() would be faster if the image IDs were cached in an object instead of iterated through each time
 // * sliderGotoFrame() should exit early if it's trying to go to the current frame.
-// * where self.$sequence is set needs to be refactored; the same DOM search is being executed twice
 // * module needs to use sony-viewport instead of custom setInterval
 // * Use global variables for document and body
 // * move() is too complicated (Cyclomatic: 7, Halstead 26.2). < 25 is the Halstead setting
@@ -45,7 +44,7 @@ define(function(require){
 
     // defaults
     self.$container     = $( element );
-    self.$sequence      = ( self.$container.find( '.outer div' ).not( '.load-indicator').length ) > 0 ? self.$container.find( '.outer div' ).not( '.load-indicator') : self.$container.find( '.outer img' ).not( '.load-indicator');
+    self.$sequence      = self.$container.find('div[data-sequence-id]') || self.$container.find('img[data-sequence-id]');
     self.sequenceLength = self.$sequence.length;
     self.curLoaded      = 0;
     self.$controls      = self.$container.find( '.controls' );
