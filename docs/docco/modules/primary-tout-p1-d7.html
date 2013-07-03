@@ -67,7 +67,9 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>centers primary box vertically above secondary box if secondary box is found</p>             </td>             <td class="code">               <div class="highlight"><pre>        $.each ($(<span class="string">'.primary-tout .inner .table-center-wrap'</span>), <span class="keyword">function</span>(i,e){
           <span class="keyword">var</span> self = $(e);
           <span class="keyword">var</span> outer = self.closest(<span class="string">'.primary-tout'</span>);
-          self.height(outer.height() - outer.find(<span class="string">'.secondary'</span>).outerHeight());
+          <span class="keyword">if</span> (outer.find(<span class="string">'.secondary'</span>).outerHeight()){
+            self.height(outer.height() - outer.find(<span class="string">'.secondary'</span>).outerHeight());
+          }
         });
       },
 
