@@ -26,11 +26,14 @@ $tabletMax: px-em(979);
     }
     &.default{
       .inner{
+        &.force-mobile-bg .box.center,
+        &.force-mobile-bg .box.left,
+        &.force-mobile-bg .box.right,
         .box{
           // padding: 46px 58px 44px 54px;
           padding: 26px 44px 34px 44px;
         }
-        &.no-bg{
+        &.no-bg:not(.force-mobile-bg){
           .box{
               padding:36px 0px 32px 34px;
             &.center{
@@ -151,6 +154,9 @@ $tabletMax: px-em(979);
         width:100%;
       }
       .inner{
+        &.force-mobile-bg .box.center,
+        &.force-mobile-bg .box.left,
+        &.force-mobile-bg .box.right,
         .box{
           padding: 22px 120px 18px 32px;
           .linkgroup{
@@ -162,7 +168,7 @@ $tabletMax: px-em(979);
             }
           }
         }
-        &.no-bg{
+        &.no-bg:not(.force-mobile-bg){
           .box{
               padding:22px 120px 18px 18px;
             &.center{
@@ -294,10 +300,13 @@ $tabletMax: px-em(979);
   }
   .primary-tout.default{
     .inner{
+    	&.force-mobile-bg .box.center,
+      &.force-mobile-bg .box.left,
+      &.force-mobile-bg .box.right,
       .box{
         padding: 22px 36px 18px 32px;
       }
-      &.no-bg{
+      &.no-bg:not(.force-mobile-bg){
         .box{
             padding:22px 36px 18px 18px;
           &.center{
