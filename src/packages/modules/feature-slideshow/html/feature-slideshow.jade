@@ -11,7 +11,7 @@ mixin featureSlides(data)
 
 
 mixin featureSlide( data )
-  .fs-slide.sony-carousel-slide
+  .fs-slide.sony-fade-slide
     .fs-slide-inner
       if data.img
         +iQBackgroundImage( data.img )
@@ -79,8 +79,8 @@ mode = "fs-" + mode
     +iQBackgroundImage( data.backdrop, 'update-always fs-backdrop' )
   .container.copy-grid
     +copyBlock( data )
-  .fs-carousel-wrapper.sony-carousel-wrapper
-    .fs-carousel.sony-carousel
+  .fs-carousel-wrapper.sony-fade-wrapper
+    .fs-carousel.sony-fade
       +featureSlides( data )
 
 

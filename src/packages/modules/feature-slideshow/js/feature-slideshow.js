@@ -20,7 +20,8 @@ define(function(require) {
       // iQ = require('iQ'),
       // Settings = require('require/sony-global-settings'),
       // Environment = require('require/sony-global-environment'),
-      sonyCarousel = require('secondary/index').sonyCarousel,
+      // sonyCarousel = require('secondary/index').sonyCarousel,
+      Fade = require('secondary/sony-fade'),
       Viewport = require('secondary/index').sonyViewport;
 
   var FeatureSlideshow = function( element ) {
@@ -99,14 +100,8 @@ define(function(require) {
     setupCarousel: function() {
       var self = this;
 
-      // Using Sony Carousel for this module
-      self.$slideContainer.sonyCarousel({
-        wrapper: '.fs-carousel-wrapper',
+      self.fade = new Fade( self.$slideContainer, {
         slides: '.fs-slide',
-        looped: false, // going to have issues with which index to fade things in if this is true
-        jumping: false,
-        paddles: true,
-        pagination: true,
         $dotNavWrapper: self.$wrapper
       });
 
