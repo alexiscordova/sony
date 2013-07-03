@@ -25,15 +25,15 @@ mixin caption( caption )
   statDescription = caption.description ? caption.description : "Finder terminal vmware fusion ios simulator firefox nightly webkit"
   toneColor = caption.stat && caption.stat.color ? caption.stat.color : "red"
 
-  .caption.fade
-    .media
+  .caption
+    .media.caption-inner
       div(class=[ "pull-left", "text-center", "stat-wrap" ])
         .table-center-wrap.v-wrap
           .table-center(class="text-" + toneColor)
             span.t2-light.stat.value !{ statValue }
             if statUnit
               span.p4.stat.unit !{ statUnit }
-      .media-body.table-center-wrap
+      .media-body.caption-body.table-center-wrap
         .table-center
           p.t5-light.text-dark !{ statDescription }
 

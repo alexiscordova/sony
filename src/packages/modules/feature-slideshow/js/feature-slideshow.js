@@ -19,7 +19,7 @@ define(function(require) {
       // Modernizr = require('modernizr'),
       // iQ = require('iQ'),
       // Settings = require('require/sony-global-settings'),
-      // Environment = require('require/sony-global-environment'),
+      Environment = require('require/sony-global-environment'),
       // sonyCarousel = require('secondary/index').sonyCarousel,
       Fade = require('secondary/sony-fade'),
       Viewport = require('secondary/index').sonyViewport;
@@ -48,6 +48,7 @@ define(function(require) {
 
       self.setupCarousel();
       self.subscribeToEvents();
+      self.onResize();
 
       Viewport.add({
         element: self.element,
@@ -77,13 +78,15 @@ define(function(require) {
       self.$wrapper = self.$el.find( '.fs-carousel-wrapper' );
       self.$slideContainer = self.$wrapper.find( '.fs-carousel' );
       self.$slides = self.$slideContainer.find( '.fs-slide' );
-      self.numSlides = self.$slides.length;
-      self.currentSlide = 0;
+      // self.$captions = self.$slides.find( '.caption' );
+      self.$captions = self.$slides.find( '.caption-inner' );
+      // self.numSlides = self.$slides.length;
+      // self.currentSlide = 0;
 
       // A dictionary of visited slides so the captions don't fade in every time
-      self.visitedSlides = {
-        '0' : true
-      };
+      // self.visitedSlides = {
+      //   '0' : true
+      // };
 
       return self;
     },
@@ -91,10 +94,39 @@ define(function(require) {
     subscribeToEvents : function() {
       var self = this;
 
-      self.$slideContainer.on( 'SonyCarousel:gotoSlide', $.proxy( self.onGoToSlide, self ) );
-      self.$slideContainer.on( 'SonyCarousel:AnimationComplete', $.proxy( self.onSlideAnimationComplete, self ) );
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+      // self.$slideContainer.on( 'SonyFade:gotoSlide', $.proxy( self.onGoToSlide, self ) );
+      // self.$slideContainer.on( 'SonyFade:AnimationComplete', $.proxy( self.onSlideAnimationComplete, self ) );
     },
 
+    onResize : function() {
+      this.setExplicitCaptionWidths();
+    },
+
+    setExplicitCaptionWidths : function() {
+      var self = this,
+          widths = [];
+
+      // Reset
+      self.$captions.css( 'width', '' );
+      console.log('reset $captions width');
+
+      self.$captions.each(function( i ) {
+        var $media = $( this ),
+            mediaWidth = $media.find('.stat-wrap').outerWidth( true ),
+            bodyWidth = $media.find('.caption-body').outerWidth();
+
+        widths.push( mediaWidth + bodyWidth );
+      });
+
+      console.log('got widths', widths);
+
+      self.$captions.each(function( i ) {
+        $( this ).css( 'width', widths[ i ] + 'px' );
+        console.log('set captions[%d] to %d', i, widths[ i ]);
+      });
+    },
 
     // Main setup method for the carousel
     setupCarousel: function() {
@@ -108,9 +140,9 @@ define(function(require) {
       return self;
     },
 
-    fadeInSlideContent : function( slideIndex ) {
-      return this.$slides.eq( slideIndex ).find('.caption').addClass('in');
-    },
+    // fadeInSlideContent : function( slideIndex ) {
+    //   return this.$slides.eq( slideIndex ).find('.caption').addClass('in');
+    // },
 
     // Image sequence finished
     fadeInCarouselContent : function() {
@@ -119,26 +151,26 @@ define(function(require) {
       self.$el.removeClass('animation-pending').addClass('animation-complete');
 
       // Fade in the first caption
-      self.$slides.eq(0).find('.caption').addClass('in');
+      // self.$slides.eq(0).find('.caption').addClass('in');
 
       // Fade in copy
       self.$el.find('.js-copy').addClass('in');
     },
 
-    onGoToSlide : function( evt, currentSlide ) {
-      var self = this;
-      self.currentSlide = currentSlide;
-    },
+    // onGoToSlide : function( evt, currentSlide ) {
+    //   var self = this;
+    //   self.currentSlide = currentSlide;
+    // },
 
-    onSlideAnimationComplete : function() {
-      var self = this;
+    // onSlideAnimationComplete : function() {
+    //   var self = this;
 
-      // If the slide actually changed, fade in the next slides caption
-      if ( !self.visitedSlides[ self.currentSlide ] ) {
-        self.fadeInSlideContent( self.currentSlide );
-        self.visitedSlides[ self.currentSlide ] = true;
-      }
-    }
+    //   // If the slide actually changed, fade in the next slides caption
+    //   if ( !self.visitedSlides[ self.currentSlide ] ) {
+    //     // self.fadeInSlideContent( self.currentSlide );
+    //     self.visitedSlides[ self.currentSlide ] = true;
+    //   }
+    // }
   };
 
   return FeatureSlideshow;

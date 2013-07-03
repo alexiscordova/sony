@@ -1,4 +1,4 @@
-/*jshint debug:true */
+/*jshint debug:false */
 
 // ------------ Sony Image Sequencer ------------
 // * **Module:** Cloned from the E360 jQuery plugin
@@ -10,6 +10,19 @@
 // *Example Usage:*
 //
 //      require('path/to/global/module') // self instantiation
+//
+//
+// *Refacting/improvement/performance Notes:*
+//
+// * pluck() returns $( $sequence[i] ). Basically unwrapping then wrapping in jQuery again
+// * pluck() would be faster if the image IDs were cached in an object instead of iterated through each time
+// * sliderGotoFrame() should exit early if it's trying to go to the current frame.
+// * where self.$sequence is set needs to be refactored; the same DOM search is being executed twice
+// * module needs to use sony-viewport instead of custom setInterval
+// * Use global variables for document and body
+// * move() is too complicated (Cyclomatic: 7, Halstead 26.2). < 25 is the Halstead setting
+// * loadSequece() needs to be slightly refactored so as not to cause so many style recalcs.
+// * loadSequece() should **not** trigger window resize to use iQ
 
 define(function(require){
 
@@ -21,7 +34,7 @@ define(function(require){
       Settings     = require( 'require/sony-global-settings' ),
       hammer       = require( 'plugins/index' ).hammer,
       viewport     = require( 'plugins/index' ).viewport;
-      
+
 
   var SonySequence = function( element, options ) {
 
@@ -75,7 +88,7 @@ define(function(require){
       // setTimeout and a $win.resize() we can fire iQ. ?? seems legit?
       self.loadSequence();
 
-      log('SONY : Editorial 360 Viewer : Initialized');
+      log('SONY : Editorial SonySequence Module : Initialized');
     },
 
     lockAndLoaded: function() {
@@ -99,10 +112,10 @@ define(function(require){
         // if we have setup to autoplay
         (self.options.autoplay) ? self.startAnimation() : self.initBehaviors();
         // if the user wants bar controls we need to populate the dom
-        if (self.options.barcontrols) {
+        if (self.options.barcontrols && !self.options.loop && !self.options.autoplay) {
           self.createBarControl();
         }
-        
+
       }
     },
 
@@ -125,9 +138,9 @@ define(function(require){
 
     sliderNearestValidValue: function(rawValue) {
       var self = this,
-          closest, 
-          maxSteps, 
-          range, 
+          closest,
+          maxSteps,
+          range,
           steps;
 
       range = self.getSliderRange();
@@ -147,11 +160,12 @@ define(function(require){
           maxWidth = self.sliderControlWidth,
           sequenceLength = self.sequenceLength,
           sequenceDepth = 0,
-          lastIndex = self.currIndex;      
+          lastIndex = self.currIndex;
 
       sequenceDepth = ( positon / maxWidth );
       self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
 
+      if (self.currIndex < 0) { self.currIndex = 0; }
       if (!self.pluck( lastIndex )) { return; }
 
       self.pluck( lastIndex ).addClass( 'visuallyhidden' );
@@ -160,10 +174,10 @@ define(function(require){
 
     sliderRatioToValue: function(ratio) {
       var self = this,
-          idx, 
-          range, 
-          rawValue, 
-          step, 
+          idx,
+          range,
+          rawValue,
+          step,
           steps;
 
         range = self.getSliderRange();
@@ -180,12 +194,11 @@ define(function(require){
        });
     },
 
-    // get the demensions, will need to recalculate on resize 
+    // get the demensions, will need to recalculate on resize
     sliderGetDimensions: function() {
       var self = this;
-      self.sliderControlWidth = (self.$sliderControl.outerWidth() - 20);
-
-      return (self.$sliderControl.outerWidth() - 20);
+      self.sliderControlWidth = (self.$sliderControl.width() - 20);
+      return (self.sliderControlWidth);
     },
 
     dragSlider: function(event, position) {
@@ -202,7 +215,7 @@ define(function(require){
       // get the sldie value positions
       pagePos = eventX - self.$sliderControl.offset().left;
       pagePos = Math.min(self.sliderControlWidth, pagePos);
-      pagePos = Math.max(-30, pagePos);
+      pagePos = Math.max(-20, pagePos);
 
       if (self.pagePos !== pagePos) {
         self.pagePos = pagePos;
@@ -212,7 +225,7 @@ define(function(require){
         //set the slider positon
         self.setSliderPosition(pagePos);
 
-        if ( pagePos <= 0 ) { pagePos = 0; }
+        //if ( pagePos <= 0 ) { pagePos = 0; }
         self.sliderGotoFrame(pagePos);
       }
 
@@ -221,11 +234,11 @@ define(function(require){
     },
 
     setupBarBindings: function() {
-      var self = this, 
+      var self = this,
           $slideHandle;
 
       self.pagePos = 0;
-      // find the handle so we can setup bindings 
+      // find the handle so we can setup bindings
       self.$slideHandle = self.$sliderControl.find('.handle');
       self.$slideHandle.hammer();
 
@@ -238,14 +251,14 @@ define(function(require){
         },
         release : function( event ) {
           self.touchUp( event );
-        }, 
+        },
         drag : function( event ) {
           var direction = event.gesture.direction;
 
           if( 'left' == direction || 'right' == direction ) {
             self.dragSlider( event );
           }
-        }, 
+        },
         tap : function( event ) {
           self.touchMove( event );
         }
@@ -258,33 +271,36 @@ define(function(require){
       var self = this,
           controlTmpl,
           $sliderControl;
-    
+
       controlTmpl = {};
-      
+
       controlTmpl.slider = [
-        "<div class='control-bar slider range-control'>",
-          "<div class='handle'>",
-            "<span class='inner'>",
-              "<span class='icons'>",
-                "<i class='fonticon-10-chevron-reverse'/>",
-                "<i class='fonticon-10-chevron'/>",
+        "<div class='control-bar-container'>",
+          "<div class='control-bar slider range-control'>",
+            "<div class='handle'>",
+              "<span class='inner'>",
+                "<span class='icons'>",
+                  "<i class='fonticon-10-chevron-reverse'/>",
+                  "<i class='fonticon-10-chevron'/>",
+                "</span>",
               "</span>",
-            "</span>",
+            "</div>",
           "</div>",
         "</div>"
       ].join('\n');
 
       // add our new controls to the container
       self.$container.append(controlTmpl.slider);
+      self.$sliderControlContainer = self.$container.find('.control-bar-container');
       self.$sliderControl = self.$container.find('.range-control');
 
-      if (self.options.labels && self.options.labels.left && self.options.labels.right) {
+      if (self.options.labelLeft && self.labelRight) {
         var label = {};
-        
-        label.left = "<span class='slider-label label-left'>"+self.options.labels.left+"</span>";
-        label.right = "<span class='slider-label label-right'>"+self.options.labels.right+"</span>";
 
-        self.$sliderControl.append(label.right)
+        label.left = "<span class='slider-label label-left l3'>"+self.options.labelLeft+"</span>";
+        label.right = "<span class='slider-label label-right l3'>"+self.options.labelRight+"</span>";
+
+        self.$sliderControlContainer.append(label.right)
           .prepend(label.left);
       }
 
@@ -349,7 +365,7 @@ define(function(require){
 
       self.animationInterval = setInterval(function() {
         self.move( 'left' );
-      }, self.options.speed);
+      }, self.options.animationspeed);
 
     },
 
@@ -384,14 +400,14 @@ define(function(require){
             },
             release : function( event ) {
               self.touchUp( event );
-            }, 
+            },
             drag : function( event ) {
               var direction = event.gesture.direction;
 
               if( 'left' == direction || 'right' == direction ) {
                 self.touchMove( event );
               }
-            }, 
+            },
             tap : function( event ) {
               self.touchMove( event );
             }
@@ -621,9 +637,14 @@ define(function(require){
         case "left":
           if( self.curIndex === 0 ) {
 
-            if (self.options.autoplay && self.animationLooped && !self.options.loop) { 
+            if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               self.initBehaviors();
-              clearInterval(self.animationInterval); 
+              clearInterval(self.animationInterval);
+
+              if (self.options.autoplay) {
+                self.createBarControl();
+              }
+
               self.options.autoplay = false;
               return;
             }
@@ -632,7 +653,7 @@ define(function(require){
           } else {
             self.curIndex--;
             // we can assume we've done a loop
-            if (self.curIndex === 1) { self.animationLooped = true; } 
+            if (self.curIndex === 1) { self.animationLooped = true; }
           }
         break;
 
@@ -698,9 +719,14 @@ define(function(require){
 
   // Defaults
   // --------
-
   SonySequence.defaults = {
-    options: {}
+    autoplay: false,
+    viewcontrols: true,
+    barcontrols: false,
+    loop: false,
+    speed: 100,
+    labelLeft: 'Left',
+    labelRight: 'Right'
   };
 
   // Non override-able settings
@@ -708,9 +734,6 @@ define(function(require){
   SonySequence.settings = {
     isTouch: !!( 'ontouchstart' in window ),
     isInitialized: false,
-    controls: false,
-    autoplay: false,
-    duration: 0
   };
 
   return SonySequence;
