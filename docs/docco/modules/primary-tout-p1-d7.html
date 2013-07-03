@@ -64,9 +64,9 @@ define(<span class="keyword">function</span>(require){
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>this removes the dynamic css so it will reset back to responsive styles</p>             </td>             <td class="code">               <div class="highlight"><pre>          $(<span class="string">'.primary-tout .image-module'</span>).css(<span class="string">'height'</span>, <span class="string">''</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>centers homepage primary box vertically above secondary box</p>             </td>             <td class="code">               <div class="highlight"><pre>        $.each ($(<span class="string">'.primary-tout.homepage .inner .table-center-wrap'</span>), <span class="keyword">function</span>(i,e){
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>centers primary box vertically above secondary box if secondary box is found</p>             </td>             <td class="code">               <div class="highlight"><pre>        $.each ($(<span class="string">'.primary-tout .inner .table-center-wrap'</span>), <span class="keyword">function</span>(i,e){
           <span class="keyword">var</span> self = $(e);
-          <span class="keyword">var</span> outer = self.closest(<span class="string">'.primary-tout.homepage'</span>);
+          <span class="keyword">var</span> outer = self.closest(<span class="string">'.primary-tout'</span>);
           self.height(outer.height() - outer.find(<span class="string">'.secondary'</span>).outerHeight());
         });
       },
