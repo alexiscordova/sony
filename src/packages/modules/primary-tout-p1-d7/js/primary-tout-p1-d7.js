@@ -75,7 +75,9 @@ define(function(require){
         $.each ($('.primary-tout .inner .table-center-wrap'), function(i,e){
           var self = $(e);
           var outer = self.closest('.primary-tout');
-          self.height(outer.height() - outer.find('.secondary').outerHeight());
+          if (outer.find('.secondary').outerHeight()){
+            self.height(outer.height() - outer.find('.secondary').outerHeight());
+          }
         });
       },
 
