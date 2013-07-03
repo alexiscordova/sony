@@ -44,7 +44,7 @@ define(function(require){
 
     // defaults
     self.$container     = $( element );
-    self.$sequence      = self.$container.find('div[data-sequence-id]') || self.$container.find('img[data-sequence-id]');
+    self.$sequence      = self.$container.find('[data-sequence-id]');
     self.sequenceLength = self.$sequence.length;
     self.curLoaded      = 0;
     self.$controls      = self.$container.find( '.controls' );
