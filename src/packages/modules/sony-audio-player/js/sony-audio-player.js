@@ -14,7 +14,7 @@ define(function(require){
 
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
-      Audio = require('secondary/index').sonyAudio;
+      SonyAudio = require('secondary/index').sonyAudio;
 
   var module = {
     'init': function() {
@@ -39,9 +39,28 @@ define(function(require){
     constructor: SonyAudioPlayer,
 
     init: function() {
-      var self = this;
-    }
 
+      var self = this;
+
+      self.audio = new SonyAudio({
+        sources: {
+          'default': 'http://ia700200.us.archive.org/22/items/DebroySomersBand-31-40/DebroySomersAndHisBand-WestwardBound.mp3',
+          'low': 'http://ia700200.us.archive.org/22/items/DebroySomersBand-31-40/DebroySomersAndHisBand-WestwardBound.mp3'
+        }
+      });
+
+      self.$el.on('click', '.start-play', function() {
+        self.audio.play();
+      });
+
+      self.$el.on('click', '.high-quality', function() {
+        self.audio.play('default');
+      });
+
+      self.$el.on('click', '.low-quality', function() {
+        self.audio.play('low');
+      });
+    }
   };
 
   return module;
