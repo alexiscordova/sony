@@ -27,13 +27,13 @@ mixin caption( caption )
 
   .caption
     .media.caption-inner
-      div(class=[ "pull-left", "text-center", "stat-wrap" ])
+      div(class=[ "pull-left", "text-center", "stat-wrap", "js-even-col" ])
         .table-center-wrap.v-wrap
           .table-center(class="text-" + toneColor)
             span.t2-light.stat.value !{ statValue }
             if statUnit
               span.p4.stat.unit !{ statUnit }
-      .media-body.caption-body.table-center-wrap
+      .media-body.caption-body.table-center-wrap.js-even-col
         .table-center
           p.t5-light.text-dark !{ statDescription }
 
@@ -73,6 +73,10 @@ mixin copyBlock( data )
 mode = data.mode ? data.mode : "slideshow"
 mode = "fs-" + mode
 
+crossfade = data.crossfade ? data.crossfade : false
+threshold = data.threshold ? data.threshold : false
+delay = data.delay ? data.delay : false
+
 //- Main section wrapper for slides
 +mainElement( [ "fs-module", mode, "animation-pending" ] )
   if data.backdrop
@@ -80,7 +84,7 @@ mode = "fs-" + mode
   .container.copy-grid
     +copyBlock( data )
   .fs-carousel-wrapper.sony-fade-wrapper
-    .fs-carousel.sony-fade
+    .fs-carousel.sony-fade(data-crossfade=crossfade, data-delay=delay, data-threshold=threshold)
       +featureSlides( data )
 
 
