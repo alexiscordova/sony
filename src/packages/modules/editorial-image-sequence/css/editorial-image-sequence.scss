@@ -3,6 +3,16 @@
 
 $transitionSpeed: 0.5s;
 
+.fs-spacing {
+  height: 250px;
+}
+   
+@for $i from 1 through 10 {
+  .fs-spacing:nth-of-type(#{$i}) {
+    background-color: hsl(0, 0%, $i * 10%);
+  }
+}   
+
 .unselectable * {
   -webkit-user-select: none;
   -khtml-user-select: none;

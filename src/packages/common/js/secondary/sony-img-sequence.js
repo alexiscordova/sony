@@ -14,14 +14,8 @@
 //
 // *Refacting/improvement/performance Notes:*
 //
-// * pluck() returns $( $sequence[i] ). Basically unwrapping then wrapping in jQuery again
 // * pluck() would be faster if the image IDs were cached in an object instead of iterated through each time
-// * sliderGotoFrame() should exit early if it's trying to go to the current frame.
-// * module needs to use sony-viewport instead of custom setInterval
-// * Use global variables for document and body
-// * move() is too complicated (Cyclomatic: 7, Halstead 26.2). < 25 is the Halstead setting
-// * loadSequece() needs to be slightly refactored so as not to cause so many style recalcs.
-// * loadSequece() should **not** trigger window resize to use iQ
+// * loadSequence() needs to be slightly refactored so as not to cause so many style recalcs.
 
 define(function(require){
 
@@ -31,8 +25,7 @@ define(function(require){
   var $ = require( 'jquery' ),
       iQ = require( 'iQ' ),
       Settings     = require( 'require/sony-global-settings' ),
-      hammer       = require( 'plugins/index' ).hammer,
-      viewport     = require( 'plugins/index' ).viewport;
+      hammer       = require( 'plugins/index' ).hammer;
 
 
   var SonySequence = function( element, options ) {
@@ -65,6 +58,7 @@ define(function(require){
     self.moves          = 0;
     self.touchEvents    = 0;
     self.$win           = Settings.$window;
+    self.$body          = Settings.$body;
 
     self.init();
   };
@@ -78,6 +72,7 @@ define(function(require){
       // to give users a nicer set of visual queues
       self.$controls.addClass( 'hidden' );
       self.$container.addClass( 'dim-the-lights' );
+      self.viewport = require( 'secondary/index' ).sonyViewport;
 
       //console.log('initializing SonySequence', self.$container);
 
@@ -109,10 +104,12 @@ define(function(require){
         self.syncControlLayout();
 
         // if we have setup to autoplay
-        (self.options.autoplay) ? self.startAnimation() : self.initBehaviors();
+        (self.options.autoplay) ? self.startAnimation('left') : self.initBehaviors();
         // if the user wants bar controls we need to populate the dom
         if (self.options.barcontrols && !self.options.loop && !self.options.autoplay) {
-          self.createBarControl();
+          self.createBarControl(function(){
+            $.proxy(self.initSliderBindings(), self);
+          });
         }
 
       }
@@ -167,7 +164,7 @@ define(function(require){
       if (self.currIndex < 0) { self.currIndex = 0; }
       if (!self.pluck( lastIndex )) { return; }
 
-      self.pluck( lastIndex ).addClass( 'visuallyhidden' );
+      self.$sequence.addClass( 'visuallyhidden' );
       self.pluck( self.currIndex ).removeClass( 'visuallyhidden' );
     },
 
@@ -266,7 +263,7 @@ define(function(require){
 
     },
 
-    createBarControl: function() {
+    createBarControl: function( cb ) {
       var self = this,
           controlTmpl,
           $sliderControl;
@@ -296,8 +293,8 @@ define(function(require){
       if (self.options.labelLeft && self.labelRight) {
         var label = {};
 
-        label.left = "<span class='slider-label label-left l3'>"+self.options.labelLeft+"</span>";
-        label.right = "<span class='slider-label label-right l3'>"+self.options.labelRight+"</span>";
+        label.left = "<span class='slider-label label-left l3' data-direction='right'>"+self.options.labelLeft+"</span>";
+        label.right = "<span class='slider-label label-right l3' data-direction='left'>"+self.options.labelRight+"</span>";
 
         self.$sliderControlContainer.append(label.right)
           .prepend(label.left);
@@ -307,6 +304,8 @@ define(function(require){
       self.setupBarBindings();
       // we should get rid of the other controls
       self.$controls.remove();
+
+      cb();
     },
 
     // this will load the sequence of images
@@ -322,11 +321,7 @@ define(function(require){
         self.$sequence.eq(index).removeClass('visuallyhidden');
 
         // so iQ can catch on
-        self.$win.trigger('resize');
-
-        //console.log(JSON.stringify(el.data()));
-        //console.log('inside each sequence');
-        //$.inspect(el.data());
+        //self.$win.trigger('resize');
 
         // now we can hide the element again?
         self.$sequence.eq(index).addClass('visuallyhidden');
@@ -359,11 +354,11 @@ define(function(require){
       self.$sequence.eq(0).removeClass('visuallyhidden');
     },
 
-    startAnimation: function() {
+    startAnimation: function(direction) {
       var self = this;
 
       self.animationInterval = setInterval(function() {
-        self.move( 'left' );
+        self.move( direction );
       }, self.options.animationspeed);
 
     },
@@ -371,25 +366,24 @@ define(function(require){
     initBehaviors: function() {
       var self = this;
 
-      if( true === Modernizr.touch ) {
+      if( false === Modernizr.touch ) {
         // extend with touch controls
         self.$controls.hammer();
+        var $viewportel = self.$container;
 
-        // animate dragger arrows when in viewport
-        self.poller = setInterval( function(){
-          self.syncControlLayout();
-          var _$controlStatus   = $( self.$controls ).find( '.table-center :in-viewport' );
-          var inViewport = _$controlStatus.length > 0 ? true : false;
-          if( inViewport ) {
+        self.viewport.add({ 
+          element : $viewportel,
+          threshold : '50%',
+          callback : function($viewportel) {
             if( !self.inViewport ) {
               self.inMotion = true;
               self.animateDragger();
               self.inViewport = true;
+            } else {
+              self.inViewport = false;
             }
-          } else {
-            self.inViewport = false;
           }
-        }, 100);
+        });
 
         if (self.options.viewcontrols) {
 
@@ -496,13 +490,13 @@ define(function(require){
     touchDown: function( event ) {
       // Montana to Rice!
       var self = this;
-      $(document.body).addClass('unselectable');
+      self.$body.addClass('unselectable');
       self.clicked = true;
     },
 
     touchUp: function( event ) {
       var self = this;
-      $(document.body).removeClass('unselectable');
+      self.$body.removeClass('unselectable');
       self.clicked = false;
     },
 
@@ -536,7 +530,7 @@ define(function(require){
       var self = this;
       event.preventDefault();
       $( self.$controls ).addClass( 'is-dragging' );
-      $(document.body).addClass('unselectable');
+      self.$body.addClass('unselectable');
       self.clicked = true;
     },
 
@@ -544,7 +538,7 @@ define(function(require){
       var self = this;
       event.preventDefault();
       $( self.$controls ).removeClass( 'is-dragging' );
-      $(document.body).removeClass('unselectable');
+      self.$body.removeClass('unselectable');
       self.clicked = false;
     },
 
@@ -628,20 +622,50 @@ define(function(require){
       self.inMotion = false;
     },
 
+    initSliderBindings: function() {
+      var self = this;
+
+      // bind our click event handlers for labels
+      self.$sliderControlContainer.on('click.label-click', ".slider-label", function(e){
+        var $el = $(e.target), 
+            data = $el.data(),
+            direction = data.direction;
+
+        // if its autoplaying we dont want to reset everything -- crazy
+        if(self.options.autoplay) {
+          return false;
+        }
+
+        // set it back to autoplay
+        self.options.autoplay = true;
+        self.animationLooped = false;
+
+        // start the animation
+        self.startAnimation(direction);
+      });
+
+      self.sliderLabelInitialized = true;
+    },
+
     move: function( direction ) {
       var self      = this,
-          lastIndex = self.curIndex;
+          lastIndex = self.curIndex,
+          pagePos;
 
+      pagePos = (self.sliderControlWidth/self.curIndex);
       switch( direction ) {
         case "left":
+          console.log('moving left', self.options.autoplay);
           if( self.curIndex === 0 ) {
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               self.initBehaviors();
               clearInterval(self.animationInterval);
 
-              if (self.options.autoplay) {
-                self.createBarControl();
+              if (!self.sliderLabelInitialized) {
+                self.createBarControl(function(){
+                  if(self.sliderLabelInitialized) { $.proxy(self.initSliderBindings(), self); }
+                });
               }
 
               self.options.autoplay = false;
@@ -651,22 +675,44 @@ define(function(require){
             self.curIndex = self.sequenceLength-1;
           } else {
             self.curIndex--;
+
+            // if were animating we need to get the current slide index and compare it to the slider width, to get the position.
+            self.setSliderPosition(pagePos);
+
             // we can assume we've done a loop
             if (self.curIndex === 1) { self.animationLooped = true; }
           }
         break;
 
         case "right":
+          // we can assume we've done a loop
           if( self.curIndex == self.sequenceLength-1 ) {
+            self.curIndex = self.sequenceLength;
+            pagePos = (self.sliderControlWidth/self.curIndex);
+
+            self.animationLooped = true; 
+
+            if (self.options.autoplay && self.animationLooped && !self.options.loop) {
+              clearInterval(self.animationInterval);
+            }
+
+            self.animationLooped = true; 
+            self.options.autoplay = false;
+
+            // jank
+            self.setSliderPosition(-20);            
             self.curIndex = 0;
-            if (self.options.autoplay) { clearInterval(self.animationInterval); }
+            
           } else {
             self.curIndex++;
+
+            // if were animating we need to get the current slide index and compare it to the slider width, to get the position.
+            self.setSliderPosition(pagePos);
           }
         break;
       }
 
-      self.pluck( lastIndex ).addClass( 'visuallyhidden' );
+      self.$sequence.addClass( 'visuallyhidden' );
       self.pluck( self.curIndex ).removeClass( 'visuallyhidden' );
     },
 
@@ -675,8 +721,8 @@ define(function(require){
 
       // find by data index
       for( var i = 0; i < self.$sequence.length; i++ ) {
-        if( lastIndex == $( self.$sequence[i] ).data( 'sequence-id' ) ) {
-          return $( self.$sequence[i] );
+        if( lastIndex == self.$sequence.eq(i).data( 'sequence-id' ) ) {
+          return self.$sequence.eq(i);
         }
       }
       // not found

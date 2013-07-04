@@ -19,8 +19,8 @@ define(function (require) {
     sonyStickyTabs: require('secondary/sony-stickytabs'),
     sonyTab: require('secondary/sony-tab'),
     sonyFavorites: require('secondary/sony-favorites'),
-    sonySequence: require('secondary/sony-img-sequence'),
     sonyViewport: require('secondary/sony-viewport'),
-    sonyVideo: require('secondary/sony-video')
+    sonyVideo: require('secondary/sony-video'),
+    sonySequence: require('secondary/sony-img-sequence')
   };
 });
