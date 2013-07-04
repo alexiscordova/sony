@@ -76,8 +76,16 @@ mixin links(_data, _extra)
 mixin addon(_data)
   d = _data ? _data : data
   if d.addon
-    e = { "locals" : locals, "data" : d.addon }
-    !{ locals.partial('packages/modules/addon/html/addon.jade', e) }
+    s = d.addon.style ? d.addon.style : "light-text-dark-box"
+    if s == "light-text-dark-box"
+      s = s + " l-o-d"
+    .secondary(class= s)
+      .box
+        .container
+          .grid.no-grid-at-767
+            .span6
+              e = { "locals" : locals, "data" : d.addon }
+              !{ locals.partial('packages/modules/addon/html/addon.jade', e)}
 
 mixin legal(_data)
   d = _data ? _data : data
@@ -164,7 +172,10 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
         +header
         .visible-phone
           +links
-      .secondary.hidden-phone(class= data.variation.substyle)
+      s = data.variation.substyle
+      if s == "light-text-dark-box"
+        s = s + " l-o-d"
+      .secondary.hidden-phone(class= s)
         .box
           .container.grid.no-grid-at-767
             .span6
@@ -189,7 +200,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
       +header
       +bodytext
       +links
-      +addon
+    +addon
   else if data.mode == "product-intro-plate"
     +legal
     +boxlayout

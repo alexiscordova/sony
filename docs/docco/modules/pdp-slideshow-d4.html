@@ -111,7 +111,7 @@ specifying the module's activation.</p>             </td>             <td class=
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
         $firstImage = self.$slides.find(<span class="string">'img'</span>).first();
 
-      <span class="keyword">if</span> ($firstImage.data(<span class="string">'hasLoaded'</span>)) {
+      <span class="keyword">if</span> ($firstImage.data(<span class="string">'hasLoaded'</span>) || self.$slides.eq(<span class="number">0</span>).data(<span class="string">'mode'</span>)  === <span class="string">'video'</span>) {
         self.$el.addClass(<span class="string">'active'</span>);
       } <span class="keyword">else</span> {
         $firstImage.on(<span class="string">'imageLoaded'</span>, <span class="keyword">function</span>() {
