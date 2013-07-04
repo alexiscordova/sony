@@ -15,19 +15,36 @@
   }
 }
 
-@for $i from 1 through 10 {
+@for $i from 1 through 20 {
   .fs-spacing:nth-of-type(#{$i}) {
-    background-color: hsl(0, 0%, $i * 10%);
+    background-color: hsl(0, 0%, $i * 5%);
   }
 }
+
+// .fs-module .caption {
+//   background: $gray90;
+
+//   .caption-inner {
+//     background: $themeBlueLight;
+//   }
+
+//   .stat-wrap {
+//     background: $gray70;
+//   }
+
+//   .caption-body {
+//     background: $white;
+//   }
+// }
+
 // ---------------------------------------------
 // End demo styles
 // ---------------------------------------------
 
 
 
-$captionPadding: px-em( 24 );
-$captionHeight: px-em( 54 );
+$captionPadding: 24px;
+$captionHeight: 54px;
 $carouselHeight: 700px;
 
 .fs-module {
@@ -83,10 +100,10 @@ $carouselHeight: 700px;
   // Get height from parent
   .fs-carousel,
   .fs-carousel-slide,
-  .caption .media,
+  .caption .caption-inner,
   .caption .stat-wrap,
   .caption .stat-wrap .v-wrap,
-  .caption .media-body {
+  .caption .caption-body {
     height: inherit;
   }
 
@@ -122,38 +139,41 @@ $carouselHeight: 700px;
   .caption {
     position: absolute;
     bottom: $captionHeight;
-    left: 44%;
+    left: 0;
+    right: 0;
     margin: auto;
-    height: $captionHeight;
-    min-width: 30%;
-    max-width: 50%;
+    width: 80%;
+
+    // For fading in
+    opacity: 1;
+    @include transition( .2s ease-out );
   }
 
-  .caption .media {
+  // Will get width from javascript
+  .caption .caption-inner {
+    margin: auto; // center
   }
 
   .stat-wrap {
-    position: absolute;
-    margin-right: $captionPadding;
-    right: 100%;
-  }
-
-  .caption .media-body {
     position: relative;
-    padding-left: $captionPadding;
+    padding-right: $captionPadding;
+    margin-right: $captionPadding;
 
     // Gray divider
-    &:before {
+    &:after {
       content: '';
       position: absolute;
       top: 50%;
-      left: 0;
-      margin-top: px-em( -50 / 2 );
+      right: 0;
+      margin-top: -25px;
       display: block;
-      height: px-em( 50 );
+      height: 50px;
       width: 1px;
       background: $gray60;
     }
+  }
+
+  .caption .caption-body {
   }
 
   // Zero margin on value and units
@@ -169,10 +189,8 @@ $carouselHeight: 700px;
   // everything else needs to be hidden
   &.animation-pending {
 
-    .pagination-paddles {
-      opacity: 0;
-    }
-
+    .caption,
+    .pagination-paddles,
     .pagination-bullets {
       opacity: 0;
     }
@@ -213,11 +231,11 @@ $carouselHeight: 700px;
     height: $carouselHeight;
   }
 
-  .caption .media,
+  .caption .caption-inner,
   .caption .stat-wrap,
   .caption .stat-wrap .v-wrap,
-  .caption .media-body {
-    height: $captionHeight;
+  .caption .caption-body {
+    // height: $captionHeight;
   }
 }
 

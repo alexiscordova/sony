@@ -19,8 +19,9 @@ define(function(require) {
       // Modernizr = require('modernizr'),
       // iQ = require('iQ'),
       // Settings = require('require/sony-global-settings'),
-      // Environment = require('require/sony-global-environment'),
-      sonyCarousel = require('secondary/index').sonyCarousel,
+      Environment = require('require/sony-global-environment'),
+      // sonyCarousel = require('secondary/index').sonyCarousel,
+      Fade = require('secondary/sony-fade'),
       Viewport = require('secondary/index').sonyViewport;
 
   var FeatureSlideshow = function( element ) {
@@ -47,42 +48,38 @@ define(function(require) {
 
       self.setupCarousel();
       self.subscribeToEvents();
+      self.onResize();
 
       Viewport.add({
         element: self.element,
-        threshold: '50%',
+        threshold: self.threshold,
+        delay: self.delay,
         callback: function() {
-          self.$el.addClass('in');
           self.fadeInCarouselContent();
         }
       });
 
-      // Fake adding another one for testing
-      setTimeout(function() {
-        Viewport.add({
-          element: $('article').get(3),
-          threshold: 100,
-          callback: function() {
-            $('article').eq(3).addClass('in');
-          }
-        });
-      }, 1000);
-
     },
 
     setVars : function() {
-      var self = this;
+      var self = this,
+          data;
 
       self.$wrapper = self.$el.find( '.fs-carousel-wrapper' );
       self.$slideContainer = self.$wrapper.find( '.fs-carousel' );
       self.$slides = self.$slideContainer.find( '.fs-slide' );
-      self.numSlides = self.$slides.length;
-      self.currentSlide = 0;
+      self.$captions = self.$slides.find( '.caption-inner' );
 
-      // A dictionary of visited slides so the captions don't fade in every time
-      self.visitedSlides = {
-        '0' : true
-      };
+      self.evenColumnGroups = [];
+      self.$captions.each(function() {
+        self.evenColumnGroups.push( $(this).find('.js-even-col') );
+      });
+
+      // Properties based on data-* attributes
+      data = self.$slideContainer.data();
+      self.threshold = data.threshold || '50%';
+      self.delay = data.delay || 200;
+      self.crossfade = data.crossfade || undefined;
 
       return self;
     },
@@ -90,31 +87,77 @@ define(function(require) {
     subscribeToEvents : function() {
       var self = this;
 
-      self.$slideContainer.on( 'SonyCarousel:gotoSlide', $.proxy( self.onGoToSlide, self ) );
-      self.$slideContainer.on( 'SonyCarousel:AnimationComplete', $.proxy( self.onSlideAnimationComplete, self ) );
+      // Listen for global resize
+      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+      // self.$slideContainer.on( 'SonyFade:gotoSlide', $.proxy( self.onGoToSlide, self ) );
+      // self.$slideContainer.on( 'SonyFade:AnimationComplete', $.proxy( self.onSlideAnimationComplete, self ) );
     },
 
+    onResize : function() {
+      this.setExplicitCaptionSizes();
+    },
+
+    // $.evenHeights is mixed in here so as not to cause two reflows
+    setExplicitCaptionSizes : function() {
+      var self = this,
+          widths = [],
+          heights = [],
+          groups = self.evenColumnGroups;
+
+      // Reset
+      self.$captions.css( 'width', '' );
+
+      $.each( groups, function( i, $elements ) {
+        $elements.css('height', '');
+      });
+
+
+      // Add up stat and copy width and save it
+      self.$captions.each(function() {
+        var $media = $( this ),
+            mediaWidth = $media.find('.stat-wrap').outerWidth( true ),
+            bodyWidth = $media.find('.caption-body').outerWidth();
+
+        widths.push( mediaWidth + bodyWidth );
+      });
+
+      $.each( groups, function( i, $elements ) {
+        var tallest = 0;
+        $elements.each(function() {
+          var height = $(this).outerHeight();
+
+          if ( height > tallest ) {
+            tallest = height;
+          }
+        });
+
+        // Keep track of the winner!
+        heights.push( tallest );
+      });
+
+      // Set them all at once
+      self.$captions.each(function( i ) {
+        $( this ).css( 'width', widths[ i ] + 'px' );
+      });
+
+      // Lastly, we set them all
+      $.each( groups, function( i, $elements ) {
+        $elements.css( 'height', heights[ i ] );
+      });
+
+    },
 
     // Main setup method for the carousel
     setupCarousel: function() {
       var self = this;
 
-      // Using Sony Carousel for this module
-      self.$slideContainer.sonyCarousel({
-        wrapper: '.fs-carousel-wrapper',
+      self.fade = new Fade( self.$slideContainer, {
         slides: '.fs-slide',
-        looped: false, // going to have issues with which index to fade things in if this is true
-        jumping: false,
-        paddles: true,
-        pagination: true,
+        crossfade: self.crossfade,
         $dotNavWrapper: self.$wrapper
       });
 
       return self;
-    },
-
-    fadeInSlideContent : function( slideIndex ) {
-      return this.$slides.eq( slideIndex ).find('.caption').addClass('in');
     },
 
     // Image sequence finished
@@ -123,26 +166,8 @@ define(function(require) {
 
       self.$el.removeClass('animation-pending').addClass('animation-complete');
 
-      // Fade in the first caption
-      self.$slides.eq(0).find('.caption').addClass('in');
-
       // Fade in copy
       self.$el.find('.js-copy').addClass('in');
-    },
-
-    onGoToSlide : function( evt, currentSlide ) {
-      var self = this;
-      self.currentSlide = currentSlide;
-    },
-
-    onSlideAnimationComplete : function() {
-      var self = this;
-
-      // If the slide actually changed, fade in the next slides caption
-      if ( !self.visitedSlides[ self.currentSlide ] ) {
-        self.fadeInSlideContent( self.currentSlide );
-        self.visitedSlides[ self.currentSlide ] = true;
-      }
     }
   };
 

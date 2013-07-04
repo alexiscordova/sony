@@ -10918,3 +10918,29 @@ ul.jump-links .active a {
   float: none;
   width: auto;
 }
+
+/* line 38, ../../src/packages/common/css/_shared/_sony-carousel.scss */
+.sony-fade {
+  width: auto;
+}
+/* line 41, ../../src/packages/common/css/_shared/_sony-carousel.scss */
+.sony-fade .sony-fade-slide {
+  position: relative;
+  z-index: 1;
+  float: left;
+  width: 100%;
+  height: 100%;
+  margin-right: -100%;
+  opacity: 0;
+  -webkit-transition: 400ms opacity linear;
+  transition: 400ms opacity linear;
+}
+/* line 51, ../../src/packages/common/css/_shared/_sony-carousel.scss */
+.sony-fade .sony-fade-slide.on {
+  opacity: 1;
+  z-index: 3;
+}
+/* line 56, ../../src/packages/common/css/_shared/_sony-carousel.scss */
+.sony-fade .sony-fade-slide.behind {
+  z-index: 2;
+}
