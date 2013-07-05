@@ -371,7 +371,7 @@ define(function(require){
         self.$controls.hammer();
         var $viewportel = self.$container;
 
-        self.viewport.add({ 
+        self.viewport.add({
           element : $viewportel,
           threshold : '50%',
           callback : function($viewportel) {
@@ -627,7 +627,7 @@ define(function(require){
 
       // bind our click event handlers for labels
       self.$sliderControlContainer.on('click.label-click', ".slider-label", function(e){
-        var $el = $(e.target), 
+        var $el = $(e.target),
             data = $el.data(),
             direction = data.direction;
 
@@ -690,19 +690,19 @@ define(function(require){
             self.curIndex = self.sequenceLength;
             pagePos = (self.sliderControlWidth/self.curIndex);
 
-            self.animationLooped = true; 
+            self.animationLooped = true;
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               clearInterval(self.animationInterval);
             }
 
-            self.animationLooped = true; 
+            self.animationLooped = true;
             self.options.autoplay = false;
 
             // jank
-            self.setSliderPosition(-20);            
+            self.setSliderPosition(-20);
             self.curIndex = 0;
-            
+
           } else {
             self.curIndex++;
 
@@ -778,7 +778,7 @@ define(function(require){
   // --------------------------
   SonySequence.settings = {
     isTouch: !!( 'ontouchstart' in window ),
-    isInitialized: false,
+    isInitialized: false
   };
 
   return SonySequence;
