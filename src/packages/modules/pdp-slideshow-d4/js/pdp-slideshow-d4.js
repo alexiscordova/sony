@@ -118,7 +118,7 @@ define(function(require) {
       var self = this,
         $firstImage = self.$slides.find('img').first();
 
-      if ($firstImage.data('hasLoaded')) {
+      if ($firstImage.data('hasLoaded') || self.$slides.eq(0).data('mode')  === 'video') {
         self.$el.addClass('active');
       } else {
         $firstImage.on('imageLoaded', function() {

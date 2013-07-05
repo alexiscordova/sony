@@ -112,8 +112,8 @@ define(function(require) {
 
       // The whole point is to have a callback function.
       // Don't do anything if it's not given
-      if ( !$.isFunction( options.callback ) ) {
-        throw 'Viewport.add :: No callback function provided to Viewport';
+      if ( !$.isFunction( options.enter ) ) {
+        throw 'Viewport.add :: No enter function provided to Viewport';
       }
 
       // Threshold can be a percentage. Parse it.
@@ -125,6 +125,8 @@ define(function(require) {
         isThresholdPercentage = true;
       }
 
+      options.triggered = false;
+      options.hasLeaveCallback = $.isFunction( options.leave );
       options.isThresholdPercentage = isThresholdPercentage;
       options.$element = $( options.element );
 
@@ -231,19 +233,56 @@ define(function(require) {
       return percentFromBottom >= percentage;
     },
 
-    triggerCallback : function( index, listItem ) {
+    isOutOfViewport : function( viewport, side ) {
+      var self = this,
+          offset = viewport.offset,
+          st = self.lastScrollY,
+          bool;
+
+      if ( side === 'bottom' ) {
+        bool = !self.isBottomInView( st, self.windowHeight, offset.top, viewport.height );
+      }
+
+      return bool;
+    },
+
+    isBottomInView : function( viewportTop, viewportHeight, elementTop, elementHeight ) {
+      var viewportBottom = viewportTop + viewportHeight,
+          elementBottom = elementTop + elementHeight;
+      return elementBottom > viewportTop && elementBottom <= viewportBottom;
+    },
+
+    triggerEnter : function( index, listItem ) {
       var self = this;
 
       // Queue up the callback with the delay. Default is 0
       setTimeout(function() {
-        listItem.callback.call( listItem.element, listItem );
+        listItem.enter.call( listItem.element, listItem );
       }, listItem.delay);
 
-      // No longer need to watch it, so remove from list
-      self.list.splice( index, 1 );
+
+      if ( $.isFunction( listItem.leave ) ) {
+        listItem.triggered = true;
+
+      // If the leave property is not a function,
+      // The module no longer needs to watch it, so remove from list
+      } else {
+        self.list.splice( index, 1 );
+      }
 
       // If there are no more, unbind from scroll and resize events
       self.maybeUnbindEvents();
+    },
+
+    triggerLeave : function( index, listItem ) {
+      // var self = this;
+
+      // Queue up the callback with the delay. Default is 0
+      setTimeout(function() {
+        listItem.leave.call( listItem.element, listItem );
+      }, listItem.delay);
+
+      listItem.triggered = false;
     },
 
     setScrollTop : function() {
@@ -259,10 +298,19 @@ define(function(require) {
           list = $.extend( [], self.list );
 
       $.each(list, function( i, listItem ) {
-        var isInViewport = self.isInViewport( listItem );
+        var isInViewport = self.isInViewport( listItem ),
+            isBottomOutOfView = listItem.hasLeaveCallback && self.isOutOfViewport( listItem, 'bottom' );
 
-        if ( isInViewport ) {
-          self.triggerCallback( i, listItem );
+        // If the enter callback hasn't been triggerd and it's in the viewport,
+        // trigger the enter callback
+        if ( !listItem.triggered && isInViewport ) {
+          return self.triggerEnter( i, listItem );
+        }
+
+        // This viewport has already come into view once and now it is out of view
+        // It's not in view, the bottom is out of view, the list item's enter has been triggered
+        if ( !isInViewport && isBottomOutOfView && listItem.triggered ) {
+          return self.triggerLeave( i, listItem );
         }
       });
     }
@@ -282,7 +330,7 @@ define(function(require) {
     }
 
     if ( callback ) {
-      options.callback = callback;
+      options.enter = callback;
     }
 
     // Get defaults

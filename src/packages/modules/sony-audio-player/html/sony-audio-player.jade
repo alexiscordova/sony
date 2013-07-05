@@ -1,0 +1,24 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('sony-audio-player')
++includeJavascriptModule('sony-audio-player')
+
+div.sony-audio-player
+
+  ul.tracks
+    each track in data.tracks
+      if track.sources && track.sources.default
+        li.track(data-album-art=track.albumArt)
+          ul.id3
+            each item, label in track.id3
+              li(class=label)
+                | !{label + ": "}
+                span.value !{item}
+          ul.sources
+            each source, label in track.sources
+              li.source
+                a.sony-audio-src(href=source) !{label}
+
+  nav
+    a.play(href="#") Play
+    a.pause(href="#") Pause
+    select.sources

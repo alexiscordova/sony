@@ -96,6 +96,12 @@ $carouselHeight: 700px;
     z-index: 2;
   }
 
+  // Center paddles
+  .pagination-paddles {
+    left: 0;
+    right: 0;
+  }
+
 
   // Get height from parent
   .fs-carousel,
@@ -126,7 +132,7 @@ $carouselHeight: 700px;
 
   // Create a "safe area" for the image so it doesn't take up the whole module
   &.fs-editorial .fs-slide-inner {
-    padding: 0 8% 12%;
+    padding: 0 0 12%;
   }
 
   // In the editorial mode, the full image should always be seen
@@ -142,11 +148,15 @@ $carouselHeight: 700px;
     left: 0;
     right: 0;
     margin: auto;
-    width: 80%;
 
     // For fading in
     opacity: 1;
     @include transition( .2s ease-out );
+  }
+
+  // .fs-slide-inner has .container on it in editorial mode
+  &.fs-editorial .caption {
+    width: 100%;
   }
 
   // Will get width from javascript

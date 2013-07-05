@@ -6,6 +6,7 @@ define(function (require) {
   return {
     jqueryShuffle: require('secondary/jquery.shuffle'),
     jquerySimpleScroll: require('secondary/jquery.simplescroll'),
+    sonyAudio: require('secondary/sony-audio'),
     sonyDraggable: require('secondary/sony-draggable'),
     sonyCarousel: require('secondary/sony-carousel'),
     sonyCarouselFade: require('secondary/sony-carousel-fade'),
@@ -19,8 +20,8 @@ define(function (require) {
     sonyStickyTabs: require('secondary/sony-stickytabs'),
     sonyTab: require('secondary/sony-tab'),
     sonyFavorites: require('secondary/sony-favorites'),
-    sonySequence: require('secondary/sony-img-sequence'),
     sonyViewport: require('secondary/sony-viewport'),
-    sonyVideo: require('secondary/sony-video')
+    sonyVideo: require('secondary/sony-video'),
+    sonySequence: require('secondary/sony-img-sequence')
   };
 });

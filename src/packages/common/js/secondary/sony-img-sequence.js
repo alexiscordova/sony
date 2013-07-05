@@ -170,8 +170,6 @@ define(function(require){
         self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength-1);
       }
 
-      console.log(self.currIndex);
-
       if (self.currIndex < 0) { self.currIndex = 0; }
       if (!self.pluck( lastIndex )) { return; }
 
@@ -382,7 +380,7 @@ define(function(require){
         self.$controls.hammer();
         var $viewportel = self.$container;
 
-        self.viewport.add({ 
+        self.viewport.add({
           element : $viewportel,
           threshold : '50%',
           enter : function($viewportel) {
@@ -638,7 +636,7 @@ define(function(require){
 
       // bind our click event handlers for labels
       self.$sliderControlContainer.on('click.label-click', ".slider-label", function(e){
-        var $el = $(e.target), 
+        var $el = $(e.target),
             data = $el.data(),
             direction = data.direction;
 
@@ -713,13 +711,14 @@ define(function(require){
         case "right":
           // we can assume we've done a loop
           if( self.curIndex == self.sequenceLength-1 ) {
-            self.animationLooped = true; 
+            self.curIndex = self.sequenceLength;
+            pagePos = (self.sliderControlWidth/self.curIndex);
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               clearInterval(self.animationInterval);
             }
 
-            self.animationLooped = true; 
+            self.animationLooped = true;
             self.options.autoplay = false;
 
             self.curIndex = ( self.sequenceLength -1 );
@@ -727,7 +726,6 @@ define(function(require){
             if (self.is360 || self.options.loop) {
               self.curIndex = 0;
             }
-
           } else {
             self.curIndex++;
 
@@ -755,38 +753,6 @@ define(function(require){
     }
   };
 
-  // jQuery Plugin Definition
-  // ------------------------
-  //$.extend({
-    //inspect: function (obj, n) {
-      //n = n || "this";
-      //for (var p in obj) {
-        //if ($.isPlainObject(obj[p])) {
-          //$.inspect(obj[p], n + "." + p);
-          //return;
-        //}
-      //}
-    //}
-  //});
-
-  //$.fn.editorial360Viewer = function( options ) {
-    //var args = Array.prototype.slice.call( arguments, 1 );
-    //return this.each(function() {
-      //var self = $(this),
-          //editorial360Viewer = self.data('editorial360Viewer');
-
-      //// If we don't have a stored moduleName, make a new one and save it.
-      //if ( !editorial360Viewer ) {
-          //editorial360Viewer = new SonySequence( self, options );
-          //self.data( 'editorial360Viewer', editorial360Viewer );
-      //}
-
-      //if ( typeof options === 'string' ) {
-        //editorial360Viewer[ options ].apply( editorial360Viewer, args );
-      //}
-    //});
-  //};
-
   // Defaults
   // --------
   SonySequence.defaults = {
@@ -803,7 +769,7 @@ define(function(require){
   // --------------------------
   SonySequence.settings = {
     isTouch: !!( 'ontouchstart' in window ),
-    isInitialized: false,
+    isInitialized: false
   };
 
   return SonySequence;

@@ -10,7 +10,8 @@ requirejs.config({
     modernizr: 'libs/modernizr',
     enquire: 'libs/enquire',
     iQ: 'libs/iq',
-    jquery: 'libs/jquery'
+    jquery: 'libs/jquery',
+    soundManager: 'libs/soundmanager'
   },
 
   shim: {
@@ -26,6 +27,10 @@ requirejs.config({
 
     modernizr: {
       exports: 'Modernizr'
+    },
+
+    soundManager: {
+      exports: 'soundManager'
     }
   },
 
@@ -40,6 +45,7 @@ define(function(require){
       jquery = require('jquery'),
       modernizr = require('modernizr'),
       enquire = require('enquire'),
+      soundManager = require('soundManager'),
       iQ = require('iQ');
 });
 

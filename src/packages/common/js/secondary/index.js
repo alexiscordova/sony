@@ -6,6 +6,7 @@ define(function (require) {
   return {
     jqueryShuffle: require('secondary/jquery.shuffle'),
     jquerySimpleScroll: require('secondary/jquery.simplescroll'),
+    sonyAudio: require('secondary/sony-audio'),
     sonyDraggable: require('secondary/sony-draggable'),
     sonyCarousel: require('secondary/sony-carousel'),
     sonyCarouselFade: require('secondary/sony-carousel-fade'),

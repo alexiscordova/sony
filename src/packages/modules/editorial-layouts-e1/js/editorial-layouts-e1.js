@@ -295,14 +295,16 @@ define(function(require) {
             minh,
             isSmallerThanTablet = Modernizr.mq('(max-width: 47.9375em)'),
             gridMinHeight,
-            mediaElementFirstHeight;
+            mediaElementFirstHeight,
+            copyHeight;
 
         if ( isSmallerThanTablet ) {
           minh = 'auto';
         } else {
           gridMinHeight = parseInt( self.$el.find('.grid').css('minHeight'), 10 );
+          copyHeight = self.$el.find('.box').outerHeight();
           mediaElementFirstHeight = self.$el.find('.media-element .table-center').children().first().height();
-          minh = Math.max( gridMinHeight, mediaElementFirstHeight );
+          minh = Math.max( gridMinHeight, copyHeight, mediaElementFirstHeight );
           minh += 'px';
         }
 

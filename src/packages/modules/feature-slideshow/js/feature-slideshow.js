@@ -54,8 +54,12 @@ define(function(require) {
         element: self.element,
         threshold: self.threshold,
         delay: self.delay,
-        callback: function() {
+        enter: function() {
           self.fadeInCarouselContent();
+          self.fade.play();
+        },
+        leave: function() {
+          self.fade.pause();
         }
       });
 
@@ -156,6 +160,10 @@ define(function(require) {
         crossfade: self.crossfade,
         $dotNavWrapper: self.$wrapper
       });
+
+      // The wrapper doesn't have a .container class, so without this,
+      // the paddle are at the edge of the browser
+      self.$wrapper.find('.pagination-paddles').addClass('container');
 
       return self;
     },
