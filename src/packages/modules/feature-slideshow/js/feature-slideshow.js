@@ -56,6 +56,7 @@ define(function(require) {
         delay: self.delay,
         callback: function() {
           self.fadeInCarouselContent();
+          self.fade.play();
         }
       });
 

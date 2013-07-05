@@ -31,6 +31,7 @@ define(function(require) {
       Environment = require('require/sony-global-environment'),
       hammer = require('plugins/index').hammer,
       sonyPaddles = require('secondary/sony-paddles'),
+      Timer = require('secondary/sony-timer'),
       sonyNavigationDots = require('secondary/sony-navigationdots');
 
   var _id = 0;
@@ -75,6 +76,10 @@ define(function(require) {
       self.gotoSlide( 0, true );
 
       self.$el.addClass('sony-fade-active');
+
+      if ( self.autoplay ) {
+        self.play();
+      }
     },
 
     setVars : function() {
@@ -83,6 +88,13 @@ define(function(require) {
       self.$wrapper = self.$el.parent();
       self.updateSlides();
       self.crossfadeTimeout = self.animationSpeed - (self.animationSpeed * self.crossfade);
+
+      // If the slideDurations array is not full, append default values
+      if ( self.slideDurations.length < self.totalSlides ) {
+        for (var i = self.slideDurations.length; i < self.totalSlides; i++) {
+          self.slideDurations.push( self.slideDuration );
+        }
+      }
     },
 
     updateSlides : function() {
@@ -129,7 +141,13 @@ define(function(require) {
       // Next slide faded in
       function complete() {
         iQ.update();
-        self.$el.trigger('SonyFade:AnimationComplete');
+
+        // If there is a timer, this gotoSlide wasn't triggered
+        // by the timer (either dot or nav click)
+        if ( self.timer && self.isTimerReset ) {
+          self.timer.resume();
+          self.isTimerReset = false;
+        }
 
         if ( $prevSlide ) {
           $prevSlide.removeClass('behind');
@@ -138,6 +156,8 @@ define(function(require) {
             $prevSlide.animate( { opacity: 0 }, speed );
           }
         }
+
+        self.$el.trigger('SonyFade:AnimationComplete');
       }
 
       // Called after the crossfade timeout length
@@ -179,6 +199,12 @@ define(function(require) {
 
       // Update current slide index
       self.currentSlide = which;
+
+      // Reset the timer if it's ticking
+      if ( self.timer && !self.timer.isPaused ) {
+        self.timer.reset();
+        self.isTimerReset = true;
+      }
 
       // Trigger event
       self.$el.trigger('SonyFade:gotoSlide', self.currentSlide);
@@ -282,6 +308,61 @@ define(function(require) {
       });
     },
 
+    // Starts a continuous loop
+    play : function() {
+      var self = this;
+
+      // If a current timer exists, resume it
+      if ( self.timer && self.timer.isPaused ) {
+        self.timer.resume();
+
+      // Otherwise start a new timer
+      } else if ( !self.isPlaying ) {
+        self.startTimer();
+      }
+
+      self.isPlaying = true;
+    },
+
+    loop : function() {
+      var self = this;
+
+      // Make falsy checks for timer false
+      self.timer = null;
+
+      // Next slide
+      self.next();
+
+      // When the next slide has faded in, start a new timer
+      self.$el.one('SonyFade:AnimationComplete', $.proxy( self.startTimer, self ));
+    },
+
+    pause : function() {
+      var self = this;
+
+      if ( self.timer ) {
+        self.timer.pause();
+      }
+
+      self.isPlaying = false;
+    },
+
+    stop : function() {
+      var self = this;
+
+      if ( self.timer ) {
+        self.timer.clear();
+      }
+
+      self.isPlaying = false;
+    },
+
+    startTimer : function() {
+      var self = this;
+
+      self.timer = new Timer( $.proxy( self.loop, self ), self.slideDurations[ self.currentSlide ] );
+    },
+
     // Reset the style attribute for the properties we might have manipulated.
     // Destroy the plugins we've initialized as part of the fade.
 
@@ -333,6 +414,16 @@ define(function(require) {
     // Percentage to crossfade the two slides
     crossfade: 0.875,
 
+    // Start playing on initialization
+    autoplay: false,
+
+    // Default slide duration in milliseconds. If the slideDurations array is not full,
+    // it will be filled with this value
+    slideDuration: 3000,
+
+    // An array of durations correlating to each slide
+    slideDurations: [],
+
     // Create paddles.
     paddles: true,
 
@@ -356,7 +447,8 @@ define(function(require) {
   };
 
   Fade.settings = {
-    hasTransitions: Modernizr.csstransitions
+    hasTransitions: Modernizr.csstransitions,
+    isPlaying: false
   };
 
   return Fade;
