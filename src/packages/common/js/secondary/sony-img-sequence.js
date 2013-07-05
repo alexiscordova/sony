@@ -711,14 +711,13 @@ define(function(require){
         case "right":
           // we can assume we've done a loop
           if( self.curIndex == self.sequenceLength-1 ) {
-            self.curIndex = self.sequenceLength;
-            pagePos = (self.sliderControlWidth/self.curIndex);
+            self.animationLooped = true; 
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               clearInterval(self.animationInterval);
             }
 
-            self.animationLooped = true;
+            self.animationLooped = true; 
             self.options.autoplay = false;
 
             self.curIndex = ( self.sequenceLength -1 );
@@ -726,12 +725,13 @@ define(function(require){
             if (self.is360 || self.options.loop) {
               self.curIndex = 0;
             }
+
           } else {
             self.curIndex++;
 
             // we can assume we've done a loop
             if (self.options.barcontrols) { self.setSliderPosition(slidePos); }
-          }
+          }       
         break;
       }
 
