@@ -45,11 +45,14 @@ define(function(require){
       var self = this;
 
       sm.setup({
+        flashVersion: 9,
+        debugMode: false,
+        debugFlash: false,
         url: 'swf',
         useFastPolling: true,
         flashPollingInterval: 200,
         useHighPerformance: true,
-        preferFlash: true
+        preferFlash: false
       });
 
       return self;
@@ -59,64 +62,53 @@ define(function(require){
 
   var _controller,
       _moduleCount = 0,
-      _currentModule,
-      _currentSound;
+      _currentModule;
 
   var module = function (config) {
 
     _moduleCount = _moduleCount + 1;
 
     var moduleId = 'sonyAudio-' + _moduleCount,
-        currentTime = 0;
+        currentTime = 0,
+        currentSound,
+        setCurrentTime;
 
     if ( !_controller ) {
       _controller = new SonyAudioController();
     }
 
-    var sources = {},
-        sourceCount = 0,
-        setCurrentTime;
-
-    setCurrentTime = function(a,b) {
-      currentTime = sources[this.sonyAudioID].position;
+    setCurrentTime = function() {
+      currentTime = this.position;
     };
 
     sm.onready(function(){
       for ( var i in config.sources ) {
 
-        sourceCount = sourceCount + 1;
-
-        sources[i] = sm.createSound({
+        sm.createSound({
           id: moduleId + '-' + i,
           url: config.sources[i],
           autoLoad: true,
           autoPlay: false,
-          onpause: setCurrentTime
+          whileplaying: setCurrentTime
         });
-
-        sources[i].sonyAudioID = i;
       }
+
+      currentSound = sm.getSoundById(moduleId + '-default');
     });
 
     var api = {
-
-      current: 'default',
 
       play: function(source) {
 
         var self = this;
 
-        if ( !source ) {
-          source = self.current;
+        if ( source ) {
+          currentSound = sm.getSoundById(moduleId + '-' + source);
         }
 
         sm.pauseAll();
 
-        // EOD stopping point, this refuses to sync in flash. Not sure what's up.
-        sm.getSoundById(moduleId + '-' + source).setPosition(currentTime).play();
-
-        self.current = source;
-        _currentSound = sources[source];
+        currentSound.setPosition(currentTime).play();
 
         return self;
       },
