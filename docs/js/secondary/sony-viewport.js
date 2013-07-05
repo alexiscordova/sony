@@ -234,7 +234,10 @@ define(function(require) {
     triggerCallback : function( index, listItem ) {
       var self = this;
 
-      listItem.callback.call( listItem.element, listItem );
+      // Queue up the callback with the delay. Default is 0
+      setTimeout(function() {
+        listItem.callback.call( listItem.element, listItem );
+      }, listItem.delay);
 
       // No longer need to watch it, so remove from list
       self.list.splice( index, 1 );
@@ -289,7 +292,8 @@ define(function(require) {
   };
 
   Viewport.options = {
-    threshold: 200
+    threshold: 200,
+    delay: 0
   };
 
   Viewport.settings = {
