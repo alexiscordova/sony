@@ -54,9 +54,12 @@ define(function(require) {
         element: self.element,
         threshold: self.threshold,
         delay: self.delay,
-        callback: function() {
+        enter: function() {
           self.fadeInCarouselContent();
           self.fade.play();
+        },
+        leave: function() {
+          self.fade.pause();
         }
       });
 
