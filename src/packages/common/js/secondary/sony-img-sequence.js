@@ -59,8 +59,10 @@ define(function(require){
     self.touchEvents    = 0;
     self.$win           = Settings.$window;
     self.$body          = Settings.$body;
+    self.is360          = $(element).hasClass('e360');
 
     self.init();
+
   };
 
   SonySequence.prototype = {
@@ -154,12 +156,21 @@ define(function(require){
       var self = this,
           minWidth = 0,
           maxWidth = self.sliderControlWidth,
-          sequenceLength = self.sequenceLength,
+          sequenceLength = self.sequenceLength - 1,
           sequenceDepth = 0,
           lastIndex = self.currIndex;
 
       sequenceDepth = ( positon / maxWidth );
-      self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
+      // we need to determine if it's the 360 module or image sequence
+      // why? Because an image sequence needs to go from start to finish with no loop,
+      // a 360 module needs to loop back to the first index.
+      if (self.is360) {
+        self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
+      } else {
+        self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength-1);
+      }
+
+      console.log(self.currIndex);
 
       if (self.currIndex < 0) { self.currIndex = 0; }
       if (!self.pluck( lastIndex )) { return; }
@@ -219,7 +230,7 @@ define(function(require){
         value = self.sliderRatioToValue(ratio);
 
         //set the slider positon
-        self.setSliderPosition(pagePos);
+        if (self.options.barcontrols) { self.setSliderPosition(pagePos); }
 
         //if ( pagePos <= 0 ) { pagePos = 0; }
         self.sliderGotoFrame(pagePos);
@@ -293,8 +304,8 @@ define(function(require){
       if (self.options.labelLeft && self.labelRight) {
         var label = {};
 
-        label.left = "<span class='slider-label label-left l3' data-direction='right'>"+self.options.labelLeft+"</span>";
-        label.right = "<span class='slider-label label-right l3' data-direction='left'>"+self.options.labelRight+"</span>";
+        label.left = "<span class='slider-label label-left l3' data-direction='left'>"+self.options.labelLeft+"</span>";
+        label.right = "<span class='slider-label label-right l3' data-direction='right'>"+self.options.labelRight+"</span>";
 
         self.$sliderControlContainer.append(label.right)
           .prepend(label.left);
@@ -366,7 +377,7 @@ define(function(require){
     initBehaviors: function() {
       var self = this;
 
-      if( false === Modernizr.touch ) {
+      if( true === Modernizr.touch ) {
         // extend with touch controls
         self.$controls.hammer();
         var $viewportel = self.$container;
@@ -374,7 +385,7 @@ define(function(require){
         self.viewport.add({ 
           element : $viewportel,
           threshold : '50%',
-          callback : function($viewportel) {
+          enter : function($viewportel) {
             if( !self.inViewport ) {
               self.inMotion = true;
               self.animateDragger();
@@ -650,46 +661,58 @@ define(function(require){
     move: function( direction ) {
       var self      = this,
           lastIndex = self.curIndex,
+          slidePos,
           pagePos;
 
-      pagePos = (self.sliderControlWidth/self.curIndex);
+      // gets the number of slide notches for the slider
+      slidePos = (self.curIndex * (self.sliderControlWidth / (self.sequenceLength-1)));
+
       switch( direction ) {
         case "left":
-          console.log('moving left', self.options.autoplay);
+
           if( self.curIndex === 0 ) {
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               self.initBehaviors();
               clearInterval(self.animationInterval);
 
-              if (!self.sliderLabelInitialized) {
-                self.createBarControl(function(){
-                  if(self.sliderLabelInitialized) { $.proxy(self.initSliderBindings(), self); }
-                });
+              // if we have bar controls 
+              if (self.options.barcontrols) {
+                // if the slider labels haven't intialized
+                if (!self.sliderLabelInitialized) {
+                  self.createBarControl(function(){
+                    // we create the slide controls and then check if the labels are for sure there with the callback
+                    if(self.sliderLabelInitialized) { $.proxy(self.initSliderBindings(), self); }
+                  });
+                }
+                self.setSliderPosition(slidePos);
               }
 
+              // set auto play to false since current index is now 0
               self.options.autoplay = false;
+              // close the method
               return;
             }
 
+            // if we aren't looping or if were arent autoplaying set the curIndex to the lenght - 1 ??
             self.curIndex = self.sequenceLength-1;
+            
           } else {
+
+            // keep iterating the curIndex down since were moving left
             self.curIndex--;
 
-            // if were animating we need to get the current slide index and compare it to the slider width, to get the position.
-            self.setSliderPosition(pagePos);
-
-            // we can assume we've done a loop
+            // once the curIndex is 1 that means weve done a full loop (started from the sequence length)
             if (self.curIndex === 1) { self.animationLooped = true; }
+
+            // if were animating we need to get the current slide index and compare it to the slider width, to get the position.
+            if (self.options.barcontrols) { self.setSliderPosition(slidePos); }
           }
         break;
 
         case "right":
           // we can assume we've done a loop
           if( self.curIndex == self.sequenceLength-1 ) {
-            self.curIndex = self.sequenceLength;
-            pagePos = (self.sliderControlWidth/self.curIndex);
-
             self.animationLooped = true; 
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
@@ -699,15 +722,17 @@ define(function(require){
             self.animationLooped = true; 
             self.options.autoplay = false;
 
-            // jank
-            self.setSliderPosition(-20);            
-            self.curIndex = 0;
-            
+            self.curIndex = ( self.sequenceLength -1 );
+
+            if (self.is360 || self.options.loop) {
+              self.curIndex = 0;
+            }
+
           } else {
             self.curIndex++;
 
-            // if were animating we need to get the current slide index and compare it to the slider width, to get the position.
-            self.setSliderPosition(pagePos);
+            // we can assume we've done a loop
+            if (self.options.barcontrols) { self.setSliderPosition(slidePos); }
           }
         break;
       }

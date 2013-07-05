@@ -23,7 +23,7 @@ if data.sequenceConfig
   - labelRight = data.sequenceConfig.labelRight ? data.sequenceConfig.labelRight : ''
             
 if data.sequenceConfig
-  div(class="e360 dim-the-lights", id=id, data-sequence-autoplay=autoplay, data-sequence-viewcontrols=viewControls, data-sequence-barcontrols=barControls, data-sequence-loop=loopAnimation, data-sequence-animation-speed=animationSpeed, data-sequence-label-left=labelLeft, data-sequence-label-right=labelRight )
+  div(class="sony-sequence dim-the-lights", id=id, data-sequence-autoplay=autoplay, data-sequence-viewcontrols=viewControls, data-sequence-barcontrols=barControls, data-sequence-loop=loopAnimation, data-sequence-animation-speed=animationSpeed, data-sequence-label-left=labelLeft, data-sequence-label-right=labelRight )
     .outer
       if data.background == "true"
         .loading.load-indicator.text-center
@@ -51,7 +51,7 @@ if data.sequenceConfig
         i.right-arrow.fonticon-10-chevron
     
 else
-  div(class="e360 dim-the-lights", id=id)
+  div(class="sony-sequence dim-the-lights", id=id)
     .outer
       if data.background == "true"
         .loading.load-indicator.text-center

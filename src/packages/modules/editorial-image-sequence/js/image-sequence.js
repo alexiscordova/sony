@@ -31,7 +31,7 @@ define(function(require){
       }
 
       $.extend(this, {}, sonySequence.defaults, sonySequence.settings);
-      $( '.e360' ).each( function( index, el ) {
+      $( '.sony-sequence' ).each( function( index, el ) {
         var $el = $(this),
             data = $el.data();
 

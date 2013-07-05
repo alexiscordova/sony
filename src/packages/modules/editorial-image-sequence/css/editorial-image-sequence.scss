@@ -37,8 +37,7 @@ $transitionSpeed: 0.5s;
   border: 1px solid green;
 }
 
-.sony-sequence,
-.e360 {
+.sony-sequence {
   position: relative;
 
   .loading {
@@ -185,3 +184,14 @@ $transitionSpeed: 0.5s;
   }
 
 }
+           
+.csstransforms.touch {
+  .sony-sequence {
+    .range-control {
+      .handle {
+        @include transform( scale(1) translateZ(0) );
+        @include box-shadow(none);
+      }
+    }
+  }
+}   
