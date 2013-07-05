@@ -81,6 +81,11 @@ define(function(require){
         track.play('default');
       });
 
+      self.$el.on('click', '.pause', function(e) {
+        e.preventDefault();
+        track.pause();
+      });
+
       self.$el.on('change', 'select', function(){
         track.play($(this).val());
       });
