@@ -61,6 +61,7 @@ mixin iQImage( img, extraClasses, itemprop, isBackgroundImage )
     classes = 'iq-img'
     extraClasses = extraClasses ? extraClasses : false
     itemprop = itemprop ? itemprop : false
+    noscriptsrc = img.noscriptsrc ? img.noscriptsrc : img.noscriptSrc ? img.noscriptSrc : img.srcDesktop
     if extraClasses
       - classes += ' ' + extraClasses
 

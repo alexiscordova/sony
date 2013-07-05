@@ -85,9 +85,20 @@ mixin copyblock(_copy, _title, _subtitle, _body)
     .link
       linktextsize = copyobject.link.type == "txt" ? linkclass : ""
       +link(copyobject.link, [copyobject.link.type, linktextsize])
+
   else if copyobject.addon
     e = { "locals" : locals, "data" : data.addon }
     !{ locals.partial('packages/modules/addon/html/addon.jade', e) }
+
+  else if copyobject.features && copyobject.features.length > 0
+    ul.media-list.feature-list
+      each feature in copyobject.features
+        li.media
+          .pull-left.img-wrap
+            +iQBackgroundImage( feature.img )
+          .media-body
+            p.p2-bold.media-heading.text-dark !{ feature.title }
+            p.p2 !{ feature.body }
 
 
 mixin textonlylayout(_layout)
@@ -134,6 +145,8 @@ mixin submodules( data )
 editorialClasses = [ "editorial", data.mode ]
 if data.variation && data.variation.background
   - editorialClasses.push( data.variation.background )
+if data.features && data.features.length > 0
+  - editorialClasses.push( "efl-module" )
 
 +mainElement( editorialClasses )
   if data.mode == "textonly"
