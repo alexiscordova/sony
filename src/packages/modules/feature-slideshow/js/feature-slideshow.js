@@ -158,6 +158,10 @@ define(function(require) {
         $dotNavWrapper: self.$wrapper
       });
 
+      // The wrapper doesn't have a .container class, so without this,
+      // the paddle are at the edge of the browser
+      self.$wrapper.find('.pagination-paddles').addClass('container');
+
       return self;
     },
 

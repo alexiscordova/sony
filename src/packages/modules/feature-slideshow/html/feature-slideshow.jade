@@ -11,8 +11,13 @@ mixin featureSlides(data)
 
 
 mixin featureSlide( data )
+  innerClasses = [ "fs-slide-inner" ]
+
+  if !isSlideshowMode
+    - innerClasses.push( "container" )
+
   .fs-slide.sony-fade-slide
-    .fs-slide-inner
+    div(class=innerClasses)
       if data.img
         +iQBackgroundImage( data.img )
       +caption( data.caption )
@@ -25,7 +30,12 @@ mixin caption( caption )
   statDescription = caption.description ? caption.description : "Finder terminal vmware fusion ios simulator firefox nightly webkit"
   toneColor = caption.stat && caption.stat.color ? caption.stat.color : "red"
 
-  .caption
+  captionClasses = [ "caption" ]
+
+  if isSlideshowMode
+    - captionClasses.push( "container" )
+
+  div(class=captionClasses)
     .media.caption-inner
       div(class=[ "pull-left", "text-center", "stat-wrap", "js-even-col" ])
         .table-center-wrap.v-wrap
@@ -47,7 +57,6 @@ mixin copyGrid( data )
 
 
 mixin copyBlock( data )
-  isSlideshowMode = data.mode && data.mode != "editorial"
   titleClass = isSlideshowMode ? "t3-bold" : "t2"
   subtitleClass = isSlideshowMode ? "t7" : "t6"
   bodyClass = isSlideshowMode ? "p3" : "p2"
@@ -70,6 +79,7 @@ mixin copyBlock( data )
 
 
 //- Default mode to slideshow
+isSlideshowMode = data.mode && data.mode != "editorial"
 mode = data.mode ? data.mode : "slideshow"
 mode = "fs-" + mode
 

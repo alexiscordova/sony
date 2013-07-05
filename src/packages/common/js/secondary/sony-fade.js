@@ -448,7 +448,8 @@ define(function(require) {
 
   Fade.settings = {
     hasTransitions: Modernizr.csstransitions,
-    isPlaying: false
+    isPlaying: false,
+    paddlesInit: false
   };
 
   return Fade;
