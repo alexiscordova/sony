@@ -73,12 +73,18 @@ define(function(require){
       });
 
       var track = new SonyAudio({
-        sources: sourceList
+        sources: sourceList,
+        onpause: function() {
+          self.$el.removeClass('playing').addClass('paused');
+        },
+        onplay: function() {
+          self.$el.removeClass('paused').addClass('playing');
+        }
       });
 
       self.$el.on('click', '.play', function(e) {
         e.preventDefault();
-        track.play('default');
+        track.play();
       });
 
       self.$el.on('click', '.pause', function(e) {
@@ -87,7 +93,7 @@ define(function(require){
       });
 
       self.$el.on('change', 'select', function(){
-        track.play($(this).val());
+        track.play( $(this).val() );
       });
 
       // END

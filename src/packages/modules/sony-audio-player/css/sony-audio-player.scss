@@ -9,6 +9,24 @@
   background-size: cover;
   overflow: hidden;
 
+  &.playing {
+    nav .play {
+      display: none;
+    }
+    nav .pause {
+      display: block;
+    }
+  }
+
+  &.paused {
+    nav .play {
+      display: block;
+    }
+    nav .pause {
+      display: none;
+    }
+  }
+
   .tracks {
     display: none;
   }
@@ -18,8 +36,16 @@
     left: 0;
     bottom: 0;
 
-    select {
+    .play {
+      display: block;
+    }
+
+    .pause {
       display: none;
+    }
+
+    select {
+      // display: none;
     }
   }
 }
