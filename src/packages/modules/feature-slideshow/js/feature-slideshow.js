@@ -56,10 +56,10 @@ define(function(require) {
         delay: self.delay,
         enter: function() {
           self.fadeInCarouselContent();
-          self.fade.play();
+          // self.fade.play();
         },
         leave: function() {
-          self.fade.pause();
+          // self.fade.pause();
         }
       });
 
