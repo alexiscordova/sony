@@ -27,9 +27,9 @@ define(function(require){
 
     var module = {
       init: function() {
-        var self = this;
-        if ( $('.primary-tout').length > 0 ) {
-          $('.primary-tout').primaryTout();
+        var $primaryTout = $('.primary-tout');
+        if ( $primaryTout.length > 0 ) {
+          $primaryTout.primaryTout();
         }
       }
     };
@@ -203,12 +203,12 @@ define(function(require){
       _init: function(){
         var self = this;
 
-        if($(".primary-tout.homepage, .primary-tout.default, .primary-tout.product-intro-plate").length > 0){
+        if ( $('.primary-tout.homepage, .primary-tout.default, .primary-tout.product-intro-plate').length > 0 ) {
           self.resize();
           Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         }
 
-        if (self.$el.hasClass('title-plate')) {
+        if ( self.$el.hasClass('title-plate') ) {
           self.fixTitleHeight();
           Environment.on('global:resizeDebounced', $.proxy(self.fixTitleHeight, self));
         }
@@ -217,7 +217,7 @@ define(function(require){
           self.setupSubmodules();
         }
 
-        var btn = self.$el.find(".inner .box a.video, .inner .box a.carousel, .mobile-buttons a.video, .mobile-buttons a.carousel");
+        var btn = self.$el.find('.inner .box a.video, .inner .box a.carousel, .mobile-buttons a.video, .mobile-buttons a.carousel');
 
         if ( btn.length > 0 ) {
           self.setupButtons( btn );
