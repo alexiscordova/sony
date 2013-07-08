@@ -31,7 +31,6 @@ define(function(require){
     self.$el = $(element);
     self.$tracks = self.$el.find('.track');
     self.$nav = self.$el.find('nav');
-    self.$sourceSelect = self.$nav.find('select');
 
     self.init();
 
@@ -60,16 +59,12 @@ define(function(require){
       // START: The below should be moved into a trackInit method;
       // we wouldn't want to call (most of) it multiple times.
 
-      self.$sourceSelect.empty();
-
       $sources.each(function(a,b){
 
         var key = $(this).text(),
             value = $(this).find('a').attr('href');
 
         sourceList[key] = value;
-
-        self.$sourceSelect.append('<option value="'+key+'">'+key+'</option>');
       });
 
       var track = new SonyAudio({
@@ -90,10 +85,6 @@ define(function(require){
       self.$el.on('click', '.pause', function(e) {
         e.preventDefault();
         track.pause();
-      });
-
-      self.$el.on('change', 'select', function(){
-        track.play( $(this).val() );
       });
 
       self.$el.on('SonyAudioPlayer:play', function(){
