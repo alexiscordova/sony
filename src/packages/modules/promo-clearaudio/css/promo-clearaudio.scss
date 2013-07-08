@@ -1,2 +1,44 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
+
+.promo-clearaudio {
+
+  .sony-audio-player {
+
+    nav {
+      display: none;
+    }
+  }
+
+  .clear-audio-controls {
+
+    .activate {
+
+    }
+
+    .toggle-clear-audio {
+      display: none;
+    }
+  }
+
+  &.demo-active {
+
+    .sony-audio-player {
+
+      nav {
+        display: block;
+      }
+    }
+
+    .clear-audio-controls {
+
+      .activate {
+        display: none;
+      }
+
+      .toggle-clear-audio {
+        display: block;
+      }
+    }
+  }
+}

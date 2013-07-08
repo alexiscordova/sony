@@ -96,6 +96,14 @@ define(function(require){
         track.play( $(this).val() );
       });
 
+      self.$el.on('SonyAudioPlayer:play', function(){
+        track.play();
+      });
+
+      self.$el.on('SonyAudioPlayer:setSource', function(e, setting){
+        track.play(setting);
+      });
+
       // END
 
       self.setAlbumArt(which);
