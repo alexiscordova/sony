@@ -219,57 +219,79 @@ define(function(require){
 
         var btn = self.$el.find(".inner .box a.video, .inner .box a.carousel, .mobile-buttons a.video, .mobile-buttons a.carousel");
 
-        if(btn.length > 0){
-          btn.on('click', function(e){
-            e.preventDefault();
-            if(!Settings.isIPhone || $(this).hasClass('carousel')){
-
-              self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('off-screen visuallyhidden');
-
-              self.$el.find('.submodule').eq($(this).data('submodule')).removeClass('off-screen visuallyhidden')
-                  .trigger('PrimaryTout:submoduleActivated');
-            }
-            //update for slideshow coming into view
-            iQ.update();
-            //play video if its a video button
-            if($(this).hasClass('video')){
-              self.$el.find('.sony-video').data('sonyVideo').api().play();
-
-            }
-          });
-
-          var submodule = self.$el.find('.submodule');
-          var close = submodule.find('.box-close');
-
-          submodule.find('.box-close').on('click', function(e){
-            e.preventDefault();
-
-            self.$el.find('.sony-video').data('sonyVideo').api().fullscreen(false);
-            self.$el.find('.sony-video').data('sonyVideo').api().pause();
-
-            self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').removeClass('off-screen visuallyhidden');
-
-            submodule.addClass('off-screen visuallyhidden').trigger('PrimaryTout:submoduleActivated');
-          });
-
-          if(!Settings.hasTouchEvents){
-            //show hide close button on hover over module
-            submodule.on('mouseenter.submodule', function(){
-              self.isHovered = true;
-              close.removeClass('close-hide');
-            });
-
-            submodule.on('mouseleave.submodule', function(){
-              self.isHovered = false;
-              close.addClass('close-hide');
-            });
-          }
-
+        if ( btn.length > 0 ) {
+          self.setupButtons( btn );
         }
 
-
-
         log('SONY : PrimaryTout : Initialized');
+      },
+
+      setupButtons : function( $btn ) {
+        var self = this;
+        var $submodule = self.$el.find('.submodule');
+        var $close = $submodule.find('.box-close');
+
+        $btn.on( 'click', $.proxy( self.onSubmoduleBtnClick, self ) );
+        $close.on( 'click', $.proxy( self.onSubmoduleCloseClick, self ) );
+
+        if ( !Settings.hasTouchEvents ) {
+          //show hide close button on hover over module
+          $submodule.on('mouseenter.submodule', function(){
+            self.isHovered = true;
+            $close.removeClass('close-hide');
+          });
+
+          $submodule.on('mouseleave.submodule', function(){
+            self.isHovered = false;
+            $close.addClass('close-hide');
+          });
+        }
+      },
+
+      onSubmoduleBtnClick : function( e ) {
+        var self = this,
+            btn = e.delegateTarget,
+            $btn = $( btn ),
+            sonyVideo = self.$el.find('.sony-video').data('sonyVideo');
+
+        e.preventDefault();
+
+        if ( !Settings.isIPhone || $btn.hasClass('carousel') ) {
+
+          self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').addClass('off-screen visuallyhidden');
+
+          self.$el.find('.submodule')
+            .eq($btn.data('submodule'))
+              .removeClass('off-screen visuallyhidden')
+              .trigger('PrimaryTout:submoduleActivated');
+        }
+
+        // Update for slideshow coming into view
+        iQ.update();
+
+        // Play video if its a video button
+        if ( sonyVideo && $btn.hasClass('video') ) {
+          sonyVideo.api().play();
+        }
+      },
+
+
+      onSubmoduleCloseClick : function( e ) {
+        var self = this;
+        var $submodule = self.$el.find('.submodule');
+        var sonyVideo = self.$el.find('.sony-video').data('sonyVideo');
+
+        e.preventDefault();
+
+        // Video must be preset to pause it
+        if ( sonyVideo ) {
+          sonyVideo.api().fullscreen(false);
+          sonyVideo.api().pause();
+        }
+
+        self.$el.find('.hero-image, .inner, .mobile-buttons-wrap').removeClass('off-screen visuallyhidden');
+
+        $submodule.addClass('off-screen visuallyhidden').trigger('PrimaryTout:submoduleActivated');
       }
     };
 
